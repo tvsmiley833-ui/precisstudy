@@ -246,6 +246,13 @@ describe("subjectFromReferer", () => {
   it("falls back to the default subject for the homepage referer", () => {
     expect(subjectFromReferer("https://studystacks.example/")).toBe(DEFAULT_SUBJECT);
   });
+
+  it("does not resolve Object.prototype members as a subject", () => {
+    expect(subjectFromReferer("https://studystacks.example/constructor")).toBe(DEFAULT_SUBJECT);
+    expect(subjectFromReferer("https://studystacks.example/toString")).toBe(DEFAULT_SUBJECT);
+    expect(subjectFromReferer("https://studystacks.example/hasOwnProperty")).toBe(DEFAULT_SUBJECT);
+    expect(subjectFromReferer("https://studystacks.example/__proto__")).toBe(DEFAULT_SUBJECT);
+  });
 });
 ```
 
@@ -257,9 +264,14 @@ Expected: FAIL — `Cannot find module '../src/chat.js'` (file doesn't exist yet
 - [ ] **Step 3: Write src/chat.js**
 
 ```js
-export const SUBJECTS = {
+// Object.create(null): SUBJECTS is indexed with a client-controlled path
+// segment (see subjectFromReferer below). A plain {} object literal would
+// let a Referer like "/constructor" or "/toString" resolve via the
+// Object.prototype chain instead of falling through to undefined — a
+// null-prototype object has no inherited keys to leak.
+export const SUBJECTS = Object.assign(Object.create(null), {
   geometry: "You are a concise, friendly tutor helping a student study for the NYS Geometry Regents exam. Keep answers short (2-5 sentences), accurate, and focused on the question asked."
-};
+});
 
 export const DEFAULT_SUBJECT = "geometry";
 
@@ -306,7 +318,7 @@ export function subjectFromReferer(refererHeader) {
 - [ ] **Step 4: Run tests to verify they pass**
 
 Run: `npx vitest run test/chat.test.js`
-Expected: PASS — all 13 tests in `sanitizeMessages` and `subjectFromReferer`
+Expected: PASS — all 14 tests in `sanitizeMessages` and `subjectFromReferer`
 
 - [ ] **Step 5: Commit**
 
@@ -487,7 +499,7 @@ export function handleChatOptions() {
 - [ ] **Step 4: Run tests to verify they pass**
 
 Run: `npx vitest run test/chat.test.js`
-Expected: PASS — all tests, including the 8 new `handleChatPost`/`handleChatOptions` tests (21 total in the file)
+Expected: PASS — all tests, including the 8 new `handleChatPost`/`handleChatOptions` tests (22 total in the file)
 
 - [ ] **Step 5: Commit**
 
