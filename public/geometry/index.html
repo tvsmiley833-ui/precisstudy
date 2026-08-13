@@ -216,22 +216,10 @@ input::placeholder{color:var(--text-dim)}
 .mem-d b{color:var(--text)}
 
 
-.plan-hero{background:linear-gradient(135deg,rgba(217,164,65,0.16),var(--surface));border:1px solid rgba(217,164,65,0.3);border-radius:var(--radius);padding:22px;margin-bottom:20px}
-.plan-hero h2{font-size:27px;font-weight:800;color:var(--text);margin-bottom:6px}
-.plan-hero p{font-size:20px;color:var(--text-muted);line-height:1.6}
-.plan-cta{display:inline-block;margin-top:12px;padding:12px 26px;border:none;border-radius:var(--radius-sm);background:linear-gradient(120deg,#b8862f,#c8963b);color:#fff;font-size:20px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 8px 26px -10px var(--primary-glow)}
-.plan-cta:hover{filter:brightness(1.1)}
-.plan-day{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;margin-bottom:10px;transition:all .2s var(--ease)}
-.plan-day.done{border-color:var(--green-bd);opacity:.75}
-.plan-day.done .plan-title{text-decoration:line-through;color:var(--text-dim)}
-.plan-check{flex:none;width:28px;height:28px;border:2px solid var(--border-strong);border-radius:8px;background:var(--surface-2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:transparent;transition:all .2s var(--ease)}
-.plan-day.done .plan-check{background:var(--green-soft);border-color:var(--green);color:var(--green)}
-.plan-body{flex:1}
-.plan-dnum{font-size:15px;font-weight:800;color:var(--primary-bright);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px}
-.plan-title{font-size:21px;font-weight:700;color:var(--text);margin-bottom:4px}
-.plan-desc{font-size:18px;color:var(--text-muted);line-height:1.6}
-.plan-desc a{color:var(--primary-bright);cursor:pointer;text-decoration:underline}
-.plan-prog{font-size:18px;color:var(--text-muted);margin:14px 0}
+.diag-btn{display:inline-flex;align-items:center;gap:8px;margin-bottom:14px;padding:11px 22px;border:none;border-radius:var(--radius-sm);
+  background:linear-gradient(120deg,#b8862f,#c8963b);color:#fff;font-size:19px;font-weight:700;cursor:pointer;font-family:inherit;
+  box-shadow:0 8px 26px -10px var(--primary-glow)}
+.diag-btn:hover{filter:brightness(1.1)}
 .diag-banner{background:var(--green-soft);border:1px solid var(--green-bd);border-radius:var(--radius-sm);padding:12px 16px;margin-bottom:14px;font-size:19px;color:var(--green);display:none}
 
 
@@ -259,11 +247,11 @@ body{font-family:'Outfit',-apple-system,sans-serif}
 .tab-btn.active{background:transparent;color:var(--primary-bright);box-shadow:inset 0 -2px 0 var(--primary);border:none}
 .tab-btn.active svg{stroke:var(--primary-bright)}
 /* serif display for section voices */
-.qr-h,.plan-hero h2,.ex2-h,.result .big,.ex-header h2{font-family:'Fraunces',Georgia,serif;letter-spacing:0;font-weight:600}
+.qr-h,.ex2-h,.result .big,.ex-header h2{font-family:'Fraunces',Georgia,serif;letter-spacing:0;font-weight:600}
 .result .big{background:none;-webkit-text-fill-color:var(--primary-bright);color:var(--primary-bright)}
 /* solid accent buttons, dark ink text (no gradients) */
-.q-next,.plan-cta{background:var(--primary);color:#171511;box-shadow:none;font-weight:700}
-.q-next:hover,.plan-cta:hover{background:var(--primary-bright);filter:none;transform:translateY(-1px)}
+.q-next{background:var(--primary);color:#171511;box-shadow:none;font-weight:700}
+.q-next:hover{background:var(--primary-bright);filter:none;transform:translateY(-1px)}
 .tab-btn.active,.q-next.show{text-shadow:none}
 /* cards: quieter elevation, no glow */
 .unit.open{box-shadow:none;border-color:rgba(217,164,65,0.4)}
@@ -335,6 +323,28 @@ body{font-family:'Outfit',-apple-system,sans-serif}
   color:#211f1c;cursor:pointer;font-size:16px;flex-shrink:0}
 #cbot-form button:disabled{opacity:.4;cursor:default}
 
+.spc-card{background:linear-gradient(135deg,rgba(217,164,65,0.14),var(--surface));border:1px solid rgba(217,164,65,0.28);
+  border-radius:var(--radius);padding:24px;margin-bottom:20px;box-shadow:0 10px 36px -20px var(--primary-glow)}
+.spc-card h2{font-family:'Fraunces',Georgia,serif;font-size:24px;font-weight:600;color:var(--text);margin-bottom:6px}
+.spc-card>p{font-size:15px;color:var(--text-muted);line-height:1.55;margin-bottom:22px}
+.spc-row{margin-bottom:20px}
+.spc-row label{display:flex;justify-content:space-between;font-size:14.5px;color:var(--text-muted);margin-bottom:9px}
+.spc-row label span{color:var(--primary-bright);font-weight:700}
+input[type=range].spc-slider{-webkit-appearance:none;appearance:none;width:100%;height:5px;border-radius:99px;
+  background:var(--surface-2);outline:none}
+input[type=range].spc-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;
+  background:linear-gradient(120deg,#b8862f,#e6bb55);cursor:pointer;border:2px solid var(--bg);
+  box-shadow:0 2px 10px -2px var(--primary-glow)}
+input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;
+  background:linear-gradient(120deg,#b8862f,#e6bb55);cursor:pointer;border:2px solid var(--bg)}
+.spc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin:24px 0 16px}
+.spc-stat{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 10px;text-align:center}
+.spc-stat-val{font-family:'Fraunces',Georgia,serif;font-size:24px;font-weight:600;color:var(--primary-bright);line-height:1}
+.spc-stat-label{font-size:11.5px;color:var(--text-dim);margin-top:6px;line-height:1.3}
+.spc-tier{border-radius:var(--radius-sm);padding:13px 16px;font-size:14px;text-align:center;transition:background .2s,color .2s}
+.spc-tier b{display:block;font-size:15px;margin-bottom:2px}
+@media(max-width:520px){.spc-stats{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -350,8 +360,30 @@ body{font-family:'Outfit',-apple-system,sans-serif}
   <button class="tab-btn" onclick="switchTab('exam')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15l2 2 4-4"/></svg><span>Practice Exam</span></button>
   <button class="tab-btn" onclick="switchTab('qref')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h10"/></svg><span>Quick Reference</span></button>
   <button class="tab-btn" onclick="switchTab('memory')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg><span>Memory Tricks</span></button>
-  <button class="tab-btn" onclick="switchTab('plan')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/><path d="M9 16l2 2 4-4"/></svg><span>15-Day Plan</span></button>
 </div>
+
+<div class="spc-card">
+  <h2>See what your study plan could look like</h2>
+  <p>Based on this guide's real question bank — 440 practice questions across 11 units. Slide to match your situation.</p>
+  <div class="spc-row">
+    <label>Days until your exam <span id="spc-days-val">14 days</span></label>
+    <input type="range" class="spc-slider" id="spc-days" min="1" max="60" value="14">
+  </div>
+  <div class="spc-row">
+    <label>Minutes you can study per day <span id="spc-mins-val">30 min</span></label>
+    <input type="range" class="spc-slider" id="spc-mins" min="10" max="120" value="30" step="5">
+  </div>
+  <div class="spc-stats">
+    <div class="spc-stat"><div class="spc-stat-val" id="spc-questions">0</div><div class="spc-stat-label">Questions you'll complete</div></div>
+    <div class="spc-stat"><div class="spc-stat-val" id="spc-units">0</div><div class="spc-stat-label">Units covered</div></div>
+    <div class="spc-stat"><div class="spc-stat-val" id="spc-pct">0%</div><div class="spc-stat-label">of the full question bank</div></div>
+  </div>
+  <div class="spc-tier" id="spc-tier">
+    <b id="spc-tier-title"></b>
+    <span id="spc-tier-sub"></span>
+  </div>
+</div>
+
 <div id="view-guide" class="view active">
   <div id="dashboard"></div>
   <div style="display:flex;gap:8px;margin-bottom:10px;align-items:center">
@@ -387,6 +419,7 @@ body{font-family:'Outfit',-apple-system,sans-serif}
   <div id="fc-progress" style="text-align:center;font-size:18px;color:#857f72;margin-top:6px"></div>
 </div>
 <div id="view-quiz" class="view">
+  <button class="diag-btn" onclick="startDiagnostic()">🩺 Start Diagnostic — 2 questions per unit, finds your weak spots</button>
   <div class="q-bar">
     <select id="q-sel" onchange="loadQ()"></select>
     <label style="font-size:19.5px;color:#b4b8c4;cursor:pointer;display:flex;align-items:center;gap:5px">
@@ -466,7 +499,6 @@ body{font-family:'Outfit',-apple-system,sans-serif}
   </div></div>
 </div>
 
-<div id="view-plan" class="view"></div>
 <div id="view-qref" class="view">
   <div class="qr-section">
     <h2 class="qr-h">⭐ Facts You Must Know Cold</h2>
@@ -2538,8 +2570,7 @@ try{if(typeof showFC==='function')showFC();}catch(e){}
 })();
 
 
-/* ===== v6: DIAGNOSTIC + 15-DAY PLAN ===== */
-try{GEO_STORE.plan=GEO_STORE.plan||{};}catch(e){}
+/* ===== v6: DIAGNOSTIC ===== */
 let diagMode=false;
 function startDiagnostic(){
   switchTab('quiz');
@@ -2569,53 +2600,20 @@ showQ=function(){
       (p<70?weak:ok).push('U'+u+' '+(un?un.name.split(':')[0].slice(0,22):'')+' ('+p+'%)');
     });
     const qb=document.getElementById('qbox');
-    if(qb){qb.innerHTML+='<div class="q-exp show" style="margin-top:18px"><b style="color:var(--red)">Drill these first:</b> '+(weak.length?weak.join(' · '):'none — nice!')+'<br><b style="color:var(--green)">Solid:</b> '+(ok.length?ok.join(' · '):'—')+'<br><br>Now follow your 15-Day Plan: spend extra time on the weak units above.</div>';}
+    if(qb){qb.innerHTML+='<div class="q-exp show" style="margin-top:18px"><b style="color:var(--red)">Drill these first:</b> '+(weak.length?weak.join(' · '):'none — nice!')+'<br><b style="color:var(--green)">Solid:</b> '+(ok.length?ok.join(' · '):'—')+'<br><br>Spend extra time on the weak units above before your exam.</div>';}
   }
 };
-/* ---- 15-day plan ---- */
-const PLAN_DAYS=[
-{d:1,t:"Diagnostic + set your baseline",x:"Run the <a onclick='startDiagnostic()'>Diagnostic (22 questions)</a>. Write down your 3 weakest units. Then skim the Memory Tricks tab once."},
-{d:2,t:"Foundations + Parallel Lines (U1–U2)",x:"Read Unit 1 & 2 notes, do the worked examples, then 20-question quiz on each. Target: 80%+."},
-{d:3,t:"Triangles (U3)",x:"Notes + worked examples, then Unit 3 quiz. Flashcards: rate every U1–U3 card."},
-{d:4,t:"Congruence & Proofs (U4)",x:"This is heavily tested. Notes, both proof examples step-by-step, Unit 4 quiz. Re-read the SMIL proof in the exam tab."},
-{d:5,t:"Similarity (U5)",x:"Notes + examples (scale factor k/k²/k³ is a guaranteed question). Unit 5 quiz. Retry anything missed."},
-{d:6,t:"Right Triangles & Trig (U6)",x:"SOH-CAH-TOA day. All 4 worked examples, Unit 6 quiz, then hard-mode Unit 6. Calculator in DEGREE mode!"},
-{d:7,t:"Checkpoint: mixed quiz #1",x:"All-units quiz, 30 questions. Use <b>Practice these</b> on the weak-area banner. Re-rate flashcards for U1–U6."},
-{d:8,t:"Polygons & Quadrilaterals (U7)",x:"Angle-sum formulas + the quadrilateral family tree. Unit 7 quiz. Memorize: exterior angles always = 360°."},
-{d:9,t:"Circles (U8)",x:"Biggest unit. Notes + all circle examples. Unit 8 quiz + hard mode. Say the vertex rule out loud: center=whole, on=half, in=add, out=subtract."},
-{d:10,t:"Coordinate Geometry (U9)",x:"Distance/midpoint/slope + partitioning. Unit 9 quiz. Redo the Jan 2026 partition example (#16) yourself before revealing steps."},
-{d:11,t:"Transformations & Constructions (U10)",x:"Drill the rules table in Quick Reference until you can write all 8 from memory. Unit 10 quiz + hard mode."},
-{d:12,t:"Solids & Density (U11)",x:"Volume formulas + density. Unit 11 quiz. Re-do the trophy problem (exam #34) start to finish on paper."},
-{d:13,t:"Full Jan 2026 Regents — timed",x:"Practice Exam tab. Start the 3-hour timer. Parts I–IV, no notes. Self-grade the constructed responses with the model answers."},
-{d:14,t:"Fix the damage",x:"Review every exam question you missed. Redo those units' quizzes. Retry Missed on all quizzes until 100%."},
-{d:15,t:"Light review + confidence",x:"Memory Tricks read-through, flashcards on Still Learning only, one 20-question mixed quiz. Sleep early — you've got this."}
-];
-function buildPlan(){
-  const v=document.getElementById('view-plan');if(!v)return;
-  const doneCount=PLAN_DAYS.filter(function(p){return GEO_STORE.plan['d'+p.d];}).length;
-  let h='<div class="plan-hero"><h2>🎯 15-Day Regents Rescue Plan</h2><p>About 1 hour a day. Each day builds on the last — check days off as you finish and your progress saves automatically. Day 1 starts with a diagnostic so you attack your weakest spots first.</p><button class="plan-cta" onclick="startDiagnostic()">🩺 Start the Diagnostic</button></div>';
-  h+='<div class="plan-prog">'+doneCount+' / 15 days complete</div>';
-  PLAN_DAYS.forEach(function(p){
-    const done=GEO_STORE.plan['d'+p.d]?' done':'';
-    h+='<div class="plan-day'+done+'" id="pd-'+p.d+'"><div class="plan-check" onclick="togglePlanDay('+p.d+')">✓</div><div class="plan-body"><div class="plan-dnum">Day '+p.d+'</div><div class="plan-title">'+p.t+'</div><div class="plan-desc">'+p.x+'</div></div></div>';
-  });
-  v.innerHTML=h;
-}
-function togglePlanDay(d){
-  GEO_STORE.plan['d'+d]=!GEO_STORE.plan['d'+d];geoSave();buildPlan();
-}
-/* extend switchTab to know plan tab */
+/* extend switchTab (examples/exam lazy-build) */
 ;(function(){
  const prev=switchTab;
  switchTab=function(id){
    document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});
    var tabs=document.querySelectorAll('.tab-btn');tabs.forEach(function(b){b.classList.remove('active');});
    var el=document.getElementById('view-'+id);if(el)el.classList.add('active');
-   var idx={guide:0,cards:1,quiz:2,examples:3,exam:4,qref:5,memory:6,plan:7}[id];
+   var idx={guide:0,cards:1,quiz:2,examples:3,exam:4,qref:5,memory:6}[id];
    if(idx!==undefined&&tabs[idx])tabs[idx].classList.add('active');
    if(id==='exam'&&!examBuilt)buildExam();
    if(id==='examples'&&!examplesBuilt)buildExamples();
-   if(id==='plan')buildPlan();
    try{GEO_STORE.lastTab=id;geoSave();}catch(e){}
    try{window.scrollTo({top:0,behavior:'smooth'});}catch(e){}
  };
@@ -3225,4 +3223,40 @@ async function cbotSend(e){
   sendBtn.disabled=false;
   return false;
 }
+
+(function(){
+  var GEO_TOTAL_Q=440, GEO_UNITS=11, MIN_PER_Q=1.5;
+  var daysEl=document.getElementById('spc-days');
+  var minsEl=document.getElementById('spc-mins');
+  if(!daysEl||!minsEl)return;
+  function update(){
+    var days=parseInt(daysEl.value,10);
+    var mins=parseInt(minsEl.value,10);
+    document.getElementById('spc-days-val').textContent=days+(days===1?' day':' days');
+    document.getElementById('spc-mins-val').textContent=mins+' min';
+    var totalMinutes=days*mins;
+    var questions=Math.min(GEO_TOTAL_Q,Math.round(totalMinutes/MIN_PER_Q));
+    var pct=Math.min(100,Math.round((questions/GEO_TOTAL_Q)*100));
+    var units=Math.min(GEO_UNITS,Math.max(1,Math.round((pct/100)*GEO_UNITS)));
+    document.getElementById('spc-questions').textContent=questions.toLocaleString();
+    document.getElementById('spc-units').textContent=units;
+    document.getElementById('spc-pct').textContent=pct+'%';
+    var tier=document.getElementById('spc-tier');
+    var title=document.getElementById('spc-tier-title');
+    var sub=document.getElementById('spc-tier-sub');
+    if(pct>=90){
+      tier.style.background='var(--green-soft)';tier.style.color='var(--green)';
+      title.textContent='Exam Ready';sub.textContent="You'll work through the full question bank before test day.";
+    }else if(pct>=50){
+      tier.style.background='var(--primary-soft)';tier.style.color='var(--primary-bright)';
+      title.textContent='On Track';sub.textContent='Solid coverage — keep this pace going.';
+    }else{
+      tier.style.background='var(--surface-2)';tier.style.color='var(--text-muted)';
+      title.textContent='Just Getting Started';sub.textContent='Add a few more minutes a day to cover more ground before your exam.';
+    }
+  }
+  daysEl.addEventListener('input',update);
+  minsEl.addEventListener('input',update);
+  update();
+})();
 </script></body></html>
