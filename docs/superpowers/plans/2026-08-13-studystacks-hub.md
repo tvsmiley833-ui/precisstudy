@@ -324,7 +324,7 @@ git commit -m "Add sanitizeMessages and subjectFromReferer with tests"
 
 **Interfaces:**
 - Consumes: `SUBJECTS`, `DEFAULT_SUBJECT`, `sanitizeMessages`, `subjectFromReferer` from this same file (Task 2).
-- Produces: `handleChatPost(request: Request, env: {AI?: {run: Function}}) => Promise<Response>`, `handleChatOptions() => Response`, `MODEL: string`. Task 4 imports `handleChatPost` and `handleChatOptions`.
+- Produces: `handleChatPost(request: Request, env: {AI?: {run: Function}}) => Promise<Response>`, `handleChatOptions() => Response`, `MODEL: string`, `json(body: object, status?: number) => Response`. Task 4 imports `handleChatPost`, `handleChatOptions`, and `json` (reusing it for the 405 response instead of redefining it).
 
 - [ ] **Step 1: Add the failing tests to test/chat.test.js**
 
@@ -433,7 +433,7 @@ Add to the bottom of the existing `src/chat.js` (everything from Task 2 stays un
 ```js
 export const MODEL = "@cf/meta/llama-3.1-8b-instruct-fp8";
 
-function json(body, status) {
+export function json(body, status) {
   return new Response(JSON.stringify(body), {
     status: status || 200,
     headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
@@ -504,7 +504,7 @@ git commit -m "Add handleChatPost and handleChatOptions with Workers AI integrat
 - Modify: `/Users/smiley/Claude/Projects/School/studystacks/test/worker.test.js`
 
 **Interfaces:**
-- Consumes: `handleChatPost`, `handleChatOptions` from `src/chat.js` (Task 3).
+- Consumes: `handleChatPost`, `handleChatOptions`, `json` from `src/chat.js` (Task 3).
 - Produces: the Worker's `fetch(request, env)` entrypoint — `POST/OPTIONS /api/chat` routes to the chat handlers, any other method on `/api/chat` returns 405, everything else falls through to `env.ASSETS.fetch(request)`. Task 5 and Task 6 rely on this fallback to serve `public/index.html` and `public/geometry/index.html`.
 
 - [ ] **Step 1: Replace test/worker.test.js entirely with the real routing tests**
@@ -551,14 +551,7 @@ Expected: FAIL — GET/OPTIONS/POST on `/api/chat` all return `"ok"` with status
 - [ ] **Step 3: Replace src/worker.js entirely with real routing**
 
 ```js
-import { handleChatPost, handleChatOptions } from "./chat.js";
-
-function json(body, status) {
-  return new Response(JSON.stringify(body), {
-    status: status || 200,
-    headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
-  });
-}
+import { handleChatPost, handleChatOptions, json } from "./chat.js";
 
 export default {
   async fetch(request, env) {
