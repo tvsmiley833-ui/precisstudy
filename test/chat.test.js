@@ -90,4 +90,11 @@ describe("subjectFromReferer", () => {
   it("falls back to the default subject for the homepage referer", () => {
     expect(subjectFromReferer("https://studystacks.example/")).toBe(DEFAULT_SUBJECT);
   });
+
+  it("does not resolve Object.prototype members as a subject", () => {
+    expect(subjectFromReferer("https://studystacks.example/constructor")).toBe(DEFAULT_SUBJECT);
+    expect(subjectFromReferer("https://studystacks.example/toString")).toBe(DEFAULT_SUBJECT);
+    expect(subjectFromReferer("https://studystacks.example/hasOwnProperty")).toBe(DEFAULT_SUBJECT);
+    expect(subjectFromReferer("https://studystacks.example/__proto__")).toBe(DEFAULT_SUBJECT);
+  });
 });

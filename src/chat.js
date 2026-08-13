@@ -1,6 +1,11 @@
-export const SUBJECTS = {
+// Object.create(null): SUBJECTS is indexed with a client-controlled path
+// segment (see subjectFromReferer below). A plain {} object literal would
+// let a Referer like "/constructor" or "/toString" resolve via the
+// Object.prototype chain instead of falling through to undefined — a
+// null-prototype object has no inherited keys to leak.
+export const SUBJECTS = Object.assign(Object.create(null), {
   geometry: "You are a concise, friendly tutor helping a student study for the NYS Geometry Regents exam. Keep answers short (2-5 sentences), accurate, and focused on the question asked."
-};
+});
 
 export const DEFAULT_SUBJECT = "geometry";
 
