@@ -767,17 +767,17 @@ Expected: FAIL — `/geometry` doesn't exist yet, `not_found_handling: single-pa
 
 - [ ] **Step 3: Copy the Geometry guide unmodified**
 
-Run:
+Run from the project root you're actually working in (the worktree, if you're in one — NOT necessarily `/Users/smiley/Claude/Projects/School/studystacks` itself, which is the shared checkout other worktrees branch from):
 ```bash
-mkdir -p /Users/smiley/Claude/Projects/School/studystacks/public/geometry
-cp /Users/smiley/Claude/Projects/School/geometry-guide-site/public/index.html /Users/smiley/Claude/Projects/School/studystacks/public/geometry/index.html
+mkdir -p public/geometry
+cp /Users/smiley/Claude/Projects/School/geometry-guide-site/public/index.html public/geometry/index.html
 ```
 
 Expected: no output, exit code 0
 
 - [ ] **Step 4: Verify the copy is byte-identical to the source**
 
-Run: `diff /Users/smiley/Claude/Projects/School/geometry-guide-site/public/index.html /Users/smiley/Claude/Projects/School/studystacks/public/geometry/index.html`
+Run: `diff /Users/smiley/Claude/Projects/School/geometry-guide-site/public/index.html public/geometry/index.html`
 Expected: no output (files are identical)
 
 - [ ] **Step 5: Run test to verify it passes**
@@ -811,7 +811,7 @@ git commit -m "Migrate the Geometry guide to /geometry, unmodified"
 
 - [ ] **Step 1: Deploy**
 
-Run: `cd /Users/smiley/Claude/Projects/School/studystacks && npx wrangler deploy`
+Run from the project root you're actually working in (the worktree, if you're in one): `npx wrangler deploy`
 Expected: output ending with a line like `Deployed studystacks triggers` and a URL of the form `https://studystacks.<account-subdomain>.workers.dev`
 
 - [ ] **Step 2: Verify the homepage is live**
