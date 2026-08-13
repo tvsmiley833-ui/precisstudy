@@ -1,10 +1,31 @@
 import { SELF } from "cloudflare:test";
 import { describe, it, expect } from "vitest";
 
-describe("worker bootstrap", () => {
-  it("responds to any request", async () => {
+describe("routing", () => {
+  it("returns 405 for GET on /api/chat", async () => {
+    const res = await SELF.fetch("https://example.com/api/chat");
+    expect(res.status).toBe(405);
+  });
+
+  it("returns 204 with CORS headers for OPTIONS on /api/chat", async () => {
+    const res = await SELF.fetch("https://example.com/api/chat", { method: "OPTIONS" });
+    expect(res.status).toBe(204);
+    expect(res.headers.get("Access-Control-Allow-Methods")).toBe("POST, OPTIONS");
+  });
+
+  it("returns 400 for POST /api/chat with empty history", async () => {
+    const res = await SELF.fetch("https://example.com/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ history: [] })
+    });
+    expect(res.status).toBe(400);
+    const data = await res.json();
+    expect(data.error).toBe("Empty message");
+  });
+
+  it("falls through to ASSETS for the root path", async () => {
     const res = await SELF.fetch("https://example.com/");
     expect(res.status).toBe(200);
-    expect(await res.text()).toBe("ok");
   });
 });
