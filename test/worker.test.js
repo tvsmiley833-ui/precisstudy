@@ -43,3 +43,13 @@ describe("homepage", () => {
     expect(text).toContain("Global History II");
   });
 });
+
+describe("geometry migration", () => {
+  it("serves the migrated Geometry guide at /geometry", async () => {
+    const res = await SELF.fetch("https://example.com/geometry");
+    expect(res.status).toBe(200);
+    const text = await res.text();
+    expect(text).toContain("Geometry Regents Study Guide");
+    expect(text).toContain("HARD_Q");
+  });
+});
