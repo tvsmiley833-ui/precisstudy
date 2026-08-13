@@ -29,3 +29,17 @@ describe("routing", () => {
     expect(res.status).toBe(200);
   });
 });
+
+describe("homepage", () => {
+  it("shows the StudyStacks brand and the current class roster", async () => {
+    const res = await SELF.fetch("https://example.com/");
+    const text = await res.text();
+    expect(text).toContain("StudyStacks");
+    expect(text).toContain("Geometry");
+    expect(text).toContain("Flagship guide");
+    expect(text).toContain("Coming Soon");
+    expect(text).toContain("Chemistry");
+    expect(text).toContain("Algebra 2");
+    expect(text).toContain("Global History II");
+  });
+});
