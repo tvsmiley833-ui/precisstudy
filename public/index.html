@@ -47,25 +47,26 @@ input[type=range].spc-slider::-moz-range-thumb{width:22px;height:22px;border-rad
     Interactive quizzes, flashcards, and practice exams for real classes —
     not generic summaries. Pick a class and start.
   </p>
-  <div style="max-width:480px;margin:0 auto;display:flex;gap:8px;">
-    <div style="flex:1;background:#fff;border:2px solid #ffe4cc;border-radius:14px;padding:14px 18px;color:#c9a688;text-align:left;">
-      🔍 Search for your class...
-    </div>
+  <div style="max-width:480px;margin:0 auto;position:relative;">
+    <span style="position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none;">🔍</span>
+    <input id="class-search" type="text" placeholder="Search for your class..." autocomplete="off" oninput="filterClasses(this.value)"
+      style="width:100%;box-sizing:border-box;background:#fff;border:2px solid #ffe4cc;border-radius:14px;padding:14px 18px 14px 44px;color:#3d2a1e;font-size:15px;font-family:inherit;outline:none;"/>
   </div>
+  <div id="no-match-msg" style="display:none;max-width:480px;margin:12px auto 0;font-size:13px;color:#a8826a;">No classes match your search yet — try a different name.</div>
 </div>
 
-<div style="padding:8px 32px 24px;">
+<div id="classes-section" style="padding:8px 32px 24px;">
   <div style="font-weight:700;font-size:14px;color:#c2410c;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:16px;">
     Classes
   </div>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;max-width:1040px;">
-    <a href="/geometry" style="text-decoration:none;background:#fff;border:2px solid #ffe4cc;border-radius:18px;padding:22px;display:block;">
+    <a href="/geometry" class="class-card" data-name="Geometry" style="text-decoration:none;background:#fff;border:2px solid #ffe4cc;border-radius:18px;padding:22px;display:block;">
       <div style="font-size:28px;margin-bottom:8px;">📐</div>
       <div style="font-weight:800;font-size:17px;color:#3d2a1e;margin-bottom:4px;">Geometry</div>
       <div style="font-size:13px;color:#a8826a;margin-bottom:12px;">11 units · 440 practice questions · interactive exam</div>
       <div style="font-size:12px;font-weight:700;color:#22a06b;">The Original</div>
     </a>
-    <a href="/chemistry" style="text-decoration:none;background:#fff;border:2px solid #ffe4cc;border-radius:18px;padding:22px;display:block;">
+    <a href="/chemistry" class="class-card" data-name="Chemistry" style="text-decoration:none;background:#fff;border:2px solid #ffe4cc;border-radius:18px;padding:22px;display:block;">
       <div style="font-size:28px;margin-bottom:8px;">🧪</div>
       <div style="font-weight:800;font-size:17px;color:#3d2a1e;margin-bottom:4px;">Chemistry</div>
       <div style="font-size:13px;color:#a8826a;">16 units · 469 practice questions · interactive exam</div>
@@ -114,17 +115,17 @@ input[type=range].spc-slider::-moz-range-thumb{width:22px;height:22px;border-rad
   </div>
 </div>
 
-<div style="padding:8px 32px 56px;">
+<div id="coming-soon-section" style="padding:8px 32px 56px;">
   <div style="font-weight:700;font-size:14px;color:#b5862a;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:16px;">
     Coming Soon
   </div>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;max-width:1040px;">
-    <div style="background:#fff;border:2px dashed #ffe4cc;border-radius:18px;padding:22px;opacity:0.6;">
+    <div class="class-card" data-name="Algebra 2" style="background:#fff;border:2px dashed #ffe4cc;border-radius:18px;padding:22px;opacity:0.6;">
       <div style="font-size:28px;margin-bottom:8px;">🔢</div>
       <div style="font-weight:800;font-size:17px;color:#3d2a1e;margin-bottom:4px;">Algebra 2</div>
       <div style="font-size:13px;color:#a8826a;">In progress</div>
     </div>
-    <div style="background:#fff;border:2px dashed #ffe4cc;border-radius:18px;padding:22px;opacity:0.6;">
+    <div class="class-card" data-name="Global History II" style="background:#fff;border:2px dashed #ffe4cc;border-radius:18px;padding:22px;opacity:0.6;">
       <div style="font-size:28px;margin-bottom:8px;">🌍</div>
       <div style="font-weight:800;font-size:17px;color:#3d2a1e;margin-bottom:4px;">Global History II</div>
       <div style="font-size:13px;color:#a8826a;">In progress</div>
@@ -173,6 +174,25 @@ input[type=range].spc-slider::-moz-range-thumb{width:22px;height:22px;border-rad
   minsEl.addEventListener('input', update);
   update();
 })();
+
+function filterClasses(q) {
+  q = q.trim().toLowerCase();
+  var cards = document.querySelectorAll('.class-card');
+  var visibleInSection = {};
+  cards.forEach(function(c) {
+    var name = (c.getAttribute('data-name') || '').toLowerCase();
+    var match = !q || name.indexOf(q) !== -1;
+    c.style.display = match ? '' : 'none';
+    var section = c.closest('#classes-section, #coming-soon-section');
+    if (section && match) visibleInSection[section.id] = true;
+  });
+  ['classes-section', 'coming-soon-section'].forEach(function(id) {
+    var section = document.getElementById(id);
+    if (section) section.style.display = visibleInSection[id] ? '' : 'none';
+  });
+  var msg = document.getElementById('no-match-msg');
+  if (msg) msg.style.display = (!visibleInSection['classes-section'] && !visibleInSection['coming-soon-section']) ? 'block' : 'none';
+}
 </script>
 </body>
 </html>
