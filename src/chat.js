@@ -47,3 +47,53 @@ export function subjectFromReferer(refererHeader) {
   const segment = path.split("/").filter(Boolean)[0];
   return (segment && SUBJECTS[segment]) ? segment : DEFAULT_SUBJECT;
 }
+
+export const MODEL = "@cf/meta/llama-3.1-8b-instruct-fp8";
+
+export function json(body, status) {
+  return new Response(JSON.stringify(body), {
+    status: status || 200,
+    headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
+  });
+}
+
+export async function handleChatPost(request, env) {
+  let body;
+  try {
+    body = await request.json();
+  } catch (e) {
+    return json({ error: "Invalid JSON body" }, 400);
+  }
+
+  const messages = sanitizeMessages(body && body.history);
+  if (!messages.length) return json({ error: "Empty message" }, 400);
+
+  if (!env.AI) return json({ error: "Server not configured — Workers AI binding is missing" }, 500);
+
+  const subject = subjectFromReferer(request.headers.get("Referer"));
+  const systemPrompt = SUBJECTS[subject];
+
+  let result;
+  try {
+    result = await env.AI.run(MODEL, {
+      messages: [{ role: "system", content: systemPrompt }].concat(messages),
+      max_tokens: 400
+    });
+  } catch (e) {
+    return json({ error: "Could not reach AI provider", detail: String(e && e.message || e).slice(0, 300) }, 502);
+  }
+
+  const reply = (result && (result.response || result.result)) || "";
+  return json({ reply: reply });
+}
+
+export function handleChatOptions() {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type"
+    }
+  });
+}

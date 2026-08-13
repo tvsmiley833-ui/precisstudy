@@ -98,3 +98,92 @@ describe("subjectFromReferer", () => {
     expect(subjectFromReferer("https://studystacks.example/__proto__")).toBe(DEFAULT_SUBJECT);
   });
 });
+
+import { vi } from "vitest";
+import { handleChatPost, handleChatOptions, MODEL } from "../src/chat.js";
+
+describe("handleChatPost", () => {
+  it("returns a reply from a mocked AI binding on success", async () => {
+    const fakeEnv = { AI: { run: vi.fn().mockResolvedValue({ response: "42 degrees" }) } };
+    const req = new Request("https://example.com/api/chat", {
+      method: "POST",
+      body: JSON.stringify({ history: [{ role: "user", content: "what is x" }] })
+    });
+    const res = await handleChatPost(req, fakeEnv);
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(data.reply).toBe("42 degrees");
+    expect(fakeEnv.AI.run).toHaveBeenCalledWith(MODEL, expect.objectContaining({
+      messages: expect.arrayContaining([
+        expect.objectContaining({ role: "system" }),
+        expect.objectContaining({ role: "user", content: "what is x" })
+      ])
+    }));
+  });
+
+  it("returns 400 for invalid JSON body", async () => {
+    const req = new Request("https://example.com/api/chat", { method: "POST", body: "not json" });
+    const res = await handleChatPost(req, {});
+    expect(res.status).toBe(400);
+  });
+
+  it("returns 400 for empty history", async () => {
+    const req = new Request("https://example.com/api/chat", {
+      method: "POST",
+      body: JSON.stringify({ history: [] })
+    });
+    const res = await handleChatPost(req, {});
+    expect(res.status).toBe(400);
+  });
+
+  it("returns 500 when the AI binding is missing", async () => {
+    const req = new Request("https://example.com/api/chat", {
+      method: "POST",
+      body: JSON.stringify({ history: [{ role: "user", content: "hi" }] })
+    });
+    const res = await handleChatPost(req, {});
+    expect(res.status).toBe(500);
+  });
+
+  it("returns 502 when the AI binding throws", async () => {
+    const fakeEnv = { AI: { run: vi.fn().mockRejectedValue(new Error("boom")) } };
+    const req = new Request("https://example.com/api/chat", {
+      method: "POST",
+      body: JSON.stringify({ history: [{ role: "user", content: "hi" }] })
+    });
+    const res = await handleChatPost(req, fakeEnv);
+    expect(res.status).toBe(502);
+  });
+
+  it("uses the geometry system prompt when Referer points to /geometry", async () => {
+    const fakeEnv = { AI: { run: vi.fn().mockResolvedValue({ response: "ok" }) } };
+    const req = new Request("https://example.com/api/chat", {
+      method: "POST",
+      headers: { Referer: "https://example.com/geometry" },
+      body: JSON.stringify({ history: [{ role: "user", content: "hi" }] })
+    });
+    await handleChatPost(req, fakeEnv);
+    const callArgs = fakeEnv.AI.run.mock.calls[0][1];
+    expect(callArgs.messages[0].content).toContain("Geometry Regents");
+  });
+
+  it("falls back to the geometry prompt when Referer is missing", async () => {
+    const fakeEnv = { AI: { run: vi.fn().mockResolvedValue({ response: "ok" }) } };
+    const req = new Request("https://example.com/api/chat", {
+      method: "POST",
+      body: JSON.stringify({ history: [{ role: "user", content: "hi" }] })
+    });
+    await handleChatPost(req, fakeEnv);
+    const callArgs = fakeEnv.AI.run.mock.calls[0][1];
+    expect(callArgs.messages[0].content).toContain("Geometry Regents");
+  });
+});
+
+describe("handleChatOptions", () => {
+  it("returns 204 with CORS headers", async () => {
+    const res = handleChatOptions();
+    expect(res.status).toBe(204);
+    expect(res.headers.get("Access-Control-Allow-Methods")).toBe("POST, OPTIONS");
+    expect(res.headers.get("Access-Control-Allow-Origin")).toBe("*");
+  });
+});
