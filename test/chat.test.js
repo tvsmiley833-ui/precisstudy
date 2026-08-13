@@ -81,10 +81,12 @@ describe("subjectFromReferer", () => {
   it("extracts a known subject from the referer path", () => {
     expect(subjectFromReferer("https://studystacks.example/geometry")).toBe("geometry");
     expect(subjectFromReferer("https://studystacks.example/geometry/")).toBe("geometry");
+    expect(subjectFromReferer("https://studystacks.example/chemistry")).toBe("chemistry");
+    expect(subjectFromReferer("https://studystacks.example/chemistry/")).toBe("chemistry");
   });
 
   it("falls back to the default subject for an unregistered path segment", () => {
-    expect(subjectFromReferer("https://studystacks.example/chemistry")).toBe(DEFAULT_SUBJECT);
+    expect(subjectFromReferer("https://studystacks.example/algebra-2")).toBe(DEFAULT_SUBJECT);
   });
 
   it("falls back to the default subject for the homepage referer", () => {
@@ -165,6 +167,18 @@ describe("handleChatPost", () => {
     await handleChatPost(req, fakeEnv);
     const callArgs = fakeEnv.AI.run.mock.calls[0][1];
     expect(callArgs.messages[0].content).toContain("Geometry Regents");
+  });
+
+  it("uses the chemistry system prompt when Referer points to /chemistry", async () => {
+    const fakeEnv = { AI: { run: vi.fn().mockResolvedValue({ response: "ok" }) } };
+    const req = new Request("https://example.com/api/chat", {
+      method: "POST",
+      headers: { Referer: "https://example.com/chemistry" },
+      body: JSON.stringify({ history: [{ role: "user", content: "hi" }] })
+    });
+    await handleChatPost(req, fakeEnv);
+    const callArgs = fakeEnv.AI.run.mock.calls[0][1];
+    expect(callArgs.messages[0].content).toContain("Chemistry Regents");
   });
 
   it("falls back to the geometry prompt when Referer is missing", async () => {
