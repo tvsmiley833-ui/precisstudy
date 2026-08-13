@@ -217,7 +217,9 @@ describe("sanitizeMessages", () => {
       history.push({ role: i % 2 === 0 ? "user" : "bot", content: "msg" + i });
     }
     const result = sanitizeMessages(history);
-    expect(result[0].content).toBe("msg3");
+    // slice(-9) keeps msg3(bot)..msg11(bot); the leading-trim step then drops
+    // msg3 (bot) since it isn't role "user", so msg4 is the true first survivor.
+    expect(result[0].content).toBe("msg4");
   });
 });
 
@@ -304,7 +306,7 @@ export function subjectFromReferer(refererHeader) {
 - [ ] **Step 4: Run tests to verify they pass**
 
 Run: `npx vitest run test/chat.test.js`
-Expected: PASS — all 12 tests in `sanitizeMessages` and `subjectFromReferer`
+Expected: PASS — all 13 tests in `sanitizeMessages` and `subjectFromReferer`
 
 - [ ] **Step 5: Commit**
 
@@ -485,7 +487,7 @@ export function handleChatOptions() {
 - [ ] **Step 4: Run tests to verify they pass**
 
 Run: `npx vitest run test/chat.test.js`
-Expected: PASS — all tests, including the 7 new `handleChatPost`/`handleChatOptions` tests (19 total in the file)
+Expected: PASS — all tests, including the 8 new `handleChatPost`/`handleChatOptions` tests (21 total in the file)
 
 - [ ] **Step 5: Commit**
 
