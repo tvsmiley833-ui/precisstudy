@@ -821,7 +821,9 @@ Expected: `200` (substitute the real subdomain printed in Step 1's output)
 
 - [ ] **Step 3: Verify /geometry is live**
 
-Run: `curl -s https://studystacks.<account-subdomain>.workers.dev/geometry | grep -o "<title>[^<]*</title>"`
+Note: Cloudflare's static-assets serving 307-redirects a directory-style path without a trailing slash (`/geometry` → `/geometry/`) — this is standard, expected behavior (real browsers follow it transparently), not a bug. Use `-L` so curl follows it too.
+
+Run: `curl -sL https://studystacks.<account-subdomain>.workers.dev/geometry | grep -o "<title>[^<]*</title>"`
 Expected: `<title>Geometry Regents Study Guide — EXPANDED</title>`
 
 - [ ] **Step 4: Verify /api/chat still works for Geometry**
