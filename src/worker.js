@@ -10,6 +10,7 @@ import {
   handleLogout
 } from "./auth-routes.js";
 import { handleRequestGuideSubmit } from "./guide-requests.js";
+import { handleAdminMe, handleAdminListGuideRequests, handleAdminDeleteGuideRequest } from "./admin-routes.js";
 
 const AUTH_ROUTES = {
   "/auth/google/start": { GET: handleGoogleStart },
@@ -34,6 +35,17 @@ export default {
 
     if (url.pathname === "/api/request-guide") {
       if (request.method === "POST") return handleRequestGuideSubmit(request, env);
+      return json({ error: "Method not allowed" }, 405);
+    }
+
+    if (url.pathname === "/api/admin/me") {
+      if (request.method === "GET") return handleAdminMe(request, env);
+      return json({ error: "Method not allowed" }, 405);
+    }
+
+    if (url.pathname === "/api/admin/guide-requests") {
+      if (request.method === "GET") return handleAdminListGuideRequests(request, env);
+      if (request.method === "DELETE") return handleAdminDeleteGuideRequest(request, env);
       return json({ error: "Method not allowed" }, 405);
     }
 
