@@ -53,3 +53,15 @@ describe("geometry migration", () => {
     expect(text).toContain("HARD_Q");
   });
 });
+
+describe("/api/progress routing", () => {
+  it("returns 401 for GET with no session, via the real worker", async () => {
+    const res = await SELF.fetch("https://example.com/api/progress");
+    expect(res.status).toBe(401);
+  });
+
+  it("returns 405 for DELETE", async () => {
+    const res = await SELF.fetch("https://example.com/api/progress", { method: "DELETE" });
+    expect(res.status).toBe(405);
+  });
+});
