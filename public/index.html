@@ -281,6 +281,11 @@ body{transition:background .2s ease,color .2s ease}
       <div id="spc-tier-title"></div>
       <div class="spc-tier-sub" id="spc-tier-sub"></div>
     </div>
+
+    <div style="display:flex;align-items:center;gap:12px;margin-top:18px;">
+      <button id="spc-save-btn" class="ss-cta-btn" style="background:var(--accent-bright);color:#fff;border:none;padding:10px 20px;border-radius:999px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">Save this plan</button>
+      <span id="spc-save-status" style="font-size:13px;color:var(--text-muted);"></span>
+    </div>
     </div>
   </div>
 </div>
@@ -500,6 +505,33 @@ document.addEventListener('click', function(e){
 });
 
 ssCheckSession();
+
+document.getElementById('spc-save-btn').addEventListener('click', async function(){
+  var status = document.getElementById('spc-save-status');
+  if (!SS_SESSION) {
+    status.textContent = 'Sign in above to save this plan.';
+    ssToggleLoginPanel();
+    return;
+  }
+  var days = parseInt(document.getElementById('spc-days').value, 10);
+  var minutesPerDay = parseInt(document.getElementById('spc-mins').value, 10);
+  status.textContent = 'Saving…';
+  try{
+    var res = await fetch('/api/goal', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({days: days, minutesPerDay: minutesPerDay})
+    });
+    if(res.ok){
+      status.textContent = 'Saved! See it on your dashboard.';
+    }else{
+      var data = await res.json();
+      status.textContent = data.error || 'Something went wrong — try again.';
+    }
+  }catch(err){
+    status.textContent = 'Network error — try again.';
+  }
+});
 
 if ('IntersectionObserver' in window) {
   var ssRevealObserver = new IntersectionObserver(function(entries) {

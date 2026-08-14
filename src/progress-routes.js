@@ -14,7 +14,7 @@ function emptySubject() {
 }
 
 function emptyBlob() {
-  return { geometry: emptySubject(), chemistry: emptySubject(), updatedAt: null };
+  return { geometry: emptySubject(), chemistry: emptySubject(), goal: null, updatedAt: null };
 }
 
 async function loadBlob(env, email) {
@@ -63,4 +63,30 @@ export async function handlePostProgress(request, env) {
 
   await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
   return json({ ok: true });
+}
+
+export async function handlePostGoal(request, env) {
+  const session = await getSession(request, env);
+  if (!session) return json({ error: "Sign in required" }, 401);
+  if (!env.PROGRESS) return json({ error: "Progress sync isn't configured yet" }, 503);
+
+  let body;
+  try {
+    body = await request.json();
+  } catch (e) {
+    return json({ error: "Invalid JSON body" }, 400);
+  }
+
+  const days = Number(body && body.days);
+  const minutesPerDay = Number(body && body.minutesPerDay);
+  if (!Number.isFinite(days) || days <= 0 || !Number.isFinite(minutesPerDay) || minutesPerDay <= 0) {
+    return json({ error: "days and minutesPerDay must be positive numbers" }, 400);
+  }
+
+  const blob = await loadBlob(env, session.email);
+  blob.goal = { days, minutesPerDay, savedAt: new Date().toISOString() };
+  blob.updatedAt = new Date().toISOString();
+
+  await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  return json({ ok: true, goal: blob.goal });
 }

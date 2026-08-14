@@ -1,7 +1,7 @@
 import { SELF } from "cloudflare:test";
 import { describe, it, expect } from "vitest";
 import { signSession, SESSION_COOKIE } from "../src/auth.js";
-import { handleGetProgress, handlePostProgress } from "../src/progress-routes.js";
+import { handleGetProgress, handlePostProgress, handlePostGoal } from "../src/progress-routes.js";
 
 const SECRET = "test-session-secret";
 
@@ -44,6 +44,7 @@ describe("handleGetProgress", () => {
     expect(data).toEqual({
       geometry: { mastery: {}, examples: {}, cardsKnown: [] },
       chemistry: { mastery: {}, examples: {}, cardsKnown: [] },
+      goal: null,
       updatedAt: null
     });
   });
@@ -53,6 +54,7 @@ describe("handleGetProgress", () => {
     const saved = {
       geometry: { mastery: { "1": { correct: 3, total: 4 } }, examples: {}, cardsKnown: [] },
       chemistry: { mastery: {}, examples: {}, cardsKnown: [] },
+      goal: null,
       updatedAt: "2026-08-14T00:00:00.000Z"
     };
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify(saved) });
@@ -109,5 +111,51 @@ describe("handlePostProgress", () => {
     const saved = JSON.parse(kv._store.get("progress:newstudent@example.com"));
     expect(saved.geometry.mastery).toEqual({ "1": { correct: 2, total: 2 } });
     expect(saved.chemistry).toEqual({ mastery: {}, examples: {}, cardsKnown: [] });
+  });
+});
+
+describe("handlePostGoal", () => {
+  it("401s with no session", async () => {
+    const res = await handlePostGoal(req("https://example.com/api/goal", null, "POST", { days: 14, minutesPerDay: 30 }), { SESSION_SECRET: SECRET, PROGRESS: fakeKV() });
+    expect(res.status).toBe(401);
+  });
+
+  it("rejects invalid JSON", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const badReq = new Request("https://example.com/api/goal", { method: "POST", headers: { Cookie: cookie, "Content-Type": "application/json" }, body: "not json" });
+    const res = await handlePostGoal(badReq, { SESSION_SECRET: SECRET, PROGRESS: fakeKV() });
+    expect(res.status).toBe(400);
+  });
+
+  it("rejects non-positive days or minutesPerDay", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV();
+    const res1 = await handlePostGoal(req("https://example.com/api/goal", cookie, "POST", { days: 0, minutesPerDay: 30 }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(res1.status).toBe(400);
+    const res2 = await handlePostGoal(req("https://example.com/api/goal", cookie, "POST", { days: 14, minutesPerDay: -5 }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(res2.status).toBe(400);
+  });
+
+  it("saves a goal and preserves existing subject progress", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const existing = {
+      geometry: { mastery: { "1": { correct: 1, total: 2 } }, examples: {}, cardsKnown: [] },
+      chemistry: { mastery: {}, examples: {}, cardsKnown: [] },
+      goal: null,
+      updatedAt: "2026-08-01T00:00:00.000Z"
+    };
+    const kv = fakeKV({ "progress:student@example.com": JSON.stringify(existing) });
+    const res = await handlePostGoal(req("https://example.com/api/goal", cookie, "POST", { days: 14, minutesPerDay: 30 }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(data.ok).toBe(true);
+    expect(data.goal.days).toBe(14);
+    expect(data.goal.minutesPerDay).toBe(30);
+
+    const saved = JSON.parse(kv._store.get("progress:student@example.com"));
+    expect(saved.geometry).toEqual(existing.geometry);
+    expect(saved.goal.days).toBe(14);
+    expect(saved.goal.minutesPerDay).toBe(30);
+    expect(typeof saved.goal.savedAt).toBe("string");
   });
 });

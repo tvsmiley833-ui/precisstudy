@@ -120,6 +120,7 @@ body{transition:background .2s ease,color .2s ease}
 
 <div id="dash-content" style="display:none;padding:0 32px 64px;">
   <div style="max-width:840px;margin:0 auto;display:grid;gap:20px;">
+    <div id="dash-goal" style="display:none;font-size:14px;color:var(--text-muted);text-align:center;"></div>
     <div id="dash-subject-geometry" class="ss-card"></div>
     <div id="dash-subject-chemistry" class="ss-card"></div>
   </div>
@@ -355,6 +356,12 @@ async function loadDashboard() {
 
   renderSubject('geometry', 'Geometry', '/geometry', blob.geometry || {}, geoUnitIds, geoUnitNames);
   renderSubject('chemistry', 'Chemistry', '/chemistry', blob.chemistry || {}, chemUnitIds, chemUnitNames);
+
+  const goalEl = document.getElementById('dash-goal');
+  if (blob.goal && blob.goal.days && blob.goal.minutesPerDay) {
+    goalEl.style.display = 'block';
+    goalEl.textContent = 'Your saved goal: ' + blob.goal.days + ' days · ' + blob.goal.minutesPerDay + ' min/day';
+  }
 }
 
 loadDashboard();
