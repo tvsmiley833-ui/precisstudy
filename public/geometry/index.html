@@ -367,6 +367,11 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
 .ss-account button:hover{color:var(--text);border-color:var(--border-strong)}
 
 </style>
+<script type="module">
+  import { createMastery } from '/shared/mastery.js';
+  window.__ssCreateMastery = createMastery;
+  window.dispatchEvent(new Event('ss-mastery-ready'));
+</script>
 </head>
 <body>
 <div class="ambient"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
@@ -2186,12 +2191,45 @@ function geoLoad(){try{const r=localStorage.getItem(GEO_KEY);if(r)GEO_STORE=Obje
 geoLoad();
 try{Object.assign(fcRatings,GEO_STORE.fc||{});}catch(e){}
 
+/* ----- server-synced mastery (feeds the readiness dashboard/account) -----
+   The module script that defines window.__ssCreateMastery lives in <head>
+   as type="module", which is deferred and can run AFTER this classic inline
+   script - so this can't assume it's ready yet and waits for it either way. */
+var GEO_MASTERY = null;
+window.__ssMasteryInstances = window.__ssMasteryInstances || [];
+function ssStartGeoMastery(){
+  GEO_MASTERY = window.__ssCreateMastery('geometry', UNITS.map(function(u){return u.id;}), UNITS.reduce(function(acc,u){acc[u.id]=u.name;return acc;},{}));
+  window.__ssMasteryInstances.push(GEO_MASTERY);
+  GEO_MASTERY.init().then(function(){
+    var snap = GEO_MASTERY.getSnapshot();
+    var hasSyncedData = snap && snap.mastery && Object.keys(snap.mastery).length > 0;
+    if (!hasSyncedData && GEO_STORE.mastery && Object.keys(GEO_STORE.mastery).length) {
+      /* one-time migration: this browser already has real progress under the
+         old local-only key but the shared sync module (new key, and/or the
+         server) has nothing yet - replay it in so existing students don't
+         appear to have zero progress the first time this ships. */
+      Object.keys(GEO_STORE.mastery).forEach(function(uid){
+        var rec = GEO_STORE.mastery[uid];
+        for (var i = 0; i < rec.total; i++) GEO_MASTERY.recordAnswer(+uid, i < rec.correct);
+      });
+    } else if (hasSyncedData) {
+      /* server (or this device's synced copy) already has data - e.g. synced
+         from another device - let it win locally too */
+      GEO_STORE.mastery = Object.assign({}, GEO_STORE.mastery, snap.mastery);
+      geoSave();
+    }
+    try { renderDashboard(); } catch (e) { /* dashboard not defined yet on first load - fine, it renders later anyway */ }
+  });
+}
+if (window.__ssCreateMastery) { ssStartGeoMastery(); }
+else { window.addEventListener('ss-mastery-ready', ssStartGeoMastery, { once: true }); }
+
 /* ----- wrap quiz answer to record mastery ----- */
 const _origAnsQ=ansQ;
 ansQ=function(i){
   const q=qPool[qIdx];
   _origAnsQ(i);
-  if(q){const m=GEO_STORE.mastery[q.u]||(GEO_STORE.mastery[q.u]={correct:0,total:0});m.total++;if(i===q.a)m.correct++;geoSave();renderDashboard();}
+  if(q){const m=GEO_STORE.mastery[q.u]||(GEO_STORE.mastery[q.u]={correct:0,total:0});m.total++;if(i===q.a)m.correct++;geoSave();renderDashboard();if(GEO_MASTERY)GEO_MASTERY.recordAnswer(q.u,i===q.a);}
 };
 /* ----- wrap flashcard rating to persist ----- */
 const _origRateFC=rateFC;
@@ -2281,6 +2319,11 @@ function resetProgress(){
   document.querySelectorAll('.ex2-card.done').forEach(c=>c.classList.remove('done'));
   document.querySelectorAll('.ex2-steps').forEach(s=>s.innerHTML='');
   document.querySelectorAll('.ex2-reveal').forEach(b=>b.style.display='');
+  try{
+    localStorage.removeItem('ssMastery_geometry');
+    fetch('/api/progress',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({subject:'geometry',mastery:{},examples:{},cardsKnown:[]})});
+  }catch(e){}
+  if(GEO_MASTERY)GEO_MASTERY=window.__ssCreateMastery('geometry',UNITS.map(function(u){return u.id;}),UNITS.reduce(function(acc,u){acc[u.id]=u.name;return acc;},{}));
   renderDashboard();
 }
 
@@ -3335,4 +3378,14 @@ async function ssQuizTabClick(){
 }
 
 ssCheckSession();
+
+/* ----- unit-filtered practice, e.g. /geometry?practice=3 (from the dashboard's "study this next") ----- */
+(async function ssPracticeMode(){
+  var practiceUnit = new URLSearchParams(location.search).get('practice');
+  if(!practiceUnit) return;
+  await ssQuizTabClick();
+  if(!SS_SESSION) return;
+  var sel = document.getElementById('q-sel');
+  if(sel){ sel.value = practiceUnit; loadQ(); }
+})();
 </script></body></html>
