@@ -55,7 +55,12 @@
 .ss-account button{background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);padding:6px 12px;
   font-size:13px;cursor:pointer;font-family:inherit}
 .ss-account button:hover{color:var(--accent);border-color:var(--accent-bright)}
-@media(max-width:640px){#ss-signin-btn{padding:7px 12px;font-size:13px} .ss-account-name{display:none}}
+@media(max-width:640px){
+  #ss-signin-btn{padding:7px 12px;font-size:13px}
+  .ss-account-name{display:none}
+  .header-bar{padding:14px 16px!important}
+  .nav-links{gap:10px!important}
+}
 
 html{scroll-behavior:smooth}
 
