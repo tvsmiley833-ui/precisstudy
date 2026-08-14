@@ -155,7 +155,7 @@ export async function handleGithubCallback(request, env) {
       if (primary) email = primary.email;
     }
   }
-  if (!email) return redirect(SITE_ORIGIN + "/?auth_error=1");
+  if (!email) { console.error("DEBUG github callback: no email found", JSON.stringify(profile)); return redirect(SITE_ORIGIN + "/?auth_error=1"); }
 
   const cookie = await issueSessionCookie(env, {
     email,
