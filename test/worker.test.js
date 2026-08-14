@@ -36,7 +36,7 @@ describe("homepage", () => {
     const text = await res.text();
     expect(text).toContain("StudyStacks");
     expect(text).toContain("Geometry");
-    expect(text).toContain("Flagship guide");
+    expect(text).toContain("The Original");
     expect(text).toContain("Coming Soon");
     expect(text).toContain("Chemistry");
     expect(text).toContain("Algebra 2");
