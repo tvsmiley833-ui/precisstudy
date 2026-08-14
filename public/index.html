@@ -81,7 +81,7 @@ html{scroll-behavior:smooth}
     <a href="/about" class="nav-hide-sm" style="color:#7c4a2d;text-decoration:none;">Who Are We</a>
     <a href="/request" class="nav-hide-sm" style="color:#7c4a2d;text-decoration:none;">Request a Guide</a>
     <div id="ss-account-area" style="position:relative;"></div>
-    <a href="/geometry" class="ss-cta-btn" style="background:#ff8a4c;color:#fff;padding:8px 18px;border-radius:999px;text-decoration:none;white-space:nowrap;">Start Studying →</a>
+    <a href="/geometry" class="ss-cta-btn" style="background:#ff8a4c;color:#fff;padding:8px 18px;border-radius:999px;text-decoration:none;white-space:nowrap;">Start with Geometry →</a>
   </div>
 </div>
 <style>
@@ -182,26 +182,80 @@ html{scroll-behavior:smooth}
     <div style="font-weight:700;font-size:14px;color:#b5862a;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:16px;">
       Coming Soon
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;">
-      <div class="class-card class-card-soon" data-name="Algebra 2" style="background:#fff;border:2px dashed #ffe4cc;border-radius:18px;padding:22px;opacity:0.6;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;">
+      <div class="class-card class-card-soon" data-name="Algebra 2" style="background:#fff;border:2px dashed #ffe4cc;border-radius:18px;padding:22px;">
         <div style="font-size:28px;margin-bottom:8px;">🔢</div>
         <div style="font-weight:800;font-size:17px;color:#3d2a1e;margin-bottom:4px;">Algebra 2</div>
-        <div style="font-size:13px;color:#a8826a;">In progress</div>
+        <div style="font-size:13px;color:#a8826a;margin-bottom:12px;">Not open yet — get notified when it drops.</div>
+        <form class="cs-notify-form" data-class="Algebra 2" style="display:flex;gap:6px;">
+          <input type="email" placeholder="you@email.com" required style="flex:1;min-width:0;box-sizing:border-box;background:#fffaf5;border:1.5px solid #ffe4cc;border-radius:8px;padding:8px 10px;font-size:13px;font-family:inherit;">
+          <button type="submit" style="padding:8px 12px;border:none;border-radius:8px;background:#ff8a4c;color:#fff;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;white-space:nowrap;">Notify me</button>
+        </form>
+        <div class="cs-notify-status" style="font-size:12px;color:#a8826a;margin-top:6px;min-height:14px;"></div>
       </div>
-      <div class="class-card class-card-soon" data-name="Global History II" style="background:#fff;border:2px dashed #ffe4cc;border-radius:18px;padding:22px;opacity:0.6;">
+      <div class="class-card class-card-soon" data-name="Global History II" style="background:#fff;border:2px dashed #ffe4cc;border-radius:18px;padding:22px;">
         <div style="font-size:28px;margin-bottom:8px;">🌍</div>
         <div style="font-weight:800;font-size:17px;color:#3d2a1e;margin-bottom:4px;">Global History II</div>
-        <div style="font-size:13px;color:#a8826a;">In progress</div>
+        <div style="font-size:13px;color:#a8826a;margin-bottom:12px;">Not open yet — get notified when it drops.</div>
+        <form class="cs-notify-form" data-class="Global History II" style="display:flex;gap:6px;">
+          <input type="email" placeholder="you@email.com" required style="flex:1;min-width:0;box-sizing:border-box;background:#fffaf5;border:1.5px solid #ffe4cc;border-radius:8px;padding:8px 10px;font-size:13px;font-family:inherit;">
+          <button type="submit" style="padding:8px 12px;border:none;border-radius:8px;background:#ff8a4c;color:#fff;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;white-space:nowrap;">Notify me</button>
+        </form>
+        <div class="cs-notify-status" style="font-size:12px;color:#a8826a;margin-top:6px;min-height:14px;"></div>
       </div>
     </div>
   </div>
 </div>
 
 <div style="border-top:1px solid #ffe4cc;padding:24px 32px;text-align:center;">
-  <a href="mailto:studystackssupport@gmail.com" style="color:#a8826a;font-size:13px;text-decoration:none;">
-    Questions or feedback? studystackssupport@gmail.com
+  <a href="/privacy" style="color:#a8826a;font-size:13px;text-decoration:none;margin-right:14px;">Privacy</a>
+  <a href="/terms" style="color:#a8826a;font-size:13px;text-decoration:none;margin-right:14px;">Terms</a>
+  <a href="#" class="ss-mail-link" data-u="studystackssupport" data-d="gmail.com" style="color:#a8826a;font-size:13px;text-decoration:none;">
+    Questions or feedback? <span class="ss-mail-addr"></span>
   </a>
 </div>
+
+<script>
+document.querySelectorAll('.ss-mail-link').forEach(function(el){
+  var addr = el.dataset.u + '@' + el.dataset.d;
+  el.href = 'mailto:' + addr;
+  var span = el.querySelector('.ss-mail-addr');
+  if (span) span.textContent = addr;
+});
+</script>
+
+<script>
+document.querySelectorAll('.cs-notify-form').forEach(function(form){
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    var input = form.querySelector('input[type=email]');
+    var status = form.parentElement.querySelector('.cs-notify-status');
+    var btn = form.querySelector('button');
+    var email = input.value.trim();
+    btn.disabled = true;
+    var original = btn.textContent;
+    btn.textContent = '…';
+    try{
+      var res = await fetch('/api/request-guide', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({className: form.dataset.class, email: email, notes: 'Coming Soon notify-me signup'})
+      });
+      var data = await res.json();
+      if(res.ok){
+        status.textContent = "You're on the list!";
+        form.style.display = 'none';
+      }else{
+        status.textContent = data.error || 'Something went wrong — try again.';
+      }
+    }catch(err){
+      status.textContent = 'Network error — try again.';
+    }
+    btn.disabled = false;
+    btn.textContent = original;
+  });
+});
+</script>
 
 <script>
 (function(){

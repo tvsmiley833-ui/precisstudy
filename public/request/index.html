@@ -78,7 +78,7 @@ html{scroll-behavior:smooth}
     <a href="/about" class="nav-hide-sm" style="color:#7c4a2d;text-decoration:none;">Who Are We</a>
     <a href="/request" class="nav-hide-sm" style="color:#c2410c;text-decoration:none;">Request a Guide</a>
     <div id="ss-account-area" style="position:relative;"></div>
-    <a href="/geometry" class="ss-cta-btn" style="background:#ff8a4c;color:#fff;padding:8px 18px;border-radius:999px;text-decoration:none;white-space:nowrap;">Start Studying →</a>
+    <a href="/geometry" class="ss-cta-btn" style="background:#ff8a4c;color:#fff;padding:8px 18px;border-radius:999px;text-decoration:none;white-space:nowrap;">Start with Geometry →</a>
   </div>
 </div>
 
@@ -118,10 +118,21 @@ html{scroll-behavior:smooth}
 </div>
 
 <div style="border-top:1px solid #ffe4cc;padding:24px 32px;text-align:center;">
-  <a href="mailto:studystackssupport@gmail.com" style="color:#a8826a;font-size:13px;text-decoration:none;">
-    Questions or feedback? studystackssupport@gmail.com
+  <a href="/privacy" style="color:#a8826a;font-size:13px;text-decoration:none;margin-right:14px;">Privacy</a>
+  <a href="/terms" style="color:#a8826a;font-size:13px;text-decoration:none;margin-right:14px;">Terms</a>
+  <a href="#" class="ss-mail-link" data-u="studystackssupport" data-d="gmail.com" style="color:#a8826a;font-size:13px;text-decoration:none;">
+    Questions or feedback? <span class="ss-mail-addr"></span>
   </a>
 </div>
+
+<script>
+document.querySelectorAll('.ss-mail-link').forEach(function(el){
+  var addr = el.dataset.u + '@' + el.dataset.d;
+  el.href = 'mailto:' + addr;
+  var span = el.querySelector('.ss-mail-addr');
+  if (span) span.textContent = addr;
+});
+</script>
 
 <script>
 document.getElementById('rg-form').addEventListener('submit', async function(e){
