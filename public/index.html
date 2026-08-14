@@ -23,6 +23,32 @@ input[type=range].spc-slider::-moz-range-thumb{width:22px;height:22px;border-rad
 .spc-tier{border-radius:12px;padding:13px 16px;font-weight:700;font-size:14px;text-align:center;transition:background .2s,color .2s}
 .spc-tier-sub{font-weight:500;font-size:12.5px;margin-top:3px;opacity:.85}
 @media(max-width:480px){.spc-stats{grid-template-columns:1fr}}
+#ss-signin-btn{background:none;border:1px solid #ffe4cc;color:#c2410c;font-weight:700;padding:8px 16px;
+  border-radius:999px;cursor:pointer;font-family:inherit;font-size:15px;white-space:nowrap}
+#ss-signin-btn:hover{background:#fff5eb}
+#ss-login-panel{display:none;position:absolute;top:calc(100% + 10px);right:0;background:#fff;border:2px solid #ffe4cc;
+  border-radius:16px;padding:22px;width:280px;box-shadow:0 12px 32px rgba(194,65,12,.15);z-index:50;text-align:left}
+#ss-login-panel.open{display:block}
+.ss-oauth-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;box-sizing:border-box;
+  padding:10px 14px;border-radius:12px;border:2px solid #ffe4cc;background:#fff;color:#3d2a1e;
+  font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none;margin-bottom:9px;transition:all .15s}
+.ss-oauth-btn:hover{border-color:#ff8a4c;background:#fff5eb}
+.ss-divider{display:flex;align-items:center;gap:10px;color:#c9a688;font-size:12.5px;margin:14px 0}
+.ss-divider::before,.ss-divider::after{content:"";flex:1;height:1px;background:#ffe4cc}
+.ss-email-row{display:flex;gap:8px}
+.ss-email-row input{flex:1;box-sizing:border-box;background:#fffaf5;border:2px solid #ffe4cc;border-radius:10px;
+  color:#3d2a1e;padding:9px 12px;font-size:14px;font-family:inherit}
+.ss-email-row input:focus{outline:none;border-color:#ff8a4c}
+.ss-email-row button{padding:9px 14px;border:none;border-radius:10px;background:#ff8a4c;color:#fff;font-weight:700;
+  font-size:14px;cursor:pointer;font-family:inherit}
+.ss-email-row button:hover{background:#c2410c}
+.ss-status{font-size:12.5px;color:#a8826a;margin-top:9px;min-height:16px}
+.ss-account{display:flex;align-items:center;gap:10px}
+.ss-account-name{font-weight:700;color:#3d2a1e;font-size:14px;white-space:nowrap}
+.ss-account button{background:none;border:1px solid #ffe4cc;border-radius:999px;color:#a8826a;padding:6px 12px;
+  font-size:13px;cursor:pointer;font-family:inherit}
+.ss-account button:hover{color:#c2410c;border-color:#ff8a4c}
+@media(max-width:640px){#ss-signin-btn{padding:7px 12px;font-size:13px} .ss-account-name{display:none}}
 </style>
 </head>
 <body style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:#fffaf5;">
@@ -31,9 +57,10 @@ input[type=range].spc-slider::-moz-range-thumb{width:22px;height:22px;border-rad
   <div style="font-weight:800;font-size:22px;color:#c2410c;display:flex;align-items:center;gap:8px;">
     <img src="/logo-icon.png" alt="" width="28" height="28" style="border-radius:6px;"/> StudyStacks
   </div>
-  <div class="nav-links" style="display:flex;gap:24px;font-weight:600;font-size:15px;color:#7c4a2d;align-items:center;">
+  <div class="nav-links" style="display:flex;gap:16px;font-weight:600;font-size:15px;color:#7c4a2d;align-items:center;">
     <span class="nav-inert">Browse Subjects</span>
     <span class="nav-inert">How It Works</span>
+    <div id="ss-account-area" style="position:relative;"></div>
     <a href="/geometry" style="background:#ff8a4c;color:#fff;padding:8px 18px;border-radius:999px;text-decoration:none;white-space:nowrap;">Start Studying →</a>
   </div>
 </div>
@@ -208,6 +235,92 @@ function filterClasses(q) {
   var msg = document.getElementById('no-match-msg');
   if (msg) msg.style.display = (!visibleInSection['classes-section'] && !visibleInSection['coming-soon-section']) ? 'block' : 'none';
 }
+
+/* ===== StudyStacks auth ===== */
+let SS_SESSION;
+
+function ssLoginBoxHtml(){
+  return '<a class="ss-oauth-btn" href="/auth/google/start">Continue with Google</a>'
+    + '<a class="ss-oauth-btn" href="/auth/github/start">Continue with GitHub</a>'
+    + '<div class="ss-divider">or</div>'
+    + '<form class="ss-email-row" onsubmit="return ssSendMagicLink(event)">'
+    + '<input type="email" placeholder="you@email.com" required>'
+    + '<button type="submit">Send link</button></form>'
+    + '<div class="ss-status"></div>';
+}
+
+async function ssSendMagicLink(e){
+  e.preventDefault();
+  var form = e.target;
+  var input = form.querySelector('input[type=email]');
+  var status = form.parentElement.querySelector('.ss-status');
+  var email = input.value.trim();
+  if(status) status.textContent = 'Sending…';
+  try{
+    var res = await fetch('/auth/email/start', {
+      method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({email:email})
+    });
+    var data = await res.json();
+    if(status) status.textContent = res.ok ? 'Check your email for a sign-in link.' : (data.error || 'Something went wrong.');
+  }catch(err){
+    if(status) status.textContent = 'Network error — try again.';
+  }
+  return false;
+}
+
+function ssToggleLoginPanel(){
+  var panel = document.getElementById('ss-login-panel');
+  if(!panel) return;
+  var opening = !panel.classList.contains('open');
+  panel.classList.toggle('open', opening);
+  if(opening) panel.querySelector('.ss-login-box').innerHTML = ssLoginBoxHtml();
+}
+
+async function ssLogout(){
+  try{ await fetch('/auth/logout', {method:'POST'}); }catch(e){}
+  SS_SESSION = false;
+  ssRenderAccountUI();
+}
+
+function ssEscapeHtml(s){
+  var div = document.createElement('div');
+  div.textContent = String(s == null ? '' : s);
+  return div.innerHTML;
+}
+
+function ssRenderAccountUI(){
+  var area = document.getElementById('ss-account-area');
+  if(!area) return;
+  if(SS_SESSION){
+    area.innerHTML = '<div class="ss-account"><span class="ss-account-name">' + ssEscapeHtml(SS_SESSION.name) + '</span>'
+      + '<button onclick="ssLogout()">Sign out</button></div>';
+  }else{
+    area.innerHTML = '<button id="ss-signin-btn" onclick="ssToggleLoginPanel()">Sign In</button>'
+      + '<div id="ss-login-panel"><div class="ss-login-box"></div></div>';
+  }
+}
+
+async function ssCheckSession(){
+  try{
+    var res = await fetch('/auth/me');
+    var data = await res.json();
+    SS_SESSION = data.loggedIn ? data : false;
+  }catch(e){
+    SS_SESSION = false;
+  }
+  ssRenderAccountUI();
+  return SS_SESSION;
+}
+
+document.addEventListener('click', function(e){
+  var panel = document.getElementById('ss-login-panel');
+  var area = document.getElementById('ss-account-area');
+  if(panel && panel.classList.contains('open') && area && !area.contains(e.target)){
+    panel.classList.remove('open');
+  }
+});
+
+ssCheckSession();
 </script>
 </body>
 </html>

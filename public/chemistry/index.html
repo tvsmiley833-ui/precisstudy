@@ -229,6 +229,31 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
 .back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Inter';font-size:15px;font-weight:600;
   color:rgba(244,242,234,.62);text-decoration:none;margin-bottom:18px;transition:color .15s ease}
 .back-link:hover{color:#fff}
+
+.auth-gate{max-width:460px;margin:40px auto;text-align:center;padding:36px 28px;background:var(--surface);
+  border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-md)}
+.auth-gate-icon{font-size:32px;margin-bottom:10px}
+.auth-gate h3{font-family:'Space Grotesk';font-size:20px;font-weight:700;color:var(--ink);margin-bottom:8px}
+.auth-gate p{font-family:'Inter';font-size:14px;color:var(--ink-muted);line-height:1.6;margin-bottom:22px}
+.ss-oauth-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:11px 16px;
+  border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface-2);color:var(--ink);
+  font-family:'Inter';font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;margin-bottom:9px;
+  box-sizing:border-box;transition:all .15s ease}
+.ss-oauth-btn:hover{border-color:var(--accent);background:var(--surface-hover)}
+.ss-divider{display:flex;align-items:center;gap:10px;color:var(--ink-dim);font-family:'Inter';font-size:12.5px;margin:14px 0}
+.ss-divider::before,.ss-divider::after{content:"";flex:1;height:1px;background:var(--border)}
+.ss-email-row{display:flex;gap:8px}
+.ss-email-row input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);
+  color:var(--ink);padding:10px 13px;font-size:14px;font-family:'Inter'}
+.ss-email-row input:focus{outline:none;border-color:var(--accent)}
+.ss-email-row button{padding:10px 16px;border:none;border-radius:var(--radius-sm);background:var(--accent);
+  color:#fff;font-weight:700;font-size:14px;cursor:pointer;font-family:'Inter'}
+.ss-email-row button:hover{background:var(--accent-ink)}
+.ss-status{font-family:'Inter';font-size:12.5px;color:var(--ink-dim);margin-top:10px;min-height:16px}
+.ss-account{display:flex;align-items:center;gap:10px;font-family:'Inter';font-size:13px;color:rgba(244,242,234,.75)}
+.ss-account button{background:none;border:1px solid rgba(255,255,255,.18);border-radius:var(--radius-sm);
+  color:rgba(244,242,234,.7);padding:5px 11px;font-size:12px;cursor:pointer;font-family:'Inter'}
+.ss-account button:hover{color:#fff;border-color:rgba(255,255,255,.35)}
 </style>
 </head>
 <body>
@@ -241,7 +266,7 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
     <div class="nav">
       <button class="tab-btn active" onclick="switchTab('guide')">Study Guide</button>
       <button class="tab-btn" onclick="switchTab('cards')">Flashcards</button>
-      <button class="tab-btn" onclick="switchTab('quiz')">Quiz</button>
+      <button class="tab-btn" onclick="ssQuizTabClick()">Quiz</button>
       <button class="tab-btn" onclick="switchTab('exam')">Practice Exam</button>
       <button class="tab-btn" onclick="switchTab('qref')">Quick Reference</button>
       <button class="tab-btn" onclick="switchTab('memory')">Memory Tricks</button>
@@ -293,12 +318,20 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
   </div>
 </div>
 <div id="view-quiz" class="view">
+  <div id="quiz-gate" class="auth-gate" style="display:none">
+    <div class="auth-gate-icon">🔒</div>
+    <h3>Sign in to take the quiz</h3>
+    <p>Browsing the guide is free for everyone — quizzes are for signed-in students so your progress means something.</p>
+    <div class="ss-login-box"></div>
+  </div>
+  <div id="quiz-real">
   <div class="q-bar">
     <select id="q-sel" onchange="loadQ()"></select>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc"></span>
   </div>
   <div id="qbox"></div>
+  </div>
 </div>
 <div id="view-exam" class="view"></div>
 <div id="view-qref" class="view">
@@ -2648,4 +2681,73 @@ async function cbotSend(e){
   document.getElementById('sgt-reset').onclick=function(){sec=0;clearInterval(iv);run=false;
     document.getElementById('sgt-btn').textContent='▶';document.getElementById('sgt-time').textContent='00:00';};
 })();
+
+/* ===== StudyStacks auth ===== */
+let SS_SESSION;
+
+function ssLoginBoxHtml(){
+  return '<a class="ss-oauth-btn" href="/auth/google/start">Continue with Google</a>'
+    + '<a class="ss-oauth-btn" href="/auth/github/start">Continue with GitHub</a>'
+    + '<div class="ss-divider">or</div>'
+    + '<form class="ss-email-row" onsubmit="return ssSendMagicLink(event)">'
+    + '<input type="email" placeholder="you@email.com" required>'
+    + '<button type="submit">Send link</button></form>'
+    + '<div class="ss-status"></div>';
+}
+
+function ssRenderLoginBoxes(){
+  document.querySelectorAll('.ss-login-box').forEach(function(el){ el.innerHTML = ssLoginBoxHtml(); });
+}
+
+async function ssSendMagicLink(e){
+  e.preventDefault();
+  const form = e.target;
+  const input = form.querySelector('input[type=email]');
+  const status = form.parentElement.querySelector('.ss-status');
+  const email = input.value.trim();
+  if(status) status.textContent = 'Sending…';
+  try{
+    const res = await fetch('/auth/email/start', {
+      method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({email:email})
+    });
+    const data = await res.json();
+    if(status) status.textContent = res.ok ? 'Check your email for a sign-in link.' : (data.error || 'Something went wrong.');
+  }catch(err){
+    if(status) status.textContent = 'Network error — try again.';
+  }
+  return false;
+}
+
+async function ssCheckSession(){
+  try{
+    const res = await fetch('/auth/me');
+    const data = await res.json();
+    SS_SESSION = data.loggedIn ? data : false;
+  }catch(e){
+    SS_SESSION = false;
+  }
+  return SS_SESSION;
+}
+
+function ssApplyQuizGate(){
+  const gate = document.getElementById('quiz-gate');
+  const real = document.getElementById('quiz-real');
+  if(!gate || !real) return;
+  if(SS_SESSION){
+    gate.style.display = 'none';
+    real.style.display = '';
+  }else{
+    gate.style.display = 'block';
+    real.style.display = 'none';
+    ssRenderLoginBoxes();
+  }
+}
+
+async function ssQuizTabClick(){
+  switchTab('quiz');
+  if(SS_SESSION === undefined) await ssCheckSession();
+  ssApplyQuizGate();
+}
+
+ssCheckSession();
 </script></body></html>
