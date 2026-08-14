@@ -12,6 +12,20 @@ export const geometryUnits = [
   { id: 11, name: "3D Solids: Surface Area, Volume & Density" }
 ];
 
+export const algebra1Units = [
+  { id: 1, name: "Solving Equations & Inequalities" },
+  { id: 2, name: "Linear Functions & Graphing" },
+  { id: 3, name: "Systems of Equations & Inequalities" },
+  { id: 4, name: "Exponents & Polynomials" },
+  { id: 5, name: "Factoring" },
+  { id: 6, name: "Quadratic Equations & Functions" },
+  { id: 7, name: "Radicals & Rational Exponents" },
+  { id: 8, name: "Exponential Functions & Sequences" },
+  { id: 9, name: "Statistics: Data & Distributions" },
+  { id: 10, name: "Statistics: Regression & Correlation" },
+  { id: 11, name: "Functions: Notation, Domain/Range & Transformations" }
+];
+
 export const chemistryUnits = [
   { id: 1, name: "Matter & Change" },
   { id: 2, name: "Measurements & Math" },

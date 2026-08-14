@@ -122,8 +122,7 @@ body{transition:background .2s ease,color .2s ease}
 <div id="dash-content" style="display:none;padding:0 32px 64px;">
   <div style="max-width:840px;margin:0 auto;display:grid;gap:20px;">
     <div id="dash-goal" style="display:none;font-size:14px;color:var(--text-muted);text-align:center;"></div>
-    <div id="dash-subject-geometry" class="ss-card"></div>
-    <div id="dash-subject-chemistry" class="ss-card"></div>
+    <div id="dash-subjects" style="display:grid;gap:20px;"></div>
   </div>
 </div>
 
@@ -219,7 +218,13 @@ document.addEventListener('click', function(e){
 
 <script type="module">
 import { computeReadiness, recommendNext, buildSchedule } from '/shared/mastery.js';
-import { geometryUnits, chemistryUnits } from '/shared/unit-titles.js';
+import { geometryUnits, chemistryUnits, algebra1Units } from '/shared/unit-titles.js';
+
+const SUBJECTS_CONFIG = [
+  { key: 'geometry', label: 'Geometry', href: '/geometry', units: geometryUnits },
+  { key: 'chemistry', label: 'Chemistry', href: '/chemistry', units: chemistryUnits },
+  { key: 'algebra1', label: 'Algebra I', href: '/algebra1', units: algebra1Units }
+];
 
 function statusColor(pct) {
   if (pct === null) return 'var(--status-none)';
@@ -309,16 +314,18 @@ function renderSubject(subjectKey, label, href, subjectData, unitIds, unitNames)
 }
 
 function localFallback() {
-  // Same keys/shape the shared module writes on the Geometry/Chemistry pages
-  // (same origin, so this page can read them directly) - used only if the
-  // server fetch below fails.
+  // Same keys/shape the shared module writes on each subject's page (same
+  // origin, so this page can read them directly) - used only if the server
+  // fetch below fails.
   function readLocal(subject) {
     try {
       const raw = localStorage.getItem('ssMastery_' + subject);
       return raw ? JSON.parse(raw) : { mastery: {} };
     } catch (e) { return { mastery: {} }; }
   }
-  return { geometry: readLocal('geometry'), chemistry: readLocal('chemistry') };
+  const blob = {};
+  SUBJECTS_CONFIG.forEach(s => { blob[s.key] = readLocal(s.key); });
+  return blob;
 }
 
 async function loadDashboard() {
@@ -350,13 +357,18 @@ async function loadDashboard() {
     content.insertBefore(notice, content.firstChild);
   }
 
-  const geoUnitIds = geometryUnits.map(u => u.id);
-  const chemUnitIds = chemistryUnits.map(u => u.id);
-  const geoUnitNames = {}; geometryUnits.forEach(u => { geoUnitNames[u.id] = u.name; });
-  const chemUnitNames = {}; chemistryUnits.forEach(u => { chemUnitNames[u.id] = u.name; });
+  const subjectsEl = document.getElementById('dash-subjects');
+  SUBJECTS_CONFIG.forEach(s => {
+    const card = document.createElement('div');
+    card.id = 'dash-subject-' + s.key;
+    card.className = 'ss-card';
+    subjectsEl.appendChild(card);
 
-  renderSubject('geometry', 'Geometry', '/geometry', blob.geometry || {}, geoUnitIds, geoUnitNames);
-  renderSubject('chemistry', 'Chemistry', '/chemistry', blob.chemistry || {}, chemUnitIds, chemUnitNames);
+    const unitIds = s.units.map(u => u.id);
+    const unitNames = {};
+    s.units.forEach(u => { unitNames[u.id] = u.name; });
+    renderSubject(s.key, s.label, s.href, blob[s.key] || {}, unitIds, unitNames);
+  });
 
   const goalEl = document.getElementById('dash-goal');
   if (blob.goal && blob.goal.days && blob.goal.minutesPerDay) {

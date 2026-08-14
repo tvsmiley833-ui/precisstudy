@@ -1,6 +1,6 @@
 import { getSession } from "./auth.js";
 
-const SUBJECTS = ["geometry", "chemistry"];
+const SUBJECTS = ["geometry", "chemistry", "algebra1"];
 
 function json(body, status) {
   return new Response(JSON.stringify(body), {
@@ -14,7 +14,9 @@ function emptySubject() {
 }
 
 function emptyBlob() {
-  return { geometry: emptySubject(), chemistry: emptySubject(), goal: null, updatedAt: null };
+  const blob = { goal: null, updatedAt: null };
+  for (const subject of SUBJECTS) blob[subject] = emptySubject();
+  return blob;
 }
 
 async function loadBlob(env, email) {
