@@ -1345,7 +1345,7 @@ const items=qs.map(q=>`
   <div class="ex-exp" id="exp-${id}-${q.n}">${q.e}</div>
 </div>`).join('');
 return `<div class="ex-part" id="ex-part-${id}">
-<div class="ex-part-hd" onclick="togglePart('${id}')">
+<div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
   <h3>${title}</h3><span id="score-${id}">Score: 0 / ${qs.length}</span>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
@@ -1367,7 +1367,7 @@ const items=qs.map((q,qi)=>`
   </div>
 </div>`).join('');
 return `<div class="ex-part" id="ex-part-${id}">
-<div class="ex-part-hd" onclick="togglePart('${id}')">
+<div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
   <h3>${title}</h3><span id="fr-score-${id}" style="font-size:18px;color:#857f72">Self-grade as you go</span>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
@@ -1385,7 +1385,12 @@ function gradeFR(part,qi,result){
   if(el)el.textContent=`✓ ${s.got} correct · ✗ ${s.missed} missed (${s.total} graded)`;
 }
 
-function togglePart(id){document.getElementById('ex-part-'+id).classList.toggle('open');}
+function togglePart(id){
+  const part=document.getElementById('ex-part-'+id);
+  const isOpen=part.classList.toggle('open');
+  const hd=part.querySelector('.ex-part-hd');
+  if(hd)hd.setAttribute('aria-expanded',isOpen?'true':'false');
+}
 
 function toggleSA(btn){
 const sa=btn.nextElementSibling;
@@ -1908,7 +1913,9 @@ function buildGuide(){
     const div=document.createElement('div');div.className='unit';div.dataset.id=u.id;
     const hd=document.createElement('div');hd.className='unit-hd';
     hd.innerHTML=`<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts</span></span><span class="chevron">▾</span>`;
-    hd.onclick=()=>{div.classList.toggle('open');};
+    hd.tabIndex=0;hd.setAttribute('role','button');hd.setAttribute('aria-expanded','false');
+    hd.onclick=()=>{const isOpen=div.classList.toggle('open');hd.setAttribute('aria-expanded',isOpen?'true':'false');};
+    hd.onkeydown=(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();hd.click();}};
     const body=document.createElement('div');body.className='unit-body';
     u.concepts.forEach(c=>{
       const cd=document.createElement('div');cd.className='concept';

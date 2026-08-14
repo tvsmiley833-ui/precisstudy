@@ -31,6 +31,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
 body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);
   margin:0;padding:0;line-height:1.6}
 .page{margin:0 auto;padding:0 24px 90px}
@@ -2255,7 +2256,7 @@ const items=qs.map(q=>`
   <div class="ex-exp" id="exp-${id}-${q.n}">${q.e}</div>
 </div>`).join('');
 return `<div class="ex-part" id="ex-part-${id}">
-<div class="ex-part-hd" onclick="togglePart('${id}')">
+<div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
   <h3>${title}</h3><span id="score-${id}">Score: 0 / ${qs.length}</span>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
@@ -2270,13 +2271,18 @@ const items=qs.map(q=>`
   <div class="ex-sa" style="display:none"><strong>Model Answer</strong>${q.sa.replace(/\n/g,'<br>')}</div>
 </div>`).join('');
 return `<div class="ex-part" id="ex-part-${id}">
-<div class="ex-part-hd" onclick="togglePart('${id}')">
+<div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
   <h3>${title}</h3><span style="font-size:18px;color:#999">Click to show model answers</span>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
 }
 
-function togglePart(id){document.getElementById('ex-part-'+id).classList.toggle('open');}
+function togglePart(id){
+  const part=document.getElementById('ex-part-'+id);
+  const isOpen=part.classList.toggle('open');
+  const hd=part.querySelector('.ex-part-hd');
+  if(hd)hd.setAttribute('aria-expanded',isOpen?'true':'false');
+}
 
 function toggleSA(btn){
 const sa=btn.nextElementSibling;
@@ -2322,7 +2328,9 @@ function buildGuide(){
     const div=document.createElement('div');div.className='unit';div.dataset.id=u.id;
     const hd=document.createElement('div');hd.className='unit-hd';
     hd.innerHTML=`<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts</span></span><span class="chevron">▾</span>`;
-    hd.onclick=()=>{div.classList.toggle('open');};
+    hd.tabIndex=0;hd.setAttribute('role','button');hd.setAttribute('aria-expanded','false');
+    hd.onclick=()=>{const isOpen=div.classList.toggle('open');hd.setAttribute('aria-expanded',isOpen?'true':'false');};
+    hd.onkeydown=(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();hd.click();}};
     const body=document.createElement('div');body.className='unit-body';
     u.concepts.forEach(c=>{
       const cd=document.createElement('div');cd.className='concept';
