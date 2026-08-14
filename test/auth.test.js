@@ -9,6 +9,7 @@ import {
   createMagicLinkToken,
   consumeMagicLinkToken,
   isValidEmail,
+  recordLogin,
   SESSION_COOKIE
 } from "../src/auth.js";
 
@@ -141,6 +142,36 @@ describe("magic link tokens", () => {
     await env.MAGIC_LINKS.put("expired-token", JSON.stringify({ email: "a@b.com", exp: now - 10 }));
     const email = await consumeMagicLinkToken(env, "expired-token");
     expect(email).toBeNull();
+  });
+});
+
+describe("recordLogin", () => {
+  it("creates a new login record on first login", async () => {
+    const env = { PROGRESS: fakeKV() };
+    await recordLogin(env, "Student@School.edu", "google");
+    const saved = JSON.parse(env.PROGRESS._store.get("login:student@school.edu"));
+    expect(saved.providers).toEqual({ google: 1 });
+    expect(saved.loginCount).toBe(1);
+    expect(saved.lastProvider).toBe("google");
+    expect(typeof saved.firstLoginAt).toBe("string");
+  });
+
+  it("increments counts across repeated and mixed-provider logins", async () => {
+    const env = { PROGRESS: fakeKV() };
+    await recordLogin(env, "student@school.edu", "google");
+    await recordLogin(env, "student@school.edu", "google");
+    await recordLogin(env, "student@school.edu", "github");
+    const saved = JSON.parse(env.PROGRESS._store.get("login:student@school.edu"));
+    expect(saved.providers).toEqual({ google: 2, github: 1 });
+    expect(saved.loginCount).toBe(3);
+    expect(saved.lastProvider).toBe("github");
+  });
+
+  it("does nothing without a PROGRESS binding or email", async () => {
+    await recordLogin({}, "a@b.com", "google");
+    const env = { PROGRESS: fakeKV() };
+    await recordLogin(env, null, "google");
+    expect(env.PROGRESS._store.size).toBe(0);
   });
 });
 

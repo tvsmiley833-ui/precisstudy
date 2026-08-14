@@ -1,7 +1,7 @@
 import { SELF } from "cloudflare:test";
 import { describe, it, expect } from "vitest";
 import { signSession, SESSION_COOKIE } from "../src/auth.js";
-import { handleAdminMe, handleAdminListGuideRequests, handleAdminDeleteGuideRequest } from "../src/admin-routes.js";
+import { handleAdminMe, handleAdminListGuideRequests, handleAdminDeleteGuideRequest, handleAdminStats } from "../src/admin-routes.js";
 
 const SECRET = "test-session-secret";
 
@@ -83,6 +83,46 @@ describe("handleAdminListGuideRequests", () => {
   });
 });
 
+describe("handleAdminStats", () => {
+  it("401s with no session", async () => {
+    const res = await handleAdminStats(req("https://example.com/api/admin/stats"), { SESSION_SECRET: SECRET, ADMIN_EMAILS: "admin@example.com" });
+    expect(res.status).toBe(401);
+  });
+
+  it("403s for a logged-in non-admin", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const res = await handleAdminStats(req("https://example.com/api/admin/stats", cookie), { SESSION_SECRET: SECRET, ADMIN_EMAILS: "admin@example.com" });
+    expect(res.status).toBe(403);
+  });
+
+  it("aggregates login records by provider, ignoring unrelated keys", async () => {
+    const kv = fakeKV({
+      "login:a@example.com": JSON.stringify({ providers: { google: 3 }, loginCount: 3 }),
+      "login:b@example.com": JSON.stringify({ providers: { github: 1, google: 1 }, loginCount: 2 }),
+      "login:c@example.com": JSON.stringify({ providers: { email: 5 }, loginCount: 5 }),
+      "progress:a@example.com": JSON.stringify({ geometry: {} })
+    });
+    const cookie = await sessionCookieFor("admin@example.com");
+    const res = await handleAdminStats(req("https://example.com/api/admin/stats", cookie), {
+      SESSION_SECRET: SECRET, ADMIN_EMAILS: "admin@example.com", PROGRESS: kv
+    });
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(data.totalHumans).toBe(3);
+    expect(data.logins).toEqual({ google: 4, github: 1, email: 5 });
+    expect(data.humansByProvider).toEqual({ google: 2, github: 1, email: 1 });
+  });
+
+  it("returns zeroed stats when there are no logins yet", async () => {
+    const cookie = await sessionCookieFor("admin@example.com");
+    const res = await handleAdminStats(req("https://example.com/api/admin/stats", cookie), {
+      SESSION_SECRET: SECRET, ADMIN_EMAILS: "admin@example.com", PROGRESS: fakeKV()
+    });
+    const data = await res.json();
+    expect(data).toEqual({ totalHumans: 0, logins: {}, humansByProvider: {} });
+  });
+});
+
 describe("handleAdminDeleteGuideRequest", () => {
   it("403s for a non-admin", async () => {
     const cookie = await sessionCookieFor("student@example.com");
@@ -127,6 +167,16 @@ describe("routing", () => {
 
   it("returns 405 for POST /api/admin/me", async () => {
     const res = await SELF.fetch("https://example.com/api/admin/me", { method: "POST" });
+    expect(res.status).toBe(405);
+  });
+
+  it("returns 401 for GET /api/admin/stats with no session, via the real worker", async () => {
+    const res = await SELF.fetch("https://example.com/api/admin/stats");
+    expect(res.status).toBe(401);
+  });
+
+  it("returns 405 for POST /api/admin/stats", async () => {
+    const res = await SELF.fetch("https://example.com/api/admin/stats", { method: "POST" });
     expect(res.status).toBe(405);
   });
 });

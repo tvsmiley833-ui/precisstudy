@@ -6,7 +6,8 @@ import {
   getSession,
   createMagicLinkToken,
   consumeMagicLinkToken,
-  isValidEmail
+  isValidEmail,
+  recordLogin
 } from "./auth.js";
 
 const SITE_ORIGIN = "https://studystacks.org";
@@ -97,6 +98,7 @@ export async function handleGoogleCallback(request, env) {
     name: profile.name,
     provider: "google"
   });
+  await recordLogin(env, profile.email, "google");
   return redirect(SITE_ORIGIN + "/", { "Set-Cookie": cookie });
 }
 
@@ -162,6 +164,7 @@ export async function handleGithubCallback(request, env) {
     name: profile.name || profile.login,
     provider: "github"
   });
+  await recordLogin(env, email, "github");
   return redirect(SITE_ORIGIN + "/", { "Set-Cookie": cookie });
 }
 
@@ -213,6 +216,7 @@ export async function handleVerify(request, env) {
   if (!email) return redirect(SITE_ORIGIN + "/?auth_error=expired");
 
   const cookie = await issueSessionCookie(env, { email, name: email, provider: "email" });
+  await recordLogin(env, email, "email");
   return redirect(SITE_ORIGIN + "/", { "Set-Cookie": cookie });
 }
 

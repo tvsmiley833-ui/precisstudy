@@ -10,7 +10,7 @@ import {
   handleLogout
 } from "./auth-routes.js";
 import { handleRequestGuideSubmit } from "./guide-requests.js";
-import { handleAdminMe, handleAdminListGuideRequests, handleAdminDeleteGuideRequest } from "./admin-routes.js";
+import { handleAdminMe, handleAdminListGuideRequests, handleAdminDeleteGuideRequest, handleAdminStats } from "./admin-routes.js";
 import { handleGetProgress, handlePostProgress, handlePostGoal } from "./progress-routes.js";
 
 const AUTH_ROUTES = {
@@ -47,6 +47,11 @@ export default {
     if (url.pathname === "/api/admin/guide-requests") {
       if (request.method === "GET") return handleAdminListGuideRequests(request, env);
       if (request.method === "DELETE") return handleAdminDeleteGuideRequest(request, env);
+      return json({ error: "Method not allowed" }, 405);
+    }
+
+    if (url.pathname === "/api/admin/stats") {
+      if (request.method === "GET") return handleAdminStats(request, env);
       return json({ error: "Method not allowed" }, 405);
     }
 

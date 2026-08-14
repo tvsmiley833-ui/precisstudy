@@ -118,3 +118,25 @@ export async function consumeMagicLinkToken(env, token) {
 export function isValidEmail(email) {
   return typeof email === "string" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length <= 254;
 }
+
+export async function recordLogin(env, email, provider) {
+  if (!env.PROGRESS || !email) return;
+  const key = "login:" + String(email).toLowerCase();
+  const now = new Date().toISOString();
+  let record = null;
+  try {
+    const raw = await env.PROGRESS.get(key);
+    record = raw ? JSON.parse(raw) : null;
+  } catch (e) {
+    record = null;
+  }
+  if (!record || typeof record !== "object") {
+    record = { providers: {}, firstLoginAt: now, loginCount: 0 };
+  }
+  record.providers = record.providers || {};
+  record.providers[provider] = (record.providers[provider] || 0) + 1;
+  record.loginCount = (record.loginCount || 0) + 1;
+  record.lastLoginAt = now;
+  record.lastProvider = provider;
+  await env.PROGRESS.put(key, JSON.stringify(record));
+}

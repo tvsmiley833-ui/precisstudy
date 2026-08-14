@@ -43,6 +43,10 @@ html{scroll-behavior:smooth}
 .req-delete{background:none;border:1px solid #ffe4cc;border-radius:999px;color:#7d5c47;padding:6px 14px;
   font-size:12.5px;cursor:pointer;font-family:inherit;transition:all .15s}
 .req-delete:hover{color:#fff;background:#c2410c;border-color:#c2410c}
+
+.stat-card{background:#fffaf5;border:2px solid #ffe4cc;border-radius:14px;padding:16px 18px;}
+.stat-num{font-size:26px;font-weight:800;color:#3d2a1e;line-height:1.1;}
+.stat-label{font-size:12.5px;color:#7d5c47;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;margin-top:4px;}
 </style>
 </head>
 <body style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:#fffaf5;">
@@ -69,6 +73,12 @@ html{scroll-behavior:smooth}
   </div>
 
   <div id="dash-content" style="display:none;">
+    <div style="font-weight:700;font-size:14px;color:#c2410c;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:14px;">
+      Site Stats
+    </div>
+    <div id="stats-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:28px;"></div>
+    <p id="stats-note" style="font-size:12.5px;color:#8a6650;margin:-18px 0 28px;display:none;"></p>
+
     <div style="font-weight:700;font-size:14px;color:#c2410c;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:14px;">
       Guide Requests <span id="req-count"></span>
     </div>
@@ -171,6 +181,31 @@ function renderRequests(requests){
   }).join('');
 }
 
+function renderStats(stats){
+  var grid = document.getElementById('stats-grid');
+  var note = document.getElementById('stats-note');
+  var logins = stats.logins || {};
+  var humans = stats.humansByProvider || {};
+  var cards = [
+    { label: 'Humans Logged In', num: stats.totalHumans || 0 },
+    { label: 'Google Logins', num: logins.google || 0 },
+    { label: 'GitHub Logins', num: logins.github || 0 },
+    { label: 'Email Logins', num: logins.email || 0 }
+  ];
+  grid.innerHTML = cards.map(function(c){
+    return '<div class="stat-card"><div class="stat-num">' + c.num + '</div><div class="stat-label">' + c.label + '</div></div>';
+  }).join('');
+  note.style.display = 'block';
+  note.textContent = 'Google: ' + (humans.google || 0) + ' people · GitHub: ' + (humans.github || 0) + ' people · Email: ' + (humans.email || 0) + ' people. Counting starts from when this tracking shipped — logins before that aren\'t included.';
+}
+
+async function loadStats(){
+  var res = await fetch('/api/admin/stats');
+  if(!res.ok) throw new Error('Failed to load stats');
+  var data = await res.json();
+  renderStats(data);
+}
+
 async function loadRequests(){
   var res = await fetch('/api/admin/guide-requests');
   if(!res.ok) throw new Error('Failed to load requests');
@@ -219,6 +254,11 @@ async function initDashboard(){
 
   subtitle.textContent = 'Study guide requests from visitors.';
   content.style.display = 'block';
+  try{
+    await loadStats();
+  }catch(e){
+    document.getElementById('stats-grid').innerHTML = '';
+  }
   try{
     await loadRequests();
   }catch(e){
