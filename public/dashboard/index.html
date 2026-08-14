@@ -80,7 +80,33 @@ body{transition:background .2s ease,color .2s ease}
 .ss-cta-btn:hover{background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 8px 20px rgba(194,65,12,.28)}
 
 .ss-card{background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:32px;
-  box-shadow:var(--card-shadow)}
+  box-shadow:var(--card-shadow);min-width:0}
+#sb-days,#sb-subjects,#sb-result{min-width:0}
+@media(max-width:640px){.ss-card{padding:20px}}
+
+.sb-daychip{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:2px solid var(--border);
+  border-radius:999px;cursor:pointer;font-size:13px;font-weight:700;color:var(--text-muted);background:var(--bg);
+  user-select:none;transition:all .15s}
+.sb-daychip input{display:none}
+.sb-daychip.on{border-color:var(--accent-bright);background:var(--accent-bright);color:#fff}
+.sb-subject-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:9px 12px;border:2px solid var(--border);
+  border-radius:12px;margin-bottom:8px;background:var(--bg)}
+.sb-subject-row label{display:flex;align-items:center;gap:8px;flex:1;min-width:120px;font-size:14px;font-weight:700;color:var(--text);cursor:pointer}
+.sb-swatch{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.sb-prio-btn{background:none;border:1px solid var(--border);border-radius:8px;width:26px;height:26px;flex-shrink:0;
+  cursor:pointer;color:var(--text-muted);font-size:13px;line-height:1}
+@media(max-width:480px){.sb-unit-sel{max-width:none;width:100%;order:1}.sb-prio-btn{order:2}}
+.sb-prio-btn:hover{border-color:var(--accent-bright);color:var(--accent)}
+.sb-prio-btn:disabled{opacity:.3;cursor:default}
+.sb-unit-sel{font-size:12.5px;padding:5px 8px;border:1px solid var(--border);border-radius:8px;background:var(--bg-card);
+  color:var(--text);font-family:inherit;max-width:180px}
+.sb-block{display:block;text-decoration:none;border-radius:12px;padding:12px 14px;color:#fff;position:relative;overflow:hidden}
+.sb-block:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.18)}
+.sb-block-day{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;opacity:.85}
+.sb-block-subject{font-size:14.5px;font-weight:800;margin-top:2px}
+.sb-block-unit{font-size:12.5px;opacity:.9;margin-top:2px}
+.sb-block-empty{border:2px dashed var(--border);border-radius:12px;padding:12px 14px;color:var(--text-muted);
+  font-size:12.5px;text-align:center;display:flex;align-items:center;justify-content:center;min-height:64px}
 </style>
 </head>
 <body style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);">
@@ -122,6 +148,33 @@ body{transition:background .2s ease,color .2s ease}
 <div id="dash-content" style="display:none;padding:0 32px 64px;">
   <div style="max-width:840px;margin:0 auto;display:grid;gap:20px;">
     <div id="dash-goal" style="display:none;font-size:14px;color:var(--text-muted);text-align:center;"></div>
+
+    <div class="ss-card">
+      <div style="font-weight:800;font-size:19px;color:var(--text);margin-bottom:4px;">📅 Weekly Study Schedule</div>
+      <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 18px;">Tell us when you're free and what you want to study — we'll build a color-coded weekly plan. Click any block to jump straight into that study guide.</p>
+
+      <div style="margin-bottom:16px;">
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;">Which days are you free to study?</div>
+        <div id="sb-days" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <label style="font-size:13px;font-weight:700;color:var(--text);">Minutes per day<br/>
+          <input id="sb-minutes" type="number" min="10" max="240" value="30" style="width:90px;padding:8px 10px;border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);background:var(--bg-card);margin-top:6px;"/>
+        </label>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;">Which subjects? (use ↑↓ to set priority — higher priority gets more days)</div>
+        <div id="sb-subjects"></div>
+      </div>
+
+      <button id="sb-build-btn" class="ss-cta-btn" style="background:var(--accent-bright);color:#fff;border:none;padding:10px 20px;border-radius:999px;font-size:14px;font-weight:700;cursor:pointer;">Build my schedule</button>
+      <span id="sb-status" style="font-size:12.5px;color:var(--text-muted);margin-left:10px;"></span>
+
+      <div id="sb-result" style="margin-top:20px;"></div>
+    </div>
+
     <div id="dash-subjects" style="display:grid;gap:20px;"></div>
   </div>
 </div>
@@ -314,6 +367,183 @@ function renderSubject(subjectKey, label, href, subjectData, unitIds, unitNames)
   }
 }
 
+const SUBJECT_COLORS = {
+  geometry: '#d9a441',
+  chemistry: '#0f7a70',
+  algebra1: '#2563a8',
+  algebra2: '#5b4bd8'
+};
+const SB_DAYS = [
+  { key: 'mon', label: 'Mon' }, { key: 'tue', label: 'Tue' }, { key: 'wed', label: 'Wed' },
+  { key: 'thu', label: 'Thu' }, { key: 'fri', label: 'Fri' }, { key: 'sat', label: 'Sat' }, { key: 'sun', label: 'Sun' }
+];
+let sbFreeDays = new Set();
+let sbSelectedSubjects = []; // [{key, unitMode:'auto'|'<unitId>'}], order = priority (index 0 = highest)
+let sbBlob = null;
+
+function sbRenderDays() {
+  const wrap = document.getElementById('sb-days');
+  if (!wrap) return;
+  wrap.innerHTML = SB_DAYS.map(d =>
+    '<label class="sb-daychip' + (sbFreeDays.has(d.key) ? ' on' : '') + '" data-day="' + d.key + '">'
+    + '<input type="checkbox"' + (sbFreeDays.has(d.key) ? ' checked' : '') + '/> ' + d.label + '</label>'
+  ).join('');
+  wrap.querySelectorAll('.sb-daychip').forEach(function (chip) {
+    chip.addEventListener('click', function (e) {
+      e.preventDefault();
+      const day = chip.dataset.day;
+      if (sbFreeDays.has(day)) sbFreeDays.delete(day); else sbFreeDays.add(day);
+      sbRenderDays();
+    });
+  });
+}
+
+function sbRenderSubjects() {
+  const wrap = document.getElementById('sb-subjects');
+  if (!wrap) return;
+  let html = '';
+  SUBJECTS_CONFIG.forEach(function (s) {
+    const idx = sbSelectedSubjects.findIndex(function (x) { return x.key === s.key; });
+    const sel = idx === -1 ? null : sbSelectedSubjects[idx];
+    html += '<div class="sb-subject-row"><label>'
+      + '<input type="checkbox" data-subj="' + s.key + '"' + (sel ? ' checked' : '') + '/>'
+      + '<span class="sb-swatch" style="background:' + SUBJECT_COLORS[s.key] + '"></span>' + s.label + '</label>';
+    if (sel) {
+      html += '<select class="sb-unit-sel" data-subj-unit="' + s.key + '">'
+        + '<option value="auto"' + (sel.unitMode === 'auto' ? ' selected' : '') + '>Auto (weakest first)</option>'
+        + s.units.map(function (u) {
+            return '<option value="' + u.id + '"' + (sel.unitMode === String(u.id) ? ' selected' : '') + '>' + ssEscapeHtml(u.name) + '</option>';
+          }).join('')
+        + '</select>'
+        + '<button class="sb-prio-btn" data-prio-up="' + s.key + '"' + (idx <= 0 ? ' disabled' : '') + '>↑</button>'
+        + '<button class="sb-prio-btn" data-prio-down="' + s.key + '"' + (idx >= sbSelectedSubjects.length - 1 ? ' disabled' : '') + '>↓</button>';
+    }
+    html += '</div>';
+  });
+  wrap.innerHTML = html;
+
+  wrap.querySelectorAll('input[data-subj]').forEach(function (cb) {
+    cb.addEventListener('change', function () {
+      const key = cb.dataset.subj;
+      if (cb.checked) {
+        if (!sbSelectedSubjects.find(function (x) { return x.key === key; })) sbSelectedSubjects.push({ key: key, unitMode: 'auto' });
+      } else {
+        sbSelectedSubjects = sbSelectedSubjects.filter(function (x) { return x.key !== key; });
+      }
+      sbRenderSubjects();
+    });
+  });
+  wrap.querySelectorAll('select[data-subj-unit]').forEach(function (selEl) {
+    selEl.addEventListener('change', function () {
+      const item = sbSelectedSubjects.find(function (x) { return x.key === selEl.dataset.subjUnit; });
+      if (item) item.unitMode = selEl.value;
+    });
+  });
+  wrap.querySelectorAll('button[data-prio-up]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const idx = sbSelectedSubjects.findIndex(function (x) { return x.key === btn.dataset.prioUp; });
+      if (idx > 0) {
+        const tmp = sbSelectedSubjects[idx - 1]; sbSelectedSubjects[idx - 1] = sbSelectedSubjects[idx]; sbSelectedSubjects[idx] = tmp;
+        sbRenderSubjects();
+      }
+    });
+  });
+  wrap.querySelectorAll('button[data-prio-down]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const idx = sbSelectedSubjects.findIndex(function (x) { return x.key === btn.dataset.prioDown; });
+      if (idx < sbSelectedSubjects.length - 1) {
+        const tmp = sbSelectedSubjects[idx + 1]; sbSelectedSubjects[idx + 1] = sbSelectedSubjects[idx]; sbSelectedSubjects[idx] = tmp;
+        sbRenderSubjects();
+      }
+    });
+  });
+}
+
+// Smooth weighted round-robin: higher-priority subjects (earlier in the
+// array) get proportionally more of the free days, interleaved rather
+// than clustered on consecutive days.
+function sbWeightedRoundRobin(items, dayCount) {
+  if (!items.length) return [];
+  const weights = items.map(function (_, i) { return items.length - i; });
+  const totalWeight = weights.reduce(function (a, b) { return a + b; }, 0);
+  const credits = items.map(function () { return 0; });
+  const result = [];
+  for (let i = 0; i < dayCount; i++) {
+    weights.forEach(function (w, idx) { credits[idx] += w; });
+    let maxIdx = 0;
+    for (let j = 1; j < credits.length; j++) if (credits[j] > credits[maxIdx]) maxIdx = j;
+    result.push(items[maxIdx]);
+    credits[maxIdx] -= totalWeight;
+  }
+  return result;
+}
+
+function sbBuildSchedule() {
+  const freeDaysOrdered = SB_DAYS.filter(function (d) { return sbFreeDays.has(d.key); });
+  const minutes = parseInt(document.getElementById('sb-minutes').value, 10) || 30;
+  const statusEl = document.getElementById('sb-status');
+  const resultEl = document.getElementById('sb-result');
+
+  if (!freeDaysOrdered.length) { statusEl.textContent = 'Pick at least one free day.'; resultEl.innerHTML = ''; return; }
+  if (!sbSelectedSubjects.length) { statusEl.textContent = 'Pick at least one subject.'; resultEl.innerHTML = ''; return; }
+  statusEl.textContent = '';
+
+  const assignment = sbWeightedRoundRobin(sbSelectedSubjects, freeDaysOrdered.length);
+  const blockByDay = {};
+
+  freeDaysOrdered.forEach(function (day, i) {
+    const subj = assignment[i];
+    const cfg = SUBJECTS_CONFIG.find(function (s) { return s.key === subj.key; });
+    const unitNames = {}; cfg.units.forEach(function (u) { unitNames[u.id] = u.name; });
+    const unitIds = cfg.units.map(function (u) { return u.id; });
+    const subjectData = (sbBlob && sbBlob[subj.key]) || {};
+
+    let unitId = null, unitLabel = '';
+    if (subj.unitMode && subj.unitMode !== 'auto') {
+      unitId = parseInt(subj.unitMode, 10);
+      unitLabel = unitNames[unitId] || '';
+    } else {
+      const rec = recommendNext(subjectData.mastery || {}, unitIds, unitNames);
+      if (rec.type === 'practice') { unitId = rec.unitId; unitLabel = rec.unitName + ' (' + rec.pct + '%)'; }
+      else if (rec.type === 'diagnostic') { unitLabel = 'Diagnostic — not started yet'; }
+      else { unitLabel = 'Practice Exam — everything mastered!'; }
+    }
+
+    const href = unitId ? cfg.href + '?practice=' + unitId : cfg.href;
+    blockByDay[day.key] = { subjectLabel: cfg.label, color: SUBJECT_COLORS[subj.key], unitLabel: unitLabel, href: href, minutes: minutes };
+  });
+
+  resultEl.innerHTML = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;">'
+    + SB_DAYS.map(function (d) {
+        const block = blockByDay[d.key];
+        if (!block) return '<div class="sb-block-empty">' + d.label + '<br/>Not scheduled</div>';
+        return '<a class="sb-block" href="' + block.href + '" style="background:' + block.color + '">'
+          + '<div class="sb-block-day">' + d.label + ' · ' + block.minutes + ' min</div>'
+          + '<div class="sb-block-subject">' + ssEscapeHtml(block.subjectLabel) + '</div>'
+          + '<div class="sb-block-unit">' + ssEscapeHtml(block.unitLabel) + '</div>'
+          + '</a>';
+      }).join('')
+    + '</div>';
+
+  try {
+    localStorage.setItem('ssScheduleConfig', JSON.stringify({ freeDays: Array.from(sbFreeDays), minutes: minutes, subjects: sbSelectedSubjects }));
+  } catch (e) { /* ignore */ }
+}
+
+function sbRestoreSavedConfig() {
+  try {
+    const raw = localStorage.getItem('ssScheduleConfig');
+    if (!raw) return false;
+    const cfg = JSON.parse(raw);
+    if (cfg.freeDays) sbFreeDays = new Set(cfg.freeDays);
+    if (typeof cfg.minutes === 'number') document.getElementById('sb-minutes').value = cfg.minutes;
+    if (Array.isArray(cfg.subjects)) sbSelectedSubjects = cfg.subjects.filter(function (s) {
+      return SUBJECTS_CONFIG.some(function (c) { return c.key === s.key; });
+    });
+    return true;
+  } catch (e) { return false; }
+}
+
 function localFallback() {
   // Same keys/shape the shared module writes on each subject's page (same
   // origin, so this page can read them directly) - used only if the server
@@ -376,6 +606,14 @@ async function loadDashboard() {
     goalEl.style.display = 'block';
     goalEl.textContent = 'Your saved goal: ' + blob.goal.days + ' days · ' + blob.goal.minutesPerDay + ' min/day';
   }
+
+  sbBlob = blob;
+  const hadSavedConfig = sbRestoreSavedConfig();
+  sbRenderDays();
+  sbRenderSubjects();
+  const sbBuildBtn = document.getElementById('sb-build-btn');
+  if (sbBuildBtn) sbBuildBtn.addEventListener('click', sbBuildSchedule);
+  if (hadSavedConfig && sbFreeDays.size && sbSelectedSubjects.length) sbBuildSchedule();
 }
 
 loadDashboard();
