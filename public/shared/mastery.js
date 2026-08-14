@@ -37,6 +37,57 @@ export function recommendNext(mastery, unitIds, unitNames) {
   return { type: "practice", unitId: weakest.id, unitName: unitNames[weakest.id], pct: weakest.pct };
 }
 
+export function buildSchedule(mastery, unitIds, unitNames, days, minutesPerDay) {
+  if (days <= 0 || minutesPerDay <= 0) {
+    return { allMastered: false, days: [] };
+  }
+
+  const weak = [];
+  for (const id of unitIds) {
+    const record = mastery[id];
+    const isAssessed = record && record.total >= 2;
+    const pct = isAssessed ? Math.round(record.correct / record.total * 100) : null;
+
+    if (pct === null || pct < 80) {
+      weak.push({ id, pct });
+    }
+  }
+
+  if (weak.length === 0) {
+    return { allMastered: true, days: [] };
+  }
+
+  weak.sort((a, b) => {
+    if (a.pct === null && b.pct === null) return 0;
+    if (a.pct === null) return -1;
+    if (b.pct === null) return 1;
+    return a.pct - b.pct;
+  });
+
+  const hasExamDay = days >= 5;
+  const studyDays = hasExamDay ? days - 1 : days;
+  const schedule = [];
+
+  for (let i = 0; i < studyDays; i++) {
+    const weakUnit = weak[i % weak.length];
+    schedule.push({
+      day: i + 1,
+      unitId: weakUnit.id,
+      unitName: unitNames[weakUnit.id],
+      pct: weakUnit.pct
+    });
+  }
+
+  if (hasExamDay) {
+    schedule.push({
+      day: days,
+      type: "exam"
+    });
+  }
+
+  return { allMastered: false, days: schedule };
+}
+
 const SYNC_DEBOUNCE_MS = 10000;
 
 export function createMastery(subject, unitIds, unitNames) {

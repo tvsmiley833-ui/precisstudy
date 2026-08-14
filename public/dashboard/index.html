@@ -166,7 +166,8 @@ document.addEventListener('click', function(e){
 </script>
 
 <script type="module">
-import { computeReadiness, recommendNext } from '/shared/mastery.js';
+import { computeReadiness, recommendNext, buildSchedule } from '/shared/mastery.js';
+import { geometryUnits, chemistryUnits } from '/shared/unit-titles.js';
 
 function statusColor(pct) {
   if (pct === null) return '#c9a688';
@@ -209,7 +210,50 @@ function renderSubject(subjectKey, label, href, subjectData, unitIds, unitNames)
     + '<div style="font-weight:800;font-size:28px;color:' + statusColor(readiness.pct) + ';">' + scoreText + '</div>'
     + '</div>'
     + '<p style="margin:0 0 16px;font-size:13px;color:#a8826a;">' + caveat + '</p>'
-    + '<div style="border-top:1px solid #ffe4cc;padding-top:14px;">' + recHtml + '</div>';
+    + '<div style="border-top:1px solid #ffe4cc;padding-top:14px;">' + recHtml + '</div>'
+    + '<div style="border-top:1px solid #ffe4cc;margin-top:14px;padding-top:14px;">'
+    + '<div style="font-weight:700;font-size:14px;color:#3d2a1e;margin-bottom:10px;">Study Schedule</div>'
+    + '<div id="sched-form-' + subjectKey + '" style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;">'
+    + '<label style="font-size:13px;color:#a8826a;">Days until your exam<br/>'
+    + '<input id="sched-days-' + subjectKey + '" type="number" min="1" max="60" value="14" style="width:70px;padding:7px 9px;border:1px solid #ffe4cc;border-radius:10px;font-size:14px;color:#3d2a1e;margin-top:4px;"/></label>'
+    + '<label style="font-size:13px;color:#a8826a;">Minutes per day<br/>'
+    + '<input id="sched-minutes-' + subjectKey + '" type="number" min="10" max="180" value="30" style="width:70px;padding:7px 9px;border:1px solid #ffe4cc;border-radius:10px;font-size:14px;color:#3d2a1e;margin-top:4px;"/></label>'
+    + '<button id="sched-build-' + subjectKey + '" class="ss-cta-btn" style="background:#ff8a4c;color:#fff;border:none;padding:9px 16px;border-radius:999px;font-size:14px;font-weight:700;cursor:pointer;">Build my schedule</button>'
+    + '</div>'
+    + '<div id="sched-result-' + subjectKey + '" style="margin-top:14px;"></div>'
+    + '</div>';
+
+  const buildBtn = document.getElementById('sched-build-' + subjectKey);
+  const resultEl = document.getElementById('sched-result-' + subjectKey);
+  if (buildBtn) {
+    buildBtn.addEventListener('click', function () {
+      const daysInput = document.getElementById('sched-days-' + subjectKey);
+      const minutesInput = document.getElementById('sched-minutes-' + subjectKey);
+      const days = parseInt(daysInput.value, 10);
+      const minutes = parseInt(minutesInput.value, 10);
+      const result = buildSchedule(subjectData.mastery || {}, unitIds, unitNames, days, minutes);
+
+      if (result.allMastered) {
+        resultEl.innerHTML = '<p style="margin:0;font-size:14px;color:#1a7a4f;">Every assessed unit is 80%+ — nothing weak to schedule. Try the practice exam.</p>';
+        return;
+      }
+      if (!result.days.length) {
+        resultEl.innerHTML = '<p style="margin:0;font-size:13px;color:#a8826a;">Enter a valid number of days and minutes to build a schedule.</p>';
+        return;
+      }
+
+      const items = result.days.map(function (entry) {
+        if (entry.type === 'exam') {
+          return '<li style="margin-bottom:6px;font-size:14px;color:#5c4433;"><b>Day ' + entry.day + '</b> — Practice Exam</li>';
+        }
+        const pctText = entry.pct === null ? 'not yet assessed' : entry.pct + '%';
+        return '<li style="margin-bottom:6px;font-size:14px;color:#5c4433;"><b>Day ' + entry.day + '</b> — '
+          + '<a href="' + href + '?practice=' + entry.unitId + '" style="color:#c2410c;font-weight:700;text-decoration:none;">' + entry.unitName + '</a>'
+          + ' (' + pctText + ')</li>';
+      }).join('');
+      resultEl.innerHTML = '<ol style="margin:0;padding-left:20px;">' + items + '</ol>';
+    });
+  }
 }
 
 function localFallback() {
@@ -254,12 +298,10 @@ async function loadDashboard() {
     content.insertBefore(notice, content.firstChild);
   }
 
-  const GEOMETRY_UNIT_COUNT = 11;
-  const CHEMISTRY_UNIT_COUNT = 16;
-  const geoUnitIds = Array.from({ length: GEOMETRY_UNIT_COUNT }, (_, i) => i + 1);
-  const chemUnitIds = Array.from({ length: CHEMISTRY_UNIT_COUNT }, (_, i) => i + 1);
-  const geoUnitNames = {}; geoUnitIds.forEach(id => { geoUnitNames[id] = 'Unit ' + id; });
-  const chemUnitNames = {}; chemUnitIds.forEach(id => { chemUnitNames[id] = 'Unit ' + id; });
+  const geoUnitIds = geometryUnits.map(u => u.id);
+  const chemUnitIds = chemistryUnits.map(u => u.id);
+  const geoUnitNames = {}; geometryUnits.forEach(u => { geoUnitNames[u.id] = u.name; });
+  const chemUnitNames = {}; chemistryUnits.forEach(u => { chemUnitNames[u.id] = u.name; });
 
   renderSubject('geometry', 'Geometry', '/geometry', blob.geometry || {}, geoUnitIds, geoUnitNames);
   renderSubject('chemistry', 'Chemistry', '/chemistry', blob.chemistry || {}, chemUnitIds, chemUnitNames);
