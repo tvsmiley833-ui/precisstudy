@@ -247,6 +247,11 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
   color:rgba(244,242,234,.7);padding:5px 11px;font-size:12px;cursor:pointer;font-family:'Inter'}
 .ss-account button:hover{color:#fff;border-color:rgba(255,255,255,.35)}
 </style>
+<script type="module">
+  import { createMastery } from '/shared/mastery.js';
+  window.__ssCreateMastery = createMastery;
+  window.dispatchEvent(new Event('ss-mastery-ready'));
+</script>
 </head>
 <body>
 <div class="hero">
@@ -2361,6 +2366,19 @@ buildFCSel();
 
 // QUIZ
 let qPool=[],qIdx=0,score=0;
+
+/* ----- server-synced mastery (Chemistry has no prior local tracking to
+   migrate from - this is the first time per-unit progress persists at all) */
+var CHEM_MASTERY = null;
+window.__ssMasteryInstances = window.__ssMasteryInstances || [];
+function ssStartChemMastery(){
+  CHEM_MASTERY = window.__ssCreateMastery('chemistry', UNITS.map(function(u){return u.id;}), UNITS.reduce(function(acc,u){acc[u.id]=u.name;return acc;},{}));
+  window.__ssMasteryInstances.push(CHEM_MASTERY);
+  CHEM_MASTERY.init();
+}
+if (window.__ssCreateMastery) { ssStartChemMastery(); }
+else { window.addEventListener('ss-mastery-ready', ssStartChemMastery, { once: true }); }
+
 function buildQSel(){
   const sel=document.getElementById('q-sel');
   sel.innerHTML='<option value="0">All Units ('+QUIZ.length+' questions)</option>';
@@ -2392,6 +2410,7 @@ function ansQ(i){
     else if(idx===i&&i!==q.a)btn.classList.add('wrong');
   });
   if(i===q.a)score++;
+  if(CHEM_MASTERY)CHEM_MASTERY.recordAnswer(q.u,i===q.a);
   document.getElementById('q-exp').classList.add('show');
   document.getElementById('q-next').style.display='inline-block';
   document.getElementById('q-sc').textContent=`Score: ${score}`;
@@ -2719,4 +2738,14 @@ async function ssQuizTabClick(){
 }
 
 ssCheckSession();
+
+/* ----- unit-filtered practice, e.g. /chemistry?practice=3 (from the dashboard's "study this next") ----- */
+(async function ssPracticeMode(){
+  var practiceUnit = new URLSearchParams(location.search).get('practice');
+  if(!practiceUnit) return;
+  await ssQuizTabClick();
+  if(!SS_SESSION) return;
+  var sel = document.getElementById('q-sel');
+  if(sel){ sel.value = practiceUnit; loadQ(); }
+})();
 </script></body></html>
