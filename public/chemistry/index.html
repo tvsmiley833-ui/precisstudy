@@ -240,15 +240,6 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
   font-family:'Inter';font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;margin-bottom:9px;
   box-sizing:border-box;transition:all .15s ease}
 .ss-oauth-btn:hover{border-color:var(--accent);background:var(--surface-hover)}
-.ss-divider{display:flex;align-items:center;gap:10px;color:var(--ink-dim);font-family:'Inter';font-size:12.5px;margin:14px 0}
-.ss-divider::before,.ss-divider::after{content:"";flex:1;height:1px;background:var(--border)}
-.ss-email-row{display:flex;gap:8px}
-.ss-email-row input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);
-  color:var(--ink);padding:10px 13px;font-size:14px;font-family:'Inter'}
-.ss-email-row input:focus{outline:none;border-color:var(--accent)}
-.ss-email-row button{padding:10px 16px;border:none;border-radius:var(--radius-sm);background:var(--accent);
-  color:#fff;font-weight:700;font-size:14px;cursor:pointer;font-family:'Inter'}
-.ss-email-row button:hover{background:var(--accent-ink)}
 .ss-status{font-family:'Inter';font-size:12.5px;color:var(--ink-dim);margin-top:10px;min-height:16px}
 .ss-account{display:flex;align-items:center;gap:10px;font-family:'Inter';font-size:13px;color:rgba(244,242,234,.75)}
 .ss-account button{background:none;border:1px solid rgba(255,255,255,.18);border-radius:var(--radius-sm);
@@ -2688,34 +2679,11 @@ let SS_SESSION;
 function ssLoginBoxHtml(){
   return '<a class="ss-oauth-btn" href="/auth/google/start">Continue with Google</a>'
     + '<a class="ss-oauth-btn" href="/auth/github/start">Continue with GitHub</a>'
-    + '<div class="ss-divider">or</div>'
-    + '<form class="ss-email-row" onsubmit="return ssSendMagicLink(event)">'
-    + '<input type="email" placeholder="you@email.com" required>'
-    + '<button type="submit">Send link</button></form>'
     + '<div class="ss-status"></div>';
 }
 
 function ssRenderLoginBoxes(){
   document.querySelectorAll('.ss-login-box').forEach(function(el){ el.innerHTML = ssLoginBoxHtml(); });
-}
-
-async function ssSendMagicLink(e){
-  e.preventDefault();
-  const form = e.target;
-  const input = form.querySelector('input[type=email]');
-  const status = form.parentElement.querySelector('.ss-status');
-  const email = input.value.trim();
-  if(status) status.textContent = 'Sending…';
-  try{
-    const res = await fetch('/auth/email/start', {
-      method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({email:email})
-    });
-    const data = await res.json();
-    if(status) status.textContent = res.ok ? 'Check your email for a sign-in link.' : (data.error || 'Something went wrong.');
-  }catch(err){
-    if(status) status.textContent = 'Network error — try again.';
-  }
-  return false;
 }
 
 async function ssCheckSession(){
