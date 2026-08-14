@@ -27,16 +27,23 @@ input[type=range].spc-slider::-moz-range-thumb{width:22px;height:22px;border-rad
 </head>
 <body style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:#fffaf5;">
 
-<div style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:#ffffff;border-bottom:1px solid #ffe4cc;">
+<div class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:#ffffff;border-bottom:1px solid #ffe4cc;">
   <div style="font-weight:800;font-size:22px;color:#c2410c;display:flex;align-items:center;gap:8px;">
     <img src="/logo-icon.png" alt="" width="28" height="28" style="border-radius:6px;"/> StudyStacks
   </div>
-  <div style="display:flex;gap:24px;font-weight:600;font-size:15px;color:#7c4a2d;align-items:center;">
-    <span>Browse Subjects</span>
-    <span>How It Works</span>
-    <a href="/geometry" style="background:#ff8a4c;color:#fff;padding:8px 18px;border-radius:999px;text-decoration:none;">Start Studying →</a>
+  <div class="nav-links" style="display:flex;gap:24px;font-weight:600;font-size:15px;color:#7c4a2d;align-items:center;">
+    <span class="nav-inert">Browse Subjects</span>
+    <span class="nav-inert">How It Works</span>
+    <a href="/geometry" style="background:#ff8a4c;color:#fff;padding:8px 18px;border-radius:999px;text-decoration:none;white-space:nowrap;">Start Studying →</a>
   </div>
 </div>
+<style>
+@media(max-width:640px){
+  .header-bar{padding:14px 16px}
+  .nav-links{gap:10px}
+  .nav-inert{display:none}
+}
+</style>
 
 <div style="text-align:center;padding:64px 32px 48px;">
   <div style="display:inline-block;background:#ffe4cc;color:#c2410c;font-weight:700;font-size:13px;padding:6px 14px;border-radius:999px;margin-bottom:18px;">
