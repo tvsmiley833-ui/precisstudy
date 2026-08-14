@@ -112,6 +112,15 @@ body{transition:background .2s ease,color .2s ease}
 .rg-status{margin-top:14px;font-size:14px;font-weight:600}
 .rg-status.ok{color:var(--badge-green)}
 .rg-status.err{color:var(--accent)}
+.rg-file-btn{display:inline-flex;align-items:center;gap:8px;background:var(--bg);border:2px dashed var(--border);border-radius:10px;
+  padding:11px 14px;color:var(--text-muted);font-size:14px;font-weight:600;cursor:pointer;transition:border-color .2s ease,color .2s ease;width:100%;box-sizing:border-box}
+.rg-file-btn:hover{border-color:var(--accent-bright);color:var(--accent)}
+.rg-field input[type="file"]{display:none}
+.rg-files-list{margin-top:8px;display:flex;flex-direction:column;gap:4px}
+.rg-file-chip{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--bg);border:1px solid var(--border);
+  border-radius:8px;padding:6px 10px;font-size:13px;color:var(--text-body)}
+.rg-file-chip button{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:15px;line-height:1;padding:0 2px}
+.rg-file-chip button:hover{color:var(--accent)}
 </style>
 </head>
 <body style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);">
@@ -164,6 +173,12 @@ body{transition:background .2s ease,color .2s ease}
         <label for="rg-email">Your email <span class="rg-hint">optional — only if you want updates</span></label>
         <input id="rg-email" type="email" placeholder="you@email.com" maxlength="254"/>
       </div>
+      <div class="rg-field">
+        <label for="rg-files">Attach materials <span class="rg-hint">optional — notes, past exams, syllabus</span></label>
+        <label class="rg-file-btn" for="rg-files">📎 Choose files (PDF, DOC, image, or TXT — up to 3 files, 6MB each)</label>
+        <input id="rg-files" type="file" multiple accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg,.webp"/>
+        <div class="rg-files-list" id="rg-files-list"></div>
+      </div>
       <button type="submit" class="rg-submit" id="rg-submit-btn">Send request</button>
       <div class="rg-status" id="rg-status"></div>
     </form>
@@ -199,6 +214,53 @@ function ssToggleTheme(){
 </script>
 
 <script>
+var RG_MAX_FILES = 3, RG_MAX_FILE_SIZE = 6*1024*1024, RG_MAX_TOTAL = 15*1024*1024;
+
+function rgFormatBytes(n){
+  if(n < 1024) return n + ' B';
+  if(n < 1024*1024) return Math.round(n/1024) + ' KB';
+  return (n/(1024*1024)).toFixed(1) + ' MB';
+}
+
+function rgSyncFilesInput(){
+  var input = document.getElementById('rg-files');
+  var dt = new DataTransfer();
+  RG_SELECTED_FILES.forEach(function(f){ dt.items.add(f); });
+  input.files = dt.files;
+}
+
+function rgRenderFileList(){
+  var list = document.getElementById('rg-files-list');
+  list.innerHTML = RG_SELECTED_FILES.map(function(f, i){
+    return '<div class="rg-file-chip"><span>' + ssEscapeHtml(f.name) + ' (' + rgFormatBytes(f.size) + ')</span>'
+      + '<button type="button" onclick="rgRemoveFile(' + i + ')" aria-label="Remove file">✕</button></div>';
+  }).join('');
+}
+
+function rgRemoveFile(i){
+  RG_SELECTED_FILES.splice(i, 1);
+  rgSyncFilesInput();
+  rgRenderFileList();
+}
+
+var RG_SELECTED_FILES = [];
+
+document.getElementById('rg-files').addEventListener('change', function(){
+  var status = document.getElementById('rg-status');
+  status.textContent = '';
+  status.className = 'rg-status';
+  var incoming = Array.prototype.slice.call(this.files);
+  var combined = RG_SELECTED_FILES.concat(incoming);
+  if(combined.length > RG_MAX_FILES){
+    status.textContent = 'You can attach at most ' + RG_MAX_FILES + ' files.';
+    status.className = 'rg-status err';
+    combined = combined.slice(0, RG_MAX_FILES);
+  }
+  RG_SELECTED_FILES = combined;
+  rgSyncFilesInput();
+  rgRenderFileList();
+});
+
 document.getElementById('rg-form').addEventListener('submit', async function(e){
   e.preventDefault();
   var btn = document.getElementById('rg-submit-btn');
@@ -209,21 +271,39 @@ document.getElementById('rg-form').addEventListener('submit', async function(e){
 
   status.textContent = '';
   status.className = 'rg-status';
+
+  var totalSize = RG_SELECTED_FILES.reduce(function(sum, f){ return sum + f.size; }, 0);
+  var oversized = RG_SELECTED_FILES.find(function(f){ return f.size > RG_MAX_FILE_SIZE; });
+  if(oversized){
+    status.textContent = oversized.name + ' is too large (max 6MB per file).';
+    status.className = 'rg-status err';
+    return;
+  }
+  if(totalSize > RG_MAX_TOTAL){
+    status.textContent = 'Attachments are too large — 15MB total max.';
+    status.className = 'rg-status err';
+    return;
+  }
+
   btn.disabled = true;
   var originalText = btn.textContent;
   btn.textContent = 'Sending…';
 
   try{
-    var res = await fetch('/api/request-guide', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({className: className, notes: notes, email: email})
-    });
+    var fd = new FormData();
+    fd.append('className', className);
+    fd.append('notes', notes);
+    fd.append('email', email);
+    RG_SELECTED_FILES.forEach(function(f){ fd.append('files', f); });
+
+    var res = await fetch('/api/request-guide', { method: 'POST', body: fd });
     var data = await res.json();
     if(res.ok){
       status.textContent = "Thanks! We've got your request.";
       status.className = 'rg-status ok';
       document.getElementById('rg-form').reset();
+      RG_SELECTED_FILES = [];
+      rgRenderFileList();
     }else{
       status.textContent = data.error || 'Something went wrong — try again.';
       status.className = 'rg-status err';

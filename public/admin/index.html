@@ -81,6 +81,10 @@ html{scroll-behavior:smooth}
 .req-delete{background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);padding:6px 14px;
   font-size:12.5px;cursor:pointer;font-family:inherit;transition:all .15s}
 .req-delete:hover{color:#fff;background:var(--accent);border-color:var(--accent)}
+.req-files{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.req-file{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--accent);font-weight:700;
+  text-decoration:none;width:fit-content}
+.req-file:hover{text-decoration:underline}
 
 .stat-card{background:var(--bg);border:2px solid var(--border);border-radius:14px;padding:16px 18px;}
 .stat-num{font-size:26px;font-weight:800;color:var(--text);line-height:1.1;}
@@ -199,6 +203,12 @@ function formatDate(iso){
   }
 }
 
+function formatBytes(n){
+  if(n < 1024) return n + ' B';
+  if(n < 1024*1024) return Math.round(n/1024) + ' KB';
+  return (n/(1024*1024)).toFixed(1) + ' MB';
+}
+
 function renderRequests(requests){
   var list = document.getElementById('req-list');
   var empty = document.getElementById('req-empty');
@@ -219,6 +229,10 @@ function renderRequests(requests){
       + '</div>'
       + (r.notes ? '<div class="req-notes">' + ssEscapeHtml(r.notes) + '</div>' : '')
       + (r.email ? '<div class="req-email">' + ssEscapeHtml(r.email) + '</div>' : '')
+      + (r.files && r.files.length ? '<div class="req-files">' + r.files.map(function(f){
+          return '<a class="req-file" href="/api/admin/guide-request-file?key=' + encodeURIComponent(f.key) + '" target="_blank" rel="noopener">'
+            + '📎 ' + ssEscapeHtml(f.name) + ' (' + formatBytes(f.size) + ')</a>';
+        }).join('') + '</div>' : '')
       + '</div>';
   }).join('');
 }

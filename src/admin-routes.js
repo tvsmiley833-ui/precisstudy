@@ -31,7 +31,7 @@ export async function handleAdminListGuideRequests(request, env) {
   if (!gate.ok) return gate.res;
   if (!env.GUIDE_REQUESTS) return json({ error: "Requests aren't configured yet" }, 503);
 
-  const list = await env.GUIDE_REQUESTS.list();
+  const list = await env.GUIDE_REQUESTS.list({ prefix: "req:" });
   const items = await Promise.all(list.keys.map(async k => {
     const raw = await env.GUIDE_REQUESTS.get(k.name);
     if (!raw) return null;
@@ -91,6 +91,44 @@ export async function handleAdminDeleteGuideRequest(request, env) {
   const key = url.searchParams.get("key");
   if (!key || !key.startsWith("req:")) return json({ error: "Invalid key" }, 400);
 
+  const raw = await env.GUIDE_REQUESTS.get(key);
+  if (raw) {
+    try {
+      const data = JSON.parse(raw);
+      if (Array.isArray(data.files)) {
+        await Promise.all(data.files.map(f => (f && f.key ? env.GUIDE_REQUESTS.delete(f.key) : null)));
+      }
+    } catch (e) {
+      // malformed record — still delete the primary key below
+    }
+  }
+
   await env.GUIDE_REQUESTS.delete(key);
   return json({ ok: true });
+}
+
+export async function handleAdminGetGuideRequestFile(request, env) {
+  const gate = await requireAdmin(request, env);
+  if (!gate.ok) return gate.res;
+  if (!env.GUIDE_REQUESTS) return json({ error: "Requests aren't configured yet" }, 503);
+
+  const url = new URL(request.url);
+  const key = url.searchParams.get("key");
+  if (!key || !key.startsWith("reqfile:")) return json({ error: "Invalid key" }, 400);
+
+  const obj = await env.GUIDE_REQUESTS.getWithMetadata(key, { type: "arrayBuffer" });
+  if (!obj || !obj.value) return json({ error: "File not found" }, 404);
+
+  const meta = obj.metadata || {};
+  const filename = String(meta.filename || "attachment").replace(/"/g, "");
+  const contentType = meta.contentType || "application/octet-stream";
+
+  return new Response(obj.value, {
+    status: 200,
+    headers: {
+      "Content-Type": contentType,
+      "Content-Disposition": `attachment; filename="${filename}"`,
+      "Cache-Control": "private, no-store"
+    }
+  });
 }
