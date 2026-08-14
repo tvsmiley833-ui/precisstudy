@@ -6,23 +6,51 @@
 <title>Privacy Policy — StudyStacks</title>
 <link rel="icon" type="image/png" href="/favicon.png"/>
 <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<script>
+(function(){
+  try {
+    var saved = localStorage.getItem('ss-theme');
+    if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+  } catch (e) {}
+})();
+</script>
 <style>
-#ss-signin-btn{background:none;border:1px solid #ffe4cc;color:#c2410c;font-weight:700;padding:8px 16px;
+:root{
+  --bg:#fffaf5; --bg-card:#fff; --bg-header:#ffffff;
+  --border:#ffe4cc;
+  --text:#3d2a1e; --text-body:#5c4433; --text-muted:#7d5c47; --nav-text:#7c4a2d;
+  --accent:#c2410c; --accent-bright:#ff8a4c; --accent-hover:#f0722e;
+}
+[data-theme="dark"]{
+  --bg:#1b1512; --bg-card:#241d18; --bg-header:#211a16;
+  --border:#3d3128;
+  --text:#f3ece2; --text-body:#ddd0c2; --text-muted:#c9a688; --nav-text:#c9a688;
+  --accent:#ff9d5c; --accent-bright:#ff8a4c; --accent-hover:#ffab72;
+}
+#theme-toggle{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:999px;
+  width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+#theme-toggle:hover{border-color:var(--accent-bright);color:var(--accent)}
+#theme-toggle svg{width:17px;height:17px}
+#theme-toggle .icon-sun{display:none}
+[data-theme="dark"] #theme-toggle .icon-moon{display:none}
+[data-theme="dark"] #theme-toggle .icon-sun{display:block}
+
+#ss-signin-btn{background:none;border:1px solid var(--border);color:var(--accent);font-weight:700;padding:8px 16px;
   border-radius:999px;cursor:pointer;font-family:inherit;font-size:15px;white-space:nowrap}
-#ss-signin-btn:hover{background:#fff5eb}
-#ss-login-panel{display:none;position:absolute;top:calc(100% + 10px);right:0;background:#fff;border:2px solid #ffe4cc;
-  border-radius:16px;padding:22px;width:280px;box-shadow:0 12px 32px rgba(194,65,12,.15);z-index:50;text-align:left}
+#ss-signin-btn:hover{background:var(--bg)}
+#ss-login-panel{display:none;position:absolute;top:calc(100% + 10px);right:0;background:var(--bg-card);border:2px solid var(--border);
+  border-radius:16px;padding:22px;width:280px;box-shadow:0 12px 32px rgba(0,0,0,.18);z-index:50;text-align:left}
 #ss-login-panel.open{display:block}
 .ss-oauth-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;box-sizing:border-box;
-  padding:10px 14px;border-radius:12px;border:2px solid #ffe4cc;background:#fff;color:#3d2a1e;
+  padding:10px 14px;border-radius:12px;border:2px solid var(--border);background:var(--bg-card);color:var(--text);
   font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none;margin-bottom:9px;transition:all .15s}
-.ss-oauth-btn:hover{border-color:#ff8a4c;background:#fff5eb}
-.ss-status{font-size:12.5px;color:#7d5c47;margin-top:9px;min-height:16px}
+.ss-oauth-btn:hover{border-color:var(--accent-bright);background:var(--bg)}
+.ss-status{font-size:12.5px;color:var(--text-muted);margin-top:9px;min-height:16px}
 .ss-account{display:flex;align-items:center;gap:10px}
-.ss-account-name{font-weight:700;color:#3d2a1e;font-size:14px;white-space:nowrap}
-.ss-account button{background:none;border:1px solid #ffe4cc;border-radius:999px;color:#7d5c47;padding:6px 12px;
+.ss-account-name{font-weight:700;color:var(--text);font-size:14px;white-space:nowrap}
+.ss-account button{background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);padding:6px 12px;
   font-size:13px;cursor:pointer;font-family:inherit}
-.ss-account button:hover{color:#c2410c;border-color:#ff8a4c}
+.ss-account button:hover{color:var(--accent);border-color:var(--accent-bright)}
 @media(max-width:640px){#ss-signin-btn{padding:7px 12px;font-size:13px} .ss-account-name{display:none}}
 @media(max-width:640px){
   .header-bar{padding:14px 16px}
@@ -31,40 +59,45 @@
 }
 
 html{scroll-behavior:smooth}
+body{transition:background .2s ease,color .2s ease}
 
 .ss-cta-btn{transition:background .2s ease,transform .15s ease,box-shadow .2s ease}
-.ss-cta-btn:hover{background:#f0722e;transform:translateY(-1px);box-shadow:0 8px 20px rgba(194,65,12,.28)}
+.ss-cta-btn:hover{background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 8px 20px rgba(194,65,12,.28)}
 
-.ss-card{background:#fff;border:2px solid #ffe4cc;border-radius:18px;padding:32px;
+.ss-card{background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:32px;
   box-shadow:0 1px 3px rgba(61,42,30,.05),0 24px 48px -28px rgba(194,65,12,.18)}
 
-.legal h2{font-size:19px;color:#3d2a1e;margin:28px 0 10px;}
+.legal h2{font-size:19px;color:var(--text);margin:28px 0 10px;}
 .legal h2:first-child{margin-top:0;}
-.legal p, .legal li{font-size:15.5px;color:#5c4433;line-height:1.7;}
+.legal p, .legal li{font-size:15.5px;color:var(--text-body);line-height:1.7;}
 .legal ul{padding-left:22px;margin:8px 0;}
-.legal .updated{font-size:13px;color:#7d5c47;margin-bottom:24px;}
+.legal .updated{font-size:13px;color:var(--text-muted);margin-bottom:24px;}
 </style>
 </head>
-<body style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:#fffaf5;">
+<body style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);">
 
-<div class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:#ffffff;border-bottom:1px solid #ffe4cc;">
-  <a href="/" style="font-weight:800;font-size:22px;color:#c2410c;display:flex;align-items:center;gap:8px;text-decoration:none;">
+<div class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:var(--bg-header);border-bottom:1px solid var(--border);">
+  <a href="/" style="font-weight:800;font-size:22px;color:var(--accent);display:flex;align-items:center;gap:8px;text-decoration:none;">
     <img src="/logo-icon.png" alt="" width="28" height="28" style="border-radius:6px;"/> StudyStacks
   </a>
-  <div class="nav-links" style="display:flex;gap:16px;font-weight:600;font-size:15px;color:#7c4a2d;align-items:center;">
-    <a href="/#classes-section" class="nav-hide-sm" style="color:#7c4a2d;text-decoration:none;">Browse Subjects</a>
-    <a href="/#how-it-works" class="nav-hide-sm" style="color:#7c4a2d;text-decoration:none;">How It Works</a>
-    <a href="/about" class="nav-hide-sm" style="color:#7c4a2d;text-decoration:none;">Who Are We</a>
-    <a href="/request" class="nav-hide-sm" style="color:#7c4a2d;text-decoration:none;">Request a Guide</a>
-    <a href="/dashboard" class="nav-hide-sm" style="color:#7c4a2d;text-decoration:none;">Dashboard</a>
+  <div class="nav-links" style="display:flex;gap:16px;font-weight:600;font-size:15px;color:var(--nav-text);align-items:center;">
+    <a href="/#classes-section" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Browse Subjects</a>
+    <a href="/#how-it-works" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">How It Works</a>
+    <a href="/about" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Who Are We</a>
+    <a href="/request" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Request a Guide</a>
+    <a href="/dashboard" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Dashboard</a>
+    <button id="theme-toggle" onclick="ssToggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
     <div id="ss-account-area" style="position:relative;"></div>
-    <a href="/geometry" class="ss-cta-btn" style="background:#ff8a4c;color:#fff;padding:8px 18px;border-radius:999px;text-decoration:none;white-space:nowrap;">Start with Geometry →</a>
+    <a href="/geometry" class="ss-cta-btn" style="background:var(--accent-bright);color:#fff;padding:8px 18px;border-radius:999px;text-decoration:none;white-space:nowrap;">Start with Geometry →</a>
   </div>
 </div>
 
 <div style="padding:56px 32px 64px;">
   <div class="ss-card legal" style="max-width:720px;margin:0 auto;">
-    <h1 style="font-size:32px;font-weight:800;color:#3d2a1e;margin:0 0 6px;">Privacy Policy</h1>
+    <h1 style="font-size:32px;font-weight:800;color:var(--text);margin:0 0 6px;">Privacy Policy</h1>
     <div class="updated">Last updated: August 2026</div>
 
     <p>StudyStacks is a free study-guide site built and run by one high schooler. This page explains, in plain language, what information the site collects and what happens to it. There's no ad network, no analytics tracker, and nothing here is sold to anyone.</p>
@@ -85,7 +118,7 @@ html{scroll-behavior:smooth}
     </ul>
 
     <h2>Where it lives</h2>
-    <p>StudyStacks runs on Cloudflare Workers. Your session and any submitted requests are stored in Cloudflare's infrastructure. Cloudflare, as our host, may process standard connection logs as part of running the service — that's covered by <a href="https://www.cloudflare.com/privacypolicy/" style="color:#c2410c;font-weight:700;text-decoration:none;" target="_blank" rel="noopener">Cloudflare's own privacy policy</a>, separate from anything StudyStacks itself collects.</p>
+    <p>StudyStacks runs on Cloudflare Workers. Your session and any submitted requests are stored in Cloudflare's infrastructure. Cloudflare, as our host, may process standard connection logs as part of running the service — that's covered by <a href="https://www.cloudflare.com/privacypolicy/" style="color:var(--accent);font-weight:700;text-decoration:none;" target="_blank" rel="noopener">Cloudflare's own privacy policy</a>, separate from anything StudyStacks itself collects.</p>
 
     <h2>Your choices</h2>
     <ul>
@@ -101,14 +134,14 @@ html{scroll-behavior:smooth}
     <p>If anything meaningful changes about what StudyStacks collects, this page will be updated and the "last updated" date above will change.</p>
 
     <h2>Questions?</h2>
-    <p>Email <a href="#" class="ss-mail-link" data-u="studystackssupport" data-d="gmail.com" style="color:#c2410c;font-weight:700;text-decoration:none;"><span class="ss-mail-addr"></span></a> — a real person (the person who built this) will read it.</p>
+    <p>Email <a href="#" class="ss-mail-link" data-u="studystackssupport" data-d="gmail.com" style="color:var(--accent);font-weight:700;text-decoration:none;"><span class="ss-mail-addr"></span></a> — a real person (the person who built this) will read it.</p>
   </div>
 </div>
 
-<div style="border-top:1px solid #ffe4cc;padding:24px 32px;text-align:center;">
-  <a href="/privacy" style="color:#7d5c47;font-size:13px;text-decoration:none;margin-right:14px;">Privacy</a>
-  <a href="/terms" style="color:#7d5c47;font-size:13px;text-decoration:none;margin-right:14px;">Terms</a>
-  <a href="#" class="ss-mail-link" data-u="studystackssupport" data-d="gmail.com" style="color:#7d5c47;font-size:13px;text-decoration:none;">
+<div style="border-top:1px solid var(--border);padding:24px 32px;text-align:center;">
+  <a href="/privacy" style="color:var(--text-muted);font-size:13px;text-decoration:none;margin-right:14px;">Privacy</a>
+  <a href="/terms" style="color:var(--text-muted);font-size:13px;text-decoration:none;margin-right:14px;">Terms</a>
+  <a href="#" class="ss-mail-link" data-u="studystackssupport" data-d="gmail.com" style="color:var(--text-muted);font-size:13px;text-decoration:none;">
     Questions or feedback? <span class="ss-mail-addr"></span>
   </a>
 </div>
@@ -120,6 +153,17 @@ document.querySelectorAll('.ss-mail-link').forEach(function(el){
   var span = el.querySelector('.ss-mail-addr');
   if (span) span.textContent = addr;
 });
+
+function ssToggleTheme(){
+  var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  if (isDark) {
+    document.documentElement.removeAttribute('data-theme');
+    try { localStorage.setItem('ss-theme', 'light'); } catch (e) {}
+  } else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    try { localStorage.setItem('ss-theme', 'dark'); } catch (e) {}
+  }
+}
 </script>
 
 <script>
