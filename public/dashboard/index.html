@@ -6,23 +6,57 @@
 <title>Your Dashboard — StudyStacks</title>
 <link rel="icon" type="image/png" href="/favicon.png"/>
 <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<script>
+(function(){
+  try {
+    var saved = localStorage.getItem('ss-theme');
+    if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+  } catch (e) {}
+})();
+</script>
 <style>
-#ss-signin-btn{background:none;border:1px solid #ffe4cc;color:#c2410c;font-weight:700;padding:8px 16px;
+:root{
+  --bg:#fffaf5; --bg-card:#fff; --bg-header:#ffffff;
+  --border:#ffe4cc; --border-strong:#ffe4cc;
+  --text:#3d2a1e; --text-muted:#7d5c47; --nav-text:#7c4a2d;
+  --accent:#c2410c; --accent-bright:#ff8a4c; --accent-hover:#f0722e;
+  --status-none:#c9a688; --status-green:#1a7a4f; --status-amber:#b5862a; --status-red:#c2410c;
+  --card-shadow:0 1px 3px rgba(61,42,30,.05),0 24px 48px -28px rgba(194,65,12,.18);
+  --hero-glow:radial-gradient(ellipse at center, rgba(255,138,76,.16), rgba(255,138,76,0) 70%);
+}
+[data-theme="dark"]{
+  --bg:#1b1512; --bg-card:#241d18; --bg-header:#211a16;
+  --border:#3d3128; --border-strong:#4a3c30;
+  --text:#f3ece2; --text-muted:#c9a688; --nav-text:#c9a688;
+  --accent:#ff9d5c; --accent-bright:#ff8a4c; --accent-hover:#ffab72;
+  --status-none:#a8907a; --status-green:#3ecf8e; --status-amber:#e0a83e; --status-red:#ff9d5c;
+  --card-shadow:0 1px 3px rgba(0,0,0,.3),0 24px 48px -28px rgba(0,0,0,.5);
+  --hero-glow:radial-gradient(ellipse at center, rgba(255,138,76,.10), rgba(255,138,76,0) 70%);
+}
+#theme-toggle{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:999px;
+  width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+#theme-toggle:hover{border-color:var(--accent-bright);color:var(--accent)}
+#theme-toggle svg{width:17px;height:17px}
+#theme-toggle .icon-sun{display:none}
+[data-theme="dark"] #theme-toggle .icon-moon{display:none}
+[data-theme="dark"] #theme-toggle .icon-sun{display:block}
+
+#ss-signin-btn{background:none;border:1px solid var(--border);color:var(--accent);font-weight:700;padding:8px 16px;
   border-radius:999px;cursor:pointer;font-family:inherit;font-size:15px;white-space:nowrap}
-#ss-signin-btn:hover{background:#fff5eb}
-#ss-login-panel{display:none;position:absolute;top:calc(100% + 10px);right:0;background:#fff;border:2px solid #ffe4cc;
-  border-radius:16px;padding:22px;width:280px;box-shadow:0 12px 32px rgba(194,65,12,.15);z-index:50;text-align:left}
+#ss-signin-btn:hover{background:var(--bg)}
+#ss-login-panel{display:none;position:absolute;top:calc(100% + 10px);right:0;background:var(--bg-card);border:2px solid var(--border);
+  border-radius:16px;padding:22px;width:280px;box-shadow:0 12px 32px rgba(0,0,0,.18);z-index:50;text-align:left}
 #ss-login-panel.open{display:block}
 .ss-oauth-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;box-sizing:border-box;
-  padding:10px 14px;border-radius:12px;border:2px solid #ffe4cc;background:#fff;color:#3d2a1e;
+  padding:10px 14px;border-radius:12px;border:2px solid var(--border);background:var(--bg-card);color:var(--text);
   font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none;margin-bottom:9px;transition:all .15s}
-.ss-oauth-btn:hover{border-color:#ff8a4c;background:#fff5eb}
-.ss-status{font-size:12.5px;color:#7d5c47;margin-top:9px;min-height:16px}
+.ss-oauth-btn:hover{border-color:var(--accent-bright);background:var(--bg)}
+.ss-status{font-size:12.5px;color:var(--text-muted);margin-top:9px;min-height:16px}
 .ss-account{display:flex;align-items:center;gap:10px}
-.ss-account-name{font-weight:700;color:#3d2a1e;font-size:14px;white-space:nowrap}
-.ss-account button{background:none;border:1px solid #ffe4cc;border-radius:999px;color:#7d5c47;padding:6px 12px;
+.ss-account-name{font-weight:700;color:var(--text);font-size:14px;white-space:nowrap}
+.ss-account button{background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);padding:6px 12px;
   font-size:13px;cursor:pointer;font-family:inherit}
-.ss-account button:hover{color:#c2410c;border-color:#ff8a4c}
+.ss-account button:hover{color:var(--accent);border-color:var(--accent-bright)}
 @media(max-width:640px){#ss-signin-btn{padding:7px 12px;font-size:13px} .ss-account-name{display:none}}
 @media(max-width:640px){
   .header-bar{padding:14px 16px}
@@ -31,42 +65,47 @@
 }
 
 html{scroll-behavior:smooth}
+body{transition:background .2s ease,color .2s ease}
 
 .ss-hero{position:relative;overflow:hidden}
 .ss-hero::before{content:"";position:absolute;top:-160px;left:50%;transform:translateX(-50%);width:900px;height:460px;
-  background:radial-gradient(ellipse at center, rgba(255,138,76,.16), rgba(255,138,76,0) 70%);pointer-events:none;z-index:0}
+  background:var(--hero-glow);pointer-events:none;z-index:0}
 .ss-hero-inner{position:relative;z-index:1}
 
 @keyframes ssFadeInUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 .ss-hero-anim{opacity:0;animation:ssFadeInUp .6s cubic-bezier(.2,.8,.2,1) forwards}
 
 .ss-cta-btn{transition:background .2s ease,transform .15s ease,box-shadow .2s ease}
-.ss-cta-btn:hover{background:#f0722e;transform:translateY(-1px);box-shadow:0 8px 20px rgba(194,65,12,.28)}
+.ss-cta-btn:hover{background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 8px 20px rgba(194,65,12,.28)}
 
-.ss-card{background:#fff;border:2px solid #ffe4cc;border-radius:18px;padding:32px;
-  box-shadow:0 1px 3px rgba(61,42,30,.05),0 24px 48px -28px rgba(194,65,12,.18)}
+.ss-card{background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:32px;
+  box-shadow:var(--card-shadow)}
 </style>
 </head>
-<body style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:#fffaf5;">
+<body style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);">
 
-<div class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:#ffffff;border-bottom:1px solid #ffe4cc;">
-  <a href="/" style="font-weight:800;font-size:22px;color:#c2410c;display:flex;align-items:center;gap:8px;text-decoration:none;">
+<div class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:var(--bg-header);border-bottom:1px solid var(--border);">
+  <a href="/" style="font-weight:800;font-size:22px;color:var(--accent);display:flex;align-items:center;gap:8px;text-decoration:none;">
     <img src="/logo-icon.png" alt="" width="28" height="28" style="border-radius:6px;"/> StudyStacks
   </a>
-  <div class="nav-links" style="display:flex;gap:16px;font-weight:600;font-size:15px;color:#7c4a2d;align-items:center;">
-    <a href="/#classes-section" class="nav-hide-sm" style="color:#7c4a2d;text-decoration:none;">Browse Subjects</a>
-    <a href="/#how-it-works" class="nav-hide-sm" style="color:#7c4a2d;text-decoration:none;">How It Works</a>
-    <a href="/about" class="nav-hide-sm" style="color:#7c4a2d;text-decoration:none;">Who Are We</a>
-    <a href="/request" class="nav-hide-sm" style="color:#7c4a2d;text-decoration:none;">Request a Guide</a>
-    <a href="/dashboard" class="nav-hide-sm" style="color:#c2410c;text-decoration:none;">Dashboard</a>
+  <div class="nav-links" style="display:flex;gap:16px;font-weight:600;font-size:15px;color:var(--nav-text);align-items:center;">
+    <a href="/#classes-section" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Browse Subjects</a>
+    <a href="/#how-it-works" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">How It Works</a>
+    <a href="/about" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Who Are We</a>
+    <a href="/request" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Request a Guide</a>
+    <a href="/dashboard" class="nav-hide-sm" style="color:var(--accent);text-decoration:none;">Dashboard</a>
+    <button id="theme-toggle" onclick="ssToggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
     <div id="ss-account-area" style="position:relative;"></div>
-    <a href="/geometry" class="ss-cta-btn" style="background:#ff8a4c;color:#fff;padding:8px 18px;border-radius:999px;text-decoration:none;white-space:nowrap;">Start with Geometry →</a>
+    <a href="/geometry" class="ss-cta-btn" style="background:var(--accent-bright);color:#fff;padding:8px 18px;border-radius:999px;text-decoration:none;white-space:nowrap;">Start with Geometry →</a>
   </div>
 </div>
 
 <div class="ss-hero" style="text-align:center;padding:56px 32px 24px;">
   <div class="ss-hero-inner">
-    <h1 class="ss-hero-anim" style="animation-delay:0s;font-size:36px;font-weight:800;color:#3d2a1e;margin:0;letter-spacing:-0.02em;">
+    <h1 class="ss-hero-anim" style="animation-delay:0s;font-size:36px;font-weight:800;color:var(--text);margin:0;letter-spacing:-0.02em;">
       Your Dashboard
     </h1>
   </div>
@@ -74,7 +113,7 @@ html{scroll-behavior:smooth}
 
 <div id="dash-gate" style="display:none;padding:0 32px 64px;text-align:center;">
   <div class="ss-card" style="max-width:480px;margin:0 auto;">
-    <p style="font-size:16px;color:#3d2a1e;margin:0 0 16px;">Sign in to see your exam readiness and what to study next.</p>
+    <p style="font-size:16px;color:var(--text);margin:0 0 16px;">Sign in to see your exam readiness and what to study next.</p>
     <div class="ss-login-box"></div>
   </div>
 </div>
@@ -86,10 +125,10 @@ html{scroll-behavior:smooth}
   </div>
 </div>
 
-<div style="border-top:1px solid #ffe4cc;padding:24px 32px;text-align:center;">
-  <a href="/privacy" style="color:#7d5c47;font-size:13px;text-decoration:none;margin-right:14px;">Privacy</a>
-  <a href="/terms" style="color:#7d5c47;font-size:13px;text-decoration:none;margin-right:14px;">Terms</a>
-  <a href="#" class="ss-mail-link" data-u="studystackssupport" data-d="gmail.com" style="color:#7d5c47;font-size:13px;text-decoration:none;">
+<div style="border-top:1px solid var(--border);padding:24px 32px;text-align:center;">
+  <a href="/privacy" style="color:var(--text-muted);font-size:13px;text-decoration:none;margin-right:14px;">Privacy</a>
+  <a href="/terms" style="color:var(--text-muted);font-size:13px;text-decoration:none;margin-right:14px;">Terms</a>
+  <a href="#" class="ss-mail-link" data-u="studystackssupport" data-d="gmail.com" style="color:var(--text-muted);font-size:13px;text-decoration:none;">
     Questions or feedback? <span class="ss-mail-addr"></span>
   </a>
 </div>
@@ -101,6 +140,17 @@ document.querySelectorAll('.ss-mail-link').forEach(function(el){
   var span = el.querySelector('.ss-mail-addr');
   if (span) span.textContent = addr;
 });
+
+function ssToggleTheme(){
+  var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  if (isDark) {
+    document.documentElement.removeAttribute('data-theme');
+    try { localStorage.setItem('ss-theme', 'light'); } catch (e) {}
+  } else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    try { localStorage.setItem('ss-theme', 'dark'); } catch (e) {}
+  }
+}
 </script>
 
 <script>
@@ -170,10 +220,10 @@ import { computeReadiness, recommendNext, buildSchedule } from '/shared/mastery.
 import { geometryUnits, chemistryUnits } from '/shared/unit-titles.js';
 
 function statusColor(pct) {
-  if (pct === null) return '#c9a688';
-  if (pct >= 80) return '#1a7a4f';
-  if (pct >= 50) return '#b5862a';
-  return '#c2410c';
+  if (pct === null) return 'var(--status-none)';
+  if (pct >= 80) return 'var(--status-green)';
+  if (pct >= 50) return 'var(--status-amber)';
+  return 'var(--status-red)';
 }
 
 function renderSubject(subjectKey, label, href, subjectData, unitIds, unitNames) {
@@ -181,8 +231,8 @@ function renderSubject(subjectKey, label, href, subjectData, unitIds, unitNames)
   if (!el) return;
 
   if (!unitIds.length) {
-    el.innerHTML = '<div style="font-weight:800;font-size:18px;color:#3d2a1e;">' + label + '</div>'
-      + '<p style="color:#7d5c47;font-size:14px;margin:8px 0 0;">Unit data isn\'t available for this subject yet.</p>';
+    el.innerHTML = '<div style="font-weight:800;font-size:18px;color:var(--text);">' + label + '</div>'
+      + '<p style="color:var(--text-muted);font-size:14px;margin:8px 0 0;">Unit data isn\'t available for this subject yet.</p>';
     return;
   }
 
@@ -191,12 +241,12 @@ function renderSubject(subjectKey, label, href, subjectData, unitIds, unitNames)
 
   let recHtml;
   if (rec.type === 'diagnostic') {
-    recHtml = '<a href="' + href + '" class="ss-cta-btn" style="display:inline-block;background:#ff8a4c;color:#fff;padding:8px 16px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:700;">Take the diagnostic →</a>';
+    recHtml = '<a href="' + href + '" class="ss-cta-btn" style="display:inline-block;background:var(--accent-bright);color:#fff;padding:8px 16px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:700;">Take the diagnostic →</a>';
   } else if (rec.type === 'practice') {
-    recHtml = '<p style="margin:0 0 10px;font-size:14px;color:#5c4433;">You\'re weakest here: <b>' + rec.unitName + '</b> (' + rec.pct + '%)</p>'
-      + '<a href="' + href + '?practice=' + rec.unitId + '" class="ss-cta-btn" style="display:inline-block;background:#ff8a4c;color:#fff;padding:8px 16px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:700;">Practice ' + rec.unitName + ' →</a>';
+    recHtml = '<p style="margin:0 0 10px;font-size:14px;color:var(--text-muted);">You\'re weakest here: <b style="color:var(--text);">' + rec.unitName + '</b> (' + rec.pct + '%)</p>'
+      + '<a href="' + href + '?practice=' + rec.unitId + '" class="ss-cta-btn" style="display:inline-block;background:var(--accent-bright);color:#fff;padding:8px 16px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:700;">Practice ' + rec.unitName + ' →</a>';
   } else {
-    recHtml = '<p style="margin:0;font-size:14px;color:#5c4433;">Every assessed topic is scoring well — try the practice exam or review flashcards.</p>';
+    recHtml = '<p style="margin:0;font-size:14px;color:var(--text-muted);">Every assessed topic is scoring well — try the practice exam or review flashcards.</p>';
   }
 
   const scoreText = readiness.pct === null ? '—' : readiness.pct + '%';
@@ -206,19 +256,19 @@ function renderSubject(subjectKey, label, href, subjectData, unitIds, unitNames)
     : 'All ' + readiness.totalCount + ' units assessed';
 
   el.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;">'
-    + '<div style="font-weight:800;font-size:18px;color:#3d2a1e;">' + label + '</div>'
+    + '<div style="font-weight:800;font-size:18px;color:var(--text);">' + label + '</div>'
     + '<div style="font-weight:800;font-size:28px;color:' + statusColor(readiness.pct) + ';">' + scoreText + '</div>'
     + '</div>'
-    + '<p style="margin:0 0 16px;font-size:13px;color:#7d5c47;">' + caveat + '</p>'
-    + '<div style="border-top:1px solid #ffe4cc;padding-top:14px;">' + recHtml + '</div>'
-    + '<div style="border-top:1px solid #ffe4cc;margin-top:14px;padding-top:14px;">'
-    + '<div style="font-weight:700;font-size:14px;color:#3d2a1e;margin-bottom:10px;">Study Schedule</div>'
+    + '<p style="margin:0 0 16px;font-size:13px;color:var(--text-muted);">' + caveat + '</p>'
+    + '<div style="border-top:1px solid var(--border);padding-top:14px;">' + recHtml + '</div>'
+    + '<div style="border-top:1px solid var(--border);margin-top:14px;padding-top:14px;">'
+    + '<div style="font-weight:700;font-size:14px;color:var(--text);margin-bottom:10px;">Study Schedule</div>'
     + '<div id="sched-form-' + subjectKey + '" style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;">'
-    + '<label style="font-size:13px;color:#7d5c47;">Days until your exam<br/>'
-    + '<input id="sched-days-' + subjectKey + '" type="number" min="1" max="60" value="14" style="width:70px;padding:7px 9px;border:1px solid #ffe4cc;border-radius:10px;font-size:14px;color:#3d2a1e;margin-top:4px;"/></label>'
-    + '<label style="font-size:13px;color:#7d5c47;">Minutes per day<br/>'
-    + '<input id="sched-minutes-' + subjectKey + '" type="number" min="10" max="180" value="30" style="width:70px;padding:7px 9px;border:1px solid #ffe4cc;border-radius:10px;font-size:14px;color:#3d2a1e;margin-top:4px;"/></label>'
-    + '<button id="sched-build-' + subjectKey + '" class="ss-cta-btn" style="background:#ff8a4c;color:#fff;border:none;padding:9px 16px;border-radius:999px;font-size:14px;font-weight:700;cursor:pointer;">Build my schedule</button>'
+    + '<label style="font-size:13px;color:var(--text-muted);">Days until your exam<br/>'
+    + '<input id="sched-days-' + subjectKey + '" type="number" min="1" max="60" value="14" style="width:70px;padding:7px 9px;border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);background:var(--bg-card);margin-top:4px;"/></label>'
+    + '<label style="font-size:13px;color:var(--text-muted);">Minutes per day<br/>'
+    + '<input id="sched-minutes-' + subjectKey + '" type="number" min="10" max="180" value="30" style="width:70px;padding:7px 9px;border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);background:var(--bg-card);margin-top:4px;"/></label>'
+    + '<button id="sched-build-' + subjectKey + '" class="ss-cta-btn" style="background:var(--accent-bright);color:#fff;border:none;padding:9px 16px;border-radius:999px;font-size:14px;font-weight:700;cursor:pointer;">Build my schedule</button>'
     + '</div>'
     + '<div id="sched-result-' + subjectKey + '" style="margin-top:14px;"></div>'
     + '</div>';
@@ -234,21 +284,21 @@ function renderSubject(subjectKey, label, href, subjectData, unitIds, unitNames)
       const result = buildSchedule(subjectData.mastery || {}, unitIds, unitNames, days, minutes);
 
       if (result.allMastered) {
-        resultEl.innerHTML = '<p style="margin:0;font-size:14px;color:#1a7a4f;">Every assessed unit is 80%+ — nothing weak to schedule. Try the practice exam.</p>';
+        resultEl.innerHTML = '<p style="margin:0;font-size:14px;color:var(--status-green);">Every assessed unit is 80%+ — nothing weak to schedule. Try the practice exam.</p>';
         return;
       }
       if (!result.days.length) {
-        resultEl.innerHTML = '<p style="margin:0;font-size:13px;color:#7d5c47;">Enter a valid number of days and minutes to build a schedule.</p>';
+        resultEl.innerHTML = '<p style="margin:0;font-size:13px;color:var(--text-muted);">Enter a valid number of days and minutes to build a schedule.</p>';
         return;
       }
 
       const items = result.days.map(function (entry) {
         if (entry.type === 'exam') {
-          return '<li style="margin-bottom:6px;font-size:14px;color:#5c4433;"><b>Day ' + entry.day + '</b> — Practice Exam</li>';
+          return '<li style="margin-bottom:6px;font-size:14px;color:var(--text-muted);"><b style="color:var(--text);">Day ' + entry.day + '</b> — Practice Exam</li>';
         }
         const pctText = entry.pct === null ? 'not yet assessed' : entry.pct + '%';
-        return '<li style="margin-bottom:6px;font-size:14px;color:#5c4433;"><b>Day ' + entry.day + '</b> — '
-          + '<a href="' + href + '?practice=' + entry.unitId + '" style="color:#c2410c;font-weight:700;text-decoration:none;">' + entry.unitName + '</a>'
+        return '<li style="margin-bottom:6px;font-size:14px;color:var(--text-muted);"><b style="color:var(--text);">Day ' + entry.day + '</b> — '
+          + '<a href="' + href + '?practice=' + entry.unitId + '" style="color:var(--accent);font-weight:700;text-decoration:none;">' + entry.unitName + '</a>'
           + ' (' + pctText + ')</li>';
       }).join('');
       resultEl.innerHTML = '<ol style="margin:0;padding-left:20px;">' + items + '</ol>';
@@ -293,7 +343,7 @@ async function loadDashboard() {
 
   if (syncFailed) {
     const notice = document.createElement('p');
-    notice.style.cssText = 'max-width:840px;margin:0 auto 12px;font-size:13px;color:#7d5c47;text-align:center;';
+    notice.style.cssText = 'max-width:840px;margin:0 auto 12px;font-size:13px;color:var(--text-muted);text-align:center;';
     notice.textContent = "Couldn't sync with your account — showing your last saved progress on this device.";
     content.insertBefore(notice, content.firstChild);
   }
