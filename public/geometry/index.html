@@ -138,7 +138,7 @@ h1 span{font-family:'Outfit',sans-serif;color:var(--text-dim);font-weight:400;-w
 .result .big{font-size:90px;font-weight:800;background:linear-gradient(120deg,var(--primary-bright),var(--green));
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .result .sub{font-size:24px;color:var(--text-muted);margin:8px 0 24px}
-.qr-section{margin-bottom:26px}
+.qr-section{margin-bottom:26px;max-width:100%;overflow-x:auto}
 .qr-h{font-size:24px;font-weight:700;margin-bottom:12px;color:var(--text);letter-spacing:-.01em}
 .qr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
 .qr-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:13px 15px;
@@ -146,7 +146,7 @@ h1 span{font-family:'Outfit',sans-serif;color:var(--text-dim);font-weight:400;-w
 .qr-card:hover{border-color:var(--primary);background:var(--surface-hover);transform:translateY(-2px)}
 .qr-k{font-size:16.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--primary-bright);margin-bottom:5px}
 .qr-v{font-size:19.5px;color:var(--text);font-family:'SF Mono',ui-monospace,'Courier New',monospace}
-.qr-table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);
+.qr-table{width:100%;min-width:max-content;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);
   border-radius:var(--radius-sm);overflow:hidden;font-size:19.5px}
 .qr-table th{background:var(--surface-2);text-align:left;padding:10px 13px;font-weight:600;color:var(--text);border-bottom:1px solid var(--border)}
 .qr-table td{padding:10px 13px;border-bottom:1px solid var(--border);color:var(--text-muted)}
