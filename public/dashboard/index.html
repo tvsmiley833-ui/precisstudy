@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Request a Study Guide — StudyStacks</title>
+<title>Your Dashboard — StudyStacks</title>
 <link rel="icon" type="image/png" href="/favicon.png"/>
 <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
 <style>
@@ -45,25 +45,6 @@ html{scroll-behavior:smooth}
 
 .ss-card{background:#fff;border:2px solid #ffe4cc;border-radius:18px;padding:32px;
   box-shadow:0 1px 3px rgba(61,42,30,.05),0 24px 48px -28px rgba(194,65,12,.18)}
-
-.ss-reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
-.ss-reveal.in-view{opacity:1;transform:translateY(0)}
-
-.rg-field{margin-bottom:18px}
-.rg-field label{display:block;font-weight:700;font-size:14px;color:#3d2a1e;margin-bottom:6px}
-.rg-field .rg-hint{font-weight:500;color:#a8826a;font-size:12.5px;margin-left:6px}
-.rg-field input,.rg-field textarea{
-  width:100%;box-sizing:border-box;background:#fffaf5;border:2px solid #ffe4cc;border-radius:10px;
-  padding:11px 14px;color:#3d2a1e;font-size:15px;font-family:inherit;outline:none;resize:vertical;
-  transition:border-color .2s ease,box-shadow .2s ease}
-.rg-field input:focus,.rg-field textarea:focus{border-color:#ff8a4c;box-shadow:0 0 0 4px rgba(255,138,76,.12)}
-.rg-submit{background:#ff8a4c;color:#fff;border:none;border-radius:999px;padding:12px 26px;font-weight:700;
-  font-size:15px;font-family:inherit;cursor:pointer;transition:background .2s ease,transform .15s ease,box-shadow .2s ease}
-.rg-submit:hover{background:#f0722e;transform:translateY(-1px);box-shadow:0 8px 20px rgba(194,65,12,.28)}
-.rg-submit:disabled{opacity:.6;cursor:default;transform:none;box-shadow:none}
-.rg-status{margin-top:14px;font-size:14px;font-weight:600}
-.rg-status.ok{color:#22a06b}
-.rg-status.err{color:#c2410c}
 </style>
 </head>
 <body style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:#fffaf5;">
@@ -76,45 +57,32 @@ html{scroll-behavior:smooth}
     <span class="nav-inert nav-hide-sm">Browse Subjects</span>
     <span class="nav-inert nav-hide-sm">How It Works</span>
     <a href="/about" class="nav-hide-sm" style="color:#7c4a2d;text-decoration:none;">Who Are We</a>
-    <a href="/request" class="nav-hide-sm" style="color:#c2410c;text-decoration:none;">Request a Guide</a>
-    <a href="/dashboard" class="nav-hide-sm" style="color:#7c4a2d;text-decoration:none;">Dashboard</a>
+    <a href="/request" class="nav-hide-sm" style="color:#7c4a2d;text-decoration:none;">Request a Guide</a>
+    <a href="/dashboard" class="nav-hide-sm" style="color:#c2410c;text-decoration:none;">Dashboard</a>
     <div id="ss-account-area" style="position:relative;"></div>
     <a href="/geometry" class="ss-cta-btn" style="background:#ff8a4c;color:#fff;padding:8px 18px;border-radius:999px;text-decoration:none;white-space:nowrap;">Start with Geometry →</a>
   </div>
 </div>
 
-<div class="ss-hero" style="text-align:center;padding:64px 32px 40px;">
+<div class="ss-hero" style="text-align:center;padding:56px 32px 24px;">
   <div class="ss-hero-inner">
-    <div class="ss-hero-anim" style="animation-delay:0s;display:inline-block;background:#ffe4cc;color:#c2410c;font-weight:700;font-size:13px;padding:6px 14px;border-radius:999px;margin-bottom:18px;">
-      📚 Don't see your class?
-    </div>
-    <h1 class="ss-hero-anim" style="animation-delay:.08s;font-size:40px;font-weight:800;color:#3d2a1e;margin:0 0 14px;letter-spacing:-0.02em;">
-      Request a study guide.
+    <h1 class="ss-hero-anim" style="animation-delay:0s;font-size:36px;font-weight:800;color:#3d2a1e;margin:0;letter-spacing:-0.02em;">
+      Your Dashboard
     </h1>
-    <p class="ss-hero-anim" style="animation-delay:.16s;font-size:17px;color:#8a6650;max-width:520px;margin:0 auto;line-height:1.5;">
-      Tell us what class or subject you need, and we'll consider it for a future guide.
-    </p>
   </div>
 </div>
 
-<div class="ss-reveal" style="padding:0 32px 64px;">
-  <div class="ss-card" style="max-width:560px;margin:0 auto;">
-    <form id="rg-form">
-      <div class="rg-field">
-        <label for="rg-class">Class or subject <span class="rg-hint">required</span></label>
-        <input id="rg-class" type="text" placeholder="e.g. AP Biology, Algebra 1, US History" maxlength="120" required/>
-      </div>
-      <div class="rg-field">
-        <label for="rg-notes">Anything specific you'd like covered? <span class="rg-hint">optional</span></label>
-        <textarea id="rg-notes" rows="4" maxlength="1000" placeholder="Exam board, topics, anything that'd help"></textarea>
-      </div>
-      <div class="rg-field">
-        <label for="rg-email">Your email <span class="rg-hint">optional — only if you want updates</span></label>
-        <input id="rg-email" type="email" placeholder="you@email.com" maxlength="254"/>
-      </div>
-      <button type="submit" class="rg-submit" id="rg-submit-btn">Send request</button>
-      <div class="rg-status" id="rg-status"></div>
-    </form>
+<div id="dash-gate" style="display:none;padding:0 32px 64px;text-align:center;">
+  <div class="ss-card" style="max-width:480px;margin:0 auto;">
+    <p style="font-size:16px;color:#3d2a1e;margin:0 0 16px;">Sign in to see your exam readiness and what to study next.</p>
+    <div class="ss-login-box"></div>
+  </div>
+</div>
+
+<div id="dash-content" style="display:none;padding:0 32px 64px;">
+  <div style="max-width:840px;margin:0 auto;display:grid;gap:20px;">
+    <div id="dash-subject-geometry" class="ss-card"></div>
+    <div id="dash-subject-chemistry" class="ss-card"></div>
   </div>
 </div>
 
@@ -136,43 +104,6 @@ document.querySelectorAll('.ss-mail-link').forEach(function(el){
 </script>
 
 <script>
-document.getElementById('rg-form').addEventListener('submit', async function(e){
-  e.preventDefault();
-  var btn = document.getElementById('rg-submit-btn');
-  var status = document.getElementById('rg-status');
-  var className = document.getElementById('rg-class').value.trim();
-  var notes = document.getElementById('rg-notes').value.trim();
-  var email = document.getElementById('rg-email').value.trim();
-
-  status.textContent = '';
-  status.className = 'rg-status';
-  btn.disabled = true;
-  var originalText = btn.textContent;
-  btn.textContent = 'Sending…';
-
-  try{
-    var res = await fetch('/api/request-guide', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({className: className, notes: notes, email: email})
-    });
-    var data = await res.json();
-    if(res.ok){
-      status.textContent = "Thanks! We've got your request.";
-      status.className = 'rg-status ok';
-      document.getElementById('rg-form').reset();
-    }else{
-      status.textContent = data.error || 'Something went wrong — try again.';
-      status.className = 'rg-status err';
-    }
-  }catch(err){
-    status.textContent = 'Network error — try again.';
-    status.className = 'rg-status err';
-  }
-  btn.disabled = false;
-  btn.textContent = originalText;
-});
-
 function ssLoginBoxHtml(){
   return '<a class="ss-oauth-btn" href="/auth/google/start">Continue with Google</a>'
     + '<a class="ss-oauth-btn" href="/auth/github/start">Continue with GitHub</a>'
@@ -232,22 +163,109 @@ document.addEventListener('click', function(e){
     panel.classList.remove('open');
   }
 });
+</script>
 
-ssCheckSession();
+<script type="module">
+import { computeReadiness, recommendNext } from '/shared/mastery.js';
 
-if ('IntersectionObserver' in window) {
-  var ssRevealObserver = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('in-view');
-        ssRevealObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.ss-reveal').forEach(function(el) { ssRevealObserver.observe(el); });
-} else {
-  document.querySelectorAll('.ss-reveal').forEach(function(el) { el.classList.add('in-view'); });
+function statusColor(pct) {
+  if (pct === null) return '#c9a688';
+  if (pct >= 80) return '#1a7a4f';
+  if (pct >= 50) return '#b5862a';
+  return '#c2410c';
 }
+
+function renderSubject(subjectKey, label, href, subjectData, unitIds, unitNames) {
+  const el = document.getElementById('dash-subject-' + subjectKey);
+  if (!el) return;
+
+  if (!unitIds.length) {
+    el.innerHTML = '<div style="font-weight:800;font-size:18px;color:#3d2a1e;">' + label + '</div>'
+      + '<p style="color:#a8826a;font-size:14px;margin:8px 0 0;">Unit data isn\'t available for this subject yet.</p>';
+    return;
+  }
+
+  const readiness = computeReadiness(subjectData.mastery || {}, unitIds);
+  const rec = recommendNext(subjectData.mastery || {}, unitIds, unitNames);
+
+  let recHtml;
+  if (rec.type === 'diagnostic') {
+    recHtml = '<a href="' + href + '" class="ss-cta-btn" style="display:inline-block;background:#ff8a4c;color:#fff;padding:8px 16px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:700;">Take the diagnostic →</a>';
+  } else if (rec.type === 'practice') {
+    recHtml = '<p style="margin:0 0 10px;font-size:14px;color:#5c4433;">You\'re weakest here: <b>' + rec.unitName + '</b> (' + rec.pct + '%)</p>'
+      + '<a href="' + href + '?practice=' + rec.unitId + '" class="ss-cta-btn" style="display:inline-block;background:#ff8a4c;color:#fff;padding:8px 16px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:700;">Practice ' + rec.unitName + ' →</a>';
+  } else {
+    recHtml = '<p style="margin:0;font-size:14px;color:#5c4433;">Every assessed topic is scoring well — try the practice exam or review flashcards.</p>';
+  }
+
+  const scoreText = readiness.pct === null ? '—' : readiness.pct + '%';
+  const notAssessedCount = readiness.totalCount - readiness.assessedCount;
+  const caveat = notAssessedCount > 0
+    ? notAssessedCount + ' of ' + readiness.totalCount + ' units not yet assessed'
+    : 'All ' + readiness.totalCount + ' units assessed';
+
+  el.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;">'
+    + '<div style="font-weight:800;font-size:18px;color:#3d2a1e;">' + label + '</div>'
+    + '<div style="font-weight:800;font-size:28px;color:' + statusColor(readiness.pct) + ';">' + scoreText + '</div>'
+    + '</div>'
+    + '<p style="margin:0 0 16px;font-size:13px;color:#a8826a;">' + caveat + '</p>'
+    + '<div style="border-top:1px solid #ffe4cc;padding-top:14px;">' + recHtml + '</div>';
+}
+
+function localFallback() {
+  // Same keys/shape the shared module writes on the Geometry/Chemistry pages
+  // (same origin, so this page can read them directly) - used only if the
+  // server fetch below fails.
+  function readLocal(subject) {
+    try {
+      const raw = localStorage.getItem('ssMastery_' + subject);
+      return raw ? JSON.parse(raw) : { mastery: {} };
+    } catch (e) { return { mastery: {} }; }
+  }
+  return { geometry: readLocal('geometry'), chemistry: readLocal('chemistry') };
+}
+
+async function loadDashboard() {
+  const session = await ssCheckSession();
+  const gate = document.getElementById('dash-gate');
+  const content = document.getElementById('dash-content');
+  if (!session) {
+    gate.style.display = 'block';
+    gate.querySelector('.ss-login-box').innerHTML = ssLoginBoxHtml();
+    return;
+  }
+  content.style.display = 'block';
+
+  let blob;
+  let syncFailed = false;
+  try {
+    const res = await fetch('/api/progress');
+    if (!res.ok) throw new Error('bad response');
+    blob = await res.json();
+  } catch (e) {
+    blob = localFallback();
+    syncFailed = true;
+  }
+
+  if (syncFailed) {
+    const notice = document.createElement('p');
+    notice.style.cssText = 'max-width:840px;margin:0 auto 12px;font-size:13px;color:#a8826a;text-align:center;';
+    notice.textContent = "Couldn't sync with your account — showing your last saved progress on this device.";
+    content.insertBefore(notice, content.firstChild);
+  }
+
+  const GEOMETRY_UNIT_COUNT = 11;
+  const CHEMISTRY_UNIT_COUNT = 16;
+  const geoUnitIds = Array.from({ length: GEOMETRY_UNIT_COUNT }, (_, i) => i + 1);
+  const chemUnitIds = Array.from({ length: CHEMISTRY_UNIT_COUNT }, (_, i) => i + 1);
+  const geoUnitNames = {}; geoUnitIds.forEach(id => { geoUnitNames[id] = 'Unit ' + id; });
+  const chemUnitNames = {}; chemUnitIds.forEach(id => { chemUnitNames[id] = 'Unit ' + id; });
+
+  renderSubject('geometry', 'Geometry', '/geometry', blob.geometry || {}, geoUnitIds, geoUnitNames);
+  renderSubject('chemistry', 'Chemistry', '/chemistry', blob.chemistry || {}, chemUnitIds, chemUnitNames);
+}
+
+loadDashboard();
 </script>
 </body>
 </html>
