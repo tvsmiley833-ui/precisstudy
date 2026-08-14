@@ -30,6 +30,7 @@
   --shadow-lg:0 22px 54px rgba(15,20,18,.16), 0 6px 16px rgba(15,20,18,.08);
 }
 *{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
 body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);
   margin:0;padding:0;line-height:1.6}
 .page{margin:0 auto;padding:0 24px 90px}
@@ -250,11 +251,11 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
 <body>
 <div class="hero">
   <div class="hero-inner">
-    <a href="/" class="back-link">← Back to Library</a>
-    <div class="kicker">NY Regents · Chemistry</div>
-    <h1><span class="grad">Chemistry</span> Study Guide <span class="edition">Expanded Edition</span></h1>
-    <p class="subtitle">16 Units · 469 Quiz Questions · 155 Flashcards · Full Reference Tables · Diagrams · Tuned to Jan 2026 Regents</p>
-    <div class="nav">
+    <a href="/" class="back-link" style="opacity:0;animation:fadein .5s ease forwards">← Back to Library</a>
+    <div class="kicker" style="opacity:0;animation:fadein .5s ease .06s forwards">NY Regents · Chemistry</div>
+    <h1 style="opacity:0;animation:fadein .5s ease .12s forwards"><span class="grad">Chemistry</span> Study Guide <span class="edition">Expanded Edition</span></h1>
+    <p class="subtitle" style="opacity:0;animation:fadein .5s ease .18s forwards">16 Units · 469 Quiz Questions · 155 Flashcards · Full Reference Tables · Diagrams · Tuned to Jan 2026 Regents</p>
+    <div class="nav" style="opacity:0;animation:fadein .5s ease .24s forwards">
       <button class="tab-btn active" onclick="switchTab('guide')">Study Guide</button>
       <button class="tab-btn" onclick="switchTab('cards')">Flashcards</button>
       <button class="tab-btn" onclick="ssQuizTabClick()">Quiz</button>

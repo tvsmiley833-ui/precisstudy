@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Request a Study Guide — StudyStacks</title>
+<link rel="icon" type="image/png" href="/favicon.png"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<style>
+#ss-signin-btn{background:none;border:1px solid #ffe4cc;color:#c2410c;font-weight:700;padding:8px 16px;
+  border-radius:999px;cursor:pointer;font-family:inherit;font-size:15px;white-space:nowrap}
+#ss-signin-btn:hover{background:#fff5eb}
+#ss-login-panel{display:none;position:absolute;top:calc(100% + 10px);right:0;background:#fff;border:2px solid #ffe4cc;
+  border-radius:16px;padding:22px;width:280px;box-shadow:0 12px 32px rgba(194,65,12,.15);z-index:50;text-align:left}
+#ss-login-panel.open{display:block}
+.ss-oauth-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;box-sizing:border-box;
+  padding:10px 14px;border-radius:12px;border:2px solid #ffe4cc;background:#fff;color:#3d2a1e;
+  font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none;margin-bottom:9px;transition:all .15s}
+.ss-oauth-btn:hover{border-color:#ff8a4c;background:#fff5eb}
+.ss-status{font-size:12.5px;color:#a8826a;margin-top:9px;min-height:16px}
+.ss-account{display:flex;align-items:center;gap:10px}
+.ss-account-name{font-weight:700;color:#3d2a1e;font-size:14px;white-space:nowrap}
+.ss-account button{background:none;border:1px solid #ffe4cc;border-radius:999px;color:#a8826a;padding:6px 12px;
+  font-size:13px;cursor:pointer;font-family:inherit}
+.ss-account button:hover{color:#c2410c;border-color:#ff8a4c}
+@media(max-width:640px){#ss-signin-btn{padding:7px 12px;font-size:13px} .ss-account-name{display:none}}
+@media(max-width:640px){
+  .header-bar{padding:14px 16px}
+  .nav-links{gap:10px}
+  .nav-hide-sm{display:none}
+}
+
+html{scroll-behavior:smooth}
+
+.ss-hero{position:relative;overflow:hidden}
+.ss-hero::before{content:"";position:absolute;top:-160px;left:50%;transform:translateX(-50%);width:900px;height:460px;
+  background:radial-gradient(ellipse at center, rgba(255,138,76,.16), rgba(255,138,76,0) 70%);pointer-events:none;z-index:0}
+.ss-hero-inner{position:relative;z-index:1}
+
+@keyframes ssFadeInUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.ss-hero-anim{opacity:0;animation:ssFadeInUp .6s cubic-bezier(.2,.8,.2,1) forwards}
+
+.ss-cta-btn{transition:background .2s ease,transform .15s ease,box-shadow .2s ease}
+.ss-cta-btn:hover{background:#f0722e;transform:translateY(-1px);box-shadow:0 8px 20px rgba(194,65,12,.28)}
+
+.ss-card{background:#fff;border:2px solid #ffe4cc;border-radius:18px;padding:32px;
+  box-shadow:0 1px 3px rgba(61,42,30,.05),0 24px 48px -28px rgba(194,65,12,.18)}
+
+.ss-reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.ss-reveal.in-view{opacity:1;transform:translateY(0)}
+
+.rg-field{margin-bottom:18px}
+.rg-field label{display:block;font-weight:700;font-size:14px;color:#3d2a1e;margin-bottom:6px}
+.rg-field .rg-hint{font-weight:500;color:#a8826a;font-size:12.5px;margin-left:6px}
+.rg-field input,.rg-field textarea{
+  width:100%;box-sizing:border-box;background:#fffaf5;border:2px solid #ffe4cc;border-radius:10px;
+  padding:11px 14px;color:#3d2a1e;font-size:15px;font-family:inherit;outline:none;resize:vertical;
+  transition:border-color .2s ease,box-shadow .2s ease}
+.rg-field input:focus,.rg-field textarea:focus{border-color:#ff8a4c;box-shadow:0 0 0 4px rgba(255,138,76,.12)}
+.rg-submit{background:#ff8a4c;color:#fff;border:none;border-radius:999px;padding:12px 26px;font-weight:700;
+  font-size:15px;font-family:inherit;cursor:pointer;transition:background .2s ease,transform .15s ease,box-shadow .2s ease}
+.rg-submit:hover{background:#f0722e;transform:translateY(-1px);box-shadow:0 8px 20px rgba(194,65,12,.28)}
+.rg-submit:disabled{opacity:.6;cursor:default;transform:none;box-shadow:none}
+.rg-status{margin-top:14px;font-size:14px;font-weight:600}
+.rg-status.ok{color:#22a06b}
+.rg-status.err{color:#c2410c}
+</style>
+</head>
+<body style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:#fffaf5;">
+
+<div class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:#ffffff;border-bottom:1px solid #ffe4cc;">
+  <a href="/" style="font-weight:800;font-size:22px;color:#c2410c;display:flex;align-items:center;gap:8px;text-decoration:none;">
+    <img src="/logo-icon.png" alt="" width="28" height="28" style="border-radius:6px;"/> StudyStacks
+  </a>
+  <div class="nav-links" style="display:flex;gap:16px;font-weight:600;font-size:15px;color:#7c4a2d;align-items:center;">
+    <span class="nav-inert nav-hide-sm">Browse Subjects</span>
+    <span class="nav-inert nav-hide-sm">How It Works</span>
+    <a href="/about" class="nav-hide-sm" style="color:#7c4a2d;text-decoration:none;">Who Are We</a>
+    <a href="/request" class="nav-hide-sm" style="color:#c2410c;text-decoration:none;">Request a Guide</a>
+    <div id="ss-account-area" style="position:relative;"></div>
+    <a href="/geometry" class="ss-cta-btn" style="background:#ff8a4c;color:#fff;padding:8px 18px;border-radius:999px;text-decoration:none;white-space:nowrap;">Start Studying →</a>
+  </div>
+</div>
+
+<div class="ss-hero" style="text-align:center;padding:64px 32px 40px;">
+  <div class="ss-hero-inner">
+    <div class="ss-hero-anim" style="animation-delay:0s;display:inline-block;background:#ffe4cc;color:#c2410c;font-weight:700;font-size:13px;padding:6px 14px;border-radius:999px;margin-bottom:18px;">
+      📚 Don't see your class?
+    </div>
+    <h1 class="ss-hero-anim" style="animation-delay:.08s;font-size:40px;font-weight:800;color:#3d2a1e;margin:0 0 14px;letter-spacing:-0.02em;">
+      Request a study guide.
+    </h1>
+    <p class="ss-hero-anim" style="animation-delay:.16s;font-size:17px;color:#8a6650;max-width:520px;margin:0 auto;line-height:1.5;">
+      Tell us what class or subject you need, and we'll consider it for a future guide.
+    </p>
+  </div>
+</div>
+
+<div class="ss-reveal" style="padding:0 32px 64px;">
+  <div class="ss-card" style="max-width:560px;margin:0 auto;">
+    <form id="rg-form">
+      <div class="rg-field">
+        <label for="rg-class">Class or subject <span class="rg-hint">required</span></label>
+        <input id="rg-class" type="text" placeholder="e.g. AP Biology, Algebra 1, US History" maxlength="120" required/>
+      </div>
+      <div class="rg-field">
+        <label for="rg-notes">Anything specific you'd like covered? <span class="rg-hint">optional</span></label>
+        <textarea id="rg-notes" rows="4" maxlength="1000" placeholder="Exam board, topics, anything that'd help"></textarea>
+      </div>
+      <div class="rg-field">
+        <label for="rg-email">Your email <span class="rg-hint">optional — only if you want updates</span></label>
+        <input id="rg-email" type="email" placeholder="you@email.com" maxlength="254"/>
+      </div>
+      <button type="submit" class="rg-submit" id="rg-submit-btn">Send request</button>
+      <div class="rg-status" id="rg-status"></div>
+    </form>
+  </div>
+</div>
+
+<div style="border-top:1px solid #ffe4cc;padding:24px 32px;text-align:center;">
+  <a href="mailto:studystackssupport@gmail.com" style="color:#a8826a;font-size:13px;text-decoration:none;">
+    Questions or feedback? studystackssupport@gmail.com
+  </a>
+</div>
+
+<script>
+document.getElementById('rg-form').addEventListener('submit', async function(e){
+  e.preventDefault();
+  var btn = document.getElementById('rg-submit-btn');
+  var status = document.getElementById('rg-status');
+  var className = document.getElementById('rg-class').value.trim();
+  var notes = document.getElementById('rg-notes').value.trim();
+  var email = document.getElementById('rg-email').value.trim();
+
+  status.textContent = '';
+  status.className = 'rg-status';
+  btn.disabled = true;
+  var originalText = btn.textContent;
+  btn.textContent = 'Sending…';
+
+  try{
+    var res = await fetch('/api/request-guide', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({className: className, notes: notes, email: email})
+    });
+    var data = await res.json();
+    if(res.ok){
+      status.textContent = "Thanks! We've got your request.";
+      status.className = 'rg-status ok';
+      document.getElementById('rg-form').reset();
+    }else{
+      status.textContent = data.error || 'Something went wrong — try again.';
+      status.className = 'rg-status err';
+    }
+  }catch(err){
+    status.textContent = 'Network error — try again.';
+    status.className = 'rg-status err';
+  }
+  btn.disabled = false;
+  btn.textContent = originalText;
+});
+
+function ssLoginBoxHtml(){
+  return '<a class="ss-oauth-btn" href="/auth/google/start">Continue with Google</a>'
+    + '<a class="ss-oauth-btn" href="/auth/github/start">Continue with GitHub</a>'
+    + '<div class="ss-status"></div>';
+}
+
+function ssToggleLoginPanel(){
+  var panel = document.getElementById('ss-login-panel');
+  if(!panel) return;
+  var opening = !panel.classList.contains('open');
+  panel.classList.toggle('open', opening);
+  if(opening) panel.querySelector('.ss-login-box').innerHTML = ssLoginBoxHtml();
+}
+
+async function ssLogout(){
+  try{ await fetch('/auth/logout', {method:'POST'}); }catch(e){}
+  SS_SESSION = false;
+  ssRenderAccountUI();
+}
+
+function ssEscapeHtml(s){
+  var div = document.createElement('div');
+  div.textContent = String(s == null ? '' : s);
+  return div.innerHTML;
+}
+
+let SS_SESSION;
+
+function ssRenderAccountUI(){
+  var area = document.getElementById('ss-account-area');
+  if(!area) return;
+  if(SS_SESSION){
+    area.innerHTML = '<div class="ss-account"><span class="ss-account-name">' + ssEscapeHtml(SS_SESSION.name) + '</span>'
+      + '<button onclick="ssLogout()">Sign out</button></div>';
+  }else{
+    area.innerHTML = '<button id="ss-signin-btn" onclick="ssToggleLoginPanel()">Sign In</button>'
+      + '<div id="ss-login-panel"><div class="ss-login-box"></div></div>';
+  }
+}
+
+async function ssCheckSession(){
+  try{
+    var res = await fetch('/auth/me');
+    var data = await res.json();
+    SS_SESSION = data.loggedIn ? data : false;
+  }catch(e){
+    SS_SESSION = false;
+  }
+  ssRenderAccountUI();
+  return SS_SESSION;
+}
+
+document.addEventListener('click', function(e){
+  var panel = document.getElementById('ss-login-panel');
+  var area = document.getElementById('ss-account-area');
+  if(panel && panel.classList.contains('open') && area && !area.contains(e.target)){
+    panel.classList.remove('open');
+  }
+});
+
+ssCheckSession();
+
+if ('IntersectionObserver' in window) {
+  var ssRevealObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        ssRevealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.ss-reveal').forEach(function(el) { ssRevealObserver.observe(el); });
+} else {
+  document.querySelectorAll('.ss-reveal').forEach(function(el) { el.classList.add('in-view'); });
+}
+</script>
+</body>
+</html>

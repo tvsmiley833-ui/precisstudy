@@ -9,6 +9,7 @@ import {
   handleMe,
   handleLogout
 } from "./auth-routes.js";
+import { handleRequestGuideSubmit } from "./guide-requests.js";
 
 const AUTH_ROUTES = {
   "/auth/google/start": { GET: handleGoogleStart },
@@ -28,6 +29,11 @@ export default {
     if (url.pathname === "/api/chat") {
       if (request.method === "POST") return handleChatPost(request, env);
       if (request.method === "OPTIONS") return handleChatOptions();
+      return json({ error: "Method not allowed" }, 405);
+    }
+
+    if (url.pathname === "/api/request-guide") {
+      if (request.method === "POST") return handleRequestGuideSubmit(request, env);
       return json({ error: "Method not allowed" }, 405);
     }
 
