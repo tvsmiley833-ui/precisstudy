@@ -2016,6 +2016,8 @@ buildFCSel();
 //  QUIZ  (with progress tracking + retry missed)
 // ═══════════════════════════════════════════════════════
 let qPool=[],qIdx=0,score=0,missedQ=[],unitScores={},retryMode=false;
+let requeueCounts=new WeakMap();
+const REQUEUE_DELAY=3,MAX_REQUEUES=2;
 function buildQSel(){
   const sel=document.getElementById('q-sel');
   const allCount=QUIZ.length+HARD_Q.length;
@@ -2046,7 +2048,7 @@ function loadQ(retry){
     }
   }
   qPool=src.sort(()=>Math.random()-.5);
-  qIdx=0;score=0;missedQ=[];
+  qIdx=0;score=0;missedQ=[];requeueCounts=new WeakMap();
   updateWeakBanner();
   showQ();
 }
@@ -2090,7 +2092,14 @@ function ansQ(i){
   });
   const correct=i===q.a;
   if(correct)score++;
-  else missedQ.push(q);
+  else{
+    missedQ.push(q);
+    const n=requeueCounts.get(q)||0;
+    if(n<MAX_REQUEUES){
+      requeueCounts.set(q,n+1);
+      qPool.splice(Math.min(qIdx+REQUEUE_DELAY,qPool.length),0,q);
+    }
+  }
   // track unit score
   const u=q.u;
   if(!unitScores[u])unitScores[u]={correct:0,total:0};
@@ -2688,7 +2697,7 @@ function startDiagnostic(){
     pool=pool.concat(arr.slice(0,2));
   });
   qPool=pool.sort(function(){return Math.random()-.5;});
-  qIdx=0;score=0;missedQ=[];diagMode=true;
+  qIdx=0;score=0;missedQ=[];requeueCounts=new WeakMap();diagMode=true;
   const db=document.getElementById('diag-banner');if(db){db.style.display='block';db.textContent='🩺 Diagnostic in progress — '+qPool.length+' questions (2 per unit). Answer honestly; your weak units appear in the progress panel below.';}
   showQ();
 }
@@ -2856,7 +2865,7 @@ startDiagnostic=function(){
     geoSave();
   }catch(e){}
   qPool=pool.map(shuffleOpts);
-  qIdx=0;score=0;missedQ=[];diagMode=true;
+  qIdx=0;score=0;missedQ=[];requeueCounts=new WeakMap();diagMode=true;
   const db=document.getElementById('diag-banner');
   if(db){db.style.display='block';db.textContent='🩺 Diagnostic in progress — '+qPool.length+' questions (2 per unit). Answer honestly; your weak units appear below when you finish.';}
   showQ();
@@ -2947,7 +2956,7 @@ startDiagnostic=function(){
     geoSave();
   }catch(e){}
   qPool=pool.map(shuffleOpts);
-  qIdx=0;score=0;missedQ=[];diagMode=true;
+  qIdx=0;score=0;missedQ=[];requeueCounts=new WeakMap();diagMode=true;
   var db=document.getElementById('diag-banner');
   if(db){db.style.display='block';
     db.textContent='🩺 Diagnostic — '+qPool.length+' questions (2 per unit), chosen to avoid ones you have already seen.';}

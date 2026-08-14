@@ -2557,6 +2557,8 @@ buildFCSel();
 
 // QUIZ
 let qPool=[],qIdx=0,score=0;
+let requeueCounts=new WeakMap();
+const REQUEUE_DELAY=3,MAX_REQUEUES=2;
 
 /* ----- server-synced mastery (Chemistry has no prior local tracking to
    migrate from - this is the first time per-unit progress persists at all) */
@@ -2580,7 +2582,7 @@ function loadQ(){
   const v=+document.getElementById('q-sel').value;
   const src=v===0?[...QUIZ]:QUIZ.filter(q=>q.u===v);
   qPool=src.sort(()=>Math.random()-.5);
-  qIdx=0;score=0;showQ();
+  qIdx=0;score=0;requeueCounts=new WeakMap();showQ();
 }
 function showQ(){
   const qb=document.getElementById('qbox');
@@ -2601,6 +2603,13 @@ function ansQ(i){
     else if(idx===i&&i!==q.a)btn.classList.add('wrong');
   });
   if(i===q.a)score++;
+  else{
+    const n=requeueCounts.get(q)||0;
+    if(n<MAX_REQUEUES){
+      requeueCounts.set(q,n+1);
+      qPool.splice(Math.min(qIdx+REQUEUE_DELAY,qPool.length),0,q);
+    }
+  }
   if(CHEM_MASTERY)CHEM_MASTERY.recordAnswer(q.u,i===q.a);
   document.getElementById('q-exp').classList.add('show');
   document.getElementById('q-next').style.display='inline-block';
