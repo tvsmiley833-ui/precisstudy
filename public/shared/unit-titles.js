@@ -26,6 +26,20 @@ export const algebra1Units = [
   { id: 11, name: "Functions: Notation, Domain/Range & Transformations" }
 ];
 
+export const algebra2Units = [
+  { id: 1, name: "Polynomial Functions & Operations" },
+  { id: 2, name: "Rational Expressions & Equations" },
+  { id: 3, name: "Radicals & Rational Exponents" },
+  { id: 4, name: "Exponential & Logarithmic Functions" },
+  { id: 5, name: "Sequences & Series" },
+  { id: 6, name: "Trigonometric Functions & the Unit Circle" },
+  { id: 7, name: "Trigonometric Graphs & Identities" },
+  { id: 8, name: "Complex Numbers & Quadratics Revisited" },
+  { id: 9, name: "Function Operations, Inverses & Transformations" },
+  { id: 10, name: "Statistics: Sampling & Inference" },
+  { id: 11, name: "Probability" }
+];
+
 export const chemistryUnits = [
   { id: 1, name: "Matter & Change" },
   { id: 2, name: "Measurements & Math" },

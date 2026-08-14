@@ -1,6 +1,6 @@
 import { getSession } from "./auth.js";
 
-const SUBJECTS = ["geometry", "chemistry", "algebra1"];
+const SUBJECTS = ["geometry", "chemistry", "algebra1", "algebra2"];
 
 function json(body, status) {
   return new Response(JSON.stringify(body), {

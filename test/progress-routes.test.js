@@ -45,6 +45,7 @@ describe("handleGetProgress", () => {
       geometry: { mastery: {}, examples: {}, cardsKnown: [] },
       chemistry: { mastery: {}, examples: {}, cardsKnown: [] },
       algebra1: { mastery: {}, examples: {}, cardsKnown: [] },
+      algebra2: { mastery: {}, examples: {}, cardsKnown: [] },
       goal: null,
       updatedAt: null
     });
@@ -56,6 +57,7 @@ describe("handleGetProgress", () => {
       geometry: { mastery: { "1": { correct: 3, total: 4 } }, examples: {}, cardsKnown: [] },
       chemistry: { mastery: {}, examples: {}, cardsKnown: [] },
       algebra1: { mastery: {}, examples: {}, cardsKnown: [] },
+      algebra2: { mastery: {}, examples: {}, cardsKnown: [] },
       goal: null,
       updatedAt: "2026-08-14T00:00:00.000Z"
     };

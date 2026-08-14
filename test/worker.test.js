@@ -37,11 +37,9 @@ describe("homepage", () => {
     expect(text).toContain("StudyStacks");
     expect(text).toContain("Geometry");
     expect(text).toContain("The Original");
-    expect(text).toContain("Coming Soon");
     expect(text).toContain("Chemistry");
     expect(text).toContain("Algebra I");
-    expect(text).toContain("Coming Soon");
-    expect(text).toContain("Algebra 2");
+    expect(text).toContain("Algebra II");
   });
 });
 

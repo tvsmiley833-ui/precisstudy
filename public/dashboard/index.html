@@ -218,12 +218,13 @@ document.addEventListener('click', function(e){
 
 <script type="module">
 import { computeReadiness, recommendNext, buildSchedule } from '/shared/mastery.js';
-import { geometryUnits, chemistryUnits, algebra1Units } from '/shared/unit-titles.js';
+import { geometryUnits, chemistryUnits, algebra1Units, algebra2Units } from '/shared/unit-titles.js';
 
 const SUBJECTS_CONFIG = [
   { key: 'geometry', label: 'Geometry', href: '/geometry', units: geometryUnits },
   { key: 'chemistry', label: 'Chemistry', href: '/chemistry', units: chemistryUnits },
-  { key: 'algebra1', label: 'Algebra I', href: '/algebra1', units: algebra1Units }
+  { key: 'algebra1', label: 'Algebra I', href: '/algebra1', units: algebra1Units },
+  { key: 'algebra2', label: 'Algebra II', href: '/algebra2', units: algebra2Units }
 ];
 
 function statusColor(pct) {
