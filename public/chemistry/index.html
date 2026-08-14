@@ -13,6 +13,14 @@
 <title>Chemistry Regents Study Guide — EXPANDED</title>
 <link rel="icon" type="image/png" href="/favicon.png"/>
 <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<script>
+(function(){
+  try {
+    var saved = localStorage.getItem('ss-theme');
+    if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+  } catch (e) {}
+})();
+</script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap');
 
@@ -28,7 +36,29 @@
   --shadow-sm:0 1px 2px rgba(20,26,23,.05), 0 1px 1px rgba(20,26,23,.03);
   --shadow-md:0 8px 24px rgba(20,26,23,.07);
   --shadow-lg:0 22px 54px rgba(15,20,18,.16), 0 6px 16px rgba(15,20,18,.08);
+  --diagram-bg:#fffefb;
 }
+[data-theme="dark"]{
+  --bg:#0f1815; --surface:#182420; --surface-2:#1f2d28; --surface-hover:#25352f;
+  --border:#2c3d37; --border-strong:#3a4f47;
+  --ink:#e8f0ec; --ink-muted:#a8bdb4; --ink-dim:#7d8f87;
+  --accent:#2dd4b8; --accent-ink:#5eead4; --accent-soft:rgba(45,212,184,.14);
+  --amber:#e8863a; --amber-ink:#f4a662; --amber-soft:rgba(232,134,58,.14);
+  --success:#34d399; --success-soft:rgba(52,211,153,.14); --success-border:rgba(52,211,153,.35);
+  --danger:#f16565; --danger-soft:rgba(241,101,101,.14); --danger-border:rgba(241,101,101,.35);
+  --shadow-sm:0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
+  --shadow-md:0 8px 24px rgba(0,0,0,.4);
+  --shadow-lg:0 22px 54px rgba(0,0,0,.5), 0 6px 16px rgba(0,0,0,.35);
+  --diagram-bg:#fffefb;
+}
+body{transition:background .2s ease,color .2s ease}
+#theme-toggle{background:none;border:1px solid rgba(255,255,255,.18);color:rgba(244,242,234,.75);border-radius:var(--radius-sm);
+  width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+#theme-toggle:hover{color:#fff;border-color:rgba(255,255,255,.35)}
+#theme-toggle svg{width:17px;height:17px}
+#theme-toggle .icon-sun{display:none}
+[data-theme="dark"] #theme-toggle .icon-moon{display:none}
+[data-theme="dark"] #theme-toggle .icon-sun{display:block}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
@@ -90,10 +120,10 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
   padding:12px 14px;margin-top:10px;font-size:20.2px;color:var(--amber-ink);line-height:1.6}
 .trap::before{content:"Watch out";display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;
   letter-spacing:.08em;text-transform:uppercase;color:var(--amber);margin-bottom:4px}
-.diagram{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-top:16px}
+.diagram{background:var(--diagram-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-top:16px}
 .diagram svg{display:block;max-width:420px;margin:0 auto}
-.dcap{font-family:'Inter';font-size:18px;color:var(--ink-muted);line-height:1.5;margin-top:10px;text-align:center}
-.dlabel{font-size:16.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-dim);margin-bottom:8px}
+.dcap{font-family:'Inter';font-size:18px;color:#5c6a63;line-height:1.5;margin-top:10px;text-align:center}
+.dlabel{font-size:16.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#8b968e;margin-bottom:8px}
 .fc-bar,.q-bar{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
 .fc-bar select,.q-bar select{padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);
   font-family:'Inter';font-size:21px;color:var(--ink);cursor:pointer}
@@ -268,6 +298,10 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
       <button class="tab-btn" onclick="switchTab('exam')">Practice Exam</button>
       <button class="tab-btn" onclick="switchTab('qref')">Quick Reference</button>
       <button class="tab-btn" onclick="switchTab('memory')">Memory Tricks</button>
+      <button id="theme-toggle" onclick="ssToggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
     </div>
   </div>
 </div>
@@ -2267,12 +2301,12 @@ const items=qs.map(q=>`
 <div class="ex-q">
   <div class="ex-qnum">Question ${q.n}</div>
   <div class="ex-qtext">${q.q}</div>
-  <button class="ex-opt" style="background:#f5f4f0;text-align:left" onclick="toggleSA(this)">▶ Show Model Answer</button>
+  <button class="ex-opt" style="background:var(--surface-2);text-align:left" onclick="toggleSA(this)">▶ Show Model Answer</button>
   <div class="ex-sa" style="display:none"><strong>Model Answer</strong>${q.sa.replace(/\n/g,'<br>')}</div>
 </div>`).join('');
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${title}</h3><span style="font-size:18px;color:#999">Click to show model answers</span>
+  <h3>${title}</h3><span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
 }
@@ -2700,6 +2734,17 @@ async function cbotSend(e){
   document.getElementById('sgt-reset').onclick=function(){sec=0;clearInterval(iv);run=false;
     document.getElementById('sgt-btn').textContent='▶';document.getElementById('sgt-time').textContent='00:00';};
 })();
+
+function ssToggleTheme(){
+  var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  if (isDark) {
+    document.documentElement.removeAttribute('data-theme');
+    try { localStorage.setItem('ss-theme', 'light'); } catch (e) {}
+  } else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    try { localStorage.setItem('ss-theme', 'dark'); } catch (e) {}
+  }
+}
 
 /* ===== StudyStacks auth ===== */
 let SS_SESSION;
