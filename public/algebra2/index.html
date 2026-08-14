@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Algebra II Regents Study Guide — EXPANDED</title>
-<meta name="description" content="Free Algebra II Regents study guide: 11 units of notes, worked examples, flashcards, and a full practice exam modeled on the real NY Regents. Completely free."/>
+<title>Algebra II Study Guide — EXPANDED</title>
+<meta name="description" content="Free Algebra II study guide: 11 units of notes, worked examples, flashcards, and a full practice exam. Completely free."/>
 <meta property="og:type" content="website"/>
-<meta property="og:title" content="Algebra II Regents Study Guide — StudyStacks"/>
-<meta property="og:description" content="11 units of notes, worked examples, flashcards, quizzes, and a full practice exam modeled on the real NY Regents. Completely free."/>
+<meta property="og:title" content="Algebra II Study Guide — StudyStacks"/>
+<meta property="og:description" content="11 units of notes, worked examples, flashcards, quizzes, and a full practice exam. Completely free."/>
 <meta property="og:url" content="https://studystacks.org/algebra2/"/>
 <meta property="og:image" content="https://studystacks.org/logo-full.png"/>
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Algebra II Regents Study Guide — StudyStacks"/>
+<meta name="twitter:title" content="Algebra II Study Guide — StudyStacks"/>
 <meta name="twitter:description" content="11 units of notes, worked examples, flashcards, quizzes, and a full practice exam. Completely free."/>
 <meta name="twitter:image" content="https://studystacks.org/logo-full.png"/>
 <link rel="icon" type="image/png" href="/favicon.png"/>
@@ -336,9 +336,9 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
 <div class="hero">
   <div class="hero-inner">
     <a href="/" class="back-link" style="opacity:0;animation:fadein .5s ease forwards">← Back to Library</a>
-    <div class="kicker" style="opacity:0;animation:fadein .5s ease .06s forwards">NY Regents · Algebra II</div>
+    <div class="kicker" style="opacity:0;animation:fadein .5s ease .06s forwards">Algebra II</div>
     <h1 style="opacity:0;animation:fadein .5s ease .12s forwards"><span class="grad">Algebra II</span> Study Guide <span class="edition">Expanded Edition</span></h1>
-    <p class="subtitle" style="opacity:0;animation:fadein .5s ease .18s forwards">11 Units · 220 Quiz Questions · 47 Flashcards · Diagnostic · Worked Examples · Practice Exam · Modeled on the NY Regents</p>
+    <p class="subtitle" style="opacity:0;animation:fadein .5s ease .18s forwards">11 Units · 220 Quiz Questions · 47 Flashcards · Diagnostic · Worked Examples · Full-Length Practice Exam</p>
     <div class="nav" style="opacity:0;animation:fadein .5s ease .24s forwards">
       <button class="tab-btn active" onclick="switchTab('guide')">Study Guide</button>
       <button class="tab-btn" onclick="switchTab('cards')">Flashcards</button>
@@ -1450,8 +1450,8 @@ const st=document.createElement('style');st.textContent=EXAM_CSS;document.head.a
 
 v.innerHTML=`
 <div class="ex-header">
-  <h2>Algebra II Regents — Full Practice Exam</h2>
-  <p>Part I (${PART_A.length+PART_B1.length} MC questions) · Part II (${PART_B2.length} short answer) · Part III (${PART_C.length} extended response) · Modeled on the NY Regents format</p>
+  <h2>Algebra II — Full Practice Exam</h2>
+  <p>Part I (${PART_A.length+PART_B1.length} MC questions) · Part II (${PART_B2.length} short answer) · Part III (${PART_C.length} extended response)</p>
 </div>
 <div id="ex-score-box" class="ex-score"></div>
 ${buildPartMC('A','Part I — Multiple Choice (2 pts each)',PART_A)}
@@ -1829,7 +1829,7 @@ buildQSel();
 })();
 
 /* ===== study helper chatbot ===== */
-const CBOT_KEY='chemRegentsCbotConfig';
+const CBOT_KEY='alg2CbotConfig';
 const CBOT_OMNIROUTE_URL='http://127.0.0.1:20128/api/v1';
 const CBOT_OMNIROUTE_MODEL='kiro/claude-haiku-4.5';
 let cbotIndex=null;
@@ -1967,7 +1967,7 @@ function cbotAddMsg(role,text,jumpFn,jumpLabel){
 }
 
 async function cbotCallApi(cfg,query){
-  const sys="You are a concise, friendly tutor helping a student study for the NYS Algebra II Regents exam. Keep answers short (2-5 sentences), accurate, and focused on the question asked.";
+  const sys="You are a concise, friendly tutor helping a student study Algebra II. Keep answers short (2-5 sentences), accurate, and focused on the question asked.";
   const messages=[{role:'system',content:sys}].concat(cbotHistory.slice(-8));
   const res=await fetch(cfg.url.replace(/\/$/,'')+'/chat/completions',{
     method:'POST',

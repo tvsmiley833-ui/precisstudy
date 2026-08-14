@@ -48,7 +48,7 @@ describe("geometry migration", () => {
     const res = await SELF.fetch("https://example.com/geometry");
     expect(res.status).toBe(200);
     const text = await res.text();
-    expect(text).toContain("Geometry Regents Study Guide");
+    expect(text).toContain("Geometry Study Guide");
     expect(text).toContain("HARD_Q");
   });
 });
