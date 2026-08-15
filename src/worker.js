@@ -11,7 +11,7 @@ import {
 } from "./auth-routes.js";
 import { handleRequestGuideSubmit } from "./guide-requests.js";
 import { handleAdminMe, handleAdminListGuideRequests, handleAdminDeleteGuideRequest, handleAdminStats, handleAdminGetGuideRequestFile } from "./admin-routes.js";
-import { handleGetProgress, handlePostProgress, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule } from "./progress-routes.js";
+import { handleGetProgress, handlePostProgress, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak } from "./progress-routes.js";
 import { handlePushSubscribe, handlePushUnsubscribe, handlePushTest, sendDailyReminders, sendScheduledBlockReminders } from "./push-routes.js";
 
 const SUBJECT_PATHS = new Set(["geometry", "chemistry", "algebra1", "algebra2", "ap-lang", "global-history"]);
@@ -82,6 +82,11 @@ export default {
 
     if (url.pathname === "/api/schedule") {
       if (request.method === "POST") return handlePostSchedule(request, env);
+      return json({ error: "Method not allowed" }, 405);
+    }
+
+    if (url.pathname === "/api/streak") {
+      if (request.method === "POST") return handlePostStreak(request, env);
       return json({ error: "Method not allowed" }, 405);
     }
 

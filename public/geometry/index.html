@@ -402,7 +402,10 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
 </style>
 <script type="module">
   import { createMastery } from '/shared/mastery.js';
+  import { celebrateCorrect, resetCombo } from '/shared/celebrate.js';
   window.__ssCreateMastery = createMastery;
+  window.__ssCelebrateCorrect = celebrateCorrect;
+  window.__ssResetCombo = resetCombo;
   window.dispatchEvent(new Event('ss-mastery-ready'));
 </script>
 </head>
@@ -2987,6 +2990,20 @@ ansQ=function(i){
       geoSave();
     }catch(e){}
   }
+};
+
+/* correct-answer celebration + combo tracking */
+var _ansQ_celebrate=ansQ;
+ansQ=function(i){
+  var q=qPool[qIdx];
+  var correct=q&&i===q.a;
+  _ansQ_celebrate(i);
+  if(correct){
+    if(window.__ssCelebrateCorrect){
+      var correctBtn=document.querySelectorAll('.q-opt')[q.a];
+      window.__ssCelebrateCorrect(correctBtn);
+    }
+  }else if(window.__ssResetCombo)window.__ssResetCombo();
 };
 
 /* diagnostic: skip anything seen in a past diagnostic OR answered recently */

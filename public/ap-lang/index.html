@@ -331,7 +331,10 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
 </style>
 <script type="module">
   import { createMastery } from '/shared/mastery.js';
+  import { celebrateCorrect, resetCombo } from '/shared/celebrate.js';
   window.__ssCreateMastery = createMastery;
+  window.__ssCelebrateCorrect = celebrateCorrect;
+  window.__ssResetCombo = resetCombo;
   window.dispatchEvent(new Event('ss-mastery-ready'));
 </script>
 </head>
@@ -1662,8 +1665,14 @@ function ansQ(i){
     if(idx===q.a)btn.classList.add('correct');
     else if(idx===i&&i!==q.a)btn.classList.add('wrong');
   });
-  if(i===q.a)score++;
-  else{
+  if(i===q.a){
+    score++;
+    if(window.__ssCelebrateCorrect){
+      var correctBtn=document.querySelectorAll('.q-opt')[q.a];
+      window.__ssCelebrateCorrect(correctBtn);
+    }
+  }else{
+    if(window.__ssResetCombo)window.__ssResetCombo();
     const n=requeueCounts.get(q)||0;
     if(n<MAX_REQUEUES){
       requeueCounts.set(q,n+1);

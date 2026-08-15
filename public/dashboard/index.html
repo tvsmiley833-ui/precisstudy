@@ -142,6 +142,7 @@ body{transition:background .2s ease,color .2s ease}
     <h1 class="ss-hero-anim" style="animation-delay:0s;font-size:36px;font-weight:800;color:var(--text);margin:0;letter-spacing:-0.02em;">
       Your Dashboard
     </h1>
+    <div id="dash-streak" style="display:none;margin-top:14px;"></div>
   </div>
 </div>
 
@@ -787,6 +788,15 @@ async function loadDashboard() {
   if (blob.goal && blob.goal.days && blob.goal.minutesPerDay) {
     goalEl.style.display = 'block';
     goalEl.textContent = 'Your saved goal: ' + blob.goal.days + ' days · ' + blob.goal.minutesPerDay + ' min/day';
+  }
+
+  const streakEl = document.getElementById('dash-streak');
+  if (blob.streak && blob.streak.current > 0) {
+    streakEl.style.display = 'inline-flex';
+    streakEl.innerHTML = '<span style="display:inline-flex;align-items:center;gap:7px;background:var(--chip-bg);color:var(--chip-text);font-weight:800;font-size:15px;padding:9px 18px;border-radius:999px;">'
+      + '🔥 ' + blob.streak.current + '-day streak'
+      + (blob.streak.longest > blob.streak.current ? '<span style="font-weight:600;opacity:.7;font-size:13px;margin-left:2px;">· best ' + blob.streak.longest + '</span>' : '')
+      + '</span>';
   }
 
   sbBlob = blob;

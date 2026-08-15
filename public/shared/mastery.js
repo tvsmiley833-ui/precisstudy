@@ -90,6 +90,36 @@ export function buildSchedule(mastery, unitIds, unitNames, days, minutesPerDay) 
 
 const SYNC_DEBOUNCE_MS = 10000;
 
+const STREAK_TOUCHED_KEY = "ssStreakTouchedLocalDate";
+
+function todayLocalDate() {
+  const d = new Date();
+  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+}
+
+// Records that the student did something today, at most once per local day
+// (studying any subject counts, so this is deliberately not subject-scoped).
+async function touchStreak() {
+  const today = todayLocalDate();
+  try {
+    if (localStorage.getItem(STREAK_TOUCHED_KEY) === today) return;
+  } catch (e) { /* localStorage unavailable - fall through and try the network call anyway */ }
+  try {
+    const res = await fetch("/api/streak", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ localDate: today })
+    });
+    if (res.ok) {
+      try { localStorage.setItem(STREAK_TOUCHED_KEY, today); } catch (e) { /* ignore */ }
+      const data = await res.json();
+      if (typeof window !== "undefined" && data && data.streak) {
+        window.dispatchEvent(new CustomEvent("ss-streak-updated", { detail: data.streak }));
+      }
+    }
+  } catch (e) { /* offline or not logged in - try again next time something is recorded */ }
+}
+
 export function createMastery(subject, unitIds, unitNames) {
   const storageKey = "ssMastery_" + subject;
   let state = { mastery: {}, examples: {}, cardsKnown: [] };
@@ -160,16 +190,19 @@ export function createMastery(subject, unitIds, unitNames) {
       if (correct) rec.correct++;
       saveLocal();
       scheduleSync();
+      touchStreak();
     },
     markExampleDone(id) {
       state.examples[id] = true;
       saveLocal();
       scheduleSync();
+      touchStreak();
     },
     markCardKnown(id) {
       if (!state.cardsKnown.includes(id)) state.cardsKnown.push(id);
       saveLocal();
       scheduleSync();
+      touchStreak();
     },
     unmarkCardKnown(id) {
       const idx = state.cardsKnown.indexOf(id);

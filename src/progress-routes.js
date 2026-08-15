@@ -14,9 +14,18 @@ function emptySubject() {
 }
 
 function emptyBlob() {
-  const blob = { goal: null, updatedAt: null, enrolledSubjects: [], pushSubscriptions: [], schedule: null };
+  const blob = { goal: null, updatedAt: null, enrolledSubjects: [], pushSubscriptions: [], schedule: null, streak: null };
   for (const subject of SUBJECTS) blob[subject] = emptySubject();
   return blob;
+}
+
+const LOCAL_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+function daysBetween(a, b) {
+  const [ay, am, ad] = a.split("-").map(Number);
+  const [by, bm, bd] = b.split("-").map(Number);
+  const msPerDay = 24 * 60 * 60 * 1000;
+  return Math.round((Date.UTC(by, bm - 1, bd) - Date.UTC(ay, am - 1, ad)) / msPerDay);
 }
 
 const DAY_KEYS = new Set(["mon", "tue", "wed", "thu", "fri", "sat", "sun"]);
@@ -157,6 +166,46 @@ export async function handlePostSchedule(request, env) {
 
   await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
   return json({ ok: true, schedule: blob.schedule });
+}
+
+export async function handlePostStreak(request, env) {
+  const session = await getSession(request, env);
+  if (!session) return json({ error: "Sign in required" }, 401);
+  if (!env.PROGRESS) return json({ error: "Progress sync isn't configured yet" }, 503);
+
+  let body;
+  try {
+    body = await request.json();
+  } catch (e) {
+    return json({ error: "Invalid JSON body" }, 400);
+  }
+
+  const localDate = body && body.localDate;
+  if (typeof localDate !== "string" || !LOCAL_DATE_RE.test(localDate)) {
+    return json({ error: "localDate must be an ISO date string (YYYY-MM-DD)" }, 400);
+  }
+
+  const blob = await loadBlob(env, session.email);
+  const prev = blob.streak || { current: 0, longest: 0, lastActiveDate: null };
+
+  if (prev.lastActiveDate === localDate) {
+    return json({ ok: true, streak: prev, changed: false });
+  }
+
+  const gap = prev.lastActiveDate ? daysBetween(prev.lastActiveDate, localDate) : null;
+  if (gap !== null && gap < 0) {
+    // localDate is older than what's on record (clock skew or an out-of-order
+    // request) -- ignore rather than let it reset or corrupt an existing streak.
+    return json({ ok: true, streak: prev, changed: false });
+  }
+  const current = gap === 1 ? prev.current + 1 : 1;
+  const streak = { current, longest: Math.max(prev.longest, current), lastActiveDate: localDate };
+
+  blob.streak = streak;
+  blob.updatedAt = new Date().toISOString();
+
+  await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  return json({ ok: true, streak, changed: true });
 }
 
 export async function handlePostGoal(request, env) {
