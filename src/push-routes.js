@@ -80,6 +80,31 @@ export async function handlePushUnsubscribe(request, env) {
   return json({ ok: true });
 }
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// A push endpoint occasionally fails transiently (network blip, momentary 5xx
+// from the push service) -- retry a couple of times with a short backoff
+// before giving up. A 4xx (e.g. 404/410, an expired subscription) means the
+// request itself is permanently rejected, so retrying it would be pointless;
+// only 5xx/network errors are retried.
+async function fetchWithRetry(url, options, maxRetries = 2) {
+  let lastResponse, lastError;
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      const res = await fetch(url, options);
+      if (res.status < 500) return res;
+      lastResponse = res;
+    } catch (e) {
+      lastError = e;
+    }
+    if (attempt < maxRetries) await sleep(200 * 2 ** attempt);
+  }
+  if (lastResponse) return lastResponse;
+  throw lastError;
+}
+
 async function sendToSubscription(env, subscription, message) {
   const vapid = {
     subject: env.VAPID_SUBJECT,
@@ -87,7 +112,7 @@ async function sendToSubscription(env, subscription, message) {
     privateKey: env.VAPID_PRIVATE_KEY
   };
   const payload = await buildPushPayload(message, subscription, vapid);
-  return fetch(subscription.endpoint, payload);
+  return fetchWithRetry(subscription.endpoint, payload);
 }
 
 export async function handlePushTest(request, env) {

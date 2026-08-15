@@ -134,6 +134,67 @@ describe("handlePushTest", () => {
     expect(fetchSpy).toHaveBeenCalledTimes(1);
     expect(fetchSpy.mock.calls[0][0]).toBe("https://push.example/abc");
   });
+
+  it("retries a transient 5xx and succeeds once the endpoint recovers", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const sub = { endpoint: "https://push.example/flaky", keys: VALID_KEYS, expirationTime: null };
+    const kv = fakeKV({ "progress:student@example.com": JSON.stringify({ pushSubscriptions: [sub] }) });
+
+    let calls = 0;
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockImplementation(async () => {
+      calls++;
+      return calls < 2 ? new Response(null, { status: 503 }) : new Response(null, { status: 201 });
+    });
+    const res = await handlePushTest(req("https://example.com/api/push/test", cookie, "POST"), { SESSION_SECRET: SECRET, PROGRESS: kv, ...VAPID });
+
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true, sent: 1 });
+    expect(fetchSpy).toHaveBeenCalledTimes(2);
+  });
+
+  it("retries a network error (fetch throwing) and succeeds on retry", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const sub = { endpoint: "https://push.example/network-blip", keys: VALID_KEYS, expirationTime: null };
+    const kv = fakeKV({ "progress:student@example.com": JSON.stringify({ pushSubscriptions: [sub] }) });
+
+    let calls = 0;
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockImplementation(async () => {
+      calls++;
+      if (calls < 2) throw new TypeError("network error");
+      return new Response(null, { status: 201 });
+    });
+    const res = await handlePushTest(req("https://example.com/api/push/test", cookie, "POST"), { SESSION_SECRET: SECRET, PROGRESS: kv, ...VAPID });
+
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true, sent: 1 });
+    expect(fetchSpy).toHaveBeenCalledTimes(2);
+  });
+
+  it("gives up after exhausting retries on a persistent 5xx, without throwing", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const sub = { endpoint: "https://push.example/always-down", keys: VALID_KEYS, expirationTime: null };
+    const kv = fakeKV({ "progress:student@example.com": JSON.stringify({ pushSubscriptions: [sub] }) });
+
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(null, { status: 503 }));
+    const res = await handlePushTest(req("https://example.com/api/push/test", cookie, "POST"), { SESSION_SECRET: SECRET, PROGRESS: kv, ...VAPID });
+
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true, sent: 0 }); // 503 is not res.ok / 201, so it doesn't count as sent
+    expect(fetchSpy).toHaveBeenCalledTimes(3); // initial attempt + 2 retries
+  });
+
+  it("does not retry a 4xx (e.g. an expired subscription) -- retrying it would never help", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const sub = { endpoint: "https://push.example/expired", keys: VALID_KEYS, expirationTime: null };
+    const kv = fakeKV({ "progress:student@example.com": JSON.stringify({ pushSubscriptions: [sub] }) });
+
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(null, { status: 410 }));
+    const res = await handlePushTest(req("https://example.com/api/push/test", cookie, "POST"), { SESSION_SECRET: SECRET, PROGRESS: kv, ...VAPID });
+
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true, sent: 0 });
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+  });
 });
 
 describe("sendDailyReminders", () => {
