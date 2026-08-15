@@ -21,9 +21,9 @@
 /* ALREADY_SCALED_1_5 */
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
 :root{
-  --bg:#131211; --surface:#1a1917; --surface-2:#211f1c; --surface-hover:#282623;
+  --bg:#14201c; --surface:#1b2a24; --surface-2:#23362e; --surface-hover:#2c4238;
   --border:rgba(235,225,205,0.10); --border-strong:rgba(235,225,205,0.18);
-  --text:#ece8df; --text-muted:#a8a294; --text-dim:#857f72;
+  --text:#eef2e8; --text-muted:#a8b5ac; --text-dim:#839186;
   --primary:#d9a441; --primary-bright:#e6bb55; --primary-soft:rgba(217,164,65,0.16);
   --primary-glow:rgba(217,164,65,0.38);
   --green:#7fc98f; --green-soft:rgba(127,201,143,0.14); --green-bd:rgba(127,201,143,0.4);
@@ -399,6 +399,8 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
   padding:6px 12px;font-size:15px;cursor:pointer;font-family:inherit}
 .ss-account button:hover{color:var(--text);border-color:var(--border-strong)}
 
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:2147483647;opacity:.035;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 </style>
 <script type="module">
   import { createMastery } from '/shared/mastery.js';

@@ -29,10 +29,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap');
 
 :root{
-  --bg:#fbf6f0; --surface:#fffefe; --surface-2:#f5ece1; --surface-hover:#ede0d0;
-  --border:#f0ddc7; --border-strong:#dfc19a;
-  --ink:#2c2015; --ink-muted:#6b5844; --ink-dim:#9c8873;
-  --accent:#b5541f; --accent-ink:#8f3f14; --accent-soft:#faeadd;
+  --bg:#eef1ea; --surface:#ffffff; --surface-2:#e5eae1; --surface-hover:#dbe2d6;
+  --border:#c8d2c5; --border-strong:#b0bcac;
+  --ink:#233a31; --ink-muted:#5a6f63; --ink-dim:#7c8d82;
+  --accent:#a8432c; --accent-ink:#7a3020; --accent-soft:#f5e0d8;
   --amber:#b0530f; --amber-ink:#7c3a0a; --amber-soft:#faeee0;
   --success:#1c7a44; --success-soft:#e6f4ea; --success-border:#b6ddc4;
   --danger:#b23a3a; --danger-soft:#fbeaea; --danger-border:#e3b8b8;
@@ -40,20 +40,20 @@
   --shadow-sm:0 1px 2px rgba(32,28,51,.05), 0 1px 1px rgba(32,28,51,.03);
   --shadow-md:0 8px 24px rgba(32,28,51,.07);
   --shadow-lg:0 22px 54px rgba(24,20,41,.16), 0 6px 16px rgba(24,20,41,.08);
-  --diagram-bg:#fffefe;
+  --diagram-bg:#ffffff;
 }
 [data-theme="dark"]{
-  --bg:#1c1611; --surface:#241c15; --surface-2:#2c2118; --surface-hover:#34281c;
-  --border:#3d2f21; --border-strong:#4d3b28;
-  --ink:#f5ece0; --ink-muted:#c9b8a1; --ink-dim:#9c8873;
-  --accent:#e8935a; --accent-ink:#f4b384; --accent-soft:rgba(232,147,90,.16);
+  --bg:#14302a; --surface:#1b3d33; --surface-2:#1a382e; --surface-hover:#204738;
+  --border:#2f5346; --border-strong:#3d6753;
+  --ink:#f2f5ee; --ink-muted:#b7c9bc; --ink-dim:#93a89a;
+  --accent:#e8917a; --accent-ink:#f0ab98; --accent-soft:rgba(232,145,122,.16);
   --amber:#e8863a; --amber-ink:#f4a662; --amber-soft:rgba(232,134,58,.14);
   --success:#34d399; --success-soft:rgba(52,211,153,.14); --success-border:rgba(52,211,153,.35);
   --danger:#f16565; --danger-soft:rgba(241,101,101,.14); --danger-border:rgba(241,101,101,.35);
   --shadow-sm:0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
   --shadow-md:0 8px 24px rgba(0,0,0,.4);
   --shadow-lg:0 22px 54px rgba(0,0,0,.5), 0 6px 16px rgba(0,0,0,.35);
-  --diagram-bg:#fffefe;
+  --diagram-bg:#1b3d33;
 }
 body{transition:background .2s ease,color .2s ease}
 #theme-toggle{background:none;border:1px solid rgba(255,255,255,.18);color:rgba(244,242,234,.75);border-radius:var(--radius-sm);
@@ -69,11 +69,11 @@ html{scroll-behavior:smooth}
 body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);
   margin:0;padding:0;line-height:1.6}
 .page{margin:0 auto;padding:0 24px 90px}
-.hero{background:linear-gradient(175deg,#1f1710,#2c2015 65%,#241c14);padding:52px 24px 40px}
+.hero{background:linear-gradient(175deg,#12291f,#1b3d33 65%,#14302a);padding:52px 24px 40px}
 .hero-inner{margin:0 auto}
-.hero .kicker{color:#f4b384}
+.hero .kicker{color:#f0ab98}
 .hero h1{font-size:clamp(48px,5.4vw,69px);font-weight:700;letter-spacing:-.02em;line-height:1.08;color:#f4f2ea;margin-bottom:12px}
-.hero h1 .grad{background:linear-gradient(110deg,#b5541f,#e8935a 55%,#e8c893);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero h1 .grad{background:linear-gradient(110deg,#a8432c,#e8917a 55%,#e8c893);-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero .edition{color:rgba(244,242,234,.55)}
 .hero .subtitle{color:rgba(244,242,234,.66);margin-bottom:28px}
 .hero .nav{border-bottom:none;padding-bottom:0;margin-bottom:0}
@@ -328,6 +328,8 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
 .ss-account button{background:none;border:1px solid rgba(255,255,255,.18);border-radius:var(--radius-sm);
   color:rgba(244,242,234,.7);padding:5px 11px;font-size:12px;cursor:pointer;font-family:'Inter'}
 .ss-account button:hover{color:#fff;border-color:rgba(255,255,255,.35)}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:2147483647;opacity:.035;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 </style>
 <script type="module">
   import { createMastery } from '/shared/mastery.js';

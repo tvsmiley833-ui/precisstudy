@@ -29,9 +29,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap');
 
 :root{
-  --bg:#fbf5f6; --surface:#fffefe; --surface-2:#f7ebed; --surface-hover:#f0dde1;
-  --border:#f0d5db; --border-strong:#e0b3bd;
-  --ink:#2c1418; --ink-muted:#6b4a50; --ink-dim:#9c7a80;
+  --bg:#eef1ea; --surface:#ffffff; --surface-2:#e5eae1; --surface-hover:#dbe2d6;
+  --border:#c8d2c5; --border-strong:#b0bcac;
+  --ink:#233a31; --ink-muted:#5a6f63; --ink-dim:#7c8d82;
   --accent:#8b2942; --accent-ink:#6e1f34; --accent-soft:#f7e5e9;
   --amber:#b0530f; --amber-ink:#7c3a0a; --amber-soft:#faeee0;
   --success:#1c7a44; --success-soft:#e6f4ea; --success-border:#b6ddc4;
@@ -40,20 +40,20 @@
   --shadow-sm:0 1px 2px rgba(32,28,51,.05), 0 1px 1px rgba(32,28,51,.03);
   --shadow-md:0 8px 24px rgba(32,28,51,.07);
   --shadow-lg:0 22px 54px rgba(24,20,41,.16), 0 6px 16px rgba(24,20,41,.08);
-  --diagram-bg:#fffefe;
+  --diagram-bg:#ffffff;
 }
 [data-theme="dark"]{
-  --bg:#1c1013; --surface:#241519; --surface-2:#2c1a1f; --surface-hover:#341f25;
-  --border:#3d2429; --border-strong:#4d2e35;
-  --ink:#f5e6e9; --ink-muted:#c9a1a9; --ink-dim:#9c7880;
-  --accent:#e0708a; --accent-ink:#f0a0b5; --accent-soft:rgba(224,112,138,.16);
+  --bg:#14302a; --surface:#1b3d33; --surface-2:#1a382e; --surface-hover:#204738;
+  --border:#2f5346; --border-strong:#3d6753;
+  --ink:#f2f5ee; --ink-muted:#b7c9bc; --ink-dim:#93a89a;
+  --accent:#e888a0; --accent-ink:#f0b0c0; --accent-soft:rgba(232,136,160,.16);
   --amber:#e8863a; --amber-ink:#f4a662; --amber-soft:rgba(232,134,58,.14);
   --success:#34d399; --success-soft:rgba(52,211,153,.14); --success-border:rgba(52,211,153,.35);
   --danger:#f16565; --danger-soft:rgba(241,101,101,.14); --danger-border:rgba(241,101,101,.35);
   --shadow-sm:0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
   --shadow-md:0 8px 24px rgba(0,0,0,.4);
   --shadow-lg:0 22px 54px rgba(0,0,0,.5), 0 6px 16px rgba(0,0,0,.35);
-  --diagram-bg:#fffefe;
+  --diagram-bg:#1b3d33;
 }
 body{transition:background .2s ease,color .2s ease}
 #theme-toggle{background:none;border:1px solid rgba(255,255,255,.18);color:rgba(244,242,234,.75);border-radius:var(--radius-sm);
@@ -69,11 +69,11 @@ html{scroll-behavior:smooth}
 body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);
   margin:0;padding:0;line-height:1.6}
 .page{margin:0 auto;padding:0 24px 90px}
-.hero{background:linear-gradient(175deg,#1f1114,#2c161b 65%,#241318);padding:52px 24px 40px}
+.hero{background:linear-gradient(175deg,#12291f,#1b3d33 65%,#14302a);padding:52px 24px 40px}
 .hero-inner{margin:0 auto}
-.hero .kicker{color:#f0a0b5}
+.hero .kicker{color:#f0b0c0}
 .hero h1{font-size:clamp(48px,5.4vw,69px);font-weight:700;letter-spacing:-.02em;line-height:1.08;color:#f4f2ea;margin-bottom:12px}
-.hero h1 .grad{background:linear-gradient(110deg,#8b2942,#e0708a 55%,#e8c893);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero h1 .grad{background:linear-gradient(110deg,#8b2942,#e888a0 55%,#e8c893);-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero .edition{color:rgba(244,242,234,.55)}
 .hero .subtitle{color:rgba(244,242,234,.66);margin-bottom:28px}
 .hero .nav{border-bottom:none;padding-bottom:0;margin-bottom:0}
@@ -328,6 +328,8 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
 .ss-account button{background:none;border:1px solid rgba(255,255,255,.18);border-radius:var(--radius-sm);
   color:rgba(244,242,234,.7);padding:5px 11px;font-size:12px;cursor:pointer;font-family:'Inter'}
 .ss-account button:hover{color:#fff;border-color:rgba(255,255,255,.35)}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:2147483647;opacity:.035;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 </style>
 <script type="module">
   import { createMastery } from '/shared/mastery.js';
