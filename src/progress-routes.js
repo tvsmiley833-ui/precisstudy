@@ -185,11 +185,22 @@ export async function handlePostStreak(request, env) {
     return json({ error: "localDate must be an ISO date string (YYYY-MM-DD)" }, 400);
   }
 
+  const requestedTimezone = body && body.timezone;
+  const timezone = isValidTimezone(requestedTimezone) ? requestedTimezone : null;
+
   const blob = await loadBlob(env, session.email);
-  const prev = blob.streak || { current: 0, longest: 0, lastActiveDate: null };
+  const prev = blob.streak || { current: 0, longest: 0, lastActiveDate: null, timezone: null };
 
   if (prev.lastActiveDate === localDate) {
-    return json({ ok: true, streak: prev, changed: false });
+    // Same day as last recorded -- no streak change, but still refresh the
+    // timezone in case it drifted (e.g. the student is traveling).
+    const streak = timezone ? { ...prev, timezone } : prev;
+    if (timezone && timezone !== prev.timezone) {
+      blob.streak = streak;
+      blob.updatedAt = new Date().toISOString();
+      await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+    }
+    return json({ ok: true, streak, changed: false });
   }
 
   const gap = prev.lastActiveDate ? daysBetween(prev.lastActiveDate, localDate) : null;
@@ -199,7 +210,7 @@ export async function handlePostStreak(request, env) {
     return json({ ok: true, streak: prev, changed: false });
   }
   const current = gap === 1 ? prev.current + 1 : 1;
-  const streak = { current, longest: Math.max(prev.longest, current), lastActiveDate: localDate };
+  const streak = { current, longest: Math.max(prev.longest, current), lastActiveDate: localDate, timezone: timezone || prev.timezone || null };
 
   blob.streak = streak;
   blob.updatedAt = new Date().toISOString();

@@ -199,6 +199,84 @@ function timeToMinutes(t) {
   return h * 60 + m;
 }
 
+function localDateString(timezone) {
+  const parts = new Intl.DateTimeFormat("en-CA", { timeZone: timezone, year: "numeric", month: "2-digit", day: "2-digit" }).formatToParts(new Date());
+  const year = parts.find(p => p.type === "year").value;
+  const month = parts.find(p => p.type === "month").value;
+  const day = parts.find(p => p.type === "day").value;
+  return `${year}-${month}-${day}`;
+}
+
+const STREAK_REMINDER_MINUTES = 20 * 60; // 8:00 PM local
+
+// Runs on the same frequent cron as sendScheduledBlockReminders. For each
+// student with an active streak and a known timezone (captured the last time
+// their streak was touched), sends a "don't lose your streak" nudge once,
+// around 8pm in THEIR local time, but only if they haven't been active yet
+// that local day -- so a student who already studied gets nothing.
+export async function sendStreakReminders(env) {
+  if (!env.PROGRESS || !env.VAPID_PRIVATE_KEY) return { checked: 0, sent: 0 };
+
+  let cursor;
+  let checked = 0;
+  let sent = 0;
+
+  do {
+    const list = await env.PROGRESS.list({ prefix: "progress:", cursor });
+    for (const key of list.keys) {
+      checked++;
+      const raw = await env.PROGRESS.get(key.name);
+      if (!raw) continue;
+      let blob;
+      try {
+        blob = JSON.parse(raw);
+      } catch (e) {
+        continue;
+      }
+
+      const streak = blob.streak;
+      const subs = Array.isArray(blob.pushSubscriptions) ? blob.pushSubscriptions : [];
+      if (!streak || !(streak.current > 0) || !streak.timezone || !subs.length) continue;
+
+      let local, today;
+      try {
+        local = localDayAndMinutes(streak.timezone);
+        today = localDateString(streak.timezone);
+      } catch (e) {
+        continue; // stale/invalid timezone saved before validation was added - skip rather than crash
+      }
+
+      if (local.minutes < STREAK_REMINDER_MINUTES || local.minutes >= STREAK_REMINDER_MINUTES + 5) continue;
+      if (streak.lastActiveDate === today) continue; // already active today - don't nag
+
+      const message = {
+        data: JSON.stringify({
+          title: `🔥 Don't lose your ${streak.current}-day streak!`,
+          body: "A few minutes of practice before midnight keeps it going.",
+          url: "/dashboard"
+        }),
+        options: { ttl: 3600 }
+      };
+
+      const deadEndpoints = new Set();
+      for (const sub of subs) {
+        try {
+          const res = await sendToSubscription(env, sub, message);
+          if (res.ok || res.status === 201) sent++;
+          else if (res.status === 404 || res.status === 410) deadEndpoints.add(sub.endpoint);
+        } catch (e) { /* transient failure - keep the subscription for next time */ }
+      }
+      if (deadEndpoints.size) {
+        blob.pushSubscriptions = subs.filter(s => !deadEndpoints.has(s.endpoint));
+        await env.PROGRESS.put(key.name, JSON.stringify(blob));
+      }
+    }
+    cursor = list.list_complete ? undefined : list.cursor;
+  } while (cursor);
+
+  return { checked, sent };
+}
+
 // Runs on a frequent cron (every 5 minutes). For each student with notifications
 // enabled on their study schedule, checks whether any block starts within the
 // current 5-minute window in THEIR local time (using the IANA timezone captured

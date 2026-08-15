@@ -325,8 +325,46 @@ describe("handlePostStreak", () => {
     const res = await handlePostStreak(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-15" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
     expect(res.status).toBe(200);
     const data = await res.json();
-    expect(data.streak).toEqual({ current: 1, longest: 1, lastActiveDate: "2026-08-15" });
+    expect(data.streak).toEqual({ current: 1, longest: 1, lastActiveDate: "2026-08-15", timezone: null });
     expect(data.changed).toBe(true);
+  });
+
+  it("stores a valid timezone alongside a streak-changing update", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV();
+    const res = await handlePostStreak(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-15", timezone: "America/New_York" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    const data = await res.json();
+    expect(data.streak).toEqual({ current: 1, longest: 1, lastActiveDate: "2026-08-15", timezone: "America/New_York" });
+  });
+
+  it("ignores an invalid timezone rather than erroring, falling back to null", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV();
+    const res = await handlePostStreak(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-15", timezone: "Not/AZone" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(data.streak.timezone).toBe(null);
+  });
+
+  it("carries forward the previous timezone when a later call omits it", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const existing = { streak: { current: 3, longest: 5, lastActiveDate: "2026-08-15", timezone: "America/New_York" } };
+    const kv = fakeKV({ "progress:student@example.com": JSON.stringify(existing) });
+    const res = await handlePostStreak(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-16" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    const data = await res.json();
+    expect(data.streak.timezone).toBe("America/New_York");
+  });
+
+  it("refreshes the timezone on a same-day call if it changed", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const existing = { streak: { current: 3, longest: 5, lastActiveDate: "2026-08-15", timezone: "America/New_York" } };
+    const kv = fakeKV({ "progress:student@example.com": JSON.stringify(existing) });
+    const res = await handlePostStreak(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-15", timezone: "America/Los_Angeles" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    const data = await res.json();
+    expect(data.changed).toBe(false);
+    expect(data.streak).toEqual({ current: 3, longest: 5, lastActiveDate: "2026-08-15", timezone: "America/Los_Angeles" });
+    const saved = JSON.parse(kv._store.get("progress:student@example.com"));
+    expect(saved.streak.timezone).toBe("America/Los_Angeles");
   });
 
   it("is a no-op when called again the same day", async () => {
@@ -345,7 +383,7 @@ describe("handlePostStreak", () => {
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify(existing) });
     const res = await handlePostStreak(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-16" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
     const data = await res.json();
-    expect(data.streak).toEqual({ current: 4, longest: 5, lastActiveDate: "2026-08-16" });
+    expect(data.streak).toEqual({ current: 4, longest: 5, lastActiveDate: "2026-08-16", timezone: null });
   });
 
   it("raises longest when current exceeds the prior record", async () => {
@@ -354,7 +392,7 @@ describe("handlePostStreak", () => {
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify(existing) });
     const res = await handlePostStreak(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-16" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
     const data = await res.json();
-    expect(data.streak).toEqual({ current: 6, longest: 6, lastActiveDate: "2026-08-16" });
+    expect(data.streak).toEqual({ current: 6, longest: 6, lastActiveDate: "2026-08-16", timezone: null });
   });
 
   it("resets the streak to 1 after a gap of 2+ days", async () => {
@@ -363,7 +401,7 @@ describe("handlePostStreak", () => {
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify(existing) });
     const res = await handlePostStreak(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-15" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
     const data = await res.json();
-    expect(data.streak).toEqual({ current: 1, longest: 8, lastActiveDate: "2026-08-15" });
+    expect(data.streak).toEqual({ current: 1, longest: 8, lastActiveDate: "2026-08-15", timezone: null });
   });
 
   it("ignores a localDate older than what's on record instead of corrupting the streak", async () => {
@@ -388,6 +426,6 @@ describe("handlePostStreak", () => {
     await handlePostStreak(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-15" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
     const saved = JSON.parse(kv._store.get("progress:student@example.com"));
     expect(saved.geometry).toEqual(existing.geometry);
-    expect(saved.streak).toEqual({ current: 1, longest: 1, lastActiveDate: "2026-08-15" });
+    expect(saved.streak).toEqual({ current: 1, longest: 1, lastActiveDate: "2026-08-15", timezone: null });
   });
 });

@@ -12,7 +12,7 @@ import {
 import { handleRequestGuideSubmit } from "./guide-requests.js";
 import { handleAdminMe, handleAdminListGuideRequests, handleAdminDeleteGuideRequest, handleAdminStats, handleAdminGetGuideRequestFile } from "./admin-routes.js";
 import { handleGetProgress, handlePostProgress, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak } from "./progress-routes.js";
-import { handlePushSubscribe, handlePushUnsubscribe, handlePushTest, sendDailyReminders, sendScheduledBlockReminders } from "./push-routes.js";
+import { handlePushSubscribe, handlePushUnsubscribe, handlePushTest, sendDailyReminders, sendScheduledBlockReminders, sendStreakReminders } from "./push-routes.js";
 
 const SUBJECT_PATHS = new Set(["geometry", "chemistry", "algebra1", "algebra2", "ap-lang", "global-history"]);
 const SUBJECT_VIEW_SEGMENTS = new Set(["flashcards", "quiz", "examples", "exam", "reference", "memory"]);
@@ -129,6 +129,7 @@ export default {
   async scheduled(controller, env, ctx) {
     if (controller.cron === "*/5 * * * *") {
       ctx.waitUntil(sendScheduledBlockReminders(env));
+      ctx.waitUntil(sendStreakReminders(env));
     } else {
       ctx.waitUntil(sendDailyReminders(env));
     }

@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { signSession, SESSION_COOKIE } from "../src/auth.js";
-import { handlePushSubscribe, handlePushUnsubscribe, handlePushTest, sendDailyReminders, sendScheduledBlockReminders } from "../src/push-routes.js";
+import { handlePushSubscribe, handlePushUnsubscribe, handlePushTest, sendDailyReminders, sendScheduledBlockReminders, sendStreakReminders } from "../src/push-routes.js";
 
 const SECRET = "test-session-secret";
 const VAPID = {
@@ -262,6 +262,106 @@ describe("sendScheduledBlockReminders", () => {
 
   it("returns zeroed counts when push isn't configured", async () => {
     const result = await sendScheduledBlockReminders({ PROGRESS: fakeKV() });
+    expect(result).toEqual({ checked: 0, sent: 0 });
+  });
+});
+
+describe("sendStreakReminders", () => {
+  // 2026-03-11T00:00:00Z = 2026-03-10 20:00 EDT (UTC-4, DST already in effect) --
+  // 8:00 PM local in America/New_York, the start of the reminder window. Their
+  // local calendar date at this instant is still 2026-03-10.
+  const TZ = "America/New_York";
+  const sub = { endpoint: "https://push.example/a", keys: VALID_KEYS, expirationTime: null };
+
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-03-11T00:00:00.000Z"));
+  });
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it("sends to a student with an active streak who hasn't studied today, at 8pm local", async () => {
+    const kv = fakeKV({
+      "progress:student@example.com": JSON.stringify({
+        streak: { current: 5, longest: 10, lastActiveDate: "2026-03-09", timezone: TZ },
+        pushSubscriptions: [sub]
+      })
+    });
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(null, { status: 201 }));
+
+    const result = await sendStreakReminders({ PROGRESS: kv, ...VAPID });
+
+    expect(result.sent).toBe(1);
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not send to a student who already studied today", async () => {
+    const kv = fakeKV({
+      "progress:student@example.com": JSON.stringify({
+        streak: { current: 5, longest: 10, lastActiveDate: "2026-03-10", timezone: TZ },
+        pushSubscriptions: [sub]
+      })
+    });
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(null, { status: 201 }));
+
+    const result = await sendStreakReminders({ PROGRESS: kv, ...VAPID });
+
+    expect(result.sent).toBe(0);
+    expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
+  it("does not send outside the 8:00-8:05pm local window", async () => {
+    vi.setSystemTime(new Date("2026-03-10T20:00:00.000Z")); // 4:00 PM local -- too early
+    const kv = fakeKV({
+      "progress:student@example.com": JSON.stringify({
+        streak: { current: 5, longest: 10, lastActiveDate: "2026-03-09", timezone: TZ },
+        pushSubscriptions: [sub]
+      })
+    });
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(null, { status: 201 }));
+
+    const result = await sendStreakReminders({ PROGRESS: kv, ...VAPID });
+
+    expect(result.sent).toBe(0);
+    expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
+  it("skips students with no active streak, no timezone, or no subscription", async () => {
+    const kv = fakeKV({
+      "progress:no-streak@example.com": JSON.stringify({ streak: null, pushSubscriptions: [sub] }),
+      "progress:zero-streak@example.com": JSON.stringify({ streak: { current: 0, longest: 5, lastActiveDate: "2026-03-09", timezone: TZ }, pushSubscriptions: [sub] }),
+      "progress:no-tz@example.com": JSON.stringify({ streak: { current: 5, longest: 10, lastActiveDate: "2026-03-09", timezone: null }, pushSubscriptions: [sub] }),
+      "progress:no-sub@example.com": JSON.stringify({ streak: { current: 5, longest: 10, lastActiveDate: "2026-03-09", timezone: TZ }, pushSubscriptions: [] })
+    });
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(null, { status: 201 }));
+
+    const result = await sendStreakReminders({ PROGRESS: kv, ...VAPID });
+
+    expect(result.sent).toBe(0);
+    expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
+  it("prunes a gone (410) subscription after sending", async () => {
+    const goneSub = { endpoint: "https://push.example/gone", keys: VALID_KEYS, expirationTime: null };
+    const kv = fakeKV({
+      "progress:student@example.com": JSON.stringify({
+        streak: { current: 3, longest: 3, lastActiveDate: "2026-03-09", timezone: TZ },
+        pushSubscriptions: [goneSub]
+      })
+    });
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(null, { status: 410 }));
+
+    const result = await sendStreakReminders({ PROGRESS: kv, ...VAPID });
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    expect(result.sent).toBe(0);
+    const saved = JSON.parse(kv._store.get("progress:student@example.com"));
+    expect(saved.pushSubscriptions).toEqual([]);
+  });
+
+  it("returns zeroed counts when push isn't configured", async () => {
+    const result = await sendStreakReminders({ PROGRESS: fakeKV() });
     expect(result).toEqual({ checked: 0, sent: 0 });
   });
 });

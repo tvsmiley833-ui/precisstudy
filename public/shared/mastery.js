@@ -108,7 +108,7 @@ async function touchStreak() {
     const res = await fetch("/api/streak", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ localDate: today })
+      body: JSON.stringify({ localDate: today, timezone: Intl.DateTimeFormat().resolvedOptions().timeZone })
     });
     if (res.ok) {
       try { localStorage.setItem(STREAK_TOUCHED_KEY, today); } catch (e) { /* ignore */ }
