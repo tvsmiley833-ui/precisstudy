@@ -448,12 +448,18 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
       <div class="face back"><div class="lbl">Definition</div><div class="def" id="fc-def"></div></div>
     </div>
   </div>
-  <div class="hint">Click card to flip · Use buttons to navigate</div>
-  <div class="fc-nav">
+  <div class="hint">Click card to flip · Rate yourself to track weak cards</div>
+  <div class="fc-nav" style="flex-wrap:wrap;gap:8px">
     <button class="btn" onclick="fcNav(-1)">← Prev</button>
     <button class="btn" onclick="fcShuffle()">⇄ Shuffle</button>
     <button class="btn" onclick="fcNav(1)">Next →</button>
   </div>
+  <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
+    <button class="btn" onclick="rateFC('known')" style="border-color:rgba(127,201,143,0.45);color:rgba(127,201,143,0.85);background:rgba(127,201,143,0.14)">✓ Know it</button>
+    <button class="btn" onclick="rateFC('learning')" style="border-color:rgba(224,122,130,0.45);color:rgba(224,122,130,0.85);background:rgba(224,122,130,0.14)">✗ Still learning</button>
+    <button class="btn" onclick="filterFC()" id="filter-btn" style="font-size:18px">Show: All</button>
+  </div>
+  <div id="fc-progress" style="text-align:center;font-size:18px;color:var(--ink-dim,#857f72);margin-top:6px"></div>
 <div id="fc-archive"><details class="practice-archive"><summary>Browse all 47 flashcards as a list</summary><div class="fc-archive-body"><h4>Unit 1: Polynomial Functions &amp; Operations</h4><dl class="fc-archive-list"><dt>Remainder Theorem</dt><dd>If P(x) is divided by (x − c), the remainder equals P(c).</dd><dt>Factor Theorem</dt><dd>(x − c) is a factor of P(x) if and only if P(c) = 0.</dd><dt>Synthetic division</dt><dd>A fast shortcut for dividing a polynomial by a linear factor (x − c).</dd><dt>Multiplicity</dt><dd>How many times a zero's factor repeats. Odd multiplicity crosses the x-axis; even multiplicity bounces off it.</dd><dt>End behavior</dt><dd>How a polynomial's graph behaves as x → ±∞, controlled by the degree and the leading coefficient's sign.</dd></dl><h4>Unit 2: Rational Expressions &amp; Equations</h4><dl class="fc-archive-list"><dt>Excluded value</dt><dd>Any x-value that makes a rational expression's original denominator equal zero — always undefined.</dd><dt>Rational expression</dt><dd>A fraction with polynomials in the numerator and denominator.</dd><dt>Least Common Denominator (LCD)</dt><dd>The smallest expression that all denominators divide into evenly; found by factoring each denominator.</dd><dt>Extraneous solution</dt><dd>A solution produced algebraically that doesn't actually work in the original equation — common after clearing denominators.</dd></dl><h4>Unit 3: Radicals &amp; Rational Exponents</h4><dl class="fc-archive-list"><dt>Like radicals</dt><dd>Radicals with the same index and the same expression underneath — only these can be added or subtracted directly.</dd><dt>Rationalizing the denominator</dt><dd>Eliminating a radical from a denominator by multiplying by an appropriate radical or conjugate.</dd><dt>Conjugate (radical)</dt><dd>For a binomial like a + √b, its conjugate is a − √b — multiplying them eliminates the radical.</dd><dt>x^(m/n)</dt><dd>Equals ⁿ√(xᵐ) — the denominator n is the root, the numerator m is the power.</dd></dl><h4>Unit 4: Exponential &amp; Logarithmic Functions</h4><dl class="fc-archive-list"><dt>Logarithm</dt><dd>logₐ(x) = y means aʸ = x — a log answers 'what exponent is needed?'</dd><dt>Common log</dt><dd>log(x) with no base written means base 10.</dd><dt>Natural log</dt><dd>ln(x) means logₑ(x), using base e ≈ 2.718.</dd><dt>Product Rule (logs)</dt><dd>logₐ(MN) = logₐM + logₐN.</dd><dt>Quotient Rule (logs)</dt><dd>logₐ(M/N) = logₐM − logₐN.</dd><dt>Power Rule (logs)</dt><dd>logₐ(Mᵖ) = p · logₐM.</dd></dl><h4>Unit 5: Sequences &amp; Series</h4><dl class="fc-archive-list"><dt>Sigma notation</dt><dd>Compact notation (Σ) for writing the sum of a sequence of terms.</dd><dt>Arithmetic series formula</dt><dd>Sₙ = n/2 · (a₁ + aₙ) — n times the average of the first and last term.</dd><dt>Geometric series formula (finite)</dt><dd>Sₙ = a₁(1 − rⁿ)/(1 − r), for r ≠ 1.</dd><dt>Infinite geometric series</dt><dd>S = a₁/(1 − r), but only converges (has a sum) when |r| &amp;lt; 1.</dd></dl><h4>Unit 6: Trigonometric Functions &amp; the Unit Circle</h4><dl class="fc-archive-list"><dt>Radian</dt><dd>An angle measure based on the circle's radius; 2π radians = one full revolution (360°).</dd><dt>Unit circle</dt><dd>A circle of radius 1 centered at the origin, used to define trig functions for every angle.</dd><dt>Reference angle</dt><dd>The acute angle (0°–90°) between an angle's terminal side and the x-axis.</dd><dt>ASTC</dt><dd>'All Students Take Calculus' — a mnemonic for which trig functions are positive in each quadrant (All, Sin, Tan, Cos).</dd></dl><h4>Unit 7: Trigonometric Graphs &amp; Identities</h4><dl class="fc-archive-list"><dt>Amplitude</dt><dd>|A| in y = A sin(Bx−C)+D — the height of the wave from the midline to its peak.</dd><dt>Period</dt><dd>2π/B in y = A sin(Bx−C)+D — the horizontal length of one full wave cycle.</dd><dt>Pythagorean identity</dt><dd>sin²θ + cos²θ = 1, true for every angle θ.</dd></dl><h4>Unit 8: Complex Numbers &amp; Quadratics Revisited</h4><dl class="fc-archive-list"><dt>Imaginary unit i</dt><dd>Defined so that i² = −1, allowing negative numbers to have square roots.</dd><dt>Complex number</dt><dd>A number of the form a + bi, with a real part a and an imaginary part b.</dd><dt>Complex conjugate</dt><dd>For a + bi, the conjugate is a − bi. Multiplying them gives the real number a² + b².</dd><dt>Powers of i cycle</dt><dd>i¹=i, i²=−1, i³=−i, i⁴=1 — then the pattern repeats every 4 powers.</dd></dl><h4>Unit 9: Function Operations, Inverses &amp; Transformations</h4><dl class="fc-archive-list"><dt>Composition of functions</dt><dd>(f∘g)(x) = f(g(x)) — evaluate g first, then plug that result into f.</dd><dt>Inverse function</dt><dd>f⁻¹(x) undoes f(x): f(f⁻¹(x)) = x and f⁻¹(f(x)) = x.</dd><dt>Horizontal Line Test</dt><dd>If any horizontal line crosses a graph more than once, its inverse is not a function.</dd></dl><h4>Unit 10: Statistics: Sampling &amp; Inference</h4><dl class="fc-archive-list"><dt>Simple random sample</dt><dd>A sample where every member of the population has an equal chance of being chosen.</dd><dt>Empirical Rule</dt><dd>For a normal distribution: 68% of data within 1 standard deviation, 95% within 2, 99.7% within 3.</dd><dt>z-score</dt><dd>z = (x − μ) / σ — how many standard deviations a value is from the mean.</dd><dt>Margin of error</dt><dd>Accounts for natural sampling variability; generally shrinks as sample size grows.</dd><dt>Confidence interval</dt><dd>sample statistic ± margin of error — a range likely to contain the true population value.</dd></dl><h4>Unit 11: Probability</h4><dl class="fc-archive-list"><dt>Independent events</dt><dd>Events where one outcome does not affect the other's probability: P(A and B) = P(A)·P(B).</dd><dt>Conditional probability</dt><dd>P(B | A): the probability of B, given that A has already happened.</dd><dt>Permutation</dt><dd>An arrangement where ORDER matters. nPr = n!/(n−r)!.</dd><dt>Combination</dt><dd>A selection where order does NOT matter. nCr = n!/(r!(n−r)!).</dd><dt>Binomial probability</dt><dd>P(exactly k successes in n trials) = nCk · pᵏ · (1−p)^(n−k).</dd></dl></div></details></div></div>
 <div id="view-quiz" class="view">
   <div id="quiz-gate" class="auth-gate" style="display:none">
@@ -1617,7 +1623,7 @@ function hydrateGuide(){
 if(document.getElementById('units').children.length===0){buildGuide();}else{hydrateGuide();}
 
 // FLASHCARDS
-let fcDeck=[],fcIdx=0;
+let fcDeck=[],fcIdx=0,fcFilterMode='all';
 function buildFCSel(){
   const sel=document.getElementById('fc-sel');
   sel.innerHTML='<option value="0">All Units ('+FLASHCARDS.length+' cards)</option>';
@@ -1625,20 +1631,50 @@ function buildFCSel(){
   loadFC();
 }
 function loadFC(){
+  fcFilterMode='all';
+  if(document.getElementById('filter-btn'))document.getElementById('filter-btn').textContent='Show: All';
   const v=+document.getElementById('fc-sel').value;
   fcDeck=v===0?[...FLASHCARDS]:FLASHCARDS.filter(f=>f.u===v);
   fcIdx=0;showFC();
 }
+function fcKnownSet(){return new Set((ALG2_MASTERY&&ALG2_MASTERY.getSnapshot().cardsKnown)||[]);}
+function getActiveDeck(){
+  const known=fcKnownSet();
+  if(fcFilterMode==='learning')return fcDeck.filter(c=>!known.has(c.t));
+  if(fcFilterMode==='known')return fcDeck.filter(c=>known.has(c.t));
+  return fcDeck;
+}
 function showFC(){
-  if(!fcDeck.length)return;
-  document.getElementById('fc-term').textContent=fcDeck[fcIdx].t;
-  document.getElementById('fc-def').textContent=fcDeck[fcIdx].d;
-  document.getElementById('fc-count').textContent=(fcIdx+1)+' / '+fcDeck.length;
+  const deck=getActiveDeck();
+  if(!deck.length){document.getElementById('fc-term').textContent='No cards';document.getElementById('fc-def').textContent='Rate some cards first';document.getElementById('fc-count').textContent='0 / 0';document.getElementById('fc-progress').textContent='';return;}
+  if(fcIdx>=deck.length)fcIdx=0;
+  const card=deck[fcIdx];
+  document.getElementById('fc-term').textContent=card.t;
+  document.getElementById('fc-def').textContent=card.d;
+  const known=fcKnownSet();
+  const knownCount=fcDeck.filter(c=>known.has(c.t)).length;
+  const learningCount=fcDeck.length-knownCount;
+  document.getElementById('fc-count').textContent=(fcIdx+1)+' / '+deck.length;
+  document.getElementById('fc-progress').textContent=`✓ ${knownCount} known  ·  ✗ ${learningCount} still learning`;
   document.getElementById('scene').classList.remove('flipped');
 }
 function flip(){document.getElementById('scene').classList.toggle('flipped');}
-function fcNav(d){fcIdx=(fcIdx+d+fcDeck.length)%fcDeck.length;showFC();}
-function fcShuffle(){for(let i=fcDeck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[fcDeck[i],fcDeck[j]]=[fcDeck[j],fcDeck[i]];}fcIdx=0;showFC();}
+function fcNav(d){const deck=getActiveDeck();if(!deck.length)return;fcIdx=(fcIdx+d+deck.length)%deck.length;showFC();}
+function fcShuffle(){const deck=getActiveDeck();for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}fcIdx=0;showFC();}
+function rateFC(rating){
+  const deck=getActiveDeck();
+  if(!deck.length||!ALG2_MASTERY)return;
+  const card=deck[fcIdx];
+  if(rating==='known')ALG2_MASTERY.markCardKnown(card.t);
+  else ALG2_MASTERY.unmarkCardKnown(card.t);
+  fcNav(1);
+}
+function filterFC(){
+  if(fcFilterMode==='all'){fcFilterMode='learning';document.getElementById('filter-btn').textContent='Show: Still Learning';}
+  else if(fcFilterMode==='learning'){fcFilterMode='known';document.getElementById('filter-btn').textContent='Show: Known';}
+  else{fcFilterMode='all';document.getElementById('filter-btn').textContent='Show: All';}
+  fcIdx=0;showFC();
+}
 buildFCSel();
 
 // QUIZ
@@ -1652,7 +1688,7 @@ window.__ssMasteryInstances = window.__ssMasteryInstances || [];
 function ssStartAlg2Mastery(){
   ALG2_MASTERY = window.__ssCreateMastery('algebra2', UNITS.map(function(u){return u.id;}), UNITS.reduce(function(acc,u){acc[u.id]=u.name;return acc;},{}));
   window.__ssMasteryInstances.push(ALG2_MASTERY);
-  ALG2_MASTERY.init();
+  ALG2_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} });
 }
 if (window.__ssCreateMastery) { ssStartAlg2Mastery(); }
 else { window.addEventListener('ss-mastery-ready', ssStartAlg2Mastery, { once: true }); }

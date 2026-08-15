@@ -1981,7 +1981,7 @@ if(document.getElementById('units').children.length===0){buildGuide();}else{hydr
 // ═══════════════════════════════════════════════════════
 //  FLASHCARDS  (with self-rating)
 // ═══════════════════════════════════════════════════════
-let fcDeck=[],fcIdx=0,fcRatings={},fcFilterMode='all';
+let fcDeck=[],fcIdx=0,fcFilterMode='all';
 function buildFCSel(){
   const sel=document.getElementById('fc-sel');
   sel.innerHTML='<option value="0">All Units ('+FLASHCARDS.length+' cards)</option>';
@@ -1995,33 +1995,36 @@ function loadFC(){
   let base=v===0?[...FLASHCARDS]:FLASHCARDS.filter(f=>f.u===v);
   fcDeck=base;fcIdx=0;showFC();
 }
+function fcKnownSet(){return new Set((GEO_MASTERY&&GEO_MASTERY.getSnapshot().cardsKnown)||[]);}
 function getActiveDeck(){
-  if(fcFilterMode==='learning')return fcDeck.filter(c=>fcRatings[c.t]==='learning'||!fcRatings[c.t]);
-  if(fcFilterMode==='known')return fcDeck.filter(c=>fcRatings[c.t]==='known');
+  const known=fcKnownSet();
+  if(fcFilterMode==='learning')return fcDeck.filter(c=>!known.has(c.t));
+  if(fcFilterMode==='known')return fcDeck.filter(c=>known.has(c.t));
   return fcDeck;
 }
 function showFC(){
   const deck=getActiveDeck();
-  if(!deck.length){document.getElementById('fc-term').textContent='No cards';document.getElementById('fc-def').textContent='Rate some cards first';return;}
+  if(!deck.length){document.getElementById('fc-term').textContent='No cards';document.getElementById('fc-def').textContent='Rate some cards first';document.getElementById('fc-count').textContent='0 / 0';document.getElementById('fc-progress').textContent='';return;}
   if(fcIdx>=deck.length)fcIdx=0;
   const card=deck[fcIdx];
   document.getElementById('fc-term').textContent=card.t;
   document.getElementById('fc-def').textContent=card.d;
-  const total=deck.length;
-  const known=fcDeck.filter(c=>fcRatings[c.t]==='known').length;
-  const learning=fcDeck.filter(c=>fcRatings[c.t]==='learning'||!fcRatings[c.t]).length;
-  document.getElementById('fc-count').textContent=(fcIdx+1)+' / '+total;
-  document.getElementById('fc-progress').textContent=`✓ ${known} known  ·  ✗ ${learning} still learning`;
+  const known=fcKnownSet();
+  const knownCount=fcDeck.filter(c=>known.has(c.t)).length;
+  const learningCount=fcDeck.length-knownCount;
+  document.getElementById('fc-count').textContent=(fcIdx+1)+' / '+deck.length;
+  document.getElementById('fc-progress').textContent=`✓ ${knownCount} known  ·  ✗ ${learningCount} still learning`;
   document.getElementById('scene').classList.remove('flipped');
 }
 function flip(){document.getElementById('scene').classList.toggle('flipped');}
-function fcNav(d){const deck=getActiveDeck();fcIdx=(fcIdx+d+deck.length)%deck.length;showFC();}
+function fcNav(d){const deck=getActiveDeck();if(!deck.length)return;fcIdx=(fcIdx+d+deck.length)%deck.length;showFC();}
 function fcShuffle(){const deck=getActiveDeck();for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}fcIdx=0;showFC();}
 function rateFC(rating){
   const deck=getActiveDeck();
-  if(!deck.length)return;
+  if(!deck.length||!GEO_MASTERY)return;
   const card=deck[fcIdx];
-  fcRatings[card.t]=rating;
+  if(rating==='known')GEO_MASTERY.markCardKnown(card.t);
+  else GEO_MASTERY.unmarkCardKnown(card.t);
   fcNav(1);
 }
 function filterFC(){
@@ -2281,6 +2284,7 @@ function ssStartGeoMastery(){
       geoSave();
     }
     try { renderDashboard(); } catch (e) { /* dashboard not defined yet on first load - fine, it renders later anyway */ }
+    try { showFC(); } catch (e) { /* flashcards not built yet on first load - fine, it renders later anyway */ }
   });
 }
 if (window.__ssCreateMastery) { ssStartGeoMastery(); }

@@ -396,12 +396,18 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
       <div class="face back"><div class="lbl">Definition</div><div class="def" id="fc-def"></div></div>
     </div>
   </div>
-  <div class="hint">Click card to flip · Use buttons to navigate</div>
-  <div class="fc-nav">
+  <div class="hint">Click card to flip · Rate yourself to track weak cards</div>
+  <div class="fc-nav" style="flex-wrap:wrap;gap:8px">
     <button class="btn" onclick="fcNav(-1)">← Prev</button>
     <button class="btn" onclick="fcShuffle()">⇄ Shuffle</button>
     <button class="btn" onclick="fcNav(1)">Next →</button>
   </div>
+  <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
+    <button class="btn" onclick="rateFC('known')" style="border-color:rgba(127,201,143,0.45);color:rgba(127,201,143,0.85);background:rgba(127,201,143,0.14)">✓ Know it</button>
+    <button class="btn" onclick="rateFC('learning')" style="border-color:rgba(224,122,130,0.45);color:rgba(224,122,130,0.85);background:rgba(224,122,130,0.14)">✗ Still learning</button>
+    <button class="btn" onclick="filterFC()" id="filter-btn" style="font-size:18px">Show: All</button>
+  </div>
+  <div id="fc-progress" style="text-align:center;font-size:18px;color:var(--ink-dim,#857f72);margin-top:6px"></div>
 <div id="fc-archive"><details class="practice-archive"><summary>Browse all 35 flashcards as a list</summary><div class="fc-archive-body"><h4>Unit 1: The Rhetorical Situation</h4><dl class="fc-archive-list"><dt>SOAPSTone</dt><dd>A framework for analyzing a text's rhetorical situation: Speaker, Occasion, Audience, Purpose, Subject, Tone.</dd><dt>Exigence</dt><dd>The specific problem, need, or urgency that makes a piece of writing necessary at that moment.</dd><dt>Purpose</dt><dd>What the writer wants the audience to think, feel, or do — always phrased as 'to ___.'</dd><dt>Constraints</dt><dd>Limits on a writer, such as word count, audience expectations, or what's appropriate for the occasion.</dd></dl><h4>Unit 2: Rhetorical Appeals &amp; Logical Fallacies</h4><dl class="fc-archive-list"><dt>Ethos</dt><dd>An appeal to credibility and character — why the audience should trust the speaker.</dd><dt>Pathos</dt><dd>An appeal to emotion, designed to make the audience feel something that moves them toward the writer's position.</dd><dt>Logos</dt><dd>An appeal to logic and reason, using facts, statistics, and clear chains of reasoning.</dd><dt>Ad hominem</dt><dd>A logical fallacy that attacks the person making an argument instead of the argument itself.</dd><dt>Straw man</dt><dd>A logical fallacy that misrepresents an opponent's argument as weaker than it really is, then attacks that weak version.</dd><dt>False dilemma</dt><dd>A logical fallacy presenting only two options when more actually exist.</dd></dl><h4>Unit 3: Rhetorical Devices &amp; Figurative Language</h4><dl class="fc-archive-list"><dt>Anaphora</dt><dd>Repetition of a word or phrase at the beginning of successive clauses or sentences.</dd><dt>Antithesis</dt><dd>Placing two contrasting ideas in a parallel grammatical structure.</dd><dt>Juxtaposition</dt><dd>Placing two things side by side to highlight their differences.</dd><dt>Metaphor</dt><dd>A direct comparison between two unlike things, without using 'like' or 'as.'</dd><dt>Rhetorical question</dt><dd>A question asked for effect rather than to get a literal answer, leading the reader to a conclusion.</dd></dl><h4>Unit 4: Style: Diction, Syntax &amp; Tone</h4><dl class="fc-archive-list"><dt>Denotation</dt><dd>A word's literal, dictionary definition.</dd><dt>Connotation</dt><dd>The emotional association attached to a word, beyond its literal meaning.</dd><dt>Syntax</dt><dd>How a writer arranges words and constructs sentences — a rhetorical choice in itself.</dd><dt>Tone</dt><dd>The writer's attitude toward the subject, revealed through diction and syntax; it can shift within a passage.</dd></dl><h4>Unit 5: Claims, Evidence &amp; Commentary</h4><dl class="fc-archive-list"><dt>Claim of value</dt><dd>An argument that something is good, bad, right, or wrong.</dd><dt>Commentary</dt><dd>Analysis that explains WHY evidence matters and HOW it supports the argument — different from summary.</dd><dt>Line of reasoning</dt><dd>The logical thread connecting a thesis through each piece of evidence to a coherent overall argument.</dd></dl><h4>Unit 6: Organization, Structure &amp; Counterargument</h4><dl class="fc-archive-list"><dt>Thesis</dt><dd>A specific, arguable claim that someone could reasonably disagree with — the core of an essay's argument.</dd><dt>Concession</dt><dd>Acknowledging a valid point on the opposing side of an argument before pivoting back to your own position.</dd><dt>Rebuttal</dt><dd>Directly refuting an opposing point by explaining why it's flawed or less compelling.</dd></dl><h4>Unit 7: The Synthesis Essay</h4><dl class="fc-archive-list"><dt>Synthesis essay</dt><dd>An essay that develops the writer's own argument using at least three provided sources as support.</dd><dt>Source-by-source trap</dt><dd>Organizing a synthesis essay by summarizing each source in turn instead of by the writer's own claims — a major weakness.</dd></dl><h4>Unit 8: The Rhetorical Analysis Essay</h4><dl class="fc-archive-list"><dt>Rhetorical analysis essay</dt><dd>An essay explaining HOW a writer builds their argument and its effect on the audience, not whether the reader agrees.</dd><dt>Device-to-effect move</dt><dd>The core rhetorical analysis skill: identify a specific choice, then explain its effect on the audience.</dd></dl><h4>Unit 9: The Argument Essay</h4><dl class="fc-archive-list"><dt>Argument essay</dt><dd>An essay defending the writer's own position on an issue using the writer's own knowledge, with no provided sources.</dd><dt>Sophistication</dt><dd>Demonstrating nuance, qualification, or broader implications in an argument — beyond a simple thesis-evidence structure.</dd></dl><h4>Unit 10: Grammar, Conventions &amp; Multiple-Choice Strategy</h4><dl class="fc-archive-list"><dt>Comma splice</dt><dd>An error joining two independent clauses with only a comma; fix with a period, semicolon, or conjunction.</dd><dt>Sentence fragment</dt><dd>A group of words missing a subject, verb, or complete thought, unable to stand alone as a sentence.</dd><dt>Parallel structure</dt><dd>Items in a list or series sharing the same grammatical form.</dd><dt>Run-on sentence</dt><dd>Independent clauses joined with no punctuation or connector at all.</dd></dl></div></details></div></div>
 <div id="view-quiz" class="view">
   <div id="quiz-gate" class="auth-gate" style="display:none">
@@ -1439,7 +1445,7 @@ function hydrateGuide(){
 if(document.getElementById('units').children.length===0){buildGuide();}else{hydrateGuide();}
 
 // FLASHCARDS
-let fcDeck=[],fcIdx=0;
+let fcDeck=[],fcIdx=0,fcFilterMode='all';
 function buildFCSel(){
   const sel=document.getElementById('fc-sel');
   sel.innerHTML='<option value="0">All Units ('+FLASHCARDS.length+' cards)</option>';
@@ -1447,20 +1453,50 @@ function buildFCSel(){
   loadFC();
 }
 function loadFC(){
+  fcFilterMode='all';
+  if(document.getElementById('filter-btn'))document.getElementById('filter-btn').textContent='Show: All';
   const v=+document.getElementById('fc-sel').value;
   fcDeck=v===0?[...FLASHCARDS]:FLASHCARDS.filter(f=>f.u===v);
   fcIdx=0;showFC();
 }
+function fcKnownSet(){return new Set((APLANG_MASTERY&&APLANG_MASTERY.getSnapshot().cardsKnown)||[]);}
+function getActiveDeck(){
+  const known=fcKnownSet();
+  if(fcFilterMode==='learning')return fcDeck.filter(c=>!known.has(c.t));
+  if(fcFilterMode==='known')return fcDeck.filter(c=>known.has(c.t));
+  return fcDeck;
+}
 function showFC(){
-  if(!fcDeck.length)return;
-  document.getElementById('fc-term').textContent=fcDeck[fcIdx].t;
-  document.getElementById('fc-def').textContent=fcDeck[fcIdx].d;
-  document.getElementById('fc-count').textContent=(fcIdx+1)+' / '+fcDeck.length;
+  const deck=getActiveDeck();
+  if(!deck.length){document.getElementById('fc-term').textContent='No cards';document.getElementById('fc-def').textContent='Rate some cards first';document.getElementById('fc-count').textContent='0 / 0';document.getElementById('fc-progress').textContent='';return;}
+  if(fcIdx>=deck.length)fcIdx=0;
+  const card=deck[fcIdx];
+  document.getElementById('fc-term').textContent=card.t;
+  document.getElementById('fc-def').textContent=card.d;
+  const known=fcKnownSet();
+  const knownCount=fcDeck.filter(c=>known.has(c.t)).length;
+  const learningCount=fcDeck.length-knownCount;
+  document.getElementById('fc-count').textContent=(fcIdx+1)+' / '+deck.length;
+  document.getElementById('fc-progress').textContent=`✓ ${knownCount} known  ·  ✗ ${learningCount} still learning`;
   document.getElementById('scene').classList.remove('flipped');
 }
 function flip(){document.getElementById('scene').classList.toggle('flipped');}
-function fcNav(d){fcIdx=(fcIdx+d+fcDeck.length)%fcDeck.length;showFC();}
-function fcShuffle(){for(let i=fcDeck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[fcDeck[i],fcDeck[j]]=[fcDeck[j],fcDeck[i]];}fcIdx=0;showFC();}
+function fcNav(d){const deck=getActiveDeck();if(!deck.length)return;fcIdx=(fcIdx+d+deck.length)%deck.length;showFC();}
+function fcShuffle(){const deck=getActiveDeck();for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}fcIdx=0;showFC();}
+function rateFC(rating){
+  const deck=getActiveDeck();
+  if(!deck.length||!APLANG_MASTERY)return;
+  const card=deck[fcIdx];
+  if(rating==='known')APLANG_MASTERY.markCardKnown(card.t);
+  else APLANG_MASTERY.unmarkCardKnown(card.t);
+  fcNav(1);
+}
+function filterFC(){
+  if(fcFilterMode==='all'){fcFilterMode='learning';document.getElementById('filter-btn').textContent='Show: Still Learning';}
+  else if(fcFilterMode==='learning'){fcFilterMode='known';document.getElementById('filter-btn').textContent='Show: Known';}
+  else{fcFilterMode='all';document.getElementById('filter-btn').textContent='Show: All';}
+  fcIdx=0;showFC();
+}
 buildFCSel();
 
 // QUIZ
@@ -1474,7 +1510,7 @@ window.__ssMasteryInstances = window.__ssMasteryInstances || [];
 function ssStartApLangMastery(){
   APLANG_MASTERY = window.__ssCreateMastery('aplang', UNITS.map(function(u){return u.id;}), UNITS.reduce(function(acc,u){acc[u.id]=u.name;return acc;},{}));
   window.__ssMasteryInstances.push(APLANG_MASTERY);
-  APLANG_MASTERY.init();
+  APLANG_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} });
 }
 if (window.__ssCreateMastery) { ssStartApLangMastery(); }
 else { window.addEventListener('ss-mastery-ready', ssStartApLangMastery, { once: true }); }

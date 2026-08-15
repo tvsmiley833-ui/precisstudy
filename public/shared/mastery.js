@@ -171,6 +171,12 @@ export function createMastery(subject, unitIds, unitNames) {
       saveLocal();
       scheduleSync();
     },
+    unmarkCardKnown(id) {
+      const idx = state.cardsKnown.indexOf(id);
+      if (idx !== -1) state.cardsKnown.splice(idx, 1);
+      saveLocal();
+      scheduleSync();
+    },
     getSnapshot() {
       return state;
     },

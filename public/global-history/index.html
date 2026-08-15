@@ -396,12 +396,18 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
       <div class="face back"><div class="lbl">Definition</div><div class="def" id="fc-def"></div></div>
     </div>
   </div>
-  <div class="hint">Click card to flip · Use buttons to navigate</div>
-  <div class="fc-nav">
+  <div class="hint">Click card to flip · Rate yourself to track weak cards</div>
+  <div class="fc-nav" style="flex-wrap:wrap;gap:8px">
     <button class="btn" onclick="fcNav(-1)">← Prev</button>
     <button class="btn" onclick="fcShuffle()">⇄ Shuffle</button>
     <button class="btn" onclick="fcNav(1)">Next →</button>
   </div>
+  <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
+    <button class="btn" onclick="rateFC('known')" style="border-color:rgba(127,201,143,0.45);color:rgba(127,201,143,0.85);background:rgba(127,201,143,0.14)">✓ Know it</button>
+    <button class="btn" onclick="rateFC('learning')" style="border-color:rgba(224,122,130,0.45);color:rgba(224,122,130,0.85);background:rgba(224,122,130,0.14)">✗ Still learning</button>
+    <button class="btn" onclick="filterFC()" id="filter-btn" style="font-size:18px">Show: All</button>
+  </div>
+  <div id="fc-progress" style="text-align:center;font-size:18px;color:var(--ink-dim,#857f72);margin-top:6px"></div>
 <div id="fc-archive"><details class="practice-archive"><summary>Browse all 47 flashcards as a list</summary><div class="fc-archive-body"><h4>Unit 1: Early River Valley Civilizations</h4><dl class="fc-archive-list"><dt>Farming surplus</dt><dd>Extra food production beyond what's needed for survival, freeing some people to become specialists — the foundation of civilization.</dd><dt>Cuneiform</dt><dd>One of the earliest writing systems, developed by the Sumerians in Mesopotamia.</dd><dt>Hammurabi's Code</dt><dd>One of the earliest written law codes, from Babylon, based on proportional punishment.</dd><dt>Mandate of Heaven</dt><dd>Chinese belief that rulers govern with heaven's approval, which can be lost through injustice.</dd></dl><h4>Unit 2: Classical Greece &amp; Rome</h4><dl class="fc-archive-list"><dt>Direct democracy</dt><dd>A system (used in ancient Athens) where citizens vote directly on laws, rather than through elected representatives.</dd><dt>Roman Republic</dt><dd>Rome's early government with elected consuls, a Senate, and assemblies — replaced later by imperial rule.</dd><dt>Pax Romana</dt><dd>Roughly 200 years of Roman peace and stability that allowed trade and infrastructure to flourish.</dd><dt>Twelve Tables</dt><dd>An early Roman written law code, making laws public and applicable to all citizens.</dd></dl><h4>Unit 3: Classical China &amp; India</h4><dl class="fc-archive-list"><dt>Confucianism</dt><dd>A Chinese philosophy emphasizing social order, hierarchy, and duty within key relationships.</dd><dt>Legalism</dt><dd>A Chinese philosophy holding that human nature is selfish, requiring strict laws and harsh punishment.</dd><dt>Caste system</dt><dd>A rigid, hereditary social hierarchy in classical Hindu India, traditionally very difficult to move between.</dd><dt>Four Noble Truths</dt><dd>The core Buddhist teachings about the nature of suffering and how to end it.</dd></dl><h4>Unit 4: The Rise and Spread of Islam</h4><dl class="fc-archive-list"><dt>Five Pillars of Islam</dt><dd>The core obligations for Muslims: faith declaration, prayer, charity, fasting, and pilgrimage to Mecca.</dd><dt>Hijra</dt><dd>Muhammad's migration from Mecca to Medina in 622 CE, marking the start of the Islamic calendar.</dd><dt>Sunni-Shia split</dt><dd>A division over who should lead the Muslim community after Muhammad's death, beginning as a political dispute.</dd></dl><h4>Unit 5: Medieval Europe &amp; the Byzantine Empire</h4><dl class="fc-archive-list"><dt>Feudalism</dt><dd>A medieval European system of land grants in exchange for military service and loyalty.</dd><dt>Excommunication</dt><dd>The Catholic Church's power to expel someone from the Church, a major political tool in medieval Europe.</dd><dt>Byzantine Empire</dt><dd>The surviving Eastern half of the Roman Empire, preserving Roman law and Greek culture for another thousand years.</dd><dt>Great Schism (1054)</dt><dd>The formal split between the Roman Catholic Church and Eastern Orthodox Church.</dd></dl><h4>Unit 6: Trade Networks: Silk Roads, Trans-Saharan &amp; Indian Ocean</h4><dl class="fc-archive-list"><dt>Silk Roads</dt><dd>A network of overland trade routes connecting China to the Mediterranean, exchanging goods, ideas, and disease.</dd><dt>Gold-salt trade</dt><dd>The trans-Saharan trade of West African gold for Saharan salt, building wealth for empires like Mali.</dd><dt>Monsoon winds</dt><dd>Seasonal, predictable winds that enabled reliable maritime trade across the Indian Ocean.</dd></dl><h4>Unit 7: The Renaissance &amp; Reformation</h4><dl class="fc-archive-list"><dt>Humanism</dt><dd>A Renaissance intellectual movement emphasizing the value and potential of individual human achievement.</dd><dt>95 Theses</dt><dd>Martin Luther's 1517 document criticizing Catholic Church practices, sparking the Protestant Reformation.</dd><dt>Printing press</dt><dd>Gutenberg's invention that allowed ideas to spread far faster and cheaper, fueling both the Renaissance and Reformation.</dd></dl><h4>Unit 8: Age of Exploration &amp; the Columbian Exchange</h4><dl class="fc-archive-list"><dt>Columbian Exchange</dt><dd>The transfer of crops, animals, people, and diseases between the Eastern and Western Hemispheres after 1492.</dd><dt>God, Gold, Glory</dt><dd>The three main motives driving European overseas exploration: religion, wealth, and national prestige.</dd><dt>Triangular trade</dt><dd>The trade network connecting Europe, Africa, and the Americas, including the forced transport of enslaved people.</dd></dl><h4>Unit 9: Absolutism &amp; the Enlightenment</h4><dl class="fc-archive-list"><dt>Divine right</dt><dd>The belief that a monarch's authority to rule comes directly from God, not from the people.</dd><dt>Social contract</dt><dd>Rousseau's idea that legitimate government arises from an agreement among the people themselves.</dd><dt>Separation of powers</dt><dd>Montesquieu's idea of dividing government into distinct branches to prevent any one from gaining too much power.</dd></dl><h4>Unit 10: Age of Revolutions</h4><dl class="fc-archive-list"><dt>Taxation without representation</dt><dd>The American colonists' central grievance: being taxed by a Parliament with no elected colonial representation.</dd><dt>The Three Estates</dt><dd>Pre-revolutionary France's social divisions: clergy, nobility, and commoners (who bore most taxes).</dd><dt>Haitian Revolution</dt><dd>The only successful large-scale slave revolt in history, founding Haiti as the first Black-led republic in 1804.</dd></dl><h4>Unit 11: Industrialization &amp; Imperialism</h4><dl class="fc-archive-list"><dt>Industrial Revolution</dt><dd>The shift from home/small-workshop production to large factory-based manufacturing, beginning in Britain.</dd><dt>Social Darwinism</dt><dd>A flawed, pseudo-scientific application of 'survival of the fittest' used to falsely justify imperialism.</dd><dt>Berlin Conference (1884-85)</dt><dd>The meeting where European powers divided Africa among themselves with no African representatives present.</dd></dl><h4>Unit 12: World War I &amp; the Interwar Period</h4><dl class="fc-archive-list"><dt>MAIN causes of WWI</dt><dd>Militarism, Alliances, Imperialism, and Nationalism — the long-term causes of World War I.</dd><dt>Treaty of Versailles</dt><dd>The WWI peace treaty forcing Germany to accept blame, pay reparations, and lose territory — later fueling resentment.</dd><dt>League of Nations</dt><dd>A post-WWI organization meant to prevent future wars, which lacked real enforcement power.</dd></dl><h4>Unit 13: World War II &amp; the Holocaust</h4><dl class="fc-archive-list"><dt>Appeasement</dt><dd>Britain and France's pre-WWII policy of conceding to Hitler's demands to avoid war — widely seen as having backfired.</dd><dt>The Holocaust</dt><dd>Nazi Germany's systematic genocide that murdered six million Jews and millions of other targeted people.</dd><dt>Pearl Harbor</dt><dd>Japan's December 1941 attack that brought the United States fully into World War II.</dd></dl><h4>Unit 14: The Cold War, Decolonization &amp; a Changing World</h4><dl class="fc-archive-list"><dt>Iron Curtain</dt><dd>Churchill's term for the divide between Soviet-controlled Eastern Europe and the democratic West.</dd><dt>Proxy war</dt><dd>A conflict where two rival powers support opposing sides without fighting each other directly, as in the Cold War.</dd><dt>Mutually Assured Destruction (MAD)</dt><dd>The idea that nuclear war would destroy both sides completely, deterring direct U.S.-Soviet conflict.</dd><dt>Decolonization</dt><dd>The process by which colonized nations in Asia and Africa won independence from European powers after WWII.</dd></dl></div></details></div></div>
 <div id="view-quiz" class="view">
   <div id="quiz-gate" class="auth-gate" style="display:none">
@@ -1633,7 +1639,7 @@ function hydrateGuide(){
 if(document.getElementById('units').children.length===0){buildGuide();}else{hydrateGuide();}
 
 // FLASHCARDS
-let fcDeck=[],fcIdx=0;
+let fcDeck=[],fcIdx=0,fcFilterMode='all';
 function buildFCSel(){
   const sel=document.getElementById('fc-sel');
   sel.innerHTML='<option value="0">All Units ('+FLASHCARDS.length+' cards)</option>';
@@ -1641,20 +1647,50 @@ function buildFCSel(){
   loadFC();
 }
 function loadFC(){
+  fcFilterMode='all';
+  if(document.getElementById('filter-btn'))document.getElementById('filter-btn').textContent='Show: All';
   const v=+document.getElementById('fc-sel').value;
   fcDeck=v===0?[...FLASHCARDS]:FLASHCARDS.filter(f=>f.u===v);
   fcIdx=0;showFC();
 }
+function fcKnownSet(){return new Set((GLOBALHIST_MASTERY&&GLOBALHIST_MASTERY.getSnapshot().cardsKnown)||[]);}
+function getActiveDeck(){
+  const known=fcKnownSet();
+  if(fcFilterMode==='learning')return fcDeck.filter(c=>!known.has(c.t));
+  if(fcFilterMode==='known')return fcDeck.filter(c=>known.has(c.t));
+  return fcDeck;
+}
 function showFC(){
-  if(!fcDeck.length)return;
-  document.getElementById('fc-term').textContent=fcDeck[fcIdx].t;
-  document.getElementById('fc-def').textContent=fcDeck[fcIdx].d;
-  document.getElementById('fc-count').textContent=(fcIdx+1)+' / '+fcDeck.length;
+  const deck=getActiveDeck();
+  if(!deck.length){document.getElementById('fc-term').textContent='No cards';document.getElementById('fc-def').textContent='Rate some cards first';document.getElementById('fc-count').textContent='0 / 0';document.getElementById('fc-progress').textContent='';return;}
+  if(fcIdx>=deck.length)fcIdx=0;
+  const card=deck[fcIdx];
+  document.getElementById('fc-term').textContent=card.t;
+  document.getElementById('fc-def').textContent=card.d;
+  const known=fcKnownSet();
+  const knownCount=fcDeck.filter(c=>known.has(c.t)).length;
+  const learningCount=fcDeck.length-knownCount;
+  document.getElementById('fc-count').textContent=(fcIdx+1)+' / '+deck.length;
+  document.getElementById('fc-progress').textContent=`✓ ${knownCount} known  ·  ✗ ${learningCount} still learning`;
   document.getElementById('scene').classList.remove('flipped');
 }
 function flip(){document.getElementById('scene').classList.toggle('flipped');}
-function fcNav(d){fcIdx=(fcIdx+d+fcDeck.length)%fcDeck.length;showFC();}
-function fcShuffle(){for(let i=fcDeck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[fcDeck[i],fcDeck[j]]=[fcDeck[j],fcDeck[i]];}fcIdx=0;showFC();}
+function fcNav(d){const deck=getActiveDeck();if(!deck.length)return;fcIdx=(fcIdx+d+deck.length)%deck.length;showFC();}
+function fcShuffle(){const deck=getActiveDeck();for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}fcIdx=0;showFC();}
+function rateFC(rating){
+  const deck=getActiveDeck();
+  if(!deck.length||!GLOBALHIST_MASTERY)return;
+  const card=deck[fcIdx];
+  if(rating==='known')GLOBALHIST_MASTERY.markCardKnown(card.t);
+  else GLOBALHIST_MASTERY.unmarkCardKnown(card.t);
+  fcNav(1);
+}
+function filterFC(){
+  if(fcFilterMode==='all'){fcFilterMode='learning';document.getElementById('filter-btn').textContent='Show: Still Learning';}
+  else if(fcFilterMode==='learning'){fcFilterMode='known';document.getElementById('filter-btn').textContent='Show: Known';}
+  else{fcFilterMode='all';document.getElementById('filter-btn').textContent='Show: All';}
+  fcIdx=0;showFC();
+}
 buildFCSel();
 
 // QUIZ
@@ -1668,7 +1704,7 @@ window.__ssMasteryInstances = window.__ssMasteryInstances || [];
 function ssStartGlobalHistMastery(){
   GLOBALHIST_MASTERY = window.__ssCreateMastery('globalhistory', UNITS.map(function(u){return u.id;}), UNITS.reduce(function(acc,u){acc[u.id]=u.name;return acc;},{}));
   window.__ssMasteryInstances.push(GLOBALHIST_MASTERY);
-  GLOBALHIST_MASTERY.init();
+  GLOBALHIST_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} });
 }
 if (window.__ssCreateMastery) { ssStartGlobalHistMastery(); }
 else { window.addEventListener('ss-mastery-ready', ssStartGlobalHistMastery, { once: true }); }

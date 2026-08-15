@@ -448,12 +448,18 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
       <div class="face back"><div class="lbl">Definition</div><div class="def" id="fc-def"></div></div>
     </div>
   </div>
-  <div class="hint">Click card to flip · Use buttons to navigate</div>
-  <div class="fc-nav">
+  <div class="hint">Click card to flip · Rate yourself to track weak cards</div>
+  <div class="fc-nav" style="flex-wrap:wrap;gap:8px">
     <button class="btn" onclick="fcNav(-1)">← Prev</button>
     <button class="btn" onclick="fcShuffle()">⇄ Shuffle</button>
     <button class="btn" onclick="fcNav(1)">Next →</button>
   </div>
+  <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
+    <button class="btn" onclick="rateFC('known')" style="border-color:rgba(127,201,143,0.45);color:rgba(127,201,143,0.85);background:rgba(127,201,143,0.14)">✓ Know it</button>
+    <button class="btn" onclick="rateFC('learning')" style="border-color:rgba(224,122,130,0.45);color:rgba(224,122,130,0.85);background:rgba(224,122,130,0.14)">✗ Still learning</button>
+    <button class="btn" onclick="filterFC()" id="filter-btn" style="font-size:18px">Show: All</button>
+  </div>
+  <div id="fc-progress" style="text-align:center;font-size:18px;color:var(--ink-dim,#857f72);margin-top:6px"></div>
 <div id="fc-archive"><details class="practice-archive"><summary>Browse all 62 flashcards as a list</summary><div class="fc-archive-body"><h4>Unit 1: Solving Equations &amp; Inequalities</h4><dl class="fc-archive-list"><dt>Inverse operations</dt><dd>Operations that undo each other: addition/subtraction, multiplication/division. Used to isolate a variable.</dd><dt>Literal equation</dt><dd>An equation with more than one variable, solved for one variable in terms of the others.</dd><dt>Compound inequality</dt><dd>Two inequalities joined together, like −3 &lt; x ≤ 5, describing a range of values.</dd><dt>No solution (equation)</dt><dd>When solving leads to a false statement (like 5 = 8) — no value of the variable works.</dd><dt>Infinite solutions</dt><dd>When solving leads to a true statement (like 5 = 5) — every value of the variable works.</dd><dt>|x| = a</dt><dd>Absolute value equation meaning x = a or x = −a (for a &gt; 0).</dd></dl><h4>Unit 2: Linear Functions &amp; Graphing</h4><dl class="fc-archive-list"><dt>Slope</dt><dd>Steepness of a line: m = (y₂−y₁)/(x₂−x₁), or 'rise over run.'</dd><dt>Slope-intercept form</dt><dd>y = mx + b, where m is the slope and b is the y-intercept.</dd><dt>Point-slope form</dt><dd>y − y₁ = m(x − x₁), used to write an equation from one point and a slope.</dd><dt>Undefined slope</dt><dd>The slope of a vertical line (x = constant) — division by zero, so it has no numeric value.</dd><dt>Zero slope</dt><dd>The slope of a horizontal line (y = constant).</dd><dt>Perpendicular slopes</dt><dd>Negative reciprocals of each other (multiply to −1). Example: 2 and −½.</dd><dt>x-intercept</dt><dd>The point where a line crosses the x-axis; found by setting y = 0.</dd></dl><h4>Unit 3: Systems of Equations &amp; Inequalities</h4><dl class="fc-archive-list"><dt>System of equations</dt><dd>Two or more equations considered together; the solution is the point (x, y) that satisfies all of them.</dd><dt>Substitution method</dt><dd>Solving a system by solving one equation for a variable and plugging that expression into the other equation.</dd><dt>Elimination method</dt><dd>Solving a system by adding or subtracting the equations to cancel out one variable.</dd><dt>No solution (system)</dt><dd>When two lines are parallel (same slope, different intercept) — they never intersect.</dd><dt>Infinite solutions (system)</dt><dd>When two equations describe the exact same line (same slope AND intercept).</dd></dl><h4>Unit 4: Exponents &amp; Polynomials</h4><dl class="fc-archive-list"><dt>Product rule (exponents)</dt><dd>xᵃ · xᵇ = x^(a+b) — multiplying same bases adds the exponents.</dd><dt>Power rule (exponents)</dt><dd>(xᵃ)ᵇ = x^(ab) — a power raised to a power multiplies the exponents.</dd><dt>Zero exponent</dt><dd>Any nonzero base raised to the 0 power equals 1: x⁰ = 1.</dd><dt>Negative exponent</dt><dd>x⁻ⁿ = 1/xⁿ — flips the base to the denominator and makes the exponent positive.</dd><dt>Monomial / Binomial / Trinomial</dt><dd>Polynomials with one, two, and three terms, respectively.</dd><dt>Degree of a polynomial</dt><dd>The highest exponent on the variable in the polynomial.</dd><dt>FOIL</dt><dd>First, Outer, Inner, Last — the order for multiplying two binomials together.</dd></dl><h4>Unit 5: Factoring</h4><dl class="fc-archive-list"><dt>Greatest Common Factor (GCF)</dt><dd>The largest number/variable expression that divides evenly into every term — factor this out first.</dd><dt>Difference of squares</dt><dd>a² − b² = (a + b)(a − b). There is no similar pattern for a sum of squares.</dd><dt>Factoring by grouping</dt><dd>Splitting a polynomial into pairs of terms, factoring each pair's GCF, then factoring out the shared binomial.</dd><dt>Factor completely</dt><dd>Keep factoring until no factor can be broken down any further (always check for a GCF first).</dd></dl><h4>Unit 6: Quadratic Equations &amp; Functions</h4><dl class="fc-archive-list"><dt>Zero Product Property</dt><dd>If A · B = 0, then A = 0 or B = 0. The basis for solving factored quadratics.</dd><dt>Quadratic formula</dt><dd>x = (−b ± √(b² − 4ac)) / 2a, used to solve any quadratic equation ax² + bx + c = 0.</dd><dt>Vertex of a parabola</dt><dd>The highest or lowest point of a parabola; occurs on the axis of symmetry.</dd><dt>Axis of symmetry</dt><dd>The vertical line x = −b/2a that splits a parabola into two mirror-image halves.</dd><dt>Discriminant</dt><dd>b² − 4ac. Positive → 2 real solutions; zero → 1 real solution; negative → 0 real solutions.</dd></dl><h4>Unit 7: Radicals &amp; Rational Exponents</h4><dl class="fc-archive-list"><dt>Simplifying a radical</dt><dd>Pulling the largest perfect-square factor out from under the root sign.</dd><dt>Like radicals</dt><dd>Radicals with the same number under the root — only like radicals can be added or subtracted.</dd><dt>Rational exponent</dt><dd>x^(m/n) = ⁿ√(xᵐ) — the denominator is the root, the numerator is the power.</dd><dt>Extraneous solution</dt><dd>A solution produced by squaring both sides of a radical equation that does not actually work in the original equation.</dd></dl><h4>Unit 8: Exponential Functions &amp; Sequences</h4><dl class="fc-archive-list"><dt>Exponential growth</dt><dd>y = a(1 + r)ᵗ — a quantity that grows by the same PERCENT each time period.</dd><dt>Exponential decay</dt><dd>y = a(1 − r)ᵗ — a quantity that shrinks by the same PERCENT each time period.</dd><dt>Arithmetic sequence</dt><dd>A sequence where the same number (common difference) is added to get each next term.</dd><dt>Common difference</dt><dd>The constant amount added between consecutive terms of an arithmetic sequence.</dd><dt>Geometric sequence</dt><dd>A sequence where each term is multiplied by the same number (common ratio) to get the next term.</dd><dt>Common ratio</dt><dd>The constant factor multiplied between consecutive terms of a geometric sequence.</dd></dl><h4>Unit 9: Statistics: Data &amp; Distributions</h4><dl class="fc-archive-list"><dt>Mean</dt><dd>The sum of all data values divided by the number of values; sensitive to outliers.</dd><dt>Median</dt><dd>The middle value of ordered data; resistant to outliers.</dd><dt>Mode</dt><dd>The most frequently occurring value(s) in a data set.</dd><dt>Range</dt><dd>Maximum value minus minimum value.</dd><dt>Interquartile Range (IQR)</dt><dd>Q3 − Q1; the range of the middle 50% of the data, resistant to outliers.</dd><dt>Skewed right</dt><dd>A distribution with a tail stretching toward higher values; mean is greater than median.</dd><dt>Skewed left</dt><dd>A distribution with a tail stretching toward lower values; mean is less than median.</dd></dl><h4>Unit 10: Statistics: Regression &amp; Correlation</h4><dl class="fc-archive-list"><dt>Positive association</dt><dd>As one variable increases, the other tends to increase too (upward trend on a scatter plot).</dd><dt>Negative association</dt><dd>As one variable increases, the other tends to decrease (downward trend on a scatter plot).</dd><dt>Line of best fit</dt><dd>A line that summarizes the trend in a scatter plot and can be used to make predictions.</dd><dt>Correlation coefficient (r)</dt><dd>A number from −1 to 1 measuring the strength and direction of a LINEAR relationship.</dd><dt>Residual</dt><dd>The difference between an actual data value and the value predicted by the regression line.</dd><dt>Correlation ≠ Causation</dt><dd>A strong correlation between two variables does not prove that one causes the other.</dd></dl><h4>Unit 11: Functions: Notation, Domain/Range &amp; Transformations</h4><dl class="fc-archive-list"><dt>Function notation f(x)</dt><dd>Read 'f of x' — the output of function f when the input is x. Not f multiplied by x.</dd><dt>Domain</dt><dd>The set of all valid input (x) values for a function.</dd><dt>Range (of a function)</dt><dd>The set of all possible output (y) values a function can produce.</dd><dt>Vertical Line Test</dt><dd>If any vertical line crosses a graph more than once, the graph does NOT represent a function.</dd><dt>Average rate of change</dt><dd>(change in y) ÷ (change in x) between two points on a function.</dd></dl></div></details></div></div>
 <div id="view-quiz" class="view">
   <div id="quiz-gate" class="auth-gate" style="display:none">
@@ -1650,7 +1656,7 @@ function hydrateGuide(){
 if(document.getElementById('units').children.length===0){buildGuide();}else{hydrateGuide();}
 
 // FLASHCARDS
-let fcDeck=[],fcIdx=0;
+let fcDeck=[],fcIdx=0,fcFilterMode='all';
 function buildFCSel(){
   const sel=document.getElementById('fc-sel');
   sel.innerHTML='<option value="0">All Units ('+FLASHCARDS.length+' cards)</option>';
@@ -1658,20 +1664,50 @@ function buildFCSel(){
   loadFC();
 }
 function loadFC(){
+  fcFilterMode='all';
+  if(document.getElementById('filter-btn'))document.getElementById('filter-btn').textContent='Show: All';
   const v=+document.getElementById('fc-sel').value;
   fcDeck=v===0?[...FLASHCARDS]:FLASHCARDS.filter(f=>f.u===v);
   fcIdx=0;showFC();
 }
+function fcKnownSet(){return new Set((ALG1_MASTERY&&ALG1_MASTERY.getSnapshot().cardsKnown)||[]);}
+function getActiveDeck(){
+  const known=fcKnownSet();
+  if(fcFilterMode==='learning')return fcDeck.filter(c=>!known.has(c.t));
+  if(fcFilterMode==='known')return fcDeck.filter(c=>known.has(c.t));
+  return fcDeck;
+}
 function showFC(){
-  if(!fcDeck.length)return;
-  document.getElementById('fc-term').textContent=fcDeck[fcIdx].t;
-  document.getElementById('fc-def').textContent=fcDeck[fcIdx].d;
-  document.getElementById('fc-count').textContent=(fcIdx+1)+' / '+fcDeck.length;
+  const deck=getActiveDeck();
+  if(!deck.length){document.getElementById('fc-term').textContent='No cards';document.getElementById('fc-def').textContent='Rate some cards first';document.getElementById('fc-count').textContent='0 / 0';document.getElementById('fc-progress').textContent='';return;}
+  if(fcIdx>=deck.length)fcIdx=0;
+  const card=deck[fcIdx];
+  document.getElementById('fc-term').textContent=card.t;
+  document.getElementById('fc-def').textContent=card.d;
+  const known=fcKnownSet();
+  const knownCount=fcDeck.filter(c=>known.has(c.t)).length;
+  const learningCount=fcDeck.length-knownCount;
+  document.getElementById('fc-count').textContent=(fcIdx+1)+' / '+deck.length;
+  document.getElementById('fc-progress').textContent=`✓ ${knownCount} known  ·  ✗ ${learningCount} still learning`;
   document.getElementById('scene').classList.remove('flipped');
 }
 function flip(){document.getElementById('scene').classList.toggle('flipped');}
-function fcNav(d){fcIdx=(fcIdx+d+fcDeck.length)%fcDeck.length;showFC();}
-function fcShuffle(){for(let i=fcDeck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[fcDeck[i],fcDeck[j]]=[fcDeck[j],fcDeck[i]];}fcIdx=0;showFC();}
+function fcNav(d){const deck=getActiveDeck();if(!deck.length)return;fcIdx=(fcIdx+d+deck.length)%deck.length;showFC();}
+function fcShuffle(){const deck=getActiveDeck();for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}fcIdx=0;showFC();}
+function rateFC(rating){
+  const deck=getActiveDeck();
+  if(!deck.length||!ALG1_MASTERY)return;
+  const card=deck[fcIdx];
+  if(rating==='known')ALG1_MASTERY.markCardKnown(card.t);
+  else ALG1_MASTERY.unmarkCardKnown(card.t);
+  fcNav(1);
+}
+function filterFC(){
+  if(fcFilterMode==='all'){fcFilterMode='learning';document.getElementById('filter-btn').textContent='Show: Still Learning';}
+  else if(fcFilterMode==='learning'){fcFilterMode='known';document.getElementById('filter-btn').textContent='Show: Known';}
+  else{fcFilterMode='all';document.getElementById('filter-btn').textContent='Show: All';}
+  fcIdx=0;showFC();
+}
 buildFCSel();
 
 // QUIZ
@@ -1685,7 +1721,7 @@ window.__ssMasteryInstances = window.__ssMasteryInstances || [];
 function ssStartAlg1Mastery(){
   ALG1_MASTERY = window.__ssCreateMastery('algebra1', UNITS.map(function(u){return u.id;}), UNITS.reduce(function(acc,u){acc[u.id]=u.name;return acc;},{}));
   window.__ssMasteryInstances.push(ALG1_MASTERY);
-  ALG1_MASTERY.init();
+  ALG1_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} });
 }
 if (window.__ssCreateMastery) { ssStartAlg1Mastery(); }
 else { window.addEventListener('ss-mastery-ready', ssStartAlg1Mastery, { once: true }); }
