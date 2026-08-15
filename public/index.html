@@ -687,12 +687,56 @@ if ('IntersectionObserver' in window) {
 // as the background doodles and the circle around "actually". Text nodes
 // get split into staggered spans; the .ss-circled wrapper and <br> are
 // left structurally alone (only their own text run gets split) so the
-// circle-drawing SVG inside it is untouched.
+// circle-drawing SVG inside it is untouched. Each character also ticks a
+// short synthesized chalk-scratch burst (filtered noise, no audio file)
+// timed to the same stagger -- browsers block audio before any user
+// interaction, so on a visitor's very first page load this plays silently
+// until they click/tap anywhere; it's audible from then on.
 (function(){
   var h1 = document.getElementById('hero-headline');
   if (!h1) return;
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var STAGGER = 0.028;
+
+  var audioCtx = null;
+  function initChalkAudio(){
+    var AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return null;
+    var ctx = new AudioCtx();
+    var resume = function(){ if (ctx.state === 'suspended') ctx.resume().catch(function(){}); };
+    document.addEventListener('pointerdown', resume, { once: true, passive: true });
+    document.addEventListener('keydown', resume, { once: true });
+    return ctx;
+  }
+  function playChalkTick(){
+    if (!audioCtx || audioCtx.state !== 'running') return;
+    var now = audioCtx.currentTime;
+    var dur = 0.03 + Math.random() * 0.02;
+    var bufferSize = Math.max(1, Math.floor(audioCtx.sampleRate * dur));
+    var buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+    var data = buffer.getChannelData(0);
+    for (var k = 0; k < bufferSize; k++) data[k] = Math.random() * 2 - 1;
+
+    var noise = audioCtx.createBufferSource();
+    noise.buffer = buffer;
+    var bandpass = audioCtx.createBiquadFilter();
+    bandpass.type = 'bandpass';
+    bandpass.frequency.value = 2200 + Math.random() * 1800;
+    bandpass.Q.value = 1.4;
+    var gain = audioCtx.createGain();
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.035, now + 0.004);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+
+    noise.connect(bandpass);
+    bandpass.connect(gain);
+    gain.connect(audioCtx.destination);
+    noise.start(now);
+    noise.stop(now + dur);
+  }
+
+  if (!reduceMotion) audioCtx = initChalkAudio();
+
   var i = 0;
   function splitNode(node){
     if (node.nodeType === Node.TEXT_NODE) {
@@ -707,7 +751,11 @@ if ('IntersectionObserver' in window) {
         var span = document.createElement('span');
         span.className = 'chalk-char';
         span.textContent = ch;
-        if (!reduceMotion) span.style.animationDelay = (i * STAGGER).toFixed(3) + 's';
+        if (!reduceMotion) {
+          var delayMs = i * STAGGER * 1000;
+          span.style.animationDelay = (delayMs / 1000).toFixed(3) + 's';
+          setTimeout(playChalkTick, delayMs);
+        }
         i++;
         frag.appendChild(span);
       }
