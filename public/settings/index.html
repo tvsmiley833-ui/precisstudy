@@ -135,6 +135,18 @@ html{scroll-behavior:smooth}
       <button id="settings-save-btn" style="margin-top:6px;">Save</button>
       <div id="settings-status"></div>
     </div>
+
+    <div class="ss-card" style="margin-top:20px;">
+      <div style="font-weight:800;font-size:17px;color:var(--text);margin-bottom:4px;">Notifications</div>
+      <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">
+        Get a daily reminder to keep your study streak going.
+      </p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button id="push-toggle-btn" class="ss-oauth-btn" style="width:auto;padding:10px 20px;margin-bottom:0;">Enable notifications</button>
+        <button id="push-test-btn" class="ss-oauth-btn" style="width:auto;padding:10px 20px;margin-bottom:0;display:none;">Send test notification</button>
+      </div>
+      <div id="push-status" style="margin-top:12px;font-size:13px;color:var(--text-muted);"></div>
+    </div>
   </div>
 </div>
 
@@ -260,6 +272,118 @@ async function saveEnrolledSubjects(){
   btn.textContent = original;
 }
 
+var VAPID_PUBLIC_KEY = 'BFLqJyuV9vTCmo9TTgfsX9yOgI1DhUopA1Bm7Kw-Raxt5aD9286kiIVFLPcCWuInwcNzsTIuuAX-439U_D2WH1Q';
+
+function urlBase64ToUint8Array(base64String){
+  var padding = '='.repeat((4 - base64String.length % 4) % 4);
+  var base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+  var rawData = atob(base64);
+  var outputArray = new Uint8Array(rawData.length);
+  for (var i = 0; i < rawData.length; ++i) outputArray[i] = rawData.charCodeAt(i);
+  return outputArray;
+}
+
+function pushSupported(){
+  return 'serviceWorker' in navigator && 'PushManager' in window;
+}
+
+async function pushGetSubscription(){
+  if (!pushSupported()) return null;
+  var reg = await navigator.serviceWorker.register('/sw.js');
+  await navigator.serviceWorker.ready;
+  return reg.pushManager.getSubscription();
+}
+
+async function pushRefreshUI(){
+  var btn = document.getElementById('push-toggle-btn');
+  var testBtn = document.getElementById('push-test-btn');
+  var status = document.getElementById('push-status');
+  if (!pushSupported()) {
+    btn.style.display = 'none';
+    status.textContent = "Push notifications aren't supported in this browser.";
+    return;
+  }
+  if (Notification.permission === 'denied') {
+    btn.style.display = 'none';
+    testBtn.style.display = 'none';
+    status.textContent = "Notifications are blocked for this site — enable them in your browser's site settings to turn this on.";
+    return;
+  }
+  var sub = await pushGetSubscription();
+  if (sub) {
+    btn.textContent = 'Turn off notifications';
+    btn.onclick = pushDisable;
+    testBtn.style.display = 'inline-flex';
+  } else {
+    btn.textContent = 'Enable notifications';
+    btn.onclick = pushEnable;
+    testBtn.style.display = 'none';
+  }
+}
+
+async function pushEnable(){
+  var status = document.getElementById('push-status');
+  status.textContent = '';
+  try{
+    var permission = await Notification.requestPermission();
+    if (permission !== 'granted') {
+      status.textContent = "Notifications weren't allowed — you can turn them on later from your browser's site settings.";
+      await pushRefreshUI();
+      return;
+    }
+    var reg = await navigator.serviceWorker.register('/sw.js');
+    await navigator.serviceWorker.ready;
+    var sub = await reg.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+    });
+    var res = await fetch('/api/push/subscribe', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ subscription: sub.toJSON() })
+    });
+    if(res.ok){
+      status.textContent = "Notifications enabled! You'll get a daily study reminder.";
+    }else{
+      status.textContent = 'Something went wrong saving that — try again.';
+    }
+  }catch(e){
+    status.textContent = 'Something went wrong — try again.';
+  }
+  await pushRefreshUI();
+}
+
+async function pushDisable(){
+  var status = document.getElementById('push-status');
+  try{
+    var sub = await pushGetSubscription();
+    if(sub){
+      await fetch('/api/push/unsubscribe', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ endpoint: sub.endpoint })
+      });
+      await sub.unsubscribe();
+    }
+    status.textContent = 'Notifications turned off.';
+  }catch(e){
+    status.textContent = 'Something went wrong — try again.';
+  }
+  await pushRefreshUI();
+}
+
+document.getElementById('push-test-btn').addEventListener('click', async function(){
+  var status = document.getElementById('push-status');
+  status.textContent = 'Sending…';
+  try{
+    var res = await fetch('/api/push/test', { method: 'POST' });
+    var data = await res.json();
+    status.textContent = res.ok ? 'Test sent — check your notifications.' : (data.error || 'Something went wrong.');
+  }catch(e){
+    status.textContent = 'Something went wrong — try again.';
+  }
+});
+
 async function initSettings(){
   var subtitle = document.getElementById('settings-subtitle');
   var gate = document.getElementById('settings-gate');
@@ -290,6 +414,7 @@ async function initSettings(){
   }
 
   document.getElementById('settings-save-btn').addEventListener('click', saveEnrolledSubjects);
+  await pushRefreshUI();
 }
 
 initSettings();

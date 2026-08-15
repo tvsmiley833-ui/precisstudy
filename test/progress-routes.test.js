@@ -50,7 +50,8 @@ describe("handleGetProgress", () => {
       globalhistory: { mastery: {}, examples: {}, cardsKnown: [] },
       goal: null,
       updatedAt: null,
-      enrolledSubjects: []
+      enrolledSubjects: [],
+      pushSubscriptions: []
     });
   });
 
@@ -65,7 +66,8 @@ describe("handleGetProgress", () => {
       globalhistory: { mastery: {}, examples: {}, cardsKnown: [] },
       goal: null,
       updatedAt: "2026-08-14T00:00:00.000Z",
-      enrolledSubjects: ["geometry"]
+      enrolledSubjects: ["geometry"],
+      pushSubscriptions: []
     };
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify(saved) });
     const res = await handleGetProgress(req("https://example.com/api/progress", cookie), { SESSION_SECRET: SECRET, PROGRESS: kv });

@@ -14,7 +14,7 @@ function emptySubject() {
 }
 
 function emptyBlob() {
-  const blob = { goal: null, updatedAt: null, enrolledSubjects: [] };
+  const blob = { goal: null, updatedAt: null, enrolledSubjects: [], pushSubscriptions: [] };
   for (const subject of SUBJECTS) blob[subject] = emptySubject();
   return blob;
 }

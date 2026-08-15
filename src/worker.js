@@ -12,6 +12,7 @@ import {
 import { handleRequestGuideSubmit } from "./guide-requests.js";
 import { handleAdminMe, handleAdminListGuideRequests, handleAdminDeleteGuideRequest, handleAdminStats, handleAdminGetGuideRequestFile } from "./admin-routes.js";
 import { handleGetProgress, handlePostProgress, handlePostGoal, handlePostEnrolledSubjects } from "./progress-routes.js";
+import { handlePushSubscribe, handlePushUnsubscribe, handlePushTest, sendDailyReminders } from "./push-routes.js";
 
 const AUTH_ROUTES = {
   "/auth/google/start": { GET: handleGoogleStart },
@@ -76,6 +77,21 @@ export default {
       return json({ error: "Method not allowed" }, 405);
     }
 
+    if (url.pathname === "/api/push/subscribe") {
+      if (request.method === "POST") return handlePushSubscribe(request, env);
+      return json({ error: "Method not allowed" }, 405);
+    }
+
+    if (url.pathname === "/api/push/unsubscribe") {
+      if (request.method === "POST") return handlePushUnsubscribe(request, env);
+      return json({ error: "Method not allowed" }, 405);
+    }
+
+    if (url.pathname === "/api/push/test") {
+      if (request.method === "POST") return handlePushTest(request, env);
+      return json({ error: "Method not allowed" }, 405);
+    }
+
     const authRoute = AUTH_ROUTES[url.pathname];
     if (authRoute) {
       const handler = authRoute[request.method];
@@ -84,5 +100,9 @@ export default {
     }
 
     return env.ASSETS.fetch(request);
+  },
+
+  async scheduled(controller, env, ctx) {
+    ctx.waitUntil(sendDailyReminders(env));
   }
 };
