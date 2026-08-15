@@ -77,10 +77,14 @@ export function clearSessionCookie() {
   return `${SESSION_COOKIE}=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0`;
 }
 
-export function getSessionCookie(request) {
+export function getCookie(request, name) {
   const cookie = request.headers.get("Cookie") || "";
-  const match = cookie.match(new RegExp(`(?:^|;\\s*)${SESSION_COOKIE}=([^;]+)`));
+  const match = cookie.match(new RegExp(`(?:^|;\\s*)${name}=([^;]+)`));
   return match ? match[1] : null;
+}
+
+export function getSessionCookie(request) {
+  return getCookie(request, SESSION_COOKIE);
 }
 
 export async function getSession(request, env) {

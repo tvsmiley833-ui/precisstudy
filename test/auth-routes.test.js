@@ -1,5 +1,6 @@
 import { SELF } from "cloudflare:test";
 import { describe, it, expect } from "vitest";
+import { handleGoogleStart, handleGoogleCallback, handleGithubStart, handleGithubCallback } from "../src/auth-routes.js";
 
 describe("/auth/me", () => {
   it("reports guest when there is no session cookie", async () => {
@@ -64,6 +65,85 @@ describe("/auth/verify", () => {
   it("responds 503, not 500, for an unknown token when sign-in isn't configured", async () => {
     const res = await SELF.fetch("https://example.com/auth/verify?token=bogus", { redirect: "manual" });
     expect(res.status).toBe(503);
+  });
+});
+
+describe("OAuth state CSRF protection", () => {
+  const env = {
+    GOOGLE_CLIENT_ID: "test-client-id",
+    GOOGLE_CLIENT_SECRET: "test-client-secret",
+    GITHUB_CLIENT_ID: "test-client-id",
+    GITHUB_CLIENT_SECRET: "test-client-secret",
+    SESSION_SECRET: "test-session-secret"
+  };
+
+  it("/auth/google/start sets an ss_oauth_state cookie bound to the redirect's state param", async () => {
+    const res = await handleGoogleStart(new Request("https://example.com/auth/google/start"), env);
+    expect(res.status).toBe(302);
+    const state = new URL(res.headers.get("Location")).searchParams.get("state");
+    expect(res.headers.get("Set-Cookie")).toContain(`ss_oauth_state=${state}`);
+  });
+
+  it("/auth/google/callback rejects a validly-signed state with no matching cookie", async () => {
+    // A validly-signed state alone isn't enough -- /start is public and unauthenticated,
+    // so anyone can mint one. Without the cookie binding, an attacker could complete
+    // their own OAuth flow and trick a victim into visiting the resulting callback URL,
+    // logging the victim's browser into the attacker's account (login CSRF).
+    const startRes = await handleGoogleStart(new Request("https://example.com/auth/google/start"), env);
+    const state = new URL(startRes.headers.get("Location")).searchParams.get("state");
+
+    const res = await handleGoogleCallback(
+      new Request(`https://example.com/auth/google/callback?code=fake&state=${encodeURIComponent(state)}`),
+      env
+    );
+    expect(res.status).toBe(302);
+    expect(new URL(res.headers.get("Location")).search).toContain("auth_error");
+  });
+
+  it("/auth/google/callback rejects when the state cookie doesn't match the query param", async () => {
+    const res = await handleGoogleCallback(
+      new Request("https://example.com/auth/google/callback?code=fake&state=mismatched", {
+        headers: { Cookie: "ss_oauth_state=something-else" }
+      }),
+      env
+    );
+    expect(res.status).toBe(302);
+    expect(new URL(res.headers.get("Location")).search).toContain("auth_error");
+  });
+
+  it("/auth/google/callback accepts a state that matches its cookie (proceeds past the CSRF check)", async () => {
+    const startRes = await handleGoogleStart(new Request("https://example.com/auth/google/start"), env);
+    const state = new URL(startRes.headers.get("Location")).searchParams.get("state");
+
+    const res = await handleGoogleCallback(
+      new Request(`https://example.com/auth/google/callback?code=fake&state=${encodeURIComponent(state)}`, {
+        headers: { Cookie: `ss_oauth_state=${state}` }
+      }),
+      env
+    );
+    // Passes the CSRF check and proceeds to the (unmocked) token exchange, which fails
+    // against a fake code -- confirming it got past state validation, not stuck on it.
+    expect(res.status).toBe(302);
+    expect(new URL(res.headers.get("Location")).search).toContain("auth_error");
+  });
+
+  it("/auth/github/start sets an ss_oauth_state cookie bound to the redirect's state param", async () => {
+    const res = await handleGithubStart(new Request("https://example.com/auth/github/start"), env);
+    expect(res.status).toBe(302);
+    const state = new URL(res.headers.get("Location")).searchParams.get("state");
+    expect(res.headers.get("Set-Cookie")).toContain(`ss_oauth_state=${state}`);
+  });
+
+  it("/auth/github/callback rejects a validly-signed state with no matching cookie", async () => {
+    const startRes = await handleGithubStart(new Request("https://example.com/auth/github/start"), env);
+    const state = new URL(startRes.headers.get("Location")).searchParams.get("state");
+
+    const res = await handleGithubCallback(
+      new Request(`https://example.com/auth/github/callback?code=fake&state=${encodeURIComponent(state)}`),
+      env
+    );
+    expect(res.status).toBe(302);
+    expect(new URL(res.headers.get("Location")).search).toContain("auth_error");
   });
 });
 

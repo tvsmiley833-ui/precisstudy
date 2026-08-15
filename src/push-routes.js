@@ -8,15 +8,35 @@ function json(body, status) {
   });
 }
 
+// Real browsers only ever hand out push subscriptions pointing at one of these
+// push-service hosts. Without this allowlist, a client could register a
+// subscription with an attacker-controlled endpoint (e.g. an internal service
+// URL), and the server would later fetch() it directly during scheduled push
+// sends -- a classic SSRF via unvalidated user-supplied URL.
+const ALLOWED_PUSH_HOSTS = new Set([
+  "fcm.googleapis.com",
+  "android.googleapis.com",
+  "updates.push.services.mozilla.com",
+  "web.push.apple.com"
+]);
+
 function isValidSubscription(sub) {
-  return !!(
+  if (!(
     sub &&
     typeof sub.endpoint === "string" &&
     sub.endpoint.length > 0 &&
     sub.keys &&
     typeof sub.keys.p256dh === "string" &&
     typeof sub.keys.auth === "string"
-  );
+  )) return false;
+
+  let url;
+  try {
+    url = new URL(sub.endpoint);
+  } catch (e) {
+    return false;
+  }
+  return url.protocol === "https:" && ALLOWED_PUSH_HOSTS.has(url.hostname);
 }
 
 async function loadBlob(env, email) {

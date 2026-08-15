@@ -4,6 +4,7 @@ import {
   issueSessionCookie,
   clearSessionCookie,
   getSession,
+  getCookie,
   createMagicLinkToken,
   consumeMagicLinkToken,
   isValidEmail,
@@ -13,6 +14,7 @@ import {
 
 const SITE_ORIGIN = "https://studystacks.org";
 const STATE_TTL = 60 * 10; // 10 minutes
+const STATE_COOKIE = "ss_oauth_state";
 
 function json(body, status, extraHeaders) {
   return new Response(JSON.stringify(body), {
@@ -22,10 +24,23 @@ function json(body, status, extraHeaders) {
 }
 
 function redirect(location, extraHeaders) {
-  return new Response(null, {
-    status: 302,
-    headers: Object.assign({ Location: location }, extraHeaders || {})
-  });
+  const headers = new Headers({ Location: location });
+  for (const [key, value] of Object.entries(extraHeaders || {})) {
+    if (key === "Set-Cookie" && Array.isArray(value)) {
+      for (const v of value) headers.append("Set-Cookie", v);
+    } else {
+      headers.set(key, value);
+    }
+  }
+  return new Response(null, { status: 302, headers });
+}
+
+function stateCookie(state) {
+  return `${STATE_COOKIE}=${state}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${STATE_TTL}`;
+}
+
+function clearStateCookie() {
+  return `${STATE_COOKIE}=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0`;
 }
 
 async function makeState(env) {
@@ -33,7 +48,17 @@ async function makeState(env) {
   return signSession({ purpose: "oauth_state", exp: now + STATE_TTL }, env.SESSION_SECRET);
 }
 
-async function checkState(env, state) {
+// Checks the state is a validly-signed, unexpired token AND that it matches
+// the value this same browser was handed in its ss_oauth_state cookie at
+// /start -- signature validity alone isn't enough, since /start is a public
+// unauthenticated endpoint anyone can call to mint a well-formed state token.
+// Without the cookie binding, an attacker could complete their own OAuth
+// flow, then trick a victim into visiting the resulting callback URL to log
+// the victim's browser into the attacker's account (login CSRF).
+async function checkState(env, request, state) {
+  if (!state) return false;
+  const cookieState = getCookie(request, STATE_COOKIE);
+  if (!cookieState || cookieState !== state) return false;
   const payload = await verifySession(state, env.SESSION_SECRET);
   return !!(payload && payload.purpose === "oauth_state");
 }
@@ -62,7 +87,7 @@ export async function handleGoogleStart(request, env) {
     state,
     prompt: "select_account"
   });
-  return redirect("https://accounts.google.com/o/oauth2/v2/auth?" + params.toString());
+  return redirect("https://accounts.google.com/o/oauth2/v2/auth?" + params.toString(), { "Set-Cookie": stateCookie(state) });
 }
 
 export async function handleGoogleCallback(request, env) {
@@ -71,7 +96,9 @@ export async function handleGoogleCallback(request, env) {
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
-  if (!code || !(await checkState(env, state))) return redirect(SITE_ORIGIN + "/?auth_error=1");
+  if (!code || !(await checkState(env, request, state))) {
+    return redirect(SITE_ORIGIN + "/?auth_error=1", { "Set-Cookie": clearStateCookie() });
+  }
 
   const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
     method: "POST",
@@ -100,7 +127,7 @@ export async function handleGoogleCallback(request, env) {
     provider: "google"
   });
   const isNewUser = await recordLogin(env, profile.email, "google");
-  return redirect(SITE_ORIGIN + (isNewUser ? "/settings?welcome=1" : "/"), { "Set-Cookie": cookie });
+  return redirect(SITE_ORIGIN + (isNewUser ? "/settings?welcome=1" : "/"), { "Set-Cookie": [cookie, clearStateCookie()] });
 }
 
 // ===== GitHub =====
@@ -115,7 +142,7 @@ export async function handleGithubStart(request, env) {
     scope: "read:user user:email",
     state
   });
-  return redirect("https://github.com/login/oauth/authorize?" + params.toString());
+  return redirect("https://github.com/login/oauth/authorize?" + params.toString(), { "Set-Cookie": stateCookie(state) });
 }
 
 export async function handleGithubCallback(request, env) {
@@ -124,7 +151,9 @@ export async function handleGithubCallback(request, env) {
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
-  if (!code || !(await checkState(env, state))) return redirect(SITE_ORIGIN + "/?auth_error=1");
+  if (!code || !(await checkState(env, request, state))) {
+    return redirect(SITE_ORIGIN + "/?auth_error=1", { "Set-Cookie": clearStateCookie() });
+  }
 
   const tokenRes = await fetch("https://github.com/login/oauth/access_token", {
     method: "POST",
@@ -158,7 +187,7 @@ export async function handleGithubCallback(request, env) {
       if (primary) email = primary.email;
     }
   }
-  if (!email) { console.error("DEBUG github callback: no email found", JSON.stringify(profile)); return redirect(SITE_ORIGIN + "/?auth_error=1"); }
+  if (!email) return redirect(SITE_ORIGIN + "/?auth_error=1", { "Set-Cookie": clearStateCookie() });
 
   const cookie = await issueSessionCookie(env, {
     email,
@@ -166,7 +195,7 @@ export async function handleGithubCallback(request, env) {
     provider: "github"
   });
   const isNewUser = await recordLogin(env, email, "github");
-  return redirect(SITE_ORIGIN + (isNewUser ? "/settings?welcome=1" : "/"), { "Set-Cookie": cookie });
+  return redirect(SITE_ORIGIN + (isNewUser ? "/settings?welcome=1" : "/"), { "Set-Cookie": [cookie, clearStateCookie()] });
 }
 
 // ===== Email magic link =====

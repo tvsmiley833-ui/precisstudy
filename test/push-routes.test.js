@@ -64,7 +64,7 @@ describe("handlePushSubscribe", () => {
     const cookie = await sessionCookieFor("student@example.com");
     const existing = { geometry: { mastery: { "1": { correct: 1, total: 2 } }, examples: {}, cardsKnown: [] } };
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify(existing) });
-    const sub = { endpoint: "https://push.example/abc", keys: VALID_KEYS, expirationTime: null };
+    const sub = { endpoint: "https://fcm.googleapis.com/fcm/send/abc", keys: VALID_KEYS, expirationTime: null };
     const res = await handlePushSubscribe(req("https://example.com/api/push/subscribe", cookie, "POST", { subscription: sub }), { SESSION_SECRET: SECRET, PROGRESS: kv });
     expect(res.status).toBe(200);
 
@@ -75,14 +75,28 @@ describe("handlePushSubscribe", () => {
 
   it("de-duplicates by endpoint when re-subscribing", async () => {
     const cookie = await sessionCookieFor("student@example.com");
-    const oldSub = { endpoint: "https://push.example/abc", keys: { p256dh: "old", auth: "old" }, expirationTime: null };
+    const oldSub = { endpoint: "https://fcm.googleapis.com/fcm/send/abc", keys: { p256dh: "old", auth: "old" }, expirationTime: null };
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify({ pushSubscriptions: [oldSub] }) });
-    const newSub = { endpoint: "https://push.example/abc", keys: VALID_KEYS, expirationTime: null };
+    const newSub = { endpoint: "https://fcm.googleapis.com/fcm/send/abc", keys: VALID_KEYS, expirationTime: null };
     await handlePushSubscribe(req("https://example.com/api/push/subscribe", cookie, "POST", { subscription: newSub }), { SESSION_SECRET: SECRET, PROGRESS: kv });
 
     const saved = JSON.parse(kv._store.get("progress:student@example.com"));
     expect(saved.pushSubscriptions.length).toBe(1);
     expect(saved.pushSubscriptions[0].keys).toEqual(VALID_KEYS);
+  });
+
+  it("rejects a subscription endpoint that isn't a known push service (SSRF guard)", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const sub = { endpoint: "https://internal-admin.example/attack", keys: VALID_KEYS, expirationTime: null };
+    const res = await handlePushSubscribe(req("https://example.com/api/push/subscribe", cookie, "POST", { subscription: sub }), { SESSION_SECRET: SECRET, PROGRESS: fakeKV() });
+    expect(res.status).toBe(400);
+  });
+
+  it("rejects a non-https subscription endpoint", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const sub = { endpoint: "http://fcm.googleapis.com/fcm/send/abc", keys: VALID_KEYS, expirationTime: null };
+    const res = await handlePushSubscribe(req("https://example.com/api/push/subscribe", cookie, "POST", { subscription: sub }), { SESSION_SECRET: SECRET, PROGRESS: fakeKV() });
+    expect(res.status).toBe(400);
   });
 });
 
