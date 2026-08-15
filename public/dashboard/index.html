@@ -13,7 +13,7 @@
 (function(){
   try {
     var saved = localStorage.getItem('ss-theme');
-    if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    if (saved !== 'light') document.documentElement.setAttribute('data-theme', 'dark');
   } catch (e) {}
 })();
 </script>
@@ -22,19 +22,19 @@
   --bg:#eef1ea; --bg-card:#fff; --bg-header:#ffffff;
   --border:#c8d2c5; --border-strong:#b7c4b9;
   --text:#233a31; --text-muted:#5a6f63; --nav-text:#3d5347;
-  --accent:#2f7fa3; --accent-bright:#3a92b8; --accent-hover:#256a89;
+  --accent:#1f6e46; --accent-bright:#268a58; --accent-hover:#175a39;
   --status-none:#a3b3a8; --status-green:#1f8a5f; --status-amber:#a87c1f; --status-red:#a83f2e;
   --card-shadow:0 1px 3px rgba(35,58,49,.06),0 24px 48px -28px rgba(35,58,49,.20);
-  --hero-glow:radial-gradient(ellipse at center, rgba(47,127,163,.14), rgba(47,127,163,0) 70%);
+  --hero-glow:radial-gradient(ellipse at center, rgba(31,110,70,.14), rgba(31,110,70,0) 70%);
 }
 [data-theme="dark"]{
-  --bg:#1a2420; --bg-card:#22302a; --bg-header:#1e2b25;
-  --border:#354a3f; --border-strong:#43594c;
-  --text:#e9ede4; --text-muted:#9fb0a5; --nav-text:#a9c0b0;
-  --accent:#7ab8d9; --accent-bright:#8fc6e3; --accent-hover:#6bacd0;
+  --bg:#14302a; --bg-card:#1b3d33; --bg-header:#12291f;
+  --border:#2f5346; --border-strong:#3d6753;
+  --text:#f2f5ee; --text-muted:#b7c9bc; --nav-text:#eef2ea;
+  --accent:#4fbf85; --accent-bright:#63d199; --accent-hover:#3fa873;
   --status-none:#6f8377; --status-green:#3ecf8e; --status-amber:#e0c260; --status-red:#e08a70;
   --card-shadow:0 1px 3px rgba(0,0,0,.32),0 24px 48px -28px rgba(0,0,0,.5);
-  --hero-glow:radial-gradient(ellipse at center, rgba(122,184,217,.12), rgba(122,184,217,0) 70%);
+  --hero-glow:radial-gradient(ellipse at center, rgba(79,191,133,.12), rgba(79,191,133,0) 70%);
 }
 #theme-toggle{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:999px;
   width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
@@ -46,7 +46,7 @@
 [data-theme="dark"] .ss-logo-light{display:none!important}
 [data-theme="dark"] .ss-logo-dark{display:inline!important}
 
-#ss-signin-btn{background:none;border:1px solid var(--border);color:var(--accent);font-weight:700;padding:8px 16px;
+#ss-signin-btn{background:none;border:1px solid var(--border);color:var(--nav-text);font-weight:700;padding:8px 16px;
   border-radius:999px;cursor:pointer;font-family:inherit;font-size:15px;white-space:nowrap}
 #ss-signin-btn:hover{background:var(--bg)}
 #ss-login-panel{display:none;position:absolute;top:calc(100% + 10px);right:0;background:var(--bg-card);border:2px solid var(--border);
@@ -82,7 +82,7 @@ body{transition:background .2s ease,color .2s ease}
 .ss-hero-anim{opacity:0;animation:ssFadeInUp .6s cubic-bezier(.2,.8,.2,1) forwards}
 
 .ss-cta-btn{transition:background .2s ease,transform .15s ease,box-shadow .2s ease}
-.ss-cta-btn:hover{background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 8px 20px rgba(194,65,12,.28)}
+.ss-cta-btn:hover{background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 8px 20px rgba(31,110,70,.28)}
 
 .ss-card{background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:32px;
   box-shadow:var(--card-shadow);min-width:0}
@@ -118,7 +118,7 @@ body{transition:background .2s ease,color .2s ease}
 <body style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);">
 
 <div class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:var(--bg-header);border-bottom:1px solid var(--border);">
-  <a href="/" style="font-weight:800;font-size:22px;color:var(--accent);display:flex;align-items:center;gap:8px;text-decoration:none;">
+  <a href="/" style="font-weight:800;font-size:22px;color:var(--nav-text);display:flex;align-items:center;gap:8px;text-decoration:none;">
     <span style="display:inline-block;width:28px;height:28px;position:relative;flex-shrink:0;"><img src="/logo-icon.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;" class="ss-logo-light"/><img src="/logo-icon-dark.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;display:none;" class="ss-logo-dark"/></span> StudyStacks
   </a>
   <div class="nav-links" style="display:flex;gap:16px;font-weight:600;font-size:15px;color:var(--nav-text);align-items:center;">

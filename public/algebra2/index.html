@@ -21,7 +21,7 @@
 (function(){
   try {
     var saved = localStorage.getItem('ss-theme');
-    if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    if (saved !== 'light') document.documentElement.setAttribute('data-theme', 'dark');
   } catch (e) {}
 })();
 </script>
