@@ -81,14 +81,15 @@ body{transition:background .2s ease,color .2s ease}
 
 .ss-card{background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:32px;
   box-shadow:var(--card-shadow);min-width:0}
-#sb-days,#sb-subjects,#sb-result{min-width:0}
+#sb-blocks-list,#sb-subjects,#sb-result{min-width:0}
 @media(max-width:640px){.ss-card{padding:20px}}
 
-.sb-daychip{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:2px solid var(--border);
-  border-radius:999px;cursor:pointer;font-size:13px;font-weight:700;color:var(--text-muted);background:var(--bg);
-  user-select:none;transition:all .15s}
-.sb-daychip input{display:none}
-.sb-daychip.on{border-color:var(--accent-bright);background:var(--accent-bright);color:#fff}
+.sb-block-day-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;min-width:0}
+.sb-block-day-label{font-weight:800;color:var(--text);min-width:34px;flex-shrink:0}
+.sb-block-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid var(--border);
+  border-radius:999px;background:var(--bg);font-size:12.5px;color:var(--text-body);white-space:nowrap}
+.sb-block-chip button{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:13px;padding:0;line-height:1}
+.sb-block-chip button:hover{color:var(--accent)}
 .sb-subject-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:9px 12px;border:2px solid var(--border);
   border-radius:12px;margin-bottom:8px;background:var(--bg)}
 .sb-subject-row label{display:flex;align-items:center;gap:8px;flex:1;min-width:120px;font-size:14px;font-weight:700;color:var(--text);cursor:pointer}
@@ -154,14 +155,20 @@ body{transition:background .2s ease,color .2s ease}
       <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 18px;">Tell us when you're free and what you want to study — we'll build a color-coded weekly plan. Click any block to jump straight into that study guide.</p>
 
       <div style="margin-bottom:16px;">
-        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;">Which days are you free to study?</div>
-        <div id="sb-days" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
-      </div>
-
-      <div style="margin-bottom:16px;">
-        <label style="font-size:13px;font-weight:700;color:var(--text);">Minutes per day<br/>
-          <input id="sb-minutes" type="number" min="10" max="240" value="30" style="width:90px;padding:8px 10px;border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);background:var(--bg-card);margin-top:6px;"/>
-        </label>
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;">When are you free to study? <span style="font-weight:500;color:var(--text-muted);">Add a block for each free window — a day can have more than one, so you can fit in multiple subjects.</span></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:end;margin-bottom:10px;">
+          <label style="font-size:12px;font-weight:700;color:var(--text-muted);">Day<br/>
+            <select id="sb-block-day" style="padding:8px 10px;border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);background:var(--bg-card);margin-top:4px;"></select>
+          </label>
+          <label style="font-size:12px;font-weight:700;color:var(--text-muted);">From<br/>
+            <input id="sb-block-start" type="time" value="15:00" style="padding:8px 10px;border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);background:var(--bg-card);margin-top:4px;"/>
+          </label>
+          <label style="font-size:12px;font-weight:700;color:var(--text-muted);">Until<br/>
+            <input id="sb-block-end" type="time" value="16:00" style="padding:8px 10px;border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);background:var(--bg-card);margin-top:4px;"/>
+          </label>
+          <button id="sb-block-add-btn" type="button" style="background:var(--bg);border:2px solid var(--border);border-radius:10px;padding:9px 16px;font-size:13.5px;font-weight:700;color:var(--text);cursor:pointer;">+ Add block</button>
+        </div>
+        <div id="sb-blocks-list" style="display:flex;flex-direction:column;gap:6px;"></div>
       </div>
 
       <div style="margin-bottom:16px;">
@@ -381,24 +388,69 @@ const SB_DAYS = [
   { key: 'mon', label: 'Mon' }, { key: 'tue', label: 'Tue' }, { key: 'wed', label: 'Wed' },
   { key: 'thu', label: 'Thu' }, { key: 'fri', label: 'Fri' }, { key: 'sat', label: 'Sat' }, { key: 'sun', label: 'Sun' }
 ];
-let sbFreeDays = new Set();
+let sbFreeBlocks = []; // [{id, day, start:'HH:MM', end:'HH:MM'}]
 let sbSelectedSubjects = []; // [{key, unitMode:'auto'|'<unitId>'}], order = priority (index 0 = highest)
 let sbBlob = null;
 
-function sbRenderDays() {
-  const wrap = document.getElementById('sb-days');
+function sbPopulateDaySelect() {
+  const sel = document.getElementById('sb-block-day');
+  if (!sel) return;
+  sel.innerHTML = SB_DAYS.map(function (d) { return '<option value="' + d.key + '">' + d.label + '</option>'; }).join('');
+}
+
+function sbTimeToMinutes(t) {
+  const parts = (t || '').split(':');
+  const h = parseInt(parts[0], 10), m = parseInt(parts[1], 10);
+  if (isNaN(h) || isNaN(m)) return null;
+  return h * 60 + m;
+}
+
+function sbFormatTime(mins) {
+  let h = Math.floor(mins / 60), m = mins % 60;
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  h = h % 12; if (h === 0) h = 12;
+  return h + (m ? ':' + String(m).padStart(2, '0') : '') + ' ' + ampm;
+}
+
+function sbAddBlock() {
+  const day = document.getElementById('sb-block-day').value;
+  const startEl = document.getElementById('sb-block-start');
+  const endEl = document.getElementById('sb-block-end');
+  const statusEl = document.getElementById('sb-status');
+  const startMin = sbTimeToMinutes(startEl.value);
+  const endMin = sbTimeToMinutes(endEl.value);
+  if (startMin === null || endMin === null) { statusEl.textContent = 'Pick a start and end time.'; return; }
+  if (endMin <= startMin) { statusEl.textContent = 'End time must be after the start time.'; return; }
+  statusEl.textContent = '';
+  sbFreeBlocks.push({ id: Date.now() + '-' + Math.random().toString(36).slice(2, 7), day: day, start: startEl.value, end: endEl.value });
+  sbRenderBlocks();
+}
+
+function sbRemoveBlock(id) {
+  sbFreeBlocks = sbFreeBlocks.filter(function (b) { return b.id !== id; });
+  sbRenderBlocks();
+}
+
+function sbRenderBlocks() {
+  const wrap = document.getElementById('sb-blocks-list');
   if (!wrap) return;
-  wrap.innerHTML = SB_DAYS.map(d =>
-    '<label class="sb-daychip' + (sbFreeDays.has(d.key) ? ' on' : '') + '" data-day="' + d.key + '">'
-    + '<input type="checkbox"' + (sbFreeDays.has(d.key) ? ' checked' : '') + '/> ' + d.label + '</label>'
-  ).join('');
-  wrap.querySelectorAll('.sb-daychip').forEach(function (chip) {
-    chip.addEventListener('click', function (e) {
-      e.preventDefault();
-      const day = chip.dataset.day;
-      if (sbFreeDays.has(day)) sbFreeDays.delete(day); else sbFreeDays.add(day);
-      sbRenderDays();
-    });
+  const byDay = {};
+  sbFreeBlocks.forEach(function (b) { (byDay[b.day] = byDay[b.day] || []).push(b); });
+  Object.keys(byDay).forEach(function (k) {
+    byDay[k].sort(function (a, b) { return sbTimeToMinutes(a.start) - sbTimeToMinutes(b.start); });
+  });
+
+  const rows = SB_DAYS.filter(function (d) { return byDay[d.key] && byDay[d.key].length; }).map(function (d) {
+    const chips = byDay[d.key].map(function (b) {
+      return '<span class="sb-block-chip">' + sbFormatTime(sbTimeToMinutes(b.start)) + '–' + sbFormatTime(sbTimeToMinutes(b.end))
+        + '<button type="button" data-remove-block="' + b.id + '" aria-label="Remove block">✕</button></span>';
+    }).join('');
+    return '<div class="sb-block-day-row"><span class="sb-block-day-label">' + d.label + '</span>' + chips + '</div>';
+  }).join('');
+
+  wrap.innerHTML = rows || '<div style="font-size:12.5px;color:var(--text-muted);">No free blocks added yet.</div>';
+  wrap.querySelectorAll('button[data-remove-block]').forEach(function (btn) {
+    btn.addEventListener('click', function () { sbRemoveBlock(btn.dataset.removeBlock); });
   });
 }
 
@@ -483,19 +535,23 @@ function sbWeightedRoundRobin(items, dayCount) {
 }
 
 function sbBuildSchedule() {
-  const freeDaysOrdered = SB_DAYS.filter(function (d) { return sbFreeDays.has(d.key); });
-  const minutes = parseInt(document.getElementById('sb-minutes').value, 10) || 30;
   const statusEl = document.getElementById('sb-status');
   const resultEl = document.getElementById('sb-result');
 
-  if (!freeDaysOrdered.length) { statusEl.textContent = 'Pick at least one free day.'; resultEl.innerHTML = ''; return; }
+  if (!sbFreeBlocks.length) { statusEl.textContent = 'Add at least one free time block.'; resultEl.innerHTML = ''; return; }
   if (!sbSelectedSubjects.length) { statusEl.textContent = 'Pick at least one subject.'; resultEl.innerHTML = ''; return; }
   statusEl.textContent = '';
 
-  const assignment = sbWeightedRoundRobin(sbSelectedSubjects, freeDaysOrdered.length);
-  const blockByDay = {};
+  const orderedBlocks = SB_DAYS.reduce(function (acc, d) {
+    const dayBlocks = sbFreeBlocks.filter(function (b) { return b.day === d.key; })
+      .sort(function (a, b) { return sbTimeToMinutes(a.start) - sbTimeToMinutes(b.start); });
+    return acc.concat(dayBlocks);
+  }, []);
 
-  freeDaysOrdered.forEach(function (day, i) {
+  const assignment = sbWeightedRoundRobin(sbSelectedSubjects, orderedBlocks.length);
+  const blocksByDay = {};
+
+  orderedBlocks.forEach(function (block, i) {
     const subj = assignment[i];
     const cfg = SUBJECTS_CONFIG.find(function (s) { return s.key === subj.key; });
     const unitNames = {}; cfg.units.forEach(function (u) { unitNames[u.id] = u.name; });
@@ -514,23 +570,30 @@ function sbBuildSchedule() {
     }
 
     const href = unitId ? cfg.href + '?practice=' + unitId : cfg.href;
-    blockByDay[day.key] = { subjectLabel: cfg.label, color: SUBJECT_COLORS[subj.key], unitLabel: unitLabel, href: href, minutes: minutes };
+    const timeLabel = sbFormatTime(sbTimeToMinutes(block.start)) + '–' + sbFormatTime(sbTimeToMinutes(block.end));
+    (blocksByDay[block.day] = blocksByDay[block.day] || []).push({
+      subjectLabel: cfg.label, color: SUBJECT_COLORS[subj.key], unitLabel: unitLabel, href: href, timeLabel: timeLabel
+    });
   });
 
-  resultEl.innerHTML = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;">'
+  resultEl.innerHTML = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;">'
     + SB_DAYS.map(function (d) {
-        const block = blockByDay[d.key];
-        if (!block) return '<div class="sb-block-empty">' + d.label + '<br/>Not scheduled</div>';
-        return '<a class="sb-block" href="' + block.href + '" style="background:' + block.color + '">'
-          + '<div class="sb-block-day">' + d.label + ' · ' + block.minutes + ' min</div>'
-          + '<div class="sb-block-subject">' + ssEscapeHtml(block.subjectLabel) + '</div>'
-          + '<div class="sb-block-unit">' + ssEscapeHtml(block.unitLabel) + '</div>'
-          + '</a>';
+        const blocks = blocksByDay[d.key];
+        if (!blocks || !blocks.length) return '<div class="sb-block-empty">' + d.label + '<br/>Not scheduled</div>';
+        return '<div style="display:flex;flex-direction:column;gap:8px;min-width:0;">'
+          + blocks.map(function (block) {
+              return '<a class="sb-block" href="' + block.href + '" style="background:' + block.color + '">'
+                + '<div class="sb-block-day">' + d.label + ' · ' + block.timeLabel + '</div>'
+                + '<div class="sb-block-subject">' + ssEscapeHtml(block.subjectLabel) + '</div>'
+                + '<div class="sb-block-unit">' + ssEscapeHtml(block.unitLabel) + '</div>'
+                + '</a>';
+            }).join('')
+          + '</div>';
       }).join('')
     + '</div>';
 
   try {
-    localStorage.setItem('ssScheduleConfig', JSON.stringify({ freeDays: Array.from(sbFreeDays), minutes: minutes, subjects: sbSelectedSubjects }));
+    localStorage.setItem('ssScheduleConfig', JSON.stringify({ blocks: sbFreeBlocks, subjects: sbSelectedSubjects }));
   } catch (e) { /* ignore */ }
 }
 
@@ -539,8 +602,9 @@ function sbRestoreSavedConfig() {
     const raw = localStorage.getItem('ssScheduleConfig');
     if (!raw) return false;
     const cfg = JSON.parse(raw);
-    if (cfg.freeDays) sbFreeDays = new Set(cfg.freeDays);
-    if (typeof cfg.minutes === 'number') document.getElementById('sb-minutes').value = cfg.minutes;
+    if (Array.isArray(cfg.blocks)) sbFreeBlocks = cfg.blocks.filter(function (b) {
+      return b && b.id && b.day && b.start && b.end;
+    });
     if (Array.isArray(cfg.subjects)) sbSelectedSubjects = cfg.subjects.filter(function (s) {
       return SUBJECTS_CONFIG.some(function (c) { return c.key === s.key; });
     });
@@ -613,11 +677,14 @@ async function loadDashboard() {
 
   sbBlob = blob;
   const hadSavedConfig = sbRestoreSavedConfig();
-  sbRenderDays();
+  sbPopulateDaySelect();
+  sbRenderBlocks();
   sbRenderSubjects();
   const sbBuildBtn = document.getElementById('sb-build-btn');
+  const sbAddBlockBtn = document.getElementById('sb-block-add-btn');
+  if (sbAddBlockBtn) sbAddBlockBtn.addEventListener('click', sbAddBlock);
   if (sbBuildBtn) sbBuildBtn.addEventListener('click', sbBuildSchedule);
-  if (hadSavedConfig && sbFreeDays.size && sbSelectedSubjects.length) sbBuildSchedule();
+  if (hadSavedConfig && sbFreeBlocks.length && sbSelectedSubjects.length) sbBuildSchedule();
 }
 
 loadDashboard();
