@@ -22,8 +22,8 @@
   --bg:#eef1ea; --bg-card:#fff; --bg-header:#ffffff;
   --border:#c8d2c5; --border-strong:#b7c4b9;
   --text:#233a31; --text-muted:#5a6f63; --nav-text:#3d5347;
-  --accent:#1f6e46; --accent-bright:#268a58; --accent-hover:#175a39;
-  --status-none:#a3b3a8; --status-green:#1f8a5f; --status-amber:#a87c1f; --status-red:#a83f2e;
+  --accent:#1f6e46; --accent-bright:#268a58; --accent-hover:#175a39; --accent-solid:#1f6e46; --accent-solid-hover:#175a39;
+  --status-none:#a3b3a8; --status-green:#1f8a5f; --status-amber:#7a5810; --status-red:#a83f2e;
   --card-shadow:0 1px 3px rgba(35,58,49,.06),0 24px 48px -28px rgba(35,58,49,.20);
   --hero-glow:radial-gradient(ellipse at center, rgba(31,110,70,.14), rgba(31,110,70,0) 70%);
 }
@@ -31,7 +31,7 @@
   --bg:#14302a; --bg-card:#1b3d33; --bg-header:#12291f;
   --border:#2f5346; --border-strong:#3d6753;
   --text:#f2f5ee; --text-muted:#b7c9bc; --nav-text:#eef2ea;
-  --accent:#4fbf85; --accent-bright:#63d199; --accent-hover:#3fa873;
+  --accent:#4fbf85; --accent-bright:#63d199; --accent-hover:#3fa873; --accent-solid:#237750; --accent-solid-hover:#1a6644;
   --status-none:#6f8377; --status-green:#3ecf8e; --status-amber:#e0c260; --status-red:#e08a70;
   --card-shadow:0 1px 3px rgba(0,0,0,.32),0 24px 48px -28px rgba(0,0,0,.5);
   --hero-glow:radial-gradient(ellipse at center, rgba(79,191,133,.12), rgba(79,191,133,0) 70%);
@@ -82,7 +82,7 @@ body{transition:background .2s ease,color .2s ease}
 .ss-hero-anim{opacity:0;animation:ssFadeInUp .6s cubic-bezier(.2,.8,.2,1) forwards}
 
 .ss-cta-btn{transition:background .2s ease,transform .15s ease,box-shadow .2s ease}
-.ss-cta-btn:hover{background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 8px 20px rgba(31,110,70,.28)}
+.ss-cta-btn:hover{background:var(--accent-solid-hover);transform:translateY(-1px);box-shadow:0 8px 20px rgba(31,110,70,.28)}
 
 .ss-card{background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:32px;
   box-shadow:var(--card-shadow);min-width:0}
@@ -133,7 +133,7 @@ body{transition:background .2s ease,color .2s ease}
       <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
     </button>
     <div id="ss-account-area" style="position:relative;"></div>
-    <a href="/geometry" class="ss-cta-btn" style="background:var(--accent-bright);color:#fff;padding:8px 18px;border-radius:999px;text-decoration:none;white-space:nowrap;">Start with Geometry →</a>
+    <a href="/geometry" class="ss-cta-btn" style="background:var(--accent-solid);color:#fff;padding:8px 18px;border-radius:999px;text-decoration:none;white-space:nowrap;">Start with Geometry →</a>
   </div>
 </div>
 
@@ -183,14 +183,14 @@ body{transition:background .2s ease,color .2s ease}
         <div id="sb-subjects"></div>
       </div>
 
-      <button id="sb-build-btn" class="ss-cta-btn" style="background:var(--accent-bright);color:#fff;border:none;padding:10px 20px;border-radius:999px;font-size:14px;font-weight:700;cursor:pointer;">Build my schedule</button>
+      <button id="sb-build-btn" class="ss-cta-btn" style="background:var(--accent-solid);color:#fff;border:none;padding:10px 20px;border-radius:999px;font-size:14px;font-weight:700;cursor:pointer;">Build my schedule</button>
       <span id="sb-status" style="font-size:12.5px;color:var(--text-muted);margin-left:10px;"></span>
 
       <div id="sb-result" style="margin-top:20px;"></div>
       <div id="sb-notify-prompt" style="display:none;margin-top:14px;background:var(--accent-soft, var(--surface));border:1px solid var(--border);border-radius:12px;padding:14px 16px;">
         <div style="font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:2px;">🔔 Want a reminder right when each block starts?</div>
         <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:10px;">We'll send a notification naming the subject the moment a scheduled block begins.</div>
-        <button id="sb-notify-yes-btn" type="button" style="background:var(--accent-bright);color:#fff;border:none;padding:8px 16px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;margin-right:8px;">Enable notifications</button>
+        <button id="sb-notify-yes-btn" type="button" style="background:var(--accent-solid);color:#fff;border:none;padding:8px 16px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;margin-right:8px;">Enable notifications</button>
         <button id="sb-notify-no-btn" type="button" style="background:none;border:1px solid var(--border);color:var(--text-muted);padding:8px 16px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;">No thanks</button>
         <div id="sb-notify-status" style="font-size:12px;color:var(--text-muted);margin-top:8px;"></div>
       </div>
@@ -325,10 +325,10 @@ function renderSubject(subjectKey, label, href, subjectData, unitIds, unitNames)
 
   let recHtml;
   if (rec.type === 'diagnostic') {
-    recHtml = '<a href="' + href + '" class="ss-cta-btn" style="display:inline-block;background:var(--accent-bright);color:#fff;padding:8px 16px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:700;">Take the diagnostic →</a>';
+    recHtml = '<a href="' + href + '" class="ss-cta-btn" style="display:inline-block;background:var(--accent-solid);color:#fff;padding:8px 16px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:700;">Take the diagnostic →</a>';
   } else if (rec.type === 'practice') {
     recHtml = '<p style="margin:0 0 10px;font-size:14px;color:var(--text-muted);">You\'re weakest here: <b style="color:var(--text);">' + rec.unitName + '</b> (' + rec.pct + '%)</p>'
-      + '<a href="' + href + '?practice=' + rec.unitId + '" class="ss-cta-btn" style="display:inline-block;background:var(--accent-bright);color:#fff;padding:8px 16px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:700;">Practice ' + rec.unitName + ' →</a>';
+      + '<a href="' + href + '?practice=' + rec.unitId + '" class="ss-cta-btn" style="display:inline-block;background:var(--accent-solid);color:#fff;padding:8px 16px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:700;">Practice ' + rec.unitName + ' →</a>';
   } else {
     recHtml = '<p style="margin:0;font-size:14px;color:var(--text-muted);">Every assessed topic is scoring well — try the practice exam or review flashcards.</p>';
   }
@@ -352,7 +352,7 @@ function renderSubject(subjectKey, label, href, subjectData, unitIds, unitNames)
     + '<input id="sched-days-' + subjectKey + '" type="number" min="1" max="60" value="14" style="width:70px;padding:7px 9px;border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);background:var(--bg-card);margin-top:4px;"/></label>'
     + '<label style="font-size:13px;color:var(--text-muted);">Minutes per day<br/>'
     + '<input id="sched-minutes-' + subjectKey + '" type="number" min="10" max="180" value="30" style="width:70px;padding:7px 9px;border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);background:var(--bg-card);margin-top:4px;"/></label>'
-    + '<button id="sched-build-' + subjectKey + '" class="ss-cta-btn" style="background:var(--accent-bright);color:#fff;border:none;padding:9px 16px;border-radius:999px;font-size:14px;font-weight:700;cursor:pointer;">Build my schedule</button>'
+    + '<button id="sched-build-' + subjectKey + '" class="ss-cta-btn" style="background:var(--accent-solid);color:#fff;border:none;padding:9px 16px;border-radius:999px;font-size:14px;font-weight:700;cursor:pointer;">Build my schedule</button>'
     + '</div>'
     + '<div id="sched-result-' + subjectKey + '" style="margin-top:14px;"></div>'
     + '</div>';

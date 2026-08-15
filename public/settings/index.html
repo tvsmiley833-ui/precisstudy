@@ -20,14 +20,14 @@
   --bg:#eef1ea; --bg-card:#fff; --bg-header:#ffffff;
   --border:#c8d2c5;
   --text:#233a31; --text-body:#33493d; --text-muted:#5a6f63; --nav-text:#3d5347;
-  --accent:#1f6e46; --accent-bright:#268a58; --accent-hover:#175a39;
+  --accent:#1f6e46; --accent-bright:#268a58; --accent-hover:#175a39; --accent-solid:#1f6e46; --accent-solid-hover:#175a39;
   --card-shadow:0 1px 3px rgba(35,58,49,.06),0 24px 48px -28px rgba(35,58,49,.20);
 }
 [data-theme="dark"]{
   --bg:#14302a; --bg-card:#1b3d33; --bg-header:#12291f;
   --border:#2f5346;
   --text:#f2f5ee; --text-body:#dbe6dd; --text-muted:#b7c9bc; --nav-text:#eef2ea;
-  --accent:#4fbf85; --accent-bright:#63d199; --accent-hover:#3fa873;
+  --accent:#4fbf85; --accent-bright:#63d199; --accent-hover:#3fa873; --accent-solid:#237750; --accent-solid-hover:#1a6644;
   --card-shadow:0 1px 3px rgba(0,0,0,.32),0 24px 48px -28px rgba(0,0,0,.5);
 }
 #theme-toggle{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:999px;
@@ -72,7 +72,7 @@ html{scroll-behavior:smooth}
   box-shadow:var(--card-shadow)}
 
 .ss-cta-btn{transition:background .2s ease,transform .15s ease,box-shadow .2s ease}
-.ss-cta-btn:hover{background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 8px 20px rgba(31,110,70,.28)}
+.ss-cta-btn:hover{background:var(--accent-solid-hover);transform:translateY(-1px);box-shadow:0 8px 20px rgba(31,110,70,.28)}
 
 .class-row{display:flex;align-items:center;gap:14px;border:2px solid var(--border);border-radius:14px;padding:14px 18px;margin-bottom:10px;
   cursor:pointer;transition:border-color .15s ease,background .15s ease}
@@ -83,9 +83,9 @@ html{scroll-behavior:smooth}
 .class-row .swatch svg{display:block}
 .class-row .name{font-weight:700;font-size:16px;color:var(--text)}
 
-#settings-save-btn{background:var(--accent-bright);color:#fff;border:none;border-radius:999px;padding:12px 26px;font-weight:700;
+#settings-save-btn{background:var(--accent-solid);color:#fff;border:none;border-radius:999px;padding:12px 26px;font-weight:700;
   font-size:15px;font-family:inherit;cursor:pointer;transition:background .2s ease,transform .15s ease,box-shadow .2s ease}
-#settings-save-btn:hover{background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 8px 20px rgba(31,110,70,.28)}
+#settings-save-btn:hover{background:var(--accent-solid-hover);transform:translateY(-1px);box-shadow:0 8px 20px rgba(31,110,70,.28)}
 #settings-save-btn:disabled{opacity:.6;cursor:default;transform:none;box-shadow:none}
 #settings-status{margin-top:14px;font-size:14px;font-weight:600}
 #settings-status.ok{color:#22a06b}
@@ -111,12 +111,12 @@ html{scroll-behavior:smooth}
       <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
     </button>
     <div id="ss-account-area" style="position:relative;"></div>
-    <a href="/" class="ss-cta-btn" style="background:var(--accent-bright);color:#fff;padding:8px 18px;border-radius:999px;text-decoration:none;white-space:nowrap;">Back to Site</a>
+    <a href="/" class="ss-cta-btn" style="background:var(--accent-solid);color:#fff;padding:8px 18px;border-radius:999px;text-decoration:none;white-space:nowrap;">Back to Site</a>
   </div>
 </div>
 
 <div style="max-width:640px;margin:0 auto;padding:48px 32px 80px;">
-  <div id="welcome-banner" style="display:none;background:var(--accent-bright);color:#fff;border-radius:16px;padding:20px 24px;margin-bottom:24px;">
+  <div id="welcome-banner" style="display:none;background:var(--accent-solid);color:#fff;border-radius:16px;padding:20px 24px;margin-bottom:24px;">
     <div style="font-weight:800;font-size:18px;margin-bottom:4px;">👋 Welcome to StudyStacks!</div>
     <div style="font-size:14px;opacity:.95;line-height:1.5;">Pick the classes you're taking below so your homepage shows just what matters to you. Then head to a class and take the 5-minute diagnostic to see where you stand.</div>
   </div>

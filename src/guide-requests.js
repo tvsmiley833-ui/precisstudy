@@ -1,4 +1,7 @@
-import { isValidEmail } from "./auth.js";
+import { isValidEmail, checkRateLimit, getClientIp } from "./auth.js";
+
+const SUBMIT_RATE_LIMIT_MAX = 5;
+const SUBMIT_RATE_LIMIT_WINDOW = 60 * 60; // 1 hour
 
 function json(body, status) {
   return new Response(JSON.stringify(body), {
@@ -48,6 +51,13 @@ async function storeFiles(env, requestId, fileEntries) {
 
 export async function handleRequestGuideSubmit(request, env) {
   if (!env.GUIDE_REQUESTS) return json({ error: "Requests aren't configured yet" }, 503);
+
+  // This is a public, unauthenticated endpoint that accepts file uploads up
+  // to 15MB -- without a limit, it's an open invitation to storage-cost/spam
+  // abuse. Keyed by IP rather than email since email is optional here.
+  const ip = getClientIp(request);
+  const withinLimit = await checkRateLimit(env.GUIDE_REQUESTS, "ratelimit:submit:" + ip, SUBMIT_RATE_LIMIT_MAX, SUBMIT_RATE_LIMIT_WINDOW);
+  if (!withinLimit) return json({ error: "Too many requests submitted recently — try again in a bit" }, 429);
 
   const contentType = request.headers.get("Content-Type") || "";
   let className, notes, emailRaw, fileEntries;

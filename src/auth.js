@@ -93,20 +93,27 @@ export async function getSession(request, env) {
   return verifySession(token, env.SESSION_SECRET);
 }
 
+// Best-effort fixed-window limiter on top of KV (no atomic increment available,
+// so a race under heavy concurrent load could let one or two extra requests
+// through -- an acceptable tradeoff for blocking sustained abuse, which is the
+// actual threat this guards against).
+export async function checkRateLimit(kv, key, max, windowSeconds) {
+  const raw = await kv.get(key);
+  const count = raw ? parseInt(raw, 10) : 0;
+  if (count >= max) return false;
+  await kv.put(key, String(count + 1), { expirationTtl: windowSeconds });
+  return true;
+}
+
 const EMAIL_RATE_LIMIT_MAX = 3;
 const EMAIL_RATE_LIMIT_WINDOW = 60 * 15; // 15 minutes
 
-// Best-effort fixed-window limiter on top of KV (no atomic increment available,
-// so a race under heavy concurrent load could let one or two extra requests
-// through -- an acceptable tradeoff for blocking sustained email-bombing of an
-// arbitrary inbox, which is the actual threat this guards against).
 export async function checkEmailRateLimit(env, email) {
-  const key = "ratelimit:email:" + email.toLowerCase();
-  const raw = await env.MAGIC_LINKS.get(key);
-  const count = raw ? parseInt(raw, 10) : 0;
-  if (count >= EMAIL_RATE_LIMIT_MAX) return false;
-  await env.MAGIC_LINKS.put(key, String(count + 1), { expirationTtl: EMAIL_RATE_LIMIT_WINDOW });
-  return true;
+  return checkRateLimit(env.MAGIC_LINKS, "ratelimit:email:" + email.toLowerCase(), EMAIL_RATE_LIMIT_MAX, EMAIL_RATE_LIMIT_WINDOW);
+}
+
+export function getClientIp(request) {
+  return request.headers.get("CF-Connecting-IP") || "unknown";
 }
 
 export async function createMagicLinkToken(env, email) {

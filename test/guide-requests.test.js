@@ -16,6 +16,14 @@ async function adminCookieReq(url, method) {
   return new Request(url, { method: method || "GET", headers: { Cookie: `${SESSION_COOKIE}=${token}` } });
 }
 
+// Submissions are rate-limited per client IP -- give each test its own IP so
+// they don't share a rate-limit bucket with unrelated tests in this file.
+let ipCounter = 0;
+function nextIp() {
+  ipCounter += 1;
+  return `10.0.0.${ipCounter}`;
+}
+
 describe("/api/request-guide", () => {
   it("rejects GET", async () => {
     const res = await SELF.fetch("https://example.com/api/request-guide");
@@ -25,7 +33,7 @@ describe("/api/request-guide", () => {
   it("rejects a missing class name", async () => {
     const res = await SELF.fetch("https://example.com/api/request-guide", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "CF-Connecting-IP": nextIp() },
       body: JSON.stringify({ className: "" })
     });
     expect(res.status).toBe(400);
@@ -34,7 +42,7 @@ describe("/api/request-guide", () => {
   it("rejects an invalid email when one is provided", async () => {
     const res = await SELF.fetch("https://example.com/api/request-guide", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "CF-Connecting-IP": nextIp() },
       body: JSON.stringify({ className: "AP Biology", email: "not-an-email" })
     });
     expect(res.status).toBe(400);
@@ -43,7 +51,7 @@ describe("/api/request-guide", () => {
   it("accepts a valid request with no email", async () => {
     const res = await SELF.fetch("https://example.com/api/request-guide", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "CF-Connecting-IP": nextIp() },
       body: JSON.stringify({ className: "AP Biology", notes: "Regents-style please" })
     });
     expect(res.status).toBe(200);
@@ -54,7 +62,7 @@ describe("/api/request-guide", () => {
   it("accepts a valid request with an email", async () => {
     const res = await SELF.fetch("https://example.com/api/request-guide", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "CF-Connecting-IP": nextIp() },
       body: JSON.stringify({ className: "AP Biology", email: "student@example.com" })
     });
     expect(res.status).toBe(200);
@@ -65,10 +73,25 @@ describe("/api/request-guide", () => {
   it("returns 400 for invalid JSON", async () => {
     const res = await SELF.fetch("https://example.com/api/request-guide", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "CF-Connecting-IP": nextIp() },
       body: "not json"
     });
     expect(res.status).toBe(400);
+  });
+
+  it("rate-limits repeated submissions from the same IP", async () => {
+    const ip = nextIp();
+    const post = () => SELF.fetch("https://example.com/api/request-guide", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "CF-Connecting-IP": ip },
+      body: JSON.stringify({ className: "AP Biology" })
+    });
+    for (let i = 0; i < 5; i++) {
+      const res = await post();
+      expect(res.status).toBe(200);
+    }
+    const sixth = await post();
+    expect(sixth.status).toBe(429);
   });
 });
 
@@ -82,7 +105,7 @@ describe("/api/request-guide with file attachments", () => {
     form.append("className", "AP Biology");
     form.append("notes", "");
     form.append("email", "");
-    const res = await SELF.fetch("https://example.com/api/request-guide", { method: "POST", body: form });
+    const res = await SELF.fetch("https://example.com/api/request-guide", { method: "POST", body: form, headers: { "CF-Connecting-IP": nextIp() } });
     expect(res.status).toBe(200);
     expect(await res.json()).toEqual({ ok: true });
   });
@@ -90,7 +113,7 @@ describe("/api/request-guide with file attachments", () => {
   it("rejects a missing class name via multipart form", async () => {
     const form = new FormData();
     form.append("className", "");
-    const res = await SELF.fetch("https://example.com/api/request-guide", { method: "POST", body: form });
+    const res = await SELF.fetch("https://example.com/api/request-guide", { method: "POST", body: form, headers: { "CF-Connecting-IP": nextIp() } });
     expect(res.status).toBe(400);
   });
 
@@ -98,7 +121,7 @@ describe("/api/request-guide with file attachments", () => {
     const form = new FormData();
     form.append("className", "AP Biology");
     form.append("files", fakeFile("notes.txt", "text/plain", new Uint8Array(100)));
-    const res = await SELF.fetch("https://example.com/api/request-guide", { method: "POST", body: form });
+    const res = await SELF.fetch("https://example.com/api/request-guide", { method: "POST", body: form, headers: { "CF-Connecting-IP": nextIp() } });
     expect(res.status).toBe(200);
     expect(await res.json()).toEqual({ ok: true });
   });
@@ -109,7 +132,7 @@ describe("/api/request-guide with file attachments", () => {
     for (let i = 0; i < 4; i++) {
       form.append("files", fakeFile(`f${i}.txt`, "text/plain", new Uint8Array(10)));
     }
-    const res = await SELF.fetch("https://example.com/api/request-guide", { method: "POST", body: form });
+    const res = await SELF.fetch("https://example.com/api/request-guide", { method: "POST", body: form, headers: { "CF-Connecting-IP": nextIp() } });
     expect(res.status).toBe(400);
     const data = await res.json();
     expect(data.error).toMatch(/at most 3 files/);
@@ -119,7 +142,7 @@ describe("/api/request-guide with file attachments", () => {
     const form = new FormData();
     form.append("className", "AP Biology");
     form.append("files", fakeFile("huge.txt", "text/plain", new Uint8Array(7 * 1024 * 1024)));
-    const res = await SELF.fetch("https://example.com/api/request-guide", { method: "POST", body: form });
+    const res = await SELF.fetch("https://example.com/api/request-guide", { method: "POST", body: form, headers: { "CF-Connecting-IP": nextIp() } });
     expect(res.status).toBe(400);
     const data = await res.json();
     expect(data.error).toMatch(/too large/);
@@ -129,7 +152,7 @@ describe("/api/request-guide with file attachments", () => {
     const form = new FormData();
     form.append("className", "AP Biology");
     form.append("files", fakeFile("virus.exe", "application/x-msdownload", new Uint8Array(10)));
-    const res = await SELF.fetch("https://example.com/api/request-guide", { method: "POST", body: form });
+    const res = await SELF.fetch("https://example.com/api/request-guide", { method: "POST", body: form, headers: { "CF-Connecting-IP": nextIp() } });
     expect(res.status).toBe(400);
     const data = await res.json();
     expect(data.error).toMatch(/unsupported file type/);
@@ -139,7 +162,7 @@ describe("/api/request-guide with file attachments", () => {
     const form = new FormData();
     form.append("className", "AP Biology Attachment Test");
     form.append("files", fakeFile("syllabus.txt", "text/plain", new TextEncoder().encode("hello world")));
-    const submitRes = await SELF.fetch("https://example.com/api/request-guide", { method: "POST", body: form });
+    const submitRes = await SELF.fetch("https://example.com/api/request-guide", { method: "POST", body: form, headers: { "CF-Connecting-IP": nextIp() } });
     expect(submitRes.status).toBe(200);
 
     const aEnv = await adminEnv();

@@ -33,7 +33,7 @@
   --bg:#eef1ea; --bg-card:#fff; --bg-header:#ffffff;
   --border:#c8d2c5;
   --text:#233a31; --text-body:#33493d; --text-muted:#5a6f63; --nav-text:#3d5347;
-  --accent:#1f6e46; --accent-bright:#268a58; --accent-hover:#175a39;
+  --accent:#1f6e46; --accent-bright:#268a58; --accent-hover:#175a39; --accent-solid:#1f6e46; --accent-solid-hover:#175a39;
   --badge-green:#1f8a5f;
   --chip-bg:#dde8df; --chip-text:#175a39;
   --card-shadow:0 1px 3px rgba(35,58,49,.06),0 24px 48px -28px rgba(35,58,49,.20);
@@ -43,7 +43,7 @@
   --bg:#14302a; --bg-card:#1b3d33; --bg-header:#12291f;
   --border:#2f5346;
   --text:#f2f5ee; --text-body:#dbe6dd; --text-muted:#b7c9bc; --nav-text:#eef2ea;
-  --accent:#4fbf85; --accent-bright:#63d199; --accent-hover:#3fa873;
+  --accent:#4fbf85; --accent-bright:#63d199; --accent-hover:#3fa873; --accent-solid:#237750; --accent-solid-hover:#1a6644;
   --badge-green:#3ecf8e;
   --chip-bg:#22362c; --chip-text:#63d199;
   --card-shadow:0 1px 3px rgba(0,0,0,.32),0 24px 48px -28px rgba(0,0,0,.5);
@@ -95,7 +95,7 @@ body{transition:background .2s ease,color .2s ease}
 .ss-hero-anim{opacity:0;animation:ssFadeInUp .6s cubic-bezier(.2,.8,.2,1) forwards}
 
 .ss-cta-btn{transition:background .2s ease,transform .15s ease,box-shadow .2s ease}
-.ss-cta-btn:hover{background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 8px 20px rgba(31,110,70,.28)}
+.ss-cta-btn:hover{background:var(--accent-solid-hover);transform:translateY(-1px);box-shadow:0 8px 20px rgba(31,110,70,.28)}
 
 .ss-card{background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:32px;
   box-shadow:var(--card-shadow)}
@@ -111,9 +111,9 @@ body{transition:background .2s ease,color .2s ease}
   padding:11px 14px;color:var(--text);font-size:15px;font-family:inherit;outline:none;resize:vertical;
   transition:border-color .2s ease,box-shadow .2s ease}
 .rg-field input:focus,.rg-field textarea:focus{border-color:var(--accent-bright);box-shadow:0 0 0 4px rgba(255,138,76,.12)}
-.rg-submit{background:var(--accent-bright);color:#fff;border:none;border-radius:999px;padding:12px 26px;font-weight:700;
+.rg-submit{background:var(--accent-solid);color:#fff;border:none;border-radius:999px;padding:12px 26px;font-weight:700;
   font-size:15px;font-family:inherit;cursor:pointer;transition:background .2s ease,transform .15s ease,box-shadow .2s ease}
-.rg-submit:hover{background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 8px 20px rgba(31,110,70,.28)}
+.rg-submit:hover{background:var(--accent-solid-hover);transform:translateY(-1px);box-shadow:0 8px 20px rgba(31,110,70,.28)}
 .rg-submit:disabled{opacity:.6;cursor:default;transform:none;box-shadow:none}
 .rg-status{margin-top:14px;font-size:14px;font-weight:600}
 .rg-status.ok{color:var(--badge-green)}
@@ -147,7 +147,7 @@ body{transition:background .2s ease,color .2s ease}
       <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
     </button>
     <div id="ss-account-area" style="position:relative;"></div>
-    <a href="/geometry" class="ss-cta-btn" style="background:var(--accent-bright);color:#fff;padding:8px 18px;border-radius:999px;text-decoration:none;white-space:nowrap;">Start with Geometry →</a>
+    <a href="/geometry" class="ss-cta-btn" style="background:var(--accent-solid);color:#fff;padding:8px 18px;border-radius:999px;text-decoration:none;white-space:nowrap;">Start with Geometry →</a>
   </div>
 </div>
 
