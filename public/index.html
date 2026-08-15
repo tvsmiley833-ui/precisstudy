@@ -133,8 +133,13 @@ body{transition:background .2s ease,color .2s ease}
 .ss-circled{position:relative;display:inline-block;white-space:nowrap}
 .ss-circled svg{position:absolute;inset:-16px -20px;width:calc(100% + 40px);height:calc(100% + 32px);pointer-events:none;overflow:visible}
 .ss-circled svg path{fill:none;stroke:var(--tier-start-text);stroke-width:3;stroke-linecap:round;
-  stroke-dasharray:1;stroke-dashoffset:1;animation:chalkDraw 1.1s ease .7s forwards}
+  stroke-dasharray:1;stroke-dashoffset:1;animation:chalkDraw 1.1s ease 1.05s forwards}
 @media(prefers-reduced-motion:reduce){.ss-circled svg path{animation:none;stroke-dashoffset:0}}
+
+.chalk-char{display:inline-block;opacity:0;transform:translateY(7px) rotate(-3deg);
+  animation:chalkCharIn .4s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes chalkCharIn{to{opacity:1;transform:translateY(0) rotate(0)}}
+@media(prefers-reduced-motion:reduce){.chalk-char{animation:none;opacity:1;transform:none}}
 
 .ss-cta-btn{transition:background .2s ease,transform .15s ease,box-shadow .2s ease}
 .ss-cta-btn:hover{background:var(--accent-solid-hover);transform:translateY(-1px);box-shadow:0 8px 20px rgba(31,110,70,.28)}
@@ -243,7 +248,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
     <text x="14" y="102" font-size="14" font-weight="700" style="animation-delay:6.6s">C = 2πr</text>
   </svg>
   <div class="ss-hero-inner">
-  <h1 class="ss-hero-anim" style="animation-delay:0s;font-size:46px;font-weight:700;color:var(--text);margin:0 0 14px;letter-spacing:-0.01em;">
+  <h1 id="hero-headline" style="font-size:46px;font-weight:700;color:var(--text);margin:0 0 14px;letter-spacing:-0.01em;">
     Study guides that <span class="ss-circled">actually<svg viewBox="0 0 200 60" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M8,30 C5,10 30,4 100,5 C170,6 195,12 192,32 C189,50 160,56 100,55 C40,54 11,48 8,30 Z"/></svg></span><br/>get you ready.
   </h1>
   <p class="ss-hero-anim" style="animation-delay:.08s;font-size:18px;color:var(--text-muted);max-width:560px;margin:0 auto 28px;line-height:1.5;">
@@ -676,6 +681,43 @@ if ('IntersectionObserver' in window) {
 } else {
   document.querySelectorAll('.ss-reveal').forEach(function(el) { el.classList.add('in-view'); });
 }
+
+// Writes the hero headline in one character at a time, like it's being
+// hand-lettered onto the board -- continues the same chalk-draw motion
+// as the background doodles and the circle around "actually". Text nodes
+// get split into staggered spans; the .ss-circled wrapper and <br> are
+// left structurally alone (only their own text run gets split) so the
+// circle-drawing SVG inside it is untouched.
+(function(){
+  var h1 = document.getElementById('hero-headline');
+  if (!h1) return;
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var STAGGER = 0.028;
+  var i = 0;
+  function splitNode(node){
+    if (node.nodeType === Node.TEXT_NODE) {
+      var frag = document.createDocumentFragment();
+      var text = node.textContent;
+      for (var c = 0; c < text.length; c++) {
+        var ch = text[c];
+        if (ch === ' ') {
+          frag.appendChild(document.createTextNode(' '));
+          continue;
+        }
+        var span = document.createElement('span');
+        span.className = 'chalk-char';
+        span.textContent = ch;
+        if (!reduceMotion) span.style.animationDelay = (i * STAGGER).toFixed(3) + 's';
+        i++;
+        frag.appendChild(span);
+      }
+      node.parentNode.replaceChild(frag, node);
+    } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName !== 'SVG') {
+      Array.prototype.slice.call(node.childNodes).forEach(splitNode);
+    }
+  }
+  Array.prototype.slice.call(h1.childNodes).forEach(splitNode);
+})();
 
 // 3D tilt on class cards, like tipping a physical index card toward you.
 // Skipped entirely under reduced-motion, and the "soon" cards keep their
