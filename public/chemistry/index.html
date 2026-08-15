@@ -3097,12 +3097,16 @@ ssCheckSession();
   var SS_BASE='/chemistry';
   var TAB_TO_SEG={guide:'',cards:'flashcards',quiz:'quiz',examples:'examples',exam:'exam',qref:'reference',memory:'memory'};
   var SEG_TO_TAB={flashcards:'cards',quiz:'quiz',examples:'examples',exam:'exam',reference:'qref',memory:'memory'};
+  var TAB_TITLES={cards:'Flashcards',quiz:'Quiz',examples:'Worked Examples',exam:'Practice Exam',qref:'Quick Reference',memory:'Memory Tricks'};
+  var BASE_TITLE=document.title;
+  var SUBJECT_NAME=BASE_TITLE.replace(/\s*Study Guide.*$/,'');
   var _prevSwitchTab=switchTab;
   switchTab=function(id){
     _prevSwitchTab(id);
     var seg=TAB_TO_SEG[id];
     var path=SS_BASE+(seg?'/'+seg:'/');
     if(location.pathname!==path){ try{ history.pushState({tab:id},'',path); }catch(e){} }
+    document.title=TAB_TITLES[id]?(TAB_TITLES[id]+' \u2014 '+SUBJECT_NAME+' Study Guide'):BASE_TITLE;
   };
   function tabFromUrl(){
     var rest=location.pathname.slice(SS_BASE.length).replace(/^\/|\/$/g,'');
