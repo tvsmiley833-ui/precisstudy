@@ -11,6 +11,18 @@ describe("security headers", () => {
       expect(res.headers.get("Referrer-Policy")).toBe("strict-origin-when-cross-origin");
     }
   });
+
+  it("sets a restrictive Content-Security-Policy and Permissions-Policy on every response", async () => {
+    for (const url of ["https://example.com/", "https://example.com/api/chat"]) {
+      const res = await SELF.fetch(url);
+      const csp = res.headers.get("Content-Security-Policy");
+      expect(csp).toContain("default-src 'self'");
+      expect(csp).toContain("object-src 'none'");
+      expect(csp).toContain("frame-ancestors 'none'");
+      expect(csp).toContain("base-uri 'self'");
+      expect(res.headers.get("Permissions-Policy")).toContain("geolocation=()");
+    }
+  });
 });
 
 describe("routing", () => {

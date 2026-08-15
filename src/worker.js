@@ -28,11 +28,37 @@ const AUTH_ROUTES = {
   "/auth/logout": { POST: handleLogout }
 };
 
+// The page markup relies throughout on inline <script> blocks, inline
+// onclick="..." handlers, and inline style="..." attributes, so a
+// nonce/hash-based CSP isn't realistic without a much larger refactor --
+// 'unsafe-inline' is required for script-src and style-src as a result.
+// This still blocks the thing that matters most: loading any script,
+// object, or frame from a host that isn't explicitly listed below, which
+// stops a large class of injection payloads even though inline execution
+// of the page's own script/style is allowed. Google AdSense's script and
+// ad iframes are the only third-party origins the site actually loads.
+const CSP = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "font-src 'self' https://fonts.gstatic.com",
+  "img-src 'self' data: https:",
+  "connect-src 'self' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net",
+  "frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.google.com",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "frame-ancestors 'none'",
+  "upgrade-insecure-requests"
+].join("; ");
+
 const SECURITY_HEADERS = {
   "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
   "X-Content-Type-Options": "nosniff",
   "X-Frame-Options": "DENY",
-  "Referrer-Policy": "strict-origin-when-cross-origin"
+  "Referrer-Policy": "strict-origin-when-cross-origin",
+  "Content-Security-Policy": CSP,
+  "Permissions-Policy": "geolocation=(), camera=(), microphone=(), payment=(), usb=()"
 };
 
 function withSecurityHeaders(response) {
