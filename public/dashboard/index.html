@@ -113,6 +113,11 @@ body{transition:background .2s ease,color .2s ease}
 .sb-block-unit{font-size:12.5px;opacity:.9;margin-top:2px}
 .sb-block-empty{border:2px dashed var(--border);border-radius:12px;padding:12px 14px;color:var(--text-muted);
   font-size:12.5px;text-align:center;display:flex;align-items:center;justify-content:center;min-height:64px}
+
+.skel-bar{border-radius:6px;background:linear-gradient(90deg,var(--border) 25%,var(--bg) 50%,var(--border) 75%);
+  background-size:200% 100%;animation:skelShimmer 1.4s ease-in-out infinite}
+@keyframes skelShimmer{to{background-position:-200% 0}}
+@media(prefers-reduced-motion:reduce){.skel-bar{animation:none;background:var(--border)}}
 </style>
 </head>
 <body style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);">
@@ -742,6 +747,18 @@ function localFallback() {
   return blob;
 }
 
+function renderSkeletons() {
+  const subjectsEl = document.getElementById('dash-subjects');
+  subjectsEl.innerHTML = SUBJECTS_CONFIG.map(function(){
+    return '<div class="ss-card" aria-hidden="true">'
+      + '<div class="skel-bar" style="width:140px;height:20px;margin-bottom:14px;"></div>'
+      + '<div class="skel-bar" style="width:100%;height:10px;margin-bottom:10px;"></div>'
+      + '<div class="skel-bar" style="width:70%;height:10px;margin-bottom:18px;"></div>'
+      + '<div class="skel-bar" style="width:100%;height:36px;border-radius:10px;"></div>'
+      + '</div>';
+  }).join('');
+}
+
 async function loadDashboard() {
   const session = await ssCheckSession();
   const gate = document.getElementById('dash-gate');
@@ -752,6 +769,7 @@ async function loadDashboard() {
     return;
   }
   content.style.display = 'block';
+  renderSkeletons();
 
   let blob;
   let syncFailed = false;
@@ -772,6 +790,7 @@ async function loadDashboard() {
   }
 
   const subjectsEl = document.getElementById('dash-subjects');
+  subjectsEl.innerHTML = '';
   SUBJECTS_CONFIG.forEach(s => {
     const card = document.createElement('div');
     card.id = 'dash-subject-' + s.key;
