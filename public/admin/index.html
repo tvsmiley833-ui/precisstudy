@@ -231,7 +231,7 @@ function renderRequests(requests){
       + (r.email ? '<div class="req-email">' + ssEscapeHtml(r.email) + '</div>' : '')
       + (r.files && r.files.length ? '<div class="req-files">' + r.files.map(function(f){
           return '<a class="req-file" href="/api/admin/guide-request-file?key=' + encodeURIComponent(f.key) + '" target="_blank" rel="noopener">'
-            + '📎 ' + ssEscapeHtml(f.name) + ' (' + formatBytes(f.size) + ')</a>';
+            + '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>' + ssEscapeHtml(f.name) + ' (' + formatBytes(f.size) + ')</a>';
         }).join('') + '</div>' : '')
       + '</div>';
   }).join('');

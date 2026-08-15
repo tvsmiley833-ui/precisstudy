@@ -96,7 +96,7 @@ function groupByUnit(items) {
 
 function renderFlashcardArchive(FLASHCARDS, UNITS) {
   if (!FLASHCARDS || !FLASHCARDS.length) return "";
-  let out = `<div id="fc-archive"><details class="practice-archive"><summary>📚 Browse all ${FLASHCARDS.length} flashcards as a list</summary><div class="fc-archive-body">`;
+  let out = `<div id="fc-archive"><details class="practice-archive"><summary>Browse all ${FLASHCARDS.length} flashcards as a list</summary><div class="fc-archive-body">`;
   for (const [unitId, cards] of groupByUnit(FLASHCARDS)) {
     out += `<h4>Unit ${esc(unitId)}: ${esc(unitName(UNITS, unitId))}</h4><dl class="fc-archive-list">`;
     for (const c of cards) {
@@ -130,8 +130,8 @@ function renderQuestionSet(label, items, UNITS) {
 
 function renderQuestionBank(QUIZ, HARD_Q, UNITS) {
   let out = '<div id="qbank-archive">';
-  out += renderQuestionSet("📝 Practice Question Bank", QUIZ, UNITS);
-  out += renderQuestionSet("⭐ Hard Mode Questions", HARD_Q, UNITS);
+  out += renderQuestionSet("Practice Question Bank", QUIZ, UNITS);
+  out += renderQuestionSet("Hard Mode Questions", HARD_Q, UNITS);
   out += "</div>";
   return out;
 }
