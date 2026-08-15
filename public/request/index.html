@@ -55,6 +55,8 @@
 #theme-toggle .icon-sun{display:none}
 [data-theme="dark"] #theme-toggle .icon-moon{display:none}
 [data-theme="dark"] #theme-toggle .icon-sun{display:block}
+[data-theme="dark"] .ss-logo-light{display:none!important}
+[data-theme="dark"] .ss-logo-dark{display:inline!important}
 
 #ss-signin-btn{background:none;border:1px solid var(--border);color:var(--accent);font-weight:700;padding:8px 16px;
   border-radius:999px;cursor:pointer;font-family:inherit;font-size:15px;white-space:nowrap}
@@ -130,7 +132,7 @@ body{transition:background .2s ease,color .2s ease}
 
 <div class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:var(--bg-header);border-bottom:1px solid var(--border);">
   <a href="/" style="font-weight:800;font-size:22px;color:var(--accent);display:flex;align-items:center;gap:8px;text-decoration:none;">
-    <img src="/logo-icon.png" alt="" width="28" height="28" style="border-radius:6px;"/> StudyStacks
+    <span style="display:inline-block;width:28px;height:28px;position:relative;flex-shrink:0;"><img src="/logo-icon.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;" class="ss-logo-light"/><img src="/logo-icon-dark.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;display:none;" class="ss-logo-dark"/></span> StudyStacks
   </a>
   <div class="nav-links" style="display:flex;gap:16px;font-weight:600;font-size:15px;color:var(--nav-text);align-items:center;">
     <a href="/#classes-section" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Browse Subjects</a>
