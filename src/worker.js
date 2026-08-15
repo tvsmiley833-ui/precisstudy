@@ -28,8 +28,35 @@ const AUTH_ROUTES = {
   "/auth/logout": { POST: handleLogout }
 };
 
+const SECURITY_HEADERS = {
+  "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+  "X-Content-Type-Options": "nosniff",
+  "X-Frame-Options": "DENY",
+  "Referrer-Policy": "strict-origin-when-cross-origin"
+};
+
+function withSecurityHeaders(response) {
+  const res = new Response(response.body, response);
+  for (const [name, value] of Object.entries(SECURITY_HEADERS)) res.headers.set(name, value);
+  return res;
+}
+
 export default {
   async fetch(request, env) {
+    return withSecurityHeaders(await handleFetch(request, env));
+  },
+
+  async scheduled(controller, env, ctx) {
+    if (controller.cron === "*/5 * * * *") {
+      ctx.waitUntil(sendScheduledBlockReminders(env));
+      ctx.waitUntil(sendStreakReminders(env));
+    } else {
+      ctx.waitUntil(sendDailyReminders(env));
+    }
+  }
+};
+
+async function handleFetch(request, env) {
     const url = new URL(request.url);
 
     if (url.pathname === "/api/chat") {
@@ -124,14 +151,4 @@ export default {
     }
 
     return env.ASSETS.fetch(request);
-  },
-
-  async scheduled(controller, env, ctx) {
-    if (controller.cron === "*/5 * * * *") {
-      ctx.waitUntil(sendScheduledBlockReminders(env));
-      ctx.waitUntil(sendStreakReminders(env));
-    } else {
-      ctx.waitUntil(sendDailyReminders(env));
-    }
-  }
-};
+}

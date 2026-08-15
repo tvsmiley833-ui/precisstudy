@@ -1,6 +1,18 @@
 import { SELF } from "cloudflare:test";
 import { describe, it, expect } from "vitest";
 
+describe("security headers", () => {
+  it("sets baseline security headers on every response, API and asset alike", async () => {
+    for (const url of ["https://example.com/", "https://example.com/api/chat"]) {
+      const res = await SELF.fetch(url);
+      expect(res.headers.get("Strict-Transport-Security")).toBe("max-age=31536000; includeSubDomains; preload");
+      expect(res.headers.get("X-Content-Type-Options")).toBe("nosniff");
+      expect(res.headers.get("X-Frame-Options")).toBe("DENY");
+      expect(res.headers.get("Referrer-Policy")).toBe("strict-origin-when-cross-origin");
+    }
+  });
+});
+
 describe("routing", () => {
   it("returns 405 for GET on /api/chat", async () => {
     const res = await SELF.fetch("https://example.com/api/chat");

@@ -10,6 +10,7 @@ import {
   consumeMagicLinkToken,
   isValidEmail,
   recordLogin,
+  checkEmailRateLimit,
   SESSION_COOKIE
 } from "../src/auth.js";
 
@@ -142,6 +143,35 @@ describe("magic link tokens", () => {
     await env.MAGIC_LINKS.put("expired-token", JSON.stringify({ email: "a@b.com", exp: now - 10 }));
     const email = await consumeMagicLinkToken(env, "expired-token");
     expect(email).toBeNull();
+  });
+});
+
+describe("checkEmailRateLimit", () => {
+  it("allows the first few requests for an email then blocks further ones", async () => {
+    const env = { MAGIC_LINKS: fakeKV() };
+    expect(await checkEmailRateLimit(env, "student@school.edu")).toBe(true);
+    expect(await checkEmailRateLimit(env, "student@school.edu")).toBe(true);
+    expect(await checkEmailRateLimit(env, "student@school.edu")).toBe(true);
+    expect(await checkEmailRateLimit(env, "student@school.edu")).toBe(false);
+    expect(await checkEmailRateLimit(env, "student@school.edu")).toBe(false);
+  });
+
+  it("is case-insensitive so Student@ and student@ share the same limit", async () => {
+    const env = { MAGIC_LINKS: fakeKV() };
+    await checkEmailRateLimit(env, "Student@School.edu");
+    await checkEmailRateLimit(env, "student@school.edu");
+    await checkEmailRateLimit(env, "STUDENT@SCHOOL.EDU");
+    expect(await checkEmailRateLimit(env, "student@school.edu")).toBe(false);
+  });
+
+  it("tracks separate emails independently", async () => {
+    const env = { MAGIC_LINKS: fakeKV() };
+    await checkEmailRateLimit(env, "a@school.edu");
+    await checkEmailRateLimit(env, "a@school.edu");
+    await checkEmailRateLimit(env, "a@school.edu");
+    expect(await checkEmailRateLimit(env, "a@school.edu")).toBe(false);
+    // a different email should be unaffected by a@school.edu's limit
+    expect(await checkEmailRateLimit(env, "b@school.edu")).toBe(true);
   });
 });
 

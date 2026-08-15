@@ -7,7 +7,8 @@ import {
   createMagicLinkToken,
   consumeMagicLinkToken,
   isValidEmail,
-  recordLogin
+  recordLogin,
+  checkEmailRateLimit
 } from "./auth.js";
 
 const SITE_ORIGIN = "https://studystacks.org";
@@ -181,6 +182,9 @@ export async function handleEmailStart(request, env) {
   if (!isValidEmail(email)) return json({ error: "Enter a valid email address" }, 400);
   if (!env.MAGIC_LINKS) return json({ error: "Email sign-in isn't configured yet" }, 503);
   if (sessionSecretMissing(env)) return json({ error: "Sign-in isn't configured yet" }, 503);
+
+  const withinLimit = await checkEmailRateLimit(env, email);
+  if (!withinLimit) return json({ error: "Too many sign-in requests for this email — try again in a few minutes" }, 429);
 
   const token = await createMagicLinkToken(env, email);
   const link = SITE_ORIGIN + "/auth/verify?token=" + encodeURIComponent(token);
