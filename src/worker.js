@@ -35,16 +35,17 @@ const AUTH_ROUTES = {
 // This still blocks the thing that matters most: loading any script,
 // object, or frame from a host that isn't explicitly listed below, which
 // stops a large class of injection payloads even though inline execution
-// of the page's own script/style is allowed. Google AdSense's script and
-// ad iframes are the only third-party origins the site actually loads.
+// of the page's own script/style is allowed. Third-party origins the site
+// actually loads: Google AdSense (script + ad iframes), Google Fonts, and
+// Cloudflare's own Web Analytics beacon (auto-injected by the zone).
 const CSP = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com",
+  "script-src 'self' 'unsafe-inline' https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google https://static.cloudflareinsights.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
   "img-src 'self' data: https:",
-  "connect-src 'self' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net",
-  "frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.google.com",
+  "connect-src 'self' https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google https://cloudflareinsights.com",
+  "frame-src https://*.doubleclick.net https://*.googlesyndication.com https://*.google.com https://*.adtrafficquality.google",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
