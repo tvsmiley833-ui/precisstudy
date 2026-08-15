@@ -176,3 +176,99 @@ export async function sendDailyReminders(env) {
 
   return { checked, sent };
 }
+
+const WEEKDAY_TO_DAY_KEY = { Mon: "mon", Tue: "tue", Wed: "wed", Thu: "thu", Fri: "fri", Sat: "sat", Sun: "sun" };
+
+function localDayAndMinutes(timezone) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: timezone,
+    weekday: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false
+  }).formatToParts(new Date());
+  const weekday = parts.find(p => p.type === "weekday").value;
+  let hour = parseInt(parts.find(p => p.type === "hour").value, 10);
+  const minute = parseInt(parts.find(p => p.type === "minute").value, 10);
+  if (hour === 24) hour = 0; // some ICU locales format midnight as "24" with hour12:false
+  return { day: WEEKDAY_TO_DAY_KEY[weekday], minutes: hour * 60 + minute };
+}
+
+function timeToMinutes(t) {
+  const [h, m] = t.split(":").map(Number);
+  return h * 60 + m;
+}
+
+// Runs on a frequent cron (every 5 minutes). For each student with notifications
+// enabled on their study schedule, checks whether any block starts within the
+// current 5-minute window in THEIR local time (using the IANA timezone captured
+// when they built the schedule) and sends a reminder naming that block's subject.
+export async function sendScheduledBlockReminders(env) {
+  if (!env.PROGRESS || !env.VAPID_PRIVATE_KEY) return { checked: 0, sent: 0 };
+
+  let cursor;
+  let checked = 0;
+  let sent = 0;
+
+  do {
+    const list = await env.PROGRESS.list({ prefix: "progress:", cursor });
+    for (const key of list.keys) {
+      checked++;
+      const raw = await env.PROGRESS.get(key.name);
+      if (!raw) continue;
+      let blob;
+      try {
+        blob = JSON.parse(raw);
+      } catch (e) {
+        continue;
+      }
+
+      const schedule = blob.schedule;
+      const subs = Array.isArray(blob.pushSubscriptions) ? blob.pushSubscriptions : [];
+      if (!schedule || !schedule.notifyEnabled || !schedule.timezone || !subs.length) continue;
+      const blocks = Array.isArray(schedule.blocks) ? schedule.blocks : [];
+      if (!blocks.length) continue;
+
+      let local;
+      try {
+        local = localDayAndMinutes(schedule.timezone);
+      } catch (e) {
+        continue; // stale/invalid timezone saved before validation was added - skip rather than crash
+      }
+
+      const dueBlocks = blocks.filter(b => {
+        if (b.day !== local.day) return false;
+        const startMin = timeToMinutes(b.start);
+        return startMin >= local.minutes && startMin < local.minutes + 5;
+      });
+      if (!dueBlocks.length) continue;
+
+      const deadEndpoints = new Set();
+      for (const block of dueBlocks) {
+        const message = {
+          data: JSON.stringify({
+            title: `Time to study ${block.subjectLabel}! 📚`,
+            body: `Your ${block.start}–${block.end} study block just started.`,
+            url: "/dashboard"
+          }),
+          options: { ttl: 900 }
+        };
+        for (const sub of subs) {
+          if (deadEndpoints.has(sub.endpoint)) continue;
+          try {
+            const res = await sendToSubscription(env, sub, message);
+            if (res.ok || res.status === 201) sent++;
+            else if (res.status === 404 || res.status === 410) deadEndpoints.add(sub.endpoint);
+          } catch (e) { /* transient failure - keep the subscription for next time */ }
+        }
+      }
+      if (deadEndpoints.size) {
+        blob.pushSubscriptions = subs.filter(s => !deadEndpoints.has(s.endpoint));
+        await env.PROGRESS.put(key.name, JSON.stringify(blob));
+      }
+    }
+    cursor = list.list_complete ? undefined : list.cursor;
+  } while (cursor);
+
+  return { checked, sent };
+}

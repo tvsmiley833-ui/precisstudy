@@ -186,6 +186,13 @@ body{transition:background .2s ease,color .2s ease}
       <span id="sb-status" style="font-size:12.5px;color:var(--text-muted);margin-left:10px;"></span>
 
       <div id="sb-result" style="margin-top:20px;"></div>
+      <div id="sb-notify-prompt" style="display:none;margin-top:14px;background:var(--accent-soft, var(--surface));border:1px solid var(--border);border-radius:12px;padding:14px 16px;">
+        <div style="font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:2px;">🔔 Want a reminder right when each block starts?</div>
+        <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:10px;">We'll send a notification naming the subject the moment a scheduled block begins.</div>
+        <button id="sb-notify-yes-btn" type="button" style="background:var(--accent-bright);color:#fff;border:none;padding:8px 16px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;margin-right:8px;">Enable notifications</button>
+        <button id="sb-notify-no-btn" type="button" style="background:none;border:1px solid var(--border);color:var(--text-muted);padding:8px 16px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;">No thanks</button>
+        <div id="sb-notify-status" style="font-size:12px;color:var(--text-muted);margin-top:8px;"></div>
+      </div>
     </div>
 
     <div id="dash-subjects" style="display:grid;gap:20px;"></div>
@@ -556,6 +563,7 @@ function sbBuildSchedule() {
 
   const assignment = sbWeightedRoundRobin(sbSelectedSubjects, orderedBlocks.length);
   const blocksByDay = {};
+  const resolvedBlocks = [];
 
   orderedBlocks.forEach(function (block, i) {
     const subj = assignment[i];
@@ -580,6 +588,7 @@ function sbBuildSchedule() {
     (blocksByDay[block.day] = blocksByDay[block.day] || []).push({
       subjectLabel: cfg.label, color: SUBJECT_COLORS[subj.key], unitLabel: unitLabel, href: href, timeLabel: timeLabel
     });
+    resolvedBlocks.push({ day: block.day, start: block.start, end: block.end, subjectKey: subj.key, subjectLabel: cfg.label });
   });
 
   resultEl.innerHTML = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;">'
@@ -601,6 +610,105 @@ function sbBuildSchedule() {
   try {
     localStorage.setItem('ssScheduleConfig', JSON.stringify({ blocks: sbFreeBlocks, subjects: sbSelectedSubjects }));
   } catch (e) { /* ignore */ }
+
+  sbSyncScheduleAndMaybeAskNotify(resolvedBlocks);
+}
+
+// ----- push notifications for scheduled blocks -----
+const SB_VAPID_PUBLIC_KEY = 'BFLqJyuV9vTCmo9TTgfsX9yOgI1DhUopA1Bm7Kw-Raxt5aD9286kiIVFLPcCWuInwcNzsTIuuAX-439U_D2WH1Q';
+
+function sbUrlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+  const rawData = atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+  for (let i = 0; i < rawData.length; ++i) outputArray[i] = rawData.charCodeAt(i);
+  return outputArray;
+}
+
+function sbPushSupported() {
+  return 'serviceWorker' in navigator && 'PushManager' in window;
+}
+
+async function sbGetPushSubscription() {
+  if (!sbPushSupported()) return null;
+  const reg = await navigator.serviceWorker.register('/sw.js');
+  await navigator.serviceWorker.ready;
+  return reg.pushManager.getSubscription();
+}
+
+async function sbPersistSchedule(blocks, notifyEnabled) {
+  if (!SS_SESSION) return;
+  let timezone = null;
+  try { timezone = Intl.DateTimeFormat().resolvedOptions().timeZone; } catch (e) { /* ignore */ }
+  try {
+    await fetch('/api/schedule', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ blocks: blocks, notifyEnabled: !!notifyEnabled, timezone: timezone })
+    });
+  } catch (e) { /* offline - the schedule still works locally, just won't drive server-side reminders yet */ }
+}
+
+async function sbSyncScheduleAndMaybeAskNotify(blocks) {
+  if (!SS_SESSION || !blocks.length) return;
+
+  const prompt = document.getElementById('sb-notify-prompt');
+  const status = document.getElementById('sb-notify-status');
+  let alreadySubscribed = false;
+  try { alreadySubscribed = !!(await sbGetPushSubscription()); } catch (e) { /* unsupported browser */ }
+
+  if (alreadySubscribed) {
+    await sbPersistSchedule(blocks, true);
+    if (prompt) prompt.style.display = 'none';
+    return;
+  }
+
+  await sbPersistSchedule(blocks, false);
+
+  let alreadyAsked = false;
+  try { alreadyAsked = localStorage.getItem('ssScheduleNotifyAsked') === '1'; } catch (e) { /* ignore */ }
+  if (alreadyAsked || !sbPushSupported() || (typeof Notification !== 'undefined' && Notification.permission === 'denied')) return;
+
+  if (prompt) {
+    prompt.style.display = 'block';
+    status.textContent = '';
+  }
+
+  const yesBtn = document.getElementById('sb-notify-yes-btn');
+  const noBtn = document.getElementById('sb-notify-no-btn');
+  if (yesBtn) yesBtn.onclick = async function () {
+    status.textContent = '';
+    try {
+      const permission = await Notification.requestPermission();
+      if (permission !== 'granted') {
+        status.textContent = "Notifications weren't allowed — you can turn them on later in Settings.";
+        try { localStorage.setItem('ssScheduleNotifyAsked', '1'); } catch (e) { /* ignore */ }
+        return;
+      }
+      const reg = await navigator.serviceWorker.register('/sw.js');
+      await navigator.serviceWorker.ready;
+      const sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: sbUrlBase64ToUint8Array(SB_VAPID_PUBLIC_KEY)
+      });
+      await fetch('/api/push/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subscription: sub.toJSON() })
+      });
+      await sbPersistSchedule(blocks, true);
+      try { localStorage.setItem('ssScheduleNotifyAsked', '1'); } catch (e) { /* ignore */ }
+      status.textContent = "Enabled! You'll get a reminder when each block starts.";
+      setTimeout(function () { if (prompt) prompt.style.display = 'none'; }, 1800);
+    } catch (e) {
+      status.textContent = 'Something went wrong — try again from Settings.';
+    }
+  };
+  if (noBtn) noBtn.onclick = function () {
+    try { localStorage.setItem('ssScheduleNotifyAsked', '1'); } catch (e) { /* ignore */ }
+    if (prompt) prompt.style.display = 'none';
+  };
 }
 
 function sbRestoreSavedConfig() {

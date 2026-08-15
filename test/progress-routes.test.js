@@ -1,7 +1,7 @@
 import { SELF } from "cloudflare:test";
 import { describe, it, expect } from "vitest";
 import { signSession, SESSION_COOKIE } from "../src/auth.js";
-import { handleGetProgress, handlePostProgress, handlePostGoal, handlePostEnrolledSubjects } from "../src/progress-routes.js";
+import { handleGetProgress, handlePostProgress, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule } from "../src/progress-routes.js";
 
 const SECRET = "test-session-secret";
 
@@ -51,7 +51,8 @@ describe("handleGetProgress", () => {
       goal: null,
       updatedAt: null,
       enrolledSubjects: [],
-      pushSubscriptions: []
+      pushSubscriptions: [],
+      schedule: null
     });
   });
 
@@ -67,7 +68,8 @@ describe("handleGetProgress", () => {
       goal: null,
       updatedAt: "2026-08-14T00:00:00.000Z",
       enrolledSubjects: ["geometry"],
-      pushSubscriptions: []
+      pushSubscriptions: [],
+      schedule: null
     };
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify(saved) });
     const res = await handleGetProgress(req("https://example.com/api/progress", cookie), { SESSION_SECRET: SECRET, PROGRESS: kv });
@@ -173,6 +175,77 @@ describe("handlePostEnrolledSubjects", () => {
     expect(res.status).toBe(200);
     const data = await res.json();
     expect(data.enrolledSubjects).toEqual([]);
+  });
+});
+
+describe("handlePostSchedule", () => {
+  const validBlock = { day: "mon", start: "15:00", end: "16:00", subjectKey: "geometry", subjectLabel: "Geometry" };
+
+  it("401s with no session", async () => {
+    const res = await handlePostSchedule(req("https://example.com/api/schedule", null, "POST", { blocks: [] }), { SESSION_SECRET: SECRET, PROGRESS: fakeKV() });
+    expect(res.status).toBe(401);
+  });
+
+  it("rejects invalid JSON", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const badReq = new Request("https://example.com/api/schedule", { method: "POST", headers: { Cookie: cookie, "Content-Type": "application/json" }, body: "not json" });
+    const res = await handlePostSchedule(badReq, { SESSION_SECRET: SECRET, PROGRESS: fakeKV() });
+    expect(res.status).toBe(400);
+  });
+
+  it("rejects a block with a bad day, time, or unknown subject", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV();
+    const bad = [
+      { ...validBlock, day: "someday" },
+      { ...validBlock, start: "9:00" },
+      { ...validBlock, end: "25:00" },
+      { ...validBlock, subjectKey: "biology" }
+    ];
+    for (const block of bad) {
+      const res = await handlePostSchedule(req("https://example.com/api/schedule", cookie, "POST", { blocks: [block] }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+      expect(res.status).toBe(400);
+    }
+  });
+
+  it("saves blocks with notifications off and no timezone required", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV();
+    const res = await handlePostSchedule(req("https://example.com/api/schedule", cookie, "POST", { blocks: [validBlock], notifyEnabled: false }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(data.schedule.blocks).toEqual([validBlock]);
+    expect(data.schedule.notifyEnabled).toBe(false);
+    expect(data.schedule.timezone).toBe(null);
+  });
+
+  it("requires a valid IANA timezone when notifications are enabled", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV();
+    const res = await handlePostSchedule(req("https://example.com/api/schedule", cookie, "POST", { blocks: [validBlock], notifyEnabled: true, timezone: "Not/AZone" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(res.status).toBe(400);
+  });
+
+  it("saves blocks with notifications on and a valid timezone, preserving other progress", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const existing = { geometry: { mastery: { "1": { correct: 1, total: 2 } }, examples: {}, cardsKnown: [] } };
+    const kv = fakeKV({ "progress:student@example.com": JSON.stringify(existing) });
+    const res = await handlePostSchedule(req("https://example.com/api/schedule", cookie, "POST", { blocks: [validBlock], notifyEnabled: true, timezone: "America/New_York" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(data.schedule.notifyEnabled).toBe(true);
+    expect(data.schedule.timezone).toBe("America/New_York");
+
+    const saved = JSON.parse(kv._store.get("progress:student@example.com"));
+    expect(saved.geometry).toEqual(existing.geometry);
+  });
+
+  it("rejects more than 50 blocks", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV();
+    const blocks = Array.from({ length: 51 }, () => validBlock);
+    const res = await handlePostSchedule(req("https://example.com/api/schedule", cookie, "POST", { blocks }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(res.status).toBe(400);
   });
 });
 

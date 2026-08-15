@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, afterEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { signSession, SESSION_COOKIE } from "../src/auth.js";
-import { handlePushSubscribe, handlePushUnsubscribe, handlePushTest, sendDailyReminders } from "../src/push-routes.js";
+import { handlePushSubscribe, handlePushUnsubscribe, handlePushTest, sendDailyReminders, sendScheduledBlockReminders } from "../src/push-routes.js";
 
 const SECRET = "test-session-secret";
 const VAPID = {
@@ -163,6 +163,105 @@ describe("sendDailyReminders", () => {
 
   it("returns zeroed counts when push isn't configured", async () => {
     const result = await sendDailyReminders({ PROGRESS: fakeKV() });
+    expect(result).toEqual({ checked: 0, sent: 0 });
+  });
+});
+
+describe("sendScheduledBlockReminders", () => {
+  // Fixed instant: 2026-03-10T20:00:00Z is a Tuesday. America/New_York observes
+  // EDT (UTC-4) by then (US DST started 2026-03-08), so local time is Tue 16:00.
+  const NOW = "2026-03-10T20:00:00.000Z";
+  const TZ = "America/New_York";
+  const sub = { endpoint: "https://push.example/a", keys: VALID_KEYS, expirationTime: null };
+
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date(NOW));
+  });
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  function scheduleWith(blocks, overrides) {
+    return { schedule: { blocks, timezone: TZ, notifyEnabled: true, ...overrides }, pushSubscriptions: [sub] };
+  }
+
+  it("sends for a block starting exactly now, and for one starting a few minutes from now (within the 5-minute window)", async () => {
+    const kv = fakeKV({
+      "progress:on-time@example.com": JSON.stringify(scheduleWith([
+        { day: "tue", start: "16:00", end: "17:00", subjectKey: "geometry", subjectLabel: "Geometry" }
+      ])),
+      "progress:soon@example.com": JSON.stringify(scheduleWith([
+        { day: "tue", start: "16:04", end: "17:00", subjectKey: "chemistry", subjectLabel: "Chemistry" }
+      ]))
+    });
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(null, { status: 201 }));
+
+    const result = await sendScheduledBlockReminders({ PROGRESS: kv, ...VAPID });
+
+    expect(result.sent).toBe(2);
+    expect(fetchSpy).toHaveBeenCalledTimes(2);
+  });
+
+  it("does not send for a block just outside the 5-minute window, on the wrong day, or already past", async () => {
+    const kv = fakeKV({
+      "progress:too-late@example.com": JSON.stringify(scheduleWith([
+        { day: "tue", start: "16:05", end: "17:00", subjectKey: "geometry", subjectLabel: "Geometry" }
+      ])),
+      "progress:wrong-day@example.com": JSON.stringify(scheduleWith([
+        { day: "wed", start: "16:00", end: "17:00", subjectKey: "geometry", subjectLabel: "Geometry" }
+      ])),
+      "progress:already-passed@example.com": JSON.stringify(scheduleWith([
+        { day: "tue", start: "09:00", end: "10:00", subjectKey: "geometry", subjectLabel: "Geometry" }
+      ]))
+    });
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(null, { status: 201 }));
+
+    const result = await sendScheduledBlockReminders({ PROGRESS: kv, ...VAPID });
+
+    expect(result.sent).toBe(0);
+    expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
+  it("skips students with notifications off, no timezone, or no subscription", async () => {
+    const dueBlock = [{ day: "tue", start: "16:00", end: "17:00", subjectKey: "geometry", subjectLabel: "Geometry" }];
+    const kv = fakeKV({
+      "progress:notify-off@example.com": JSON.stringify(scheduleWith(dueBlock, { notifyEnabled: false })),
+      "progress:no-tz@example.com": JSON.stringify(scheduleWith(dueBlock, { timezone: null })),
+      "progress:no-sub@example.com": JSON.stringify({ schedule: { blocks: dueBlock, timezone: TZ, notifyEnabled: true }, pushSubscriptions: [] })
+    });
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(null, { status: 201 }));
+
+    const result = await sendScheduledBlockReminders({ PROGRESS: kv, ...VAPID });
+
+    expect(result.sent).toBe(0);
+    expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
+  it("prunes a gone (410) subscription after a due block fires", async () => {
+    const goneSub = { endpoint: "https://push.example/gone", keys: VALID_KEYS, expirationTime: null };
+    const kv = fakeKV({
+      "progress:student@example.com": JSON.stringify({
+        schedule: {
+          blocks: [{ day: "tue", start: "16:00", end: "17:00", subjectKey: "aplang", subjectLabel: "AP English Lang & Comp" }],
+          timezone: TZ,
+          notifyEnabled: true
+        },
+        pushSubscriptions: [goneSub]
+      })
+    });
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(null, { status: 410 }));
+
+    const result = await sendScheduledBlockReminders({ PROGRESS: kv, ...VAPID });
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    expect(result.sent).toBe(0);
+    const saved = JSON.parse(kv._store.get("progress:student@example.com"));
+    expect(saved.pushSubscriptions).toEqual([]);
+  });
+
+  it("returns zeroed counts when push isn't configured", async () => {
+    const result = await sendScheduledBlockReminders({ PROGRESS: fakeKV() });
     expect(result).toEqual({ checked: 0, sent: 0 });
   });
 });
