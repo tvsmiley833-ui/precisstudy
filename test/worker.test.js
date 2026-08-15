@@ -30,6 +30,42 @@ describe("routing", () => {
   });
 });
 
+describe("per-view subject routing", () => {
+  const subjects = ["geometry", "chemistry", "algebra1", "algebra2", "ap-lang", "global-history"];
+  const views = ["flashcards", "quiz", "examples", "exam", "reference", "memory"];
+
+  for (const subject of subjects) {
+    it(`serves the ${subject} bundle for every real view URL, identical to the base page`, async () => {
+      const baseRes = await SELF.fetch(`https://example.com/${subject}/`);
+      expect(baseRes.status).toBe(200);
+      const baseBody = await baseRes.text();
+
+      for (const view of views) {
+        const res = await SELF.fetch(`https://example.com/${subject}/${view}`);
+        expect(res.status).toBe(200);
+        const body = await res.text();
+        expect(body).toBe(baseBody);
+      }
+    });
+  }
+
+  it("does not intercept an unknown subject", async () => {
+    const res = await SELF.fetch("https://example.com/biology/quiz");
+    expect(res.status).toBe(200); // falls through to the SPA index.html, not a subject bundle
+    const body = await res.text();
+    const geoBody = await (await SELF.fetch("https://example.com/geometry/")).text();
+    expect(body).not.toBe(geoBody);
+  });
+
+  it("does not intercept an unknown view segment under a real subject (falls back to the SPA shell, not the subject bundle)", async () => {
+    const res = await SELF.fetch("https://example.com/geometry/not-a-real-view");
+    expect(res.status).toBe(200);
+    const body = await res.text();
+    const geoBody = await (await SELF.fetch("https://example.com/geometry/")).text();
+    expect(body).not.toBe(geoBody);
+  });
+});
+
 describe("homepage", () => {
   it("shows the StudyStacks brand and the current class roster", async () => {
     const res = await SELF.fetch("https://example.com/");

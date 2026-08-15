@@ -2018,4 +2018,32 @@ ssCheckSession();
   var sel = document.getElementById('q-sel');
   if(sel){ sel.value = practiceUnit; loadQ(); }
 })();
+
+/* ----- real per-view URLs: /ap-lang/flashcards, /ap-lang/quiz, /ap-lang/exam, etc.
+   Each view is now a genuine bookmarkable/shareable URL instead of only a client-side
+   tab. switchTab() is wrapped (not edited) to stay compatible with the tab-building
+   logic above; the wrapper just keeps the URL in sync and reads it back on load and
+   on back/forward navigation. Quiz still always goes through the sign-in gate. ----- */
+(function(){
+  var SS_BASE='/ap-lang';
+  var TAB_TO_SEG={guide:'',cards:'flashcards',quiz:'quiz',examples:'examples',exam:'exam',qref:'reference',memory:'memory'};
+  var SEG_TO_TAB={flashcards:'cards',quiz:'quiz',examples:'examples',exam:'exam',reference:'qref',memory:'memory'};
+  var _prevSwitchTab=switchTab;
+  switchTab=function(id){
+    _prevSwitchTab(id);
+    var seg=TAB_TO_SEG[id];
+    var path=SS_BASE+(seg?'/'+seg:'/');
+    if(location.pathname!==path){ try{ history.pushState({tab:id},'',path); }catch(e){} }
+  };
+  function tabFromUrl(){
+    var rest=location.pathname.slice(SS_BASE.length).replace(/^\/|\/$/g,'');
+    return rest&&SEG_TO_TAB[rest]?SEG_TO_TAB[rest]:'guide';
+  }
+  async function activate(id){
+    if(id==='quiz'){ await ssQuizTabClick(); }else{ switchTab(id); }
+  }
+  window.addEventListener('popstate',function(){ activate(tabFromUrl()); });
+  var initialTab=tabFromUrl();
+  if(initialTab!=='guide') activate(initialTab);
+})();
 </script></body></html>

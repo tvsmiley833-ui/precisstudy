@@ -14,6 +14,9 @@ import { handleAdminMe, handleAdminListGuideRequests, handleAdminDeleteGuideRequ
 import { handleGetProgress, handlePostProgress, handlePostGoal, handlePostEnrolledSubjects } from "./progress-routes.js";
 import { handlePushSubscribe, handlePushUnsubscribe, handlePushTest, sendDailyReminders } from "./push-routes.js";
 
+const SUBJECT_PATHS = new Set(["geometry", "chemistry", "algebra1", "algebra2", "ap-lang", "global-history"]);
+const SUBJECT_VIEW_SEGMENTS = new Set(["flashcards", "quiz", "examples", "exam", "reference", "memory"]);
+
 const AUTH_ROUTES = {
   "/auth/google/start": { GET: handleGoogleStart },
   "/auth/google/callback": { GET: handleGoogleCallback },
@@ -97,6 +100,17 @@ export default {
       const handler = authRoute[request.method];
       if (handler) return handler(request, env);
       return json({ error: "Method not allowed" }, 405);
+    }
+
+    // Real per-view URLs (e.g. /geometry/quiz, /chemistry/flashcards) all serve the same
+    // subject bundle -- the client reads the URL on load to activate the right tab, and
+    // keeps the URL in sync as the student switches tabs, so each view is bookmarkable,
+    // shareable, and survives back/forward and refresh instead of resetting to the guide.
+    const subjectMatch = url.pathname.match(/^\/([a-z0-9-]+)\/([a-z0-9-]+)\/?$/);
+    if (subjectMatch && SUBJECT_PATHS.has(subjectMatch[1]) && SUBJECT_VIEW_SEGMENTS.has(subjectMatch[2])) {
+      const assetUrl = new URL(request.url);
+      assetUrl.pathname = `/${subjectMatch[1]}/`;
+      return env.ASSETS.fetch(new Request(assetUrl, request));
     }
 
     return env.ASSETS.fetch(request);

@@ -6,7 +6,10 @@
     "directory": "./public",
     "binding": "ASSETS",
     "not_found_handling": "single-page-application",
-    "run_worker_first": ["/api/*", "/auth/*"]
+    "run_worker_first": [
+      "/api/*", "/auth/*",
+      "/geometry/*", "/chemistry/*", "/algebra1/*", "/algebra2/*", "/ap-lang/*", "/global-history/*"
+    ]
   },
   "ai": {
     "binding": "AI"
