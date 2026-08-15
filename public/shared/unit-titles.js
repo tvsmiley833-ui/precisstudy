@@ -40,6 +40,19 @@ export const algebra2Units = [
   { id: 11, name: "Probability" }
 ];
 
+export const aplangUnits = [
+  { id: 1, name: "The Rhetorical Situation" },
+  { id: 2, name: "Rhetorical Appeals & Logical Fallacies" },
+  { id: 3, name: "Rhetorical Devices & Figurative Language" },
+  { id: 4, name: "Style: Diction, Syntax & Tone" },
+  { id: 5, name: "Claims, Evidence & Commentary" },
+  { id: 6, name: "Organization, Structure & Counterargument" },
+  { id: 7, name: "The Synthesis Essay" },
+  { id: 8, name: "The Rhetorical Analysis Essay" },
+  { id: 9, name: "The Argument Essay" },
+  { id: 10, name: "Grammar, Conventions & Multiple-Choice Strategy" }
+];
+
 export const chemistryUnits = [
   { id: 1, name: "Matter & Change" },
   { id: 2, name: "Measurements & Math" },

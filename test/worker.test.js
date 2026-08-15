@@ -40,6 +40,7 @@ describe("homepage", () => {
     expect(text).toContain("Chemistry");
     expect(text).toContain("Algebra I");
     expect(text).toContain("Algebra II");
+    expect(text).toContain("AP English Lang");
   });
 });
 
