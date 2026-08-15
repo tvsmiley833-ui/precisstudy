@@ -120,7 +120,7 @@ export async function handleAdminGetGuideRequestFile(request, env) {
   if (!obj || !obj.value) return json({ error: "File not found" }, 404);
 
   const meta = obj.metadata || {};
-  const filename = String(meta.filename || "attachment").replace(/["\r\n]/g, "");
+  const filename = String(meta.filename || "attachment").replace(/["\\\r\n]/g, "");
   const contentType = meta.contentType || "application/octet-stream";
 
   return new Response(obj.value, {

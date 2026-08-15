@@ -20,6 +20,17 @@ const ALLOWED_PUSH_HOSTS = new Set([
   "web.push.apple.com"
 ]);
 
+function isAllowedPushEndpoint(endpoint) {
+  if (typeof endpoint !== "string" || !endpoint) return false;
+  let url;
+  try {
+    url = new URL(endpoint);
+  } catch (e) {
+    return false;
+  }
+  return url.protocol === "https:" && ALLOWED_PUSH_HOSTS.has(url.hostname);
+}
+
 function isValidSubscription(sub) {
   if (!(
     sub &&
@@ -29,14 +40,7 @@ function isValidSubscription(sub) {
     typeof sub.keys.p256dh === "string" &&
     typeof sub.keys.auth === "string"
   )) return false;
-
-  let url;
-  try {
-    url = new URL(sub.endpoint);
-  } catch (e) {
-    return false;
-  }
-  return url.protocol === "https:" && ALLOWED_PUSH_HOSTS.has(url.hostname);
+  return isAllowedPushEndpoint(sub.endpoint);
 }
 
 async function loadBlob(env, email) {
@@ -125,7 +129,17 @@ async function fetchWithRetry(url, options, maxRetries = 2) {
   throw lastError;
 }
 
+// Re-checks the endpoint against ALLOWED_PUSH_HOSTS here too, not just at
+// handlePushSubscribe write-time: this is the one place that actually
+// performs the outbound fetch(), and it's reached from four call sites
+// (test send + three cron jobs) reading subscriptions already sitting in KV
+// -- including any written before this allowlist existed. Returning a
+// synthetic 410 (rather than throwing) lets every caller's existing
+// "404/410 = drop this subscription" cleanup purge it automatically.
 async function sendToSubscription(env, subscription, message) {
+  if (!isAllowedPushEndpoint(subscription.endpoint)) {
+    return new Response(null, { status: 410 });
+  }
   const vapid = {
     subject: env.VAPID_SUBJECT,
     publicKey: env.VAPID_PUBLIC_KEY,

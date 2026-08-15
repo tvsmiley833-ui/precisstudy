@@ -43,6 +43,15 @@ function clearStateCookie() {
   return `${STATE_COOKIE}=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0`;
 }
 
+// Every failure exit from an OAuth callback should clear the state cookie,
+// not just the CSRF-check failure -- otherwise a still-valid state sits in
+// the browser for the rest of its TTL after e.g. a token-exchange hiccup.
+// Routing every failure through this one helper means a new failure branch
+// can't forget to clear it the way several already had to be fixed to do.
+function authErrorRedirect() {
+  return redirect(SITE_ORIGIN + "/?auth_error=1", { "Set-Cookie": clearStateCookie() });
+}
+
 async function makeState(env) {
   const now = Math.floor(Date.now() / 1000);
   return signSession({ purpose: "oauth_state", exp: now + STATE_TTL }, env.SESSION_SECRET);
@@ -97,7 +106,7 @@ export async function handleGoogleCallback(request, env) {
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
   if (!code || !(await checkState(env, request, state))) {
-    return redirect(SITE_ORIGIN + "/?auth_error=1", { "Set-Cookie": clearStateCookie() });
+    return authErrorRedirect();
   }
 
   const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
@@ -111,15 +120,15 @@ export async function handleGoogleCallback(request, env) {
       grant_type: "authorization_code"
     })
   });
-  if (!tokenRes.ok) return redirect(SITE_ORIGIN + "/?auth_error=1");
+  if (!tokenRes.ok) return authErrorRedirect();
   const tokenData = await tokenRes.json();
 
   const profileRes = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
     headers: { Authorization: "Bearer " + tokenData.access_token }
   });
-  if (!profileRes.ok) return redirect(SITE_ORIGIN + "/?auth_error=1");
+  if (!profileRes.ok) return authErrorRedirect();
   const profile = await profileRes.json();
-  if (!profile.email) return redirect(SITE_ORIGIN + "/?auth_error=1");
+  if (!profile.email) return authErrorRedirect();
 
   const cookie = await issueSessionCookie(env, {
     email: profile.email,
@@ -152,7 +161,7 @@ export async function handleGithubCallback(request, env) {
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
   if (!code || !(await checkState(env, request, state))) {
-    return redirect(SITE_ORIGIN + "/?auth_error=1", { "Set-Cookie": clearStateCookie() });
+    return authErrorRedirect();
   }
 
   const tokenRes = await fetch("https://github.com/login/oauth/access_token", {
@@ -165,9 +174,9 @@ export async function handleGithubCallback(request, env) {
       redirect_uri: SITE_ORIGIN + "/auth/github/callback"
     })
   });
-  if (!tokenRes.ok) return redirect(SITE_ORIGIN + "/?auth_error=1");
+  if (!tokenRes.ok) return authErrorRedirect();
   const tokenData = await tokenRes.json();
-  if (!tokenData.access_token) return redirect(SITE_ORIGIN + "/?auth_error=1");
+  if (!tokenData.access_token) return authErrorRedirect();
 
   const ghHeaders = {
     Authorization: "Bearer " + tokenData.access_token,
@@ -175,7 +184,7 @@ export async function handleGithubCallback(request, env) {
     Accept: "application/vnd.github+json"
   };
   const profileRes = await fetch("https://api.github.com/user", { headers: ghHeaders });
-  if (!profileRes.ok) return redirect(SITE_ORIGIN + "/?auth_error=1");
+  if (!profileRes.ok) return authErrorRedirect();
   const profile = await profileRes.json();
 
   let email = profile.email;
@@ -187,7 +196,10 @@ export async function handleGithubCallback(request, env) {
       if (primary) email = primary.email;
     }
   }
-  if (!email) return redirect(SITE_ORIGIN + "/?auth_error=1", { "Set-Cookie": clearStateCookie() });
+  if (!email) {
+    console.error("github callback: no verified email available for this GitHub account");
+    return authErrorRedirect();
+  }
 
   const cookie = await issueSessionCookie(env, {
     email,

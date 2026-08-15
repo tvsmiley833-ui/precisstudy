@@ -111,7 +111,7 @@ describe("OAuth state CSRF protection", () => {
     expect(new URL(res.headers.get("Location")).search).toContain("auth_error");
   });
 
-  it("/auth/google/callback accepts a state that matches its cookie (proceeds past the CSRF check)", async () => {
+  it("/auth/google/callback accepts a state that matches its cookie (proceeds past the CSRF check), and clears the state cookie even on a post-CSRF failure", async () => {
     const startRes = await handleGoogleStart(new Request("https://example.com/auth/google/start"), env);
     const state = new URL(startRes.headers.get("Location")).searchParams.get("state");
 
@@ -125,6 +125,11 @@ describe("OAuth state CSRF protection", () => {
     // against a fake code -- confirming it got past state validation, not stuck on it.
     expect(res.status).toBe(302);
     expect(new URL(res.headers.get("Location")).search).toContain("auth_error");
+    // Every auth_error exit routes through authErrorRedirect(), which always clears
+    // ss_oauth_state -- not just the CSRF-check-failure branch. A stale valid state
+    // cookie left behind after a token-exchange hiccup could be replayed within its
+    // remaining TTL, which is exactly what binding state to a cookie is meant to stop.
+    expect(res.headers.get("Set-Cookie")).toContain("ss_oauth_state=;");
   });
 
   it("/auth/github/start sets an ss_oauth_state cookie bound to the redirect's state param", async () => {

@@ -56,7 +56,7 @@ describe("handlePushSubscribe", () => {
 
   it("rejects an invalid subscription shape", async () => {
     const cookie = await sessionCookieFor("student@example.com");
-    const res = await handlePushSubscribe(req("https://example.com/api/push/subscribe", cookie, "POST", { subscription: { endpoint: "https://push.example/x" } }), { SESSION_SECRET: SECRET, PROGRESS: fakeKV() });
+    const res = await handlePushSubscribe(req("https://example.com/api/push/subscribe", cookie, "POST", { subscription: { endpoint: "https://fcm.googleapis.com/fcm/send/x" } }), { SESSION_SECRET: SECRET, PROGRESS: fakeKV() });
     expect(res.status).toBe(400);
   });
 
@@ -109,11 +109,11 @@ describe("handlePushUnsubscribe", () => {
   it("removes the matching subscription by endpoint", async () => {
     const cookie = await sessionCookieFor("student@example.com");
     const subs = [
-      { endpoint: "https://push.example/a", keys: VALID_KEYS, expirationTime: null },
-      { endpoint: "https://push.example/b", keys: VALID_KEYS, expirationTime: null }
+      { endpoint: "https://fcm.googleapis.com/fcm/send/a", keys: VALID_KEYS, expirationTime: null },
+      { endpoint: "https://fcm.googleapis.com/fcm/send/b", keys: VALID_KEYS, expirationTime: null }
     ];
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify({ pushSubscriptions: subs }) });
-    const res = await handlePushUnsubscribe(req("https://example.com/api/push/unsubscribe", cookie, "POST", { endpoint: "https://push.example/a" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    const res = await handlePushUnsubscribe(req("https://example.com/api/push/unsubscribe", cookie, "POST", { endpoint: "https://fcm.googleapis.com/fcm/send/a" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
     expect(res.status).toBe(200);
 
     const saved = JSON.parse(kv._store.get("progress:student@example.com"));
@@ -136,7 +136,7 @@ describe("handlePushTest", () => {
 
   it("sends a real encrypted push payload to the subscription's endpoint", async () => {
     const cookie = await sessionCookieFor("student@example.com");
-    const sub = { endpoint: "https://push.example/abc", keys: VALID_KEYS, expirationTime: null };
+    const sub = { endpoint: "https://fcm.googleapis.com/fcm/send/abc", keys: VALID_KEYS, expirationTime: null };
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify({ pushSubscriptions: [sub] }) });
 
     const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(null, { status: 201 }));
@@ -146,12 +146,12 @@ describe("handlePushTest", () => {
     const data = await res.json();
     expect(data).toEqual({ ok: true, sent: 1 });
     expect(fetchSpy).toHaveBeenCalledTimes(1);
-    expect(fetchSpy.mock.calls[0][0]).toBe("https://push.example/abc");
+    expect(fetchSpy.mock.calls[0][0]).toBe("https://fcm.googleapis.com/fcm/send/abc");
   });
 
   it("retries a transient 5xx and succeeds once the endpoint recovers", async () => {
     const cookie = await sessionCookieFor("student@example.com");
-    const sub = { endpoint: "https://push.example/flaky", keys: VALID_KEYS, expirationTime: null };
+    const sub = { endpoint: "https://fcm.googleapis.com/fcm/send/flaky", keys: VALID_KEYS, expirationTime: null };
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify({ pushSubscriptions: [sub] }) });
 
     let calls = 0;
@@ -168,7 +168,7 @@ describe("handlePushTest", () => {
 
   it("retries a network error (fetch throwing) and succeeds on retry", async () => {
     const cookie = await sessionCookieFor("student@example.com");
-    const sub = { endpoint: "https://push.example/network-blip", keys: VALID_KEYS, expirationTime: null };
+    const sub = { endpoint: "https://fcm.googleapis.com/fcm/send/network-blip", keys: VALID_KEYS, expirationTime: null };
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify({ pushSubscriptions: [sub] }) });
 
     let calls = 0;
@@ -186,7 +186,7 @@ describe("handlePushTest", () => {
 
   it("gives up after exhausting retries on a persistent 5xx, without throwing", async () => {
     const cookie = await sessionCookieFor("student@example.com");
-    const sub = { endpoint: "https://push.example/always-down", keys: VALID_KEYS, expirationTime: null };
+    const sub = { endpoint: "https://fcm.googleapis.com/fcm/send/always-down", keys: VALID_KEYS, expirationTime: null };
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify({ pushSubscriptions: [sub] }) });
 
     const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(null, { status: 503 }));
@@ -199,7 +199,7 @@ describe("handlePushTest", () => {
 
   it("does not retry a 4xx (e.g. an expired subscription) -- retrying it would never help", async () => {
     const cookie = await sessionCookieFor("student@example.com");
-    const sub = { endpoint: "https://push.example/expired", keys: VALID_KEYS, expirationTime: null };
+    const sub = { endpoint: "https://fcm.googleapis.com/fcm/send/expired", keys: VALID_KEYS, expirationTime: null };
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify({ pushSubscriptions: [sub] }) });
 
     const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(null, { status: 410 }));
@@ -213,8 +213,8 @@ describe("handlePushTest", () => {
 
 describe("sendDailyReminders", () => {
   it("only messages students who have both a subscription and a saved goal, and drops gone (410) subscriptions", async () => {
-    const goodSub = { endpoint: "https://push.example/good", keys: VALID_KEYS, expirationTime: null };
-    const goneSub = { endpoint: "https://push.example/gone", keys: VALID_KEYS, expirationTime: null };
+    const goodSub = { endpoint: "https://fcm.googleapis.com/fcm/send/good", keys: VALID_KEYS, expirationTime: null };
+    const goneSub = { endpoint: "https://fcm.googleapis.com/fcm/send/gone", keys: VALID_KEYS, expirationTime: null };
     const kv = fakeKV({
       "progress:with-goal@example.com": JSON.stringify({ goal: { days: 14, minutesPerDay: 30 }, pushSubscriptions: [goodSub] }),
       "progress:no-goal@example.com": JSON.stringify({ goal: null, pushSubscriptions: [goodSub] }),
@@ -240,6 +240,19 @@ describe("sendDailyReminders", () => {
     const result = await sendDailyReminders({ PROGRESS: fakeKV() });
     expect(result).toEqual({ checked: 0, sent: 0 });
   });
+
+  it("never fetches a subscription endpoint outside the push-service allowlist, even one already sitting in KV (SSRF guard at send time, not just at signup)", async () => {
+    const badSub = { endpoint: "https://internal-admin.example/attack", keys: VALID_KEYS, expirationTime: null };
+    const kv = fakeKV({
+      "progress:legacy@example.com": JSON.stringify({ goal: { days: 14, minutesPerDay: 30 }, pushSubscriptions: [badSub] })
+    });
+    const fetchSpy = vi.spyOn(globalThis, "fetch");
+
+    const result = await sendDailyReminders({ PROGRESS: kv, ...VAPID });
+
+    expect(fetchSpy).not.toHaveBeenCalled();
+    expect(result.sent).toBe(0);
+  });
 });
 
 describe("sendScheduledBlockReminders", () => {
@@ -247,7 +260,7 @@ describe("sendScheduledBlockReminders", () => {
   // EDT (UTC-4) by then (US DST started 2026-03-08), so local time is Tue 16:00.
   const NOW = "2026-03-10T20:00:00.000Z";
   const TZ = "America/New_York";
-  const sub = { endpoint: "https://push.example/a", keys: VALID_KEYS, expirationTime: null };
+  const sub = { endpoint: "https://fcm.googleapis.com/fcm/send/a", keys: VALID_KEYS, expirationTime: null };
 
   beforeEach(() => {
     vi.useFakeTimers();
@@ -314,7 +327,7 @@ describe("sendScheduledBlockReminders", () => {
   });
 
   it("prunes a gone (410) subscription after a due block fires", async () => {
-    const goneSub = { endpoint: "https://push.example/gone", keys: VALID_KEYS, expirationTime: null };
+    const goneSub = { endpoint: "https://fcm.googleapis.com/fcm/send/gone", keys: VALID_KEYS, expirationTime: null };
     const kv = fakeKV({
       "progress:student@example.com": JSON.stringify({
         schedule: {
@@ -346,7 +359,7 @@ describe("sendStreakReminders", () => {
   // 8:00 PM local in America/New_York, the start of the reminder window. Their
   // local calendar date at this instant is still 2026-03-10.
   const TZ = "America/New_York";
-  const sub = { endpoint: "https://push.example/a", keys: VALID_KEYS, expirationTime: null };
+  const sub = { endpoint: "https://fcm.googleapis.com/fcm/send/a", keys: VALID_KEYS, expirationTime: null };
 
   beforeEach(() => {
     vi.useFakeTimers();
@@ -418,7 +431,7 @@ describe("sendStreakReminders", () => {
   });
 
   it("prunes a gone (410) subscription after sending", async () => {
-    const goneSub = { endpoint: "https://push.example/gone", keys: VALID_KEYS, expirationTime: null };
+    const goneSub = { endpoint: "https://fcm.googleapis.com/fcm/send/gone", keys: VALID_KEYS, expirationTime: null };
     const kv = fakeKV({
       "progress:student@example.com": JSON.stringify({
         streak: { current: 3, longest: 3, lastActiveDate: "2026-03-09", timezone: TZ },

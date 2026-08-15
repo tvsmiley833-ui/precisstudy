@@ -745,13 +745,20 @@ if ('IntersectionObserver' in window) {
 
   var AudioCtx = window.AudioContext || window.webkitAudioContext;
   if (!AudioCtx) return;
-  var audioCtx = new AudioCtx();
-  var resume = function(){ if (audioCtx.state === 'suspended') audioCtx.resume().catch(function(){}); };
-  document.addEventListener('pointerdown', resume, { once: true, passive: true });
-  document.addEventListener('keydown', resume, { once: true });
+  // Deferred until the first interaction rather than created eagerly on
+  // every pageview: browsers block audio until then anyway (see note
+  // above), so most visitors never get audible sound from this first
+  // load regardless -- no reason to pay for the context on every one.
+  var audioCtx = null;
+  var openAudio = function(){
+    if (audioCtx) return;
+    audioCtx = new AudioCtx();
+  };
+  document.addEventListener('pointerdown', openAudio, { once: true, passive: true });
+  document.addEventListener('keydown', openAudio, { once: true });
 
   function playChalkTick(){
-    if (audioCtx.state !== 'running') return;
+    if (!audioCtx || audioCtx.state !== 'running') return;
     var now = audioCtx.currentTime;
     var dur = 0.03 + Math.random() * 0.02;
     var bufferSize = Math.max(1, Math.floor(audioCtx.sampleRate * dur));
