@@ -120,7 +120,7 @@ export function isValidEmail(email) {
 }
 
 export async function recordLogin(env, email, provider) {
-  if (!env.PROGRESS || !email) return;
+  if (!env.PROGRESS || !email) return false;
   const key = "login:" + String(email).toLowerCase();
   const now = new Date().toISOString();
   let record = null;
@@ -130,7 +130,8 @@ export async function recordLogin(env, email, provider) {
   } catch (e) {
     record = null;
   }
-  if (!record || typeof record !== "object") {
+  const isNewUser = !record || typeof record !== "object";
+  if (isNewUser) {
     record = { providers: {}, firstLoginAt: now, loginCount: 0 };
   }
   record.providers = record.providers || {};
@@ -139,4 +140,5 @@ export async function recordLogin(env, email, provider) {
   record.lastLoginAt = now;
   record.lastProvider = provider;
   await env.PROGRESS.put(key, JSON.stringify(record));
+  return isNewUser;
 }

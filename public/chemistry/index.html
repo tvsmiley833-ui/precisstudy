@@ -299,6 +299,8 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
   font-family:'Inter';font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;margin-bottom:9px;
   box-sizing:border-box;transition:all .15s ease}
 .ss-oauth-btn:hover{border-color:var(--accent);background:var(--surface-hover)}
+.auth-gate .ss-oauth-btn{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-ink);font-weight:700}
+.auth-gate .ss-oauth-btn:hover{background:var(--accent);color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.18)}
 .ss-status{font-family:'Inter';font-size:12.5px;color:var(--ink-dim);margin-top:10px;min-height:16px}
 .ss-account{display:flex;align-items:center;gap:10px;font-family:'Inter';font-size:13px;color:rgba(244,242,234,.75)}
 .ss-account button{background:none;border:1px solid rgba(255,255,255,.18);border-radius:var(--radius-sm);
@@ -2465,6 +2467,7 @@ document.getElementById('score-'+part).textContent=`Score: ${examScores[part]||0
 
 
 // GUIDE
+const SEARCH_BADGE={concept:'📖 Notes',flashcard:'📇 Flashcard',quiz:'❓ Quiz'};
 function searchGuide(){
   const q=(document.getElementById('search-box').value||'').toLowerCase().trim();
   const sr=document.getElementById('search-results');
@@ -2475,22 +2478,46 @@ function searchGuide(){
   UNITS.forEach(u=>{
     u.concepts.forEach(c=>{
       const text=(c.l+' '+(c.intro||'')+' '+(c.b||[]).join(' ')).toLowerCase();
-      if(text.includes(q))matches.push({unit:u.id,unitName:u.name,concept:c.l,preview:(c.intro||c.b?.[0]||'').slice(0,120)});
+      if(text.includes(q))matches.push({type:'concept',unit:u.id,unitName:u.name,concept:c.l,preview:(c.intro||c.b?.[0]||'').slice(0,120)});
     });
-    if(u.fms) u.fms.forEach(f=>{if(f.toLowerCase().includes(q))matches.push({unit:u.id,unitName:u.name,concept:'Formula',preview:f});});
+    if(u.fms) u.fms.forEach(f=>{if(f.toLowerCase().includes(q))matches.push({type:'concept',unit:u.id,unitName:u.name,concept:'Formula',preview:f});});
+  });
+  const unitName=id=>{const u=UNITS.find(x=>x.id===id);return u?u.name:'Unit '+id;};
+  (typeof FLASHCARDS!=='undefined'?FLASHCARDS:[]).forEach(f=>{
+    const text=(f.t+' '+f.d).toLowerCase();
+    if(text.includes(q))matches.push({type:'flashcard',unit:f.u,unitName:unitName(f.u),concept:f.t,preview:f.d.slice(0,120)});
+  });
+  (typeof QUIZ!=='undefined'?QUIZ:[]).forEach(qq=>{
+    const text=(qq.q+' '+(qq.o||[]).join(' ')).toLowerCase();
+    if(text.includes(q))matches.push({type:'quiz',unit:qq.u,unitName:unitName(qq.u),concept:'Quiz question',preview:qq.q.slice(0,120)});
   });
   if(!matches.length){sr.style.display='block';sr.innerHTML='<div style="color:var(--ink-muted);font-size:14px;padding:8px">No results for "'+q+'"</div>';return;}
   sr.style.display='block';
+  const jump=m=>m.type==='concept'?`jumpToUnit(${m.unit})`:m.type==='flashcard'?`jumpToFlashcardUnit(${m.unit})`:`jumpToQuizUnit(${m.unit})`;
   sr.innerHTML='<div style="font-size:13px;color:var(--ink-muted);margin-bottom:6px">'+matches.length+' result(s)</div>'+
-    matches.slice(0,12).map(m=>`<div onclick="jumpToUnit(${m.unit})" style="padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:5px;cursor:pointer;">
-      <span style="font-size:12px;font-weight:700;color:var(--ink-muted);text-transform:uppercase">Unit ${m.unit}: ${m.unitName}</span>
+    matches.slice(0,12).map(m=>`<div onclick="${jump(m)}" style="padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:5px;cursor:pointer;">
+      <span style="font-size:12px;font-weight:700;color:var(--ink-muted);text-transform:uppercase">${SEARCH_BADGE[m.type]} · Unit ${m.unit}: ${m.unitName}</span>
       <div style="font-size:14px;font-weight:700;color:var(--ink);margin:2px 0">${m.concept}</div>
       <div style="font-size:13px;color:var(--ink-dim)">${m.preview}…</div>
     </div>`).join('');
 }
 function clearSearch(){document.getElementById('search-box').value='';searchGuide();}
+function jumpToFlashcardUnit(id){
+  clearSearch();
+  switchTab('cards');
+  const sel=document.getElementById('fc-sel');
+  if(sel){sel.value=id;loadFC();}
+}
+async function jumpToQuizUnit(id){
+  clearSearch();
+  await ssQuizTabClick();
+  if(!SS_SESSION)return;
+  const sel=document.getElementById('q-sel');
+  if(sel){sel.value=id;loadQ();}
+}
 function jumpToUnit(id){
   clearSearch();
+  switchTab('guide');
   const el=document.querySelector(`.unit[data-id="${id}"]`);
   if(el){el.classList.add('open');el.scrollIntoView({behavior:'smooth',block:'start'});}
 }

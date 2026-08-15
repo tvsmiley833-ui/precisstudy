@@ -390,6 +390,8 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
   font-family:inherit;font-size:18px;font-weight:600;cursor:pointer;text-decoration:none;margin-bottom:10px;
   transition:all .2s var(--ease)}
 .ss-oauth-btn:hover{border-color:var(--primary);background:var(--surface-hover)}
+.auth-gate .ss-oauth-btn{border-color:var(--primary);background:var(--primary-soft);color:var(--primary-bright);font-weight:700}
+.auth-gate .ss-oauth-btn:hover{background:var(--primary);color:#1a1611;box-shadow:0 4px 14px rgba(217,164,65,0.3)}
 .ss-status{font-size:15px;color:var(--text-dim);margin-top:10px;min-height:18px}
 .ss-account{display:flex;align-items:center;gap:10px;font-size:18px;color:var(--text-muted)}
 .ss-account button{background:none;border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-dim);
@@ -1895,6 +1897,7 @@ const HARD_Q=[
 // ═══════════════════════════════════════════════════════
 //  SEARCH
 // ═══════════════════════════════════════════════════════
+const SEARCH_BADGE={concept:'📖 Notes',flashcard:'📇 Flashcard',quiz:'❓ Quiz'};
 function searchGuide(){
   const q=(document.getElementById('search-box').value||'').toLowerCase().trim();
   const sr=document.getElementById('search-results');
@@ -1905,22 +1908,46 @@ function searchGuide(){
   UNITS.forEach(u=>{
     u.concepts.forEach(c=>{
       const text=(c.l+' '+(c.intro||'')+' '+(c.b||[]).join(' ')).toLowerCase();
-      if(text.includes(q))matches.push({unit:u.id,unitName:u.name,concept:c.l,preview:(c.intro||c.b?.[0]||'').slice(0,120)});
+      if(text.includes(q))matches.push({type:'concept',unit:u.id,unitName:u.name,concept:c.l,preview:(c.intro||c.b?.[0]||'').slice(0,120)});
     });
-    if(u.fms) u.fms.forEach(f=>{if(f.toLowerCase().includes(q))matches.push({unit:u.id,unitName:u.name,concept:'Formula',preview:f});});
+    if(u.fms) u.fms.forEach(f=>{if(f.toLowerCase().includes(q))matches.push({type:'concept',unit:u.id,unitName:u.name,concept:'Formula',preview:f});});
+  });
+  const unitName=id=>{const u=UNITS.find(x=>x.id===id);return u?u.name:'Unit '+id;};
+  (typeof FLASHCARDS!=='undefined'?FLASHCARDS:[]).forEach(f=>{
+    const text=(f.t+' '+f.d).toLowerCase();
+    if(text.includes(q))matches.push({type:'flashcard',unit:f.u,unitName:unitName(f.u),concept:f.t,preview:f.d.slice(0,120)});
+  });
+  (typeof QUIZ!=='undefined'?QUIZ:[]).forEach(qq=>{
+    const text=(qq.q+' '+(qq.o||[]).join(' ')).toLowerCase();
+    if(text.includes(q))matches.push({type:'quiz',unit:qq.u,unitName:unitName(qq.u),concept:'Quiz question',preview:qq.q.slice(0,120)});
   });
   if(!matches.length){sr.style.display='block';sr.innerHTML='<div style="color:#857f72;font-size:19.5px;padding:8px">No results for "'+q+'"</div>';return;}
   sr.style.display='block';
+  const jump=m=>m.type==='concept'?`jumpToUnit(${m.unit})`:m.type==='flashcard'?`jumpToFlashcardUnit(${m.unit})`:`jumpToQuizUnit(${m.unit})`;
   sr.innerHTML='<div style="font-size:18px;color:#857f72;margin-bottom:6px">'+matches.length+' result(s)</div>'+
-    matches.slice(0,12).map(m=>`<div onclick="jumpToUnit(${m.unit})" style="padding:8px 12px;background:#1a1917;border:1px solid rgba(235,225,205,0.11);border-radius:8px;margin-bottom:5px;cursor:pointer;">
-      <span style="font-size:16.5px;font-weight:600;color:#857f72;text-transform:uppercase">Unit ${m.unit}: ${m.unitName}</span>
+    matches.slice(0,12).map(m=>`<div onclick="${jump(m)}" style="padding:8px 12px;background:#1a1917;border:1px solid rgba(235,225,205,0.11);border-radius:8px;margin-bottom:5px;cursor:pointer;">
+      <span style="font-size:16.5px;font-weight:600;color:#857f72;text-transform:uppercase">${SEARCH_BADGE[m.type]} · Unit ${m.unit}: ${m.unitName}</span>
       <div style="font-size:19.5px;font-weight:600;color:#ece8df;margin:2px 0">${m.concept}</div>
       <div style="font-size:18px;color:#a8a294">${m.preview}…</div>
     </div>`).join('');
 }
 function clearSearch(){document.getElementById('search-box').value='';searchGuide();}
+function jumpToFlashcardUnit(id){
+  clearSearch();
+  switchTab('cards');
+  const sel=document.getElementById('fc-sel');
+  if(sel){sel.value=id;loadFC();}
+}
+async function jumpToQuizUnit(id){
+  clearSearch();
+  await ssQuizTabClick();
+  if(!SS_SESSION)return;
+  const sel=document.getElementById('q-sel');
+  if(sel){sel.value=id;loadQ();}
+}
 function jumpToUnit(id){
   clearSearch();
+  switchTab('guide');
   const el=document.querySelector(`.unit[data-id="${id}"]`);
   if(el){el.classList.add('open');el.scrollIntoView({behavior:'smooth',block:'start'});}
 }
@@ -2254,7 +2281,6 @@ const GEO_KEY='geoRegentsProgressV2';
 function geoSave(){try{localStorage.setItem(GEO_KEY,JSON.stringify(GEO_STORE));}catch(e){}}
 function geoLoad(){try{const r=localStorage.getItem(GEO_KEY);if(r)GEO_STORE=Object.assign({fc:{},mastery:{},examples:{},lastTab:'guide'},JSON.parse(r));}catch(e){}}
 geoLoad();
-try{Object.assign(fcRatings,GEO_STORE.fc||{});}catch(e){}
 
 /* ----- server-synced mastery (feeds the readiness dashboard/account) -----
    The module script that defines window.__ssCreateMastery lives in <head>
@@ -2368,19 +2394,25 @@ function geoOverall(){let c=0,tt=0;for(const u in GEO_STORE.mastery){c+=GEO_STOR
 function renderDashboard(){
   const o=geoOverall();
   const exDone=Object.keys(GEO_STORE.examples).length,exTot=WORKED.length;
-  let known=0;try{for(const k in fcRatings)if(fcRatings[k]==='known')known++;}catch(e){}
+  let known=0;try{known=(GEO_MASTERY&&GEO_MASTERY.getSnapshot().cardsKnown.length)||0;}catch(e){}
   const R=46,C=2*Math.PI*R,off=C*(1-o.pct/100);
   const ring='<svg viewBox="0 0 110 110" class="ring"><defs><linearGradient id="ringgrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e6bb55"/><stop offset="1" stop-color="#7fc98f"/></linearGradient></defs><circle cx="55" cy="55" r="'+R+'" class="ring-bg"/><circle cx="55" cy="55" r="'+R+'" class="ring-fg" style="stroke-dasharray:'+C+';stroke-dashoffset:'+off+'"/><text x="55" y="52" class="ring-pct">'+o.pct+'%</text><text x="55" y="70" class="ring-lbl">quiz accuracy</text></svg>';
   let bars='';UNITS.forEach(u=>{const m=GEO_STORE.mastery[u.id];const p=m&&m.total?Math.round(m.correct/m.total*100):0;const col=!m?'var(--surface-hover)':p>=80?'var(--green)':p>=50?'var(--amber)':'var(--red)';bars+='<div class="dash-bar"><div class="dash-bl"><span>U'+u.id+'</span><span>'+(m?p+'%':'—')+'</span></div><div class="dash-track"><div class="dash-fill" style="width:'+p+'%;background:'+col+'"></div></div></div>';});
   const d=document.getElementById('dashboard');
   if(d)d.innerHTML='<div class="dash"><div class="dash-ring">'+ring+'<button class="btn dash-reset" onclick="resetProgress()">Reset progress</button></div><div class="dash-mid"><div class="dash-stats"><div class="stat"><b>'+o.c+'/'+o.t+'</b><span>quiz answered</span></div><div class="stat"><b>'+exDone+'/'+exTot+'</b><span>examples done</span></div><div class="stat"><b>'+known+'</b><span>cards known</span></div></div><div class="dash-bars">'+bars+'</div></div></div>';
   const op=document.getElementById('overall-progress');
-  if(op)op.innerHTML='<span class="opill">◐ '+o.pct+'% quiz accuracy</span><span class="opill">'+exDone+'/'+exTot+' examples</span><span class="opill">'+known+' cards known</span>';
+  if(op){
+    if(o.c===0&&exDone===0&&known===0){
+      op.innerHTML='<span class="opill" style="cursor:pointer" onclick="ssStartDiagnosticGated()">▸ Take the 5-minute diagnostic to start tracking your progress</span>';
+    }else{
+      op.innerHTML='<span class="opill">◐ '+o.pct+'% quiz accuracy</span><span class="opill">'+exDone+'/'+exTot+' examples</span><span class="opill">'+known+' cards known</span>';
+    }
+  }
 }
 function resetProgress(){
   if(!confirm('Reset all saved progress (quiz, flashcards, examples)?'))return;
   GEO_STORE={fc:{},mastery:{},examples:{},lastTab:'guide'};geoSave();
-  try{for(const k in fcRatings)delete fcRatings[k];}catch(e){}
+  try{if(GEO_MASTERY){GEO_MASTERY.getSnapshot().cardsKnown.slice().forEach(function(id){GEO_MASTERY.unmarkCardKnown(id);});}}catch(e){}
   for(const k in ex2shown)delete ex2shown[k];
   document.querySelectorAll('.ex2-card.done').forEach(c=>c.classList.remove('done'));
   document.querySelectorAll('.ex2-steps').forEach(s=>s.innerHTML='');
@@ -2933,7 +2965,6 @@ geoSave=function(){try{geoStoreWrite(GEO_KEY,JSON.stringify(GEO_STORE));}catch(e
     if(raw){
       var parsed=JSON.parse(raw);
       for(var k in parsed){if(parsed[k]!==undefined)GEO_STORE[k]=parsed[k];}
-      try{Object.assign(fcRatings,GEO_STORE.fc||{});}catch(e){}
     }
   }catch(e){}
   GEO_STORE.diagSeen=GEO_STORE.diagSeen||[];
@@ -3441,6 +3472,11 @@ async function ssQuizTabClick(){
   switchTab('quiz');
   if(SS_SESSION === undefined) await ssCheckSession();
   ssApplyQuizGate();
+}
+
+async function ssStartDiagnosticGated(){
+  await ssQuizTabClick();
+  if(SS_SESSION) startDiagnostic();
 }
 
 ssCheckSession();

@@ -173,6 +173,18 @@ describe("recordLogin", () => {
     await recordLogin(env, null, "google");
     expect(env.PROGRESS._store.size).toBe(0);
   });
+
+  it("returns true for a first-ever login and false for every login after", async () => {
+    const env = { PROGRESS: fakeKV() };
+    expect(await recordLogin(env, "student@school.edu", "google")).toBe(true);
+    expect(await recordLogin(env, "student@school.edu", "google")).toBe(false);
+    expect(await recordLogin(env, "student@school.edu", "github")).toBe(false);
+  });
+
+  it("returns false when there's no PROGRESS binding or email to persist", async () => {
+    expect(await recordLogin({}, "a@b.com", "google")).toBe(false);
+    expect(await recordLogin({ PROGRESS: fakeKV() }, null, "google")).toBe(false);
+  });
 });
 
 describe("isValidEmail", () => {

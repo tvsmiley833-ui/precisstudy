@@ -115,6 +115,10 @@ html{scroll-behavior:smooth}
 </div>
 
 <div style="max-width:640px;margin:0 auto;padding:48px 32px 80px;">
+  <div id="welcome-banner" style="display:none;background:var(--accent-bright);color:#fff;border-radius:16px;padding:20px 24px;margin-bottom:24px;">
+    <div style="font-weight:800;font-size:18px;margin-bottom:4px;">👋 Welcome to StudyStacks!</div>
+    <div style="font-size:14px;opacity:.95;line-height:1.5;">Pick the classes you're taking below so your homepage shows just what matters to you. Then head to a class and take the 5-minute diagnostic to see where you stand.</div>
+  </div>
   <h1 style="font-size:28px;font-weight:800;color:var(--text);margin:0 0 6px;">Settings</h1>
   <p id="settings-subtitle" style="font-size:15px;color:var(--text-muted);margin:0 0 28px;">Loading…</p>
 
@@ -155,7 +159,7 @@ var SUBJECTS = [
   { key: 'geometry', label: 'Geometry', color: '#d9a441' },
   { key: 'chemistry', label: 'Chemistry', color: '#0f7a70' },
   { key: 'algebra1', label: 'Algebra I', color: '#2563a8' },
-  { key: 'algebra2', label: 'Algebra II', color: '#5b4bd8' },
+  { key: 'algebra2', label: 'Algebra II', color: '#1c7a4a' },
   { key: 'aplang', label: 'AP English Lang & Comp', color: '#8b2942' },
   { key: 'globalhistory', label: 'Global History', color: '#b5541f' }
 ];
@@ -392,6 +396,11 @@ async function initSettings(){
   var content = document.getElementById('settings-content');
 
   var session = await ssCheckSession();
+
+  if(session && new URLSearchParams(location.search).get('welcome') === '1'){
+    document.getElementById('welcome-banner').style.display = 'block';
+    history.replaceState(null, '', '/settings');
+  }
 
   if(!session){
     subtitle.textContent = 'Sign in to manage your classes.';
