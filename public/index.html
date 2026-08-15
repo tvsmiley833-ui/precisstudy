@@ -174,6 +174,7 @@ body{transition:background .2s ease,color .2s ease}
     <a href="/about" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Who Are We</a>
     <a href="/request" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Request a Guide</a>
     <a href="/dashboard" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Dashboard</a>
+    <a href="/settings" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Settings</a>
     <button id="theme-toggle" onclick="ssToggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode">
       <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -269,10 +270,13 @@ body{transition:background .2s ease,color .2s ease}
 
 <div id="classes-section" class="ss-reveal" style="padding:8px 32px 24px;">
   <div style="max-width:1120px;margin:0 auto;">
-    <div style="font-weight:700;font-size:14px;color:var(--accent);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:16px;">
-      Classes
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
+      <div style="font-weight:700;font-size:14px;color:var(--accent);text-transform:uppercase;letter-spacing:0.06em;">
+        Classes
+      </div>
+      <div id="classes-note" style="font-size:13px;color:var(--text-muted);"></div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
+    <div id="classes-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
       <a href="/geometry" class="class-card" data-name="Geometry" data-subject-key="geometry" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
         <div style="color:var(--accent-bright);margin-bottom:10px;"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="3,20 21,20 3,3"/><line x1="7" y1="20" x2="7" y2="17"/><line x1="11" y1="20" x2="11" y2="17"/><line x1="15" y1="20" x2="15" y2="17"/></svg></div>
         <div style="font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;">Geometry</div>
@@ -549,6 +553,25 @@ function ssReadinessPct(mastery){
   return Math.round(sum / records.length);
 }
 
+function ssShowAllClasses(){
+  document.querySelectorAll('.class-card[data-subject-key]').forEach(function(card){ card.style.display = ''; });
+  document.getElementById('classes-note').innerHTML = '<a href="/settings" style="color:var(--accent);font-weight:700;text-decoration:none;">Choose your classes →</a>';
+}
+
+function ssApplyEnrolledFilter(enrolled){
+  var note = document.getElementById('classes-note');
+  if(!enrolled || !enrolled.length){
+    note.innerHTML = '<a href="/settings" style="color:var(--accent);font-weight:700;text-decoration:none;">📚 Tell us which classes you\'re taking →</a>';
+    return;
+  }
+  var enrolledSet = new Set(enrolled);
+  document.querySelectorAll('.class-card[data-subject-key]').forEach(function(card){
+    card.style.display = enrolledSet.has(card.dataset.subjectKey) ? '' : 'none';
+  });
+  note.innerHTML = 'Showing your classes — <a href="#" onclick="ssShowAllClasses();return false;" style="color:var(--accent);font-weight:700;text-decoration:none;">show all</a>'
+    + ' · <a href="/settings" style="color:var(--text-muted);text-decoration:none;">edit</a>';
+}
+
 async function ssLoadClassReadiness(){
   var session = await ssCheckSession();
   if(!session) return;
@@ -567,6 +590,7 @@ async function ssLoadClassReadiness(){
         + '<span>' + pct + '% ready</span>';
       card.insertBefore(badge, card.children[3] || null);
     });
+    ssApplyEnrolledFilter(blob.enrolledSubjects);
   }catch(e){ /* ignore, homepage still works without this */ }
 }
 

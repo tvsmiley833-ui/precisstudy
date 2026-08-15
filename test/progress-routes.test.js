@@ -1,7 +1,7 @@
 import { SELF } from "cloudflare:test";
 import { describe, it, expect } from "vitest";
 import { signSession, SESSION_COOKIE } from "../src/auth.js";
-import { handleGetProgress, handlePostProgress, handlePostGoal } from "../src/progress-routes.js";
+import { handleGetProgress, handlePostProgress, handlePostGoal, handlePostEnrolledSubjects } from "../src/progress-routes.js";
 
 const SECRET = "test-session-secret";
 
@@ -49,7 +49,8 @@ describe("handleGetProgress", () => {
       aplang: { mastery: {}, examples: {}, cardsKnown: [] },
       globalhistory: { mastery: {}, examples: {}, cardsKnown: [] },
       goal: null,
-      updatedAt: null
+      updatedAt: null,
+      enrolledSubjects: []
     });
   });
 
@@ -63,7 +64,8 @@ describe("handleGetProgress", () => {
       aplang: { mastery: {}, examples: {}, cardsKnown: [] },
       globalhistory: { mastery: {}, examples: {}, cardsKnown: [] },
       goal: null,
-      updatedAt: "2026-08-14T00:00:00.000Z"
+      updatedAt: "2026-08-14T00:00:00.000Z",
+      enrolledSubjects: ["geometry"]
     };
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify(saved) });
     const res = await handleGetProgress(req("https://example.com/api/progress", cookie), { SESSION_SECRET: SECRET, PROGRESS: kv });
@@ -119,6 +121,56 @@ describe("handlePostProgress", () => {
     const saved = JSON.parse(kv._store.get("progress:newstudent@example.com"));
     expect(saved.geometry.mastery).toEqual({ "1": { correct: 2, total: 2 } });
     expect(saved.chemistry).toEqual({ mastery: {}, examples: {}, cardsKnown: [] });
+  });
+});
+
+describe("handlePostEnrolledSubjects", () => {
+  it("401s with no session", async () => {
+    const res = await handlePostEnrolledSubjects(req("https://example.com/api/enrolled-subjects", null, "POST", { subjects: ["geometry"] }), { SESSION_SECRET: SECRET, PROGRESS: fakeKV() });
+    expect(res.status).toBe(401);
+  });
+
+  it("rejects invalid JSON", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const badReq = new Request("https://example.com/api/enrolled-subjects", { method: "POST", headers: { Cookie: cookie, "Content-Type": "application/json" }, body: "not json" });
+    const res = await handlePostEnrolledSubjects(badReq, { SESSION_SECRET: SECRET, PROGRESS: fakeKV() });
+    expect(res.status).toBe(400);
+  });
+
+  it("saves a valid subset of subjects and preserves existing progress", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const existing = {
+      geometry: { mastery: { "1": { correct: 1, total: 2 } }, examples: {}, cardsKnown: [] },
+      chemistry: { mastery: {}, examples: {}, cardsKnown: [] },
+      updatedAt: "2026-08-01T00:00:00.000Z"
+    };
+    const kv = fakeKV({ "progress:student@example.com": JSON.stringify(existing) });
+    const res = await handlePostEnrolledSubjects(req("https://example.com/api/enrolled-subjects", cookie, "POST", { subjects: ["geometry", "chemistry"] }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(data).toEqual({ ok: true, enrolledSubjects: ["geometry", "chemistry"] });
+
+    const saved = JSON.parse(kv._store.get("progress:student@example.com"));
+    expect(saved.geometry).toEqual(existing.geometry);
+    expect(saved.enrolledSubjects).toEqual(["geometry", "chemistry"]);
+  });
+
+  it("silently drops unknown subjects and de-duplicates", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV();
+    const res = await handlePostEnrolledSubjects(req("https://example.com/api/enrolled-subjects", cookie, "POST", { subjects: ["geometry", "biology", "geometry", "aplang"] }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(data.enrolledSubjects).toEqual(["geometry", "aplang"]);
+  });
+
+  it("treats a missing subjects array as clearing the list", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV({ "progress:student@example.com": JSON.stringify({ enrolledSubjects: ["geometry"] }) });
+    const res = await handlePostEnrolledSubjects(req("https://example.com/api/enrolled-subjects", cookie, "POST", {}), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(data.enrolledSubjects).toEqual([]);
   });
 });
 

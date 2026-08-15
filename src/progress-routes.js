@@ -14,7 +14,7 @@ function emptySubject() {
 }
 
 function emptyBlob() {
-  const blob = { goal: null, updatedAt: null };
+  const blob = { goal: null, updatedAt: null, enrolledSubjects: [] };
   for (const subject of SUBJECTS) blob[subject] = emptySubject();
   return blob;
 }
@@ -65,6 +65,29 @@ export async function handlePostProgress(request, env) {
 
   await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
   return json({ ok: true });
+}
+
+export async function handlePostEnrolledSubjects(request, env) {
+  const session = await getSession(request, env);
+  if (!session) return json({ error: "Sign in required" }, 401);
+  if (!env.PROGRESS) return json({ error: "Progress sync isn't configured yet" }, 503);
+
+  let body;
+  try {
+    body = await request.json();
+  } catch (e) {
+    return json({ error: "Invalid JSON body" }, 400);
+  }
+
+  const raw = (body && Array.isArray(body.subjects) && body.subjects) || [];
+  const enrolledSubjects = [...new Set(raw.filter(s => SUBJECTS.includes(s)))];
+
+  const blob = await loadBlob(env, session.email);
+  blob.enrolledSubjects = enrolledSubjects;
+  blob.updatedAt = new Date().toISOString();
+
+  await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  return json({ ok: true, enrolledSubjects });
 }
 
 export async function handlePostGoal(request, env) {

@@ -11,7 +11,7 @@ import {
 } from "./auth-routes.js";
 import { handleRequestGuideSubmit } from "./guide-requests.js";
 import { handleAdminMe, handleAdminListGuideRequests, handleAdminDeleteGuideRequest, handleAdminStats, handleAdminGetGuideRequestFile } from "./admin-routes.js";
-import { handleGetProgress, handlePostProgress, handlePostGoal } from "./progress-routes.js";
+import { handleGetProgress, handlePostProgress, handlePostGoal, handlePostEnrolledSubjects } from "./progress-routes.js";
 
 const AUTH_ROUTES = {
   "/auth/google/start": { GET: handleGoogleStart },
@@ -68,6 +68,11 @@ export default {
 
     if (url.pathname === "/api/goal") {
       if (request.method === "POST") return handlePostGoal(request, env);
+      return json({ error: "Method not allowed" }, 405);
+    }
+
+    if (url.pathname === "/api/enrolled-subjects") {
+      if (request.method === "POST") return handlePostEnrolledSubjects(request, env);
       return json({ error: "Method not allowed" }, 405);
     }
 
