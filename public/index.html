@@ -117,6 +117,13 @@ body{transition:background .2s ease,color .2s ease}
 .ss-hero::before{content:"";position:absolute;top:-160px;left:50%;transform:translateX(-50%);width:900px;height:460px;
   background:var(--hero-glow);pointer-events:none;z-index:0}
 .ss-hero-inner{position:relative;z-index:1}
+.ss-hero-blob{position:absolute;pointer-events:none;z-index:0;filter:blur(2px)}
+.ss-hero-blob-1{top:-140px;right:-120px;width:420px;height:420px;opacity:.07;animation:ssBlobDrift 22s ease-in-out infinite}
+.ss-hero-blob-2{bottom:-160px;left:-140px;width:340px;height:340px;opacity:.05;animation:ssBlobDrift 26s ease-in-out infinite reverse}
+[data-theme="dark"] .ss-hero-blob-1{opacity:.1}
+[data-theme="dark"] .ss-hero-blob-2{opacity:.08}
+@keyframes ssBlobDrift{0%,100%{transform:translate(0,0) rotate(0deg)}50%{transform:translate(-14px,10px) rotate(6deg)}}
+@media(prefers-reduced-motion:reduce){.ss-hero-blob-1,.ss-hero-blob-2{animation:none}}
 
 @keyframes ssFadeInUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 .ss-hero-anim{opacity:0;animation:ssFadeInUp .6s cubic-bezier(.2,.8,.2,1) forwards}
@@ -127,6 +134,22 @@ body{transition:background .2s ease,color .2s ease}
 .class-card{box-shadow:var(--card-shadow-sm);
   transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s ease,border-color .25s ease}
 .class-card:not(.class-card-soon):hover{transform:translateY(-4px);box-shadow:0 16px 32px rgba(194,65,12,.14);border-color:var(--accent-bright)}
+.ss-readiness{display:none;align-items:center;gap:8px;margin-top:12px;font-size:13px;font-weight:700;color:var(--text)}
+.ss-readiness-bar{flex:1;max-width:80px;height:6px;border-radius:999px;background:var(--border);overflow:hidden}
+.ss-readiness-bar-fill{height:100%;border-radius:999px;background:var(--badge-green);transition:width .4s ease}
+.class-card > div:first-child{transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+.class-card:not(.class-card-soon):hover > div:first-child{transform:scale(1.12) rotate(-4deg)}
+#classes-section.in-view .class-card{opacity:0;animation:ssFadeInUp .5s cubic-bezier(.2,.8,.2,1) forwards}
+#classes-section.in-view .class-card:nth-child(1){animation-delay:.03s}
+#classes-section.in-view .class-card:nth-child(2){animation-delay:.08s}
+#classes-section.in-view .class-card:nth-child(3){animation-delay:.13s}
+#classes-section.in-view .class-card:nth-child(4){animation-delay:.18s}
+#classes-section.in-view .class-card:nth-child(5){animation-delay:.23s}
+#classes-section.in-view .class-card:nth-child(6){animation-delay:.28s}
+@media(prefers-reduced-motion:reduce){
+  #classes-section.in-view .class-card{animation:none;opacity:1}
+  .class-card > div:first-child{transition:none}
+}
 .class-card-soon{box-shadow:var(--card-shadow-soon);transition:border-color .25s ease,opacity .25s ease,box-shadow .25s ease}
 .class-card-soon:hover{border-color:var(--border-hover-soon);opacity:.8}
 
@@ -169,6 +192,12 @@ body{transition:background .2s ease,color .2s ease}
 </style>
 
 <div class="ss-hero" style="text-align:center;padding:64px 32px 48px;">
+  <svg class="ss-hero-blob ss-hero-blob-1" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path fill="var(--accent-bright)" d="M 520.0 300.0 C 519.4 338.4, 481.1 376.1, 456.6 413.8 C 432.2 451.5, 410.0 512.9, 373.4 526.0 C 336.9 539.1, 283.8 505.4, 237.5 492.5 C 191.1 479.6, 116.1 480.8, 95.3 448.7 C 74.6 416.6, 110.0 347.4, 113.0 300.0 C 116.0 252.6, 92.7 197.4, 113.1 164.2 C 133.5 131.1, 191.8 117.0, 235.4 101.2 C 279.0 85.5, 337.3 56.1, 374.8 69.8 C 412.2 83.6, 436.0 145.3, 460.2 183.6 C 484.4 222.0, 520.6 261.6, 520.0 300.0 Z"/>
+  </svg>
+  <svg class="ss-hero-blob ss-hero-blob-2" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path fill="var(--accent)" d="M 520.0 300.0 C 519.4 338.4, 481.1 376.1, 456.6 413.8 C 432.2 451.5, 410.0 512.9, 373.4 526.0 C 336.9 539.1, 283.8 505.4, 237.5 492.5 C 191.1 479.6, 116.1 480.8, 95.3 448.7 C 74.6 416.6, 110.0 347.4, 113.0 300.0 C 116.0 252.6, 92.7 197.4, 113.1 164.2 C 133.5 131.1, 191.8 117.0, 235.4 101.2 C 279.0 85.5, 337.3 56.1, 374.8 69.8 C 412.2 83.6, 436.0 145.3, 460.2 183.6 C 484.4 222.0, 520.6 261.6, 520.0 300.0 Z"/>
+  </svg>
   <div class="ss-hero-inner">
   <div class="ss-hero-anim" style="animation-delay:0s;display:inline-block;background:var(--chip-bg);color:var(--chip-text);font-weight:700;font-size:13px;padding:6px 14px;border-radius:999px;margin-bottom:18px;">
     Free forever · Built for real classes
@@ -244,33 +273,33 @@ body{transition:background .2s ease,color .2s ease}
       Classes
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
-      <a href="/geometry" class="class-card" data-name="Geometry" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
+      <a href="/geometry" class="class-card" data-name="Geometry" data-subject-key="geometry" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
         <div style="color:var(--accent-bright);margin-bottom:10px;"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="3,20 21,20 3,3"/><line x1="7" y1="20" x2="7" y2="17"/><line x1="11" y1="20" x2="11" y2="17"/><line x1="15" y1="20" x2="15" y2="17"/></svg></div>
         <div style="font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;">Geometry</div>
         <div style="font-size:14px;color:var(--text-muted);margin-bottom:14px;">11 units · 440 practice questions · interactive exam</div>
         <div style="font-size:13px;font-weight:700;color:var(--badge-green);">The Original</div>
       </a>
-      <a href="/chemistry" class="class-card" data-name="Chemistry" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
+      <a href="/chemistry" class="class-card" data-name="Chemistry" data-subject-key="chemistry" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
         <div style="color:var(--badge-green);margin-bottom:10px;"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2h10v6c0 1-1 2-2 2H9c-1 0-2-1-2-2V2z"/><path d="M7 8h10v10c0 2-1.5 3-5 3s-5-1-5-3V8z"/><circle cx="10" cy="12" r="1"/><circle cx="14" cy="14" r="0.8"/></svg></div>
         <div style="font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;">Chemistry</div>
         <div style="font-size:14px;color:var(--text-muted);">16 units · 469 practice questions · interactive exam</div>
       </a>
-      <a href="/algebra1" class="class-card" data-name="Algebra I" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
+      <a href="/algebra1" class="class-card" data-name="Algebra I" data-subject-key="algebra1" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
         <div style="color:#2563a8;margin-bottom:10px;"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="19" x2="20" y2="5"/><circle cx="6" cy="17" r="1.4" fill="currentColor" stroke="none"/><circle cx="18" cy="7" r="1.4" fill="currentColor" stroke="none"/><path d="M14 19h6"/><path d="M4 9V5h4"/></svg></div>
         <div style="font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;">Algebra I</div>
         <div style="font-size:14px;color:var(--text-muted);">11 units · 220 practice questions · interactive exam</div>
       </a>
-      <a href="/algebra2" class="class-card" data-name="Algebra II" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
+      <a href="/algebra2" class="class-card" data-name="Algebra II" data-subject-key="algebra2" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
         <div style="color:#1c7a4a;margin-bottom:10px;"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14"/><path d="M5 20h14"/><path d="M5 4l14 16"/><path d="M19 4L5 20"/></svg></div>
         <div style="font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;">Algebra II</div>
         <div style="font-size:14px;color:var(--text-muted);">11 units · 220 practice questions · interactive exam</div>
       </a>
-      <a href="/ap-lang" class="class-card" data-name="AP English Language and Composition" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
+      <a href="/ap-lang" class="class-card" data-name="AP English Language and Composition" data-subject-key="aplang" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
         <div style="color:#8b2942;margin-bottom:10px;"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
         <div style="font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;">AP English Lang &amp; Comp</div>
         <div style="font-size:14px;color:var(--text-muted);">10 units · 200 practice questions · interactive exam</div>
       </a>
-      <a href="/global-history" class="class-card" data-name="Global History" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
+      <a href="/global-history" class="class-card" data-name="Global History" data-subject-key="globalhistory" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
         <div style="color:#b5541f;margin-bottom:10px;"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.5 3.5 5.5 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-5.5-3.5-9s1-6.5 3.5-9z"/></svg></div>
         <div style="font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;">Global History</div>
         <div style="font-size:14px;color:var(--text-muted);">14 units · 280 practice questions · interactive exam</div>
@@ -511,7 +540,37 @@ document.addEventListener('click', function(e){
   }
 });
 
-ssCheckSession();
+function ssReadinessPct(mastery){
+  if(!mastery) return null;
+  var records = Object.keys(mastery).map(function(k){ return mastery[k]; })
+    .filter(function(r){ return r && r.total >= 2; });
+  if(!records.length) return null;
+  var sum = records.reduce(function(s, r){ return s + (r.correct / r.total) * 100; }, 0);
+  return Math.round(sum / records.length);
+}
+
+async function ssLoadClassReadiness(){
+  var session = await ssCheckSession();
+  if(!session) return;
+  try{
+    var res = await fetch('/api/progress');
+    if(!res.ok) return;
+    var blob = await res.json();
+    document.querySelectorAll('.class-card[data-subject-key]').forEach(function(card){
+      var key = card.dataset.subjectKey;
+      var pct = ssReadinessPct(blob[key] && blob[key].mastery);
+      if(pct === null) return;
+      var badge = document.createElement('div');
+      badge.className = 'ss-readiness';
+      badge.style.display = 'flex';
+      badge.innerHTML = '<span class="ss-readiness-bar"><span class="ss-readiness-bar-fill" style="width:' + pct + '%"></span></span>'
+        + '<span>' + pct + '% ready</span>';
+      card.insertBefore(badge, card.children[3] || null);
+    });
+  }catch(e){ /* ignore, homepage still works without this */ }
+}
+
+ssLoadClassReadiness();
 
 document.getElementById('spc-save-btn').addEventListener('click', async function(){
   var status = document.getElementById('spc-save-status');
