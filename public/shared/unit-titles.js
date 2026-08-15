@@ -53,6 +53,23 @@ export const aplangUnits = [
   { id: 10, name: "Grammar, Conventions & Multiple-Choice Strategy" }
 ];
 
+export const globalHistoryUnits = [
+  { id: 1, name: "Early River Valley Civilizations" },
+  { id: 2, name: "Classical Greece & Rome" },
+  { id: 3, name: "Classical China & India" },
+  { id: 4, name: "The Rise and Spread of Islam" },
+  { id: 5, name: "Medieval Europe & the Byzantine Empire" },
+  { id: 6, name: "Trade Networks: Silk Roads, Trans-Saharan & Indian Ocean" },
+  { id: 7, name: "The Renaissance & Reformation" },
+  { id: 8, name: "Age of Exploration & the Columbian Exchange" },
+  { id: 9, name: "Absolutism & the Enlightenment" },
+  { id: 10, name: "Age of Revolutions" },
+  { id: 11, name: "Industrialization & Imperialism" },
+  { id: 12, name: "World War I & the Interwar Period" },
+  { id: 13, name: "World War II & the Holocaust" },
+  { id: 14, name: "The Cold War, Decolonization & a Changing World" }
+];
+
 export const chemistryUnits = [
   { id: 1, name: "Matter & Change" },
   { id: 2, name: "Measurements & Math" },

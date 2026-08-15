@@ -47,6 +47,7 @@ describe("handleGetProgress", () => {
       algebra1: { mastery: {}, examples: {}, cardsKnown: [] },
       algebra2: { mastery: {}, examples: {}, cardsKnown: [] },
       aplang: { mastery: {}, examples: {}, cardsKnown: [] },
+      globalhistory: { mastery: {}, examples: {}, cardsKnown: [] },
       goal: null,
       updatedAt: null
     });
@@ -60,6 +61,7 @@ describe("handleGetProgress", () => {
       algebra1: { mastery: {}, examples: {}, cardsKnown: [] },
       algebra2: { mastery: {}, examples: {}, cardsKnown: [] },
       aplang: { mastery: {}, examples: {}, cardsKnown: [] },
+      globalhistory: { mastery: {}, examples: {}, cardsKnown: [] },
       goal: null,
       updatedAt: "2026-08-14T00:00:00.000Z"
     };
