@@ -161,7 +161,7 @@ export async function handlePushTest(request, env) {
 
   const message = {
     data: JSON.stringify({
-      title: "StudyStacks",
+      title: "PrecisStudy",
       body: "Notifications are working! You'll get a reminder like this to keep studying.",
       url: "/dashboard"
     }),

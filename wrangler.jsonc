@@ -24,12 +24,14 @@
     "GITHUB_CLIENT_ID": "Ov23litIZA8irIufEaOA",
     "ADMIN_EMAILS": "tvsmiley833@gmail.com",
     "VAPID_PUBLIC_KEY": "BFLqJyuV9vTCmo9TTgfsX9yOgI1DhUopA1Bm7Kw-Raxt5aD9286kiIVFLPcCWuInwcNzsTIuuAX-439U_D2WH1Q",
-    "VAPID_SUBJECT": "mailto:studystackssupport@gmail.com"
+    "VAPID_SUBJECT": "mailto:support@precisstudy.com"
   },
   "workers_dev": true,
   "routes": [
     { "pattern": "studystacks.org", "custom_domain": true },
-    { "pattern": "www.studystacks.org", "custom_domain": true }
+    { "pattern": "www.studystacks.org", "custom_domain": true },
+    { "pattern": "precisstudy.com", "custom_domain": true },
+    { "pattern": "www.precisstudy.com", "custom_domain": true }
   ],
   "triggers": {
     "crons": ["0 22 * * *", "*/5 * * * *"]

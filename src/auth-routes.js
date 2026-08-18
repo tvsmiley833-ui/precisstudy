@@ -12,7 +12,7 @@ import {
   checkEmailRateLimit
 } from "./auth.js";
 
-const SITE_ORIGIN = "https://studystacks.org";
+const SITE_ORIGIN = "https://precisstudy.com";
 const STATE_TTL = 60 * 10; // 10 minutes
 const STATE_COOKIE = "ss_oauth_state";
 
@@ -240,14 +240,14 @@ export async function handleEmailStart(request, env) {
 
 async function sendMagicLinkEmail(env, toEmail, link) {
   if (!env.EMAIL) throw new Error("EMAIL binding is not configured");
-  const text = "Click to sign in to StudyStacks:\n\n" + link
+  const text = "Click to sign in to PrecisStudy:\n\n" + link
     + "\n\nThis link expires in 15 minutes. If you didn't request this, you can ignore this email.";
-  const html = "<p>Click to sign in to StudyStacks:</p><p><a href=\"" + link + "\">" + link + "</a></p>"
+  const html = "<p>Click to sign in to PrecisStudy:</p><p><a href=\"" + link + "\">" + link + "</a></p>"
     + "<p>This link expires in 15 minutes. If you didn't request this, you can ignore this email.</p>";
   await env.EMAIL.send({
     to: toEmail,
-    from: "login@studystacks.org",
-    subject: "Sign in to StudyStacks",
+    from: "login@precisstudy.com",
+    subject: "Sign in to PrecisStudy",
     text,
     html
   });

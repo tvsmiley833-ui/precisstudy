@@ -91,10 +91,10 @@ describe("per-view subject routing", () => {
 });
 
 describe("homepage", () => {
-  it("shows the StudyStacks brand and the current class roster", async () => {
+  it("shows the PrecisStudy brand and the current class roster", async () => {
     const res = await SELF.fetch("https://example.com/");
     const text = await res.text();
-    expect(text).toContain("StudyStacks");
+    expect(text).toContain("PrecisStudy");
     expect(text).toContain("Geometry");
     expect(text).toContain("The Original");
     expect(text).toContain("Chemistry");

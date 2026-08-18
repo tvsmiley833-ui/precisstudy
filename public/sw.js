@@ -7,7 +7,7 @@ self.addEventListener("activate", function (event) {
 });
 
 self.addEventListener("push", function (event) {
-  var data = { title: "StudyStacks", body: "You have a new notification.", url: "/dashboard" };
+  var data = { title: "PrecisStudy", body: "You have a new notification.", url: "/dashboard" };
   if (event.data) {
     try {
       data = Object.assign(data, event.data.json());
