@@ -158,6 +158,27 @@ describe("/api/request-guide with file attachments", () => {
     expect(data.error).toMatch(/unsupported file type/);
   });
 
+  it("rejects a file whose content doesn't match its declared type", async () => {
+    const form = new FormData();
+    form.append("className", "AP Biology");
+    // claims image/png but the bytes aren't a PNG signature
+    form.append("files", fakeFile("fake.png", "image/png", new TextEncoder().encode("<script>alert(1)</script>")));
+    const res = await SELF.fetch("https://example.com/api/request-guide", { method: "POST", body: form, headers: { "CF-Connecting-IP": nextIp() } });
+    expect(res.status).toBe(400);
+    const data = await res.json();
+    expect(data.error).toMatch(/doesn't match its declared type/);
+  });
+
+  it("accepts a file whose content matches its declared type", async () => {
+    const form = new FormData();
+    form.append("className", "AP Biology");
+    const pngSignature = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0, 0, 0]);
+    form.append("files", fakeFile("real.png", "image/png", pngSignature));
+    const res = await SELF.fetch("https://example.com/api/request-guide", { method: "POST", body: form, headers: { "CF-Connecting-IP": nextIp() } });
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true });
+  });
+
   it("stores the file so an admin can list and download it, and deleting the request removes it", async () => {
     const form = new FormData();
     form.append("className", "AP Biology Attachment Test");
