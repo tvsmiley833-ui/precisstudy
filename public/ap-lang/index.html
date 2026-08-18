@@ -133,6 +133,8 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
   border:1.5px solid var(--accent);border-radius:var(--radius);background:var(--accent-soft);color:var(--accent-ink);
   font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:all .15s}
 .diag-btn:hover{background:var(--accent);color:#fff}
+.diag-btn:disabled{opacity:.6;cursor:default}
+#view-quiz.diag-mode #qbox{border:2px solid var(--accent);border-radius:var(--radius);background:var(--accent-soft);padding:16px}
 .fc-bar select,.q-bar select{padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);
   font-family:'Inter';font-size:21px;color:var(--ink);cursor:pointer;max-width:100%;box-sizing:border-box}
 .fc-count,.q-prog{font-size:20.2px;color:var(--ink-muted)}
@@ -425,7 +427,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
     <div class="ss-login-box"></div>
   </div>
   <div id="quiz-real">
-  <button class="diag-btn" onclick="startDiagnostic()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Start Diagnostic — 2 questions per unit, finds your weak spots</button>
+  <button class="diag-btn" id="diag-start-btn" onclick="startDiagnostic()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><span id="diag-start-btn-label">Start Diagnostic — 2 questions per unit, finds your weak spots</span></button>
   <div class="q-bar">
     <select id="q-sel" onchange="loadQ()"></select>
     <span class="q-prog" id="q-prog"></span>
@@ -1608,8 +1610,16 @@ function loadQ(){
   qPool=src.sort(()=>Math.random()-.5);
   qIdx=0;score=0;requeueCounts=new WeakMap();showQ();
 }
+function diagSetActive(active){
+  const vq=document.getElementById('view-quiz');if(vq)vq.classList.toggle('diag-mode',active);
+  const btn=document.getElementById('diag-start-btn');const lbl=document.getElementById('diag-start-btn-label');
+  if(btn)btn.disabled=active;
+  if(lbl)lbl.textContent=active?'Diagnostic in progress…':'Start Diagnostic — 2 questions per unit, finds your weak spots';
+}
 function startDiagnostic(){
   switchTab('quiz');
+  /* already mid-diagnostic (not yet finished) — re-focus it instead of wiping progress and restarting */
+  if(diagMode&&qPool&&qPool.length&&qIdx<qPool.length){showQ();return;}
   const perUnit={};
   QUIZ.forEach(q=>{(perUnit[q.u]=perUnit[q.u]||[]).push(q);});
   let pool=[];
@@ -1619,6 +1629,7 @@ function startDiagnostic(){
   });
   pool=pool.sort(()=>Math.random()-.5);
   qPool=pool;qIdx=0;score=0;requeueCounts=new WeakMap();diagMode=true;
+  diagSetActive(true);
   const banner=document.getElementById('diag-banner');
   if(banner){banner.style.display='block';banner.textContent='Diagnostic in progress — '+qPool.length+' questions (2 per unit). Answer honestly; your weak units appear below when you finish.';}
   const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
@@ -1626,6 +1637,7 @@ function startDiagnostic(){
 }
 function showDiagSummary(){
   diagMode=false;
+  diagSetActive(false);
   const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
   const summary=document.getElementById('diag-summary');
   if(!summary||!APLANG_MASTERY){return;}
@@ -1916,13 +1928,11 @@ async function cbotSend(e){
   const cfg=CBOT_PUBLISHED?null:cbotLoadSettings();
   const noKeyFallbackText="I couldn't find that in the guide. Try a specific term (e.g. \"activation energy\", \"limiting reagent\", \"pH\") or check the Quick Reference / Memory Tricks tabs."+(CBOT_PUBLISHED?"":" You can also connect your own AI API in Advanced settings for open-ended help.");
 
-  if(results.length&&results[0].score>=2.5){
-    const top=results[0].entry;
-    cbotAddMsg('bot',top.label+'\n\n'+top.text+'\n\n['+top.source+']',top.jump,'Jump to this in the guide →');
-  }else if(CBOT_PUBLISHED){
+  if(CBOT_PUBLISHED){
     try{
       const reply=await cbotCallProxy();
-      cbotAddMsg('bot',reply||"I didn't get a usable reply — try rephrasing?");
+      const top=results.length?results[0].entry:null;
+      cbotAddMsg('bot',reply||"I didn't get a usable reply — try rephrasing?",top&&top.jump,top?'Jump to this in the guide →':undefined);
     }catch(err){
       cbotAddMsg('bot','The AI helper is temporarily unavailable ('+err.message+'). Here\'s the closest match from the guide instead:');
       if(results.length){const top=results[0].entry;cbotAddMsg('bot',top.label+'\n\n'+top.text,top.jump,'Jump to this in the guide →');}
@@ -1931,11 +1941,15 @@ async function cbotSend(e){
   }else if(cfg){
     try{
       const reply=await cbotCallApi(cfg,query);
-      cbotAddMsg('bot',reply||"I didn't get a usable reply from the API.");
+      const top=results.length?results[0].entry:null;
+      cbotAddMsg('bot',reply||"I didn't get a usable reply from the API.",top&&top.jump,top?'Jump to this in the guide →':undefined);
     }catch(err){
       cbotAddMsg('bot','Couldn\'t reach your configured API ('+err.message+'). Here\'s the closest match from the guide instead:');
       if(results.length){const top=results[0].entry;cbotAddMsg('bot',top.label+'\n\n'+top.text,top.jump,'Jump to this in the guide →');}
     }
+  }else if(results.length&&results[0].score>=2.5){
+    const top=results[0].entry;
+    cbotAddMsg('bot',top.label+'\n\n'+top.text+'\n\n['+top.source+']',top.jump,'Jump to this in the guide →');
   }else if(results.length){
     const top=results[0].entry;
     cbotAddMsg('bot',"Not an exact match, but this looks related:\n\n"+top.label+'\n\n'+top.text,top.jump,'Jump to this in the guide →');

@@ -253,7 +253,9 @@ input::placeholder{color:var(--text-dim)}
   background:linear-gradient(120deg,#b8862f,#c8963b);color:#fff;font-size:19px;font-weight:700;cursor:pointer;font-family:inherit;
   box-shadow:0 8px 26px -10px var(--primary-glow)}
 .diag-btn:hover{filter:brightness(1.1)}
+.diag-btn:disabled{opacity:.6;cursor:default;filter:none}
 .diag-banner{background:var(--green-soft);border:1px solid var(--green-bd);border-radius:var(--radius-sm);padding:12px 16px;margin-bottom:14px;font-size:19px;color:var(--green);display:none}
+#view-quiz.diag-mode #qbox{border:2px solid var(--green-bd);border-radius:var(--radius);background:var(--green-soft);padding:16px}
 
 
 .q-fig{background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:16px}
@@ -491,7 +493,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
     <div class="ss-login-box"></div>
   </div>
   <div id="quiz-real">
-  <button class="diag-btn" onclick="startDiagnostic()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Start Diagnostic — 2 questions per unit, finds your weak spots</button>
+  <button class="diag-btn" id="diag-start-btn" onclick="startDiagnostic()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><span id="diag-start-btn-label">Start Diagnostic — 2 questions per unit, finds your weak spots</span></button>
   <div class="q-bar">
     <select id="q-sel" onchange="loadQ()"></select>
     <label style="font-size:19.5px;color:#b4b8c4;cursor:pointer;display:flex;align-items:center;gap:5px">
@@ -2769,6 +2771,7 @@ showQ=function(){
   _showQ_v6();
   if(diagMode&&qIdx>=qPool.length){
     diagMode=false;
+    if(typeof diagSetActive==='function')diagSetActive(false);
     const db=document.getElementById('diag-banner');if(db)db.style.display='none';
     const weak=[],ok=[];
     Object.keys(unitScores).forEach(function(u){
@@ -3009,8 +3012,18 @@ ansQ=function(i){
 };
 
 /* diagnostic: skip anything seen in a past diagnostic OR answered recently */
+function diagSetActive(active){
+  var vq=document.getElementById('view-quiz');if(vq)vq.classList.toggle('diag-mode',active);
+  var sel=document.getElementById('q-sel');if(sel)sel.style.display=active?'none':'';
+  var hm=document.getElementById('hard-mode');var hmLabel=hm&&hm.closest('label');if(hmLabel)hmLabel.style.display=active?'none':'';
+  var btn=document.getElementById('diag-start-btn');var lbl=document.getElementById('diag-start-btn-label');
+  if(btn)btn.disabled=active;
+  if(lbl)lbl.textContent=active?'Diagnostic in progress…':'Start Diagnostic — 2 questions per unit, finds your weak spots';
+}
 startDiagnostic=function(){
   switchTab('quiz');
+  /* already mid-diagnostic (not yet finished) — re-focus it instead of wiping progress and restarting */
+  if(diagMode&&qPool&&qPool.length&&qIdx<qPool.length){showQ();return;}
   var perUnit={};
   QUIZ.forEach(function(q){(perUnit[q.u]=perUnit[q.u]||[]).push(q);});
   var seen=[],asked=[];
@@ -3032,6 +3045,7 @@ startDiagnostic=function(){
   }catch(e){}
   qPool=pool.map(shuffleOpts);
   qIdx=0;score=0;missedQ=[];requeueCounts=new WeakMap();diagMode=true;
+  diagSetActive(true);
   var db=document.getElementById('diag-banner');
   if(db){db.style.display='block';
     db.textContent='Diagnostic — '+qPool.length+' questions (2 per unit), chosen to avoid ones you have already seen.';}
@@ -3384,13 +3398,11 @@ async function cbotSend(e){
   const cfg=CBOT_PUBLISHED?null:cbotLoadSettings();
   const noKeyFallbackText="I couldn't find that in the guide. Try a specific term (e.g. \"dilation\", \"inscribed angle\", \"30-60-90\") or check the Quick Reference / Memory Tricks tabs."+(CBOT_PUBLISHED?"":" You can also connect your own AI API in Advanced settings for open-ended help.");
 
-  if(results.length&&results[0].score>=2.5){
-    const top=results[0].entry;
-    cbotAddMsg('bot',top.label+'\n\n'+top.text+'\n\n['+top.source+']',top.jump,'Jump to this in the guide →');
-  }else if(CBOT_PUBLISHED){
+  if(CBOT_PUBLISHED){
     try{
       const reply=await cbotCallProxy();
-      cbotAddMsg('bot',reply||"I didn't get a usable reply — try rephrasing?");
+      const top=results.length?results[0].entry:null;
+      cbotAddMsg('bot',reply||"I didn't get a usable reply — try rephrasing?",top&&top.jump,top?'Jump to this in the guide →':undefined);
     }catch(err){
       cbotAddMsg('bot','The AI helper is temporarily unavailable ('+err.message+'). Here\'s the closest match from the guide instead:');
       if(results.length){const top=results[0].entry;cbotAddMsg('bot',top.label+'\n\n'+top.text,top.jump,'Jump to this in the guide →');}
@@ -3399,11 +3411,15 @@ async function cbotSend(e){
   }else if(cfg){
     try{
       const reply=await cbotCallApi(cfg,query);
-      cbotAddMsg('bot',reply||"I didn't get a usable reply from the API.");
+      const top=results.length?results[0].entry:null;
+      cbotAddMsg('bot',reply||"I didn't get a usable reply from the API.",top&&top.jump,top?'Jump to this in the guide →':undefined);
     }catch(err){
       cbotAddMsg('bot','Couldn\'t reach your configured API ('+err.message+'). Here\'s the closest match from the guide instead:');
       if(results.length){const top=results[0].entry;cbotAddMsg('bot',top.label+'\n\n'+top.text,top.jump,'Jump to this in the guide →');}
     }
+  }else if(results.length&&results[0].score>=2.5){
+    const top=results[0].entry;
+    cbotAddMsg('bot',top.label+'\n\n'+top.text+'\n\n['+top.source+']',top.jump,'Jump to this in the guide →');
   }else if(results.length){
     const top=results[0].entry;
     cbotAddMsg('bot',"Not an exact match, but this looks related:\n\n"+top.label+'\n\n'+top.text,top.jump,'Jump to this in the guide →');

@@ -166,7 +166,7 @@ describe("handleChatPost", () => {
     });
     await handleChatPost(req, fakeEnv);
     const callArgs = fakeEnv.AI.run.mock.calls[0][1];
-    expect(callArgs.messages[0].content).toContain("Geometry Regents");
+    expect(callArgs.messages[0].content).toContain("study Geometry");
   });
 
   it("uses the chemistry system prompt when Referer points to /chemistry", async () => {
@@ -178,7 +178,24 @@ describe("handleChatPost", () => {
     });
     await handleChatPost(req, fakeEnv);
     const callArgs = fakeEnv.AI.run.mock.calls[0][1];
-    expect(callArgs.messages[0].content).toContain("Chemistry Regents");
+    expect(callArgs.messages[0].content).toContain("study Chemistry");
+  });
+
+  it.each([
+    ["algebra1", "Algebra I"],
+    ["algebra2", "Algebra II"],
+    ["ap-lang", "AP English Language and Composition"],
+    ["global-history", "Global History"]
+  ])("uses the %s system prompt when Referer points to /%s", async (segment, expectedPhrase) => {
+    const fakeEnv = { AI: { run: vi.fn().mockResolvedValue({ response: "ok" }) } };
+    const req = new Request("https://example.com/api/chat", {
+      method: "POST",
+      headers: { Referer: `https://example.com/${segment}` },
+      body: JSON.stringify({ history: [{ role: "user", content: "hi" }] })
+    });
+    await handleChatPost(req, fakeEnv);
+    const callArgs = fakeEnv.AI.run.mock.calls[0][1];
+    expect(callArgs.messages[0].content).toContain(expectedPhrase);
   });
 
   it("falls back to the geometry prompt when Referer is missing", async () => {
@@ -189,7 +206,7 @@ describe("handleChatPost", () => {
     });
     await handleChatPost(req, fakeEnv);
     const callArgs = fakeEnv.AI.run.mock.calls[0][1];
-    expect(callArgs.messages[0].content).toContain("Geometry Regents");
+    expect(callArgs.messages[0].content).toContain("study Geometry");
   });
 });
 

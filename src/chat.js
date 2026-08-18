@@ -4,8 +4,12 @@
 // Object.prototype chain instead of falling through to undefined — a
 // null-prototype object has no inherited keys to leak.
 export const SUBJECTS = Object.assign(Object.create(null), {
-  geometry: "You are a concise, friendly tutor helping a student study for the NYS Geometry Regents exam. Keep answers short (2-5 sentences), accurate, and focused on the question asked.",
-  chemistry: "You are a concise, friendly tutor helping a student study for the NYS Chemistry Regents exam. Keep answers short (2-5 sentences), accurate, and focused on the question asked."
+  geometry: "You are a concise, friendly tutor helping a student study Geometry. Keep answers short (2-5 sentences), accurate, and focused on the question asked.",
+  chemistry: "You are a concise, friendly tutor helping a student study Chemistry. Keep answers short (2-5 sentences), accurate, and focused on the question asked.",
+  algebra1: "You are a concise, friendly tutor helping a student study Algebra I. Keep answers short (2-5 sentences), accurate, and focused on the question asked.",
+  algebra2: "You are a concise, friendly tutor helping a student study Algebra II. Keep answers short (2-5 sentences), accurate, and focused on the question asked.",
+  "ap-lang": "You are a concise, friendly tutor helping a student study for AP English Language and Composition. Keep answers short (2-5 sentences), accurate, and focused on the question asked.",
+  "global-history": "You are a concise, friendly tutor helping a student study Global History. Keep answers short (2-5 sentences), accurate, and focused on the question asked."
 });
 
 export const DEFAULT_SUBJECT = "geometry";
