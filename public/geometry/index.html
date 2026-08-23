@@ -43,6 +43,8 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:
 .ambient .b1{width:520px;height:520px;background:radial-gradient(circle,rgba(217,164,65,.40),transparent 70%);top:-180px;left:-120px}
 .ambient .b2{width:460px;height:460px;background:radial-gradient(circle,rgba(127,201,143,.22),transparent 70%);top:30%;right:-160px}
 .ambient .b3{width:420px;height:420px;background:radial-gradient(circle,rgba(99,102,241,.26),transparent 70%);bottom:-160px;left:25%}
+#geo-motif{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.14;background-repeat:repeat;background-size:170px 170px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='170' height='170'%3E%3Cg fill='none' stroke='%23d9a441' stroke-width='1.5'%3E%3Cpolygon points='30,20 70,20 30,70'/%3E%3Ccircle cx='120' cy='110' r='30'/%3E%3Cpath d='M120 110 L150 110 M120 110 L120 80' stroke-dasharray='3,3'/%3E%3Cline x1='0' y1='150' x2='60' y2='150'/%3E%3Cline x1='0' y1='150' x2='45' y2='120'/%3E%3C/g%3E%3C/svg%3E")}
 h1{font-family:'Fraunces',Georgia,serif;font-size:42px;font-weight:600;letter-spacing:-.015em;line-height:1.1;margin-bottom:6px;color:var(--text)}
 h1 span{font-family:'Outfit',sans-serif;color:var(--text-dim);font-weight:400;-webkit-text-fill-color:var(--text-dim)}
 .subtitle{font-size:20.2px;color:var(--text-muted);margin-bottom:20px;max-width:760px}
@@ -415,7 +417,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 </script>
 </head>
 <body>
-<div class="ambient"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+<div class="ambient"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div><div id="geo-motif"></div>
 <a href="/" class="back-link" style="opacity:0;animation:fade .5s var(--ease) forwards">← Back to Library</a>
 <h1 style="opacity:0;animation:fade .5s var(--ease) .06s forwards">Geometry Study Guide <span style="font-size:21px;font-weight:400;color:#857f72">— EXPANDED EDITION</span></h1>
 <p class="subtitle" style="opacity:0;animation:fade .5s var(--ease) .12s forwards">11 Units · Beginner-Friendly Notes · Step-by-Step Worked Examples · Interactive Quiz + Flashcards · Full-Length Practice Exam · Saved Progress</p>
@@ -430,7 +432,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
   <button class="tab-btn" onclick="switchTab('memory')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg><span>Memory Tricks</span></button>
 </div>
 
-<div class="spc-card">
+<div class="spc-card" id="spc-card">
   <h2>See what your study plan could look like</h2>
   <p>Based on this guide's real question bank — 440 practice questions across 11 units. Slide to match your situation.</p>
   <div class="spc-row">
@@ -1255,7 +1257,7 @@ const DIAGRAMS={
 
 
 function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');document.querySelectorAll('.tab-btn').forEach(b=>{if(b.textContent.toLowerCase().includes(id==='guide'?'study':id==='cards'?'flash':id==='quiz'?'quiz':'quick'))b.classList.add('active')});}
-function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');const idx={guide:0,cards:1,quiz:2,exam:3,qref:4}[id];if(idx!==undefined)tabs[idx].classList.add('active');if(id==='exam'&&!examBuilt)buildExam();}
+function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');const idx={guide:0,cards:1,quiz:2,exam:3,qref:4}[id];if(idx!==undefined)tabs[idx].classList.add('active');if(id==='exam'&&!examBuilt)buildExam();var spc=document.getElementById('spc-card');if(spc)spc.style.display=(id==='guide')?'':'none';}
 
 // ===================== PRACTICE EXAM =====================
 let examBuilt=false;

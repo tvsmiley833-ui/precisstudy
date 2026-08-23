@@ -124,7 +124,7 @@ body{transition:background .2s ease,color .2s ease}
 
 <div class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:var(--bg-header);border-bottom:1px solid var(--border);">
   <a href="/" style="font-weight:800;font-size:22px;color:var(--nav-text);display:flex;align-items:center;gap:8px;text-decoration:none;">
-    <span style="display:inline-block;width:28px;height:28px;position:relative;flex-shrink:0;"><img src="/logo-icon.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;" class="ss-logo-light"/><img src="/logo-icon-dark.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;display:none;" class="ss-logo-dark"/></span> PrecisStudy
+    <span style="display:inline-block;width:28px;height:28px;position:relative;flex-shrink:0;"><img src="/logo-icon.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;" class="ss-logo-light"/><img src="/logo-icon-dark.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;display:none;" class="ss-logo-dark"/></span>recisStudy
   </a>
   <div class="nav-links" style="display:flex;gap:16px;font-weight:600;font-size:15px;color:var(--nav-text);align-items:center;">
     <a href="/#classes-section" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Browse Subjects</a>
@@ -297,7 +297,7 @@ document.addEventListener('click', function(e){
 
 <script type="module">
 import { computeReadiness, recommendNext, buildSchedule } from '/shared/mastery.js';
-import { geometryUnits, chemistryUnits, algebra1Units, algebra2Units, aplangUnits, globalHistoryUnits } from '/shared/unit-titles.js';
+import { geometryUnits, chemistryUnits, algebra1Units, algebra2Units, aplangUnits, globalHistoryUnits, apbiologyUnits, apushUnits, physicsUnits, biologyUnits, precalcUnits } from '/shared/unit-titles.js';
 
 const SUBJECTS_CONFIG = [
   { key: 'geometry', label: 'Geometry', href: '/geometry', units: geometryUnits },
@@ -305,7 +305,12 @@ const SUBJECTS_CONFIG = [
   { key: 'algebra1', label: 'Algebra I', href: '/algebra1', units: algebra1Units },
   { key: 'algebra2', label: 'Algebra II', href: '/algebra2', units: algebra2Units },
   { key: 'aplang', label: 'AP English Lang & Comp', href: '/ap-lang', units: aplangUnits },
-  { key: 'globalhistory', label: 'Global History', href: '/global-history', units: globalHistoryUnits }
+  { key: 'globalhistory', label: 'Global History', href: '/global-history', units: globalHistoryUnits },
+  { key: 'apbiology', label: 'AP Biology', href: '/ap-biology', units: apbiologyUnits },
+  { key: 'apush', label: 'APUSH', href: '/apush', units: apushUnits },
+  { key: 'physics', label: 'Physics', href: '/physics', units: physicsUnits },
+  { key: 'biology', label: 'Biology', href: '/biology', units: biologyUnits },
+  { key: 'precalc', label: 'PreCalculus', href: '/precalc', units: precalcUnits }
 ];
 
 function statusColor(pct) {
@@ -401,7 +406,12 @@ const SUBJECT_COLORS = {
   algebra1: '#2563a8',
   algebra2: '#1c7a4a',
   aplang: '#8b2942',
-  globalhistory: '#b5541f'
+  globalhistory: '#b5541f',
+  apbiology: '#2e7d4f',
+  apush: '#1e4d8b',
+  physics: '#7a3ba8',
+  biology: '#2e7d4f',
+  precalc: '#0f6e73'
 };
 const SB_DAYS = [
   { key: 'mon', label: 'Mon' }, { key: 'tue', label: 'Tue' }, { key: 'wed', label: 'Wed' },

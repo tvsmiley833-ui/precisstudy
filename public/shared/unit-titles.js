@@ -88,3 +88,61 @@ export const chemistryUnits = [
   { id: 15, name: "Nuclear Chemistry" },
   { id: 16, name: "Organic Chemistry" }
 ];
+
+export const apbiologyUnits = [
+  { id: 1, name: "Chemistry of Life" },
+  { id: 2, name: "Cell Structure & Function" },
+  { id: 3, name: "Cellular Energetics" },
+  { id: 4, name: "Cell Communication & Cell Cycle" },
+  { id: 5, name: "Heredity" },
+  { id: 6, name: "Gene Expression & Regulation" },
+  { id: 7, name: "Natural Selection" },
+  { id: 8, name: "Ecology" }
+];
+
+export const apushUnits = [
+  { id: 1, name: "Period 1: 1491-1607" },
+  { id: 2, name: "Period 2: 1607-1754" },
+  { id: 3, name: "Period 3: 1754-1800" },
+  { id: 4, name: "Period 4: 1800-1848" },
+  { id: 5, name: "Period 5: 1844-1877" },
+  { id: 6, name: "Period 6: 1865-1898" },
+  { id: 7, name: "Period 7: 1890-1945" },
+  { id: 8, name: "Period 8: 1945-1980" },
+  { id: 9, name: "Period 9: 1980-present" }
+];
+
+export const physicsUnits = [
+  { id: 1, name: "Kinematics" },
+  { id: 2, name: "Newton's Laws & Dynamics" },
+  { id: 3, name: "Momentum & Energy" },
+  { id: 4, name: "Circular Motion & Gravitation" },
+  { id: 5, name: "Waves & Sound" },
+  { id: 6, name: "Electricity" },
+  { id: 7, name: "Magnetism & Electromagnetism" },
+  { id: 8, name: "Optics" },
+  { id: 9, name: "Modern Physics" }
+];
+
+export const biologyUnits = [
+  { id: 1, name: "Characteristics of Life & the Scientific Method" },
+  { id: 2, name: "Chemistry of Life" },
+  { id: 3, name: "Cell Biology" },
+  { id: 4, name: "Energy in Cells" },
+  { id: 5, name: "Genetics & Heredity" },
+  { id: 6, name: "Evolution" },
+  { id: 7, name: "Ecology" },
+  { id: 8, name: "Human Body Systems" }
+];
+
+export const precalcUnits = [
+  { id: 1, name: "Functions & Their Graphs" },
+  { id: 2, name: "Polynomial & Rational Functions" },
+  { id: 3, name: "Exponential & Logarithmic Functions" },
+  { id: 4, name: "Trigonometric Functions" },
+  { id: 5, name: "Trigonometric Identities & Equations" },
+  { id: 6, name: "Analytic Trigonometry & Applications" },
+  { id: 7, name: "Systems & Matrices" },
+  { id: 8, name: "Sequences, Series & Conics" },
+  { id: 9, name: "Limits & Intro to Calculus Concepts" }
+];

@@ -70,8 +70,9 @@ html{scroll-behavior:smooth}
 body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);
   margin:0;padding:0;line-height:1.6}
 .page{margin:0 auto;padding:0 24px 90px}
-.hero{background:linear-gradient(175deg,#12291f,#1b3d33 65%,#14302a);padding:52px 24px 40px}
-.hero-inner{margin:0 auto}
+.hero{background:linear-gradient(175deg,#2a140a,#3d1f12 65%,#2a160c);padding:52px 24px 40px;position:relative;overflow:hidden}
+.hero-inner{margin:0 auto;position:relative;z-index:1}
+.hero::after{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0.16;background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='170' height='170'><g fill='none' stroke='%23e8917a' stroke-width='1.4'><circle cx='85' cy='85' r='48'/><circle cx='85' cy='85' r='2.5' fill='%23e8917a'/><line x1='85' y1='20' x2='85' y2='150'/><line x1='20' y1='85' x2='150' y2='85'/><path d='M85 37 L92 78 L85 85 L78 78 Z' fill='%23e8917a' stroke='none'/></g></svg>");background-size:170px 170px;background-repeat:repeat}
 .hero .kicker{color:#f0ab98}
 .hero h1{font-size:clamp(48px,5.4vw,69px);font-weight:700;letter-spacing:-.02em;line-height:1.08;color:#f4f2ea;margin-bottom:12px}
 .hero h1 .grad{background:linear-gradient(110deg,#a8432c,#e8917a 55%,#e8c893);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -157,6 +158,12 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .btn{padding:10px 22px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--ink);
   cursor:pointer;font-size:21px;font-weight:600;transition:all .15s ease;box-shadow:var(--shadow-sm)}
 .btn:hover{background:var(--surface-hover);border-color:var(--border-strong)}
+.guess-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;margin-bottom:14px;border:1px dashed var(--border-strong);
+  border-radius:99px;background:transparent;color:var(--ink-dim);font-size:16px;font-family:inherit;cursor:pointer;transition:all .18s ease}
+.guess-btn:hover{color:var(--amber);border-color:var(--amber);background:var(--amber-soft)}
+.guess-btn.on{background:var(--amber-soft);border-style:solid;border-color:var(--amber);color:var(--amber-ink)}
+.guess-flag{display:inline-block;margin-left:8px;font-size:14px;font-weight:700;color:var(--amber-ink);background:var(--amber-soft);
+  border:1px solid var(--amber);border-radius:99px;padding:2px 10px;vertical-align:middle}
 .q-block{border:1px solid var(--border);border-radius:var(--radius);padding:24px;background:var(--surface);box-shadow:var(--shadow-sm)}
 .q-text{font-size:24.8px;font-weight:600;color:var(--ink);line-height:1.55;margin-bottom:20px}
 .q-opts{display:flex;flex-direction:column;gap:9px}
@@ -366,7 +373,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
   </div>
 </div>
 <div class="page">
-<div class="spc-card">
+<div class="spc-card" id="spc-card">
   <h2>See what your study plan could look like</h2>
   <p>Based on this guide's real question bank — 280 practice questions across 14 units. Slide to match your situation.</p>
   <div class="spc-row">
@@ -1337,7 +1344,7 @@ const DIAGRAMS={};
 
 
 let examplesBuilt=false;
-function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');const idx={guide:0,cards:1,quiz:2,examples:3,exam:4,qref:5,memory:6}[id];if(idx!==undefined)tabs[idx].classList.add('active');if(id==='exam'&&!examBuilt)buildExam();if(id==='examples'&&!examplesBuilt)buildExamples();}
+function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');const idx={guide:0,cards:1,quiz:2,examples:3,exam:4,qref:5,memory:6}[id];if(idx!==undefined)tabs[idx].classList.add('active');if(id==='exam'&&!examBuilt)buildExam();if(id==='examples'&&!examplesBuilt)buildExamples();var spc=document.getElementById('spc-card');if(spc)spc.style.display=(id==='guide')?'':'none';}
 
 // ===================== PRACTICE EXAM =====================
 let examBuilt=false;
@@ -1862,13 +1869,20 @@ function showQ(){
   const q=qPool[qIdx];
   document.getElementById('q-prog').textContent=`Q ${qIdx+1}/${qPool.length}`;
   document.getElementById('q-sc').textContent=`Score: ${score}`;
-  let h=`<div class="q-block"><div class="q-text">${q.q}</div><div class="q-opts">`;
+  let h=`<div class="q-block"><div class="q-text">${q.q}</div><button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button><div class="q-opts">`;
   q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">${opt}</button>`);
   h+=`</div><div class="q-exp" id="q-exp">${q.e}</div><button class="q-next show" id="q-next" onclick="nextQ()" style="display:none">Next →</button></div>`;
   qb.innerHTML=h;
 }
+let guessFlag=false, guessedQs=[], guessedRight=0;
+function markGuess(){
+  guessFlag=!guessFlag;
+  const b=document.getElementById('guess-btn');
+  if(b){b.classList.toggle('on',guessFlag);b.innerHTML=guessFlag?"Marked as a guess":"I'm just guessing";}
+}
 function ansQ(i){
   const q=qPool[qIdx];
+  const wasGuess=guessFlag;
   document.querySelectorAll('.q-opt').forEach((btn,idx)=>{
     btn.disabled=true;
     if(idx===q.a)btn.classList.add('correct');
@@ -1880,8 +1894,17 @@ function ansQ(i){
       var correctBtn=document.querySelectorAll('.q-opt')[q.a];
       window.__ssCelebrateCorrect(correctBtn);
     }
+    if(wasGuess){
+      guessedQs.push(q);guessedRight++;
+      const n=requeueCounts.get(q)||0;
+      if(n<MAX_REQUEUES){
+        requeueCounts.set(q,n+1);
+        qPool.splice(Math.min(qIdx+REQUEUE_DELAY,qPool.length),0,q);
+      }
+    }
   }else{
     if(window.__ssResetCombo)window.__ssResetCombo();
+    if(wasGuess)guessedQs.push(q);
     const n=requeueCounts.get(q)||0;
     if(n<MAX_REQUEUES){
       requeueCounts.set(q,n+1);
@@ -1889,9 +1912,14 @@ function ansQ(i){
     }
   }
   if(GLOBALHIST_MASTERY)GLOBALHIST_MASTERY.recordAnswer(q.u,i===q.a);
-  document.getElementById('q-exp').classList.add('show');
+  const expEl=document.getElementById('q-exp');
+  expEl.classList.add('show');
+  if(wasGuess){
+    expEl.innerHTML=(i===q.a?'<b class="guess-flag">Lucky guess — added back for more practice.</b><br>':'<b class="guess-flag">Marked as a guess.</b><br>')+expEl.innerHTML;
+  }
   document.getElementById('q-next').style.display='inline-block';
   document.getElementById('q-sc').textContent=`Score: ${score}`;
+  guessFlag=false;
 }
 function nextQ(){qIdx++;showQ();}
 buildQSel();

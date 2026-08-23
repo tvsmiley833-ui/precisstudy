@@ -14,7 +14,7 @@ import { handleAdminMe, handleAdminListGuideRequests, handleAdminDeleteGuideRequ
 import { handleGetProgress, handlePostProgress, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak } from "./progress-routes.js";
 import { handlePushSubscribe, handlePushUnsubscribe, handlePushTest, sendDailyReminders, sendScheduledBlockReminders, sendStreakReminders } from "./push-routes.js";
 
-const SUBJECT_PATHS = new Set(["geometry", "chemistry", "algebra1", "algebra2", "ap-lang", "global-history"]);
+const SUBJECT_PATHS = new Set(["geometry", "chemistry", "algebra1", "algebra2", "ap-lang", "global-history", "ap-biology", "apush", "physics", "biology", "precalc"]);
 const SUBJECT_VIEW_SEGMENTS = new Set(["flashcards", "quiz", "examples", "exam", "reference", "memory"]);
 
 const AUTH_ROUTES = {
@@ -85,6 +85,15 @@ export default {
 
 async function handleFetch(request, env) {
     const url = new URL(request.url);
+
+    // Google's site-verification HTML file must be served at this exact path with
+    // no redirect -- Cloudflare's default asset routing 307s away the .html extension,
+    // which Google's verifier won't follow. Bypass that here.
+    if (url.pathname === "/google70342a91216260b3.html") {
+      return new Response("google-site-verification: google70342a91216260b3.html", {
+        headers: { "Content-Type": "text/html; charset=utf-8" }
+      });
+    }
 
     if (url.pathname === "/api/chat") {
       if (request.method === "POST") return handleChatPost(request, env);

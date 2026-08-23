@@ -12,7 +12,7 @@ import {
   checkEmailRateLimit
 } from "./auth.js";
 
-const SITE_ORIGIN = "https://precisstudy.com";
+const SITE_ORIGIN = "https://studystacks.org";
 const STATE_TTL = 60 * 10; // 10 minutes
 const STATE_COOKIE = "ss_oauth_state";
 

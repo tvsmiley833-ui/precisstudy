@@ -99,7 +99,7 @@ html{scroll-behavior:smooth}
     <span style="display:inline-block;width:28px;height:28px;position:relative;flex-shrink:0;">
       <img src="/logo-icon.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;" class="ss-logo-light"/>
       <img src="/logo-icon-dark.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;" class="ss-logo-dark"/>
-    </span> PrecisStudy
+    </span>recisStudy
   </a>
   <div class="nav-links" style="display:flex;gap:16px;font-weight:600;font-size:15px;color:var(--nav-text);align-items:center;">
     <a href="/#classes-section" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Browse Subjects</a>
@@ -162,7 +162,12 @@ var SUBJECTS = [
   { key: 'algebra1', label: 'Algebra I', color: '#2563a8', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="19" x2="20" y2="5"/><circle cx="6" cy="17" r="1.4" fill="currentColor" stroke="none"/><circle cx="18" cy="7" r="1.4" fill="currentColor" stroke="none"/><path d="M14 19h6"/><path d="M4 9V5h4"/></svg>' },
   { key: 'algebra2', label: 'Algebra II', color: '#1c7a4a', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14"/><path d="M5 20h14"/><path d="M5 4l14 16"/><path d="M19 4L5 20"/></svg>' },
   { key: 'aplang', label: 'AP English Lang & Comp', color: '#8b2942', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>' },
-  { key: 'globalhistory', label: 'Global History', color: '#b5541f', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.5 3.5 5.5 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-5.5-3.5-9s1-6.5 3.5-9z"/></svg>' }
+  { key: 'globalhistory', label: 'Global History', color: '#b5541f', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.5 3.5 5.5 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-5.5-3.5-9s1-6.5 3.5-9z"/></svg>' },
+  { key: 'apbiology', label: 'AP Biology', color: '#2e7d4f', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-4 3-7 6-7 11a7 7 0 0 0 14 0c0-5-3-8-7-11z"/><path d="M12 8v10"/></svg>' },
+  { key: 'apush', label: 'APUSH', color: '#1e4d8b', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6l9-3 9 3"/><path d="M4 10v8M9 10v8M15 10v8M20 10v8"/><path d="M2 21h20"/></svg>' },
+  { key: 'physics', label: 'Physics', color: '#7a3ba8', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.2"/><ellipse cx="12" cy="12" rx="9" ry="3.6"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(120 12 12)"/></svg>' },
+  { key: 'biology', label: 'Biology', color: '#2e7d4f', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="5"/><circle cx="15" cy="15" r="5"/></svg>' },
+  { key: 'precalc', label: 'PreCalculus', color: '#0f6e73', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17c3-8 6-12 8-12s3 6 4 10 3 4 4 1"/></svg>' }
 ];
 
 function ssEscapeHtml(s){

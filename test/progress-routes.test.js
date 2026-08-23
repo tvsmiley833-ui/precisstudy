@@ -48,6 +48,11 @@ describe("handleGetProgress", () => {
       algebra2: { mastery: {}, examples: {}, cardsKnown: [] },
       aplang: { mastery: {}, examples: {}, cardsKnown: [] },
       globalhistory: { mastery: {}, examples: {}, cardsKnown: [] },
+      apbiology: { mastery: {}, examples: {}, cardsKnown: [] },
+      apush: { mastery: {}, examples: {}, cardsKnown: [] },
+      physics: { mastery: {}, examples: {}, cardsKnown: [] },
+      biology: { mastery: {}, examples: {}, cardsKnown: [] },
+      precalc: { mastery: {}, examples: {}, cardsKnown: [] },
       goal: null,
       updatedAt: null,
       enrolledSubjects: [],
@@ -66,6 +71,11 @@ describe("handleGetProgress", () => {
       algebra2: { mastery: {}, examples: {}, cardsKnown: [] },
       aplang: { mastery: {}, examples: {}, cardsKnown: [] },
       globalhistory: { mastery: {}, examples: {}, cardsKnown: [] },
+      apbiology: { mastery: {}, examples: {}, cardsKnown: [] },
+      apush: { mastery: {}, examples: {}, cardsKnown: [] },
+      physics: { mastery: {}, examples: {}, cardsKnown: [] },
+      biology: { mastery: {}, examples: {}, cardsKnown: [] },
+      precalc: { mastery: {}, examples: {}, cardsKnown: [] },
       goal: null,
       updatedAt: "2026-08-14T00:00:00.000Z",
       enrolledSubjects: ["geometry"],
@@ -88,7 +98,7 @@ describe("handlePostProgress", () => {
 
   it("rejects a missing or invalid subject", async () => {
     const cookie = await sessionCookieFor("student@example.com");
-    const res = await handlePostProgress(req("https://example.com/api/progress", cookie, "POST", { subject: "biology", mastery: {}, examples: {}, cardsKnown: [] }), { SESSION_SECRET: SECRET, PROGRESS: fakeKV() });
+    const res = await handlePostProgress(req("https://example.com/api/progress", cookie, "POST", { subject: "nonexistent", mastery: {}, examples: {}, cardsKnown: [] }), { SESSION_SECRET: SECRET, PROGRESS: fakeKV() });
     expect(res.status).toBe(400);
   });
 
@@ -164,7 +174,7 @@ describe("handlePostEnrolledSubjects", () => {
   it("silently drops unknown subjects and de-duplicates", async () => {
     const cookie = await sessionCookieFor("student@example.com");
     const kv = fakeKV();
-    const res = await handlePostEnrolledSubjects(req("https://example.com/api/enrolled-subjects", cookie, "POST", { subjects: ["geometry", "biology", "geometry", "aplang"] }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    const res = await handlePostEnrolledSubjects(req("https://example.com/api/enrolled-subjects", cookie, "POST", { subjects: ["geometry", "nonexistent", "geometry", "aplang"] }), { SESSION_SECRET: SECRET, PROGRESS: kv });
     expect(res.status).toBe(200);
     const data = await res.json();
     expect(data.enrolledSubjects).toEqual(["geometry", "aplang"]);
@@ -202,7 +212,7 @@ describe("handlePostSchedule", () => {
       { ...validBlock, day: "someday" },
       { ...validBlock, start: "9:00" },
       { ...validBlock, end: "25:00" },
-      { ...validBlock, subjectKey: "biology" }
+      { ...validBlock, subjectKey: "nonexistent" }
     ];
     for (const block of bad) {
       const res = await handlePostSchedule(req("https://example.com/api/schedule", cookie, "POST", { blocks: [block] }), { SESSION_SECRET: SECRET, PROGRESS: kv });
