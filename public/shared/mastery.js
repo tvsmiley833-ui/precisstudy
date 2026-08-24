@@ -146,6 +146,7 @@ export function createMastery(subject, unitIds, unitNames) {
   async function pushToServer() {
     syncTimer = null;
     if (!dirty) return;
+    if (window.__ssSignedIn === false) { dirty = false; return; } // known signed-out (e.g. anonymous diagnostic) - don't spam 401s
     try {
       const res = await fetch("/api/progress", {
         method: "POST",

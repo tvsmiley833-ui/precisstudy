@@ -103,15 +103,19 @@ body{transition:background .2s ease,color .2s ease}
 
 .ss-reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
 .ss-reveal.in-view{opacity:1;transform:translateY(0)}
+.ss-skip-link:focus{left:16px!important;top:16px!important}
+:focus-visible{outline:2px solid var(--accent-bright);outline-offset:2px;border-radius:6px}
 </style>
 </head>
 <body style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);">
+<a href="#main-content" class="ss-skip-link" style="position:absolute;left:-9999px;top:0;z-index:100;background:var(--accent-solid);color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;text-decoration:none;">Skip to main content</a>
 
-<div class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:var(--bg-header);border-bottom:1px solid var(--border);">
+
+<div role="banner" class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:var(--bg-header);border-bottom:1px solid var(--border);">
   <a href="/" style="font-weight:800;font-size:22px;color:var(--nav-text);display:flex;align-items:center;gap:8px;text-decoration:none;">
-    <span style="display:inline-block;width:28px;height:28px;position:relative;flex-shrink:0;"><img src="/logo-icon.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;" class="ss-logo-light"/><img src="/logo-icon-dark.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;display:none;" class="ss-logo-dark"/></span>recisStudy
+    <span style="display:inline-block;width:28px;height:28px;position:relative;flex-shrink:0;"><img src="/logo-icon.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;" class="ss-logo-light"/><img src="/logo-icon-dark.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;display:none;" class="ss-logo-dark"/></span>PrecisStudy
   </a>
-  <div class="nav-links" style="display:flex;gap:16px;font-weight:600;font-size:15px;color:var(--nav-text);align-items:center;">
+  <div role="navigation" aria-label="Main" class="nav-links" style="display:flex;gap:16px;font-weight:600;font-size:15px;color:var(--nav-text);align-items:center;">
     <a href="/#classes-section" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Browse Subjects</a>
     <a href="/#how-it-works" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">How It Works</a>
     <a href="/about" class="nav-hide-sm" style="color:var(--accent);text-decoration:none;">Who Are We</a>
@@ -127,7 +131,7 @@ body{transition:background .2s ease,color .2s ease}
   </div>
 </div>
 
-<div class="ss-hero" style="text-align:center;padding:64px 32px 40px;">
+<div role="main" id="main-content" class="ss-hero" style="text-align:center;padding:64px 32px 40px;">
   <div class="ss-hero-inner">
     <div class="ss-hero-anim" style="animation-delay:0s;display:inline-block;background:var(--chip-bg);color:var(--chip-text);font-weight:700;font-size:13px;padding:6px 14px;border-radius:999px;margin-bottom:18px;">
       Who's behind PrecisStudy
@@ -172,7 +176,7 @@ body{transition:background .2s ease,color .2s ease}
   </div>
 </div>
 
-<div style="border-top:1px solid var(--border);padding:24px 32px;text-align:center;">
+<div role="contentinfo" style="border-top:1px solid var(--border);padding:24px 32px;text-align:center;">
   <a href="/privacy" style="color:var(--text-muted);font-size:13px;text-decoration:none;margin-right:14px;">Privacy</a>
   <a href="/terms" style="color:var(--text-muted);font-size:13px;text-decoration:none;margin-right:14px;">Terms</a>
   <a href="#" class="ss-mail-link" data-u="support" data-d="precisstudy.com" style="color:var(--text-muted);font-size:13px;text-decoration:none;">

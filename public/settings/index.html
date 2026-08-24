@@ -90,18 +90,22 @@ html{scroll-behavior:smooth}
 #settings-status{margin-top:14px;font-size:14px;font-weight:600}
 #settings-status.ok{color:#22a06b}
 #settings-status.err{color:var(--accent)}
+.ss-skip-link:focus{left:16px!important;top:16px!important}
+:focus-visible{outline:2px solid var(--accent-bright);outline-offset:2px;border-radius:6px}
 </style>
 </head>
 <body style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);">
+<a href="#main-content" class="ss-skip-link" style="position:absolute;left:-9999px;top:0;z-index:100;background:var(--accent-solid);color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;text-decoration:none;">Skip to main content</a>
 
-<div class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:var(--bg-header);border-bottom:1px solid var(--border);">
+
+<div role="banner" class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:var(--bg-header);border-bottom:1px solid var(--border);">
   <a href="/" style="font-weight:800;font-size:22px;color:var(--nav-text);display:flex;align-items:center;gap:8px;text-decoration:none;">
     <span style="display:inline-block;width:28px;height:28px;position:relative;flex-shrink:0;">
       <img src="/logo-icon.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;" class="ss-logo-light"/>
       <img src="/logo-icon-dark.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;" class="ss-logo-dark"/>
-    </span>recisStudy
+    </span>PrecisStudy
   </a>
-  <div class="nav-links" style="display:flex;gap:16px;font-weight:600;font-size:15px;color:var(--nav-text);align-items:center;">
+  <div role="navigation" aria-label="Main" class="nav-links" style="display:flex;gap:16px;font-weight:600;font-size:15px;color:var(--nav-text);align-items:center;">
     <a href="/#classes-section" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Browse Subjects</a>
     <a href="/request" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Request a Guide</a>
     <a href="/dashboard" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Dashboard</a>
@@ -115,7 +119,7 @@ html{scroll-behavior:smooth}
   </div>
 </div>
 
-<div style="max-width:640px;margin:0 auto;padding:48px 32px 80px;">
+<div role="main" id="main-content" style="max-width:640px;margin:0 auto;padding:48px 32px 80px;">
   <div id="welcome-banner" style="display:none;background:var(--accent-solid);color:#fff;border-radius:16px;padding:20px 24px;margin-bottom:24px;">
     <div style="font-weight:800;font-size:18px;margin-bottom:4px;">👋 Welcome to PrecisStudy!</div>
     <div style="font-size:14px;opacity:.95;line-height:1.5;">Pick the classes you're taking below so your homepage shows just what matters to you. Then head to a class and take the 5-minute diagnostic to see where you stand.</div>

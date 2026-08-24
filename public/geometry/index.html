@@ -35,7 +35,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);
-  color:var(--text);padding:16px 16px 64px;line-height:1.6;min-height:100dvh;
+  color:var(--text);padding:16px 16px 64px;line-height:1.6;min-height:100dvh;max-width:880px;margin:0 auto;
   -webkit-font-smoothing:antialiased;position:relative;overflow-x:hidden}
 /* ambient glow background */
 .ambient{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
@@ -77,10 +77,12 @@ h1 span{font-family:'Outfit',sans-serif;color:var(--text-dim);font-weight:400;-w
 .unit-meta{font-size:17.2px;color:var(--text-dim);margin-left:8px;font-weight:400}
 .chevron{font-size:27px;color:var(--primary-bright);transition:transform .25s var(--ease);display:inline-block}
 .unit.open .chevron{transform:rotate(180deg)}
-.unit-body{display:none;padding:2px 18px 20px;border-top:1px solid var(--border)}
+.unit-body{display:none;padding:6px 18px 20px;border-top:1px solid var(--border)}
 .unit.open .unit-body{display:block}
-.concept{margin-top:16px}
-.c-label{font-size:16.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--primary-bright);margin-bottom:6px}
+.concept{margin-top:12px;padding:15px 17px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm)}
+.concept:first-child{margin-top:6px}
+.c-label{font-size:16.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--primary-bright);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.c-label::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--primary);flex-shrink:0}
 .c-text{font-size:21px;color:var(--text-muted);line-height:1.72}
 .c-list{margin:8px 0 0;padding-left:18px}
 .c-list li{font-size:21px;color:var(--text-muted);line-height:1.72;margin-bottom:5px}
@@ -406,6 +408,8 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
 
 body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:2147483647;opacity:.035;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.q-kbd-hint{margin-left:auto;font-size:12.5px;color:var(--text-dim,#8a8371)}
+@media(max-width:640px){.q-kbd-hint{display:none}}
 </style>
 <script type="module">
   import { createMastery } from '/shared/mastery.js';
@@ -496,6 +500,10 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
     <div class="ss-login-box"></div>
   </div>
   <div id="quiz-real">
+  <div id="anon-quiz-note" style="display:none;background:var(--primary-soft);border:1px solid var(--primary);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:12px;font-size:14.5px;color:var(--primary-bright)">
+    You're trying the free diagnostic — no sign-in needed. Sign in afterward to unlock the full question bank, practice exam, and save your progress.
+    <div class="ss-login-box" style="margin-top:8px"></div>
+  </div>
   <button class="diag-btn" id="diag-start-btn" onclick="startDiagnostic()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><span id="diag-start-btn-label">Start Diagnostic — 2 questions per unit, finds your weak spots</span></button>
   <div class="q-bar">
     <select id="q-sel" onchange="loadQ()"></select>
@@ -504,6 +512,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
     </label>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc"></span>
+    <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
   </div>
   <div id="weak-banner" style="display:none;background:rgba(245,158,11,0.12);border:1px solid #f59e0b;border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:19.5px;color:#fcd34d"></div>
   <div id="qbox"></div>
@@ -2172,6 +2181,21 @@ function ansQ(i){
   updateProgressPanel();
 }
 function nextQ(){qIdx++;showQ();}
+function ssQuizKeyboardShortcuts(e){
+  var vq=document.getElementById('view-quiz');
+  if(!vq||!vq.classList.contains('active'))return;
+  var tag=(document.activeElement&&document.activeElement.tagName)||'';
+  if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT')return;
+  if(e.key>='1'&&e.key<='4'){
+    var idx=+e.key-1;
+    var opts=document.querySelectorAll('.q-opt');
+    if(opts[idx]&&!opts[idx].disabled){opts[idx].click();e.preventDefault();}
+  }else if(e.key==='Enter'){
+    var nb=document.getElementById('q-next');
+    if(nb&&nb.style.display!=='none'){nb.click();e.preventDefault();}
+  }
+}
+document.addEventListener('keydown',ssQuizKeyboardShortcuts);
 function updateProgressPanel(){
   const panel=document.getElementById('progress-panel');
   const bars=document.getElementById('progress-bars');
@@ -3490,6 +3514,7 @@ async function ssCheckSession(){
   }catch(e){
     SS_SESSION = false;
   }
+  window.__ssSignedIn = !!SS_SESSION;
   return SS_SESSION;
 }
 
@@ -3497,13 +3522,16 @@ function ssApplyQuizGate(){
   const gate = document.getElementById('quiz-gate');
   const real = document.getElementById('quiz-real');
   if(!gate || !real) return;
+  gate.style.display = 'none';
+  real.style.display = '';
+  const sel = document.getElementById('q-sel');
+  const note = document.getElementById('anon-quiz-note');
   if(SS_SESSION){
-    gate.style.display = 'none';
-    real.style.display = '';
+    if(sel) sel.style.display = '';
+    if(note) note.style.display = 'none';
   }else{
-    gate.style.display = 'block';
-    real.style.display = 'none';
-    ssRenderLoginBoxes();
+    if(sel) sel.style.display = 'none';
+    if(note){ note.style.display = 'block'; ssRenderLoginBoxes(); }
   }
 }
 

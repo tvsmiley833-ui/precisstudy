@@ -23,7 +23,7 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Kalam:wght@700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Kalam:wght@700&family=Permanent+Marker&display=swap" rel="stylesheet"/>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7861875126032749"
      crossorigin="anonymous"></script>
 <script>
@@ -132,7 +132,7 @@ body{transition:background .2s ease,color .2s ease}
 @keyframes ssFadeInUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 .ss-hero-anim{opacity:0;animation:ssFadeInUp .6s cubic-bezier(.2,.8,.2,1) forwards}
 
-.ss-hero h1{font-family:'Kalam',cursive;margin:0 0 14px}
+.ss-hero h1{font-family:'Permanent Marker',cursive;font-weight:400;margin:0 0 14px}
 .chalk-headline-svg{display:inline-block;height:clamp(20px,calc(10vw - 8px),56px);overflow:visible;vertical-align:top}
 h1#hero-headline{display:block;line-height:1.15}
 .chalk-headline-svg + .chalk-headline-svg{margin-top:2px}
@@ -192,11 +192,11 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 
 <a href="#main-content" class="ss-skip-link" style="position:absolute;left:-9999px;top:0;z-index:100;background:var(--accent-solid);color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;text-decoration:none;">Skip to main content</a>
 
-<div class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:var(--bg-header);border-bottom:1px solid var(--border);">
+<div role="banner" class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:var(--bg-header);border-bottom:1px solid var(--border);">
   <div style="font-weight:800;font-size:22px;color:var(--nav-text);display:flex;align-items:center;gap:8px;">
-    <span style="display:inline-block;width:28px;height:28px;position:relative;flex-shrink:0;"><img src="/logo-icon.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;" class="ss-logo-light"/><img src="/logo-icon-dark.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;display:none;" class="ss-logo-dark"/></span>recisStudy
+    <span style="display:inline-block;width:28px;height:28px;position:relative;flex-shrink:0;"><img src="/logo-icon.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;" class="ss-logo-light"/><img src="/logo-icon-dark.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;display:none;" class="ss-logo-dark"/></span>PrecisStudy
   </div>
-  <div class="nav-links" style="display:flex;gap:16px;font-weight:600;font-size:15px;color:var(--nav-text);align-items:center;">
+  <div role="navigation" aria-label="Main" class="nav-links" style="display:flex;gap:16px;font-weight:600;font-size:15px;color:var(--nav-text);align-items:center;">
     <a href="#classes-section" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Browse Subjects</a>
     <a href="#how-it-works" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">How It Works</a>
     <a href="/about" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Who Are We</a>
@@ -218,9 +218,16 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
   .nav-hide-sm{display:none}
   .nav-links > .ss-cta-btn{display:none}
 }
+.ss-vh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.class-group{margin-bottom:30px}
+.class-group:last-child{margin-bottom:0}
+.class-group-h{font-size:13px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--text-muted);
+  margin:0 0 12px;display:flex;align-items:center;gap:10px}
+.class-group-h::after{content:"";flex:1;height:1px;background:var(--border)}
+:focus-visible{outline:2px solid var(--accent-bright);outline-offset:2px;border-radius:6px}
 </style>
 
-<div class="ss-hero" id="main-content" style="text-align:center;padding:64px 32px 48px;">
+<div role="main" class="ss-hero" id="main-content" style="text-align:center;padding:64px 32px 48px;">
   <svg class="chalk-doodle" viewBox="0 0 40 160" style="top:50%;left:2px;width:40px;height:160px;transform:translateY(-50%);" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <path pathLength="1" d="M14,6 L14,154 M8,40 L20,40 M8,80 L20,80 M8,120 L20,120" style="animation-delay:0s;stroke-width:1.6"/>
   </svg>
@@ -297,6 +304,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
     <path pathLength="1" transform="translate(255.35,0)" d="M18.308-23.138Q18.584-24.288 19.826-24.288Q21.068-24.288 22.379-22.724Q23.690-21.160 23.690-19.182Q23.690-18.032 22.862-15.548Q22.034-13.064 21.689-12.006Q21.344-10.948 20.700-9.131Q20.056-7.314 19.527-5.773Q18.998-4.232 18.101-1.656Q17.204 0.920 16.468 3.128Q15.042 7.268 12.995 9.522Q10.948 11.776 7.682 11.776Q4.416 11.776 1.840 10.051Q-0.736 8.326-0.736 6.578Q-0.736 5.520 0.207 4.232Q1.150 2.944 1.817 2.944Q2.484 2.944 3.565 4.025Q4.646 5.106 5.796 6.187Q6.946 7.268 7.820 7.268Q8.418 7.268 8.809 6.716Q9.200 6.164 9.453 5.727Q9.706 5.290 9.982 4.531Q10.258 3.772 10.488 3.128Q10.718 2.484 11.040 1.426Q11.362 0.368 11.592-0.460Q12.374-2.944 12.926-4.876Q11.408-2.898 9.798-1.725Q8.188-0.552 6.831-0.552Q5.474-0.552 3.473-2.599Q1.472-4.646 1.472-7.107Q1.472-9.568 2.553-13.708Q3.634-17.848 5.244-21.068Q6.854-24.288 8.096-24.288Q9.522-24.288 10.787-23.069Q12.052-21.850 12.052-20.723Q12.052-19.596 10.925-17.112Q9.798-14.628 8.648-11.684Q7.498-8.740 7.498-6.670Q7.498-6.394 7.728-6.394Q8.326-6.394 10.258-8.625Q12.190-10.856 14.605-14.973Q17.020-19.090 18.308-23.138" style="animation-delay:3.615s,3.855s"/>
     <path pathLength="1" transform="translate(279.27,0)" d="M6.624 0.230Q5.152 0.230 3.335-1.564Q1.518-3.358 1.518-4.669Q1.518-5.980 2.668-7.291Q3.818-8.602 4.991-8.602Q6.164-8.602 7.636-6.026Q9.108-3.450 9.108-2.116Q9.108-1.426 8.257-0.598Q7.406 0.230 6.624 0.230" style="animation-delay:3.720s,3.960s"/>
   </svg>
+    <span class="ss-vh">Study guides that actually get you ready.</span>
   </h1>
   <p class="ss-hero-anim" style="animation-delay:.08s;font-size:18px;color:var(--text-muted);max-width:560px;margin:0 auto 28px;line-height:1.5;">
     Interactive quizzes, flashcards, and practice exams for real classes —
@@ -368,18 +376,10 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
       </div>
       <div id="classes-note" style="font-size:13px;color:var(--text-muted);"></div>
     </div>
-    <div id="classes-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
-      <a href="/geometry" class="class-card" data-name="Geometry" data-subject-key="geometry" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
-        <div style="color:var(--accent-bright);margin-bottom:10px;"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="3,20 21,20 3,3"/><line x1="7" y1="20" x2="7" y2="17"/><line x1="11" y1="20" x2="11" y2="17"/><line x1="15" y1="20" x2="15" y2="17"/></svg></div>
-        <div style="font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;">Geometry</div>
-        <div style="font-size:14px;color:var(--text-muted);margin-bottom:14px;">11 units · 440 practice questions · interactive exam</div>
-        <div style="font-size:13px;font-weight:700;color:var(--badge-green);">The Original</div>
-      </a>
-      <a href="/chemistry" class="class-card" data-name="Chemistry" data-subject-key="chemistry" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
-        <div style="color:var(--badge-green);margin-bottom:10px;"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2h10v6c0 1-1 2-2 2H9c-1 0-2-1-2-2V2z"/><path d="M7 8h10v10c0 2-1.5 3-5 3s-5-1-5-3V8z"/><circle cx="10" cy="12" r="1"/><circle cx="14" cy="14" r="0.8"/></svg></div>
-        <div style="font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;">Chemistry</div>
-        <div style="font-size:14px;color:var(--text-muted);">16 units · 469 practice questions · interactive exam</div>
-      </a>
+    <div id="classes-grid">
+      <div class="class-group" data-group="Math">
+        <h3 class="class-group-h">Math</h3>
+        <div class="class-group-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
       <a href="/algebra1" class="class-card" data-name="Algebra I" data-subject-key="algebra1" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
         <div style="color:#2563a8;margin-bottom:10px;"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="19" x2="20" y2="5"/><circle cx="6" cy="17" r="1.4" fill="currentColor" stroke="none"/><circle cx="18" cy="7" r="1.4" fill="currentColor" stroke="none"/><path d="M14 19h6"/><path d="M4 9V5h4"/></svg></div>
         <div style="font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;">Algebra I</div>
@@ -390,41 +390,64 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
         <div style="font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;">Algebra II</div>
         <div style="font-size:14px;color:var(--text-muted);">11 units · 220 practice questions · interactive exam</div>
       </a>
-      <a href="/ap-lang" class="class-card" data-name="AP English Language and Composition" data-subject-key="aplang" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
-        <div style="color:#8b2942;margin-bottom:10px;"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-        <div style="font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;">AP English Lang &amp; Comp</div>
-        <div style="font-size:14px;color:var(--text-muted);">10 units · 200 practice questions · interactive exam</div>
-      </a>
-      <a href="/global-history" class="class-card" data-name="Global History" data-subject-key="globalhistory" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
-        <div style="color:#b5541f;margin-bottom:10px;"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.5 3.5 5.5 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-5.5-3.5-9s1-6.5 3.5-9z"/></svg></div>
-        <div style="font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;">Global History</div>
-        <div style="font-size:14px;color:var(--text-muted);">14 units · 280 practice questions · interactive exam</div>
-      </a>
-      <a href="/ap-biology" class="class-card" data-name="AP Biology" data-subject-key="apbiology" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
-        <div style="color:#2e7d4f;margin-bottom:10px;"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-4 3-7 6-7 11a7 7 0 0 0 14 0c0-5-3-8-7-11z"/><path d="M12 8v10"/></svg></div>
-        <div style="font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;">AP Biology</div>
-        <div style="font-size:14px;color:var(--text-muted);">8 units · 122 practice questions · interactive exam</div>
-      </a>
-      <a href="/apush" class="class-card" data-name="APUSH" data-subject-key="apush" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
-        <div style="color:#1e4d8b;margin-bottom:10px;"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6l9-3 9 3"/><path d="M4 10v8M9 10v8M15 10v8M20 10v8"/><path d="M2 21h20"/></svg></div>
-        <div style="font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;">APUSH</div>
-        <div style="font-size:14px;color:var(--text-muted);">9 units · 137 practice questions · interactive exam</div>
-      </a>
-      <a href="/physics" class="class-card" data-name="Physics" data-subject-key="physics" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
-        <div style="color:#7a3ba8;margin-bottom:10px;"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.2"/><ellipse cx="12" cy="12" rx="9" ry="3.6"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(120 12 12)"/></svg></div>
-        <div style="font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;">Physics</div>
-        <div style="font-size:14px;color:var(--text-muted);">9 units · 142 practice questions · interactive exam</div>
-      </a>
-      <a href="/biology" class="class-card" data-name="Biology" data-subject-key="biology" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
-        <div style="color:#2e7d4f;margin-bottom:10px;"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="5"/><circle cx="15" cy="15" r="5"/></svg></div>
-        <div style="font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;">Biology</div>
-        <div style="font-size:14px;color:var(--text-muted);">8 units · 128 practice questions · interactive exam</div>
+      <a href="/geometry" class="class-card" data-name="Geometry" data-subject-key="geometry" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
+        <div style="color:var(--accent-bright);margin-bottom:10px;"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="3,20 21,20 3,3"/><line x1="7" y1="20" x2="7" y2="17"/><line x1="11" y1="20" x2="11" y2="17"/><line x1="15" y1="20" x2="15" y2="17"/></svg></div>
+        <div style="font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;">Geometry</div>
+        <div style="font-size:14px;color:var(--text-muted);margin-bottom:14px;">11 units · 440 practice questions · interactive exam</div>
+        <div style="font-size:13px;font-weight:700;color:var(--badge-green);">The Original</div>
       </a>
       <a href="/precalc" class="class-card" data-name="PreCalculus" data-subject-key="precalc" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
         <div style="color:#0f6e73;margin-bottom:10px;"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17c3-8 6-12 8-12s3 6 4 10 3 4 4 1"/></svg></div>
         <div style="font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;">PreCalculus</div>
         <div style="font-size:14px;color:var(--text-muted);">9 units · 144 practice questions · interactive exam</div>
       </a>
+        </div>
+      </div>
+      <div class="class-group" data-group="Science">
+        <h3 class="class-group-h">Science</h3>
+        <div class="class-group-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
+      <a href="/biology" class="class-card" data-name="Biology" data-subject-key="biology" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
+        <div style="color:#2e7d4f;margin-bottom:10px;"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="5"/><circle cx="15" cy="15" r="5"/></svg></div>
+        <div style="font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;">Biology</div>
+        <div style="font-size:14px;color:var(--text-muted);">8 units · 128 practice questions · interactive exam</div>
+      </a>
+      <a href="/ap-biology" class="class-card" data-name="AP Biology" data-subject-key="apbiology" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
+        <div style="color:#2e7d4f;margin-bottom:10px;"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-4 3-7 6-7 11a7 7 0 0 0 14 0c0-5-3-8-7-11z"/><path d="M12 8v10"/></svg></div>
+        <div style="font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;">AP Biology</div>
+        <div style="font-size:14px;color:var(--text-muted);">8 units · 122 practice questions · interactive exam</div>
+      </a>
+      <a href="/chemistry" class="class-card" data-name="Chemistry" data-subject-key="chemistry" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
+        <div style="color:var(--badge-green);margin-bottom:10px;"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2h10v6c0 1-1 2-2 2H9c-1 0-2-1-2-2V2z"/><path d="M7 8h10v10c0 2-1.5 3-5 3s-5-1-5-3V8z"/><circle cx="10" cy="12" r="1"/><circle cx="14" cy="14" r="0.8"/></svg></div>
+        <div style="font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;">Chemistry</div>
+        <div style="font-size:14px;color:var(--text-muted);">16 units · 469 practice questions · interactive exam</div>
+      </a>
+      <a href="/physics" class="class-card" data-name="Physics" data-subject-key="physics" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
+        <div style="color:#7a3ba8;margin-bottom:10px;"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.2"/><ellipse cx="12" cy="12" rx="9" ry="3.6"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(120 12 12)"/></svg></div>
+        <div style="font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;">Physics</div>
+        <div style="font-size:14px;color:var(--text-muted);">9 units · 142 practice questions · interactive exam</div>
+      </a>
+        </div>
+      </div>
+      <div class="class-group" data-group="History & English">
+        <h3 class="class-group-h">History & English</h3>
+        <div class="class-group-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
+      <a href="/global-history" class="class-card" data-name="Global History" data-subject-key="globalhistory" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
+        <div style="color:#b5541f;margin-bottom:10px;"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.5 3.5 5.5 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-5.5-3.5-9s1-6.5 3.5-9z"/></svg></div>
+        <div style="font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;">Global History</div>
+        <div style="font-size:14px;color:var(--text-muted);">14 units · 280 practice questions · interactive exam</div>
+      </a>
+      <a href="/apush" class="class-card" data-name="APUSH" data-subject-key="apush" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
+        <div style="color:#1e4d8b;margin-bottom:10px;"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6l9-3 9 3"/><path d="M4 10v8M9 10v8M15 10v8M20 10v8"/><path d="M2 21h20"/></svg></div>
+        <div style="font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;">APUSH</div>
+        <div style="font-size:14px;color:var(--text-muted);">9 units · 137 practice questions · interactive exam</div>
+      </a>
+      <a href="/ap-lang" class="class-card" data-name="AP English Language and Composition" data-subject-key="aplang" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
+        <div style="color:#8b2942;margin-bottom:10px;"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+        <div style="font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;">AP English Lang &amp; Comp</div>
+        <div style="font-size:14px;color:var(--text-muted);">10 units · 200 practice questions · interactive exam</div>
+      </a>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -477,7 +500,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
   </div>
 </div>
 
-<div style="border-top:1px solid var(--border);padding:24px 32px;text-align:center;">
+<div role="contentinfo" style="border-top:1px solid var(--border);padding:24px 32px;text-align:center;">
   <a href="/privacy" style="color:var(--text-muted);font-size:13px;text-decoration:none;margin-right:14px;">Privacy</a>
   <a href="/terms" style="color:var(--text-muted);font-size:13px;text-decoration:none;margin-right:14px;">Terms</a>
   <a href="#" class="ss-mail-link" data-u="support" data-d="precisstudy.com" style="color:var(--text-muted);font-size:13px;text-decoration:none;">
@@ -672,9 +695,18 @@ function ssReadinessPct(mastery){
 
 function ssShowAllClasses(){
   document.querySelectorAll('.class-card[data-subject-key]').forEach(function(card){ card.style.display = ''; });
+  ssSyncClassGroups();
   document.getElementById('classes-note').innerHTML = '<a href="/settings" style="color:var(--accent);font-weight:700;text-decoration:none;">Choose your classes →</a>';
 }
 
+function ssSyncClassGroups(){
+  document.querySelectorAll('.class-group').forEach(function(g){
+    var any = [].slice.call(g.querySelectorAll('.class-card')).some(function(card){
+      return card.style.display !== 'none';
+    });
+    g.style.display = any ? '' : 'none';
+  });
+}
 function ssApplyEnrolledFilter(enrolled){
   var note = document.getElementById('classes-note');
   if(!enrolled || !enrolled.length){
@@ -685,6 +717,7 @@ function ssApplyEnrolledFilter(enrolled){
   document.querySelectorAll('.class-card[data-subject-key]').forEach(function(card){
     card.style.display = enrolledSet.has(card.dataset.subjectKey) ? '' : 'none';
   });
+  ssSyncClassGroups();
   note.innerHTML = 'Showing your classes — <a href="#" onclick="ssShowAllClasses();return false;" style="color:var(--accent);font-weight:700;text-decoration:none;">show all</a>'
     + ' · <a href="/settings" style="color:var(--text-muted);text-decoration:none;">edit</a>';
 }
