@@ -12,7 +12,7 @@ import {
   checkEmailRateLimit
 } from "./auth.js";
 
-const SITE_ORIGIN = "https://studystacks.org";
+const SITE_ORIGIN = "https://precisstudy.com";
 const STATE_TTL = 60 * 10; // 10 minutes
 const STATE_COOKIE = "ss_oauth_state";
 
@@ -72,6 +72,19 @@ async function checkState(env, request, state) {
   return !!(payload && payload.purpose === "oauth_state");
 }
 
+// The Worker serves several custom domains (studystacks.org, precisstudy.com,
+// and their www variants), but the OAuth state cookie is host-only and
+// redirect_uri is fixed to SITE_ORIGIN -- if /start ran on a different
+// domain than SITE_ORIGIN, the cookie it sets would never reach the
+// callback on SITE_ORIGIN. Bouncing through SITE_ORIGIN before the cookie
+// is set keeps every domain's "Sign In" link working, no matter where it's
+// clicked from.
+function canonicalizeOrigin(request) {
+  const url = new URL(request.url);
+  if (url.origin === SITE_ORIGIN) return null;
+  return redirect(SITE_ORIGIN + url.pathname + url.search);
+}
+
 function notConfigured(provider) {
   return json({ error: provider + " sign-in isn't configured yet" }, 503);
 }
@@ -85,6 +98,8 @@ function sessionSecretMissing(env) {
 // ===== Google =====
 
 export async function handleGoogleStart(request, env) {
+  const bounce = canonicalizeOrigin(request);
+  if (bounce) return bounce;
   if (!env.GOOGLE_CLIENT_ID || !env.GOOGLE_CLIENT_SECRET) return notConfigured("Google");
   if (sessionSecretMissing(env)) return notConfigured("Sign-in");
   const state = await makeState(env);
@@ -142,6 +157,8 @@ export async function handleGoogleCallback(request, env) {
 // ===== GitHub =====
 
 export async function handleGithubStart(request, env) {
+  const bounce = canonicalizeOrigin(request);
+  if (bounce) return bounce;
   if (!env.GITHUB_CLIENT_ID || !env.GITHUB_CLIENT_SECRET) return notConfigured("GitHub");
   if (sessionSecretMissing(env)) return notConfigured("Sign-in");
   const state = await makeState(env);

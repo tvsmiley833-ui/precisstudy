@@ -35,12 +35,12 @@ describe("/auth/logout", () => {
 
 describe("OAuth start routes before credentials are configured", () => {
   it("/auth/google/start responds 503 without GOOGLE_CLIENT_SECRET", async () => {
-    const res = await SELF.fetch("https://example.com/auth/google/start", { redirect: "manual" });
+    const res = await SELF.fetch("https://precisstudy.com/auth/google/start", { redirect: "manual" });
     expect(res.status).toBe(503);
   });
 
   it("/auth/github/start responds 503 without GITHUB_CLIENT_SECRET", async () => {
-    const res = await SELF.fetch("https://example.com/auth/github/start", { redirect: "manual" });
+    const res = await SELF.fetch("https://precisstudy.com/auth/github/start", { redirect: "manual" });
     expect(res.status).toBe(503);
   });
 
@@ -77,8 +77,28 @@ describe("OAuth state CSRF protection", () => {
     SESSION_SECRET: "test-session-secret"
   };
 
+  it("/auth/google/start on a non-canonical domain bounces to precisstudy.com before setting any cookie", async () => {
+    // The Worker serves studystacks.org, precisstudy.com, and their www variants
+    // on the same routes. The state cookie is host-only, so /start must run on
+    // the canonical domain before it sets one -- otherwise a user who clicks
+    // "Sign In" from studystacks.org would get a cookie the callback (which
+    // always redirects to precisstudy.com) can never see, and fail with
+    // auth_error=1 every time.
+    const res = await handleGoogleStart(new Request("https://studystacks.org/auth/google/start"), env);
+    expect(res.status).toBe(302);
+    expect(res.headers.get("Location")).toBe("https://precisstudy.com/auth/google/start");
+    expect(res.headers.get("Set-Cookie")).toBeNull();
+  });
+
+  it("/auth/github/start on a non-canonical domain bounces to precisstudy.com before setting any cookie", async () => {
+    const res = await handleGithubStart(new Request("https://studystacks.org/auth/github/start"), env);
+    expect(res.status).toBe(302);
+    expect(res.headers.get("Location")).toBe("https://precisstudy.com/auth/github/start");
+    expect(res.headers.get("Set-Cookie")).toBeNull();
+  });
+
   it("/auth/google/start sets an ss_oauth_state cookie bound to the redirect's state param", async () => {
-    const res = await handleGoogleStart(new Request("https://example.com/auth/google/start"), env);
+    const res = await handleGoogleStart(new Request("https://precisstudy.com/auth/google/start"), env);
     expect(res.status).toBe(302);
     const state = new URL(res.headers.get("Location")).searchParams.get("state");
     expect(res.headers.get("Set-Cookie")).toContain(`ss_oauth_state=${state}`);
@@ -89,7 +109,7 @@ describe("OAuth state CSRF protection", () => {
     // so anyone can mint one. Without the cookie binding, an attacker could complete
     // their own OAuth flow and trick a victim into visiting the resulting callback URL,
     // logging the victim's browser into the attacker's account (login CSRF).
-    const startRes = await handleGoogleStart(new Request("https://example.com/auth/google/start"), env);
+    const startRes = await handleGoogleStart(new Request("https://precisstudy.com/auth/google/start"), env);
     const state = new URL(startRes.headers.get("Location")).searchParams.get("state");
 
     const res = await handleGoogleCallback(
@@ -112,7 +132,7 @@ describe("OAuth state CSRF protection", () => {
   });
 
   it("/auth/google/callback accepts a state that matches its cookie (proceeds past the CSRF check), and clears the state cookie even on a post-CSRF failure", async () => {
-    const startRes = await handleGoogleStart(new Request("https://example.com/auth/google/start"), env);
+    const startRes = await handleGoogleStart(new Request("https://precisstudy.com/auth/google/start"), env);
     const state = new URL(startRes.headers.get("Location")).searchParams.get("state");
 
     const res = await handleGoogleCallback(
@@ -133,14 +153,14 @@ describe("OAuth state CSRF protection", () => {
   });
 
   it("/auth/github/start sets an ss_oauth_state cookie bound to the redirect's state param", async () => {
-    const res = await handleGithubStart(new Request("https://example.com/auth/github/start"), env);
+    const res = await handleGithubStart(new Request("https://precisstudy.com/auth/github/start"), env);
     expect(res.status).toBe(302);
     const state = new URL(res.headers.get("Location")).searchParams.get("state");
     expect(res.headers.get("Set-Cookie")).toContain(`ss_oauth_state=${state}`);
   });
 
   it("/auth/github/callback rejects a validly-signed state with no matching cookie", async () => {
-    const startRes = await handleGithubStart(new Request("https://example.com/auth/github/start"), env);
+    const startRes = await handleGithubStart(new Request("https://precisstudy.com/auth/github/start"), env);
     const state = new URL(startRes.headers.get("Location")).searchParams.get("state");
 
     const res = await handleGithubCallback(
