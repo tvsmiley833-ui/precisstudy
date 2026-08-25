@@ -61,10 +61,23 @@ export const aplangUnits = [
   { id: 7, name: "The Synthesis Essay" }
 ];
 
+/** @type {Unit[]} */
+export const usGovernmentUnits = [
+  { id: 1, name: "Foundations of American Democracy" },
+  { id: 2, name: "The Constitution: Principles & Structure" },
+  { id: 3, name: "Congress" },
+  { id: 4, name: "The Presidency" },
+  { id: 5, name: "The Judiciary" },
+  { id: 6, name: "Civil Liberties & Civil Rights" },
+  { id: 7, name: "Political Participation: Elections & Media" },
+  { id: 8, name: "The Bureaucracy & Policy Making" }
+];
+
 /** @type {Record<string, Unit[]>} */
 export const allSubjectUnits = {
   geometry: geometryUnits,
   algebra1: algebra1Units,
   algebra2: algebra2Units,
-  "ap-lang": aplangUnits
+  "ap-lang": aplangUnits,
+  "us-government": usGovernmentUnits
 };
