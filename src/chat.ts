@@ -17,82 +17,88 @@ export const DEFAULT_SUBJECT = "geometry";
 const MAX_INPUT_CHARS = 2000;
 const MAX_HISTORY = 9;
 
-export function sanitizeMessages(historyRaw) {
+export interface ChatMessage {
+  role: string;
+  content: string;
+}
+
+export function sanitizeMessages(historyRaw: unknown): ChatMessage[] {
   const raw = Array.isArray(historyRaw) ? historyRaw.slice(-MAX_HISTORY) : [];
   const mapped = raw
-    .filter(m => m && m.content)
+    .filter((m): m is { role: string; content: unknown } => m != null && typeof m.content === "string")
     .map(m => ({
       role: (m.role === "assistant" || m.role === "bot") ? "assistant" : "user",
       content: String(m.content).slice(0, MAX_INPUT_CHARS)
     }));
 
-  const merged = [];
+  const merged: ChatMessage[] = [];
   for (const m of mapped) {
-    if (merged.length && merged[merged.length - 1].role === m.role) {
-      merged[merged.length - 1].content += "\n\n" + m.content;
+    const last = merged[merged.length - 1];
+    if (last && last.role === m.role) {
+      last.content += "\n\n" + m.content;
     } else {
       merged.push(m);
     }
   }
 
-  while (merged.length && merged[0].role !== "user") merged.shift();
-  while (merged.length && merged[merged.length - 1].role !== "user") merged.pop();
+  while (merged.length && merged[0]?.role !== "user") merged.shift();
+  while (merged.length && merged[merged.length - 1]?.role !== "user") merged.pop();
 
   return merged;
 }
 
-export function subjectFromReferer(refererHeader) {
+export function subjectFromReferer(refererHeader: string | null): string {
   if (!refererHeader) return DEFAULT_SUBJECT;
-  let path;
+  let path: string;
   try {
     path = new URL(refererHeader).pathname;
   } catch (e) {
     return DEFAULT_SUBJECT;
   }
   const segment = path.split("/").filter(Boolean)[0];
-  return (segment && SUBJECTS[segment]) ? segment : DEFAULT_SUBJECT;
+  return (segment && SUBJECTS[segment as keyof typeof SUBJECTS]) ? segment : DEFAULT_SUBJECT;
 }
 
 export const MODEL = "@cf/meta/llama-3.1-8b-instruct-fp8";
 
-export function json(body, status) {
+export function json(body: unknown, status?: number): Response {
   return new Response(JSON.stringify(body), {
     status: status || 200,
     headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
   });
 }
 
-export async function handleChatPost(request, env) {
-  let body;
+export async function handleChatPost(request: Request, env: { AI: Ai }): Promise<Response> {
+  let body: unknown;
   try {
     body = await request.json();
   } catch (e) {
     return json({ error: "Invalid JSON body" }, 400);
   }
 
-  const messages = sanitizeMessages(body && body.history);
+  const messages = sanitizeMessages(body && typeof body === "object" && "history" in body ? (body as Record<string, unknown>).history : undefined);
   if (!messages.length) return json({ error: "Empty message" }, 400);
 
   if (!env.AI) return json({ error: "Server not configured — Workers AI binding is missing" }, 500);
 
   const subject = subjectFromReferer(request.headers.get("Referer"));
-  const systemPrompt = SUBJECTS[subject];
+  const systemPrompt = SUBJECTS[subject as keyof typeof SUBJECTS];
 
-  let result;
+  let result: { response?: string; result?: string };
   try {
     result = await env.AI.run(MODEL, {
       messages: [{ role: "system", content: systemPrompt }].concat(messages),
       max_tokens: 400
     });
   } catch (e) {
-    return json({ error: "Could not reach AI provider", detail: String(e && e.message || e).slice(0, 300) }, 502);
+    return json({ error: "Could not reach AI provider", detail: String(e && typeof e === "object" && "message" in e ? (e as { message: string }).message : e).slice(0, 300) }, 502);
   }
 
   const reply = (result && (result.response || result.result)) || "";
   return json({ reply: reply });
 }
 
-export function handleChatOptions() {
+export function handleChatOptions(): Response {
   return new Response(null, {
     status: 204,
     headers: {

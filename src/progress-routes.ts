@@ -2,28 +2,74 @@ import { getSession } from "./auth.js";
 
 const SUBJECTS = ["geometry", "chemistry", "algebra1", "algebra2", "aplang", "globalhistory", "apbiology", "apush", "physics", "biology", "precalc"];
 
-function json(body, status) {
+function json(body: unknown, status?: number): Response {
   return new Response(JSON.stringify(body), {
     status: status || 200,
     headers: { "Content-Type": "application/json" }
   });
 }
 
-function emptySubject() {
+interface SubjectProgress {
+  mastery: Record<string, { correct: number; total: number }>;
+  examples: Record<string, boolean>;
+  cardsKnown: string[];
+}
+
+// Per-subject progress lives under subject-name keys alongside the fixed
+// metadata keys below, so the blob is an intersection: known metadata typed
+// precisely, arbitrary subject keys typed as SubjectProgress.
+type ProgressBlob = {
+  goal: { days: number; minutesPerDay: number; savedAt: string } | null;
+  updatedAt: string | null;
+  enrolledSubjects: string[];
+  pushSubscriptions: PushSubscriptionRecord[];
+  schedule: ScheduleData | null;
+  streak: StreakData | null;
+} & Record<string, SubjectProgress>;
+
+interface PushSubscriptionRecord {
+  endpoint: string;
+  keys?: { p256dh?: string; auth?: string };
+}
+
+interface ScheduleData {
+  blocks: ScheduleBlock[];
+  timezone: string | null;
+  notifyEnabled: boolean;
+  savedAt: string;
+}
+
+interface ScheduleBlock {
+  day: string;
+  start: string;
+  end: string;
+  subjectKey: string;
+  subjectLabel: string;
+}
+
+interface StreakData {
+  current: number;
+  longest: number;
+  lastActiveDate: string | null;
+  timezone: string | null;
+}
+
+function emptySubject(): SubjectProgress {
   return { mastery: {}, examples: {}, cardsKnown: [] };
 }
 
-function emptyBlob() {
-  const blob = { goal: null, updatedAt: null, enrolledSubjects: [], pushSubscriptions: [], schedule: null, streak: null };
+function emptyBlob(): ProgressBlob {
+  const blob = { goal: null, updatedAt: null, enrolledSubjects: [], pushSubscriptions: [], schedule: null, streak: null } as unknown as ProgressBlob;
   for (const subject of SUBJECTS) blob[subject] = emptySubject();
   return blob;
 }
 
 const LOCAL_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
-function daysBetween(a, b) {
+function daysBetween(a: string, b: string): number {
   const [ay, am, ad] = a.split("-").map(Number);
   const [by, bm, bd] = b.split("-").map(Number);
+  if (ay === undefined || am === undefined || ad === undefined || by === undefined || bm === undefined || bd === undefined) return NaN;
   const msPerDay = 24 * 60 * 60 * 1000;
   return Math.round((Date.UTC(by, bm - 1, bd) - Date.UTC(ay, am - 1, ad)) / msPerDay);
 }
@@ -31,7 +77,7 @@ function daysBetween(a, b) {
 const DAY_KEYS = new Set(["mon", "tue", "wed", "thu", "fri", "sat", "sun"]);
 const TIME_RE = /^([01]\d|2[0-3]):([0-5]\d)$/;
 
-function isValidTimezone(tz) {
+function isValidTimezone(tz: string): boolean {
   if (typeof tz !== "string" || !tz) return false;
   try {
     new Intl.DateTimeFormat("en-US", { timeZone: tz });
@@ -41,21 +87,22 @@ function isValidTimezone(tz) {
   }
 }
 
-function isValidBlock(b) {
+function isValidBlock(b: unknown): b is ScheduleBlock {
   return !!(
     b &&
-    DAY_KEYS.has(b.day) &&
-    TIME_RE.test(b.start) &&
-    TIME_RE.test(b.end) &&
-    SUBJECTS.includes(b.subjectKey) &&
-    typeof b.subjectLabel === "string" &&
-    b.subjectLabel.length > 0 &&
-    b.subjectLabel.length <= 120
+    typeof b === "object" &&
+    DAY_KEYS.has((b as Record<string, unknown>).day as string) &&
+    TIME_RE.test((b as Record<string, unknown>).start as string) &&
+    TIME_RE.test((b as Record<string, unknown>).end as string) &&
+    SUBJECTS.includes((b as Record<string, unknown>).subjectKey as string) &&
+    typeof (b as Record<string, unknown>).subjectLabel === "string" &&
+    ((b as Record<string, unknown>).subjectLabel as string).length > 0 &&
+    ((b as Record<string, unknown>).subjectLabel as string).length <= 120
   );
 }
 
-async function loadBlob(env, email) {
-  if (!env.PROGRESS) return null;
+async function loadBlob(env: Env, email: string): Promise<ProgressBlob> {
+  if (!env.PROGRESS) return emptyBlob();
   const raw = await env.PROGRESS.get("progress:" + email);
   if (!raw) return emptyBlob();
   try {
@@ -66,7 +113,7 @@ async function loadBlob(env, email) {
   }
 }
 
-export async function handleGetProgress(request, env) {
+export async function handleGetProgress(request: Request, env: Env): Promise<Response> {
   const session = await getSession(request, env);
   if (!session) return json({ error: "Sign in required" }, 401);
   if (!env.PROGRESS) return json({ error: "Progress sync isn't configured yet" }, 503);
@@ -75,47 +122,48 @@ export async function handleGetProgress(request, env) {
   return json(blob);
 }
 
-export async function handlePostProgress(request, env) {
+export async function handlePostProgress(request: Request, env: Env): Promise<Response> {
   const session = await getSession(request, env);
   if (!session) return json({ error: "Sign in required" }, 401);
   if (!env.PROGRESS) return json({ error: "Progress sync isn't configured yet" }, 503);
 
-  let body;
+  let body: unknown;
   try {
     body = await request.json();
   } catch (e) {
     return json({ error: "Invalid JSON body" }, 400);
   }
 
-  const subject = body && body.subject;
-  if (!SUBJECTS.includes(subject)) return json({ error: "Unknown subject" }, 400);
+  const subject = body && typeof body === "object" && "subject" in body ? String((body as Record<string, unknown>).subject) : undefined;
+  if (!subject || !SUBJECTS.includes(subject)) return json({ error: "Unknown subject" }, 400);
 
-  const mastery = (body && typeof body.mastery === "object" && body.mastery) || {};
-  const examples = (body && typeof body.examples === "object" && body.examples) || {};
-  const cardsKnown = (body && Array.isArray(body.cardsKnown) && body.cardsKnown) || [];
+  const rec = body && typeof body === "object" ? (body as Record<string, unknown>) : {};
+  const mastery = typeof rec.mastery === "object" && rec.mastery !== null ? rec.mastery : {};
+  const examples = typeof rec.examples === "object" && rec.examples !== null ? rec.examples : {};
+  const cardsKnown = Array.isArray(rec.cardsKnown) ? rec.cardsKnown : [];
 
   const blob = await loadBlob(env, session.email);
-  blob[subject] = { mastery, examples, cardsKnown };
+  blob[subject] = { mastery: mastery as SubjectProgress["mastery"], examples: examples as SubjectProgress["examples"], cardsKnown: cardsKnown.filter(c => typeof c === "string") as string[] };
   blob.updatedAt = new Date().toISOString();
 
   await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
   return json({ ok: true });
 }
 
-export async function handlePostEnrolledSubjects(request, env) {
+export async function handlePostEnrolledSubjects(request: Request, env: Env): Promise<Response> {
   const session = await getSession(request, env);
   if (!session) return json({ error: "Sign in required" }, 401);
   if (!env.PROGRESS) return json({ error: "Progress sync isn't configured yet" }, 503);
 
-  let body;
+  let body: unknown;
   try {
     body = await request.json();
   } catch (e) {
     return json({ error: "Invalid JSON body" }, 400);
   }
 
-  const raw = (body && Array.isArray(body.subjects) && body.subjects) || [];
-  const enrolledSubjects = [...new Set(raw.filter(s => SUBJECTS.includes(s)))];
+  const raw = (body && typeof body === "object" && "subjects" in body && Array.isArray((body as Record<string, unknown>).subjects) ? (body as Record<string, unknown>).subjects : []) as unknown[];
+  const enrolledSubjects = [...new Set(raw.filter((s): s is string => typeof s === "string" && SUBJECTS.includes(s)))];
 
   const blob = await loadBlob(env, session.email);
   blob.enrolledSubjects = enrolledSubjects;
@@ -125,25 +173,25 @@ export async function handlePostEnrolledSubjects(request, env) {
   return json({ ok: true, enrolledSubjects });
 }
 
-export async function handlePostSchedule(request, env) {
+export async function handlePostSchedule(request: Request, env: Env): Promise<Response> {
   const session = await getSession(request, env);
   if (!session) return json({ error: "Sign in required" }, 401);
   if (!env.PROGRESS) return json({ error: "Progress sync isn't configured yet" }, 503);
 
-  let body;
+  let body: unknown;
   try {
     body = await request.json();
   } catch (e) {
     return json({ error: "Invalid JSON body" }, 400);
   }
 
-  const rawBlocks = (body && Array.isArray(body.blocks) && body.blocks) || [];
+  const rawBlocks = (body && typeof body === "object" && "blocks" in body && Array.isArray((body as Record<string, unknown>).blocks) ? (body as Record<string, unknown>).blocks : []) as unknown[];
   if (rawBlocks.length > 50) return json({ error: "Too many blocks" }, 400);
   if (!rawBlocks.every(isValidBlock)) return json({ error: "Invalid schedule block" }, 400);
 
-  const notifyEnabled = !!(body && body.notifyEnabled);
-  const timezone = body && body.timezone;
-  if (notifyEnabled && !isValidTimezone(timezone)) {
+  const notifyEnabled = !!(body && typeof body === "object" && "notifyEnabled" in body && (body as Record<string, unknown>).notifyEnabled);
+  const timezone = body && typeof body === "object" && "timezone" in body ? String((body as Record<string, unknown>).timezone) : undefined;
+  if (notifyEnabled && (!timezone || !isValidTimezone(timezone))) {
     return json({ error: "A valid timezone is required to enable notifications" }, 400);
   }
 
@@ -156,9 +204,10 @@ export async function handlePostSchedule(request, env) {
   }));
 
   const blob = await loadBlob(env, session.email);
+  const validTimezone = timezone && isValidTimezone(timezone) ? timezone : null;
   blob.schedule = {
     blocks,
-    timezone: isValidTimezone(timezone) ? timezone : null,
+    timezone: validTimezone,
     notifyEnabled,
     savedAt: new Date().toISOString()
   };
@@ -168,25 +217,25 @@ export async function handlePostSchedule(request, env) {
   return json({ ok: true, schedule: blob.schedule });
 }
 
-export async function handlePostStreak(request, env) {
+export async function handlePostStreak(request: Request, env: Env): Promise<Response> {
   const session = await getSession(request, env);
   if (!session) return json({ error: "Sign in required" }, 401);
   if (!env.PROGRESS) return json({ error: "Progress sync isn't configured yet" }, 503);
 
-  let body;
+  let body: unknown;
   try {
     body = await request.json();
   } catch (e) {
     return json({ error: "Invalid JSON body" }, 400);
   }
 
-  const localDate = body && body.localDate;
-  if (typeof localDate !== "string" || !LOCAL_DATE_RE.test(localDate)) {
+  const localDate = body && typeof body === "object" && "localDate" in body ? String((body as Record<string, unknown>).localDate) : undefined;
+  if (!localDate || typeof localDate !== "string" || !LOCAL_DATE_RE.test(localDate)) {
     return json({ error: "localDate must be an ISO date string (YYYY-MM-DD)" }, 400);
   }
 
-  const requestedTimezone = body && body.timezone;
-  const timezone = isValidTimezone(requestedTimezone) ? requestedTimezone : null;
+  const requestedTimezone = body && typeof body === "object" && "timezone" in body ? String((body as Record<string, unknown>).timezone) : undefined;
+  const timezone = isValidTimezone(requestedTimezone!) ? requestedTimezone : null;
 
   const blob = await loadBlob(env, session.email);
   const prev = blob.streak || { current: 0, longest: 0, lastActiveDate: null, timezone: null };
@@ -219,20 +268,20 @@ export async function handlePostStreak(request, env) {
   return json({ ok: true, streak, changed: true });
 }
 
-export async function handlePostGoal(request, env) {
+export async function handlePostGoal(request: Request, env: Env): Promise<Response> {
   const session = await getSession(request, env);
   if (!session) return json({ error: "Sign in required" }, 401);
   if (!env.PROGRESS) return json({ error: "Progress sync isn't configured yet" }, 503);
 
-  let body;
+  let body: unknown;
   try {
     body = await request.json();
   } catch (e) {
     return json({ error: "Invalid JSON body" }, 400);
   }
 
-  const days = Number(body && body.days);
-  const minutesPerDay = Number(body && body.minutesPerDay);
+  const days = Number(body && typeof body === "object" && "days" in body ? (body as Record<string, unknown>).days : undefined);
+  const minutesPerDay = Number(body && typeof body === "object" && "minutesPerDay" in body ? (body as Record<string, unknown>).minutesPerDay : undefined);
   if (!Number.isFinite(days) || days <= 0 || !Number.isFinite(minutesPerDay) || minutesPerDay <= 0) {
     return json({ error: "days and minutesPerDay must be positive numbers" }, 400);
   }

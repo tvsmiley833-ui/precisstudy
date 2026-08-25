@@ -16,18 +16,25 @@ const SITE_ORIGIN = "https://precisstudy.com";
 const STATE_TTL = 60 * 10; // 10 minutes
 const STATE_COOKIE = "ss_oauth_state";
 
-function json(body, status, extraHeaders) {
-  return new Response(JSON.stringify(body), {
-    status: status || 200,
-    headers: Object.assign({ "Content-Type": "application/json" }, extraHeaders || {})
-  });
+type ExtraHeaders = Record<string, string | string[]>;
+
+function json(body: unknown, status?: number, extraHeaders?: ExtraHeaders): Response {
+  const headers = new Headers({ "Content-Type": "application/json" });
+  for (const [key, value] of Object.entries(extraHeaders || {})) {
+    if (Array.isArray(value)) {
+      for (const v of value) headers.append(key, v);
+    } else {
+      headers.set(key, value);
+    }
+  }
+  return new Response(JSON.stringify(body), { status: status || 200, headers });
 }
 
-function redirect(location, extraHeaders) {
+function redirect(location: string, extraHeaders?: ExtraHeaders): Response {
   const headers = new Headers({ Location: location });
   for (const [key, value] of Object.entries(extraHeaders || {})) {
-    if (key === "Set-Cookie" && Array.isArray(value)) {
-      for (const v of value) headers.append("Set-Cookie", v);
+    if (Array.isArray(value)) {
+      for (const v of value) headers.append(key, v);
     } else {
       headers.set(key, value);
     }
@@ -35,36 +42,24 @@ function redirect(location, extraHeaders) {
   return new Response(null, { status: 302, headers });
 }
 
-function stateCookie(state) {
+function stateCookie(state: string): string {
   return `${STATE_COOKIE}=${state}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${STATE_TTL}`;
 }
 
-function clearStateCookie() {
+function clearStateCookie(): string {
   return `${STATE_COOKIE}=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0`;
 }
 
-// Every failure exit from an OAuth callback should clear the state cookie,
-// not just the CSRF-check failure -- otherwise a still-valid state sits in
-// the browser for the rest of its TTL after e.g. a token-exchange hiccup.
-// Routing every failure through this one helper means a new failure branch
-// can't forget to clear it the way several already had to be fixed to do.
-function authErrorRedirect() {
+function authErrorRedirect(): Response {
   return redirect(SITE_ORIGIN + "/?auth_error=1", { "Set-Cookie": clearStateCookie() });
 }
 
-async function makeState(env) {
+async function makeState(env: Env): Promise<string> {
   const now = Math.floor(Date.now() / 1000);
   return signSession({ purpose: "oauth_state", exp: now + STATE_TTL }, env.SESSION_SECRET);
 }
 
-// Checks the state is a validly-signed, unexpired token AND that it matches
-// the value this same browser was handed in its ss_oauth_state cookie at
-// /start -- signature validity alone isn't enough, since /start is a public
-// unauthenticated endpoint anyone can call to mint a well-formed state token.
-// Without the cookie binding, an attacker could complete their own OAuth
-// flow, then trick a victim into visiting the resulting callback URL to log
-// the victim's browser into the attacker's account (login CSRF).
-async function checkState(env, request, state) {
+async function checkState(env: Env, request: Request, state: string): Promise<boolean> {
   if (!state) return false;
   const cookieState = getCookie(request, STATE_COOKIE);
   if (!cookieState || cookieState !== state) return false;
@@ -79,25 +74,23 @@ async function checkState(env, request, state) {
 // callback on SITE_ORIGIN. Bouncing through SITE_ORIGIN before the cookie
 // is set keeps every domain's "Sign In" link working, no matter where it's
 // clicked from.
-function canonicalizeOrigin(request) {
+function canonicalizeOrigin(request: Request): Response | null {
   const url = new URL(request.url);
   if (url.origin === SITE_ORIGIN) return null;
   return redirect(SITE_ORIGIN + url.pathname + url.search);
 }
 
-function notConfigured(provider) {
+function notConfigured(provider: string): Response {
   return json({ error: provider + " sign-in isn't configured yet" }, 503);
 }
 
-// SESSION_SECRET signs every session cookie and OAuth CSRF state token, so
-// every sign-in path (not just OAuth) needs it before touching auth.js.
-function sessionSecretMissing(env) {
+function sessionSecretMissing(env: Env): boolean {
   return !env.SESSION_SECRET;
 }
 
 // ===== Google =====
 
-export async function handleGoogleStart(request, env) {
+export async function handleGoogleStart(request: Request, env: Env): Promise<Response> {
   const bounce = canonicalizeOrigin(request);
   if (bounce) return bounce;
   if (!env.GOOGLE_CLIENT_ID || !env.GOOGLE_CLIENT_SECRET) return notConfigured("Google");
@@ -114,13 +107,13 @@ export async function handleGoogleStart(request, env) {
   return redirect("https://accounts.google.com/o/oauth2/v2/auth?" + params.toString(), { "Set-Cookie": stateCookie(state) });
 }
 
-export async function handleGoogleCallback(request, env) {
+export async function handleGoogleCallback(request: Request, env: Env): Promise<Response> {
   if (!env.GOOGLE_CLIENT_ID || !env.GOOGLE_CLIENT_SECRET) return notConfigured("Google");
   if (sessionSecretMissing(env)) return notConfigured("Sign-in");
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
-  if (!code || !(await checkState(env, request, state))) {
+  if (!code || !state || !(await checkState(env, request, state))) {
     return authErrorRedirect();
   }
 
@@ -136,13 +129,13 @@ export async function handleGoogleCallback(request, env) {
     })
   });
   if (!tokenRes.ok) return authErrorRedirect();
-  const tokenData = await tokenRes.json();
+  const tokenData: any = await tokenRes.json();
 
   const profileRes = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
-    headers: { Authorization: "Bearer " + tokenData.access_token }
+    headers: { Authorization: "Bearer " + String(tokenData?.access_token) }
   });
   if (!profileRes.ok) return authErrorRedirect();
-  const profile = await profileRes.json();
+  const profile: any = await profileRes.json();
   if (!profile.email) return authErrorRedirect();
 
   const cookie = await issueSessionCookie(env, {
@@ -156,7 +149,7 @@ export async function handleGoogleCallback(request, env) {
 
 // ===== GitHub =====
 
-export async function handleGithubStart(request, env) {
+export async function handleGithubStart(request: Request, env: Env): Promise<Response> {
   const bounce = canonicalizeOrigin(request);
   if (bounce) return bounce;
   if (!env.GITHUB_CLIENT_ID || !env.GITHUB_CLIENT_SECRET) return notConfigured("GitHub");
@@ -171,13 +164,13 @@ export async function handleGithubStart(request, env) {
   return redirect("https://github.com/login/oauth/authorize?" + params.toString(), { "Set-Cookie": stateCookie(state) });
 }
 
-export async function handleGithubCallback(request, env) {
+export async function handleGithubCallback(request: Request, env: Env): Promise<Response> {
   if (!env.GITHUB_CLIENT_ID || !env.GITHUB_CLIENT_SECRET) return notConfigured("GitHub");
   if (sessionSecretMissing(env)) return notConfigured("Sign-in");
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
-  if (!code || !(await checkState(env, request, state))) {
+  if (!code || !state || !(await checkState(env, request, state))) {
     return authErrorRedirect();
   }
 
@@ -192,8 +185,8 @@ export async function handleGithubCallback(request, env) {
     })
   });
   if (!tokenRes.ok) return authErrorRedirect();
-  const tokenData = await tokenRes.json();
-  if (!tokenData.access_token) return authErrorRedirect();
+  const tokenData: any = await tokenRes.json();
+  if (!tokenData?.access_token) return authErrorRedirect();
 
   const ghHeaders = {
     Authorization: "Bearer " + tokenData.access_token,
@@ -202,14 +195,15 @@ export async function handleGithubCallback(request, env) {
   };
   const profileRes = await fetch("https://api.github.com/user", { headers: ghHeaders });
   if (!profileRes.ok) return authErrorRedirect();
-  const profile = await profileRes.json();
+  const profile: any = await profileRes.json();
 
-  let email = profile.email;
+  let email: string | undefined = typeof profile.email === "string" ? profile.email : undefined;
   if (!email) {
     const emailsRes = await fetch("https://api.github.com/user/emails", { headers: ghHeaders });
     if (emailsRes.ok) {
-      const emails = await emailsRes.json();
-      const primary = Array.isArray(emails) && (emails.find(e => e.primary && e.verified) || emails.find(e => e.verified));
+      const emails: any = await emailsRes.json();
+      const list = Array.isArray(emails) ? emails : [];
+      const primary = list.find((e: any) => e.primary && e.verified && typeof e.email === "string") || list.find((e: any) => e.verified && typeof e.email === "string");
       if (primary) email = primary.email;
     }
   }
@@ -229,33 +223,34 @@ export async function handleGithubCallback(request, env) {
 
 // ===== Email magic link =====
 
-export async function handleEmailStart(request, env) {
-  let body;
+export async function handleEmailStart(request: Request, env: Env): Promise<Response> {
+  let body: Record<string, unknown> | null = null;
   try {
-    body = await request.json();
+    const parsed: unknown = await request.json();
+    body = parsed && typeof parsed === "object" ? parsed as Record<string, unknown> : null;
   } catch (e) {
     return json({ error: "Invalid JSON body" }, 400);
   }
-  const email = body && body.email;
+  const email = typeof body?.email === "string" ? body.email.trim() : undefined;
   if (!isValidEmail(email)) return json({ error: "Enter a valid email address" }, 400);
   if (!env.MAGIC_LINKS) return json({ error: "Email sign-in isn't configured yet" }, 503);
   if (sessionSecretMissing(env)) return json({ error: "Sign-in isn't configured yet" }, 503);
 
-  const withinLimit = await checkEmailRateLimit(env, email);
+  const withinLimit = await checkEmailRateLimit(env, email!);
   if (!withinLimit) return json({ error: "Too many sign-in requests for this email — try again in a few minutes" }, 429);
 
-  const token = await createMagicLinkToken(env, email);
+  const token = await createMagicLinkToken(env, email!);
   const link = SITE_ORIGIN + "/auth/verify?token=" + encodeURIComponent(token);
 
   try {
-    await sendMagicLinkEmail(env, email, link);
+    await sendMagicLinkEmail(env, email!, link);
   } catch (e) {
     return json({ error: "Couldn't send the email — try again in a moment" }, 502);
   }
   return json({ ok: true });
 }
 
-async function sendMagicLinkEmail(env, toEmail, link) {
+async function sendMagicLinkEmail(env: Env, toEmail: string, link: string): Promise<void> {
   if (!env.EMAIL) throw new Error("EMAIL binding is not configured");
   const text = "Click to sign in to PrecisStudy:\n\n" + link
     + "\n\nThis link expires in 15 minutes. If you didn't request this, you can ignore this email.";
@@ -270,11 +265,11 @@ async function sendMagicLinkEmail(env, toEmail, link) {
   });
 }
 
-export async function handleVerify(request, env) {
+export async function handleVerify(request: Request, env: Env): Promise<Response> {
   if (sessionSecretMissing(env)) return notConfigured("Sign-in");
   const url = new URL(request.url);
   const token = url.searchParams.get("token");
-  const email = await consumeMagicLinkToken(env, token);
+  const email = token ? await consumeMagicLinkToken(env, token) : null;
   if (!email) return redirect(SITE_ORIGIN + "/?auth_error=expired");
 
   const cookie = await issueSessionCookie(env, { email, name: email, provider: "email" });
@@ -284,12 +279,12 @@ export async function handleVerify(request, env) {
 
 // ===== Session status / logout =====
 
-export async function handleMe(request, env) {
+export async function handleMe(request: Request, env: Env): Promise<Response> {
   const session = await getSession(request, env);
   if (!session) return json({ loggedIn: false }, 200);
   return json({ loggedIn: true, email: session.email, name: session.name, provider: session.provider });
 }
 
-export async function handleLogout() {
+export async function handleLogout(): Promise<Response> {
   return json({ ok: true }, 200, { "Set-Cookie": clearSessionCookie() });
 }

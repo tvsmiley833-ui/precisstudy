@@ -1,3 +1,19 @@
+// @ts-check
+/**
+ * @typedef {Object} MasteryRecord
+ * @property {number} correct
+ * @property {number} total
+ *
+ * @typedef {Object} MasteryState
+ * @property {Record<string, MasteryRecord>} mastery
+ * @property {Record<string, boolean>} examples
+ * @property {string[]} cardsKnown
+ */
+
+/**
+ * @param {MasteryRecord | undefined} record
+ * @returns {"not-assessed" | "green" | "amber" | "red"}
+ */
 export function computeUnitStatus(record) {
   if (!record || record.total < 2) return "not-assessed";
   const pct = Math.round((record.correct / record.total) * 100);
@@ -6,9 +22,14 @@ export function computeUnitStatus(record) {
   return "red";
 }
 
+/**
+ * @param {Record<string, MasteryRecord>} mastery
+ * @param {number[]} unitIds
+ * @returns {{ pct: number | null; assessedCount: number; totalCount: number }}
+ */
 export function computeReadiness(mastery, unitIds) {
   const assessed = unitIds
-    .map(id => mastery[id])
+    .map(id => mastery[String(id)])
     .filter(record => record && record.total >= 2);
 
   if (assessed.length === 0) {
@@ -23,9 +44,15 @@ export function computeReadiness(mastery, unitIds) {
   };
 }
 
+/**
+ * @param {Record<string, MasteryRecord>} mastery
+ * @param {number[]} unitIds
+ * @param {Record<number, string>} unitNames
+ * @returns {{ type: "diagnostic" | "review" | "practice"; unitId?: number; unitName?: string; pct?: number }}
+ */
 export function recommendNext(mastery, unitIds, unitNames) {
   const assessed = unitIds
-    .map(id => ({ id, record: mastery[id] }))
+    .map(id => ({ id, record: mastery[String(id)] }))
     .filter(u => u.record && u.record.total >= 2)
     .map(u => ({ id: u.id, pct: Math.round((u.record.correct / u.record.total) * 100) }));
 
@@ -37,6 +64,14 @@ export function recommendNext(mastery, unitIds, unitNames) {
   return { type: "practice", unitId: weakest.id, unitName: unitNames[weakest.id], pct: weakest.pct };
 }
 
+/**
+ * @param {Record<string, MasteryRecord>} mastery
+ * @param {number[]} unitIds
+ * @param {Record<number, string>} unitNames
+ * @param {number} days
+ * @param {number} minutesPerDay
+ * @returns {{ allMastered: boolean; days: Array<{day: number; unitId?: number; unitName?: string; pct?: number | null; type?: "exam"}> }}
+ */
 export function buildSchedule(mastery, unitIds, unitNames, days, minutesPerDay) {
   if (days <= 0 || minutesPerDay <= 0) {
     return { allMastered: false, days: [] };
@@ -44,9 +79,9 @@ export function buildSchedule(mastery, unitIds, unitNames, days, minutesPerDay) 
 
   const weak = [];
   for (const id of unitIds) {
-    const record = mastery[id];
+    const record = mastery[String(id)];
     const isAssessed = record && record.total >= 2;
-    const pct = isAssessed ? Math.round(record.correct / record.total * 100) : null;
+    const pct = isAssessed ? Math.round((record.correct / record.total) * 100) : null;
 
     if (pct === null || pct < 80) {
       weak.push({ id, pct });
@@ -120,8 +155,25 @@ async function touchStreak() {
   } catch (e) { /* offline or not logged in - try again next time something is recorded */ }
 }
 
+/**
+ * @param {string} subject
+ * @param {number[]} unitIds
+ * @param {Record<number, string>} unitNames
+ * @returns {{
+ *   init: () => Promise<void>;
+ *   recordAnswer: (unitId: number, correct: boolean) => void;
+ *   markExampleDone: (id: string) => void;
+ *   markCardKnown: (id: string) => void;
+ *   unmarkCardKnown: (id: string) => void;
+ *   getSnapshot: () => MasteryState;
+ *   getReadiness: () => { pct: number | null; assessedCount: number; totalCount: number };
+ *   getRecommendation: () => { type: string; unitId?: number; unitName?: string; pct?: number };
+ *   flushSyncNow: () => Promise<void>;
+ * }}
+ */
 export function createMastery(subject, unitIds, unitNames) {
   const storageKey = "ssMastery_" + subject;
+  /** @type {MasteryState} */
   let state = { mastery: {}, examples: {}, cardsKnown: [] };
   let syncTimer = null;
   let dirty = false;
@@ -186,7 +238,7 @@ export function createMastery(subject, unitIds, unitNames) {
       await mergeFromServer();
     },
     recordAnswer(unitId, correct) {
-      const rec = state.mastery[unitId] || (state.mastery[unitId] = { correct: 0, total: 0 });
+      const rec = state.mastery[String(unitId)] || (state.mastery[String(unitId)] = { correct: 0, total: 0 });
       rec.total++;
       if (correct) rec.correct++;
       saveLocal();

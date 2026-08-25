@@ -1,7 +1,7 @@
 import { getSession } from "./auth.js";
 import { buildPushPayload } from "@block65/webcrypto-web-push";
 
-function json(body, status) {
+function json(body: unknown, status?: number): Response {
   return new Response(JSON.stringify(body), {
     status: status || 200,
     headers: { "Content-Type": "application/json" }
@@ -20,9 +20,9 @@ const ALLOWED_PUSH_HOSTS = new Set([
   "web.push.apple.com"
 ]);
 
-function isAllowedPushEndpoint(endpoint) {
+function isAllowedPushEndpoint(endpoint: string): boolean {
   if (typeof endpoint !== "string" || !endpoint) return false;
-  let url;
+  let url: URL;
   try {
     url = new URL(endpoint);
   } catch (e) {
@@ -31,19 +31,28 @@ function isAllowedPushEndpoint(endpoint) {
   return url.protocol === "https:" && ALLOWED_PUSH_HOSTS.has(url.hostname);
 }
 
-function isValidSubscription(sub) {
-  if (!(
-    sub &&
-    typeof sub.endpoint === "string" &&
-    sub.endpoint.length > 0 &&
-    sub.keys &&
-    typeof sub.keys.p256dh === "string" &&
-    typeof sub.keys.auth === "string"
-  )) return false;
-  return isAllowedPushEndpoint(sub.endpoint);
+interface PushSubscription {
+  endpoint: string;
+  keys: { p256dh: string; auth: string };
+  expirationTime?: number | null;
 }
 
-async function loadBlob(env, email) {
+function isValidSubscription(sub: unknown): sub is PushSubscription {
+  if (!sub || typeof sub !== "object") return false;
+  const rec = sub as Record<string, unknown>;
+  const keys = rec.keys;
+  return (
+    typeof rec.endpoint === "string" &&
+    rec.endpoint.length > 0 &&
+    !!keys && typeof keys === "object" &&
+    typeof (keys as Record<string, unknown>).p256dh === "string" &&
+    typeof (keys as Record<string, unknown>).auth === "string" &&
+    isAllowedPushEndpoint(rec.endpoint)
+  );
+}
+
+async function loadBlob(env: Env, email: string): Promise<ProgressBlob | null> {
+  if (!env.PROGRESS) return null;
   const raw = await env.PROGRESS.get("progress:" + email);
   if (!raw) return null;
   try {
@@ -53,22 +62,52 @@ async function loadBlob(env, email) {
   }
 }
 
-export async function handlePushSubscribe(request, env) {
+interface ProgressBlob {
+  pushSubscriptions: PushSubscription[];
+  updatedAt: string;
+  goal?: { days: number; minutesPerDay: number; savedAt: string } | null;
+  streak?: StreakData | null;
+  schedule?: ScheduleData | null;
+}
+
+interface ScheduleData {
+  blocks: ScheduleBlock[];
+  timezone: string | null;
+  notifyEnabled: boolean;
+  savedAt: string;
+}
+
+interface ScheduleBlock {
+  day: string;
+  start: string;
+  end: string;
+  subjectKey: string;
+  subjectLabel: string;
+}
+
+interface StreakData {
+  current: number;
+  longest: number;
+  lastActiveDate: string | null;
+  timezone: string | null;
+}
+
+export async function handlePushSubscribe(request: Request, env: Env): Promise<Response> {
   const session = await getSession(request, env);
   if (!session) return json({ error: "Sign in required" }, 401);
   if (!env.PROGRESS) return json({ error: "Progress sync isn't configured yet" }, 503);
 
-  let body;
+  let body: unknown;
   try {
     body = await request.json();
   } catch (e) {
     return json({ error: "Invalid JSON body" }, 400);
   }
 
-  const sub = body && body.subscription;
+  const sub = body && typeof body === "object" && "subscription" in body ? (body as Record<string, unknown>).subscription : undefined;
   if (!isValidSubscription(sub)) return json({ error: "Invalid push subscription" }, 400);
 
-  const blob = (await loadBlob(env, session.email)) || {};
+  const blob = (await loadBlob(env, session.email)) || { pushSubscriptions: [], updatedAt: new Date().toISOString() };
   const existing = Array.isArray(blob.pushSubscriptions) ? blob.pushSubscriptions : [];
   const withoutDupe = existing.filter(s => s.endpoint !== sub.endpoint);
   blob.pushSubscriptions = [...withoutDupe, {
@@ -82,20 +121,20 @@ export async function handlePushSubscribe(request, env) {
   return json({ ok: true });
 }
 
-export async function handlePushUnsubscribe(request, env) {
+export async function handlePushUnsubscribe(request: Request, env: Env): Promise<Response> {
   const session = await getSession(request, env);
   if (!session) return json({ error: "Sign in required" }, 401);
   if (!env.PROGRESS) return json({ error: "Progress sync isn't configured yet" }, 503);
 
-  let body;
+  let body: unknown;
   try {
     body = await request.json();
   } catch (e) {
     return json({ error: "Invalid JSON body" }, 400);
   }
 
-  const endpoint = body && body.endpoint;
-  const blob = (await loadBlob(env, session.email)) || {};
+  const endpoint = body && typeof body === "object" && "endpoint" in body ? String((body as Record<string, unknown>).endpoint) : undefined;
+  const blob = (await loadBlob(env, session.email)) || { pushSubscriptions: [], updatedAt: new Date().toISOString() };
   const existing = Array.isArray(blob.pushSubscriptions) ? blob.pushSubscriptions : [];
   blob.pushSubscriptions = endpoint ? existing.filter(s => s.endpoint !== endpoint) : [];
   blob.updatedAt = new Date().toISOString();
@@ -104,7 +143,7 @@ export async function handlePushUnsubscribe(request, env) {
   return json({ ok: true });
 }
 
-function sleep(ms) {
+function sleep(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
@@ -113,8 +152,9 @@ function sleep(ms) {
 // before giving up. A 4xx (e.g. 404/410, an expired subscription) means the
 // request itself is permanently rejected, so retrying it would be pointless;
 // only 5xx/network errors are retried.
-async function fetchWithRetry(url, options, maxRetries = 2) {
-  let lastResponse, lastError;
+async function fetchWithRetry(url: string, options: RequestInit, maxRetries = 2): Promise<Response> {
+  let lastResponse: Response | undefined;
+  let lastError: unknown;
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     try {
       const res = await fetch(url, options);
@@ -136,7 +176,7 @@ async function fetchWithRetry(url, options, maxRetries = 2) {
 // -- including any written before this allowlist existed. Returning a
 // synthetic 410 (rather than throwing) lets every caller's existing
 // "404/410 = drop this subscription" cleanup purge it automatically.
-async function sendToSubscription(env, subscription, message) {
+async function sendToSubscription(env: Env, subscription: PushSubscription, message: { data: string; options: { ttl: number } }): Promise<Response> {
   if (!isAllowedPushEndpoint(subscription.endpoint)) {
     return new Response(null, { status: 410 });
   }
@@ -145,11 +185,11 @@ async function sendToSubscription(env, subscription, message) {
     publicKey: env.VAPID_PUBLIC_KEY,
     privateKey: env.VAPID_PRIVATE_KEY
   };
-  const payload = await buildPushPayload(message, subscription, vapid);
+  const payload = await buildPushPayload(message, subscription as unknown as Parameters<typeof buildPushPayload>[1], vapid);
   return fetchWithRetry(subscription.endpoint, payload);
 }
 
-export async function handlePushTest(request, env) {
+export async function handlePushTest(request: Request, env: Env): Promise<Response> {
   const session = await getSession(request, env);
   if (!session) return json({ error: "Sign in required" }, 401);
   if (!env.PROGRESS) return json({ error: "Progress sync isn't configured yet" }, 503);
@@ -179,10 +219,10 @@ export async function handlePushTest(request, env) {
   return json({ ok: true, sent });
 }
 
-export async function sendDailyReminders(env) {
+export async function sendDailyReminders(env: Env): Promise<{ checked: number; sent: number }> {
   if (!env.PROGRESS || !env.VAPID_PRIVATE_KEY) return { checked: 0, sent: 0 };
 
-  let cursor;
+  let cursor: string | undefined;
   let checked = 0;
   let sent = 0;
   const message = {
@@ -200,7 +240,7 @@ export async function sendDailyReminders(env) {
       checked++;
       const raw = await env.PROGRESS.get(key.name);
       if (!raw) continue;
-      let blob;
+      let blob: ProgressBlob;
       try {
         blob = JSON.parse(raw);
       } catch (e) {
@@ -209,7 +249,7 @@ export async function sendDailyReminders(env) {
       const subs = Array.isArray(blob.pushSubscriptions) ? blob.pushSubscriptions : [];
       if (!subs.length || !blob.goal) continue;
 
-      const stillValid = [];
+      const stillValid: PushSubscription[] = [];
       for (const sub of subs) {
         try {
           const res = await sendToSubscription(env, sub, message);
@@ -236,9 +276,9 @@ export async function sendDailyReminders(env) {
   return { checked, sent };
 }
 
-const WEEKDAY_TO_DAY_KEY = { Mon: "mon", Tue: "tue", Wed: "wed", Thu: "thu", Fri: "fri", Sat: "sat", Sun: "sun" };
+const WEEKDAY_TO_DAY_KEY: Record<string, string> = { Mon: "mon", Tue: "tue", Wed: "wed", Thu: "thu", Fri: "fri", Sat: "sat", Sun: "sun" };
 
-function localDayAndMinutes(timezone) {
+function localDayAndMinutes(timezone: string): { day: string; minutes: number } {
   const parts = new Intl.DateTimeFormat("en-US", {
     timeZone: timezone,
     weekday: "short",
@@ -246,23 +286,28 @@ function localDayAndMinutes(timezone) {
     minute: "2-digit",
     hour12: false
   }).formatToParts(new Date());
-  const weekday = parts.find(p => p.type === "weekday").value;
-  let hour = parseInt(parts.find(p => p.type === "hour").value, 10);
-  const minute = parseInt(parts.find(p => p.type === "minute").value, 10);
+  const weekday = parts.find(p => p.type === "weekday")?.value;
+  const hourRaw = parts.find(p => p.type === "hour")?.value;
+  const minuteRaw = parts.find(p => p.type === "minute")?.value;
+  if (!weekday || !hourRaw || !minuteRaw || !WEEKDAY_TO_DAY_KEY[weekday]) {
+    throw new Error("unparseable local time for timezone: " + timezone);
+  }
+  let hour = parseInt(hourRaw, 10);
+  const minute = parseInt(minuteRaw, 10);
   if (hour === 24) hour = 0; // some ICU locales format midnight as "24" with hour12:false
-  return { day: WEEKDAY_TO_DAY_KEY[weekday], minutes: hour * 60 + minute };
+  return { day: WEEKDAY_TO_DAY_KEY[weekday]!, minutes: hour * 60 + minute };
 }
 
-function timeToMinutes(t) {
+function timeToMinutes(t: string): number {
   const [h, m] = t.split(":").map(Number);
-  return h * 60 + m;
+  return (h || 0) * 60 + (m || 0);
 }
 
-function localDateString(timezone) {
+function localDateString(timezone: string): string {
   const parts = new Intl.DateTimeFormat("en-CA", { timeZone: timezone, year: "numeric", month: "2-digit", day: "2-digit" }).formatToParts(new Date());
-  const year = parts.find(p => p.type === "year").value;
-  const month = parts.find(p => p.type === "month").value;
-  const day = parts.find(p => p.type === "day").value;
+  const year = parts.find(p => p.type === "year")!.value;
+  const month = parts.find(p => p.type === "month")!.value;
+  const day = parts.find(p => p.type === "day")!.value;
   return `${year}-${month}-${day}`;
 }
 
@@ -273,10 +318,10 @@ const STREAK_REMINDER_MINUTES = 20 * 60; // 8:00 PM local
 // their streak was touched), sends a "don't lose your streak" nudge once,
 // around 8pm in THEIR local time, but only if they haven't been active yet
 // that local day -- so a student who already studied gets nothing.
-export async function sendStreakReminders(env) {
+export async function sendStreakReminders(env: Env): Promise<{ checked: number; sent: number }> {
   if (!env.PROGRESS || !env.VAPID_PRIVATE_KEY) return { checked: 0, sent: 0 };
 
-  let cursor;
+  let cursor: string | undefined;
   let checked = 0;
   let sent = 0;
 
@@ -286,7 +331,7 @@ export async function sendStreakReminders(env) {
       checked++;
       const raw = await env.PROGRESS.get(key.name);
       if (!raw) continue;
-      let blob;
+      let blob: ProgressBlob;
       try {
         blob = JSON.parse(raw);
       } catch (e) {
@@ -297,7 +342,8 @@ export async function sendStreakReminders(env) {
       const subs = Array.isArray(blob.pushSubscriptions) ? blob.pushSubscriptions : [];
       if (!streak || !(streak.current > 0) || !streak.timezone || !subs.length) continue;
 
-      let local, today;
+      let local: { day: string; minutes: number };
+      let today: string;
       try {
         local = localDayAndMinutes(streak.timezone);
         today = localDateString(streak.timezone);
@@ -317,7 +363,7 @@ export async function sendStreakReminders(env) {
         options: { ttl: 3600 }
       };
 
-      const deadEndpoints = new Set();
+      const deadEndpoints = new Set<string>();
       for (const sub of subs) {
         try {
           const res = await sendToSubscription(env, sub, message);
@@ -340,10 +386,10 @@ export async function sendStreakReminders(env) {
 // enabled on their study schedule, checks whether any block starts within the
 // current 5-minute window in THEIR local time (using the IANA timezone captured
 // when they built the schedule) and sends a reminder naming that block's subject.
-export async function sendScheduledBlockReminders(env) {
+export async function sendScheduledBlockReminders(env: Env): Promise<{ checked: number; sent: number }> {
   if (!env.PROGRESS || !env.VAPID_PRIVATE_KEY) return { checked: 0, sent: 0 };
 
-  let cursor;
+  let cursor: string | undefined;
   let checked = 0;
   let sent = 0;
 
@@ -353,7 +399,7 @@ export async function sendScheduledBlockReminders(env) {
       checked++;
       const raw = await env.PROGRESS.get(key.name);
       if (!raw) continue;
-      let blob;
+      let blob: ProgressBlob;
       try {
         blob = JSON.parse(raw);
       } catch (e) {
@@ -366,7 +412,7 @@ export async function sendScheduledBlockReminders(env) {
       const blocks = Array.isArray(schedule.blocks) ? schedule.blocks : [];
       if (!blocks.length) continue;
 
-      let local;
+      let local: { day: string; minutes: number };
       try {
         local = localDayAndMinutes(schedule.timezone);
       } catch (e) {
@@ -380,7 +426,7 @@ export async function sendScheduledBlockReminders(env) {
       });
       if (!dueBlocks.length) continue;
 
-      const deadEndpoints = new Set();
+      const deadEndpoints = new Set<string>();
       for (const block of dueBlocks) {
         const message = {
           data: JSON.stringify({
