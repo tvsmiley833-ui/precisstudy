@@ -1,0 +1,85 @@
+<div class="page">
+<div class="spc-card" id="spc-card">
+  <h2>See what your study plan could look like</h2>
+  <p>Based on this guide's real question bank — __SPC_INTRO__</p>
+  <div class="spc-row">
+    <label>Days until your exam <span id="spc-days-val">14 days</span></label>
+    <input type="range" class="spc-slider" id="spc-days" min="1" max="60" value="14">
+  </div>
+  <div class="spc-row">
+    <label>Minutes you can study per day <span id="spc-mins-val">30 min</span></label>
+    <input type="range" class="spc-slider" id="spc-mins" min="10" max="120" value="30" step="5">
+  </div>
+  <div class="spc-stats">
+    <div class="spc-stat"><div class="spc-stat-val" id="spc-questions">0</div><div class="spc-stat-label">Questions you'll complete</div></div>
+    <div class="spc-stat"><div class="spc-stat-val" id="spc-units">0</div><div class="spc-stat-label">Units covered</div></div>
+    <div class="spc-stat"><div class="spc-stat-val" id="spc-pct">0%</div><div class="spc-stat-label">of the full question bank</div></div>
+  </div>
+  <div class="spc-tier" id="spc-tier">
+    <b id="spc-tier-title"></b>
+    <span id="spc-tier-sub"></span>
+  </div>
+</div>
+<div id="view-guide" class="view active">
+  <div style="display:flex;gap:8px;margin-bottom:10px;align-items:center">
+    <input id="search-box" placeholder="Search topics, terms, formulas…" oninput="searchGuide()" style="flex:1;padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:15px;background:var(--surface);color:var(--ink)">
+    <button onclick="clearSearch()" style="padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);font-size:13px;cursor:pointer;color:var(--ink-muted)">✕ Clear</button>
+  </div>
+  <div id="search-results" style="display:none;margin-bottom:12px"></div>
+  <div class="filter-row" id="filter-row">__FILTER_CHIPS__</div>
+  <div id="units"></div></div>
+<div id="view-cards" class="view">
+  <div class="fc-bar">
+    <select id="fc-sel" onchange="loadFC()"></select>
+    <span class="fc-count" id="fc-count"></span>
+  </div>
+  <div class="scene" id="scene" onclick="flip()">
+    <div class="inner" id="inner">
+      <div class="face front"><div class="lbl">Term</div><div class="term" id="fc-term"></div></div>
+      <div class="face back"><div class="lbl">Definition</div><div class="def" id="fc-def"></div></div>
+    </div>
+  </div>
+  <div class="hint">Click card to flip · Rate yourself to track weak cards</div>
+  <div class="fc-nav" style="flex-wrap:wrap;gap:8px">
+    <button class="btn" onclick="fcNav(-1)">← Prev</button>
+    <button class="btn" onclick="fcShuffle()">⇄ Shuffle</button>
+    <button class="btn" onclick="fcNav(1)">Next →</button>
+  </div>
+  <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
+    <button class="btn" onclick="rateFC('known')" style="border-color:rgba(127,201,143,0.45);color:rgba(127,201,143,0.85);background:rgba(127,201,143,0.14)">✓ Know it</button>
+    <button class="btn" onclick="rateFC('learning')" style="border-color:rgba(224,122,130,0.45);color:rgba(224,122,130,0.85);background:rgba(224,122,130,0.14)">✗ Still learning</button>
+    <button class="btn" onclick="filterFC()" id="filter-btn" style="font-size:18px">Show: All</button>
+  </div>
+  <div id="fc-progress" style="text-align:center;font-size:18px;color:var(--ink-dim,#857f72);margin-top:6px"></div>
+__FC_ARCHIVE__</div></div>
+<div id="view-quiz" class="view">
+  <div id="quiz-gate" class="auth-gate" style="display:none">
+    <div class="auth-gate-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+    <h3>Sign in to take the quiz</h3>
+    <p>Browsing the guide is free for everyone — quizzes are for signed-in students so your progress means something.</p>
+    <div class="ss-login-box"></div>
+  </div>
+  <div id="quiz-real">
+  <div id="anon-quiz-note" style="display:none;background:var(--accent-soft);border:1px solid var(--accent);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:12px;font-size:14.5px;color:var(--accent-ink)">
+    You're trying the free diagnostic — no sign-in needed. Sign in afterward to unlock the full question bank, practice exam, and save your progress.
+    <div class="ss-login-box" style="margin-top:8px"></div>
+  </div>
+  <button class="diag-btn" id="diag-start-btn" onclick="startDiagnostic()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><span id="diag-start-btn-label">Start Diagnostic — 2 questions per unit, finds your weak spots</span></button>
+  <div class="q-bar">
+    <select id="q-sel" onchange="loadQ()"></select>
+    <span class="q-prog" id="q-prog"></span>
+    <span class="q-sc" id="q-sc"></span>
+    <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
+  </div>
+  <div id="diag-banner" style="display:none;background:var(--accent-soft);border:1px solid var(--accent);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:12px;font-size:14.5px;color:var(--accent-ink)"></div>
+  <div id="diag-summary"></div>
+  <div id="qbox"></div>
+  </div>
+</div>
+<div id="view-exam" class="view"></div>
+<div id="view-qref" class="view">
+__QREF__
+</div>
+
+<div id="view-memory" class="view">
+  <div class="mem-intro">Common mistakes for each unit — read the mistake, then make sure you know why it's wrong.</div>__MEMORY__
