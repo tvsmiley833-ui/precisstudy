@@ -1,3 +1,4 @@
+// @ts-check
 let comboCount = 0;
 
 const MILESTONES = { 3: "🔥 3 in a row!", 5: "⚡ 5 in a row!", 10: "🌟 10 in a row!", 15: "🚀 15 in a row!", 20: "👑 20 in a row!" };
@@ -7,6 +8,7 @@ function prefersReducedMotion() {
   return typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
+/** @param {number} x @param {number} y */
 function launchConfetti(x, y) {
   const count = 14;
   for (let i = 0; i < count; i++) {
@@ -29,6 +31,7 @@ function launchConfetti(x, y) {
   }
 }
 
+/** @param {string} text @param {number} x @param {number} y */
 function showComboBanner(text, x, y) {
   const banner = document.createElement("div");
   banner.textContent = text;
@@ -49,6 +52,7 @@ function showComboBanner(text, x, y) {
 
 // Call on a correct quiz answer, passing the DOM element to burst from
 // (typically the correct option button). Returns the new combo count.
+/** @param {Element | null} [anchorEl] */
 export function celebrateCorrect(anchorEl) {
   comboCount++;
   if (!prefersReducedMotion() && typeof document !== "undefined") {
@@ -56,7 +60,9 @@ export function celebrateCorrect(anchorEl) {
     const x = rect ? rect.left + rect.width / 2 : window.innerWidth / 2;
     const y = rect ? rect.top : window.innerHeight / 2;
     launchConfetti(x, y);
-    const msg = MILESTONES[comboCount] || (comboCount > 20 && comboCount % 10 === 0 ? "🔥 " + comboCount + " in a row!" : null);
+    /** @type {Record<string, string>} */
+    const milestones = MILESTONES;
+    const msg = milestones[String(comboCount)] || (comboCount > 20 && comboCount % 10 === 0 ? "🔥 " + comboCount + " in a row!" : null);
     if (msg) showComboBanner(msg, x, y);
   }
   return comboCount;

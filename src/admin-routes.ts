@@ -22,9 +22,8 @@ async function requireAdmin(request: Request, env: Env): Promise<{ ok: boolean; 
 
 export async function handleAdminMe(request: Request, env: Env): Promise<Response> {
   const session = await getSession(request, env);
-  if (!session) return json({ admin: false, loggedIn: false }, 200);
-  const admin = isAdminEmail(env, session.email);
-  return json({ admin, loggedIn: true, email: session.email, name: session.name });
+  const isAdmin = !!session && isAdminEmail(env, session.email);
+  return json({ loggedIn: !!session, isAdmin });
 }
 
 export async function handleAdminListGuideRequests(request: Request, env: Env): Promise<Response> {
@@ -33,24 +32,24 @@ export async function handleAdminListGuideRequests(request: Request, env: Env): 
   if (!env.GUIDE_REQUESTS) return json({ error: "Requests aren't configured yet" }, 503);
 
   let cursor: string | undefined;
-  const requests: Array<Record<string, unknown>> = [];
+  const items: Array<Record<string, unknown> | null> = [];
 
   do {
     const list = await env.GUIDE_REQUESTS.list({ prefix: "req:", cursor });
-    for (const key of list.keys) {
-      const raw = await env.GUIDE_REQUESTS.get(key.name);
-      if (!raw) continue;
+    for (const k of list.keys) {
+      const raw = await env.GUIDE_REQUESTS.get(k.name);
+      if (!raw) { items.push(null); continue; }
       try {
         const data = JSON.parse(raw);
-        requests.push({ id: key.name.slice(4), ...data });
+        items.push(Object.assign({ key: k.name }, data));
       } catch (e) {
-        continue;
+        items.push(null);
       }
     }
     cursor = list.list_complete ? undefined : list.cursor;
   } while (cursor);
 
-  requests.sort((a, b) => String(b.submittedAt).localeCompare(String(a.submittedAt)));
+  const requests = items.filter(Boolean).sort((a, b) => (String(a!.submittedAt) < String(b!.submittedAt) ? 1 : -1));
   return json({ requests });
 }
 
@@ -63,6 +62,17 @@ export async function handleAdminDeleteGuideRequest(request: Request, env: Env):
   const key = url.searchParams.get("key");
   if (!key || !key.startsWith("req:")) return json({ error: "Invalid key" }, 400);
 
+  const raw = await env.GUIDE_REQUESTS.get(key);
+  if (raw) {
+    try {
+      const data = JSON.parse(raw) as { files?: Array<{ key?: string } | null> };
+      if (Array.isArray(data.files)) {
+        await Promise.all(data.files.map(f => (f && f.key ? env.GUIDE_REQUESTS.delete(f.key) : null)));
+      }
+    } catch (e) {
+      // malformed record — still delete the primary key below
+    }
+  }
   await env.GUIDE_REQUESTS.delete(key);
   return json({ ok: true });
 }
@@ -72,21 +82,33 @@ export async function handleAdminStats(request: Request, env: Env): Promise<Resp
   if (!gate.ok) return gate.res!;
   if (!env.PROGRESS) return json({ error: "Stats aren't configured yet" }, 503);
 
+  const stats: { totalHumans: number; logins: Record<string, number>; humansByProvider: Record<string, number> } = { totalHumans: 0, logins: {}, humansByProvider: {} };
   let cursor: string | undefined;
-  let totalUsers = 0;
-  let totalProgress = 0;
-
-  do {
-    const list = await env.PROGRESS.list({ prefix: "progress:", cursor });
-    for (const key of list.keys) {
-      totalUsers++;
-      const raw = await env.PROGRESS.get(key.name);
-      if (raw) totalProgress++;
+  for (;;) {
+    const list = await env.PROGRESS.list({ prefix: "login:", cursor });
+    for (const k of list.keys) {
+      if (!k.name.startsWith("login:")) continue;
+      const raw = await env.PROGRESS.get(k.name);
+      if (!raw) continue;
+      let data: { providers?: Record<string, unknown> };
+      try {
+        data = JSON.parse(raw);
+      } catch (e) {
+        continue;
+      }
+      stats.totalHumans += 1;
+      const providers = (data && data.providers) || {};
+      for (const [p, count] of Object.entries(providers)) {
+        if (!(Number(count) > 0)) continue;
+        stats.logins[p] = (stats.logins[p] || 0) + Number(count);
+        stats.humansByProvider[p] = (stats.humansByProvider[p] || 0) + 1;
+      }
     }
-    cursor = list.list_complete ? undefined : list.cursor;
-  } while (cursor);
+    if (list.list_complete || !list.cursor) break;
+    cursor = list.cursor;
+  }
 
-  return json({ totalUsers, totalProgress });
+  return json(stats);
 }
 
 export async function handleAdminGetGuideRequestFile(request: Request, env: Env): Promise<Response> {

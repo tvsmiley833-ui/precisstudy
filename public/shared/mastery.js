@@ -36,7 +36,7 @@ export function computeReadiness(mastery, unitIds) {
     return { pct: null, assessedCount: 0, totalCount: unitIds.length };
   }
 
-  const sumPct = assessed.reduce((sum, record) => sum + (record.correct / record.total) * 100, 0);
+  const sumPct = assessed.reduce((sum, record) => sum + ((record?.correct ?? 0) / (record?.total || 1)) * 100, 0);
   return {
     pct: Math.round(sumPct / assessed.length),
     assessedCount: assessed.length,
@@ -54,12 +54,12 @@ export function recommendNext(mastery, unitIds, unitNames) {
   const assessed = unitIds
     .map(id => ({ id, record: mastery[String(id)] }))
     .filter(u => u.record && u.record.total >= 2)
-    .map(u => ({ id: u.id, pct: Math.round((u.record.correct / u.record.total) * 100) }));
+    .map(u => ({ id: u.id, pct: Math.round(((u.record?.correct ?? 0) / (u.record?.total || 1)) * 100) }));
 
   if (assessed.length === 0) return { type: "diagnostic" };
 
-  const weakest = assessed.reduce((min, u) => (u.pct < min.pct ? u : min), assessed[0]);
-  if (weakest.pct >= 80) return { type: "review" };
+  const weakest = assessed.reduce((min, u) => (min && u.pct < min.pct ? u : min || u));
+  if (!weakest || weakest.pct >= 80) return { type: "review" };
 
   return { type: "practice", unitId: weakest.id, unitName: unitNames[weakest.id], pct: weakest.pct };
 }
@@ -101,10 +101,12 @@ export function buildSchedule(mastery, unitIds, unitNames, days, minutesPerDay) 
 
   const hasExamDay = days >= 5;
   const studyDays = hasExamDay ? days - 1 : days;
+  /** @type {Array<{day: number; unitId?: number; unitName?: string; pct?: number | null; type?: "exam"}>} */
   const schedule = [];
 
   for (let i = 0; i < studyDays; i++) {
     const weakUnit = weak[i % weak.length];
+    if (!weakUnit) continue;
     schedule.push({
       day: i + 1,
       unitId: weakUnit.id,
@@ -168,13 +170,14 @@ async function touchStreak() {
  *   getSnapshot: () => MasteryState;
  *   getReadiness: () => { pct: number | null; assessedCount: number; totalCount: number };
  *   getRecommendation: () => { type: string; unitId?: number; unitName?: string; pct?: number };
- *   flushSyncNow: () => Promise<void>;
+ *   flushSyncNow: () => void;
  * }}
  */
 export function createMastery(subject, unitIds, unitNames) {
   const storageKey = "ssMastery_" + subject;
   /** @type {MasteryState} */
   let state = { mastery: {}, examples: {}, cardsKnown: [] };
+  /** @type {ReturnType<typeof setTimeout> | null} */
   let syncTimer = null;
   let dirty = false;
 
@@ -198,7 +201,7 @@ export function createMastery(subject, unitIds, unitNames) {
   async function pushToServer() {
     syncTimer = null;
     if (!dirty) return;
-    if (window.__ssSignedIn === false) { dirty = false; return; } // known signed-out (e.g. anonymous diagnostic) - don't spam 401s
+    if (/** @type {{ __ssSignedIn?: boolean }} */ (window).__ssSignedIn === false) { dirty = false; return; } // known signed-out (e.g. anonymous diagnostic) - don't spam 401s
     try {
       const res = await fetch("/api/progress", {
         method: "POST",
@@ -276,15 +279,23 @@ export function createMastery(subject, unitIds, unitNames) {
   };
 }
 
+/**
+ * Global window fields other scripts on subject pages rely on:
+ * - __ssSignedIn: set by page bootstrap before any sync runs
+ * - __ssMasteryInstances: all live createMastery() instances, for flush-on-hide
+ * @typedef {{ __ssSignedIn?: boolean; __ssMasteryInstances?: Array<{ flushSyncNow: () => void }> }} MasteryWindow
+ */
+
 if (typeof window !== "undefined") {
-  window.addEventListener("visibilitychange", () => {
-    if (document.hidden && window.__ssMasteryInstances) {
-      window.__ssMasteryInstances.forEach(m => m.flushSyncNow());
+  const w = /** @type {Window & typeof globalThis & MasteryWindow} */ (window);
+  w.addEventListener("visibilitychange", () => {
+    if (document.hidden && w.__ssMasteryInstances) {
+      w.__ssMasteryInstances.forEach(m => m.flushSyncNow());
     }
   });
-  window.addEventListener("beforeunload", () => {
-    if (window.__ssMasteryInstances) {
-      window.__ssMasteryInstances.forEach(m => m.flushSyncNow());
+  w.addEventListener("beforeunload", () => {
+    if (w.__ssMasteryInstances) {
+      w.__ssMasteryInstances.forEach(m => m.flushSyncNow());
     }
   });
 }

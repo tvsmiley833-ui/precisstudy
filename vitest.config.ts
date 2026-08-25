@@ -1,17 +1,14 @@
-import { defineConfig } from 'vitest/config';
-import { cloudflare } from 'vite-plugin-cloudflare';
+import { defineConfig } from "vitest/config";
+import { cloudflareTest } from "@cloudflare/vitest-pool-workers";
 
 export default defineConfig({
-  plugins: [cloudflare()],
   test: {
-    pool: 'workers',
-    poolOptions: {
-      workers: {
-        wrangler: { configPath: './wrangler.jsonc' },
-      },
-    },
-    environment: 'miniflare',
-    globals: true,
-    include: ['test/**/*.test.js'],
+    exclude: ["**/node_modules/**", "**/.claude/worktrees/**"]
   },
+  plugins: [
+    cloudflareTest({
+      main: "src/worker.ts",
+      wrangler: { configPath: "./wrangler.jsonc" }
+    })
+  ]
 });
