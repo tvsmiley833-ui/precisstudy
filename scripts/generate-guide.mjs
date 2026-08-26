@@ -96,7 +96,7 @@ export function generateGuide(config) {
     const surfTint="#"+mix(0.97);
     // Dark-mode-aware palette: derive darker accent variants for night reading
     const dAcc="#"+mix(0.45), dSoftA=0.16;
-    style += `\n<style>\n`+
+    style += `\n`+
       `:root:not([data-theme="dark"]){--accent:${accentColor}!important;--accent-ink:${inkDark}!important;--accent-soft:${soft}!important;--accent-border:${softBorder}!important;--bg:${bgTint}!important;}`+
       `[data-theme="dark"]{--accent:${dAcc}!important;--accent-soft:rgba(${r},${g},${b},${dSoftA})!important;--accent-border:rgba(${r},${g},${b},0.4)!important;--bg:#12182b!important;--surface:#1a2138!important;}`+
       `:root:not([data-theme="dark"]) .hero{background:linear-gradient(170deg,${inkDark} 0%,#${hex} 55%,${bgTint} 130%)!important;}`+
@@ -120,10 +120,8 @@ export function generateGuide(config) {
     const bp = bodyPattern(slug, accentColor);
     if (bp) {
       const bsvgUri = `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='${bp.size}' height='${bp.size}'>${encodeURIComponent(bp.svg.replace(/%23/g,'#').replace(/'/g,"\'")).replace(/%27/g,"'")}")`;
-      style += `\n<style id='subject-symbols'>\nbody::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:${bsvgUri};background-size:${bp.size}px ${bp.size}px;opacity:.9;}\n.page,.hero,.nav,.content,main,.wrap{position:relative;z-index:1}\n[data-theme="dark"] body::before{opacity:.5}\n</style>`;
+      style += `\nbody::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:${bsvgUri};background-size:${bp.size}px ${bp.size}px;opacity:.9;}\n.page,.hero,.nav,.content,main,.wrap{position:relative;z-index:1}\n[data-theme="dark"] body::before{opacity:.5}`;
     }
-    style += `</style>`;
-    style = style; // keep base sheet intact below ours so ours wins cascade order
   }
   html += `<style>\n${style}\n</style>\n`;
 
