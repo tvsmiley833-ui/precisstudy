@@ -99,7 +99,8 @@ export function generateGuide(config) {
     style += `\n<style>\n`+
       `:root:not([data-theme="dark"]){--accent:${accentColor}!important;--accent-ink:${inkDark}!important;--accent-soft:${soft}!important;--accent-border:${softBorder}!important;--bg:${bgTint}!important;}`+
       `[data-theme="dark"]{--accent:${dAcc}!important;--accent-soft:rgba(${r},${g},${b},${dSoftA})!important;--accent-border:rgba(${r},${g},${b},0.4)!important;--bg:#12182b!important;--surface:#1a2138!important;}`+
-      `.hero{background:linear-gradient(170deg,${inkDark} 0%,#${hex} 55%,${bgTint} 130%)!important;}`+
+      `:root:not([data-theme="dark"]) .hero{background:linear-gradient(170deg,${inkDark} 0%,#${hex} 55%,${bgTint} 130%)!important;}`+
+      `[data-theme="dark"] .hero{background:linear-gradient(170deg,#0a0e1c 0%,${inkDark} 45%,#${hex} 100%)!important;}`+
       `:root:not([data-theme="dark"]) .tab-btn.active,[data-theme="dark"] .tab-btn.active{background:#${hex};border-color:#${hex};color:#fff!important;}`+
       `.btn{background:#${hex};border-color:#${hex}} .unit.open .chevron{color:#${hex}}`+
       `.chip.on{background:#${hex};border-color:#${hex};color:#fff}`+

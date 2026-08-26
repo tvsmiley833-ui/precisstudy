@@ -1,12 +1,4 @@
 <div class="page">
-<div id="view-guide" class="view active">
-  <div style="display:flex;gap:8px;margin-bottom:10px;align-items:center">
-    <input id="search-box" placeholder="Search topics, terms, formulas…" oninput="searchGuide()" style="flex:1;padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:15px;background:var(--surface);color:var(--ink)">
-    <button onclick="clearSearch()" style="padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);font-size:13px;cursor:pointer;color:var(--ink-muted)">✕ Clear</button>
-  </div>
-  <div id="search-results" style="display:none;margin-bottom:12px"></div>
-  <div class="filter-row" id="filter-row">__FILTER_CHIPS__</div>
-  <div id="units"></div></div>
 <div class="spc-card" id="spc-card">
   <h2>See what your study plan could look like</h2>
   <p>Based on this guide's real question bank — __SPC_INTRO__</p>
@@ -28,6 +20,14 @@
     <span id="spc-tier-sub"></span>
   </div>
 </div>
+<div id="view-guide" class="view active">
+  <div style="display:flex;gap:8px;margin-bottom:10px;align-items:center">
+    <input id="search-box" placeholder="Search topics, terms, formulas…" oninput="searchGuide()" style="flex:1;padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:15px;background:var(--surface);color:var(--ink)">
+    <button onclick="clearSearch()" style="padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);font-size:13px;cursor:pointer;color:var(--ink-muted)">✕ Clear</button>
+  </div>
+  <div id="search-results" style="display:none;margin-bottom:12px"></div>
+  <div class="filter-row" id="filter-row">__FILTER_CHIPS__</div>
+  <div id="units"></div></div>
 <div id="view-cards" class="view">
   <div class="fc-bar">
     <select id="fc-sel" onchange="loadFC()"></select>

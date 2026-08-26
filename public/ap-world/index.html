@@ -328,8 +328,13 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 </style>
 
 <style>
-:root:not([data-theme="dark"]){--accent:#a16207!important;--accent-ink:#694005!important;--accent-soft:#f4ece1!important;--accent-border:#dbc3a1!important;--bg:#f6efe6!important;}[data-theme="dark"]{--accent:cba977!important;--accent-soft:rgba(161,98,7,0.16)!important;--accent-border:rgba(161,98,7,0.4)!important;--bg:#12182b!important;--surface:#1a2138!important;}.hero{background:linear-gradient(170deg,#694005 0%,#a16207 55%,#f6efe6 130%)!important;}:root:not([data-theme="dark"]) .tab-btn.active,[data-theme="dark"] .tab-btn.active{background:#a16207;border-color:#a16207;color:#fff!important;}.btn{background:#a16207;border-color:#a16207} .unit.open .chevron{color:#a16207}.chip.on{background:#a16207;border-color:#a16207;color:#fff}.spc-card{border-color:#dbc3a1;background:linear-gradient(135deg,#f4ece1,var(--surface))!important}
-.hero::after{background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='190' height='190'>%3Cpath%20d%3D'M10%20100%20Q95%2030%20180%20100'%20fill%3D'none'%20stroke%3D'%23a16207'%20stroke-width%3D'2'%20opacity%3D'.35'%2F%3E%3Cpath%20d%3D'M30%2096%20v8%20M70%2076%20v28%20M110%2066%20v38%20M150%2082%20v22'%20stroke%3D'%23a16207'%20stroke-width%3D'2.5'%20opacity%3D'.4'%2F%3E%3Ccircle%20cx%3D'30'%20cy%3D'100'%20r%3D'3.5'%20fill%3D'%23a16207'%20opacity%3D'.5'%2F%3E%3Ccircle%20cx%3D'150'%20cy%3D'93'%20r%3D'3.5'%20fill%3D'%23a16207'%20opacity%3D'.5'%2F%3E")!important;background-size:190px 190px!important;opacity:.5!important;}</style>
+:root:not([data-theme="dark"]){--accent:#a16207!important;--accent-ink:#694005!important;--accent-soft:#f4ece1!important;--accent-border:#dbc3a1!important;--bg:#f6efe6!important;}[data-theme="dark"]{--accent:#cba977!important;--accent-soft:rgba(161,98,7,0.16)!important;--accent-border:rgba(161,98,7,0.4)!important;--bg:#12182b!important;--surface:#1a2138!important;}:root:not([data-theme="dark"]) .hero{background:linear-gradient(170deg,#694005 0%,#a16207 55%,#f6efe6 130%)!important;}[data-theme="dark"] .hero{background:linear-gradient(170deg,#0a0e1c 0%,#694005 45%,#a16207 100%)!important;}:root:not([data-theme="dark"]) .tab-btn.active,[data-theme="dark"] .tab-btn.active{background:#a16207;border-color:#a16207;color:#fff!important;}.btn{background:#a16207;border-color:#a16207} .unit.open .chevron{color:#a16207}.chip.on{background:#a16207;border-color:#a16207;color:#fff}.spc-card{border-color:#dbc3a1;background:linear-gradient(135deg,#f4ece1,var(--surface))!important}
+.hero::after{background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='190' height='190'>%3Cpath%20d%3D'M10%20100%20Q95%2030%20180%20100'%20fill%3D'none'%20stroke%3D'%23a16207'%20stroke-width%3D'2'%20opacity%3D'.35'%2F%3E%3Cpath%20d%3D'M30%2096%20v8%20M70%2076%20v28%20M110%2066%20v38%20M150%2082%20v22'%20stroke%3D'%23a16207'%20stroke-width%3D'2.5'%20opacity%3D'.4'%2F%3E%3Ccircle%20cx%3D'30'%20cy%3D'100'%20r%3D'3.5'%20fill%3D'%23a16207'%20opacity%3D'.5'%2F%3E%3Ccircle%20cx%3D'150'%20cy%3D'93'%20r%3D'3.5'%20fill%3D'%23a16207'%20opacity%3D'.5'%2F%3E")!important;background-size:190px 190px!important;opacity:.5!important;}
+<style>
+html::before{content:'';position:fixed;inset:0;z-index:2147483646;pointer-events:none;background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='190' height='190'>%3Cpath%20d%3D'M20%20100%20Q95%2040%20170%20100'%20fill%3D'none'%20stroke%3D'%23a16207'%20stroke-width%3D'2'%20opacity%3D'.07'%2F%3E%3Cpath%20d%3D'M40%2095%20v10%20M80%2078%20v27%20M120%2068%20v37%20M155%2084%20v21'%20stroke%3D'%23a16207'%20stroke-width%3D'2'%20opacity%3D'.07'%2F%3E");background-size:190px 190px;opacity:.05;mix-blend-mode:multiply;}
+[data-theme="dark"] html::before{opacity:.07;mix-blend-mode:screen;}
+[data-theme="dark"] .hero::after{mix-blend-mode:normal}
+</style></style>
 </style>
 <script type="module">
   import { createMastery } from '/shared/mastery.js';
@@ -359,15 +364,8 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
       </button>
     </div>
   </div>
+</div>
 <div class="page">
-<div id="view-guide" class="view active">
-  <div style="display:flex;gap:8px;margin-bottom:10px;align-items:center">
-    <input id="search-box" placeholder="Search topics, terms, formulas…" oninput="searchGuide()" style="flex:1;padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:15px;background:var(--surface);color:var(--ink)">
-    <button onclick="clearSearch()" style="padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);font-size:13px;cursor:pointer;color:var(--ink-muted)">✕ Clear</button>
-  </div>
-  <div id="search-results" style="display:none;margin-bottom:12px"></div>
-  <div class="filter-row" id="filter-row"><button class="chip on">All Units</button><button class="chip">Unit 1</button><button class="chip">Unit 2</button><button class="chip">Unit 3</button><button class="chip">Unit 4</button><button class="chip">Unit 5</button><button class="chip">Unit 6</button><button class="chip">Unit 7</button><button class="chip">Unit 8</button></div>
-  <div id="units"></div></div>
 <div class="spc-card" id="spc-card">
   <h2>See what your study plan could look like</h2>
   <p>Based on this guide's real question bank — 320 practice questions across 8 units. Slide to match your situation.</p>
@@ -389,6 +387,14 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
     <span id="spc-tier-sub"></span>
   </div>
 </div>
+<div id="view-guide" class="view active">
+  <div style="display:flex;gap:8px;margin-bottom:10px;align-items:center">
+    <input id="search-box" placeholder="Search topics, terms, formulas…" oninput="searchGuide()" style="flex:1;padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:15px;background:var(--surface);color:var(--ink)">
+    <button onclick="clearSearch()" style="padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);font-size:13px;cursor:pointer;color:var(--ink-muted)">✕ Clear</button>
+  </div>
+  <div id="search-results" style="display:none;margin-bottom:12px"></div>
+  <div class="filter-row" id="filter-row"><button class="chip on">All Units</button><button class="chip">Unit 1</button><button class="chip">Unit 2</button><button class="chip">Unit 3</button><button class="chip">Unit 4</button><button class="chip">Unit 5</button><button class="chip">Unit 6</button><button class="chip">Unit 7</button><button class="chip">Unit 8</button></div>
+  <div id="units"></div></div>
 <div id="view-cards" class="view">
   <div class="fc-bar">
     <select id="fc-sel" onchange="loadFC()"></select>

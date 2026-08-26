@@ -328,7 +328,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 </style>
 
 <style>
-:root:not([data-theme="dark"]){--accent:#b91c1c!important;--accent-ink:#781212!important;--accent-soft:#f7e4e4!important;--accent-border:#e4a9a9!important;--bg:#f8e8e8!important;}[data-theme="dark"]{--accent:#d98282!important;--accent-soft:rgba(185,28,28,0.16)!important;--accent-border:rgba(185,28,28,0.4)!important;--bg:#12182b!important;--surface:#1a2138!important;}.hero{background:linear-gradient(170deg,#781212 0%,#b91c1c 55%,#f8e8e8 130%)!important;}:root:not([data-theme="dark"]) .tab-btn.active,[data-theme="dark"] .tab-btn.active{background:#b91c1c;border-color:#b91c1c;color:#fff!important;}.btn{background:#b91c1c;border-color:#b91c1c} .unit.open .chevron{color:#b91c1c}.chip.on{background:#b91c1c;border-color:#b91c1c;color:#fff}.spc-card{border-color:#e4a9a9;background:linear-gradient(135deg,#f7e4e4,var(--surface))!important}
+:root:not([data-theme="dark"]){--accent:#b91c1c!important;--accent-ink:#781212!important;--accent-soft:#f7e4e4!important;--accent-border:#e4a9a9!important;--bg:#f8e8e8!important;}[data-theme="dark"]{--accent:#d98282!important;--accent-soft:rgba(185,28,28,0.16)!important;--accent-border:rgba(185,28,28,0.4)!important;--bg:#12182b!important;--surface:#1a2138!important;}:root:not([data-theme="dark"]) .hero{background:linear-gradient(170deg,#781212 0%,#b91c1c 55%,#f8e8e8 130%)!important;}[data-theme="dark"] .hero{background:linear-gradient(170deg,#0a0e1c 0%,#781212 45%,#b91c1c 100%)!important;}:root:not([data-theme="dark"]) .tab-btn.active,[data-theme="dark"] .tab-btn.active{background:#b91c1c;border-color:#b91c1c;color:#fff!important;}.btn{background:#b91c1c;border-color:#b91c1c} .unit.open .chevron{color:#b91c1c}.chip.on{background:#b91c1c;border-color:#b91c1c;color:#fff}.spc-card{border-color:#e4a9a9;background:linear-gradient(135deg,#f7e4e4,var(--surface))!important}
 .hero::after{background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='175' height='175'>%3Ccircle%20cx%3D'45'%20cy%3D'45'%20r%3D'16'%20fill%3D'none'%20stroke%3D'%23b91c1c'%20stroke-width%3D'3'%20opacity%3D'.4'%2F%3E%3Ccircle%20cx%3D'45'%20cy%3D'45'%20r%3D'8'%20fill%3D'none'%20stroke%3D'%23b91c1c'%20stroke-width%3D'2.5'%20opacity%3D'.5'%2F%3E%3Ccircle%20cx%3D'45'%20cy%3D'45'%20r%3D'2.5'%20fill%3D'%23b91c1c'%20opacity%3D'.6'%2F%3E%3Cpath%20d%3D'M130%20105%20h30%20M145%2090%20v30'%20stroke%3D'%23b91c1c'%20stroke-width%3D'2.5'%20opacity%3D'.35'%2F%3E")!important;background-size:175px 175px!important;opacity:.5!important;}
 <style>
 html::before{content:'';position:fixed;inset:0;z-index:2147483646;pointer-events:none;background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='190' height='190'>%3Ccircle%20cx%3D'45'%20cy%3D'45'%20r%3D'14'%20fill%3D'none'%20stroke%3D'%23b91c1c'%20stroke-width%3D'2'%20opacity%3D'.08'%2F%3E%3Cpath%20d%3D'M39%2059%20v6%20h12%20v-6'%20fill%3D'none'%20stroke%3D'%23b91c1c'%20stroke-width%3D'2'%20opacity%3D'.08'%2F%3E%3Cpath%20d%3D'M122%20112%20h34%20M122%20124%20h24'%20stroke%3D'%23b91c1c'%20stroke-width%3D'2.4'%20opacity%3D'.07'%2F%3E");background-size:190px 190px;opacity:.05;mix-blend-mode:multiply;}
@@ -364,15 +364,8 @@ html::before{content:'';position:fixed;inset:0;z-index:2147483646;pointer-events
       </button>
     </div>
   </div>
+</div>
 <div class="page">
-<div id="view-guide" class="view active">
-  <div style="display:flex;gap:8px;margin-bottom:10px;align-items:center">
-    <input id="search-box" placeholder="Search topics, terms, formulas…" oninput="searchGuide()" style="flex:1;padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:15px;background:var(--surface);color:var(--ink)">
-    <button onclick="clearSearch()" style="padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);font-size:13px;cursor:pointer;color:var(--ink-muted)">✕ Clear</button>
-  </div>
-  <div id="search-results" style="display:none;margin-bottom:12px"></div>
-  <div class="filter-row" id="filter-row"><button class="chip on">All Units</button><button class="chip">Unit 1</button><button class="chip">Unit 2</button><button class="chip">Unit 3</button><button class="chip">Unit 4</button><button class="chip">Unit 5</button><button class="chip">Unit 6</button><button class="chip">Unit 7</button><button class="chip">Unit 8</button></div>
-  <div id="units"></div></div>
 <div class="spc-card" id="spc-card">
   <h2>See what your study plan could look like</h2>
   <p>Based on this guide's real question bank — 320 practice questions across 8 units. Slide to match your situation.</p>
@@ -394,6 +387,14 @@ html::before{content:'';position:fixed;inset:0;z-index:2147483646;pointer-events
     <span id="spc-tier-sub"></span>
   </div>
 </div>
+<div id="view-guide" class="view active">
+  <div style="display:flex;gap:8px;margin-bottom:10px;align-items:center">
+    <input id="search-box" placeholder="Search topics, terms, formulas…" oninput="searchGuide()" style="flex:1;padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:15px;background:var(--surface);color:var(--ink)">
+    <button onclick="clearSearch()" style="padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);font-size:13px;cursor:pointer;color:var(--ink-muted)">✕ Clear</button>
+  </div>
+  <div id="search-results" style="display:none;margin-bottom:12px"></div>
+  <div class="filter-row" id="filter-row"><button class="chip on">All Units</button><button class="chip">Unit 1</button><button class="chip">Unit 2</button><button class="chip">Unit 3</button><button class="chip">Unit 4</button><button class="chip">Unit 5</button><button class="chip">Unit 6</button><button class="chip">Unit 7</button><button class="chip">Unit 8</button></div>
+  <div id="units"></div></div>
 <div id="view-cards" class="view">
   <div class="fc-bar">
     <select id="fc-sel" onchange="loadFC()"></select>
