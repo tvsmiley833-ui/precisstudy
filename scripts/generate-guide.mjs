@@ -112,11 +112,15 @@ export function generateGuide(config) {
       const svgUri = `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='${pat.size}' height='${pat.size}'>${encodeURIComponent(pat.svg.replace(/%23/g,'#').replace(/'/g,"\'")).replace(/%27/g,"'")}")`;
       style += `\n.hero::after{background-image:${svgUri}!important;background-size:${pat.size}px ${pat.size}px!important;opacity:.5!important;}`;
     }
-    // Page-wide subtle symbol watermark (body layer)
+    // Page-wide subtle symbol watermark (body layer) — matches the hand-authored
+    // pages: a low z-index full-viewport layer behind content, with content
+    // wrappers lifted to z-index:1 so the watermark is visible but never
+    // obscures text (a high z-index fixed layer would sit ON TOP of normal-flow
+    // content instead).
     const bp = bodyPattern(slug, accentColor);
     if (bp) {
       const bsvgUri = `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='${bp.size}' height='${bp.size}'>${encodeURIComponent(bp.svg.replace(/%23/g,'#').replace(/'/g,"\'")).replace(/%27/g,"'")}")`;
-      style += `\n<style>\nhtml::before{content:'';position:fixed;inset:0;z-index:2147483646;pointer-events:none;background-image:${bsvgUri};background-size:${bp.size}px ${bp.size}px;opacity:.05;mix-blend-mode:multiply;}\n[data-theme="dark"] html::before{opacity:.07;mix-blend-mode:screen;}\n[data-theme="dark"] .hero::after{mix-blend-mode:normal}\n</style>`;
+      style += `\n<style id='subject-symbols'>\nbody::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:${bsvgUri};background-size:${bp.size}px ${bp.size}px;opacity:.9;}\n.page,.hero,.nav,.content,main,.wrap{position:relative;z-index:1}\n[data-theme="dark"] body::before{opacity:.5}\n</style>`;
     }
     style += `</style>`;
     style = style; // keep base sheet intact below ours so ours wins cascade order
