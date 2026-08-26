@@ -109,7 +109,7 @@ export function generateGuide(config) {
     // Per-subject unique hero motif (replaces the shared starfield)
     const pat = heroPattern(slug, accentColor);
     if (pat) {
-      const svgUri = `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='${pat.size}' height='${pat.size}'>${encodeURIComponent(pat.svg.replace(/%23/g,'#').replace(/'/g,"\'")).replace(/%27/g,"'")}")`;
+      const svgUri = `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='${pat.size}' height='${pat.size}'>${pat.svg.replace(/%23/g,'#')}</svg>`)}")`;
       style += `\n.hero::after{background-image:${svgUri}!important;background-size:${pat.size}px ${pat.size}px!important;opacity:.5!important;}`;
     }
     // Page-wide subtle symbol watermark (body layer) — matches the hand-authored
@@ -119,7 +119,7 @@ export function generateGuide(config) {
     // content instead).
     const bp = bodyPattern(slug, accentColor);
     if (bp) {
-      const bsvgUri = `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='${bp.size}' height='${bp.size}'>${encodeURIComponent(bp.svg.replace(/%23/g,'#').replace(/'/g,"\'")).replace(/%27/g,"'")}")`;
+      const bsvgUri = `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='${bp.size}' height='${bp.size}'>${bp.svg.replace(/%23/g,'#')}</svg>`)}")`;
       style += `\nbody::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:${bsvgUri};background-size:${bp.size}px ${bp.size}px;opacity:.9;}\n.page,.hero,.nav,.content,main,.wrap{position:relative;z-index:1}\n[data-theme="dark"] body::before{opacity:.5}`;
     }
   }
