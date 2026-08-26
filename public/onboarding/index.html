@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Getting Started — PrecisStudy</title>
+<style>
+/* ===== Homepage-matched theme (PrecisStudy green/paper) ===== */
+:root{
+  --bg:#eef1ea;            /* homepage paper */
+  --surface:#ffffff;
+  --surface-2:#e3e9df;
+  --border:#d4dccd;
+  --text:#14302a;          /* homepage deep green ink */
+  --text-muted:#5c6f66;
+  --accent:#23744f;        /* homepage green */
+  --accent-soft:rgba(35,116,79,.10);
+  --green:#23744f;--green-soft:#e2efe7;
+}
+[data-theme="dark"]{
+  --bg:#14302a;
+  --surface:#1b4038;
+  --surface-2:#173931;
+  --border:#2a5348;
+  --text:#eef5f0;
+  --text-muted:#a3bdb1;
+  --accent:#5ec493;
+  --accent-soft:rgba(94,196,147,.12);
+  --green:#5ec493;--green-soft:rgba(94,196,147,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:24px 16px}
+.wrap{max-width:600px;margin:0 auto;position:relative}
+.topnav{display:flex;justify-content:center;margin-bottom:26px;gap:18px;font-size:13.5px}
+.topnav a{color:var(--text-muted);text-decoration:none;font-weight:600}
+.topnav a:hover{color:var(--accent)}
+.card{background:var(--surface);border:2px solid var(--border);border-radius:20px;padding:32px 30px;position:relative}
+h1{font-size:25px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;color:var(--text)}
+.sub{color:var(--text-muted);font-size:15px;line-height:1.55;margin-bottom:24px}
+.theme-btn{position:absolute;top:22px;right:22px;background:var(--surface-2);border:1.5px solid var(--border);border-radius:11px;padding:7px 12px;cursor:pointer;color:var(--text);font-size:15px;transition:border-color .15s}
+.theme-btn:hover{border-color:var(--accent)}
+.progress-bar{height:9px;background:var(--surface-2);border-radius:99px;overflow:hidden;margin-bottom:6px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),#3fa471);border-radius:99px;width:0%;transition:width .45s cubic-bezier(.22,1,.36,1)}
+.pct-row{display:flex;justify-content:space-between;font-size:12.5px;color:var(--text-muted);margin-bottom:16px}
+.step{display:flex;gap:15px;padding:15px 14px;border-radius:14px;border:2px solid transparent;cursor:pointer;transition:all .15s;align-items:flex-start}
+.step:hover{background:var(--accent-soft);border-color:transparent}
+.step.done .box{background:var(--green);border-color:var(--green)}
+.step.done .box svg{display:block}
+.step.done h3{text-decoration:line-through;text-decoration-thickness:2px;opacity:.75}
+.step.done .go{visibility:hidden}
+.box{width:27px;height:27px;border-radius:9px;border:2.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;background:var(--surface)}
+.box svg{display:none;width:14px;height:14px;stroke:var(--bg);stroke-width:3.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.step.done .num{display:none}
+.num{width:27px;height:27px;border-radius:50%;background:var(--accent);color:#fff;font-weight:800;font-size:13.5px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+[data-theme="dark"] .num,[data-theme="dark"] .step.done .box{color:#14302a}
+[data-theme="dark"] .box svg{stroke:#14302a}
+.step-body h3{font-size:16.5px;font-weight:750;margin-bottom:3px;color:var(--text)}
+.step-body p{font-size:13.5px;color:var(--text-muted);line-height:1.5}
+.go{margin-top:7px;display:inline-flex;align-items:center;gap:5px;color:var(--accent);font-size:13.5px;font-weight:700;text-decoration:none;background:none;border:none;padding:0;cursor:pointer;font-family:inherit}
+.go:hover{text-decoration:underline}
+.finish{margin-top:22px;padding:16px 18px;border-radius:14px;background:var(--green-soft);border:1.5px solid var(--green);display:none;align-items:center;gap:12px}
+.finish.show{display:flex}
+.finish b{color:var(--green)}
+[data-theme="dark"] .finish b{color:#8fe0b8}
+.finish div div{font-size:13px;color:var(--text-muted)}
+.finish a{margin-left:auto;background:var(--green);color:var(--bg);text-decoration:none;font-weight:800;font-size:14px;padding:10px 20px;border-radius:11px;white-space:nowrap}
+.skip{display:block;text-align:center;margin-top:18px;color:var(--text-muted);font-size:13.5px;text-decoration:none}
+.skip:hover{color:var(--text)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="topnav"><a href="/">← Home</a><a href="/dashboard">Dashboard</a><a href="/settings">Settings</a></nav>
+  <div class="card">
+    <button class="theme-btn" id="theme-btn" title="Toggle light/dark">🌙</button>
+    <h1>Let's get you set up 🎯</h1>
+    <p class="sub">Four quick steps and PrecisStudy will feel like it was built just for you.</p>
+
+    <div class="pct-row"><span id="pl-label">Step 1 of 4</span><span id="pl-pct">0%</span></div>
+    <div class="progress-bar"><div class="progress-fill" id="pf"></div></div>
+
+    <div class="step" data-step="settings">
+      <div class="num">1</div><div class="box"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <div class="step-body">
+        <h3>Customize your settings</h3>
+        <p>Pick the classes you're taking so the homepage shows only what matters to you.</p>
+        <button class="go" data-href="/settings">Open Settings →</button>
+      </div>
+    </div>
+
+    <div class="step" data-step="dashboard">
+      <div class="num">2</div><div class="box"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <div class="step-body">
+        <h3>Set up your dashboard & study plan</h3>
+        <p>Add free-time blocks and prioritize subjects — we'll build your weekly schedule automatically.</p>
+        <button class="go" data-href="/dashboard">Go to Dashboard →</button>
+      </div>
+    </div>
+
+    <div class="step" data-step="diagnostic">
+      <div class="num">3</div><div class="box"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <div class="step-body">
+        <h3>Take a 5-minute diagnostic</h3>
+        <p>Two questions per unit finds your weak spots so every practice session targets exactly what you need.</p>
+        <button class="go" data-href="/">Pick a subject →</button>
+      </div>
+    </div>
+
+    <div class="step" data-step="theme">
+      <div class="num">4</div><div class="box"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <div class="step-body">
+        <h3>Try dark mode</h3>
+        <p>Late-night cramming? Toggle light/dark anytime with the moon button — try it right there ↗</p>
+        <button class="go" id="try-theme">Toggle now →</button>
+      </div>
+    </div>
+
+    <div class="finish" id="finish">
+      <span style="font-size:24px">🎉</span>
+      <div><b>You're all set!</b><div>Your account is customized and ready to go.</div></div>
+      <a href="/">Start studying</a>
+    </div>
+
+    <a class="skip" href="/" id="skip-link">Skip for now — I'll explore on my own</a>
+  </div>
+</div>
+<script>
+(function(){
+  var KEY='ps-onboarding-v1';
+  var state={};
+  try{ state=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){}
+  function save(){ try{ localStorage.setItem(KEY,JSON.stringify(state)); }catch(e){} }
+  function applyTheme(t){
+    document.documentElement.setAttribute('data-theme',t);
+    document.getElementById('theme-btn').textContent = t==='dark' ? '☀️' : '🌙';
+    try{ localStorage.setItem('ss-theme',t); }catch(e){}
+  }
+  // restore theme
+  var saved=null; try{ saved=localStorage.getItem('ss-theme'); }catch(e){}
+  if(saved) applyTheme(saved);
+  else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) applyTheme('dark');
+
+  var steps=[].slice.call(document.querySelectorAll('.step'));
+  function render(){
+    var done=0;
+    steps.forEach(function(el){
+      var isDone=!!state[el.getAttribute('data-step')];
+      el.classList.toggle('done',isDone);
+      if(isDone)done++;
+    });
+    var pct=Math.round(done/steps.length*100);
+    document.getElementById('pf').style.width=pct+'%';
+    document.getElementById('pl-pct').textContent=pct+'%';
+    document.getElementById('pl-label').textContent = done===steps.length ? 'All steps complete!' : 'Step '+Math.min(done+1,steps.length)+' of '+steps.length;
+    document.getElementById('finish').classList.toggle('show',done===steps.length);
+    save();
+  }
+  function mark(k){ state[k]=true; render(); }
+
+  // whole step is clickable → navigates via its button's target
+  steps.forEach(function(el){
+    el.addEventListener('click',function(){
+      mark(el.getAttribute('data-step'));
+    });
+  });
+  // action buttons navigate AND mark
+  [].slice.call(document.querySelectorAll('.go[data-href]')).forEach(function(b){
+    b.addEventListener('click',function(ev){
+      ev.stopPropagation();
+      var step=b.closest('.step');
+      if(step) mark(step.getAttribute('data-step'));
+      location.href=b.getAttribute('data-href');
+    });
+  });
+  // theme toggles
+  function toggleTheme(){ applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'); }
+  document.getElementById('theme-btn').addEventListener('click',function(ev){
+    ev.stopPropagation(); toggleTheme(); mark('theme');
+  });
+  document.getElementById('try-theme').addEventListener('click',function(ev){
+    ev.stopPropagation(); toggleTheme(); mark('theme');
+  });
+  // skip persists dismissal
+  document.getElementById('skip-link').addEventListener('click',function(){
+    state.skipped=true; save();
+  });
+  render();
+})();
+</script>
+</body>
+</html>

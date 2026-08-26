@@ -302,7 +302,7 @@ document.addEventListener('click', function(e){
 
 <script type="module">
 import { computeReadiness, recommendNext, buildSchedule } from '/shared/mastery.js';
-import { geometryUnits, chemistryUnits, algebra1Units, algebra2Units, aplangUnits, globalHistoryUnits, apbiologyUnits, apushUnits, physicsUnits, biologyUnits, precalcUnits } from '/shared/unit-titles.js';
+import { geometryUnits, chemistryUnits, algebra1Units, algebra2Units, aplangUnits, globalHistoryUnits, apbiologyUnits, apushUnits, physicsUnits, biologyUnits, precalcUnits, usGovernmentUnits, actPrepUnits, anatomyUnits, apChemistryUnits, apCsaUnits, apEuroUnits, apMacroUnits, apMicroUnits, apPhysicsUnits, apPsychUnits, apStatsUnits, apUsgovUnits, apWorldUnits, artHistoryUnits, astronomyUnits, computerScienceUnits, creativeWritingUnits, earthScienceUnits, economicsUnits, english10Units, english9Units, environmentalScienceUnits, french1Units, geographyUnits, german1Units, healthUnits, journalismUnits, musicTheoryUnits, psychologyUnits, satMathUnits, satReadingUnits, sociologyUnits, spanish1Units, spanish2Units, spanish3Units, speechDebateUnits, statisticsUnits, studySkillsUnits, worldHistoryUnits } from '/shared/unit-titles.js';
 
 const SUBJECTS_CONFIG = [
   { key: 'geometry', label: 'Geometry', href: '/geometry', units: geometryUnits },
@@ -315,7 +315,46 @@ const SUBJECTS_CONFIG = [
   { key: 'apush', label: 'APUSH', href: '/apush', units: apushUnits },
   { key: 'physics', label: 'Physics', href: '/physics', units: physicsUnits },
   { key: 'biology', label: 'Biology', href: '/biology', units: biologyUnits },
-  { key: 'precalc', label: 'PreCalculus', href: '/precalc', units: precalcUnits }
+  { key: 'precalc', label: 'PreCalculus', href: '/precalc', units: precalcUnits },
+  { key: 'act-prep', label: 'ACT Prep', href: '/act-prep', units: actPrepUnits },
+  { key: 'anatomy', label: 'Anatomy & Physiology', href: '/anatomy', units: anatomyUnits },
+  { key: 'ap-chemistry', label: 'AP Chemistry', href: '/ap-chemistry', units: apChemistryUnits },
+  { key: 'ap-csa', label: 'AP Computer Science A', href: '/ap-csa', units: apCsaUnits },
+  { key: 'ap-euro', label: 'AP European History', href: '/ap-euro', units: apEuroUnits },
+  { key: 'ap-macro', label: 'AP Macroeconomics', href: '/ap-macro', units: apMacroUnits },
+  { key: 'ap-micro', label: 'AP Microeconomics', href: '/ap-micro', units: apMicroUnits },
+  { key: 'ap-physics', label: 'AP Physics 1', href: '/ap-physics', units: apPhysicsUnits },
+  { key: 'ap-psych', label: 'AP Psychology', href: '/ap-psych', units: apPsychUnits },
+  { key: 'ap-stats', label: 'AP Statistics', href: '/ap-stats', units: apStatsUnits },
+  { key: 'ap-usgov', label: 'AP US Government', href: '/ap-usgov', units: apUsgovUnits },
+  { key: 'ap-world', label: 'AP World History', href: '/ap-world', units: apWorldUnits },
+  { key: 'art-history', label: 'Art History', href: '/art-history', units: artHistoryUnits },
+  { key: 'astronomy', label: 'Astronomy', href: '/astronomy', units: astronomyUnits },
+  { key: 'computer-science', label: 'Computer Science', href: '/computer-science', units: computerScienceUnits },
+  { key: 'creative-writing', label: 'Creative Writing', href: '/creative-writing', units: creativeWritingUnits },
+  { key: 'earth-science', label: 'Earth Science', href: '/earth-science', units: earthScienceUnits },
+  { key: 'economics', label: 'Economics', href: '/economics', units: economicsUnits },
+  { key: 'english-10', label: 'English 10', href: '/english-10', units: english10Units },
+  { key: 'english-9', label: 'English 9', href: '/english-9', units: english9Units },
+  { key: 'environmental-science', label: 'Environmental Science', href: '/environmental-science', units: environmentalScienceUnits },
+  { key: 'french-1', label: 'French 1', href: '/french-1', units: french1Units },
+  { key: 'geography', label: 'Geography', href: '/geography', units: geographyUnits },
+  { key: 'german-1', label: 'German 1', href: '/german-1', units: german1Units },
+  { key: 'health', label: 'Health', href: '/health', units: healthUnits },
+  { key: 'journalism', label: 'Journalism', href: '/journalism', units: journalismUnits },
+  { key: 'music-theory', label: 'Music Theory', href: '/music-theory', units: musicTheoryUnits },
+  { key: 'psychology', label: 'Psychology', href: '/psychology', units: psychologyUnits },
+  { key: 'sat-math', label: 'SAT Math Prep', href: '/sat-math', units: satMathUnits },
+  { key: 'sat-reading', label: 'SAT Reading & Writing', href: '/sat-reading', units: satReadingUnits },
+  { key: 'sociology', label: 'Sociology', href: '/sociology', units: sociologyUnits },
+  { key: 'spanish-1', label: 'Spanish 1', href: '/spanish-1', units: spanish1Units },
+  { key: 'spanish-2', label: 'Spanish 2', href: '/spanish-2', units: spanish2Units },
+  { key: 'spanish-3', label: 'Spanish 3', href: '/spanish-3', units: spanish3Units },
+  { key: 'speech-debate', label: 'Speech & Debate', href: '/speech-debate', units: speechDebateUnits },
+  { key: 'statistics', label: 'Statistics', href: '/statistics', units: statisticsUnits },
+  { key: 'study-skills', label: 'Study Skills', href: '/study-skills', units: studySkillsUnits },
+  { key: 'us-government', label: 'US Government', href: '/us-government', units: usGovernmentUnits },
+  { key: 'world-history', label: 'World History', href: '/world-history', units: worldHistoryUnits },
 ];
 
 function statusColor(pct) {

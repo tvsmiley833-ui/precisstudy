@@ -6,6 +6,9 @@
 // exam mount point. Subject-specific content is injected at __TOKENS__.
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { join, dirname } from "node:path";
+import { createRequire } from "node:module";
+const require = createRequire(import.meta.url);
+const { heroPattern, bodyPattern } = require("./hero-patterns.cjs");
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -71,7 +74,51 @@ export function generateGuide(config) {
     .replace(/__FONT_URL__/g, fontUrl);
 
   let style = templateStyle;
-  if (accentColor) style = style.replace(":root{", `:root{ --accent:${accentColor}; --accent-ink:${accentColor};`);
+  if (accentColor) {
+    // Derive a full themed palette from the single accent color and append AFTER
+    // the template :root so these win the cascade over the defaults.
+    const hex = accentColor.replace("#","");
+    const r=parseInt(hex.slice(0,2),16), g=parseInt(hex.slice(2,4),16), b=parseInt(hex.slice(4,6),16);
+    const mix=(t)=>Math.round(r+(255-r)*t).toString(16).padStart(2,"0")
+                 + Math.round(g+(255-g)*t).toString(16).padStart(2,"0")
+                 + Math.round(b+(255-b)*t).toString(16).padStart(2,"0");
+    const darken=(t)=>{
+      const rr=Math.max(0,Math.round(r*(1-t))), gg=Math.max(0,Math.round(g*(1-t))), bb=Math.max(0,Math.round(b*(1-t)));
+      return rr.toString(16).padStart(2,"0")+gg.toString(16).padStart(2,"0")+bb.toString(16).padStart(2,"0");
+    };
+    const soft="#"+mix(0.88);
+    const softBorder="#"+mix(0.62);
+    const inkDark="#"+darken(0.35);
+    const themeBlock = `:root{--accent:#${hex};--accent-ink:${inkDark};--accent-soft:${soft};`+
+      `--accent-border:${softBorder};}`;
+    // also tint page background & surfaces subtly toward the accent
+    const bgTint="#"+mix(0.90);
+    const surfTint="#"+mix(0.97);
+    // Dark-mode-aware palette: derive darker accent variants for night reading
+    const dAcc="#"+mix(0.45), dSoftA=0.16;
+    style += `\n<style>\n`+
+      `:root:not([data-theme="dark"]){--accent:${accentColor}!important;--accent-ink:${inkDark}!important;--accent-soft:${soft}!important;--accent-border:${softBorder}!important;--bg:${bgTint}!important;}`+
+      `[data-theme="dark"]{--accent:${dAcc}!important;--accent-soft:rgba(${r},${g},${b},${dSoftA})!important;--accent-border:rgba(${r},${g},${b},0.4)!important;--bg:#12182b!important;--surface:#1a2138!important;}`+
+      `.hero{background:linear-gradient(170deg,${inkDark} 0%,#${hex} 55%,${bgTint} 130%)!important;}`+
+      `:root:not([data-theme="dark"]) .tab-btn.active,[data-theme="dark"] .tab-btn.active{background:#${hex};border-color:#${hex};color:#fff!important;}`+
+      `.btn{background:#${hex};border-color:#${hex}} .unit.open .chevron{color:#${hex}}`+
+      `.chip.on{background:#${hex};border-color:#${hex};color:#fff}`+
+      `.spc-card{border-color:${softBorder};background:linear-gradient(135deg,${soft},var(--surface))!important}`;
+    // Per-subject unique hero motif (replaces the shared starfield)
+    const pat = heroPattern(slug, accentColor);
+    if (pat) {
+      const svgUri = `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='${pat.size}' height='${pat.size}'>${encodeURIComponent(pat.svg.replace(/%23/g,'#').replace(/'/g,"\'")).replace(/%27/g,"'")}")`;
+      style += `\n.hero::after{background-image:${svgUri}!important;background-size:${pat.size}px ${pat.size}px!important;opacity:.5!important;}`;
+    }
+    // Page-wide subtle symbol watermark (body layer)
+    const bp = bodyPattern(slug, accentColor);
+    if (bp) {
+      const bsvgUri = `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='${bp.size}' height='${bp.size}'>${encodeURIComponent(bp.svg.replace(/%23/g,'#').replace(/'/g,"\'")).replace(/%27/g,"'")}")`;
+      style += `\n<style>\nhtml::before{content:'';position:fixed;inset:0;z-index:2147483646;pointer-events:none;background-image:${bsvgUri};background-size:${bp.size}px ${bp.size}px;opacity:.05;mix-blend-mode:multiply;}\n[data-theme="dark"] html::before{opacity:.07;mix-blend-mode:screen;}\n[data-theme="dark"] .hero::after{mix-blend-mode:normal}\n</style>`;
+    }
+    style += `</style>`;
+    style = style; // keep base sheet intact below ours so ours wins cascade order
+  }
   html += `<style>\n${style}\n</style>\n`;
 
   html += templateWiring;
