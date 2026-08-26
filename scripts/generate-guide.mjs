@@ -104,7 +104,8 @@ export function generateGuide(config) {
       `:root:not([data-theme="dark"]) .tab-btn.active,[data-theme="dark"] .tab-btn.active{background:#${hex};border-color:#${hex};color:#fff!important;}`+
       `.btn{background:#${hex};border-color:#${hex}} .unit.open .chevron{color:#${hex}}`+
       `.chip.on{background:#${hex};border-color:#${hex};color:#fff}`+
-      `.spc-card{border-color:${softBorder};background:linear-gradient(135deg,${soft},var(--surface))!important}`;
+      `:root:not([data-theme="dark"]) .spc-card{border-color:${softBorder};background:linear-gradient(135deg,${soft},var(--surface))!important}`+
+      `[data-theme="dark"] .spc-card{border-color:rgba(${r},${g},${b},0.4);background:linear-gradient(135deg,rgba(${r},${g},${b},0.16),var(--surface))!important}`;
     // Per-subject unique hero motif (replaces the shared starfield)
     const pat = heroPattern(slug, accentColor);
     if (pat) {
