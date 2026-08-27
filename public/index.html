@@ -259,12 +259,19 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
     if (e.key === 'Escape') ssCloseMobileMenu();
   });
   window.addEventListener('resize', function(){ if (!isMobile()) ssCloseMobileMenu(); });
-  try {
-    if (isMobile() && !localStorage.getItem('ss-mobile-menu-hint-seen')) {
-      var hint = document.getElementById('ss-mobile-hint');
-      if (hint) { hint.style.display = 'flex'; setTimeout(ssDismissMobileHint, 8000); }
-    }
-  } catch(e){}
+  function maybeShowHint(){
+    try {
+      if (isMobile() && !localStorage.getItem('ss-mobile-menu-hint-seen')) {
+        var hint = document.getElementById('ss-mobile-hint');
+        if (hint) { hint.style.display = 'flex'; setTimeout(ssDismissMobileHint, 8000); }
+      }
+    } catch(e){}
+  }
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    setTimeout(maybeShowHint, 0);
+  } else {
+    document.addEventListener('DOMContentLoaded', maybeShowHint);
+  }
 })();
 </script>
 <style>
