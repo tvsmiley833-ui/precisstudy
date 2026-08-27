@@ -192,9 +192,13 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 
 <a href="#main-content" class="ss-skip-link" style="position:absolute;left:-9999px;top:0;z-index:100;background:var(--accent-solid);color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;text-decoration:none;">Skip to main content</a>
 
-<div role="banner" class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:var(--bg-header);border-bottom:1px solid var(--border);">
-  <div style="font-weight:800;font-size:22px;color:var(--nav-text);display:flex;align-items:center;gap:8px;">
+<div role="banner" class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:var(--bg-header);border-bottom:1px solid var(--border);position:relative;">
+  <button id="ss-logo-btn" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="ss-mobile-menu" onclick="ssLogoClick()" style="font-weight:800;font-size:22px;color:var(--nav-text);display:flex;align-items:center;gap:8px;background:none;border:none;padding:0;cursor:pointer;font-family:inherit;">
     <span style="display:inline-block;width:28px;height:28px;position:relative;flex-shrink:0;"><img src="/logo-icon.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;" class="ss-logo-light"/><img src="/logo-icon-dark.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;display:none;" class="ss-logo-dark"/></span>PrecisStudy
+  </button>
+  <div id="ss-mobile-hint" role="status" style="display:none;position:absolute;top:100%;left:32px;margin-top:8px;background:var(--accent-solid);color:#fff;padding:10px 14px;border-radius:10px;font-size:13px;font-weight:600;z-index:50;box-shadow:0 8px 20px -8px rgba(0,0,0,.4);align-items:center;gap:8px;">
+    <span>Tap the logo for the menu</span>
+    <button type="button" onclick="ssDismissMobileHint()" aria-label="Dismiss" style="background:rgba(255,255,255,.2);border:none;color:#fff;width:20px;height:20px;border-radius:50%;cursor:pointer;font-size:13px;line-height:1;flex-shrink:0;">×</button>
   </div>
   <div role="navigation" aria-label="Main" class="nav-links" style="display:flex;gap:16px;font-weight:600;font-size:15px;color:var(--nav-text);align-items:center;">
     <a href="#classes-section" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Browse Subjects</a>
@@ -211,7 +215,58 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
     <div id="ss-account-area" style="position:relative;"></div>
     <a href="/geometry" class="ss-cta-btn" style="background:var(--accent-solid);color:#fff;padding:8px 18px;border-radius:999px;text-decoration:none;white-space:nowrap;">Start with Geometry →</a>
   </div>
+  <div id="ss-mobile-menu" role="menu" aria-label="Main" style="display:none;position:absolute;top:100%;right:16px;margin-top:8px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;box-shadow:0 12px 32px -12px rgba(0,0,0,.35);padding:8px;min-width:200px;z-index:60;flex-direction:column;">
+    <a role="menuitem" href="#classes-section" onclick="ssCloseMobileMenu()" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Browse Subjects</a>
+    <a role="menuitem" href="#how-it-works" onclick="ssCloseMobileMenu()" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">How It Works</a>
+    <a role="menuitem" href="/about" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Who Are We</a>
+    <a role="menuitem" href="/request" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Request a Guide</a>
+    <a role="menuitem" href="/dashboard" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Dashboard</a>
+    <a role="menuitem" href="/onboarding" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Get Started</a>
+    <a role="menuitem" href="/settings" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Settings</a>
+    <a role="menuitem" href="/geometry" style="color:var(--accent-solid);text-decoration:none;font-weight:700;font-size:15px;padding:10px 12px;border-radius:8px;">Start with Geometry →</a>
+  </div>
 </div>
+<script>
+(function(){
+  var MOBILE_BP = 640;
+  function isMobile(){ return window.innerWidth <= MOBILE_BP; }
+  window.ssLogoClick = function(){
+    if (!isMobile()) { window.location.href = '/'; return; }
+    ssDismissMobileHint();
+    var menu = document.getElementById('ss-mobile-menu');
+    var btn = document.getElementById('ss-logo-btn');
+    var open = menu.style.display === 'flex';
+    menu.style.display = open ? 'none' : 'flex';
+    btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+  };
+  window.ssCloseMobileMenu = function(){
+    var menu = document.getElementById('ss-mobile-menu');
+    if (menu) { menu.style.display = 'none'; document.getElementById('ss-logo-btn').setAttribute('aria-expanded','false'); }
+  };
+  window.ssDismissMobileHint = function(){
+    var hint = document.getElementById('ss-mobile-hint');
+    if (hint) hint.style.display = 'none';
+    try { localStorage.setItem('ss-mobile-menu-hint-seen', '1'); } catch(e){}
+  };
+  document.addEventListener('click', function(e){
+    var menu = document.getElementById('ss-mobile-menu');
+    var btn = document.getElementById('ss-logo-btn');
+    if (menu && menu.style.display === 'flex' && !menu.contains(e.target) && e.target !== btn && !btn.contains(e.target)) {
+      ssCloseMobileMenu();
+    }
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') ssCloseMobileMenu();
+  });
+  window.addEventListener('resize', function(){ if (!isMobile()) ssCloseMobileMenu(); });
+  try {
+    if (isMobile() && !localStorage.getItem('ss-mobile-menu-hint-seen')) {
+      var hint = document.getElementById('ss-mobile-hint');
+      if (hint) { hint.style.display = 'flex'; setTimeout(ssDismissMobileHint, 8000); }
+    }
+  } catch(e){}
+})();
+</script>
 <style>
 @media(max-width:640px){
   .header-bar{padding:14px 16px}
@@ -219,6 +274,11 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
   .nav-hide-sm{display:none}
   .nav-links > .ss-cta-btn{display:none}
 }
+@media(min-width:641px){
+  #ss-mobile-menu{display:none!important}
+  #ss-mobile-hint{display:none!important}
+}
+#ss-mobile-menu a:hover, #ss-mobile-menu a:focus{background:var(--chip-bg)}
 .ss-vh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .class-group{margin-bottom:30px}
 .class-group:last-child{margin-bottom:0}
