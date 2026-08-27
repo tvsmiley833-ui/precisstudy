@@ -607,16 +607,28 @@ return `<div class="ex-part" id="ex-part-${id}">
 }
 
 function buildPartFR(id,title,qs){
-const items=qs.map(q=>`
+// Some guides author these as genuine free-response (q.sa, a model answer to
+// reveal); others reuse the multiple-choice shape (q.o/q.a) for this part.
+// Render whichever shape the data actually has instead of assuming sa exists.
+const items=qs.map(q=>q.sa!==undefined?`
 <div class="ex-q">
   <div class="ex-qnum">Question ${q.n}</div>
   <div class="ex-qtext">${q.q}</div>
   <button class="ex-opt" style="background:var(--surface-2);text-align:left" onclick="toggleSA(this)">▶ Show Model Answer</button>
   <div class="ex-sa" style="display:none"><strong>Model Answer</strong>${q.sa.replace(/\n/g,'<br>')}</div>
+</div>`:`
+<div class="ex-q" id="exq-${id}-${q.n}">
+  <div class="ex-qnum">Question ${q.n}</div>
+  <div class="ex-qtext">${q.q}</div>
+  <div class="ex-opts">
+    ${q.o.map((opt,i)=>`<button class="ex-opt" onclick="ansExam('${id}',${q.n},${i},${q.a})">(${i+1}) ${opt}</button>`).join('')}
+  </div>
+  <div class="ex-exp" id="exp-${id}-${q.n}">${q.e}</div>
 </div>`).join('');
+const allMC=qs.every(q=>q.sa===undefined);
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${title}</h3><span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>
+  <h3>${title}</h3>${allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`}
 </div>
 <div class="ex-part-body">${items}</div></div>`;
 }
@@ -645,8 +657,9 @@ if(!examAnswered[part][qn]){
 examAnswered[part][qn]=true;
 if(chosen===correct){examScores[part]=(examScores[part]||0)+1;}
 }
-const pool=part==='A'?PART_A:PART_B1;
-document.getElementById('score-'+part).textContent=`Score: ${examScores[part]||0} / ${pool.length}`;
+const pool={A:PART_A,B1:PART_B1,B2:PART_B2,C:PART_C}[part];
+const scoreEl=document.getElementById('score-'+part);
+if(scoreEl)scoreEl.textContent=`Score: ${examScores[part]||0} / ${pool.length}`;
 }
 
 
