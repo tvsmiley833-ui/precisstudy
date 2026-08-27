@@ -1008,7 +1008,7 @@ if ('IntersectionObserver' in window) {
         ssRevealObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.12 });
+  }, { threshold: 0, rootMargin: '0px 0px -10% 0px' });
   document.querySelectorAll('.ss-reveal').forEach(function(el) { ssRevealObserver.observe(el); });
 } else {
   document.querySelectorAll('.ss-reveal').forEach(function(el) { el.classList.add('in-view'); });
