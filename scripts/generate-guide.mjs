@@ -150,8 +150,18 @@ export function generateGuide(config) {
   html += `const DIAGRAMS=${js(config.diagrams || {})};\n`;
   html += `const FLASHCARDS=${js(flashcards)};\n`;
   html += `const QUIZ=${js(quiz)};\n`;
+  // Some source guides have a handful of corrupted exam questions (e.g. an
+  // "o" array collapsed to 1 option with the missing values spilled into "a"
+  // as a string instead of a numeric index) -- authoring errors, not a
+  // rendering bug. Drop anything that doesn't match either valid shape
+  // rather than ship a broken question or fabricate a plausible-looking
+  // wrong answer to pad it back to 4 options.
+  const isValidExamQ = (q) =>
+    (typeof q.sa === "string" && q.sa.trim().length > 0) ||
+    (Array.isArray(q.o) && q.o.length === 4 && Number.isInteger(q.a) && q.a >= 0 && q.a <= 3);
   for (const part of ["PART_A", "PART_B1", "PART_B2", "PART_C"]) {
-    html += `const ${part}=${js(examParts?.[part] || [])};\n`;
+    const qs = (examParts?.[part] || []).filter(isValidExamQ);
+    html += `const ${part}=${js(qs)};\n`;
   }
   // logic.js's buildExam() injects this into a <style> tag on first render;
   // it must be defined before logic.js runs.
