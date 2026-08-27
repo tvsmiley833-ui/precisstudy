@@ -18,6 +18,7 @@ const templateStyle = T("style.css");
 const templateWiring = T("module-wiring.html");
 const templateHero = T("hero.html");
 const templateViews = T("page-views.template.html");
+const templateExamCss = T("exam.css");
 const templateLogic = T("logic.js");
 
 const esc = (s) => String(s)
@@ -152,6 +153,9 @@ export function generateGuide(config) {
   for (const part of ["PART_A", "PART_B1", "PART_B2", "PART_C"]) {
     html += `const ${part}=${js(examParts?.[part] || [])};\n`;
   }
+  // logic.js's buildExam() injects this into a <style> tag on first render;
+  // it must be defined before logic.js runs.
+  html += `const EXAM_CSS=${js(templateExamCss)};\n`;
   html += templateLogic
     .replaceAll("APUSH", esc(title))
     .replaceAll("'apush'", `'${slug}'`)
