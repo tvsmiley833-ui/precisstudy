@@ -358,6 +358,12 @@ const SUBJECTS_CONFIG = [
   { key: 'world-history', label: 'World History', href: '/world-history', units: worldHistoryUnits },
 ];
 
+// Scoped to the same enrolled-classes list Settings/the homepage use, once
+// loadDashboard() knows it -- keeps the schedule builder's subject picker
+// in sync too, instead of always offering all 50 guides regardless of what
+// the student actually takes.
+let SUBJECTS_FOR_SCHEDULE = SUBJECTS_CONFIG;
+
 function statusColor(pct) {
   if (pct === null) return 'var(--status-none)';
   if (pct >= 80) return 'var(--status-green)';
@@ -532,7 +538,7 @@ function sbRenderSubjects() {
   const wrap = document.getElementById('sb-subjects');
   if (!wrap) return;
   let html = '';
-  SUBJECTS_CONFIG.forEach(function (s) {
+  SUBJECTS_FOR_SCHEDULE.forEach(function (s) {
     const idx = sbSelectedSubjects.findIndex(function (x) { return x.key === s.key; });
     const sel = idx === -1 ? null : sbSelectedSubjects[idx];
     html += '<div class="sb-subject-row"><label>'
@@ -848,6 +854,7 @@ async function loadDashboard() {
   // reads (blob.enrolledSubjects, from /api/progress) -- keeps the
   // dashboard in sync with Settings instead of always listing every guide.
   const enrolledSet = new Set(blob.enrolledSubjects || []);
+  SUBJECTS_FOR_SCHEDULE = enrolledSet.size === 0 ? SUBJECTS_CONFIG : SUBJECTS_CONFIG.filter(s => enrolledSet.has(s.key));
   const noteEl = document.getElementById('dash-classes-note');
   let dashShowAll = enrolledSet.size === 0;
   window.dashShowAllClasses = function(){ dashShowAll = true; renderDashSubjects(); };
