@@ -844,6 +844,14 @@ async function loadDashboard() {
     content.insertBefore(notice, content.firstChild);
   }
 
+  // TEMPORARY DEBUG — remove once the enrolled-classes filter is confirmed working.
+  (function(){
+    const dbg = document.createElement('pre');
+    dbg.style.cssText = 'max-width:840px;margin:0 auto 12px;padding:10px 14px;background:#000;color:#0f0;font-size:11px;border-radius:8px;white-space:pre-wrap;text-align:left;';
+    dbg.textContent = 'DEBUG syncFailed=' + syncFailed + ' enrolledSubjects=' + JSON.stringify(blob.enrolledSubjects) + ' fullBlobKeys=' + JSON.stringify(Object.keys(blob));
+    content.insertBefore(dbg, content.firstChild);
+  })();
+
   // Same "enrolled classes" preference Settings writes and the homepage
   // reads (blob.enrolledSubjects, from /api/progress) -- keeps the
   // dashboard in sync with Settings instead of always listing every guide.
