@@ -206,6 +206,7 @@ body{transition:background .2s ease,color .2s ease}
       </div>
     </div>
 
+    <p id="dash-classes-note" style="max-width:840px;margin:0 auto 14px;font-size:13.5px;color:var(--text-muted);text-align:center;"></p>
     <div id="dash-subjects" style="display:grid;gap:20px;"></div>
   </div>
 </div>
@@ -843,19 +844,40 @@ async function loadDashboard() {
     content.insertBefore(notice, content.firstChild);
   }
 
-  const subjectsEl = document.getElementById('dash-subjects');
-  subjectsEl.innerHTML = '';
-  SUBJECTS_CONFIG.forEach(s => {
-    const card = document.createElement('div');
-    card.id = 'dash-subject-' + s.key;
-    card.className = 'ss-card';
-    subjectsEl.appendChild(card);
+  // Same "enrolled classes" preference Settings writes and the homepage
+  // reads (blob.enrolledSubjects, from /api/progress) -- keeps the
+  // dashboard in sync with Settings instead of always listing every guide.
+  const enrolledSet = new Set(blob.enrolledSubjects || []);
+  const noteEl = document.getElementById('dash-classes-note');
+  let dashShowAll = enrolledSet.size === 0;
+  window.dashShowAllClasses = function(){ dashShowAll = true; renderDashSubjects(); };
 
-    const unitIds = s.units.map(u => u.id);
-    const unitNames = {};
-    s.units.forEach(u => { unitNames[u.id] = u.name; });
-    renderSubject(s.key, s.label, s.href, blob[s.key] || {}, unitIds, unitNames);
-  });
+  function renderDashSubjects() {
+    const list = dashShowAll ? SUBJECTS_CONFIG : SUBJECTS_CONFIG.filter(s => enrolledSet.has(s.key));
+    if (enrolledSet.size === 0) {
+      noteEl.innerHTML = '<a href="/settings" style="color:var(--accent-solid, var(--accent));font-weight:700;text-decoration:none;">📚 Tell us which classes you\'re taking →</a>';
+    } else if (dashShowAll) {
+      noteEl.innerHTML = 'Showing all classes · <a href="/settings" style="color:var(--text-muted);text-decoration:none;">edit your classes</a>';
+    } else {
+      noteEl.innerHTML = 'Showing your classes — <a href="#" onclick="dashShowAllClasses();return false;" style="color:var(--accent-solid, var(--accent));font-weight:700;text-decoration:none;">show all</a>'
+        + ' · <a href="/settings" style="color:var(--text-muted);text-decoration:none;">edit</a>';
+    }
+
+    const subjectsEl = document.getElementById('dash-subjects');
+    subjectsEl.innerHTML = '';
+    list.forEach(s => {
+      const card = document.createElement('div');
+      card.id = 'dash-subject-' + s.key;
+      card.className = 'ss-card';
+      subjectsEl.appendChild(card);
+
+      const unitIds = s.units.map(u => u.id);
+      const unitNames = {};
+      s.units.forEach(u => { unitNames[u.id] = u.name; });
+      renderSubject(s.key, s.label, s.href, blob[s.key] || {}, unitIds, unitNames);
+    });
+  }
+  renderDashSubjects();
 
   const goalEl = document.getElementById('dash-goal');
   if (blob.goal && blob.goal.days && blob.goal.minutesPerDay) {
