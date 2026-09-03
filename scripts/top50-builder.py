@@ -19,6 +19,18 @@ SUBJECTS = {
    "title":"World History","accent":"#8b5cf6",
    "units":["Ancient Civilizations","Classical Greece & Rome","Post-Classical Asia & Africa","Medieval Europe","Renaissance & Reformation","Age of Exploration","Revolutions & Enlightenment","Industrial Age & World Wars"],
  },
+ "calculus": {
+   "title":"Calculus","accent":"#0e7490",
+   "units":["Limits & Continuity","Derivative Rules & Techniques","Applications of Derivatives","Integration Basics","Applications of Integrals","Exponential & Logarithmic Calculus","Related Rates & Optimization","Sequences & Series Intro"],
+ },
+ "calc-ab": {
+   "title":"AP Calculus AB","accent":"#4338ca",
+   "units":["Limits & Continuity","Differentiation: Definition & Basic Rules","Differentiation: Composite, Implicit & Inverse","Contextual Applications of Differentiation","Analytical Applications of Differentiation","Integration & Accumulation of Change","Differential Equations","Applications of Integration"],
+ },
+ "calc-bc": {
+   "title":"AP Calculus BC","accent":"#7c3aed",
+   "units":["Limits & Continuity","Differentiation & Applications","Integration & Differential Equations","Applications of Integration","Parametric, Polar & Vector Functions","Infinite Sequences & Series","Taylor & Maclaurin Series","Polynomial Approximations & Series Convergence"],
+ },
  "geography": {
    "title":"Geography","accent":"#059669",
    "units":["Map Skills & Tools","Physical Geography & Landforms","Climate & Biomes","Population & Migration","Culture & Language","Economic Geography","Political Geography","Urban & Environmental Issues"],

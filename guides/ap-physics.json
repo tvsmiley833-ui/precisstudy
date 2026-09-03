@@ -13,11 +13,11 @@
           "l": "Position, Displacement & Distance",
           "intro": "Position locates an object relative to an origin; displacement is the vector change in position, while distance is the scalar path length traveled.",
           "b": [
-            "Displacement \u0394x = x_f \u2212 x_i (vector, can be negative)",
-            "Distance is always positive and \u2265 |displacement|",
+            "Displacement Δx = x_f − x_i (vector, can be negative)",
+            "Distance is always positive and ≥ |displacement|",
             "Displacement depends only on start/end points, not the path",
             "On a position-vs-time graph, slope = velocity",
-            "Average velocity = \u0394x/\u0394t; average speed = total distance/total time"
+            "Average velocity = Δx/Δt; average speed = total distance/total time"
           ]
         },
         {
@@ -25,7 +25,7 @@
           "intro": "Velocity is the rate of change of position; acceleration is the rate of change of velocity.",
           "b": [
             "Instantaneous velocity = slope of the tangent line on an x-t graph",
-            "Acceleration a = \u0394v/\u0394t, units m/s\u00b2",
+            "Acceleration a = Δv/Δt, units m/s²",
             "On a v-t graph, slope = acceleration and area under the curve = displacement",
             "Object speeds up when v and a have the same sign; slows down when opposite signs",
             "Constant velocity means zero acceleration (straight line on x-t graph)"
@@ -35,23 +35,23 @@
           "l": "Kinematic Equations (Constant Acceleration)",
           "intro": "For motion with constant acceleration, four kinematic equations relate displacement, velocity, acceleration, and time.",
           "b": [
-            "v = v\u2080 + at",
-            "\u0394x = v\u2080t + \u00bdat\u00b2",
-            "v\u00b2 = v\u2080\u00b2 + 2a\u0394x",
-            "\u0394x = \u00bd(v\u2080 + v)t",
+            "v = v₀ + at",
+            "Δx = v₀t + ½at²",
+            "v² = v₀² + 2aΔx",
+            "Δx = ½(v₀ + v)t",
             "Choose the equation missing the variable you don't know or don't need",
             "These equations only apply when acceleration is constant"
           ]
         },
         {
           "l": "Free Fall & Projectile Motion",
-          "intro": "Free fall is motion under gravity alone (a = \u22129.8 m/s\u00b2 near Earth's surface); projectile motion combines horizontal (constant velocity) and vertical (constant acceleration) motion independently.",
+          "intro": "Free fall is motion under gravity alone (a = −9.8 m/s² near Earth's surface); projectile motion combines horizontal (constant velocity) and vertical (constant acceleration) motion independently.",
           "b": [
-            "g = 9.8 m/s\u00b2 downward, same for all objects (ignoring air resistance)",
+            "g = 9.8 m/s² downward, same for all objects (ignoring air resistance)",
             "Horizontal velocity stays constant (a_x = 0) during projectile motion",
-            "Vertical motion uses the kinematic equations with a = \u2212g",
+            "Vertical motion uses the kinematic equations with a = −g",
             "Time to reach max height: t = v_y0/g; at max height v_y = 0",
-            "Range R = (v\u2080\u00b2 sin2\u03b8)/g for equal launch/landing height",
+            "Range R = (v₀² sin2θ)/g for equal launch/landing height",
             "Horizontal and vertical motions are independent but share the same time variable"
           ]
         },
@@ -60,7 +60,7 @@
           "intro": "Position, velocity, and acceleration graphs are linked through slope and area relationships.",
           "b": [
             "Slope of x-t graph = velocity; slope of v-t graph = acceleration",
-            "Area under v-t graph = displacement; area under a-t graph = \u0394v",
+            "Area under v-t graph = displacement; area under a-t graph = Δv",
             "A parabolic x-t graph indicates constant nonzero acceleration",
             "A horizontal line on a v-t graph means constant velocity (zero acceleration)",
             "Curvature direction on x-t graph shows whether acceleration is positive or negative"
@@ -70,23 +70,23 @@
           "l": "Relative Motion & Vectors in 2D",
           "intro": "Vector quantities in kinematics (displacement, velocity, acceleration) must be added using vector addition, and can be decomposed into perpendicular components.",
           "b": [
-            "Vector components: v\u2093 = v cos\u03b8, v_y = v sin\u03b8",
-            "Magnitude from components: v = \u221a(v\u2093\u00b2 + v_y\u00b2)",
+            "Vector components: vₓ = v cosθ, v_y = v sinθ",
+            "Magnitude from components: v = √(vₓ² + v_y²)",
             "Relative velocity: v_AC = v_AB + v_BC (vector addition)",
             "Independent x and y motions can be analyzed separately then recombined",
-            "Angle of resultant: \u03b8 = tan\u207b\u00b9(v_y/v\u2093)"
+            "Angle of resultant: θ = tan⁻¹(v_y/vₓ)"
           ]
         }
       ],
       "keyFacts": [
-        "v = v\u2080 + at, \u0394x = v\u2080t + \u00bdat\u00b2, v\u00b2 = v\u2080\u00b2 + 2a\u0394x, \u0394x = \u00bd(v\u2080+v)t",
-        "g = 9.8 m/s\u00b2 (downward) near Earth's surface for all free-falling objects",
+        "v = v₀ + at, Δx = v₀t + ½at², v² = v₀² + 2aΔx, Δx = ½(v₀+v)t",
+        "g = 9.8 m/s² (downward) near Earth's surface for all free-falling objects",
         "Slope of x-t graph = velocity; slope of v-t graph = acceleration; area under v-t graph = displacement",
-        "Projectile motion: horizontal velocity constant, vertical acceleration = \u2212g, time is shared between axes"
+        "Projectile motion: horizontal velocity constant, vertical acceleration = −g, time is shared between axes"
       ],
       "traps": [
         "Velocity and acceleration can point in different directions (deceleration is negative-signed a relative to v, not always 'negative a'), not 'acceleration always means speeding up'",
-        "At the top of a projectile's path, vertical velocity is zero but vertical acceleration is still \u2212g, not zero",
+        "At the top of a projectile's path, vertical velocity is zero but vertical acceleration is still −g, not zero",
         "Distance traveled equals |displacement| only for one-directional motion, not always equal in general",
         "A steeper x-t graph means greater speed, not greater position; curvature (not steepness alone) indicates acceleration"
       ]
@@ -103,14 +103,14 @@
             "Mass is the quantitative measure of inertia",
             "Net force = 0 means constant velocity (including rest), not necessarily no motion",
             "This law defines an inertial reference frame",
-            "Equilibrium (\u03a3F=0) applies to both static and moving-at-constant-velocity objects"
+            "Equilibrium (ΣF=0) applies to both static and moving-at-constant-velocity objects"
           ]
         },
         {
           "l": "Newton's Second Law (F = ma)",
           "intro": "The net force on an object equals its mass times its acceleration, and acceleration is in the direction of the net force.",
           "b": [
-            "\u03a3F = ma, where \u03a3F is the vector sum of all forces",
+            "ΣF = ma, where ΣF is the vector sum of all forces",
             "Acceleration is directly proportional to net force, inversely proportional to mass",
             "Must use net (unbalanced) force, not any single applied force",
             "Free-body diagrams isolate all forces acting on one object",
@@ -135,16 +135,16 @@
             "Weight Fg = mg, always points toward Earth's center",
             "Normal force N is perpendicular to the contact surface, adjusts to prevent penetration",
             "Tension is a pulling force transmitted through a string/rope, same throughout an ideal (massless, frictionless-pulley) string",
-            "Static friction f_s \u2264 \u03bc_s N (prevents motion); kinetic friction f_k = \u03bc_k N (opposes sliding motion)",
-            "\u03bc_k is generally less than or equal to \u03bc_s for the same surfaces"
+            "Static friction f_s ≤ μ_s N (prevents motion); kinetic friction f_k = μ_k N (opposes sliding motion)",
+            "μ_k is generally less than or equal to μ_s for the same surfaces"
           ]
         },
         {
           "l": "Inclined Planes & Multi-Body Systems",
           "intro": "On an incline, gravity is decomposed into components parallel and perpendicular to the surface; connected objects (via strings/pulleys) share acceleration magnitude.",
           "b": [
-            "Component of gravity along incline: mg sin\u03b8; perpendicular: mg cos\u03b8",
-            "Normal force on a frictionless incline: N = mg cos\u03b8",
+            "Component of gravity along incline: mg sinθ; perpendicular: mg cosθ",
+            "Normal force on a frictionless incline: N = mg cosθ",
             "For connected masses over a pulley, treat the system together (a is the same magnitude for both) or use separate free-body diagrams",
             "Tension is generally not equal to the weight of a hanging accelerating mass",
             "Draw a separate free-body diagram for each object in multi-body problems"
@@ -155,7 +155,7 @@
           "intro": "Apparent weight (the normal force felt) differs from true weight when an object accelerates vertically, as in an elevator.",
           "b": [
             "Apparent weight N = m(g + a) when accelerating upward",
-            "Apparent weight N = m(g \u2212 a) when accelerating downward",
+            "Apparent weight N = m(g − a) when accelerating downward",
             "In free fall (a = g downward), apparent weight is zero (weightlessness)",
             "Constant velocity elevator: apparent weight = true weight (a=0)",
             "Scale readings measure normal force, not gravitational force directly"
@@ -163,16 +163,16 @@
         }
       ],
       "keyFacts": [
-        "\u03a3F = ma (Newton's Second Law) \u2014 net force determines acceleration",
+        "ΣF = ma (Newton's Second Law) — net force determines acceleration",
         "Newton's Third Law pairs act on different objects, equal magnitude, opposite direction",
-        "f_s(max) = \u03bc_s N, f_k = \u03bc_k N \u2014 friction is proportional to the normal force",
-        "On a frictionless incline: a = g sin\u03b8; N = mg cos\u03b8"
+        "f_s(max) = μ_s N, f_k = μ_k N — friction is proportional to the normal force",
+        "On a frictionless incline: a = g sinθ; N = mg cosθ"
       ],
       "traps": [
         "A moving object needs a net force only to change its velocity, not to keep moving at constant velocity ('no force needed to sustain motion' is correct, not 'motion requires continuous force')",
         "Action-reaction pairs act on two different objects and never cancel each other for a single free-body diagram, not 'forces on the same object cancel'",
-        "Normal force is not always equal to mg \u2014 it depends on other forces and acceleration (e.g., on an incline or in an elevator), not a fixed value",
-        "Static friction is a variable up to a maximum (\u03bc_s N), not always exactly \u03bc_s N"
+        "Normal force is not always equal to mg — it depends on other forces and acceleration (e.g., on an incline or in an elevator), not a fixed value",
+        "Static friction is a variable up to a maximum (μ_s N), not always exactly μ_s N"
       ]
     },
     {
@@ -183,19 +183,19 @@
           "l": "Work Done by a Force",
           "intro": "Work is the transfer of energy via a force acting through a displacement, and depends on the angle between force and displacement.",
           "b": [
-            "W = Fd cos\u03b8, where \u03b8 is the angle between force and displacement",
-            "Work is zero if force is perpendicular to displacement (\u03b8=90\u00b0)",
+            "W = Fd cosθ, where θ is the angle between force and displacement",
+            "Work is zero if force is perpendicular to displacement (θ=90°)",
             "Work is positive when force has a component in the direction of motion, negative when opposite",
-            "Units of work are joules (J) = N\u00b7m",
-            "Work-energy theorem: net work done equals the change in kinetic energy, W_net = \u0394KE"
+            "Units of work are joules (J) = N·m",
+            "Work-energy theorem: net work done equals the change in kinetic energy, W_net = ΔKE"
           ]
         },
         {
           "l": "Kinetic Energy & the Work-Energy Theorem",
           "intro": "Kinetic energy is the energy of motion, and the net work done on an object equals its change in kinetic energy.",
           "b": [
-            "KE = \u00bdmv\u00b2",
-            "W_net = \u0394KE = KE_f \u2212 KE_i",
+            "KE = ½mv²",
+            "W_net = ΔKE = KE_f − KE_i",
             "Kinetic energy depends on speed squared, so doubling speed quadruples KE",
             "The work-energy theorem applies regardless of the path taken",
             "Only the net (total) work changes kinetic energy; individual forces can do positive or negative work"
@@ -206,10 +206,10 @@
           "intro": "Potential energy is stored energy associated with an object's position or configuration, recoverable as kinetic energy.",
           "b": [
             "Gravitational PE: U_g = mgh, measured relative to a chosen reference height",
-            "Elastic (spring) PE: U_s = \u00bdkx\u00b2, where x is displacement from equilibrium",
+            "Elastic (spring) PE: U_s = ½kx², where x is displacement from equilibrium",
             "PE depends on relative position, so only changes in PE are physically meaningful",
             "Conservative forces (gravity, spring) have path-independent work",
-            "Hooke's Law: F_spring = \u2212kx describes the restoring force of an ideal spring"
+            "Hooke's Law: F_spring = −kx describes the restoring force of an ideal spring"
           ]
         },
         {
@@ -217,8 +217,8 @@
           "intro": "In the absence of non-conservative forces (like friction), total mechanical energy (KE + PE) remains constant.",
           "b": [
             "KE_i + PE_i = KE_f + PE_f (when no friction/air resistance)",
-            "With friction: KE_i + PE_i = KE_f + PE_f + energy lost to heat (\u0394E_thermal)",
-            "Energy 'lost' to friction equals the work done by friction (magnitude), W_friction = f\u00b7d",
+            "With friction: KE_i + PE_i = KE_f + PE_f + energy lost to heat (ΔE_thermal)",
+            "Energy 'lost' to friction equals the work done by friction (magnitude), W_friction = f·d",
             "Roller coasters, pendulums, and sliding blocks are classic conservation-of-energy scenarios",
             "Total energy of an isolated system is always conserved, even when mechanical energy is not"
           ]
@@ -227,11 +227,11 @@
           "l": "Power",
           "intro": "Power is the rate at which work is done or energy is transferred.",
           "b": [
-            "P = W/t = \u0394E/t, units are watts (W) = J/s",
-            "Instantaneous power: P = Fv cos\u03b8 (force times velocity component along force direction)",
+            "P = W/t = ΔE/t, units are watts (W) = J/s",
+            "Instantaneous power: P = Fv cosθ (force times velocity component along force direction)",
             "Average power over a time interval uses total work divided by total time",
             "Higher power means doing the same work in less time, not necessarily more work",
-            "1 horsepower \u2248 746 W (useful for real-world comparisons)"
+            "1 horsepower ≈ 746 W (useful for real-world comparisons)"
           ]
         },
         {
@@ -247,16 +247,16 @@
         }
       ],
       "keyFacts": [
-        "W = Fd cos\u03b8; W_net = \u0394KE (work-energy theorem)",
-        "KE = \u00bdmv\u00b2; U_g = mgh; U_spring = \u00bdkx\u00b2",
+        "W = Fd cosθ; W_net = ΔKE (work-energy theorem)",
+        "KE = ½mv²; U_g = mgh; U_spring = ½kx²",
         "Conservation of mechanical energy (no friction): KE_i + PE_i = KE_f + PE_f",
-        "Power P = W/t = Fv cos\u03b8; units are watts (J/s)"
+        "Power P = W/t = Fv cosθ; units are watts (J/s)"
       ],
       "traps": [
-        "Work done by a force perpendicular to displacement is zero, not simply 'less work' \u2014 cos\u03b8=0 makes it exactly zero (e.g., normal force does no work on a moving object)",
-        "Potential energy is only meaningful as a difference/change (\u0394PE), not an absolute value \u2014 the reference point is arbitrary",
+        "Work done by a force perpendicular to displacement is zero, not simply 'less work' — cosθ=0 makes it exactly zero (e.g., normal force does no work on a moving object)",
+        "Potential energy is only meaningful as a difference/change (ΔPE), not an absolute value — the reference point is arbitrary",
         "Kinetic energy depends on speed squared, so doubling velocity quadruples KE, not just doubles it",
-        "Friction converts mechanical energy to thermal energy (it doesn't destroy energy) \u2014 total energy is still conserved, only mechanical energy decreases"
+        "Friction converts mechanical energy to thermal energy (it doesn't destroy energy) — total energy is still conserved, only mechanical energy decreases"
       ]
     },
     {
@@ -268,10 +268,10 @@
           "intro": "Momentum is the product of mass and velocity, and impulse is the change in momentum caused by a force acting over time.",
           "b": [
             "p = mv, a vector quantity in the direction of velocity",
-            "Impulse J = F\u0394t = \u0394p (impulse-momentum theorem)",
+            "Impulse J = FΔt = Δp (impulse-momentum theorem)",
             "Impulse equals the area under a force-vs-time graph",
-            "A larger \u0394t for the same \u0394p reduces the average force needed (e.g., airbags, padding)",
-            "Units of momentum: kg\u00b7m/s; units of impulse: N\u00b7s (equivalent)"
+            "A larger Δt for the same Δp reduces the average force needed (e.g., airbags, padding)",
+            "Units of momentum: kg·m/s; units of impulse: N·s (equivalent)"
           ]
         },
         {
@@ -280,7 +280,7 @@
           "b": [
             "p_total,initial = p_total,final for an isolated system",
             "Momentum is conserved in all collision types (elastic, inelastic, perfectly inelastic) as long as the system is isolated",
-            "Must account for direction\u2014momentum is a vector, so opposite-direction velocities subtract",
+            "Must account for direction—momentum is a vector, so opposite-direction velocities subtract",
             "External forces (like friction or gravity) can change total system momentum unless balanced or negligible over the interaction time",
             "For explosions, initial total momentum (often zero) equals the vector sum of final momenta of the fragments"
           ]
@@ -300,7 +300,7 @@
           "l": "Solving Collision Problems",
           "intro": "Collision problems use conservation of momentum (always) and conservation of kinetic energy (only if elastic) as simultaneous equations.",
           "b": [
-            "Set up conservation of momentum: \u03a3p_before = \u03a3p_after",
+            "Set up conservation of momentum: Σp_before = Σp_after",
             "For elastic collisions, also apply KE_before = KE_after as a second equation",
             "Choose a positive direction convention and keep velocity signs consistent",
             "1D collisions: use scalar (signed) velocities; 2D collisions require resolving momentum by x and y components separately",
@@ -322,24 +322,24 @@
           "l": "2D Momentum & Real-World Applications",
           "intro": "Momentum conservation extends to two dimensions by conserving x- and y-components independently, applicable to collisions, sports, and vehicle safety design.",
           "b": [
-            "Conserve momentum separately along perpendicular axes: \u03a3p_x,before=\u03a3p_x,after and \u03a3p_y,before=\u03a3p_y,after",
+            "Conserve momentum separately along perpendicular axes: Σp_x,before=Σp_x,after and Σp_y,before=Σp_y,after",
             "Glancing collisions require vector decomposition of initial and final velocities",
-            "Crumple zones in cars increase collision time \u0394t, reducing force for a given impulse (\u0394p)",
+            "Crumple zones in cars increase collision time Δt, reducing force for a given impulse (Δp)",
             "Rocket propulsion relies on momentum conservation between expelled fuel and the rocket",
             "Recoil (e.g., a gun firing) is explained by conservation of momentum: the gun's backward momentum matches the bullet's forward momentum"
           ]
         }
       ],
       "keyFacts": [
-        "p = mv; Impulse J = F\u0394t = \u0394p",
-        "Momentum is conserved in isolated systems: \u03a3p_before = \u03a3p_after",
+        "p = mv; Impulse J = FΔt = Δp",
+        "Momentum is conserved in isolated systems: Σp_before = Σp_after",
         "Elastic collisions conserve both momentum and KE; inelastic collisions conserve only momentum",
         "Perfectly inelastic collision: m1v1 + m2v2 = (m1+m2)v_f"
       ],
       "traps": [
         "Kinetic energy is generally NOT conserved in real-world (inelastic) collisions, even though momentum always is, not 'both are always conserved together'",
-        "Momentum is a vector \u2014 velocities in opposite directions must be given opposite signs, not treated as simply additive magnitudes",
-        "A larger force isn't needed for a bigger impulse if time increases proportionally \u2014 impulse depends on both F and \u0394t, not force alone",
+        "Momentum is a vector — velocities in opposite directions must be given opposite signs, not treated as simply additive magnitudes",
+        "A larger force isn't needed for a bigger impulse if time increases proportionally — impulse depends on both F and Δt, not force alone",
         "The center of mass of a system continues on its original path during an internal explosion or collision (external force unchanged), not 'the pieces ignore the original motion'"
       ]
     },
@@ -351,11 +351,11 @@
           "l": "Uniform Circular Motion & Centripetal Acceleration",
           "intro": "An object moving in a circle at constant speed still accelerates because its velocity direction constantly changes; this acceleration points toward the center of the circle.",
           "b": [
-            "Centripetal acceleration a_c = v\u00b2/r = \u03c9\u00b2r, always directed toward the center",
-            "Period T = 2\u03c0r/v = 2\u03c0/\u03c9; frequency f = 1/T",
+            "Centripetal acceleration a_c = v²/r = ω²r, always directed toward the center",
+            "Period T = 2πr/v = 2π/ω; frequency f = 1/T",
             "Speed is constant in uniform circular motion, but velocity is not (direction changes)",
-            "Angular velocity \u03c9 = v/r, units rad/s",
-            "Centripetal acceleration exists even though speed doesn't change \u2014 it's caused by the change in direction",
+            "Angular velocity ω = v/r, units rad/s",
+            "Centripetal acceleration exists even though speed doesn't change — it's caused by the change in direction",
             "Tangential acceleration (if speed changes) is separate from centripetal acceleration and points along the path"
           ]
         },
@@ -363,12 +363,12 @@
           "l": "Centripetal Force",
           "intro": "Centripetal force is not a new type of force but the net force directed toward the center that causes circular motion; it must be supplied by real forces (tension, gravity, friction, normal force).",
           "b": [
-            "F_c = mv\u00b2/r = m\u03c9\u00b2r, always points toward the center of the circular path",
+            "F_c = mv²/r = mω²r, always points toward the center of the circular path",
             "F_c is the net force in the radial direction, not a separate force added to a free-body diagram",
             "Examples: tension supplies F_c for a ball on a string; gravity supplies F_c for orbiting satellites; static friction supplies F_c for a car turning on a flat road",
             "On a banked curve, a component of the normal force contributes to centripetal force",
             "If the centripetal force vanishes, the object moves off in a straight line (tangent to the circle), not outward radially",
-            "Maximum speed on a flat curve before slipping: v_max = \u221a(\u03bc_s g r)"
+            "Maximum speed on a flat curve before slipping: v_max = √(μ_s g r)"
           ]
         },
         {
@@ -376,8 +376,8 @@
           "intro": "When circular motion occurs in a vertical plane, gravity adds to or subtracts from the required centripetal force depending on position in the loop.",
           "b": [
             "At the top of a vertical loop: F_c = N + mg (both point toward center, downward)",
-            "At the bottom of a vertical loop: F_c = N \u2212 mg (N points up toward center, mg points away)",
-            "Minimum speed at the top of a loop (N = 0): v_min = \u221a(gr)",
+            "At the bottom of a vertical loop: F_c = N − mg (N points up toward center, mg points away)",
+            "Minimum speed at the top of a loop (N = 0): v_min = √(gr)",
             "Apparent weight is greatest at the bottom of a loop and least at the top",
             "A roller coaster or pendulum at the top of its arc still needs centripetal force directed downward, toward the center"
           ]
@@ -386,11 +386,11 @@
           "l": "Newton's Law of Universal Gravitation",
           "intro": "Every pair of masses attracts each other with a force proportional to the product of their masses and inversely proportional to the square of the distance between their centers.",
           "b": [
-            "F_g = Gm\u2081m\u2082/r\u00b2, where G = 6.674\u00d710\u207b\u00b9\u00b9 N\u00b7m\u00b2/kg\u00b2",
+            "F_g = Gm₁m₂/r², where G = 6.674×10⁻¹¹ N·m²/kg²",
             "r is measured between the centers of mass, not the surfaces",
             "Gravitational force is always attractive and acts along the line joining the two masses",
             "Doubling the distance reduces the force to 1/4 (inverse-square law)",
-            "Gravitational field strength g = GM/r\u00b2, which is why g decreases with altitude",
+            "Gravitational field strength g = GM/r², which is why g decreases with altitude",
             "Newton's third law applies: the force on mass 1 from mass 2 equals in magnitude the force on mass 2 from mass 1"
           ]
         },
@@ -398,8 +398,8 @@
           "l": "Orbital Motion",
           "intro": "A satellite or planet in a stable circular orbit has gravity acting as the sole centripetal force, which links orbital speed and period to the orbit's radius.",
           "b": [
-            "Setting gravity equal to centripetal force: GMm/r\u00b2 = mv\u00b2/r gives orbital speed v = \u221a(GM/r)",
-            "Orbital period: T = 2\u03c0r/v = 2\u03c0\u221a(r\u00b3/GM)",
+            "Setting gravity equal to centripetal force: GMm/r² = mv²/r gives orbital speed v = √(GM/r)",
+            "Orbital period: T = 2πr/v = 2π√(r³/GM)",
             "Orbital speed and period depend only on the central mass M and orbital radius r, not on the orbiting object's mass",
             "A larger orbital radius means a slower orbital speed and a longer period",
             "Geostationary satellites orbit with T = 24 hours, matching Earth's rotation"
@@ -411,24 +411,24 @@
           "b": [
             "Kepler's First Law: planets orbit the Sun in ellipses with the Sun at one focus",
             "Kepler's Second Law: a planet sweeps out equal areas in equal times (faster when closer to the Sun)",
-            "Kepler's Third Law: T\u00b2 \u221d r\u00b3 for objects orbiting the same central body",
-            "Gravitational PE: U_g = \u2212GMm/r (negative, approaching zero as r\u2192\u221e)",
-            "Escape velocity: v_esc = \u221a(2GM/r), the minimum speed to escape a gravitational field from radius r",
-            "Total mechanical energy of a bound orbit (KE + U_g) is negative; unbound trajectories have E \u2265 0"
+            "Kepler's Third Law: T² ∝ r³ for objects orbiting the same central body",
+            "Gravitational PE: U_g = −GMm/r (negative, approaching zero as r→∞)",
+            "Escape velocity: v_esc = √(2GM/r), the minimum speed to escape a gravitational field from radius r",
+            "Total mechanical energy of a bound orbit (KE + U_g) is negative; unbound trajectories have E ≥ 0"
           ]
         }
       ],
       "keyFacts": [
-        "a_c = v\u00b2/r = \u03c9\u00b2r (always toward center); F_c = mv\u00b2/r is the net radial force, not an extra force",
-        "F_g = Gm\u2081m\u2082/r\u00b2, G = 6.674\u00d710\u207b\u00b9\u00b9 N\u00b7m\u00b2/kg\u00b2",
-        "Orbital speed v = \u221a(GM/r); orbital period T = 2\u03c0\u221a(r\u00b3/GM); Kepler's Third Law: T\u00b2 \u221d r\u00b3",
-        "Minimum speed at top of vertical loop: v_min = \u221a(gr); gravitational PE: U_g = \u2212GMm/r"
+        "a_c = v²/r = ω²r (always toward center); F_c = mv²/r is the net radial force, not an extra force",
+        "F_g = Gm₁m₂/r², G = 6.674×10⁻¹¹ N·m²/kg²",
+        "Orbital speed v = √(GM/r); orbital period T = 2π√(r³/GM); Kepler's Third Law: T² ∝ r³",
+        "Minimum speed at top of vertical loop: v_min = √(gr); gravitational PE: U_g = −GMm/r"
       ],
       "traps": [
         "Centripetal force is the net inward force supplied by real forces (tension, gravity, friction, normal), not a separate force you add to a free-body diagram",
         "If centripetal force disappears, an object flies off tangent to the circle (in a straight line), not radially outward",
         "Orbital speed and period depend only on the central mass and orbital radius, not on the orbiting satellite's own mass",
-        "Doubling the orbital radius does NOT halve the orbital speed \u2014 v \u221d 1/\u221ar, so speed decreases by a factor of \u221a2"
+        "Doubling the orbital radius does NOT halve the orbital speed — v ∝ 1/√r, so speed decreases by a factor of √2"
       ]
     },
     {
@@ -439,44 +439,44 @@
           "l": "Rotational Kinematics",
           "intro": "Rotational motion uses angular analogues of the linear kinematic quantities and equations, connected to linear quantities through the radius.",
           "b": [
-            "Angular position \u03b8 (rad), angular velocity \u03c9 = \u0394\u03b8/\u0394t, angular acceleration \u03b1 = \u0394\u03c9/\u0394t",
-            "Linear-angular relationships: v = \u03c9r, a_tangential = \u03b1r, a_centripetal = \u03c9\u00b2r",
-            "Rotational kinematic equations (constant \u03b1): \u03c9 = \u03c9\u2080 + \u03b1t; \u0394\u03b8 = \u03c9\u2080t + \u00bd\u03b1t\u00b2; \u03c9\u00b2 = \u03c9\u2080\u00b2 + 2\u03b1\u0394\u03b8",
-            "One full revolution = 2\u03c0 radians = 360\u00b0",
-            "These equations are structurally identical to the linear kinematics equations with x\u2192\u03b8, v\u2192\u03c9, a\u2192\u03b1"
+            "Angular position θ (rad), angular velocity ω = Δθ/Δt, angular acceleration α = Δω/Δt",
+            "Linear-angular relationships: v = ωr, a_tangential = αr, a_centripetal = ω²r",
+            "Rotational kinematic equations (constant α): ω = ω₀ + αt; Δθ = ω₀t + ½αt²; ω² = ω₀² + 2αΔθ",
+            "One full revolution = 2π radians = 360°",
+            "These equations are structurally identical to the linear kinematics equations with x→θ, v→ω, a→α"
           ]
         },
         {
           "l": "Torque",
-          "intro": "Torque is the rotational analogue of force \u2014 it measures how effectively a force causes angular acceleration about a pivot, depending on both the force and where/how it's applied.",
+          "intro": "Torque is the rotational analogue of force — it measures how effectively a force causes angular acceleration about a pivot, depending on both the force and where/how it's applied.",
           "b": [
-            "\u03c4 = rF sin\u03b8, where \u03b8 is the angle between the position vector (from pivot to force) and the force",
-            "\u03c4 = rF\u22a5, using only the component of force perpendicular to the lever arm (r)",
-            "Torque is maximized when force is applied perpendicular to the lever arm (\u03b8 = 90\u00b0) and zero when force is applied along the lever arm (\u03b8 = 0\u00b0)",
-            "Units of torque: N\u00b7m (not joules, even though the units are dimensionally the same)",
+            "τ = rF sinθ, where θ is the angle between the position vector (from pivot to force) and the force",
+            "τ = rF⊥, using only the component of force perpendicular to the lever arm (r)",
+            "Torque is maximized when force is applied perpendicular to the lever arm (θ = 90°) and zero when force is applied along the lever arm (θ = 0°)",
+            "Units of torque: N·m (not joules, even though the units are dimensionally the same)",
             "Sign convention: counterclockwise torque is typically positive, clockwise is negative",
-            "Net torque causes angular acceleration: \u03a3\u03c4 = I\u03b1"
+            "Net torque causes angular acceleration: Στ = Iα"
           ]
         },
         {
           "l": "Moment of Inertia",
-          "intro": "Moment of inertia is the rotational analogue of mass \u2014 it measures an object's resistance to changes in angular velocity, depending on both mass and how that mass is distributed relative to the axis.",
+          "intro": "Moment of inertia is the rotational analogue of mass — it measures an object's resistance to changes in angular velocity, depending on both mass and how that mass is distributed relative to the axis.",
           "b": [
-            "I = \u03a3m_ir_i\u00b2 for point masses; distributed mass is found by integration or standard formulas",
-            "Common formulas: solid sphere I = \u2085\u2044\u2082MR\u00b2, solid disk/cylinder I = \u00bdMR\u00b2, hoop/ring I = MR\u00b2, rod about center I = \u00b9\u2044\u2081\u2082ML\u00b2, rod about end I = \u2081\u2044\u2083ML\u00b2",
-            "Mass farther from the axis contributes more to I (I depends on r\u00b2, not just mass)",
+            "I = Σm_ir_i² for point masses; distributed mass is found by integration or standard formulas",
+            "Common formulas: solid sphere I = ₅⁄₂MR², solid disk/cylinder I = ½MR², hoop/ring I = MR², rod about center I = ¹⁄₁₂ML², rod about end I = ₁⁄₃ML²",
+            "Mass farther from the axis contributes more to I (I depends on r², not just mass)",
             "The same object has a different I depending on the chosen rotation axis",
-            "Parallel axis theorem: I = I_cm + Md\u00b2, where d is the distance from the center-of-mass axis to the new axis"
+            "Parallel axis theorem: I = I_cm + Md², where d is the distance from the center-of-mass axis to the new axis"
           ]
         },
         {
           "l": "Rotational Dynamics & Equilibrium",
           "intro": "Newton's second law has a rotational form relating net torque to angular acceleration, and static equilibrium requires both zero net force and zero net torque.",
           "b": [
-            "\u03a3\u03c4 = I\u03b1 (rotational analogue of \u03a3F = ma)",
-            "For static equilibrium: \u03a3F = 0 AND \u03a3\u03c4 = 0 (about any chosen pivot point)",
+            "Στ = Iα (rotational analogue of ΣF = ma)",
+            "For static equilibrium: ΣF = 0 AND Στ = 0 (about any chosen pivot point)",
             "Choosing the pivot at the location of an unknown force eliminates that force from the torque equation",
-            "Rolling without slipping requires v_cm = \u03c9r and a_cm = \u03b1r",
+            "Rolling without slipping requires v_cm = ωr and a_cm = αr",
             "An object can have zero net force but nonzero net torque (it accelerates angularly while its center of mass doesn't accelerate linearly), and vice versa"
           ]
         },
@@ -484,10 +484,10 @@
           "l": "Angular Momentum & Its Conservation",
           "intro": "Angular momentum is the rotational analogue of linear momentum, and it is conserved for a system when there is no net external torque.",
           "b": [
-            "L = I\u03c9 for a rotating rigid body; L = mvr sin\u03b8 for a point particle about an axis",
-            "Conservation of angular momentum: L_initial = L_final when \u03a3\u03c4_ext = 0",
+            "L = Iω for a rotating rigid body; L = mvr sinθ for a point particle about an axis",
+            "Conservation of angular momentum: L_initial = L_final when Στ_ext = 0",
             "If moment of inertia decreases (mass pulled closer to axis), angular velocity must increase to conserve L (e.g., spinning ice skater pulling in arms)",
-            "Angular impulse: \u03c4\u0394t = \u0394L (rotational analogue of J = F\u0394t = \u0394p)",
+            "Angular impulse: τΔt = ΔL (rotational analogue of J = FΔt = Δp)",
             "Angular momentum is conserved even when kinetic energy is not (e.g., an inelastic rotational collision)"
           ]
         },
@@ -495,25 +495,25 @@
           "l": "Rotational Kinetic Energy & Rolling Motion",
           "intro": "A rotating object stores kinetic energy in its rotation, and a rolling object has both translational and rotational kinetic energy.",
           "b": [
-            "Rotational KE = \u00bdI\u03c9\u00b2",
-            "Total KE of a rolling object: KE_total = \u00bdMv_cm\u00b2 + \u00bdI\u03c9\u00b2",
-            "For rolling without slipping, use v_cm = \u03c9r to combine the two KE terms",
+            "Rotational KE = ½Iω²",
+            "Total KE of a rolling object: KE_total = ½Mv_cm² + ½Iω²",
+            "For rolling without slipping, use v_cm = ωr to combine the two KE terms",
             "An object with a larger moment of inertia (for the same mass/radius) rolls down an incline more slowly because more energy goes into rotation",
-            "Energy conservation for rolling down a hill: mgh = \u00bdmv\u00b2 + \u00bdI\u03c9\u00b2 (no energy lost if rolling without slipping, since static friction does no work)"
+            "Energy conservation for rolling down a hill: mgh = ½mv² + ½Iω² (no energy lost if rolling without slipping, since static friction does no work)"
           ]
         }
       ],
       "keyFacts": [
-        "\u03c4 = rF sin\u03b8; \u03a3\u03c4 = I\u03b1 (rotational analogue of \u03a3F = ma)",
-        "I = \u03a3mr\u00b2 (point masses); common shapes: disk \u00bdMR\u00b2, hoop MR\u00b2, sphere \u2085\u2044\u2082MR\u00b2, rod about center \u00b9\u2044\u2081\u2082ML\u00b2",
-        "L = I\u03c9, conserved when net external torque is zero",
-        "Rotational KE = \u00bdI\u03c9\u00b2; rolling object KE = \u00bdMv\u00b2 + \u00bdI\u03c9\u00b2 (using v = \u03c9r)"
+        "τ = rF sinθ; Στ = Iα (rotational analogue of ΣF = ma)",
+        "I = Σmr² (point masses); common shapes: disk ½MR², hoop MR², sphere ₅⁄₂MR², rod about center ¹⁄₁₂ML²",
+        "L = Iω, conserved when net external torque is zero",
+        "Rotational KE = ½Iω²; rolling object KE = ½Mv² + ½Iω² (using v = ωr)"
       ],
       "traps": [
-        "Torque depends on where a force is applied and its angle to the lever arm, not just its magnitude \u2014 a large force applied along the lever arm produces zero torque",
-        "Moment of inertia depends on the axis of rotation, not just the object's mass \u2014 the same object has different I values about different axes",
+        "Torque depends on where a force is applied and its angle to the lever arm, not just its magnitude — a large force applied along the lever arm produces zero torque",
+        "Moment of inertia depends on the axis of rotation, not just the object's mass — the same object has different I values about different axes",
         "Angular momentum conservation applies even when kinetic energy is not conserved, not 'both are always conserved together'",
-        "Rolling without slipping requires v_cm = \u03c9r; a sliding (skidding) object does not satisfy this relationship"
+        "Rolling without slipping requires v_cm = ωr; a sliding (skidding) object does not satisfy this relationship"
       ]
     },
     {
@@ -524,11 +524,11 @@
           "l": "Wave Properties & the Wave Equation",
           "intro": "Waves transfer energy without net transfer of matter, and their properties are related through a single equation connecting speed, wavelength, and frequency.",
           "b": [
-            "Wave speed v = f\u03bb, where f is frequency (Hz) and \u03bb is wavelength (m)",
+            "Wave speed v = fλ, where f is frequency (Hz) and λ is wavelength (m)",
             "Period T = 1/f is the time for one complete cycle",
-            "Amplitude is the maximum displacement from equilibrium and determines the wave's energy (intensity \u221d amplitude\u00b2)",
+            "Amplitude is the maximum displacement from equilibrium and determines the wave's energy (intensity ∝ amplitude²)",
             "Transverse waves (e.g., light, waves on a string) oscillate perpendicular to the direction of travel; longitudinal waves (e.g., sound) oscillate parallel to it",
-            "Wave speed on a string depends on tension and linear mass density: v = \u221a(F_T/\u03bc), not on frequency or amplitude",
+            "Wave speed on a string depends on tension and linear mass density: v = √(F_T/μ), not on frequency or amplitude",
             "Frequency is set by the source and does not change when a wave passes into a new medium; wavelength and speed do change"
           ]
         },
@@ -539,19 +539,19 @@
             "Principle of superposition: net displacement = sum of individual wave displacements at that point",
             "Constructive interference occurs when waves are in phase (crest meets crest), producing a larger amplitude",
             "Destructive interference occurs when waves are out of phase (crest meets trough), reducing or canceling amplitude",
-            "Path difference of a whole number of wavelengths (n\u03bb) gives constructive interference; a half-integer number ((n+\u00bd)\u03bb) gives destructive interference",
+            "Path difference of a whole number of wavelengths (nλ) gives constructive interference; a half-integer number ((n+½)λ) gives destructive interference",
             "After waves pass through each other, they continue unaffected (superposition is temporary, not permanent)",
-            "Beats occur when two waves of slightly different frequencies interfere, producing a periodic amplitude variation with beat frequency f_beat = |f\u2081 \u2212 f\u2082|"
+            "Beats occur when two waves of slightly different frequencies interfere, producing a periodic amplitude variation with beat frequency f_beat = |f₁ − f₂|"
           ]
         },
         {
           "l": "Standing Waves & Resonance",
           "intro": "Standing waves form when two identical waves traveling in opposite directions interfere, creating fixed points of no displacement (nodes) and maximum displacement (antinodes).",
           "b": [
-            "Nodes are points of zero displacement; antinodes are points of maximum displacement, spaced \u03bb/2 apart",
-            "String fixed at both ends: \u03bb_n = 2L/n, f_n = nv/(2L) for n = 1, 2, 3,\u2026 (harmonics)",
-            "Pipe open at both ends: same harmonic series as a string, \u03bb_n = 2L/n",
-            "Pipe closed at one end: only odd harmonics, \u03bb_n = 4L/n for n = 1, 3, 5,\u2026",
+            "Nodes are points of zero displacement; antinodes are points of maximum displacement, spaced λ/2 apart",
+            "String fixed at both ends: λ_n = 2L/n, f_n = nv/(2L) for n = 1, 2, 3,… (harmonics)",
+            "Pipe open at both ends: same harmonic series as a string, λ_n = 2L/n",
+            "Pipe closed at one end: only odd harmonics, λ_n = 4L/n for n = 1, 3, 5,…",
             "Resonance occurs when a driving frequency matches a system's natural frequency, producing a large-amplitude standing wave",
             "The fundamental frequency (n=1) is the lowest possible resonant frequency for a given system"
           ]
@@ -560,9 +560,9 @@
           "l": "Sound Waves",
           "intro": "Sound is a longitudinal pressure wave that requires a medium to travel, with speed depending on the properties of that medium.",
           "b": [
-            "Sound speed in air at room temperature \u2248 343 m/s; sound travels faster in solids and liquids than in gases",
-            "Sound intensity (power per area) decreases with distance following an inverse-square law: I \u221d 1/r\u00b2",
-            "Sound level in decibels: \u03b2 = 10 log\u2081\u2080(I/I\u2080), where I\u2080 = 10\u207b\u00b9\u00b2 W/m\u00b2 is the threshold of hearing",
+            "Sound speed in air at room temperature ≈ 343 m/s; sound travels faster in solids and liquids than in gases",
+            "Sound intensity (power per area) decreases with distance following an inverse-square law: I ∝ 1/r²",
+            "Sound level in decibels: β = 10 log₁₀(I/I₀), where I₀ = 10⁻¹² W/m² is the threshold of hearing",
             "Pitch corresponds to frequency; loudness corresponds to amplitude/intensity",
             "Sound cannot travel through a vacuum because it requires a medium to propagate"
           ]
@@ -572,7 +572,7 @@
           "intro": "The Doppler effect is the change in observed frequency of a wave when there is relative motion between the source and the observer.",
           "b": [
             "Frequency increases when the source and observer are moving toward each other, decreases when moving apart",
-            "General formula: f_observed = f_source \u00d7 (v \u00b1 v_observer)/(v \u2213 v_source), using + for approach and \u2212 for recession in each term",
+            "General formula: f_observed = f_source × (v ± v_observer)/(v ∓ v_source), using + for approach and − for recession in each term",
             "Only relative motion along the line connecting source and observer matters",
             "The Doppler effect changes the observed frequency (and wavelength), not the actual speed of the wave in the medium",
             "Applications: radar guns, redshift/blueshift of light from stars, weather Doppler radar"
@@ -582,7 +582,7 @@
           "l": "Wave Behavior at Boundaries",
           "intro": "When a wave reaches a boundary between media, part of it reflects and part transmits, with the details depending on the relative properties of the two media.",
           "b": [
-            "A wave reflecting off a fixed (denser medium) boundary inverts (180\u00b0 phase shift)",
+            "A wave reflecting off a fixed (denser medium) boundary inverts (180° phase shift)",
             "A wave reflecting off a free (less dense medium) boundary reflects without inversion",
             "Refraction occurs when a wave changes speed crossing into a new medium, which can bend its direction of travel",
             "Diffraction is the bending/spreading of waves around obstacles or through openings, more pronounced when the opening size is comparable to the wavelength",
@@ -591,13 +591,13 @@
         }
       ],
       "keyFacts": [
-        "v = f\u03bb; wave speed on a string v = \u221a(F_T/\u03bc); frequency is set by the source and unchanged across media",
+        "v = fλ; wave speed on a string v = √(F_T/μ); frequency is set by the source and unchanged across media",
         "String fixed at both ends / open-open pipe: f_n = nv/(2L); closed-open pipe: f_n = nv/(4L), odd n only",
-        "Doppler effect: f_observed = f_source(v \u00b1 v_obs)/(v \u2213 v_src); approach raises frequency, recession lowers it",
-        "Constructive interference: path difference = n\u03bb; destructive interference: path difference = (n+\u00bd)\u03bb"
+        "Doppler effect: f_observed = f_source(v ± v_obs)/(v ∓ v_src); approach raises frequency, recession lowers it",
+        "Constructive interference: path difference = nλ; destructive interference: path difference = (n+½)λ"
       ],
       "traps": [
-        "Wave frequency is determined by the source and stays the same when a wave enters a new medium \u2014 wavelength and speed change, not frequency",
+        "Wave frequency is determined by the source and stays the same when a wave enters a new medium — wavelength and speed change, not frequency",
         "A closed-open pipe only supports odd harmonics (f_n = nv/4L, n=1,3,5...), unlike an open-open pipe or a string, which supports all integer harmonics",
         "The Doppler effect changes the observed frequency, not the actual wave speed through the medium",
         "Sound cannot travel through a vacuum because it is a mechanical (longitudinal) wave requiring a medium, unlike light"
@@ -611,9 +611,9 @@
           "l": "Electric Charge & Coulomb's Law",
           "intro": "Electric charge is a fundamental property of matter that comes in two types (positive and negative), and Coulomb's law describes the force between two point charges.",
           "b": [
-            "Coulomb's Law: F = kq\u2081q\u2082/r\u00b2, where k = 8.99\u00d710\u2079 N\u00b7m\u00b2/C\u00b2",
+            "Coulomb's Law: F = kq₁q₂/r², where k = 8.99×10⁹ N·m²/C²",
             "Like charges repel; opposite charges attract, with the force acting along the line joining them",
-            "Charge is quantized in units of e = 1.6\u00d710\u207b\u00b9\u2079 C and is conserved in any closed system",
+            "Charge is quantized in units of e = 1.6×10⁻¹⁹ C and is conserved in any closed system",
             "Coulomb's law has the same inverse-square form as gravity, but can be attractive or repulsive (gravity is only attractive)",
             "Conductors allow charge to move freely; insulators do not",
             "Charging by induction separates charge without direct contact; charging by friction/contact transfers charge directly"
@@ -623,7 +623,7 @@
           "l": "Electric Fields",
           "intro": "An electric field is the region around a charge where another charge would feel a force, defined as force per unit charge.",
           "b": [
-            "E = F/q = kQ/r\u00b2 (field due to a point charge Q), units N/C",
+            "E = F/q = kQ/r² (field due to a point charge Q), units N/C",
             "Electric field lines point away from positive charges and toward negative charges",
             "Field line density represents field strength; field lines never cross",
             "Force on a charge in a field: F = qE, in the direction of E for positive q, opposite for negative q",
@@ -636,8 +636,8 @@
           "intro": "Electric potential energy is the energy stored due to the position of a charge in a field, and electric potential is potential energy per unit charge.",
           "b": [
             "Electric potential V = U/q, units volts (V) = J/C",
-            "Potential difference (voltage) drives current: \u0394V = W/q, the work done per unit charge moving between two points",
-            "For a uniform field: E = \u0394V/d, relating field strength to voltage across a distance d",
+            "Potential difference (voltage) drives current: ΔV = W/q, the work done per unit charge moving between two points",
+            "For a uniform field: E = ΔV/d, relating field strength to voltage across a distance d",
             "Positive charges move from high to low potential naturally (like a ball rolling downhill); electrons move from low to high potential",
             "Equipotential surfaces are always perpendicular to electric field lines, and no work is done moving a charge along one"
           ]
@@ -646,20 +646,20 @@
           "l": "Current, Resistance & Ohm's Law",
           "intro": "Electric current is the rate of charge flow through a conductor, and Ohm's law relates voltage, current, and resistance for many materials.",
           "b": [
-            "Current I = \u0394Q/\u0394t, units amperes (A) = C/s",
-            "Ohm's Law: V = IR, where R is resistance in ohms (\u03a9)",
-            "Resistance of a wire: R = \u03c1L/A, increasing with length and resistivity, decreasing with cross-sectional area",
-            "Conventional current flows from + to \u2212 externally (opposite to actual electron flow)",
-            "Electric power: P = IV = I\u00b2R = V\u00b2/R",
-            "Resistivity \u03c1 generally increases with temperature for metals (more collisions impede electron flow)"
+            "Current I = ΔQ/Δt, units amperes (A) = C/s",
+            "Ohm's Law: V = IR, where R is resistance in ohms (Ω)",
+            "Resistance of a wire: R = ρL/A, increasing with length and resistivity, decreasing with cross-sectional area",
+            "Conventional current flows from + to − externally (opposite to actual electron flow)",
+            "Electric power: P = IV = I²R = V²/R",
+            "Resistivity ρ generally increases with temperature for metals (more collisions impede electron flow)"
           ]
         },
         {
           "l": "Series & Parallel Circuits",
           "intro": "Resistors combine differently depending on whether they are connected in series (single path) or parallel (multiple paths), affecting current, voltage, and equivalent resistance.",
           "b": [
-            "Series: same current through each resistor; R_eq = R\u2081 + R\u2082 + ...; voltages add (V_total = V\u2081 + V\u2082 + ...)",
-            "Parallel: same voltage across each resistor; 1/R_eq = 1/R\u2081 + 1/R\u2082 + ...; currents add (I_total = I\u2081 + I\u2082 + ...)",
+            "Series: same current through each resistor; R_eq = R₁ + R₂ + ...; voltages add (V_total = V₁ + V₂ + ...)",
+            "Parallel: same voltage across each resistor; 1/R_eq = 1/R₁ + 1/R₂ + ...; currents add (I_total = I₁ + I₂ + ...)",
             "Adding a resistor in series always increases total resistance; adding a resistor in parallel always decreases total resistance",
             "Equivalent resistance of parallel resistors is always less than the smallest individual resistance",
             "Ammeters are connected in series (low resistance); voltmeters are connected in parallel (high resistance)"
@@ -671,23 +671,23 @@
           "b": [
             "Kirchhoff's Junction Rule: total current into a junction equals total current out (conservation of charge)",
             "Kirchhoff's Loop Rule: the sum of voltage changes around any closed loop equals zero (conservation of energy)",
-            "Real batteries have internal resistance r, so terminal voltage V = EMF \u2212 Ir (less than EMF when current flows)",
-            "Power delivered by a source: P = I \u00d7 EMF; power dissipated in a resistor: P = I\u00b2R",
+            "Real batteries have internal resistance r, so terminal voltage V = EMF − Ir (less than EMF when current flows)",
+            "Power delivered by a source: P = I × EMF; power dissipated in a resistor: P = I²R",
             "For circuits with both series and parallel sections, simplify parallel branches to an equivalent resistor first, then combine in series"
           ]
         }
       ],
       "keyFacts": [
-        "Coulomb's Law: F = kq\u2081q\u2082/r\u00b2, k = 8.99\u00d710\u2079 N\u00b7m\u00b2/C\u00b2; E = F/q = kQ/r\u00b2",
-        "Ohm's Law: V = IR; Power P = IV = I\u00b2R = V\u00b2/R",
-        "Series: R_eq = R\u2081+R\u2082+...; same I. Parallel: 1/R_eq = 1/R\u2081+1/R\u2082+...; same V",
-        "Kirchhoff's rules: \u03a3I_in = \u03a3I_out (junction); \u03a3\u0394V = 0 around a closed loop"
+        "Coulomb's Law: F = kq₁q₂/r², k = 8.99×10⁹ N·m²/C²; E = F/q = kQ/r²",
+        "Ohm's Law: V = IR; Power P = IV = I²R = V²/R",
+        "Series: R_eq = R₁+R₂+...; same I. Parallel: 1/R_eq = 1/R₁+1/R₂+...; same V",
+        "Kirchhoff's rules: ΣI_in = ΣI_out (junction); ΣΔV = 0 around a closed loop"
       ],
       "traps": [
         "Adding a resistor in parallel decreases total resistance (creates another path for current), not increases it like adding one in series",
-        "Current is the same through every resistor in series, not the voltage \u2014 voltage divides; in parallel, voltage is the same and current divides",
+        "Current is the same through every resistor in series, not the voltage — voltage divides; in parallel, voltage is the same and current divides",
         "Equivalent resistance of resistors in parallel is always less than the smallest individual resistor, not an average of the values",
-        "Conventional current direction (+ to \u2212) is opposite to the actual direction electrons move, which matters when interpreting circuit diagrams"
+        "Conventional current direction (+ to −) is opposite to the actual direction electrons move, which matters when interpreting circuit diagrams"
       ]
     }
   ],
@@ -966,7 +966,7 @@
         "Centripetal force only applies to satellites"
       ],
       "a": 0,
-      "e": "Centripetal force is simply the name for the net inward force in circular motion, provided by real forces (tension, gravity, friction, normal force) \u2014 it is not a distinct outward-pushing force."
+      "e": "Centripetal force is simply the name for the net inward force in circular motion, provided by real forces (tension, gravity, friction, normal force) — it is not a distinct outward-pushing force."
     },
     {
       "u": 5,
@@ -1014,7 +1014,7 @@
         "Air resistance cancels out gravity"
       ],
       "a": 0,
-      "e": "In orbit, gravity is the only force acting, providing centripetal acceleration. Since the astronaut and spacecraft accelerate together, there's no relative normal force between them, producing apparent weightlessness \u2014 gravity itself has not vanished."
+      "e": "In orbit, gravity is the only force acting, providing centripetal acceleration. Since the astronaut and spacecraft accelerate together, there's no relative normal force between them, producing apparent weightlessness — gravity itself has not vanished."
     },
     {
       "u": 5,
@@ -1086,7 +1086,7 @@
         "The aircraft spins to create centrifugal force"
       ],
       "a": 0,
-      "e": "During the dive, the aircraft's engines are cut so it free-falls under gravity alone, matching the acceleration of the passengers inside \u2014 the same effect as being in orbit."
+      "e": "During the dive, the aircraft's engines are cut so it free-falls under gravity alone, matching the acceleration of the passengers inside — the same effect as being in orbit."
     },
     {
       "u": 5,
@@ -1722,7 +1722,7 @@
         "Refraction"
       ],
       "a": 0,
-      "e": "When crests align with crests (waves in phase), the displacements add, producing a larger combined amplitude \u2014 constructive interference."
+      "e": "When crests align with crests (waves in phase), the displacements add, producing a larger combined amplitude — constructive interference."
     },
     {
       "u": 7,
@@ -1746,7 +1746,7 @@
         "Partial cancellation only"
       ],
       "a": 0,
-      "e": "A path difference of a whole number of wavelengths (n\u03bb, here n=2) means the waves arrive in phase, producing constructive interference."
+      "e": "A path difference of a whole number of wavelengths (nλ, here n=2) means the waves arrive in phase, producing constructive interference."
     },
     {
       "u": 7,
@@ -2058,7 +2058,7 @@
         "Whether the string is stretched more or less"
       ],
       "a": 0,
-      "e": "v = sqrt(F_T/mu) depends only on tension and linear mass density \u2014 not on the wave's own frequency or amplitude. Changing the medium changes speed; frequency does not."
+      "e": "v = sqrt(F_T/mu) depends only on tension and linear mass density — not on the wave's own frequency or amplitude. Changing the medium changes speed; frequency does not."
     },
     {
       "u": 7,
@@ -2094,7 +2094,7 @@
         "The closed-open pipe supports more harmonics"
       ],
       "a": 0,
-      "e": "Open-open: f_1 = v/(2L). Closed-open: f_1 = v/(4L), which is half the open-open fundamental \u2014 the closed-open pipe has a lower fundamental frequency and only odd harmonics."
+      "e": "Open-open: f_1 = v/(2L). Closed-open: f_1 = v/(4L), which is half the open-open fundamental — the closed-open pipe has a lower fundamental frequency and only odd harmonics."
     },
     {
       "u": 7,
@@ -2346,7 +2346,7 @@
         "It is greater than 5.0 Ohm"
       ],
       "a": 0,
-      "e": "For parallel resistors, 1/R_eq = 1/2.0 + 1/3.0 + 1/5.0 = 0.5+0.333+0.2 = 1.033, so R_eq = 0.97 Ohm, which is less than the smallest individual resistor (2.0 Ohm) \u2014 always true for parallel combinations."
+      "e": "For parallel resistors, 1/R_eq = 1/2.0 + 1/3.0 + 1/5.0 = 0.5+0.333+0.2 = 1.033, so R_eq = 0.97 Ohm, which is less than the smallest individual resistor (2.0 Ohm) — always true for parallel combinations."
     },
     {
       "u": 8,
@@ -2616,13 +2616,13 @@
       "u": 1,
       "q": "A car accelerates uniformly from rest to 20 m/s in 5 s. What is its acceleration?",
       "o": [
-        "4 m/s\u00b2",
-        "2 m/s\u00b2",
-        "100 m/s\u00b2",
-        "5 m/s\u00b2"
+        "4 m/s²",
+        "2 m/s²",
+        "100 m/s²",
+        "5 m/s²"
       ],
       "a": 0,
-      "e": "a = \u0394v/\u0394t = (20\u22120)/5 = 4 m/s\u00b2."
+      "e": "a = Δv/Δt = (20−0)/5 = 4 m/s²."
     },
     {
       "u": 1,
@@ -2638,7 +2638,7 @@
     },
     {
       "u": 1,
-      "q": "A ball is thrown straight up with initial speed 15 m/s. How long until it returns to its starting height? (g = 9.8 m/s\u00b2)",
+      "q": "A ball is thrown straight up with initial speed 15 m/s. How long until it returns to its starting height? (g = 9.8 m/s²)",
       "o": [
         "3.06 s",
         "1.53 s",
@@ -2646,7 +2646,7 @@
         "6.12 s"
       ],
       "a": 0,
-      "e": "Total flight time t = 2v\u2080/g = 2(15)/9.8 \u2248 3.06 s."
+      "e": "Total flight time t = 2v₀/g = 2(15)/9.8 ≈ 3.06 s."
     },
     {
       "u": 1,
@@ -2670,7 +2670,7 @@
         "19.6 m"
       ],
       "a": 0,
-      "e": "Horizontal velocity is constant: x = v\u2080t = 20(2) = 40 m."
+      "e": "Horizontal velocity is constant: x = v₀t = 20(2) = 40 m."
     },
     {
       "u": 1,
@@ -2686,7 +2686,7 @@
     },
     {
       "u": 1,
-      "q": "A car moving at 30 m/s brakes with acceleration \u22126 m/s\u00b2. How far does it travel before stopping?",
+      "q": "A car moving at 30 m/s brakes with acceleration −6 m/s². How far does it travel before stopping?",
       "o": [
         "75 m",
         "150 m",
@@ -2694,7 +2694,7 @@
         "900 m"
       ],
       "a": 0,
-      "e": "v\u00b2=v\u2080\u00b2+2a\u0394x \u2192 0=900+2(\u22126)\u0394x \u2192 \u0394x=900/12=75 m."
+      "e": "v²=v₀²+2aΔx → 0=900+2(−6)Δx → Δx=900/12=75 m."
     },
     {
       "u": 1,
@@ -2712,25 +2712,25 @@
       "u": 1,
       "q": "A particle's velocity is given by v(t) = 4t. What is its acceleration at t = 3 s?",
       "o": [
-        "4 m/s\u00b2",
-        "12 m/s\u00b2",
-        "3 m/s\u00b2",
-        "7 m/s\u00b2"
+        "4 m/s²",
+        "12 m/s²",
+        "3 m/s²",
+        "7 m/s²"
       ],
       "a": 0,
-      "e": "a = dv/dt = 4 m/s\u00b2, constant regardless of time."
+      "e": "a = dv/dt = 4 m/s², constant regardless of time."
     },
     {
       "u": 1,
-      "q": "An object thrown at an angle of 45\u00b0 above horizontal has the maximum range compared to other angles (same speed, level ground) because:",
+      "q": "An object thrown at an angle of 45° above horizontal has the maximum range compared to other angles (same speed, level ground) because:",
       "o": [
-        "sin(2\u03b8) is maximized at \u03b8=45\u00b0",
-        "cos(\u03b8) is maximized at \u03b8=45\u00b0",
-        "gravity is weakest at 45\u00b0",
-        "the object travels fastest at 45\u00b0"
+        "sin(2θ) is maximized at θ=45°",
+        "cos(θ) is maximized at θ=45°",
+        "gravity is weakest at 45°",
+        "the object travels fastest at 45°"
       ],
       "a": 0,
-      "e": "Range R = v\u2080\u00b2sin(2\u03b8)/g is maximized when sin(2\u03b8)=1, i.e., \u03b8=45\u00b0."
+      "e": "Range R = v₀²sin(2θ)/g is maximized when sin(2θ)=1, i.e., θ=45°."
     },
     {
       "u": 1,
@@ -2772,29 +2772,29 @@
       "u": 1,
       "q": "A car accelerates from 10 m/s to 25 m/s over 100 m. What is its acceleration?",
       "o": [
-        "2.63 m/s\u00b2",
-        "1.5 m/s\u00b2",
-        "3.75 m/s\u00b2",
-        "0.15 m/s\u00b2"
+        "2.63 m/s²",
+        "1.5 m/s²",
+        "3.75 m/s²",
+        "0.15 m/s²"
       ],
       "a": 0,
-      "e": "v\u00b2=v\u2080\u00b2+2a\u0394x \u2192 625=100+2a(100) \u2192 a=525/200=2.625 m/s\u00b2."
+      "e": "v²=v₀²+2aΔx → 625=100+2a(100) → a=525/200=2.625 m/s²."
     },
     {
       "u": 1,
       "q": "During the rise of a projectile, which statement about vertical acceleration is true?",
       "o": [
         "It is zero at the peak",
-        "It is constant and equal to \u2212g throughout",
+        "It is constant and equal to −g throughout",
         "It changes sign only at launch",
         "It increases as height increases"
       ],
       "a": 1,
-      "e": "Gravity acts continuously; vertical acceleration is \u2212g at every point of the trajectory, including the peak."
+      "e": "Gravity acts continuously; vertical acceleration is −g at every point of the trajectory, including the peak."
     },
     {
       "u": 1,
-      "q": "A stone is dropped from rest and falls for 3 s. How far does it fall? (g=9.8 m/s\u00b2)",
+      "q": "A stone is dropped from rest and falls for 3 s. How far does it fall? (g=9.8 m/s²)",
       "o": [
         "44.1 m",
         "29.4 m",
@@ -2802,11 +2802,11 @@
         "88.2 m"
       ],
       "a": 0,
-      "e": "\u0394x = \u00bdgt\u00b2 = \u00bd(9.8)(9) = 44.1 m."
+      "e": "Δx = ½gt² = ½(9.8)(9) = 44.1 m."
     },
     {
       "u": 1,
-      "q": "A vector has components v\u2093=3 m/s and v_y=4 m/s. What is its magnitude?",
+      "q": "A vector has components vₓ=3 m/s and v_y=4 m/s. What is its magnitude?",
       "o": [
         "5 m/s",
         "7 m/s",
@@ -2814,11 +2814,11 @@
         "12 m/s"
       ],
       "a": 0,
-      "e": "Magnitude = \u221a(3\u00b2+4\u00b2) = \u221a25 = 5 m/s."
+      "e": "Magnitude = √(3²+4²) = √25 = 5 m/s."
     },
     {
       "u": 1,
-      "q": "An object moving in the +x direction experiences a constant acceleration in the \u2212x direction. What is happening to the object's speed?",
+      "q": "An object moving in the +x direction experiences a constant acceleration in the −x direction. What is happening to the object's speed?",
       "o": [
         "Increasing",
         "Decreasing then possibly reversing",
@@ -2832,10 +2832,10 @@
       "u": 1,
       "q": "Which of these is NOT one of the four constant-acceleration kinematic equations?",
       "o": [
-        "v=v\u2080+at",
+        "v=v₀+at",
         "F=ma",
-        "\u0394x=v\u2080t+\u00bdat\u00b2",
-        "v\u00b2=v\u2080\u00b2+2a\u0394x"
+        "Δx=v₀t+½at²",
+        "v²=v₀²+2aΔx"
       ],
       "a": 1,
       "e": "F=ma is Newton's second law, not a kinematics equation."
@@ -2846,15 +2846,15 @@
       "o": [
         "4",
         "2",
-        "\u221a2",
+        "√2",
         "8"
       ],
       "a": 0,
-      "e": "Range \u221d v\u2080\u00b2, so doubling v\u2080 quadruples the range."
+      "e": "Range ∝ v₀², so doubling v₀ quadruples the range."
     },
     {
       "u": 1,
-      "q": "A car travels at constant 20 m/s for 5 s, then decelerates at 4 m/s\u00b2 to rest. Total distance traveled?",
+      "q": "A car travels at constant 20 m/s for 5 s, then decelerates at 4 m/s² to rest. Total distance traveled?",
       "o": [
         "150 m",
         "100 m",
@@ -2862,7 +2862,7 @@
         "200 m"
       ],
       "a": 0,
-      "e": "First leg: 20\u00d75=100 m. Deceleration distance: v\u00b2=v\u2080\u00b2+2a\u0394x\u21920=400\u22128\u0394x\u2192\u0394x=50 m. Total=150 m."
+      "e": "First leg: 20×5=100 m. Deceleration distance: v²=v₀²+2aΔx→0=400−8Δx→Δx=50 m. Total=150 m."
     },
     {
       "u": 1,
@@ -2878,7 +2878,7 @@
     },
     {
       "u": 1,
-      "q": "An arrow is shot at 30\u00b0 above horizontal at 40 m/s. What is its initial vertical velocity component?",
+      "q": "An arrow is shot at 30° above horizontal at 40 m/s. What is its initial vertical velocity component?",
       "o": [
         "20 m/s",
         "34.6 m/s",
@@ -2886,11 +2886,11 @@
         "10 m/s"
       ],
       "a": 0,
-      "e": "v_y0 = v\u2080 sin\u03b8 = 40 sin30\u00b0 = 40(0.5) = 20 m/s."
+      "e": "v_y0 = v₀ sinθ = 40 sin30° = 40(0.5) = 20 m/s."
     },
     {
       "u": 1,
-      "q": "Two cars start at the same point; Car A moves at constant 10 m/s, Car B starts from rest with a=2 m/s\u00b2. When do they have the same velocity?",
+      "q": "Two cars start at the same point; Car A moves at constant 10 m/s, Car B starts from rest with a=2 m/s². When do they have the same velocity?",
       "o": [
         "t=5 s",
         "t=10 s",
@@ -2898,7 +2898,7 @@
         "They never match"
       ],
       "a": 0,
-      "e": "Set 10 = 0+2t \u2192 t=5 s."
+      "e": "Set 10 = 0+2t → t=5 s."
     },
     {
       "u": 1,
@@ -2922,19 +2922,19 @@
         "80 m"
       ],
       "a": 0,
-      "e": "First segment: 10\u00d74=40 m (rectangle). Second: \u00bd\u00d710\u00d74=20 m (triangle). Total=60 m."
+      "e": "First segment: 10×4=40 m (rectangle). Second: ½×10×4=20 m (triangle). Total=60 m."
     },
     {
       "u": 1,
       "q": "What is the horizontal range formula for a projectile launched and landing at the same height?",
       "o": [
-        "R = v\u2080\u00b2sin(2\u03b8)/g",
-        "R = v\u2080\u00b2sin\u03b8/g",
-        "R = v\u2080 t",
-        "R = v\u2080\u00b2cos(2\u03b8)/g"
+        "R = v₀²sin(2θ)/g",
+        "R = v₀²sinθ/g",
+        "R = v₀ t",
+        "R = v₀²cos(2θ)/g"
       ],
       "a": 0,
-      "e": "Standard projectile range formula for equal launch/landing elevation is R = v\u2080\u00b2sin(2\u03b8)/g."
+      "e": "Standard projectile range formula for equal launch/landing elevation is R = v₀²sin(2θ)/g."
     },
     {
       "u": 1,
@@ -2946,11 +2946,11 @@
         "A ball resting on the ground"
       ],
       "a": 0,
-      "e": "At the peak of vertical motion, v=0 momentarily but gravity still gives a=\u2212g."
+      "e": "At the peak of vertical motion, v=0 momentarily but gravity still gives a=−g."
     },
     {
       "u": 1,
-      "q": "A student mistakenly uses \u0394x = v\u2080t instead of \u0394x = v\u2080t + \u00bdat\u00b2 for accelerating motion. This error would:",
+      "q": "A student mistakenly uses Δx = v₀t instead of Δx = v₀t + ½at² for accelerating motion. This error would:",
       "o": [
         "Underestimate displacement when a>0",
         "Overestimate displacement when a>0",
@@ -2958,11 +2958,11 @@
         "Only affect velocity, not displacement"
       ],
       "a": 0,
-      "e": "Ignoring the \u00bdat\u00b2 term removes the extra distance gained from acceleration, underestimating displacement when a>0."
+      "e": "Ignoring the ½at² term removes the extra distance gained from acceleration, underestimating displacement when a>0."
     },
     {
       "u": 1,
-      "q": "A rock is thrown horizontally from a 20 m tall cliff. How long does it take to hit the ground? (g=9.8 m/s\u00b2)",
+      "q": "A rock is thrown horizontally from a 20 m tall cliff. How long does it take to hit the ground? (g=9.8 m/s²)",
       "o": [
         "2.02 s",
         "1.43 s",
@@ -2970,7 +2970,7 @@
         "2.86 s"
       ],
       "a": 0,
-      "e": "20 = \u00bd(9.8)t\u00b2 \u2192 t\u00b2 = 4.08 \u2192 t \u2248 2.02 s."
+      "e": "20 = ½(9.8)t² → t² = 4.08 → t ≈ 2.02 s."
     },
     {
       "u": 1,
@@ -2994,7 +2994,7 @@
         "19.6 m/s"
       ],
       "a": 0,
-      "e": "v=v\u2080+gt \u2192 19.6=v\u2080+9.8(2) \u2192 v\u2080=19.6\u221219.6=0, consistent with being 'dropped.'"
+      "e": "v=v₀+gt → 19.6=v₀+9.8(2) → v₀=19.6−19.6=0, consistent with being 'dropped.'"
     },
     {
       "u": 1,
@@ -3012,13 +3012,13 @@
       "u": 1,
       "q": "A car travels 60 m in the first 3 s of uniform acceleration from rest. What is its acceleration?",
       "o": [
-        "13.3 m/s\u00b2",
-        "6.7 m/s\u00b2",
-        "20 m/s\u00b2",
-        "3.3 m/s\u00b2"
+        "13.3 m/s²",
+        "6.7 m/s²",
+        "20 m/s²",
+        "3.3 m/s²"
       ],
       "a": 0,
-      "e": "\u0394x=\u00bdat\u00b2 \u2192 60=\u00bda(9) \u2192 a=120/9\u224813.3 m/s\u00b2."
+      "e": "Δx=½at² → 60=½a(9) → a=120/9≈13.3 m/s²."
     },
     {
       "u": 1,
@@ -3034,7 +3034,7 @@
     },
     {
       "u": 1,
-      "q": "A ball thrown at 20 m/s at 60\u00b0 above horizontal. What is the vertical velocity component?",
+      "q": "A ball thrown at 20 m/s at 60° above horizontal. What is the vertical velocity component?",
       "o": [
         "17.3 m/s",
         "10 m/s",
@@ -3042,7 +3042,7 @@
         "14.1 m/s"
       ],
       "a": 0,
-      "e": "v_y0 = v\u2080sin\u03b8 = 20 sin60\u00b0 \u2248 17.3 m/s."
+      "e": "v_y0 = v₀sinθ = 20 sin60° ≈ 17.3 m/s."
     },
     {
       "u": 1,
@@ -3054,7 +3054,7 @@
         "An exponential decay curve"
       ],
       "a": 0,
-      "e": "Speed decreases to zero as velocity approaches zero, then as the object reverses, speed increases again \u2014 giving a V-shaped speed graph even though velocity itself is linear."
+      "e": "Speed decreases to zero as velocity approaches zero, then as the object reverses, speed increases again — giving a V-shaped speed graph even though velocity itself is linear."
     },
     {
       "u": 1,
@@ -3070,7 +3070,7 @@
     },
     {
       "u": 1,
-      "q": "A ball is launched at 25 m/s at 37\u00b0 (sin37\u00b0\u22480.6, cos37\u00b0\u22480.8). What is the max height reached? (g=9.8)",
+      "q": "A ball is launched at 25 m/s at 37° (sin37°≈0.6, cos37°≈0.8). What is the max height reached? (g=9.8)",
       "o": [
         "11.0 m",
         "22.9 m",
@@ -3078,7 +3078,7 @@
         "15.3 m"
       ],
       "a": 0,
-      "e": "v_y0=25(0.6)=15 m/s; h_max=v_y0\u00b2/(2g)=225/19.6\u224811.5 m (\u224811.0 m closest option)."
+      "e": "v_y0=25(0.6)=15 m/s; h_max=v_y0²/(2g)=225/19.6≈11.5 m (≈11.0 m closest option)."
     },
     {
       "u": 1,
@@ -3090,19 +3090,19 @@
         "12 m"
       ],
       "a": 0,
-      "e": "Pythagorean theorem: \u221a(3\u00b2+4\u00b2)=5 m."
+      "e": "Pythagorean theorem: √(3²+4²)=5 m."
     },
     {
       "u": 2,
       "q": "A 5 kg object experiences a net force of 15 N. What is its acceleration?",
       "o": [
-        "3 m/s\u00b2",
-        "5 m/s\u00b2",
-        "10 m/s\u00b2",
-        "0.33 m/s\u00b2"
+        "3 m/s²",
+        "5 m/s²",
+        "10 m/s²",
+        "0.33 m/s²"
       ],
       "a": 0,
-      "e": "a = F/m = 15/5 = 3 m/s\u00b2."
+      "e": "a = F/m = 15/5 = 3 m/s²."
     },
     {
       "u": 2,
@@ -3132,17 +3132,17 @@
       "u": 2,
       "q": "A 10 kg crate is pulled by a horizontal force of 40 N; friction opposes with 10 N. What is the acceleration?",
       "o": [
-        "3 m/s\u00b2",
-        "4 m/s\u00b2",
-        "5 m/s\u00b2",
-        "0.3 m/s\u00b2"
+        "3 m/s²",
+        "4 m/s²",
+        "5 m/s²",
+        "0.3 m/s²"
       ],
       "a": 0,
-      "e": "Net force = 40\u221210=30 N; a=F/m=30/10=3 m/s\u00b2."
+      "e": "Net force = 40−10=30 N; a=F/m=30/10=3 m/s²."
     },
     {
       "u": 2,
-      "q": "An elevator accelerates upward at 2 m/s\u00b2. A 60 kg person's apparent weight is:",
+      "q": "An elevator accelerates upward at 2 m/s². A 60 kg person's apparent weight is:",
       "o": [
         "708 N",
         "588 N",
@@ -3154,15 +3154,15 @@
     },
     {
       "u": 2,
-      "q": "A block sits on a frictionless 30\u00b0 incline. What is its acceleration down the slope? (g=9.8)",
+      "q": "A block sits on a frictionless 30° incline. What is its acceleration down the slope? (g=9.8)",
       "o": [
-        "4.9 m/s\u00b2",
-        "9.8 m/s\u00b2",
-        "8.49 m/s\u00b2",
-        "2.45 m/s\u00b2"
+        "4.9 m/s²",
+        "9.8 m/s²",
+        "8.49 m/s²",
+        "2.45 m/s²"
       ],
       "a": 0,
-      "e": "a=g sin\u03b8=9.8 sin30\u00b0=9.8(0.5)=4.9 m/s\u00b2."
+      "e": "a=g sinθ=9.8 sin30°=9.8(0.5)=4.9 m/s²."
     },
     {
       "u": 2,
@@ -3180,13 +3180,13 @@
       "u": 2,
       "q": "Two blocks (2 kg and 3 kg) are connected by a string over a frictionless pulley, with the 3 kg block hanging. What is the system's acceleration? (g=9.8)",
       "o": [
-        "5.88 m/s\u00b2",
-        "9.8 m/s\u00b2",
-        "3.27 m/s\u00b2",
-        "1.96 m/s\u00b2"
+        "5.88 m/s²",
+        "9.8 m/s²",
+        "3.27 m/s²",
+        "1.96 m/s²"
       ],
       "a": 0,
-      "e": "a = (m2 g)/(m1+m2) = (3\u00d79.8)/5 = 5.88 m/s\u00b2 (assuming 2 kg on frictionless horizontal surface, 3 kg hanging)."
+      "e": "a = (m2 g)/(m1+m2) = (3×9.8)/5 = 5.88 m/s² (assuming 2 kg on frictionless horizontal surface, 3 kg hanging)."
     },
     {
       "u": 2,
@@ -3204,13 +3204,13 @@
       "u": 2,
       "q": "A 1000 kg car experiences a braking force of 4000 N. What is its deceleration?",
       "o": [
-        "4 m/s\u00b2",
-        "0.25 m/s\u00b2",
-        "4000 m/s\u00b2",
-        "40 m/s\u00b2"
+        "4 m/s²",
+        "0.25 m/s²",
+        "4000 m/s²",
+        "40 m/s²"
       ],
       "a": 0,
-      "e": "a=F/m=4000/1000=4 m/s\u00b2."
+      "e": "a=F/m=4000/1000=4 m/s²."
     },
     {
       "u": 2,
@@ -3222,7 +3222,7 @@
         "2 N"
       ],
       "a": 0,
-      "e": "f_k=\u03bc_k N=\u03bc_k mg=0.2(5)(9.8)=9.8 N."
+      "e": "f_k=μ_k N=μ_k mg=0.2(5)(9.8)=9.8 N."
     },
     {
       "u": 2,
@@ -3250,7 +3250,7 @@
     },
     {
       "u": 2,
-      "q": "A block on a 20\u00b0 frictionless incline has mass 4 kg. What is the normal force? (g=9.8)",
+      "q": "A block on a 20° frictionless incline has mass 4 kg. What is the normal force? (g=9.8)",
       "o": [
         "36.8 N",
         "39.2 N",
@@ -3258,7 +3258,7 @@
         "9.8 N"
       ],
       "a": 0,
-      "e": "N=mg cos\u03b8=4(9.8)cos20\u00b0\u224839.2(0.9397)\u224836.8 N."
+      "e": "N=mg cosθ=4(9.8)cos20°≈39.2(0.9397)≈36.8 N."
     },
     {
       "u": 2,
@@ -3286,15 +3286,15 @@
     },
     {
       "u": 2,
-      "q": "A 3 kg block is pushed with a 20 N force up a frictionless incline at angle 25\u00b0 along the slope. What is its acceleration up the incline? (g=9.8, sin25\u00b0\u22480.4226)",
+      "q": "A 3 kg block is pushed with a 20 N force up a frictionless incline at angle 25° along the slope. What is its acceleration up the incline? (g=9.8, sin25°≈0.4226)",
       "o": [
-        "2.44 m/s\u00b2",
-        "6.67 m/s\u00b2",
-        "4.1 m/s\u00b2",
-        "0.67 m/s\u00b2"
+        "2.44 m/s²",
+        "6.67 m/s²",
+        "4.1 m/s²",
+        "0.67 m/s²"
       ],
       "a": 0,
-      "e": "Net force along incline = F \u2212 mg sin\u03b8 = 20 \u2212 3(9.8)(0.4226) \u2248 20\u221212.42 = 7.32 N; a = 7.32/3 \u2248 2.44 m/s\u00b2."
+      "e": "Net force along incline = F − mg sinθ = 20 − 3(9.8)(0.4226) ≈ 20−12.42 = 7.32 N; a = 7.32/3 ≈ 2.44 m/s²."
     },
     {
       "u": 2,
@@ -3306,19 +3306,19 @@
         "48 N"
       ],
       "a": 0,
-      "e": "Perpendicular forces combine via Pythagorean theorem: \u221a(6\u00b2+8\u00b2)=10 N."
+      "e": "Perpendicular forces combine via Pythagorean theorem: √(6²+8²)=10 N."
     },
     {
       "u": 2,
-      "q": "A 50 kg skier accelerates down a 15\u00b0 slope with kinetic friction coefficient 0.1. What is the net acceleration? (g=9.8)",
+      "q": "A 50 kg skier accelerates down a 15° slope with kinetic friction coefficient 0.1. What is the net acceleration? (g=9.8)",
       "o": [
-        "1.59 m/s\u00b2",
-        "2.54 m/s\u00b2",
-        "0.95 m/s\u00b2",
-        "9.8 m/s\u00b2"
+        "1.59 m/s²",
+        "2.54 m/s²",
+        "0.95 m/s²",
+        "9.8 m/s²"
       ],
       "a": 0,
-      "e": "a=g(sin\u03b8 \u2212 \u03bccos\u03b8)=9.8(0.2588\u22120.1\u00d70.9659)=9.8(0.2588\u22120.0966)=9.8(0.1622)\u22481.59 m/s\u00b2."
+      "e": "a=g(sinθ − μcosθ)=9.8(0.2588−0.1×0.9659)=9.8(0.2588−0.0966)=9.8(0.1622)≈1.59 m/s²."
     },
     {
       "u": 2,
@@ -3334,7 +3334,7 @@
     },
     {
       "u": 2,
-      "q": "A 4 kg block hangs from two symmetric strings, each making 30\u00b0 with the vertical ceiling attachment. What is the tension in each string? (g=9.8)",
+      "q": "A 4 kg block hangs from two symmetric strings, each making 30° with the vertical ceiling attachment. What is the tension in each string? (g=9.8)",
       "o": [
         "22.6 N",
         "39.2 N",
@@ -3342,7 +3342,7 @@
         "78.4 N"
       ],
       "a": 0,
-      "e": "Vertical equilibrium: 2T cos30\u00b0 = mg \u2192 T = mg/(2cos30\u00b0) = 39.2/1.732 \u2248 22.6 N."
+      "e": "Vertical equilibrium: 2T cos30° = mg → T = mg/(2cos30°) = 39.2/1.732 ≈ 22.6 N."
     },
     {
       "u": 2,
@@ -3354,23 +3354,23 @@
         "The object experiences only one force"
       ],
       "a": 0,
-      "e": "Static equilibrium requires \u03a3F=0 and \u03a3\u03c4=0, meaning no linear or rotational acceleration."
+      "e": "Static equilibrium requires ΣF=0 and Στ=0, meaning no linear or rotational acceleration."
     },
     {
       "u": 2,
       "q": "A 2 kg cart on a frictionless track is pulled by two horizontal ropes: one 10 N right, one 4 N left. Find the acceleration.",
       "o": [
-        "3 m/s\u00b2 right",
-        "7 m/s\u00b2 right",
-        "2 m/s\u00b2 right",
-        "5 m/s\u00b2 right"
+        "3 m/s² right",
+        "7 m/s² right",
+        "2 m/s² right",
+        "5 m/s² right"
       ],
       "a": 0,
-      "e": "Net force = 10\u22124=6 N right; a=6/2=3 m/s\u00b2."
+      "e": "Net force = 10−4=6 N right; a=6/2=3 m/s²."
     },
     {
       "u": 2,
-      "q": "On the Moon (g\u22481.6 m/s\u00b2), how does an object's mass compare to its weight relative to Earth?",
+      "q": "On the Moon (g≈1.6 m/s²), how does an object's mass compare to its weight relative to Earth?",
       "o": [
         "Mass is unchanged, weight is less",
         "Mass is less, weight is unchanged",
@@ -3382,7 +3382,7 @@
     },
     {
       "u": 2,
-      "q": "A 6 kg box is at rest on a surface with \u03bc_s=0.4. What is the maximum static friction force before it starts sliding? (g=9.8)",
+      "q": "A 6 kg box is at rest on a surface with μ_s=0.4. What is the maximum static friction force before it starts sliding? (g=9.8)",
       "o": [
         "23.5 N",
         "6 N",
@@ -3390,11 +3390,11 @@
         "2.4 N"
       ],
       "a": 0,
-      "e": "f_s(max)=\u03bc_s mg=0.4(6)(9.8)=23.52 N."
+      "e": "f_s(max)=μ_s mg=0.4(6)(9.8)=23.52 N."
     },
     {
       "u": 2,
-      "q": "A person stands on a scale in an elevator accelerating downward at 3 m/s\u00b2. If their mass is 70 kg, what does the scale read? (g=9.8)",
+      "q": "A person stands on a scale in an elevator accelerating downward at 3 m/s². If their mass is 70 kg, what does the scale read? (g=9.8)",
       "o": [
         "476 N",
         "686 N",
@@ -3402,7 +3402,7 @@
         "210 N"
       ],
       "a": 0,
-      "e": "N=m(g\u2212a)=70(9.8\u22123)=70(6.8)=476 N."
+      "e": "N=m(g−a)=70(9.8−3)=70(6.8)=476 N."
     },
     {
       "u": 2,
@@ -3430,27 +3430,27 @@
     },
     {
       "u": 2,
-      "q": "An object of mass m is pushed with force F at angle \u03b8 above horizontal across a surface with friction coefficient \u03bc. Which term reduces the normal force?",
+      "q": "An object of mass m is pushed with force F at angle θ above horizontal across a surface with friction coefficient μ. Which term reduces the normal force?",
       "o": [
-        "The vertical component of the applied force, F sin\u03b8",
+        "The vertical component of the applied force, F sinθ",
         "The horizontal component of the applied force",
         "The weight of the object",
         "The coefficient of friction"
       ],
       "a": 0,
-      "e": "When pushing at an upward angle, N = mg \u2212 F sin\u03b8, since the vertical component of the push partially supports the object's weight."
+      "e": "When pushing at an upward angle, N = mg − F sinθ, since the vertical component of the push partially supports the object's weight."
     },
     {
       "u": 2,
       "q": "A 12 N force and an 8 N force act in opposite directions on a 4 kg object. What is its acceleration?",
       "o": [
-        "1 m/s\u00b2",
-        "5 m/s\u00b2",
-        "0.5 m/s\u00b2",
-        "20 m/s\u00b2"
+        "1 m/s²",
+        "5 m/s²",
+        "0.5 m/s²",
+        "20 m/s²"
       ],
       "a": 0,
-      "e": "Net force=12\u22128=4 N; a=4/4=1 m/s\u00b2."
+      "e": "Net force=12−8=4 N; a=4/4=1 m/s²."
     },
     {
       "u": 2,
@@ -3510,7 +3510,7 @@
         "60000 N"
       ],
       "a": 0,
-      "e": "a=(0-20)/5=-4 m/s\u00b2; F=ma=3000(4)=12000 N (magnitude)."
+      "e": "a=(0-20)/5=-4 m/s²; F=ma=3000(4)=12000 N (magnitude)."
     },
     {
       "u": 2,
@@ -3522,31 +3522,31 @@
         "Normal force decreases once moving"
       ],
       "a": 0,
-      "e": "\u03bc_s is generally greater than or equal to \u03bc_k, so more force is needed to overcome static friction and initiate motion than to sustain it."
+      "e": "μ_s is generally greater than or equal to μ_k, so more force is needed to overcome static friction and initiate motion than to sustain it."
     },
     {
       "u": 2,
       "q": "A 5 kg block on a horizontal frictionless surface is connected by a string over a pulley to a hanging 5 kg block. What is the acceleration of the system? (g=9.8)",
       "o": [
-        "4.9 m/s\u00b2",
-        "9.8 m/s\u00b2",
-        "2.45 m/s\u00b2",
-        "6.53 m/s\u00b2"
+        "4.9 m/s²",
+        "9.8 m/s²",
+        "2.45 m/s²",
+        "6.53 m/s²"
       ],
       "a": 0,
-      "e": "a=(m2 g)/(m1+m2)=(5\u00d79.8)/10=4.9 m/s\u00b2."
+      "e": "a=(m2 g)/(m1+m2)=(5×9.8)/10=4.9 m/s²."
     },
     {
       "u": 2,
       "q": "A crate is in equilibrium on an incline due to friction. Which relationship must hold?",
       "o": [
-        "f_s = mg sin\u03b8 (static friction balances the gravity component along the incline)",
-        "N = mg sin\u03b8",
-        "f_k = mg cos\u03b8",
+        "f_s = mg sinθ (static friction balances the gravity component along the incline)",
+        "N = mg sinθ",
+        "f_k = mg cosθ",
         "T = mg"
       ],
       "a": 0,
-      "e": "For equilibrium on an incline (no applied force besides gravity and friction), static friction must equal the component of gravity along the slope, mg sin\u03b8."
+      "e": "For equilibrium on an incline (no applied force besides gravity and friction), static friction must equal the component of gravity along the slope, mg sinθ."
     },
     {
       "u": 2,
@@ -3576,25 +3576,25 @@
       "u": 4,
       "q": "A 2 kg object moves at 5 m/s. What is its momentum?",
       "o": [
-        "10 kg\u00b7m/s",
-        "2.5 kg\u00b7m/s",
-        "7 kg\u00b7m/s",
-        "25 kg\u00b7m/s"
+        "10 kg·m/s",
+        "2.5 kg·m/s",
+        "7 kg·m/s",
+        "25 kg·m/s"
       ],
       "a": 0,
-      "e": "p=mv=2(5)=10 kg\u00b7m/s."
+      "e": "p=mv=2(5)=10 kg·m/s."
     },
     {
       "u": 4,
       "q": "A 0.5 kg ball experiences a net force of 20 N for 0.1 s. What is the impulse delivered?",
       "o": [
-        "2 N\u00b7s",
-        "200 N\u00b7s",
-        "0.5 N\u00b7s",
-        "20 N\u00b7s"
+        "2 N·s",
+        "200 N·s",
+        "0.5 N·s",
+        "20 N·s"
       ],
       "a": 0,
-      "e": "J=F\u0394t=20(0.1)=2 N\u00b7s."
+      "e": "J=FΔt=20(0.1)=2 N·s."
     },
     {
       "u": 4,
@@ -3606,7 +3606,7 @@
         "3.2 m/s"
       ],
       "a": 0,
-      "e": "Momentum conservation: 0=m_A v_A \u2212 m_B v_B (opposite directions) \u2192 50(2)=40(v_B) \u2192 v_B=2.5 m/s."
+      "e": "Momentum conservation: 0=m_A v_A − m_B v_B (opposite directions) → 50(2)=40(v_B) → v_B=2.5 m/s."
     },
     {
       "u": 4,
@@ -3618,7 +3618,7 @@
         "10 m/s"
       ],
       "a": 0,
-      "e": "Perfectly inelastic: m1v1=(m1+m2)v_f \u2192 1000(15)=2000(v_f) \u2192 v_f=7.5 m/s."
+      "e": "Perfectly inelastic: m1v1=(m1+m2)v_f → 1000(15)=2000(v_f) → v_f=7.5 m/s."
     },
     {
       "u": 4,
@@ -3634,15 +3634,15 @@
     },
     {
       "u": 4,
-      "q": "A ball with momentum 6 kg\u00b7m/s bounces off a wall and returns with momentum \u22124 kg\u00b7m/s (opposite direction). What is the impulse delivered by the wall?",
+      "q": "A ball with momentum 6 kg·m/s bounces off a wall and returns with momentum −4 kg·m/s (opposite direction). What is the impulse delivered by the wall?",
       "o": [
-        "-10 kg\u00b7m/s",
-        "-2 kg\u00b7m/s",
-        "2 kg\u00b7m/s",
-        "10 kg\u00b7m/s"
+        "-10 kg·m/s",
+        "-2 kg·m/s",
+        "2 kg·m/s",
+        "10 kg·m/s"
       ],
       "a": 0,
-      "e": "Impulse = \u0394p = p_f \u2212 p_i = \u22124 \u2212 6 = \u221210 kg\u00b7m/s."
+      "e": "Impulse = Δp = p_f − p_i = −4 − 6 = −10 kg·m/s."
     },
     {
       "u": 4,
@@ -3654,7 +3654,7 @@
         "They eliminate impulse entirely"
       ],
       "a": 0,
-      "e": "By extending \u0394t for the same \u0394p (impulse), airbags reduce the average force experienced by the passenger (F=\u0394p/\u0394t)."
+      "e": "By extending Δt for the same Δp (impulse), airbags reduce the average force experienced by the passenger (F=Δp/Δt)."
     },
     {
       "u": 4,
@@ -3678,7 +3678,7 @@
         "2 m/s"
       ],
       "a": 0,
-      "e": "Total momentum = 2(3)+4(-1)=6-4=2 kg\u00b7m/s; v_f=2/(2+4)=0.33 m/s."
+      "e": "Total momentum = 2(3)+4(-1)=6-4=2 kg·m/s; v_f=2/(2+4)=0.33 m/s."
     },
     {
       "u": 4,
@@ -3690,7 +3690,7 @@
         "15 m/s"
       ],
       "a": 0,
-      "e": "Momentum conservation: 0 = m_bullet v_bullet + m_rifle v_rifle \u2192 v_rifle = -(0.02\u00d7300)/4 = -1.5 m/s (magnitude 1.5 m/s)."
+      "e": "Momentum conservation: 0 = m_bullet v_bullet + m_rifle v_rifle → v_rifle = -(0.02×300)/4 = -1.5 m/s (magnitude 1.5 m/s)."
     },
     {
       "u": 4,
@@ -3702,7 +3702,7 @@
         "The change in kinetic energy of an object"
       ],
       "a": 0,
-      "e": "Impulse J = F\u0394t = \u0394p, the change in momentum caused by a net force applied over a time interval."
+      "e": "Impulse J = FΔt = Δp, the change in momentum caused by a net force applied over a time interval."
     },
     {
       "u": 4,
@@ -3726,7 +3726,7 @@
         "3 m/s"
       ],
       "a": 0,
-      "e": "Momentum conservation: 0 = m_tool v_tool + m_astronaut v_astronaut \u2192 v_astronaut = -(2\u00d710)/60 \u2248 -0.33 m/s (opposite direction)."
+      "e": "Momentum conservation: 0 = m_tool v_tool + m_astronaut v_astronaut → v_astronaut = -(2×10)/60 ≈ -0.33 m/s (opposite direction)."
     },
     {
       "u": 4,
@@ -3738,19 +3738,19 @@
         "Cannot be determined without more information"
       ],
       "a": 0,
-      "e": "KE = p\u00b2/(2m); for equal p, smaller mass gives larger KE since KE is inversely proportional to mass at fixed momentum."
+      "e": "KE = p²/(2m); for equal p, smaller mass gives larger KE since KE is inversely proportional to mass at fixed momentum."
     },
     {
       "u": 4,
       "q": "A force-time graph shows a triangular pulse peaking at 100 N over 0.2 s. What is the impulse delivered?",
       "o": [
-        "10 N\u00b7s",
-        "20 N\u00b7s",
-        "100 N\u00b7s",
-        "5 N\u00b7s"
+        "10 N·s",
+        "20 N·s",
+        "100 N·s",
+        "5 N·s"
       ],
       "a": 0,
-      "e": "Impulse = area under F-t graph = \u00bd \u00d7 base \u00d7 height = \u00bd(0.2)(100) = 10 N\u00b7s."
+      "e": "Impulse = area under F-t graph = ½ × base × height = ½(0.2)(100) = 10 N·s."
     },
     {
       "u": 4,
@@ -3774,7 +3774,7 @@
         "500 N"
       ],
       "a": 0,
-      "e": "F=\u0394p/\u0394t=(0-20)/0.02=-1000 N, magnitude 1000 N."
+      "e": "F=Δp/Δt=(0-20)/0.02=-1000 N, magnitude 1000 N."
     },
     {
       "u": 4,
@@ -3810,15 +3810,15 @@
         "A book sitting still on a shelf"
       ],
       "a": 0,
-      "e": "Moving the glove back increases the time (\u0394t) over which the ball's momentum changes, reducing the force felt by the catcher, per J=F\u0394t=\u0394p."
+      "e": "Moving the glove back increases the time (Δt) over which the ball's momentum changes, reducing the force felt by the catcher, per J=FΔt=Δp."
     },
     {
       "u": 4,
       "q": "Two ice skaters push off from rest. Skater A (mass 80 kg) ends up moving at 1.5 m/s. What is the total momentum of the system after they push off?",
       "o": [
         "Zero",
-        "120 kg\u00b7m/s",
-        "-120 kg\u00b7m/s",
+        "120 kg·m/s",
+        "-120 kg·m/s",
         "Depends on skater B's mass"
       ],
       "a": 0,
@@ -3834,7 +3834,7 @@
         "7500 N"
       ],
       "a": 0,
-      "e": "F=\u0394p/\u0394t=(0-1500\u00d720)/0.5=-60,000 N, magnitude 60,000 N."
+      "e": "F=Δp/Δt=(0-1500×20)/0.5=-60,000 N, magnitude 60,000 N."
     },
     {
       "u": 4,
@@ -3858,7 +3858,7 @@
         "9000 N"
       ],
       "a": 0,
-      "e": "\u0394p=m(v_f-v_i)=0.15(-50-40)=0.15(-90)=-13.5 kg\u00b7m/s; F=\u0394p/\u0394t=-13.5/0.001=-13,500 N, magnitude 13,500 N."
+      "e": "Δp=m(v_f-v_i)=0.15(-50-40)=0.15(-90)=-13.5 kg·m/s; F=Δp/Δt=-13.5/0.001=-13,500 N, magnitude 13,500 N."
     },
     {
       "u": 4,
@@ -3876,13 +3876,13 @@
       "u": 4,
       "q": "A 2000 kg truck moving at 10 m/s rear-ends a stationary 1000 kg car, and they don't stick (elastic assumption not required, just find combined system momentum). What is the total momentum right after impact (system, before any separation)?",
       "o": [
-        "20,000 kg\u00b7m/s",
-        "10,000 kg\u00b7m/s",
-        "30,000 kg\u00b7m/s",
-        "0 kg\u00b7m/s"
+        "20,000 kg·m/s",
+        "10,000 kg·m/s",
+        "30,000 kg·m/s",
+        "0 kg·m/s"
       ],
       "a": 0,
-      "e": "Total momentum is conserved from before collision: p=m_truck v_truck=2000(10)=20,000 kg\u00b7m/s (stationary car contributes 0)."
+      "e": "Total momentum is conserved from before collision: p=m_truck v_truck=2000(10)=20,000 kg·m/s (stationary car contributes 0)."
     },
     {
       "u": 4,
@@ -3894,7 +3894,7 @@
         "A slower swing"
       ],
       "a": 0,
-      "e": "Impulse = F\u0394t; for a similar average force, a longer contact time increases the total impulse (and thus momentum change) delivered."
+      "e": "Impulse = FΔt; for a similar average force, a longer contact time increases the total impulse (and thus momentum change) delivered."
     },
     {
       "u": 4,
@@ -3906,7 +3906,7 @@
         "10 m/s west"
       ],
       "a": 0,
-      "e": "Momentum conservation: 0=2(5)+2(v) \u2192 v=-5 m/s, i.e., 5 m/s west."
+      "e": "Momentum conservation: 0=2(5)+2(v) → v=-5 m/s, i.e., 5 m/s west."
     },
     {
       "u": 4,
@@ -3930,19 +3930,19 @@
         "-2 m/s"
       ],
       "a": 0,
-      "e": "p_total=5(2)+8(-3)=10-24=-14 kg\u00b7m/s; v_f=-14/13\u2248-1.08 m/s, i.e., moving left."
+      "e": "p_total=5(2)+8(-3)=10-24=-14 kg·m/s; v_f=-14/13≈-1.08 m/s, i.e., moving left."
     },
     {
       "u": 4,
       "q": "A ball of mass 0.4 kg is dropped and hits the ground at 8 m/s, bouncing back up at 6 m/s. What is the magnitude of the impulse from the ground?",
       "o": [
-        "5.6 kg\u00b7m/s",
-        "0.8 kg\u00b7m/s",
-        "3.2 kg\u00b7m/s",
-        "2.4 kg\u00b7m/s"
+        "5.6 kg·m/s",
+        "0.8 kg·m/s",
+        "3.2 kg·m/s",
+        "2.4 kg·m/s"
       ],
       "a": 0,
-      "e": "Taking down as positive: p_i=0.4(8)=3.2, p_f=0.4(-6)=-2.4; \u0394p=-2.4-3.2=-5.6, magnitude 5.6 kg\u00b7m/s."
+      "e": "Taking down as positive: p_i=0.4(8)=3.2, p_f=0.4(-6)=-2.4; Δp=-2.4-3.2=-5.6, magnitude 5.6 kg·m/s."
     },
     {
       "u": 4,
@@ -3954,15 +3954,15 @@
         "It quadruples"
       ],
       "a": 0,
-      "e": "Since J=F\u0394t is fixed, doubling \u0394t requires F to be halved to keep the product (impulse) constant."
+      "e": "Since J=FΔt is fixed, doubling Δt requires F to be halved to keep the product (impulse) constant."
     },
     {
       "u": 4,
-      "q": "A system of two colliding carts has total momentum 20 kg\u00b7m/s before collision. What is the total momentum immediately after, assuming no external horizontal forces?",
+      "q": "A system of two colliding carts has total momentum 20 kg·m/s before collision. What is the total momentum immediately after, assuming no external horizontal forces?",
       "o": [
-        "20 kg\u00b7m/s",
-        "0 kg\u00b7m/s",
-        "10 kg\u00b7m/s",
+        "20 kg·m/s",
+        "0 kg·m/s",
+        "10 kg·m/s",
         "Depends on whether it's elastic or inelastic"
       ],
       "a": 0,
@@ -3978,7 +3978,7 @@
         "60 N"
       ],
       "a": 0,
-      "e": "F=\u0394p/\u0394t=(0.06\u00d750-0)/0.005=3/0.005=600 N."
+      "e": "F=Δp/Δt=(0.06×50-0)/0.005=3/0.005=600 N."
     },
     {
       "u": 4,
@@ -4014,7 +4014,7 @@
         "It converts impulse into pure kinetic energy directly"
       ],
       "a": 0,
-      "e": "Since J=F\u0394t=\u0394p is fixed by the desired change in the ball's momentum, a longer contact time (\u0394t) allows a smaller average force (F) to produce the same impulse."
+      "e": "Since J=FΔt=Δp is fixed by the desired change in the ball's momentum, a longer contact time (Δt) allows a smaller average force (F) to produce the same impulse."
     },
     {
       "u": 3,
@@ -4026,7 +4026,7 @@
         "0.5 J"
       ],
       "a": 0,
-      "e": "W=Fd cos\u03b8=10(5)cos0\u00b0=50 J."
+      "e": "W=Fd cosθ=10(5)cos0°=50 J."
     },
     {
       "u": 3,
@@ -4038,7 +4038,7 @@
         "Depends on the person's speed"
       ],
       "a": 0,
-      "e": "Gravity is vertical, displacement is horizontal, so the angle is 90\u00b0 and cos\u03b8=0, giving zero work."
+      "e": "Gravity is vertical, displacement is horizontal, so the angle is 90° and cosθ=0, giving zero work."
     },
     {
       "u": 3,
@@ -4050,7 +4050,7 @@
         "45 J"
       ],
       "a": 0,
-      "e": "\u0394KE=\u00bdm(v_f\u00b2\u2212v_i\u00b2)=\u00bd(2)(36\u22129)=27 J."
+      "e": "ΔKE=½m(v_f²−v_i²)=½(2)(36−9)=27 J."
     },
     {
       "u": 3,
@@ -4062,7 +4062,7 @@
         "0.1 J"
       ],
       "a": 0,
-      "e": "U=\u00bdkx\u00b2=\u00bd(200)(0.01)=1 J."
+      "e": "U=½kx²=½(200)(0.01)=1 J."
     },
     {
       "u": 3,
@@ -4074,7 +4074,7 @@
         "7 m/s"
       ],
       "a": 0,
-      "e": "mgh=\u00bdmv\u00b2 \u2192 v=\u221a(2gh)=\u221a(2\u00d79.8\u00d710)=\u221a196=14 m/s."
+      "e": "mgh=½mv² → v=√(2gh)=√(2×9.8×10)=√196=14 m/s."
     },
     {
       "u": 3,
@@ -4090,7 +4090,7 @@
     },
     {
       "u": 3,
-      "q": "A block slides down a frictionless ramp from rest and reaches the bottom with KE=100 J. If friction were present and did \u221220 J of work, what would the final KE be?",
+      "q": "A block slides down a frictionless ramp from rest and reaches the bottom with KE=100 J. If friction were present and did −20 J of work, what would the final KE be?",
       "o": [
         "80 J",
         "100 J",
@@ -4098,7 +4098,7 @@
         "20 J"
       ],
       "a": 0,
-      "e": "With friction, some mechanical energy converts to heat: final KE = 100 \u2212 20 = 80 J."
+      "e": "With friction, some mechanical energy converts to heat: final KE = 100 − 20 = 80 J."
     },
     {
       "u": 3,
@@ -4110,7 +4110,7 @@
         "Its momentum change"
       ],
       "a": 0,
-      "e": "W_net = \u0394KE is the statement of the work-energy theorem."
+      "e": "W_net = ΔKE is the statement of the work-energy theorem."
     },
     {
       "u": 3,
@@ -4122,7 +4122,7 @@
         "200,000 J"
       ],
       "a": 0,
-      "e": "\u0394KE=\u00bd(1000)(400\u2212100)=\u00bd(1000)(300)=150,000 J."
+      "e": "ΔKE=½(1000)(400−100)=½(1000)(300)=150,000 J."
     },
     {
       "u": 3,
@@ -4146,7 +4146,7 @@
         "19,600 J"
       ],
       "a": 0,
-      "e": "At constant velocity, applied force = weight = mg = 1960 N; W=Fd=1960\u00d715=29,400 J."
+      "e": "At constant velocity, applied force = weight = mg = 1960 N; W=Fd=1960×15=29,400 J."
     },
     {
       "u": 3,
@@ -4158,7 +4158,7 @@
         "6000 N"
       ],
       "a": 0,
-      "e": "P=Fv \u2192 F=P/v=60000/20=3000 N."
+      "e": "P=Fv → F=P/v=60000/20=3000 N."
     },
     {
       "u": 3,
@@ -4194,7 +4194,7 @@
         "30 J"
       ],
       "a": 0,
-      "e": "W=\u00bdkx\u00b2=\u00bd(150)(0.04)=3 J."
+      "e": "W=½kx²=½(150)(0.04)=3 J."
     },
     {
       "u": 3,
@@ -4206,7 +4206,7 @@
         "1 J"
       ],
       "a": 0,
-      "e": "KE_i=\u00bd(0.5)(16)=4 J; KE_f=0, so 4 J is lost (converted to heat/sound/deformation)."
+      "e": "KE_i=½(0.5)(16)=4 J; KE_f=0, so 4 J is lost (converted to heat/sound/deformation)."
     },
     {
       "u": 3,
@@ -4218,7 +4218,7 @@
         "Power depends only on force, not time"
       ],
       "a": 0,
-      "e": "Power measures how quickly work is done or energy transferred: P=W/t=\u0394E/t."
+      "e": "Power measures how quickly work is done or energy transferred: P=W/t=ΔE/t."
     },
     {
       "u": 3,
@@ -4230,11 +4230,11 @@
         "9.9 m/s"
       ],
       "a": 0,
-      "e": "Energy conservation: \u00bdv_i\u00b2+gh_i=\u00bdv_f\u00b2+gh_f \u2192 v_f=\u221a(v_i\u00b2+2g(h_i\u2212h_f))=\u221a(25+2(9.8)(15))=\u221a(25+294)=\u221a319\u224817.9 m/s."
+      "e": "Energy conservation: ½v_i²+gh_i=½v_f²+gh_f → v_f=√(v_i²+2g(h_i−h_f))=√(25+2(9.8)(15))=√(25+294)=√319≈17.9 m/s."
     },
     {
       "u": 3,
-      "q": "A box is pushed 10 m by a 30 N force applied at 60\u00b0 above the direction of motion. How much work is done?",
+      "q": "A box is pushed 10 m by a 30 N force applied at 60° above the direction of motion. How much work is done?",
       "o": [
         "150 J",
         "300 J",
@@ -4242,7 +4242,7 @@
         "30 J"
       ],
       "a": 0,
-      "e": "W=Fd cos\u03b8=30(10)cos60\u00b0=300(0.5)=150 J."
+      "e": "W=Fd cosθ=30(10)cos60°=300(0.5)=150 J."
     },
     {
       "u": 3,
@@ -4266,7 +4266,7 @@
         "7.35 J"
       ],
       "a": 0,
-      "e": "Friction force=\u03bcmg=0.25(3)(9.8)=7.35 N; heat=f\u00d7d=7.35\u00d74=29.4 J."
+      "e": "Friction force=μmg=0.25(3)(9.8)=7.35 N; heat=f×d=7.35×4=29.4 J."
     },
     {
       "u": 3,
@@ -4278,7 +4278,7 @@
         "The lighter one has more kinetic energy"
       ],
       "a": 0,
-      "e": "KE=\u00bdmv\u00b2; with equal v, KE is proportional to mass, so double mass means double KE."
+      "e": "KE=½mv²; with equal v, KE is proportional to mass, so double mass means double KE."
     },
     {
       "u": 3,
@@ -4290,7 +4290,7 @@
         "32.7 W"
       ],
       "a": 0,
-      "e": "W=mgh=60(9.8)(200)=117,600 J; P=W/t=117600/1800s\u224865.3 W."
+      "e": "W=mgh=60(9.8)(200)=117,600 J; P=W/t=117600/1800s≈65.3 W."
     },
     {
       "u": 3,
@@ -4326,7 +4326,7 @@
         "1500 N"
       ],
       "a": 0,
-      "e": "P=Fv \u2192 F=P/v=1500/0.5=3000 N."
+      "e": "P=Fv → F=P/v=1500/0.5=3000 N."
     },
     {
       "u": 3,
@@ -4374,7 +4374,7 @@
         "0.625 m/s"
       ],
       "a": 0,
-      "e": "\u00bdkx\u00b2=\u00bdmv\u00b2 \u2192 v=\u221a(kx\u00b2/m)=\u221a(500\u00d70.0025/0.1)=\u221a12.5\u22483.54 m/s."
+      "e": "½kx²=½mv² → v=√(kx²/m)=√(500×0.0025/0.1)=√12.5≈3.54 m/s."
     },
     {
       "u": 3,
@@ -4390,7 +4390,7 @@
     },
     {
       "u": 3,
-      "q": "A worker pushes a cart with a 50 N force over 8 m; friction does \u2212400 J of work over that distance. If the cart starts and ends at rest, what is the net work done on the cart?",
+      "q": "A worker pushes a cart with a 50 N force over 8 m; friction does −400 J of work over that distance. If the cart starts and ends at rest, what is the net work done on the cart?",
       "o": [
         "0 J",
         "400 J",
@@ -4398,7 +4398,7 @@
         "800 J"
       ],
       "a": 0,
-      "e": "Starts and ends at rest means \u0394KE=0, so by the work-energy theorem net work must be 0 J (applied work of 400 J is exactly canceled by friction's \u2212400 J)."
+      "e": "Starts and ends at rest means ΔKE=0, so by the work-energy theorem net work must be 0 J (applied work of 400 J is exactly canceled by friction's −400 J)."
     },
     {
       "u": 3,
@@ -4410,7 +4410,7 @@
         "4.95 m/s"
       ],
       "a": 0,
-      "e": "v=\u221a(2gh)=\u221a(2\u00d79.8\u00d75)=\u221a98\u22489.9 m/s."
+      "e": "v=√(2gh)=√(2×9.8×5)=√98≈9.9 m/s."
     },
     {
       "u": 3,
@@ -4422,7 +4422,7 @@
         "No change"
       ],
       "a": 0,
-      "e": "KE\u221dv\u00b2, so doubling speed quadruples KE, requiring four times the (negative) work to bring it to rest."
+      "e": "KE∝v², so doubling speed quadruples KE, requiring four times the (negative) work to bring it to rest."
     },
     {
       "u": 3,
@@ -4434,7 +4434,7 @@
         "4200 J"
       ],
       "a": 0,
-      "e": "\u0394KE=\u00bd(70)(64\u22124)=\u00bd(70)(60)=2100 J."
+      "e": "ΔKE=½(70)(64−4)=½(70)(60)=2100 J."
     },
     {
       "u": 3,
@@ -4482,7 +4482,7 @@
         "1200 J"
       ],
       "a": 0,
-      "e": "E=Pt=100 W \u00d7 7200 s = 720,000 J."
+      "e": "E=Pt=100 W × 7200 s = 720,000 J."
     },
     {
       "u": 3,
@@ -4494,7 +4494,7 @@
         "3.5 m/s"
       ],
       "a": 0,
-      "e": "W=Fd=48 J=\u0394KE=\u00bdmv\u00b2 \u2192 v=\u221a(2\u00d748/4)=\u221a24\u22484.9 m/s."
+      "e": "W=Fd=48 J=ΔKE=½mv² → v=√(2×48/4)=√24≈4.9 m/s."
     },
     {
       "u": 4,
@@ -4518,7 +4518,7 @@
         "2 m/s"
       ],
       "a": 0,
-      "e": "Perfectly inelastic: v_f = m_dart v_dart/(m_dart+m_block) = (0.02\u00d7100)/2.02 \u2248 0.99 m/s."
+      "e": "Perfectly inelastic: v_f = m_dart v_dart/(m_dart+m_block) = (0.02×100)/2.02 ≈ 0.99 m/s."
     },
     {
       "u": 4,
@@ -4530,7 +4530,7 @@
         "4500 N"
       ],
       "a": 0,
-      "e": "F=\u0394p/\u0394t=(0.45\u00d720-0)/0.01=9/0.01=900 N."
+      "e": "F=Δp/Δt=(0.45×20-0)/0.01=9/0.01=900 N."
     }
   ],
   "flashcards": [
@@ -4737,7 +4737,7 @@
     {
       "u": 1,
       "t": "Displacement",
-      "d": "The vector change in position, \u0394x = x_f \u2212 x_i; depends only on initial and final points, not the path taken."
+      "d": "The vector change in position, Δx = x_f − x_i; depends only on initial and final points, not the path taken."
     },
     {
       "u": 1,
@@ -4747,32 +4747,32 @@
     {
       "u": 1,
       "t": "Acceleration",
-      "d": "The rate of change of velocity with respect to time, a = \u0394v/\u0394t, measured in m/s\u00b2."
+      "d": "The rate of change of velocity with respect to time, a = Δv/Δt, measured in m/s²."
     },
     {
       "u": 1,
-      "t": "Kinematic Equation: v = v\u2080 + at",
+      "t": "Kinematic Equation: v = v₀ + at",
       "d": "Relates final velocity to initial velocity, constant acceleration, and time; used when displacement is not needed."
     },
     {
       "u": 1,
-      "t": "Kinematic Equation: \u0394x = v\u2080t + \u00bdat\u00b2",
+      "t": "Kinematic Equation: Δx = v₀t + ½at²",
       "d": "Gives displacement in terms of initial velocity, constant acceleration, and time."
     },
     {
       "u": 1,
       "t": "Free Fall",
-      "d": "Motion under gravity alone, with constant downward acceleration g = 9.8 m/s\u00b2, independent of the object's mass."
+      "d": "Motion under gravity alone, with constant downward acceleration g = 9.8 m/s², independent of the object's mass."
     },
     {
       "u": 1,
       "t": "Projectile Motion",
-      "d": "Two-dimensional motion with constant horizontal velocity and constant vertical acceleration (\u2212g), analyzed by treating each axis independently."
+      "d": "Two-dimensional motion with constant horizontal velocity and constant vertical acceleration (−g), analyzed by treating each axis independently."
     },
     {
       "u": 1,
       "t": "Range of a Projectile",
-      "d": "R = v\u2080\u00b2sin(2\u03b8)/g for equal launch and landing heights; maximized at a launch angle of 45\u00b0."
+      "d": "R = v₀²sin(2θ)/g for equal launch and landing heights; maximized at a launch angle of 45°."
     },
     {
       "u": 1,
@@ -4792,7 +4792,7 @@
     {
       "u": 2,
       "t": "Newton's Second Law",
-      "d": "\u03a3F = ma; the net force on an object equals the product of its mass and acceleration, with acceleration in the direction of net force."
+      "d": "ΣF = ma; the net force on an object equals the product of its mass and acceleration, with acceleration in the direction of net force."
     },
     {
       "u": 2,
@@ -4807,12 +4807,12 @@
     {
       "u": 2,
       "t": "Static Friction",
-      "d": "The force resisting the start of sliding between surfaces in contact, with maximum value f_s(max) = \u03bc_s N."
+      "d": "The force resisting the start of sliding between surfaces in contact, with maximum value f_s(max) = μ_s N."
     },
     {
       "u": 2,
       "t": "Kinetic Friction",
-      "d": "The force opposing relative sliding motion between two surfaces, given by f_k = \u03bc_k N, generally less than max static friction."
+      "d": "The force opposing relative sliding motion between two surfaces, given by f_k = μ_k N, generally less than max static friction."
     },
     {
       "u": 2,
@@ -4832,17 +4832,17 @@
     {
       "u": 2,
       "t": "Inclined Plane Decomposition",
-      "d": "Gravity on an incline splits into components mg sin\u03b8 (along the slope) and mg cos\u03b8 (perpendicular to the slope, balanced by normal force)."
+      "d": "Gravity on an incline splits into components mg sinθ (along the slope) and mg cosθ (perpendicular to the slope, balanced by normal force)."
     },
     {
       "u": 4,
       "t": "Momentum",
-      "d": "The product of an object's mass and velocity, p = mv; a vector quantity measured in kg\u00b7m/s."
+      "d": "The product of an object's mass and velocity, p = mv; a vector quantity measured in kg·m/s."
     },
     {
       "u": 4,
       "t": "Impulse",
-      "d": "The change in momentum caused by a net force acting over a time interval: J = F\u0394t = \u0394p."
+      "d": "The change in momentum caused by a net force acting over a time interval: J = FΔt = Δp."
     },
     {
       "u": 4,
@@ -4887,17 +4887,17 @@
     {
       "u": 3,
       "t": "Work",
-      "d": "The energy transferred by a force acting through a displacement: W = Fd cos\u03b8, measured in joules."
+      "d": "The energy transferred by a force acting through a displacement: W = Fd cosθ, measured in joules."
     },
     {
       "u": 3,
       "t": "Work-Energy Theorem",
-      "d": "The net work done on an object equals its change in kinetic energy: W_net = \u0394KE."
+      "d": "The net work done on an object equals its change in kinetic energy: W_net = ΔKE."
     },
     {
       "u": 3,
       "t": "Kinetic Energy",
-      "d": "The energy of motion, KE = \u00bdmv\u00b2; proportional to mass and to the square of speed."
+      "d": "The energy of motion, KE = ½mv²; proportional to mass and to the square of speed."
     },
     {
       "u": 3,
@@ -4907,7 +4907,7 @@
     {
       "u": 3,
       "t": "Elastic Potential Energy",
-      "d": "Energy stored in a stretched or compressed spring, U_s = \u00bdkx\u00b2, where k is the spring constant and x the displacement from equilibrium."
+      "d": "Energy stored in a stretched or compressed spring, U_s = ½kx², where k is the spring constant and x the displacement from equilibrium."
     },
     {
       "u": 3,
@@ -4917,7 +4917,7 @@
     {
       "u": 3,
       "t": "Power",
-      "d": "The rate of doing work or transferring energy, P = W/t = Fv cos\u03b8, measured in watts (J/s)."
+      "d": "The rate of doing work or transferring energy, P = W/t = Fv cosθ, measured in watts (J/s)."
     },
     {
       "u": 3,
@@ -4927,7 +4927,7 @@
     {
       "u": 3,
       "t": "Hooke's Law",
-      "d": "The restoring force of an ideal spring: F = \u2212kx, proportional and opposite to the displacement from equilibrium."
+      "d": "The restoring force of an ideal spring: F = −kx, proportional and opposite to the displacement from equilibrium."
     },
     {
       "u": 3,
@@ -4938,788 +4938,788 @@
   "examParts": {
     "PART_A": [
       {
+        "n": 1,
         "u": 1,
-        "q": "Which statement accurately reflects Kinematics?",
+        "q": "What is the key distinction between distance and displacement?",
         "o": [
-          "Key vocabulary and definitions you must know cold for kinematics",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources"
+          "Displacement is a vector giving straight-line change in position; distance is the scalar total path length traveled",
+          "They are always numerically equal",
+          "Distance is a vector; displacement is a scalar",
+          "Both are always zero for a round trip"
         ],
         "a": 0,
-        "e": "Kinematics: Core Ideas: Key vocabulary and definitions you must know cold for kinematics",
-        "n": 1
+        "e": "Displacement depends only on initial and final position (a vector), while distance is the total length of the path traveled (a scalar) and can never decrease during motion, unlike displacement which can be zero even after significant motion (e.g., a round trip)."
       },
       {
+        "n": 2,
         "u": 2,
-        "q": "Which statement accurately reflects Dynamics & Newton's Laws?",
+        "q": "According to Newton's second law, if the net force on an object doubles while its mass stays constant, what happens to its acceleration?",
         "o": [
-          "The primary method or process, demonstrated",
-          "The primary method or process, demonstrated",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic"
+          "It doubles",
+          "It halves",
+          "It stays the same",
+          "It quadruples"
         ],
         "a": 0,
-        "e": "Dynamics & Newton's Laws: Key Processes: The primary method or process, demonstrated",
-        "n": 2
+        "e": "a = F_net/m, so acceleration is directly proportional to net force at constant mass; doubling F doubles a."
       },
       {
+        "n": 3,
         "u": 3,
-        "q": "Which statement accurately reflects Energy & Work?",
+        "q": "A net force does 40 J of work on a 5 kg object initially at rest. What is the object's final speed?",
         "o": [
-          "Foundational figures or milestone events",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources",
-          "Key vocabulary and definitions you must know cold for momentum"
+          "2 m/s",
+          "4 m/s",
+          "8 m/s",
+          "16 m/s"
         ],
-        "a": 0,
-        "e": "Energy & Work: People, Events & Discoveries: Foundational figures or milestone events",
-        "n": 3
+        "a": 1,
+        "e": "Work-energy theorem: W_net = delta_KE = 1/2 m v^2 - 0. v = sqrt(2W/m) = sqrt(2(40)/5) = sqrt(16) = 4 m/s."
       },
       {
+        "n": 4,
         "u": 4,
-        "q": "Which statement accurately reflects Momentum?",
+        "q": "A 2 kg cart moving at 3 m/s collides and sticks to a stationary 1 kg cart. What is their common velocity after the collision?",
         "o": [
-          "Key data types in this unit and their sources",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for energy & work"
+          "1 m/s",
+          "2 m/s",
+          "3 m/s",
+          "6 m/s"
         ],
-        "a": 0,
-        "e": "Momentum: Data & Evidence: Key data types in this unit and their sources",
-        "n": 4
+        "a": 1,
+        "e": "Conservation of momentum: m1*v1 = (m1+m2)*v_f -> (2)(3) = (3)v_f -> v_f = 2 m/s."
       },
       {
+        "n": 5,
         "u": 5,
-        "q": "Which statement accurately reflects Circular Motion & Gravity?",
+        "q": "Which expression correctly gives the net centripetal force required to keep an object of mass m moving in a circle of radius r at constant speed v?",
         "o": [
-          "Question patterns most common for this topic",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for dynamics & newton's laws",
-          "The primary method or process, demonstrated"
+          "F = mv^2/r",
+          "F = mv/r",
+          "F = mv^2*r",
+          "F = m*v*r^2"
         ],
         "a": 0,
-        "e": "Circular Motion & Gravity: Exam Lens: Question patterns most common for this topic",
-        "n": 5
+        "e": "Centripetal force follows from a_c = v^2/r and F = ma, giving F_c = mv^2/r, directed toward the center of the circle."
       },
       {
+        "n": 6,
         "u": 6,
-        "q": "Which statement accurately reflects Rotational Motion?",
+        "q": "A force of 20 N is applied perpendicular to a wrench at a distance of 0.5 m from the bolt. What is the magnitude of the torque produced?",
         "o": [
-          "Key vocabulary and definitions you must know cold for rotational motion",
-          "Key vocabulary and definitions you must know cold for kinematics",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events"
+          "4 N*m",
+          "10 N*m",
+          "20 N*m",
+          "40 N*m"
         ],
-        "a": 0,
-        "e": "Rotational Motion: Core Ideas: Key vocabulary and definitions you must know cold for rotational motion",
-        "n": 6
+        "a": 1,
+        "e": "torque = r*F*sin(theta) = (0.5)(20)(sin 90 deg) = 10 N*m."
       },
       {
+        "n": 7,
         "u": 7,
-        "q": "Which statement accurately reflects Waves & Sound?",
+        "q": "A sound wave has a frequency of 500 Hz and a wavelength of 0.68 m. What is its speed?",
         "o": [
-          "The primary method or process, demonstrated",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources"
+          "170 m/s",
+          "340 m/s",
+          "500 m/s",
+          "680 m/s"
         ],
-        "a": 0,
-        "e": "Waves & Sound: Key Processes: The primary method or process, demonstrated",
-        "n": 7
+        "a": 1,
+        "e": "v = f*lambda = (500 Hz)(0.68 m) = 340 m/s, consistent with the speed of sound in air."
       },
       {
+        "n": 8,
         "u": 8,
-        "q": "Which statement accurately reflects Electrostatics & Circuits?",
+        "q": "Two point charges of 2x10^-6 C each are separated by 0.3 m. Using k = 9x10^9 N*m^2/C^2, what is the magnitude of the electric force between them?",
         "o": [
-          "Foundational figures or milestone events",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic"
+          "0.04 N",
+          "0.4 N",
+          "4 N",
+          "40 N"
         ],
-        "a": 0,
-        "e": "Electrostatics & Circuits: People, Events & Discoveries: Foundational figures or milestone events",
-        "n": 8
+        "a": 1,
+        "e": "F = k*q1*q2/r^2 = (9x10^9)(2x10^-6)(2x10^-6)/(0.3)^2 = (9x10^9)(4x10^-12)/0.09 = 0.036/0.09 = 0.4 N."
       },
       {
+        "n": 9,
         "u": 1,
-        "q": "Which statement accurately reflects Kinematics?",
+        "q": "A ball is dropped from rest from a height of 45 m. Using g = 10 m/s^2 and ignoring air resistance, how long does it take to hit the ground?",
         "o": [
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for energy & work",
-          "The primary method or process, demonstrated"
+          "2.1 s",
+          "3.0 s",
+          "4.5 s",
+          "9.0 s"
         ],
-        "a": 0,
-        "e": "Kinematics: Data & Evidence: Key data types in this unit and their sources",
-        "n": 9
+        "a": 1,
+        "e": "h = 1/2 g t^2 -> t = sqrt(2h/g) = sqrt(2(45)/10) = sqrt(9) = 3.0 s."
       },
       {
+        "n": 10,
         "u": 2,
-        "q": "Which statement accurately reflects Dynamics & Newton's Laws?",
+        "q": "A 10 kg box slides on a horizontal floor with a coefficient of kinetic friction of 0.2. Using g = 10 m/s^2, what is the magnitude of the kinetic friction force?",
         "o": [
-          "Question patterns most common for this topic",
-          "Question patterns most common for this topic",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events"
+          "2 N",
+          "10 N",
+          "20 N",
+          "200 N"
         ],
-        "a": 0,
-        "e": "Dynamics & Newton's Laws: Exam Lens: Question patterns most common for this topic",
-        "n": 10
+        "a": 2,
+        "e": "f_k = mu_k * N = mu_k * m * g = (0.2)(10 kg)(10 m/s^2) = 20 N."
       },
       {
+        "n": 11,
         "u": 3,
-        "q": "Which statement accurately reflects Energy & Work?",
+        "q": "A pendulum bob is released from rest at a height of 0.8 m above its lowest point. Ignoring air resistance, and using g = 10 m/s^2, what is its speed at the lowest point?",
         "o": [
-          "Key vocabulary and definitions you must know cold for energy & work",
-          "Key vocabulary and definitions you must know cold for kinematics",
-          "The primary method or process, demonstrated",
-          "Key data types in this unit and their sources"
+          "2 m/s",
+          "4 m/s",
+          "8 m/s",
+          "16 m/s"
         ],
-        "a": 0,
-        "e": "Energy & Work: Core Ideas: Key vocabulary and definitions you must know cold for energy & work",
-        "n": 11
+        "a": 1,
+        "e": "By conservation of mechanical energy, mgh = 1/2 m v^2, so v = sqrt(2gh) = sqrt(2(10)(0.8)) = sqrt(16) = 4 m/s."
       },
       {
+        "n": 12,
         "u": 4,
-        "q": "Which statement accurately reflects Momentum?",
+        "q": "A 5 kg object experiences a net force of 50 N for 0.2 s. What is the resulting change in its velocity?",
         "o": [
-          "The primary method or process, demonstrated",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources"
+          "0.5 m/s",
+          "2 m/s",
+          "5 m/s",
+          "10 m/s"
         ],
-        "a": 0,
-        "e": "Momentum: Key Processes: The primary method or process, demonstrated",
-        "n": 12
+        "a": 1,
+        "e": "Impulse J = F*delta_t = (50)(0.2) = 10 N-s = delta_p = m*delta_v, so delta_v = 10/5 = 2 m/s."
       },
       {
+        "n": 13,
         "u": 5,
-        "q": "Which statement accurately reflects Circular Motion & Gravity?",
+        "q": "An object moves in a circle of radius 5 m at a constant speed of 10 m/s. What is its centripetal acceleration?",
         "o": [
-          "Foundational figures or milestone events",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic"
+          "2 m/s^2",
+          "5 m/s^2",
+          "20 m/s^2",
+          "50 m/s^2"
         ],
-        "a": 0,
-        "e": "Circular Motion & Gravity: People, Events & Discoveries: Foundational figures or milestone events",
-        "n": 13
+        "a": 2,
+        "e": "a_c = v^2/r = (10)^2/5 = 100/5 = 20 m/s^2."
       },
       {
+        "n": 14,
         "u": 6,
-        "q": "Which statement accurately reflects Rotational Motion?",
+        "q": "A 2 kg point mass is located 0.3 m from an axis of rotation. What is its moment of inertia about that axis?",
         "o": [
-          "Key data types in this unit and their sources",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for energy & work"
+          "0.06 kg*m^2",
+          "0.18 kg*m^2",
+          "0.6 kg*m^2",
+          "1.8 kg*m^2"
         ],
-        "a": 0,
-        "e": "Rotational Motion: Data & Evidence: Key data types in this unit and their sources",
-        "n": 14
+        "a": 1,
+        "e": "For a point mass, I = m*r^2 = (2)(0.3)^2 = (2)(0.09) = 0.18 kg*m^2."
       },
       {
+        "n": 15,
         "u": 7,
-        "q": "Which statement accurately reflects Waves & Sound?",
+        "q": "A string of length 1 m, fixed at both ends, vibrates in its fundamental mode. If the wave speed on the string is 20 m/s, what is the fundamental frequency?",
         "o": [
-          "Question patterns most common for this topic",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for dynamics & newton's laws",
-          "The primary method or process, demonstrated"
+          "5 Hz",
+          "10 Hz",
+          "20 Hz",
+          "40 Hz"
         ],
-        "a": 0,
-        "e": "Waves & Sound: Exam Lens: Question patterns most common for this topic",
-        "n": 15
+        "a": 1,
+        "e": "For the fundamental mode on a string fixed at both ends, lambda1 = 2L = 2(1) = 2 m. f = v/lambda = 20/2 = 10 Hz."
       },
       {
+        "n": 16,
         "u": 8,
-        "q": "Which statement accurately reflects Electrostatics & Circuits?",
+        "q": "A resistor with resistance 4 ohms has a voltage of 12 V across it. What current flows through it?",
         "o": [
-          "Key vocabulary and definitions you must know cold for electrostatics & circuits",
-          "Key vocabulary and definitions you must know cold for kinematics",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events"
+          "0.33 A",
+          "3 A",
+          "16 A",
+          "48 A"
         ],
-        "a": 0,
-        "e": "Electrostatics & Circuits: Core Ideas: Key vocabulary and definitions you must know cold for electrostatics & circuits",
-        "n": 16
+        "a": 1,
+        "e": "By Ohm's law, I = V/R = 12 V / 4 ohms = 3 A."
       },
       {
+        "n": 17,
         "u": 1,
-        "q": "Which statement accurately reflects Kinematics?",
+        "q": "On a velocity-vs-time graph, what physical quantity is represented by the area under the curve?",
         "o": [
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic"
+          "Acceleration",
+          "Displacement",
+          "Jerk",
+          "Force"
         ],
-        "a": 0,
-        "e": "Kinematics: Key Processes: The primary method or process, demonstrated",
-        "n": 17
+        "a": 1,
+        "e": "The area under a v-t graph equals the integral of v dt over that interval, which is the displacement."
       },
       {
+        "n": 18,
         "u": 2,
-        "q": "Which statement accurately reflects Dynamics & Newton's Laws?",
+        "q": "Two blocks connected by a massless string hang over a frictionless pulley (Atwood machine). Which statement about the tension in the string is correct, assuming the blocks have different masses?",
         "o": [
-          "Foundational figures or milestone events",
-          "Foundational figures or milestone events",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for momentum"
+          "Tension is the same throughout the ideal string and less than the weight of the heavier block",
+          "Tension equals the weight of the heavier block",
+          "Tension equals the weight of the lighter block",
+          "Tension is zero because the system accelerates"
         ],
         "a": 0,
-        "e": "Dynamics & Newton's Laws: People, Events & Discoveries: Foundational figures or milestone events",
-        "n": 18
+        "e": "For a massless, inextensible string over an ideal pulley, tension is uniform throughout. Since the system accelerates, T must be less than the heavier block's weight and greater than the lighter block's weight."
       },
       {
+        "n": 19,
         "u": 3,
-        "q": "Which statement accurately reflects Energy & Work?",
+        "q": "A motor does 500 J of work in 10 seconds. What is its average power output?",
         "o": [
-          "Key data types in this unit and their sources",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic",
-          "The primary method or process, demonstrated"
+          "5 W",
+          "50 W",
+          "500 W",
+          "5000 W"
         ],
-        "a": 0,
-        "e": "Energy & Work: Data & Evidence: Key data types in this unit and their sources",
-        "n": 19
+        "a": 1,
+        "e": "P = W/t = 500 J / 10 s = 50 W."
       },
       {
+        "n": 20,
         "u": 4,
-        "q": "Which statement accurately reflects Momentum?",
+        "q": "Which statement correctly distinguishes an elastic collision from an inelastic collision?",
         "o": [
-          "Question patterns most common for this topic",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for dynamics & newton's laws",
-          "The primary method or process, demonstrated"
+          "In an elastic collision, both momentum and kinetic energy are conserved; in an inelastic collision, only momentum is conserved",
+          "In an elastic collision, only kinetic energy is conserved",
+          "Momentum is conserved only in elastic collisions",
+          "Neither momentum nor energy is conserved in any collision"
         ],
         "a": 0,
-        "e": "Momentum: Exam Lens: Question patterns most common for this topic",
-        "n": 20
+        "e": "Momentum is conserved in all collisions of an isolated system. Kinetic energy is conserved only in elastic collisions; in inelastic collisions some KE converts to other forms (heat, sound, deformation)."
       },
       {
+        "n": 21,
         "u": 5,
-        "q": "Which statement accurately reflects Circular Motion & Gravity?",
+        "q": "Two point masses of 5 kg and 3 kg are separated by 1 m. Using G = 6.67x10^-11 N*m^2/kg^2, what is the gravitational force between them (approximately)?",
         "o": [
-          "Key vocabulary and definitions you must know cold for circular motion & gravity",
-          "Key vocabulary and definitions you must know cold for kinematics",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events"
+          "1.0x10^-9 N",
+          "1.0x10^-11 N",
+          "6.67x10^-11 N",
+          "1.0x10^-7 N"
         ],
         "a": 0,
-        "e": "Circular Motion & Gravity: Core Ideas: Key vocabulary and definitions you must know cold for circular motion & gravity",
-        "n": 21
+        "e": "F = G*m1*m2/r^2 = (6.67x10^-11)(5)(3)/(1)^2 ~ 1.0x10^-9 N."
       },
       {
+        "n": 22,
         "u": 6,
-        "q": "Which statement accurately reflects Rotational Motion?",
+        "q": "A figure skater spinning with arms extended pulls her arms in close to her body. Assuming no external torques, what happens to her angular velocity and why?",
         "o": [
-          "The primary method or process, demonstrated",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources"
+          "It increases, because decreasing moment of inertia must increase angular velocity to conserve angular momentum",
+          "It decreases, because pulling arms in decreases her mass",
+          "It stays the same, because angular momentum is unrelated to body shape",
+          "It increases because her kinetic energy is conserved"
         ],
         "a": 0,
-        "e": "Rotational Motion: Key Processes: The primary method or process, demonstrated",
-        "n": 22
+        "e": "Angular momentum L = I*omega is conserved with no external torque. Pulling her arms in reduces I, so omega must increase to keep L constant."
       },
       {
+        "n": 23,
         "u": 7,
-        "q": "Which statement accurately reflects Waves & Sound?",
+        "q": "A police siren emits a constant frequency. As the police car approaches a stationary observer, how does the sound the observer hears compare to the siren's actual frequency?",
         "o": [
-          "Foundational figures or milestone events",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic"
+          "The observed frequency is higher than the emitted frequency",
+          "The observed frequency is lower than the emitted frequency",
+          "The observed frequency equals the emitted frequency",
+          "The observed wavelength increases"
         ],
         "a": 0,
-        "e": "Waves & Sound: People, Events & Discoveries: Foundational figures or milestone events",
-        "n": 23
+        "e": "By the Doppler effect, when a source moves toward a stationary observer, successive wavefronts are compressed, increasing the observed frequency (and shortening the observed wavelength) above the source's emitted frequency."
       },
       {
+        "n": 24,
         "u": 8,
-        "q": "Which statement accurately reflects Electrostatics & Circuits?",
+        "q": "Two identical resistors are first connected in series, then in parallel, across the same battery. Compared to the series combination, the parallel combination has:",
         "o": [
-          "Key data types in this unit and their sources",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for energy & work"
+          "Higher equivalent resistance and higher total current from the battery",
+          "Lower equivalent resistance and higher total current from the battery",
+          "Lower equivalent resistance and lower total current from the battery",
+          "The same equivalent resistance as series"
         ],
-        "a": 0,
-        "e": "Electrostatics & Circuits: Data & Evidence: Key data types in this unit and their sources",
-        "n": 24
+        "a": 1,
+        "e": "For two identical resistors R, series gives R_eq = 2R while parallel gives R_eq = R/2, which is lower. Since I = V/R_eq for a fixed battery voltage, the lower resistance in parallel yields higher total current drawn from the battery."
       },
       {
+        "n": 25,
         "u": 1,
-        "q": "Which statement accurately reflects Kinematics?",
+        "q": "A projectile is launched at 45 degrees above the horizontal with an initial speed of 20 m/s. Using g = 10 m/s^2, what is its horizontal range?",
         "o": [
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for dynamics & newton's laws",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events"
+          "20 m",
+          "40 m",
+          "80 m",
+          "400 m"
         ],
-        "a": 0,
-        "e": "Kinematics: Exam Lens: Question patterns most common for this topic",
-        "n": 25
+        "a": 1,
+        "e": "R = v0^2 sin(2(theta))/g = (20^2)(sin 90 deg)/10 = 400(1)/10 = 40 m."
       },
       {
+        "n": 26,
         "u": 2,
-        "q": "Which statement accurately reflects Dynamics & Newton's Laws?",
+        "q": "A person pushes on a wall with 50 N of force. By Newton's third law, what force does the wall exert on the person?",
         "o": [
-          "Key vocabulary and definitions you must know cold for dynamics & newton's laws",
-          "Key vocabulary and definitions you must know cold for kinematics",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources"
+          "25 N, same direction",
+          "50 N, opposite direction",
+          "50 N, same direction",
+          "0 N"
         ],
-        "a": 0,
-        "e": "Dynamics & Newton's Laws: Core Ideas: Key vocabulary and definitions you must know cold for dynamics & newton's laws",
-        "n": 26
+        "a": 1,
+        "e": "Newton's third law: the wall exerts a reaction force equal in magnitude (50 N) and opposite in direction to the force the person applies."
       },
       {
+        "n": 27,
         "u": 3,
-        "q": "Which statement accurately reflects Energy & Work?",
+        "q": "A spring with spring constant k = 200 N/m is compressed 0.5 m from equilibrium. How much elastic potential energy is stored?",
         "o": [
-          "The primary method or process, demonstrated",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events",
-          "Question patterns most common for this topic"
+          "25 J",
+          "50 J",
+          "100 J",
+          "200 J"
         ],
         "a": 0,
-        "e": "Energy & Work: Key Processes: The primary method or process, demonstrated",
-        "n": 27
+        "e": "PE_spring = 1/2 k x^2 = 0.5(200)(0.5)^2 = 0.5(200)(0.25) = 25 J."
       },
       {
+        "n": 28,
         "u": 4,
-        "q": "Which statement accurately reflects Momentum?",
+        "q": "A 3 kg ball moving at 4 m/s collides head-on with a stationary 1 kg ball. After the collision, the 3 kg ball moves at 2 m/s in the same direction. What is the velocity of the 1 kg ball after the collision?",
         "o": [
-          "Foundational figures or milestone events",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic"
+          "2 m/s",
+          "4 m/s",
+          "6 m/s",
+          "8 m/s"
         ],
-        "a": 0,
-        "e": "Momentum: People, Events & Discoveries: Foundational figures or milestone events",
-        "n": 28
+        "a": 2,
+        "e": "Conservation of momentum: m1*v1i = m1*v1f + m2*v2f -> (3)(4) = (3)(2) + (1)v2f -> 12 = 6 + v2f -> v2f = 6 m/s."
       },
       {
+        "n": 29,
         "u": 5,
-        "q": "Which statement accurately reflects Circular Motion & Gravity?",
+        "q": "According to Kepler's third law, how does a planet's orbital period T relate to its orbital radius r (for circular orbits)?",
         "o": [
-          "Key data types in this unit and their sources",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for energy & work"
+          "T^2 is proportional to r^3",
+          "T is proportional to r",
+          "T^2 is proportional to r",
+          "T is proportional to r^3"
         ],
         "a": 0,
-        "e": "Circular Motion & Gravity: Data & Evidence: Key data types in this unit and their sources",
-        "n": 29
+        "e": "Kepler's third law: T^2 is proportional to r^3, which follows from setting gravitational force equal to the required centripetal force for a circular orbit."
       },
       {
+        "n": 30,
         "u": 6,
-        "q": "Which statement accurately reflects Rotational Motion?",
+        "q": "A rotating object has a moment of inertia of 4 kg*m^2 and an angular velocity of 3 rad/s. What is its rotational kinetic energy?",
         "o": [
-          "Question patterns most common for this topic",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for dynamics & newton's laws",
-          "The primary method or process, demonstrated"
+          "6 J",
+          "12 J",
+          "18 J",
+          "36 J"
         ],
-        "a": 0,
-        "e": "Rotational Motion: Exam Lens: Question patterns most common for this topic",
-        "n": 30
+        "a": 2,
+        "e": "KE_rot = 1/2 I omega^2 = 0.5(4)(3)^2 = 0.5(4)(9) = 18 J."
       }
     ],
     "PART_B1": [
       {
+        "n": 31,
         "u": 2,
-        "q": "[Application] Which statement accurately reflects Dynamics & Newton's Laws?",
+        "q": "A 4 kg object accelerates at 3 m/s^2 under a single applied horizontal force, while a 2 N friction force opposes its motion. What is the magnitude of the applied force?",
         "o": [
-          "Foundational figures or milestone events",
-          "Foundational figures or milestone events",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for momentum"
+          "10 N",
+          "12 N",
+          "14 N",
+          "16 N"
         ],
-        "a": 0,
-        "e": "Dynamics & Newton's Laws: People, Events & Discoveries: Foundational figures or milestone events",
-        "n": 31
+        "a": 2,
+        "e": "Net force needed: F_net = m*a = 4(3) = 12 N. Since friction opposes motion, F_applied = F_net + f = 12 + 2 = 14 N."
       },
       {
+        "n": 32,
         "u": 5,
-        "q": "[Application] Which statement accurately reflects Circular Motion & Gravity?",
+        "q": "A satellite orbits Earth in a circular orbit where gravity provides the centripetal force. Which equation correctly gives the satellite's orbital speed v in terms of G, Earth's mass M, and orbital radius r?",
         "o": [
-          "Key data types in this unit and their sources",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for energy & work"
+          "v = sqrt(GM/r)",
+          "v = GM/r",
+          "v = sqrt(GM/r^2)",
+          "v = GM/r^2"
         ],
         "a": 0,
-        "e": "Circular Motion & Gravity: Data & Evidence: Key data types in this unit and their sources",
-        "n": 32
+        "e": "Setting gravitational force equal to centripetal force: GMm/r^2 = mv^2/r. Solving for v gives v = sqrt(GM/r)."
       },
       {
+        "n": 33,
         "u": 8,
-        "q": "[Application] Which statement accurately reflects Electrostatics & Circuits?",
+        "q": "Two resistors, 3 ohm and 6 ohm, are connected in series with a 9 V battery. What is the current through the circuit?",
         "o": [
-          "Question patterns most common for this topic",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for dynamics & newton's laws",
-          "The primary method or process, demonstrated"
+          "0.5 A",
+          "1 A",
+          "2 A",
+          "3 A"
         ],
-        "a": 0,
-        "e": "Electrostatics & Circuits: Exam Lens: Question patterns most common for this topic",
-        "n": 33
+        "a": 1,
+        "e": "R_eq (series) = 3 + 6 = 9 ohm. I = V/R_eq = 9/9 = 1 A."
       },
       {
+        "n": 34,
         "u": 3,
-        "q": "[Application] Which statement accurately reflects Energy & Work?",
+        "q": "A 20 N force is applied at 60 degrees above a horizontal surface to drag a box 5 m horizontally. How much work does the force do?",
         "o": [
-          "Key vocabulary and definitions you must know cold for energy & work",
-          "Key vocabulary and definitions you must know cold for kinematics",
-          "The primary method or process, demonstrated",
-          "Key data types in this unit and their sources"
+          "25 J",
+          "50 J",
+          "86.6 J",
+          "100 J"
         ],
-        "a": 0,
-        "e": "Energy & Work: Core Ideas: Key vocabulary and definitions you must know cold for energy & work",
-        "n": 34
+        "a": 1,
+        "e": "W = F*d*cos(theta) = (20)(5)(cos 60 deg) = 100(0.5) = 50 J."
       },
       {
+        "n": 35,
         "u": 6,
-        "q": "[Application] Which statement accurately reflects Rotational Motion?",
+        "q": "A 300 N child sits 2 m from the pivot of a balanced seesaw. How far from the pivot must a 200 N child sit on the other side to balance it?",
         "o": [
-          "The primary method or process, demonstrated",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources"
+          "1.5 m",
+          "2 m",
+          "3 m",
+          "4 m"
         ],
-        "a": 0,
-        "e": "Rotational Motion: Key Processes: The primary method or process, demonstrated",
-        "n": 35
+        "a": 2,
+        "e": "For rotational equilibrium, torques balance: (300)(2) = (200)(d) -> d = 600/200 = 3 m."
       },
       {
+        "n": 36,
         "u": 1,
-        "q": "[Application] Which statement accurately reflects Kinematics?",
+        "q": "A car increases its velocity uniformly from 5 m/s to 25 m/s in 4 s. What is its acceleration?",
         "o": [
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for momentum"
+          "2.5 m/s^2",
+          "5 m/s^2",
+          "10 m/s^2",
+          "20 m/s^2"
         ],
-        "a": 0,
-        "e": "Kinematics: People, Events & Discoveries: Foundational figures or milestone events",
-        "n": 36
+        "a": 1,
+        "e": "a = (v - v0)/t = (25 - 5)/4 = 20/4 = 5 m/s^2."
       },
       {
+        "n": 37,
         "u": 4,
-        "q": "[Application] Which statement accurately reflects Momentum?",
+        "q": "A 60 kg astronaut at rest in space throws a 2 kg tool at 10 m/s away from her. What is the magnitude of her resulting recoil speed?",
         "o": [
-          "Key data types in this unit and their sources",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for energy & work"
+          "0.033 m/s",
+          "0.33 m/s",
+          "3.3 m/s",
+          "6.0 m/s"
         ],
-        "a": 0,
-        "e": "Momentum: Data & Evidence: Key data types in this unit and their sources",
-        "n": 37
+        "a": 1,
+        "e": "Momentum conservation: 0 = m_tool*v_tool - m_astro*v_astro -> v_astro = (2)(10)/60 = 0.33 m/s, in the direction opposite the tool."
       },
       {
+        "n": 38,
         "u": 7,
-        "q": "[Application] Which statement accurately reflects Waves & Sound?",
+        "q": "A wave has a period of 0.02 s. What is its frequency?",
         "o": [
-          "Question patterns most common for this topic",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for dynamics & newton's laws",
-          "The primary method or process, demonstrated"
+          "0.02 Hz",
+          "2 Hz",
+          "50 Hz",
+          "500 Hz"
         ],
-        "a": 0,
-        "e": "Waves & Sound: Exam Lens: Question patterns most common for this topic",
-        "n": 38
+        "a": 2,
+        "e": "f = 1/T = 1/0.02 = 50 Hz."
       },
       {
+        "n": 39,
         "u": 2,
-        "q": "[Application] Which statement accurately reflects Dynamics & Newton's Laws?",
+        "q": "A block rests on a frictionless incline at angle theta. Which expression gives the component of gravitational acceleration accelerating the block down the incline?",
         "o": [
-          "Key vocabulary and definitions you must know cold for dynamics & newton's laws",
-          "Key vocabulary and definitions you must know cold for kinematics",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources"
+          "g*sin(theta)",
+          "g*cos(theta)",
+          "g*tan(theta)",
+          "g"
         ],
         "a": 0,
-        "e": "Dynamics & Newton's Laws: Core Ideas: Key vocabulary and definitions you must know cold for dynamics & newton's laws",
-        "n": 39
+        "e": "On a frictionless incline, the component of gravitational acceleration along the incline surface is g*sin(theta); the perpendicular component g*cos(theta) is balanced by the normal force."
       },
       {
+        "n": 40,
         "u": 5,
-        "q": "[Application] Which statement accurately reflects Circular Motion & Gravity?",
+        "q": "A 1000 kg car rounds a flat curve of radius 50 m at a constant speed of 20 m/s. What minimum coefficient of static friction is required to prevent sliding? (g = 10 m/s^2)",
         "o": [
-          "The primary method or process, demonstrated",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources"
+          "0.4",
+          "0.6",
+          "0.8",
+          "1.0"
         ],
-        "a": 0,
-        "e": "Circular Motion & Gravity: Key Processes: The primary method or process, demonstrated",
-        "n": 40
+        "a": 2,
+        "e": "Required centripetal force: F_c = m*v^2/r = (1000)(400)/50 = 8000 N. This must be supplied by friction: mu*m*g = 8000 -> mu = 8000/(1000*10) = 0.8."
       },
       {
+        "n": 41,
         "u": 8,
-        "q": "[Application] Which statement accurately reflects Electrostatics & Circuits?",
+        "q": "Two resistors, 4 ohm and 4 ohm, are connected in parallel. What is their equivalent resistance?",
         "o": [
-          "Foundational figures or milestone events",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic"
+          "1 ohm",
+          "2 ohm",
+          "4 ohm",
+          "8 ohm"
         ],
-        "a": 0,
-        "e": "Electrostatics & Circuits: People, Events & Discoveries: Foundational figures or milestone events",
-        "n": 41
+        "a": 1,
+        "e": "For resistors in parallel: 1/R_eq = 1/4 + 1/4 = 1/2, so R_eq = 2 ohm."
       },
       {
+        "n": 42,
         "u": 3,
-        "q": "[Application] Which statement accurately reflects Energy & Work?",
+        "q": "A 2 kg block slides down a frictionless ramp from a height of 5 m, then travels across a rough horizontal surface (mu_k = 0.3) before stopping. Using g = 10 m/s^2, how far does it slide across the rough surface before stopping?",
         "o": [
-          "Key data types in this unit and their sources",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic",
-          "The primary method or process, demonstrated"
+          "6 m",
+          "10 m",
+          "16.7 m",
+          "30 m"
         ],
-        "a": 0,
-        "e": "Energy & Work: Data & Evidence: Key data types in this unit and their sources",
-        "n": 42
+        "a": 2,
+        "e": "Energy at the bottom of the ramp: KE = m*g*h = (2)(10)(5) = 100 J. Friction force f = mu_k*m*g = (0.3)(2)(10) = 6 N. Distance d = KE/f = 100/6 ~ 16.7 m."
       },
       {
+        "n": 43,
         "u": 6,
-        "q": "[Application] Which statement accurately reflects Rotational Motion?",
+        "q": "A disk with moment of inertia 2 kg*m^2 spins at 5 rad/s. What is its angular momentum?",
         "o": [
-          "Question patterns most common for this topic",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for dynamics & newton's laws",
-          "The primary method or process, demonstrated"
+          "2.5 kg*m^2/s",
+          "5 kg*m^2/s",
+          "10 kg*m^2/s",
+          "25 kg*m^2/s"
         ],
-        "a": 0,
-        "e": "Rotational Motion: Exam Lens: Question patterns most common for this topic",
-        "n": 43
+        "a": 2,
+        "e": "L = I*omega = (2)(5) = 10 kg*m^2/s."
       },
       {
+        "n": 44,
         "u": 1,
-        "q": "[Application] Which statement accurately reflects Kinematics?",
+        "q": "A cyclist starts from rest and accelerates at 2 m/s^2 for 6 s. What total distance does the cyclist cover?",
         "o": [
-          "Key vocabulary and definitions you must know cold for kinematics",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources"
+          "12 m",
+          "18 m",
+          "36 m",
+          "72 m"
         ],
-        "a": 0,
-        "e": "Kinematics: Core Ideas: Key vocabulary and definitions you must know cold for kinematics",
-        "n": 44
+        "a": 2,
+        "e": "d = v0*t + 1/2*a*t^2 = 0 + 0.5(2)(6)^2 = 0.5(2)(36) = 36 m."
       },
       {
+        "n": 45,
         "u": 4,
-        "q": "[Application] Which statement accurately reflects Momentum?",
+        "q": "A 0.5 kg ball hits a wall at 8 m/s and rebounds at 6 m/s in the opposite direction. What is the magnitude of the impulse delivered to the ball by the wall?",
         "o": [
-          "The primary method or process, demonstrated",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources"
+          "1 N*s",
+          "4 N*s",
+          "7 N*s",
+          "14 N*s"
         ],
-        "a": 0,
-        "e": "Momentum: Key Processes: The primary method or process, demonstrated",
-        "n": 45
+        "a": 2,
+        "e": "Taking the initial direction as positive: delta_p = m(v_f - v_i) = 0.5(-6 - 8) = 0.5(-14) = -7 N*s. The magnitude of the impulse is 7 N*s."
       },
       {
+        "n": 46,
         "u": 7,
-        "q": "[Application] Which statement accurately reflects Waves & Sound?",
+        "q": "Two speakers emit sound waves of the same frequency and amplitude, in phase. At a point where the path difference from the two speakers equals one full wavelength, what type of interference occurs?",
         "o": [
-          "Foundational figures or milestone events",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic"
+          "Constructive interference (loud sound)",
+          "Destructive interference (quiet/silence)",
+          "No interference occurs",
+          "The waves cancel amplitude but not energy"
         ],
         "a": 0,
-        "e": "Waves & Sound: People, Events & Discoveries: Foundational figures or milestone events",
-        "n": 46
+        "e": "A path difference equal to a whole number of wavelengths (here, 1 wavelength) means the waves arrive in phase, producing constructive interference and a louder sound."
       },
       {
+        "n": 47,
         "u": 2,
-        "q": "[Application] Which statement accurately reflects Dynamics & Newton's Laws?",
+        "q": "Two blocks, 2 kg and 3 kg, are connected by a string and pulled across a frictionless surface by a 10 N horizontal force applied to the 3 kg block. What is the acceleration of the system?",
         "o": [
-          "Key data types in this unit and their sources",
-          "Key data types in this unit and their sources",
-          "Key vocabulary and definitions you must know cold for energy & work",
-          "The primary method or process, demonstrated"
+          "1 m/s^2",
+          "2 m/s^2",
+          "5 m/s^2",
+          "10 m/s^2"
         ],
-        "a": 0,
-        "e": "Dynamics & Newton's Laws: Data & Evidence: Key data types in this unit and their sources",
-        "n": 47
+        "a": 1,
+        "e": "Treating both blocks as one system, a = F_net/(m1+m2) = 10/(2+3) = 2 m/s^2."
       },
       {
+        "n": 48,
         "u": 5,
-        "q": "[Application] Which statement accurately reflects Circular Motion & Gravity?",
+        "q": "An object's weight on the surface of a planet is W. At a height above the surface equal to the planet's radius (i.e., twice the distance from the center), how does the gravitational force on the object compare to W?",
         "o": [
-          "Question patterns most common for this topic",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for dynamics & newton's laws",
-          "The primary method or process, demonstrated"
+          "W/2",
+          "W/4",
+          "W/8",
+          "2W"
         ],
-        "a": 0,
-        "e": "Circular Motion & Gravity: Exam Lens: Question patterns most common for this topic",
-        "n": 48
+        "a": 1,
+        "e": "Gravitational force follows an inverse-square law, F is proportional to 1/r^2. Doubling the distance from the center reduces the force to 1/(2^2) = 1/4 of its original value, so the new weight is W/4."
       },
       {
+        "n": 49,
         "u": 8,
-        "q": "[Application] Which statement accurately reflects Electrostatics & Circuits?",
+        "q": "How does the electric field strength from a point charge change if the distance from the charge is tripled?",
         "o": [
-          "Key vocabulary and definitions you must know cold for electrostatics & circuits",
-          "Key vocabulary and definitions you must know cold for kinematics",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events"
+          "It becomes 1/3 as strong",
+          "It becomes 1/9 as strong",
+          "It becomes 3 times as strong",
+          "It stays the same"
         ],
-        "a": 0,
-        "e": "Electrostatics & Circuits: Core Ideas: Key vocabulary and definitions you must know cold for electrostatics & circuits",
-        "n": 49
+        "a": 1,
+        "e": "Electric field from a point charge follows an inverse-square law, E is proportional to 1/r^2. Tripling the distance reduces the field to 1/(3^2) = 1/9 of its original strength."
       },
       {
+        "n": 50,
         "u": 3,
-        "q": "[Application] Which statement accurately reflects Energy & Work?",
+        "q": "A car engine delivers a constant driving force of 2000 N while the car travels at a constant 15 m/s. What is the engine's power output?",
         "o": [
-          "The primary method or process, demonstrated",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events",
-          "Question patterns most common for this topic"
+          "2000 W",
+          "15000 W",
+          "30000 W",
+          "45000 W"
         ],
-        "a": 0,
-        "e": "Energy & Work: Key Processes: The primary method or process, demonstrated",
-        "n": 50
+        "a": 2,
+        "e": "P = F*v = (2000 N)(15 m/s) = 30,000 W = 30 kW."
       }
     ],
     "PART_B2": [
       {
+        "n": 51,
         "u": 3,
-        "q": "[Synthesis] Which statement accurately reflects Energy & Work?",
+        "q": "A 1500 kg car traveling at 20 m/s brakes and comes to rest over a distance of 50 m due to friction. What is the magnitude of the average friction force?",
         "o": [
-          "Question patterns most common for this topic",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for dynamics & newton's laws",
-          "Foundational figures or milestone events"
+          "3000 N",
+          "6000 N",
+          "12000 N",
+          "15000 N"
         ],
-        "a": 0,
-        "e": "Energy & Work: Exam Lens: Question patterns most common for this topic",
-        "n": 51
+        "a": 1,
+        "e": "Using the work-energy theorem: friction does negative work equal to the car's initial KE. KE = 1/2*m*v^2 = 0.5(1500)(20)^2 = 300,000 J. F = W/d = 300,000/50 = 6000 N."
       },
       {
+        "n": 52,
         "u": 8,
-        "q": "[Synthesis] Which statement accurately reflects Electrostatics & Circuits?",
+        "q": "A capacitor-free circuit has a 6 ohm resistor in parallel with a 3 ohm resistor, and this combination is in series with a 2 ohm resistor, all connected to a 12 V battery. What is the total current supplied by the battery?",
         "o": [
-          "Key vocabulary and definitions you must know cold for electrostatics & circuits",
-          "Key vocabulary and definitions you must know cold for kinematics",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events"
+          "1 A",
+          "2 A",
+          "3 A",
+          "4 A"
         ],
-        "a": 0,
-        "e": "Electrostatics & Circuits: Core Ideas: Key vocabulary and definitions you must know cold for electrostatics & circuits",
-        "n": 52
+        "a": 2,
+        "e": "Parallel section: 1/R_p = 1/6 + 1/3 = 1/6 + 2/6 = 3/6 = 1/2, so R_p = 2 ohm. Total R = R_p + 2 = 2 + 2 = 4 ohm. I = V/R = 12/4 = 3 A."
       },
       {
+        "n": 53,
         "u": 5,
-        "q": "[Synthesis] Which statement accurately reflects Circular Motion & Gravity?",
+        "q": "A 0.2 kg ball on a 1.5 m string moves in a horizontal circle, completing one revolution every 2 seconds. What is the tension in the string (providing the centripetal force)? (use pi^2 ~ 9.87)",
         "o": [
-          "The primary method or process, demonstrated",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources"
+          "1.5 N",
+          "3.0 N",
+          "4.4 N",
+          "5.9 N"
         ],
-        "a": 0,
-        "e": "Circular Motion & Gravity: Key Processes: The primary method or process, demonstrated",
-        "n": 53
+        "a": 1,
+        "e": "v = 2*pi*r/T = 2*pi(1.5)/2 = 1.5*pi ~ 4.71 m/s. T_tension = m*v^2/r = (0.2)(1.5*pi)^2/1.5 = (0.2)(2.25*9.87)/1.5 = (0.2)(22.2)/1.5 ~ 4.44/1.5 ~ 3.0 N."
       },
       {
+        "n": 54,
         "u": 2,
-        "q": "[Synthesis] Which statement accurately reflects Dynamics & Newton's Laws?",
+        "q": "A 5 kg block on a rough horizontal surface (mu_k = 0.25) is pulled by a horizontal 40 N force. Using g = 10 m/s^2, what is the block's acceleration?",
         "o": [
-          "Foundational figures or milestone events",
-          "Foundational figures or milestone events",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for momentum"
+          "2.5 m/s^2",
+          "5.5 m/s^2",
+          "6.5 m/s^2",
+          "8.0 m/s^2"
         ],
-        "a": 0,
-        "e": "Dynamics & Newton's Laws: People, Events & Discoveries: Foundational figures or milestone events",
-        "n": 54
+        "a": 1,
+        "e": "Friction force f = mu_k*m*g = 0.25(5)(10) = 12.5 N. Net force = 40 - 12.5 = 27.5 N. a = F_net/m = 27.5/5 = 5.5 m/s^2."
       },
       {
+        "n": 55,
         "u": 7,
-        "q": "[Synthesis] Which statement accurately reflects Waves & Sound?",
+        "q": "A guitar string of length 0.65 m produces a fundamental frequency of 330 Hz. What is the speed of the wave on the string?",
         "o": [
-          "Key data types in this unit and their sources",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for energy & work"
+          "165 m/s",
+          "330 m/s",
+          "429 m/s",
+          "660 m/s"
         ],
-        "a": 0,
-        "e": "Waves & Sound: Data & Evidence: Key data types in this unit and their sources",
-        "n": 55
+        "a": 2,
+        "e": "For the fundamental mode, wavelength = 2L = 2(0.65) = 1.3 m. v = f*lambda = (330)(1.3) = 429 m/s."
       },
       {
+        "n": 56,
         "u": 4,
-        "q": "[Synthesis] Which statement accurately reflects Momentum?",
+        "q": "A 1200 kg car moving at 15 m/s collides with a stationary 800 kg car, and the two vehicles lock together. Using conservation of momentum, what is their common velocity immediately after the collision?",
         "o": [
-          "Question patterns most common for this topic",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for dynamics & newton's laws",
-          "The primary method or process, demonstrated"
+          "6 m/s",
+          "9 m/s",
+          "12 m/s",
+          "15 m/s"
         ],
-        "a": 0,
-        "e": "Momentum: Exam Lens: Question patterns most common for this topic",
-        "n": 56
+        "a": 1,
+        "e": "Conservation of momentum: m1*v1 = (m1+m2)*v_f -> (1200)(15) = (2000)*v_f -> v_f = 18000/2000 = 9 m/s."
       },
       {
+        "n": 57,
         "u": 1,
-        "q": "[Synthesis] Which statement accurately reflects Kinematics?",
+        "q": "A ball thrown straight up returns to its starting height after 4 s of flight. Using g = 10 m/s^2, what was its initial speed?",
         "o": [
-          "Key vocabulary and definitions you must know cold for kinematics",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources"
+          "10 m/s",
+          "20 m/s",
+          "40 m/s",
+          "80 m/s"
         ],
-        "a": 0,
-        "e": "Kinematics: Core Ideas: Key vocabulary and definitions you must know cold for kinematics",
-        "n": 57
+        "a": 1,
+        "e": "Total flight time up and down is symmetric, so time to reach the top is 2 s. At the top, v = 0 = v0 - g*t_up -> v0 = g*t_up = (10)(2) = 20 m/s."
       },
       {
+        "n": 58,
         "u": 6,
-        "q": "[Synthesis] Which statement accurately reflects Rotational Motion?",
+        "q": "A solid disk (I = 1/2*m*r^2) of mass 4 kg and radius 0.5 m rolls without slipping. If its linear speed is 2 m/s, what is its total kinetic energy (translational + rotational)?",
         "o": [
-          "The primary method or process, demonstrated",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources"
+          "4 J",
+          "6 J",
+          "8 J",
+          "12 J"
         ],
-        "a": 0,
-        "e": "Rotational Motion: Key Processes: The primary method or process, demonstrated",
-        "n": 58
+        "a": 3,
+        "e": "Translational KE = 1/2*m*v^2 = 0.5(4)(2)^2 = 8 J. Angular speed omega = v/r = 2/0.5 = 4 rad/s. I = 1/2*m*r^2 = 0.5(4)(0.25) = 0.5 kg*m^2. Rotational KE = 1/2*I*omega^2 = 0.5(0.5)(16) = 4 J. Total KE = 8 + 4 = 12 J."
       },
       {
+        "n": 59,
         "u": 3,
-        "q": "[Synthesis] Which statement accurately reflects Energy & Work?",
+        "q": "A roller coaster car of mass 400 kg starts from rest at the top of a 20 m hill (frictionless) and descends to the bottom. Using g = 10 m/s^2, what is its kinetic energy at the bottom?",
         "o": [
-          "Foundational figures or milestone events",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources",
-          "Key vocabulary and definitions you must know cold for momentum"
+          "8,000 J",
+          "40,000 J",
+          "80,000 J",
+          "160,000 J"
         ],
-        "a": 0,
-        "e": "Energy & Work: People, Events & Discoveries: Foundational figures or milestone events",
-        "n": 59
+        "a": 2,
+        "e": "By conservation of energy, KE_bottom = m*g*h = (400)(10)(20) = 80,000 J."
       },
       {
+        "n": 60,
         "u": 8,
-        "q": "[Synthesis] Which statement accurately reflects Electrostatics & Circuits?",
+        "q": "Two charges, +4 microC and -2 microC, are placed 0.2 m apart. Using k = 9x10^9 N*m^2/C^2, what is the magnitude of the force between them, and is it attractive or repulsive?",
         "o": [
-          "Key data types in this unit and their sources",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for energy & work"
+          "1.8 N, repulsive",
+          "1.8 N, attractive",
+          "3.6 N, attractive",
+          "0.9 N, repulsive"
         ],
-        "a": 0,
-        "e": "Electrostatics & Circuits: Data & Evidence: Key data types in this unit and their sources",
-        "n": 60
+        "a": 1,
+        "e": "F = k*|q1*q2|/r^2 = (9x10^9)(4x10^-6)(2x10^-6)/(0.2)^2 = (9x10^9)(8x10^-12)/0.04 = 0.072/0.04 = 1.8 N. Since the charges have opposite signs, the force is attractive."
       }
     ],
     "PART_C": [

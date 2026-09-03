@@ -50,7 +50,7 @@ function heroPattern(slug, hex) {
     'astronomy': {s:`<g fill='${acc}'><circle cx='30' cy='30' r='3'/><circle cx='85' cy='65' r='2.5'/><circle cx='140' cy='25' r='3.5'/><circle cx='60' cy='115' r='2.5'/><circle cx='155' cy='135' r='3'/></g><path d='M30 30 L85 65 L140 25 M85 65 L60 115' stroke='${acc}' stroke-width='1' opacity='.4' fill='none'/>`, sz:180},
   };
   // Family resolution
-  const mathFam=['algebra1','algebra2','geometry','precalc','statistics','sat-math'];
+  const mathFam=['algebra1','algebra2','geometry','precalc','statistics','sat-math','calculus','calc-ab','calc-bc'];
   const sciFam=['biology','chemistry','earth-science','environmental-science','anatomy','ap-chemistry','psychology'];
   const histFam=['global-history','us-government','world-history','apush','ap-world','economics'];
   const engFam=['english-9','english-10','creative-writing','journalism','speech-debate','art-history'];
@@ -69,9 +69,9 @@ function heroPattern(slug, hex) {
     else if (techFam.includes(slug)) key='_tech';
     else if (slug.startsWith('ap-')) key='_ap';
     else if (['sat-reading','act-prep','sat-math'].includes(slug)) key='_test';
-    else key='default';
+    else key='_skills';
   }
-  const m=M[key];
+  const m=M[key] || M['_skills'];
   return {svg:m.s, size:m.sz};
 }
 
@@ -98,7 +98,7 @@ function bodyPattern(slug, hex){
     '_math':"<text x='25' y='55' font-size='34' fill='"+acc+"' opacity='0.133' font-family='Georgia'>&#960;</text><text x='110' y='130' font-size='30' fill='"+acc+"' opacity='0.114' font-family='Georgia'>&#8721;</text><path d='M150 40 q12 -16 24 0' fill='none' stroke='"+acc+"' stroke-width='2' opacity='0.133'/><text x='60' y='150' font-size='26' fill='"+acc+"' opacity='0.114'>x&#178;</text>",
     '_skills':"<circle cx='45' cy='45' r='14' fill='none' stroke='"+acc+"' stroke-width='2' opacity='0.152'/><path d='M39 59 v6 h12 v-6' fill='none' stroke='"+acc+"' stroke-width='2' opacity='0.152'/><path d='M122 112 h34 M122 124 h24' stroke='"+acc+"' stroke-width='2.4' opacity='0.133'/>"
   };
-  const mathFam=['algebra1','algebra2','precalc','statistics','sat-math'];
+  const mathFam=['algebra1','algebra2','precalc','statistics','sat-math','calculus','calc-ab','calc-bc'];
   const sciFam=['biology','earth-science','environmental-science','psychology'];
   const histFam=['global-history','us-government','world-history','apush','ap-world','economics'];
   const engFam=['english-9','english-10','creative-writing','journalism','speech-debate','art-history','sat-reading'];

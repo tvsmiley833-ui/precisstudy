@@ -648,3 +648,39 @@ export const worldHistoryUnits = [
   { id: 7, name: "Revolutions & Enlightenment" },
   { id: 8, name: "Industrial Age & World Wars" }
 ];
+
+/** @type {Unit[]} */
+export const calculusUnits = [
+  { id: 1, name: "Limits & Continuity" },
+  { id: 2, name: "Derivative Rules & Techniques" },
+  { id: 3, name: "Applications of Derivatives" },
+  { id: 4, name: "Integration Basics" },
+  { id: 5, name: "Applications of Integrals" },
+  { id: 6, name: "Exponential & Logarithmic Calculus" },
+  { id: 7, name: "Related Rates & Optimization" },
+  { id: 8, name: "Sequences & Series Intro" }
+];
+
+/** @type {Unit[]} */
+export const calcAbUnits = [
+  { id: 1, name: "Limits & Continuity" },
+  { id: 2, name: "Differentiation: Definition & Basic Rules" },
+  { id: 3, name: "Differentiation: Composite, Implicit & Inverse" },
+  { id: 4, name: "Contextual Applications of Differentiation" },
+  { id: 5, name: "Analytical Applications of Differentiation" },
+  { id: 6, name: "Integration & Accumulation of Change" },
+  { id: 7, name: "Differential Equations" },
+  { id: 8, name: "Applications of Integration" }
+];
+
+/** @type {Unit[]} */
+export const calcBcUnits = [
+  { id: 1, name: "Limits & Continuity" },
+  { id: 2, name: "Differentiation & Applications" },
+  { id: 3, name: "Integration & Differential Equations" },
+  { id: 4, name: "Applications of Integration" },
+  { id: 5, name: "Parametric, Polar & Vector Functions" },
+  { id: 6, name: "Infinite Sequences & Series" },
+  { id: 7, name: "Taylor & Maclaurin Series" },
+  { id: 8, name: "Polynomial Approximations & Series Convergence" }
+];

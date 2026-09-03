@@ -29,7 +29,7 @@
             "Each bit position represents a power of 2: 1, 2, 4, 8, 16, 32, 64, 128...",
             "To convert binary to decimal, add the powers of 2 where there is a 1 (e.g., 1011 = 8+0+2+1 = 11)",
             "To convert decimal to binary, repeatedly divide by 2 and record the remainders",
-            "Everything digital — text, images, sound, video — is ultimately stored as sequences of bits"
+            "Everything digital \u2014 text, images, sound, video \u2014 is ultimately stored as sequences of bits"
           ]
         },
         {
@@ -78,16 +78,16 @@
         }
       ],
       "keyFacts": [
-        "1 byte = 8 bits; 1 kilobyte (KB) ≈ 1000 bytes; 1 megabyte (MB) ≈ 1,000,000 bytes",
+        "1 byte = 8 bits; 1 kilobyte (KB) \u2248 1000 bytes; 1 megabyte (MB) \u2248 1,000,000 bytes",
         "Binary 1011 = decimal 11; decimal 25 = binary 11001",
         "ASCII uses 7-8 bits per character; UTF-8 can use 1-4 bytes per character to support all languages",
         "Moore's Law observed that transistor counts (and roughly computing power) doubled about every two years"
       ],
       "traps": [
-        "RAM is temporary/volatile working memory, not permanent storage — data in RAM is lost when power is off",
-        "A byte is 8 bits, not 10 bits — binary place values are powers of 2, not powers of 10",
+        "RAM is temporary/volatile working memory, not permanent storage \u2014 data in RAM is lost when power is off",
+        "A byte is 8 bits, not 10 bits \u2014 binary place values are powers of 2, not powers of 10",
         "The CPU executes instructions; it is the GPU, not the CPU, that is optimized for massively parallel tasks like graphics",
-        "Hexadecimal is a human-friendly shorthand for binary, not a separate system computers use internally — hardware still stores everything in binary"
+        "Hexadecimal is a human-friendly shorthand for binary, not a separate system computers use internally \u2014 hardware still stores everything in binary"
       ]
     },
     {
@@ -110,7 +110,7 @@
           "intro": "Operators combine values and variables into expressions that produce a result, covering arithmetic, comparison, and logic.",
           "b": [
             "Arithmetic operators: + (add), - (subtract), * (multiply), / (divide), % (modulo/remainder)",
-            "Comparison operators: == (equal), != (not equal), <, >, <=, >= — these produce a boolean result",
+            "Comparison operators: == (equal), != (not equal), <, >, <=, >= \u2014 these produce a boolean result",
             "Logical operators: AND, OR, NOT combine boolean expressions (e.g., age >= 13 AND age <= 19)",
             "Order of operations (PEMDAS-like precedence) applies: multiplication/division before addition/subtraction",
             "The assignment operator (=) stores a value into a variable; it is different from the equality operator (==)"
@@ -170,8 +170,8 @@
       "traps": [
         "= is assignment (stores a value), not ==, which is comparison (checks equality)",
         "A syntax error prevents code from running at all; a logic error lets code run but produces a wrong answer, not a crash",
-        "Concatenating strings with + joins text together, not adds numbers — '2' + '2' gives '22' in many languages, not 4",
-        "Compiled and interpreted are about when/how code is translated, not about which language is 'better' — both approaches are valid"
+        "Concatenating strings with + joins text together, not adds numbers \u2014 '2' + '2' gives '22' in many languages, not 4",
+        "Compiled and interpreted are about when/how code is translated, not about which language is 'better' \u2014 both approaches are valid"
       ]
     },
     {
@@ -195,7 +195,7 @@
           "b": [
             "A for loop typically repeats a fixed or known number of times, often iterating over a range or collection",
             "A while loop repeats as long as a condition remains true, useful when the number of repetitions isn't known in advance",
-            "An infinite loop happens when the loop's condition never becomes false — a common bug to watch for",
+            "An infinite loop happens when the loop's condition never becomes false \u2014 a common bug to watch for",
             "break exits a loop immediately; continue skips to the next iteration without finishing the current one",
             "Loop variables (like i in 'for i in range(10)') track progress through the repetition"
           ]
@@ -252,7 +252,7 @@
         "A recursive function must have a base case to avoid infinite recursion"
       ],
       "traps": [
-        "break exits the loop entirely; continue skips only the current iteration and keeps looping — they are not the same",
+        "break exits the loop entirely; continue skips only the current iteration and keeps looping \u2014 they are not the same",
         "Parameters are the names in a function's definition; arguments are the actual values passed in when calling it",
         "A local variable inside a function is not accessible outside it, even though a global variable with a similar name might exist",
         "An infinite loop is a bug caused by a condition that never becomes false, not an intentional feature"
@@ -299,7 +299,7 @@
           "l": "Sets",
           "intro": "A set is a collection that stores only unique values, with no duplicates and typically no guaranteed order.",
           "b": [
-            "Adding a duplicate value to a set has no effect — the set still contains only one copy",
+            "Adding a duplicate value to a set has no effect \u2014 the set still contains only one copy",
             "Sets support operations like union (combine), intersection (common elements), and difference (elements in one but not another)",
             "Checking whether a value exists in a set is typically very fast, similar to a dictionary lookup",
             "Sets are useful for removing duplicates from a collection or quickly testing membership",
@@ -336,7 +336,7 @@
         "A set automatically eliminates duplicate values"
       ],
       "traps": [
-        "A stack is LIFO, not FIFO — the last item added is the first removed, unlike a queue",
+        "A stack is LIFO, not FIFO \u2014 the last item added is the first removed, unlike a queue",
         "Accessing an array element by index is fast; searching for a value's position without an index is slower, especially in an unsorted array",
         "Dictionaries are not guaranteed to be ordered by position the way arrays are (even if some languages preserve insertion order as an implementation detail)",
         "A tree is a specific, hierarchical type of graph (no cycles, one root), not a completely separate unrelated concept from graphs"
@@ -383,10 +383,10 @@
           "l": "Big-O Notation: Measuring Efficiency",
           "intro": "Big-O notation describes how an algorithm's running time (or memory use) grows as the size of its input grows, allowing comparison of efficiency independent of hardware.",
           "b": [
-            "O(1) — constant time: the operation takes the same amount of time regardless of input size (e.g., accessing an array element by index)",
-            "O(n) — linear time: time grows proportionally with input size (e.g., linear search checking every element once)",
-            "O(log n) — logarithmic time: time grows very slowly as input grows, by repeatedly cutting the problem in half (e.g., binary search)",
-            "O(n²) — quadratic time: time grows with the square of input size, often from nested loops over the same data (e.g., bubble sort)",
+            "O(1) \u2014 constant time: the operation takes the same amount of time regardless of input size (e.g., accessing an array element by index)",
+            "O(n) \u2014 linear time: time grows proportionally with input size (e.g., linear search checking every element once)",
+            "O(log n) \u2014 logarithmic time: time grows very slowly as input grows, by repeatedly cutting the problem in half (e.g., binary search)",
+            "O(n\u00b2) \u2014 quadratic time: time grows with the square of input size, often from nested loops over the same data (e.g., bubble sort)",
             "Big-O focuses on the worst-case (or general) growth trend for large inputs, not exact timing on any one computer"
           ]
         },
@@ -415,15 +415,15 @@
       ],
       "keyFacts": [
         "Binary search requires sorted data and runs in O(log n) time, much faster than linear search's O(n) for large datasets",
-        "Bubble sort and selection sort run in O(n²) time, making them inefficient for large datasets",
+        "Bubble sort and selection sort run in O(n\u00b2) time, making them inefficient for large datasets",
         "Big-O notation describes how runtime grows with input size, not the exact number of seconds a program takes",
         "Decomposition (breaking a problem into smaller parts) is a foundational problem-solving strategy in computer science"
       ],
       "traps": [
-        "Binary search only works on sorted data — running it on unsorted data gives incorrect results",
-        "O(log n) is much faster than O(n) for large inputs, not slower — logarithmic growth is very slow-growing, which is good",
+        "Binary search only works on sorted data \u2014 running it on unsorted data gives incorrect results",
+        "O(log n) is much faster than O(n) for large inputs, not slower \u2014 logarithmic growth is very slow-growing, which is good",
         "Big-O describes growth trends for large inputs, not a literal count of seconds or a guarantee about small inputs",
-        "An algorithm that works on the example given isn't automatically correct — it must be verified against edge cases and all valid inputs"
+        "An algorithm that works on the example given isn't automatically correct \u2014 it must be verified against edge cases and all valid inputs"
       ]
     },
     {
@@ -468,9 +468,9 @@
           "intro": "Communication between a browser and server follows a request-response pattern, with standardized codes indicating the outcome.",
           "b": [
             "Common HTTP methods: GET (retrieve data), POST (send/submit data), PUT (update data), DELETE (remove data)",
-            "A 200 status code means 'OK' — the request succeeded",
-            "A 404 status code means 'Not Found' — the requested resource doesn't exist at that address",
-            "A 500 status code means 'Internal Server Error' — something went wrong on the server's side",
+            "A 200 status code means 'OK' \u2014 the request succeeded",
+            "A 404 status code means 'Not Found' \u2014 the requested resource doesn't exist at that address",
+            "A 500 status code means 'Internal Server Error' \u2014 something went wrong on the server's side",
             "Cookies are small pieces of data a server asks a browser to store, often used for login sessions or preferences"
           ]
         },
@@ -504,9 +504,9 @@
         "HTML structures content, CSS styles it, and JavaScript adds interactivity"
       ],
       "traps": [
-        "The internet and the World Wide Web are not the same thing — the Web is a service (linked documents) that runs on top of the internet infrastructure",
-        "HTTPS is not just 'HTTP but newer' — it specifically adds encryption (via SSL/TLS) to protect data in transit",
-        "A 404 error means the resource wasn't found, not that the whole internet is down — it's specific to that URL/request",
+        "The internet and the World Wide Web are not the same thing \u2014 the Web is a service (linked documents) that runs on top of the internet infrastructure",
+        "HTTPS is not just 'HTTP but newer' \u2014 it specifically adds encryption (via SSL/TLS) to protect data in transit",
+        "A 404 error means the resource wasn't found, not that the whole internet is down \u2014 it's specific to that URL/request",
         "IP addresses identify devices numerically; domain names are the human-friendly labels DNS maps to those numbers, not the reverse"
       ]
     },
@@ -519,7 +519,7 @@
           "intro": "Encryption scrambles readable data (plaintext) into unreadable data (ciphertext) using a key, so only someone with the right key can reverse the process.",
           "b": [
             "Symmetric encryption uses the same key to encrypt and decrypt (fast, but the key must be shared secretly, e.g. AES)",
-            "Asymmetric encryption uses a public key to encrypt and a private key to decrypt — the public key can be shared openly (e.g. RSA)",
+            "Asymmetric encryption uses a public key to encrypt and a private key to decrypt \u2014 the public key can be shared openly (e.g. RSA)",
             "HTTPS uses a combination: asymmetric encryption to safely exchange a symmetric session key, then symmetric encryption for the actual data",
             "Hashing is different from encryption: a hash is one-way and cannot be reversed, used to verify passwords or file integrity without storing the original",
             "The lock icon in a browser means the connection is encrypted (HTTPS/TLS), not that the website itself is trustworthy",
@@ -555,7 +555,7 @@
           "intro": "Privacy laws like the EU's GDPR (General Data Protection Regulation) give individuals rights over their personal data and require organizations to handle it responsibly.",
           "b": [
             "Core rights include the right to access your data, the right to correct it, and the right to erasure (\"right to be forgotten\")",
-            "Companies must obtain clear, informed consent before collecting personal data — pre-checked boxes or buried fine print don't count",
+            "Companies must obtain clear, informed consent before collecting personal data \u2014 pre-checked boxes or buried fine print don't count",
             "Data minimization means collecting only the data actually needed for a stated purpose, not everything possible",
             "Organizations must report data breaches to regulators and affected users within a set time frame (72 hours under GDPR)",
             "GDPR applies to any company handling EU residents' data, regardless of where the company is based, which is why many global sites show cookie consent banners",
@@ -570,7 +570,7 @@
             "Malware is a broad term for malicious software: viruses attach to files and spread, worms self-replicate across networks, and ransomware encrypts files and demands payment",
             "A firewall filters network traffic based on rules, blocking unauthorized access while allowing legitimate traffic through",
             "The principle of least privilege means giving users and programs only the access they need to do their job, limiting damage if an account is compromised",
-            "Software updates and patches fix known security vulnerabilities — delaying updates leaves systems exposed to attacks that already have public exploits",
+            "Software updates and patches fix known security vulnerabilities \u2014 delaying updates leaves systems exposed to attacks that already have public exploits",
             "Social engineering exploits human trust rather than technical flaws, making user awareness a critical defense alongside technical safeguards"
           ]
         }
@@ -596,7 +596,7 @@
           "l": "Algorithmic Bias",
           "intro": "Algorithmic bias occurs when a computer system produces systematically unfair outcomes for certain groups, usually because of biased training data or flawed design choices, not because a program is intentionally programmed to discriminate.",
           "b": [
-            "Bias often comes from training data that reflects historical human bias — a hiring algorithm trained on past resumes may learn to favor the same demographics that were historically hired",
+            "Bias often comes from training data that reflects historical human bias \u2014 a hiring algorithm trained on past resumes may learn to favor the same demographics that were historically hired",
             "Underrepresentation in training data (e.g. facial recognition trained mostly on lighter-skinned faces) can make a system perform worse for underrepresented groups",
             "Proxy variables can encode bias indirectly: a model might not use race directly but use zip code, which correlates strongly with race in many places",
             "Feedback loops can worsen bias over time: a biased predictive policing model sends more patrols to a neighborhood, generates more arrests there, and 'confirms' its own bias",
@@ -609,7 +609,7 @@
           "intro": "AI ethics addresses the responsibilities that come with building and deploying artificial intelligence systems that can affect people's lives, rights, and opportunities.",
           "b": [
             "Transparency means users and affected people can understand, at some level, how and why an AI system reached a decision",
-            "Accountability means a person or organization — not 'the algorithm' — is responsible when an AI system causes harm",
+            "Accountability means a person or organization \u2014 not 'the algorithm' \u2014 is responsible when an AI system causes harm",
             "Explainability is especially important in high-stakes domains like healthcare, lending, or criminal justice, where a wrong or opaque decision has serious consequences",
             "Privacy concerns arise because many AI systems are trained on large amounts of personal data, sometimes collected without full user awareness or consent",
             "The trolley-problem style dilemmas around autonomous vehicles illustrate that AI systems can face genuine ethical trade-offs, not just technical bugs",
@@ -623,7 +623,7 @@
             "Copyright automatically protects original code and creative work the moment it's created, giving the creator exclusive rights to copy, modify, and distribute it",
             "Open-source licenses (like MIT or GPL) grant others permission to use and modify code, but under specific conditions the license spells out",
             "Permissive licenses (MIT, Apache) allow nearly unrestricted reuse, even in proprietary closed-source products, as long as attribution is kept",
-            "Copyleft licenses (like GPL) require that any derivative work using the code must also be released under the same open license — this is sometimes called a 'viral' license",
+            "Copyleft licenses (like GPL) require that any derivative work using the code must also be released under the same open license \u2014 this is sometimes called a 'viral' license",
             "Patents protect novel inventions or processes (including some software methods) for a limited time, preventing others from using them without a license",
             "Using someone else's code without checking its license, or violating a license's terms (e.g. shipping GPL code in closed-source software), can create real legal liability"
           ]
@@ -635,7 +635,7 @@
             "Software engineers design, build, and maintain applications and systems; roles often specialize into front-end (user interfaces), back-end (servers/databases), or full-stack (both)",
             "Data scientists and data analysts extract insights from data, often using statistics, programming (like Python or SQL), and visualization tools",
             "UX/UI designers focus on how usable and intuitive a product feels, blending research, psychology, and visual design rather than writing production code",
-            "DevOps and systems/network engineers keep infrastructure running reliably — deploying code, managing servers, and ensuring uptime and security",
+            "DevOps and systems/network engineers keep infrastructure running reliably \u2014 deploying code, managing servers, and ensuring uptime and security",
             "Cybersecurity specialists focus on protecting systems from attacks, including roles like penetration testers who are hired to find vulnerabilities before attackers do",
             "A traditional four-year degree is one path into tech, but bootcamps, certifications, self-teaching, and portfolios of personal projects are all recognized alternative routes"
           ]
@@ -645,9 +645,9 @@
           "intro": "Questions on this unit test whether you can identify real ethical failure modes and distinguish them from unrelated technical concepts covered elsewhere in the course.",
           "b": [
             "Expect scenario-based questions: you'll be given a situation (a biased hiring tool, a scraped dataset, a mislabeled license) and asked to name the underlying issue",
-            "Distinguish between bias in data, bias in algorithm design, and bias in how a system's output is used by humans — exam questions often hinge on this distinction",
-            "Know the difference between copyright, patents, and licenses — they're related but protect different things and are tested separately",
-            "Be ready to distinguish an ethical/legal question (should we do this?) from a purely technical one (can we do this?) — both types appear, but they test different reasoning",
+            "Distinguish between bias in data, bias in algorithm design, and bias in how a system's output is used by humans \u2014 exam questions often hinge on this distinction",
+            "Know the difference between copyright, patents, and licenses \u2014 they're related but protect different things and are tested separately",
+            "Be ready to distinguish an ethical/legal question (should we do this?) from a purely technical one (can we do this?) \u2014 both types appear, but they test different reasoning",
             "Career-path questions test whether you know which role does which kind of work, not just that the roles exist"
           ]
         }
@@ -656,13 +656,13 @@
         "Algorithmic bias usually comes from biased or unrepresentative training data, not from an explicit intent to discriminate.",
         "Removing a sensitive attribute from a dataset does not eliminate bias if correlated proxy variables (like zip code) remain.",
         "Copyleft licenses (like GPL) require derivative works to be released under the same license; permissive licenses (like MIT) do not.",
-        "Accountability in AI ethics means a person or organization is responsible for an AI system's harms — not the algorithm itself."
+        "Accountability in AI ethics means a person or organization is responsible for an AI system's harms \u2014 not the algorithm itself."
       ],
       "traps": [
         "Algorithmic bias is usually the result of skewed training data or flawed design, not deliberate programmer intent to discriminate.",
-        "A permissive license like MIT allows use in closed-source software; a copyleft license like GPL requires derivatives to stay open-source — mixing them up is a common exam trap.",
+        "A permissive license like MIT allows use in closed-source software; a copyleft license like GPL requires derivatives to stay open-source \u2014 mixing them up is a common exam trap.",
         "Copyright protects creative/expressive works automatically at creation, while a patent must be formally applied for and approved to protect an invention or process.",
-        "High overall accuracy does not prove a model is fair — it can still perform far worse for specific subgroups, which is why disparate-impact audits matter."
+        "High overall accuracy does not prove a model is fair \u2014 it can still perform far worse for specific subgroups, which is why disparate-impact audits matter."
       ]
     }
   ],
@@ -1589,7 +1589,7 @@
         "Correct syntax guarantees correct output"
       ],
       "a": 1,
-      "e": "Syntax correctness only means the code will run — it doesn't guarantee the logic behind it is right."
+      "e": "Syntax correctness only means the code will run \u2014 it doesn't guarantee the logic behind it is right."
     },
     {
       "u": 2,
@@ -2665,7 +2665,7 @@
       "o": [
         "O(n)",
         "O(1)",
-        "O(n²)",
+        "O(n\u00b2)",
         "O(log n)"
       ],
       "a": 1,
@@ -2678,7 +2678,7 @@
         "O(1)",
         "O(log n)",
         "O(n)",
-        "O(n²)"
+        "O(n\u00b2)"
       ],
       "a": 2,
       "e": "O(n) means runtime grows proportionally with input size."
@@ -2688,7 +2688,7 @@
       "q": "What Big-O notation typically describes binary search's efficiency?",
       "o": [
         "O(n)",
-        "O(n²)",
+        "O(n\u00b2)",
         "O(log n)",
         "O(1)"
       ],
@@ -2701,11 +2701,11 @@
       "o": [
         "O(log n)",
         "O(n)",
-        "O(n²)",
+        "O(n\u00b2)",
         "O(1)"
       ],
       "a": 2,
-      "e": "Bubble sort's nested comparisons over the data give it O(n²) time in typical/worst cases."
+      "e": "Bubble sort's nested comparisons over the data give it O(n\u00b2) time in typical/worst cases."
     },
     {
       "u": 5,
@@ -2793,11 +2793,11 @@
     },
     {
       "u": 5,
-      "q": "For a very small input size, why might a simple O(n²) algorithm be acceptable in practice?",
+      "q": "For a very small input size, why might a simple O(n\u00b2) algorithm be acceptable in practice?",
       "o": [
         "It's never acceptable",
         "The difference in actual runtime may be negligible for small inputs",
-        "O(n²) is always faster than O(n) for any size",
+        "O(n\u00b2) is always faster than O(n) for any size",
         "Simple algorithms are always the fastest"
       ],
       "a": 1,
@@ -2805,7 +2805,7 @@
     },
     {
       "u": 5,
-      "q": "What happens to the runtime of an O(n²) algorithm if the input size doubles?",
+      "q": "What happens to the runtime of an O(n\u00b2) algorithm if the input size doubles?",
       "o": [
         "It roughly doubles",
         "It roughly quadruples",
@@ -2813,7 +2813,7 @@
         "It is cut in half"
       ],
       "a": 1,
-      "e": "Quadratic growth means doubling input size roughly quadruples the work (2² = 4)."
+      "e": "Quadratic growth means doubling input size roughly quadruples the work (2\u00b2 = 4)."
     },
     {
       "u": 5,
@@ -2882,7 +2882,7 @@
         "O(1)",
         "O(log n)",
         "O(n)",
-        "O(n²)"
+        "O(n\u00b2)"
       ],
       "a": 2,
       "e": "In the worst case, linear search must check every one of the n elements."
@@ -2916,7 +2916,7 @@
       "q": "Why might merge sort be preferred over bubble sort for large datasets?",
       "o": [
         "Merge sort is always simpler to write",
-        "Merge sort's divide-and-conquer approach scales much better (typically O(n log n)) than bubble sort's O(n²)",
+        "Merge sort's divide-and-conquer approach scales much better (typically O(n log n)) than bubble sort's O(n\u00b2)",
         "Bubble sort requires more memory",
         "There is no meaningful performance difference"
       ],
@@ -2985,15 +2985,15 @@
     },
     {
       "u": 5,
-      "q": "What best distinguishes O(n) from O(n²) in practical terms for very large n?",
+      "q": "What best distinguishes O(n) from O(n\u00b2) in practical terms for very large n?",
       "o": [
         "They perform identically",
-        "O(n²) grows much faster than O(n), often becoming impractically slow for large n",
-        "O(n) is always slower than O(n²)",
+        "O(n\u00b2) grows much faster than O(n), often becoming impractically slow for large n",
+        "O(n) is always slower than O(n\u00b2)",
         "Neither notation relates to actual performance"
       ],
       "a": 1,
-      "e": "Quadratic growth (O(n²)) scales far worse than linear growth (O(n)) as input size increases."
+      "e": "Quadratic growth (O(n\u00b2)) scales far worse than linear growth (O(n)) as input size increases."
     },
     {
       "u": 5,
@@ -3065,7 +3065,7 @@
         "Testing with edge cases"
       ],
       "a": 2,
-      "e": "Compiling without errors only confirms valid syntax — testing for correct behavior, including edge cases, is still essential."
+      "e": "Compiling without errors only confirms valid syntax \u2014 testing for correct behavior, including edge cases, is still essential."
     },
     {
       "u": 6,
@@ -3605,7 +3605,7 @@
         "The website has passed a government security audit"
       ],
       "a": 1,
-      "e": "The padlock only indicates an encrypted (HTTPS/TLS) connection — it says nothing about whether the site's owner or content is trustworthy."
+      "e": "The padlock only indicates an encrypted (HTTPS/TLS) connection \u2014 it says nothing about whether the site's owner or content is trustworthy."
     },
     {
       "u": 7,
@@ -3869,7 +3869,7 @@
         "It replaces the need for encryption"
       ],
       "a": 1,
-      "e": "As browsers block third-party cookies, advertisers increasingly rely on fingerprinting — combining browser/device characteristics — to keep identifying users across sites."
+      "e": "As browsers block third-party cookies, advertisers increasingly rely on fingerprinting \u2014 combining browser/device characteristics \u2014 to keep identifying users across sites."
     },
     {
       "u": 7,
@@ -3881,7 +3881,7 @@
         "To speed up website loading times"
       ],
       "a": 0,
-      "e": "Informed consent means users must be clearly told what's collected and why, and must actively agree — pre-checked boxes or buried terms don't satisfy this."
+      "e": "Informed consent means users must be clearly told what's collected and why, and must actively agree \u2014 pre-checked boxes or buried terms don't satisfy this."
     },
     {
       "u": 7,
@@ -3893,7 +3893,7 @@
         "A user enables two-factor authentication on their account"
       ],
       "a": 1,
-      "e": "A breach involves unauthorized access to data — here, an attacker exploiting a vulnerability to steal a database is a textbook example."
+      "e": "A breach involves unauthorized access to data \u2014 here, an attacker exploiting a vulnerability to steal a database is a textbook example."
     },
     {
       "u": 7,
@@ -3929,7 +3929,7 @@
         "A ransomware attack"
       ],
       "a": 0,
-      "e": "Remembering cart contents across pages on the same site is a classic first-party cookie use case — it's set and read by the site you're actually using."
+      "e": "Remembering cart contents across pages on the same site is a classic first-party cookie use case \u2014 it's set and read by the site you're actually using."
     },
     {
       "u": 7,
@@ -4001,7 +4001,7 @@
         "Avoiding software updates to reduce compatibility issues"
       ],
       "a": 1,
-      "e": "Unique passwords limit the blast radius of any single breach, and 2FA adds a barrier even if a password is exposed — together they're the most effective personal defense."
+      "e": "Unique passwords limit the blast radius of any single breach, and 2FA adds a barrier even if a password is exposed \u2014 together they're the most effective personal defense."
     },
     {
       "u": 7,
@@ -4073,7 +4073,7 @@
         "A type of encryption key"
       ],
       "a": 0,
-      "e": "Proxy variables let sensitive information leak into a model indirectly — zip code, for instance, can correlate strongly with race even if race itself is excluded."
+      "e": "Proxy variables let sensitive information leak into a model indirectly \u2014 zip code, for instance, can correlate strongly with race even if race itself is excluded."
     },
     {
       "u": 8,
@@ -4097,7 +4097,7 @@
         "A required step in every open-source license"
       ],
       "a": 0,
-      "e": "For example, a predictive policing model that over-patrols a neighborhood generates more arrests there, which is then used as 'evidence' to justify even more patrols — amplifying the original bias."
+      "e": "For example, a predictive policing model that over-patrols a neighborhood generates more arrests there, which is then used as 'evidence' to justify even more patrols \u2014 amplifying the original bias."
     },
     {
       "u": 8,
@@ -4133,7 +4133,7 @@
         "Accountability only applies to open-source AI projects"
       ],
       "a": 0,
-      "e": "Accountability places responsibility for an AI system's real-world impact on the people and organizations who built and deployed it — 'the algorithm did it' isn't a valid excuse."
+      "e": "Accountability places responsibility for an AI system's real-world impact on the people and organizations who built and deployed it \u2014 'the algorithm did it' isn't a valid excuse."
     },
     {
       "u": 8,
@@ -4205,7 +4205,7 @@
         "It only applies to code written in Python"
       ],
       "a": 0,
-      "e": "Permissive licenses like MIT or Apache impose minimal restrictions — usually just keeping the original attribution — even when the code is used in proprietary software."
+      "e": "Permissive licenses like MIT or Apache impose minimal restrictions \u2014 usually just keeping the original attribution \u2014 even when the code is used in proprietary software."
     },
     {
       "u": 8,
@@ -4223,7 +4223,7 @@
       "u": 8,
       "q": "What legal risk can arise from including GPL-licensed code in a closed-source commercial product?",
       "o": [
-        "None — GPL code can always be used freely in any product",
+        "None \u2014 GPL code can always be used freely in any product",
         "It can create real legal liability, since GPL requires derivative works to also be open-sourced",
         "It automatically converts the entire company to a nonprofit",
         "It only affects the original GPL license holder, not the company using it"
@@ -4265,7 +4265,7 @@
         "Filing patents for a company's inventions"
       ],
       "a": 0,
-      "e": "UX/UI design centers on usability and user experience — informed by research and psychology — rather than on writing the underlying production code."
+      "e": "UX/UI design centers on usability and user experience \u2014 informed by research and psychology \u2014 rather than on writing the underlying production code."
     },
     {
       "u": 8,
@@ -4313,7 +4313,7 @@
         "An intentional design goal of the system"
       ],
       "a": 0,
-      "e": "When a dataset underrepresents certain groups, the resulting model tends to perform worse for those groups — a common and well-documented source of algorithmic bias."
+      "e": "When a dataset underrepresents certain groups, the resulting model tends to perform worse for those groups \u2014 a common and well-documented source of algorithmic bias."
     },
     {
       "u": 8,
@@ -4325,7 +4325,7 @@
         "This response is fully adequate and requires no follow-up"
       ],
       "a": 0,
-      "e": "In AI ethics, responsibility for an automated system's harms lies with the humans and organization who built, deployed, and maintained it — not with the software itself."
+      "e": "In AI ethics, responsibility for an automated system's harms lies with the humans and organization who built, deployed, and maintained it \u2014 not with the software itself."
     },
     {
       "u": 8,
@@ -4355,13 +4355,13 @@
       "u": 8,
       "q": "Which pairing correctly matches a role to its primary responsibility?",
       "o": [
-        "DevOps engineer — manages deployment pipelines and infrastructure reliability",
-        "UX/UI designer — writes back-end database queries",
-        "Data scientist — designs a company's network firewall",
-        "Front-end developer — files patents for company inventions"
+        "DevOps engineer \u2014 manages deployment pipelines and infrastructure reliability",
+        "UX/UI designer \u2014 writes back-end database queries",
+        "Data scientist \u2014 designs a company's network firewall",
+        "Front-end developer \u2014 files patents for company inventions"
       ],
       "a": 0,
-      "e": "DevOps engineers focus on deployment automation, infrastructure, and keeping systems running reliably — the other pairings mismatch role and responsibility."
+      "e": "DevOps engineers focus on deployment automation, infrastructure, and keeping systems running reliably \u2014 the other pairings mismatch role and responsibility."
     },
     {
       "u": 8,
@@ -4373,7 +4373,7 @@
         "AI ethics only concerns itself with technical feasibility"
       ],
       "a": 0,
-      "e": "Technical feasibility and ethical appropriateness are separate axes of evaluation — a system can be technically buildable while still raising serious ethical concerns about whether it should be built or deployed."
+      "e": "Technical feasibility and ethical appropriateness are separate axes of evaluation \u2014 a system can be technically buildable while still raising serious ethical concerns about whether it should be built or deployed."
     },
     {
       "u": 8,
@@ -4385,7 +4385,7 @@
         "There is no ethical issue since the photos were publicly visible"
       ],
       "a": 0,
-      "e": "Public visibility of a photo does not equal consent to have it used for training a facial recognition model — the core issue is the lack of informed consent from those depicted."
+      "e": "Public visibility of a photo does not equal consent to have it used for training a facial recognition model \u2014 the core issue is the lack of informed consent from those depicted."
     },
     {
       "u": 8,
@@ -4623,7 +4623,7 @@
     },
     {
       "u": 5,
-      "t": "O(n²) - Quadratic time",
+      "t": "O(n\u00b2) - Quadratic time",
       "d": "A growth rate where runtime increases with the square of the input size, often caused by nested loops over the same data, as in bubble sort."
     },
     {
@@ -4634,7 +4634,7 @@
     {
       "u": 5,
       "t": "Bubble sort",
-      "d": "A simple sorting algorithm that repeatedly compares and swaps adjacent out-of-order elements; runs in O(n²) time."
+      "d": "A simple sorting algorithm that repeatedly compares and swaps adjacent out-of-order elements; runs in O(n\u00b2) time."
     },
     {
       "u": 5,
@@ -4829,7 +4829,7 @@
     {
       "u": 8,
       "t": "Explainability",
-      "d": "The ability to describe, in human-understandable terms, why an AI model produced a specific output — critical in high-stakes decisions."
+      "d": "The ability to describe, in human-understandable terms, why an AI model produced a specific output \u2014 critical in high-stakes decisions."
     },
     {
       "u": 8,
@@ -4905,788 +4905,788 @@
   "examParts": {
     "PART_A": [
       {
+        "n": 1,
         "u": 1,
-        "q": "Which statement accurately reflects Computing Basics & Binary?",
+        "q": "How many distinct values can a single byte (8 bits) represent?",
         "o": [
-          "Key vocabulary and definitions you must know cold for computing basics & binary",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources"
+          "8",
+          "16",
+          "256",
+          "1024"
         ],
-        "a": 0,
-        "e": "Computing Basics & Binary: Core Ideas: Key vocabulary and definitions you must know cold for computing basics & binary",
-        "n": 1
+        "a": 2,
+        "e": "A byte has 8 bits, and 2^8 = 256 distinct values, ranging from 0 to 255."
       },
       {
+        "n": 2,
+        "u": 1,
+        "q": "What does binary 1011 equal in decimal?",
+        "o": [
+          "9",
+          "10",
+          "11",
+          "13"
+        ],
+        "a": 2,
+        "e": "1011 = 8+0+2+1 = 11."
+      },
+      {
+        "n": 3,
+        "u": 1,
+        "q": "How many bits does one hexadecimal digit represent?",
+        "o": [
+          "2",
+          "4",
+          "8",
+          "16"
+        ],
+        "a": 1,
+        "e": "One hex digit (0-9, A-F) maps exactly to a 4-bit nibble."
+      },
+      {
+        "n": 4,
+        "u": 1,
+        "q": "Which component fetches, decodes, and executes instructions?",
+        "o": [
+          "RAM",
+          "CPU",
+          "SSD",
+          "Monitor"
+        ],
+        "a": 1,
+        "e": "The CPU is the central processing unit that carries out the fetch-decode-execute cycle."
+      },
+      {
+        "n": 5,
+        "u": 1,
+        "q": "Which type of memory is erased when the power is turned off?",
+        "o": [
+          "Hard drive",
+          "SSD",
+          "RAM",
+          "ROM firmware"
+        ],
+        "a": 2,
+        "e": "RAM (main memory) is volatile and loses its contents without power, unlike permanent storage."
+      },
+      {
+        "n": 6,
         "u": 2,
-        "q": "Which statement accurately reflects Programming Fundamentals?",
+        "q": "In programming, what is a variable?",
         "o": [
-          "The primary method or process, demonstrated",
-          "The primary method or process, demonstrated",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic"
+          "A fixed value that never changes",
+          "A named location that stores a value which can change",
+          "A type of loop",
+          "An error message"
         ],
-        "a": 0,
-        "e": "Programming Fundamentals: Key Processes: The primary method or process, demonstrated",
-        "n": 2
+        "a": 1,
+        "e": "A variable is a named storage location whose value can be changed as the program runs."
       },
       {
+        "n": 7,
+        "u": 2,
+        "q": "What is the purpose of debugging?",
+        "o": [
+          "Writing new features",
+          "Finding and fixing errors in code",
+          "Compiling the program",
+          "Formatting output"
+        ],
+        "a": 1,
+        "e": "Debugging is the process of locating and correcting errors (bugs) in a program."
+      },
+      {
+        "n": 8,
+        "u": 2,
+        "q": "Which of the following is an example of an operator?",
+        "o": [
+          "print",
+          "+",
+          "if",
+          "function"
+        ],
+        "a": 1,
+        "e": "+ is an arithmetic operator used to combine or compute values in an expression."
+      },
+      {
+        "n": 9,
+        "u": 2,
+        "q": "What distinguishes a compiled language from an interpreted one?",
+        "o": [
+          "Compiled languages have no variables",
+          "Compiled code is translated to machine code before running; interpreted code is executed line by line",
+          "Interpreted languages cannot have functions",
+          "There is no real difference"
+        ],
+        "a": 1,
+        "e": "Compiled languages are translated ahead of time into machine code, while interpreted languages are executed statement by statement at runtime."
+      },
+      {
+        "n": 10,
         "u": 3,
-        "q": "Which statement accurately reflects Control Flow & Functions?",
+        "q": "What does a for loop typically use to control repetition?",
         "o": [
-          "Foundational figures or milestone events",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources",
-          "Key vocabulary and definitions you must know cold for data structures intro"
+          "A random number",
+          "A counter or iteration variable",
+          "A function name",
+          "A string"
         ],
-        "a": 0,
-        "e": "Control Flow & Functions: People, Events & Discoveries: Foundational figures or milestone events",
-        "n": 3
+        "a": 1,
+        "e": "For loops usually rely on a counter variable that tracks the number of iterations."
       },
       {
+        "n": 11,
+        "u": 3,
+        "q": "What is 'scope' in programming?",
+        "o": [
+          "The speed of a program",
+          "The region of code where a variable can be accessed",
+          "The number of functions in a program",
+          "A type of loop"
+        ],
+        "a": 1,
+        "e": "Scope defines where in the code a variable name is valid and accessible."
+      },
+      {
+        "n": 12,
+        "u": 3,
+        "q": "Which control structure executes a block of code only if a condition is true?",
+        "o": [
+          "Loop",
+          "Conditional (if statement)",
+          "Function definition",
+          "Variable declaration"
+        ],
+        "a": 1,
+        "e": "An if statement (conditional) runs its block only when its condition evaluates to true."
+      },
+      {
+        "n": 13,
+        "u": 3,
+        "q": "What is a function parameter?",
+        "o": [
+          "The name of the function",
+          "A value passed into a function when it is called",
+          "The return type",
+          "A loop variable"
+        ],
+        "a": 1,
+        "e": "A parameter is a placeholder variable that receives the value passed into a function at call time."
+      },
+      {
+        "n": 14,
         "u": 4,
-        "q": "Which statement accurately reflects Data Structures Intro?",
+        "q": "Which data structure follows Last-In-First-Out (LIFO) order?",
         "o": [
-          "Key data types in this unit and their sources",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for control flow & functions"
+          "Queue",
+          "Stack",
+          "Array",
+          "Dictionary"
         ],
-        "a": 0,
-        "e": "Data Structures Intro: Data & Evidence: Key data types in this unit and their sources",
-        "n": 4
+        "a": 1,
+        "e": "A stack removes the most recently added item first, which is the LIFO principle."
       },
       {
+        "n": 15,
+        "u": 4,
+        "q": "Which data structure follows First-In-First-Out (FIFO) order?",
+        "o": [
+          "Stack",
+          "Queue",
+          "Set",
+          "Tree"
+        ],
+        "a": 1,
+        "e": "A queue processes items in the order they were added, removing the oldest item first (FIFO)."
+      },
+      {
+        "n": 16,
+        "u": 4,
+        "q": "What is a key feature of a set data structure?",
+        "o": [
+          "It stores duplicate values",
+          "It stores only unique values",
+          "It only stores numbers",
+          "It maintains insertion order strictly like a queue"
+        ],
+        "a": 1,
+        "e": "Sets are defined by storing only unique elements, with no duplicates allowed."
+      },
+      {
+        "n": 17,
+        "u": 4,
+        "q": "What do dictionaries (hash maps) use to quickly locate values?",
+        "o": [
+          "An index starting at 0",
+          "Keys",
+          "Sorted order",
+          "Pointers only"
+        ],
+        "a": 1,
+        "e": "Dictionaries map unique keys to values, allowing fast lookup by key."
+      },
+      {
+        "n": 18,
         "u": 5,
-        "q": "Which statement accurately reflects Algorithms & Problem Solving?",
+        "q": "What is an algorithm?",
         "o": [
-          "Question patterns most common for this topic",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for programming fundamentals",
-          "The primary method or process, demonstrated"
+          "A programming language",
+          "A step-by-step procedure for solving a problem",
+          "A type of variable",
+          "A hardware component"
         ],
-        "a": 0,
-        "e": "Algorithms & Problem Solving: Exam Lens: Question patterns most common for this topic",
-        "n": 5
+        "a": 1,
+        "e": "An algorithm is a well-defined sequence of steps used to solve a problem or complete a task."
       },
       {
+        "n": 19,
+        "u": 5,
+        "q": "What does Big-O notation describe?",
+        "o": [
+          "The exact runtime of a program in seconds",
+          "How an algorithm's time or space needs grow as input size increases",
+          "The number of bugs in code",
+          "The programming language used"
+        ],
+        "a": 1,
+        "e": "Big-O notation describes the growth rate of an algorithm's resource use as the input size grows, not exact timing."
+      },
+      {
+        "n": 20,
+        "u": 5,
+        "q": "Which search algorithm requires the data to be sorted first?",
+        "o": [
+          "Linear search",
+          "Binary search",
+          "Bubble sort",
+          "Depth-first search"
+        ],
+        "a": 1,
+        "e": "Binary search repeatedly halves a sorted range, which only works correctly on sorted data."
+      },
+      {
+        "n": 21,
+        "u": 5,
+        "q": "What is the Big-O time complexity of linear search in the worst case?",
+        "o": [
+          "O(1)",
+          "O(log n)",
+          "O(n)",
+          "O(n^2)"
+        ],
+        "a": 2,
+        "e": "Linear search may need to check every element once, giving worst-case O(n) time."
+      },
+      {
+        "n": 22,
         "u": 6,
-        "q": "Which statement accurately reflects Web & Internet How It Works?",
+        "q": "What translates a human-readable domain name into an IP address?",
         "o": [
-          "Key vocabulary and definitions you must know cold for web & internet how it works",
-          "Key vocabulary and definitions you must know cold for computing basics & binary",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events"
+          "HTTP",
+          "DNS",
+          "CSS",
+          "A cookie"
         ],
-        "a": 0,
-        "e": "Web & Internet How It Works: Core Ideas: Key vocabulary and definitions you must know cold for web & internet how it works",
-        "n": 6
+        "a": 1,
+        "e": "DNS (Domain Name System) resolves domain names into the numeric IP addresses computers use to connect."
       },
       {
+        "n": 23,
+        "u": 6,
+        "q": "Which HTTP status code range indicates a successful response?",
+        "o": [
+          "100-199",
+          "200-299",
+          "400-499",
+          "500-599"
+        ],
+        "a": 1,
+        "e": "HTTP status codes in the 200s (e.g., 200 OK) indicate the request succeeded."
+      },
+      {
+        "n": 24,
+        "u": 6,
+        "q": "What is the key difference between the Internet and the Web?",
+        "o": [
+          "They are exactly the same thing",
+          "The Internet is the physical/network infrastructure; the Web is a service (pages/hyperlinks) that runs on top of it",
+          "The Web existed before the Internet",
+          "The Internet only carries email"
+        ],
+        "a": 1,
+        "e": "The Internet is the underlying global network infrastructure, while the Web (HTTP, HTML, hyperlinks) is one application that runs over that infrastructure."
+      },
+      {
+        "n": 25,
+        "u": 6,
+        "q": "What does HTTPS add to standard HTTP communication?",
+        "o": [
+          "Faster page loading only",
+          "Encryption/security for data in transit",
+          "Larger file sizes only",
+          "Nothing significant"
+        ],
+        "a": 1,
+        "e": "HTTPS adds TLS/SSL encryption on top of HTTP, protecting data from being read or tampered with in transit."
+      },
+      {
+        "n": 26,
         "u": 7,
-        "q": "Which statement accurately reflects Data & Privacy?",
+        "q": "What does encryption do to data?",
         "o": [
-          "The primary method or process, demonstrated",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources"
+          "Deletes it permanently",
+          "Scrambles it so only authorized parties with the key can read it",
+          "Compresses it to save space",
+          "Makes it load faster"
         ],
-        "a": 0,
-        "e": "Data & Privacy: Key Processes: The primary method or process, demonstrated",
-        "n": 7
+        "a": 1,
+        "e": "Encryption transforms readable data into unreadable ciphertext that can only be decoded with the correct key."
       },
       {
-        "u": 8,
-        "q": "Which statement accurately reflects Ethics & Careers?",
-        "o": [
-          "Foundational figures or milestone events",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic"
-        ],
-        "a": 0,
-        "e": "Ethics & Careers: People, Events & Discoveries: Foundational figures or milestone events",
-        "n": 8
-      },
-      {
-        "u": 1,
-        "q": "Which statement accurately reflects Computing Basics & Binary?",
-        "o": [
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for control flow & functions",
-          "The primary method or process, demonstrated"
-        ],
-        "a": 0,
-        "e": "Computing Basics & Binary: Data & Evidence: Key data types in this unit and their sources",
-        "n": 9
-      },
-      {
-        "u": 2,
-        "q": "Which statement accurately reflects Programming Fundamentals?",
-        "o": [
-          "Question patterns most common for this topic",
-          "Question patterns most common for this topic",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events"
-        ],
-        "a": 0,
-        "e": "Programming Fundamentals: Exam Lens: Question patterns most common for this topic",
-        "n": 10
-      },
-      {
-        "u": 3,
-        "q": "Which statement accurately reflects Control Flow & Functions?",
-        "o": [
-          "Key vocabulary and definitions you must know cold for control flow & functions",
-          "Key vocabulary and definitions you must know cold for computing basics & binary",
-          "The primary method or process, demonstrated",
-          "Key data types in this unit and their sources"
-        ],
-        "a": 0,
-        "e": "Control Flow & Functions: Core Ideas: Key vocabulary and definitions you must know cold for control flow & functions",
-        "n": 11
-      },
-      {
-        "u": 4,
-        "q": "Which statement accurately reflects Data Structures Intro?",
-        "o": [
-          "The primary method or process, demonstrated",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources"
-        ],
-        "a": 0,
-        "e": "Data Structures Intro: Key Processes: The primary method or process, demonstrated",
-        "n": 12
-      },
-      {
-        "u": 5,
-        "q": "Which statement accurately reflects Algorithms & Problem Solving?",
-        "o": [
-          "Foundational figures or milestone events",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic"
-        ],
-        "a": 0,
-        "e": "Algorithms & Problem Solving: People, Events & Discoveries: Foundational figures or milestone events",
-        "n": 13
-      },
-      {
-        "u": 6,
-        "q": "Which statement accurately reflects Web & Internet How It Works?",
-        "o": [
-          "Key data types in this unit and their sources",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for control flow & functions"
-        ],
-        "a": 0,
-        "e": "Web & Internet How It Works: Data & Evidence: Key data types in this unit and their sources",
-        "n": 14
-      },
-      {
+        "n": 27,
         "u": 7,
-        "q": "Which statement accurately reflects Data & Privacy?",
+        "q": "What is a data breach?",
         "o": [
-          "Question patterns most common for this topic",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for programming fundamentals",
-          "The primary method or process, demonstrated"
+          "A planned software update",
+          "An incident where sensitive data is accessed or exposed without authorization",
+          "A type of encryption",
+          "A backup procedure"
         ],
-        "a": 0,
-        "e": "Data & Privacy: Exam Lens: Question patterns most common for this topic",
-        "n": 15
+        "a": 1,
+        "e": "A data breach occurs when protected or sensitive data is accessed, stolen, or exposed without permission."
       },
       {
-        "u": 8,
-        "q": "Which statement accurately reflects Ethics & Careers?",
-        "o": [
-          "Key vocabulary and definitions you must know cold for ethics & careers",
-          "Key vocabulary and definitions you must know cold for computing basics & binary",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events"
-        ],
-        "a": 0,
-        "e": "Ethics & Careers: Core Ideas: Key vocabulary and definitions you must know cold for ethics & careers",
-        "n": 16
-      },
-      {
-        "u": 1,
-        "q": "Which statement accurately reflects Computing Basics & Binary?",
-        "o": [
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic"
-        ],
-        "a": 0,
-        "e": "Computing Basics & Binary: Key Processes: The primary method or process, demonstrated",
-        "n": 17
-      },
-      {
-        "u": 2,
-        "q": "Which statement accurately reflects Programming Fundamentals?",
-        "o": [
-          "Foundational figures or milestone events",
-          "Foundational figures or milestone events",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for data structures intro"
-        ],
-        "a": 0,
-        "e": "Programming Fundamentals: People, Events & Discoveries: Foundational figures or milestone events",
-        "n": 18
-      },
-      {
-        "u": 3,
-        "q": "Which statement accurately reflects Control Flow & Functions?",
-        "o": [
-          "Key data types in this unit and their sources",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic",
-          "The primary method or process, demonstrated"
-        ],
-        "a": 0,
-        "e": "Control Flow & Functions: Data & Evidence: Key data types in this unit and their sources",
-        "n": 19
-      },
-      {
-        "u": 4,
-        "q": "Which statement accurately reflects Data Structures Intro?",
-        "o": [
-          "Question patterns most common for this topic",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for programming fundamentals",
-          "The primary method or process, demonstrated"
-        ],
-        "a": 0,
-        "e": "Data Structures Intro: Exam Lens: Question patterns most common for this topic",
-        "n": 20
-      },
-      {
-        "u": 5,
-        "q": "Which statement accurately reflects Algorithms & Problem Solving?",
-        "o": [
-          "Key vocabulary and definitions you must know cold for algorithms & problem solving",
-          "Key vocabulary and definitions you must know cold for computing basics & binary",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events"
-        ],
-        "a": 0,
-        "e": "Algorithms & Problem Solving: Core Ideas: Key vocabulary and definitions you must know cold for algorithms & problem solving",
-        "n": 21
-      },
-      {
-        "u": 6,
-        "q": "Which statement accurately reflects Web & Internet How It Works?",
-        "o": [
-          "The primary method or process, demonstrated",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources"
-        ],
-        "a": 0,
-        "e": "Web & Internet How It Works: Key Processes: The primary method or process, demonstrated",
-        "n": 22
-      },
-      {
+        "n": 28,
         "u": 7,
-        "q": "Which statement accurately reflects Data & Privacy?",
+        "q": "What is the primary purpose of cookies in web browsing?",
         "o": [
-          "Foundational figures or milestone events",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic"
+          "To encrypt traffic",
+          "To store small pieces of data that let websites remember information across visits",
+          "To speed up the CPU",
+          "To block malware"
         ],
-        "a": 0,
-        "e": "Data & Privacy: People, Events & Discoveries: Foundational figures or milestone events",
-        "n": 23
+        "a": 1,
+        "e": "Cookies are small files websites use to store data such as login state or preferences between visits, and are also used for tracking."
       },
       {
+        "n": 29,
         "u": 8,
-        "q": "Which statement accurately reflects Ethics & Careers?",
+        "q": "What is algorithmic bias?",
         "o": [
-          "Key data types in this unit and their sources",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for control flow & functions"
+          "A bug that crashes a program",
+          "When an algorithm produces systematically unfair outcomes for certain groups due to skewed data or design",
+          "A type of encryption flaw",
+          "A hardware malfunction"
         ],
-        "a": 0,
-        "e": "Ethics & Careers: Data & Evidence: Key data types in this unit and their sources",
-        "n": 24
+        "a": 1,
+        "e": "Algorithmic bias occurs when an algorithm's outputs unfairly disadvantage particular groups, often due to biased training data or design choices."
       },
       {
-        "u": 1,
-        "q": "Which statement accurately reflects Computing Basics & Binary?",
+        "n": 30,
+        "u": 8,
+        "q": "What does a software license typically govern?",
         "o": [
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for programming fundamentals",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events"
+          "The color of the user interface",
+          "How the software may be legally used, copied, modified, or distributed",
+          "The programming language used",
+          "The speed of the software"
         ],
-        "a": 0,
-        "e": "Computing Basics & Binary: Exam Lens: Question patterns most common for this topic",
-        "n": 25
-      },
-      {
-        "u": 2,
-        "q": "Which statement accurately reflects Programming Fundamentals?",
-        "o": [
-          "Key vocabulary and definitions you must know cold for programming fundamentals",
-          "Key vocabulary and definitions you must know cold for computing basics & binary",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources"
-        ],
-        "a": 0,
-        "e": "Programming Fundamentals: Core Ideas: Key vocabulary and definitions you must know cold for programming fundamentals",
-        "n": 26
-      },
-      {
-        "u": 3,
-        "q": "Which statement accurately reflects Control Flow & Functions?",
-        "o": [
-          "The primary method or process, demonstrated",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events",
-          "Question patterns most common for this topic"
-        ],
-        "a": 0,
-        "e": "Control Flow & Functions: Key Processes: The primary method or process, demonstrated",
-        "n": 27
-      },
-      {
-        "u": 4,
-        "q": "Which statement accurately reflects Data Structures Intro?",
-        "o": [
-          "Foundational figures or milestone events",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic"
-        ],
-        "a": 0,
-        "e": "Data Structures Intro: People, Events & Discoveries: Foundational figures or milestone events",
-        "n": 28
-      },
-      {
-        "u": 5,
-        "q": "Which statement accurately reflects Algorithms & Problem Solving?",
-        "o": [
-          "Key data types in this unit and their sources",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for control flow & functions"
-        ],
-        "a": 0,
-        "e": "Algorithms & Problem Solving: Data & Evidence: Key data types in this unit and their sources",
-        "n": 29
-      },
-      {
-        "u": 6,
-        "q": "Which statement accurately reflects Web & Internet How It Works?",
-        "o": [
-          "Question patterns most common for this topic",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for programming fundamentals",
-          "The primary method or process, demonstrated"
-        ],
-        "a": 0,
-        "e": "Web & Internet How It Works: Exam Lens: Question patterns most common for this topic",
-        "n": 30
+        "a": 1,
+        "e": "A license is a legal agreement specifying the terms under which software can be used, copied, modified, or shared."
       }
     ],
     "PART_B1": [
       {
-        "u": 2,
-        "q": "[Application] Which statement accurately reflects Programming Fundamentals?",
-        "o": [
-          "Foundational figures or milestone events",
-          "Foundational figures or milestone events",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for data structures intro"
-        ],
-        "a": 0,
-        "e": "Programming Fundamentals: People, Events & Discoveries: Foundational figures or milestone events",
-        "n": 31
-      },
-      {
-        "u": 5,
-        "q": "[Application] Which statement accurately reflects Algorithms & Problem Solving?",
-        "o": [
-          "Key data types in this unit and their sources",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for control flow & functions"
-        ],
-        "a": 0,
-        "e": "Algorithms & Problem Solving: Data & Evidence: Key data types in this unit and their sources",
-        "n": 32
-      },
-      {
-        "u": 8,
-        "q": "[Application] Which statement accurately reflects Ethics & Careers?",
-        "o": [
-          "Question patterns most common for this topic",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for programming fundamentals",
-          "The primary method or process, demonstrated"
-        ],
-        "a": 0,
-        "e": "Ethics & Careers: Exam Lens: Question patterns most common for this topic",
-        "n": 33
-      },
-      {
-        "u": 3,
-        "q": "[Application] Which statement accurately reflects Control Flow & Functions?",
-        "o": [
-          "Key vocabulary and definitions you must know cold for control flow & functions",
-          "Key vocabulary and definitions you must know cold for computing basics & binary",
-          "The primary method or process, demonstrated",
-          "Key data types in this unit and their sources"
-        ],
-        "a": 0,
-        "e": "Control Flow & Functions: Core Ideas: Key vocabulary and definitions you must know cold for control flow & functions",
-        "n": 34
-      },
-      {
-        "u": 6,
-        "q": "[Application] Which statement accurately reflects Web & Internet How It Works?",
-        "o": [
-          "The primary method or process, demonstrated",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources"
-        ],
-        "a": 0,
-        "e": "Web & Internet How It Works: Key Processes: The primary method or process, demonstrated",
-        "n": 35
-      },
-      {
+        "n": 31,
         "u": 1,
-        "q": "[Application] Which statement accurately reflects Computing Basics & Binary?",
+        "q": "A computer's storage (SSD/hard drive) differs from RAM primarily because storage is:",
         "o": [
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for data structures intro"
+          "Faster than RAM",
+          "Non-volatile, keeping data without power",
+          "Only used for output devices",
+          "Always larger than any RAM"
         ],
-        "a": 0,
-        "e": "Computing Basics & Binary: People, Events & Discoveries: Foundational figures or milestone events",
-        "n": 36
+        "a": 1,
+        "e": "Storage is non-volatile, retaining data even when power is removed, unlike RAM which is volatile."
       },
       {
-        "u": 4,
-        "q": "[Application] Which statement accurately reflects Data Structures Intro?",
-        "o": [
-          "Key data types in this unit and their sources",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for control flow & functions"
-        ],
-        "a": 0,
-        "e": "Data Structures Intro: Data & Evidence: Key data types in this unit and their sources",
-        "n": 37
-      },
-      {
-        "u": 7,
-        "q": "[Application] Which statement accurately reflects Data & Privacy?",
-        "o": [
-          "Question patterns most common for this topic",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for programming fundamentals",
-          "The primary method or process, demonstrated"
-        ],
-        "a": 0,
-        "e": "Data & Privacy: Exam Lens: Question patterns most common for this topic",
-        "n": 38
-      },
-      {
-        "u": 2,
-        "q": "[Application] Which statement accurately reflects Programming Fundamentals?",
-        "o": [
-          "Key vocabulary and definitions you must know cold for programming fundamentals",
-          "Key vocabulary and definitions you must know cold for computing basics & binary",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources"
-        ],
-        "a": 0,
-        "e": "Programming Fundamentals: Core Ideas: Key vocabulary and definitions you must know cold for programming fundamentals",
-        "n": 39
-      },
-      {
-        "u": 5,
-        "q": "[Application] Which statement accurately reflects Algorithms & Problem Solving?",
-        "o": [
-          "The primary method or process, demonstrated",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources"
-        ],
-        "a": 0,
-        "e": "Algorithms & Problem Solving: Key Processes: The primary method or process, demonstrated",
-        "n": 40
-      },
-      {
-        "u": 8,
-        "q": "[Application] Which statement accurately reflects Ethics & Careers?",
-        "o": [
-          "Foundational figures or milestone events",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic"
-        ],
-        "a": 0,
-        "e": "Ethics & Careers: People, Events & Discoveries: Foundational figures or milestone events",
-        "n": 41
-      },
-      {
-        "u": 3,
-        "q": "[Application] Which statement accurately reflects Control Flow & Functions?",
-        "o": [
-          "Key data types in this unit and their sources",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic",
-          "The primary method or process, demonstrated"
-        ],
-        "a": 0,
-        "e": "Control Flow & Functions: Data & Evidence: Key data types in this unit and their sources",
-        "n": 42
-      },
-      {
-        "u": 6,
-        "q": "[Application] Which statement accurately reflects Web & Internet How It Works?",
-        "o": [
-          "Question patterns most common for this topic",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for programming fundamentals",
-          "The primary method or process, demonstrated"
-        ],
-        "a": 0,
-        "e": "Web & Internet How It Works: Exam Lens: Question patterns most common for this topic",
-        "n": 43
-      },
-      {
+        "n": 32,
         "u": 1,
-        "q": "[Application] Which statement accurately reflects Computing Basics & Binary?",
+        "q": "What is the decimal value of the binary number 1111?",
         "o": [
-          "Key vocabulary and definitions you must know cold for computing basics & binary",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources"
+          "8",
+          "12",
+          "15",
+          "16"
         ],
-        "a": 0,
-        "e": "Computing Basics & Binary: Core Ideas: Key vocabulary and definitions you must know cold for computing basics & binary",
-        "n": 44
+        "a": 2,
+        "e": "1111 = 8+4+2+1 = 15."
       },
       {
-        "u": 4,
-        "q": "[Application] Which statement accurately reflects Data Structures Intro?",
-        "o": [
-          "The primary method or process, demonstrated",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources"
-        ],
-        "a": 0,
-        "e": "Data Structures Intro: Key Processes: The primary method or process, demonstrated",
-        "n": 45
-      },
-      {
-        "u": 7,
-        "q": "[Application] Which statement accurately reflects Data & Privacy?",
-        "o": [
-          "Foundational figures or milestone events",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic"
-        ],
-        "a": 0,
-        "e": "Data & Privacy: People, Events & Discoveries: Foundational figures or milestone events",
-        "n": 46
-      },
-      {
+        "n": 33,
         "u": 2,
-        "q": "[Application] Which statement accurately reflects Programming Fundamentals?",
+        "q": "Which of these is considered good practice for writing readable code?",
         "o": [
-          "Key data types in this unit and their sources",
-          "Key data types in this unit and their sources",
-          "Key vocabulary and definitions you must know cold for control flow & functions",
-          "The primary method or process, demonstrated"
+          "Using single-letter variable names everywhere",
+          "Using descriptive variable names and consistent formatting",
+          "Avoiding comments entirely",
+          "Writing the whole program as one line"
         ],
-        "a": 0,
-        "e": "Programming Fundamentals: Data & Evidence: Key data types in this unit and their sources",
-        "n": 47
+        "a": 1,
+        "e": "Readable code uses clear, descriptive names and consistent style so others (and future you) can understand it easily."
       },
       {
-        "u": 5,
-        "q": "[Application] Which statement accurately reflects Algorithms & Problem Solving?",
+        "n": 34,
+        "u": 2,
+        "q": "What is a syntax error?",
         "o": [
-          "Question patterns most common for this topic",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for programming fundamentals",
-          "The primary method or process, demonstrated"
+          "An error caused by faulty logic that gives wrong results",
+          "A violation of a programming language's grammar rules that prevents the code from running",
+          "A hardware failure",
+          "A network timeout"
         ],
-        "a": 0,
-        "e": "Algorithms & Problem Solving: Exam Lens: Question patterns most common for this topic",
-        "n": 48
+        "a": 1,
+        "e": "A syntax error occurs when code doesn't follow the rules of the language's grammar, so it fails to parse or compile."
       },
       {
-        "u": 8,
-        "q": "[Application] Which statement accurately reflects Ethics & Careers?",
-        "o": [
-          "Key vocabulary and definitions you must know cold for ethics & careers",
-          "Key vocabulary and definitions you must know cold for computing basics & binary",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events"
-        ],
-        "a": 0,
-        "e": "Ethics & Careers: Core Ideas: Key vocabulary and definitions you must know cold for ethics & careers",
-        "n": 49
-      },
-      {
+        "n": 35,
         "u": 3,
-        "q": "[Application] Which statement accurately reflects Control Flow & Functions?",
+        "q": "What happens to a variable declared inside a function once the function finishes running (assuming it is a local variable)?",
         "o": [
-          "The primary method or process, demonstrated",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events",
-          "Question patterns most common for this topic"
+          "It becomes a global variable",
+          "It goes out of scope and is no longer accessible",
+          "It is automatically printed",
+          "It turns into a constant"
         ],
-        "a": 0,
-        "e": "Control Flow & Functions: Key Processes: The primary method or process, demonstrated",
-        "n": 50
+        "a": 1,
+        "e": "Local variables exist only within the function's scope and are discarded once the function returns."
+      },
+      {
+        "n": 36,
+        "u": 3,
+        "q": "Which loop type is best suited when the number of iterations is not known in advance and depends on a condition?",
+        "o": [
+          "For loop with a fixed range",
+          "While loop",
+          "A single if statement",
+          "A function declaration"
+        ],
+        "a": 1,
+        "e": "A while loop continues as long as its condition holds, making it ideal when the iteration count isn't known ahead of time."
+      },
+      {
+        "n": 37,
+        "u": 4,
+        "q": "Which data structure would be most appropriate for representing a family tree with parent-child relationships?",
+        "o": [
+          "Stack",
+          "Queue",
+          "Tree",
+          "Set"
+        ],
+        "a": 2,
+        "e": "A tree naturally models hierarchical parent-child relationships like a family tree or org chart."
+      },
+      {
+        "n": 38,
+        "u": 4,
+        "q": "An array differs from a linked list in that an array typically provides:",
+        "o": [
+          "Slower access to elements by index",
+          "Constant-time (O(1)) access to any element by its index",
+          "No way to store multiple values",
+          "Only unique values"
+        ],
+        "a": 1,
+        "e": "Arrays store elements in contiguous memory, allowing direct O(1) indexed access, unlike linked lists which require traversal."
+      },
+      {
+        "n": 39,
+        "u": 5,
+        "q": "Which sorting algorithm repeatedly swaps adjacent elements that are out of order?",
+        "o": [
+          "Binary search",
+          "Bubble sort",
+          "Hashing",
+          "Depth-first search"
+        ],
+        "a": 1,
+        "e": "Bubble sort repeatedly steps through the list, swapping adjacent elements that are in the wrong order."
+      },
+      {
+        "n": 40,
+        "u": 5,
+        "q": "An algorithm with time complexity O(n^2) compared to one with O(n log n) will generally, for large inputs:",
+        "o": [
+          "Run faster",
+          "Run slower",
+          "Run at exactly the same speed",
+          "Use no memory"
+        ],
+        "a": 1,
+        "e": "O(n^2) grows faster than O(n log n) as input size increases, so it becomes slower for large inputs."
+      },
+      {
+        "n": 41,
+        "u": 6,
+        "q": "What does a web browser do first when you type a URL, before it can request the page?",
+        "o": [
+          "Render the CSS",
+          "Look up the domain's IP address via DNS",
+          "Execute JavaScript",
+          "Display a 404 error"
+        ],
+        "a": 1,
+        "e": "The browser must resolve the domain name to an IP address via DNS before it can send an HTTP request to the server."
+      },
+      {
+        "n": 42,
+        "u": 6,
+        "q": "Which HTTP status code indicates that a requested resource was not found?",
+        "o": [
+          "200",
+          "301",
+          "404",
+          "500"
+        ],
+        "a": 2,
+        "e": "404 Not Found is the standard status code for a resource that does not exist on the server."
+      },
+      {
+        "n": 43,
+        "u": 7,
+        "q": "Which of these best describes the goal of GDPR-style privacy regulations?",
+        "o": [
+          "To ban all data collection entirely",
+          "To give individuals rights over their personal data and require organizations to handle it responsibly",
+          "To speed up internet connections",
+          "To eliminate the need for passwords"
+        ],
+        "a": 1,
+        "e": "GDPR-style regulations grant individuals rights over their personal data and impose responsible data-handling obligations on organizations."
+      },
+      {
+        "n": 44,
+        "u": 7,
+        "q": "What is a firewall used for in cybersecurity?",
+        "o": [
+          "Encrypting files on disk",
+          "Monitoring and controlling incoming/outgoing network traffic based on security rules",
+          "Speeding up web page rendering",
+          "Writing program code"
+        ],
+        "a": 1,
+        "e": "A firewall filters network traffic according to defined security rules to block unauthorized access."
+      },
+      {
+        "n": 45,
+        "u": 8,
+        "q": "Why is transparency often recommended when deploying AI systems that affect people's lives?",
+        "o": [
+          "It makes the AI run faster",
+          "It has no real benefit",
+          "It helps people understand and challenge decisions, reducing hidden bias and unfairness",
+          "It is legally irrelevant"
+        ],
+        "a": 2,
+        "e": "Transparency allows people to understand how AI decisions are made, enabling accountability and the ability to contest unfair outcomes."
+      },
+      {
+        "n": 46,
+        "u": 2,
+        "q": "What is the purpose of an 'else' clause when paired with an 'if' statement?",
+        "o": [
+          "To repeat a block of code",
+          "To run a block of code when the if condition is false",
+          "To declare a variable",
+          "To define a function"
+        ],
+        "a": 1,
+        "e": "The else clause provides an alternative block of code to run when the associated if condition evaluates to false."
+      },
+      {
+        "n": 47,
+        "u": 3,
+        "q": "What is a common pitfall when using loops?",
+        "o": [
+          "Loops always run exactly once",
+          "An off-by-one error causing the loop to run one time too many or too few",
+          "Loops cannot contain conditionals",
+          "Loops always cause syntax errors"
+        ],
+        "a": 1,
+        "e": "Off-by-one errors, where a loop iterates one time too many or too few, are among the most common loop bugs."
+      },
+      {
+        "n": 48,
+        "u": 4,
+        "q": "Which is true of a hash map (dictionary)'s average-case lookup time?",
+        "o": [
+          "O(n)",
+          "O(n^2)",
+          "O(1)",
+          "O(log n) always, never faster"
+        ],
+        "a": 2,
+        "e": "Hash maps use a hash function to place data, giving average-case O(1) lookup time."
+      },
+      {
+        "n": 49,
+        "u": 5,
+        "q": "What is the main goal of a divide-and-conquer problem-solving strategy?",
+        "o": [
+          "Solve the entire problem at once with no breakdown",
+          "Break a problem into smaller subproblems, solve them, and combine results",
+          "Avoid using functions",
+          "Guess the answer randomly"
+        ],
+        "a": 1,
+        "e": "Divide-and-conquer splits a large problem into smaller, more manageable subproblems, solves each, then merges the results."
+      },
+      {
+        "n": 50,
+        "u": 6,
+        "q": "What does an IP address uniquely identify on a network?",
+        "o": [
+          "A specific webpage's color scheme",
+          "A device's location/address for sending and receiving data",
+          "A programming language",
+          "A type of file format"
+        ],
+        "a": 1,
+        "e": "An IP address uniquely identifies a device on a network so data can be routed to and from it."
       }
     ],
     "PART_B2": [
       {
-        "u": 3,
-        "q": "[Synthesis] Which statement accurately reflects Control Flow & Functions?",
-        "o": [
-          "Question patterns most common for this topic",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for programming fundamentals",
-          "Foundational figures or milestone events"
-        ],
-        "a": 0,
-        "e": "Control Flow & Functions: Exam Lens: Question patterns most common for this topic",
-        "n": 51
-      },
-      {
-        "u": 8,
-        "q": "[Synthesis] Which statement accurately reflects Ethics & Careers?",
-        "o": [
-          "Key vocabulary and definitions you must know cold for ethics & careers",
-          "Key vocabulary and definitions you must know cold for computing basics & binary",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events"
-        ],
-        "a": 0,
-        "e": "Ethics & Careers: Core Ideas: Key vocabulary and definitions you must know cold for ethics & careers",
-        "n": 52
-      },
-      {
-        "u": 5,
-        "q": "[Synthesis] Which statement accurately reflects Algorithms & Problem Solving?",
-        "o": [
-          "The primary method or process, demonstrated",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources"
-        ],
-        "a": 0,
-        "e": "Algorithms & Problem Solving: Key Processes: The primary method or process, demonstrated",
-        "n": 53
-      },
-      {
-        "u": 2,
-        "q": "[Synthesis] Which statement accurately reflects Programming Fundamentals?",
-        "o": [
-          "Foundational figures or milestone events",
-          "Foundational figures or milestone events",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for data structures intro"
-        ],
-        "a": 0,
-        "e": "Programming Fundamentals: People, Events & Discoveries: Foundational figures or milestone events",
-        "n": 54
-      },
-      {
-        "u": 7,
-        "q": "[Synthesis] Which statement accurately reflects Data & Privacy?",
-        "o": [
-          "Key data types in this unit and their sources",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for control flow & functions"
-        ],
-        "a": 0,
-        "e": "Data & Privacy: Data & Evidence: Key data types in this unit and their sources",
-        "n": 55
-      },
-      {
-        "u": 4,
-        "q": "[Synthesis] Which statement accurately reflects Data Structures Intro?",
-        "o": [
-          "Question patterns most common for this topic",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for programming fundamentals",
-          "The primary method or process, demonstrated"
-        ],
-        "a": 0,
-        "e": "Data Structures Intro: Exam Lens: Question patterns most common for this topic",
-        "n": 56
-      },
-      {
+        "n": 51,
         "u": 1,
-        "q": "[Synthesis] Which statement accurately reflects Computing Basics & Binary?",
+        "q": "Why do computers use binary instead of decimal internally?",
         "o": [
-          "Key vocabulary and definitions you must know cold for computing basics & binary",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources"
+          "Binary is easier for humans to read",
+          "Transistors are simplest to build as two-state (on/off) switches",
+          "Binary uses fewer digits so it's always faster to compute",
+          "Decimal is not a real number system"
         ],
-        "a": 0,
-        "e": "Computing Basics & Binary: Core Ideas: Key vocabulary and definitions you must know cold for computing basics & binary",
-        "n": 57
+        "a": 1,
+        "e": "Binary maps naturally onto transistors' two stable states (on/off), making it the simplest and most reliable system for digital hardware."
       },
       {
-        "u": 6,
-        "q": "[Synthesis] Which statement accurately reflects Web & Internet How It Works?",
+        "n": 52,
+        "u": 2,
+        "q": "Which of the following is an example of a runtime error rather than a syntax error?",
         "o": [
-          "The primary method or process, demonstrated",
-          "The primary method or process, demonstrated",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources"
+          "Missing a closing parenthesis",
+          "Dividing a number by zero while the program is running",
+          "Misspelling a keyword",
+          "Forgetting a semicolon where required"
         ],
-        "a": 0,
-        "e": "Web & Internet How It Works: Key Processes: The primary method or process, demonstrated",
-        "n": 58
+        "a": 1,
+        "e": "A runtime error, such as division by zero, occurs while the program is executing correctly-formed code, unlike a syntax error caught before execution."
       },
       {
+        "n": 53,
         "u": 3,
-        "q": "[Synthesis] Which statement accurately reflects Control Flow & Functions?",
+        "q": "In a function, what is the difference between a parameter and an argument?",
         "o": [
-          "Foundational figures or milestone events",
-          "Foundational figures or milestone events",
-          "Key data types in this unit and their sources",
-          "Key vocabulary and definitions you must know cold for data structures intro"
+          "They are exactly the same with no difference",
+          "A parameter is the placeholder in the function definition; an argument is the actual value passed in when calling it",
+          "An argument is only used in loops",
+          "A parameter can only be a number"
         ],
-        "a": 0,
-        "e": "Control Flow & Functions: People, Events & Discoveries: Foundational figures or milestone events",
-        "n": 59
+        "a": 1,
+        "e": "Parameters are the named placeholders in a function's definition, while arguments are the actual values supplied at the call site."
       },
       {
-        "u": 8,
-        "q": "[Synthesis] Which statement accurately reflects Ethics & Careers?",
+        "n": 54,
+        "u": 4,
+        "q": "When should you prefer a queue over a stack?",
         "o": [
-          "Key data types in this unit and their sources",
-          "Key data types in this unit and their sources",
-          "Question patterns most common for this topic",
-          "Key vocabulary and definitions you must know cold for control flow & functions"
+          "When you need Last-In-First-Out processing, like undo history",
+          "When you need First-In-First-Out processing, like a print job or task queue",
+          "When you need to store only unique values",
+          "When you need constant-time indexed access"
+        ],
+        "a": 1,
+        "e": "A queue is appropriate when items must be processed in the order they arrived (FIFO), such as tasks waiting in line."
+      },
+      {
+        "n": 55,
+        "u": 5,
+        "q": "Which best describes a greedy algorithm strategy?",
+        "o": [
+          "It always finds the optimal solution to every problem",
+          "It makes the locally best choice at each step, hoping to reach a good overall solution",
+          "It tries every possible combination exhaustively",
+          "It only works on sorted arrays"
+        ],
+        "a": 1,
+        "e": "Greedy algorithms make the best-looking choice at each step without reconsidering, which is fast but doesn't guarantee a global optimum for every problem."
+      },
+      {
+        "n": 56,
+        "u": 6,
+        "q": "What role does a web server play when a browser requests a page?",
+        "o": [
+          "It only stores DNS records",
+          "It receives the HTTP request and sends back a response, such as an HTML page",
+          "It converts domain names into hexadecimal",
+          "It replaces the need for the Internet"
+        ],
+        "a": 1,
+        "e": "A web server listens for HTTP requests and responds with the requested resource, such as an HTML document."
+      },
+      {
+        "n": 57,
+        "u": 7,
+        "q": "Why are strong, unique passwords considered a cybersecurity fundamental?",
+        "o": [
+          "They make the computer run faster",
+          "They reduce the risk of accounts being compromised through guessing or reused-credential attacks",
+          "They are required by every programming language",
+          "They automatically encrypt all files on a device"
+        ],
+        "a": 1,
+        "e": "Strong, unique passwords make it much harder for attackers to guess credentials or exploit reused passwords from other breaches."
+      },
+      {
+        "n": 58,
+        "u": 8,
+        "q": "Which of these best exemplifies a career path directly tied to building software systems?",
+        "o": [
+          "Software engineer",
+          "Grocery store cashier",
+          "Professional athlete",
+          "Farmer"
         ],
         "a": 0,
-        "e": "Ethics & Careers: Data & Evidence: Key data types in this unit and their sources",
-        "n": 60
+        "e": "A software engineer designs, builds, and maintains software systems, making it a direct tech career path covered in this unit."
+      },
+      {
+        "n": 59,
+        "u": 4,
+        "q": "What is a key trade-off when choosing between an array and a linked list for frequent insertions in the middle of the collection?",
+        "o": [
+          "Arrays always insert faster in the middle",
+          "Linked lists can insert in the middle more efficiently since no shifting of elements is needed",
+          "Both have identical performance in every case",
+          "Neither structure supports insertion"
+        ],
+        "a": 1,
+        "e": "Linked lists allow O(1) insertion at a known position by just relinking pointers, while arrays must shift subsequent elements, which is slower."
+      },
+      {
+        "n": 60,
+        "u": 6,
+        "q": "What is the purpose of a status code like 500 in an HTTP response?",
+        "o": [
+          "It indicates the request succeeded perfectly",
+          "It indicates a server-side error occurred while processing the request",
+          "It means the page was redirected",
+          "It means the user is not authenticated"
+        ],
+        "a": 1,
+        "e": "A 500 status code signals an internal server error, meaning something went wrong on the server while handling the request."
       }
     ],
     "PART_C": [
