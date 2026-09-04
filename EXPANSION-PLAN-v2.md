@@ -73,8 +73,24 @@ add a new non-AP **us-history** guide.
       134 flashcards; exam rebuilt with 81 real APUSH items (was 100% chemistry — same bug as physics).
       Kept 9 Period units. Browser-verified, 208 tests pass. Homepage card updated (366).
       Note: ~12 exam MC stems overlap quiz-bank phrasings (acceptable for test prep, separate features).
-- [ ] ap-lang banks / assemble  (PART_A already real, expand; add HARD_Q)
-- [ ] us-history build + wire  (clone repaired apush shell; 7 registration points)
+- [x] ap-lang — DONE & DEPLOYED (version b15bc9e4)
+      60 concepts (was 40); quiz pool 391 (294 core + 97 HARD_Q, new Hard Mode option);
+      103 flashcards; 20 worked examples; exam A30/B1-28/B2-12/C20. Content was already real
+      rhetoric (no contamination). Browser-verified, 208 tests pass. Homepage card updated (391).
+- [x] us-history — DONE, WIRED, pending deploy
+      New non-AP survey guide, cloned from the repaired apush shell (11 units, colonial->present,
+      restructured from APUSH's 9 periods by keyword-classifying every concept/quiz/flashcard item
+      into the new unit scheme; 2 thin units (Reconstruction, Progressivism & Imperialism) topped up
+      with fresh concepts + quiz). 62 concepts, quiz pool 387 (271 core + 116 HARD_Q, Hard Mode
+      option), 134 flashcards, 81-item exam (all real US history, inherited from apush's rebuilt
+      exam). Own theme (#8a5a2b), own cbot prompt, own localStorage keys (unchanged from clone).
+      Wired into: src/worker.ts SUBJECT_PATHS, src/progress-routes.ts SUBJECTS + test fixtures,
+      public/shared/unit-titles.js (usHistoryUnits), public/dashboard/index.html (import +
+      SUBJECTS_CONFIG + SUBJECT_COLORS), public/settings/index.html (icon/color), public/index.html
+      (homepage card), scripts/hero-patterns.cjs (histFam), src/chat.ts (tutor prompt).
+      Browser-verified, 208 tests pass, tsc clean. Tooling: scratchpad/exp/us-history/restructure.mjs
+      (period-to-unit regroup with a comment/string-aware bracket scanner — reusable for any future
+      legacy-page unit restructure).
 - [ ] final: re-deploy, verify 200s for all
 
 ### Legacy-page gotchas learned on physics (apply to the other 3)

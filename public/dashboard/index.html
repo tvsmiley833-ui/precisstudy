@@ -303,7 +303,7 @@ document.addEventListener('click', function(e){
 
 <script type="module">
 import { computeReadiness, recommendNext, buildSchedule } from '/shared/mastery.js';
-import { geometryUnits, chemistryUnits, algebra1Units, algebra2Units, aplangUnits, globalHistoryUnits, apbiologyUnits, apushUnits, physicsUnits, biologyUnits, precalcUnits, usGovernmentUnits, actPrepUnits, anatomyUnits, apChemistryUnits, apCsaUnits, apEuroUnits, apMacroUnits, apMicroUnits, apPhysicsUnits, apPsychUnits, apStatsUnits, apUsgovUnits, apWorldUnits, artHistoryUnits, astronomyUnits, computerScienceUnits, creativeWritingUnits, earthScienceUnits, economicsUnits, english10Units, english9Units, environmentalScienceUnits, french1Units, geographyUnits, german1Units, healthUnits, journalismUnits, musicTheoryUnits, psychologyUnits, satMathUnits, satReadingUnits, sociologyUnits, spanish1Units, spanish2Units, spanish3Units, speechDebateUnits, statisticsUnits, studySkillsUnits, worldHistoryUnits, calculusUnits, calcAbUnits, calcBcUnits } from '/shared/unit-titles.js';
+import { geometryUnits, chemistryUnits, algebra1Units, algebra2Units, aplangUnits, globalHistoryUnits, apbiologyUnits, apushUnits, physicsUnits, biologyUnits, precalcUnits, usGovernmentUnits, actPrepUnits, anatomyUnits, apChemistryUnits, apCsaUnits, apEuroUnits, apMacroUnits, apMicroUnits, apPhysicsUnits, apPsychUnits, apStatsUnits, apUsgovUnits, apWorldUnits, artHistoryUnits, astronomyUnits, computerScienceUnits, creativeWritingUnits, earthScienceUnits, economicsUnits, english10Units, english9Units, environmentalScienceUnits, french1Units, geographyUnits, german1Units, healthUnits, journalismUnits, musicTheoryUnits, psychologyUnits, satMathUnits, satReadingUnits, sociologyUnits, spanish1Units, spanish2Units, spanish3Units, speechDebateUnits, statisticsUnits, studySkillsUnits, worldHistoryUnits, calculusUnits, calcAbUnits, calcBcUnits, usHistoryUnits } from '/shared/unit-titles.js';
 
 const SUBJECTS_CONFIG = [
   { key: 'geometry', label: 'Geometry', href: '/geometry', units: geometryUnits },
@@ -314,6 +314,7 @@ const SUBJECTS_CONFIG = [
   { key: 'globalhistory', label: 'Global History', href: '/global-history', units: globalHistoryUnits },
   { key: 'apbiology', label: 'AP Biology', href: '/ap-biology', units: apbiologyUnits },
   { key: 'apush', label: 'APUSH', href: '/apush', units: apushUnits },
+  { key: 'us-history', label: 'US History', href: '/us-history', units: usHistoryUnits },
   { key: 'physics', label: 'Physics', href: '/physics', units: physicsUnits },
   { key: 'biology', label: 'Biology', href: '/biology', units: biologyUnits },
   { key: 'precalc', label: 'PreCalculus', href: '/precalc', units: precalcUnits },
@@ -463,6 +464,7 @@ const SUBJECT_COLORS = {
   globalhistory: '#b5541f',
   apbiology: '#2e7d4f',
   apush: '#1e4d8b',
+  'us-history': '#8a5a2b',
   physics: '#7a3ba8',
   biology: '#2e7d4f',
   precalc: '#0f6e73',
