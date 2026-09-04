@@ -55,10 +55,25 @@ add a new non-AP **us-history** guide.
 6. **Deploy once** (`npx wrangler deploy`); verify 200 on /<slug>/ , /<slug>/quiz , /<slug>/exam for all 5.
 
 ## Status log
-- [ ] skeletons
-- [ ] algebra2 banks / assemble
-- [ ] physics banks / assemble (+ fix corrupt QUIZ)
-- [ ] apush banks / assemble (+ fix chem contamination)
-- [ ] ap-lang banks / assemble
-- [ ] us-history build + wire
-- [ ] validate + deploy
+- [x] physics — DONE & DEPLOYED (version c7b11be2)
+      11 units / 57 concepts; quiz pool 417 (142 core + 132 EXTRA_QUIZ + 143 HARD_Q,
+      new "Hard Mode Only" option); 112 flashcards; practice exam rebuilt with 81 real
+      physics items (was 100% chemistry). Browser-verified, 208 tests pass.
+      Reusable tooling: scripts-equivalent prerender-legacy-guide.mjs + splice-physics-banks.mjs
+      in scratchpad/exp/. Note: physics QUIZ was NOT corrupt (false alarm).
+      NOT added: worked-examples tab (physics/apush lack the view-examples subsystem;
+      deferred as an optional cross-guide follow-up).
+- [ ] algebra2 banks / assemble  (PART_A/C already real, expand to 30/20; add HARD_Q)
+- [ ] apush banks / assemble  (+ fix chem contamination in PART_A/B1/B2/C — same bug as physics)
+- [ ] ap-lang banks / assemble  (PART_A already real, expand; add HARD_Q)
+- [ ] us-history build + wire  (clone repaired apush shell; 7 registration points)
+- [ ] final: re-deploy, verify 200s for all
+
+### Legacy-page gotchas learned on physics (apply to the other 3)
+- Pages SSR the unit list into #filter-row + #units; changing const UNITS alone breaks
+  hydrateGuide() (chips[i+1] undefined). Must re-run prerender-legacy-guide.mjs.
+- Keep existing unit ids/names stable so existing QUIZ/FLASHCARDS/DIAGRAMS u-refs survive;
+  only append new units at the end.
+- buildQSel/loadQ differ slightly per page — copy the physics Hard Mode patch but re-diff.
+- Header stat line + "real question bank — N practice questions" text need count updates.
+- Splice helper must be comment/apostrophe-aware (QUIZ blocks contain // comments).
