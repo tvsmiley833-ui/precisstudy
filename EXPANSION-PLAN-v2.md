@@ -63,7 +63,11 @@ add a new non-AP **us-history** guide.
       in scratchpad/exp/. Note: physics QUIZ was NOT corrupt (false alarm).
       NOT added: worked-examples tab (physics/apush lack the view-examples subsystem;
       deferred as an optional cross-guide follow-up).
-- [ ] algebra2 banks / assemble  (PART_A/C already real, expand to 30/20; add HARD_Q)
+- [x] algebra2 — DONE & DEPLOYED (version 633036bd)
+      55 concepts (was 44); quiz pool 488 (330 core + 158 HARD_Q, new Hard Mode option);
+      106 flashcards; 27 worked examples; exam A30/B1-28/B2-12/C20. Browser-verified, 208 tests pass.
+      Was fully real content already (no contamination) — pure depth pass.
+      Tooling: scratchpad/exp/algebra2/{deepen-units,splice-banks}.mjs.
 - [ ] apush banks / assemble  (+ fix chem contamination in PART_A/B1/B2/C — same bug as physics)
 - [ ] ap-lang banks / assemble  (PART_A already real, expand; add HARD_Q)
 - [ ] us-history build + wire  (clone repaired apush shell; 7 registration points)
