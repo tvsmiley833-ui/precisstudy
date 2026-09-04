@@ -68,7 +68,11 @@ add a new non-AP **us-history** guide.
       106 flashcards; 27 worked examples; exam A30/B1-28/B2-12/C20. Browser-verified, 208 tests pass.
       Was fully real content already (no contamination) — pure depth pass.
       Tooling: scratchpad/exp/algebra2/{deepen-units,splice-banks}.mjs.
-- [ ] apush banks / assemble  (+ fix chem contamination in PART_A/B1/B2/C — same bug as physics)
+- [x] apush — DONE & DEPLOYED (version 75306bc7)
+      54 concepts (was 42); quiz pool 366 (250 core + 116 HARD_Q, new Hard Mode option);
+      134 flashcards; exam rebuilt with 81 real APUSH items (was 100% chemistry — same bug as physics).
+      Kept 9 Period units. Browser-verified, 208 tests pass. Homepage card updated (366).
+      Note: ~12 exam MC stems overlap quiz-bank phrasings (acceptable for test prep, separate features).
 - [ ] ap-lang banks / assemble  (PART_A already real, expand; add HARD_Q)
 - [ ] us-history build + wire  (clone repaired apush shell; 7 registration points)
 - [ ] final: re-deploy, verify 200s for all
