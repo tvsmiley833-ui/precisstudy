@@ -10,6 +10,7 @@ import {
   peekMagicLinkToken,
   isValidEmail,
   recordLogin,
+  bumpSessionVersion,
   checkEmailRateLimit,
   checkRateLimit,
   getClientIp
@@ -369,6 +370,13 @@ export async function handleMe(request: Request, env: Env): Promise<Response> {
   return json({ loggedIn: true, email: session.email, name: session.name, provider: session.provider });
 }
 
-export async function handleLogout(): Promise<Response> {
+export async function handleLogout(request: Request, env: Env): Promise<Response> {
+  // Bump the user's session version so *every* device signs out, not just the
+  // browser that holds this cookie. Best-effort: a KV hiccup still clears the
+  // local cookie below.
+  try {
+    const session = await getSession(request, env);
+    if (session) await bumpSessionVersion(env, session.email);
+  } catch (e) { /* fall through to cookie clear */ }
   return json({ ok: true }, 200, { "Set-Cookie": clearSessionCookie() });
 }

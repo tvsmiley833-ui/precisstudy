@@ -43,6 +43,27 @@ export interface SessionPayload {
   iat: number;
   exp: number;
   purpose?: string;
+  sv?: number;
+}
+
+// Per-user session version. Bumping it (on "sign out") invalidates every
+// outstanding token for that user, since the stateless token can't otherwise
+// be revoked before its 30-day expiry.
+function sessionVersionKey(email: string): string {
+  return "sv:" + email.toLowerCase();
+}
+
+export async function getSessionVersion(kv: KVNamespace | undefined, email: string): Promise<number> {
+  if (!kv) return 0;
+  const raw = await kv.get(sessionVersionKey(email));
+  const n = raw ? parseInt(raw, 10) : 0;
+  return Number.isFinite(n) ? n : 0;
+}
+
+export async function bumpSessionVersion(env: { PROGRESS?: KVNamespace }, email: string): Promise<void> {
+  if (!env.PROGRESS || !email) return;
+  const next = (await getSessionVersion(env.PROGRESS, email)) + 1;
+  await env.PROGRESS.put(sessionVersionKey(email), String(next));
 }
 
 export async function verifySession(token: string, secret: string): Promise<SessionPayload | null> {
@@ -75,14 +96,15 @@ export async function verifySession(token: string, secret: string): Promise<Sess
   return payload;
 }
 
-export async function issueSessionCookie(env: { SESSION_SECRET: string }, profile: { email: string; name?: string; provider: string }): Promise<string> {
+export async function issueSessionCookie(env: { SESSION_SECRET: string; PROGRESS?: KVNamespace }, profile: { email: string; name?: string; provider: string }): Promise<string> {
   const now = Math.floor(Date.now() / 1000);
   const payload: SessionPayload = {
     email: profile.email,
     name: profile.name || profile.email,
     provider: profile.provider,
     iat: now,
-    exp: now + SESSION_MAX_AGE
+    exp: now + SESSION_MAX_AGE,
+    sv: await getSessionVersion(env.PROGRESS, profile.email)
   };
   const token = await signSession(payload, env.SESSION_SECRET);
   return `${SESSION_COOKIE}=${token}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${SESSION_MAX_AGE}`;
@@ -102,10 +124,18 @@ export function getSessionCookie(request: Request): string | null {
   return getCookie(request, SESSION_COOKIE);
 }
 
-export async function getSession(request: Request, env: { SESSION_SECRET: string }): Promise<SessionPayload | null> {
+export async function getSession(request: Request, env: { SESSION_SECRET: string; PROGRESS?: KVNamespace }): Promise<SessionPayload | null> {
   const token = getSessionCookie(request);
   if (!token) return null;
-  return verifySession(token, env.SESSION_SECRET);
+  const payload = await verifySession(token, env.SESSION_SECRET);
+  if (!payload) return null;
+  // Reject tokens minted before the user's last "sign out everywhere".
+  // A token with no `sv` predates this check and counts as version 0.
+  if (env.PROGRESS) {
+    const current = await getSessionVersion(env.PROGRESS, payload.email);
+    if ((payload.sv || 0) !== current) return null;
+  }
+  return payload;
 }
 
 // Best-effort fixed-window limiter on top of KV (no atomic increment available,
