@@ -39,6 +39,32 @@ function buildQref(units) {
   }).join("\n  ");
 }
 
+// Static server-rendered unit accordion. Mirrors buildGuide()'s DOM 1:1
+// (classes, data-id, tabindex/role/aria-expanded on .unit-hd) so the shipped
+// page carries the real study-guide prose in HTML for crawlers, and
+// hydrateGuide() — which runs whenever #units already has children — just
+// attaches click/keydown handlers to it instead of rebuilding.
+function buildUnitsStatic(units, diagrams) {
+  return units.map(u => {
+    let body = u.concepts.map(c => {
+      let h = `<div class="c-label">${c.l}</div>`;
+      if (c.intro) h += `<div class="c-text">${c.intro}</div>`;
+      if (c.b && c.b.length) h += `<ul class="c-list">${c.b.map(i => `<li>${i}</li>`).join("")}</ul>`;
+      return `<div class="concept">${h}</div>`;
+    }).join("");
+    if (u.traps && u.traps.length)
+      body += u.traps.map(t => `<div class="trap">${esc(t)}</div>`).join("");
+    if (u.fms && u.fms.length)
+      body += `<div class="formula">${u.fms.join("<br>")}</div>`;
+    if (diagrams && diagrams[u.id])
+      body += `<div class="diagram"><div class="dlabel">Diagram</div>${diagrams[u.id].svg}<p class="dcap">${diagrams[u.id].cap}</p></div>`;
+    const hd = `<div class="unit-hd" tabindex="0" role="button" aria-expanded="false">` +
+      `<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts</span></span>` +
+      `<span class="chevron">▾</span></div>`;
+    return `<div class="unit" data-id="${u.id}">${hd}<div class="unit-body">${body}</div></div>`;
+  }).join("");
+}
+
 function buildMemory(units) {
   return units.map(u => {
     const cards = (u.traps || u.mistakes || []).map(m =>
@@ -174,6 +200,7 @@ export function generateGuide(config) {
     .replace("__SPC_INTRO__", `${quiz.length} practice questions across ${units.length} units. Slide to match your situation.`)
     .replace("__FILTER_CHIPS__",
       `<button class="chip on">All Units</button>${units.map(u => `<button class="chip">Unit ${u.id}</button>`).join("")}`)
+    .replace('<div id="units"></div>', `<div id="units">${buildUnitsStatic(units, config.diagrams || {})}</div>`)
     .replace("__FC_ARCHIVE__", buildFcArchive(units, flashcards))
     .replace("__QREF__", buildQref(units))
     .replace("__MEMORY__", buildMemory(units));

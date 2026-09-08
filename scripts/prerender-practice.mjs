@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-// Build-time static pre-render for flashcards + quiz questions, same
-// philosophy as prerender-guide.mjs: replace an empty placeholder div
-// with real semantic HTML so this content is crawlable, without
+// Build-time static pre-render for flashcards + quiz questions. Same
+// philosophy as generate-guide.mjs's buildUnitsStatic(): replace an empty
+// placeholder div with real semantic HTML so this content is crawlable, without
 // touching the existing interactive flashcard/quiz JS at all (purely
 // additive). The flashcard archive lives inside the ungated #view-cards
 // view; the question bank lives inside the ungated #view-guide (after
