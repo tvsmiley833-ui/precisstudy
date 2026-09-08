@@ -63,6 +63,41 @@ function buildFcArchive(units, flashcards) {
   return `<details class="practice-archive"><summary>Browse all ${flashcards.length} flashcards as a list</summary><div class="fc-archive-body">${sections}</div></details>`;
 }
 
+// Structured data: a LearningResource describing the guide plus a BreadcrumbList
+// (Home > <Subject> Study Guide). Built as an object and JSON.stringify'd so all
+// escaping is handled; `<` is further escaped so a stray "</script>" in a
+// description can't break out of the tag.
+function buildJsonLd(config) {
+  const { slug, title, description } = config;
+  const url = `https://precisstudy.com/${slug}/`;
+  const graph = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "@id": `${url}#guide`,
+        name: `${title} Study Guide`,
+        description,
+        url,
+        inLanguage: "en",
+        isAccessibleForFree: true,
+        learningResourceType: ["Study guide", "Flashcards", "Practice quiz", "Practice exam"],
+        educationalLevel: "High school",
+        about: { "@type": "Thing", name: title },
+        provider: { "@type": "Organization", name: "PrecisStudy", url: "https://precisstudy.com/" },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "PrecisStudy", item: "https://precisstudy.com/" },
+          { "@type": "ListItem", position: 2, name: `${title} Study Guide`, item: url },
+        ],
+      },
+    ],
+  };
+  return `<script type="application/ld+json">\n${JSON.stringify(graph, null, 2).replace(/</g, "\\u003c")}\n</script>`;
+}
+
 export function generateGuide(config) {
   const { slug, title, description, fontUrl, accentColor, units, quiz, flashcards,
           examParts } = config;
@@ -72,7 +107,8 @@ export function generateGuide(config) {
     .replace(/__PAGE_TITLE__/g, esc(`${title} Study Guide — PrecisStudy`))
     .replace(/__DESCRIPTION__/g, esc(description))
     .replace(/__SLUG__/g, slug)
-    .replace(/__FONT_URL__/g, fontUrl);
+    .replace(/__FONT_URL__/g, fontUrl)
+    .replace(/__JSONLD__/, buildJsonLd(config));
 
   let style = templateStyle;
   if (accentColor) {
