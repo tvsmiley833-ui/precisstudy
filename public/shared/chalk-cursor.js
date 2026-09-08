@@ -1,12 +1,12 @@
 // @ts-check
-// Chalk cursor + chalk-dust trail. A vanilla port of the "glow cursor" idea
-// (react-bits) retuned for PrecisStudy's chalkboard look: the pointer becomes a
-// stub of chalk that scatters dust as it moves.
+// Chalk cursor + chalk-stroke trail. Inspired by the react-bits "glow cursor",
+// retuned for PrecisStudy's chalkboard look: the pointer is a chalk-drawn arrow,
+// and moving it lays down a grainy chalk line that stays where it was drawn and
+// fades in place (like writing on a board), not falling dust.
 //
-// Self-initialising: importing this module runs setup() once. Cheap when idle
-// (the rAF loop parks itself when there is nothing to draw and the pointer is
-// still), and it never runs on touch / coarse pointers or when the visitor has
-// asked for reduced motion.
+// Self-initialising: importing this module runs setup() once. It never runs on
+// touch / coarse pointers or under prefers-reduced-motion, and the rAF loop
+// parks itself when the board is clean and the pointer is still.
 
 const REDUCED = matchMedia("(prefers-reduced-motion: reduce)");
 const FINE = matchMedia("(pointer: fine)");
@@ -17,37 +17,55 @@ function shouldRun() {
     && document.documentElement.dataset.chalkCursor !== "off";
 }
 
-const TIP_LERP = 0.4;          // how tightly the chalk stub tracks the pointer
-const MAX_PARTICLES = 130;     // hard cap on live dust motes
-const EMIT_DISTANCE = 4;       // px of travel per emitted mote
-const LIFE_MS = 620;           // mote lifetime
-
-/** @typedef {{x:number,y:number,vx:number,vy:number,r:number,born:number,rot:number}} Mote */
+const TIP_LERP = 0.5;         // how tightly the arrow tracks the pointer
+const FADE_PER_FRAME = 0.05;  // how fast laid-down chalk fades (0..1)
+const MAX_SEG = 90;           // px of a single move processed per frame
+const STEP = 1.6;             // px between brush stamps along the stroke
 
 function setup() {
   if (!window.matchMedia || !document.body) return;
 
+  const NS = "http://www.w3.org/2000/svg";
   const style = document.createElement("style");
   style.textContent =
     "html.chalk-cursor-on,html.chalk-cursor-on *{cursor:none!important}" +
-    // keep a real text caret where typing happens
     "html.chalk-cursor-on input,html.chalk-cursor-on textarea,html.chalk-cursor-on [contenteditable=\"true\"]{cursor:text!important}" +
-    ".chalk-tip{position:fixed;left:0;top:0;width:14px;height:14px;pointer-events:none;" +
-      "z-index:2147483000;will-change:transform;opacity:0;transition:opacity .18s ease}" +
-    ".chalk-tip::before{content:\"\";position:absolute;inset:0;border-radius:3px;" +
-      "background:var(--chalk-cursor-color,#f3efe2);" +
-      "box-shadow:0 0 6px 1px color-mix(in srgb,var(--chalk-cursor-color,#f3efe2) 55%,transparent);" +
-      "transform:rotate(-38deg);opacity:.95}" +
+    ".chalk-arrow{position:fixed;left:0;top:0;width:26px;height:30px;pointer-events:none;" +
+      "z-index:2147483000;will-change:transform;opacity:0;transition:opacity .16s ease;" +
+      "filter:drop-shadow(0 0 3px color-mix(in srgb,var(--chalk-cursor-color,#f3efe2) 40%,transparent))}" +
     ".chalk-trail{position:fixed;inset:0;pointer-events:none;z-index:2147482999}";
   document.head.appendChild(style);
+
+  // Chalk-drawn arrow pointer: a filled pointer path roughened by fractal noise
+  // so its edges crumble like a chalk stroke, plus a faint speckle overlay for
+  // the powdery fill. Hotspot is the tip at (2,2).
+  const arrow = document.createElementNS(NS, "svg");
+  arrow.setAttribute("class", "chalk-arrow");
+  arrow.setAttribute("viewBox", "0 0 26 30");
+  arrow.innerHTML =
+    '<defs>' +
+      '<filter id="ccRough" x="-40%" y="-40%" width="180%" height="180%">' +
+        '<feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" result="n"/>' +
+        '<feDisplacementMap in="SourceGraphic" in2="n" scale="2.6"/>' +
+      '</filter>' +
+      '<filter id="ccSpeckle">' +
+        '<feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="s"/>' +
+        '<feColorMatrix in="s" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 -1.6 1.1"/>' +
+        '<feComposite operator="in" in2="SourceAlpha"/>' +
+      '</filter>' +
+    '</defs>' +
+    '<g fill="var(--chalk-cursor-color,#f3efe2)" filter="url(#ccRough)">' +
+      '<path d="M2 2 L2 23 L8 17.5 L12 27 L16 25.2 L12.2 16 L21 16 Z" ' +
+        'stroke="var(--chalk-cursor-color,#f3efe2)" stroke-width="1.3" stroke-linejoin="round" opacity="0.9"/>' +
+    '</g>' +
+    '<path d="M2 2 L2 23 L8 17.5 L12 27 L16 25.2 L12.2 16 L21 16 Z" ' +
+      'fill="#000" filter="url(#ccSpeckle)" opacity="0.35"/>';
 
   const canvas = document.createElement("canvas");
   canvas.className = "chalk-trail";
   const ctx = canvas.getContext("2d");
-  const tip = document.createElement("div");
-  tip.className = "chalk-tip";
   document.body.appendChild(canvas);
-  document.body.appendChild(tip);
+  document.body.appendChild(arrow);
   document.documentElement.classList.add("chalk-cursor-on");
 
   let dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -57,6 +75,7 @@ function setup() {
     canvas.height = Math.floor(innerHeight * dpr);
     canvas.style.width = innerWidth + "px";
     canvas.style.height = innerHeight + "px";
+    if (ctx) ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
   resize();
   addEventListener("resize", resize, { passive: true });
@@ -64,65 +83,80 @@ function setup() {
   const chalkColor = () =>
     getComputedStyle(document.documentElement).getPropertyValue("--chalk-cursor-color").trim() || "#f3efe2";
 
-  /** @type {Mote[]} */
-  const motes = [];
   let pointerX = innerWidth / 2, pointerY = innerHeight / 2;
   let tipX = pointerX, tipY = pointerY;
-  let lastEmitX = pointerX, lastEmitY = pointerY;
+  let drawX = pointerX, drawY = pointerY;   // where the last chalk stamp landed
+  let lastSpeed = 0;
+  let pendingInk = false;                    // is there a fresh segment to stroke
+  let dirty = false;                         // is there chalk on the canvas to fade
   let visible = false;
   let running = false;
   let idleSince = performance.now();
 
-  /** @param {number} x @param {number} y @param {number} strength */
-  function emit(x, y, strength) {
-    for (let i = 0; i < strength && motes.length < MAX_PARTICLES; i++) {
+  // One chalk stamp: a small scatter of faint specks, denser in the middle,
+  // sparser and lighter at the edges — the grain of a chalk stroke.
+  /** @param {number} x @param {number} y @param {number} radius @param {number} density */
+  function stamp(x, y, radius, density) {
+    if (!ctx) return;
+    for (let i = 0; i < density; i++) {
+      const t = Math.random();
+      const rr = Math.pow(t, 0.6) * radius;          // bias toward centre
       const a = Math.random() * Math.PI * 2;
-      const s = Math.random() * 0.5;
-      motes.push({
-        x: x + (Math.random() - 0.5) * 6,
-        y: y + (Math.random() - 0.5) * 6,
-        vx: Math.cos(a) * s,
-        vy: Math.sin(a) * s + 0.35,      // dust drifts downward
-        r: 0.6 + Math.random() * 1.8,
-        rot: Math.random() * Math.PI,
-        born: performance.now()
-      });
+      const px = x + Math.cos(a) * rr;
+      const py = y + Math.sin(a) * rr;
+      const s = 0.6 + Math.random() * 1.1;
+      ctx.globalAlpha = (1 - t) * 0.28 + 0.04;
+      ctx.fillRect(px, py, s, s);
     }
   }
 
   function frame() {
     const now = performance.now();
     if (!ctx) return;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, innerWidth, innerHeight);
 
-    // chalk stub easing
+    // ease the arrow toward the pointer
     tipX += (pointerX - tipX) * TIP_LERP;
     tipY += (pointerY - tipY) * TIP_LERP;
-    tip.style.transform = "translate(" + (tipX - 7) + "px," + (tipY - 7) + "px)";
+    arrow.style.transform = "translate(" + (tipX - 2) + "px," + (tipY - 2) + "px)";
 
-    const col = chalkColor();
-    for (let i = motes.length - 1; i >= 0; i--) {
-      const m = motes[i];
-      const age = (now - m.born) / LIFE_MS;
-      if (age >= 1) { motes.splice(i, 1); continue; }
-      m.x += m.vx;
-      m.y += m.vy;
-      m.vy += 0.012;                       // gentle gravity
-      const alpha = (1 - age) * 0.5;
-      // grainy square-ish speck, rotated: reads as chalk dust, not a dot
-      ctx.save();
-      ctx.translate(m.x, m.y);
-      ctx.rotate(m.rot + age * 2);
-      ctx.globalAlpha = alpha;
-      ctx.fillStyle = col;
-      const sz = m.r * (1 + age * 0.6);
-      ctx.fillRect(-sz / 2, -sz / 2, sz, sz);
-      ctx.restore();
+    // fade what's already on the board, in place
+    if (dirty) {
+      ctx.globalCompositeOperation = "destination-out";
+      ctx.globalAlpha = FADE_PER_FRAME;
+      ctx.fillStyle = "#000";
+      ctx.fillRect(0, 0, innerWidth, innerHeight);
+      ctx.globalCompositeOperation = "source-over";
     }
 
-    const idle = motes.length === 0 && (now - idleSince) > 400;
-    if (idle || document.hidden) { running = false; return; }
+    // lay down the new stroke segment as chalk grain
+    if (pendingInk) {
+      pendingInk = false;
+      let dx = pointerX - drawX, dy = pointerY - drawY;
+      let dist = Math.hypot(dx, dy);
+      if (dist > MAX_SEG) {                 // don't ink a giant jump
+        const k = MAX_SEG / dist;
+        dx *= k; dy *= k; dist = MAX_SEG;
+      }
+      const steps = Math.max(1, Math.floor(dist / STEP));
+      // faster movement -> thinner, lighter line, like a real chalk stroke
+      const width = Math.max(1.6, 6.5 - lastSpeed * 0.35);
+      const density = lastSpeed > 6 ? 4 : 7;
+      ctx.fillStyle = chalkColor();
+      for (let i = 1; i <= steps; i++) {
+        const f = i / steps;
+        stamp(drawX + dx * f, drawY + dy * f, width * (0.75 + Math.random() * 0.5), density);
+      }
+      ctx.globalAlpha = 1;
+      drawX += dx; drawY += dy;
+      dirty = true;
+    }
+
+    const stillClean = !dirty || (now - idleSince) > 1400;
+    if ((stillClean && (now - idleSince) > 260) || document.hidden) {
+      if ((now - idleSince) > 1400) { ctx.clearRect(0, 0, innerWidth, innerHeight); dirty = false; }
+      running = false;
+      return;
+    }
     requestAnimationFrame(frame);
   }
 
@@ -132,36 +166,35 @@ function setup() {
 
   addEventListener("pointermove", (e) => {
     if (e.pointerType === "touch") return;
+    const ndx = e.clientX - pointerX, ndy = e.clientY - pointerY;
+    lastSpeed = Math.hypot(ndx, ndy);
     pointerX = e.clientX;
     pointerY = e.clientY;
     idleSince = performance.now();
-    if (!visible) { visible = true; tip.style.opacity = "1"; }
-    const dx = pointerX - lastEmitX, dy = pointerY - lastEmitY;
-    const dist = Math.hypot(dx, dy);
-    if (dist >= EMIT_DISTANCE) {
-      emit(pointerX, pointerY, Math.min(3, Math.round(dist / EMIT_DISTANCE)));
-      lastEmitX = pointerX;
-      lastEmitY = pointerY;
-    }
+    pendingInk = true;
+    if (!visible) { visible = true; arrow.style.opacity = "1"; }
     kick();
   }, { passive: true });
 
   addEventListener("pointerdown", (e) => {
-    if (e.pointerType === "touch") return;
-    emit(e.clientX, e.clientY, 10);        // a puff on click
+    if (e.pointerType === "touch" || !ctx) return;
+    // a little chalk tap
+    ctx.fillStyle = chalkColor();
+    stamp(e.clientX, e.clientY, 7, 26);
+    ctx.globalAlpha = 1;
+    dirty = true;
+    idleSince = performance.now();
     kick();
   }, { passive: true });
 
-  addEventListener("pointerleave", () => { visible = false; tip.style.opacity = "0"; });
+  addEventListener("pointerleave", () => { visible = false; arrow.style.opacity = "0"; });
   document.addEventListener("visibilitychange", () => { if (!document.hidden) kick(); });
 
-  // If the visitor switches on reduced-motion mid-session, tear everything down.
   REDUCED.addEventListener("change", (e) => {
     if (e.matches) {
       running = false;
-      motes.length = 0;
       canvas.remove();
-      tip.remove();
+      arrow.remove();
       style.remove();
       document.documentElement.classList.remove("chalk-cursor-on");
     }
