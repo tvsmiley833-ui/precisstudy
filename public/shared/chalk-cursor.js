@@ -18,8 +18,8 @@ function shouldRun() {
 }
 
 const TIP_LERP = 0.5;         // how tightly the arrow tracks the pointer
-const FADE_PER_FRAME = 0.032; // per-frame passive decay of laid-down chalk (0..1)
-const CLEAR_AFTER = 170;      // frames of pure fading before the board is wiped
+const FADE_PER_FRAME = 0.075; // per-frame passive decay of laid-down chalk (0..1)
+const CLEAR_AFTER = 70;       // frames of pure fading before the board is wiped
 const MAX_SEG = 90;           // px of a single move processed per frame
 const STEP = 1.5;             // px between brush stamps along the stroke
 
