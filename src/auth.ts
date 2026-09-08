@@ -160,6 +160,23 @@ export async function consumeMagicLinkToken(env: { MAGIC_LINKS: KVNamespace }, t
   return data.email;
 }
 
+// Read a magic-link token's email WITHOUT consuming it. Used by the GET
+// /auth/verify confirm page: a GET must not perform the sign-in (login CSRF /
+// email-scanner prefetch), so it only peeks; the same-origin POST consumes.
+export async function peekMagicLinkToken(env: { MAGIC_LINKS: KVNamespace }, token: string): Promise<string | null> {
+  if (!token) return null;
+  const raw = await env.MAGIC_LINKS.get(token);
+  if (!raw) return null;
+  let data: { email: string; exp: number };
+  try {
+    data = JSON.parse(raw);
+  } catch (e) {
+    return null;
+  }
+  if (!data || typeof data.exp !== "number" || data.exp < Math.floor(Date.now() / 1000)) return null;
+  return data.email;
+}
+
 export function isValidEmail(email: string | undefined): boolean {
   return typeof email === "string" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length <= 254;
 }

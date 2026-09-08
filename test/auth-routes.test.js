@@ -1,6 +1,7 @@
 import { SELF } from "cloudflare:test";
 import { describe, it, expect } from "vitest";
-import { handleGoogleStart, handleGoogleCallback, handleGithubStart, handleGithubCallback } from "../src/auth-routes.js";
+import { handleGoogleStart, handleGoogleCallback, handleGithubStart, handleGithubCallback, handleVerify, handleVerifyConfirm } from "../src/auth-routes.js";
+import { createMagicLinkToken } from "../src/auth.js";
 
 describe("/auth/me", () => {
   it("reports guest when there is no session cookie", async () => {
@@ -169,6 +170,58 @@ describe("OAuth state CSRF protection", () => {
     );
     expect(res.status).toBe(302);
     expect(new URL(res.headers.get("Location")).search).toContain("auth_error");
+  });
+});
+
+describe("/auth/verify — GET confirms, POST signs in (login-CSRF guard)", () => {
+  function kvStub() {
+    const m = new Map();
+    return {
+      _m: m,
+      get: (k) => Promise.resolve(m.has(k) ? m.get(k) : null),
+      put: (k, v) => { m.set(k, v); return Promise.resolve(); },
+      delete: (k) => { m.delete(k); return Promise.resolve(); }
+    };
+  }
+  const baseEnv = () => ({ SESSION_SECRET: "s", MAGIC_LINKS: kvStub() });
+
+  it("GET renders a same-origin confirm form and does NOT create a session or consume the token", async () => {
+    const env = baseEnv();
+    const token = await createMagicLinkToken(env, "learner@example.com");
+    const res = await handleVerify(new Request("https://precisstudy.com/auth/verify?token=" + encodeURIComponent(token)), env);
+    expect(res.status).toBe(200);
+    expect(res.headers.get("Content-Type")).toContain("text/html");
+    expect(res.headers.get("Set-Cookie")).toBeNull();
+    const html = await res.text();
+    expect(html).toContain("learner@example.com");
+    expect(html).toContain('method=post action="/auth/verify"');
+    expect(env.MAGIC_LINKS._m.has(token)).toBe(true); // still valid for the POST
+  });
+
+  it("POST consumes the token and issues the session cookie", async () => {
+    const env = baseEnv();
+    const token = await createMagicLinkToken(env, "learner@example.com");
+    const res = await handleVerifyConfirm(new Request("https://precisstudy.com/auth/verify", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({ token })
+    }), env);
+    expect(res.status).toBe(302);
+    expect(res.headers.get("Set-Cookie") || "").toContain("ss_session=");
+    expect(env.MAGIC_LINKS._m.has(token)).toBe(false); // consumed
+  });
+
+  it("bogus token -> auth_error=expired on both GET and POST, no session", async () => {
+    const env = baseEnv();
+    const g = await handleVerify(new Request("https://precisstudy.com/auth/verify?token=nope"), env);
+    expect(g.headers.get("Location")).toBe("https://precisstudy.com/?auth_error=expired");
+    const p = await handleVerifyConfirm(new Request("https://precisstudy.com/auth/verify", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({ token: "nope" })
+    }), env);
+    expect(p.headers.get("Location")).toBe("https://precisstudy.com/?auth_error=expired");
+    expect(p.headers.get("Set-Cookie") || "").not.toContain("ss_session=");
   });
 });
 

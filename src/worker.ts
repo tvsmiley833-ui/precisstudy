@@ -6,6 +6,7 @@ import {
   handleGithubCallback,
   handleEmailStart,
   handleVerify,
+  handleVerifyConfirm,
   handleMe,
   handleLogout
 } from "./auth-routes.js";
@@ -24,7 +25,7 @@ const AUTH_ROUTES: Record<string, Record<string, (request: Request, env: Env) =>
   "/auth/github/start": { GET: handleGithubStart },
   "/auth/github/callback": { GET: handleGithubCallback },
   "/auth/email/start": { POST: handleEmailStart },
-  "/auth/verify": { GET: handleVerify },
+  "/auth/verify": { GET: handleVerify, POST: handleVerifyConfirm },
   "/auth/me": { GET: handleMe },
   "/auth/logout": { POST: handleLogout }
 };

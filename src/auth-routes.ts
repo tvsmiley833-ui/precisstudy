@@ -7,6 +7,7 @@ import {
   getCookie,
   createMagicLinkToken,
   consumeMagicLinkToken,
+  peekMagicLinkToken,
   isValidEmail,
   recordLogin,
   checkEmailRateLimit,
@@ -308,10 +309,49 @@ async function sendMagicLinkEmail(env: Env, toEmail: string, link: string): Prom
   });
 }
 
+function escapeHtml(s: string): string {
+  return s.replace(/[&<>"']/g, (c) => (
+    c === "&" ? "&amp;" : c === "<" ? "&lt;" : c === ">" ? "&gt;" : c === '"' ? "&quot;" : "&#39;"
+  ));
+}
+
+// GET must NOT sign the visitor in: an emailed magic link opened by a victim
+// (login CSRF), or auto-fetched by an email security scanner, would otherwise
+// silently create a session. Instead, peek the token and render a same-origin
+// confirm form; only the POST below consumes the token and issues the session.
 export async function handleVerify(request: Request, env: Env): Promise<Response> {
   if (sessionSecretMissing(env)) return notConfigured("Sign-in");
-  const url = new URL(request.url);
-  const token = url.searchParams.get("token");
+  const token = new URL(request.url).searchParams.get("token") || "";
+  const email = token ? await peekMagicLinkToken(env, token) : null;
+  if (!email) return authErrorRedirect("expired", "magic link");
+
+  const body = "<!doctype html><meta charset=utf-8><meta name=robots content=noindex>"
+    + "<meta name=viewport content=\"width=device-width,initial-scale=1\">"
+    + "<title>Confirm sign-in — PrecisStudy</title>"
+    + "<style>body{font:16px/1.5 system-ui,sans-serif;background:#0f1117;color:#f3efe2;"
+    + "display:grid;place-items:center;min-height:100vh;margin:0}"
+    + ".card{background:#171a23;border:1px solid #2b2f3a;border-radius:14px;padding:28px 30px;max-width:360px;text-align:center}"
+    + "b{word-break:break-all}button{margin-top:18px;width:100%;padding:12px 16px;font:inherit;font-weight:700;"
+    + "border:0;border-radius:10px;background:#f3efe2;color:#0f1117;cursor:pointer}"
+    + "p{color:#aab}</style>"
+    + "<div class=card><h1 style=\"font-size:19px;margin:.2em 0 .6em\">Sign in to PrecisStudy</h1>"
+    + "<p>Continue as <b>" + escapeHtml(email) + "</b>?</p>"
+    + "<form method=post action=\"/auth/verify\">"
+    + "<input type=hidden name=token value=\"" + escapeHtml(token) + "\">"
+    + "<button type=submit>Confirm sign-in</button></form>"
+    + "<p style=\"margin-top:14px;font-size:13px\">If you didn't request this, close this page.</p></div>";
+  return new Response(body, { headers: { "Content-Type": "text/html; charset=utf-8" } });
+}
+
+export async function handleVerifyConfirm(request: Request, env: Env): Promise<Response> {
+  if (sessionSecretMissing(env)) return notConfigured("Sign-in");
+  let token = "";
+  try {
+    const form = await request.formData();
+    token = typeof form.get("token") === "string" ? String(form.get("token")) : "";
+  } catch (e) {
+    return authErrorRedirect("link", "verify: unreadable form body");
+  }
   const email = token ? await consumeMagicLinkToken(env, token) : null;
   if (!email) return authErrorRedirect("expired", "magic link");
 
