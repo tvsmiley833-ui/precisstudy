@@ -18,9 +18,10 @@ function shouldRun() {
 }
 
 const TIP_LERP = 0.5;         // how tightly the arrow tracks the pointer
-const FADE_PER_FRAME = 0.05;  // how fast laid-down chalk fades (0..1)
+const FADE_PER_FRAME = 0.032; // per-frame passive decay of laid-down chalk (0..1)
+const CLEAR_AFTER = 170;      // frames of pure fading before the board is wiped
 const MAX_SEG = 90;           // px of a single move processed per frame
-const STEP = 1.6;             // px between brush stamps along the stroke
+const STEP = 1.5;             // px between brush stamps along the stroke
 
 function setup() {
   if (!window.matchMedia || !document.body) return;
@@ -30,36 +31,43 @@ function setup() {
   style.textContent =
     "html.chalk-cursor-on,html.chalk-cursor-on *{cursor:none!important}" +
     "html.chalk-cursor-on input,html.chalk-cursor-on textarea,html.chalk-cursor-on [contenteditable=\"true\"]{cursor:text!important}" +
-    ".chalk-arrow{position:fixed;left:0;top:0;width:26px;height:30px;pointer-events:none;" +
+    ".chalk-arrow{position:fixed;left:0;top:0;width:28px;height:30px;pointer-events:none;" +
       "z-index:2147483000;will-change:transform;opacity:0;transition:opacity .16s ease;" +
       "filter:drop-shadow(0 0 3px color-mix(in srgb,var(--chalk-cursor-color,#f3efe2) 40%,transparent))}" +
     ".chalk-trail{position:fixed;inset:0;pointer-events:none;z-index:2147482999}";
   document.head.appendChild(style);
 
-  // Chalk-drawn arrow pointer: a filled pointer path roughened by fractal noise
-  // so its edges crumble like a chalk stroke, plus a faint speckle overlay for
-  // the powdery fill. Hotspot is the tip at (2,2).
+  // Chalk-drawn pointer matching the reference: an outlined arrow with a sparse,
+  // thick diagonal hatch fill. Every stroke shares ONE fractal-noise
+  // displacement field, so the hatch lines wobble together like one hand-drawn
+  // swoop rather than a printed screen. Uneven per-line opacity + round caps
+  // read as chalk-stick pressure. Hotspot is the tip at (3,3).
+  const ARROW = "M3 3 L3 25 L9 19.5 L13 29 L17 27.2 L13 17.6 L23 17.6 Z";
+  let hatch = "";
+  for (let i = -2; i <= 6; i++) {
+    const x = i * 7;                     // ~7px gap: few lines, wide spacing
+    hatch += '<line x1="' + (x - 7) + '" y1="33" x2="' + (x + 27) + '" y2="-5" ' +
+             'stroke-width="2.6" opacity="' + (i % 2 ? "0.72" : "0.95") + '"/>';
+  }
   const arrow = document.createElementNS(NS, "svg");
   arrow.setAttribute("class", "chalk-arrow");
-  arrow.setAttribute("viewBox", "0 0 26 30");
+  arrow.setAttribute("viewBox", "0 0 28 30");
   arrow.innerHTML =
     '<defs>' +
-      '<filter id="ccRough" x="-40%" y="-40%" width="180%" height="180%">' +
-        '<feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" result="n"/>' +
-        '<feDisplacementMap in="SourceGraphic" in2="n" scale="2.6"/>' +
+      '<filter id="ccRough" x="-45%" y="-45%" width="190%" height="190%">' +
+        '<feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="7" result="n"/>' +
+        '<feDisplacementMap in="SourceGraphic" in2="n" scale="2.4"/>' +
       '</filter>' +
-      '<filter id="ccSpeckle">' +
-        '<feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="s"/>' +
-        '<feColorMatrix in="s" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 -1.6 1.1"/>' +
-        '<feComposite operator="in" in2="SourceAlpha"/>' +
-      '</filter>' +
+      '<clipPath id="ccClip"><path d="' + ARROW + '"/></clipPath>' +
     '</defs>' +
-    '<g fill="var(--chalk-cursor-color,#f3efe2)" filter="url(#ccRough)">' +
-      '<path d="M2 2 L2 23 L8 17.5 L12 27 L16 25.2 L12.2 16 L21 16 Z" ' +
-        'stroke="var(--chalk-cursor-color,#f3efe2)" stroke-width="1.3" stroke-linejoin="round" opacity="0.9"/>' +
-    '</g>' +
-    '<path d="M2 2 L2 23 L8 17.5 L12 27 L16 25.2 L12.2 16 L21 16 Z" ' +
-      'fill="#000" filter="url(#ccSpeckle)" opacity="0.35"/>';
+    '<g stroke="var(--chalk-cursor-color,#f3efe2)" fill="none" ' +
+        'stroke-linecap="round" stroke-linejoin="round" filter="url(#ccRough)">' +
+      '<g clip-path="url(#ccClip)">' + hatch + '</g>' +
+      '<path d="' + ARROW + '" stroke-width="1.9"/>' +
+      '<circle cx="3.6" cy="3.6" r="0.7" fill="var(--chalk-cursor-color,#f3efe2)" stroke="none" opacity="0.85"/>' +
+      '<circle cx="6.2" cy="5.6" r="0.5" fill="var(--chalk-cursor-color,#f3efe2)" stroke="none" opacity="0.6"/>' +
+      '<circle cx="2.2" cy="6.8" r="0.5" fill="var(--chalk-cursor-color,#f3efe2)" stroke="none" opacity="0.5"/>' +
+    '</g>';
 
   const canvas = document.createElement("canvas");
   canvas.className = "chalk-trail";
@@ -91,7 +99,7 @@ function setup() {
   let dirty = false;                         // is there chalk on the canvas to fade
   let visible = false;
   let running = false;
-  let idleSince = performance.now();
+  let fadeFrames = 0;                        // consecutive frames with no new ink
 
   // One chalk stamp: a small scatter of faint specks, denser in the middle,
   // sparser and lighter at the edges — the grain of a chalk stroke.
@@ -117,7 +125,7 @@ function setup() {
     // ease the arrow toward the pointer
     tipX += (pointerX - tipX) * TIP_LERP;
     tipY += (pointerY - tipY) * TIP_LERP;
-    arrow.style.transform = "translate(" + (tipX - 2) + "px," + (tipY - 2) + "px)";
+    arrow.style.transform = "translate(" + (tipX - 3) + "px," + (tipY - 3) + "px)";
 
     // fade what's already on the board, in place
     if (dirty) {
@@ -138,25 +146,31 @@ function setup() {
         dx *= k; dy *= k; dist = MAX_SEG;
       }
       const steps = Math.max(1, Math.floor(dist / STEP));
-      // faster movement -> thinner, lighter line, like a real chalk stroke
-      const width = Math.max(1.6, 6.5 - lastSpeed * 0.35);
-      const density = lastSpeed > 6 ? 4 : 7;
+      // faster movement -> a little thinner/lighter, like a real chalk stroke
+      const width = Math.max(3.4, 10 - lastSpeed * 0.3);
+      const density = lastSpeed > 7 ? 8 : 13;
       ctx.fillStyle = chalkColor();
       for (let i = 1; i <= steps; i++) {
         const f = i / steps;
-        stamp(drawX + dx * f, drawY + dy * f, width * (0.75 + Math.random() * 0.5), density);
+        stamp(drawX + dx * f, drawY + dy * f, width * (0.78 + Math.random() * 0.44), density);
       }
       ctx.globalAlpha = 1;
       drawX += dx; drawY += dy;
       dirty = true;
+      fadeFrames = 0;
+    } else if (dirty) {
+      fadeFrames++;
     }
 
-    const stillClean = !dirty || (now - idleSince) > 1400;
-    if ((stillClean && (now - idleSince) > 260) || document.hidden) {
-      if ((now - idleSince) > 1400) { ctx.clearRect(0, 0, innerWidth, innerHeight); dirty = false; }
+    // Passive decay: keep fading every frame until the board has quietly gone
+    // to nothing, then wipe the last invisible residue and park.
+    if (document.hidden || (dirty && fadeFrames > CLEAR_AFTER)) {
+      ctx.clearRect(0, 0, innerWidth, innerHeight);
+      dirty = false;
       running = false;
       return;
     }
+    if (!dirty) { running = false; return; }
     requestAnimationFrame(frame);
   }
 
@@ -170,7 +184,6 @@ function setup() {
     lastSpeed = Math.hypot(ndx, ndy);
     pointerX = e.clientX;
     pointerY = e.clientY;
-    idleSince = performance.now();
     pendingInk = true;
     if (!visible) { visible = true; arrow.style.opacity = "1"; }
     kick();
@@ -180,10 +193,10 @@ function setup() {
     if (e.pointerType === "touch" || !ctx) return;
     // a little chalk tap
     ctx.fillStyle = chalkColor();
-    stamp(e.clientX, e.clientY, 7, 26);
+    stamp(e.clientX, e.clientY, 9, 34);
     ctx.globalAlpha = 1;
     dirty = true;
-    idleSince = performance.now();
+    fadeFrames = 0;
     kick();
   }, { passive: true });
 
