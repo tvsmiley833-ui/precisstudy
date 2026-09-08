@@ -100,6 +100,24 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
     });
   }
 
+  // Single canonical host. The Worker answers on studystacks.org, the www
+  // variants, and *.workers.dev, all serving byte-identical pages whose
+  // <link rel="canonical"> already points at precisstudy.com. Serving those
+  // as 200s makes Search Console report every duplicate as "Alternate page
+  // with proper canonical tag" and splits crawl/ranking signal across hosts.
+  // 301 the safe methods to the canonical origin so there is one indexable
+  // URL per page; non-idempotent methods fall through (the client always
+  // calls /api and /auth on precisstudy.com already, and /auth self-bounces).
+  // Google's file-based site verification does not follow redirects, so any
+  // /google*.html token keeps serving on every host.
+  if (
+    url.hostname !== "precisstudy.com" &&
+    (request.method === "GET" || request.method === "HEAD") &&
+    !(url.pathname.startsWith("/google") && url.pathname.endsWith(".html"))
+  ) {
+    return Response.redirect("https://precisstudy.com" + url.pathname + url.search, 301);
+  }
+
   if (url.pathname === "/api/chat") {
     if (request.method === "POST") return handleChatPost(request, env);
     if (request.method === "OPTIONS") return handleChatOptions();

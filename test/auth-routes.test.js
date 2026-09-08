@@ -4,14 +4,14 @@ import { handleGoogleStart, handleGoogleCallback, handleGithubStart, handleGithu
 
 describe("/auth/me", () => {
   it("reports guest when there is no session cookie", async () => {
-    const res = await SELF.fetch("https://example.com/auth/me");
+    const res = await SELF.fetch("https://precisstudy.com/auth/me");
     expect(res.status).toBe(200);
     const data = await res.json();
     expect(data).toEqual({ loggedIn: false });
   });
 
   it("ignores a garbage cookie instead of erroring", async () => {
-    const res = await SELF.fetch("https://example.com/auth/me", {
+    const res = await SELF.fetch("https://precisstudy.com/auth/me", {
       headers: { Cookie: "ss_session=not.a.valid.token" }
     });
     expect(res.status).toBe(200);
@@ -22,13 +22,13 @@ describe("/auth/me", () => {
 
 describe("/auth/logout", () => {
   it("clears the session cookie", async () => {
-    const res = await SELF.fetch("https://example.com/auth/logout", { method: "POST" });
+    const res = await SELF.fetch("https://precisstudy.com/auth/logout", { method: "POST" });
     expect(res.status).toBe(200);
     expect(res.headers.get("Set-Cookie")).toContain("Max-Age=0");
   });
 
   it("rejects GET", async () => {
-    const res = await SELF.fetch("https://example.com/auth/logout");
+    const res = await SELF.fetch("https://precisstudy.com/auth/logout");
     expect(res.status).toBe(405);
   });
 });
@@ -45,7 +45,7 @@ describe("OAuth start routes before credentials are configured", () => {
   });
 
   it("rejects POST on start routes", async () => {
-    const res = await SELF.fetch("https://example.com/auth/google/start", { method: "POST" });
+    const res = await SELF.fetch("https://precisstudy.com/auth/google/start", { method: "POST" });
     expect(res.status).toBe(405);
   });
 });
@@ -58,12 +58,12 @@ describe("/auth/verify", () => {
   // uncaught DataError when SESSION_SECRET was undefined, producing a 500
   // instead of the "not configured" response the OAuth routes already gave.
   it("responds 503, not 500, when the token is missing and sign-in isn't configured", async () => {
-    const res = await SELF.fetch("https://example.com/auth/verify", { redirect: "manual" });
+    const res = await SELF.fetch("https://precisstudy.com/auth/verify", { redirect: "manual" });
     expect(res.status).toBe(503);
   });
 
   it("responds 503, not 500, for an unknown token when sign-in isn't configured", async () => {
-    const res = await SELF.fetch("https://example.com/auth/verify?token=bogus", { redirect: "manual" });
+    const res = await SELF.fetch("https://precisstudy.com/auth/verify?token=bogus", { redirect: "manual" });
     expect(res.status).toBe(503);
   });
 });
@@ -113,7 +113,7 @@ describe("OAuth state CSRF protection", () => {
     const state = new URL(startRes.headers.get("Location")).searchParams.get("state");
 
     const res = await handleGoogleCallback(
-      new Request(`https://example.com/auth/google/callback?code=fake&state=${encodeURIComponent(state)}`),
+      new Request(`https://precisstudy.com/auth/google/callback?code=fake&state=${encodeURIComponent(state)}`),
       env
     );
     expect(res.status).toBe(302);
@@ -122,7 +122,7 @@ describe("OAuth state CSRF protection", () => {
 
   it("/auth/google/callback rejects when the state cookie doesn't match the query param", async () => {
     const res = await handleGoogleCallback(
-      new Request("https://example.com/auth/google/callback?code=fake&state=mismatched", {
+      new Request("https://precisstudy.com/auth/google/callback?code=fake&state=mismatched", {
         headers: { Cookie: "ss_oauth_state=something-else" }
       }),
       env
@@ -136,7 +136,7 @@ describe("OAuth state CSRF protection", () => {
     const state = new URL(startRes.headers.get("Location")).searchParams.get("state");
 
     const res = await handleGoogleCallback(
-      new Request(`https://example.com/auth/google/callback?code=fake&state=${encodeURIComponent(state)}`, {
+      new Request(`https://precisstudy.com/auth/google/callback?code=fake&state=${encodeURIComponent(state)}`, {
         headers: { Cookie: `ss_oauth_state=${state}` }
       }),
       env
@@ -164,7 +164,7 @@ describe("OAuth state CSRF protection", () => {
     const state = new URL(startRes.headers.get("Location")).searchParams.get("state");
 
     const res = await handleGithubCallback(
-      new Request(`https://example.com/auth/github/callback?code=fake&state=${encodeURIComponent(state)}`),
+      new Request(`https://precisstudy.com/auth/github/callback?code=fake&state=${encodeURIComponent(state)}`),
       env
     );
     expect(res.status).toBe(302);
@@ -174,7 +174,7 @@ describe("OAuth state CSRF protection", () => {
 
 describe("/auth/email/start", () => {
   it("rejects an invalid email before attempting to send anything", async () => {
-    const res = await SELF.fetch("https://example.com/auth/email/start", {
+    const res = await SELF.fetch("https://precisstudy.com/auth/email/start", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: "not-an-email" })
@@ -183,12 +183,12 @@ describe("/auth/email/start", () => {
   });
 
   it("rejects a missing body gracefully", async () => {
-    const res = await SELF.fetch("https://example.com/auth/email/start", { method: "POST" });
+    const res = await SELF.fetch("https://precisstudy.com/auth/email/start", { method: "POST" });
     expect(res.status).toBe(400);
   });
 
   it("rejects GET", async () => {
-    const res = await SELF.fetch("https://example.com/auth/email/start");
+    const res = await SELF.fetch("https://precisstudy.com/auth/email/start");
     expect(res.status).toBe(405);
   });
 });
