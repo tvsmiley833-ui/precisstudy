@@ -9,7 +9,9 @@ import {
   consumeMagicLinkToken,
   isValidEmail,
   recordLogin,
-  checkEmailRateLimit
+  checkEmailRateLimit,
+  checkRateLimit,
+  getClientIp
 } from "./auth.js";
 
 const SITE_ORIGIN = "https://precisstudy.com";
@@ -235,6 +237,11 @@ export async function handleEmailStart(request: Request, env: Env): Promise<Resp
   if (!isValidEmail(email)) return json({ error: "Enter a valid email address" }, 400);
   if (!env.MAGIC_LINKS) return json({ error: "Email sign-in isn't configured yet" }, 503);
   if (sessionSecretMissing(env)) return json({ error: "Sign-in isn't configured yet" }, 503);
+
+  // Per-email cap stops repeated links to one address; the per-IP cap stops a
+  // single client from spraying magic-link mail at many enumerated addresses.
+  const ipOk = await checkRateLimit(env.MAGIC_LINKS, "ratelimit:email-ip:" + getClientIp(request), 10, 60 * 60);
+  if (!ipOk) return json({ error: "Too many sign-in requests — try again later" }, 429);
 
   const withinLimit = await checkEmailRateLimit(env, email!);
   if (!withinLimit) return json({ error: "Too many sign-in requests for this email — try again in a few minutes" }, 429);

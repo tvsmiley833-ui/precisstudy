@@ -75,7 +75,14 @@ interface Fetcher {
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
-    return withSecurityHeaders(await handleFetch(request, env));
+    try {
+      return withSecurityHeaders(await handleFetch(request, env));
+    } catch (e) {
+      // An unhandled rejection here would otherwise surface as Cloudflare's
+      // bare 500 with none of SECURITY_HEADERS applied.
+      console.error("unhandled worker error:", e instanceof Error ? e.stack || e.message : String(e));
+      return withSecurityHeaders(json({ error: "Internal error" }, 500));
+    }
   },
 
   async scheduled(controller: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
@@ -115,12 +122,38 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
     (request.method === "GET" || request.method === "HEAD") &&
     !(url.pathname.startsWith("/google") && url.pathname.endsWith(".html"))
   ) {
-    return Response.redirect("https://precisstudy.com" + url.pathname + url.search, 301);
+    // Normalise a bare subject path to its trailing-slash form so an off-host
+    // hit lands on the canonical URL in one hop instead of 301 -> 308.
+    const seg = url.pathname.split("/").filter(Boolean);
+    const path = (seg.length === 1 && SUBJECT_PATHS.has(seg[0]!)) ? `/${seg[0]}/` : url.pathname;
+    return new Response(null, {
+      status: 301,
+      headers: {
+        Location: "https://precisstudy.com" + path + url.search,
+        "Cache-Control": "public, max-age=86400"
+      }
+    });
+  }
+
+  // Generated from SUBJECT_PATHS so it can never drift from the live routes the
+  // way a checked-in sitemap.xml did (it listed 17 of 50+ pages).
+  if (url.pathname === "/sitemap.xml") {
+    const staticPages = ["/", "/about/", "/request/", "/privacy/", "/terms/"];
+    const locs = [
+      ...staticPages,
+      ...[...SUBJECT_PATHS].sort().map(s => `/${s}/`)
+    ];
+    const body = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`
+      + locs.map(p => `  <url><loc>https://precisstudy.com${p}</loc></url>`).join("\n")
+      + `\n</urlset>\n`;
+    return new Response(body, {
+      headers: { "Content-Type": "application/xml; charset=utf-8", "Cache-Control": "public, max-age=3600" }
+    });
   }
 
   if (url.pathname === "/api/chat") {
     if (request.method === "POST") return handleChatPost(request, env);
-    if (request.method === "OPTIONS") return handleChatOptions();
+    if (request.method === "OPTIONS") return handleChatOptions(request);
     return json({ error: "Method not allowed" }, 405);
   }
 

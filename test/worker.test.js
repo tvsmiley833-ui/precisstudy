@@ -155,4 +155,22 @@ describe("canonical host redirect", () => {
     const res = await SELF.fetch("https://studystacks.org/api/chat", { method: "OPTIONS" });
     expect(res.status).not.toBe(301);
   });
+
+  it("normalises a bare subject path to trailing-slash in one hop", async () => {
+    const res = await SELF.fetch("https://studystacks.org/calculus", { redirect: "manual" });
+    expect(res.status).toBe(301);
+    expect(res.headers.get("Location")).toBe("https://precisstudy.com/calculus/");
+  });
+});
+
+describe("/sitemap.xml", () => {
+  it("is generated from the live subject routes, not a stale file", async () => {
+    const res = await SELF.fetch("https://precisstudy.com/sitemap.xml");
+    expect(res.status).toBe(200);
+    expect(res.headers.get("Content-Type")).toContain("xml");
+    const body = await res.text();
+    expect(body).toContain("<loc>https://precisstudy.com/calculus/</loc>");
+    expect(body).toContain("<loc>https://precisstudy.com/us-history/</loc>");
+    expect(body).toContain("<loc>https://precisstudy.com/</loc>");
+  });
 });

@@ -58,13 +58,20 @@ export async function verifySession(token: string, secret: string): Promise<Sess
   }
   const key = await hmacKey(secret);
   const valid = await crypto.subtle.verify("HMAC", key, sigBytes, new TextEncoder().encode(body));
-  if (!valid) return null;  let payload: SessionPayload;
+  if (!valid) return null;
+  let payload: SessionPayload;
   try {
     payload = JSON.parse(new TextDecoder().decode(fromBase64Url(body)));
   } catch (e) {
     return null;
   }
   if (!payload || typeof payload.exp !== "number" || payload.exp < Math.floor(Date.now() / 1000)) return null;
+  // Reject anything that isn't a real user session. OAuth-state tokens are
+  // signed with the same secret and carry a `purpose` field; a malformed or
+  // wrong-purpose payload would otherwise reach KV keys and the admin
+  // allowlist as `email: undefined`.
+  if (payload.purpose !== undefined) return null;
+  if (typeof payload.email !== "string" || !payload.email) return null;
   return payload;
 }
 
@@ -107,7 +114,10 @@ export async function getSession(request: Request, env: { SESSION_SECRET: string
 // actual threat this guards against).
 export async function checkRateLimit(kv: KVNamespace, key: string, max: number, windowSeconds: number): Promise<boolean> {
   const raw = await kv.get(key);
-  const count = raw ? parseInt(raw, 10) : 0;
+  const parsed = raw ? parseInt(raw, 10) : 0;
+  // A non-numeric value must not disable the limiter: parseInt("x") is NaN,
+  // NaN >= max is false, and String(NaN + 1) would persist "NaN" forever.
+  const count = Number.isFinite(parsed) ? parsed : 0;
   if (count >= max) return false;
   await kv.put(key, String(count + 1), { expirationTtl: windowSeconds });
   return true;

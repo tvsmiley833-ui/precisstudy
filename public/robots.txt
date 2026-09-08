@@ -1,8 +1,11 @@
 User-agent: *
 Allow: /
+# /dashboard and /settings carry <meta name="robots" content="noindex"> — do
+# NOT Disallow them, or Google can't crawl the page to see the noindex and may
+# index a URL-only entry anyway.
 Disallow: /admin
-Disallow: /dashboard
-Disallow: /settings
 Disallow: /api/
+Disallow: /auth/
+Disallow: /onboarding
 
 Sitemap: https://precisstudy.com/sitemap.xml

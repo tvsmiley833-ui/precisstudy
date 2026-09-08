@@ -211,10 +211,23 @@ describe("handleChatPost", () => {
 });
 
 describe("handleChatOptions", () => {
-  it("returns 204 with CORS headers", async () => {
-    const res = handleChatOptions();
+  it("returns 204 and reflects an allowed origin", async () => {
+    const res = handleChatOptions(new Request("https://precisstudy.com/api/chat", {
+      method: "OPTIONS",
+      headers: { Origin: "https://precisstudy.com" }
+    }));
     expect(res.status).toBe(204);
     expect(res.headers.get("Access-Control-Allow-Methods")).toBe("POST, OPTIONS");
-    expect(res.headers.get("Access-Control-Allow-Origin")).toBe("*");
+    expect(res.headers.get("Access-Control-Allow-Origin")).toBe("https://precisstudy.com");
+    expect(res.headers.get("Vary")).toBe("Origin");
+  });
+
+  it("does not send an ACAO header for an unknown origin", async () => {
+    const res = handleChatOptions(new Request("https://precisstudy.com/api/chat", {
+      method: "OPTIONS",
+      headers: { Origin: "https://evil.example" }
+    }));
+    expect(res.status).toBe(204);
+    expect(res.headers.get("Access-Control-Allow-Origin")).toBeNull();
   });
 });
