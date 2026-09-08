@@ -954,6 +954,36 @@ function ssToggleLoginPanel(){
   if(opening) panel.querySelector('.ss-login-box').innerHTML = ssLoginBoxHtml();
 }
 
+// After a failed sign-in the worker bounces here with ?auth_error=<category>.
+// Show the student a specific reason and re-open the panel so they can retry,
+// then clear the param so a refresh doesn't resurface a stale message.
+function ssShowAuthError(){
+  var m = /[?&]auth_error=([a-z0-9_]+)/i.exec(location.search);
+  if(!m) return;
+  history.replaceState(null, '', location.pathname + location.hash);
+  if(SS_SESSION) return;
+  var MSG = {
+    state:    "Your sign-in session expired before it finished. Please try again.",
+    provider: "We couldn't reach that sign-in provider. Try again, or use a different one.",
+    no_email: "That account didn't share a verified email address. Try another sign-in method.",
+    expired:  "That sign-in link has expired. Start again below.",
+    link:     "That sign-in link isn't valid anymore. Start again below.",
+    config:   "Sign-in is temporarily unavailable. Please try again shortly."
+  };
+  var msg = MSG[m[1].toLowerCase()] || "Sign-in didn't complete. Please try again.";
+  var panel = document.getElementById('ss-login-panel');
+  if(!panel) return;
+  panel.classList.add('open');
+  var box = panel.querySelector('.ss-login-box');
+  box.innerHTML = ssLoginBoxHtml();
+  var status = box.querySelector('.ss-status');
+  if(status){
+    status.textContent = msg;
+    status.setAttribute('role', 'alert');
+    status.style.cssText = 'margin-top:10px;color:var(--danger,#c0392b);font-size:13px;line-height:1.45';
+  }
+}
+
 async function ssLogout(){
   try{ await fetch('/auth/logout', {method:'POST'}); }catch(e){}
   SS_SESSION = false;
@@ -987,6 +1017,7 @@ async function ssCheckSession(){
     SS_SESSION = false;
   }
   ssRenderAccountUI();
+  ssShowAuthError();
   return SS_SESSION;
 }
 

@@ -175,7 +175,12 @@ export async function recordLogin(env: { PROGRESS: KVNamespace }, email: string,
   } catch (e) {
     record = null;
   }
-  const isNewUser = !record || typeof record !== "object";
+  // Treat a missing OR structurally-broken record as new: a partial/old blob
+  // without a `providers` object would otherwise throw on the write below and
+  // 500 the whole sign-in callback.
+  const usable = !!record && typeof record === "object"
+    && !!record.providers && typeof record.providers === "object";
+  const isNewUser = !usable;
   const full: LoginRecord = isNewUser
     ? { providers: {}, firstLoginAt: now, loginCount: 0, lastLoginAt: now, lastProvider: provider }
     : Object.assign(record as LoginRecord, { lastLoginAt: now, lastProvider: provider });

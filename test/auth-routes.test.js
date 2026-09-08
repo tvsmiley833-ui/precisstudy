@@ -172,6 +172,38 @@ describe("OAuth state CSRF protection", () => {
   });
 });
 
+describe("post-sign-in return path + error categories", () => {
+  const env = {
+    GOOGLE_CLIENT_ID: "id", GOOGLE_CLIENT_SECRET: "secret",
+    GITHUB_CLIENT_ID: "id", GITHUB_CLIENT_SECRET: "secret",
+    SESSION_SECRET: "s"
+  };
+
+  it("stores a same-origin ?next path in an ss_next cookie on /auth/google/start", async () => {
+    const res = await handleGoogleStart(
+      new Request("https://precisstudy.com/auth/google/start?next=%2Fcalculus%2F"), env);
+    expect(res.headers.get("Set-Cookie") || "").toContain("ss_next=%2Fcalculus%2F");
+  });
+
+  it("ignores an off-site ?next (open-redirect guard)", async () => {
+    for (const bad of ["//evil.example", "https://evil.example", "/\\evil", "notapath"]) {
+      const res = await handleGoogleStart(
+        new Request("https://precisstudy.com/auth/google/start?next=" + encodeURIComponent(bad)), env);
+      expect(res.headers.get("Set-Cookie") || "").not.toContain("ss_next=");
+    }
+  });
+
+  it("emits a specific auth_error category and clears cookies on a bad OAuth state", async () => {
+    const res = await handleGoogleCallback(
+      new Request("https://precisstudy.com/auth/google/callback?code=x&state=nope"), env);
+    expect(res.status).toBe(302);
+    expect(res.headers.get("Location")).toBe("https://precisstudy.com/?auth_error=state");
+    const sc = res.headers.get("Set-Cookie") || "";
+    expect(sc).toContain("ss_oauth_state=;");
+    expect(sc).toContain("ss_next=;");
+  });
+});
+
 describe("/auth/email/start", () => {
   it("rejects an invalid email before attempting to send anything", async () => {
     const res = await SELF.fetch("https://precisstudy.com/auth/email/start", {

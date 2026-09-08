@@ -52,8 +52,41 @@ function clearStateCookie(): string {
   return `${STATE_COOKIE}=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0`;
 }
 
-function authErrorRedirect(): Response {
-  return redirect(SITE_ORIGIN + "/?auth_error=1", { "Set-Cookie": clearStateCookie() });
+const NEXT_COOKIE = "ss_next";
+
+// A post-sign-in destination is only accepted if it is a same-origin absolute
+// path (no scheme, no protocol-relative "//host", no "\" tricks). Anything else
+// falls back to the site root, so this can't become an open redirect.
+function safeNext(raw: string | null): string | null {
+  if (!raw) return null;
+  if (raw[0] !== "/" || raw[1] === "/" || raw[1] === "\\") return null;
+  if (raw.includes("://") || raw.includes("\n") || raw.includes("\r")) return null;
+  return raw.length <= 512 ? raw : null;
+}
+
+function nextCookie(path: string): string {
+  return `${NEXT_COOKIE}=${encodeURIComponent(path)}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${STATE_TTL}`;
+}
+
+function clearNextCookie(): string {
+  return `${NEXT_COOKIE}=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0`;
+}
+
+function consumeNext(request: Request): string | null {
+  const raw = getCookie(request, NEXT_COOKIE);
+  return raw ? safeNext(decodeURIComponent(raw)) : null;
+}
+
+// Categorised, non-sensitive failure reason. The category is surfaced to the
+// student on the homepage as a specific message; the detail (if any) is only
+// logged server-side so operators can see *why* without leaking it to the URL.
+type AuthErrorReason = "state" | "provider" | "no_email" | "config" | "expired" | "link";
+
+function authErrorRedirect(reason: AuthErrorReason, detail?: string): Response {
+  console.error("auth failure [" + reason + "]" + (detail ? ": " + detail : ""));
+  return redirect(SITE_ORIGIN + "/?auth_error=" + reason, {
+    "Set-Cookie": [clearStateCookie(), clearNextCookie()]
+  });
 }
 
 async function makeState(env: Env): Promise<string> {
@@ -98,6 +131,7 @@ export async function handleGoogleStart(request: Request, env: Env): Promise<Res
   if (!env.GOOGLE_CLIENT_ID || !env.GOOGLE_CLIENT_SECRET) return notConfigured("Google");
   if (sessionSecretMissing(env)) return notConfigured("Sign-in");
   const state = await makeState(env);
+  const next = safeNext(new URL(request.url).searchParams.get("next"));
   const params = new URLSearchParams({
     client_id: env.GOOGLE_CLIENT_ID,
     redirect_uri: SITE_ORIGIN + "/auth/google/callback",
@@ -106,7 +140,8 @@ export async function handleGoogleStart(request: Request, env: Env): Promise<Res
     state,
     prompt: "select_account"
   });
-  return redirect("https://accounts.google.com/o/oauth2/v2/auth?" + params.toString(), { "Set-Cookie": stateCookie(state) });
+  const cookies = next ? [stateCookie(state), nextCookie(next)] : [stateCookie(state)];
+  return redirect("https://accounts.google.com/o/oauth2/v2/auth?" + params.toString(), { "Set-Cookie": cookies });
 }
 
 export async function handleGoogleCallback(request: Request, env: Env): Promise<Response> {
@@ -116,7 +151,7 @@ export async function handleGoogleCallback(request: Request, env: Env): Promise<
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
   if (!code || !state || !(await checkState(env, request, state))) {
-    return authErrorRedirect();
+    return authErrorRedirect("state");
   }
 
   const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
@@ -130,15 +165,15 @@ export async function handleGoogleCallback(request: Request, env: Env): Promise<
       grant_type: "authorization_code"
     })
   });
-  if (!tokenRes.ok) return authErrorRedirect();
+  if (!tokenRes.ok) return authErrorRedirect("provider", "google token " + tokenRes.status);
   const tokenData: any = await tokenRes.json();
 
   const profileRes = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
     headers: { Authorization: "Bearer " + String(tokenData?.access_token) }
   });
-  if (!profileRes.ok) return authErrorRedirect();
+  if (!profileRes.ok) return authErrorRedirect("provider", "google userinfo " + profileRes.status);
   const profile: any = await profileRes.json();
-  if (!profile.email) return authErrorRedirect();
+  if (!profile.email) return authErrorRedirect("no_email", "google");
 
   const cookie = await issueSessionCookie(env, {
     email: profile.email,
@@ -146,7 +181,8 @@ export async function handleGoogleCallback(request: Request, env: Env): Promise<
     provider: "google"
   });
   const isNewUser = await recordLogin(env, profile.email, "google");
-  return redirect(SITE_ORIGIN + (isNewUser ? "/settings?welcome=1" : "/"), { "Set-Cookie": [cookie, clearStateCookie()] });
+  const dest = isNewUser ? "/settings?welcome=1" : (consumeNext(request) || "/");
+  return redirect(SITE_ORIGIN + dest, { "Set-Cookie": [cookie, clearStateCookie(), clearNextCookie()] });
 }
 
 // ===== GitHub =====
@@ -157,13 +193,15 @@ export async function handleGithubStart(request: Request, env: Env): Promise<Res
   if (!env.GITHUB_CLIENT_ID || !env.GITHUB_CLIENT_SECRET) return notConfigured("GitHub");
   if (sessionSecretMissing(env)) return notConfigured("Sign-in");
   const state = await makeState(env);
+  const next = safeNext(new URL(request.url).searchParams.get("next"));
   const params = new URLSearchParams({
     client_id: env.GITHUB_CLIENT_ID,
     redirect_uri: SITE_ORIGIN + "/auth/github/callback",
     scope: "read:user user:email",
     state
   });
-  return redirect("https://github.com/login/oauth/authorize?" + params.toString(), { "Set-Cookie": stateCookie(state) });
+  const cookies = next ? [stateCookie(state), nextCookie(next)] : [stateCookie(state)];
+  return redirect("https://github.com/login/oauth/authorize?" + params.toString(), { "Set-Cookie": cookies });
 }
 
 export async function handleGithubCallback(request: Request, env: Env): Promise<Response> {
@@ -173,7 +211,7 @@ export async function handleGithubCallback(request: Request, env: Env): Promise<
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
   if (!code || !state || !(await checkState(env, request, state))) {
-    return authErrorRedirect();
+    return authErrorRedirect("state");
   }
 
   const tokenRes = await fetch("https://github.com/login/oauth/access_token", {
@@ -186,9 +224,9 @@ export async function handleGithubCallback(request: Request, env: Env): Promise<
       redirect_uri: SITE_ORIGIN + "/auth/github/callback"
     })
   });
-  if (!tokenRes.ok) return authErrorRedirect();
+  if (!tokenRes.ok) return authErrorRedirect("provider", "github token " + tokenRes.status);
   const tokenData: any = await tokenRes.json();
-  if (!tokenData?.access_token) return authErrorRedirect();
+  if (!tokenData?.access_token) return authErrorRedirect("provider", "github no access_token");
 
   const ghHeaders = {
     Authorization: "Bearer " + tokenData.access_token,
@@ -196,7 +234,7 @@ export async function handleGithubCallback(request: Request, env: Env): Promise<
     Accept: "application/vnd.github+json"
   };
   const profileRes = await fetch("https://api.github.com/user", { headers: ghHeaders });
-  if (!profileRes.ok) return authErrorRedirect();
+  if (!profileRes.ok) return authErrorRedirect("provider", "github user " + profileRes.status);
   const profile: any = await profileRes.json();
 
   let email: string | undefined = typeof profile.email === "string" ? profile.email : undefined;
@@ -209,10 +247,7 @@ export async function handleGithubCallback(request: Request, env: Env): Promise<
       if (primary) email = primary.email;
     }
   }
-  if (!email) {
-    console.error("github callback: no verified email available for this GitHub account");
-    return authErrorRedirect();
-  }
+  if (!email) return authErrorRedirect("no_email", "github: no verified email on account");
 
   const cookie = await issueSessionCookie(env, {
     email,
@@ -220,7 +255,8 @@ export async function handleGithubCallback(request: Request, env: Env): Promise<
     provider: "github"
   });
   const isNewUser = await recordLogin(env, email, "github");
-  return redirect(SITE_ORIGIN + (isNewUser ? "/settings?welcome=1" : "/"), { "Set-Cookie": [cookie, clearStateCookie()] });
+  const dest = isNewUser ? "/settings?welcome=1" : (consumeNext(request) || "/");
+  return redirect(SITE_ORIGIN + dest, { "Set-Cookie": [cookie, clearStateCookie(), clearNextCookie()] });
 }
 
 // ===== Email magic link =====
@@ -277,11 +313,12 @@ export async function handleVerify(request: Request, env: Env): Promise<Response
   const url = new URL(request.url);
   const token = url.searchParams.get("token");
   const email = token ? await consumeMagicLinkToken(env, token) : null;
-  if (!email) return redirect(SITE_ORIGIN + "/?auth_error=expired");
+  if (!email) return authErrorRedirect("expired", "magic link");
 
   const cookie = await issueSessionCookie(env, { email, name: email, provider: "email" });
   const isNewUser = await recordLogin(env, email, "email");
-  return redirect(SITE_ORIGIN + (isNewUser ? "/settings?welcome=1" : "/"), { "Set-Cookie": cookie });
+  const dest = isNewUser ? "/settings?welcome=1" : (consumeNext(request) || "/");
+  return redirect(SITE_ORIGIN + dest, { "Set-Cookie": [cookie, clearNextCookie()] });
 }
 
 // ===== Session status / logout =====
