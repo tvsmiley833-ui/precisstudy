@@ -34,5 +34,8 @@
   ],
   "triggers": {
     "crons": ["0 22 * * *", "*/5 * * * *"]
-  }
+  },
+  "ratelimits": [
+    { "name": "CHAT_RATE_LIMIT", "namespace_id": "1001", "simple": { "limit": 20, "period": 60 } }
+  ]
 }

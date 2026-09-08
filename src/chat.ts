@@ -1,4 +1,4 @@
-import { getClientIp, checkRateLimit } from "./auth.js";
+import { getClientIp } from "./auth.js";
 
 // Object.create(null): SUBJECTS is indexed with a client-controlled path
 // segment (see subjectFromReferer below). A plain {} object literal would
@@ -130,19 +130,16 @@ export function json(body: unknown, status?: number, extraHeaders?: Record<strin
   });
 }
 
-// Per-IP cap on the unauthenticated LLM proxy: every call bills Workers AI, so
-// without this one client can exhaust quota / rack up cost. Best-effort fixed
-// window (see checkRateLimit).
-const CHAT_RATE_LIMIT_MAX = 20;
-const CHAT_RATE_LIMIT_WINDOW = 60;
-
-export async function handleChatPost(request: Request, env: { AI: Ai; PROGRESS?: KVNamespace }): Promise<Response> {
+export async function handleChatPost(request: Request, env: { AI: Ai; CHAT_RATE_LIMIT?: RateLimit }): Promise<Response> {
   const cors = corsHeaders(request);
 
-  if (env.PROGRESS) {
-    const ip = getClientIp(request);
-    const withinLimit = await checkRateLimit(env.PROGRESS, "ratelimit:chat:" + ip, CHAT_RATE_LIMIT_MAX, CHAT_RATE_LIMIT_WINDOW);
-    if (!withinLimit) return json({ error: "Too many requests — slow down and try again in a minute." }, 429, cors);
+  // Per-IP cap on the unauthenticated LLM proxy — every call bills Workers AI.
+  // Cloudflare's native limiter (config: wrangler.jsonc `ratelimits`) is
+  // strongly consistent within the data centre, so it actually stops a burst;
+  // the earlier KV limiter's read-after-write lag let a fast burst through.
+  if (env.CHAT_RATE_LIMIT) {
+    const { success } = await env.CHAT_RATE_LIMIT.limit({ key: "chat:" + getClientIp(request) });
+    if (!success) return json({ error: "Too many requests — slow down and try again in a minute." }, 429, cors);
   }
 
   let body: unknown;
