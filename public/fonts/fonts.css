@@ -1,0 +1,45 @@
+/* Self-hosted latin subsets (were https://fonts.googleapis.com/css2?...).
+   Same-origin, immutable-cached (see public/_headers) — no render-blocking
+   request to fonts.googleapis.com + connection to fonts.gstatic.com.
+   Inter and Space Grotesk are variable fonts: one file covers every weight
+   the site uses. font-display:swap matches the old Google Fonts behaviour. */
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/inter-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('/fonts/spacegrotesk-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/ibmplexmono-500-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/ibmplexmono-600-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Permanent Marker';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/permanentmarker-latin.woff2') format('woff2');
+}

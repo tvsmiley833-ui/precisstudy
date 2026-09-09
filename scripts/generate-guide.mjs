@@ -143,7 +143,7 @@ function buildJsonLd(config, description) {
 }
 
 export function generateGuide(config) {
-  const { slug, title, fontUrl, accentColor, units, quiz, flashcards,
+  const { slug, title, accentColor, units, quiz, flashcards,
           examParts } = config;
 
   const metaDescription = buildMetaDescription(config);
@@ -153,7 +153,6 @@ export function generateGuide(config) {
     .replace(/__PAGE_TITLE__/g, esc(`${title} Study Guide — PrecisStudy`))
     .replace(/__DESCRIPTION__/g, esc(metaDescription))
     .replace(/__SLUG__/g, slug)
-    .replace(/__FONT_URL__/g, fontUrl)
     .replace(/__JSONLD__/, buildJsonLd(config, metaDescription));
 
   let style = templateStyle;
