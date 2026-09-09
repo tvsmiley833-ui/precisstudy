@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [
     cloudflareTest({
       main: "src/worker.ts",
-      wrangler: { configPath: "./wrangler.jsonc" }
+      wrangler: { configPath: "./wrangler.test.jsonc" }
     })
   ]
 });
