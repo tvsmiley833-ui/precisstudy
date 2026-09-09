@@ -4,17 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>US Government Study Guide — PrecisStudy</title>
-<meta name="description" content="US Government study guide — from Foundations of American Democracy to The Bureaucracy &amp; Policy Making. 55 questions, 58 flashcards, a full practice exam. Free."/>
+<meta name="description" content="US Government study guide. 55 questions, 58 flashcards, a practice exam and quick-reference tables. Free, no sign-up."/>
 <meta property="og:type" content="website"/>
 <meta property="og:site_name" content="PrecisStudy"/>
 <meta property="og:title" content="US Government Study Guide — PrecisStudy"/>
-<meta property="og:description" content="US Government study guide — from Foundations of American Democracy to The Bureaucracy &amp; Policy Making. 55 questions, 58 flashcards, a full practice exam. Free."/>
+<meta property="og:description" content="US Government study guide. 55 questions, 58 flashcards, a practice exam and quick-reference tables. Free, no sign-up."/>
 <meta property="og:url" content="https://precisstudy.com/us-government/"/>
 <link rel="canonical" href="https://precisstudy.com/us-government/"/>
 <meta property="og:image" content="https://precisstudy.com/logo-full.png"/>
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="US Government Study Guide — PrecisStudy"/>
-<meta name="twitter:description" content="US Government study guide — from Foundations of American Democracy to The Bureaucracy &amp; Policy Making. 55 questions, 58 flashcards, a full practice exam. Free."/>
+<meta name="twitter:description" content="US Government study guide. 55 questions, 58 flashcards, a practice exam and quick-reference tables. Free, no sign-up."/>
 <meta name="twitter:image" content="https://precisstudy.com/logo-full.png"/>
 <link rel="icon" type="image/png" href="/favicon.png"/>
 <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
@@ -37,7 +37,7 @@
       "@type": "LearningResource",
       "@id": "https://precisstudy.com/us-government/#guide",
       "name": "US Government Study Guide",
-      "description": "US Government study guide — from Foundations of American Democracy to The Bureaucracy & Policy Making. 55 questions, 58 flashcards, a full practice exam. Free.",
+      "description": "US Government study guide. 55 questions, 58 flashcards, a practice exam and quick-reference tables. Free, no sign-up.",
       "url": "https://precisstudy.com/us-government/",
       "inLanguage": "en",
       "isAccessibleForFree": true,
@@ -1381,8 +1381,12 @@ function ssToggleTheme(){
 let SS_SESSION;
 
 function ssLoginBoxHtml(){
-  return '<a class="ss-oauth-btn" href="/auth/google/start">Continue with Google</a>'
-    + '<a class="ss-oauth-btn" href="/auth/github/start">Continue with GitHub</a>'
+  // Carry the page the student is on through OAuth so they land back here
+  // (e.g. /calculus/quiz) instead of the site root. The worker validates
+  // this via safeNext() — same-origin absolute paths only.
+  var n = encodeURIComponent(location.pathname);
+  return '<a class="ss-oauth-btn" href="/auth/google/start?next=' + n + '">Continue with Google</a>'
+    + '<a class="ss-oauth-btn" href="/auth/github/start?next=' + n + '">Continue with GitHub</a>'
     + '<div class="ss-status"></div>';
 }
 

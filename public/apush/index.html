@@ -1608,8 +1608,8 @@ function ssToggleTheme(){
 let SS_SESSION;
 
 function ssLoginBoxHtml(){
-  return '<a class="ss-oauth-btn" href="/auth/google/start">Continue with Google</a>'
-    + '<a class="ss-oauth-btn" href="/auth/github/start">Continue with GitHub</a>'
+  return '<a class="ss-oauth-btn" href="/auth/google/start?next=' + encodeURIComponent(location.pathname) + '">Continue with Google</a>'
+    + '<a class="ss-oauth-btn" href="/auth/github/start?next=' + encodeURIComponent(location.pathname) + '">Continue with GitHub</a>'
     + '<div class="ss-status"></div>';
 }
 

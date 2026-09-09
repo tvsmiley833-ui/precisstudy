@@ -749,8 +749,12 @@ function ssToggleTheme(){
 let SS_SESSION;
 
 function ssLoginBoxHtml(){
-  return '<a class="ss-oauth-btn" href="/auth/google/start">Continue with Google</a>'
-    + '<a class="ss-oauth-btn" href="/auth/github/start">Continue with GitHub</a>'
+  // Carry the page the student is on through OAuth so they land back here
+  // (e.g. /calculus/quiz) instead of the site root. The worker validates
+  // this via safeNext() — same-origin absolute paths only.
+  var n = encodeURIComponent(location.pathname);
+  return '<a class="ss-oauth-btn" href="/auth/google/start?next=' + n + '">Continue with Google</a>'
+    + '<a class="ss-oauth-btn" href="/auth/github/start?next=' + n + '">Continue with GitHub</a>'
     + '<div class="ss-status"></div>';
 }
 
