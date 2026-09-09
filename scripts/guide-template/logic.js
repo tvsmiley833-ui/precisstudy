@@ -1,5 +1,6 @@
-function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');const idx={guide:0,cards:1,quiz:2,exam:3,qref:4,memory:5}[id];if(idx!==undefined){tabs.forEach((b,i)=>{var on=i===idx;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;});var _hl=document.getElementById('hero-live');if(_hl)_hl.textContent=tabs[idx].textContent.trim()+' tab';}if(id==='exam'&&!examBuilt)buildExam();var spc=document.getElementById('spc-card');if(spc)spc.style.display=(id==='guide')?'':'none';}
+function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');const idx={guide:0,cards:1,quiz:2,examples:3,exam:4,qref:5,memory:6}[id];if(idx!==undefined){tabs.forEach((b,i)=>{var on=i===idx;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;});var _hl=document.getElementById('hero-live');if(_hl)_hl.textContent=tabs[idx].textContent.trim()+' tab';}if(id==='examples'&&!examplesBuilt)buildExamples();if(id==='exam'&&!examBuilt)buildExam();var spc=document.getElementById('spc-card');if(spc)spc.style.display=(id==='guide')?'':'none';}
 let examBuilt=false;
+var examplesBuilt=false, ex2map={}, ex2shown={};
 
 function buildExam(){
 examBuilt=true;
@@ -277,29 +278,79 @@ const REQUEUE_DELAY=3,MAX_REQUEUES=2;
 
 /* ----- server-synced mastery (Chemistry has no prior local tracking to
    migrate from - this is the first time per-unit progress persists at all) */
+function buildExamples(){
+  examplesBuilt=true;
+  const v=document.getElementById('view-examples');
+  if(!v||typeof WORKED==='undefined'||!WORKED.length)return;
+  let h='<div class="ex2-intro">Try each problem on your own first — then reveal the solution one step at a time. Mark “Got it” to track your progress.</div>';
+  const doneMap=(CHEM_MASTERY&&CHEM_MASTERY.getSnapshot().examples)||{};
+  UNITS.forEach(u=>{
+    const list=WORKED.filter(w=>w.u===u.id);if(!list.length)return;
+    h+=`<div class="ex2-unit"><h3 class="ex2-h">Unit ${u.id}: ${u.name}</h3>`;
+    list.forEach((w,wi)=>{
+      const id=u.id+'-'+wi;ex2map[id]=w;
+      const done=doneMap[id]?' done':'';
+      h+=`<div class="ex2-card${done}" data-id="${id}">
+        <div class="ex2-title">${w.title}</div>
+        <div class="ex2-prompt">${w.prompt}</div>
+        <div class="ex2-steps" id="ex2s-${id}"></div>
+        <div class="ex2-actions">
+          <button class="btn ex2-reveal" onclick="revealStep('${id}')">Reveal step ▾</button>
+          <button class="btn" onclick="revealAll('${id}')">Show all</button>
+          <button class="btn ex2-done" onclick="markExample('${id}')">✓ Got it</button>
+        </div></div>`;
+    });
+    h+='</div>';
+  });
+  v.innerHTML=h;
+}
+function revealStep(id){
+  const w=ex2map[id];const c=document.getElementById('ex2s-'+id);let n=ex2shown[id]||0;
+  if(n<w.steps.length){
+    const d=document.createElement('div');d.className='ex2-step';d.innerHTML='<span>'+(n+1)+'</span><div>'+w.steps[n]+'</div>';c.appendChild(d);
+    n++;ex2shown[id]=n;
+    if(n===w.steps.length){
+      const a=document.createElement('div');a.className='ex2-answer';a.innerHTML='✓ '+w.answer;c.appendChild(a);
+      const btn=document.querySelector('.ex2-card[data-id="'+id+'"] .ex2-reveal');if(btn)btn.style.display='none';
+    }
+  }
+}
+function revealAll(id){const w=ex2map[id];while((ex2shown[id]||0)<w.steps.length)revealStep(id);}
+function markExample(id){
+  if(CHEM_MASTERY)CHEM_MASTERY.markExampleDone(id);
+  const card=document.querySelector('.ex2-card[data-id="'+id+'"]');if(card)card.classList.add('done');
+}
+
 var CHEM_MASTERY = null;
 window.__ssMasteryInstances = window.__ssMasteryInstances || [];
 function ssStartChemMastery(){
   CHEM_MASTERY = window.__ssCreateMastery('apush', UNITS.map(function(u){return u.id;}), UNITS.reduce(function(acc,u){acc[u.id]=u.name;return acc;},{}));
   window.__ssMasteryInstances.push(CHEM_MASTERY);
-  CHEM_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} });
+  CHEM_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} try{ if(examplesBuilt) buildExamples(); }catch(e){} });
 }
 if (window.__ssCreateMastery) { ssStartChemMastery(); }
 else { window.addEventListener('ss-mastery-ready', ssStartChemMastery, { once: true }); }
 
 let diagMode=false;
+function ssHardQ(){return (typeof HARD_Q!=='undefined'&&Array.isArray(HARD_Q))?HARD_Q:[];}
 function buildQSel(){
   const sel=document.getElementById('q-sel');
-  sel.innerHTML='<option value="0">All Units ('+QUIZ.length+' questions)</option>';
-  UNITS.forEach(u=>{const n=QUIZ.filter(q=>q.u===u.id).length;if(n)sel.innerHTML+=`<option value="${u.id}">Unit ${u.id}: ${u.name} (${n} Qs)</option>`;});
+  const HQ=ssHardQ();
+  sel.innerHTML='<option value="0">All Units ('+(QUIZ.length+HQ.length)+' questions)</option>';
+  UNITS.forEach(u=>{const n=QUIZ.filter(q=>q.u===u.id).length+HQ.filter(q=>q.u===u.id).length;if(n)sel.innerHTML+=`<option value="${u.id}">Unit ${u.id}: ${u.name} (${n} Qs)</option>`;});
+  if(HQ.length)sel.innerHTML+='<option value="hard">Hard Mode Only ('+HQ.length+' Qs)</option>';
   loadQ();
 }
 function loadQ(){
   diagMode=false;
   const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
   const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
-  const v=+document.getElementById('q-sel').value;
-  const src=v===0?[...QUIZ]:QUIZ.filter(q=>q.u===v);
+  const raw=document.getElementById('q-sel').value;
+  const HQ=ssHardQ();
+  let src;
+  if(raw==='hard')src=HQ.slice();
+  else if(+raw===0)src=QUIZ.concat(HQ);
+  else src=QUIZ.concat(HQ).filter(q=>q.u===+raw);
   qPool=src.sort(()=>Math.random()-.5);
   qIdx=0;score=0;requeueCounts=new WeakMap();showQ();
 }
