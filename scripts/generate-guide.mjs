@@ -93,8 +93,26 @@ function buildFcArchive(units, flashcards) {
 // (Home > <Subject> Study Guide). Built as an object and JSON.stringify'd so all
 // escaping is handled; `<` is further escaped so a stray "</script>" in a
 // description can't break out of the tag.
-function buildJsonLd(config) {
-  const { slug, title, description } = config;
+// Unique, data-derived meta description per subject. The hand-written
+// `description` fields in guides/*.json are near-identical boilerplate ("Free X
+// study guide: 8 units, 320 practice questions, 80 flashcards…") that Google
+// treats as duplicate; this builds one from the guide's real unit names and
+// real counts, trimming topic names until it fits a ~160-char SERP snippet.
+function buildMetaDescription({ title, units, quiz, flashcards }) {
+  const names = (units || []).map(u => u.name).filter(Boolean);
+  const first = names[0], last = names[names.length - 1];
+  const scope = names.length >= 2 && first && last ? ` — from ${first} to ${last}` : "";
+  const counts = `${quiz.length} questions, ${flashcards.length} flashcards, a practice exam and quick-reference tables`;
+  const candidates = [
+    `${title} study guide${scope}. ${counts}. Free, no sign-up.`,
+    `${title} study guide${scope}. ${quiz.length} questions, ${flashcards.length} flashcards, a full practice exam. Free.`,
+    `${title} study guide. ${counts}. Free, no sign-up.`,
+  ];
+  return candidates.find(d => d.length <= 158) || candidates[candidates.length - 1];
+}
+
+function buildJsonLd(config, description) {
+  const { slug, title } = config;
   const url = `https://precisstudy.com/${slug}/`;
   const graph = {
     "@context": "https://schema.org",
@@ -125,16 +143,18 @@ function buildJsonLd(config) {
 }
 
 export function generateGuide(config) {
-  const { slug, title, description, fontUrl, accentColor, units, quiz, flashcards,
+  const { slug, title, fontUrl, accentColor, units, quiz, flashcards,
           examParts } = config;
+
+  const metaDescription = buildMetaDescription(config);
 
   let html = templateHead
     .replace(/__TITLE__/g, esc(title))
     .replace(/__PAGE_TITLE__/g, esc(`${title} Study Guide — PrecisStudy`))
-    .replace(/__DESCRIPTION__/g, esc(description))
+    .replace(/__DESCRIPTION__/g, esc(metaDescription))
     .replace(/__SLUG__/g, slug)
     .replace(/__FONT_URL__/g, fontUrl)
-    .replace(/__JSONLD__/, buildJsonLd(config));
+    .replace(/__JSONLD__/, buildJsonLd(config, metaDescription));
 
   let style = templateStyle;
   if (accentColor) {
