@@ -301,3 +301,19 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .q-kbd-hint{margin-left:auto;font-size:12.5px;color:var(--ink-dim)}
 @media(max-width:640px){.q-kbd-hint{display:none}}
+.ex2-intro{font-size:15px;color:var(--ink-muted);background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:20px}
+.ex2-unit{margin-bottom:26px}
+.ex2-h{font-size:17px;font-weight:700;color:var(--accent);margin-bottom:12px;text-transform:uppercase;letter-spacing:.04em}
+.ex2-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:12px;transition:all .2s ease}
+.ex2-card.done{border-color:var(--success-border);box-shadow:0 0 0 1px var(--success-border) inset}
+.ex2-title{font-size:17px;font-weight:700;color:var(--ink);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.ex2-card.done .ex2-title::after{content:"✓ mastered";font-size:12px;font-weight:700;color:var(--success);background:var(--success-soft);border:1px solid var(--success-border);padding:2px 8px;border-radius:99px;text-transform:uppercase;letter-spacing:.05em}
+.ex2-prompt{font-size:15.5px;color:var(--ink-muted);line-height:1.6;margin-bottom:12px}
+.ex2-steps{display:flex;flex-direction:column;gap:8px}
+.ex2-step{display:flex;gap:11px;align-items:flex-start;font-size:14.5px;color:var(--ink-muted);background:var(--surface-2);border-radius:var(--radius-sm);padding:10px 12px}
+.ex2-step span{flex:none;width:20px;height:20px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.ex2-answer{font-size:15px;font-weight:700;color:var(--success);background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:10px 12px;margin-top:4px}
+.ex2-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.ex2-actions .btn{font-size:13.5px;padding:7px 14px}
+.ex2-reveal{border-color:var(--accent)!important;color:var(--accent)!important}
+.ex2-done{margin-left:auto}
