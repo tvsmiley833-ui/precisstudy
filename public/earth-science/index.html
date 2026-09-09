@@ -4,17 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Earth Science Study Guide — PrecisStudy</title>
-<meta name="description" content="Free Earth Science study guide: 8 units, 320+ practice questions, 80 flashcards, quick reference, memory tricks, and a full practice exam. Completely free."/>
+<meta name="description" content="Earth Science study guide. 320 questions, 80 flashcards, a practice exam and quick-reference tables. Free, no sign-up."/>
 <meta property="og:type" content="website"/>
 <meta property="og:site_name" content="PrecisStudy"/>
 <meta property="og:title" content="Earth Science Study Guide — PrecisStudy"/>
-<meta property="og:description" content="Free Earth Science study guide: 8 units, 320+ practice questions, 80 flashcards, quick reference, memory tricks, and a full practice exam. Completely free."/>
+<meta property="og:description" content="Earth Science study guide. 320 questions, 80 flashcards, a practice exam and quick-reference tables. Free, no sign-up."/>
 <meta property="og:url" content="https://precisstudy.com/earth-science/"/>
 <link rel="canonical" href="https://precisstudy.com/earth-science/"/>
 <meta property="og:image" content="https://precisstudy.com/logo-full.png"/>
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Earth Science Study Guide — PrecisStudy"/>
-<meta name="twitter:description" content="Free Earth Science study guide: 8 units, 320+ practice questions, 80 flashcards, quick reference, memory tricks, and a full practice exam. Completely free."/>
+<meta name="twitter:description" content="Earth Science study guide. 320 questions, 80 flashcards, a practice exam and quick-reference tables. Free, no sign-up."/>
 <meta name="twitter:image" content="https://precisstudy.com/logo-full.png"/>
 <link rel="icon" type="image/png" href="/favicon.png"/>
 <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
@@ -29,6 +29,55 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Permanent+Marker&display=swap"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "LearningResource",
+      "@id": "https://precisstudy.com/earth-science/#guide",
+      "name": "Earth Science Study Guide",
+      "description": "Earth Science study guide. 320 questions, 80 flashcards, a practice exam and quick-reference tables. Free, no sign-up.",
+      "url": "https://precisstudy.com/earth-science/",
+      "inLanguage": "en",
+      "isAccessibleForFree": true,
+      "learningResourceType": [
+        "Study guide",
+        "Flashcards",
+        "Practice quiz",
+        "Practice exam"
+      ],
+      "educationalLevel": "High school",
+      "about": {
+        "@type": "Thing",
+        "name": "Earth Science"
+      },
+      "provider": {
+        "@type": "Organization",
+        "name": "PrecisStudy",
+        "url": "https://precisstudy.com/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "PrecisStudy",
+          "item": "https://precisstudy.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Earth Science Study Guide",
+          "item": "https://precisstudy.com/earth-science/"
+        }
+      ]
+    }
+  ]
+}
+</script>
 <style>
 
 :root{
@@ -69,6 +118,15 @@ body{transition:background .2s ease,color .2s ease}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+.skip-link{position:absolute;left:8px;top:-48px;z-index:1000;padding:10px 16px;background:var(--surface);color:var(--ink);
+  border:1px solid var(--accent);border-radius:8px;font-weight:600;text-decoration:none;transition:top .15s ease}
+.skip-link:focus{top:8px}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.tablist{display:contents}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  [style*="animation:fadein"]{opacity:1!important}
+}
 body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);
   margin:0;padding:0;line-height:1.6}
 .page{margin:0 auto;padding:0 24px 90px;max-width:880px}
@@ -334,42 +392,47 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <script type="module">
   import { createMastery } from '/shared/mastery.js';
   import { celebrateCorrect, resetCombo } from '/shared/celebrate.js';
+  import '/shared/chalk-cursor.js';
   window.__ssCreateMastery = createMastery;
   window.__ssCelebrateCorrect = celebrateCorrect;
   window.__ssResetCombo = resetCombo;
   window.dispatchEvent(new Event('ss-mastery-ready'));
 </script>
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <div class="hero">
   <div class="hero-inner">
     <a href="/" class="back-link" style="opacity:0;animation:fadein .5s ease forwards">← Back to Library</a>
     <div class="kicker" style="opacity:0;animation:fadein .5s ease .06s forwards">Earth Science</div>
-    <h1 style="opacity:0;animation:fadein .5s ease .12s forwards"><span class="grad">Earth Science</span> Study Guide <span class="edition">Expanded Edition</span></h1>
+    <h1 style="opacity:0;animation:fadein .5s ease .12s forwards"><span class="grad">Earth Science</span> Study Guide</h1>
     <p class="subtitle" style="opacity:0;animation:fadein .5s ease .18s forwards">8 Units · 320 Quiz Questions · 80 Flashcards · Diagnostic · Quick Reference · Memory Tricks · Saved Progress</p>
-    <div class="nav" style="opacity:0;animation:fadein .5s ease .24s forwards">
-      <button class="tab-btn active" onclick="switchTab('guide')">Study Guide</button>
-      <button class="tab-btn" onclick="switchTab('cards')">Flashcards</button>
-      <button class="tab-btn" onclick="ssQuizTabClick()">Quiz</button>
-      <button class="tab-btn" onclick="switchTab('exam')">Practice Exam</button>
-      <button class="tab-btn" onclick="switchTab('qref')">Quick Reference</button>
-      <button class="tab-btn" onclick="switchTab('memory')">Memory Tricks</button>
+    <nav class="nav" style="opacity:0;animation:fadein .5s ease .24s forwards">
+      <div class="tablist" role="tablist" aria-label="Study guide views">
+      <button class="tab-btn active" role="tab" id="tab-guide" aria-controls="view-guide" aria-selected="true" onclick="switchTab('guide')">Study Guide</button>
+      <button class="tab-btn" role="tab" id="tab-cards" aria-controls="view-cards" aria-selected="false" tabindex="-1" onclick="switchTab('cards')">Flashcards</button>
+      <button class="tab-btn" role="tab" id="tab-quiz" aria-controls="view-quiz" aria-selected="false" tabindex="-1" onclick="ssQuizTabClick()">Quiz</button>
+      <button class="tab-btn" role="tab" id="tab-exam" aria-controls="view-exam" aria-selected="false" tabindex="-1" onclick="switchTab('exam')">Practice Exam</button>
+      <button class="tab-btn" role="tab" id="tab-qref" aria-controls="view-qref" aria-selected="false" tabindex="-1" onclick="switchTab('qref')">Quick Reference</button>
+      <button class="tab-btn" role="tab" id="tab-memory" aria-controls="view-memory" aria-selected="false" tabindex="-1" onclick="switchTab('memory')">Memory Tricks</button>
+      </div>
       <button id="theme-toggle" onclick="ssToggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode">
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
       </button>
-    </div>
+    </nav>
+    <div class="hero-live sr-only" id="hero-live" role="status" aria-live="polite"></div>
   </div>
 </div>
-<div class="page">
+<div class="page" id="main-content" role="main" tabindex="-1">
 <div class="spc-card" id="spc-card">
   <h2>See what your study plan could look like</h2>
   <p>Based on this guide's real question bank — 320 practice questions across 8 units. Slide to match your situation.</p>
   <div class="spc-row">
-    <label>Days until your exam <span id="spc-days-val">14 days</span></label>
+    <label for="spc-days">Days until your exam <span id="spc-days-val">14 days</span></label>
     <input type="range" class="spc-slider" id="spc-days" min="1" max="60" value="14">
   </div>
   <div class="spc-row">
-    <label>Minutes you can study per day <span id="spc-mins-val">30 min</span></label>
+    <label for="spc-mins">Minutes you can study per day <span id="spc-mins-val">30 min</span></label>
     <input type="range" class="spc-slider" id="spc-mins" min="10" max="120" value="30" step="5">
   </div>
   <div class="spc-stats">
@@ -382,26 +445,26 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
     <span id="spc-tier-sub"></span>
   </div>
 </div>
-<div id="view-guide" class="view active">
+<div id="view-guide" class="view active" role="tabpanel" aria-labelledby="tab-guide" tabindex="0">
   <div style="display:flex;gap:8px;margin-bottom:10px;align-items:center">
-    <input id="search-box" placeholder="Search topics, terms, formulas…" oninput="searchGuide()" style="flex:1;padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:15px;background:var(--surface);color:var(--ink)">
-    <button onclick="clearSearch()" style="padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);font-size:13px;cursor:pointer;color:var(--ink-muted)">✕ Clear</button>
+    <input id="search-box" type="search" aria-label="Search this guide's topics, terms, and formulas" placeholder="Search topics, terms, formulas…" oninput="searchGuide()" style="flex:1;padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:15px;background:var(--surface);color:var(--ink)">
+    <button type="button" onclick="clearSearch()" style="padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);font-size:13px;cursor:pointer;color:var(--ink-muted)">✕ Clear</button>
   </div>
   <div id="search-results" style="display:none;margin-bottom:12px"></div>
   <div class="filter-row" id="filter-row"><button class="chip on">All Units</button><button class="chip">Unit 1</button><button class="chip">Unit 2</button><button class="chip">Unit 3</button><button class="chip">Unit 4</button><button class="chip">Unit 5</button><button class="chip">Unit 6</button><button class="chip">Unit 7</button><button class="chip">Unit 8</button></div>
-  <div id="units"></div></div>
-<div id="view-cards" class="view">
+  <div id="units"><div class="unit" data-id="1"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 1: Earth Systems & Scientific Method<span class="unit-meta">4 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Four Earth spheres</div><div class="c-text">Earth runs as interconnected systems exchanging matter and energy.</div><ul class="c-list"><li>Geosphere: rocks, mantle, core — the solid Earth</li><li>Hydrosphere: all water (oceans 97%, glaciers 2%, fresh <1%)</li><li>Atmosphere: gas envelope — N₂ 78%, O₂ 21%, Ar ~1%</li><li>Biosphere: all life — overlaps every other sphere</li></ul></div><div class="concept"><div class="c-label">Scientific method cycle</div><div class="c-text">Science self-corrects through hypothesis testing.</div><ul class="c-list"><li>Observation → question → hypothesis (testable!) → experiment → analysis → conclusion</li><li>Hypothesis must be falsifiable — 'untestable' claims aren't scientific</li><li>Theory = heavily-tested explanation bundle (not a 'guess'); law = what happens, theory = why</li><li>Controlled experiments change ONE variable (independent) and measure another (dependent)</li></ul></div><div class="concept"><div class="c-label">Maps & rates</div><div class="c-text">Topo maps and rate formulas are Earth science's daily tools.</div><ul class="c-list"><li>Contour lines connect equal elevation; close spacing = steep slope</li><li>Gradient = (elevation difference) ÷ distance — usually ft/mi</li><li>Map scale converts map distance to real distance</li><li>Rate problems: distance ÷ time (stream flow, plate motion cm/yr)</li></ul></div><div class="concept"><div class="c-label">Energy in Earth systems</div><div class="c-text">Two engines power everything: solar (external) and planetary heat (internal).</div><ul class="c-list"><li>Solar drives weather, ocean currents, water cycle, wind</li><li>Internal heat (radioactive decay + primordial) drives plate tectonics, volcanism</li><li>Energy transfers: conduction (contact), convection (fluid circulation), radiation (waves)</li><li>Density stratification explains layering: densest materials sink (iron core)</li></ul></div><div class="trap">A theory is NOT a guess — it's a tested explanatory framework (theory of plate tectonics)</div><div class="trap">Ocean water is saltwater — don't count it as freshwater supply</div><div class="trap">Contour lines never cross — one point, one elevation</div></div></div><div class="unit" data-id="2"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 2: Plate Tectonics<span class="unit-meta">4 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Layers & plates</div><div class="c-text">The lithosphere rides on the asthenosphere in moving plates.</div><ul class="c-list"><li>Crust (oceanic basalt denser / continental granite thicker) → mantle → outer core (liquid) → inner core (solid iron)</li><li>Lithosphere = crust + rigid upper mantle; floats on plastic asthenosphere</li><li>Plates move centimeters/year — about fingernail growth speed</li><li>Heat from radioactive decay powers convection currents driving plates</li></ul></div><div class="concept"><div class="c-label">Divergent boundaries</div><div class="c-text">Plates separate; new crust forms — mid-ocean ridges and rifts.</div><ul class="c-list"><li>Seafloor spreading at mid-ocean ridges (Mid-Atlantic Ridge)</li><li>Magma rises, cools → new basaltic crust; magnetic striping records flips</li><li>Rift valleys on land (East African Rift) may become new oceans</li><li>Shallow earthquakes characterize divergent zones</li></ul></div><div class="concept"><div class="c-label">Convergent boundaries</div><div class="c-text">Collision courses produce subduction, mountains, and deep quakes.</div><ul class="c-list"><li>Ocean-continent: denser oceanic plate SUBDUCTS → trench + volcanic arc (Andes)</li><li>Ocean-ocean: older/denser subducts → island arcs (Japan)</li><li>Continent-continent: no subduction, crumple into mountains (Himalayas)</li><li>Deep earthquakes only occur in subduction zones (Wadati-Benioff zone)</li></ul></div><div class="concept"><div class="c-label">Transform boundaries & evidence</div><div class="c-text">Slide-past boundaries and the proof that sealed the theory.</div><ul class="c-list"><li>Transform faults: plates grind sideways — San Andreas Fault; shallow strong quakes</li><li>Fossil matches across oceans (Mesosaurus); mountain continuity</li><li>Glacial striations aligning when continents reassembled</li><li>Seafloor age increases with distance from ridge — smoking-gun proof</li></ul></div><div class="trap">Inner core is SOLID despite being hottest — pressure forces solid state</div><div class="trap">Continents don't plow through ocean floor — plates carry both crust types</div><div class="trap">Not all boundaries make volcanoes: transform boundaries generally don't</div></div></div><div class="unit" data-id="3"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 3: Earthquakes & Volcanoes<span class="unit-meta">4 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Earthquake basics</div><div class="c-text">Elastic rebound releases accumulated strain as seismic waves.</div><ul class="c-list"><li>Focus (hypocenter) = rupture origin underground; epicenter = surface point above</li><li>P-waves: fastest, compressional, travel through solids AND liquids</li><li>S-waves: slower, shear, CANNOT pass liquids</li><li>Surface waves: slowest, most destructive (rolling/side-swipe)</li></ul></div><div class="concept"><div class="c-label">Locating epicenters</div><div class="c-text">Triangulation uses wave arrival-time differences.</div><ul class="c-list"><li>P-S lag grows with distance from epicenter</li><li>One station gives a RADIUS circle; three stations' circles intersect at the epicenter</li><li>Travel-time graphs convert lag seconds into distance</li><li>Need minimum THREE stations for a unique location</li></ul></div><div class="concept"><div class="c-label">Measuring & hazards</div><div class="c-text">Magnitude scales measure energy; intensity varies locally.</div><ul class="c-list"><li>Richter/modern moment magnitude: logarithmic — each unit = ~10× amplitude, ~32× energy</li><li>Mercalli intensity scale: I-XII based on observed damage (subjective)</li><li>Tsunamis from undersea quakes: warning = sudden sea withdrawal</li><li>Liquefaction: wet sediments behave like liquid during shaking</li></ul></div><div class="concept"><div class="c-label">Volcano types & magma chemistry</div><div class="c-text">Silica content controls explosiveness — the controlling variable.</div><ul class="c-list"><li>Basaltic magma (low silica ~50%): runny → shield volcanoes, gentle Hawaiian eruptions</li><li>Andesitic (intermediate): composite/stratovolcanoes — alternating flows+ash (Fuji, St. Helens)</li><li>Rhyolitic (high silica ~70%): sticky → explosive caldera eruptions</li><li>Volatile (gas) content amplifies explosiveness with high silica</li></ul></div><div class="trap">The epicenter is NOT underground — the focus is; epicenter is directly above on the surface</div><div class="trap">S-wave shadow zone proved the OUTER CORE is liquid — not inner</div><div class="trap">Bigger magnitude ≠ proportionally bigger shaking — logarithmic means counterintuitive jumps</div></div></div><div class="unit" data-id="4"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 4: Minerals & Rocks<span class="unit-meta">4 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Mineral properties</div><div class="c-text">Minerals are naturally-occurring crystalline solids with defined chemistry.</div><ul class="c-list"><li>Five criteria: natural, inorganic, solid, definite composition, ordered crystal structure</li><li>Hardness = Mohs scale 1-10 (talc→diamond); scratch tests order minerals</li><li>Luster: metallic vs non-metallic (glassy, pearly, dull)</li><li>Streak = powdered color on porcelain — more reliable than surface color</li><li>Cleavage vs fracture: clean planes vs irregular breaks</li></ul></div><div class="concept"><div class="c-label">The rock cycle</div><div class="c-text">Three rock families transform endlessly via melting, heat, pressure, weathering.</div><ul class="c-list"><li>Igneous: cooled magma/lava (intrusive = inside, coarse crystals; extrusive = surface, fine/glassy)</li><li>Sedimentary: compacted/cemented sediments — often layered, sometimes fossils</li><li>Metamorphic: changed by heat+pressure WITHOUT melting (foliation banding)</li><li>Any rock type can become any other — cycle has no beginning</li></ul></div><div class="concept"><div class="c-label">Rock identification logic</div><div class="c-text">Texture + composition identify rocks stepwise.</div><ul class="c-list"><li>Igneous texture: crystal size tells cooling speed (large=slow intrusive, small/fast=extrusive)</li><li>Sedimentary clues: layers, grains, fossils, cement</li><li>Metamorphic foliation: alignment from directed pressure (gneiss banding, slate splitting)</li><li>Common examples: granite, basalt, sandstone, limestone, shale, gneiss, marble, slate</li></ul></div><div class="concept"><div class="c-label">Rock record & dating intro</div><div class="c-text">Rocks archive Earth history; relative dating orders events.</div><ul class="c-list"><li>Law of superposition: oldest layers on bottom (undisturbed)</li><li>Cross-cutting: intrusions/faults YOUNGER than the rocks they cut</li><li>Fossil succession: same fossil assemblage = similar age worldwide</li><li>Index fossils: widespread, abundant, short-lived species date layers</li></ul></div><div class="trap">Streak beats color for ID — many minerals vary in surface color but constant in streak</div><div class="trap">Marble is METAMORPHosed limestone, not sedimentary anymore</div><div class="trap">Foliation needs PRESSURE direction, not just any metamorphism (marble doesn't foliate)</div></div></div><div class="unit" data-id="5"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 5: Weathering, Erosion & Geologic Time<span class="unit-meta">4 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Weathering types</div><div class="c-text">Breakdown happens chemically and physically in place.</div><ul class="c-list"><li>Physical/mechanical: frost wedging, root pry, abrasion, exfoliation — size shrinks, composition unchanged</li><li>Chemical: oxidation (rust), hydrolysis (feldspar→clay), carbonation (limestone+dissolved CO₂)</li><li>Climate controls: chemical dominates warm-wet; physical dominates cold-dry/high altitude</li><li>Surface area feedback: broken pieces weather FASTER (more exposed faces)</li></ul></div><div class="concept"><div class="c-label">Erosion & deposition agents</div><div class="c-text">Gravity plus moving fluids transport and sort sediment.</div><ul class="c-list"><li>Water #1 agent: streams carry, deposit by velocity (heavy first, fine last)</li><li>Sorted deposits: graded beds, deltas, point bars; unsorted: glaciers drop till</li><li>Wind: dunes and loess — only small particles</li><li>Wave action: beaches sort by wave energy; longshore drift migrates sand</li></ul></div><div class="concept"><div class="c-label">Soil formation</div><div class="c-text">Weathered rock + organics mature into soil horizons over centuries.</div><ul class="c-list"><li>Horizons: O (organic litter), A (topsoil), B (subsoil accumulation), C (weathered parent)</li><li>Formation rates: ~1 inch per 100–400 years — effectively nonrenewable short-term</li><li>Climate + time + parent material + organisms + slope = five soil factors</li><li>Desert soils thin/salty; grassland soils deep/fertile (breadbaskets)</li></ul></div><div class="concept"><div class="c-label">Geologic time & absolute dating</div><div class="c-text">Deep time measured with radioactive decay clocks.</div><ul class="c-list"><li>Half-life: time for HALF the parent isotope to decay — constant, measurable</li><li>Carbon-14 half-life 5,730 yrs → dates organic remains to ~50k yrs (not dinosaurs!)</li><li>U-238 (4.5 Byr) dates ancient igneous rocks → Earth ≈ 4.6 billion years</li><li>Geologic time scale: eons→eras→periods; K-Pg extinction 66 Mya</li></ul></div><div class="trap">C-14 canNOT date rocks or dinosaurs (too old + not organic) — use U-Pb instead</div><div class="trap">Erosion ≠ weathering: breakdown in place vs TRANSPORT elsewhere</div><div class="trap">Glaciers deposit UNSORTED till; water sorts by size — mixing these up fails lab questions</div></div></div><div class="unit" data-id="6"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 6: Atmosphere & Weather<span class="unit-meta">4 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Atmospheric layers</div><div class="c-text">Temperature breaks define the layers — memorize the pattern.</div><ul class="c-list"><li>Troposphere (0–12 km): weather lives here; temp falls with height</li><li>Stratosphere: rises (ozone absorbs UV); jets fly low-stratosphere</li><li>Mesosphere: falls again — meteors burn here</li><li>Thermosphere: rises sharply (absorbs X-rays); auroras & ISS altitude</li></ul></div><div class="concept"><div class="c-label">Moisture, clouds & precipitation</div><div class="c-text">Humidity, condensation nuclei, and lifting make rain.</div><ul class="c-list"><li>Relative humidity = actual vapor ÷ capacity ×100%; capacity grows with temperature</li><li>Dew point = saturation temperature — closer dewpoint to air temp = muggier</li><li>Cloud formation needs: lift, cooling to dew point, condensation nuclei</li><li>Lifting mechanisms: convection, frontal (warm over cold), orographic (mountains → rain shadow)</li></ul></div><div class="concept"><div class="c-label">Air masses, fronts & pressure systems</div><div class="c-text">Air mass = vast body with uniform source-region traits (mT maritime tropical = humid warm),Cold front: dense air bulldozes under — steep, brief heavy storms, clear after,Warm front: gentle overrunning — long steady precipitation ahead of front,Low pressure = rising air, clouds/L-storms; High = sinking, fair skies,Coriolis deflects winds right (N hemisphere): cyclones spin counterclockwise</div></div><div class="concept"><div class="c-label">Severe weather & forecasting tools</div><div class="c-text">Instability + moisture + lift = storms; instruments measure it all.</div><ul class="c-list"><li>Thunderstorm ingredients: moisture, instability, lifting trigger</li><li>Tornado genesis in supercells via wind shear mesocyclones; EF-scale rates damage</li><li>Hurricanes feed on WARM OCEAN water (>26.5°C) — weaken over land (no fuel)</li><li>Station models, isobars (pressure lines), isotherms (temperature) map the forecast</li></ul></div><div class="trap">Warm fronts produce LONG steady rain AHEAD of the front — not the brief burst of cold fronts</div><div class="trap">Orographic LEE side is dry (rain shadow) — windward gets the rain</div><div class="trap">Relative humidity can be high in COLD air with little vapor — it's a ratio, not amount</div></div></div><div class="unit" data-id="7"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 7: Climate & Climate Change<span class="unit-meta">4 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Weather vs climate & climate controls</div><div class="c-text">Climate is the 30-year average personality; six factors set it.</div><ul class="c-list"><li>Latitude: solar angle drives global temperature bands</li><li>Elevation: temp drops ~3.5°F/1000ft (6.5°C/km) — mountaintop tundra at equator</li><li>Proximity to water moderates: maritime = mild, continental = extreme seasons</li><li>Ocean currents redistribute heat (Gulf Stream warms Western Europe)</li><li>Mountain barriers create rain shadows; prevailing winds steer moisture</li></ul></div><div class="concept"><div class="c-label">Greenhouse effect basics</div><div class="c-text">Natural warming makes Earth livable; amplification is the problem.</div><ul class="c-list"><li>Shortwave solar in → surface absorbs → longwave infrared out tries to escape</li><li>GHGs (CO₂, CH₄, H₂O vapor) absorb/re-radiate IR back downward</li><li>Natural greenhouse ≈ +33°C — without it Earth freezes (~0°F average)</li><li>Human additions (fossil fuels, deforestation) thicken the blanket</li></ul></div><div class="concept"><div class="c-label">Evidence of modern climate change</div><div class="c-text">Multiple independent lines agree — the case is cumulative.</div><ul class="c-list"><li>Global temps up ~1.2°C since pre-industrial; fastest in Arctic amplification</li><li>Glaciers/ice sheets retreating worldwide; sea level ~20cm rise and accelerating</li><li>Ocean acidification as seas absorb CO₂ (pH dropping, shell-building suffers)</li><li>Earlier springs, species range shifts poleward/upward</li></ul></div><div class="concept"><div class="c-label">Feedbacks & response options</div><div class="c-text">Feedback loops amplify or dampen; responses split mitigation vs adaptation.</div><ul class="c-list"><li>Ice-albedo feedback: melt exposes dark ocean → absorbs more heat → more melt (positive)</li><li>Permafrost methane release = another positive loop</li><li>Mitigation = cut emissions (renewables, efficiency); adaptation = adjust (seawalls, crops)</li><li>Carbon sinks: oceans/planting absorb CO₂ but have saturation limits</li></ul></div><div class="trap">Weather ≠ climate: one cold day doesn't refute warming trends (trend vs event)</div><div class="trap">Ozone hole is a SEPARATE issue from global warming — different chemistry, recovering via Montreal Protocol</div><div class="trap">Sea level rise comes mostly from thermal expansion + land ice melt, not floating ice</div></div></div><div class="unit" data-id="8"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 8: Astronomy: Earth-Moon-Sun & Solar System<span class="unit-meta">4 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Earth's motions & seasons</div><div class="c-text">Tilt + revolution (not distance!) make seasons.</div><ul class="c-list"><li>Axial tilt 23.5° fixed direction (points to Polaris) — hemisphere leaning toward Sun = summer</li><li>Solstices: max/min sun angle (Jun 21 / Dec 21); equinoxes equal day-night (Mar/Sep 21)</li><li>Revolution 365.25 d; rotation 24 h — leap years fix the quarter-day</li><li>Direct rays hit between tropics only; angle determines intensity</li></ul></div><div class="concept"><div class="c-label">Moon phases & eclipses</div><div class="c-text">Phases come from geometry, not shadow.</div><ul class="c-list"><li>Lunar cycle 29.5 days; we always see the SAME lunar face (tidal lock)</li><li>Waxing = growing light (right side lit, N hemisphere); waning opposite</li><li>Solar eclipse = Moon's shadow on Earth (new moon phase ONLY); lunar = Earth's shadow on full moon</li><li>Eclipses don't occur monthly — 5° orbital tilt usually misses alignment</li></ul></div><div class="concept"><div class="c-label">Tides</div><div class="c-text">Moon's gravity pulls tidal bulges; Earth rotates through two bulges daily,Spring tides: Sun-Moon aligned (new/full) → extreme ranges,Neap tides: 90° apart (quarter moons) → minimal range,Tidal friction slows Earth's spin over eons</div></div><div class="concept"><div class="c-label">Solar system architecture</div><div class="c-text">Formation disk explains layout patterns.</div><ul class="c-list"><li>Terrestrial inner planets (rocky, dense): Mercury→Mars; Jovian outer (gas/ice giants): Jupiter→Neptune</li><li>Asteroid belt between Mars/Jupiter; Kuiper belt beyond Neptune (Pluto lives here)</li><li>Kepler/Newton laws: elliptical orbits, faster near perihelion (closer)</li><li>Retrograde rotation oddballs: Venus spins backwards; Uranus rolls on its side</li></ul></div><div class="trap">Earth is CLOSEST to the Sun (perihelion) in JANUARY — Northern winter! Distance isn't the cause</div><div class="trap">Lunar eclipses need FULL moon, solar need NEW moon — swapping them fails tests</div><div class="trap">The Moon DOES rotate — once per orbit, which is why we see one face</div></div></div></div></div>
+<div id="view-cards" class="view" role="tabpanel" aria-labelledby="tab-cards" tabindex="0">
   <div class="fc-bar">
-    <select id="fc-sel" onchange="loadFC()"></select>
+    <select id="fc-sel" aria-label="Choose a flashcard set" onchange="loadFC()"></select>
     <span class="fc-count" id="fc-count"></span>
   </div>
-  <div class="scene" id="scene" onclick="flip()">
+  <div class="scene" id="scene" role="button" tabindex="0" aria-label="Flashcard — activate to flip between term and definition" onclick="flip()" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();flip();}">
     <div class="inner" id="inner">
       <div class="face front"><div class="lbl">Term</div><div class="term" id="fc-term"></div></div>
       <div class="face back"><div class="lbl">Definition</div><div class="def" id="fc-def"></div></div>
     </div>
   </div>
-  <div class="hint">Click card to flip · Rate yourself to track weak cards</div>
+  <div class="hint">Click or press Enter to flip · Rate yourself to track weak cards</div>
   <div class="fc-nav" style="flex-wrap:wrap;gap:8px">
     <button class="btn" onclick="fcNav(-1)">← Prev</button>
     <button class="btn" onclick="fcShuffle()">⇄ Shuffle</button>
@@ -414,9 +477,9 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   </div>
   <div id="fc-progress" style="text-align:center;font-size:18px;color:var(--ink-dim,#857f72);margin-top:6px"></div>
 <details class="practice-archive"><summary>Browse all 80 flashcards as a list</summary><div class="fc-archive-body"><h4>Unit 1: Earth Systems &amp; Scientific Method</h4><dl class="fc-archive-list"><dt>Four spheres</dt><dd>Geosphere, hydrosphere, atmosphere, biosphere — all interact.</dd><dt>Gradient formula</dt><dd>(change in elevation) ÷ horizontal distance — usually ft/mi.</dd><dt>Sphere interactions</dt><dd>Exchanges between geo/hydro/atmo/bio define Earth systems science.</dd><dt>Falsifiability</dt><dd>Hypotheses must be testable-in-principle to be scientific.</dd><dt>Contour interval</dt><dd>Elevation gap between adjacent contour lines — constant per map.</dd><dt>Density stratification</dt><dd>Densest sank to core; layered planet by density.</dd><dt>Insolation</dt><dd>Incoming solar radiation reaching Earth.</dd><dt>Asthenosphere</dt><dd>Plastic upper-mantle layer plates glide upon.</dd><dt>Gradient units</dt><dd>ft/mi or m/km — rise over run.</dd></dl><h4>Unit 2: Plate Tectonics</h4><dl class="fc-archive-list"><dt>Subduction</dt><dd>Denser oceanic plate dives beneath the other at convergent zones.</dd><dt>Transform boundary</dt><dd>Slide-past grinding — San Andreas; quakes but few volcanoes.</dd><dt>Lithosphere vs asthenosphere</dt><dd>Rigid plates ride the plastic flowing layer beneath.</dd><dt>Hotspot volcanoes</dt><dd>Intraplate volcanism (Hawaii) from mantle plumes, not boundaries.</dd><dt>Ridge push &amp; slab pull</dt><dd>Forces driving plates: elevated ridges push; sinking slabs pull.</dd><dt>Paleomagnetism</dt><dd>Locked magnetic orientation recording field flips.</dd><dt>Slab pull</dt><dd>Dense sinking plate drives motion.</dd><dt>Convection cells</dt><dd>Hot rises, cool sinks in the mantle.</dd><dt>Pangaea</dt><dd>Wegener's all-continent supercontinent.</dd></dl><h4>Unit 3: Earthquakes &amp; Volcanoes</h4><dl class="fc-archive-list"><dt>P vs S waves</dt><dd>P = push-pull through everything; S = shake sideways, liquids block.</dd><dt>Silica rule</dt><dd>Low silica → runny/gentle; high silica → sticky/explosive.</dd><dt>Moment magnitude</dt><dd>Modern energy-based earthquake scale replacing Richter usage.</dd><dt>Caldera</dt><dd>Collapsed magma chamber crater after catastrophic eruption.</dd><dt>Shadow zones</dt><dd>P-wave &amp; S-wave shadows map Earth's interior layers.</dd><dt>Richter vs Mercalli</dt><dd>Energy scale vs damage scale.</dd><dt>Aa vs pahoehoe</dt><dd>Rough vs ropey basalt lava.</dd><dt>Focus vs epicenter</dt><dd>Underground origin vs surface point above.</dd><dt>Tsunami warning</dt><dd>Shaking + sudden sea withdrawal — run uphill.</dd></dl><h4>Unit 4: Minerals &amp; Rocks</h4><dl class="fc-archive-list"><dt>Mohs hardness scale</dt><dd>1 talc → 10 diamond; scratch tests order minerals.</dd><dt>Intrusive vs extrusive</dt><dd>Slow cooling inside = big crystals; fast outside = small/glassy.</dd><dt>Cleavage vs fracture</dt><dd>Clean planar breaks vs irregular breaks — ID clue pair.</dd><dt>Index fossil trio</dt><dd>Widespread + abundant + short-lived = best layer daters.</dd><dt>Rock cycle driver</dt><dd>Internal heat + solar-powered surface processes recycle all rock.</dd><dt>Streak test</dt><dd>Powder color — steadier than surface color.</dd><dt>Foliation cause</dt><dd>Directed pressure aligning minerals.</dd><dt>Bowen's series</dt><dd>Mineral crystallization order.</dd><dt>Cleavage</dt><dd>Clean planar mineral breaks.</dd><dt>Luster</dt><dd>Metallic vs non-metallic reflection.</dd></dl><h4>Unit 5: Weathering, Erosion &amp; Geologic Time</h4><dl class="fc-archive-list"><dt>Half-life</dt><dd>Time for half the parent isotope to decay — constant clock.</dd><dt>Rain shadow</dt><dd>Lee side of mountains stays dry after windward orographic rain.</dd><dt>O-horizon</dt><dd>Surface organic litter layer above topsoil A.</dd><dt>Law of cross-cutting</dt><dd>Intrusions/faults are younger than rocks they cut.</dd><dt>U-238 half-life</dt><dd>~4.5 billion years — dates Earth's oldest igneous rocks.</dd><dt>Graded bedding</dt><dd>Coarse below, fine above — tells 'this side was up' when tilted.</dd><dt>Inclusions rule</dt><dd>Fragments inside rock predate the rock itself.</dd><dt>Karst topography</dt><dd>Dissolved-limestone caves and sinkholes.</dd><dt>C-14 half-life</dt><dd>5,730 yr — dates recent organics only.</dd><dt>Oxidation</dt><dd>Iron + oxygen = rust, weakens rock.</dd></dl><h4>Unit 6: Atmosphere &amp; Weather</h4><dl class="fc-archive-list"><dt>Dew point spread</dt><dd>Air temp minus dew point — small gap means near-saturation.</dd><dt>Coriolis deflection</dt><dd>Winds/curves deflect right in N hemisphere (left in S).</dd><dt>Atmosphere layers order</dt><dd>Troposphere, stratosphere, mesosphere, thermosphere (up).</dd><dt>Front types</dt><dd>Cold = fast/heavy storms · Warm = long steady rain ahead.</dd><dt>Isobar / isotherm</dt><dd>Equal-pressure lines / equal-temperature lines on weather maps.</dd><dt>SuperCell tornado genesis</dt><dd>Wind shear organizes rotating mesocyclone — EF damage scale rates it.</dd><dt>Dew point</dt><dd>Saturation temperature (100% RH).</dd><dt>Orographic lift</dt><dd>Windward rain; leeward rain shadow.</dd><dt>Station model</dt><dd>Compact weather-map symbols.</dd><dt>Coriolis effect</dt><dd>Deflects winds right (N hemisphere).</dd><dt>Isobar</dt><dd>Equal-pressure line on weather maps.</dd></dl><h4>Unit 7: Climate &amp; Climate Change</h4><dl class="fc-archive-list"><dt>Greenhouse mechanism</dt><dd>GHGs absorb outgoing IR and re-radiate heat back down.</dd><dt>Mitigation vs adaptation</dt><dd>Cutting emissions vs adjusting to impacts.</dd><dt>Keeling curve</dt><dd>Mauna Loa CO₂ record showing steady rise + seasonal wiggle.</dd><dt>Carbon sink saturation</dt><dd>Oceans/forests absorb CO₂ but with limits as they acidify/fill.</dd><dt>Paris target frame</dt><dd>Hold warming well below 2°C, pursue 1.5°C vs pre-industrial.</dd><dt>Albedo</dt><dd>Reflectivity — ice high, ocean low.</dd><dt>Thermal expansion</dt><dd>Warmer water raises sea level.</dd><dt>Proxy record</dt><dd>Ice cores/tree rings encode past climate.</dd><dt>Milankovitch cycles</dt><dd>Orbit/tilt/wobble pacing ice ages.</dd></dl><h4>Unit 8: Astronomy: Earth-Moon-Sun &amp; Solar System</h4><dl class="fc-archive-list"><dt>23.5° tilt cause</dt><dd>Tilt toward/away from Sun makes seasons — not distance.</dd><dt>Eclipse phases</dt><dd>Solar = NEW moon · Lunar = FULL moon (tilt skips most months).</dd><dt>Terrestrial vs Jovian</dt><dd>Inner rocky dense vs outer gas/ice giants — disk formation legacy.</dd><dt>Solstice dates</dt><dd>Jun 21 &amp; Dec 21 — extreme day lengths by hemisphere.</dd><dt>Tidal lock</dt><dd>Moon's rotation period equals its orbital period around Earth.</dd><dt>Kuiper Belt</dt><dd>Icy bodies beyond Neptune — Pluto's home neighborhood.</dd><dt>Gas giant oddballs</dt><dd>Venus retrograde spin; Uranus sideways roll (~98°).</dd><dt>Tidal locking</dt><dd>Moon rotation = orbital period; one face shows.</dd><dt>Perihelion/aphelion</dt><dd>Closest Jan / farthest Jul points.</dd><dt>Kuiper belt</dt><dd>Icy bodies beyond Neptune.</dd><dt>Light-year</dt><dd>Distance light travels in one year.</dd><dt>Season cause</dt><dd>23.5° tilt, NOT distance.</dd><dt>Asteroid belt</dt><dd>Rocky debris between Mars and Jupiter.</dd></dl></div></details></div></div>
-<div id="view-quiz" class="view">
+<div id="view-quiz" class="view" role="tabpanel" aria-labelledby="tab-quiz" tabindex="0">
   <div id="quiz-gate" class="auth-gate" style="display:none">
-    <div class="auth-gate-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+    <div class="auth-gate-icon"><svg aria-hidden="true" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
     <h3>Sign in to take the quiz</h3>
     <p>Browsing the guide is free for everyone — quizzes are for signed-in students so your progress means something.</p>
     <div class="ss-login-box"></div>
@@ -426,11 +489,11 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
     You're trying the free diagnostic — no sign-in needed. Sign in afterward to unlock the full question bank, practice exam, and save your progress.
     <div class="ss-login-box" style="margin-top:8px"></div>
   </div>
-  <button class="diag-btn" id="diag-start-btn" onclick="startDiagnostic()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><span id="diag-start-btn-label">Start Diagnostic — 2 questions per unit, finds your weak spots</span></button>
+  <button class="diag-btn" id="diag-start-btn" onclick="startDiagnostic()"><svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><span id="diag-start-btn-label">Start Diagnostic — 2 questions per unit, finds your weak spots</span></button>
   <div class="q-bar">
-    <select id="q-sel" onchange="loadQ()"></select>
+    <select id="q-sel" aria-label="Choose a question set" onchange="loadQ()"></select>
     <span class="q-prog" id="q-prog"></span>
-    <span class="q-sc" id="q-sc"></span>
+    <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
   </div>
   <div id="diag-banner" style="display:none;background:var(--accent-soft);border:1px solid var(--accent);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:12px;font-size:14.5px;color:var(--accent-ink)"></div>
@@ -438,8 +501,8 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <div id="qbox"></div>
   </div>
 </div>
-<div id="view-exam" class="view"></div>
-<div id="view-qref" class="view">
+<div id="view-exam" class="view" role="tabpanel" aria-labelledby="tab-exam" tabindex="0"></div>
+<div id="view-qref" class="view" role="tabpanel" aria-labelledby="tab-qref" tabindex="0">
 <div class="qr-section"><h2 class="qr-h">Unit 1: Earth Systems &amp; Scientific Method</h2><div class="qr-grid">
     <div class="qr-card"><div class="qr-k">Four Earth spheres</div><div class="qr-v">Earth runs as interconnected systems exchanging matter and energy.</div></div>
     <div class="qr-card"><div class="qr-k">Scientific method cycle</div><div class="qr-v">Science self-corrects through hypothesis testing.</div></div>
@@ -514,7 +577,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   </div></div>
 </div>
 
-<div id="view-memory" class="view">
+<div id="view-memory" class="view" role="tabpanel" aria-labelledby="tab-memory" tabindex="0">
   <div class="mem-intro">Common mistakes for each unit — read the mistake, then make sure you know why it's wrong.</div><div class="qr-section"><h2 class="qr-h">Unit 1: Earth Systems &amp; Scientific Method</h2><div class="mem-grid">
     <div class="mem-card"><div class="mem-t">Watch out</div><div class="mem-d">A theory is NOT a guess — it's a tested explanatory framework (theory of plate tectonics)</div></div>
     <div class="mem-card"><div class="mem-t">Watch out</div><div class="mem-d">Ocean water is saltwater — don't count it as freshwater supply</div></div>
@@ -565,7 +628,7 @@ const PART_B1=[{"n":31,"q":"Biosphere overlaps:","o":["geosphere only","all othe
 const PART_B2=[{"n":51,"q":"A coast town has cool summers and mild winters while an inland town at the same latitude bakes and freezes. Explain via:","o":["latitude difference","water's high specific heat moderating coastal temperature ranges","different moon phases","elevation must differ"],"a":1,"e":"Maritime vs continental climate control — water buffers temperature swings."},{"n":52,"q":"Seismogram shows P-wave arrival at 2:00:00 and S-wave at 2:03:30. Using a travel-time graph, the 3.5-min lag places the station ~2100 km from the epicenter. Two other stations give 1500 km and 2600 km circles. Next step:","o":["average the distances","plot three circles; their intersection = epicenter","pick the largest circle","declare focus depth instead"],"a":1,"e":"Triangulation needs all three circles; intersection pins the point."},{"n":53,"q":"A granite boulder sits in a sandstone layer far from any granite source. Best inference:","o":["granite grew there","glacial erratic transported by ice","humans placed it","it fell from space necessarily"],"a":1,"e":"Erratics record past glaciation transport paths."},{"n":54,"q":"Relative humidity is 90% with temperature 5°C; another day is 40% at 35°C. Which air holds MORE water vapor?","o":["the 90% cold day","cannot be determined","the 40% hot day — capacity grows exponentially with temp","equal amounts"],"a":2,"e":"RH is a ratio; warm air's 100% capacity dwarfs cold air's — absolute humidity can be higher at lower RH."},{"n":55,"q":"Igneous rock X contains visible quartz, feldspar, and hornblende crystals 5mm across. Identify cooling environment & likely name:","o":["extrusive rhyolite","intrusive granite — slow cooling allowed large crystals","sedimentary conglomerate","metamorphic slate"],"a":1,"e":"Coarse interlocked crystals = plutonic slow cool; quartz+feldspar assemblage = granite."},{"n":56,"q":"Design an investigation proving frost wedging breaks rock faster than chemical weathering in YOUR climate (cold winters). Control variables list should include:","o":["nothing — just watch rocks","same rock type, identical crack sizes, differing exposure (one sealed dry indoors), same duration","only temperature","only rain amount"],"a":1,"e":"Isolate mechanism by holding material/geometry constant while toggling the weathering process access."},{"n":57,"q":"A lava flow radiometrically dates 3 million years but sits BENEATH a sediment layer containing a 10-million-year-old index fossil. Resolve:","o":["radiometric dating failed","fossil was reworked/redeposited into younger sediment OR layer overturned — geologic reasoning required","laws violated","lava floated up"],"a":1,"e":"Apparent violations signal reworking or structural overturning — test both against field evidence."},{"n":58,"q":"Explain why the same side of the Moon faces us using angular momentum:","o":["Moon doesn't spin","Tidal friction long ago synchronized rotation with orbit (1:1 resonance)","Magnetic locking","Coincidence"],"a":1,"e":"Earth's tides torqued the Moon until rotational period matched orbital period."},{"n":59,"q":"Climate model projects +2°C globally but +6°C Arctic. Mechanism:","o":["uniform warming always","ice-albedo feedback concentrates warming where ice retreats","Arctic closer to Sun in summer","measurement error"],"a":1,"e":"Polar amplification: reflective ice loss converts to absorptive ocean."},{"n":60,"q":"Match each sphere exchange: photosynthesis draws CO₂ from ______ into the ______.","o":["atmosphere → biosphere","biosphere → atmosphere","geosphere → hydrosphere","hydrosphere → geosphere"],"a":0,"e":"Fluxes between spheres define Earth system science."}];
 const PART_C=[{"n":61,"q":"Synthesis: A region shows basalt layers, a dike cutting them, fossil-rich sandstone above the dike, and glacial till atop everything. Order events youngest→oldest and justify each:","o":["till, sandstone, dike, basalt — random guess","Basalt flows first; dike intrudes (younger than basalt); land erodes, sandstone deposits ABOVE dike containing fossils (youngest); till deposited last during glaciation. Each uses superposition/cross-cutting/inclusion logic.","All formed simultaneously","Impossible sequence"],"a":1,"e":"Applies superposition (stacking order), cross-cutting (dike younger), and till-on-top (ice age last) — relative dating synthesis."},{"n":62,"q":"Essay: 'Should coastal cities invest primarily in sea walls (adaptation) or emissions cuts (mitigation)?' Build strongest evidence-based position:","o":["Walls everywhere — done.","Both, weighted locally: cuts address root cause globally (only true fix) but lag decades; walls protect near-term assets yet induce 'coastal squeeze' and need renewal — so aggressive mitigation NOW plus targeted adaptation for dense coasts is optimal policy mix.","Neither — hope.","Mitigation alone; walls are cheating."],"a":1,"e":"Weighs timescales, externalities, and equity; avoids either/or fallacy with mechanism-aware policy design."}];
 const EXAM_CSS=".ex-header{background:var(--ink);color:var(--surface);padding:20px 22px;border-radius:var(--radius);margin-bottom:22px}\n.ex-header h2{font-family:'Space Grotesk';font-size:28.5px;font-weight:700;margin-bottom:4px}\n.ex-header p{font-family:'Inter';font-size:19.5px;color:rgba(255,255,255,.65)}\n.ex-part{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--surface)}\n.ex-part-hd{background:var(--surface-2);padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}\n.ex-part-hd:hover{background:var(--surface-hover)}\n.ex-part-hd h3{font-size:21px;font-weight:700;color:var(--ink)}\n.ex-part-hd span{font-family:'Inter';font-size:18px;color:var(--ink-dim)}\n.ex-part-body{display:none;padding:20px}\n.ex-part.open .ex-part-body{display:block}\n.ex-q{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}\n.ex-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}\n.ex-qnum{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}\n.ex-qtext{font-size:21.8px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:13px}\n.ex-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}\n.ex-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface);text-align:left;transition:all .12s}\n.ex-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}\n.ex-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}\n.ex-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}\n.ex-exp{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface-2);padding:11px 14px;border-radius:var(--radius-sm);margin-top:9px;display:none;line-height:1.6}\n.ex-exp.show{display:block}\n.ex-sa{padding:13px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter';font-size:20.2px;color:var(--amber-ink);line-height:1.6;margin-top:9px}\n.ex-sa strong{display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:var(--amber)}\n.ex-score{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px;display:none}\n.ex-score strong{font-family:'Space Grotesk';color:var(--success);font-size:22.5px}\n.ex-score span{font-family:'Inter';color:var(--success);font-size:19.5px}\n.ex-reset{padding:10px 20px;border:1px solid var(--border);border-radius:999px;background:var(--surface);cursor:pointer;font-family:'Space Grotesk';font-weight:600;font-size:19.5px;margin-top:10px;transition:all .15s}\n.ex-reset:hover{background:var(--surface-hover);border-color:var(--border-strong)}\n";
-function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');const idx={guide:0,cards:1,quiz:2,exam:3,qref:4,memory:5}[id];if(idx!==undefined)tabs[idx].classList.add('active');if(id==='exam'&&!examBuilt)buildExam();var spc=document.getElementById('spc-card');if(spc)spc.style.display=(id==='guide')?'':'none';}
+function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');const idx={guide:0,cards:1,quiz:2,exam:3,qref:4,memory:5}[id];if(idx!==undefined){tabs.forEach((b,i)=>{var on=i===idx;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;});var _hl=document.getElementById('hero-live');if(_hl)_hl.textContent=tabs[idx].textContent.trim()+' tab';}if(id==='exam'&&!examBuilt)buildExam();var spc=document.getElementById('spc-card');if(spc)spc.style.display=(id==='guide')?'':'none';}
 let examBuilt=false;
 
 function buildExam(){
@@ -670,7 +733,8 @@ function searchGuide(){
   const sr=document.getElementById('search-results');
   document.querySelectorAll('.unit').forEach(u=>u.style.display='');
   document.getElementById('filter-row').style.display='flex';
-  if(!q){sr.style.display='none';return;}
+  var _hl=document.getElementById('hero-live');
+  if(!q){sr.style.display='none';if(_hl)_hl.textContent='';return;}
   const matches=[];
   UNITS.forEach(u=>{
     u.concepts.forEach(c=>{
@@ -688,8 +752,9 @@ function searchGuide(){
     const text=(qq.q+' '+(qq.o||[]).join(' ')).toLowerCase();
     if(text.includes(q))matches.push({type:'quiz',unit:qq.u,unitName:unitName(qq.u),concept:'Quiz question',preview:qq.q.slice(0,120)});
   });
-  if(!matches.length){sr.style.display='block';sr.innerHTML='<div style="color:var(--ink-muted);font-size:14px;padding:8px">No results for "'+q+'"</div>';return;}
+  if(!matches.length){sr.style.display='block';sr.innerHTML='<div style="color:var(--ink-muted);font-size:14px;padding:8px">No results for "'+q+'"</div>';if(_hl)_hl.textContent='No results for '+q;return;}
   sr.style.display='block';
+  if(_hl)_hl.textContent=matches.length+' result'+(matches.length===1?'':'s')+' for '+q;
   const jump=m=>m.type==='concept'?`jumpToUnit(${m.unit})`:m.type==='flashcard'?`jumpToFlashcardUnit(${m.unit})`:`jumpToQuizUnit(${m.unit})`;
   sr.innerHTML='<div style="font-size:13px;color:var(--ink-muted);margin-bottom:6px">'+matches.length+' result(s)</div>'+
     matches.slice(0,12).map(m=>`<div onclick="${jump(m)}" style="padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:5px;cursor:pointer;">
@@ -977,6 +1042,8 @@ function ansQ(i){
   }
   document.getElementById('q-next').style.display='inline-block';
   document.getElementById('q-sc').textContent=`Score: ${score}`;
+  var _hl=document.getElementById('hero-live');
+  if(_hl)_hl.textContent=(i===q.a?'Correct. ':'Incorrect. ')+(q.e||'');
   guessFlag=false;
 }
 function nextQ(){qIdx++;showQ();}
@@ -996,6 +1063,29 @@ function ssQuizKeyboardShortcuts(e){
 }
 document.addEventListener('keydown',ssQuizKeyboardShortcuts);
 buildQSel();
+
+/* ----- APG tabs: roving-tabindex arrow-key nav on the hero tab bar. Manual
+   activation — arrows move focus only; Enter/Space fire the button's own click
+   (native), which runs switchTab()/ssQuizTabClick() and syncs aria-selected. ----- */
+(function(){
+  var tl=document.querySelector('.tablist');
+  if(!tl)return;
+  var tabs=Array.prototype.slice.call(tl.querySelectorAll('.tab-btn'));
+  if(!tabs.length)return;
+  tl.addEventListener('keydown',function(e){
+    var cur=tabs.indexOf(document.activeElement);
+    if(cur<0)return;
+    var next=null;
+    if(e.key==='ArrowRight'||e.key==='ArrowDown')next=(cur+1)%tabs.length;
+    else if(e.key==='ArrowLeft'||e.key==='ArrowUp')next=(cur-1+tabs.length)%tabs.length;
+    else if(e.key==='Home')next=0;
+    else if(e.key==='End')next=tabs.length-1;
+    if(next===null)return;
+    e.preventDefault();
+    tabs.forEach(function(t,i){t.tabIndex=i===next?0:-1;});
+    tabs[next].focus();
+  });
+})();
 
 (function(){
   var SS_TOTAL_Q=QUIZ.length, SS_UNIT_COUNT=UNITS.length, MIN_PER_Q=1.5;
@@ -1289,8 +1379,12 @@ function ssToggleTheme(){
 let SS_SESSION;
 
 function ssLoginBoxHtml(){
-  return '<a class="ss-oauth-btn" href="/auth/google/start">Continue with Google</a>'
-    + '<a class="ss-oauth-btn" href="/auth/github/start">Continue with GitHub</a>'
+  // Carry the page the student is on through OAuth so they land back here
+  // (e.g. /calculus/quiz) instead of the site root. The worker validates
+  // this via safeNext() — same-origin absolute paths only.
+  var n = encodeURIComponent(location.pathname);
+  return '<a class="ss-oauth-btn" href="/auth/google/start?next=' + n + '">Continue with Google</a>'
+    + '<a class="ss-oauth-btn" href="/auth/github/start?next=' + n + '">Continue with GitHub</a>'
     + '<div class="ss-status"></div>';
 }
 

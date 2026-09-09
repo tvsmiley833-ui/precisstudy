@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Geometry Study Guide — EXPANDED</title>
+<title>Geometry Study Guide — PrecisStudy</title>
 <meta name="description" content="Free Geometry study guide: 11 units of notes, worked examples, flashcards, and a full practice exam. Completely free."/>
 <meta property="og:type" content="website"/>
 <meta property="og:site_name" content="PrecisStudy"/>
@@ -416,6 +416,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 <script type="module">
   import { createMastery } from '/shared/mastery.js';
   import { celebrateCorrect, resetCombo } from '/shared/celebrate.js';
+  import '/shared/chalk-cursor.js';
   window.__ssCreateMastery = createMastery;
   window.__ssCelebrateCorrect = celebrateCorrect;
   window.__ssResetCombo = resetCombo;
@@ -432,7 +433,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <body>
 <div class="ambient"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div><div id="geo-motif"></div>
 <a href="/" class="back-link" style="opacity:0;animation:fade .5s var(--ease) forwards">← Back to Library</a>
-<h1 style="opacity:0;animation:fade .5s var(--ease) .06s forwards">Geometry Study Guide <span style="font-size:21px;font-weight:400;color:#857f72">— EXPANDED EDITION</span></h1>
+<h1 style="opacity:0;animation:fade .5s var(--ease) .06s forwards">Geometry Study Guide <span style="font-size:21px;font-weight:400;color:#857f72">Expanded Edition</span></h1>
 <p class="subtitle" style="opacity:0;animation:fade .5s var(--ease) .12s forwards">11 Units · Beginner-Friendly Notes · Step-by-Step Worked Examples · Interactive Quiz + Flashcards · Full-Length Practice Exam · Saved Progress</p>
 <div id="overall-progress" style="opacity:0;animation:fade .5s var(--ease) .18s forwards"></div>
 <div class="nav">
@@ -3506,8 +3507,8 @@ async function cbotSend(e){
 let SS_SESSION;
 
 function ssLoginBoxHtml(){
-  return '<a class="ss-oauth-btn" href="/auth/google/start">Continue with Google</a>'
-    + '<a class="ss-oauth-btn" href="/auth/github/start">Continue with GitHub</a>'
+  return '<a class="ss-oauth-btn" href="/auth/google/start?next=' + encodeURIComponent(location.pathname) + '">Continue with Google</a>'
+    + '<a class="ss-oauth-btn" href="/auth/github/start?next=' + encodeURIComponent(location.pathname) + '">Continue with GitHub</a>'
     + '<div class="ss-status"></div>';
 }
 

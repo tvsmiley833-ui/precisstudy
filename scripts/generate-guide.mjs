@@ -39,6 +39,32 @@ function buildQref(units) {
   }).join("\n  ");
 }
 
+// Static server-rendered unit accordion. Mirrors buildGuide()'s DOM 1:1
+// (classes, data-id, tabindex/role/aria-expanded on .unit-hd) so the shipped
+// page carries the real study-guide prose in HTML for crawlers, and
+// hydrateGuide() — which runs whenever #units already has children — just
+// attaches click/keydown handlers to it instead of rebuilding.
+function buildUnitsStatic(units, diagrams) {
+  return units.map(u => {
+    let body = u.concepts.map(c => {
+      let h = `<div class="c-label">${c.l}</div>`;
+      if (c.intro) h += `<div class="c-text">${c.intro}</div>`;
+      if (c.b && c.b.length) h += `<ul class="c-list">${c.b.map(i => `<li>${i}</li>`).join("")}</ul>`;
+      return `<div class="concept">${h}</div>`;
+    }).join("");
+    if (u.traps && u.traps.length)
+      body += u.traps.map(t => `<div class="trap">${esc(t)}</div>`).join("");
+    if (u.fms && u.fms.length)
+      body += `<div class="formula">${u.fms.join("<br>")}</div>`;
+    if (diagrams && diagrams[u.id])
+      body += `<div class="diagram"><div class="dlabel">Diagram</div>${diagrams[u.id].svg}<p class="dcap">${diagrams[u.id].cap}</p></div>`;
+    const hd = `<div class="unit-hd" tabindex="0" role="button" aria-expanded="false">` +
+      `<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts</span></span>` +
+      `<span class="chevron">▾</span></div>`;
+    return `<div class="unit" data-id="${u.id}">${hd}<div class="unit-body">${body}</div></div>`;
+  }).join("");
+}
+
 function buildMemory(units) {
   return units.map(u => {
     const cards = (u.traps || u.mistakes || []).map(m =>
@@ -63,16 +89,72 @@ function buildFcArchive(units, flashcards) {
   return `<details class="practice-archive"><summary>Browse all ${flashcards.length} flashcards as a list</summary><div class="fc-archive-body">${sections}</div></details>`;
 }
 
+// Structured data: a LearningResource describing the guide plus a BreadcrumbList
+// (Home > <Subject> Study Guide). Built as an object and JSON.stringify'd so all
+// escaping is handled; `<` is further escaped so a stray "</script>" in a
+// description can't break out of the tag.
+// Unique, data-derived meta description per subject. The hand-written
+// `description` fields in guides/*.json are near-identical boilerplate ("Free X
+// study guide: 8 units, 320 practice questions, 80 flashcards…") that Google
+// treats as duplicate; this builds one from the guide's real unit names and
+// real counts, trimming topic names until it fits a ~160-char SERP snippet.
+function buildMetaDescription({ title, units, quiz, flashcards }) {
+  const names = (units || []).map(u => u.name).filter(Boolean);
+  const first = names[0], last = names[names.length - 1];
+  const scope = names.length >= 2 && first && last ? ` — from ${first} to ${last}` : "";
+  const counts = `${quiz.length} questions, ${flashcards.length} flashcards, a practice exam and quick-reference tables`;
+  const candidates = [
+    `${title} study guide${scope}. ${counts}. Free, no sign-up.`,
+    `${title} study guide${scope}. ${quiz.length} questions, ${flashcards.length} flashcards, a full practice exam. Free.`,
+    `${title} study guide. ${counts}. Free, no sign-up.`,
+  ];
+  return candidates.find(d => d.length <= 158) || candidates[candidates.length - 1];
+}
+
+function buildJsonLd(config, description) {
+  const { slug, title } = config;
+  const url = `https://precisstudy.com/${slug}/`;
+  const graph = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LearningResource",
+        "@id": `${url}#guide`,
+        name: `${title} Study Guide`,
+        description,
+        url,
+        inLanguage: "en",
+        isAccessibleForFree: true,
+        learningResourceType: ["Study guide", "Flashcards", "Practice quiz", "Practice exam"],
+        educationalLevel: "High school",
+        about: { "@type": "Thing", name: title },
+        provider: { "@type": "Organization", name: "PrecisStudy", url: "https://precisstudy.com/" },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "PrecisStudy", item: "https://precisstudy.com/" },
+          { "@type": "ListItem", position: 2, name: `${title} Study Guide`, item: url },
+        ],
+      },
+    ],
+  };
+  return `<script type="application/ld+json">\n${JSON.stringify(graph, null, 2).replace(/</g, "\\u003c")}\n</script>`;
+}
+
 export function generateGuide(config) {
-  const { slug, title, description, fontUrl, accentColor, units, quiz, flashcards,
+  const { slug, title, fontUrl, accentColor, units, quiz, flashcards,
           examParts } = config;
+
+  const metaDescription = buildMetaDescription(config);
 
   let html = templateHead
     .replace(/__TITLE__/g, esc(title))
     .replace(/__PAGE_TITLE__/g, esc(`${title} Study Guide — PrecisStudy`))
-    .replace(/__DESCRIPTION__/g, esc(description))
+    .replace(/__DESCRIPTION__/g, esc(metaDescription))
     .replace(/__SLUG__/g, slug)
-    .replace(/__FONT_URL__/g, fontUrl);
+    .replace(/__FONT_URL__/g, fontUrl)
+    .replace(/__JSONLD__/, buildJsonLd(config, metaDescription));
 
   let style = templateStyle;
   if (accentColor) {
@@ -138,6 +220,7 @@ export function generateGuide(config) {
     .replace("__SPC_INTRO__", `${quiz.length} practice questions across ${units.length} units. Slide to match your situation.`)
     .replace("__FILTER_CHIPS__",
       `<button class="chip on">All Units</button>${units.map(u => `<button class="chip">Unit ${u.id}</button>`).join("")}`)
+    .replace('<div id="units"></div>', `<div id="units">${buildUnitsStatic(units, config.diagrams || {})}</div>`)
     .replace("__FC_ARCHIVE__", buildFcArchive(units, flashcards))
     .replace("__QREF__", buildQref(units))
     .replace("__MEMORY__", buildMemory(units));

@@ -7,9 +7,13 @@ import {
   getCookie,
   createMagicLinkToken,
   consumeMagicLinkToken,
+  peekMagicLinkToken,
   isValidEmail,
   recordLogin,
-  checkEmailRateLimit
+  bumpSessionVersion,
+  checkEmailRateLimit,
+  checkRateLimit,
+  getClientIp
 } from "./auth.js";
 
 const SITE_ORIGIN = "https://precisstudy.com";
@@ -50,8 +54,41 @@ function clearStateCookie(): string {
   return `${STATE_COOKIE}=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0`;
 }
 
-function authErrorRedirect(): Response {
-  return redirect(SITE_ORIGIN + "/?auth_error=1", { "Set-Cookie": clearStateCookie() });
+const NEXT_COOKIE = "ss_next";
+
+// A post-sign-in destination is only accepted if it is a same-origin absolute
+// path (no scheme, no protocol-relative "//host", no "\" tricks). Anything else
+// falls back to the site root, so this can't become an open redirect.
+function safeNext(raw: string | null): string | null {
+  if (!raw) return null;
+  if (raw[0] !== "/" || raw[1] === "/" || raw[1] === "\\") return null;
+  if (raw.includes("://") || raw.includes("\n") || raw.includes("\r")) return null;
+  return raw.length <= 512 ? raw : null;
+}
+
+function nextCookie(path: string): string {
+  return `${NEXT_COOKIE}=${encodeURIComponent(path)}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${STATE_TTL}`;
+}
+
+function clearNextCookie(): string {
+  return `${NEXT_COOKIE}=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0`;
+}
+
+function consumeNext(request: Request): string | null {
+  const raw = getCookie(request, NEXT_COOKIE);
+  return raw ? safeNext(decodeURIComponent(raw)) : null;
+}
+
+// Categorised, non-sensitive failure reason. The category is surfaced to the
+// student on the homepage as a specific message; the detail (if any) is only
+// logged server-side so operators can see *why* without leaking it to the URL.
+type AuthErrorReason = "state" | "provider" | "no_email" | "config" | "expired" | "link";
+
+function authErrorRedirect(reason: AuthErrorReason, detail?: string): Response {
+  console.error("auth failure [" + reason + "]" + (detail ? ": " + detail : ""));
+  return redirect(SITE_ORIGIN + "/?auth_error=" + reason, {
+    "Set-Cookie": [clearStateCookie(), clearNextCookie()]
+  });
 }
 
 async function makeState(env: Env): Promise<string> {
@@ -96,6 +133,7 @@ export async function handleGoogleStart(request: Request, env: Env): Promise<Res
   if (!env.GOOGLE_CLIENT_ID || !env.GOOGLE_CLIENT_SECRET) return notConfigured("Google");
   if (sessionSecretMissing(env)) return notConfigured("Sign-in");
   const state = await makeState(env);
+  const next = safeNext(new URL(request.url).searchParams.get("next"));
   const params = new URLSearchParams({
     client_id: env.GOOGLE_CLIENT_ID,
     redirect_uri: SITE_ORIGIN + "/auth/google/callback",
@@ -104,7 +142,8 @@ export async function handleGoogleStart(request: Request, env: Env): Promise<Res
     state,
     prompt: "select_account"
   });
-  return redirect("https://accounts.google.com/o/oauth2/v2/auth?" + params.toString(), { "Set-Cookie": stateCookie(state) });
+  const cookies = next ? [stateCookie(state), nextCookie(next)] : [stateCookie(state)];
+  return redirect("https://accounts.google.com/o/oauth2/v2/auth?" + params.toString(), { "Set-Cookie": cookies });
 }
 
 export async function handleGoogleCallback(request: Request, env: Env): Promise<Response> {
@@ -114,7 +153,7 @@ export async function handleGoogleCallback(request: Request, env: Env): Promise<
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
   if (!code || !state || !(await checkState(env, request, state))) {
-    return authErrorRedirect();
+    return authErrorRedirect("state");
   }
 
   const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
@@ -128,15 +167,15 @@ export async function handleGoogleCallback(request: Request, env: Env): Promise<
       grant_type: "authorization_code"
     })
   });
-  if (!tokenRes.ok) return authErrorRedirect();
+  if (!tokenRes.ok) return authErrorRedirect("provider", "google token " + tokenRes.status);
   const tokenData: any = await tokenRes.json();
 
   const profileRes = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
     headers: { Authorization: "Bearer " + String(tokenData?.access_token) }
   });
-  if (!profileRes.ok) return authErrorRedirect();
+  if (!profileRes.ok) return authErrorRedirect("provider", "google userinfo " + profileRes.status);
   const profile: any = await profileRes.json();
-  if (!profile.email) return authErrorRedirect();
+  if (!profile.email) return authErrorRedirect("no_email", "google");
 
   const cookie = await issueSessionCookie(env, {
     email: profile.email,
@@ -144,7 +183,8 @@ export async function handleGoogleCallback(request: Request, env: Env): Promise<
     provider: "google"
   });
   const isNewUser = await recordLogin(env, profile.email, "google");
-  return redirect(SITE_ORIGIN + (isNewUser ? "/settings?welcome=1" : "/"), { "Set-Cookie": [cookie, clearStateCookie()] });
+  const dest = isNewUser ? "/settings?welcome=1" : (consumeNext(request) || "/");
+  return redirect(SITE_ORIGIN + dest, { "Set-Cookie": [cookie, clearStateCookie(), clearNextCookie()] });
 }
 
 // ===== GitHub =====
@@ -155,13 +195,15 @@ export async function handleGithubStart(request: Request, env: Env): Promise<Res
   if (!env.GITHUB_CLIENT_ID || !env.GITHUB_CLIENT_SECRET) return notConfigured("GitHub");
   if (sessionSecretMissing(env)) return notConfigured("Sign-in");
   const state = await makeState(env);
+  const next = safeNext(new URL(request.url).searchParams.get("next"));
   const params = new URLSearchParams({
     client_id: env.GITHUB_CLIENT_ID,
     redirect_uri: SITE_ORIGIN + "/auth/github/callback",
     scope: "read:user user:email",
     state
   });
-  return redirect("https://github.com/login/oauth/authorize?" + params.toString(), { "Set-Cookie": stateCookie(state) });
+  const cookies = next ? [stateCookie(state), nextCookie(next)] : [stateCookie(state)];
+  return redirect("https://github.com/login/oauth/authorize?" + params.toString(), { "Set-Cookie": cookies });
 }
 
 export async function handleGithubCallback(request: Request, env: Env): Promise<Response> {
@@ -171,7 +213,7 @@ export async function handleGithubCallback(request: Request, env: Env): Promise<
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
   if (!code || !state || !(await checkState(env, request, state))) {
-    return authErrorRedirect();
+    return authErrorRedirect("state");
   }
 
   const tokenRes = await fetch("https://github.com/login/oauth/access_token", {
@@ -184,9 +226,9 @@ export async function handleGithubCallback(request: Request, env: Env): Promise<
       redirect_uri: SITE_ORIGIN + "/auth/github/callback"
     })
   });
-  if (!tokenRes.ok) return authErrorRedirect();
+  if (!tokenRes.ok) return authErrorRedirect("provider", "github token " + tokenRes.status);
   const tokenData: any = await tokenRes.json();
-  if (!tokenData?.access_token) return authErrorRedirect();
+  if (!tokenData?.access_token) return authErrorRedirect("provider", "github no access_token");
 
   const ghHeaders = {
     Authorization: "Bearer " + tokenData.access_token,
@@ -194,7 +236,7 @@ export async function handleGithubCallback(request: Request, env: Env): Promise<
     Accept: "application/vnd.github+json"
   };
   const profileRes = await fetch("https://api.github.com/user", { headers: ghHeaders });
-  if (!profileRes.ok) return authErrorRedirect();
+  if (!profileRes.ok) return authErrorRedirect("provider", "github user " + profileRes.status);
   const profile: any = await profileRes.json();
 
   let email: string | undefined = typeof profile.email === "string" ? profile.email : undefined;
@@ -207,10 +249,7 @@ export async function handleGithubCallback(request: Request, env: Env): Promise<
       if (primary) email = primary.email;
     }
   }
-  if (!email) {
-    console.error("github callback: no verified email available for this GitHub account");
-    return authErrorRedirect();
-  }
+  if (!email) return authErrorRedirect("no_email", "github: no verified email on account");
 
   const cookie = await issueSessionCookie(env, {
     email,
@@ -218,7 +257,8 @@ export async function handleGithubCallback(request: Request, env: Env): Promise<
     provider: "github"
   });
   const isNewUser = await recordLogin(env, email, "github");
-  return redirect(SITE_ORIGIN + (isNewUser ? "/settings?welcome=1" : "/"), { "Set-Cookie": [cookie, clearStateCookie()] });
+  const dest = isNewUser ? "/settings?welcome=1" : (consumeNext(request) || "/");
+  return redirect(SITE_ORIGIN + dest, { "Set-Cookie": [cookie, clearStateCookie(), clearNextCookie()] });
 }
 
 // ===== Email magic link =====
@@ -235,6 +275,11 @@ export async function handleEmailStart(request: Request, env: Env): Promise<Resp
   if (!isValidEmail(email)) return json({ error: "Enter a valid email address" }, 400);
   if (!env.MAGIC_LINKS) return json({ error: "Email sign-in isn't configured yet" }, 503);
   if (sessionSecretMissing(env)) return json({ error: "Sign-in isn't configured yet" }, 503);
+
+  // Per-email cap stops repeated links to one address; the per-IP cap stops a
+  // single client from spraying magic-link mail at many enumerated addresses.
+  const ipOk = await checkRateLimit(env.MAGIC_LINKS, "ratelimit:email-ip:" + getClientIp(request), 10, 60 * 60);
+  if (!ipOk) return json({ error: "Too many sign-in requests — try again later" }, 429);
 
   const withinLimit = await checkEmailRateLimit(env, email!);
   if (!withinLimit) return json({ error: "Too many sign-in requests for this email — try again in a few minutes" }, 429);
@@ -265,16 +310,56 @@ async function sendMagicLinkEmail(env: Env, toEmail: string, link: string): Prom
   });
 }
 
+function escapeHtml(s: string): string {
+  return s.replace(/[&<>"']/g, (c) => (
+    c === "&" ? "&amp;" : c === "<" ? "&lt;" : c === ">" ? "&gt;" : c === '"' ? "&quot;" : "&#39;"
+  ));
+}
+
+// GET must NOT sign the visitor in: an emailed magic link opened by a victim
+// (login CSRF), or auto-fetched by an email security scanner, would otherwise
+// silently create a session. Instead, peek the token and render a same-origin
+// confirm form; only the POST below consumes the token and issues the session.
 export async function handleVerify(request: Request, env: Env): Promise<Response> {
   if (sessionSecretMissing(env)) return notConfigured("Sign-in");
-  const url = new URL(request.url);
-  const token = url.searchParams.get("token");
+  const token = new URL(request.url).searchParams.get("token") || "";
+  const email = token ? await peekMagicLinkToken(env, token) : null;
+  if (!email) return authErrorRedirect("expired", "magic link");
+
+  const body = "<!doctype html><meta charset=utf-8><meta name=robots content=noindex>"
+    + "<meta name=viewport content=\"width=device-width,initial-scale=1\">"
+    + "<title>Confirm sign-in — PrecisStudy</title>"
+    + "<style>body{font:16px/1.5 system-ui,sans-serif;background:#0f1117;color:#f3efe2;"
+    + "display:grid;place-items:center;min-height:100vh;margin:0}"
+    + ".card{background:#171a23;border:1px solid #2b2f3a;border-radius:14px;padding:28px 30px;max-width:360px;text-align:center}"
+    + "b{word-break:break-all}button{margin-top:18px;width:100%;padding:12px 16px;font:inherit;font-weight:700;"
+    + "border:0;border-radius:10px;background:#f3efe2;color:#0f1117;cursor:pointer}"
+    + "p{color:#aab}</style>"
+    + "<div class=card><h1 style=\"font-size:19px;margin:.2em 0 .6em\">Sign in to PrecisStudy</h1>"
+    + "<p>Continue as <b>" + escapeHtml(email) + "</b>?</p>"
+    + "<form method=post action=\"/auth/verify\">"
+    + "<input type=hidden name=token value=\"" + escapeHtml(token) + "\">"
+    + "<button type=submit>Confirm sign-in</button></form>"
+    + "<p style=\"margin-top:14px;font-size:13px\">If you didn't request this, close this page.</p></div>";
+  return new Response(body, { headers: { "Content-Type": "text/html; charset=utf-8" } });
+}
+
+export async function handleVerifyConfirm(request: Request, env: Env): Promise<Response> {
+  if (sessionSecretMissing(env)) return notConfigured("Sign-in");
+  let token = "";
+  try {
+    const form = await request.formData();
+    token = typeof form.get("token") === "string" ? String(form.get("token")) : "";
+  } catch (e) {
+    return authErrorRedirect("link", "verify: unreadable form body");
+  }
   const email = token ? await consumeMagicLinkToken(env, token) : null;
-  if (!email) return redirect(SITE_ORIGIN + "/?auth_error=expired");
+  if (!email) return authErrorRedirect("expired", "magic link");
 
   const cookie = await issueSessionCookie(env, { email, name: email, provider: "email" });
   const isNewUser = await recordLogin(env, email, "email");
-  return redirect(SITE_ORIGIN + (isNewUser ? "/settings?welcome=1" : "/"), { "Set-Cookie": cookie });
+  const dest = isNewUser ? "/settings?welcome=1" : (consumeNext(request) || "/");
+  return redirect(SITE_ORIGIN + dest, { "Set-Cookie": [cookie, clearNextCookie()] });
 }
 
 // ===== Session status / logout =====
@@ -285,6 +370,13 @@ export async function handleMe(request: Request, env: Env): Promise<Response> {
   return json({ loggedIn: true, email: session.email, name: session.name, provider: session.provider });
 }
 
-export async function handleLogout(): Promise<Response> {
+export async function handleLogout(request: Request, env: Env): Promise<Response> {
+  // Bump the user's session version so *every* device signs out, not just the
+  // browser that holds this cookie. Best-effort: a KV hiccup still clears the
+  // local cookie below.
+  try {
+    const session = await getSession(request, env);
+    if (session) await bumpSessionVersion(env, session.email);
+  } catch (e) { /* fall through to cookie clear */ }
   return json({ ok: true }, 200, { "Set-Cookie": clearSessionCookie() });
 }

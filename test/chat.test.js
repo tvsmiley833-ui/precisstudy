@@ -147,6 +147,21 @@ describe("handleChatPost", () => {
     expect(res.status).toBe(500);
   });
 
+  it("returns 429 and does not call the model when the rate limiter denies", async () => {
+    const fakeEnv = {
+      AI: { run: vi.fn().mockResolvedValue({ response: "ok" }) },
+      CHAT_RATE_LIMIT: { limit: vi.fn().mockResolvedValue({ success: false }) }
+    };
+    const req = new Request("https://precisstudy.com/api/chat", {
+      method: "POST",
+      body: JSON.stringify({ history: [{ role: "user", content: "hi" }] })
+    });
+    const res = await handleChatPost(req, fakeEnv);
+    expect(res.status).toBe(429);
+    expect(fakeEnv.AI.run).not.toHaveBeenCalled();
+    expect(fakeEnv.CHAT_RATE_LIMIT.limit).toHaveBeenCalledWith({ key: expect.stringMatching(/^chat:/) });
+  });
+
   it("returns 502 when the AI binding throws", async () => {
     const fakeEnv = { AI: { run: vi.fn().mockRejectedValue(new Error("boom")) } };
     const req = new Request("https://example.com/api/chat", {
@@ -211,10 +226,23 @@ describe("handleChatPost", () => {
 });
 
 describe("handleChatOptions", () => {
-  it("returns 204 with CORS headers", async () => {
-    const res = handleChatOptions();
+  it("returns 204 and reflects an allowed origin", async () => {
+    const res = handleChatOptions(new Request("https://precisstudy.com/api/chat", {
+      method: "OPTIONS",
+      headers: { Origin: "https://precisstudy.com" }
+    }));
     expect(res.status).toBe(204);
     expect(res.headers.get("Access-Control-Allow-Methods")).toBe("POST, OPTIONS");
-    expect(res.headers.get("Access-Control-Allow-Origin")).toBe("*");
+    expect(res.headers.get("Access-Control-Allow-Origin")).toBe("https://precisstudy.com");
+    expect(res.headers.get("Vary")).toBe("Origin");
+  });
+
+  it("does not send an ACAO header for an unknown origin", async () => {
+    const res = handleChatOptions(new Request("https://precisstudy.com/api/chat", {
+      method: "OPTIONS",
+      headers: { Origin: "https://evil.example" }
+    }));
+    expect(res.status).toBe(204);
+    expect(res.headers.get("Access-Control-Allow-Origin")).toBeNull();
   });
 });

@@ -684,3 +684,18 @@ export const calcBcUnits = [
   { id: 7, name: "Taylor & Maclaurin Series" },
   { id: 8, name: "Polynomial Approximations & Series Convergence" }
 ];
+
+/** @type {Unit[]} */
+export const usHistoryUnits = [
+  { id: 1, name: "Colonization & the Atlantic World (1491-1690)" },
+  { id: 2, name: "Colonial Society & the Road to Revolution (1690-1763)" },
+  { id: 3, name: "Revolution & the Founding (1763-1815)" },
+  { id: 4, name: "Expansion, Reform & Jacksonian Democracy (1815-1848)" },
+  { id: 5, name: "Sectional Crisis & Civil War (1848-1865)" },
+  { id: 6, name: "Reconstruction (1865-1877)" },
+  { id: 7, name: "Industrialization & the Gilded Age (1877-1900)" },
+  { id: 8, name: "Progressivism & Imperialism (1890-1917)" },
+  { id: 9, name: "World War I, the 1920s & the Great Depression (1914-1939)" },
+  { id: 10, name: "World War II & the Cold War (1939-1980)" },
+  { id: 11, name: "Modern America (1980-Present)" }
+];

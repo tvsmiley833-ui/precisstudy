@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AP Biology Study Guide — EXPANDED</title>
+<title>AP Biology Study Guide — PrecisStudy</title>
 <meta name="description" content="Free AP Biology study guide: 8 units of notes, worked examples, flashcards, and a full practice exam covering the complete College Board curriculum. Completely free."/>
 <meta property="og:type" content="website"/>
 <meta property="og:site_name" content="PrecisStudy"/>
@@ -329,6 +329,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 <script type="module">
   import { createMastery } from '/shared/mastery.js';
   import { celebrateCorrect, resetCombo } from '/shared/celebrate.js';
+  import '/shared/chalk-cursor.js';
   window.__ssCreateMastery = createMastery;
   window.__ssCelebrateCorrect = celebrateCorrect;
   window.__ssResetCombo = resetCombo;
@@ -346,7 +347,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <div class="hero-inner">
     <a href="/" class="back-link" style="opacity:0;animation:fadein .5s ease forwards">← Back to Library</a>
     <div class="kicker" style="opacity:0;animation:fadein .5s ease .06s forwards">AP Biology</div>
-    <h1 style="opacity:0;animation:fadein .5s ease .12s forwards"><span class="grad">AP Biology</span> Study Guide <span class="edition">Expanded Edition</span></h1>
+    <h1 style="opacity:0;animation:fadein .5s ease .12s forwards"><span class="grad">AP Biology</span> Study Guide</h1>
     <p class="subtitle" style="opacity:0;animation:fadein .5s ease .18s forwards">8 Units · 122 Quiz Questions · 64 Flashcards · Diagnostic · Full Reference Tables · Diagrams · Saved Progress</p>
     <div class="nav" style="opacity:0;animation:fadein .5s ease .24s forwards">
       <button class="tab-btn active" onclick="switchTab('guide')">Study Guide</button>
@@ -1878,8 +1879,8 @@ function ssToggleTheme(){
 let SS_SESSION;
 
 function ssLoginBoxHtml(){
-  return '<a class="ss-oauth-btn" href="/auth/google/start">Continue with Google</a>'
-    + '<a class="ss-oauth-btn" href="/auth/github/start">Continue with GitHub</a>'
+  return '<a class="ss-oauth-btn" href="/auth/google/start?next=' + encodeURIComponent(location.pathname) + '">Continue with Google</a>'
+    + '<a class="ss-oauth-btn" href="/auth/github/start?next=' + encodeURIComponent(location.pathname) + '">Continue with GitHub</a>'
     + '<div class="ss-status"></div>';
 }
 

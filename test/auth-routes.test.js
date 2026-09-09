@@ -1,17 +1,18 @@
 import { SELF } from "cloudflare:test";
 import { describe, it, expect } from "vitest";
-import { handleGoogleStart, handleGoogleCallback, handleGithubStart, handleGithubCallback } from "../src/auth-routes.js";
+import { handleGoogleStart, handleGoogleCallback, handleGithubStart, handleGithubCallback, handleVerify, handleVerifyConfirm } from "../src/auth-routes.js";
+import { createMagicLinkToken } from "../src/auth.js";
 
 describe("/auth/me", () => {
   it("reports guest when there is no session cookie", async () => {
-    const res = await SELF.fetch("https://example.com/auth/me");
+    const res = await SELF.fetch("https://precisstudy.com/auth/me");
     expect(res.status).toBe(200);
     const data = await res.json();
     expect(data).toEqual({ loggedIn: false });
   });
 
   it("ignores a garbage cookie instead of erroring", async () => {
-    const res = await SELF.fetch("https://example.com/auth/me", {
+    const res = await SELF.fetch("https://precisstudy.com/auth/me", {
       headers: { Cookie: "ss_session=not.a.valid.token" }
     });
     expect(res.status).toBe(200);
@@ -22,13 +23,13 @@ describe("/auth/me", () => {
 
 describe("/auth/logout", () => {
   it("clears the session cookie", async () => {
-    const res = await SELF.fetch("https://example.com/auth/logout", { method: "POST" });
+    const res = await SELF.fetch("https://precisstudy.com/auth/logout", { method: "POST" });
     expect(res.status).toBe(200);
     expect(res.headers.get("Set-Cookie")).toContain("Max-Age=0");
   });
 
   it("rejects GET", async () => {
-    const res = await SELF.fetch("https://example.com/auth/logout");
+    const res = await SELF.fetch("https://precisstudy.com/auth/logout");
     expect(res.status).toBe(405);
   });
 });
@@ -45,7 +46,7 @@ describe("OAuth start routes before credentials are configured", () => {
   });
 
   it("rejects POST on start routes", async () => {
-    const res = await SELF.fetch("https://example.com/auth/google/start", { method: "POST" });
+    const res = await SELF.fetch("https://precisstudy.com/auth/google/start", { method: "POST" });
     expect(res.status).toBe(405);
   });
 });
@@ -58,12 +59,12 @@ describe("/auth/verify", () => {
   // uncaught DataError when SESSION_SECRET was undefined, producing a 500
   // instead of the "not configured" response the OAuth routes already gave.
   it("responds 503, not 500, when the token is missing and sign-in isn't configured", async () => {
-    const res = await SELF.fetch("https://example.com/auth/verify", { redirect: "manual" });
+    const res = await SELF.fetch("https://precisstudy.com/auth/verify", { redirect: "manual" });
     expect(res.status).toBe(503);
   });
 
   it("responds 503, not 500, for an unknown token when sign-in isn't configured", async () => {
-    const res = await SELF.fetch("https://example.com/auth/verify?token=bogus", { redirect: "manual" });
+    const res = await SELF.fetch("https://precisstudy.com/auth/verify?token=bogus", { redirect: "manual" });
     expect(res.status).toBe(503);
   });
 });
@@ -113,7 +114,7 @@ describe("OAuth state CSRF protection", () => {
     const state = new URL(startRes.headers.get("Location")).searchParams.get("state");
 
     const res = await handleGoogleCallback(
-      new Request(`https://example.com/auth/google/callback?code=fake&state=${encodeURIComponent(state)}`),
+      new Request(`https://precisstudy.com/auth/google/callback?code=fake&state=${encodeURIComponent(state)}`),
       env
     );
     expect(res.status).toBe(302);
@@ -122,7 +123,7 @@ describe("OAuth state CSRF protection", () => {
 
   it("/auth/google/callback rejects when the state cookie doesn't match the query param", async () => {
     const res = await handleGoogleCallback(
-      new Request("https://example.com/auth/google/callback?code=fake&state=mismatched", {
+      new Request("https://precisstudy.com/auth/google/callback?code=fake&state=mismatched", {
         headers: { Cookie: "ss_oauth_state=something-else" }
       }),
       env
@@ -136,7 +137,7 @@ describe("OAuth state CSRF protection", () => {
     const state = new URL(startRes.headers.get("Location")).searchParams.get("state");
 
     const res = await handleGoogleCallback(
-      new Request(`https://example.com/auth/google/callback?code=fake&state=${encodeURIComponent(state)}`, {
+      new Request(`https://precisstudy.com/auth/google/callback?code=fake&state=${encodeURIComponent(state)}`, {
         headers: { Cookie: `ss_oauth_state=${state}` }
       }),
       env
@@ -164,7 +165,7 @@ describe("OAuth state CSRF protection", () => {
     const state = new URL(startRes.headers.get("Location")).searchParams.get("state");
 
     const res = await handleGithubCallback(
-      new Request(`https://example.com/auth/github/callback?code=fake&state=${encodeURIComponent(state)}`),
+      new Request(`https://precisstudy.com/auth/github/callback?code=fake&state=${encodeURIComponent(state)}`),
       env
     );
     expect(res.status).toBe(302);
@@ -172,9 +173,93 @@ describe("OAuth state CSRF protection", () => {
   });
 });
 
+describe("/auth/verify — GET confirms, POST signs in (login-CSRF guard)", () => {
+  function kvStub() {
+    const m = new Map();
+    return {
+      _m: m,
+      get: (k) => Promise.resolve(m.has(k) ? m.get(k) : null),
+      put: (k, v) => { m.set(k, v); return Promise.resolve(); },
+      delete: (k) => { m.delete(k); return Promise.resolve(); }
+    };
+  }
+  const baseEnv = () => ({ SESSION_SECRET: "s", MAGIC_LINKS: kvStub() });
+
+  it("GET renders a same-origin confirm form and does NOT create a session or consume the token", async () => {
+    const env = baseEnv();
+    const token = await createMagicLinkToken(env, "learner@example.com");
+    const res = await handleVerify(new Request("https://precisstudy.com/auth/verify?token=" + encodeURIComponent(token)), env);
+    expect(res.status).toBe(200);
+    expect(res.headers.get("Content-Type")).toContain("text/html");
+    expect(res.headers.get("Set-Cookie")).toBeNull();
+    const html = await res.text();
+    expect(html).toContain("learner@example.com");
+    expect(html).toContain('method=post action="/auth/verify"');
+    expect(env.MAGIC_LINKS._m.has(token)).toBe(true); // still valid for the POST
+  });
+
+  it("POST consumes the token and issues the session cookie", async () => {
+    const env = baseEnv();
+    const token = await createMagicLinkToken(env, "learner@example.com");
+    const res = await handleVerifyConfirm(new Request("https://precisstudy.com/auth/verify", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({ token })
+    }), env);
+    expect(res.status).toBe(302);
+    expect(res.headers.get("Set-Cookie") || "").toContain("ss_session=");
+    expect(env.MAGIC_LINKS._m.has(token)).toBe(false); // consumed
+  });
+
+  it("bogus token -> auth_error=expired on both GET and POST, no session", async () => {
+    const env = baseEnv();
+    const g = await handleVerify(new Request("https://precisstudy.com/auth/verify?token=nope"), env);
+    expect(g.headers.get("Location")).toBe("https://precisstudy.com/?auth_error=expired");
+    const p = await handleVerifyConfirm(new Request("https://precisstudy.com/auth/verify", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({ token: "nope" })
+    }), env);
+    expect(p.headers.get("Location")).toBe("https://precisstudy.com/?auth_error=expired");
+    expect(p.headers.get("Set-Cookie") || "").not.toContain("ss_session=");
+  });
+});
+
+describe("post-sign-in return path + error categories", () => {
+  const env = {
+    GOOGLE_CLIENT_ID: "id", GOOGLE_CLIENT_SECRET: "secret",
+    GITHUB_CLIENT_ID: "id", GITHUB_CLIENT_SECRET: "secret",
+    SESSION_SECRET: "s"
+  };
+
+  it("stores a same-origin ?next path in an ss_next cookie on /auth/google/start", async () => {
+    const res = await handleGoogleStart(
+      new Request("https://precisstudy.com/auth/google/start?next=%2Fcalculus%2F"), env);
+    expect(res.headers.get("Set-Cookie") || "").toContain("ss_next=%2Fcalculus%2F");
+  });
+
+  it("ignores an off-site ?next (open-redirect guard)", async () => {
+    for (const bad of ["//evil.example", "https://evil.example", "/\\evil", "notapath"]) {
+      const res = await handleGoogleStart(
+        new Request("https://precisstudy.com/auth/google/start?next=" + encodeURIComponent(bad)), env);
+      expect(res.headers.get("Set-Cookie") || "").not.toContain("ss_next=");
+    }
+  });
+
+  it("emits a specific auth_error category and clears cookies on a bad OAuth state", async () => {
+    const res = await handleGoogleCallback(
+      new Request("https://precisstudy.com/auth/google/callback?code=x&state=nope"), env);
+    expect(res.status).toBe(302);
+    expect(res.headers.get("Location")).toBe("https://precisstudy.com/?auth_error=state");
+    const sc = res.headers.get("Set-Cookie") || "";
+    expect(sc).toContain("ss_oauth_state=;");
+    expect(sc).toContain("ss_next=;");
+  });
+});
+
 describe("/auth/email/start", () => {
   it("rejects an invalid email before attempting to send anything", async () => {
-    const res = await SELF.fetch("https://example.com/auth/email/start", {
+    const res = await SELF.fetch("https://precisstudy.com/auth/email/start", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: "not-an-email" })
@@ -183,12 +268,12 @@ describe("/auth/email/start", () => {
   });
 
   it("rejects a missing body gracefully", async () => {
-    const res = await SELF.fetch("https://example.com/auth/email/start", { method: "POST" });
+    const res = await SELF.fetch("https://precisstudy.com/auth/email/start", { method: "POST" });
     expect(res.status).toBe(400);
   });
 
   it("rejects GET", async () => {
-    const res = await SELF.fetch("https://example.com/auth/email/start");
+    const res = await SELF.fetch("https://precisstudy.com/auth/email/start");
     expect(res.status).toBe(405);
   });
 });

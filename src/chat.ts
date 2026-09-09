@@ -1,3 +1,5 @@
+import { getClientIp } from "./auth.js";
+
 // Object.create(null): SUBJECTS is indexed with a client-controlled path
 // segment (see subjectFromReferer below). A plain {} object literal would
 // let a Referer like "/constructor" or "/toString" resolve via the
@@ -54,6 +56,7 @@ export const SUBJECTS = Object.assign(Object.create(null), {
   "study-skills": "You are a concise, friendly tutor helping a student study Study Skills. Keep answers short (2-5 sentences), accurate, and focused on the question asked.",
   "us-government": "You are a concise, friendly tutor helping a student study US Government. Keep answers short (2-5 sentences), accurate, and focused on the question asked.",
   "world-history": "You are a concise, friendly tutor helping a student study World History. Keep answers short (2-5 sentences), accurate, and focused on the question asked.",
+  "us-history": "You are a concise, friendly tutor helping a student study United States History (a standard high-school survey course). Keep answers short (2-5 sentences), accurate, and focused on the question asked.",
 });
 
 export const DEFAULT_SUBJECT = "geometry";
@@ -105,25 +108,51 @@ export function subjectFromReferer(refererHeader: string | null): string {
 
 export const MODEL = "@cf/meta/llama-3.1-8b-instruct-fp8";
 
-export function json(body: unknown, status?: number): Response {
+// The chat widget is served from the site's own pages, so cross-origin callers
+// have no legitimate need for this endpoint. Reflecting only known origins stops
+// other sites using it as a free LLM backend.
+const ALLOWED_ORIGINS = new Set([
+  "https://precisstudy.com",
+  "https://www.precisstudy.com",
+  "https://studystacks.org",
+  "https://www.studystacks.org"
+]);
+
+function corsHeaders(request: Request): Record<string, string> {
+  const origin = request.headers.get("Origin");
+  return origin && ALLOWED_ORIGINS.has(origin) ? { "Access-Control-Allow-Origin": origin, "Vary": "Origin" } : {};
+}
+
+export function json(body: unknown, status?: number, extraHeaders?: Record<string, string>): Response {
   return new Response(JSON.stringify(body), {
     status: status || 200,
-    headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
+    headers: { "Content-Type": "application/json", ...(extraHeaders || {}) }
   });
 }
 
-export async function handleChatPost(request: Request, env: { AI: Ai }): Promise<Response> {
+export async function handleChatPost(request: Request, env: { AI: Ai; CHAT_RATE_LIMIT?: RateLimit }): Promise<Response> {
+  const cors = corsHeaders(request);
+
+  // Per-IP cap on the unauthenticated LLM proxy — every call bills Workers AI.
+  // Cloudflare's native limiter (config: wrangler.jsonc `ratelimits`) is
+  // strongly consistent within the data centre, so it actually stops a burst;
+  // the earlier KV limiter's read-after-write lag let a fast burst through.
+  if (env.CHAT_RATE_LIMIT) {
+    const { success } = await env.CHAT_RATE_LIMIT.limit({ key: "chat:" + getClientIp(request) });
+    if (!success) return json({ error: "Too many requests — slow down and try again in a minute." }, 429, cors);
+  }
+
   let body: unknown;
   try {
     body = await request.json();
   } catch (e) {
-    return json({ error: "Invalid JSON body" }, 400);
+    return json({ error: "Invalid JSON body" }, 400, cors);
   }
 
   const messages = sanitizeMessages(body && typeof body === "object" && "history" in body ? (body as Record<string, unknown>).history : undefined);
-  if (!messages.length) return json({ error: "Empty message" }, 400);
+  if (!messages.length) return json({ error: "Empty message" }, 400, cors);
 
-  if (!env.AI) return json({ error: "Server not configured — Workers AI binding is missing" }, 500);
+  if (!env.AI) return json({ error: "Server not configured — Workers AI binding is missing" }, 500, cors);
 
   const subject = subjectFromReferer(request.headers.get("Referer"));
   const systemPrompt = SUBJECTS[subject as keyof typeof SUBJECTS];
@@ -135,18 +164,18 @@ export async function handleChatPost(request: Request, env: { AI: Ai }): Promise
       max_tokens: 400
     });
   } catch (e) {
-    return json({ error: "Could not reach AI provider", detail: String(e && typeof e === "object" && "message" in e ? (e as { message: string }).message : e).slice(0, 300) }, 502);
+    return json({ error: "Could not reach AI provider", detail: String(e && typeof e === "object" && "message" in e ? (e as { message: string }).message : e).slice(0, 300) }, 502, cors);
   }
 
   const reply = (result && (result.response || result.result)) || "";
-  return json({ reply: reply });
+  return json({ reply: reply }, 200, cors);
 }
 
-export function handleChatOptions(): Response {
+export function handleChatOptions(request: Request): Response {
   return new Response(null, {
     status: 204,
     headers: {
-      "Access-Control-Allow-Origin": "*",
+      ...corsHeaders(request),
       "Access-Control-Allow-Methods": "POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type"
     }

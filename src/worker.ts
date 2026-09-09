@@ -6,6 +6,7 @@ import {
   handleGithubCallback,
   handleEmailStart,
   handleVerify,
+  handleVerifyConfirm,
   handleMe,
   handleLogout
 } from "./auth-routes.js";
@@ -14,7 +15,7 @@ import { handleAdminMe, handleAdminListGuideRequests, handleAdminDeleteGuideRequ
 import { handleGetProgress, handlePostProgress, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak } from "./progress-routes.js";
 import { handlePushSubscribe, handlePushUnsubscribe, handlePushTest, sendDailyReminders, sendScheduledBlockReminders, sendStreakReminders } from "./push-routes.js";
 
-const SUBJECT_PATHS = new Set(["geometry", "chemistry", "algebra1", "algebra2", "ap-lang", "global-history", "ap-biology", "apush", "physics", "biology", "precalc", "us-government", "spanish-1", "spanish-2", "earth-science", "economics", "english-9", "english-10", "world-history", "geography", "health", "psychology", "sociology", "statistics", "computer-science", "art-history", "music-theory", "spanish-3", "french-1", "german-1", "environmental-science", "anatomy", "astronomy", "creative-writing", "journalism", "speech-debate", "ap-chemistry", "ap-physics", "ap-stats", "ap-csa", "ap-psych", "ap-world", "ap-euro", "ap-usgov", "ap-macro", "ap-micro", "sat-math", "sat-reading", "act-prep", "study-skills", "calculus", "calc-ab", "calc-bc"]);
+const SUBJECT_PATHS = new Set(["geometry", "chemistry", "algebra1", "algebra2", "ap-lang", "global-history", "ap-biology", "apush", "physics", "biology", "precalc", "us-government", "spanish-1", "spanish-2", "earth-science", "economics", "english-9", "english-10", "world-history", "geography", "health", "psychology", "sociology", "statistics", "computer-science", "art-history", "music-theory", "spanish-3", "french-1", "german-1", "environmental-science", "anatomy", "astronomy", "creative-writing", "journalism", "speech-debate", "ap-chemistry", "ap-physics", "ap-stats", "ap-csa", "ap-psych", "ap-world", "ap-euro", "ap-usgov", "ap-macro", "ap-micro", "sat-math", "sat-reading", "act-prep", "study-skills", "calculus", "calc-ab", "calc-bc", "us-history"]);
 const SUBJECT_VIEW_SEGMENTS = new Set(["flashcards", "quiz", "examples", "exam", "reference", "memory"]);
 const SUBJECT_VIEW_RE = /^\/([a-z0-9-]+)\/([a-z0-9-]+)\/?$/;
 
@@ -24,7 +25,7 @@ const AUTH_ROUTES: Record<string, Record<string, (request: Request, env: Env) =>
   "/auth/github/start": { GET: handleGithubStart },
   "/auth/github/callback": { GET: handleGithubCallback },
   "/auth/email/start": { POST: handleEmailStart },
-  "/auth/verify": { GET: handleVerify },
+  "/auth/verify": { GET: handleVerify, POST: handleVerifyConfirm },
   "/auth/me": { GET: handleMe },
   "/auth/logout": { POST: handleLogout }
 };
@@ -75,7 +76,14 @@ interface Fetcher {
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
-    return withSecurityHeaders(await handleFetch(request, env));
+    try {
+      return withSecurityHeaders(await handleFetch(request, env));
+    } catch (e) {
+      // An unhandled rejection here would otherwise surface as Cloudflare's
+      // bare 500 with none of SECURITY_HEADERS applied.
+      console.error("unhandled worker error:", e instanceof Error ? e.stack || e.message : String(e));
+      return withSecurityHeaders(json({ error: "Internal error" }, 500));
+    }
   },
 
   async scheduled(controller: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
@@ -100,9 +108,53 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
     });
   }
 
+  // Single canonical host. The Worker answers on studystacks.org, the www
+  // variants, and *.workers.dev, all serving byte-identical pages whose
+  // <link rel="canonical"> already points at precisstudy.com. Serving those
+  // as 200s makes Search Console report every duplicate as "Alternate page
+  // with proper canonical tag" and splits crawl/ranking signal across hosts.
+  // 301 the safe methods to the canonical origin so there is one indexable
+  // URL per page; non-idempotent methods fall through (the client always
+  // calls /api and /auth on precisstudy.com already, and /auth self-bounces).
+  // Google's file-based site verification does not follow redirects, so any
+  // /google*.html token keeps serving on every host.
+  if (
+    url.hostname !== "precisstudy.com" &&
+    (request.method === "GET" || request.method === "HEAD") &&
+    !(url.pathname.startsWith("/google") && url.pathname.endsWith(".html"))
+  ) {
+    // Normalise a bare subject path to its trailing-slash form so an off-host
+    // hit lands on the canonical URL in one hop instead of 301 -> 308.
+    const seg = url.pathname.split("/").filter(Boolean);
+    const path = (seg.length === 1 && SUBJECT_PATHS.has(seg[0]!)) ? `/${seg[0]}/` : url.pathname;
+    return new Response(null, {
+      status: 301,
+      headers: {
+        Location: "https://precisstudy.com" + path + url.search,
+        "Cache-Control": "public, max-age=86400"
+      }
+    });
+  }
+
+  // Generated from SUBJECT_PATHS so it can never drift from the live routes the
+  // way a checked-in sitemap.xml did (it listed 17 of 50+ pages).
+  if (url.pathname === "/sitemap.xml") {
+    const staticPages = ["/", "/about/", "/request/", "/privacy/", "/terms/"];
+    const locs = [
+      ...staticPages,
+      ...[...SUBJECT_PATHS].sort().map(s => `/${s}/`)
+    ];
+    const body = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`
+      + locs.map(p => `  <url><loc>https://precisstudy.com${p}</loc></url>`).join("\n")
+      + `\n</urlset>\n`;
+    return new Response(body, {
+      headers: { "Content-Type": "application/xml; charset=utf-8", "Cache-Control": "public, max-age=3600" }
+    });
+  }
+
   if (url.pathname === "/api/chat") {
     if (request.method === "POST") return handleChatPost(request, env);
-    if (request.method === "OPTIONS") return handleChatOptions();
+    if (request.method === "OPTIONS") return handleChatOptions(request);
     return json({ error: "Method not allowed" }, 405);
   }
 

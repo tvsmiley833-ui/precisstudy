@@ -185,6 +185,7 @@ var SUBJECTS = [
   { key: 'globalhistory', label: 'Global History', color: '#b5541f', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.5 3.5 5.5 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-5.5-3.5-9s1-6.5 3.5-9z"/></svg>' },
   { key: 'apbiology', label: 'AP Biology', color: '#2e7d4f', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-4 3-7 6-7 11a7 7 0 0 0 14 0c0-5-3-8-7-11z"/><path d="M12 8v10"/></svg>' },
   { key: 'apush', label: 'APUSH', color: '#1e4d8b', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6l9-3 9 3"/><path d="M4 10v8M9 10v8M15 10v8M20 10v8"/><path d="M2 21h20"/></svg>' },
+  { key: 'us-history', label: 'US History', color: '#8a5a2b', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6l9-3 9 3"/><path d="M4 10v8M9 10v8M15 10v8M20 10v8"/><path d="M2 21h20"/></svg>' },
   { key: 'physics', label: 'Physics', color: '#7a3ba8', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.2"/><ellipse cx="12" cy="12" rx="9" ry="3.6"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(120 12 12)"/></svg>' },
   { key: 'biology', label: 'Biology', color: '#2e7d4f', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="5"/><circle cx="15" cy="15" r="5"/></svg>' },
   { key: 'precalc', label: 'PreCalculus', color: '#0f6e73', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17c3-8 6-12 8-12s3 6 4 10 3 4 4 1"/></svg>' },
@@ -241,8 +242,8 @@ function ssEscapeHtml(s){
 let SS_SESSION;
 
 function ssLoginBoxHtml(){
-  return '<a class="ss-oauth-btn" href="/auth/google/start">Continue with Google</a>'
-    + '<a class="ss-oauth-btn" href="/auth/github/start">Continue with GitHub</a>'
+  return '<a class="ss-oauth-btn" href="/auth/google/start?next=' + encodeURIComponent(location.pathname) + '">Continue with Google</a>'
+    + '<a class="ss-oauth-btn" href="/auth/github/start?next=' + encodeURIComponent(location.pathname) + '">Continue with GitHub</a>'
     + '<div class="ss-status"></div>';
 }
 

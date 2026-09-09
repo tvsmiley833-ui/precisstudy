@@ -1,0 +1,19 @@
+# Copy to .dev.vars for local `wrangler dev` (.dev.vars is gitignored).
+# In production these are set with `wrangler secret put <NAME>` — they are NOT
+# in wrangler.jsonc. Public IDs (GOOGLE_CLIENT_ID, GITHUB_CLIENT_ID,
+# ADMIN_EMAILS, VAPID_PUBLIC_KEY) already live in wrangler.jsonc "vars".
+
+# Signs/verifies session cookies AND OAuth-state tokens. Any long random string.
+SESSION_SECRET=""
+
+# Google OAuth — console.cloud.google.com > Credentials > OAuth 2.0 Client ID.
+GOOGLE_CLIENT_SECRET=""
+
+# GitHub OAuth — github.com/settings/developers > OAuth Apps.
+GITHUB_CLIENT_SECRET=""
+
+# Web Push (VAPID). Generate with: npx web-push generate-vapid-keys
+# The public half is VAPID_PUBLIC_KEY in wrangler.jsonc; keep the pair in sync.
+VAPID_PRIVATE_KEY=""
+# mailto: address or site URL identifying the push sender, e.g. mailto:you@example.com
+VAPID_SUBJECT=""

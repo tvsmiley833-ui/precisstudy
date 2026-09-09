@@ -52,7 +52,7 @@ function heroPattern(slug, hex) {
   // Family resolution
   const mathFam=['algebra1','algebra2','geometry','precalc','statistics','sat-math','calculus','calc-ab','calc-bc'];
   const sciFam=['biology','chemistry','earth-science','environmental-science','anatomy','ap-chemistry','psychology'];
-  const histFam=['global-history','us-government','world-history','apush','ap-world','economics'];
+  const histFam=['global-history','us-government','world-history','apush','ap-world','economics','us-history'];
   const engFam=['english-9','english-10','creative-writing','journalism','speech-debate','art-history'];
   const techFam=['computer-science','ap-csa'];
   const apFam=['ap-biology','ap-lang','ap-euro','ap-usgov','ap-macro','ap-micro','ap-stats','ap-psych','ap-physics'];
@@ -100,7 +100,7 @@ function bodyPattern(slug, hex){
   };
   const mathFam=['algebra1','algebra2','precalc','statistics','sat-math','calculus','calc-ab','calc-bc'];
   const sciFam=['biology','earth-science','environmental-science','psychology'];
-  const histFam=['global-history','us-government','world-history','apush','ap-world','economics'];
+  const histFam=['global-history','us-government','world-history','apush','ap-world','economics','us-history'];
   const engFam=['english-9','english-10','creative-writing','journalism','speech-debate','art-history','sat-reading'];
   let key;
   if(F[slug]) key=slug;

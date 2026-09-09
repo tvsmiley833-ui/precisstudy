@@ -11,8 +11,18 @@ import {
   isValidEmail,
   recordLogin,
   checkEmailRateLimit,
+  bumpSessionVersion,
   SESSION_COOKIE
 } from "../src/auth.js";
+
+function kvStub() {
+  const m = new Map();
+  return {
+    get: (k) => Promise.resolve(m.has(k) ? m.get(k) : null),
+    put: (k, v) => { m.set(k, v); return Promise.resolve(); },
+    delete: (k) => { m.delete(k); return Promise.resolve(); }
+  };
+}
 
 function fakeKV() {
   const store = new Map();
@@ -111,6 +121,29 @@ describe("session cookie helpers", () => {
     const request = new Request("https://example.com");
     const session = await getSession(request, { SESSION_SECRET: "secret1" });
     expect(session).toBeNull();
+  });
+});
+
+describe("session revocation (session version)", () => {
+  it("rejects a token after bumpSessionVersion, accepts a freshly issued one", async () => {
+    const env = { SESSION_SECRET: "secret1", PROGRESS: kvStub() };
+    const cookie1 = await issueSessionCookie(env, { email: "a@b.com", name: "A", provider: "google" });
+    const req1 = new Request("https://x/", { headers: { Cookie: cookie1.split(";")[0] } });
+    expect(await getSession(req1, env)).not.toBeNull();
+
+    await bumpSessionVersion(env, "a@b.com");
+    expect(await getSession(req1, env)).toBeNull(); // old token now stale
+
+    const cookie2 = await issueSessionCookie(env, { email: "a@b.com", name: "A", provider: "google" });
+    const req2 = new Request("https://x/", { headers: { Cookie: cookie2.split(";")[0] } });
+    expect(await getSession(req2, env)).not.toBeNull(); // new token carries the new version
+  });
+
+  it("skips the version check when no PROGRESS binding is present (back-compat)", async () => {
+    const env = { SESSION_SECRET: "secret1" };
+    const cookie = await issueSessionCookie(env, { email: "a@b.com", name: "A", provider: "google" });
+    const req = new Request("https://x/", { headers: { Cookie: cookie.split(";")[0] } });
+    expect(await getSession(req, env)).not.toBeNull();
   });
 });
 

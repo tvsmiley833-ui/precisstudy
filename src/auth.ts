@@ -43,6 +43,27 @@ export interface SessionPayload {
   iat: number;
   exp: number;
   purpose?: string;
+  sv?: number;
+}
+
+// Per-user session version. Bumping it (on "sign out") invalidates every
+// outstanding token for that user, since the stateless token can't otherwise
+// be revoked before its 30-day expiry.
+function sessionVersionKey(email: string): string {
+  return "sv:" + email.toLowerCase();
+}
+
+export async function getSessionVersion(kv: KVNamespace | undefined, email: string): Promise<number> {
+  if (!kv) return 0;
+  const raw = await kv.get(sessionVersionKey(email));
+  const n = raw ? parseInt(raw, 10) : 0;
+  return Number.isFinite(n) ? n : 0;
+}
+
+export async function bumpSessionVersion(env: { PROGRESS?: KVNamespace }, email: string): Promise<void> {
+  if (!env.PROGRESS || !email) return;
+  const next = (await getSessionVersion(env.PROGRESS, email)) + 1;
+  await env.PROGRESS.put(sessionVersionKey(email), String(next));
 }
 
 export async function verifySession(token: string, secret: string): Promise<SessionPayload | null> {
@@ -58,24 +79,32 @@ export async function verifySession(token: string, secret: string): Promise<Sess
   }
   const key = await hmacKey(secret);
   const valid = await crypto.subtle.verify("HMAC", key, sigBytes, new TextEncoder().encode(body));
-  if (!valid) return null;  let payload: SessionPayload;
+  if (!valid) return null;
+  let payload: SessionPayload;
   try {
     payload = JSON.parse(new TextDecoder().decode(fromBase64Url(body)));
   } catch (e) {
     return null;
   }
   if (!payload || typeof payload.exp !== "number" || payload.exp < Math.floor(Date.now() / 1000)) return null;
+  // Reject anything that isn't a real user session. OAuth-state tokens are
+  // signed with the same secret and carry a `purpose` field; a malformed or
+  // wrong-purpose payload would otherwise reach KV keys and the admin
+  // allowlist as `email: undefined`.
+  if (payload.purpose !== undefined) return null;
+  if (typeof payload.email !== "string" || !payload.email) return null;
   return payload;
 }
 
-export async function issueSessionCookie(env: { SESSION_SECRET: string }, profile: { email: string; name?: string; provider: string }): Promise<string> {
+export async function issueSessionCookie(env: { SESSION_SECRET: string; PROGRESS?: KVNamespace }, profile: { email: string; name?: string; provider: string }): Promise<string> {
   const now = Math.floor(Date.now() / 1000);
   const payload: SessionPayload = {
     email: profile.email,
     name: profile.name || profile.email,
     provider: profile.provider,
     iat: now,
-    exp: now + SESSION_MAX_AGE
+    exp: now + SESSION_MAX_AGE,
+    sv: await getSessionVersion(env.PROGRESS, profile.email)
   };
   const token = await signSession(payload, env.SESSION_SECRET);
   return `${SESSION_COOKIE}=${token}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${SESSION_MAX_AGE}`;
@@ -95,10 +124,18 @@ export function getSessionCookie(request: Request): string | null {
   return getCookie(request, SESSION_COOKIE);
 }
 
-export async function getSession(request: Request, env: { SESSION_SECRET: string }): Promise<SessionPayload | null> {
+export async function getSession(request: Request, env: { SESSION_SECRET: string; PROGRESS?: KVNamespace }): Promise<SessionPayload | null> {
   const token = getSessionCookie(request);
   if (!token) return null;
-  return verifySession(token, env.SESSION_SECRET);
+  const payload = await verifySession(token, env.SESSION_SECRET);
+  if (!payload) return null;
+  // Reject tokens minted before the user's last "sign out everywhere".
+  // A token with no `sv` predates this check and counts as version 0.
+  if (env.PROGRESS) {
+    const current = await getSessionVersion(env.PROGRESS, payload.email);
+    if ((payload.sv || 0) !== current) return null;
+  }
+  return payload;
 }
 
 // Best-effort fixed-window limiter on top of KV (no atomic increment available,
@@ -107,7 +144,10 @@ export async function getSession(request: Request, env: { SESSION_SECRET: string
 // actual threat this guards against).
 export async function checkRateLimit(kv: KVNamespace, key: string, max: number, windowSeconds: number): Promise<boolean> {
   const raw = await kv.get(key);
-  const count = raw ? parseInt(raw, 10) : 0;
+  const parsed = raw ? parseInt(raw, 10) : 0;
+  // A non-numeric value must not disable the limiter: parseInt("x") is NaN,
+  // NaN >= max is false, and String(NaN + 1) would persist "NaN" forever.
+  const count = Number.isFinite(parsed) ? parsed : 0;
   if (count >= max) return false;
   await kv.put(key, String(count + 1), { expirationTtl: windowSeconds });
   return true;
@@ -150,6 +190,23 @@ export async function consumeMagicLinkToken(env: { MAGIC_LINKS: KVNamespace }, t
   return data.email;
 }
 
+// Read a magic-link token's email WITHOUT consuming it. Used by the GET
+// /auth/verify confirm page: a GET must not perform the sign-in (login CSRF /
+// email-scanner prefetch), so it only peeks; the same-origin POST consumes.
+export async function peekMagicLinkToken(env: { MAGIC_LINKS: KVNamespace }, token: string): Promise<string | null> {
+  if (!token) return null;
+  const raw = await env.MAGIC_LINKS.get(token);
+  if (!raw) return null;
+  let data: { email: string; exp: number };
+  try {
+    data = JSON.parse(raw);
+  } catch (e) {
+    return null;
+  }
+  if (!data || typeof data.exp !== "number" || data.exp < Math.floor(Date.now() / 1000)) return null;
+  return data.email;
+}
+
 export function isValidEmail(email: string | undefined): boolean {
   return typeof email === "string" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length <= 254;
 }
@@ -165,7 +222,12 @@ export async function recordLogin(env: { PROGRESS: KVNamespace }, email: string,
   } catch (e) {
     record = null;
   }
-  const isNewUser = !record || typeof record !== "object";
+  // Treat a missing OR structurally-broken record as new: a partial/old blob
+  // without a `providers` object would otherwise throw on the write below and
+  // 500 the whole sign-in callback.
+  const usable = !!record && typeof record === "object"
+    && !!record.providers && typeof record.providers === "object";
+  const isNewUser = !usable;
   const full: LoginRecord = isNewUser
     ? { providers: {}, firstLoginAt: now, loginCount: 0, lastLoginAt: now, lastProvider: provider }
     : Object.assign(record as LoginRecord, { lastLoginAt: now, lastProvider: provider });
