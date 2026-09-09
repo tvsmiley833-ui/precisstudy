@@ -1,0 +1,24 @@
+/* Self-hosted latin subsets for the homepage (was
+   fonts.googleapis.com/css2?family=Nunito&family=Kalam&family=Permanent+Marker).
+   Nunito is variable (400-800); Kalam 700 and Permanent Marker 400 are static. */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('/fonts/nunito-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Kalam';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/kalam-700-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Permanent Marker';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/permanentmarker-latin.woff2') format('woff2');
+}

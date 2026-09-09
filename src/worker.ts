@@ -39,13 +39,14 @@ const AUTH_ROUTES: Record<string, Record<string, (request: Request, env: Env) =>
 // object, or frame from a host that isn't explicitly listed below, which
 // stops a large class of injection payloads even though inline execution
 // of the page's own script/style is allowed. Third-party origins the site
-// actually loads: Google AdSense (script + ad iframes), Google Fonts, and
-// Cloudflare's own Web Analytics beacon (auto-injected by the zone).
+// actually loads: Google AdSense (script + ad iframes) and Cloudflare's own
+// Web Analytics beacon (auto-injected by the zone). Fonts are self-hosted
+// (public/fonts/), so no fonts.googleapis.com / fonts.gstatic.com needed.
 const CSP = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline' https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google https://static.cloudflareinsights.com",
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-  "font-src 'self' https://fonts.gstatic.com",
+  "style-src 'self' 'unsafe-inline'",
+  "font-src 'self'",
   "img-src 'self' data: https:",
   "connect-src 'self' https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google https://cloudflareinsights.com",
   "frame-src https://*.doubleclick.net https://*.googlesyndication.com https://*.google.com https://*.adtrafficquality.google",
