@@ -40,6 +40,8 @@ html{scroll-behavior:smooth}
 .skip-link{position:absolute;left:8px;top:-48px;z-index:1000;padding:10px 16px;background:var(--surface);color:var(--ink);
   border:1px solid var(--accent);border-radius:8px;font-weight:600;text-decoration:none;transition:top .15s ease}
 .skip-link:focus{top:8px}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.tablist{display:contents}
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
   [style*="animation:fadein"]{opacity:1!important}

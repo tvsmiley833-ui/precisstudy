@@ -1,4 +1,4 @@
-function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');const idx={guide:0,cards:1,quiz:2,exam:3,qref:4,memory:5}[id];if(idx!==undefined)tabs[idx].classList.add('active');if(id==='exam'&&!examBuilt)buildExam();var spc=document.getElementById('spc-card');if(spc)spc.style.display=(id==='guide')?'':'none';}
+function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');const idx={guide:0,cards:1,quiz:2,exam:3,qref:4,memory:5}[id];if(idx!==undefined){tabs.forEach((b,i)=>{var on=i===idx;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;});var _hl=document.getElementById('hero-live');if(_hl)_hl.textContent=tabs[idx].textContent.trim()+' tab';}if(id==='exam'&&!examBuilt)buildExam();var spc=document.getElementById('spc-card');if(spc)spc.style.display=(id==='guide')?'':'none';}
 let examBuilt=false;
 
 function buildExam(){
@@ -103,7 +103,8 @@ function searchGuide(){
   const sr=document.getElementById('search-results');
   document.querySelectorAll('.unit').forEach(u=>u.style.display='');
   document.getElementById('filter-row').style.display='flex';
-  if(!q){sr.style.display='none';return;}
+  var _hl=document.getElementById('hero-live');
+  if(!q){sr.style.display='none';if(_hl)_hl.textContent='';return;}
   const matches=[];
   UNITS.forEach(u=>{
     u.concepts.forEach(c=>{
@@ -121,8 +122,9 @@ function searchGuide(){
     const text=(qq.q+' '+(qq.o||[]).join(' ')).toLowerCase();
     if(text.includes(q))matches.push({type:'quiz',unit:qq.u,unitName:unitName(qq.u),concept:'Quiz question',preview:qq.q.slice(0,120)});
   });
-  if(!matches.length){sr.style.display='block';sr.innerHTML='<div style="color:var(--ink-muted);font-size:14px;padding:8px">No results for "'+q+'"</div>';return;}
+  if(!matches.length){sr.style.display='block';sr.innerHTML='<div style="color:var(--ink-muted);font-size:14px;padding:8px">No results for "'+q+'"</div>';if(_hl)_hl.textContent='No results for '+q;return;}
   sr.style.display='block';
+  if(_hl)_hl.textContent=matches.length+' result'+(matches.length===1?'':'s')+' for '+q;
   const jump=m=>m.type==='concept'?`jumpToUnit(${m.unit})`:m.type==='flashcard'?`jumpToFlashcardUnit(${m.unit})`:`jumpToQuizUnit(${m.unit})`;
   sr.innerHTML='<div style="font-size:13px;color:var(--ink-muted);margin-bottom:6px">'+matches.length+' result(s)</div>'+
     matches.slice(0,12).map(m=>`<div onclick="${jump(m)}" style="padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:5px;cursor:pointer;">
@@ -410,6 +412,8 @@ function ansQ(i){
   }
   document.getElementById('q-next').style.display='inline-block';
   document.getElementById('q-sc').textContent=`Score: ${score}`;
+  var _hl=document.getElementById('hero-live');
+  if(_hl)_hl.textContent=(i===q.a?'Correct. ':'Incorrect. ')+(q.e||'');
   guessFlag=false;
 }
 function nextQ(){qIdx++;showQ();}
@@ -429,6 +433,29 @@ function ssQuizKeyboardShortcuts(e){
 }
 document.addEventListener('keydown',ssQuizKeyboardShortcuts);
 buildQSel();
+
+/* ----- APG tabs: roving-tabindex arrow-key nav on the hero tab bar. Manual
+   activation — arrows move focus only; Enter/Space fire the button's own click
+   (native), which runs switchTab()/ssQuizTabClick() and syncs aria-selected. ----- */
+(function(){
+  var tl=document.querySelector('.tablist');
+  if(!tl)return;
+  var tabs=Array.prototype.slice.call(tl.querySelectorAll('.tab-btn'));
+  if(!tabs.length)return;
+  tl.addEventListener('keydown',function(e){
+    var cur=tabs.indexOf(document.activeElement);
+    if(cur<0)return;
+    var next=null;
+    if(e.key==='ArrowRight'||e.key==='ArrowDown')next=(cur+1)%tabs.length;
+    else if(e.key==='ArrowLeft'||e.key==='ArrowUp')next=(cur-1+tabs.length)%tabs.length;
+    else if(e.key==='Home')next=0;
+    else if(e.key==='End')next=tabs.length-1;
+    if(next===null)return;
+    e.preventDefault();
+    tabs.forEach(function(t,i){t.tabIndex=i===next?0:-1;});
+    tabs[next].focus();
+  });
+})();
 
 (function(){
   var CHEM_TOTAL_Q=QUIZ.length, CHEM_UNITS=UNITS.length, MIN_PER_Q=1.5;

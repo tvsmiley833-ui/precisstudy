@@ -6,17 +6,20 @@
     <div class="kicker" style="opacity:0;animation:fadein .5s ease .06s forwards">APUSH</div>
     <h1 style="opacity:0;animation:fadein .5s ease .12s forwards"><span class="grad">APUSH</span> Study Guide</h1>
     <p class="subtitle" style="opacity:0;animation:fadein .5s ease .18s forwards">9 Units · 137 Quiz Questions · 72 Flashcards · Diagnostic · Full Reference Tables · Diagrams · Saved Progress</p>
-    <nav class="nav" aria-label="Guide sections" style="opacity:0;animation:fadein .5s ease .24s forwards">
-      <button class="tab-btn active" onclick="switchTab('guide')">Study Guide</button>
-      <button class="tab-btn" onclick="switchTab('cards')">Flashcards</button>
-      <button class="tab-btn" onclick="ssQuizTabClick()">Quiz</button>
-      <button class="tab-btn" onclick="switchTab('exam')">Practice Exam</button>
-      <button class="tab-btn" onclick="switchTab('qref')">Quick Reference</button>
-      <button class="tab-btn" onclick="switchTab('memory')">Memory Tricks</button>
+    <nav class="nav" style="opacity:0;animation:fadein .5s ease .24s forwards">
+      <div class="tablist" role="tablist" aria-label="Study guide views">
+      <button class="tab-btn active" role="tab" id="tab-guide" aria-controls="view-guide" aria-selected="true" onclick="switchTab('guide')">Study Guide</button>
+      <button class="tab-btn" role="tab" id="tab-cards" aria-controls="view-cards" aria-selected="false" tabindex="-1" onclick="switchTab('cards')">Flashcards</button>
+      <button class="tab-btn" role="tab" id="tab-quiz" aria-controls="view-quiz" aria-selected="false" tabindex="-1" onclick="ssQuizTabClick()">Quiz</button>
+      <button class="tab-btn" role="tab" id="tab-exam" aria-controls="view-exam" aria-selected="false" tabindex="-1" onclick="switchTab('exam')">Practice Exam</button>
+      <button class="tab-btn" role="tab" id="tab-qref" aria-controls="view-qref" aria-selected="false" tabindex="-1" onclick="switchTab('qref')">Quick Reference</button>
+      <button class="tab-btn" role="tab" id="tab-memory" aria-controls="view-memory" aria-selected="false" tabindex="-1" onclick="switchTab('memory')">Memory Tricks</button>
+      </div>
       <button id="theme-toggle" onclick="ssToggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode">
         <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
       </button>
     </nav>
+    <div class="hero-live sr-only" id="hero-live" role="status" aria-live="polite"></div>
   </div>
 </div>

@@ -20,7 +20,7 @@
     <span id="spc-tier-sub"></span>
   </div>
 </div>
-<div id="view-guide" class="view active">
+<div id="view-guide" class="view active" role="tabpanel" aria-labelledby="tab-guide" tabindex="0">
   <div style="display:flex;gap:8px;margin-bottom:10px;align-items:center">
     <input id="search-box" type="search" aria-label="Search this guide's topics, terms, and formulas" placeholder="Search topics, terms, formulas…" oninput="searchGuide()" style="flex:1;padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:15px;background:var(--surface);color:var(--ink)">
     <button type="button" onclick="clearSearch()" style="padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);font-size:13px;cursor:pointer;color:var(--ink-muted)">✕ Clear</button>
@@ -28,7 +28,7 @@
   <div id="search-results" style="display:none;margin-bottom:12px"></div>
   <div class="filter-row" id="filter-row">__FILTER_CHIPS__</div>
   <div id="units"></div></div>
-<div id="view-cards" class="view">
+<div id="view-cards" class="view" role="tabpanel" aria-labelledby="tab-cards" tabindex="0">
   <div class="fc-bar">
     <select id="fc-sel" aria-label="Choose a flashcard set" onchange="loadFC()"></select>
     <span class="fc-count" id="fc-count"></span>
@@ -52,7 +52,7 @@
   </div>
   <div id="fc-progress" style="text-align:center;font-size:18px;color:var(--ink-dim,#857f72);margin-top:6px"></div>
 __FC_ARCHIVE__</div></div>
-<div id="view-quiz" class="view">
+<div id="view-quiz" class="view" role="tabpanel" aria-labelledby="tab-quiz" tabindex="0">
   <div id="quiz-gate" class="auth-gate" style="display:none">
     <div class="auth-gate-icon"><svg aria-hidden="true" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
     <h3>Sign in to take the quiz</h3>
@@ -68,7 +68,7 @@ __FC_ARCHIVE__</div></div>
   <div class="q-bar">
     <select id="q-sel" aria-label="Choose a question set" onchange="loadQ()"></select>
     <span class="q-prog" id="q-prog"></span>
-    <span class="q-sc" id="q-sc"></span>
+    <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
   </div>
   <div id="diag-banner" style="display:none;background:var(--accent-soft);border:1px solid var(--accent);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:12px;font-size:14.5px;color:var(--accent-ink)"></div>
@@ -76,10 +76,10 @@ __FC_ARCHIVE__</div></div>
   <div id="qbox"></div>
   </div>
 </div>
-<div id="view-exam" class="view"></div>
-<div id="view-qref" class="view">
+<div id="view-exam" class="view" role="tabpanel" aria-labelledby="tab-exam" tabindex="0"></div>
+<div id="view-qref" class="view" role="tabpanel" aria-labelledby="tab-qref" tabindex="0">
 __QREF__
 </div>
 
-<div id="view-memory" class="view">
+<div id="view-memory" class="view" role="tabpanel" aria-labelledby="tab-memory" tabindex="0">
   <div class="mem-intro">Common mistakes for each unit — read the mistake, then make sure you know why it's wrong.</div>__MEMORY__
