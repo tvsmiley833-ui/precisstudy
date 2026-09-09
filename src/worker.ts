@@ -1,4 +1,5 @@
 import { handleChatPost, handleChatOptions, json } from "./chat.js";
+import { logError } from "./log.js";
 import {
   handleGoogleStart,
   handleGoogleCallback,
@@ -81,17 +82,22 @@ export default {
     } catch (e) {
       // An unhandled rejection here would otherwise surface as Cloudflare's
       // bare 500 with none of SECURITY_HEADERS applied.
-      console.error("unhandled worker error:", e instanceof Error ? e.stack || e.message : String(e));
+      const u = new URL(request.url);
+      logError("worker.fetch", e, { method: request.method, path: u.pathname });
       return withSecurityHeaders(json({ error: "Internal error" }, 500));
     }
   },
 
   async scheduled(controller: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
+    // A cron job that rejects would otherwise fail silently (no request, no
+    // response) -- log it so Workers Logs shows which trigger broke and why.
+    const run = (name: string, p: Promise<unknown>) =>
+      ctx.waitUntil(p.catch((e) => logError("cron:" + name, e, { cron: controller.cron })));
     if (controller.cron === "*/5 * * * *") {
-      ctx.waitUntil(sendScheduledBlockReminders(env));
-      ctx.waitUntil(sendStreakReminders(env));
+      run("blockReminders", sendScheduledBlockReminders(env));
+      run("streakReminders", sendStreakReminders(env));
     } else {
-      ctx.waitUntil(sendDailyReminders(env));
+      run("dailyReminders", sendDailyReminders(env));
     }
   }
 };
