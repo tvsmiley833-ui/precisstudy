@@ -294,7 +294,7 @@ export function generateGuide(config) {
     .replace("__FILTER_CHIPS__",
       `<button class="chip on">All Units</button>${units.map(u => `<button class="chip">Unit ${u.id}</button>`).join("")}`)
     .replace('<div id="units"></div>', `<div id="units">${buildUnitsStatic(units, config.diagrams || {})}</div>`)
-    .replace("__QBANK__", buildQBankArchive(units, quiz, hardQ))
+    .replace("__QBANK__", config.qbankArchive ? buildQBankArchive(units, quiz, hardQ) : "")
     .replace("__FC_ARCHIVE__", buildFcArchive(units, flashcards))
     .replace("__EXAMPLES__", buildExamplesStatic(units, worked))
     .replace("__QREF__", buildQref(units))
