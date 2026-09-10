@@ -46,6 +46,28 @@ export function extractArrayLiteral(source, varName) {
   return source.slice(start, i);
 }
 
+// Returns the inner HTML of the first element whose opening tag contains
+// `marker` (e.g. `id="view-qref"`), balance-matching nested <div>s to find its
+// close. Used to lift hand-authored Quick Reference / Memory Tricks markup off
+// the legacy pages into guides/<slug>.json verbatim.
+export function extractElementInner(source, marker) {
+  const t = source.indexOf(marker);
+  if (t === -1) return null;
+  const gt = source.indexOf(">", t);
+  if (gt === -1) return null;
+  let i = gt + 1;
+  const start = i;
+  let depth = 1;
+  while (i < source.length && depth > 0) {
+    const nd = source.indexOf("<div", i);
+    const cd = source.indexOf("</div>", i);
+    if (cd === -1) return null;
+    if (nd !== -1 && nd < cd) { depth++; i = nd + 4; }
+    else { depth--; if (depth === 0) return source.slice(start, cd); i = cd + 6; }
+  }
+  return null;
+}
+
 // Reproduces the runtime value of a top-level array that may be mutated via
 // `NAME.push.apply(NAME, OTHER_ARRAY)` elsewhere in the file. Finds every such
 // merge call for NAME, in source order, and replays it.

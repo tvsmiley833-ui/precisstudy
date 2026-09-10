@@ -297,8 +297,11 @@ export function generateGuide(config) {
     .replace("__QBANK__", config.qbankArchive ? buildQBankArchive(units, quiz, hardQ) : "")
     .replace("__FC_ARCHIVE__", buildFcArchive(units, flashcards))
     .replace("__EXAMPLES__", buildExamplesStatic(units, worked))
-    .replace("__QREF__", buildQref(units))
-    .replace("__MEMORY__", buildMemory(units));
+    .replace("__QREF__", config.qrefHtml || buildQref(units))
+    .replace(
+      '<div class="mem-intro">Common mistakes for each unit — read the mistake, then make sure you know why it\'s wrong.</div>__MEMORY__',
+      config.memoryHtml || `<div class="mem-intro">Common mistakes for each unit — read the mistake, then make sure you know why it's wrong.</div>${buildMemory(units)}`,
+    );
   if (!worked.length)
     views = views.replace(/<div id="view-examples"[^>]*><\/div>\n?/, "");
   html += views;

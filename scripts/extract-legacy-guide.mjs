@@ -8,7 +8,7 @@
 //
 // Resolve every "UNCAPTURED const" warning by hand before finalizing the JSON.
 import { readFileSync, writeFileSync } from "node:fs";
-import { extractArrayLiteral, extractMergedArray } from "./lib/extract-literals.mjs";
+import { extractArrayLiteral, extractMergedArray, extractElementInner } from "./lib/extract-literals.mjs";
 
 const slug = process.argv[2];
 if (!slug) {
@@ -73,7 +73,13 @@ const out = {
     const v = evalLiteral("DIAGRAMS");
     return v && typeof v === "object" ? v : {};
   })(),
+  // Verbatim hand-authored Quick Reference / Memory Tricks markup. Keep in the
+  // final JSON only for pages whose qref/memory is NOT just unit-derived cards
+  // (the generator's buildQref/buildMemory); drop otherwise.
+  qrefHtml: (extractElementInner(src, 'id="view-qref"') || "").trim() || null,
+  memoryHtml: (extractElementInner(src, 'id="view-memory"') || "").trim() || null,
 };
+console.log(`  qrefHtml: ${out.qrefHtml ? out.qrefHtml.length + " chars" : "none"}  memoryHtml: ${out.memoryHtml ? out.memoryHtml.length + " chars" : "none"}`);
 
 writeFileSync(`guides/${slug}.draft.json`, JSON.stringify(out, null, 1) + "\n");
 console.log(`wrote guides/${slug}.draft.json`);
