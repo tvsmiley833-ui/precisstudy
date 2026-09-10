@@ -1,0 +1,3545 @@
+{
+ "slug": "precalc",
+ "title": "PreCalculus",
+ "accentColor": "#0e7f97",
+ "qbankArchive": true,
+ "units": [
+  {
+   "id": 1,
+   "name": "Functions & Their Graphs",
+   "concepts": [
+    {
+     "l": "Function notation & evaluation",
+     "intro": "A function f assigns exactly one output f(x) to each input x. Function notation f(x) replaces 'y' and lets you name and evaluate relations precisely.",
+     "b": [
+      "f(x) is read 'f of x' — NOT f times x",
+      "To evaluate f(3), substitute 3 for every x in the rule: f(x)=2x²−1 → f(3)=2(9)−1=17",
+      "Vertical Line Test: a graph represents a function iff every vertical line crosses it at most once",
+      "Composite functions: (f∘g)(x)=f(g(x)) — evaluate the INSIDE function first",
+      "Example: f(x)=x+2, g(x)=x². (f∘g)(3)=f(9)=11. (g∘f)(3)=g(5)=25 — order matters!",
+      "Difference quotient: [f(x+h)−f(x)]/h, the building block for average rate of change and derivatives"
+     ]
+    },
+    {
+     "l": "Domain and range",
+     "intro": "Domain = all valid x-inputs; range = all resulting y-outputs. Restrictions come from division by zero, even roots of negatives, and logs of non-positives.",
+     "b": [
+      "Rational functions: exclude x-values that make the denominator 0 (e.g., f(x)=1/(x−3): domain is x≠3)",
+      "Even-root functions: the radicand must be ≥0 (e.g., f(x)=√(x−4): domain is x≥4)",
+      "Polynomial functions: domain is always all real numbers (−∞,∞)",
+      "Range is found from the graph's minimum/maximum behavior (e.g., y=x² has range y≥0)",
+      "Interval notation: use parentheses for excluded endpoints, brackets for included endpoints",
+      "Domain of a sum/product/quotient of functions = intersection of each piece's domain (and denominator ≠0 for quotients)"
+     ]
+    },
+    {
+     "l": "Transformations of functions",
+     "intro": "Given a parent function f(x), transformations shift, stretch, compress, or reflect the graph. Changes INSIDE the parentheses affect x (opposite/counterintuitive direction); changes OUTSIDE affect y (intuitive direction).",
+     "b": [
+      "f(x)+k: shifts UP k units (k>0) | f(x)−k: shifts DOWN k units",
+      "f(x−h): shifts RIGHT h units | f(x+h): shifts LEFT h units (opposite of the sign!)",
+      "a·f(x): vertical stretch if |a|>1, vertical compression if 0<|a|<1",
+      "f(bx): horizontal compression if |b|>1, horizontal stretch if 0<|b|<1",
+      "−f(x): reflects over the x-axis | f(−x): reflects over the y-axis",
+      "Order of operations for combined transformations: horizontal shift/stretch first (inside), then vertical stretch, then vertical shift (outside)"
+     ]
+    },
+    {
+     "l": "Even and odd functions",
+     "intro": "Symmetry tests reveal structure that simplifies graphing and algebra (useful later for trig identities and integration).",
+     "b": [
+      "Even function: f(−x)=f(x) for all x — graph is symmetric about the y-axis (e.g., f(x)=x², f(x)=cos x)",
+      "Odd function: f(−x)=−f(x) for all x — graph has 180° rotational symmetry about the origin (e.g., f(x)=x³, f(x)=sin x)",
+      "To test algebraically: plug −x into f(x), simplify, and compare to f(x) and −f(x)",
+      "A function can be neither even nor odd (most functions), but cannot be both unless f(x)=0 for all x",
+      "Sum of two even functions is even; sum of two odd functions is odd; product of two odd functions is even"
+     ]
+    },
+    {
+     "l": "Piecewise functions",
+     "intro": "A piecewise function uses different formulas over different intervals of the domain. Evaluate by first identifying which interval the input falls into.",
+     "b": [
+      "Notation: f(x)={rule₁ if x<a; rule₂ if x≥a} — check the given x against each interval's boundary",
+      "Example: f(x)={x+3 if x<2; x² if x≥2}. f(2)=2²=4 (use second rule since 2≥2); f(−1)=−1+3=2",
+      "Graph each piece only over its stated domain; use open circles for excluded endpoints, closed circles for included",
+      "Step functions (e.g., the greatest integer/floor function ⌊x⌋) are a special piecewise case with constant horizontal segments",
+      "Continuity at a breakpoint requires the two pieces to meet at the same y-value there"
+     ]
+    }
+   ],
+   "traps": [
+    "f(x+2) is NOT f(x)+2 — you substitute (x+2) for x everywhere it appears, don't just add 2 to the output.",
+    "Horizontal shifts move opposite the sign inside parentheses: f(x−3) shifts RIGHT, not left.",
+    "An even function is symmetric about the y-axis; an odd function is symmetric about the ORIGIN, not the x-axis.",
+    "In a piecewise function, always check boundary inequalities (< vs ≤) carefully — using the wrong piece gives the wrong value."
+   ],
+   "fms": [
+    "(f∘g)(x)=f(g(x))",
+    "Difference quotient: [f(x+h)−f(x)]/h",
+    "f(−x)=f(x) even; f(−x)=−f(x) odd"
+   ]
+  },
+  {
+   "id": 2,
+   "name": "Polynomial & Rational Functions",
+   "concepts": [
+    {
+     "l": "End behavior of polynomials",
+     "intro": "The leading term (highest-degree term) determines what happens to y as x→±∞.",
+     "b": [
+      "Odd degree, positive leading coefficient: falls left, rises right (like y=x³)",
+      "Odd degree, negative leading coefficient: rises left, falls right (like y=−x³)",
+      "Even degree, positive leading coefficient: rises left and right (like y=x²)",
+      "Even degree, negative leading coefficient: falls left and right (like y=−x²)",
+      "Degree = maximum number of real zeros (counting multiplicity) and one less than the max number of turning points",
+      "Example: f(x)=−2x⁵+3x²−1 has odd degree (5) and negative leading coefficient → rises left, falls right"
+     ]
+    },
+    {
+     "l": "Factoring & finding zeros",
+     "intro": "Zeros (roots) of a polynomial are the x-values where f(x)=0 — where the graph crosses or touches the x-axis.",
+     "b": [
+      "Factor completely, set each factor to 0, solve for x (zero product property)",
+      "Multiplicity 1 (odd, simple): graph CROSSES the x-axis at that zero",
+      "Multiplicity 2 (even): graph TOUCHES the x-axis and turns back (bounces)",
+      "Multiplicity 3 (odd, ≥3): graph crosses but flattens (inflects) at that zero",
+      "Example: f(x)=x³−4x = x(x−2)(x+2) → zeros at x=0,2,−2, each multiplicity 1, all crossings",
+      "Difference of squares: a²−b²=(a−b)(a+b); sum/difference of cubes: a³±b³=(a±b)(a²∓ab+b²)"
+     ]
+    },
+    {
+     "l": "Rational Root Theorem & synthetic division",
+     "intro": "The Rational Root Theorem narrows down candidate rational zeros of a polynomial before testing them.",
+     "b": [
+      "Possible rational roots = ±(factors of constant term)/(factors of leading coefficient)",
+      "Example: 2x³−3x²−11x+6=0 → constant=6 (factors 1,2,3,6), leading=2 (factors 1,2) → candidates ±1,2,3,6,1/2,3/2",
+      "Test candidates using synthetic division; a remainder of 0 confirms a root and gives the depressed (reduced) polynomial",
+      "Synthetic division steps: bring down leading coefficient, multiply by the root, add to next coefficient, repeat",
+      "Example: dividing 2x³−3x²−11x+6 by (x−3) using synthetic division with root 3 gives 2x²+3x−2 remainder 0, confirming x=3 is a root",
+      "Once reduced to a quadratic, use factoring or the quadratic formula to find remaining roots"
+     ]
+    },
+    {
+     "l": "Rational functions & asymptotes",
+     "intro": "A rational function is a ratio of two polynomials, f(x)=p(x)/q(x). Its graph is shaped by vertical, horizontal, and sometimes slant asymptotes.",
+     "b": [
+      "Vertical asymptote: at x-values where the denominator = 0 AND the numerator ≠ 0 there (a hole occurs if both are 0 after cancelling common factors)",
+      "Horizontal asymptote (compare degrees of numerator n and denominator m): if n<m, y=0; if n=m, y=(ratio of leading coefficients); if n>m, no horizontal asymptote",
+      "Slant (oblique) asymptote exists when n=m+1 exactly one degree higher — found via polynomial long division, ignoring the remainder",
+      "Example: f(x)=(x²−1)/(x−1) simplifies to x+1 with a HOLE at x=1 (not a vertical asymptote) since (x−1) cancels",
+      "Example: f(x)=(3x²+1)/(x²−4) has horizontal asymptote y=3 (equal degrees, ratio of leading coefficients 3/1) and vertical asymptotes at x=±2"
+     ]
+    },
+    {
+     "l": "Solving rational equations & inequalities",
+     "intro": "Clear denominators by multiplying through by the LCD, but always check for extraneous solutions that make an original denominator zero.",
+     "b": [
+      "Multiply every term by the LCD to eliminate fractions, then solve the resulting polynomial equation",
+      "Always check solutions back in the ORIGINAL equation — any value making a denominator 0 must be rejected (extraneous)",
+      "For rational inequalities: move everything to one side, find critical values (zeros and undefined points), test each interval on a sign chart",
+      "Example: solve (x−1)/(x+2)≥0 → critical values x=1, x=−2 (excluded, open circle); test intervals → solution x<−2 or x≥1"
+     ]
+    }
+   ],
+   "traps": [
+    "A 'hole' occurs when a factor cancels from both numerator and denominator — it is NOT a vertical asymptote.",
+    "Always check rational-equation solutions in the original equation; a value that zeroes a denominator must be rejected.",
+    "Even multiplicity means the graph BOUNCES off the x-axis; odd multiplicity means it CROSSES.",
+    "Comparing degrees for horizontal asymptotes: if the numerator's degree is strictly greater, there is NO horizontal asymptote (there may be a slant one instead)."
+   ],
+   "fms": [
+    "Rational Root candidates = ±(factors of constant)/(factors of leading coeff)",
+    "HA rules: n<m→y=0; n=m→y=leading ratio; n>m→none",
+    "a³±b³=(a±b)(a²∓ab+b²)"
+   ]
+  },
+  {
+   "id": 3,
+   "name": "Exponential & Logarithmic Functions",
+   "concepts": [
+    {
+     "l": "Exponential growth and decay",
+     "intro": "Exponential functions model quantities that grow or shrink by a constant PERCENT rate over equal time intervals: A(t)=A₀(1+r)^t (growth) or A(t)=A₀(1−r)^t (decay).",
+     "b": [
+      "A₀ = initial amount, r = rate as a decimal, t = number of time periods, b=(1+r) or (1−r) is the growth/decay factor",
+      "If b>1 the function models growth; if 0<b<1 it models decay",
+      "Example: population growing 5%/year from 2000: A(t)=2000(1.05)^t → after 10 years A(10)=2000(1.05)¹⁰≈3257.8",
+      "Continuous growth/decay uses A(t)=A₀e^(rt) where e≈2.71828 (r>0 growth, r<0 decay)",
+      "Half-life problems: A(t)=A₀(1/2)^(t/h) where h is the half-life",
+      "Compound interest: A=P(1+r/n)^(nt); continuously compounded: A=Pe^(rt)"
+     ]
+    },
+    {
+     "l": "Laws of exponents",
+     "intro": "These rules let you simplify and manipulate expressions with the same base before solving exponential equations.",
+     "b": [
+      "Product rule: bᵐ·bⁿ=bᵐ⁺ⁿ | Quotient rule: bᵐ/bⁿ=bᵐ⁻ⁿ",
+      "Power rule: (bᵐ)ⁿ=bᵐⁿ | Power of a product: (ab)ⁿ=aⁿbⁿ",
+      "Zero exponent: b⁰=1 (b≠0) | Negative exponent: b⁻ⁿ=1/bⁿ",
+      "Rational (fractional) exponent: b^(m/n)=ⁿ√(bᵐ)=(ⁿ√b)ᵐ",
+      "Example: 8^(2/3)=(³√8)²=2²=4",
+      "To solve exponential equations with matching bases: set exponents equal once bases match (e.g., 2^(x+1)=8 → 2^(x+1)=2³ → x+1=3 → x=2)"
+     ]
+    },
+    {
+     "l": "Logarithm definition & properties",
+     "intro": "A logarithm is the inverse operation of exponentiation: log_b(x)=y means bʸ=x. Logs answer 'to what power must b be raised to get x?'",
+     "b": [
+      "log_b(x)=y ⟺ bʸ=x (b>0, b≠1, x>0)",
+      "Product rule: log_b(MN)=log_b(M)+log_b(N)",
+      "Quotient rule: log_b(M/N)=log_b(M)−log_b(N)",
+      "Power rule: log_b(Mᵏ)=k·log_b(M)",
+      "log_b(1)=0 always (since b⁰=1); log_b(b)=1 always (since b¹=b)",
+      "Change of base formula: log_b(x)=ln(x)/ln(b)=log(x)/log(b) — needed for bases other than 10 or e on a calculator"
+     ]
+    },
+    {
+     "l": "Solving exponential & logarithmic equations",
+     "intro": "Use inverse operations — take logs to bring down exponents, or exponentiate to remove logs — and always check for extraneous solutions in log equations.",
+     "b": [
+      "To solve bˣ=k (unlike bases): take ln or log of both sides → x=ln(k)/ln(b)",
+      "Example: 5^x=40 → x=ln(40)/ln(5)≈2.292",
+      "To solve log_b(x)=k: rewrite in exponential form x=bᵏ",
+      "Example: log₂(x)=5 → x=2⁵=32",
+      "When both sides are logs with the same base: log_b(A)=log_b(B) ⟹ A=B (then check domain — argument must stay positive)",
+      "Extraneous solutions: after solving a log equation, reject any solution that makes an argument of a log ≤0 in the ORIGINAL equation"
+     ]
+    },
+    {
+     "l": "Natural log and e",
+     "intro": "The natural logarithm ln(x)=log_e(x) uses base e≈2.71828..., the base for continuous growth/decay and calculus.",
+     "b": [
+      "ln(x) and eˣ are inverse functions: ln(eˣ)=x and e^(ln x)=x",
+      "ln(1)=0, ln(e)=1",
+      "Solve eˣ=k by taking ln of both sides: x=ln(k)",
+      "Solve ln(x)=k by exponentiating: x=eᵏ",
+      "Continuous compounding/growth: A=Pe^(rt) — appears in population models, radioactive decay, and continuously compounded interest",
+      "Example: solve e^(2x)=15 → 2x=ln(15) → x=ln(15)/2≈1.354"
+     ]
+    }
+   ],
+   "traps": [
+    "log(A+B) is NOT log(A)+log(B) — there is no log rule for sums/differences inside a single log.",
+    "log_b(x) is only defined for x>0 — always check the domain restriction before finalizing a log-equation solution.",
+    "(1+r) is used for growth, (1−r) for decay — mixing up the sign of r gives the wrong model entirely.",
+    "Change of base requires dividing (ln x)/(ln b), not (ln b)/(ln x) — order matters."
+   ],
+   "fms": [
+    "log_b(x)=y ⟺ bʸ=x",
+    "Change of base: log_b(x)=ln(x)/ln(b)",
+    "A=Pe^(rt); A=P(1+r/n)^(nt)"
+   ]
+  },
+  {
+   "id": 4,
+   "name": "Trigonometric Functions",
+   "concepts": [
+    {
+     "l": "The unit circle",
+     "intro": "The unit circle has radius 1, centered at the origin. For an angle θ measured from the positive x-axis, the terminal point is (cos θ, sin θ).",
+     "b": [
+      "cos θ = x-coordinate, sin θ = y-coordinate of the point where the terminal ray meets the circle",
+      "tan θ = sin θ / cos θ = y/x (undefined when cos θ=0, i.e., θ=90°,270°)",
+      "Quadrant signs (ASTC, 'All Students Take Calculus'): QI all positive, QII sine positive, QIII tangent positive, QIV cosine positive",
+      "Key points to memorize: (1,0) at 0°, (0,1) at 90°, (−1,0) at 180°, (0,−1) at 270°",
+      "The unit circle repeats every 360° (2π radians) — this is why trig functions are periodic"
+     ]
+    },
+    {
+     "l": "Radians vs degrees",
+     "intro": "Radians measure angles as arc length divided by radius; a full circle is 2π radians = 360°.",
+     "b": [
+      "Conversion: radians = degrees × (π/180) | degrees = radians × (180/π)",
+      "180°=π rad, 90°=π/2 rad, 60°=π/3 rad, 45°=π/4 rad, 30°=π/6 rad",
+      "Example: convert 150° to radians: 150×(π/180)=5π/6",
+      "Example: convert 7π/4 rad to degrees: (7π/4)×(180/π)=315°",
+      "Arc length formula: s=rθ (θ MUST be in radians)",
+      "Angular/linear speed problems use s=rθ and v=s/t or ω=θ/t (ω in rad/time)"
+     ]
+    },
+    {
+     "l": "Graphs of sine, cosine, and tangent",
+     "intro": "y=A sin(Bx−C)+D and y=A cos(Bx−C)+D describe transformed sinusoids; y=tan x has a different shape with vertical asymptotes.",
+     "b": [
+      "Amplitude = |A| (half the distance between max and min); period = 2π/|B|",
+      "Phase shift = C/B (shift right if positive); vertical shift = D (midline y=D)",
+      "y=sin x: starts at midline going up, zeros at 0,π,2π, max at π/2, min at 3π/2",
+      "y=cos x: starts at max, zeros at π/2,3π/2, min at π",
+      "y=tan x has period π (not 2π) and vertical asymptotes at x=π/2+kπ; no amplitude (unbounded range)",
+      "Example: y=3sin(2x)+1 has amplitude 3, period 2π/2=π, midline y=1, no phase shift"
+     ]
+    },
+    {
+     "l": "Reference angles",
+     "intro": "A reference angle is the acute angle (0°–90°) between the terminal side and the x-axis — used to find exact trig values in any quadrant.",
+     "b": [
+      "QI: reference angle = θ itself",
+      "QII: reference angle = 180°−θ (or π−θ)",
+      "QIII: reference angle = θ−180° (or θ−π)",
+      "QIV: reference angle = 360°−θ (or 2π−θ)",
+      "Find the trig value of the reference angle, then apply the correct sign for the original quadrant (ASTC)",
+      "Example: sin(210°): QIII, reference angle=210−180=30°, sin(30°)=1/2, QIII sine is negative → sin(210°)=−1/2"
+     ]
+    },
+    {
+     "l": "Special angle trig values",
+     "intro": "Exact values for 0°,30°,45°,60°,90° (and their radian equivalents) must be memorized — they recur constantly in identities and equations.",
+     "b": [
+      "0°(0): sin=0, cos=1, tan=0",
+      "30°(π/6): sin=1/2, cos=√3/2, tan=√3/3 (=1/√3)",
+      "45°(π/4): sin=√2/2, cos=√2/2, tan=1",
+      "60°(π/3): sin=√3/2, cos=1/2, tan=√3",
+      "90°(π/2): sin=1, cos=0, tan=undefined",
+      "Memory trick: sin values at 0°,30°,45°,60°,90° follow √0/2,√1/2,√2/2,√3/2,√4/2 (simplify each); cos is the reverse order"
+     ]
+    }
+   ],
+   "traps": [
+    "Arc length s=rθ requires θ in RADIANS — using degrees gives a wrong answer without a conversion.",
+    "tan θ is undefined wherever cos θ=0 (90°,270°) — these are vertical asymptotes on the tangent graph, not zeros.",
+    "The reference angle is always POSITIVE and between 0° and 90° — never use the original angle's sign for it.",
+    "Period of tan x is π, not 2π like sine and cosine — don't apply the sine/cosine period formula to tangent."
+   ],
+   "fms": [
+    "s=rθ (θ in radians)",
+    "Period: sin/cos = 2π/|B|; tan = π/|B|",
+    "tan θ = sin θ/cos θ"
+   ]
+  },
+  {
+   "id": 5,
+   "name": "Trigonometric Identities & Equations",
+   "concepts": [
+    {
+     "l": "Pythagorean identities",
+     "intro": "Derived directly from x²+y²=r²=1 on the unit circle, these are the most fundamental trig identities.",
+     "b": [
+      "sin²θ+cos²θ=1 (the core identity — memorize this one first)",
+      "Divide by cos²θ: 1+tan²θ=sec²θ",
+      "Divide by sin²θ: 1+cot²θ=csc²θ",
+      "Rearranged forms are useful for simplifying: sin²θ=1−cos²θ, cos²θ=1−sin²θ",
+      "Example: simplify sin²θ/(1−cos θ) using 1−cos²θ=(1−cosθ)(1+cosθ): sin²θ/(1−cosθ)=(1−cosθ)(1+cosθ)/(1−cosθ)=1+cosθ"
+     ]
+    },
+    {
+     "l": "Sum and difference formulas",
+     "intro": "These formulas expand trig functions of a sum or difference of two angles — used to find exact values of non-special angles like 15° or 75°.",
+     "b": [
+      "sin(A±B)=sin A cos B ± cos A sin B",
+      "cos(A±B)=cos A cos B ∓ sin A sin B (note the sign FLIPS for cosine)",
+      "tan(A±B)=(tan A ± tan B)/(1 ∓ tan A tan B)",
+      "Example: find cos(75°)=cos(45°+30°)=cos45°cos30°−sin45°sin30°=(√2/2)(√3/2)−(√2/2)(1/2)=(√6−√2)/4",
+      "Cofunction identities follow from these: sin(90°−θ)=cos θ, cos(90°−θ)=sin θ"
+     ]
+    },
+    {
+     "l": "Double-angle formulas",
+     "intro": "Double-angle formulas express trig functions of 2θ in terms of single θ — derived by setting A=B=θ in the sum formulas.",
+     "b": [
+      "sin(2θ)=2 sin θ cos θ",
+      "cos(2θ)=cos²θ−sin²θ = 2cos²θ−1 = 1−2sin²θ (three equivalent forms — pick based on what's given)",
+      "tan(2θ)=2tanθ/(1−tan²θ)",
+      "Example: if sinθ=3/5 and θ in QI (cosθ=4/5), then sin(2θ)=2(3/5)(4/5)=24/25",
+      "Half-angle formulas (derived from double-angle, less common but related): sin(θ/2)=±√[(1−cosθ)/2], cos(θ/2)=±√[(1+cosθ)/2]"
+     ]
+    },
+    {
+     "l": "Solving trigonometric equations",
+     "intro": "Solve for θ using algebra and identities, then use the unit circle/reference angles to find ALL solutions in the given interval, remembering periodicity.",
+     "b": [
+      "Isolate the trig function first, then find the reference angle from its exact value",
+      "Find every solution in [0,2π) or [0°,360°) by applying the correct quadrant signs (ASTC), then add multiples of the period for a general solution (+2πk or +360°k)",
+      "Example: solve 2sinθ−1=0 on [0,2π): sinθ=1/2 → reference angle π/6 → sine positive in QI,QII → θ=π/6, 5π/6",
+      "For quadratics in a trig function (e.g., 2sin²θ−sinθ−1=0), factor like a normal quadratic: (2sinθ+1)(sinθ−1)=0 → sinθ=−1/2 or sinθ=1",
+      "When an equation has multiple trig functions, use identities (Pythagorean, double-angle) to rewrite everything in terms of ONE function before solving"
+     ]
+    }
+   ],
+   "traps": [
+    "cos(A+B) ≠ cos A + cos B — you must use the full sum formula, not distribute like multiplication.",
+    "There are THREE equivalent forms of cos(2θ) — pick the one matching the given information (e.g., use 1−2sin²θ if only sinθ is known).",
+    "When solving trig equations over an interval, forgetting to check BOTH quadrants where a function is positive/negative loses half the solutions.",
+    "sin²θ+cos²θ=1 is an identity (true for ALL θ) — don't confuse it with an equation to 'solve for θ'."
+   ],
+   "fms": [
+    "sin²θ+cos²θ=1",
+    "sin(2θ)=2sinθcosθ; cos(2θ)=cos²θ−sin²θ",
+    "sin(A±B)=sinAcosB±cosAsinB"
+   ]
+  },
+  {
+   "id": 6,
+   "name": "Analytic Trigonometry & Applications",
+   "concepts": [
+    {
+     "l": "Law of Sines",
+     "intro": "For any triangle (not just right triangles) with sides a,b,c opposite angles A,B,C: a/sinA = b/sinB = c/sinC. Used when you know an angle-side opposite pair.",
+     "b": [
+      "Use when given: AAS, ASA, or SSA (the 'ambiguous case')",
+      "Set up as a proportion and cross-multiply to solve for the unknown side or angle",
+      "Example: A=40°, a=15, B=60°. Find b: 15/sin40°=b/sin60° → b=15·sin60°/sin40°≈20.2",
+      "Ambiguous case (SSA): given two sides and a non-included angle, there may be 0, 1, or 2 valid triangles — check by comparing the given side to h=b·sinA",
+      "Sum of angles in any triangle = 180°, so the third angle is always found by subtraction once two are known"
+     ]
+    },
+    {
+     "l": "Law of Cosines",
+     "intro": "Generalizes the Pythagorean theorem to any triangle: c²=a²+b²−2ab·cosC. Used when you know SAS or SSS.",
+     "b": [
+      "Use when given: SAS (two sides and the included angle) or SSS (three sides, no angles)",
+      "Solving for a side (SAS): c²=a²+b²−2ab·cos C, then take the square root",
+      "Solving for an angle (SSS): rearrange to cos C=(a²+b²−c²)/(2ab), then take cos⁻¹",
+      "Example (SAS): a=8, b=10, C=50° → c²=64+100−2(8)(10)cos50°≈61.13 → c≈7.82",
+      "Example (SSS): a=5,b=7,c=10 → cosC=(25+49−100)/(2·5·7)=−26/70≈−0.371 → C≈111.8°",
+      "If cos C comes out negative, the angle C is obtuse (>90°) — this is a normal, valid result"
+     ]
+    },
+    {
+     "l": "Solving triangles & area",
+     "intro": "Combine the Law of Sines, Law of Cosines, and area formulas to fully solve (find all sides and angles of) any triangle.",
+     "b": [
+      "SSS or SAS → start with Law of Cosines; AAS/ASA/SSA → start with Law of Sines",
+      "Once one angle is found via Law of Cosines, use Law of Sines for the rest (often easier algebra)",
+      "Area of any triangle given SAS: Area=(1/2)ab·sinC (works without needing the height)",
+      "Example: a=6,b=9,C=30° → Area=(1/2)(6)(9)sin30°=27(0.5)=13.5",
+      "Heron's formula (SSS, no angles needed): s=(a+b+c)/2, Area=√[s(s−a)(s−b)(s−c)]"
+     ]
+    },
+    {
+     "l": "Inverse trigonometric functions",
+     "intro": "Inverse trig functions 'undo' trig functions but must have RESTRICTED ranges to be true functions (since sin, cos, tan are not one-to-one).",
+     "b": [
+      "sin⁻¹x (arcsin): domain [−1,1], range [−π/2,π/2] (QI and QIV)",
+      "cos⁻¹x (arccos): domain [−1,1], range [0,π] (QI and QII)",
+      "tan⁻¹x (arctan): domain all reals, range (−π/2,π/2)",
+      "sin⁻¹(sinθ)=θ only if θ is already in [−π/2,π/2]; otherwise find the equivalent angle in range",
+      "Example: sin⁻¹(1/2)=π/6 (30°) — the answer must be in [−π/2,π/2], so 150° is NOT the output even though sin150°=1/2 too",
+      "Used to solve for an unknown ANGLE once a trig ratio is known (e.g., in right-triangle applications: angle of elevation/depression)"
+     ]
+    }
+   ],
+   "traps": [
+    "Law of Sines' SSA case is 'ambiguous' — always check whether 0, 1, or 2 triangles are possible before finalizing an answer.",
+    "In Law of Cosines, cos C can be negative — that just means C is obtuse; don't discard the result.",
+    "Inverse trig functions return only ONE angle in a restricted range — sin⁻¹(1/2)=30° only, even though 150° also has sine 1/2.",
+    "Area=(1/2)ab sinC requires the INCLUDED angle C (between sides a and b), not just any angle."
+   ],
+   "fms": [
+    "a/sinA=b/sinB=c/sinC",
+    "c²=a²+b²−2ab·cosC",
+    "Area=(1/2)ab·sinC"
+   ]
+  },
+  {
+   "id": 7,
+   "name": "Systems & Matrices",
+   "concepts": [
+    {
+     "l": "Solving systems by substitution & elimination",
+     "intro": "A system of equations has a solution where all equations are simultaneously true — geometrically, where the graphs intersect.",
+     "b": [
+      "Substitution: solve one equation for one variable, substitute into the other equation(s)",
+      "Elimination: multiply equations by constants so one variable's coefficients are opposites, then add the equations",
+      "Example (elimination): 2x+3y=7 and 4x−3y=11 → add directly: 6x=18 → x=3, then y=1/3(7−6)=1/3",
+      "A system with NO solution: equations simplify to a false statement (e.g., 0=5) — lines are parallel",
+      "A system with INFINITE solutions: equations simplify to a true statement (e.g., 0=0) — lines coincide",
+      "For 3-variable systems, eliminate one variable at a time to reduce to a 2-variable system"
+     ]
+    },
+    {
+     "l": "Matrices — basics",
+     "intro": "A matrix is a rectangular array of numbers. Its dimensions are given as rows × columns.",
+     "b": [
+      "A matrix with m rows and n columns is an m×n matrix",
+      "Two matrices are equal only if they have the same dimensions AND every corresponding entry is equal",
+      "A matrix can represent a system of equations as an augmented matrix (coefficients | constants)",
+      "Row operations (swap rows, multiply a row by a nonzero constant, add a multiple of one row to another) don't change the system's solution — basis of row-reduction/Gaussian elimination",
+      "The identity matrix I (1's on the diagonal, 0's elsewhere) acts like the number 1 in matrix multiplication: AI=IA=A"
+     ]
+    },
+    {
+     "l": "Matrix operations",
+     "intro": "Addition/subtraction require matching dimensions; multiplication has its own rule based on rows and columns.",
+     "b": [
+      "Add/subtract matrices by adding/subtracting corresponding entries — matrices MUST be the same dimensions",
+      "Scalar multiplication: multiply every entry by the scalar",
+      "Matrix multiplication AB is defined only if the number of COLUMNS of A equals the number of ROWS of B",
+      "Result dimensions: if A is m×n and B is n×p, then AB is m×p",
+      "Entry (row i, col j) of AB = dot product of row i of A with column j of B",
+      "Matrix multiplication is NOT commutative in general: AB ≠ BA"
+     ]
+    },
+    {
+     "l": "Determinants",
+     "intro": "The determinant is a single number computed from a square matrix that reveals whether it has an inverse.",
+     "b": [
+      "2×2 matrix [[a,b],[c,d]]: determinant = ad−bc",
+      "A matrix has an inverse iff its determinant ≠ 0 (a matrix with det=0 is called 'singular')",
+      "3×3 determinant via cofactor expansion along the top row: expand and use the checkerboard sign pattern (+,−,+)",
+      "Example: det([[2,3],[1,4]])=2(4)−3(1)=8−3=5",
+      "The inverse of a 2×2 matrix [[a,b],[c,d]] is (1/det)·[[d,−b],[−c,a]]"
+     ]
+    },
+    {
+     "l": "Cramer's Rule",
+     "intro": "Cramer's Rule solves a system of linear equations using determinants, without row-reducing.",
+     "b": [
+      "For ax+by=e, cx+dy=f: x=Dx/D, y=Dy/D, where D is the coefficient matrix's determinant",
+      "D=det([[a,b],[c,d]]); Dx=det([[e,b],[f,d]]) (replace the x-column with constants); Dy=det([[a,e],[c,f]]) (replace the y-column)",
+      "Example: 2x+y=5, x−3y=−8 → D=2(−3)−1(1)=−7; Dx=5(−3)−1(−8)=−7; Dy=2(−8)−5(1)=−21 → x=1, y=3",
+      "If D=0, Cramer's Rule fails — the system either has no solution or infinitely many (cannot be determined by Cramer's Rule alone)"
+     ]
+    }
+   ],
+   "traps": [
+    "Matrix multiplication AB requires columns of A = rows of B — mismatched dimensions mean the product doesn't exist.",
+    "AB ≠ BA in general for matrices — order matters, unlike ordinary number multiplication.",
+    "If a system's determinant D=0, Cramer's Rule cannot give a unique solution — don't divide by zero.",
+    "det=ad−bc for a 2×2 matrix [[a,b],[c,d]] — a common error is bc−ad (sign flipped) or ac−bd (wrong entries)."
+   ],
+   "fms": [
+    "det([[a,b],[c,d]])=ad−bc",
+    "Cramer's Rule: x=Dx/D, y=Dy/D",
+    "Inverse of [[a,b],[c,d]] = (1/det)[[d,−b],[−c,a]]"
+   ]
+  },
+  {
+   "id": 8,
+   "name": "Sequences, Series & Conics",
+   "concepts": [
+    {
+     "l": "Arithmetic sequences",
+     "intro": "An arithmetic sequence has a CONSTANT difference d between consecutive terms.",
+     "b": [
+      "Explicit (nth term) formula: aₙ=a₁+(n−1)d",
+      "d = common difference = aₙ − aₙ₋₁ (any term minus the one before it)",
+      "Example: 5,9,13,17,... has a₁=5, d=4 → a₁₀=5+9(4)=41",
+      "Recursive form: aₙ=aₙ₋₁+d, with a₁ given",
+      "To find d given two non-consecutive terms: d=(aₙ−aₘ)/(n−m)"
+     ]
+    },
+    {
+     "l": "Geometric sequences",
+     "intro": "A geometric sequence has a CONSTANT ratio r between consecutive terms.",
+     "b": [
+      "Explicit (nth term) formula: aₙ=a₁·r^(n−1)",
+      "r = common ratio = aₙ/aₙ₋₁ (any term divided by the one before it)",
+      "Example: 3,6,12,24,... has a₁=3, r=2 → a₈=3·2⁷=384",
+      "If |r|<1, terms shrink toward 0 (e.g., 8,4,2,1,0.5,...); if |r|>1, terms grow without bound",
+      "Recursive form: aₙ=r·aₙ₋₁, with a₁ given"
+     ]
+    },
+    {
+     "l": "Series and sigma notation",
+     "intro": "A series is the SUM of a sequence's terms. Sigma notation Σ compactly represents these sums.",
+     "b": [
+      "Sigma notation: Σ(from k=1 to n) f(k) means add f(1)+f(2)+...+f(n)",
+      "Arithmetic series sum: Sₙ=n(a₁+aₙ)/2 = n[2a₁+(n−1)d]/2",
+      "Finite geometric series sum: Sₙ=a₁(1−rⁿ)/(1−r), for r≠1",
+      "Infinite geometric series sum (converges only if |r|<1): S=a₁/(1−r)",
+      "Example: find S for 1+1/2+1/4+1/8+...: a₁=1, r=1/2 → S=1/(1−1/2)=2",
+      "Example: sum of first 20 terms of 4,7,10,...: a₁=4, d=3, a₂₀=4+19(3)=61 → S₂₀=20(4+61)/2=650"
+     ]
+    },
+    {
+     "l": "Parabolas",
+     "intro": "A conic section formed by slicing a cone parallel to its side; the set of points equidistant from a focus and a directrix.",
+     "b": [
+      "Vertex form (vertex at origin), opens up/down: x²=4py (p=distance from vertex to focus, and to directrix)",
+      "Opens left/right: y²=4px",
+      "If p>0: opens up (or right); if p<0: opens down (or left)",
+      "Focus is INSIDE the curve at distance |p| from vertex; directrix is a line OUTSIDE at distance |p| on the opposite side",
+      "Example: x²=8y → 4p=8 → p=2 → focus at (0,2), directrix y=−2",
+      "General vertex-form parabola (vertex (h,k)): (x−h)²=4p(y−k) or (y−k)²=4p(x−h)"
+     ]
+    },
+    {
+     "l": "Ellipses and hyperbolas (basics)",
+     "intro": "Both are centered conics defined by a and b (semi-axes); an ellipse is a 'squashed circle', a hyperbola has two separate branches.",
+     "b": [
+      "Ellipse standard form centered at origin: x²/a²+y²/b²=1, where a is the semi-major axis, b the semi-minor axis (a>b)",
+      "Ellipse foci lie on the major axis at distance c from center, where c²=a²−b²",
+      "Hyperbola standard form (opens left/right): x²/a²−y²/b²=1; (opens up/down): y²/a²−x²/b²=1",
+      "Hyperbola foci satisfy c²=a²+b² (note the PLUS sign, unlike the ellipse)",
+      "Hyperbolas have asymptotes y=±(b/a)x (for the x²/a²−y²/b²=1 form) that the branches approach but never touch",
+      "Example: x²/25+y²/9=1 is an ellipse with a=5,b=3 → c²=25−9=16 → c=4, foci at (±4,0)"
+     ]
+    }
+   ],
+   "traps": [
+    "An arithmetic sequence has a constant DIFFERENCE; a geometric sequence has a constant RATIO — don't mix up which formula to use.",
+    "Infinite geometric series only converge (have a finite sum) when |r|<1 — if |r|≥1 the sum diverges (no formula applies).",
+    "Ellipse foci use c²=a²−b² (minus); hyperbola foci use c²=a²+b² (plus) — swapping these signs gives the wrong foci.",
+    "In x²=4py, the coefficient of the squared term is 4p, not p — solve for p by dividing by 4, don't forget that step."
+   ],
+   "fms": [
+    "aₙ=a₁+(n−1)d ; aₙ=a₁r^(n−1)",
+    "Sₙ=a₁(1−rⁿ)/(1−r) ; S∞=a₁/(1−r), |r|<1",
+    "Ellipse: c²=a²−b² ; Hyperbola: c²=a²+b²"
+   ]
+  },
+  {
+   "id": 9,
+   "name": "Limits & Intro to Calculus Concepts",
+   "concepts": [
+    {
+     "l": "The intuitive idea of a limit",
+     "intro": "lim(x→a) f(x)=L means f(x) gets arbitrarily close to L as x gets arbitrarily close to a (from both sides), regardless of the actual value f(a) (which may not even exist).",
+     "b": [
+      "A limit describes the function's BEHAVIOR NEAR a point, not necessarily the value AT that point",
+      "Two-sided limit exists only if the left-hand limit and right-hand limit are EQUAL: lim(x→a⁻)f(x)=lim(x→a⁺)f(x)",
+      "Notation: lim(x→a⁻) means approaching from the left (values less than a); lim(x→a⁺) means approaching from the right",
+      "A limit can exist at a point even if the function is undefined there (e.g., a hole in the graph)",
+      "A limit fails to exist if the function jumps (left/right limits differ), oscillates infinitely, or increases/decreases without bound near a"
+     ]
+    },
+    {
+     "l": "Evaluating limits graphically and numerically",
+     "intro": "Without algebra, limits can be estimated by reading a graph or by plugging in values approaching a from both sides.",
+     "b": [
+      "Graphically: trace the curve from both sides toward x=a and see what y-value it approaches (ignore any open/closed dot exactly at x=a)",
+      "Numerically: build a table of x-values very close to a (e.g., a−0.1, a−0.01, a+0.01, a+0.1) and see what f(x) approaches",
+      "Example: lim(x→2) (x²−4)/(x−2) — direct substitution gives 0/0 (indeterminate), but the table shows values approaching 4",
+      "Algebraically confirm: (x²−4)/(x−2)=(x−2)(x+2)/(x−2)=x+2 (for x≠2) → limit as x→2 is 2+2=4",
+      "Direct substitution works to evaluate a limit whenever the function is continuous at that point (most polynomials, and rational functions where the denominator isn't 0)"
+     ]
+    },
+    {
+     "l": "Average rate of change",
+     "intro": "The average rate of change of f over [a,b] is the slope of the secant line connecting (a,f(a)) and (b,f(b)) — identical in form to the difference quotient.",
+     "b": [
+      "Average rate of change = [f(b)−f(a)] / (b−a)",
+      "This is exactly a SLOPE calculation — same formula as (y₂−y₁)/(x₂−x₁)",
+      "Example: f(x)=x², find average rate of change on [1,4]: [f(4)−f(1)]/(4−1)=(16−1)/3=5",
+      "As the interval [a,b] shrinks (b→a), the average rate of change approaches the INSTANTANEOUS rate of change at x=a — this is the core idea that leads to the derivative",
+      "Units matter in applications: e.g., average velocity = change in position / change in time"
+     ]
+    },
+    {
+     "l": "Introduction to derivatives as slope of the tangent line",
+     "intro": "The derivative f'(a) is the instantaneous rate of change of f at x=a — the slope of the line TANGENT to the curve at that single point, defined as a limit of average rates of change (secant slopes) as the interval shrinks to zero.",
+     "b": [
+      "Definition: f'(a)=lim(h→0) [f(a+h)−f(a)]/h — the limit of the difference quotient as h→0",
+      "This is the limiting slope of secant lines through (a,f(a)) and (a+h,f(a+h)) as h shrinks toward 0",
+      "Geometrically: the tangent line touches the curve at exactly one point (locally) and matches its instantaneous direction there",
+      "Example: for f(x)=x², f'(a)=lim(h→0) [(a+h)²−a²]/h = lim(h→0) [2ah+h²]/h = lim(h→0)(2a+h)=2a — so the slope of the tangent to y=x² at any point a is 2a",
+      "This 'slope of the tangent line' interpretation is the geometric heart of every derivative computed in calculus"
+     ]
+    }
+   ],
+   "traps": [
+    "A limit describes behavior NEAR a point — f(a) itself can be undefined, different from the limit, or equal to it; all three are possible.",
+    "Direct substitution giving 0/0 does NOT mean the limit doesn't exist — it means you must factor/simplify first (indeterminate form).",
+    "A two-sided limit only exists if the LEFT and RIGHT limits are equal — a jump discontinuity means the limit does not exist even if both one-sided limits exist.",
+    "Average rate of change is a SECANT slope over an interval; the derivative is the limiting TANGENT slope at a single point — don't conflate the two."
+   ],
+   "fms": [
+    "Avg rate of change = [f(b)−f(a)]/(b−a)",
+    "f'(a)=lim(h→0) [f(a+h)−f(a)]/h",
+    "Limit exists iff lim(x→a⁻)f(x)=lim(x→a⁺)f(x)"
+   ]
+  }
+ ],
+ "flashcards": [
+  {
+   "u": 1,
+   "t": "Function",
+   "d": "A relation where every input (x) has EXACTLY ONE output. Tested visually with the Vertical Line Test."
+  },
+  {
+   "u": 1,
+   "t": "Domain",
+   "d": "The complete set of valid x-values (inputs) for a function."
+  },
+  {
+   "u": 1,
+   "t": "Range",
+   "d": "The complete set of possible y-values (outputs) a function can produce."
+  },
+  {
+   "u": 1,
+   "t": "Composite function (f∘g)(x)",
+   "d": "f(g(x)) — evaluate the inside function g first, then plug that result into f."
+  },
+  {
+   "u": 1,
+   "t": "Vertical shift f(x)+k",
+   "d": "Moves the graph UP k units if k>0, DOWN if k<0. Outside the parentheses = intuitive direction."
+  },
+  {
+   "u": 1,
+   "t": "Horizontal shift f(x−h)",
+   "d": "Moves the graph RIGHT h units if h>0 — opposite of the sign inside the parentheses."
+  },
+  {
+   "u": 1,
+   "t": "Even function",
+   "d": "f(−x)=f(x) for all x. Graph is symmetric about the y-axis (e.g., x², cos x)."
+  },
+  {
+   "u": 1,
+   "t": "Odd function",
+   "d": "f(−x)=−f(x) for all x. Graph has 180° rotational symmetry about the origin (e.g., x³, sin x)."
+  },
+  {
+   "u": 1,
+   "t": "Piecewise function",
+   "d": "A function defined by different formulas over different intervals of its domain."
+  },
+  {
+   "u": 2,
+   "t": "End behavior (odd degree, +leading coeff)",
+   "d": "Falls to the left, rises to the right — like y=x³."
+  },
+  {
+   "u": 2,
+   "t": "Multiplicity of a zero",
+   "d": "How many times a factor repeats. Odd multiplicity → graph crosses x-axis; even → graph bounces (touches and turns)."
+  },
+  {
+   "u": 2,
+   "t": "Rational Root Theorem",
+   "d": "Possible rational zeros = ±(factors of constant term)/(factors of leading coefficient)."
+  },
+  {
+   "u": 2,
+   "t": "Synthetic division",
+   "d": "A shortcut method for dividing a polynomial by (x−c); a zero remainder confirms c is a root."
+  },
+  {
+   "u": 2,
+   "t": "Vertical asymptote (rational function)",
+   "d": "Occurs where the denominator = 0 and that factor does NOT cancel with the numerator."
+  },
+  {
+   "u": 2,
+   "t": "Hole (removable discontinuity)",
+   "d": "Occurs where a factor cancels from both numerator and denominator of a rational function."
+  },
+  {
+   "u": 2,
+   "t": "Horizontal asymptote rule (n=m)",
+   "d": "When numerator and denominator have equal degree, HA = ratio of leading coefficients."
+  },
+  {
+   "u": 2,
+   "t": "Slant (oblique) asymptote",
+   "d": "Occurs when the numerator's degree is exactly ONE more than the denominator's; found via long division."
+  },
+  {
+   "u": 2,
+   "t": "Extraneous solution",
+   "d": "A solution produced algebraically that fails in the ORIGINAL equation (often makes a denominator zero)."
+  },
+  {
+   "u": 3,
+   "t": "Exponential growth model",
+   "d": "A(t)=A₀(1+r)^t — quantity increases by a constant percent rate r per time period."
+  },
+  {
+   "u": 3,
+   "t": "Exponential decay model",
+   "d": "A(t)=A₀(1−r)^t — quantity decreases by a constant percent rate r per time period."
+  },
+  {
+   "u": 3,
+   "t": "log_b(x)=y definition",
+   "d": "Means bʸ=x. A logarithm is the exponent you raise the base b to, to get x."
+  },
+  {
+   "u": 3,
+   "t": "Product rule for logs",
+   "d": "log_b(MN)=log_b(M)+log_b(N)."
+  },
+  {
+   "u": 3,
+   "t": "Power rule for logs",
+   "d": "log_b(Mᵏ)=k·log_b(M) — lets you bring an exponent down as a coefficient."
+  },
+  {
+   "u": 3,
+   "t": "Change of base formula",
+   "d": "log_b(x)=ln(x)/ln(b) — used to evaluate logs of any base on a calculator."
+  },
+  {
+   "u": 3,
+   "t": "Natural log ln(x)",
+   "d": "log_e(x), where e≈2.71828. Inverse of eˣ: ln(eˣ)=x and e^(ln x)=x."
+  },
+  {
+   "u": 3,
+   "t": "Continuous growth/decay",
+   "d": "A(t)=A₀e^(rt) — models growth (r>0) or decay (r<0) that compounds continuously."
+  },
+  {
+   "u": 3,
+   "t": "Solving bˣ=k",
+   "d": "Take ln (or log) of both sides: x=ln(k)/ln(b)."
+  },
+  {
+   "u": 4,
+   "t": "Unit circle point at angle θ",
+   "d": "(cos θ, sin θ) — the x-coordinate is cosine, the y-coordinate is sine."
+  },
+  {
+   "u": 4,
+   "t": "Radian-degree conversion",
+   "d": "radians = degrees × π/180; degrees = radians × 180/π."
+  },
+  {
+   "u": 4,
+   "t": "Arc length formula",
+   "d": "s=rθ, where θ MUST be measured in radians."
+  },
+  {
+   "u": 4,
+   "t": "Amplitude",
+   "d": "|A| in y=A sin(Bx−C)+D — half the vertical distance between the max and min of the graph."
+  },
+  {
+   "u": 4,
+   "t": "Period of sine/cosine",
+   "d": "2π/|B| in y=A sin(Bx−C)+D or y=A cos(Bx−C)+D."
+  },
+  {
+   "u": 4,
+   "t": "Period of tangent",
+   "d": "π/|B| — half the period of sine/cosine, and tan x has no amplitude (unbounded range)."
+  },
+  {
+   "u": 4,
+   "t": "Reference angle",
+   "d": "The acute angle between the terminal side and the x-axis; used to find exact trig values with the correct sign."
+  },
+  {
+   "u": 4,
+   "t": "ASTC rule",
+   "d": "'All Students Take Calculus' — signs of trig functions positive in QI (All), QII (Sine), QIII (Tangent), QIV (Cosine)."
+  },
+  {
+   "u": 4,
+   "t": "sin(45°)=cos(45°)",
+   "d": "Both equal √2/2 ≈0.707, since 45° is symmetric between the axes on the unit circle."
+  },
+  {
+   "u": 5,
+   "t": "Pythagorean identity",
+   "d": "sin²θ+cos²θ=1 for all θ — derived from x²+y²=1 on the unit circle."
+  },
+  {
+   "u": 5,
+   "t": "1+tan²θ=sec²θ",
+   "d": "Derived by dividing the Pythagorean identity sin²θ+cos²θ=1 by cos²θ."
+  },
+  {
+   "u": 5,
+   "t": "sin(A+B)",
+   "d": "sin A cos B + cos A sin B — the sine sum formula."
+  },
+  {
+   "u": 5,
+   "t": "cos(A+B)",
+   "d": "cos A cos B − sin A sin B — note the MINUS sign, unlike the sine formula."
+  },
+  {
+   "u": 5,
+   "t": "Double-angle for sine",
+   "d": "sin(2θ)=2 sin θ cos θ."
+  },
+  {
+   "u": 5,
+   "t": "Double-angle for cosine (3 forms)",
+   "d": "cos(2θ)=cos²θ−sin²θ = 2cos²θ−1 = 1−2sin²θ."
+  },
+  {
+   "u": 5,
+   "t": "General solution to a trig equation",
+   "d": "Add integer multiples of the period (+2πk or +360°k) to every solution found in one cycle."
+  },
+  {
+   "u": 5,
+   "t": "Solving a trig quadratic",
+   "d": "Treat sinθ, cosθ, or tanθ like a variable and factor normally, e.g., (2sinθ+1)(sinθ−1)=0."
+  },
+  {
+   "u": 5,
+   "t": "cot θ",
+   "d": "1/tan θ = cos θ/sin θ — the reciprocal of tangent."
+  },
+  {
+   "u": 6,
+   "t": "Law of Sines",
+   "d": "a/sinA = b/sinB = c/sinC. Use with AAS, ASA, or the ambiguous SSA case."
+  },
+  {
+   "u": 6,
+   "t": "Law of Cosines",
+   "d": "c²=a²+b²−2ab·cosC. Use with SAS or SSS (no Law of Sines shortcut applies yet)."
+  },
+  {
+   "u": 6,
+   "t": "Ambiguous case (SSA)",
+   "d": "Given two sides and a non-included angle, there may be 0, 1, or 2 valid triangles — must be checked."
+  },
+  {
+   "u": 6,
+   "t": "Area of a triangle (SAS)",
+   "d": "Area=(1/2)ab·sinC, where C is the angle INCLUDED between sides a and b."
+  },
+  {
+   "u": 6,
+   "t": "Heron's Formula",
+   "d": "Area=√[s(s−a)(s−b)(s−c)], where s=(a+b+c)/2 (semi-perimeter). Works for SSS, no angle needed."
+  },
+  {
+   "u": 6,
+   "t": "arcsin (sin⁻¹) range",
+   "d": "[−π/2, π/2] — the restricted range so arcsin is a true function."
+  },
+  {
+   "u": 6,
+   "t": "arccos (cos⁻¹) range",
+   "d": "[0, π] — the restricted range so arccos is a true function."
+  },
+  {
+   "u": 6,
+   "t": "arctan (tan⁻¹) range",
+   "d": "(−π/2, π/2) — domain is all real numbers."
+  },
+  {
+   "u": 6,
+   "t": "Obtuse angle from Law of Cosines",
+   "d": "If cos C comes out negative when solving for an angle, C is obtuse (between 90° and 180°) — a valid result."
+  },
+  {
+   "u": 7,
+   "t": "Solving by elimination",
+   "d": "Multiply equations so one variable's coefficients are opposites, then add the equations to eliminate it."
+  },
+  {
+   "u": 7,
+   "t": "No solution (linear system)",
+   "d": "Occurs when elimination/substitution leads to a FALSE statement, like 0=5 — the lines are parallel."
+  },
+  {
+   "u": 7,
+   "t": "Infinite solutions (linear system)",
+   "d": "Occurs when elimination/substitution leads to a TRUE statement, like 0=0 — the lines coincide."
+  },
+  {
+   "u": 7,
+   "t": "Matrix dimensions",
+   "d": "Given as rows × columns; an m×n matrix has m rows and n columns."
+  },
+  {
+   "u": 7,
+   "t": "Matrix multiplication requirement",
+   "d": "AB is defined only if the number of columns of A equals the number of rows of B."
+  },
+  {
+   "u": 7,
+   "t": "Determinant of a 2×2 matrix",
+   "d": "For [[a,b],[c,d]], det=ad−bc."
+  },
+  {
+   "u": 7,
+   "t": "Singular matrix",
+   "d": "A square matrix whose determinant equals 0 — it has NO inverse."
+  },
+  {
+   "u": 7,
+   "t": "Inverse of a 2×2 matrix",
+   "d": "(1/det)·[[d,−b],[−c,a]], valid only when det≠0."
+  },
+  {
+   "u": 7,
+   "t": "Cramer's Rule",
+   "d": "Solves a linear system using determinants: x=Dx/D, y=Dy/D. Fails (no unique solution) if D=0."
+  },
+  {
+   "u": 8,
+   "t": "Arithmetic sequence",
+   "d": "A sequence with a CONSTANT difference d between consecutive terms: aₙ=a₁+(n−1)d."
+  },
+  {
+   "u": 8,
+   "t": "Geometric sequence",
+   "d": "A sequence with a CONSTANT ratio r between consecutive terms: aₙ=a₁·r^(n−1)."
+  },
+  {
+   "u": 8,
+   "t": "Sigma notation",
+   "d": "Σ(k=1 to n) f(k) — compact notation representing the sum f(1)+f(2)+...+f(n)."
+  },
+  {
+   "u": 8,
+   "t": "Finite geometric series sum",
+   "d": "Sₙ=a₁(1−rⁿ)/(1−r), for r≠1."
+  },
+  {
+   "u": 8,
+   "t": "Infinite geometric series sum",
+   "d": "S=a₁/(1−r), but ONLY converges (has a finite sum) when |r|<1."
+  },
+  {
+   "u": 8,
+   "t": "Parabola x²=4py",
+   "d": "Vertex at origin; focus at (0,p); directrix y=−p. Opens up if p>0, down if p<0."
+  },
+  {
+   "u": 8,
+   "t": "Ellipse foci distance",
+   "d": "c²=a²−b² (a=semi-major axis, b=semi-minor axis), where c is the distance from center to each focus."
+  },
+  {
+   "u": 8,
+   "t": "Hyperbola foci distance",
+   "d": "c²=a²+b² — note the PLUS sign, unlike the ellipse's minus sign."
+  },
+  {
+   "u": 8,
+   "t": "Hyperbola asymptotes",
+   "d": "y=±(b/a)x for x²/a²−y²/b²=1 — lines the branches approach but never touch."
+  },
+  {
+   "u": 9,
+   "t": "Limit lim(x→a) f(x)=L",
+   "d": "f(x) gets arbitrarily close to L as x approaches a from both sides, regardless of f(a)."
+  },
+  {
+   "u": 9,
+   "t": "Two-sided limit existence",
+   "d": "Exists only if the left-hand limit equals the right-hand limit: lim(x→a⁻)f(x)=lim(x→a⁺)f(x)."
+  },
+  {
+   "u": 9,
+   "t": "Indeterminate form 0/0",
+   "d": "A signal to factor and simplify before evaluating a limit — it does NOT mean the limit fails to exist."
+  },
+  {
+   "u": 9,
+   "t": "Average rate of change",
+   "d": "[f(b)−f(a)]/(b−a) — the slope of the secant line through (a,f(a)) and (b,f(b))."
+  },
+  {
+   "u": 9,
+   "t": "Difference quotient",
+   "d": "[f(a+h)−f(a)]/h — the average rate of change over an interval of width h starting at a."
+  },
+  {
+   "u": 9,
+   "t": "Derivative f'(a)",
+   "d": "lim(h→0) [f(a+h)−f(a)]/h — the instantaneous rate of change; the slope of the tangent line at x=a."
+  },
+  {
+   "u": 9,
+   "t": "Secant line vs tangent line",
+   "d": "A secant line crosses the curve at two points (average rate); a tangent line touches at one point (instantaneous rate)."
+  },
+  {
+   "u": 9,
+   "t": "Continuity and direct substitution",
+   "d": "If f is continuous at x=a, then lim(x→a) f(x)=f(a), so you can find the limit by direct substitution."
+  },
+  {
+   "u": 9,
+   "t": "Jump discontinuity",
+   "d": "Occurs when the left-hand and right-hand limits at a point exist but are NOT equal — the overall limit does not exist there."
+  }
+ ],
+ "quiz": [
+  {
+   "u": 1,
+   "q": "If f(x)=2x²−3x+1, find f(3).",
+   "o": [
+    "10",
+    "16",
+    "22",
+    "4"
+   ],
+   "a": 0,
+   "e": "f(3)=2(9)−3(3)+1=18−9+1=10."
+  },
+  {
+   "u": 1,
+   "q": "If f(x)=x+2 and g(x)=x², find (f∘g)(3).",
+   "o": [
+    "11",
+    "25",
+    "20",
+    "7"
+   ],
+   "a": 0,
+   "e": "(f∘g)(3)=f(g(3))=f(9)=9+2=11."
+  },
+  {
+   "u": 1,
+   "q": "If f(x)=x+2 and g(x)=x², find (g∘f)(3).",
+   "o": [
+    "11",
+    "25",
+    "20",
+    "7"
+   ],
+   "a": 1,
+   "e": "(g∘f)(3)=g(f(3))=g(5)=25. Composition order matters — this differs from (f∘g)(3)."
+  },
+  {
+   "u": 1,
+   "q": "What is the domain of f(x)=1/(x−5)?",
+   "o": [
+    "All real numbers",
+    "All real numbers except x=5",
+    "x≥5",
+    "x≤5"
+   ],
+   "a": 1,
+   "e": "The denominator cannot equal 0, so x≠5 is excluded."
+  },
+  {
+   "u": 1,
+   "q": "What is the domain of f(x)=√(x−4)?",
+   "o": [
+    "x≥4",
+    "x≤4",
+    "x>0",
+    "All real numbers"
+   ],
+   "a": 0,
+   "e": "The radicand must be ≥0 for a real, even-root output: x−4≥0 → x≥4."
+  },
+  {
+   "u": 1,
+   "q": "Which test determines whether a graph represents a function?",
+   "o": [
+    "Horizontal Line Test",
+    "Vertical Line Test",
+    "Origin symmetry test",
+    "Intercept test"
+   ],
+   "a": 1,
+   "e": "The Vertical Line Test: if any vertical line crosses the graph more than once, it is not a function."
+  },
+  {
+   "u": 1,
+   "q": "The graph of y=(x−3)²+5 is the graph of y=x² shifted:",
+   "o": [
+    "Right 3, up 5",
+    "Left 3, up 5",
+    "Right 3, down 5",
+    "Left 3, down 5"
+   ],
+   "a": 0,
+   "e": "(x−h) shifts right h units (h=3); +k shifts up k units (k=5)."
+  },
+  {
+   "u": 1,
+   "q": "The graph of y=f(x+4) is obtained from y=f(x) by shifting:",
+   "o": [
+    "Right 4 units",
+    "Left 4 units",
+    "Up 4 units",
+    "Down 4 units"
+   ],
+   "a": 1,
+   "e": "f(x+h) shifts LEFT h units — opposite of the sign inside the parentheses."
+  },
+  {
+   "u": 1,
+   "q": "Which best describes the transformation from y=x² to y=3x²?",
+   "o": [
+    "Vertical stretch by factor 3",
+    "Vertical compression by factor 3",
+    "Horizontal stretch by factor 3",
+    "Shift up 3 units"
+   ],
+   "a": 0,
+   "e": "Multiplying the whole function by a>1 (outside) vertically stretches the graph."
+  },
+  {
+   "u": 1,
+   "q": "Which function is even?",
+   "o": [
+    "f(x)=x³",
+    "f(x)=x²+3",
+    "f(x)=x+1",
+    "f(x)=sin x"
+   ],
+   "a": 1,
+   "e": "f(−x)=(−x)²+3=x²+3=f(x), so it's even. It's symmetric about the y-axis."
+  },
+  {
+   "u": 1,
+   "q": "Which function is odd?",
+   "o": [
+    "f(x)=x²",
+    "f(x)=cos x",
+    "f(x)=x³−x",
+    "f(x)=|x|"
+   ],
+   "a": 2,
+   "e": "f(−x)=(−x)³−(−x)=−x³+x=−(x³−x)=−f(x), so it's odd."
+  },
+  {
+   "u": 1,
+   "q": "Given f(x)={2x+1 if x<3; x²−2 if x≥3}, find f(3).",
+   "o": [
+    "7",
+    "6",
+    "3",
+    "9"
+   ],
+   "a": 0,
+   "e": "Since 3≥3, use the second rule: f(3)=3²−2=7."
+  },
+  {
+   "u": 1,
+   "q": "Given f(x)={2x+1 if x<3; x²−2 if x≥3}, find f(1).",
+   "o": [
+    "3",
+    "−1",
+    "1",
+    "2"
+   ],
+   "a": 0,
+   "e": "Since 1<3, use the first rule: f(1)=2(1)+1=3."
+  },
+  {
+   "u": 1,
+   "q": "What is the range of f(x)=−x²+4 (a downward parabola with vertex (0,4))?",
+   "o": [
+    "y≤4",
+    "y≥4",
+    "All real numbers",
+    "y≤0"
+   ],
+   "a": 0,
+   "e": "The parabola opens downward with maximum value 4 at the vertex, so the range is y≤4."
+  },
+  {
+   "u": 1,
+   "q": "The difference quotient [f(x+h)−f(x)]/h for f(x)=x² simplifies to:",
+   "o": [
+    "2x+h",
+    "2x",
+    "x+h",
+    "2x−h"
+   ],
+   "a": 0,
+   "e": "[(x+h)²−x²]/h=[2xh+h²]/h=2x+h."
+  },
+  {
+   "u": 1,
+   "q": "Which transformation reflects y=f(x) over the x-axis?",
+   "o": [
+    "y=f(−x)",
+    "y=−f(x)",
+    "y=f(x)−1",
+    "y=1/f(x)"
+   ],
+   "a": 1,
+   "e": "−f(x) negates every output (y-value), flipping the graph over the x-axis. f(−x) reflects over the y-axis instead."
+  },
+  {
+   "u": 2,
+   "q": "What is the end behavior of f(x)=−3x⁴+2x−1?",
+   "o": [
+    "Rises left, rises right",
+    "Falls left, falls right",
+    "Rises left, falls right",
+    "Falls left, rises right"
+   ],
+   "a": 1,
+   "e": "Even degree (4) with negative leading coefficient → falls on both ends."
+  },
+  {
+   "u": 2,
+   "q": "What is the end behavior of f(x)=2x⁵−x²+3?",
+   "o": [
+    "Falls left, rises right",
+    "Rises left, falls right",
+    "Rises left, rises right",
+    "Falls left, falls right"
+   ],
+   "a": 0,
+   "e": "Odd degree (5) with positive leading coefficient → falls left, rises right."
+  },
+  {
+   "u": 2,
+   "q": "Find the zeros of f(x)=x²−4x−5.",
+   "o": [
+    "x=5, −1",
+    "x=−5, 1",
+    "x=5, 1",
+    "x=−5, −1"
+   ],
+   "a": 0,
+   "e": "Factor: (x−5)(x+1)=0 → x=5 or x=−1."
+  },
+  {
+   "u": 2,
+   "q": "For f(x)=(x−2)²(x+3), what is the behavior at x=2?",
+   "o": [
+    "Crosses the x-axis",
+    "Bounces off (touches) the x-axis",
+    "Passes through a vertical asymptote",
+    "Passes through a hole"
+   ],
+   "a": 1,
+   "e": "The factor (x−2) has multiplicity 2 (even) → the graph touches and turns back at x=2."
+  },
+  {
+   "u": 2,
+   "q": "Which are the possible rational roots of 2x³+x²−13x+6=0 given by the Rational Root Theorem, considering constant=6 and leading coefficient=2?",
+   "o": [
+    "±1,2,3,6,1/2,3/2",
+    "±1,2,3,6 only",
+    "±1,3,6 only",
+    "±2,3,6,1/6"
+   ],
+   "a": 0,
+   "e": "Candidates = ±(factors of 6)/(factors of 2) = ±1,2,3,6,1/2,3/2."
+  },
+  {
+   "u": 2,
+   "q": "Using synthetic division, divide x³−6x²+11x−6 by (x−1). What is the remainder?",
+   "o": [
+    "0",
+    "6",
+    "−6",
+    "1"
+   ],
+   "a": 0,
+   "e": "Synthetic division with root 1: 1,−6,11,−6 → bring down 1, 1(1)−6=−5, −5(1)+11=6, 6(1)−6=0. Remainder is 0, so x=1 is a root."
+  },
+  {
+   "u": 2,
+   "q": "What is the vertical asymptote of f(x)=(x+1)/(x−4)?",
+   "o": [
+    "x=4",
+    "x=−1",
+    "x=−4",
+    "y=1"
+   ],
+   "a": 0,
+   "e": "Set the denominator to 0: x−4=0 → x=4. The numerator isn't zero there, so it's a true vertical asymptote."
+  },
+  {
+   "u": 2,
+   "q": "What is the horizontal asymptote of f(x)=(2x²+5)/(x²−9)?",
+   "o": [
+    "y=2",
+    "y=0",
+    "No horizontal asymptote",
+    "y=5/9"
+   ],
+   "a": 0,
+   "e": "Degrees are equal (both 2), so HA = ratio of leading coefficients = 2/1 = 2."
+  },
+  {
+   "u": 2,
+   "q": "What is the horizontal asymptote of f(x)=(3x+1)/(x²−4)?",
+   "o": [
+    "y=3",
+    "y=0",
+    "No horizontal asymptote",
+    "y=1/4"
+   ],
+   "a": 1,
+   "e": "Numerator degree (1) is less than denominator degree (2), so HA is y=0."
+  },
+  {
+   "u": 2,
+   "q": "For f(x)=(x²+3x)/(x²−9), where is there a HOLE (not an asymptote)?",
+   "o": [
+    "x=3",
+    "x=−3",
+    "x=0",
+    "x=9"
+   ],
+   "a": 1,
+   "e": "f(x)=x(x+3)/[(x−3)(x+3)]. The (x+3) factor cancels, creating a hole at x=−3. x=3 remains a vertical asymptote."
+  },
+  {
+   "u": 2,
+   "q": "Does f(x)=(x²+1)/(x−2) have a horizontal or slant asymptote?",
+   "o": [
+    "Horizontal asymptote y=0",
+    "Slant asymptote (numerator degree exactly 1 more)",
+    "Horizontal asymptote y=1",
+    "No asymptote of either kind"
+   ],
+   "a": 1,
+   "e": "Numerator degree (2) is exactly one more than denominator degree (1) → a slant asymptote exists, found by long division."
+  },
+  {
+   "u": 2,
+   "q": "Solve (x−3)/(x+2)=0.",
+   "o": [
+    "x=3",
+    "x=−2",
+    "x=0",
+    "No solution"
+   ],
+   "a": 0,
+   "e": "A fraction equals 0 only when its numerator is 0 (and denominator isn't): x−3=0 → x=3."
+  },
+  {
+   "u": 2,
+   "q": "Solve 3/(x−1)=6/(x+2) for x.",
+   "o": [
+    "x=4",
+    "x=−4",
+    "x=1",
+    "x=2"
+   ],
+   "a": 0,
+   "e": "Cross-multiply: 3(x+2)=6(x−1) → 3x+6=6x−6 → 12=3x → x=4. Check: neither denominator is 0."
+  },
+  {
+   "u": 2,
+   "q": "Which factorization is correct for x³−8?",
+   "o": [
+    "(x−2)(x²+2x+4)",
+    "(x−2)(x²−2x+4)",
+    "(x+2)(x²−2x+4)",
+    "(x−2)³"
+   ],
+   "a": 0,
+   "e": "Difference of cubes: a³−b³=(a−b)(a²+ab+b²), with a=x,b=2: (x−2)(x²+2x+4)."
+  },
+  {
+   "u": 2,
+   "q": "Solve the rational inequality (x−1)/(x+2)≥0.",
+   "o": [
+    "x<−2 or x≥1",
+    "−2<x≤1",
+    "x≤−2 or x≥1",
+    "−2≤x≤1"
+   ],
+   "a": 0,
+   "e": "Critical values x=−2 (excluded, undefined) and x=1 (included, zero). Testing intervals shows the expression is ≥0 for x<−2 or x≥1."
+  },
+  {
+   "u": 2,
+   "q": "A polynomial of degree 4 can have at most how many real zeros (counting multiplicity)?",
+   "o": [
+    "3",
+    "4",
+    "5",
+    "2"
+   ],
+   "a": 1,
+   "e": "A degree-n polynomial has at most n real zeros, counting multiplicity — degree 4 → at most 4."
+  },
+  {
+   "u": 3,
+   "q": "A population of 2000 grows 5% per year. What is the population after 3 years, A(t)=2000(1.05)^t?",
+   "o": [
+    "≈2315.3",
+    "2300",
+    "≈2310",
+    "≈2321.9"
+   ],
+   "a": 0,
+   "e": "A(3)=2000(1.05)³=2000(1.157625)≈2315.3."
+  },
+  {
+   "u": 3,
+   "q": "Simplify: 8^(2/3).",
+   "o": [
+    "4",
+    "16",
+    "2",
+    "64"
+   ],
+   "a": 0,
+   "e": "8^(2/3)=(³√8)²=2²=4."
+  },
+  {
+   "u": 3,
+   "q": "Simplify: 2⁴·2³.",
+   "o": [
+    "2⁷",
+    "2¹²",
+    "4⁷",
+    "2¹"
+   ],
+   "a": 0,
+   "e": "Product rule: bᵐ·bⁿ=bᵐ⁺ⁿ → 2⁴⁺³=2⁷."
+  },
+  {
+   "u": 3,
+   "q": "Simplify: (3²)³.",
+   "o": [
+    "3⁵",
+    "3⁶",
+    "9⁶",
+    "3⁹"
+   ],
+   "a": 1,
+   "e": "Power rule: (bᵐ)ⁿ=bᵐⁿ → 3^(2·3)=3⁶."
+  },
+  {
+   "u": 3,
+   "q": "Solve 2^(x+1)=8.",
+   "o": [
+    "x=2",
+    "x=3",
+    "x=1",
+    "x=4"
+   ],
+   "a": 0,
+   "e": "8=2³, so 2^(x+1)=2³ → x+1=3 → x=2."
+  },
+  {
+   "u": 3,
+   "q": "Rewrite log₂(32)=5 in exponential form.",
+   "o": [
+    "2⁵=32",
+    "5²=32",
+    "2³²=5",
+    "32⁵=2"
+   ],
+   "a": 0,
+   "e": "log_b(x)=y means bʸ=x, so log₂(32)=5 means 2⁵=32."
+  },
+  {
+   "u": 3,
+   "q": "Simplify log_b(x³y) using log properties.",
+   "o": [
+    "3log_b(x)+log_b(y)",
+    "log_b(3x)+log_b(y)",
+    "3log_b(x)·log_b(y)",
+    "log_b(x)+3log_b(y)"
+   ],
+   "a": 0,
+   "e": "Product rule then power rule: log_b(x³y)=log_b(x³)+log_b(y)=3log_b(x)+log_b(y)."
+  },
+  {
+   "u": 3,
+   "q": "Simplify log₅(125)−log₅(5).",
+   "o": [
+    "2",
+    "3",
+    "4",
+    "1"
+   ],
+   "a": 0,
+   "e": "log₅(125)=3 (since 5³=125); log₅(5)=1. 3−1=2. Also equals log₅(125/5)=log₅(25)=2."
+  },
+  {
+   "u": 3,
+   "q": "Solve log₂(x)=5.",
+   "o": [
+    "x=32",
+    "x=10",
+    "x=25",
+    "x=2.5"
+   ],
+   "a": 0,
+   "e": "Rewrite in exponential form: x=2⁵=32."
+  },
+  {
+   "u": 3,
+   "q": "Solve 5^x=40 (round to 3 decimal places).",
+   "o": [
+    "≈2.292",
+    "≈1.723",
+    "≈8.000",
+    "≈3.401"
+   ],
+   "a": 0,
+   "e": "x=ln(40)/ln(5)≈3.689/1.609≈2.292."
+  },
+  {
+   "u": 3,
+   "q": "Solve log(x−1)=2.",
+   "o": [
+    "x=101",
+    "x=100",
+    "x=21",
+    "x=3"
+   ],
+   "a": 0,
+   "e": "log(x−1)=2 (base 10) means x−1=10²=100 → x=101."
+  },
+  {
+   "u": 3,
+   "q": "Which value of x makes log₃(x−4) undefined?",
+   "o": [
+    "x=4",
+    "x=5",
+    "x=7",
+    "x=13"
+   ],
+   "a": 0,
+   "e": "The argument (x−4) must be >0, so x=4 makes it 0, which is not allowed — the expression is undefined there."
+  },
+  {
+   "u": 3,
+   "q": "What is ln(e⁵)?",
+   "o": [
+    "5",
+    "e⁵",
+    "5e",
+    "1"
+   ],
+   "a": 0,
+   "e": "ln and eˣ are inverse functions: ln(eˣ)=x, so ln(e⁵)=5."
+  },
+  {
+   "u": 3,
+   "q": "Solve e^(2x)=15 (round to 3 decimal places).",
+   "o": [
+    "≈1.354",
+    "≈2.708",
+    "≈0.677",
+    "≈3.750"
+   ],
+   "a": 0,
+   "e": "Take ln of both sides: 2x=ln(15)≈2.708 → x≈1.354."
+  },
+  {
+   "u": 3,
+   "q": "$1000 is invested at 4% annual interest compounded continuously. Which formula gives the balance after t years?",
+   "o": [
+    "A=1000e^(0.04t)",
+    "A=1000(1.04)^t",
+    "A=1000+0.04t",
+    "A=1000(0.04)^t"
+   ],
+   "a": 0,
+   "e": "Continuous compounding uses A=Pe^(rt), with P=1000, r=0.04."
+  },
+  {
+   "u": 3,
+   "q": "A radioactive isotope has a half-life of 10 years. Using A(t)=A₀(1/2)^(t/10), what fraction remains after 30 years?",
+   "o": [
+    "1/8",
+    "1/2",
+    "1/4",
+    "1/16"
+   ],
+   "a": 0,
+   "e": "A(30)/A₀=(1/2)^(30/10)=(1/2)³=1/8."
+  },
+  {
+   "u": 4,
+   "q": "Convert 150° to radians.",
+   "o": [
+    "5π/6",
+    "2π/3",
+    "π/6",
+    "7π/6"
+   ],
+   "a": 0,
+   "e": "150×(π/180)=150π/180=5π/6."
+  },
+  {
+   "u": 4,
+   "q": "Convert 7π/4 radians to degrees.",
+   "o": [
+    "315°",
+    "280°",
+    "210°",
+    "350°"
+   ],
+   "a": 0,
+   "e": "(7π/4)×(180/π)=7(180)/4=315°."
+  },
+  {
+   "u": 4,
+   "q": "What is sin(30°)?",
+   "o": [
+    "1/2",
+    "√2/2",
+    "√3/2",
+    "1"
+   ],
+   "a": 0,
+   "e": "sin(30°)=1/2, one of the standard special-angle values."
+  },
+  {
+   "u": 4,
+   "q": "What is cos(60°)?",
+   "o": [
+    "1/2",
+    "√3/2",
+    "√2/2",
+    "0"
+   ],
+   "a": 0,
+   "e": "cos(60°)=1/2, a standard special-angle value."
+  },
+  {
+   "u": 4,
+   "q": "What is tan(45°)?",
+   "o": [
+    "1",
+    "0",
+    "√2",
+    "undefined"
+   ],
+   "a": 0,
+   "e": "tan(45°)=sin(45°)/cos(45°)=(√2/2)/(√2/2)=1."
+  },
+  {
+   "u": 4,
+   "q": "In which quadrant is tan θ positive but sin θ negative?",
+   "o": [
+    "QIII",
+    "QI",
+    "QII",
+    "QIV"
+   ],
+   "a": 0,
+   "e": "By ASTC, QIII has tangent positive (both sine and cosine negative, so their ratio is positive) while sine itself is negative."
+  },
+  {
+   "u": 4,
+   "q": "Find the reference angle for 210°.",
+   "o": [
+    "30°",
+    "210°",
+    "150°",
+    "60°"
+   ],
+   "a": 0,
+   "e": "QIII: reference angle = θ−180° = 210−180=30°."
+  },
+  {
+   "u": 4,
+   "q": "Find sin(210°) using the reference angle.",
+   "o": [
+    "−1/2",
+    "1/2",
+    "−√3/2",
+    "√3/2"
+   ],
+   "a": 0,
+   "e": "Reference angle is 30° (sin=1/2); QIII has sine negative → sin(210°)=−1/2."
+  },
+  {
+   "u": 4,
+   "q": "Find cos(315°).",
+   "o": [
+    "√2/2",
+    "−√2/2",
+    "√3/2",
+    "−1/2"
+   ],
+   "a": 0,
+   "e": "Reference angle for 315° (QIV) is 360−315=45°; cos(45°)=√2/2; QIV has cosine positive → cos(315°)=√2/2."
+  },
+  {
+   "u": 4,
+   "q": "What is the period of y=2sin(3x)+1?",
+   "o": [
+    "2π/3",
+    "π/3",
+    "2π",
+    "6π"
+   ],
+   "a": 0,
+   "e": "Period=2π/|B|=2π/3."
+  },
+  {
+   "u": 4,
+   "q": "What is the amplitude of y=−4cos(x)+2?",
+   "o": [
+    "4",
+    "−4",
+    "2",
+    "6"
+   ],
+   "a": 0,
+   "e": "Amplitude=|A|=|−4|=4."
+  },
+  {
+   "u": 4,
+   "q": "What is the midline (vertical shift) of y=3sin(2x)−5?",
+   "o": [
+    "y=−5",
+    "y=3",
+    "y=2",
+    "y=5"
+   ],
+   "a": 0,
+   "e": "D=−5 gives the midline y=−5, since the function is written as A sin(Bx)+D."
+  },
+  {
+   "u": 4,
+   "q": "What is the period of y=tan(x/2)?",
+   "o": [
+    "2π",
+    "π",
+    "π/2",
+    "4π"
+   ],
+   "a": 0,
+   "e": "Period of tangent = π/|B| = π/(1/2) = 2π."
+  },
+  {
+   "u": 4,
+   "q": "An angle sweeps through an arc of length 12 cm on a circle of radius 4 cm. What is θ in radians?",
+   "o": [
+    "3",
+    "0.33",
+    "48",
+    "12"
+   ],
+   "a": 0,
+   "e": "s=rθ → θ=s/r=12/4=3 radians."
+  },
+  {
+   "u": 4,
+   "q": "At which angle(s) in [0°,360°) is tan θ undefined?",
+   "o": [
+    "90° and 270°",
+    "0° and 180°",
+    "45° and 135°",
+    "60° and 240°"
+   ],
+   "a": 0,
+   "e": "tan θ=sinθ/cosθ is undefined where cos θ=0, which occurs at 90° and 270°."
+  },
+  {
+   "u": 4,
+   "q": "Which point lies on the unit circle at θ=180°?",
+   "o": [
+    "(−1,0)",
+    "(1,0)",
+    "(0,−1)",
+    "(0,1)"
+   ],
+   "a": 0,
+   "e": "At 180°, the terminal point is (cos180°,sin180°)=(−1,0)."
+  },
+  {
+   "u": 5,
+   "q": "If sinθ=3/5 and θ is in QI, what is cosθ?",
+   "o": [
+    "4/5",
+    "3/4",
+    "5/4",
+    "−4/5"
+   ],
+   "a": 0,
+   "e": "sin²θ+cos²θ=1 → cos²θ=1−9/25=16/25 → cosθ=4/5 (positive in QI)."
+  },
+  {
+   "u": 5,
+   "q": "Simplify sin²θ + cos²θ + tan²θ.",
+   "o": [
+    "1+tan²θ",
+    "sec²θ (equivalently 1+tan²θ)",
+    "2",
+    "csc²θ"
+   ],
+   "a": 1,
+   "e": "sin²θ+cos²θ=1, so the expression is 1+tan²θ, which equals sec²θ by the Pythagorean identity."
+  },
+  {
+   "u": 5,
+   "q": "Find the exact value of sin(75°) using sin(45°+30°).",
+   "o": [
+    "(√6+√2)/4",
+    "(√6−√2)/4",
+    "√2/2",
+    "(√3+1)/2"
+   ],
+   "a": 0,
+   "e": "sin(45+30)=sin45cos30+cos45sin30=(√2/2)(√3/2)+(√2/2)(1/2)=(√6+√2)/4."
+  },
+  {
+   "u": 5,
+   "q": "Find the exact value of cos(75°) using cos(45°+30°).",
+   "o": [
+    "(√6+√2)/4",
+    "(√6−√2)/4",
+    "(√2−√3)/4",
+    "1/2"
+   ],
+   "a": 1,
+   "e": "cos(45+30)=cos45cos30−sin45sin30=(√2/2)(√3/2)−(√2/2)(1/2)=(√6−√2)/4."
+  },
+  {
+   "u": 5,
+   "q": "If sinθ=3/5 and cosθ=4/5 (θ in QI), find sin(2θ).",
+   "o": [
+    "24/25",
+    "7/25",
+    "12/25",
+    "6/5"
+   ],
+   "a": 0,
+   "e": "sin(2θ)=2sinθcosθ=2(3/5)(4/5)=24/25."
+  },
+  {
+   "u": 5,
+   "q": "If cosθ=4/5 and θ in QI, find cos(2θ) using cos(2θ)=2cos²θ−1.",
+   "o": [
+    "7/25",
+    "24/25",
+    "−7/25",
+    "16/25"
+   ],
+   "a": 0,
+   "e": "cos(2θ)=2(4/5)²−1=2(16/25)−1=32/25−25/25=7/25."
+  },
+  {
+   "u": 5,
+   "q": "Solve 2sinθ−1=0 for θ in [0,2π).",
+   "o": [
+    "π/6, 5π/6",
+    "π/6, 7π/6",
+    "π/3, 2π/3",
+    "π/6 only"
+   ],
+   "a": 0,
+   "e": "sinθ=1/2 → reference angle π/6; sine positive in QI and QII → θ=π/6 and 5π/6."
+  },
+  {
+   "u": 5,
+   "q": "Solve 2cosθ+√3=0 for θ in [0,2π).",
+   "o": [
+    "5π/6, 7π/6",
+    "π/6, 11π/6",
+    "5π/6, 11π/6",
+    "π/3, 2π/3"
+   ],
+   "a": 0,
+   "e": "cosθ=−√3/2 → reference angle π/6; cosine negative in QII and QIII → θ=5π/6 and 7π/6."
+  },
+  {
+   "u": 5,
+   "q": "Solve 2sin²θ−sinθ−1=0 for θ in [0,2π). (Factor: (2sinθ+1)(sinθ−1)=0)",
+   "o": [
+    "π/2, 7π/6, 11π/6",
+    "π/2 only",
+    "7π/6, 11π/6",
+    "π/6, 5π/6, π/2"
+   ],
+   "a": 0,
+   "e": "sinθ=1 → θ=π/2. sinθ=−1/2 → θ=7π/6, 11π/6. All three solutions satisfy the interval."
+  },
+  {
+   "u": 5,
+   "q": "Simplify (1−cos²θ)/sinθ.",
+   "o": [
+    "sinθ",
+    "cosθ",
+    "tanθ",
+    "1"
+   ],
+   "a": 0,
+   "e": "1−cos²θ=sin²θ (Pythagorean identity), so sin²θ/sinθ=sinθ."
+  },
+  {
+   "u": 5,
+   "q": "Which is the correct sum formula for tan(A+B)?",
+   "o": [
+    "(tanA+tanB)/(1−tanAtanB)",
+    "tanA+tanB",
+    "(tanA−tanB)/(1+tanAtanB)",
+    "(tanA+tanB)/(1+tanAtanB)"
+   ],
+   "a": 0,
+   "e": "tan(A+B)=(tanA+tanB)/(1−tanAtanB)."
+  },
+  {
+   "u": 5,
+   "q": "Simplify sinθ·cotθ.",
+   "o": [
+    "cosθ",
+    "sinθ",
+    "tanθ",
+    "1"
+   ],
+   "a": 0,
+   "e": "cotθ=cosθ/sinθ, so sinθ·(cosθ/sinθ)=cosθ."
+  },
+  {
+   "u": 5,
+   "q": "Which identity is used to derive 1+cot²θ=csc²θ?",
+   "o": [
+    "Dividing sin²θ+cos²θ=1 by sin²θ",
+    "Dividing sin²θ+cos²θ=1 by cos²θ",
+    "Multiplying sin²θ+cos²θ=1 by cos²θ",
+    "Subtracting cos²θ from both sides"
+   ],
+   "a": 0,
+   "e": "Dividing every term of sin²θ+cos²θ=1 by sin²θ gives 1+cot²θ=csc²θ."
+  },
+  {
+   "u": 5,
+   "q": "Solve cos(2θ)=cosθ for θ in [0,2π) using cos(2θ)=2cos²θ−1: 2cos²θ−cosθ−1=0.",
+   "o": [
+    "0, 2π/3, 4π/3",
+    "0, π/3",
+    "2π/3, 4π/3",
+    "π/2, 3π/2"
+   ],
+   "a": 0,
+   "e": "Factor (2cosθ+1)(cosθ−1)=0 → cosθ=1 (θ=0) or cosθ=−1/2 (θ=2π/3, 4π/3)."
+  },
+  {
+   "u": 5,
+   "q": "What is sec²θ − tan²θ equal to for all θ?",
+   "o": [
+    "1",
+    "0",
+    "2tan²θ",
+    "sin²θ"
+   ],
+   "a": 0,
+   "e": "From 1+tan²θ=sec²θ, rearranged: sec²θ−tan²θ=1 for all θ."
+  },
+  {
+   "u": 5,
+   "q": "Find cos(15°) using cos(45°−30°).",
+   "o": [
+    "(√6+√2)/4",
+    "(√6−√2)/4",
+    "√3/2−1/2",
+    "1/2"
+   ],
+   "a": 0,
+   "e": "cos(45−30)=cos45cos30+sin45sin30=(√2/2)(√3/2)+(√2/2)(1/2)=(√6+√2)/4."
+  },
+  {
+   "u": 6,
+   "q": "In a triangle, A=40°, a=15, B=60°. Find b using the Law of Sines.",
+   "o": [
+    "≈20.2",
+    "≈17.5",
+    "≈23.4",
+    "≈12.9"
+   ],
+   "a": 0,
+   "e": "b=a·sinB/sinA=15·sin60°/sin40°=15(0.866)/(0.643)≈20.2."
+  },
+  {
+   "u": 6,
+   "q": "In a triangle, a=8, b=10, C=50°. Find c using the Law of Cosines.",
+   "o": [
+    "≈7.82",
+    "≈9.15",
+    "≈6.40",
+    "≈8.90"
+   ],
+   "a": 0,
+   "e": "c²=8²+10²−2(8)(10)cos50°=164−160(0.643)≈61.1 → c≈7.82."
+  },
+  {
+   "u": 6,
+   "q": "In a triangle, a=5, b=7, c=10. Find angle C using the Law of Cosines.",
+   "o": [
+    "≈111.8°",
+    "≈68.2°",
+    "≈90°",
+    "≈45.6°"
+   ],
+   "a": 0,
+   "e": "cosC=(25+49−100)/(2·5·7)=−26/70≈−0.371 → C=cos⁻¹(−0.371)≈111.8°."
+  },
+  {
+   "u": 6,
+   "q": "Find the area of a triangle with a=6, b=9, and included angle C=30°.",
+   "o": [
+    "13.5",
+    "27",
+    "54",
+    "6.75"
+   ],
+   "a": 0,
+   "e": "Area=(1/2)ab·sinC=(1/2)(6)(9)(0.5)=13.5."
+  },
+  {
+   "u": 6,
+   "q": "Use Heron's formula to find the area of a triangle with sides a=5, b=6, c=7 (s=9).",
+   "o": [
+    "≈14.70",
+    "≈17.5",
+    "≈21",
+    "≈12.25"
+   ],
+   "a": 0,
+   "e": "Area=√[9(9−5)(9−6)(9−7)]=√[9·4·3·2]=√216≈14.70."
+  },
+  {
+   "u": 6,
+   "q": "Which case requires starting with the Law of Cosines rather than the Law of Sines?",
+   "o": [
+    "SSS (three sides, no angles)",
+    "AAS",
+    "ASA",
+    "SSA"
+   ],
+   "a": 0,
+   "e": "With SSS, no angle is known, so Law of Sines (which needs an angle-side pair) can't start the problem — Law of Cosines is needed first."
+  },
+  {
+   "u": 6,
+   "q": "What is sin⁻¹(1/2)?",
+   "o": [
+    "30° (π/6)",
+    "150° (5π/6)",
+    "Both 30° and 150°",
+    "60° (π/3)"
+   ],
+   "a": 0,
+   "e": "sin⁻¹ returns only values in [−90°,90°]. Even though sin150°=1/2 too, only 30° is in the restricted range."
+  },
+  {
+   "u": 6,
+   "q": "What is cos⁻¹(−1/2)?",
+   "o": [
+    "120°",
+    "60°",
+    "−60°",
+    "240°"
+   ],
+   "a": 0,
+   "e": "cos⁻¹ has range [0°,180°]. cos(120°)=−1/2 and 120° is within that range."
+  },
+  {
+   "u": 6,
+   "q": "What is the range of y=tan⁻¹(x)?",
+   "o": [
+    "(−90°,90°)",
+    "[0°,180°]",
+    "[−90°,90°]",
+    "(0°,180°)"
+   ],
+   "a": 0,
+   "e": "arctan's range is the open interval (−π/2,π/2), i.e., (−90°,90°), since tangent has vertical asymptotes there."
+  },
+  {
+   "u": 6,
+   "q": "In triangle solving with SSA, given a=7, b=10, A=40°, compute h=b·sinA to test the ambiguous case.",
+   "o": [
+    "≈6.43",
+    "≈5.36",
+    "≈7.66",
+    "≈9.19"
+   ],
+   "a": 0,
+   "e": "h=b·sinA=10·sin40°≈10(0.643)≈6.43. Since a=7>h, and a<b, there are two possible triangles."
+  },
+  {
+   "u": 6,
+   "q": "A triangle has a=8, b=8, c=8 (equilateral). What is angle A?",
+   "o": [
+    "60°",
+    "90°",
+    "45°",
+    "120°"
+   ],
+   "a": 0,
+   "e": "An equilateral triangle has all angles equal, and they must sum to 180°, so each is 60°."
+  },
+  {
+   "u": 6,
+   "q": "Find angle B in a triangle where A=35°, C=75°.",
+   "o": [
+    "70°",
+    "65°",
+    "110°",
+    "55°"
+   ],
+   "a": 0,
+   "e": "Angles sum to 180°: B=180−35−75=70°."
+  },
+  {
+   "u": 6,
+   "q": "Which formula finds a triangle's area when only the three sides (SSS) are known?",
+   "o": [
+    "Heron's formula",
+    "(1/2)ab sinC",
+    "(1/2)base×height only",
+    "Law of Sines"
+   ],
+   "a": 0,
+   "e": "Heron's formula computes area directly from the three side lengths without needing any angle."
+  },
+  {
+   "u": 6,
+   "q": "If cosC turns out to be negative when applying the Law of Cosines, what does this mean?",
+   "o": [
+    "Angle C is obtuse (between 90° and 180°)",
+    "There is a calculation error",
+    "Angle C is acute",
+    "No triangle exists"
+   ],
+   "a": 0,
+   "e": "A negative cosine value corresponds to an angle between 90° and 180° — this is a valid, expected result."
+  },
+  {
+   "u": 6,
+   "q": "Evaluate tan⁻¹(1).",
+   "o": [
+    "45°",
+    "−45°",
+    "135°",
+    "90°"
+   ],
+   "a": 0,
+   "e": "tan(45°)=1, and 45° lies within arctan's range of (−90°,90°)."
+  },
+  {
+   "u": 6,
+   "q": "A surveyor measures two sides of a triangular lot as 120 ft and 150 ft with an included angle of 65°. Find the area.",
+   "o": [
+    "≈8157 ft²",
+    "≈9000 ft²",
+    "≈16314 ft²",
+    "≈4078 ft²"
+   ],
+   "a": 0,
+   "e": "Area=(1/2)(120)(150)sin65°=9000(0.9063)≈8157 ft²."
+  },
+  {
+   "u": 7,
+   "q": "Solve the system: 2x+3y=7 and 4x−3y=11.",
+   "o": [
+    "x=3, y=1/3",
+    "x=3, y=−1/3",
+    "x=−3, y=13/3",
+    "x=2, y=1"
+   ],
+   "a": 0,
+   "e": "Add the equations: 6x=18 → x=3. Substitute: 2(3)+3y=7 → 3y=1 → y=1/3."
+  },
+  {
+   "u": 7,
+   "q": "Solve the system: x+y=5 and x−y=1.",
+   "o": [
+    "x=3, y=2",
+    "x=2, y=3",
+    "x=4, y=1",
+    "x=1, y=4"
+   ],
+   "a": 0,
+   "e": "Add: 2x=6 → x=3. Then y=5−3=2."
+  },
+  {
+   "u": 7,
+   "q": "Which describes a system with no solution?",
+   "o": [
+    "Elimination leads to a false statement like 0=5",
+    "Elimination leads to a true statement like 0=0",
+    "Elimination gives a unique x and y",
+    "The lines have different slopes"
+   ],
+   "a": 0,
+   "e": "A false numerical statement means the equations are contradictory — parallel lines that never intersect."
+  },
+  {
+   "u": 7,
+   "q": "Which describes a system with infinitely many solutions?",
+   "o": [
+    "Elimination leads to a true statement like 0=0",
+    "Elimination leads to a false statement like 0=5",
+    "The system has a unique solution",
+    "The lines are perpendicular"
+   ],
+   "a": 0,
+   "e": "A true statement with no variables means the two equations represent the same line."
+  },
+  {
+   "u": 7,
+   "q": "A matrix has 3 rows and 5 columns. What are its dimensions?",
+   "o": [
+    "3×5",
+    "5×3",
+    "8",
+    "15"
+   ],
+   "a": 0,
+   "e": "Matrix dimensions are given as rows × columns: 3×5."
+  },
+  {
+   "u": 7,
+   "q": "For matrix multiplication AB to be defined, what must be true?",
+   "o": [
+    "Columns of A = Rows of B",
+    "Rows of A = Rows of B",
+    "Columns of A = Columns of B",
+    "A and B must have the same dimensions"
+   ],
+   "a": 0,
+   "e": "Matrix multiplication AB requires the number of columns in A to equal the number of rows in B."
+  },
+  {
+   "u": 7,
+   "q": "If A is 2×3 and B is 3×4, what are the dimensions of AB?",
+   "o": [
+    "2×4",
+    "3×3",
+    "2×3",
+    "4×2"
+   ],
+   "a": 0,
+   "e": "The product takes the outer dimensions: rows of A (2) × columns of B (4) = 2×4."
+  },
+  {
+   "u": 7,
+   "q": "Find the determinant of [[2,3],[1,4]].",
+   "o": [
+    "5",
+    "11",
+    "−5",
+    "10"
+   ],
+   "a": 0,
+   "e": "det=ad−bc=2(4)−3(1)=8−3=5."
+  },
+  {
+   "u": 7,
+   "q": "Find the determinant of [[5,2],[3,1]].",
+   "o": [
+    "−1",
+    "1",
+    "11",
+    "−11"
+   ],
+   "a": 0,
+   "e": "det=5(1)−2(3)=5−6=−1."
+  },
+  {
+   "u": 7,
+   "q": "A matrix has determinant 0. What does this mean?",
+   "o": [
+    "The matrix is singular (has no inverse)",
+    "The matrix equals the identity matrix",
+    "The matrix has an inverse",
+    "The matrix is a zero matrix"
+   ],
+   "a": 0,
+   "e": "A determinant of 0 means the matrix is 'singular' and has no inverse."
+  },
+  {
+   "u": 7,
+   "q": "Use Cramer's Rule to solve 2x+y=5, x−3y=−8. What is D (the coefficient determinant)?",
+   "o": [
+    "−7",
+    "−2",
+    "2",
+    "7"
+   ],
+   "a": 0,
+   "e": "D=det([[2,1],[1,−3]])=2(−3)−1(1)=−6−1=−7."
+  },
+  {
+   "u": 7,
+   "q": "Using the system 2x+y=5, x−3y=−8 (D=−7), find x using Cramer's Rule, where Dx=det([[5,1],[−8,−3]]).",
+   "o": [
+    "1",
+    "−1",
+    "3",
+    "7"
+   ],
+   "a": 0,
+   "e": "Dx=5(−3)−1(−8)=−15+8=−7. x=Dx/D=−7/−7=1."
+  },
+  {
+   "u": 7,
+   "q": "Find the inverse of [[2,1],[1,1]].",
+   "o": [
+    "[[1,−1],[−1,2]]",
+    "[[1,1],[1,2]]",
+    "[[2,−1],[−1,1]]",
+    "[[1,−1],[−1,1]]"
+   ],
+   "a": 0,
+   "e": "det=2(1)−1(1)=1. Inverse=(1/1)[[1,−1],[−1,2]]=[[1,−1],[−1,2]]."
+  },
+  {
+   "u": 7,
+   "q": "If Cramer's Rule gives D=0 for a system, what can be concluded?",
+   "o": [
+    "The system has no unique solution — either none or infinitely many",
+    "The solution is x=0, y=0",
+    "The system definitely has infinitely many solutions",
+    "The system definitely has no solution"
+   ],
+   "a": 0,
+   "e": "D=0 means Cramer's Rule cannot determine a unique solution — further analysis (or another method) is needed to tell no-solution from infinite-solutions."
+  },
+  {
+   "u": 7,
+   "q": "Is matrix multiplication commutative (AB=BA) in general?",
+   "o": [
+    "No, order matters",
+    "Yes, always",
+    "Only for square matrices",
+    "Only for identity matrices"
+   ],
+   "a": 0,
+   "e": "Matrix multiplication is generally NOT commutative — AB and BA can even have different dimensions or different values."
+  },
+  {
+   "u": 7,
+   "q": "What is the identity matrix's role in matrix multiplication?",
+   "o": [
+    "AI=IA=A, like multiplying by 1",
+    "It always produces the zero matrix",
+    "It has determinant 0",
+    "It reverses the sign of every entry"
+   ],
+   "a": 0,
+   "e": "The identity matrix I acts as the multiplicative identity: multiplying any compatible matrix A by I returns A unchanged."
+  },
+  {
+   "u": 8,
+   "q": "Find the 10th term of the arithmetic sequence 5,9,13,17,...",
+   "o": [
+    "41",
+    "45",
+    "37",
+    "44"
+   ],
+   "a": 0,
+   "e": "a₁=5, d=4. a₁₀=5+9(4)=5+36=41."
+  },
+  {
+   "u": 8,
+   "q": "Find the 8th term of the geometric sequence 3,6,12,24,...",
+   "o": [
+    "384",
+    "192",
+    "768",
+    "96"
+   ],
+   "a": 0,
+   "e": "a₁=3, r=2. a₈=3·2⁷=3(128)=384."
+  },
+  {
+   "u": 8,
+   "q": "Find the sum of the first 20 terms of the arithmetic sequence 4,7,10,...",
+   "o": [
+    "650",
+    "610",
+    "690",
+    "570"
+   ],
+   "a": 0,
+   "e": "a₂₀=4+19(3)=61. S₂₀=20(4+61)/2=20(65)/2=650."
+  },
+  {
+   "u": 8,
+   "q": "Find the sum of the infinite geometric series 1+1/2+1/4+1/8+...",
+   "o": [
+    "2",
+    "1",
+    "4",
+    "1/2"
+   ],
+   "a": 0,
+   "e": "a₁=1, r=1/2 (|r|<1, converges). S=1/(1−1/2)=1/(1/2)=2."
+  },
+  {
+   "u": 8,
+   "q": "Find the sum of the first 6 terms of the geometric series 2+6+18+54+...",
+   "o": [
+    "728",
+    "486",
+    "1458",
+    "242"
+   ],
+   "a": 0,
+   "e": "a₁=2, r=3. S₆=2(1−3⁶)/(1−3)=2(1−729)/(−2)=2(−728)/(−2)=728."
+  },
+  {
+   "u": 8,
+   "q": "Does the infinite series 3+6+12+24+... have a finite sum?",
+   "o": [
+    "No, since r=2 and |r|≥1",
+    "Yes, it equals 6",
+    "Yes, it equals −6",
+    "Yes, it equals 3"
+   ],
+   "a": 0,
+   "e": "r=2, and infinite geometric series only converge when |r|<1. Since |2|≥1, this series diverges (no finite sum)."
+  },
+  {
+   "u": 8,
+   "q": "Find the common difference of the arithmetic sequence where a₅=17 and a₁₂=45.",
+   "o": [
+    "4",
+    "3",
+    "5",
+    "28/7=4"
+   ],
+   "a": 0,
+   "e": "d=(a₁₂−a₅)/(12−5)=(45−17)/7=28/7=4."
+  },
+  {
+   "u": 8,
+   "q": "For the parabola x²=8y, find the focus.",
+   "o": [
+    "(0,2)",
+    "(2,0)",
+    "(0,4)",
+    "(0,8)"
+   ],
+   "a": 0,
+   "e": "x²=4py → 4p=8 → p=2. Vertex at origin, opens up, focus at (0,p)=(0,2)."
+  },
+  {
+   "u": 8,
+   "q": "For the parabola x²=8y, find the directrix.",
+   "o": [
+    "y=−2",
+    "y=2",
+    "x=−2",
+    "y=−4"
+   ],
+   "a": 0,
+   "e": "With p=2, the directrix is the horizontal line y=−p=−2 (opposite side of vertex from the focus)."
+  },
+  {
+   "u": 8,
+   "q": "For the ellipse x²/25+y²/9=1, find the foci.",
+   "o": [
+    "(±4,0)",
+    "(0,±4)",
+    "(±3,0)",
+    "(±5,0)"
+   ],
+   "a": 0,
+   "e": "a²=25,b²=9 → c²=25−9=16 → c=4. Since the larger denominator is under x², foci are on the x-axis: (±4,0)."
+  },
+  {
+   "u": 8,
+   "q": "For the hyperbola x²/16−y²/9=1, find c (distance from center to each focus).",
+   "o": [
+    "5",
+    "7",
+    "√7",
+    "25"
+   ],
+   "a": 0,
+   "e": "For a hyperbola, c²=a²+b²=16+9=25 → c=5."
+  },
+  {
+   "u": 8,
+   "q": "What are the asymptotes of the hyperbola x²/16−y²/9=1?",
+   "o": [
+    "y=±(3/4)x",
+    "y=±(4/3)x",
+    "y=±(9/16)x",
+    "y=±(16/9)x"
+   ],
+   "a": 0,
+   "e": "For x²/a²−y²/b²=1, asymptotes are y=±(b/a)x = ±(3/4)x (a²=16→a=4, b²=9→b=3)."
+  },
+  {
+   "u": 8,
+   "q": "Evaluate Σ(k=1 to 5) (2k+1).",
+   "o": [
+    "35",
+    "30",
+    "25",
+    "40"
+   ],
+   "a": 0,
+   "e": "Terms: 3+5+7+9+11=35 (an arithmetic series with a₁=3, d=2, n=5: S=5(3+11)/2=35)."
+  },
+  {
+   "u": 8,
+   "q": "A geometric sequence has a₁=100 and r=0.5. What is a₅?",
+   "o": [
+    "6.25",
+    "12.5",
+    "3.125",
+    "25"
+   ],
+   "a": 0,
+   "e": "a₅=100(0.5)⁴=100(0.0625)=6.25."
+  },
+  {
+   "u": 8,
+   "q": "Which conic is x²/9+y²/25=1?",
+   "o": [
+    "An ellipse with major axis along the y-axis",
+    "An ellipse with major axis along the x-axis",
+    "A hyperbola",
+    "A parabola"
+   ],
+   "a": 0,
+   "e": "Both terms are added (ellipse) and the larger denominator (25) is under y², so the major axis is vertical."
+  },
+  {
+   "u": 8,
+   "q": "A ball is dropped from 10 ft and bounces back to 60% of its previous height each time. What is the total distance the ball has fallen for the infinite bounces (sum of all drop heights after the first, i.e., 10(0.6)+10(0.6)²+...)? ",
+   "o": [
+    "15 ft",
+    "20 ft",
+    "10 ft",
+    "6 ft"
+   ],
+   "a": 0,
+   "e": "This is an infinite geometric series with a₁=10(0.6)=6, r=0.6: S=6/(1−0.6)=6/0.4=15 ft."
+  },
+  {
+   "u": 9,
+   "q": "Evaluate lim(x→3) (x²−9)/(x−3).",
+   "o": [
+    "6",
+    "0",
+    "Undefined",
+    "9"
+   ],
+   "a": 0,
+   "e": "Factor: (x−3)(x+3)/(x−3)=x+3 for x≠3. As x→3, this approaches 3+3=6."
+  },
+  {
+   "u": 9,
+   "q": "Evaluate lim(x→2) (x²+3x−1).",
+   "o": [
+    "9",
+    "5",
+    "4",
+    "13"
+   ],
+   "a": 0,
+   "e": "This is a polynomial (continuous everywhere) so use direct substitution: 4+6−1=9."
+  },
+  {
+   "u": 9,
+   "q": "If lim(x→2⁻) f(x)=5 and lim(x→2⁺) f(x)=5, what can be concluded about lim(x→2) f(x)?",
+   "o": [
+    "It equals 5",
+    "It does not exist",
+    "It equals f(2)",
+    "It equals 0"
+   ],
+   "a": 0,
+   "e": "Since the left-hand and right-hand limits agree (both 5), the two-sided limit exists and equals 5, regardless of f(2)."
+  },
+  {
+   "u": 9,
+   "q": "If lim(x→1⁻) f(x)=3 and lim(x→1⁺) f(x)=7, what can be concluded about lim(x→1) f(x)?",
+   "o": [
+    "It does not exist (jump discontinuity)",
+    "It equals 5 (the average)",
+    "It equals 3",
+    "It equals 7"
+   ],
+   "a": 0,
+   "e": "The one-sided limits disagree, so the overall (two-sided) limit does not exist there."
+  },
+  {
+   "u": 9,
+   "q": "Find the average rate of change of f(x)=x² over [1,4].",
+   "o": [
+    "5",
+    "3",
+    "15",
+    "7"
+   ],
+   "a": 0,
+   "e": "[f(4)−f(1)]/(4−1)=(16−1)/3=15/3=5."
+  },
+  {
+   "u": 9,
+   "q": "Find the average rate of change of f(x)=2x²+1 over [0,3].",
+   "o": [
+    "6",
+    "9",
+    "3",
+    "18"
+   ],
+   "a": 0,
+   "e": "[f(3)−f(0)]/(3−0)=[(19)−(1)]/3=18/3=6."
+  },
+  {
+   "u": 9,
+   "q": "What does the average rate of change of a function over [a,b] represent geometrically?",
+   "o": [
+    "The slope of the secant line through (a,f(a)) and (b,f(b))",
+    "The slope of the tangent line at x=a",
+    "The y-intercept of the function",
+    "The area under the curve"
+   ],
+   "a": 0,
+   "e": "Average rate of change is exactly the slope formula (y₂−y₁)/(x₂−x₁), which is the secant line's slope."
+  },
+  {
+   "u": 9,
+   "q": "Using f(x)=x², find f'(a) via the definition f'(a)=lim(h→0)[f(a+h)−f(a)]/h.",
+   "o": [
+    "2a",
+    "a²",
+    "2h",
+    "a"
+   ],
+   "a": 0,
+   "e": "[(a+h)²−a²]/h=[2ah+h²]/h=2a+h → as h→0, this approaches 2a."
+  },
+  {
+   "u": 9,
+   "q": "What does f'(a) represent geometrically?",
+   "o": [
+    "The slope of the tangent line to f at x=a",
+    "The slope of the secant line over an interval",
+    "The average value of f near a",
+    "The y-intercept of f"
+   ],
+   "a": 0,
+   "e": "The derivative f'(a) is defined as the limiting slope of secant lines as h→0, which is exactly the slope of the tangent line at x=a."
+  },
+  {
+   "u": 9,
+   "q": "For f(x)=x²+2x, find f'(a) using the limit definition.",
+   "o": [
+    "2a+2",
+    "2a",
+    "a+2",
+    "2a+h"
+   ],
+   "a": 0,
+   "e": "[(a+h)²+2(a+h)−(a²+2a)]/h=[2ah+h²+2h]/h=2a+h+2 → as h→0, this approaches 2a+2."
+  },
+  {
+   "u": 9,
+   "q": "A function f is continuous at x=a. How can lim(x→a) f(x) be evaluated?",
+   "o": [
+    "By direct substitution: f(a)",
+    "It cannot be found without a table",
+    "Only using one-sided limits",
+    "It always equals 0"
+   ],
+   "a": 0,
+   "e": "If f is continuous at a, then lim(x→a)f(x)=f(a), so plugging in a directly gives the limit."
+  },
+  {
+   "u": 9,
+   "q": "Evaluate lim(x→0) (sin x)/x using a table of values approaching 0 (a well-known result).",
+   "o": [
+    "1",
+    "0",
+    "Undefined",
+    "∞"
+   ],
+   "a": 0,
+   "e": "This classic limit approaches 1 as x→0 from both sides, even though direct substitution gives the indeterminate form 0/0."
+  },
+  {
+   "u": 9,
+   "q": "A car travels so that its position is s(t)=t²+3t (meters, seconds). Find the average velocity over [2,5].",
+   "o": [
+    "10 m/s",
+    "8 m/s",
+    "12 m/s",
+    "6 m/s"
+   ],
+   "a": 0,
+   "e": "[s(5)−s(2)]/(5−2)=[(40)−(10)]/3=30/3=10 m/s."
+  },
+  {
+   "u": 9,
+   "q": "Which situation describes a limit that does NOT exist as x→a?",
+   "o": [
+    "The left and right limits approach different values",
+    "f(a) is undefined but both one-sided limits agree",
+    "The function is continuous at a",
+    "f(a)=0"
+   ],
+   "a": 0,
+   "e": "When the left-hand and right-hand limits disagree, no single limiting value exists — this is the defining condition for the limit failing to exist."
+  },
+  {
+   "u": 9,
+   "q": "Given f(x)=(x²−1)/(x−1) for x≠1, what is lim(x→1) f(x)?",
+   "o": [
+    "2",
+    "0",
+    "1",
+    "Undefined"
+   ],
+   "a": 0,
+   "e": "Factor: (x−1)(x+1)/(x−1)=x+1 for x≠1. As x→1, this approaches 1+1=2 (even though f(1) itself is undefined — a hole)."
+  },
+  {
+   "u": 9,
+   "q": "What is the relationship between average rate of change and the derivative as the interval [a,b] shrinks (b→a)?",
+   "o": [
+    "Average rate of change approaches the instantaneous rate of change (the derivative) at a",
+    "They are always equal for any interval",
+    "Average rate of change becomes 0",
+    "There is no relationship"
+   ],
+   "a": 0,
+   "e": "As the interval shrinks to a single point, the secant slope (average rate) approaches the tangent slope (derivative) — this limiting process is the foundation of differential calculus."
+  }
+ ],
+ "examParts": {
+  "PART_A": [
+   {
+    "n": 1,
+    "q": "Which conclusion resulted directly from the gold foil experiment?",
+    "o": [
+     "Atoms are hard, indivisible spheres",
+     "Electrons in an atom are negatively charged",
+     "Atoms contain a small, dense nucleus",
+     "Electrons in an atom are in shells that have different energies"
+    ],
+    "a": 2,
+    "e": "Rutherford's gold foil experiment: most α particles passed through (empty space); few deflected → small dense positive nucleus."
+   },
+   {
+    "n": 2,
+    "q": "What is the number of electrons in a neutral atom with 37 protons and 49 neutrons?",
+    "o": [
+     "12",
+     "37",
+     "49",
+     "86"
+    ],
+    "a": 1,
+    "e": "Neutral atom: electrons = protons = 37."
+   },
+   {
+    "n": 3,
+    "q": "Which statement describes the mass of an electron?",
+    "o": [
+     "An electron has the same mass as a proton",
+     "An electron has the same mass as a neutron",
+     "An electron has much less mass than a proton",
+     "An electron has much more mass than a neutron"
+    ],
+    "a": 2,
+    "e": "Electron mass ≈ 1/1836 of a proton. Much less mass than either proton or neutron."
+   },
+   {
+    "n": 4,
+    "q": "In the wave-mechanical model of the atom, electrons are located in regions called",
+    "o": [
+     "spectra",
+     "orbitals",
+     "quanta",
+     "nuclei"
+    ],
+    "a": 1,
+    "e": "Wave-mechanical model: electrons occupy orbitals — regions of probability, not fixed paths."
+   },
+   {
+    "n": 5,
+    "q": "At STP, a sample of potassium can be differentiated from a sample of rubidium based on",
+    "o": [
+     "density",
+     "phase",
+     "temperature",
+     "pressure"
+    ],
+    "a": 0,
+    "e": "Both are solid metals at STP (same phase). Density is an intensive physical property that differs between the two."
+   },
+   {
+    "n": 6,
+    "q": "Which statement describes a chemical property of chlorine?",
+    "o": [
+     "Chlorine has an atomic radius of 100. pm",
+     "Chlorine reacts with sodium to form a salt",
+     "Chlorine has a melting point of 172 K",
+     "Chlorine is a green-yellow gas at STP"
+    ],
+    "a": 1,
+    "e": "A chemical property describes how a substance reacts. Reacting with Na to form NaCl is a chemical property. Radius, MP, and color/phase are physical properties."
+   },
+   {
+    "n": 7,
+    "q": "Oxygen gas, O₂(g), and ozone gas, O₃(g), are two forms of the element oxygen. These two forms of oxygen have",
+    "o": [
+     "the same molecular structures and the same properties",
+     "the same molecular structures and different properties",
+     "different molecular structures and the same properties",
+     "different molecular structures and different properties"
+    ],
+    "a": 3,
+    "e": "O₂ and O₃ are allotropes — same element, different molecular structures → different chemical and physical properties."
+   },
+   {
+    "n": 8,
+    "q": "Which phrase describes two or more elements chemically combined?",
+    "o": [
+     "a mixture with a fixed proportion of elements",
+     "a mixture with variable proportions of elements",
+     "a compound with a fixed proportion of elements",
+     "a compound with variable proportions of elements"
+    ],
+    "a": 2,
+    "e": "A compound is formed when two or more elements are chemically combined in fixed (definite) proportions."
+   },
+   {
+    "n": 9,
+    "q": "Which formula is an empirical formula?",
+    "o": [
+     "N₂O₄",
+     "N₂O₅",
+     "N₂F₂",
+     "N₂H₄"
+    ],
+    "a": 1,
+    "e": "N₂O₅: simplest ratio is already N₂O₅ (cannot be reduced). N₂O₄ reduces to NO₂; N₂F₂ reduces to NF; N₂H₄ reduces to NH₂."
+   },
+   {
+    "n": 10,
+    "q": "Which terms represent two different categories of compounds?",
+    "o": [
+     "covalent and molecular",
+     "covalent and electrical",
+     "ionic and molecular",
+     "ionic and electrical"
+    ],
+    "a": 2,
+    "e": "Ionic and molecular (covalent) are the two main categories of compounds. 'Covalent' and 'molecular' are the same category; 'electrical' is not a compound category."
+   },
+   {
+    "n": 11,
+    "q": "Which element has molecules that each contain a multiple covalent bond?",
+    "o": [
+     "bromine",
+     "hydrogen",
+     "iodine",
+     "oxygen"
+    ],
+    "a": 3,
+    "e": "O₂ contains a double bond (O=O). H₂, Br₂, I₂ each contain only single bonds."
+   },
+   {
+    "n": 12,
+    "q": "Which formula represents an asymmetrical (polar) molecule?",
+    "o": [
+     "HCl",
+     "CO₂",
+     "Cl₂",
+     "CH₄"
+    ],
+    "a": 0,
+    "e": "HCl has two different atoms → unequal EN → polar bond AND linear asymmetric shape → polar molecule. CO₂ is linear symmetric; Cl₂ is nonpolar; CH₄ is tetrahedral symmetric."
+   },
+   {
+    "n": 13,
+    "q": "Which changes in charge and radius occur when an atom gains one electron?",
+    "o": [
+     "A negative ion forms with a radius smaller than the atom",
+     "A negative ion forms with a radius larger than the atom",
+     "A positive ion forms with a radius smaller than the atom",
+     "A positive ion forms with a radius larger than the atom"
+    ],
+    "a": 1,
+    "e": "Gaining an electron: more electrons repel each other → larger radius; net negative charge → anion."
+   },
+   {
+    "n": 14,
+    "q": "Given: N + N → N₂. What occurs during this reaction?",
+    "o": [
+     "Energy is absorbed as bonds are broken",
+     "Energy is absorbed as bonds are formed",
+     "Energy is released as bonds are broken",
+     "Energy is released as bonds are formed"
+    ],
+    "a": 3,
+    "e": "Forming bonds always releases energy (exothermic). N≡N triple bond formation releases energy → products side."
+   },
+   {
+    "n": 15,
+    "q": "Which compound has both ionic and covalent bonds?",
+    "o": [
+     "CaCl₂",
+     "KClO₂",
+     "Li₂S",
+     "MnO₂"
+    ],
+    "a": 1,
+    "e": "KClO₂ contains K⁺ and ClO₂⁻ (ionic bond between them) AND covalent Cl−O bonds inside the polyatomic ion. CaCl₂, Li₂S, MnO₂ have no polyatomic ions."
+   },
+   {
+    "n": 16,
+    "q": "Which substance cannot be broken down by a chemical change?",
+    "o": [
+     "Fe",
+     "Fe₂O₃",
+     "FeSO₄",
+     "Fe₂(SO₄)₃"
+    ],
+    "a": 0,
+    "e": "Fe is an element — cannot be broken down chemically. All the others are compounds that can be decomposed."
+   },
+   {
+    "n": 17,
+    "q": "According to the kinetic molecular theory, the particles of an ideal gas have",
+    "o": [
+     "collisions that do not transfer energy",
+     "strong attractive forces between them",
+     "random, constant, straight-line motion",
+     "large volumes compared to the distances between them"
+    ],
+    "a": 2,
+    "e": "KMT: gas particles move in constant, random, straight-line motion. Collisions are elastic (do transfer energy); no attractive forces; particle volume is negligible."
+   },
+   {
+    "n": 18,
+    "q": "In order for a chemical reaction to occur, colliding particles must have proper orientation and proper",
+    "o": [
+     "radii",
+     "energy",
+     "molar masses",
+     "oxidation states"
+    ],
+    "a": 1,
+    "e": "Collision theory requires: (1) collision, (2) proper orientation, AND (3) sufficient energy (≥ Ea)."
+   },
+   {
+    "n": 19,
+    "q": "At STP, which sample of gas has the same number of atoms as 4.0 liters of Ne gas?",
+    "o": [
+     "8.0 L of Ar(g)",
+     "2.0 L of He(g)",
+     "3.0 L of Kr(g)",
+     "4.0 L of Xe(g)"
+    ],
+    "a": 3,
+    "e": "Avogadro's Law: equal volumes at same T and P = equal molecules. Ne and Xe are both monatomic (1 atom/molecule). 4.0 L Xe = 4.0 L Ne in atom count."
+   },
+   {
+    "n": 20,
+    "q": "Based on Table I, the dissolving of which compound is an exothermic process at 298 K and 101.3 kPa?",
+    "o": [
+     "KNO₃(s)",
+     "NaOH(s)",
+     "NH₄Cl(s)",
+     "NH₄NO₃(s)"
+    ],
+    "a": 1,
+    "e": "Table I: NaOH dissolving has a negative ΔH → exothermic (solution warms). KNO₃, NH₄Cl, NH₄NO₃ have positive ΔH → endothermic."
+   },
+   {
+    "n": 21,
+    "q": "Which expression represents the heat of reaction for a chemical change in terms of potential energy, PE?",
+    "o": [
+     "PE of products × PE of reactants",
+     "PE of products ÷ PE of reactants",
+     "PE of products + PE of reactants",
+     "PE of products − PE of reactants"
+    ],
+    "a": 3,
+    "e": "ΔH = H_products − H_reactants (subtraction). Positive = endothermic; negative = exothermic."
+   },
+   {
+    "n": 22,
+    "q": "Which phrase describes how a catalyst increases the rate of a chemical reaction?",
+    "o": [
+     "provides an alternate reaction pathway",
+     "provides an alternate energy source",
+     "increases the potential energy of the reactants",
+     "increases the activation energy of the reaction"
+    ],
+    "a": 0,
+    "e": "A catalyst provides an alternate reaction pathway with a LOWER activation energy → more collisions succeed → faster rate."
+   },
+   {
+    "n": 23,
+    "q": "At standard pressure, which 5.0-gram sample of xenon has the greatest entropy?",
+    "o": [
+     "Xe(s) at 161 K",
+     "Xe(ℓ) at 161 K",
+     "Xe(ℓ) at 165 K",
+     "Xe(g) at 165 K"
+    ],
+    "a": 3,
+    "e": "Entropy: gas > liquid > solid. Xe(g) at 165 K is in the gas state → most disordered → greatest entropy."
+   },
+   {
+    "n": 24,
+    "q": "Systems in nature tend to undergo changes that result in",
+    "o": [
+     "lower energy and less disorder",
+     "higher energy and less disorder",
+     "lower energy and greater disorder",
+     "higher energy and greater disorder"
+    ],
+    "a": 2,
+    "e": "Natural processes favor lower energy (exothermic) AND greater disorder (higher entropy). ΔG = ΔH − TΔS is negative when both conditions are met."
+   },
+   {
+    "n": 25,
+    "q": "Which compound is a member of the homologous series with general formula CₙH₂ₙ?",
+    "o": [
+     "C₂H₂",
+     "C₃H₆",
+     "C₄H₁₀",
+     "C₅H₈"
+    ],
+    "a": 1,
+    "e": "CₙH₂ₙ = alkenes. n=3: C₃H₆ ✓. C₂H₂ = alkyne (CₙH₂ₙ₋₂); C₄H₁₀ = alkane (CₙH₂ₙ₊₂); C₅H₈ doesn't fit simply."
+   },
+   {
+    "n": 26,
+    "q": "Which term identifies a reaction that produces an alcohol?",
+    "o": [
+     "combustion",
+     "deposition",
+     "fermentation",
+     "sublimation"
+    ],
+    "a": 2,
+    "e": "Fermentation: C₆H₁₂O₆ → 2C₂H₅OH + 2CO₂. Glucose → ethanol (an alcohol) using yeast."
+   },
+   {
+    "n": 27,
+    "q": "Which statement describes a substance that is an electrolyte?",
+    "o": [
+     "The substance conducts an electric current and cannot dissolve in water",
+     "The substance cannot conduct an electric current and cannot dissolve in water",
+     "When the substance dissolves in water, the solution can conduct an electric current",
+     "When the substance dissolves in water, the solution cannot conduct an electric current"
+    ],
+    "a": 2,
+    "e": "An electrolyte dissolves in water to produce ions → solution conducts electricity."
+   },
+   {
+    "n": 28,
+    "q": "Which substance is an Arrhenius acid?",
+    "o": [
+     "NH₃",
+     "HNO₃",
+     "NaCl",
+     "NaOH"
+    ],
+    "a": 1,
+    "e": "Arrhenius acid: releases H⁺ in water. HNO₃ → H⁺ + NO₃⁻. NH₃ is a base; NaCl is a salt; NaOH is a base."
+   },
+   {
+    "n": 29,
+    "q": "A heavy nucleus splits into two lighter nuclei during which process?",
+    "o": [
+     "decomposition",
+     "deposition",
+     "fission",
+     "fusion"
+    ],
+    "a": 2,
+    "e": "Nuclear fission: heavy nucleus (e.g., U-235) splits into smaller nuclei + neutrons + energy. Not to be confused with chemical decomposition."
+   },
+   {
+    "n": 30,
+    "q": "The energy released by nuclear fusion in the Sun results from the conversion of",
+    "o": [
+     "energy to matter",
+     "matter to energy",
+     "atoms to molecules",
+     "molecules to atoms"
+    ],
+    "a": 1,
+    "e": "E = mc². In fusion, the product nuclei have less mass than the reactants. This mass deficit is converted to enormous energy (Einstein's equation)."
+   }
+  ],
+  "PART_B1": [
+   {
+    "n": 31,
+    "q": "Which electron configuration represents a lithium atom in an excited state?",
+    "o": [
+     "2-1",
+     "2-2",
+     "1-2-1",
+     "1-1-1"
+    ],
+    "a": 3,
+    "e": "Li has 3 electrons. Ground state = 2-1. Excited: an electron jumps to a higher shell. 1-1-1 = 3 electrons spread across 3 shells → excited state."
+   },
+   {
+    "n": 32,
+    "q": "Selenium (Se) is in Group 16. How many valence electrons does a ground-state Se atom have?",
+    "o": [
+     "2",
+     "4",
+     "6",
+     "8"
+    ],
+    "a": 2,
+    "e": "Group 16 elements have 6 valence electrons. Se: [Ar] 3d¹⁰ 4s² 4p⁴ → 6 valence electrons."
+   },
+   {
+    "n": 33,
+    "q": "Which element could be represented by X in the oxide formula X₂O?",
+    "o": [
+     "Cd",
+     "Cr",
+     "Ca",
+     "Cs"
+    ],
+    "a": 3,
+    "e": "X₂O: 2 X atoms balance O²⁻ → each X = +1. Group 1 elements have +1 charge. Cs is Group 1."
+   },
+   {
+    "n": 34,
+    "q": "What is the chemical name for the compound PdO?",
+    "o": [
+     "palladium (II) oxide",
+     "palladium (IV) oxide",
+     "palladium peroxide",
+     "palladium hydroxide"
+    ],
+    "a": 0,
+    "e": "O = −2, so Pd = +2 for neutral compound. Roman numeral II → palladium(II) oxide."
+   },
+   {
+    "n": 35,
+    "q": "CH₄(g) + 2O₂(g) → 2H₂O(ℓ) + CO₂(g). When 12 g CH₄ reacts with 48 g O₂ to produce 33 g CO₂, how many grams of H₂O are produced?",
+    "o": [
+     "12 g",
+     "27 g",
+     "60. g",
+     "69 g"
+    ],
+    "a": 1,
+    "e": "Conservation of mass: 12 + 48 = 60 g total reactants. Products: 33 g CO₂ + x g H₂O = 60 g → x = 27 g H₂O."
+   },
+   {
+    "n": 36,
+    "q": "What is the gram-formula mass of P₂O₅? (P = 31, O = 16)",
+    "o": [
+     "47 g/mol",
+     "111 g/mol",
+     "142 g/mol",
+     "187 g/mol"
+    ],
+    "a": 2,
+    "e": "GFM = 2(31) + 5(16) = 62 + 80 = 142 g/mol."
+   },
+   {
+    "n": 37,
+    "q": "In the ground state, ions of which two elements each have the same electron configuration as neon?",
+    "o": [
+     "lithium and fluorine",
+     "sodium and chlorine",
+     "magnesium and oxygen",
+     "calcium and sulfur"
+    ],
+    "a": 2,
+    "e": "Ne has 10 electrons. Mg²⁺ (loses 2 e⁻: 12−2=10); O²⁻ (gains 2 e⁻: 8+2=10). Both isoelectronic with Ne."
+   },
+   {
+    "n": 38,
+    "q": "Fluorine (F₂) is a diatomic gas at STP. Which particle model diagram correctly represents a sample of fluorine at STP?",
+    "o": [
+     "Pairs of identical atoms, gas phase (spread out)",
+     "Single atoms spread out",
+     "Mixed pairs of different atoms",
+     "Solid lattice of F atoms"
+    ],
+    "a": 0,
+    "e": "F₂ at STP: diatomic molecules (pairs of identical F atoms) in the gas phase → spread out, paired."
+   },
+   {
+    "n": 39,
+    "q": "Based on Table F, which compound is most soluble in water?",
+    "o": [
+     "Ag₂CrO₄",
+     "AgNO₃",
+     "CuCO₃",
+     "Cu₃(PO₄)₂"
+    ],
+    "a": 1,
+    "e": "Table F: AgNO₃ is listed as soluble (all nitrates are soluble). Ag₂CrO₄, CuCO₃, Cu₃(PO₄)₂ are all insoluble."
+   },
+   {
+    "n": 40,
+    "q": "Which solution has the lowest freezing point?",
+    "o": [
+     "1.0 M NaCl(aq)",
+     "1.0 M C₆H₁₂O₆(aq)",
+     "2.0 M NaCl(aq)",
+     "2.0 M C₆H₁₂O₆(aq)"
+    ],
+    "a": 2,
+    "e": "2.0 M NaCl → 2.0×2 = 4.0 mol particles/L (Na⁺ + Cl⁻). Most particles → greatest FP depression → lowest FP."
+   },
+   {
+    "n": 41,
+    "q": "What is the amount of heat energy required to completely vaporize 12.5 g of H₂O(ℓ) at 373 K? (H_v = 2260 J/g)",
+    "o": [
+     "4180 J",
+     "5230 J",
+     "19500 J",
+     "28300 J"
+    ],
+    "a": 3,
+    "e": "q = mH_v = 12.5 g × 2260 J/g = 28,250 J ≈ 28,300 J. At 100°C = phase change → use H_v."
+   },
+   {
+    "n": 42,
+    "q": "A 2.0-gram sample of solid iron reacts with 25 mL of 0.10 M HCl(aq). Which conditions produce the fastest reaction rate?",
+    "o": [
+     "powdered iron at 273 K",
+     "powdered iron at 303 K",
+     "strip of iron at 273 K",
+     "strip of iron at 303 K"
+    ],
+    "a": 1,
+    "e": "Fastest rate: powdered iron (max surface area) at 303 K (higher temperature) → most frequent, highest-energy collisions."
+   },
+   {
+    "n": 43,
+    "q": "Which term describes a sealed 100.-mL flask containing 50. grams of water at 25°C?",
+    "o": [
+     "physical equilibrium, only",
+     "chemical equilibrium, only",
+     "condensation, only",
+     "evaporation, only"
+    ],
+    "a": 0,
+    "e": "Sealed flask: evaporation rate = condensation rate → liquid-vapor physical equilibrium. No chemical reaction occurs."
+   },
+   {
+    "n": 44,
+    "q": "For the reaction N₂O₄(g) ⇌ 2NO₂(g), a concentration-vs-time graph shows concentrations becoming constant at approximately 50 s. At which time is the system at equilibrium?",
+    "o": [
+     "12 s",
+     "22 s",
+     "50. s",
+     "70. s"
+    ],
+    "a": 2,
+    "e": "Equilibrium is reached when all concentration curves become flat and remain constant. The graph levels off at ≈50 s."
+   },
+   {
+    "n": 45,
+    "q": "Given: H₂(g) + I₂(g) + energy ⇌ 2HI(g). When temperature is increased, equilibrium shifts to the",
+    "o": [
+     "right and the concentration of HI(g) decreases",
+     "right and the concentration of HI(g) increases",
+     "left and the concentration of HI(g) decreases",
+     "left and the concentration of HI(g) increases"
+    ],
+    "a": 1,
+    "e": "Endothermic (heat is a reactant). Increasing T adds a reactant → shifts RIGHT → more HI produced."
+   },
+   {
+    "n": 46,
+    "q": "A structural formula shows a 6-carbon chain with a CH₃ branch at carbon 3. What is the IUPAC name?",
+    "o": [
+     "4-methylhexane",
+     "3-methylhexane",
+     "3,4-dimethylpentane",
+     "2,3-dimethylpentane"
+    ],
+    "a": 1,
+    "e": "Longest chain = 6 carbons (hexane). CH₃ branch on C3 → 3-methylhexane. Number from the end giving the branch the lowest number."
+   },
+   {
+    "n": 47,
+    "q": "What is the oxidation state of chlorine in the compound KClO₃?",
+    "o": [
+     "+1",
+     "−1",
+     "+5",
+     "+7"
+    ],
+    "a": 2,
+    "e": "K = +1, O = −2 (×3 = −6). Sum = 0: +1 + Cl − 6 = 0 → Cl = +5."
+   },
+   {
+    "n": 48,
+    "q": "In the reversible reaction NH₃(g) + H₂O(ℓ) ⇌ NH₄⁺(aq) + OH⁻(aq), the species in the reverse reaction that donates an H⁺ ion is",
+    "o": [
+     "NH₃(g)",
+     "H₂O(ℓ)",
+     "NH₄⁺(aq)",
+     "OH⁻(aq)"
+    ],
+    "a": 2,
+    "e": "In the reverse reaction: NH₄⁺ → NH₃ + H⁺ (donates a proton) → NH₄⁺ is the Brønsted-Lowry acid in the reverse direction."
+   },
+   {
+    "n": 49,
+    "q": "When the pH value of a solution changes from 4.0 to 7.0, what is the change in the concentration of hydronium ions?",
+    "o": [
+     "decreased by a factor of 1000",
+     "decreased by a factor of 3",
+     "increased by a factor of 1000",
+     "increased by a factor of 3"
+    ],
+    "a": 0,
+    "e": "pH increases by 3 → [H₃O⁺] decreases by 10³ = 1000×. Higher pH = less acidic = fewer H⁺ ions."
+   },
+   {
+    "n": 50,
+    "q": "A radioactive emission from chromium-51 passes straight through an electric field without deflection. Which type of emission is this?",
+    "o": [
+     "alpha particle",
+     "beta particle",
+     "gamma radiation",
+     "positron"
+    ],
+    "a": 2,
+    "e": "Gamma radiation has no charge and no mass → not deflected by electric fields. Alpha (+2) and beta (−1) and positron (+1) are all deflected."
+   }
+  ],
+  "PART_B2": [
+   {
+    "n": 51,
+    "q": "Determine the percent composition by mass of Cu in CuSO₄ (GFM = 160. g/mol). Show your work.",
+    "sa": "% Cu = (mass of Cu / GFM of CuSO₄) × 100\n= (64 g/mol / 160. g/mol) × 100\n= 40.%\n\nAnswer: 40.% Cu"
+   },
+   {
+    "n": 52,
+    "q": "State, in terms of both protons and neutrons, why an atom of K-39 is an isotope of an atom of K-40.",
+    "sa": "Both K-39 and K-40 have the same number of protons (19 protons each — same element, potassium), but K-39 has 20 neutrons while K-40 has 21 neutrons. Isotopes have the same proton count but different neutron counts."
+   },
+   {
+    "n": 53,
+    "q": "Compare the energy of an electron in the first shell of a potassium atom to the energy of an electron in the fourth shell of the same atom.",
+    "sa": "An electron in the first shell has LESS energy than an electron in the fourth shell. Electrons closer to the nucleus (lower shell number) are at lower energy levels. The fourth shell is at a higher energy level than the first shell."
+   },
+   {
+    "n": 54,
+    "q": "Show a numerical setup for calculating the atomic mass of potassium using the isotope data: K-39 (38.964 u, 93.26%), K-40 (39.964 u, 0.01%), K-41 (40.962 u, 6.73%).",
+    "sa": "Atomic mass = (38.964 × 0.9326) + (39.964 × 0.0001) + (40.962 × 0.0673)\n\n= 36.338 + 0.00400 + 2.757\n\n≈ 39.10 u (matches periodic table value of ~39.1)"
+   },
+   {
+    "n": 55,
+    "q": "Given: N₂(g) + 3H₂(g) → 2NH₃(g) + 91.8 kJ. State, in terms of the number of each type of atom, why this equation is balanced.",
+    "sa": "The equation is balanced because the number of each type of atom is the same on both sides:\n• Nitrogen: 2 atoms on the left (N₂), 2 atoms on the right (2NH₃) ✓\n• Hydrogen: 6 atoms on the left (3H₂ = 3×2), 6 atoms on the right (2NH₃ = 2×3) ✓\nMass is conserved."
+   },
+   {
+    "n": 56,
+    "q": "Given: N₂(g) + 3H₂(g) → 2NH₃(g) + 91.8 kJ. State evidence from the equation that the reaction is exothermic.",
+    "sa": "Evidence: The energy term (91.8 kJ) appears on the product side (right side) of the equation. This means energy is released as a product of the reaction → exothermic. Also, ΔH is negative for exothermic reactions."
+   },
+   {
+    "n": 57,
+    "q": "Determine the number of moles of H₂(g) required to react completely with N₂(g) to produce 10.0 moles of NH₃(g). (N₂ + 3H₂ → 2NH₃)",
+    "sa": "Mole ratio H₂ : NH₃ = 3 : 2\n\nMoles H₂ = 10.0 mol NH₃ × (3 mol H₂ / 2 mol NH₃)\n\n= 15.0 mol H₂"
+   },
+   {
+    "n": 58,
+    "q": "A 320.-mL sample of N₂(g) is at 300. K and 100. kPa. State the number of significant figures in the original temperature.",
+    "sa": "300. K — the decimal point after 300 makes all three digits significant.\n\nAnswer: 3 significant figures"
+   },
+   {
+    "n": 59,
+    "q": "Compare the force of collisions of N₂ gas particles at 300. K to the force of collisions at 450. K.",
+    "sa": "At 450. K, the force of collisions is GREATER than at 300. K. Higher temperature means particles have greater average kinetic energy and move faster → collide with greater force."
+   },
+   {
+    "n": 60,
+    "q": "State a change in temperature AND a change in pressure that will cause N₂ gas to behave more like an ideal gas.",
+    "sa": "Increase the temperature AND decrease the pressure.\n\nReason: High temperature → particles move faster, spend less time near each other → intermolecular attractions are less significant. Low pressure → particles are farther apart → less interaction. Both conditions reduce deviation from ideal behavior."
+   },
+   {
+    "n": 61,
+    "q": "Determine the volume of N₂ gas when temperature changes to 450. K and pressure changes to 60.0 kPa. (Initial: 320. mL, 300. K, 100. kPa)",
+    "sa": "Combined Gas Law: P₁V₁/T₁ = P₂V₂/T₂\n\nV₂ = (P₁ × V₁ × T₂) / (T₁ × P₂)\n= (100. kPa × 320. mL × 450. K) / (300. K × 60.0 kPa)\n= 14,400,000 / 18,000\n= 800. mL"
+   }
+  ],
+  "PART_C": [
+   {
+    "n": 66,
+    "q": "State, in terms of valence electrons, why bromine and iodine have similar chemical properties.",
+    "sa": "Bromine and iodine are both in Group 17 (halogens). Both have 7 valence electrons. Elements with the same number of valence electrons have similar chemical properties because they react in the same way to complete their outermost shell."
+   },
+   {
+    "n": 67,
+    "q": "State, in terms of the strength of intermolecular forces, why bromine has a higher boiling point than chlorine at standard pressure.",
+    "sa": "Bromine (Br₂) has stronger intermolecular forces (London dispersion forces) than chlorine (Cl₂). Br₂ has more electrons and greater molar mass → stronger temporary dipoles → stronger LDFs. Stronger IMFs require more energy to overcome → higher boiling point."
+   },
+   {
+    "n": 68,
+    "q": "Based on Table S, state the trend in first ionization energy for the four halogen elements (F, Cl, Br, I) as atomic number increases.",
+    "sa": "As atomic number increases (F → Cl → Br → I), the first ionization energy decreases. Going down the group, electrons are farther from the nucleus (more electron shells) → held less tightly → less energy required to remove the outermost electron."
+   },
+   {
+    "n": 69,
+    "q": "Based on Table S, state why the tungsten filament does not melt in the operating halogen lightbulb at 3200 K.",
+    "sa": "According to Table S, the melting point of tungsten (W) is 3695 K. Since the operating temperature of the halogen lightbulb (3200 K) is below tungsten's melting point (3695 K), the filament remains solid and does not melt."
+   },
+   {
+    "n": 70,
+    "q": "State the element classification of tungsten.",
+    "sa": "Tungsten (W) is classified as a metal (specifically a transition metal, located in Group 6 of the d-block on the periodic table)."
+   },
+   {
+    "n": 71,
+    "q": "Convert the temperature of the dry towel after 8 minutes (22.0°C) to kelvins.",
+    "sa": "K = °C + 273\n= 22.0°C + 273\n= 295 K"
+   },
+   {
+    "n": 72,
+    "q": "Determine the amount of heat absorbed when 3.60 grams of water is heated from 22.0°C to 67.0°C. (C_water = 4.18 J/g·K)",
+    "sa": "q = mCΔT\nΔT = 67.0 − 22.0 = 45.0°C (= 45.0 K)\nq = 3.60 g × 4.18 J/g·K × 45.0 K\n= 677 J"
+   },
+   {
+    "n": 73,
+    "q": "State the direction of heat flow between the hot water on the towel (67°C) and the air at room temperature (22°C).",
+    "sa": "Heat flows from the hot water on the towel (higher temperature, 67°C) to the cooler surrounding air (lower temperature, 22°C). Heat always flows from higher temperature to lower temperature."
+   },
+   {
+    "n": 74,
+    "q": "State what happens to the potential energy of the water molecules as water evaporates from the wet towels.",
+    "sa": "The potential energy of the water molecules INCREASES as water evaporates. Molecules must overcome the intermolecular attractive forces (hydrogen bonds) to escape the liquid surface. This requires energy input, which is stored as potential energy in the separated molecules."
+   },
+   {
+    "n": 75,
+    "q": "State, in terms of experimental design, why the student left one paper towel dry on a beaker.",
+    "sa": "The dry towel serves as the CONTROL in the experiment. It provides a baseline (no evaporation occurring) to compare against the wet towels. Without a control, the student could not determine whether any temperature change was caused by evaporation or by some other variable."
+   },
+   {
+    "n": 76,
+    "q": "State the form of energy that is converted to electrical energy in the operating voltaic cell (Ni²⁺ + Zn → Ni + Zn²⁺).",
+    "sa": "Chemical energy is converted to electrical energy. In a voltaic cell, a spontaneous redox reaction releases energy, which is captured as electrical energy (electron flow through the external circuit)."
+   },
+   {
+    "n": 77,
+    "q": "Identify the electrode that is the anode in the voltaic cell: Ni²⁺(aq) + Zn(s) → Ni(s) + Zn²⁺(aq).",
+    "sa": "The ZINC (Zn) electrode is the anode. In this reaction, Zn is oxidized: Zn(s) → Zn²⁺(aq) + 2e⁻. Oxidation always occurs at the anode."
+   },
+   {
+    "n": 78,
+    "q": "Write a balanced half-reaction for what occurs at the nickel electrode in the voltaic cell above.",
+    "sa": "At the nickel electrode (cathode), Ni²⁺ is reduced:\n\nNi²⁺(aq) + 2e⁻ → Ni(s)\n\n(Reduction occurs at the cathode — electrons are gained)"
+   },
+   {
+    "n": 79,
+    "q": "Identify the negative ion present in the NaOH(aq) solution.",
+    "sa": "The negative ion in NaOH(aq) is the hydroxide ion: OH⁻\n\nNaOH dissociates completely: NaOH → Na⁺ + OH⁻"
+   },
+   {
+    "n": 80,
+    "q": "Complete the neutralization: HCl(aq) + NaOH(aq) → NaCl(aq) + ___",
+    "sa": "The missing product is H₂O (water).\n\nFull equation: HCl(aq) + NaOH(aq) → NaCl(aq) + H₂O(ℓ)\n\nAcid + Base → Salt + Water (neutralization)"
+   },
+   {
+    "n": 81,
+    "q": "State the color of methyl orange indicator if added to a sample of NaOH(aq).",
+    "sa": "Methyl orange in NaOH(aq) would be YELLOW. NaOH is a strong base (pH >> 7). According to Table M, methyl orange is yellow in base (pH > 4.4)."
+   },
+   {
+    "n": 82,
+    "q": "Determine the concentration of HCl(aq) using titration data: 15.0 mL HCl neutralized by 25.2 mL of 0.50 M NaOH.",
+    "sa": "M_A × V_A = M_B × V_B\nM_A × 15.0 mL = 0.50 M × 25.2 mL\nM_A = (0.50 × 25.2) / 15.0\nM_A = 12.6 / 15.0\nM_A = 0.84 M HCl"
+   },
+   {
+    "n": 83,
+    "q": "Based on Table N, state the decay mode of tritium (H-3).",
+    "sa": "According to Table N, tritium (H-3) undergoes beta-minus (β⁻) decay.\n\nDecay: ³₁H → ⁰₋₁e + ³₂He\n\nA neutron converts to a proton plus a high-speed electron (beta particle)."
+   },
+   {
+    "n": 84,
+    "q": "Complete the nuclear fusion equation for deuterium + tritium: ²₁H + ³₁H → ___ + ¹₀n",
+    "sa": "²₁H + ³₁H → ⁴₂He + ¹₀n\n\nCheck: Mass numbers: 2+3 = 4+1 = 5 ✓\nAtomic numbers: 1+1 = 2+0 = 2 ✓\n\nThe missing product is ⁴₂He (helium-4 / alpha particle)."
+   },
+   {
+    "n": 85,
+    "q": "Based on Table N, determine the fraction of an original sample of tritium (H-3, t½ = 12.31 yr) that remains unchanged after 36.93 years.",
+    "sa": "Number of half-lives = total time / t½ = 36.93 yr / 12.31 yr = 3 half-lives\n\nFraction remaining = (½)³ = 1/8\n\nAnswer: 1/8 of the original sample remains after 36.93 years."
+   }
+  ]
+ }
+}
