@@ -94,6 +94,38 @@ function buildExamplesStatic(units, worked) {
   return h;
 }
 
+// Server-rendered practice-question archive at the end of the ungated
+// #view-guide (mirrors prerender-practice.mjs's renderQuestionBank, which was a
+// post-build step only ever applied to the hand-authored pages). Lives in
+// #view-guide, not #view-quiz, because the quiz view is behind the sign-in gate
+// and therefore invisible to crawlers.
+function buildQBankArchive(units, quiz, hardQ) {
+  const nameOf = (id) => (units.find(u => u.id === id) || {}).name || `Unit ${id}`;
+  const groupByUnit = (items) => {
+    const m = new Map();
+    for (const it of items) { if (!m.has(it.u)) m.set(it.u, []); m.get(it.u).push(it); }
+    return [...m.entries()].sort((a, b) => a[0] - b[0]);
+  };
+  const set = (label, items) => {
+    if (!items || !items.length) return "";
+    let out = `<details class="practice-archive"><summary>${esc(label)} — ${items.length} questions</summary><div class="qb-archive-body">`;
+    for (const [uid, qs] of groupByUnit(items)) {
+      out += `<details class="qb-unit"><summary>Unit ${esc(uid)}: ${esc(nameOf(uid))} (${qs.length})</summary><ol class="qb-list">`;
+      for (const q of qs) {
+        out += `<li><p class="qb-q">${esc(q.q)}</p><ul class="qb-opts">`;
+        (q.o || []).forEach((opt, i) => { out += `<li${i === q.a ? ' class="qb-correct"' : ""}>${esc(opt)}</li>`; });
+        out += `</ul>`;
+        if (q.e) out += `<p class="qb-exp">${esc(q.e)}</p>`;
+        out += `</li>`;
+      }
+      out += `</ol></details>`;
+    }
+    return out + `</div></details>`;
+  };
+  const body = set("Practice Question Bank", quiz) + set("Hard Mode Questions", hardQ);
+  return body ? `<div id="qbank-archive">${body}</div>` : "";
+}
+
 function buildMemory(units) {
   return units.map(u => {
     const cards = (u.traps || u.mistakes || []).map(m =>
@@ -262,6 +294,7 @@ export function generateGuide(config) {
     .replace("__FILTER_CHIPS__",
       `<button class="chip on">All Units</button>${units.map(u => `<button class="chip">Unit ${u.id}</button>`).join("")}`)
     .replace('<div id="units"></div>', `<div id="units">${buildUnitsStatic(units, config.diagrams || {})}</div>`)
+    .replace("__QBANK__", buildQBankArchive(units, quiz, hardQ))
     .replace("__FC_ARCHIVE__", buildFcArchive(units, flashcards))
     .replace("__EXAMPLES__", buildExamplesStatic(units, worked))
     .replace("__QREF__", buildQref(units))
