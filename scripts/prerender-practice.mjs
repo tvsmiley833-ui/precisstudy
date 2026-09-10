@@ -10,6 +10,7 @@
 // gate — putting it there would make the "crawlable" content invisible
 // in practice.
 import { readFileSync, writeFileSync } from "node:fs";
+import { extractArrayLiteral, extractMergedArray } from "./lib/extract-literals.mjs";
 
 const target = process.argv[2];
 if (!target) {
@@ -24,53 +25,6 @@ function esc(s) {
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
-}
-
-// Extracts the source text of `const NAME=[ ... ];` by counting bracket
-// depth (skipping string contents) rather than assuming a shape, since
-// these arrays contain nested objects/arrays and quoted braces/brackets.
-function extractArrayLiteral(source, varName) {
-  const marker = `const ${varName}=[`;
-  const start = source.indexOf(marker);
-  if (start === -1) return null;
-  let i = start + marker.length - 1; // at the opening '['
-  let depth = 0;
-  let inStr = null;
-  for (; i < source.length; i++) {
-    const ch = source[i];
-    if (inStr) {
-      if (ch === "\\") { i++; continue; }
-      if (ch === inStr) inStr = null;
-      continue;
-    }
-    if (ch === '"' || ch === "'" || ch === "`") { inStr = ch; continue; }
-    if (ch === "[" || ch === "{") depth++;
-    else if (ch === "]" || ch === "}") {
-      depth--;
-      if (depth === 0) { i++; break; }
-    }
-  }
-  return source.slice(start, i);
-}
-
-// Reproduces the runtime value of a top-level array that may be mutated
-// via `NAME.push.apply(NAME, OTHER_ARRAY)` elsewhere in the file (a
-// pattern used repeatedly for QUIZ/FLASHCARDS in this codebase). Finds
-// every such merge call for NAME, in source order, and replays it.
-function extractMergedArray(source, varName) {
-  const decl = extractArrayLiteral(source, varName);
-  if (!decl) return null;
-  let code = decl + ";";
-  const mergeRe = new RegExp(`${varName}\\.push\\.apply\\(${varName},([A-Za-z0-9_]+)\\)`, "g");
-  let m;
-  while ((m = mergeRe.exec(source))) {
-    const mergeVar = m[1];
-    const mergeDecl = extractArrayLiteral(source, mergeVar);
-    if (!mergeDecl) throw new Error(`${varName}.push.apply references ${mergeVar}, but no "const ${mergeVar}=[" declaration was found`);
-    code += mergeDecl + `;${varName}.push.apply(${varName},${mergeVar});`;
-  }
-  const fn = new Function(code + `\nreturn ${varName};`);
-  return fn();
 }
 
 function extractUnits(source) {
