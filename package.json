@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "test": "vitest run",
+    "test": "npm run test:scripts && vitest run",
+    "test:scripts": "node --test test/*.node.test.mjs",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {

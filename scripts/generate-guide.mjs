@@ -65,6 +65,35 @@ function buildUnitsStatic(units, diagrams) {
   }).join("");
 }
 
+// Static server-rendered Worked Examples accordion. Mirrors logic.js's
+// buildExamples() DOM 1:1 (classes, data-id = `${unitId}-${index}`) so the
+// shipped page carries the real worked-solution prose for crawlers; the
+// runtime builder just re-renders over it. Steps are intentionally NOT
+// pre-revealed — they appear only on click, matching the hand-authored pages.
+function buildExamplesStatic(units, worked) {
+  if (!worked.length) return "";
+  let h = `<div class="ex2-intro">Try each problem on your own first — then reveal the solution one step at a time. Mark “Got it” to track your progress.</div>`;
+  for (const u of units) {
+    const list = worked.filter(w => w.u === u.id);
+    if (!list.length) continue;
+    h += `<div class="ex2-unit"><h3 class="ex2-h">Unit ${u.id}: ${esc(u.name)}</h3>`;
+    list.forEach((w, wi) => {
+      const id = `${u.id}-${wi}`;
+      h += `<div class="ex2-card" data-id="${id}">` +
+        `<div class="ex2-title">${esc(w.title)}</div>` +
+        `<div class="ex2-prompt">${esc(w.prompt)}</div>` +
+        `<div class="ex2-steps" id="ex2s-${id}"></div>` +
+        `<div class="ex2-actions">` +
+        `<button class="btn ex2-reveal" onclick="revealStep('${id}')">Reveal step ▾</button>` +
+        `<button class="btn" onclick="revealAll('${id}')">Show all</button>` +
+        `<button class="btn ex2-done" onclick="markExample('${id}')">✓ Got it</button>` +
+        `</div></div>`;
+    });
+    h += `</div>`;
+  }
+  return h;
+}
+
 function buildMemory(units) {
   return units.map(u => {
     const cards = (u.traps || u.mistakes || []).map(m =>
@@ -144,7 +173,18 @@ function buildJsonLd(config, description) {
 
 export function generateGuide(config) {
   const { slug, title, accentColor, units, quiz, flashcards,
-          examParts } = config;
+          examParts, masteryKey } = config;
+  const worked = Array.isArray(config.workedExamples) ? config.workedExamples : [];
+  const hardQ = Array.isArray(config.hardQuiz) ? config.hardQuiz : [];
+
+  for (const w of worked) {
+    if (typeof w.u !== "number" || !w.title || !w.prompt || !Array.isArray(w.steps) || !w.steps.length || !w.answer)
+      throw new Error(`workedExamples entry malformed: ${JSON.stringify(w).slice(0, 120)}`);
+  }
+  for (const q of hardQ) {
+    if (typeof q.u !== "number" || !q.q || !Array.isArray(q.o) || q.o.length !== 4 || !Number.isInteger(q.a) || q.a < 0 || q.a > 3)
+      throw new Error(`hardQuiz entry malformed: ${JSON.stringify(q).slice(0, 120)}`);
+  }
 
   const metaDescription = buildMetaDescription(config);
 
@@ -209,20 +249,26 @@ export function generateGuide(config) {
 
   html += templateWiring;
 
-  const hero = templateHero
+  let hero = templateHero
     .replaceAll("APUSH", esc(title))
     .replace(`9 Units · 137 Quiz Questions · 72 Flashcards · Diagnostic · Full Reference Tables · Diagrams · Saved Progress`,
-      `${units.length} Units · ${quiz.length} Quiz Questions · ${flashcards.length} Flashcards · Diagnostic · Quick Reference · Memory Tricks · Saved Progress`);
+      `${units.length} Units · ${quiz.length} Quiz Questions · ${flashcards.length} Flashcards · Diagnostic${worked.length ? " · Worked Examples" : ""} · Quick Reference · Memory Tricks · Saved Progress`);
+  if (!worked.length)
+    hero = hero.replace(/\s*<button class="tab-btn" role="tab" id="tab-examples"[^>]*>Worked Examples<\/button>/, "");
   html += hero;
 
-  html += templateViews
+  let views = templateViews
     .replace("__SPC_INTRO__", `${quiz.length} practice questions across ${units.length} units. Slide to match your situation.`)
     .replace("__FILTER_CHIPS__",
       `<button class="chip on">All Units</button>${units.map(u => `<button class="chip">Unit ${u.id}</button>`).join("")}`)
     .replace('<div id="units"></div>', `<div id="units">${buildUnitsStatic(units, config.diagrams || {})}</div>`)
     .replace("__FC_ARCHIVE__", buildFcArchive(units, flashcards))
+    .replace("__EXAMPLES__", buildExamplesStatic(units, worked))
     .replace("__QREF__", buildQref(units))
     .replace("__MEMORY__", buildMemory(units));
+  if (!worked.length)
+    views = views.replace(/<div id="view-examples"[^>]*><\/div>\n?/, "");
+  html += views;
 
   // Data + logic. Exam parts required by schema but may be empty arrays.
   html += `\n<script>\n`;
@@ -232,6 +278,11 @@ export function generateGuide(config) {
   html += `const DIAGRAMS=${js(config.diagrams || {})};\n`;
   html += `const FLASHCARDS=${js(flashcards)};\n`;
   html += `const QUIZ=${js(quiz)};\n`;
+  // Worked Examples + Hard Mode banks. Always emitted (empty arrays when the
+  // guide has neither) so logic.js's buildExamples()/buildQSel() can reference
+  // them unconditionally.
+  html += `const WORKED=${js(worked)};\n`;
+  html += `const HARD_Q=${js(hardQ)};\n`;
   // Some source guides have a handful of corrupted exam questions (e.g. an
   // "o" array collapsed to 1 option with the missing values spilled into "a"
   // as a string instead of a numeric index) -- authoring errors, not a
@@ -248,8 +299,14 @@ export function generateGuide(config) {
   // logic.js's buildExam() injects this into a <style> tag on first render;
   // it must be defined before logic.js runs.
   html += `const EXAM_CSS=${js(templateExamCss)};\n`;
+  // Some legacy pages key saved progress under a slug-without-dashes id
+  // (ap-lang -> aplang, global-history -> globalhistory, ap-biology ->
+  // apbiology). Preserve that exact key so migrated pages keep existing
+  // student progress; everything else stays slug-based.
+  const mKey = masteryKey || slug;
   html += templateLogic
     .replaceAll("APUSH", esc(title))
+    .replaceAll("__ssCreateMastery('apush'", `__ssCreateMastery('${mKey}'`)
     .replaceAll("'apush'", `'${slug}'`)
     .replaceAll("CHEM_MASTERY", "SS_MASTERY")
     .replaceAll("CHEM_TOTAL_Q", "SS_TOTAL_Q")
