@@ -35,13 +35,15 @@ test("renders the Worked Examples tab + static cards when present", () => {
   assert.ok(html.includes('const WORKED=[{'), "WORKED data emitted");
 });
 
-test("emits hard-mode questions and keeps the 7-tab index map", () => {
+test("emits hard-mode questions; switchTab derives index from DOM id", () => {
   const html = generateGuide({
     ...base(),
     hardQuiz: [{ u: 1, q: "hard?", o: ["a", "b", "c", "d"], a: 1, e: "he" }],
   });
   assert.ok(html.includes('"hard?"'), "hard question emitted");
-  assert.ok(html.includes("examples:3,exam:4,qref:5,memory:6"), "tab index map updated");
+  // switchTab must not use a hardcoded positional map (breaks on 6-tab pages)
+  assert.ok(!/idx=\{guide:0,cards:1/.test(html), "no hardcoded tab index map");
+  assert.ok(html.includes("if(b.id==='tab-'+id)idx=i"), "index derived from DOM");
 });
 
 test("uses masteryKey when provided, slug otherwise", () => {
