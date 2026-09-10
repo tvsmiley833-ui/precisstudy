@@ -22,6 +22,20 @@ export function extractArrayLiteral(source, varName) {
       if (ch === inStr) inStr = null;
       continue;
     }
+    // Skip comments — the hand-authored pages put `// ===== UNIT N =====`
+    // section markers (some containing apostrophes) inside these literals.
+    if (ch === "/" && source[i + 1] === "/") {
+      const nl = source.indexOf("\n", i);
+      if (nl === -1) break;
+      i = nl;
+      continue;
+    }
+    if (ch === "/" && source[i + 1] === "*") {
+      const end = source.indexOf("*/", i + 2);
+      if (end === -1) break;
+      i = end + 1;
+      continue;
+    }
     if (ch === '"' || ch === "'" || ch === "`") { inStr = ch; continue; }
     if (ch === "[" || ch === "{") depth++;
     else if (ch === "]" || ch === "}") {
