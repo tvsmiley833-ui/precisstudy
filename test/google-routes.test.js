@@ -116,18 +116,21 @@ describe("/api/google/disconnect", () => {
 });
 
 describe("/api/google/settings", () => {
-  it("GET returns the default when nothing is stored", async () => {
+  it("GET returns the default when nothing is stored and not connected", async () => {
     const e = env();
     const c = await cookie("s@e.edu");
     const res = await handleGoogleSettingsGet(get("https://precisstudy.com/api/google/settings", c), e);
-    expect(await res.json()).toEqual({ calendarIds: ["primary"], schoolworkOnly: true, googleEmail: "s@e.edu" });
+    expect(await res.json()).toEqual({ calendarIds: ["primary"], schoolworkOnly: true, googleEmail: null, connected: false });
   });
 
-  it("GET includes the signed-in user's googleEmail", async () => {
+  it("GET returns the actual connected Google account email and connected:true, not the sign-in email", async () => {
     const e = env();
     const c = await cookie("someone@school.edu");
+    await putGoogleToken(e, "someone@school.edu", { refreshToken: "1//rt", googleEmail: "someone.else@gmail.com", scopes: [], connectedAt: "x" });
     const res = await handleGoogleSettingsGet(get("https://precisstudy.com/api/google/settings", c), e);
-    expect((await res.json()).googleEmail).toBe("someone@school.edu");
+    const body = await res.json();
+    expect(body.googleEmail).toBe("someone.else@gmail.com");
+    expect(body.connected).toBe(true);
   });
 
   it("POST validates and stores, echoing the stored value", async () => {
@@ -152,6 +155,15 @@ describe("/api/google/settings", () => {
       const res = await handleGoogleSettingsPost(post("https://precisstudy.com/api/google/settings", c, body), e);
       expect(res.status).toBe(400);
     }
+  });
+
+  it("POST invalidates the assignments cache so the next sync picks up the new settings", async () => {
+    const e = env();
+    const c = await cookie("s@e.edu");
+    e.PROGRESS._store.set(googleCacheKey("s@e.edu"), JSON.stringify({ items: [], fetchedAt: new Date().toISOString() }));
+    const res = await handleGoogleSettingsPost(post("https://precisstudy.com/api/google/settings", c, { calendarIds: ["primary"], schoolworkOnly: false }), e);
+    expect(res.status).toBe(200);
+    expect(e.PROGRESS._store.has(googleCacheKey("s@e.edu"))).toBe(false);
   });
 
   it("POST 400s on an unreadable body", async () => {

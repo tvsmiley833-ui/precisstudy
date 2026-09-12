@@ -125,7 +125,8 @@ export async function handleGoogleSettingsGet(request: Request, env: Env): Promi
   const session = await getSession(request, env);
   if (!session) return json({ error: "Sign in required" }, 401);
   const settings = await loadSettings(env, session.email);
-  return json({ ...settings, googleEmail: session.email });
+  const token = await getGoogleToken(env, session.email);
+  return json({ ...settings, googleEmail: token?.googleEmail ?? null, connected: !!token });
 }
 
 export async function handleGoogleSettingsPost(request: Request, env: Env): Promise<Response> {
@@ -153,5 +154,6 @@ export async function handleGoogleSettingsPost(request: Request, env: Env): Prom
 
   const value: GoogleSettings = { calendarIds, schoolworkOnly: body.schoolworkOnly };
   await env.PROGRESS.put(googleSettingsKey(session.email), JSON.stringify(value));
+  await env.PROGRESS.delete(googleCacheKey(session.email));
   return json(value);
 }

@@ -572,14 +572,17 @@ function ssToggleTheme(){
       settings = await sres.json();
     } catch(e){ return; }
 
-    var calRes, calFailed = false;
-    try {
-      var cres = await fetch('/api/google/calendars');
-      if(!cres.ok) throw new Error('bad status ' + cres.status);
-      calRes = await cres.json();
-    } catch(e){ calRes = { connected: true, calendars: [] }; calFailed = true; }
+    var connected = !!settings.connected;
 
-    var connected = !!calRes.connected;
+    var calRes, calFailed = false;
+    if(connected){
+      try {
+        var cres = await fetch('/api/google/calendars');
+        if(!cres.ok) throw new Error('bad status ' + cres.status);
+        calRes = await cres.json();
+      } catch(e){ calRes = { calendars: [] }; calFailed = true; }
+    }
+
     qs('google-disconnected').style.display = connected ? 'none' : 'block';
     qs('google-connected').style.display = connected ? 'block' : 'none';
     if(!connected) return;
