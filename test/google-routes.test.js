@@ -120,7 +120,14 @@ describe("/api/google/settings", () => {
     const e = env();
     const c = await cookie("s@e.edu");
     const res = await handleGoogleSettingsGet(get("https://precisstudy.com/api/google/settings", c), e);
-    expect(await res.json()).toEqual({ calendarIds: ["primary"], schoolworkOnly: true });
+    expect(await res.json()).toEqual({ calendarIds: ["primary"], schoolworkOnly: true, googleEmail: "s@e.edu" });
+  });
+
+  it("GET includes the signed-in user's googleEmail", async () => {
+    const e = env();
+    const c = await cookie("someone@school.edu");
+    const res = await handleGoogleSettingsGet(get("https://precisstudy.com/api/google/settings", c), e);
+    expect((await res.json()).googleEmail).toBe("someone@school.edu");
   });
 
   it("POST validates and stores, echoing the stored value", async () => {

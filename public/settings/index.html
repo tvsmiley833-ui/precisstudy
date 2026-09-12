@@ -572,20 +572,28 @@ function ssToggleTheme(){
       settings = await sres.json();
     } catch(e){ return; }
 
-    var calRes;
-    try { calRes = await (await fetch('/api/google/calendars')).json(); }
-    catch(e){ calRes = { connected: false, calendars: [] }; }
+    var calRes, calFailed = false;
+    try {
+      var cres = await fetch('/api/google/calendars');
+      if(!cres.ok) throw new Error('bad status ' + cres.status);
+      calRes = await cres.json();
+    } catch(e){ calRes = { connected: true, calendars: [] }; calFailed = true; }
 
     var connected = !!calRes.connected;
     qs('google-disconnected').style.display = connected ? 'none' : 'block';
     qs('google-connected').style.display = connected ? 'block' : 'none';
     if(!connected) return;
 
+    qs('google-email').textContent = settings.googleEmail || '';
     qs('google-schoolwork-only').checked = settings.schoolworkOnly !== false;
 
     var chosen = new Set(settings.calendarIds || ['primary']);
     var list = qs('google-calendar-list');
     list.innerHTML = '';
+    if(calFailed){
+      list.innerHTML = '<span style="font-size:13px;color:var(--text-muted);">Couldn\'t load calendars.</span>';
+      return;
+    }
     var cals = calRes.calendars || [];
     if(!cals.length){
       list.innerHTML = '<span style="font-size:13px;color:var(--text-muted);">No calendars found.</span>';
@@ -620,8 +628,19 @@ function ssToggleTheme(){
     }
     if(e.target && e.target.id === 'google-disconnect-btn'){
       e.target.disabled = true;
-      try { await fetch('/api/google/disconnect', { method: 'POST' }); } catch(err){}
-      location.href = '/settings';
+      var status = qs('google-save-status');
+      try {
+        var res = await fetch('/api/google/disconnect', { method: 'POST' });
+        if(!res.ok){
+          status.textContent = 'Could not disconnect.';
+          e.target.disabled = false;
+          return;
+        }
+        location.href = '/settings';
+      } catch(err){
+        status.textContent = 'Could not disconnect.';
+        e.target.disabled = false;
+      }
     }
   });
 

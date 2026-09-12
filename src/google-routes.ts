@@ -124,7 +124,8 @@ export async function handleGoogleDisconnect(request: Request, env: Env): Promis
 export async function handleGoogleSettingsGet(request: Request, env: Env): Promise<Response> {
   const session = await getSession(request, env);
   if (!session) return json({ error: "Sign in required" }, 401);
-  return json(await loadSettings(env, session.email));
+  const settings = await loadSettings(env, session.email);
+  return json({ ...settings, googleEmail: session.email });
 }
 
 export async function handleGoogleSettingsPost(request: Request, env: Env): Promise<Response> {
