@@ -87,12 +87,6 @@ export async function verifySession(token: string, secret: string): Promise<Sess
     return null;
   }
   if (!payload || typeof payload.exp !== "number" || payload.exp < Math.floor(Date.now() / 1000)) return null;
-  // Reject anything that isn't a real user session. OAuth-state tokens are
-  // signed with the same secret and carry a `purpose` field; a malformed or
-  // wrong-purpose payload would otherwise reach KV keys and the admin
-  // allowlist as `email: undefined`.
-  if (payload.purpose !== undefined) return null;
-  if (typeof payload.email !== "string" || !payload.email) return null;
   return payload;
 }
 
@@ -129,6 +123,12 @@ export async function getSession(request: Request, env: { SESSION_SECRET: string
   if (!token) return null;
   const payload = await verifySession(token, env.SESSION_SECRET);
   if (!payload) return null;
+  // Reject anything that isn't a real user session. OAuth-state tokens are
+  // signed with the same secret and carry a `purpose` field; a malformed or
+  // wrong-purpose payload would otherwise reach KV keys and the admin
+  // allowlist as `email: undefined`.
+  if (payload.purpose !== undefined) return null;
+  if (typeof payload.email !== "string" || !payload.email) return null;
   // Reject tokens minted before the user's last "sign out everywhere".
   // A token with no `sv` predates this check and counts as version 0.
   if (env.PROGRESS) {

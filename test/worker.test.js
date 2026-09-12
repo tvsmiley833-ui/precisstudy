@@ -174,3 +174,36 @@ describe("/sitemap.xml", () => {
     expect(body).toContain("<loc>https://precisstudy.com/</loc>");
   });
 });
+
+describe("Google connect + assignments routing", () => {
+  it("/api/assignments requires a session (401, not the SPA fallback)", async () => {
+    const res = await SELF.fetch("https://precisstudy.com/api/assignments");
+    expect(res.status).toBe(401);
+  });
+
+  it("/api/google/settings GET requires a session", async () => {
+    const res = await SELF.fetch("https://precisstudy.com/api/google/settings");
+    expect(res.status).toBe(401);
+  });
+
+  it("/api/google/disconnect rejects GET with 405", async () => {
+    const res = await SELF.fetch("https://precisstudy.com/api/google/disconnect");
+    expect(res.status).toBe(405);
+  });
+
+  it("/api/google/settings rejects DELETE with 405", async () => {
+    const res = await SELF.fetch("https://precisstudy.com/api/google/settings", { method: "DELETE" });
+    expect(res.status).toBe(405);
+  });
+
+  it("/auth/google/connect/start redirects to /settings?google=error with no session", async () => {
+    const res = await SELF.fetch("https://precisstudy.com/auth/google/connect/start", { redirect: "manual" });
+    expect(res.status).toBe(302);
+    expect(res.headers.get("Location")).toBe("https://precisstudy.com/settings?google=error");
+  });
+
+  it("/auth/google/connect/start rejects POST with 405", async () => {
+    const res = await SELF.fetch("https://precisstudy.com/auth/google/connect/start", { method: "POST" });
+    expect(res.status).toBe(405);
+  });
+});
