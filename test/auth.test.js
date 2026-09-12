@@ -76,6 +76,13 @@ describe("signSession / verifySession", () => {
     expect(await verifySession("", "secret1")).toBeNull();
     expect(await verifySession("no-dot-here", "secret1")).toBeNull();
   });
+
+  it("accepts an oauth-state-shaped payload carrying a purpose field (generic verifier, not session-specific)", async () => {
+    const now = Math.floor(Date.now() / 1000);
+    const token = await signSession({ purpose: "oauth_state", state: "abc123", exp: now + 60 }, "secret1");
+    const payload = await verifySession(token, "secret1");
+    expect(payload).toEqual({ purpose: "oauth_state", state: "abc123", exp: now + 60 });
+  });
 });
 
 describe("session cookie helpers", () => {
@@ -121,6 +128,14 @@ describe("session cookie helpers", () => {
     const request = new Request("https://example.com");
     const session = await getSession(request, { SESSION_SECRET: "secret1" });
     expect(session).toBeNull();
+  });
+
+  it("getSession still rejects an oauth-state-shaped payload (purpose/email guard enforced here, not in verifySession)", async () => {
+    const env = { SESSION_SECRET: "secret1" };
+    const now = Math.floor(Date.now() / 1000);
+    const token = await signSession({ purpose: "oauth_state", state: "abc123", exp: now + 60 }, env.SESSION_SECRET);
+    const request = new Request("https://example.com", { headers: { Cookie: SESSION_COOKIE + "=" + token } });
+    expect(await getSession(request, env)).toBeNull();
   });
 });
 
