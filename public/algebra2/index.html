@@ -1807,42 +1807,13 @@ async function cbotSend(e){
     document.getElementById('sgt-time').textContent='00:00';};
 })();
 
-/* sticky nav: pin the hero tab row once the hero scrolls out of view */
-(function(){
-  var nav=document.querySelector('.hero .nav');
-  var spacer=document.getElementById('nav-spacer');
-  if(!nav||!spacer)return;
-  var pinned=false;
-  function measurePinned(){
-    var h=nav.offsetHeight;
-    spacer.style.height=h+'px';
-    document.documentElement.style.setProperty('--ss-nav-h',h+'px');
-  }
-  function onScroll(){
-    var heroBottom=nav.closest('.hero').getBoundingClientRect().bottom;
-    var shouldPin=heroBottom<0;
-    if(shouldPin===pinned)return;
-    pinned=shouldPin;
-    if(pinned){
-      spacer.hidden=false;
-      nav.classList.add('nav-pinned');
-      document.body.classList.add('nav-pinned');
-      measurePinned();
-    }else{
-      nav.classList.remove('nav-pinned');
-      document.body.classList.remove('nav-pinned');
-      spacer.hidden=true;
-      spacer.style.height='0';
-      document.documentElement.style.setProperty('--ss-nav-h','0px');
-    }
-  }
-  function onResize(){
-    if(pinned)measurePinned();
-  }
-  window.addEventListener('scroll',onScroll,{passive:true});
-  window.addEventListener('resize',onResize);
-  onScroll();
-})();
+/* Pinning the hero tab row on scroll (position:fixed + measured spacer) was
+   found during QA to visually overlap page content in some scroll states —
+   disabled pending a redesign that doesn't rely on a JS-measured spacer.
+   The tab row stays in its normal in-flow position; the independent sticky
+   search/filter bar (.ss-sticky-top, CSS-only position:sticky) is unaffected
+   and still docks correctly since it doesn't depend on --ss-nav-h being set
+   (it defaults to 0px). */
 
 function ssToggleTheme(){
   var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
