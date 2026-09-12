@@ -64,6 +64,7 @@
   </div>
   <div class="filter-row-wrap">
     <div class="filter-row" id="filter-row">__FILTER_CHIPS__</div>
+    <select id="filter-select" class="mobile-only-select" aria-label="Filter units" onchange="ssFilterSelectChange()">__FILTER_OPTIONS__</select>
   </div>
   <div class="ss-overall-progress" id="ss-overall-progress">
     <div class="ss-overall-progress-track"><div class="ss-overall-progress-fill" id="ss-overall-progress-fill"></div></div>
@@ -128,3 +129,7 @@ __QREF__
 
 <div id="view-memory" class="view" role="tabpanel" aria-labelledby="tab-memory" tabindex="0">
   <div class="mem-intro">Common mistakes for each unit — read the mistake, then make sure you know why it's wrong.</div>__MEMORY__
+</div>
+<button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+</button>

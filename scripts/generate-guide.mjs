@@ -58,8 +58,13 @@ function buildUnitsStatic(units, diagrams) {
       body += `<div class="formula">${u.fms.join("<br>")}</div>`;
     if (diagrams && diagrams[u.id])
       body += `<div class="diagram"><div class="dlabel">Diagram</div>${diagrams[u.id].svg}<p class="dcap">${diagrams[u.id].cap}</p></div>`;
+    // Rough study-time estimate: ~3 min per concept, plus a couple minutes
+    // each for traps/formulas to review, rounded to the nearest minute (min 5).
+    const estMins = Math.max(5, Math.round(
+      u.concepts.length * 3 + (u.traps?.length || 0) * 2 + (u.fms?.length || 0) * 2
+    ));
     const hd = `<div class="unit-hd" tabindex="0" role="button" aria-expanded="false">` +
-      `<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts</span></span>` +
+      `<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts · ~${estMins} min</span></span>` +
       `<span class="chevron">▾</span></div>`;
     return `<div class="unit" data-id="${u.id}">${hd}<div class="unit-body">${body}</div></div>`;
   }).join("");
@@ -293,6 +298,8 @@ export function generateGuide(config) {
     .replace("__SPC_INTRO__", `${quiz.length} practice questions across ${units.length} units. Slide to match your situation.`)
     .replace("__FILTER_CHIPS__",
       `<button class="chip on">All Units</button>${units.map(u => `<button class="chip">Unit ${u.id}</button>`).join("")}`)
+    .replace("__FILTER_OPTIONS__",
+      `<option value="0">All Units</option>${units.map(u => `<option value="${u.id}">Unit ${u.id}</option>`).join("")}`)
     .replace('<div id="units"></div>', `<div id="units">${buildUnitsStatic(units, config.diagrams || {})}</div>`)
     .replace("__QBANK__", config.qbankArchive ? buildQBankArchive(units, quiz, hardQ) : "")
     .replace("__FC_ARCHIVE__", buildFcArchive(units, flashcards))

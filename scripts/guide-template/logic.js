@@ -174,26 +174,37 @@ function jumpToUnit(id){
 }
 
 const filterTags={};
+// Single source of truth for "which unit is selected", driven by either the
+// desktop chip row or the mobile <select> — both call this so filtering logic
+// never lives in two places.
+function ssFilterByUnit(unitId){
+  const all=document.getElementById('filter-row')&&document.getElementById('filter-row').children[0];
+  if(all)all.classList.toggle('on',!unitId);
+  Object.keys(filterTags).forEach(k=>filterTags[k].classList.toggle('on',!!unitId&&k==unitId));
+  document.querySelectorAll('.unit').forEach(el=>el.style.display=(!unitId||el.dataset.id==unitId)?'':'none');
+  const sel=document.getElementById('filter-select');
+  if(sel&&sel.value!=String(unitId||0))sel.value=String(unitId||0);
+}
+function ssFilterSelectChange(){
+  const sel=document.getElementById('filter-select');
+  ssFilterByUnit(sel?+sel.value:0);
+}
 function buildGuide(){
   const fr=document.getElementById('filter-row');
   const ul=document.getElementById('units');
   const all=document.createElement('button');
   all.className='chip on';all.textContent='All Units';
-  all.onclick=()=>{Object.keys(filterTags).forEach(k=>filterTags[k].classList.remove('on'));all.classList.add('on');document.querySelectorAll('.unit').forEach(u=>u.style.display='');};
+  all.onclick=()=>ssFilterByUnit(0);
   fr.appendChild(all);
   UNITS.forEach(u=>{
     const chip=document.createElement('button');
     chip.className='chip';chip.textContent='Unit '+u.id;
-    chip.onclick=()=>{
-      all.classList.remove('on');
-      Object.values(filterTags).forEach(c=>c.classList.remove('on'));
-      chip.classList.add('on');
-      document.querySelectorAll('.unit').forEach(el=>el.style.display=el.dataset.id==u.id?'':'none');
-    };
+    chip.onclick=()=>ssFilterByUnit(u.id);
     fr.appendChild(chip);filterTags[u.id]=chip;
     const div=document.createElement('div');div.className='unit';div.dataset.id=u.id;
     const hd=document.createElement('div');hd.className='unit-hd';
-    hd.innerHTML=`<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts</span></span><span class="chevron">▾</span>`;
+    const estMins=Math.max(5,Math.round(u.concepts.length*3+(u.traps?u.traps.length:0)*2+(u.fms?u.fms.length:0)*2));
+    hd.innerHTML=`<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts · ~${estMins} min</span></span><span class="chevron">▾</span>`;
     hd.tabIndex=0;hd.setAttribute('role','button');hd.setAttribute('aria-expanded','false');
     hd.onclick=()=>{const isOpen=div.classList.toggle('open');hd.setAttribute('aria-expanded',isOpen?'true':'false');};
     hd.onkeydown=(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();hd.click();}};
@@ -215,15 +226,10 @@ function hydrateGuide(){
   const fr=document.getElementById('filter-row');
   const chips=Array.from(fr.children);
   const all=chips[0];
-  all.onclick=()=>{Object.keys(filterTags).forEach(k=>filterTags[k].classList.remove('on'));all.classList.add('on');document.querySelectorAll('.unit').forEach(u=>u.style.display='');};
+  all.onclick=()=>ssFilterByUnit(0);
   UNITS.forEach((u,i)=>{
     const chip=chips[i+1];
-    chip.onclick=()=>{
-      all.classList.remove('on');
-      Object.values(filterTags).forEach(c=>c.classList.remove('on'));
-      chip.classList.add('on');
-      document.querySelectorAll('.unit').forEach(el=>el.style.display=el.dataset.id==u.id?'':'none');
-    };
+    chip.onclick=()=>ssFilterByUnit(u.id);
     filterTags[u.id]=chip;
   });
   document.querySelectorAll('.unit').forEach(div=>{
@@ -232,6 +238,14 @@ function hydrateGuide(){
     hd.onkeydown=(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();hd.click();}};
   });
 }
+(function(){
+  const btn=document.getElementById('back-to-top');
+  if(!btn)return;
+  const threshold=()=>window.innerHeight||800;
+  window.addEventListener('scroll',function(){
+    btn.classList.toggle('visible',window.scrollY>threshold());
+  },{passive:true});
+})();
 if(document.getElementById('units').children.length===0){buildGuide();}else{hydrateGuide();}
 ssTypeset(document.getElementById('units'));
 
