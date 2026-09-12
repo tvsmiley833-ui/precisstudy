@@ -30,6 +30,8 @@
 <link rel="preload" href="/fonts/spacegrotesk-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="stylesheet" href="/fonts/fonts.css"/>
+<script>window.MathJax={tex:{inlineMath:[['$','$']],displayMath:[['$$','$$']]}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -109,9 +111,9 @@
   --diagram-bg:#1b3d33;
 }
 body{transition:background .2s ease,color .2s ease}
-#theme-toggle{background:none;border:1px solid rgba(255,255,255,.18);color:rgba(244,242,234,.75);border-radius:var(--radius-sm);
+#theme-toggle{background:none;border:1px solid rgba(255,255,255,.32);color:rgba(244,242,234,.9);border-radius:var(--radius-sm);
   width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
-#theme-toggle:hover{color:#fff;border-color:rgba(255,255,255,.35)}
+#theme-toggle:hover{color:#fff;border-color:rgba(255,255,255,.5)}
 #theme-toggle svg{width:17px;height:17px}
 #theme-toggle .icon-sun{display:none}
 [data-theme="dark"] #theme-toggle .icon-moon{display:none}
@@ -133,16 +135,28 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:
 .page{margin:0 auto;padding:0 24px 90px;max-width:880px}
 .hero{background:linear-gradient(175deg,#0f1830,#1b2a52 65%,#111c38);padding:52px 24px 40px;position:relative;overflow:hidden}
 .hero-inner{margin:0 auto;position:relative;z-index:1}
-.hero::after{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0.16;background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><g fill='%23e8c874' stroke='none'><path d='M30 8 L34 20 L47 20 L37 28 L41 40 L30 32 L19 40 L23 28 L13 20 L26 20 Z'/><path d='M130 90 L133 99 L143 99 L135 105 L138 114 L130 108 L122 114 L125 105 L117 99 L127 99 Z'/><path d='M70 140 L73 149 L83 149 L75 155 L78 164 L70 158 L62 164 L65 155 L57 149 L67 149 Z'/></g><g stroke='%238aa2f2' stroke-width='1.2' opacity='0.6'><line x1='0' y1='60' x2='180' y2='60'/><line x1='0' y1='125' x2='180' y2='125'/></g></svg>");background-size:180px 180px;background-repeat:repeat}
-.hero .kicker{color:#b7c5f9}
-.hero h1{font-family:'Permanent Marker',cursive;font-size:clamp(40px,4.6vw,58px);font-weight:400;letter-spacing:0;line-height:1.15;color:#f4f2ea;margin-bottom:14px}
+.hero::after{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0.09;background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><g fill='%23e8c874' stroke='none'><path d='M30 8 L34 20 L47 20 L37 28 L41 40 L30 32 L19 40 L23 28 L13 20 L26 20 Z'/><path d='M130 90 L133 99 L143 99 L135 105 L138 114 L130 108 L122 114 L125 105 L117 99 L127 99 Z'/><path d='M70 140 L73 149 L83 149 L75 155 L78 164 L70 158 L62 164 L65 155 L57 149 L67 149 Z'/></g><g stroke='%238aa2f2' stroke-width='1.2' opacity='0.6'><line x1='0' y1='60' x2='180' y2='60'/><line x1='0' y1='125' x2='180' y2='125'/></g></svg>");background-size:180px 180px;background-repeat:repeat}
+.hero .kicker{color:#c7d3fa;display:flex;align-items:center;gap:8px;font-size:20px}
+.kicker-logo{width:20px;height:20px;flex-shrink:0;border-radius:4px}
+.hero h1{font-family:'Space Grotesk',-apple-system,sans-serif;font-size:clamp(40px,4.6vw,58px);font-weight:800;letter-spacing:-.01em;line-height:1.15;color:#f4f2ea;margin-bottom:14px}
 .hero h1 .grad{background:linear-gradient(110deg,#8aa2f2,#d6dffb 55%,#e8c874);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero .edition{color:rgba(244,242,234,.55)}
-.hero .subtitle{color:rgba(244,242,234,.66);margin-bottom:28px}
+.hero .edition{color:rgba(244,242,234,.78)}
+.hero .subtitle{color:rgba(244,242,234,.82);margin-bottom:28px}
 .hero .nav{border-bottom:none;padding-bottom:0;margin-bottom:0}
-.hero .tab-btn{background:rgba(255,255,255,.055);border-color:rgba(255,255,255,.13);color:rgba(244,242,234,.78);box-shadow:none}
-.hero .tab-btn:hover{background:rgba(255,255,255,.11);border-color:rgba(255,255,255,.22);color:#fff}
+.hero .tab-btn{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.24);color:rgba(244,242,234,.9);box-shadow:none}
+.hero .tab-btn:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.32);color:#fff}
 .hero .tab-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.breadcrumb{margin-bottom:14px}
+.breadcrumb ol{list-style:none;display:flex;flex-wrap:wrap;gap:6px;padding:0;margin:0;font-family:'Inter',sans-serif;font-size:14px}
+.breadcrumb li{color:rgba(244,242,234,.78);display:flex;align-items:center;gap:6px}
+.breadcrumb li:not(:last-child)::after{content:'›';margin-left:6px;color:rgba(244,242,234,.55)}
+.breadcrumb a{color:rgba(244,242,234,.85);text-decoration:none;font-weight:600}
+.breadcrumb a:hover{color:#fff;text-decoration:underline}
+.breadcrumb li[aria-current="page"]{color:rgba(244,242,234,.95);font-weight:600}
+.nav-spacer{height:0}
+body.nav-pinned .nav-spacer{display:block}
+.nav-slot .nav.nav-pinned{position:fixed;top:0;left:0;right:0;z-index:100;background:#111c38;padding:12px 24px;
+  border-bottom:1px solid rgba(255,255,255,.14);box-shadow:0 8px 20px rgba(0,0,0,.35);margin:0}
 .page>.spc-card{margin-top:-26px;position:relative;z-index:2;box-shadow:var(--shadow-lg)}
 h1,h2,h3,.tab-btn,.unit-title,.q-text,.ex-qtext,.ex-header h2,.term,.qr-h,.btn,.chip,.ex-part-hd h3,.result .big{
   font-family:'Space Grotesk',-apple-system,sans-serif}
@@ -157,10 +171,39 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .tab-btn.active{background:var(--ink);color:var(--surface);border-color:var(--ink)}
 .view{display:none}.view.active{display:block;animation:fadein .25s ease}
 @keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
-.filter-row{display:flex;gap:8px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:6px;-webkit-overflow-scrolling:touch}.filter-row::-webkit-scrollbar{height:4px}.filter-row::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
-.chip{white-space:nowrap;flex-shrink:0;padding:8px 16px;border-radius:999px;border:1px solid var(--border);background:var(--surface);font-size:14px;cursor:pointer;color:var(--ink-muted)}
-.chip:hover{border-color:var(--border-strong);color:var(--ink)}
+/* ---- sticky search + filter header ---- */
+.ss-sticky-top{position:sticky;top:var(--ss-nav-h,0px);z-index:40;background:var(--bg);padding-top:2px;margin:0 -24px;padding-left:24px;padding-right:24px;transition:top .15s ease}
+@media(max-width:600px){.ss-sticky-top{margin:0 -16px;padding-left:16px;padding-right:16px}}
+.search-wrap{position:relative;margin-bottom:10px}
+.search-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--ink-dim);pointer-events:none}
+#search-box{width:100%;height:48px;padding:0 84px 0 44px;border:1px solid var(--border);border-radius:var(--radius);
+  font-size:16.5px;background:var(--surface);color:var(--ink);box-shadow:var(--shadow-sm);transition:border-color .15s ease,box-shadow .15s ease}
+#search-box::placeholder{color:var(--ink-dim)}
+#search-box:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.search-kbd{position:absolute;right:15px;top:50%;transform:translateY(-50%);font-family:'IBM Plex Mono',monospace;font-size:12px;
+  color:var(--ink-dim);background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:2px 7px;pointer-events:none}
+#search-box:focus~.search-kbd,#search-box:not(:placeholder-shown)~.search-kbd{display:none}
+.search-clear{display:none;position:absolute;right:12px;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;
+  border:none;background:var(--surface-2);color:var(--ink-muted);cursor:pointer;align-items:center;justify-content:center}
+.search-clear:hover{background:var(--surface-hover);color:var(--ink)}
+#search-box:not(:placeholder-shown)~.search-clear{display:flex}
+#search-results{display:none;position:absolute;left:0;right:0;top:calc(100% + 6px);background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:50;max-height:360px;overflow-y:auto;padding:8px}
+#search-results.show{display:block}
+#search-results>div[onclick]{transition:background .12s ease}
+#search-results>div[onclick]:hover{background:var(--surface-2)!important;border-color:var(--border-strong)!important}
+.filter-row-wrap{position:relative}
+.filter-row{display:flex;gap:8px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:6px;-webkit-overflow-scrolling:touch;
+  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 24px,#000 calc(100% - 24px),transparent 100%);
+  mask-image:linear-gradient(to right,transparent 0,#000 24px,#000 calc(100% - 24px),transparent 100%)}
+.filter-row::-webkit-scrollbar{height:4px}.filter-row::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.chip{white-space:nowrap;flex-shrink:0;padding:8px 16px;border-radius:999px;border:1px solid var(--border);background:var(--surface);font-size:14px;cursor:pointer;color:var(--ink-muted);transition:all .15s ease}
+.chip:hover{border-color:var(--border-strong);color:var(--ink);transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.ss-overall-progress{display:flex;align-items:center;gap:10px;margin:8px 0 12px}
+.ss-overall-progress-track{flex:1;height:6px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.ss-overall-progress-fill{height:100%;width:0%;background:var(--accent);border-radius:99px;transition:width .3s ease}
+.ss-overall-progress-label{font-size:12.5px;color:var(--ink-dim);white-space:nowrap;flex-shrink:0}
 .unit{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden;background:var(--surface);
   transition:border-color .15s ease,box-shadow .15s ease}
 .unit:hover{border-color:var(--border-strong)}
@@ -173,7 +216,7 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .chevron{font-size:24px;color:var(--ink-dim);transition:transform .2s ease;display:inline-block}
 .unit.open .chevron{transform:rotate(180deg);color:var(--accent)}
 .unit-body{display:none;padding:6px 18px 20px}
-.unit.open .unit-body{display:block}
+.unit.open .unit-body{display:block;animation:fadein .25s ease}
 .concept{margin-top:12px;padding:15px 17px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm)}
 .concept:first-child{margin-top:2px}
 .c-label{font-size:16.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--accent-ink);margin-bottom:8px;display:flex;align-items:center;gap:8px}
@@ -226,14 +269,31 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .guess-btn.on{background:var(--amber-soft);border-style:solid;border-color:var(--amber);color:var(--amber-ink)}
 .guess-flag{display:inline-block;margin-left:8px;font-size:14px;font-weight:700;color:var(--amber-ink);background:var(--amber-soft);
   border:1px solid var(--amber);border-radius:99px;padding:2px 10px;vertical-align:middle}
-.q-block{border:1px solid var(--border);border-radius:var(--radius);padding:24px;background:var(--surface);box-shadow:var(--shadow-sm)}
-.q-text{font-size:24.8px;font-weight:600;color:var(--ink);line-height:1.55;margin-bottom:20px}
+.q-block{border:1px solid var(--border);border-radius:var(--radius);padding:24px;background:var(--surface);box-shadow:var(--shadow-sm);margin-bottom:22px;transition:transform .15s ease,box-shadow .15s ease}
+.q-block:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.q-block-hd{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px}
+.q-text{font-size:24.8px;font-weight:600;color:var(--ink);line-height:1.55;flex:1}
+.q-bookmark{flex:none;background:none;border:none;cursor:pointer;color:var(--ink-dim);padding:2px;border-radius:6px;transition:color .15s ease,transform .15s ease}
+.q-bookmark:hover{color:var(--amber);transform:scale(1.08)}
+.q-bookmark.on{color:var(--amber)}
+.q-bookmark svg{display:block}
 .q-opts{display:flex;flex-direction:column;gap:9px}
 .q-opt{padding:13px 16px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';
-  font-size:21.8px;color:var(--ink-muted);background:var(--surface);transition:all .15s ease;text-align:left}
+  font-size:21.8px;color:var(--ink-muted);background:var(--surface);transition:all .15s ease;text-align:left;
+  display:flex;align-items:center;gap:9px}
 .q-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}
+.q-opt:disabled{cursor:default}
+.q-opt .q-opt-icon{flex:none;display:none}
 .q-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}
+.q-opt.correct .q-opt-icon.icon-correct{display:inline-flex}
 .q-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}
+.q-opt.wrong .q-opt-icon.icon-wrong{display:inline-flex}
+.q-hint-btn{display:inline-flex;align-items:center;gap:6px;margin-bottom:14px;padding:6px 14px;border:1px dashed var(--border-strong);
+  border-radius:99px;background:transparent;color:var(--ink-dim);font-size:14px;font-family:inherit;cursor:pointer;transition:all .15s ease}
+.q-hint-btn:hover{color:var(--accent-ink);border-color:var(--accent);background:var(--accent-soft)}
+.q-hint-box{display:none;margin:-6px 0 14px;padding:10px 14px;background:var(--accent-soft);border-left:3px solid var(--accent);
+  border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:15px;color:var(--accent-ink);line-height:1.5}
+.q-hint-box.show{display:block}
 .q-exp{margin-top:16px;padding:13px 16px;background:var(--surface-2);border-radius:var(--radius-sm);font-family:'Inter';
   font-size:21px;color:var(--ink-muted);line-height:1.65;display:none}
 .q-exp.show{display:block}
@@ -280,36 +340,81 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .qr-ol li,.qr-ul li{font-size:20.2px;color:var(--ink-muted);line-height:1.65;margin-bottom:8px}
 .qr-ol li:last-child,.qr-ul li:last-child{margin-bottom:0}
 .spc-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow-md)}
+.spc-summary{display:none;width:100%;align-items:center;justify-content:space-between;gap:12px;background:none;border:none;
+  cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;color:var(--ink);padding:0;text-align:left}
+.spc-summary .spc-chevron{font-size:18px;color:var(--ink-dim);transition:transform .2s ease;flex-shrink:0}
+#spc-card.collapsed{padding:16px 20px;cursor:pointer}
+#spc-card.collapsed .spc-summary{display:flex}
+#spc-card.collapsed .spc-body{display:none}
+#spc-card.collapsed .spc-chevron{transform:rotate(-90deg)}
+#spc-card:not(.collapsed) .spc-collapse-btn{display:inline-flex}
+.spc-collapse-btn{display:none;align-items:center;gap:4px;background:none;border:1px solid var(--border);border-radius:999px;
+  color:var(--ink-muted);font-size:13px;font-weight:600;padding:5px 12px;cursor:pointer;margin-left:auto}
+.spc-collapse-btn:hover{color:var(--ink);border-color:var(--border-strong)}
+.spc-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:6px}
+.spc-head-text{flex:1;min-width:0}
 .spc-card h2{font-size:30px;font-weight:600;color:var(--ink);margin-bottom:6px}
-.spc-card>p{font-size:21px;color:var(--ink-muted);line-height:1.55;margin-bottom:24px}
-.spc-row{margin-bottom:20px}
-.spc-row label{display:flex;justify-content:space-between;font-size:21px;font-weight:600;color:var(--ink);margin-bottom:9px}
+.spc-card>.spc-body>p{font-size:21px;color:var(--ink-muted);line-height:1.55;margin-bottom:24px}
+.spc-row{margin-bottom:20px;padding:10px 0}
+.spc-row label{display:flex;justify-content:space-between;align-items:center;font-size:21px;font-weight:600;color:var(--ink);margin-bottom:9px}
 .spc-row label span{color:var(--accent-ink);font-weight:700}
-input[type=range].spc-slider{-webkit-appearance:none;appearance:none;width:100%;height:5px;border-radius:99px;background:var(--surface-2);outline:none}
-input[type=range].spc-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;
-  background:var(--accent);cursor:pointer;border:3px solid var(--surface);box-shadow:0 2px 8px rgba(15,122,112,.4)}
-input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--accent);cursor:pointer;border:3px solid var(--surface)}
+.spc-val-input{width:64px;font-family:inherit;font-size:18px;font-weight:700;color:var(--accent-ink);background:var(--surface-2);
+  border:1px solid var(--border);border-radius:6px;padding:2px 6px;text-align:right}
+input[type=range].spc-slider{-webkit-appearance:none;appearance:none;width:100%;height:8px;border-radius:99px;background:var(--surface-2);outline:none;
+  background-image:linear-gradient(to right, var(--accent) 0%, var(--accent) var(--fill,0%), var(--surface-2) var(--fill,0%), var(--surface-2) 100%)}
+input[type=range].spc-slider::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;
+  background:var(--accent);cursor:pointer;border:4px solid var(--surface);box-shadow:0 2px 8px rgba(15,122,112,.4),0 0 0 3px var(--accent-soft)}
+input[type=range].spc-slider::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:var(--accent);cursor:pointer;border:4px solid var(--surface);box-shadow:0 0 0 3px var(--accent-soft)}
+input[type=range].spc-slider::-moz-range-progress{background:var(--accent);height:8px;border-radius:99px}
 .spc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin:24px 0 16px}
-.spc-stat{background:var(--surface-2);border-radius:var(--radius-sm);padding:14px 10px;text-align:center}
+.spc-stat{background:var(--surface-2);border-radius:var(--radius-sm);padding:14px 10px;text-align:center;box-shadow:var(--shadow-sm)}
 .spc-stat-val{font-size:37.5px;font-weight:700;color:var(--accent-ink);line-height:1}
-.spc-stat-label{font-family:'Inter';font-size:17.2px;color:var(--ink-dim);margin-top:6px;line-height:1.3}
+.spc-stat-label{font-family:'Inter';font-size:17.2px;color:var(--ink-dim);margin-top:6px;line-height:1.3;cursor:help}
 .spc-tier{border-radius:var(--radius-sm);padding:13px 16px;font-size:21px;text-align:center;transition:background .2s,color .2s}
 .spc-tier b{display:block;font-size:22.5px;margin-bottom:2px}
+.spc-tier.good{background:var(--success-soft);color:var(--success)}
+.spc-tier.moderate{background:var(--accent-soft);color:var(--accent-ink)}
+.spc-tier.behind{background:var(--amber-soft);color:var(--amber-ink)}
+.spc-reset-btn{display:inline-flex;align-items:center;gap:6px;margin-top:16px;padding:8px 16px;border:1px solid var(--border);
+  border-radius:999px;background:var(--surface);color:var(--ink-muted);font-size:14px;font-weight:600;cursor:pointer;transition:all .15s ease}
+.spc-reset-btn:hover{color:var(--ink);border-color:var(--border-strong);background:var(--surface-hover)}
+@media (prefers-reduced-motion: no-preference){
+  .spc-body{transition:opacity .2s ease}
+}
 .unit:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .q-block{box-shadow:var(--shadow-md)}
 .diagram{box-shadow:var(--shadow-sm)}
 .face{box-shadow:var(--shadow-md)}
+.mobile-only-select{display:none}
 @media(max-width:600px){
   .page{padding:0 16px 70px}
   .hero{padding:40px 16px 32px}
   .q-block{padding:18px}
   .spc-stats{grid-template-columns:1fr}
+  /* ---- touch targets: >=44x44px effective hit area ---- */
+  .chip{padding:12px 16px;min-height:44px;display:inline-flex;align-items:center}
+  .q-opt{min-height:44px;padding:13px 16px}
+  #theme-toggle{width:44px;height:44px}
+  .tab-btn{min-height:44px;padding:11px 18px;display:inline-flex;align-items:center}
+  /* slider thumbs stay visually small but gain a transparent padded hit-area */
+  input[type=range].spc-slider{height:44px;padding:18px 0;background-clip:content-box;box-sizing:border-box}
+  input[type=range].spc-slider::-webkit-slider-thumb{width:26px;height:26px}
+  input[type=range].spc-slider::-moz-range-thumb{width:26px;height:26px}
+  .back-to-top{width:48px;height:48px}
+  /* ---- mobile unit filter: dropdown replaces the pill row ---- */
+  .filter-row-wrap .filter-row{display:none}
+  .mobile-only-select{display:block;width:100%;min-height:44px;padding:10px 14px;margin-bottom:6px;
+    border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--ink);
+    font-family:'Inter',sans-serif;font-size:16px;cursor:pointer}
 }
-#sg-timer{margin-left:auto;display:flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;
-  color:rgba(244,242,234,.7);font-size:21px;font-variant-numeric:tabular-nums}
-.sgt-b{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:rgba(244,242,234,.75);
-  border-radius:6px;padding:4px 9px;cursor:pointer;font-size:18px;transition:all .15s ease}
-.sgt-b:hover{color:#fff;border-color:rgba(255,255,255,.3)}
+#sg-timer{margin-left:auto;display:flex;align-items:center;gap:9px;font-family:'IBM Plex Mono',monospace;
+  color:rgba(244,242,234,.85);font-size:21px;font-variant-numeric:tabular-nums}
+.sgt-label{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:rgba(244,242,234,.7)}
+.sgt-b{border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:rgba(244,242,234,.9);
+  border-radius:6px;padding:5px 9px;cursor:pointer;font-size:18px;transition:all .15s ease;display:inline-flex;align-items:center;justify-content:center}
+.sgt-b:hover{color:#fff;border-color:rgba(255,255,255,.5)}
+.sgt-b svg{width:15px;height:15px;display:block}
 .mem-intro{font-size:21px;color:var(--ink-muted);background:var(--surface-2);border:1px solid var(--border);
   border-left:3px solid var(--accent);border-radius:var(--radius-sm);padding:13px 16px;margin-bottom:20px;line-height:1.6}
 .mem-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:11px}
@@ -359,7 +464,7 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
   color:#fff;cursor:pointer;font-size:24px;flex-shrink:0}
 #cbot-form button:disabled{opacity:.4;cursor:default}
 .back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Inter';font-size:15px;font-weight:600;
-  color:rgba(244,242,234,.62);text-decoration:none;margin-bottom:18px;transition:color .15s ease}
+  color:rgba(244,242,234,.8);text-decoration:none;margin-bottom:18px;transition:color .15s ease}
 .back-link:hover{color:#fff}
 
 .auth-gate{max-width:460px;margin:40px auto;text-align:center;padding:36px 28px;background:var(--surface);
@@ -375,10 +480,10 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
 .auth-gate .ss-oauth-btn{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-ink);font-weight:700}
 .auth-gate .ss-oauth-btn:hover{background:var(--accent);color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.18)}
 .ss-status{font-family:'Inter';font-size:12.5px;color:var(--ink-dim);margin-top:10px;min-height:16px}
-.ss-account{display:flex;align-items:center;gap:10px;font-family:'Inter';font-size:13px;color:rgba(244,242,234,.75)}
-.ss-account button{background:none;border:1px solid rgba(255,255,255,.18);border-radius:var(--radius-sm);
-  color:rgba(244,242,234,.7);padding:5px 11px;font-size:12px;cursor:pointer;font-family:'Inter'}
-.ss-account button:hover{color:#fff;border-color:rgba(255,255,255,.35)}
+.ss-account{display:flex;align-items:center;gap:10px;font-family:'Inter';font-size:13px;color:rgba(244,242,234,.88)}
+.ss-account button{background:none;border:1px solid rgba(255,255,255,.32);border-radius:var(--radius-sm);
+  color:rgba(244,242,234,.85);padding:5px 11px;font-size:12px;cursor:pointer;font-family:'Inter'}
+.ss-account button:hover{color:#fff;border-color:rgba(255,255,255,.5)}
 body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:2147483647;opacity:.035;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .q-kbd-hint{margin-left:auto;font-size:12.5px;color:var(--ink-dim)}
@@ -400,6 +505,42 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 .ex2-reveal{border-color:var(--accent)!important;color:var(--accent)!important}
 .ex2-done{margin-left:auto}
 
+/* ---- back-to-top ---- */
+.back-to-top{position:fixed;bottom:22px;left:22px;width:52px;height:52px;border-radius:50%;
+  background:var(--surface);color:var(--ink-muted);border:1px solid var(--border-strong);cursor:pointer;
+  box-shadow:var(--shadow-md);z-index:200;display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .2s ease,transform .2s ease,color .15s ease,border-color .15s ease}
+.back-to-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+.back-to-top:hover{color:var(--ink);border-color:var(--accent)}
+.back-to-top svg{width:20px;height:20px;display:block}
+
+/* ---- print / export ---- */
+@media print{
+  :root,[data-theme="dark"]{
+    --bg:#fff;--surface:#fff;--surface-2:#f2f2f2;--surface-hover:#f2f2f2;
+    --border:#ccc;--border-strong:#999;--ink:#000;--ink-muted:#222;--ink-dim:#444;
+    --accent:#000;--accent-ink:#000;--accent-soft:#eee;
+    --amber:#000;--amber-ink:#000;--amber-soft:#eee;
+    --success:#000;--success-soft:#eee;--success-border:#999;
+    --danger:#000;--danger-soft:#eee;--danger-border:#999;
+    --shadow-sm:none;--shadow-md:none;--shadow-lg:none;
+  }
+  body{background:#fff;color:#000}
+  body::before,.hero::after{display:none!important}
+  #theme-toggle,.search-wrap,.ss-sticky-top .filter-row-wrap,.mobile-only-select,.nav,.nav-spacer,.tablist,
+  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
+  .search-kbd,.ss-overall-progress,.q-kbd-hint,.diag-btn{display:none!important}
+  *{position:static!important;box-shadow:none!important}
+  .unit-body{display:block!important}
+  .unit .chevron{display:none!important}
+  .ex-part-body{display:block!important}
+  .q-exp,.q-hint-box{display:block!important}
+  .q-opt{border:1px solid #999!important}
+  details{display:block!important}
+  details>*{display:block!important}
+  a{color:#000;text-decoration:underline}
+}
+
 :root:not([data-theme="dark"]){--accent:#23744f!important;--accent-ink:#174b33!important;--accent-soft:#e5eeea!important;--accent-border:#abcabc!important;--bg:#e9f1ed!important;}[data-theme="dark"]{--accent:#86b39e!important;--accent-soft:rgba(35,116,79,0.16)!important;--accent-border:rgba(35,116,79,0.4)!important;--bg:#12182b!important;--surface:#1a2138!important;}:root:not([data-theme="dark"]) .hero{background:linear-gradient(170deg,#174b33 0%,#23744f 55%,#e9f1ed 130%)!important;}[data-theme="dark"] .hero{background:linear-gradient(170deg,#0a0e1c 0%,#174b33 45%,#23744f 100%)!important;}:root:not([data-theme="dark"]) .tab-btn.active,[data-theme="dark"] .tab-btn.active{background:#23744f;border-color:#23744f;color:#fff!important;}.btn{background:#23744f;border-color:#23744f} .unit.open .chevron{color:#23744f}.chip.on{background:#23744f;border-color:#23744f;color:#fff}:root:not([data-theme="dark"]) .spc-card{border-color:#abcabc;background:linear-gradient(135deg,#e5eeea,var(--surface))!important}[data-theme="dark"] .spc-card{border-color:rgba(35,116,79,0.4);background:linear-gradient(135deg,rgba(35,116,79,0.16),var(--surface))!important}
 .hero::after{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'190'%20height%3D'190'%3E%3Cpath%20d%3D'M10%20100%20Q95%2030%20180%20100'%20fill%3D'none'%20stroke%3D'%2323744f'%20stroke-width%3D'2'%20opacity%3D'.35'%2F%3E%3Cpath%20d%3D'M30%2096%20v8%20M70%2076%20v28%20M110%2066%20v38%20M150%2082%20v22'%20stroke%3D'%2323744f'%20stroke-width%3D'2.5'%20opacity%3D'.4'%2F%3E%3Ccircle%20cx%3D'30'%20cy%3D'100'%20r%3D'3.5'%20fill%3D'%2323744f'%20opacity%3D'.5'%2F%3E%3Ccircle%20cx%3D'150'%20cy%3D'93'%20r%3D'3.5'%20fill%3D'%2323744f'%20opacity%3D'.5'%2F%3E%3C%2Fsvg%3E")!important;background-size:190px 190px!important;opacity:.5!important;}
 body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'190'%20height%3D'190'%3E%3Cpath%20d%3D'M20%20100%20Q95%2040%20170%20100'%20fill%3D'none'%20stroke%3D'%2323744f'%20stroke-width%3D'2'%20opacity%3D'0.133'%2F%3E%3Cpath%20d%3D'M40%2095%20v10%20M80%2078%20v27%20M120%2068%20v37%20M155%2084%20v21'%20stroke%3D'%2323744f'%20stroke-width%3D'2'%20opacity%3D'0.133'%2F%3E%3C%2Fsvg%3E");background-size:190px 190px;opacity:.9;}
@@ -419,10 +560,20 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <a class="skip-link" href="#main-content">Skip to main content</a>
 <div class="hero">
   <div class="hero-inner">
-    <a href="/" class="back-link" style="opacity:0;animation:fadein .5s ease forwards">← Back to Library</a>
-    <div class="kicker" style="opacity:0;animation:fadein .5s ease .06s forwards">US Government</div>
+    <nav class="breadcrumb" aria-label="Breadcrumb" style="opacity:0;animation:fadein .5s ease forwards">
+      <ol>
+        <li><a href="/">PrecisStudy</a></li>
+        <li><a href="/">All Guides</a></li>
+        <li aria-current="page">US Government Study Guide</li>
+      </ol>
+    </nav>
+    <div class="kicker" style="opacity:0;animation:fadein .5s ease .06s forwards">
+      <img src="/logo-icon-dark.png" alt="" class="kicker-logo" width="20" height="20">
+      <span>US Government</span>
+    </div>
     <h1 style="opacity:0;animation:fadein .5s ease .12s forwards"><span class="grad">US Government</span> Study Guide</h1>
     <p class="subtitle" style="opacity:0;animation:fadein .5s ease .18s forwards">8 Units · 55 Quiz Questions · 58 Flashcards · Diagnostic · Quick Reference · Memory Tricks · Saved Progress</p>
+    <div class="nav-slot" id="nav-slot">
     <nav class="nav" style="opacity:0;animation:fadein .5s ease .24s forwards">
       <div class="tablist" role="tablist" aria-label="Study guide views">
       <button class="tab-btn active" role="tab" id="tab-guide" aria-controls="view-guide" aria-selected="true" onclick="switchTab('guide')">Study Guide</button>
@@ -437,39 +588,85 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
         <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
       </button>
     </nav>
+    </div>
     <div class="hero-live sr-only" id="hero-live" role="status" aria-live="polite"></div>
   </div>
 </div>
+<div class="nav-spacer" id="nav-spacer" hidden></div>
 <div class="page" id="main-content" role="main" tabindex="-1">
-<div class="spc-card" id="spc-card">
-  <h2>See what your study plan could look like</h2>
-  <p>Based on this guide's real question bank — 55 practice questions across 8 units. Slide to match your situation.</p>
+<div class="spc-card collapsed" id="spc-card">
+  <button type="button" class="spc-summary" id="spc-summary" aria-expanded="false" aria-controls="spc-body">
+    <span>📊 See what your study plan could look like — tap to expand</span>
+    <span class="spc-chevron" aria-hidden="true">▾</span>
+  </button>
+  <div class="spc-body" id="spc-body">
+  <div class="spc-head">
+    <div class="spc-head-text">
+      <h2>See what your study plan could look like</h2>
+      <p>Based on this guide's real question bank — 55 practice questions across 8 units. Slide to match your situation.</p>
+    </div>
+    <button type="button" class="spc-collapse-btn" id="spc-collapse-btn" aria-expanded="true" aria-controls="spc-body">Collapse ▴</button>
+  </div>
   <div class="spc-row">
-    <label for="spc-days">Days until your exam <span id="spc-days-val">14 days</span></label>
+    <label for="spc-days">Days until your exam <span id="spc-days-val">14 days</span> <input type="number" class="spc-val-input" id="spc-days-num" min="1" max="60" value="14" aria-label="Days until your exam, exact number"></label>
     <input type="range" class="spc-slider" id="spc-days" min="1" max="60" value="14">
   </div>
   <div class="spc-row">
-    <label for="spc-mins">Minutes you can study per day <span id="spc-mins-val">30 min</span></label>
+    <label for="spc-mins">Minutes you can study per day <span id="spc-mins-val">30 min</span> <input type="number" class="spc-val-input" id="spc-mins-num" min="10" max="120" step="5" value="30" aria-label="Minutes you can study per day, exact number"></label>
     <input type="range" class="spc-slider" id="spc-mins" min="10" max="120" value="30" step="5">
   </div>
   <div class="spc-stats">
-    <div class="spc-stat"><div class="spc-stat-val" id="spc-questions">0</div><div class="spc-stat-label">Questions you'll complete</div></div>
-    <div class="spc-stat"><div class="spc-stat-val" id="spc-units">0</div><div class="spc-stat-label">Units covered</div></div>
-    <div class="spc-stat"><div class="spc-stat-val" id="spc-pct">0%</div><div class="spc-stat-label">of the full question bank</div></div>
+    <div class="spc-stat"><div class="spc-stat-val" id="spc-questions">0</div><div class="spc-stat-label" title="The total number of quiz questions you'll get through at this pace before your exam date.">Questions you'll complete</div></div>
+    <div class="spc-stat"><div class="spc-stat-val" id="spc-units">0</div><div class="spc-stat-label" title="How many of this guide's units you'll have covered at this pace.">Units covered</div></div>
+    <div class="spc-stat"><div class="spc-stat-val" id="spc-pct">0%</div><div class="spc-stat-label" title="Percentage of every question in this guide's bank you'll get through at this pace.">of the full question bank</div></div>
   </div>
   <div class="spc-tier" id="spc-tier">
     <b id="spc-tier-title"></b>
     <span id="spc-tier-sub"></span>
   </div>
-</div>
-<div id="view-guide" class="view active" role="tabpanel" aria-labelledby="tab-guide" tabindex="0">
-  <div style="display:flex;gap:8px;margin-bottom:10px;align-items:center">
-    <input id="search-box" type="search" aria-label="Search this guide's topics, terms, and formulas" placeholder="Search topics, terms, formulas…" oninput="searchGuide()" style="flex:1;padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:15px;background:var(--surface);color:var(--ink)">
-    <button type="button" onclick="clearSearch()" style="padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);font-size:13px;cursor:pointer;color:var(--ink-muted)">✕ Clear</button>
+  <button type="button" class="spc-reset-btn" id="spc-reset-btn">↺ Reset to Recommended</button>
   </div>
-  <div id="search-results" style="display:none;margin-bottom:12px"></div>
-  <div class="filter-row" id="filter-row"><button class="chip on">All Units</button><button class="chip">Unit 1</button><button class="chip">Unit 2</button><button class="chip">Unit 3</button><button class="chip">Unit 4</button><button class="chip">Unit 5</button><button class="chip">Unit 6</button><button class="chip">Unit 7</button><button class="chip">Unit 8</button></div>
-  <div id="units"><div class="unit" data-id="1"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 1: Foundations of American Democracy<span class="unit-meta">5 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Ideals of democracy</div><div class="c-text">The United States was founded on Enlightenment principles of limited government, natural rights, and popular sovereignty.</div><ul class="c-list"><li>Natural rights: life, liberty, and the pursuit of happiness (Locke) — government exists to protect them</li><li>Popular sovereignty: government's power derives from the consent of the governed</li><li>Social contract: people give up some freedom in exchange for ordered liberty and protection of rights</li><li>Limited government: government powers are defined and restricted by law (the Constitution)</li><li>Declaration of Independence (1776): justified revolution by listing grievances against King George III</li></ul></div><div class="concept"><div class="c-label">Types of democracy</div><div class="c-text">American government blends participatory, pluralist, and elite models of democratic participation.</div><ul class="c-list"><li>Participatory: broad citizen involvement via referendums, town halls, and initiatives</li><li>Pluralist: interest groups compete and bargain to influence policy (Federalist No. 10's faction solution)</li><li>Elite: policy is dominated by a small set of wealthy or well-organized actors</li><li>The Framers designed a republic (representative democracy), not a direct democracy — filtering popular will through elected bodies</li><li>Expansion of suffrage over time: property requirements dropped, then race (15th), gender (19th), poll taxes (24th), age to 18 (26th)</li></ul></div><div class="concept"><div class="c-label">Articles of Confederation and why they failed</div><div class="c-text">America's first constitution created a weak central government that could not solve national problems.</div><ul class="c-list"><li>No power to tax — Congress had to request funds from states, which often refused</li><li>No executive to enforce laws and no national judiciary to interpret them</li><li>Unanimous consent required to amend; 9 of 13 states needed to pass laws</li><li>Could not regulate interstate or foreign commerce — states imposed tariffs on each other</li><li>Shays' Rebellion (1786–87): armed farmers in Massachusetts exposed the government's inability to maintain order, spurring calls for a stronger union</li></ul></div><div class="concept"><div class="c-label">Drafting the Constitution: compromises at Philadelphia</div><div class="c-text">The Constitutional Convention of 1787 resolved deep sectional conflicts through landmark compromises.</div><ul class="c-list"><li>Great Compromise (Connecticut Plan): bicameral Congress — House by population, Senate with equal state representation</li><li>Three-Fifths Compromise: enslaved persons counted as three-fifths for both representation and direct taxes</li><li>Commerce Compromise: Congress regulates interstate/foreign commerce; no export taxes; slave trade untouched until 1808</li><li>Electoral College: indirect election of the president as a compromise between congressional selection and popular vote</li><li>Separation of powers + checks and balances distributed federal authority among three branches</li></ul></div><div class="concept"><div class="c-label">Ratification: Federalists vs. Anti-Federalists</div><div class="c-text">Debate over ratification produced the Constitution's first ten amendments and two enduring political traditions.</div><ul class="c-list"><li>Federalists (Hamilton, Madison, Jay): strong central government; wrote The Federalist Papers to persuade New York ratification</li><li>Anti-Federalists (Patrick Henry, George Mason): feared tyranny of a distant central government; demanded a bill of rights</li><li>Federalist No. 10 (Madison): a large republic controls factions better than small democracies</li><li>Federalist No. 51: 'If men were angels…' — checks and balances let ambition counteract ambition</li><li>Promise of a Bill of Rights secured ratification from key states; first ten amendments added by 1791</li></ul></div><div class="trap">The Articles of Confederation failed because it was TOO WEAK (no tax/enforce power), not too strong</div><div class="trap">Anti-Federalists opposed RATIFICATION of the Constitution — not independence from Britain</div><div class="trap">The Three-Fifths Compromise counted enslaved people for REPRESENTATION AND TAXES — it did not define their humanity</div></div></div><div class="unit" data-id="2"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 2: The Constitution: Principles & Structure<span class="unit-meta">5 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Separation of powers and checks and balances</div><div class="c-text">Power is divided among three branches, each able to limit the others to prevent tyranny.</div><ul class="c-list"><li>Legislative makes law, executive enforces it, judiciary interprets it</li><li>President can veto bills; Congress can override with two-thirds in both chambers</li><li>Senate confirms presidential appointments and ratifies treaties (two-thirds vote)</li><li>Congress can impeach and remove federal officials: House impeaches (simple majority), Senate tries (two-thirds to convict)</li><li>Judicial review (Marbury v. Madison, 1803) lets courts strike unconstitutional acts</li></ul></div><div class="concept"><div class="c-label">Federalism: division of power between nation and states</div><div class="c-text">The Constitution splits authority between a national government and the states, evolving over time.</div><ul class="c-list"><li>Enumerated/delegated powers: listed for Congress in Article I, Section 8 (tax, coin money, declare war, regulate commerce)</li><li>Reserved powers: kept by states under the 10th Amendment (education, police powers, elections administration)</li><li>Concurrent powers: shared (taxing, building roads, establishing courts)</li><li>Necessary and Proper (Elastic) Clause + Supremacy Clause expand federal reach</li><li>Dual federalism ('layer cake', pre-1930s) shifted to cooperative federalism ('marble cake') after the New Deal</li></ul></div><div class="concept"><div class="c-label">Landmark Supreme Court cases: federal power</div><div class="c-text">Key cases established judicial review and broad federal authority.</div><ul class="c-list"><li>Marbury v. Madison (1803): established judicial review — courts declare acts unconstitutional</li><li>McCulloch v. Maryland (1819): upheld implied powers under Necessary and Proper Clause; states cannot tax federal institutions</li><li>Gibbons v. Ogden (1824): federal commerce power is supreme over state laws in interstate commerce</li><li>United States v. Lopez (1995): first case in 60 years to LIMIT commerce-clause power (Gun-Free School Zones Act struck down)</li><li>Citizens United v. FEC (2010): corporate independent political spending is protected speech</li></ul></div><div class="concept"><div class="c-label">Amending the Constitution</div><div class="c-text">Article V provides two paths to propose and two paths to ratify amendments — deliberately difficult.</div><ul class="c-list"><li>Proposal: two-thirds of both House and Senate, OR a convention called by two-thirds of state legislatures (never used)</li><li>Ratification: three-fourths of state legislatures OR three-fourths of state ratifying conventions (used once — 21st Amendment)</li><li>27 amendments total; the first ten are the Bill of Rights</li><li>Bill of Rights guarantees: speech, religion, press, assembly, petition; bear arms; quartering; search/seizure; due process; jury; cruel/unusual punishment</li><li>Reconstruction Amendments: 13th (abolish slavery), 14th (equal protection, due process applies to states), 15th (vote regardless of race)</li></ul></div><div class="concept"><div class="c-label">The Bill of Rights and incorporation</div><div class="c-text">The 14th Amendment's Due Process Clause extended most Bill of Rights protections to the states.</div><ul class="c-list"><li>Selective incorporation: the Court applied amendments one-by-one against states (Gitlow v. New York began it, 1925)</li><li>Near v. Minnesota (1931): freedom of the press incorporated</li><li>Mapp v. Ohio (1961): exclusionary rule incorporated (evidence obtained illegally is inadmissible)</li><li>Gideon v. Wainwright (1963): right to counsel in felony cases incorporated</li><li>McDonald v. Chicago (2010): Second Amendment right to bear arms incorporated</li></ul></div><div class="trap">Judicial review came from Marbury v. Madison, NOT from the text of the Constitution itself</div><div class="trap">Incorporation applies the Bill of Rights to STATES via the 14th Amendment — the original rights only bound the federal government</div><div class="trap">The Elastic Clause expands CONGRESS's power — it does not grant the president new authority</div></div></div><div class="unit" data-id="3"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 3: Congress<span class="unit-meta">4 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Structure of Congress</div><div class="c-text">A bicameral legislature balances population-based and equal state representation.</div><ul class="c-list"><li>House: 435 members, 2-year terms, must be 25+, apportioned by population; initiates revenue bills and impeachment</li><li>Senate: 100 members, 6-year staggered terms, must be 30+; confirms appointments, ratifies treaties, tries impeachments</li><li>Reapportionment follows each decennial census; redistricting is done by states (gerrymandering risk)</li><li>Baker v. Carr (1962) + Wesberry v. Sanders (1964): 'one person, one vote' — districts must be roughly equal in population</li><li>Incumbency advantage: name recognition, casework, franking privileges, PAC donations → ~90% House reelection rates</li></ul></div><div class="concept"><div class="c-label">Powers of Congress</div><div class="c-text">Article I grants enumerated legislative powers plus implied authority.</div><ul class="c-list"><li>Levy taxes, borrow money, coin currency, regulate interstate and foreign commerce</li><li>Declare war, raise and fund armies, provide for the common defense</li><li>Necessary and Proper Clause stretches enumerated powers into implied ones (McCulloch)</li><li>Oversight: committees investigate the executive, subpoena witnesses, control budgets</li><li>Impeachment: House charges by simple majority; Senate convicts and removes by two-thirds</li></ul></div><div class="concept"><div class="c-label">How a bill becomes a law</div><div class="c-text">The legislative process filters proposals through committee, floor action, and conference.</div><ul class="c-list"><li>Introduction → committee assignment → subcommittee review and markup</li><li>Committee can pigeonhole (kill) or report out a bill; discharge petition can force a floor vote</li><li>House: Rules Committee sets debate terms; Senate: unlimited debate allows filibuster</li><li>Filibuster broken by cloture — 60 senators; budget reconciliation needs only a simple majority</li><li>Identical passage in both chambers (or conference committee) → president signs or vetoes; veto overridden by two-thirds</li></ul></div><div class="concept"><div class="c-label">Leadership and committees</div><div class="c-text">Party leadership and the committee system organize congressional work.</div><ul class="c-list"><li>Speaker of the House: presides, assigns bills to committees, second in line to presidency</li><li>Senate: Vice President is constitutional president (tie-breaker); President pro tempore is ceremonial; Majority Leader runs the floor</li><li>Standing committees: permanent subject-matter bodies where most work happens</li><li>Committee chairs chosen by seniority within majority party; majority party holds voting majorities on every committee</li><li>Divided government (one party holds White House, another Congress) typically slows legislation and raises shutdown/negotiation stakes</li></ul></div><div class="trap">The VICE PRESIDENT presides over the SENATE, not the House; the SPEAKER leads the House</div><div class="trap">Cloture requires 60 votes — not a simple majority of 51</div><div class="trap">Committee chairs come from the MAJORITY party, chosen by seniority — not appointed by the president</div></div></div><div class="unit" data-id="4"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 4: The Presidency<span class="unit-meta">4 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Formal (enumerated) powers of the president</div><div class="c-text">Article II lists the president's core authorities.</div><ul class="c-list"><li>Commander in chief of the armed forces</li><li>Negotiate treaties (Senate ratification, two-thirds) and receive ambassadors</li><li>Appoint federal officials, judges, and cabinet secretaries (Senate confirmation)</li><li>Grant pardons and reprieves for federal offenses (not impeachment cases)</li><li>Take Care Clause: faithfully execute the laws; State of the Union duty to recommend measures</li></ul></div><div class="concept"><div class="c-label">Informal powers and the modern presidency</div><div class="c-text">Presidents increasingly rely on tools beyond the Constitution's text.</div><ul class="c-list"><li>Executive orders: directives to agencies with force of law; reversible by courts, Congress, or successors</li><li>Executive agreements: international pacts made without Senate ratification (e.g., many trade deals)</li><li>Signing statements: president's interpretation when signing a bill; controversial if used to refuse enforcement</li><li>Bargaining/bully pulpit: persuasion via media attention, agenda setting, going public</li><li>Crisis leadership expands presidential power (e.g., post-9/11 security actions)</li></ul></div><div class="concept"><div class="c-label">Checks on presidential power</div><div class="c-text">Each branch and the Constitution constrain the executive.</div><ul class="c-list"><li>Congress overrides vetoes, controls funding (power of the purse), and can impeach</li><li>Supreme Court can rule executive actions unconstitutional (Youngstown Sheet & Tube v. Sawyer, 1952 — Truman's steel seizure struck down)</li><li>War Powers Resolution (1973): president must notify Congress within 48 hours of military action; withdraw within 60 days without authorization</li><li>22nd Amendment: two-term limit (post-FDR)</li><li>25th Amendment: succession and disability procedures</li></ul></div><div class="concept"><div class="c-label">Expansion of presidential power</div><div class="c-text">From Washington to today, the office has grown far beyond its 18th-century scope.</div><ul class="c-list"><li>New Deal era: administrative state expanded executive agencies (SEC, SSA)</li><li>Post-WWII: standing military and intelligence apparatus centralized in the executive</li><li>Imperial presidency critique (Vietnam/Watergate era): unilateral war-making and secrecy exceed constitutional bounds</li><li>Unitary executive theory: president controls entire executive branch; used to justify expansive signing statements and orders</li><li>Modern presidents use executive orders more in divided government when Congress is gridlocked</li></ul></div><div class="trap">The president CANNOT pardon someone impeached, and pardons are FEDERAL only — not state crimes</div><div class="trap">Executive agreements skip Senate ratification but bind only while the president's policy stands — treaties are more durable</div><div class="trap">Commander-in-chief power does NOT include declaring war — that belongs to Congress</div></div></div><div class="unit" data-id="5"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 5: The Judiciary<span class="unit-meta">3 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Structure of the federal court system</div><div class="c-text">A three-tier hierarchy culminates in the Supreme Court.</div><ul class="c-list"><li>District courts (94): trial courts of original jurisdiction — hear cases first, juries decide facts</li><li>Courts of appeals (13 circuits): review district court decisions for legal error; no juries</li><li>Supreme Court: nine justices; mostly appellate jurisdiction plus narrow original jurisdiction (states, ambassadors)</li><li>Judges nominated by the president, confirmed by Senate, serve life tenure during good behavior</li><li>Federal questions and diversity cases (different states, >$75k) give federal courts jurisdiction</li></ul></div><div class="concept"><div class="c-label">How the Supreme Court chooses and decides cases</div><div class="c-text">Certiorari, oral argument, and conference shape outcomes.</div><ul class="c-list"><li>Rule of four: four justices must agree to grant certiorari before a case is heard</li><li>Solicitor general represents the U.S. government; amicus curiae briefs add outside perspectives</li><li>Majority opinion sets precedent; concurring opinions agree on result but differ on reasoning; dissents disagree entirely</li><li>Stare decisis: courts follow precedent — but the Court does overturn itself (Brown reversing Plessy)</li><li>Judicial philosophy: strict constructionism/originalism vs. loose/living-document interpretation</li></ul></div><div class="concept"><div class="c-label">Checks on the judiciary</div><div class="c-text">Courts depend on other branches to function.</div><ul class="c-list"><li>Congress sets court jurisdiction, number of judges, and budgets</li><li>President nominates all federal judges; Senate confirms — appointment politics shape the bench</li><li>Congress can amend the Constitution to reverse a judicial interpretation (rare — e.g., 16th Amendment after Pollock)</li><li>Implementation depends on executive enforcement and public compliance (Jackson: '[Marshall] has made his decision; now let him enforce it')</li><li>Legislation can be rewritten to cure constitutional defects the Court identified</li></ul></div><div class="trap">The Supreme Court does NOT hear every appeal — it denies most cert petitions (~7,000 filed, &lt;100 heard)</div><div class="trap">Judicial review is an IMPLIED power from Marbury — not written in Article III</div><div class="trap">Dissenting opinions have NO legal force but may guide future reasoning</div></div></div><div class="unit" data-id="6"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 6: Civil Liberties & Civil Rights<span class="unit-meta">5 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">First Amendment: religion</div><div class="c-text">Two religion clauses protect belief and constrain government endorsement.</div><ul class="c-list"><li>Free Exercise Clause: government cannot burden religious practice without compelling interest (Wisconsin v. Yoder, 1972 — Amish schooling exemption)</li><li>Establishment Clause: no official religion or excessive entanglement (Lemon v. Kurtzman test; Kennedy v. Bremerton replaced Lemon, 2022)</li><li>Engel v. Vitale (1962): school-sponsored prayer unconstitutional, even if voluntary</li><li>Employment Division v. Smith (1990): neutral, generally applicable laws do not violate Free Exercise even if they incidentally burden religion</li><li>Religious Freedom Restoration Act (1993): statutory standard restoring strict scrutiny for federal burdens on religion</li></ul></div><div class="concept"><div class="c-label">First Amendment: speech, press, assembly</div><div class="c-text">Speech protections are strong but not absolute.</div><ul class="c-list"><li>Unprotected categories: incitement to imminent lawless action (Brandenburg), true threats, obscenity (Miller test), defamation of public figures (actual malice, NYT v. Sullivan)</li><li>Symbolic speech protected: Texas v. Johnson (1989) flag burning; Tinker v. Des Moines (1969) student armbands</li><li>Prior restraint presumed unconstitutional: Near v. Minnesota; NYT v. United States (Pentagon Papers, 1971)</li><li>Time/place/manner restrictions allowed for content-neutral purposes (permits, noise limits)</li><li>Hazelwood v. Kuhlmeier (1988): schools may censor school-sponsored newspapers for pedagogical reasons</li></ul></div><div class="concept"><div class="c-label">Second, Fourth, Fifth, Sixth, Eighth Amendments</div><div class="c-text">Core criminal-procedure and gun-rights protections.</div><ul class="c-list"><li>District of Columbia v. Heller (2008): individual right to keep a handgun at home; McDonald (2010) applied it to states</li><li>Fourth Amendment: warrants require probable cause; exclusionary rule (Mapp) bars illegally seized evidence; automobile/plain-view exceptions exist</li><li>Fifth: self-incrimination (Miranda warnings), double jeopardy, grand jury, due process, takings compensation</li><li>Sixth: speedy/public trial, impartial jury, notice of charges, confront witnesses, counsel (Gideon)</li><li>Eighth: no cruel and unusual punishment; death penalty constitutional with safeguards (Gregg v. Georgia) but barred for minors/intellectually disabled</li></ul></div><div class="concept"><div class="c-label">Right to privacy</div><div class="c-text">An unenumerated right built from amendment 'penumbras.'</div><ul class="c-list"><li>Griswold v. Connecticut (1965): marital contraception privacy from 1st/3rd/4th/5th/9th/14th amendments</li><li>Roe v. Wade (1973): abortion under due process; overturned by Dobbs v. Jackson (2022), returning regulation to states</li><li>Lawrence v. Texas (2003): private consensual intimacy protected</li><li>Obergefell v. Hodges (2015): same-sex marriage under 14th Amendment equal protection and due process</li><li>Privacy debates center on which unenumerated rights survive textualist scrutiny</li></ul></div><div class="concept"><div class="c-label">Civil rights and equal protection</div><div class="c-text">The 14th Amendment drives anti-discrimination law.</div><ul class="c-list"><li>Strict scrutiny: race/national origin classifications — government must show compelling interest and narrow tailoring</li><li>Intermediate scrutiny: gender — substantially related to important objective (Craig v. Boren)</li><li>Rational basis: most other classifications — rationally related to legitimate goal (almost always upheld)</li><li>Brown v. Board (1954): separate is inherently unequal in education; reversed Plessy's separate-but-equal</li><li>Affirmative action: permitted with limits — SFFA v. Harvard (2023) ended race-conscious college admissions</li></ul></div><div class="trap">Free speech does NOT protect incitement, true threats, obscenity, or defamation — 'no shouting fire in a crowded theater'</div><div class="trap">Miranda warnings are required for CUSTODIAL INTERROGATION — not every police encounter</div><div class="trap">The Establishment Clause blocks government ENDORSEMENT of religion — it does not ban private religious expression</div></div></div><div class="unit" data-id="7"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 7: Political Participation: Elections & Media<span class="unit-meta">4 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Political parties and realignment</div><div class="c-text">Parties nominate candidates, mobilize voters, and structure government — despite the Founders' warnings.</div><ul class="c-list"><li>Party functions: recruit candidates, fundraise, get-out-the-vote, organize Congress by caucus</li><li>Party eras: Federalist/Democratic-Republican, Jacksonian Democrats vs. Whigs, Republican ascendancy (1860–1932), New Deal coalition (1932–1968), dealignment/divided government since</li><li>Realignment: durable shift in coalitions (e.g., Southern realignment toward Republicans post-Civil Rights Act)</li><li>Third parties: winner-take-all plurality (Duverger's law) squeezes minor parties; they still inject new ideas (Populists, Socialists) and act as spoilers</li><li>Primaries weakened party bosses: candidate-centered campaigns dominate since McGovern-Fraser reforms (1972)</li></ul></div><div class="concept"><div class="c-label">Elections and voting behavior</div><div class="c-text">Who votes, how, and why turnout varies.</div><ul class="c-list"><li>Presidential elections: Electoral College — 538 electors, need 270; winner-take-all in 48 states; swing states decide close races</li><li>Midterm turnout lags presidential (~40% vs ~60%+); local elections lower still</li><li>Predictors of turnout: education, age (older vote more), income; registration barriers suppress turnout</li><li>Motor Voter Act (1993): register at DMV; Help America Vote Act (2002): provisional ballots after Bush v. Gore</li><li>Voting Rights Act (1965): banned literacy tests, federal preclearance for discriminatory jurisdictions (Shelby County v. Holder gutted preclearance formula in 2013)</li></ul></div><div class="concept"><div class="c-label">Interest groups and lobbying</div><div class="c-text">Organized groups shape policy between elections.</div><ul class="c-list"><li>Methods: lobbying, litigation (amicus briefs, class actions), electioneering, grassroots mobilization</li><li>Iron triangles: agency + congressional committee + interest group dominate a policy area; issue networks are looser, broader webs</li><li>Free-rider problem: collective goods (clean air) attract non-members who benefit without joining — Olson's logic</li><li>Campaign finance: Buckley v. Valeo (1976) — spending is speech; contribution limits OK, expenditure limits suspect</li><li>BCRA/McCain-Feingold (2002) softened soft-money rules; Citizens United (2010) opened independent corporate expenditures and super PACs</li></ul></div><div class="concept"><div class="c-label">Media and political communication</div><div class="c-text">Media informs voters and frames politics — with structural biases.</div><ul class="c-list"><li>Roles: gatekeeping (what gets covered), scorekeeping (polls/horserace), watchdog (investigations — Watergate, Pentagon Papers)</li><li>Fragmentation: cable news, talk radio, social media create echo chambers and selective exposure</li><li>Horse-race coverage emphasizes who's winning over policy substance</li><li>Fairness Doctrine abolished (1987); partisan outlets grew after</li><li>Misinformation spreads faster than corrections; platform moderation remains contested (First Amendment binds government, not private platforms)</li></ul></div><div class="trap">Winning the POPULAR VOTE does not guarantee the presidency — the Electoral College decides (2000, 2016)</div><div class="trap">Super PACs may raise unlimited funds for INDEPENDENT expenditures only — direct coordination with candidates is illegal</div><div class="trap">The First Amendment restricts GOVERNMENT censorship — private social platforms can moderate content freely</div></div></div><div class="unit" data-id="8"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 8: The Bureaucracy & Policy Making<span class="unit-meta">4 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Structure of the federal bureaucracy</div><div class="c-text">The executive branch implements law through departments, agencies, and commissions.</div><ul class="c-list"><li>Cabinet departments (15): State, Treasury, Defense, Justice, etc. — secretary appointed by president, confirmed by Senate</li><li>Independent regulatory commissions: FCC, SEC, FTC — bipartisan boards, fixed terms, insulated from removal</li><li>Government corporations: USPS, Amtrak — hybrid public/private operation</li><li>Independent executive agencies: NASA, EPA, CIA — outside cabinet but report to president</li><li>~2 million civilian federal employees; most hired via merit system (Pendleton Act, 1883 ended much of the spoils system)</li></ul></div><div class="concept"><div class="c-label">Discretionary and rule-making authority</div><div class="c-text">Agencies fill in details Congress leaves vague.</div><ul class="c-list"><li>Congress writes broad statutes; agencies write binding regulations to implement them (notice-and-comment rulemaking under APA)</li><li>Discretionary authority: EPA interprets 'harmful pollutant'; IRS defines deductions; FDA approves drugs</li><li>Chevron deference (1984): courts deferred to reasonable agency interpretations of ambiguous statutes — overturned by Loper Bright (2024), restoring independent judicial interpretation</li><li>Regulations carry force of law once finalized; violations trigger penalties</li><li>Rulemaking creates accountability concerns: unelected experts wield significant power</li></ul></div><div class="concept"><div class="c-label">Checks on the bureaucracy</div><div class="c-text">All three branches plus oversight mechanisms constrain agencies.</div><ul class="c-list"><li>Congress: passes enabling statutes, controls appropriations, conducts oversight hearings, uses Congressional Review Act to void late-term rules</li><li>President: appoints/removes agency heads (except insulated commissioners), issues executive orders, proposes budgets (OMB)</li><li>Courts: review agency actions for statutory compliance and constitutional limits</li><li>Freedom of Information Act (FOIA): public access to agency records; whistleblower protections expose misconduct</li><li>Iron triangle dynamics can capture agencies in industry interests; revolving door fuels critique</li></ul></div><div class="concept"><div class="c-label">Policy making process</div><div class="c-text">Policy moves through predictable stages from problem to evaluation.</div><ul class="c-list"><li>Agenda setting: problem recognition, focusing events (crises), media attention, interest group pressure</li><li>Formulation: drafting options by think tanks, agencies, congressional staff</li><li>Adoption: legislation passed, executive order issued, or regulation finalized</li><li>Implementation: agencies translate law into programs; discretion and resources determine fidelity</li><li>Evaluation: GAO reports, program reviews feed back into reform — policy feedback loops matter</li></ul></div><div class="trap">Agencies make REGULATIONS with force of law — but only under authority delegated by CONGRESS's statutes</div><div class="trap">Independent commission members CANNOT be removed at will by the president (fixed, staggered terms)</div><div class="trap">The spoils system gave jobs to supporters; the PENDLETON ACT replaced it with merit hiring after Garfield's assassination</div></div></div></div></div>
+</div>
+<script>
+(function(){
+  var card=document.getElementById('spc-card');
+  var summary=document.getElementById('spc-summary');
+  var collapseBtn=document.getElementById('spc-collapse-btn');
+  var KEY='ss-spc-collapsed';
+  function setCollapsed(collapsed){
+    card.classList.toggle('collapsed',collapsed);
+    summary.setAttribute('aria-expanded',String(!collapsed));
+    collapseBtn.setAttribute('aria-expanded',String(!collapsed));
+    try{localStorage.setItem(KEY,collapsed?'1':'0');}catch(e){}
+  }
+  var stored=null;
+  try{stored=localStorage.getItem(KEY);}catch(e){}
+  setCollapsed(stored===null?true:stored==='1');
+  summary.addEventListener('click',function(){setCollapsed(false);});
+  collapseBtn.addEventListener('click',function(){setCollapsed(true);});
+})();
+</script>
+<div id="view-guide" class="view active" role="tabpanel" aria-labelledby="tab-guide" tabindex="0">
+  <div class="ss-sticky-top">
+  <div class="search-wrap">
+    <svg class="search-icon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input id="search-box" type="search" aria-label="Search this guide's topics, terms, and formulas" placeholder="Search topics, terms, formulas…" oninput="searchGuide()">
+    <kbd class="search-kbd" aria-hidden="true">/</kbd>
+    <button type="button" class="search-clear" onclick="clearSearch()" aria-label="Clear search">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div id="search-results"></div>
+  </div>
+  <div class="filter-row-wrap">
+    <div class="filter-row" id="filter-row"><button class="chip on">All Units</button><button class="chip">Unit 1</button><button class="chip">Unit 2</button><button class="chip">Unit 3</button><button class="chip">Unit 4</button><button class="chip">Unit 5</button><button class="chip">Unit 6</button><button class="chip">Unit 7</button><button class="chip">Unit 8</button></div>
+    <select id="filter-select" class="mobile-only-select" aria-label="Filter units" onchange="ssFilterSelectChange()"><option value="0">All Units</option><option value="1">Unit 1</option><option value="2">Unit 2</option><option value="3">Unit 3</option><option value="4">Unit 4</option><option value="5">Unit 5</option><option value="6">Unit 6</option><option value="7">Unit 7</option><option value="8">Unit 8</option></select>
+  </div>
+  <div class="ss-overall-progress" id="ss-overall-progress">
+    <div class="ss-overall-progress-track"><div class="ss-overall-progress-fill" id="ss-overall-progress-fill"></div></div>
+    <span class="ss-overall-progress-label" id="ss-overall-progress-label">0% of the question bank attempted</span>
+  </div>
+  </div>
+  <div id="units"><div class="unit" data-id="1"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 1: Foundations of American Democracy<span class="unit-meta">5 concepts · ~21 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Ideals of democracy</div><div class="c-text">The United States was founded on Enlightenment principles of limited government, natural rights, and popular sovereignty.</div><ul class="c-list"><li>Natural rights: life, liberty, and the pursuit of happiness (Locke) — government exists to protect them</li><li>Popular sovereignty: government's power derives from the consent of the governed</li><li>Social contract: people give up some freedom in exchange for ordered liberty and protection of rights</li><li>Limited government: government powers are defined and restricted by law (the Constitution)</li><li>Declaration of Independence (1776): justified revolution by listing grievances against King George III</li></ul></div><div class="concept"><div class="c-label">Types of democracy</div><div class="c-text">American government blends participatory, pluralist, and elite models of democratic participation.</div><ul class="c-list"><li>Participatory: broad citizen involvement via referendums, town halls, and initiatives</li><li>Pluralist: interest groups compete and bargain to influence policy (Federalist No. 10's faction solution)</li><li>Elite: policy is dominated by a small set of wealthy or well-organized actors</li><li>The Framers designed a republic (representative democracy), not a direct democracy — filtering popular will through elected bodies</li><li>Expansion of suffrage over time: property requirements dropped, then race (15th), gender (19th), poll taxes (24th), age to 18 (26th)</li></ul></div><div class="concept"><div class="c-label">Articles of Confederation and why they failed</div><div class="c-text">America's first constitution created a weak central government that could not solve national problems.</div><ul class="c-list"><li>No power to tax — Congress had to request funds from states, which often refused</li><li>No executive to enforce laws and no national judiciary to interpret them</li><li>Unanimous consent required to amend; 9 of 13 states needed to pass laws</li><li>Could not regulate interstate or foreign commerce — states imposed tariffs on each other</li><li>Shays' Rebellion (1786–87): armed farmers in Massachusetts exposed the government's inability to maintain order, spurring calls for a stronger union</li></ul></div><div class="concept"><div class="c-label">Drafting the Constitution: compromises at Philadelphia</div><div class="c-text">The Constitutional Convention of 1787 resolved deep sectional conflicts through landmark compromises.</div><ul class="c-list"><li>Great Compromise (Connecticut Plan): bicameral Congress — House by population, Senate with equal state representation</li><li>Three-Fifths Compromise: enslaved persons counted as three-fifths for both representation and direct taxes</li><li>Commerce Compromise: Congress regulates interstate/foreign commerce; no export taxes; slave trade untouched until 1808</li><li>Electoral College: indirect election of the president as a compromise between congressional selection and popular vote</li><li>Separation of powers + checks and balances distributed federal authority among three branches</li></ul></div><div class="concept"><div class="c-label">Ratification: Federalists vs. Anti-Federalists</div><div class="c-text">Debate over ratification produced the Constitution's first ten amendments and two enduring political traditions.</div><ul class="c-list"><li>Federalists (Hamilton, Madison, Jay): strong central government; wrote The Federalist Papers to persuade New York ratification</li><li>Anti-Federalists (Patrick Henry, George Mason): feared tyranny of a distant central government; demanded a bill of rights</li><li>Federalist No. 10 (Madison): a large republic controls factions better than small democracies</li><li>Federalist No. 51: 'If men were angels…' — checks and balances let ambition counteract ambition</li><li>Promise of a Bill of Rights secured ratification from key states; first ten amendments added by 1791</li></ul></div><div class="trap">The Articles of Confederation failed because it was TOO WEAK (no tax/enforce power), not too strong</div><div class="trap">Anti-Federalists opposed RATIFICATION of the Constitution — not independence from Britain</div><div class="trap">The Three-Fifths Compromise counted enslaved people for REPRESENTATION AND TAXES — it did not define their humanity</div></div></div><div class="unit" data-id="2"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 2: The Constitution: Principles & Structure<span class="unit-meta">5 concepts · ~21 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Separation of powers and checks and balances</div><div class="c-text">Power is divided among three branches, each able to limit the others to prevent tyranny.</div><ul class="c-list"><li>Legislative makes law, executive enforces it, judiciary interprets it</li><li>President can veto bills; Congress can override with two-thirds in both chambers</li><li>Senate confirms presidential appointments and ratifies treaties (two-thirds vote)</li><li>Congress can impeach and remove federal officials: House impeaches (simple majority), Senate tries (two-thirds to convict)</li><li>Judicial review (Marbury v. Madison, 1803) lets courts strike unconstitutional acts</li></ul></div><div class="concept"><div class="c-label">Federalism: division of power between nation and states</div><div class="c-text">The Constitution splits authority between a national government and the states, evolving over time.</div><ul class="c-list"><li>Enumerated/delegated powers: listed for Congress in Article I, Section 8 (tax, coin money, declare war, regulate commerce)</li><li>Reserved powers: kept by states under the 10th Amendment (education, police powers, elections administration)</li><li>Concurrent powers: shared (taxing, building roads, establishing courts)</li><li>Necessary and Proper (Elastic) Clause + Supremacy Clause expand federal reach</li><li>Dual federalism ('layer cake', pre-1930s) shifted to cooperative federalism ('marble cake') after the New Deal</li></ul></div><div class="concept"><div class="c-label">Landmark Supreme Court cases: federal power</div><div class="c-text">Key cases established judicial review and broad federal authority.</div><ul class="c-list"><li>Marbury v. Madison (1803): established judicial review — courts declare acts unconstitutional</li><li>McCulloch v. Maryland (1819): upheld implied powers under Necessary and Proper Clause; states cannot tax federal institutions</li><li>Gibbons v. Ogden (1824): federal commerce power is supreme over state laws in interstate commerce</li><li>United States v. Lopez (1995): first case in 60 years to LIMIT commerce-clause power (Gun-Free School Zones Act struck down)</li><li>Citizens United v. FEC (2010): corporate independent political spending is protected speech</li></ul></div><div class="concept"><div class="c-label">Amending the Constitution</div><div class="c-text">Article V provides two paths to propose and two paths to ratify amendments — deliberately difficult.</div><ul class="c-list"><li>Proposal: two-thirds of both House and Senate, OR a convention called by two-thirds of state legislatures (never used)</li><li>Ratification: three-fourths of state legislatures OR three-fourths of state ratifying conventions (used once — 21st Amendment)</li><li>27 amendments total; the first ten are the Bill of Rights</li><li>Bill of Rights guarantees: speech, religion, press, assembly, petition; bear arms; quartering; search/seizure; due process; jury; cruel/unusual punishment</li><li>Reconstruction Amendments: 13th (abolish slavery), 14th (equal protection, due process applies to states), 15th (vote regardless of race)</li></ul></div><div class="concept"><div class="c-label">The Bill of Rights and incorporation</div><div class="c-text">The 14th Amendment's Due Process Clause extended most Bill of Rights protections to the states.</div><ul class="c-list"><li>Selective incorporation: the Court applied amendments one-by-one against states (Gitlow v. New York began it, 1925)</li><li>Near v. Minnesota (1931): freedom of the press incorporated</li><li>Mapp v. Ohio (1961): exclusionary rule incorporated (evidence obtained illegally is inadmissible)</li><li>Gideon v. Wainwright (1963): right to counsel in felony cases incorporated</li><li>McDonald v. Chicago (2010): Second Amendment right to bear arms incorporated</li></ul></div><div class="trap">Judicial review came from Marbury v. Madison, NOT from the text of the Constitution itself</div><div class="trap">Incorporation applies the Bill of Rights to STATES via the 14th Amendment — the original rights only bound the federal government</div><div class="trap">The Elastic Clause expands CONGRESS's power — it does not grant the president new authority</div></div></div><div class="unit" data-id="3"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 3: Congress<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Structure of Congress</div><div class="c-text">A bicameral legislature balances population-based and equal state representation.</div><ul class="c-list"><li>House: 435 members, 2-year terms, must be 25+, apportioned by population; initiates revenue bills and impeachment</li><li>Senate: 100 members, 6-year staggered terms, must be 30+; confirms appointments, ratifies treaties, tries impeachments</li><li>Reapportionment follows each decennial census; redistricting is done by states (gerrymandering risk)</li><li>Baker v. Carr (1962) + Wesberry v. Sanders (1964): 'one person, one vote' — districts must be roughly equal in population</li><li>Incumbency advantage: name recognition, casework, franking privileges, PAC donations → ~90% House reelection rates</li></ul></div><div class="concept"><div class="c-label">Powers of Congress</div><div class="c-text">Article I grants enumerated legislative powers plus implied authority.</div><ul class="c-list"><li>Levy taxes, borrow money, coin currency, regulate interstate and foreign commerce</li><li>Declare war, raise and fund armies, provide for the common defense</li><li>Necessary and Proper Clause stretches enumerated powers into implied ones (McCulloch)</li><li>Oversight: committees investigate the executive, subpoena witnesses, control budgets</li><li>Impeachment: House charges by simple majority; Senate convicts and removes by two-thirds</li></ul></div><div class="concept"><div class="c-label">How a bill becomes a law</div><div class="c-text">The legislative process filters proposals through committee, floor action, and conference.</div><ul class="c-list"><li>Introduction → committee assignment → subcommittee review and markup</li><li>Committee can pigeonhole (kill) or report out a bill; discharge petition can force a floor vote</li><li>House: Rules Committee sets debate terms; Senate: unlimited debate allows filibuster</li><li>Filibuster broken by cloture — 60 senators; budget reconciliation needs only a simple majority</li><li>Identical passage in both chambers (or conference committee) → president signs or vetoes; veto overridden by two-thirds</li></ul></div><div class="concept"><div class="c-label">Leadership and committees</div><div class="c-text">Party leadership and the committee system organize congressional work.</div><ul class="c-list"><li>Speaker of the House: presides, assigns bills to committees, second in line to presidency</li><li>Senate: Vice President is constitutional president (tie-breaker); President pro tempore is ceremonial; Majority Leader runs the floor</li><li>Standing committees: permanent subject-matter bodies where most work happens</li><li>Committee chairs chosen by seniority within majority party; majority party holds voting majorities on every committee</li><li>Divided government (one party holds White House, another Congress) typically slows legislation and raises shutdown/negotiation stakes</li></ul></div><div class="trap">The VICE PRESIDENT presides over the SENATE, not the House; the SPEAKER leads the House</div><div class="trap">Cloture requires 60 votes — not a simple majority of 51</div><div class="trap">Committee chairs come from the MAJORITY party, chosen by seniority — not appointed by the president</div></div></div><div class="unit" data-id="4"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 4: The Presidency<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Formal (enumerated) powers of the president</div><div class="c-text">Article II lists the president's core authorities.</div><ul class="c-list"><li>Commander in chief of the armed forces</li><li>Negotiate treaties (Senate ratification, two-thirds) and receive ambassadors</li><li>Appoint federal officials, judges, and cabinet secretaries (Senate confirmation)</li><li>Grant pardons and reprieves for federal offenses (not impeachment cases)</li><li>Take Care Clause: faithfully execute the laws; State of the Union duty to recommend measures</li></ul></div><div class="concept"><div class="c-label">Informal powers and the modern presidency</div><div class="c-text">Presidents increasingly rely on tools beyond the Constitution's text.</div><ul class="c-list"><li>Executive orders: directives to agencies with force of law; reversible by courts, Congress, or successors</li><li>Executive agreements: international pacts made without Senate ratification (e.g., many trade deals)</li><li>Signing statements: president's interpretation when signing a bill; controversial if used to refuse enforcement</li><li>Bargaining/bully pulpit: persuasion via media attention, agenda setting, going public</li><li>Crisis leadership expands presidential power (e.g., post-9/11 security actions)</li></ul></div><div class="concept"><div class="c-label">Checks on presidential power</div><div class="c-text">Each branch and the Constitution constrain the executive.</div><ul class="c-list"><li>Congress overrides vetoes, controls funding (power of the purse), and can impeach</li><li>Supreme Court can rule executive actions unconstitutional (Youngstown Sheet & Tube v. Sawyer, 1952 — Truman's steel seizure struck down)</li><li>War Powers Resolution (1973): president must notify Congress within 48 hours of military action; withdraw within 60 days without authorization</li><li>22nd Amendment: two-term limit (post-FDR)</li><li>25th Amendment: succession and disability procedures</li></ul></div><div class="concept"><div class="c-label">Expansion of presidential power</div><div class="c-text">From Washington to today, the office has grown far beyond its 18th-century scope.</div><ul class="c-list"><li>New Deal era: administrative state expanded executive agencies (SEC, SSA)</li><li>Post-WWII: standing military and intelligence apparatus centralized in the executive</li><li>Imperial presidency critique (Vietnam/Watergate era): unilateral war-making and secrecy exceed constitutional bounds</li><li>Unitary executive theory: president controls entire executive branch; used to justify expansive signing statements and orders</li><li>Modern presidents use executive orders more in divided government when Congress is gridlocked</li></ul></div><div class="trap">The president CANNOT pardon someone impeached, and pardons are FEDERAL only — not state crimes</div><div class="trap">Executive agreements skip Senate ratification but bind only while the president's policy stands — treaties are more durable</div><div class="trap">Commander-in-chief power does NOT include declaring war — that belongs to Congress</div></div></div><div class="unit" data-id="5"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 5: The Judiciary<span class="unit-meta">3 concepts · ~15 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Structure of the federal court system</div><div class="c-text">A three-tier hierarchy culminates in the Supreme Court.</div><ul class="c-list"><li>District courts (94): trial courts of original jurisdiction — hear cases first, juries decide facts</li><li>Courts of appeals (13 circuits): review district court decisions for legal error; no juries</li><li>Supreme Court: nine justices; mostly appellate jurisdiction plus narrow original jurisdiction (states, ambassadors)</li><li>Judges nominated by the president, confirmed by Senate, serve life tenure during good behavior</li><li>Federal questions and diversity cases (different states, >$75k) give federal courts jurisdiction</li></ul></div><div class="concept"><div class="c-label">How the Supreme Court chooses and decides cases</div><div class="c-text">Certiorari, oral argument, and conference shape outcomes.</div><ul class="c-list"><li>Rule of four: four justices must agree to grant certiorari before a case is heard</li><li>Solicitor general represents the U.S. government; amicus curiae briefs add outside perspectives</li><li>Majority opinion sets precedent; concurring opinions agree on result but differ on reasoning; dissents disagree entirely</li><li>Stare decisis: courts follow precedent — but the Court does overturn itself (Brown reversing Plessy)</li><li>Judicial philosophy: strict constructionism/originalism vs. loose/living-document interpretation</li></ul></div><div class="concept"><div class="c-label">Checks on the judiciary</div><div class="c-text">Courts depend on other branches to function.</div><ul class="c-list"><li>Congress sets court jurisdiction, number of judges, and budgets</li><li>President nominates all federal judges; Senate confirms — appointment politics shape the bench</li><li>Congress can amend the Constitution to reverse a judicial interpretation (rare — e.g., 16th Amendment after Pollock)</li><li>Implementation depends on executive enforcement and public compliance (Jackson: '[Marshall] has made his decision; now let him enforce it')</li><li>Legislation can be rewritten to cure constitutional defects the Court identified</li></ul></div><div class="trap">The Supreme Court does NOT hear every appeal — it denies most cert petitions (~7,000 filed, &lt;100 heard)</div><div class="trap">Judicial review is an IMPLIED power from Marbury — not written in Article III</div><div class="trap">Dissenting opinions have NO legal force but may guide future reasoning</div></div></div><div class="unit" data-id="6"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 6: Civil Liberties & Civil Rights<span class="unit-meta">5 concepts · ~21 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">First Amendment: religion</div><div class="c-text">Two religion clauses protect belief and constrain government endorsement.</div><ul class="c-list"><li>Free Exercise Clause: government cannot burden religious practice without compelling interest (Wisconsin v. Yoder, 1972 — Amish schooling exemption)</li><li>Establishment Clause: no official religion or excessive entanglement (Lemon v. Kurtzman test; Kennedy v. Bremerton replaced Lemon, 2022)</li><li>Engel v. Vitale (1962): school-sponsored prayer unconstitutional, even if voluntary</li><li>Employment Division v. Smith (1990): neutral, generally applicable laws do not violate Free Exercise even if they incidentally burden religion</li><li>Religious Freedom Restoration Act (1993): statutory standard restoring strict scrutiny for federal burdens on religion</li></ul></div><div class="concept"><div class="c-label">First Amendment: speech, press, assembly</div><div class="c-text">Speech protections are strong but not absolute.</div><ul class="c-list"><li>Unprotected categories: incitement to imminent lawless action (Brandenburg), true threats, obscenity (Miller test), defamation of public figures (actual malice, NYT v. Sullivan)</li><li>Symbolic speech protected: Texas v. Johnson (1989) flag burning; Tinker v. Des Moines (1969) student armbands</li><li>Prior restraint presumed unconstitutional: Near v. Minnesota; NYT v. United States (Pentagon Papers, 1971)</li><li>Time/place/manner restrictions allowed for content-neutral purposes (permits, noise limits)</li><li>Hazelwood v. Kuhlmeier (1988): schools may censor school-sponsored newspapers for pedagogical reasons</li></ul></div><div class="concept"><div class="c-label">Second, Fourth, Fifth, Sixth, Eighth Amendments</div><div class="c-text">Core criminal-procedure and gun-rights protections.</div><ul class="c-list"><li>District of Columbia v. Heller (2008): individual right to keep a handgun at home; McDonald (2010) applied it to states</li><li>Fourth Amendment: warrants require probable cause; exclusionary rule (Mapp) bars illegally seized evidence; automobile/plain-view exceptions exist</li><li>Fifth: self-incrimination (Miranda warnings), double jeopardy, grand jury, due process, takings compensation</li><li>Sixth: speedy/public trial, impartial jury, notice of charges, confront witnesses, counsel (Gideon)</li><li>Eighth: no cruel and unusual punishment; death penalty constitutional with safeguards (Gregg v. Georgia) but barred for minors/intellectually disabled</li></ul></div><div class="concept"><div class="c-label">Right to privacy</div><div class="c-text">An unenumerated right built from amendment 'penumbras.'</div><ul class="c-list"><li>Griswold v. Connecticut (1965): marital contraception privacy from 1st/3rd/4th/5th/9th/14th amendments</li><li>Roe v. Wade (1973): abortion under due process; overturned by Dobbs v. Jackson (2022), returning regulation to states</li><li>Lawrence v. Texas (2003): private consensual intimacy protected</li><li>Obergefell v. Hodges (2015): same-sex marriage under 14th Amendment equal protection and due process</li><li>Privacy debates center on which unenumerated rights survive textualist scrutiny</li></ul></div><div class="concept"><div class="c-label">Civil rights and equal protection</div><div class="c-text">The 14th Amendment drives anti-discrimination law.</div><ul class="c-list"><li>Strict scrutiny: race/national origin classifications — government must show compelling interest and narrow tailoring</li><li>Intermediate scrutiny: gender — substantially related to important objective (Craig v. Boren)</li><li>Rational basis: most other classifications — rationally related to legitimate goal (almost always upheld)</li><li>Brown v. Board (1954): separate is inherently unequal in education; reversed Plessy's separate-but-equal</li><li>Affirmative action: permitted with limits — SFFA v. Harvard (2023) ended race-conscious college admissions</li></ul></div><div class="trap">Free speech does NOT protect incitement, true threats, obscenity, or defamation — 'no shouting fire in a crowded theater'</div><div class="trap">Miranda warnings are required for CUSTODIAL INTERROGATION — not every police encounter</div><div class="trap">The Establishment Clause blocks government ENDORSEMENT of religion — it does not ban private religious expression</div></div></div><div class="unit" data-id="7"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 7: Political Participation: Elections & Media<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Political parties and realignment</div><div class="c-text">Parties nominate candidates, mobilize voters, and structure government — despite the Founders' warnings.</div><ul class="c-list"><li>Party functions: recruit candidates, fundraise, get-out-the-vote, organize Congress by caucus</li><li>Party eras: Federalist/Democratic-Republican, Jacksonian Democrats vs. Whigs, Republican ascendancy (1860–1932), New Deal coalition (1932–1968), dealignment/divided government since</li><li>Realignment: durable shift in coalitions (e.g., Southern realignment toward Republicans post-Civil Rights Act)</li><li>Third parties: winner-take-all plurality (Duverger's law) squeezes minor parties; they still inject new ideas (Populists, Socialists) and act as spoilers</li><li>Primaries weakened party bosses: candidate-centered campaigns dominate since McGovern-Fraser reforms (1972)</li></ul></div><div class="concept"><div class="c-label">Elections and voting behavior</div><div class="c-text">Who votes, how, and why turnout varies.</div><ul class="c-list"><li>Presidential elections: Electoral College — 538 electors, need 270; winner-take-all in 48 states; swing states decide close races</li><li>Midterm turnout lags presidential (~40% vs ~60%+); local elections lower still</li><li>Predictors of turnout: education, age (older vote more), income; registration barriers suppress turnout</li><li>Motor Voter Act (1993): register at DMV; Help America Vote Act (2002): provisional ballots after Bush v. Gore</li><li>Voting Rights Act (1965): banned literacy tests, federal preclearance for discriminatory jurisdictions (Shelby County v. Holder gutted preclearance formula in 2013)</li></ul></div><div class="concept"><div class="c-label">Interest groups and lobbying</div><div class="c-text">Organized groups shape policy between elections.</div><ul class="c-list"><li>Methods: lobbying, litigation (amicus briefs, class actions), electioneering, grassroots mobilization</li><li>Iron triangles: agency + congressional committee + interest group dominate a policy area; issue networks are looser, broader webs</li><li>Free-rider problem: collective goods (clean air) attract non-members who benefit without joining — Olson's logic</li><li>Campaign finance: Buckley v. Valeo (1976) — spending is speech; contribution limits OK, expenditure limits suspect</li><li>BCRA/McCain-Feingold (2002) softened soft-money rules; Citizens United (2010) opened independent corporate expenditures and super PACs</li></ul></div><div class="concept"><div class="c-label">Media and political communication</div><div class="c-text">Media informs voters and frames politics — with structural biases.</div><ul class="c-list"><li>Roles: gatekeeping (what gets covered), scorekeeping (polls/horserace), watchdog (investigations — Watergate, Pentagon Papers)</li><li>Fragmentation: cable news, talk radio, social media create echo chambers and selective exposure</li><li>Horse-race coverage emphasizes who's winning over policy substance</li><li>Fairness Doctrine abolished (1987); partisan outlets grew after</li><li>Misinformation spreads faster than corrections; platform moderation remains contested (First Amendment binds government, not private platforms)</li></ul></div><div class="trap">Winning the POPULAR VOTE does not guarantee the presidency — the Electoral College decides (2000, 2016)</div><div class="trap">Super PACs may raise unlimited funds for INDEPENDENT expenditures only — direct coordination with candidates is illegal</div><div class="trap">The First Amendment restricts GOVERNMENT censorship — private social platforms can moderate content freely</div></div></div><div class="unit" data-id="8"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 8: The Bureaucracy & Policy Making<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Structure of the federal bureaucracy</div><div class="c-text">The executive branch implements law through departments, agencies, and commissions.</div><ul class="c-list"><li>Cabinet departments (15): State, Treasury, Defense, Justice, etc. — secretary appointed by president, confirmed by Senate</li><li>Independent regulatory commissions: FCC, SEC, FTC — bipartisan boards, fixed terms, insulated from removal</li><li>Government corporations: USPS, Amtrak — hybrid public/private operation</li><li>Independent executive agencies: NASA, EPA, CIA — outside cabinet but report to president</li><li>~2 million civilian federal employees; most hired via merit system (Pendleton Act, 1883 ended much of the spoils system)</li></ul></div><div class="concept"><div class="c-label">Discretionary and rule-making authority</div><div class="c-text">Agencies fill in details Congress leaves vague.</div><ul class="c-list"><li>Congress writes broad statutes; agencies write binding regulations to implement them (notice-and-comment rulemaking under APA)</li><li>Discretionary authority: EPA interprets 'harmful pollutant'; IRS defines deductions; FDA approves drugs</li><li>Chevron deference (1984): courts deferred to reasonable agency interpretations of ambiguous statutes — overturned by Loper Bright (2024), restoring independent judicial interpretation</li><li>Regulations carry force of law once finalized; violations trigger penalties</li><li>Rulemaking creates accountability concerns: unelected experts wield significant power</li></ul></div><div class="concept"><div class="c-label">Checks on the bureaucracy</div><div class="c-text">All three branches plus oversight mechanisms constrain agencies.</div><ul class="c-list"><li>Congress: passes enabling statutes, controls appropriations, conducts oversight hearings, uses Congressional Review Act to void late-term rules</li><li>President: appoints/removes agency heads (except insulated commissioners), issues executive orders, proposes budgets (OMB)</li><li>Courts: review agency actions for statutory compliance and constitutional limits</li><li>Freedom of Information Act (FOIA): public access to agency records; whistleblower protections expose misconduct</li><li>Iron triangle dynamics can capture agencies in industry interests; revolving door fuels critique</li></ul></div><div class="concept"><div class="c-label">Policy making process</div><div class="c-text">Policy moves through predictable stages from problem to evaluation.</div><ul class="c-list"><li>Agenda setting: problem recognition, focusing events (crises), media attention, interest group pressure</li><li>Formulation: drafting options by think tanks, agencies, congressional staff</li><li>Adoption: legislation passed, executive order issued, or regulation finalized</li><li>Implementation: agencies translate law into programs; discretion and resources determine fidelity</li><li>Evaluation: GAO reports, program reviews feed back into reform — policy feedback loops matter</li></ul></div><div class="trap">Agencies make REGULATIONS with force of law — but only under authority delegated by CONGRESS's statutes</div><div class="trap">Independent commission members CANNOT be removed at will by the president (fixed, staggered terms)</div><div class="trap">The spoils system gave jobs to supporters; the PENDLETON ACT replaced it with merit hiring after Garfield's assassination</div></div></div></div></div>
 <div id="view-cards" class="view" role="tabpanel" aria-labelledby="tab-cards" tabindex="0">
   <div class="fc-bar">
     <select id="fc-sel" aria-label="Choose a flashcard set" onchange="loadFC()"></select>
@@ -509,6 +706,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <button class="diag-btn" id="diag-start-btn" onclick="startDiagnostic()"><svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><span id="diag-start-btn-label">Start Diagnostic — 2 questions per unit, finds your weak spots</span></button>
   <div class="q-bar">
     <select id="q-sel" aria-label="Choose a question set" onchange="loadQ()"></select>
+    <button class="btn" type="button" onclick="quizShuffle()" style="font-size:14px;padding:7px 14px">⇄ Shuffle</button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -637,6 +835,10 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
     <div class="mem-card"><div class="mem-t">Watch out</div><div class="mem-d">Independent commission members CANNOT be removed at will by the president (fixed, staggered terms)</div></div>
     <div class="mem-card"><div class="mem-t">Watch out</div><div class="mem-d">The spoils system gave jobs to supporters; the PENDLETON ACT replaced it with merit hiring after Garfield's assassination</div></div>
   </div></div>
+</div>
+<button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+</button>
 <script>
 const UNITS=[{"id":1,"name":"Foundations of American Democracy","concepts":[{"l":"Ideals of democracy","intro":"The United States was founded on Enlightenment principles of limited government, natural rights, and popular sovereignty.","b":["Natural rights: life, liberty, and the pursuit of happiness (Locke) — government exists to protect them","Popular sovereignty: government's power derives from the consent of the governed","Social contract: people give up some freedom in exchange for ordered liberty and protection of rights","Limited government: government powers are defined and restricted by law (the Constitution)","Declaration of Independence (1776): justified revolution by listing grievances against King George III"]},{"l":"Types of democracy","intro":"American government blends participatory, pluralist, and elite models of democratic participation.","b":["Participatory: broad citizen involvement via referendums, town halls, and initiatives","Pluralist: interest groups compete and bargain to influence policy (Federalist No. 10's faction solution)","Elite: policy is dominated by a small set of wealthy or well-organized actors","The Framers designed a republic (representative democracy), not a direct democracy — filtering popular will through elected bodies","Expansion of suffrage over time: property requirements dropped, then race (15th), gender (19th), poll taxes (24th), age to 18 (26th)"]},{"l":"Articles of Confederation and why they failed","intro":"America's first constitution created a weak central government that could not solve national problems.","b":["No power to tax — Congress had to request funds from states, which often refused","No executive to enforce laws and no national judiciary to interpret them","Unanimous consent required to amend; 9 of 13 states needed to pass laws","Could not regulate interstate or foreign commerce — states imposed tariffs on each other","Shays' Rebellion (1786–87): armed farmers in Massachusetts exposed the government's inability to maintain order, spurring calls for a stronger union"]},{"l":"Drafting the Constitution: compromises at Philadelphia","intro":"The Constitutional Convention of 1787 resolved deep sectional conflicts through landmark compromises.","b":["Great Compromise (Connecticut Plan): bicameral Congress — House by population, Senate with equal state representation","Three-Fifths Compromise: enslaved persons counted as three-fifths for both representation and direct taxes","Commerce Compromise: Congress regulates interstate/foreign commerce; no export taxes; slave trade untouched until 1808","Electoral College: indirect election of the president as a compromise between congressional selection and popular vote","Separation of powers + checks and balances distributed federal authority among three branches"]},{"l":"Ratification: Federalists vs. Anti-Federalists","intro":"Debate over ratification produced the Constitution's first ten amendments and two enduring political traditions.","b":["Federalists (Hamilton, Madison, Jay): strong central government; wrote The Federalist Papers to persuade New York ratification","Anti-Federalists (Patrick Henry, George Mason): feared tyranny of a distant central government; demanded a bill of rights","Federalist No. 10 (Madison): a large republic controls factions better than small democracies","Federalist No. 51: 'If men were angels…' — checks and balances let ambition counteract ambition","Promise of a Bill of Rights secured ratification from key states; first ten amendments added by 1791"]}],"keyFacts":["Great Compromise = bicameral legislature (House = population, Senate = equal)","Shays' Rebellion exposed Articles of Confederation weakness → Constitutional Convention","Federalist No. 10 = factions | Federalist No. 51 = checks & balances"],"traps":["The Articles of Confederation failed because it was TOO WEAK (no tax/enforce power), not too strong","Anti-Federalists opposed RATIFICATION of the Constitution — not independence from Britain","The Three-Fifths Compromise counted enslaved people for REPRESENTATION AND TAXES — it did not define their humanity"]},{"id":2,"name":"The Constitution: Principles & Structure","concepts":[{"l":"Separation of powers and checks and balances","intro":"Power is divided among three branches, each able to limit the others to prevent tyranny.","b":["Legislative makes law, executive enforces it, judiciary interprets it","President can veto bills; Congress can override with two-thirds in both chambers","Senate confirms presidential appointments and ratifies treaties (two-thirds vote)","Congress can impeach and remove federal officials: House impeaches (simple majority), Senate tries (two-thirds to convict)","Judicial review (Marbury v. Madison, 1803) lets courts strike unconstitutional acts"]},{"l":"Federalism: division of power between nation and states","intro":"The Constitution splits authority between a national government and the states, evolving over time.","b":["Enumerated/delegated powers: listed for Congress in Article I, Section 8 (tax, coin money, declare war, regulate commerce)","Reserved powers: kept by states under the 10th Amendment (education, police powers, elections administration)","Concurrent powers: shared (taxing, building roads, establishing courts)","Necessary and Proper (Elastic) Clause + Supremacy Clause expand federal reach","Dual federalism ('layer cake', pre-1930s) shifted to cooperative federalism ('marble cake') after the New Deal"]},{"l":"Landmark Supreme Court cases: federal power","intro":"Key cases established judicial review and broad federal authority.","b":["Marbury v. Madison (1803): established judicial review — courts declare acts unconstitutional","McCulloch v. Maryland (1819): upheld implied powers under Necessary and Proper Clause; states cannot tax federal institutions","Gibbons v. Ogden (1824): federal commerce power is supreme over state laws in interstate commerce","United States v. Lopez (1995): first case in 60 years to LIMIT commerce-clause power (Gun-Free School Zones Act struck down)","Citizens United v. FEC (2010): corporate independent political spending is protected speech"]},{"l":"Amending the Constitution","intro":"Article V provides two paths to propose and two paths to ratify amendments — deliberately difficult.","b":["Proposal: two-thirds of both House and Senate, OR a convention called by two-thirds of state legislatures (never used)","Ratification: three-fourths of state legislatures OR three-fourths of state ratifying conventions (used once — 21st Amendment)","27 amendments total; the first ten are the Bill of Rights","Bill of Rights guarantees: speech, religion, press, assembly, petition; bear arms; quartering; search/seizure; due process; jury; cruel/unusual punishment","Reconstruction Amendments: 13th (abolish slavery), 14th (equal protection, due process applies to states), 15th (vote regardless of race)"]},{"l":"The Bill of Rights and incorporation","intro":"The 14th Amendment's Due Process Clause extended most Bill of Rights protections to the states.","b":["Selective incorporation: the Court applied amendments one-by-one against states (Gitlow v. New York began it, 1925)","Near v. Minnesota (1931): freedom of the press incorporated","Mapp v. Ohio (1961): exclusionary rule incorporated (evidence obtained illegally is inadmissible)","Gideon v. Wainwright (1963): right to counsel in felony cases incorporated","McDonald v. Chicago (2010): Second Amendment right to bear arms incorporated"]}],"keyFacts":["Marbury v. Madison = judicial review (1803)","10th Amendment = reserved powers to the states","Amendment path: 2/3 proposal + 3/4 ratification"],"traps":["Judicial review came from Marbury v. Madison, NOT from the text of the Constitution itself","Incorporation applies the Bill of Rights to STATES via the 14th Amendment — the original rights only bound the federal government","The Elastic Clause expands CONGRESS's power — it does not grant the president new authority"]},{"id":3,"name":"Congress","concepts":[{"l":"Structure of Congress","intro":"A bicameral legislature balances population-based and equal state representation.","b":["House: 435 members, 2-year terms, must be 25+, apportioned by population; initiates revenue bills and impeachment","Senate: 100 members, 6-year staggered terms, must be 30+; confirms appointments, ratifies treaties, tries impeachments","Reapportionment follows each decennial census; redistricting is done by states (gerrymandering risk)","Baker v. Carr (1962) + Wesberry v. Sanders (1964): 'one person, one vote' — districts must be roughly equal in population","Incumbency advantage: name recognition, casework, franking privileges, PAC donations → ~90% House reelection rates"]},{"l":"Powers of Congress","intro":"Article I grants enumerated legislative powers plus implied authority.","b":["Levy taxes, borrow money, coin currency, regulate interstate and foreign commerce","Declare war, raise and fund armies, provide for the common defense","Necessary and Proper Clause stretches enumerated powers into implied ones (McCulloch)","Oversight: committees investigate the executive, subpoena witnesses, control budgets","Impeachment: House charges by simple majority; Senate convicts and removes by two-thirds"]},{"l":"How a bill becomes a law","intro":"The legislative process filters proposals through committee, floor action, and conference.","b":["Introduction → committee assignment → subcommittee review and markup","Committee can pigeonhole (kill) or report out a bill; discharge petition can force a floor vote","House: Rules Committee sets debate terms; Senate: unlimited debate allows filibuster","Filibuster broken by cloture — 60 senators; budget reconciliation needs only a simple majority","Identical passage in both chambers (or conference committee) → president signs or vetoes; veto overridden by two-thirds"]},{"l":"Leadership and committees","intro":"Party leadership and the committee system organize congressional work.","b":["Speaker of the House: presides, assigns bills to committees, second in line to presidency","Senate: Vice President is constitutional president (tie-breaker); President pro tempore is ceremonial; Majority Leader runs the floor","Standing committees: permanent subject-matter bodies where most work happens","Committee chairs chosen by seniority within majority party; majority party holds voting majorities on every committee","Divided government (one party holds White House, another Congress) typically slows legislation and raises shutdown/negotiation stakes"]}],"keyFacts":["Cloture ends a filibuster = 60 votes in the Senate","House starts revenue bills; Senate confirms judges/treaties","Impeach: House majority | Convict/remove: Senate 2/3"],"traps":["The VICE PRESIDENT presides over the SENATE, not the House; the SPEAKER leads the House","Cloture requires 60 votes — not a simple majority of 51","Committee chairs come from the MAJORITY party, chosen by seniority — not appointed by the president"]},{"id":4,"name":"The Presidency","concepts":[{"l":"Formal (enumerated) powers of the president","intro":"Article II lists the president's core authorities.","b":["Commander in chief of the armed forces","Negotiate treaties (Senate ratification, two-thirds) and receive ambassadors","Appoint federal officials, judges, and cabinet secretaries (Senate confirmation)","Grant pardons and reprieves for federal offenses (not impeachment cases)","Take Care Clause: faithfully execute the laws; State of the Union duty to recommend measures"]},{"l":"Informal powers and the modern presidency","intro":"Presidents increasingly rely on tools beyond the Constitution's text.","b":["Executive orders: directives to agencies with force of law; reversible by courts, Congress, or successors","Executive agreements: international pacts made without Senate ratification (e.g., many trade deals)","Signing statements: president's interpretation when signing a bill; controversial if used to refuse enforcement","Bargaining/bully pulpit: persuasion via media attention, agenda setting, going public","Crisis leadership expands presidential power (e.g., post-9/11 security actions)"]},{"l":"Checks on presidential power","intro":"Each branch and the Constitution constrain the executive.","b":["Congress overrides vetoes, controls funding (power of the purse), and can impeach","Supreme Court can rule executive actions unconstitutional (Youngstown Sheet & Tube v. Sawyer, 1952 — Truman's steel seizure struck down)","War Powers Resolution (1973): president must notify Congress within 48 hours of military action; withdraw within 60 days without authorization","22nd Amendment: two-term limit (post-FDR)","25th Amendment: succession and disability procedures"]},{"l":"Expansion of presidential power","intro":"From Washington to today, the office has grown far beyond its 18th-century scope.","b":["New Deal era: administrative state expanded executive agencies (SEC, SSA)","Post-WWII: standing military and intelligence apparatus centralized in the executive","Imperial presidency critique (Vietnam/Watergate era): unilateral war-making and secrecy exceed constitutional bounds","Unitary executive theory: president controls entire executive branch; used to justify expansive signing statements and orders","Modern presidents use executive orders more in divided government when Congress is gridlocked"]}],"keyFacts":["Veto override = 2/3 in BOTH chambers","Treaties need Senate 2/3; executive agreements do NOT","War Powers Act: notify in 48h, exit in 60d without authorization"],"traps":["The president CANNOT pardon someone impeached, and pardons are FEDERAL only — not state crimes","Executive agreements skip Senate ratification but bind only while the president's policy stands — treaties are more durable","Commander-in-chief power does NOT include declaring war — that belongs to Congress"]},{"id":5,"name":"The Judiciary","concepts":[{"l":"Structure of the federal court system","intro":"A three-tier hierarchy culminates in the Supreme Court.","b":["District courts (94): trial courts of original jurisdiction — hear cases first, juries decide facts","Courts of appeals (13 circuits): review district court decisions for legal error; no juries","Supreme Court: nine justices; mostly appellate jurisdiction plus narrow original jurisdiction (states, ambassadors)","Judges nominated by the president, confirmed by Senate, serve life tenure during good behavior","Federal questions and diversity cases (different states, >$75k) give federal courts jurisdiction"]},{"l":"How the Supreme Court chooses and decides cases","intro":"Certiorari, oral argument, and conference shape outcomes.","b":["Rule of four: four justices must agree to grant certiorari before a case is heard","Solicitor general represents the U.S. government; amicus curiae briefs add outside perspectives","Majority opinion sets precedent; concurring opinions agree on result but differ on reasoning; dissents disagree entirely","Stare decisis: courts follow precedent — but the Court does overturn itself (Brown reversing Plessy)","Judicial philosophy: strict constructionism/originalism vs. loose/living-document interpretation"]},{"l":"Checks on the judiciary","intro":"Courts depend on other branches to function.","b":["Congress sets court jurisdiction, number of judges, and budgets","President nominates all federal judges; Senate confirms — appointment politics shape the bench","Congress can amend the Constitution to reverse a judicial interpretation (rare — e.g., 16th Amendment after Pollock)","Implementation depends on executive enforcement and public compliance (Jackson: '[Marshall] has made his decision; now let him enforce it')","Legislation can be rewritten to cure constitutional defects the Court identified"]}],"keyFacts":["Rule of four grants certiorari","Life tenure = during 'good behaviour'","Original jurisdiction is RARE (states, ambassadors); SCOTUS is mainly appellate"],"traps":["The Supreme Court does NOT hear every appeal — it denies most cert petitions (~7,000 filed, <100 heard)","Judicial review is an IMPLIED power from Marbury — not written in Article III","Dissenting opinions have NO legal force but may guide future reasoning"]},{"id":6,"name":"Civil Liberties & Civil Rights","concepts":[{"l":"First Amendment: religion","intro":"Two religion clauses protect belief and constrain government endorsement.","b":["Free Exercise Clause: government cannot burden religious practice without compelling interest (Wisconsin v. Yoder, 1972 — Amish schooling exemption)","Establishment Clause: no official religion or excessive entanglement (Lemon v. Kurtzman test; Kennedy v. Bremerton replaced Lemon, 2022)","Engel v. Vitale (1962): school-sponsored prayer unconstitutional, even if voluntary","Employment Division v. Smith (1990): neutral, generally applicable laws do not violate Free Exercise even if they incidentally burden religion","Religious Freedom Restoration Act (1993): statutory standard restoring strict scrutiny for federal burdens on religion"]},{"l":"First Amendment: speech, press, assembly","intro":"Speech protections are strong but not absolute.","b":["Unprotected categories: incitement to imminent lawless action (Brandenburg), true threats, obscenity (Miller test), defamation of public figures (actual malice, NYT v. Sullivan)","Symbolic speech protected: Texas v. Johnson (1989) flag burning; Tinker v. Des Moines (1969) student armbands","Prior restraint presumed unconstitutional: Near v. Minnesota; NYT v. United States (Pentagon Papers, 1971)","Time/place/manner restrictions allowed for content-neutral purposes (permits, noise limits)","Hazelwood v. Kuhlmeier (1988): schools may censor school-sponsored newspapers for pedagogical reasons"]},{"l":"Second, Fourth, Fifth, Sixth, Eighth Amendments","intro":"Core criminal-procedure and gun-rights protections.","b":["District of Columbia v. Heller (2008): individual right to keep a handgun at home; McDonald (2010) applied it to states","Fourth Amendment: warrants require probable cause; exclusionary rule (Mapp) bars illegally seized evidence; automobile/plain-view exceptions exist","Fifth: self-incrimination (Miranda warnings), double jeopardy, grand jury, due process, takings compensation","Sixth: speedy/public trial, impartial jury, notice of charges, confront witnesses, counsel (Gideon)","Eighth: no cruel and unusual punishment; death penalty constitutional with safeguards (Gregg v. Georgia) but barred for minors/intellectually disabled"]},{"l":"Right to privacy","intro":"An unenumerated right built from amendment 'penumbras.'","b":["Griswold v. Connecticut (1965): marital contraception privacy from 1st/3rd/4th/5th/9th/14th amendments","Roe v. Wade (1973): abortion under due process; overturned by Dobbs v. Jackson (2022), returning regulation to states","Lawrence v. Texas (2003): private consensual intimacy protected","Obergefell v. Hodges (2015): same-sex marriage under 14th Amendment equal protection and due process","Privacy debates center on which unenumerated rights survive textualist scrutiny"]},{"l":"Civil rights and equal protection","intro":"The 14th Amendment drives anti-discrimination law.","b":["Strict scrutiny: race/national origin classifications — government must show compelling interest and narrow tailoring","Intermediate scrutiny: gender — substantially related to important objective (Craig v. Boren)","Rational basis: most other classifications — rationally related to legitimate goal (almost always upheld)","Brown v. Board (1954): separate is inherently unequal in education; reversed Plessy's separate-but-equal","Affirmative action: permitted with limits — SFFA v. Harvard (2023) ended race-conscious college admissions"]}],"keyFacts":["Strict scrutiny (race) > intermediate (gender) > rational basis (most)","Heller = individual gun right at home; McDonald = applies to states","Brown reversed Plessy; Dobbs reversed Roe"],"traps":["Free speech does NOT protect incitement, true threats, obscenity, or defamation — 'no shouting fire in a crowded theater'","Miranda warnings are required for CUSTODIAL INTERROGATION — not every police encounter","The Establishment Clause blocks government ENDORSEMENT of religion — it does not ban private religious expression"]},{"id":7,"name":"Political Participation: Elections & Media","concepts":[{"l":"Political parties and realignment","intro":"Parties nominate candidates, mobilize voters, and structure government — despite the Founders' warnings.","b":["Party functions: recruit candidates, fundraise, get-out-the-vote, organize Congress by caucus","Party eras: Federalist/Democratic-Republican, Jacksonian Democrats vs. Whigs, Republican ascendancy (1860–1932), New Deal coalition (1932–1968), dealignment/divided government since","Realignment: durable shift in coalitions (e.g., Southern realignment toward Republicans post-Civil Rights Act)","Third parties: winner-take-all plurality (Duverger's law) squeezes minor parties; they still inject new ideas (Populists, Socialists) and act as spoilers","Primaries weakened party bosses: candidate-centered campaigns dominate since McGovern-Fraser reforms (1972)"]},{"l":"Elections and voting behavior","intro":"Who votes, how, and why turnout varies.","b":["Presidential elections: Electoral College — 538 electors, need 270; winner-take-all in 48 states; swing states decide close races","Midterm turnout lags presidential (~40% vs ~60%+); local elections lower still","Predictors of turnout: education, age (older vote more), income; registration barriers suppress turnout","Motor Voter Act (1993): register at DMV; Help America Vote Act (2002): provisional ballots after Bush v. Gore","Voting Rights Act (1965): banned literacy tests, federal preclearance for discriminatory jurisdictions (Shelby County v. Holder gutted preclearance formula in 2013)"]},{"l":"Interest groups and lobbying","intro":"Organized groups shape policy between elections.","b":["Methods: lobbying, litigation (amicus briefs, class actions), electioneering, grassroots mobilization","Iron triangles: agency + congressional committee + interest group dominate a policy area; issue networks are looser, broader webs","Free-rider problem: collective goods (clean air) attract non-members who benefit without joining — Olson's logic","Campaign finance: Buckley v. Valeo (1976) — spending is speech; contribution limits OK, expenditure limits suspect","BCRA/McCain-Feingold (2002) softened soft-money rules; Citizens United (2010) opened independent corporate expenditures and super PACs"]},{"l":"Media and political communication","intro":"Media informs voters and frames politics — with structural biases.","b":["Roles: gatekeeping (what gets covered), scorekeeping (polls/horserace), watchdog (investigations — Watergate, Pentagon Papers)","Fragmentation: cable news, talk radio, social media create echo chambers and selective exposure","Horse-race coverage emphasizes who's winning over policy substance","Fairness Doctrine abolished (1987); partisan outlets grew after","Misinformation spreads faster than corrections; platform moderation remains contested (First Amendment binds government, not private platforms)"]}],"keyFacts":["270 electoral votes wins; 538 total; swing states pivotal","Duverger's law: plurality winners → two-party systems","Citizens United = independent corporate spending OK; contributions still capped"],"traps":["Winning the POPULAR VOTE does not guarantee the presidency — the Electoral College decides (2000, 2016)","Super PACs may raise unlimited funds for INDEPENDENT expenditures only — direct coordination with candidates is illegal","The First Amendment restricts GOVERNMENT censorship — private social platforms can moderate content freely"]},{"id":8,"name":"The Bureaucracy & Policy Making","concepts":[{"l":"Structure of the federal bureaucracy","intro":"The executive branch implements law through departments, agencies, and commissions.","b":["Cabinet departments (15): State, Treasury, Defense, Justice, etc. — secretary appointed by president, confirmed by Senate","Independent regulatory commissions: FCC, SEC, FTC — bipartisan boards, fixed terms, insulated from removal","Government corporations: USPS, Amtrak — hybrid public/private operation","Independent executive agencies: NASA, EPA, CIA — outside cabinet but report to president","~2 million civilian federal employees; most hired via merit system (Pendleton Act, 1883 ended much of the spoils system)"]},{"l":"Discretionary and rule-making authority","intro":"Agencies fill in details Congress leaves vague.","b":["Congress writes broad statutes; agencies write binding regulations to implement them (notice-and-comment rulemaking under APA)","Discretionary authority: EPA interprets 'harmful pollutant'; IRS defines deductions; FDA approves drugs","Chevron deference (1984): courts deferred to reasonable agency interpretations of ambiguous statutes — overturned by Loper Bright (2024), restoring independent judicial interpretation","Regulations carry force of law once finalized; violations trigger penalties","Rulemaking creates accountability concerns: unelected experts wield significant power"]},{"l":"Checks on the bureaucracy","intro":"All three branches plus oversight mechanisms constrain agencies.","b":["Congress: passes enabling statutes, controls appropriations, conducts oversight hearings, uses Congressional Review Act to void late-term rules","President: appoints/removes agency heads (except insulated commissioners), issues executive orders, proposes budgets (OMB)","Courts: review agency actions for statutory compliance and constitutional limits","Freedom of Information Act (FOIA): public access to agency records; whistleblower protections expose misconduct","Iron triangle dynamics can capture agencies in industry interests; revolving door fuels critique"]},{"l":"Policy making process","intro":"Policy moves through predictable stages from problem to evaluation.","b":["Agenda setting: problem recognition, focusing events (crises), media attention, interest group pressure","Formulation: drafting options by think tanks, agencies, congressional staff","Adoption: legislation passed, executive order issued, or regulation finalized","Implementation: agencies translate law into programs; discretion and resources determine fidelity","Evaluation: GAO reports, program reviews feed back into reform — policy feedback loops matter"]}],"keyFacts":["Notice-and-comment rulemaking = Administrative Procedure Act","Loper Bright (2024) ended Chevron deference","Congressional Review Act voids agency rules by joint resolution"],"traps":["Agencies make REGULATIONS with force of law — but only under authority delegated by CONGRESS's statutes","Independent commission members CANNOT be removed at will by the president (fixed, staggered terms)","The spoils system gave jobs to supporters; the PENDLETON ACT replaced it with merit hiring after Garfield's assassination"]}];
 const DIAGRAMS={};
@@ -748,15 +950,25 @@ if(scoreEl)scoreEl.textContent=`Score: ${examScores[part]||0} / ${pool.length}`;
 }
 
 
+// simple helper: re-typeset any $...$/$$...$$ math MathJax may find in
+// freshly-injected DOM. Existing guide content doesn't use LaTeX delimiters
+// yet (a follow-up content pass would be needed for this to visibly do
+// anything) — this just wires the rendering pipeline up for when it does.
+function ssTypeset(el){
+  if(window.MathJax&&window.MathJax.typesetPromise){
+    try{window.MathJax.typesetPromise(el?[el]:undefined);}catch(e){}
+  }
+}
+
 // GUIDE
 const SEARCH_BADGE={concept:'📖 Notes',flashcard:'📇 Flashcard',quiz:'❓ Quiz'};
 function searchGuide(){
   const q=(document.getElementById('search-box').value||'').toLowerCase().trim();
   const sr=document.getElementById('search-results');
   document.querySelectorAll('.unit').forEach(u=>u.style.display='');
-  document.getElementById('filter-row').style.display='flex';
+  document.getElementById('filter-row').style.display='';
   var _hl=document.getElementById('hero-live');
-  if(!q){sr.style.display='none';if(_hl)_hl.textContent='';return;}
+  if(!q){sr.classList.remove('show');sr.style.display='none';if(_hl)_hl.textContent='';return;}
   const matches=[];
   UNITS.forEach(u=>{
     u.concepts.forEach(c=>{
@@ -774,8 +986,8 @@ function searchGuide(){
     const text=(qq.q+' '+(qq.o||[]).join(' ')).toLowerCase();
     if(text.includes(q))matches.push({type:'quiz',unit:qq.u,unitName:unitName(qq.u),concept:'Quiz question',preview:qq.q.slice(0,120)});
   });
-  if(!matches.length){sr.style.display='block';sr.innerHTML='<div style="color:var(--ink-muted);font-size:14px;padding:8px">No results for "'+q+'"</div>';if(_hl)_hl.textContent='No results for '+q;return;}
-  sr.style.display='block';
+  if(!matches.length){sr.style.display='block';sr.classList.add('show');sr.innerHTML='<div style="color:var(--ink-muted);font-size:14px;padding:8px">No results for "'+q+'"</div>';if(_hl)_hl.textContent='No results for '+q;return;}
+  sr.style.display='block';sr.classList.add('show');
   if(_hl)_hl.textContent=matches.length+' result'+(matches.length===1?'':'s')+' for '+q;
   const jump=m=>m.type==='concept'?`jumpToUnit(${m.unit})`:m.type==='flashcard'?`jumpToFlashcardUnit(${m.unit})`:`jumpToQuizUnit(${m.unit})`;
   sr.innerHTML='<div style="font-size:13px;color:var(--ink-muted);margin-bottom:6px">'+matches.length+' result(s)</div>'+
@@ -786,6 +998,14 @@ function searchGuide(){
     </div>`).join('');
 }
 function clearSearch(){document.getElementById('search-box').value='';searchGuide();}
+document.addEventListener('keydown',function(e){
+  if(e.key!=='/')return;
+  var el=document.activeElement;
+  var tag=(el&&el.tagName)||'';
+  if(tag==='INPUT'||tag==='TEXTAREA'||(el&&el.isContentEditable))return;
+  var box=document.getElementById('search-box');
+  if(box){e.preventDefault();box.focus();}
+});
 function jumpToFlashcardUnit(id){
   clearSearch();
   switchTab('cards');
@@ -807,26 +1027,37 @@ function jumpToUnit(id){
 }
 
 const filterTags={};
+// Single source of truth for "which unit is selected", driven by either the
+// desktop chip row or the mobile <select> — both call this so filtering logic
+// never lives in two places.
+function ssFilterByUnit(unitId){
+  const all=document.getElementById('filter-row')&&document.getElementById('filter-row').children[0];
+  if(all)all.classList.toggle('on',!unitId);
+  Object.keys(filterTags).forEach(k=>filterTags[k].classList.toggle('on',!!unitId&&k==unitId));
+  document.querySelectorAll('.unit').forEach(el=>el.style.display=(!unitId||el.dataset.id==unitId)?'':'none');
+  const sel=document.getElementById('filter-select');
+  if(sel&&sel.value!=String(unitId||0))sel.value=String(unitId||0);
+}
+function ssFilterSelectChange(){
+  const sel=document.getElementById('filter-select');
+  ssFilterByUnit(sel?+sel.value:0);
+}
 function buildGuide(){
   const fr=document.getElementById('filter-row');
   const ul=document.getElementById('units');
   const all=document.createElement('button');
   all.className='chip on';all.textContent='All Units';
-  all.onclick=()=>{Object.keys(filterTags).forEach(k=>filterTags[k].classList.remove('on'));all.classList.add('on');document.querySelectorAll('.unit').forEach(u=>u.style.display='');};
+  all.onclick=()=>ssFilterByUnit(0);
   fr.appendChild(all);
   UNITS.forEach(u=>{
     const chip=document.createElement('button');
     chip.className='chip';chip.textContent='Unit '+u.id;
-    chip.onclick=()=>{
-      all.classList.remove('on');
-      Object.values(filterTags).forEach(c=>c.classList.remove('on'));
-      chip.classList.add('on');
-      document.querySelectorAll('.unit').forEach(el=>el.style.display=el.dataset.id==u.id?'':'none');
-    };
+    chip.onclick=()=>ssFilterByUnit(u.id);
     fr.appendChild(chip);filterTags[u.id]=chip;
     const div=document.createElement('div');div.className='unit';div.dataset.id=u.id;
     const hd=document.createElement('div');hd.className='unit-hd';
-    hd.innerHTML=`<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts</span></span><span class="chevron">▾</span>`;
+    const estMins=Math.max(5,Math.round(u.concepts.length*3+(u.traps?u.traps.length:0)*2+(u.fms?u.fms.length:0)*2));
+    hd.innerHTML=`<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts · ~${estMins} min</span></span><span class="chevron">▾</span>`;
     hd.tabIndex=0;hd.setAttribute('role','button');hd.setAttribute('aria-expanded','false');
     hd.onclick=()=>{const isOpen=div.classList.toggle('open');hd.setAttribute('aria-expanded',isOpen?'true':'false');};
     hd.onkeydown=(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();hd.click();}};
@@ -848,15 +1079,10 @@ function hydrateGuide(){
   const fr=document.getElementById('filter-row');
   const chips=Array.from(fr.children);
   const all=chips[0];
-  all.onclick=()=>{Object.keys(filterTags).forEach(k=>filterTags[k].classList.remove('on'));all.classList.add('on');document.querySelectorAll('.unit').forEach(u=>u.style.display='');};
+  all.onclick=()=>ssFilterByUnit(0);
   UNITS.forEach((u,i)=>{
     const chip=chips[i+1];
-    chip.onclick=()=>{
-      all.classList.remove('on');
-      Object.values(filterTags).forEach(c=>c.classList.remove('on'));
-      chip.classList.add('on');
-      document.querySelectorAll('.unit').forEach(el=>el.style.display=el.dataset.id==u.id?'':'none');
-    };
+    chip.onclick=()=>ssFilterByUnit(u.id);
     filterTags[u.id]=chip;
   });
   document.querySelectorAll('.unit').forEach(div=>{
@@ -865,7 +1091,16 @@ function hydrateGuide(){
     hd.onkeydown=(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();hd.click();}};
   });
 }
+(function(){
+  const btn=document.getElementById('back-to-top');
+  if(!btn)return;
+  const threshold=()=>window.innerHeight||800;
+  window.addEventListener('scroll',function(){
+    btn.classList.toggle('visible',window.scrollY>threshold());
+  },{passive:true});
+})();
 if(document.getElementById('units').children.length===0){buildGuide();}else{hydrateGuide();}
+ssTypeset(document.getElementById('units'));
 
 // FLASHCARDS
 let fcDeck=[],fcIdx=0,fcFilterMode='all';
@@ -954,6 +1189,7 @@ function buildExamples(){
     h+='</div>';
   });
   v.innerHTML=h;
+  ssTypeset(v);
 }
 function revealStep(id){
   const w=ex2map[id];const c=document.getElementById('ex2s-'+id);let n=ex2shown[id]||0;
@@ -977,10 +1213,48 @@ window.__ssMasteryInstances = window.__ssMasteryInstances || [];
 function ssStartChemMastery(){
   SS_MASTERY = window.__ssCreateMastery('us-government', UNITS.map(function(u){return u.id;}), UNITS.reduce(function(acc,u){acc[u.id]=u.name;return acc;},{}));
   window.__ssMasteryInstances.push(SS_MASTERY);
-  SS_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} try{ if(examplesBuilt) buildExamples(); }catch(e){} });
+  SS_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} try{ if(examplesBuilt) buildExamples(); }catch(e){} try{ ssOverallProgressUpdate(); }catch(e){} });
 }
 if (window.__ssCreateMastery) { ssStartChemMastery(); }
 else { window.addEventListener('ss-mastery-ready', ssStartChemMastery, { once: true }); }
+
+/* bookmarked question ids, kept separate from server-synced mastery state
+   (this is purely a local toggle-and-persist affordance, no filter UI yet) */
+var Q_BOOKMARK_KEY='ssBookmarks_'+'us-government';
+function qBookmarkSet(){
+  try{return new Set(JSON.parse(localStorage.getItem(Q_BOOKMARK_KEY)||'[]'));}catch(e){return new Set();}
+}
+function qBookmarkToggle(qid){
+  var set=qBookmarkSet();
+  if(set.has(qid))set.delete(qid);else set.add(qid);
+  try{localStorage.setItem(Q_BOOKMARK_KEY,JSON.stringify(Array.from(set)));}catch(e){}
+  return set.has(qid);
+}
+function qId(q){return q.u+'|'+q.q;}
+
+function quizShuffle(){
+  if(!qPool.length)return;
+  for(let i=qPool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[qPool[i],qPool[j]]=[qPool[j],qPool[i]];}
+  qIdx=0;score=0;requeueCounts=new WeakMap();showQ();
+}
+
+function unitNameFor(unitId){const u=UNITS.find(x=>x.id===unitId);return u?u.name:'Unit '+unitId;}
+
+function ssOverallProgressUpdate(){
+  var fill=document.getElementById('ss-overall-progress-fill');
+  var label=document.getElementById('ss-overall-progress-label');
+  if(!fill||!label)return;
+  var total=(typeof QUIZ!=='undefined'?QUIZ.length:0);
+  if(!total){fill.parentElement.parentElement.style.display='none';return;}
+  var answered=0;
+  if(SS_MASTERY){
+    var mastery=SS_MASTERY.getSnapshot().mastery||{};
+    Object.keys(mastery).forEach(function(k){answered+=mastery[k].total||0;});
+  }
+  var pct=Math.max(0,Math.min(100,Math.round((answered/total)*100)));
+  fill.style.width=pct+'%';
+  label.textContent=pct+'% of the question bank attempted';
+}
 
 let diagMode=false;
 function ssHardQ(){return (typeof HARD_Q!=='undefined'&&Array.isArray(HARD_Q))?HARD_Q:[];}
@@ -1064,10 +1338,38 @@ function showQ(){
   const q=qPool[qIdx];
   document.getElementById('q-prog').textContent=`Q ${qIdx+1}/${qPool.length}`;
   document.getElementById('q-sc').textContent=`Score: ${score}`;
-  let h=`<div class="q-block"><div class="q-text">${q.q}</div><button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button><div class="q-opts">`;
-  q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">${opt}</button>`);
+  const bid=qId(q);
+  const bookmarked=qBookmarkSet().has(bid);
+  const STAR_OUTLINE='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
+  const STAR_FILLED='<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
+  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>`+
+    `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
+    `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
+    `<button class="q-hint-btn" id="q-hint-btn" onclick="toggleQHint()">💡 Hint</button>`+
+    `<div class="q-hint-box" id="q-hint-box">Hint: this is from Unit ${q.u}: ${unitNameFor(q.u)}</div>`+
+    `<div class="q-opts">`;
+  q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">`+
+    `<svg class="q-opt-icon icon-correct" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`+
+    `<svg class="q-opt-icon icon-wrong" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`+
+    `<span>${opt}</span></button>`);
   h+=`</div><div class="q-exp" id="q-exp">${q.e}</div><button class="q-next show" id="q-next" onclick="nextQ()" style="display:none">Next →</button></div>`;
   qb.innerHTML=h;
+  ssTypeset(qb);
+}
+function toggleQBookmark(){
+  const q=qPool[qIdx];if(!q)return;
+  const on=qBookmarkToggle(qId(q));
+  const btn=document.getElementById('q-bookmark');
+  if(!btn)return;
+  btn.classList.toggle('on',on);
+  btn.setAttribute('aria-pressed',String(on));
+  btn.setAttribute('aria-label',on?'Remove bookmark':'Bookmark this question');
+  btn.innerHTML=on?'<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>'
+    :'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
+}
+function toggleQHint(){
+  const box=document.getElementById('q-hint-box');
+  if(box)box.classList.toggle('show');
 }
 let guessFlag=false, guessedQs=[], guessedRight=0;
 function markGuess(){
@@ -1107,6 +1409,7 @@ function ansQ(i){
     }
   }
   if(SS_MASTERY)SS_MASTERY.recordAnswer(q.u,i===q.a);
+  ssOverallProgressUpdate();
   const expEl=document.getElementById('q-exp');
   expEl.classList.add('show');
   if(wasGuess){
@@ -1164,11 +1467,22 @@ buildQSel();
   var daysEl=document.getElementById('spc-days');
   var minsEl=document.getElementById('spc-mins');
   if(!daysEl||!minsEl)return;
+  var daysNum=document.getElementById('spc-days-num');
+  var minsNum=document.getElementById('spc-mins-num');
+  var DAYS_DEFAULT=daysEl.value, MINS_DEFAULT=minsEl.value;
+  function setFill(el){
+    var min=parseFloat(el.min),max=parseFloat(el.max),val=parseFloat(el.value);
+    var pct=max>min?((val-min)/(max-min))*100:0;
+    el.style.setProperty('--fill',pct+'%');
+  }
+  function clamp(v,min,max){return Math.min(max,Math.max(min,v));}
   function update(){
     var days=parseInt(daysEl.value,10);
     var mins=parseInt(minsEl.value,10);
     document.getElementById('spc-days-val').textContent=days+(days===1?' day':' days');
-    document.getElementById('spc-mins-val').textContent=mins+' min';
+    if(daysNum)daysNum.value=days;
+    if(minsNum)minsNum.value=mins;
+    setFill(daysEl);setFill(minsEl);
     var totalMinutes=days*mins;
     var questions=Math.min(SS_TOTAL_Q,Math.round(totalMinutes/MIN_PER_Q));
     var pct=Math.min(100,Math.round((questions/SS_TOTAL_Q)*100));
@@ -1179,19 +1493,32 @@ buildQSel();
     var tier=document.getElementById('spc-tier');
     var title=document.getElementById('spc-tier-title');
     var sub=document.getElementById('spc-tier-sub');
+    tier.classList.remove('good','moderate','behind');
     if(pct>=90){
-      tier.style.background='var(--success-soft)';tier.style.color='var(--success)';
+      tier.classList.add('good');
       title.textContent='Exam Ready';sub.textContent="You'll work through the full question bank before test day.";
     }else if(pct>=50){
-      tier.style.background='var(--accent-soft)';tier.style.color='var(--accent-ink)';
+      tier.classList.add('moderate');
       title.textContent='On Track';sub.textContent='Solid coverage — keep this pace going.';
     }else{
-      tier.style.background='var(--surface-2)';tier.style.color='var(--ink-muted)';
+      tier.classList.add('behind');
       title.textContent='Just Getting Started';sub.textContent='Add a few more minutes a day to cover more ground before your exam.';
     }
   }
   daysEl.addEventListener('input',update);
   minsEl.addEventListener('input',update);
+  if(daysNum)daysNum.addEventListener('change',function(){
+    daysEl.value=clamp(parseInt(daysNum.value,10)||parseInt(daysEl.min,10),parseInt(daysEl.min,10),parseInt(daysEl.max,10));
+    update();
+  });
+  if(minsNum)minsNum.addEventListener('change',function(){
+    minsEl.value=clamp(parseInt(minsNum.value,10)||parseInt(minsEl.min,10),parseInt(minsEl.min,10),parseInt(minsEl.max,10));
+    update();
+  });
+  var resetBtn=document.getElementById('spc-reset-btn');
+  if(resetBtn)resetBtn.addEventListener('click',function(){
+    daysEl.value=DAYS_DEFAULT;minsEl.value=MINS_DEFAULT;update();
+  });
   update();
 })();
 
@@ -1421,20 +1748,34 @@ async function cbotSend(e){
 /* study session timer in the nav */
 (function(){
   var nav=document.querySelector('.hero .nav');if(!nav)return;
+  var ICON_PLAY='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg>';
+  var ICON_PAUSE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>';
+  var ICON_RESET='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 17 5"/><polyline points="21 3 21 9 15 9"/></svg>';
   var d=document.createElement('div');d.id='sg-timer';
-  d.innerHTML='<span id="sgt-time">00:00</span><button class="sgt-b" id="sgt-btn" aria-label="start or pause study timer">▶</button><button class="sgt-b" id="sgt-reset" aria-label="reset study timer">↺</button>';
+  d.innerHTML='<span class="sgt-label">Study timer</span><span id="sgt-time">00:00</span>'+
+    '<button class="sgt-b" id="sgt-btn" aria-label="start or pause study timer">'+ICON_PLAY+'</button>'+
+    '<button class="sgt-b" id="sgt-reset" aria-label="reset study timer">'+ICON_RESET+'</button>';
   nav.appendChild(d);
   var sec=0,run=false,iv=null;
   function fmt(s){var h=Math.floor(s/3600),m=Math.floor((s%3600)/60),ss=s%60;
     return (h?h+':':'')+String(m).padStart(2,'0')+':'+String(ss).padStart(2,'0');}
   document.getElementById('sgt-btn').onclick=function(){
-    run=!run;this.textContent=run?'⏸':'▶';
+    run=!run;this.innerHTML=run?ICON_PAUSE:ICON_PLAY;this.setAttribute('aria-label',run?'pause study timer':'start study timer');
     if(run){iv=setInterval(function(){sec++;var el=document.getElementById('sgt-time');if(el)el.textContent=fmt(sec);},1000);}
     else clearInterval(iv);
   };
   document.getElementById('sgt-reset').onclick=function(){sec=0;clearInterval(iv);run=false;
-    document.getElementById('sgt-btn').textContent='▶';document.getElementById('sgt-time').textContent='00:00';};
+    var btn=document.getElementById('sgt-btn');btn.innerHTML=ICON_PLAY;btn.setAttribute('aria-label','start or pause study timer');
+    document.getElementById('sgt-time').textContent='00:00';};
 })();
+
+/* Pinning the hero tab row on scroll (position:fixed + measured spacer) was
+   found during QA to visually overlap page content in some scroll states —
+   disabled pending a redesign that doesn't rely on a JS-measured spacer.
+   The tab row stays in its normal in-flow position; the independent sticky
+   search/filter bar (.ss-sticky-top, CSS-only position:sticky) is unaffected
+   and still docks correctly since it doesn't depend on --ss-nav-h being set
+   (it defaults to 0px). */
 
 function ssToggleTheme(){
   var isDark = document.documentElement.getAttribute('data-theme') === 'dark';

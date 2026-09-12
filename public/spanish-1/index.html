@@ -30,6 +30,8 @@
 <link rel="preload" href="/fonts/spacegrotesk-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="stylesheet" href="/fonts/fonts.css"/>
+<script>window.MathJax={tex:{inlineMath:[['$','$']],displayMath:[['$$','$$']]}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -109,9 +111,9 @@
   --diagram-bg:#1b3d33;
 }
 body{transition:background .2s ease,color .2s ease}
-#theme-toggle{background:none;border:1px solid rgba(255,255,255,.18);color:rgba(244,242,234,.75);border-radius:var(--radius-sm);
+#theme-toggle{background:none;border:1px solid rgba(255,255,255,.32);color:rgba(244,242,234,.9);border-radius:var(--radius-sm);
   width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
-#theme-toggle:hover{color:#fff;border-color:rgba(255,255,255,.35)}
+#theme-toggle:hover{color:#fff;border-color:rgba(255,255,255,.5)}
 #theme-toggle svg{width:17px;height:17px}
 #theme-toggle .icon-sun{display:none}
 [data-theme="dark"] #theme-toggle .icon-moon{display:none}
@@ -133,16 +135,28 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:
 .page{margin:0 auto;padding:0 24px 90px;max-width:880px}
 .hero{background:linear-gradient(175deg,#0f1830,#1b2a52 65%,#111c38);padding:52px 24px 40px;position:relative;overflow:hidden}
 .hero-inner{margin:0 auto;position:relative;z-index:1}
-.hero::after{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0.16;background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><g fill='%23e8c874' stroke='none'><path d='M30 8 L34 20 L47 20 L37 28 L41 40 L30 32 L19 40 L23 28 L13 20 L26 20 Z'/><path d='M130 90 L133 99 L143 99 L135 105 L138 114 L130 108 L122 114 L125 105 L117 99 L127 99 Z'/><path d='M70 140 L73 149 L83 149 L75 155 L78 164 L70 158 L62 164 L65 155 L57 149 L67 149 Z'/></g><g stroke='%238aa2f2' stroke-width='1.2' opacity='0.6'><line x1='0' y1='60' x2='180' y2='60'/><line x1='0' y1='125' x2='180' y2='125'/></g></svg>");background-size:180px 180px;background-repeat:repeat}
-.hero .kicker{color:#b7c5f9}
-.hero h1{font-family:'Permanent Marker',cursive;font-size:clamp(40px,4.6vw,58px);font-weight:400;letter-spacing:0;line-height:1.15;color:#f4f2ea;margin-bottom:14px}
+.hero::after{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0.09;background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><g fill='%23e8c874' stroke='none'><path d='M30 8 L34 20 L47 20 L37 28 L41 40 L30 32 L19 40 L23 28 L13 20 L26 20 Z'/><path d='M130 90 L133 99 L143 99 L135 105 L138 114 L130 108 L122 114 L125 105 L117 99 L127 99 Z'/><path d='M70 140 L73 149 L83 149 L75 155 L78 164 L70 158 L62 164 L65 155 L57 149 L67 149 Z'/></g><g stroke='%238aa2f2' stroke-width='1.2' opacity='0.6'><line x1='0' y1='60' x2='180' y2='60'/><line x1='0' y1='125' x2='180' y2='125'/></g></svg>");background-size:180px 180px;background-repeat:repeat}
+.hero .kicker{color:#c7d3fa;display:flex;align-items:center;gap:8px;font-size:20px}
+.kicker-logo{width:20px;height:20px;flex-shrink:0;border-radius:4px}
+.hero h1{font-family:'Space Grotesk',-apple-system,sans-serif;font-size:clamp(40px,4.6vw,58px);font-weight:800;letter-spacing:-.01em;line-height:1.15;color:#f4f2ea;margin-bottom:14px}
 .hero h1 .grad{background:linear-gradient(110deg,#8aa2f2,#d6dffb 55%,#e8c874);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero .edition{color:rgba(244,242,234,.55)}
-.hero .subtitle{color:rgba(244,242,234,.66);margin-bottom:28px}
+.hero .edition{color:rgba(244,242,234,.78)}
+.hero .subtitle{color:rgba(244,242,234,.82);margin-bottom:28px}
 .hero .nav{border-bottom:none;padding-bottom:0;margin-bottom:0}
-.hero .tab-btn{background:rgba(255,255,255,.055);border-color:rgba(255,255,255,.13);color:rgba(244,242,234,.78);box-shadow:none}
-.hero .tab-btn:hover{background:rgba(255,255,255,.11);border-color:rgba(255,255,255,.22);color:#fff}
+.hero .tab-btn{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.24);color:rgba(244,242,234,.9);box-shadow:none}
+.hero .tab-btn:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.32);color:#fff}
 .hero .tab-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.breadcrumb{margin-bottom:14px}
+.breadcrumb ol{list-style:none;display:flex;flex-wrap:wrap;gap:6px;padding:0;margin:0;font-family:'Inter',sans-serif;font-size:14px}
+.breadcrumb li{color:rgba(244,242,234,.78);display:flex;align-items:center;gap:6px}
+.breadcrumb li:not(:last-child)::after{content:'›';margin-left:6px;color:rgba(244,242,234,.55)}
+.breadcrumb a{color:rgba(244,242,234,.85);text-decoration:none;font-weight:600}
+.breadcrumb a:hover{color:#fff;text-decoration:underline}
+.breadcrumb li[aria-current="page"]{color:rgba(244,242,234,.95);font-weight:600}
+.nav-spacer{height:0}
+body.nav-pinned .nav-spacer{display:block}
+.nav-slot .nav.nav-pinned{position:fixed;top:0;left:0;right:0;z-index:100;background:#111c38;padding:12px 24px;
+  border-bottom:1px solid rgba(255,255,255,.14);box-shadow:0 8px 20px rgba(0,0,0,.35);margin:0}
 .page>.spc-card{margin-top:-26px;position:relative;z-index:2;box-shadow:var(--shadow-lg)}
 h1,h2,h3,.tab-btn,.unit-title,.q-text,.ex-qtext,.ex-header h2,.term,.qr-h,.btn,.chip,.ex-part-hd h3,.result .big{
   font-family:'Space Grotesk',-apple-system,sans-serif}
@@ -157,10 +171,39 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .tab-btn.active{background:var(--ink);color:var(--surface);border-color:var(--ink)}
 .view{display:none}.view.active{display:block;animation:fadein .25s ease}
 @keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
-.filter-row{display:flex;gap:8px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:6px;-webkit-overflow-scrolling:touch}.filter-row::-webkit-scrollbar{height:4px}.filter-row::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
-.chip{white-space:nowrap;flex-shrink:0;padding:8px 16px;border-radius:999px;border:1px solid var(--border);background:var(--surface);font-size:14px;cursor:pointer;color:var(--ink-muted)}
-.chip:hover{border-color:var(--border-strong);color:var(--ink)}
+/* ---- sticky search + filter header ---- */
+.ss-sticky-top{position:sticky;top:var(--ss-nav-h,0px);z-index:40;background:var(--bg);padding-top:2px;margin:0 -24px;padding-left:24px;padding-right:24px;transition:top .15s ease}
+@media(max-width:600px){.ss-sticky-top{margin:0 -16px;padding-left:16px;padding-right:16px}}
+.search-wrap{position:relative;margin-bottom:10px}
+.search-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--ink-dim);pointer-events:none}
+#search-box{width:100%;height:48px;padding:0 84px 0 44px;border:1px solid var(--border);border-radius:var(--radius);
+  font-size:16.5px;background:var(--surface);color:var(--ink);box-shadow:var(--shadow-sm);transition:border-color .15s ease,box-shadow .15s ease}
+#search-box::placeholder{color:var(--ink-dim)}
+#search-box:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.search-kbd{position:absolute;right:15px;top:50%;transform:translateY(-50%);font-family:'IBM Plex Mono',monospace;font-size:12px;
+  color:var(--ink-dim);background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:2px 7px;pointer-events:none}
+#search-box:focus~.search-kbd,#search-box:not(:placeholder-shown)~.search-kbd{display:none}
+.search-clear{display:none;position:absolute;right:12px;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;
+  border:none;background:var(--surface-2);color:var(--ink-muted);cursor:pointer;align-items:center;justify-content:center}
+.search-clear:hover{background:var(--surface-hover);color:var(--ink)}
+#search-box:not(:placeholder-shown)~.search-clear{display:flex}
+#search-results{display:none;position:absolute;left:0;right:0;top:calc(100% + 6px);background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:50;max-height:360px;overflow-y:auto;padding:8px}
+#search-results.show{display:block}
+#search-results>div[onclick]{transition:background .12s ease}
+#search-results>div[onclick]:hover{background:var(--surface-2)!important;border-color:var(--border-strong)!important}
+.filter-row-wrap{position:relative}
+.filter-row{display:flex;gap:8px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:6px;-webkit-overflow-scrolling:touch;
+  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 24px,#000 calc(100% - 24px),transparent 100%);
+  mask-image:linear-gradient(to right,transparent 0,#000 24px,#000 calc(100% - 24px),transparent 100%)}
+.filter-row::-webkit-scrollbar{height:4px}.filter-row::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.chip{white-space:nowrap;flex-shrink:0;padding:8px 16px;border-radius:999px;border:1px solid var(--border);background:var(--surface);font-size:14px;cursor:pointer;color:var(--ink-muted);transition:all .15s ease}
+.chip:hover{border-color:var(--border-strong);color:var(--ink);transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.ss-overall-progress{display:flex;align-items:center;gap:10px;margin:8px 0 12px}
+.ss-overall-progress-track{flex:1;height:6px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.ss-overall-progress-fill{height:100%;width:0%;background:var(--accent);border-radius:99px;transition:width .3s ease}
+.ss-overall-progress-label{font-size:12.5px;color:var(--ink-dim);white-space:nowrap;flex-shrink:0}
 .unit{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden;background:var(--surface);
   transition:border-color .15s ease,box-shadow .15s ease}
 .unit:hover{border-color:var(--border-strong)}
@@ -173,7 +216,7 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .chevron{font-size:24px;color:var(--ink-dim);transition:transform .2s ease;display:inline-block}
 .unit.open .chevron{transform:rotate(180deg);color:var(--accent)}
 .unit-body{display:none;padding:6px 18px 20px}
-.unit.open .unit-body{display:block}
+.unit.open .unit-body{display:block;animation:fadein .25s ease}
 .concept{margin-top:12px;padding:15px 17px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm)}
 .concept:first-child{margin-top:2px}
 .c-label{font-size:16.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--accent-ink);margin-bottom:8px;display:flex;align-items:center;gap:8px}
@@ -226,14 +269,31 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .guess-btn.on{background:var(--amber-soft);border-style:solid;border-color:var(--amber);color:var(--amber-ink)}
 .guess-flag{display:inline-block;margin-left:8px;font-size:14px;font-weight:700;color:var(--amber-ink);background:var(--amber-soft);
   border:1px solid var(--amber);border-radius:99px;padding:2px 10px;vertical-align:middle}
-.q-block{border:1px solid var(--border);border-radius:var(--radius);padding:24px;background:var(--surface);box-shadow:var(--shadow-sm)}
-.q-text{font-size:24.8px;font-weight:600;color:var(--ink);line-height:1.55;margin-bottom:20px}
+.q-block{border:1px solid var(--border);border-radius:var(--radius);padding:24px;background:var(--surface);box-shadow:var(--shadow-sm);margin-bottom:22px;transition:transform .15s ease,box-shadow .15s ease}
+.q-block:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.q-block-hd{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px}
+.q-text{font-size:24.8px;font-weight:600;color:var(--ink);line-height:1.55;flex:1}
+.q-bookmark{flex:none;background:none;border:none;cursor:pointer;color:var(--ink-dim);padding:2px;border-radius:6px;transition:color .15s ease,transform .15s ease}
+.q-bookmark:hover{color:var(--amber);transform:scale(1.08)}
+.q-bookmark.on{color:var(--amber)}
+.q-bookmark svg{display:block}
 .q-opts{display:flex;flex-direction:column;gap:9px}
 .q-opt{padding:13px 16px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';
-  font-size:21.8px;color:var(--ink-muted);background:var(--surface);transition:all .15s ease;text-align:left}
+  font-size:21.8px;color:var(--ink-muted);background:var(--surface);transition:all .15s ease;text-align:left;
+  display:flex;align-items:center;gap:9px}
 .q-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}
+.q-opt:disabled{cursor:default}
+.q-opt .q-opt-icon{flex:none;display:none}
 .q-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}
+.q-opt.correct .q-opt-icon.icon-correct{display:inline-flex}
 .q-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}
+.q-opt.wrong .q-opt-icon.icon-wrong{display:inline-flex}
+.q-hint-btn{display:inline-flex;align-items:center;gap:6px;margin-bottom:14px;padding:6px 14px;border:1px dashed var(--border-strong);
+  border-radius:99px;background:transparent;color:var(--ink-dim);font-size:14px;font-family:inherit;cursor:pointer;transition:all .15s ease}
+.q-hint-btn:hover{color:var(--accent-ink);border-color:var(--accent);background:var(--accent-soft)}
+.q-hint-box{display:none;margin:-6px 0 14px;padding:10px 14px;background:var(--accent-soft);border-left:3px solid var(--accent);
+  border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:15px;color:var(--accent-ink);line-height:1.5}
+.q-hint-box.show{display:block}
 .q-exp{margin-top:16px;padding:13px 16px;background:var(--surface-2);border-radius:var(--radius-sm);font-family:'Inter';
   font-size:21px;color:var(--ink-muted);line-height:1.65;display:none}
 .q-exp.show{display:block}
@@ -280,36 +340,81 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .qr-ol li,.qr-ul li{font-size:20.2px;color:var(--ink-muted);line-height:1.65;margin-bottom:8px}
 .qr-ol li:last-child,.qr-ul li:last-child{margin-bottom:0}
 .spc-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow-md)}
+.spc-summary{display:none;width:100%;align-items:center;justify-content:space-between;gap:12px;background:none;border:none;
+  cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;color:var(--ink);padding:0;text-align:left}
+.spc-summary .spc-chevron{font-size:18px;color:var(--ink-dim);transition:transform .2s ease;flex-shrink:0}
+#spc-card.collapsed{padding:16px 20px;cursor:pointer}
+#spc-card.collapsed .spc-summary{display:flex}
+#spc-card.collapsed .spc-body{display:none}
+#spc-card.collapsed .spc-chevron{transform:rotate(-90deg)}
+#spc-card:not(.collapsed) .spc-collapse-btn{display:inline-flex}
+.spc-collapse-btn{display:none;align-items:center;gap:4px;background:none;border:1px solid var(--border);border-radius:999px;
+  color:var(--ink-muted);font-size:13px;font-weight:600;padding:5px 12px;cursor:pointer;margin-left:auto}
+.spc-collapse-btn:hover{color:var(--ink);border-color:var(--border-strong)}
+.spc-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:6px}
+.spc-head-text{flex:1;min-width:0}
 .spc-card h2{font-size:30px;font-weight:600;color:var(--ink);margin-bottom:6px}
-.spc-card>p{font-size:21px;color:var(--ink-muted);line-height:1.55;margin-bottom:24px}
-.spc-row{margin-bottom:20px}
-.spc-row label{display:flex;justify-content:space-between;font-size:21px;font-weight:600;color:var(--ink);margin-bottom:9px}
+.spc-card>.spc-body>p{font-size:21px;color:var(--ink-muted);line-height:1.55;margin-bottom:24px}
+.spc-row{margin-bottom:20px;padding:10px 0}
+.spc-row label{display:flex;justify-content:space-between;align-items:center;font-size:21px;font-weight:600;color:var(--ink);margin-bottom:9px}
 .spc-row label span{color:var(--accent-ink);font-weight:700}
-input[type=range].spc-slider{-webkit-appearance:none;appearance:none;width:100%;height:5px;border-radius:99px;background:var(--surface-2);outline:none}
-input[type=range].spc-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;
-  background:var(--accent);cursor:pointer;border:3px solid var(--surface);box-shadow:0 2px 8px rgba(15,122,112,.4)}
-input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--accent);cursor:pointer;border:3px solid var(--surface)}
+.spc-val-input{width:64px;font-family:inherit;font-size:18px;font-weight:700;color:var(--accent-ink);background:var(--surface-2);
+  border:1px solid var(--border);border-radius:6px;padding:2px 6px;text-align:right}
+input[type=range].spc-slider{-webkit-appearance:none;appearance:none;width:100%;height:8px;border-radius:99px;background:var(--surface-2);outline:none;
+  background-image:linear-gradient(to right, var(--accent) 0%, var(--accent) var(--fill,0%), var(--surface-2) var(--fill,0%), var(--surface-2) 100%)}
+input[type=range].spc-slider::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;
+  background:var(--accent);cursor:pointer;border:4px solid var(--surface);box-shadow:0 2px 8px rgba(15,122,112,.4),0 0 0 3px var(--accent-soft)}
+input[type=range].spc-slider::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:var(--accent);cursor:pointer;border:4px solid var(--surface);box-shadow:0 0 0 3px var(--accent-soft)}
+input[type=range].spc-slider::-moz-range-progress{background:var(--accent);height:8px;border-radius:99px}
 .spc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin:24px 0 16px}
-.spc-stat{background:var(--surface-2);border-radius:var(--radius-sm);padding:14px 10px;text-align:center}
+.spc-stat{background:var(--surface-2);border-radius:var(--radius-sm);padding:14px 10px;text-align:center;box-shadow:var(--shadow-sm)}
 .spc-stat-val{font-size:37.5px;font-weight:700;color:var(--accent-ink);line-height:1}
-.spc-stat-label{font-family:'Inter';font-size:17.2px;color:var(--ink-dim);margin-top:6px;line-height:1.3}
+.spc-stat-label{font-family:'Inter';font-size:17.2px;color:var(--ink-dim);margin-top:6px;line-height:1.3;cursor:help}
 .spc-tier{border-radius:var(--radius-sm);padding:13px 16px;font-size:21px;text-align:center;transition:background .2s,color .2s}
 .spc-tier b{display:block;font-size:22.5px;margin-bottom:2px}
+.spc-tier.good{background:var(--success-soft);color:var(--success)}
+.spc-tier.moderate{background:var(--accent-soft);color:var(--accent-ink)}
+.spc-tier.behind{background:var(--amber-soft);color:var(--amber-ink)}
+.spc-reset-btn{display:inline-flex;align-items:center;gap:6px;margin-top:16px;padding:8px 16px;border:1px solid var(--border);
+  border-radius:999px;background:var(--surface);color:var(--ink-muted);font-size:14px;font-weight:600;cursor:pointer;transition:all .15s ease}
+.spc-reset-btn:hover{color:var(--ink);border-color:var(--border-strong);background:var(--surface-hover)}
+@media (prefers-reduced-motion: no-preference){
+  .spc-body{transition:opacity .2s ease}
+}
 .unit:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .q-block{box-shadow:var(--shadow-md)}
 .diagram{box-shadow:var(--shadow-sm)}
 .face{box-shadow:var(--shadow-md)}
+.mobile-only-select{display:none}
 @media(max-width:600px){
   .page{padding:0 16px 70px}
   .hero{padding:40px 16px 32px}
   .q-block{padding:18px}
   .spc-stats{grid-template-columns:1fr}
+  /* ---- touch targets: >=44x44px effective hit area ---- */
+  .chip{padding:12px 16px;min-height:44px;display:inline-flex;align-items:center}
+  .q-opt{min-height:44px;padding:13px 16px}
+  #theme-toggle{width:44px;height:44px}
+  .tab-btn{min-height:44px;padding:11px 18px;display:inline-flex;align-items:center}
+  /* slider thumbs stay visually small but gain a transparent padded hit-area */
+  input[type=range].spc-slider{height:44px;padding:18px 0;background-clip:content-box;box-sizing:border-box}
+  input[type=range].spc-slider::-webkit-slider-thumb{width:26px;height:26px}
+  input[type=range].spc-slider::-moz-range-thumb{width:26px;height:26px}
+  .back-to-top{width:48px;height:48px}
+  /* ---- mobile unit filter: dropdown replaces the pill row ---- */
+  .filter-row-wrap .filter-row{display:none}
+  .mobile-only-select{display:block;width:100%;min-height:44px;padding:10px 14px;margin-bottom:6px;
+    border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--ink);
+    font-family:'Inter',sans-serif;font-size:16px;cursor:pointer}
 }
-#sg-timer{margin-left:auto;display:flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;
-  color:rgba(244,242,234,.7);font-size:21px;font-variant-numeric:tabular-nums}
-.sgt-b{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:rgba(244,242,234,.75);
-  border-radius:6px;padding:4px 9px;cursor:pointer;font-size:18px;transition:all .15s ease}
-.sgt-b:hover{color:#fff;border-color:rgba(255,255,255,.3)}
+#sg-timer{margin-left:auto;display:flex;align-items:center;gap:9px;font-family:'IBM Plex Mono',monospace;
+  color:rgba(244,242,234,.85);font-size:21px;font-variant-numeric:tabular-nums}
+.sgt-label{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:rgba(244,242,234,.7)}
+.sgt-b{border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:rgba(244,242,234,.9);
+  border-radius:6px;padding:5px 9px;cursor:pointer;font-size:18px;transition:all .15s ease;display:inline-flex;align-items:center;justify-content:center}
+.sgt-b:hover{color:#fff;border-color:rgba(255,255,255,.5)}
+.sgt-b svg{width:15px;height:15px;display:block}
 .mem-intro{font-size:21px;color:var(--ink-muted);background:var(--surface-2);border:1px solid var(--border);
   border-left:3px solid var(--accent);border-radius:var(--radius-sm);padding:13px 16px;margin-bottom:20px;line-height:1.6}
 .mem-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:11px}
@@ -359,7 +464,7 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
   color:#fff;cursor:pointer;font-size:24px;flex-shrink:0}
 #cbot-form button:disabled{opacity:.4;cursor:default}
 .back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Inter';font-size:15px;font-weight:600;
-  color:rgba(244,242,234,.62);text-decoration:none;margin-bottom:18px;transition:color .15s ease}
+  color:rgba(244,242,234,.8);text-decoration:none;margin-bottom:18px;transition:color .15s ease}
 .back-link:hover{color:#fff}
 
 .auth-gate{max-width:460px;margin:40px auto;text-align:center;padding:36px 28px;background:var(--surface);
@@ -375,10 +480,10 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
 .auth-gate .ss-oauth-btn{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-ink);font-weight:700}
 .auth-gate .ss-oauth-btn:hover{background:var(--accent);color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.18)}
 .ss-status{font-family:'Inter';font-size:12.5px;color:var(--ink-dim);margin-top:10px;min-height:16px}
-.ss-account{display:flex;align-items:center;gap:10px;font-family:'Inter';font-size:13px;color:rgba(244,242,234,.75)}
-.ss-account button{background:none;border:1px solid rgba(255,255,255,.18);border-radius:var(--radius-sm);
-  color:rgba(244,242,234,.7);padding:5px 11px;font-size:12px;cursor:pointer;font-family:'Inter'}
-.ss-account button:hover{color:#fff;border-color:rgba(255,255,255,.35)}
+.ss-account{display:flex;align-items:center;gap:10px;font-family:'Inter';font-size:13px;color:rgba(244,242,234,.88)}
+.ss-account button{background:none;border:1px solid rgba(255,255,255,.32);border-radius:var(--radius-sm);
+  color:rgba(244,242,234,.85);padding:5px 11px;font-size:12px;cursor:pointer;font-family:'Inter'}
+.ss-account button:hover{color:#fff;border-color:rgba(255,255,255,.5)}
 body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:2147483647;opacity:.035;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .q-kbd-hint{margin-left:auto;font-size:12.5px;color:var(--ink-dim)}
@@ -400,6 +505,42 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 .ex2-reveal{border-color:var(--accent)!important;color:var(--accent)!important}
 .ex2-done{margin-left:auto}
 
+/* ---- back-to-top ---- */
+.back-to-top{position:fixed;bottom:22px;left:22px;width:52px;height:52px;border-radius:50%;
+  background:var(--surface);color:var(--ink-muted);border:1px solid var(--border-strong);cursor:pointer;
+  box-shadow:var(--shadow-md);z-index:200;display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .2s ease,transform .2s ease,color .15s ease,border-color .15s ease}
+.back-to-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+.back-to-top:hover{color:var(--ink);border-color:var(--accent)}
+.back-to-top svg{width:20px;height:20px;display:block}
+
+/* ---- print / export ---- */
+@media print{
+  :root,[data-theme="dark"]{
+    --bg:#fff;--surface:#fff;--surface-2:#f2f2f2;--surface-hover:#f2f2f2;
+    --border:#ccc;--border-strong:#999;--ink:#000;--ink-muted:#222;--ink-dim:#444;
+    --accent:#000;--accent-ink:#000;--accent-soft:#eee;
+    --amber:#000;--amber-ink:#000;--amber-soft:#eee;
+    --success:#000;--success-soft:#eee;--success-border:#999;
+    --danger:#000;--danger-soft:#eee;--danger-border:#999;
+    --shadow-sm:none;--shadow-md:none;--shadow-lg:none;
+  }
+  body{background:#fff;color:#000}
+  body::before,.hero::after{display:none!important}
+  #theme-toggle,.search-wrap,.ss-sticky-top .filter-row-wrap,.mobile-only-select,.nav,.nav-spacer,.tablist,
+  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
+  .search-kbd,.ss-overall-progress,.q-kbd-hint,.diag-btn{display:none!important}
+  *{position:static!important;box-shadow:none!important}
+  .unit-body{display:block!important}
+  .unit .chevron{display:none!important}
+  .ex-part-body{display:block!important}
+  .q-exp,.q-hint-box{display:block!important}
+  .q-opt{border:1px solid #999!important}
+  details{display:block!important}
+  details>*{display:block!important}
+  a{color:#000;text-decoration:underline}
+}
+
 :root:not([data-theme="dark"]){--accent:#c2410c!important;--accent-ink:#7e2a08!important;--accent-soft:#f8e8e2!important;--accent-border:#e8b7a3!important;--bg:#f9ece7!important;}[data-theme="dark"]{--accent:#dd9779!important;--accent-soft:rgba(194,65,12,0.16)!important;--accent-border:rgba(194,65,12,0.4)!important;--bg:#12182b!important;--surface:#1a2138!important;}:root:not([data-theme="dark"]) .hero{background:linear-gradient(170deg,#7e2a08 0%,#c2410c 55%,#f9ece7 130%)!important;}[data-theme="dark"] .hero{background:linear-gradient(170deg,#0a0e1c 0%,#7e2a08 45%,#c2410c 100%)!important;}:root:not([data-theme="dark"]) .tab-btn.active,[data-theme="dark"] .tab-btn.active{background:#c2410c;border-color:#c2410c;color:#fff!important;}.btn{background:#c2410c;border-color:#c2410c} .unit.open .chevron{color:#c2410c}.chip.on{background:#c2410c;border-color:#c2410c;color:#fff}:root:not([data-theme="dark"]) .spc-card{border-color:#e8b7a3;background:linear-gradient(135deg,#f8e8e2,var(--surface))!important}[data-theme="dark"] .spc-card{border-color:rgba(194,65,12,0.4);background:linear-gradient(135deg,rgba(194,65,12,0.16),var(--surface))!important}
 .hero::after{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'190'%20height%3D'190'%3E%3Cpath%20d%3D'M20%2020%20h50%20a8%208%200%200%201%208%208%20v22%20a8%208%200%200%201%20-8%208%20h-30%20l-12%2012%20v-12%20h-8%20a8%208%200%200%201%20-8%20-8%20v-22%20a8%208%200%200%201%208%20-8'%20fill%3D'none'%20stroke%3D'%23c2410c'%20stroke-width%3D'2.5'%20opacity%3D'.38'%2F%3E%3Cpath%20d%3D'M120%20100%20h44%20a7%207%200%200%201%207%207%20v18%20a7%207%200%200%201%20-7%207%20h-26%20l-10%2010%20v-10%20h-8%20a7%207%200%200%201%20-7%20-7%20v-18%20a7%207%200%200%201%207%20-7'%20fill%3D'none'%20stroke%3D'%23c2410c'%20stroke-width%3D'2'%20opacity%3D'.28'%2F%3E%3C%2Fsvg%3E")!important;background-size:190px 190px!important;opacity:.5!important;}
 body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'190'%20height%3D'190'%3E%3Ctext%20x%3D'20'%20y%3D'60'%20font-size%3D'42'%20fill%3D'%23c2410c'%20opacity%3D'0.114'%20font-family%3D'Georgia'%3E%26%23191%3B%3F%3C%2Ftext%3E%3Ctext%20x%3D'120'%20y%3D'140'%20font-size%3D'38'%20fill%3D'%23c2410c'%20opacity%3D'0.104'%20font-family%3D'Georgia'%3E%26%23161%3B!%3C%2Ftext%3E%3C%2Fsvg%3E");background-size:190px 190px;opacity:.9;}
@@ -419,10 +560,20 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <a class="skip-link" href="#main-content">Skip to main content</a>
 <div class="hero">
   <div class="hero-inner">
-    <a href="/" class="back-link" style="opacity:0;animation:fadein .5s ease forwards">← Back to Library</a>
-    <div class="kicker" style="opacity:0;animation:fadein .5s ease .06s forwards">Spanish 1</div>
+    <nav class="breadcrumb" aria-label="Breadcrumb" style="opacity:0;animation:fadein .5s ease forwards">
+      <ol>
+        <li><a href="/">PrecisStudy</a></li>
+        <li><a href="/">All Guides</a></li>
+        <li aria-current="page">Spanish 1 Study Guide</li>
+      </ol>
+    </nav>
+    <div class="kicker" style="opacity:0;animation:fadein .5s ease .06s forwards">
+      <img src="/logo-icon-dark.png" alt="" class="kicker-logo" width="20" height="20">
+      <span>Spanish 1</span>
+    </div>
     <h1 style="opacity:0;animation:fadein .5s ease .12s forwards"><span class="grad">Spanish 1</span> Study Guide</h1>
     <p class="subtitle" style="opacity:0;animation:fadein .5s ease .18s forwards">8 Units · 320 Quiz Questions · 80 Flashcards · Diagnostic · Quick Reference · Memory Tricks · Saved Progress</p>
+    <div class="nav-slot" id="nav-slot">
     <nav class="nav" style="opacity:0;animation:fadein .5s ease .24s forwards">
       <div class="tablist" role="tablist" aria-label="Study guide views">
       <button class="tab-btn active" role="tab" id="tab-guide" aria-controls="view-guide" aria-selected="true" onclick="switchTab('guide')">Study Guide</button>
@@ -437,39 +588,85 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
         <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
       </button>
     </nav>
+    </div>
     <div class="hero-live sr-only" id="hero-live" role="status" aria-live="polite"></div>
   </div>
 </div>
+<div class="nav-spacer" id="nav-spacer" hidden></div>
 <div class="page" id="main-content" role="main" tabindex="-1">
-<div class="spc-card" id="spc-card">
-  <h2>See what your study plan could look like</h2>
-  <p>Based on this guide's real question bank — 320 practice questions across 8 units. Slide to match your situation.</p>
+<div class="spc-card collapsed" id="spc-card">
+  <button type="button" class="spc-summary" id="spc-summary" aria-expanded="false" aria-controls="spc-body">
+    <span>📊 See what your study plan could look like — tap to expand</span>
+    <span class="spc-chevron" aria-hidden="true">▾</span>
+  </button>
+  <div class="spc-body" id="spc-body">
+  <div class="spc-head">
+    <div class="spc-head-text">
+      <h2>See what your study plan could look like</h2>
+      <p>Based on this guide's real question bank — 320 practice questions across 8 units. Slide to match your situation.</p>
+    </div>
+    <button type="button" class="spc-collapse-btn" id="spc-collapse-btn" aria-expanded="true" aria-controls="spc-body">Collapse ▴</button>
+  </div>
   <div class="spc-row">
-    <label for="spc-days">Days until your exam <span id="spc-days-val">14 days</span></label>
+    <label for="spc-days">Days until your exam <span id="spc-days-val">14 days</span> <input type="number" class="spc-val-input" id="spc-days-num" min="1" max="60" value="14" aria-label="Days until your exam, exact number"></label>
     <input type="range" class="spc-slider" id="spc-days" min="1" max="60" value="14">
   </div>
   <div class="spc-row">
-    <label for="spc-mins">Minutes you can study per day <span id="spc-mins-val">30 min</span></label>
+    <label for="spc-mins">Minutes you can study per day <span id="spc-mins-val">30 min</span> <input type="number" class="spc-val-input" id="spc-mins-num" min="10" max="120" step="5" value="30" aria-label="Minutes you can study per day, exact number"></label>
     <input type="range" class="spc-slider" id="spc-mins" min="10" max="120" value="30" step="5">
   </div>
   <div class="spc-stats">
-    <div class="spc-stat"><div class="spc-stat-val" id="spc-questions">0</div><div class="spc-stat-label">Questions you'll complete</div></div>
-    <div class="spc-stat"><div class="spc-stat-val" id="spc-units">0</div><div class="spc-stat-label">Units covered</div></div>
-    <div class="spc-stat"><div class="spc-stat-val" id="spc-pct">0%</div><div class="spc-stat-label">of the full question bank</div></div>
+    <div class="spc-stat"><div class="spc-stat-val" id="spc-questions">0</div><div class="spc-stat-label" title="The total number of quiz questions you'll get through at this pace before your exam date.">Questions you'll complete</div></div>
+    <div class="spc-stat"><div class="spc-stat-val" id="spc-units">0</div><div class="spc-stat-label" title="How many of this guide's units you'll have covered at this pace.">Units covered</div></div>
+    <div class="spc-stat"><div class="spc-stat-val" id="spc-pct">0%</div><div class="spc-stat-label" title="Percentage of every question in this guide's bank you'll get through at this pace.">of the full question bank</div></div>
   </div>
   <div class="spc-tier" id="spc-tier">
     <b id="spc-tier-title"></b>
     <span id="spc-tier-sub"></span>
   </div>
-</div>
-<div id="view-guide" class="view active" role="tabpanel" aria-labelledby="tab-guide" tabindex="0">
-  <div style="display:flex;gap:8px;margin-bottom:10px;align-items:center">
-    <input id="search-box" type="search" aria-label="Search this guide's topics, terms, and formulas" placeholder="Search topics, terms, formulas…" oninput="searchGuide()" style="flex:1;padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:15px;background:var(--surface);color:var(--ink)">
-    <button type="button" onclick="clearSearch()" style="padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);font-size:13px;cursor:pointer;color:var(--ink-muted)">✕ Clear</button>
+  <button type="button" class="spc-reset-btn" id="spc-reset-btn">↺ Reset to Recommended</button>
   </div>
-  <div id="search-results" style="display:none;margin-bottom:12px"></div>
-  <div class="filter-row" id="filter-row"><button class="chip on">All Units</button><button class="chip">Unit 1</button><button class="chip">Unit 2</button><button class="chip">Unit 3</button><button class="chip">Unit 4</button><button class="chip">Unit 5</button><button class="chip">Unit 6</button><button class="chip">Unit 7</button><button class="chip">Unit 8</button></div>
-  <div id="units"><div class="unit" data-id="1"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 1: Greetings & Introductions<span class="unit-meta">5 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Basic greetings</div><div class="c-text">Spanish greetings change with time of day and formality level.</div><ul class="c-list"><li>Hola (hello) works anytime; buenos días (morning), buenas tardes (afternoon), buenas noches (evening/night)</li><li>¿Cómo estás? (informal) vs ¿Cómo está usted? (formal) — tú vs usted choice signals respect</li><li>Common replies: bien (well), muy bien (very well), más o menos (so-so), mal (bad)</li><li>Saying goodbye: adiós, chao, hasta luego (see you later), hasta mañana (see you tomorrow)</li><li>Mucho gusto / Encantada = nice to meet you; ¿Y tú? = and you?</li></ul></div><div class="concept"><div class="c-label">Introducing yourself</div><div class="c-text">Use ser to state your name, origin, and basic identity.</div><ul class="c-list"><li>Me llamo… (I call myself), Soy… (I am), ¿Cómo te llamas? (what's your name?)</li><li>Soy de México = I'm from Mexico; ¿De dónde eres? = where are you from?</li><li>Soy estudiante / soy nuevo(a) — ser describes professions and permanent traits</li><li>Soy nuevo uses masculine; nueva is feminine — adjectives match gender</li><li>Numbers in introductions: tengo quince años = I'm fifteen (tener, not ser, for age)</li></ul></div><div class="concept"><div class="c-label">The verb SER</div><div class="c-text">Ser means to be for permanent qualities: identity, origin, and characteristic traits.</div><ul class="c-list"><li>Conjugation: yo soy, tú eres, él/ella/usted es, nosotros somos, vosotros sois, ellos/ellas/ustedes son</li><li>Use ser for: nationality (soy alta), profession (es doctora), personality (somos simpáticos)</li><li>Es la una for telling one o'clock — ser tells time</li><li>De dónde eres questions answer with ser: Soy de Colombia</li><li>Don't confuse with estar (see Unit 8): feelings and locations take estar</li></ul></div><div class="concept"><div class="c-label">Formal vs informal address</div><div class="c-text">Choosing tú or usted sets the social tone of the whole conversation.</div><ul class="c-list"><li>Tú = friends, family, people your age; usted = adults, teachers, strangers, authority</li><li>Usted grammatically behaves like él/ella (third person): ¿Cómo está usted?</li><li>Latin America: ustedes serves as the plural you everywhere (in Spain, vosotros is informal plural)</li><li>Switching to tú uninvited can seem rude; when unsure, start formal</li><li>Señor/señora/señorita + usted is the safe opening combination</li></ul></div><div class="concept"><div class="c-label">The alphabet & pronunciation</div><div class="c-text">Spanish spelling is phonetic — once you know the letters, you can say any word.</div><ul class="c-list"><li>Ñ (eñe) is its own letter: año (year) ≠ ano — the tilde changes meaning</li><li>H is always silent: hola sounds like OH-la</li><li>J sounds like English H (jabón); G before e/i is harsh (gente)</li><li>LL sounds like Y in most regions (llamar = yah-MAR); RR trills (perro)</li><li>Vowels never change sound: a-e-i-o-u stay pure in every word</li></ul></div><div class="trap">¿Cómo estás? takes estás (estar), NOT eres — feelings use estar even though they seem temporary-permanent confusing</div><div class="trap">Age uses TENER not ser: Tengo quince años, never Soy quince años</div><div class="trap">Buenas noches covers BOTH evening and night — it's not only 'good night' at bedtime</div></div></div><div class="unit" data-id="2"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 2: Numbers, Dates & Time<span class="unit-meta">5 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Numbers 0–100</div><div class="c-text">Spanish numbers follow patterns: memorize 0–15, then tens build predictably.</div><ul class="c-list"><li>0-10: cero, uno, dos, tres, cuatro, cinco, seis, siete, ocho, nueve, diez</li><li>11-15: once, doce, trece, catorce, quince — then dieciséis, diecisiete… (diez+y)</li><li>Tens: veinte, treinta, cuarenta, cincuenta, sesenta, setenta, ochenta, noventa</li><li>Combinations: veintiuno (21) but treinta y uno (31) — y appears from 31 up</li><li>Cien = 100 exactly; ciento uno = 101</li></ul></div><div class="concept"><div class="c-label">Number agreement</div><div class="c-text">Uno and numbers ending in one shorten before masculine nouns.</div><ul class="c-list"><li>Un libro (one book) but una pluma — uno drops -o before masculine nouns</li><li>Veintiún años (21 years) — same shortening applies to veintiuno, treinta y uno</li><li>Hundreds agree: doscientas páginas (feminine) vs doscientos libros</li><li>Numbers are masculine nouns when standing alone: el cinco, un diez (an A grade)</li></ul></div><div class="concept"><div class="c-label">Dates</div><div class="c-text">Dates run day-month-year and use ser for the day and month names.</div><ul class="c-list"><li>Format: el 15 de mayo de 2026 — day, de, month, de, year</li><li>Hoy es lunes, el tres de octubre = today is Monday October 3rd</li><li>Months and days are NOT capitalized: enero, lunes</li><li>Primero (or el uno) marks the first of the month: el primero de junio</li><li>¿Cuál es la fecha? asks the date; ¿Qué día es hoy? asks the weekday</li></ul></div><div class="concept"><div class="c-label">Telling time</div><div class="c-text">Time uses ser + definite article: es la una / son las dos.</div><ul class="c-list"><li>One o'clock is singular: Es la una (y cuarto); all others plural: Son las tres</li><li>Media = half past (y media); cuarto = quarter (y cuarto / menos cuarto)</li><li>Son las cuatro y diez = 4:10; Son las seis menos veinte = 5:40</li><li>AM/PM: de la mañana, de la tarde, de la noche; mediodía (noon), medianoche (midnight)</li><li>¿Qué hora es? = what time is it; A las ocho = at eight o'clock (events)</li></ul></div><div class="concept"><div class="c-label">Classroom schedule talk</div><div class="c-text">Combining days, times, and tener describes your weekly routine.</div><ul class="c-list"><li>Tengo matemáticas los martes = I have math on Tuesdays (los + plural weekday)</li><li>La clase de historia es a las nueve y media — a las for class start times</li><li>De la mañana/tarde labels school blocks: primer periodo por la mañana</li><li>¿A qué hora es…? asks when a class meets</li></ul></div><div class="trap">Es la UNA, not son las una — one o'clock breaks the plural rule</div><div class="trap">Don't capitalize months/days: lunes, enero — unlike English</div><div class="trap">31+ uses y (treinta y uno); 21-29 fuses (veintiuno) — mixing these up is the classic error</div></div></div><div class="unit" data-id="3"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 3: Family & Descriptions<span class="unit-meta">5 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Family vocabulary</div><div class="c-text">Family terms in Spanish distinguish gender and include in-laws and step-relatives.</div><ul class="c-list"><li>Core: padre/papá (dad), madre/mamá (mom), hermano/hermana (brother/sister)</li><li>Extended: abuelo/abuela (grandparents), tío/tía (uncle/aunt), primo/prima (cousin)</li><li>Married-in: esposo/esposa (spouse), suegro/suegra (parents-in-law), nuera/yerno</li><li>Blended: hermanastro (stepbrother), medio hermano (half-brother)</li><li>Los padres = parents (not fathers); los hijos = children/sons; el perro counts as familia</li></ul></div><div class="concept"><div class="c-label">Possessive adjectives</div><div class="c-text">Possessives agree with the THING owned, not the owner.</div><ul class="c-list"><li>mi/mis (my), tu/tus (your), su/sus (his/her/their/your-formal) — number agrees with noun</li><li>Nuestro/nuestra/nuestros/nuestras agrees BOTH ways: nuestra hermana, nuestros primos</li><li>Su is ambiguous — su madre could be his, her, or their mom; de + person clarifies: la madre de Juan</li><li>Long form (mío, tuyo) goes after the noun for emphasis: un amigo mío = a friend of mine</li></ul></div><div class="concept"><div class="c-label">Descriptive adjectives & agreement</div><div class="c-text">Adjectives copy the gender and number of the person they describe.</div><ul class="c-list"><li>-o/-a pairs: alto/alta; -e and consonant adjectives don't change gender: inteligente, joven</li><li>Plurals add -s (vowel) or -es (consonant): altos, jóvenes</li><li>Word order default: noun + adjective (el chico alto); some adjectives move for meaning</li><li>Ser + adjective for personality: Mi hermana es trabajadora y simpática</li></ul></div><div class="concept"><div class="c-label">Physical & personality traits</div><div class="c-text">Two adjective families describe people: looks and character.</div><ul class="c-list"><li>Physical: alto/bajo (tall/short), delgado/gordo, guapo/apuesto (good-looking), pelirrojo (redhead)</li><li>Hair/eyes use tener: Tiene el pelo largo y los ojos verdes</li><li>Personality: simpático (nice), antipático (mean), serio, divertido (fun), perezoso (lazy), estudioso</li><li>TENER expressions: tener … años (age), tener hambre (hungry), tener miedo (afraid)</li></ul></div><div class="concept"><div class="c-label">Asking about family</div><div class="c-text">Question words let you interview someone about their family.</div><ul class="c-list"><li>¿Cuántos años tiene tu hermano? = how old is your brother (usted-form tiene)</li><li>¿Cómo se llama tu madre? = what's your mom's name (reflexive se llama)</li><li>¿De quién es…? = whose is it? — answer: Es de mi prima</li><li>Pets count: Tengo un gato que se llama Luna</li></ul></div><div class="trap">Mi hermano's possessive is MI not mi'o — short forms never take accents before the noun</div><div class="trap">Tener hambre = to BE hungry, literally to HAVE hunger — no ser/estar involved</div><div class="trap">Los padres means parents; saying los papás de mi papá needs abuelos instead</div></div></div><div class="unit" data-id="4"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 4: School & -AR Verbs<span class="unit-meta">4 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">School vocabulary</div><div class="c-text">Classes, supplies, and places around campus.</div><ul class="c-list"><li>Subjects: las matemáticas, las ciencias, el español, la historia, el arte, la educación física</li><li>Supplies: el lápiz (pencil), la pluma/el bolígrafo (pen), el cuaderno (notebook), la mochila (backpack)</li><li>Places: la escuela, el salón de clases, la biblioteca, la cafetería, el gimnasio</li><li>People: el maestro/la maestra, el profesor/la profesora, el estudiante, el director</li><li>Necesito… para la clase = I need… for class; tengo que estudiar = I have to study</li></ul></div><div class="concept"><div class="c-label">Present tense -AR verbs</div><div class="c-text">The largest verb family follows one clean pattern: drop -ar, add endings.</div><ul class="c-list"><li>Endings: -o, -as, -a, -amos, -áis, -an → hablar: hablo, hablas, habla, hablamos, habláis, hablan</li><li>Stem stays constant: estudiar→estudio/estudias/estudia/estudiamos/estudiáis/estudian</li><li>Pronouns can drop: hablo español alone means I speak Spanish — ending shows who</li><li>Nosotros form matches the -amos you already know from ser's somos pattern family</li><li>Common -AR verbs: estudiar, hablar, caminar, cocinar, dibujar, escuchar, mirar, necesitar, pasar, preparar, terminar, tomar, trabajar</li></ul></div><div class="concept"><div class="c-label">Using verbs in sentences</div><div class="c-text">One conjugated verb carries a sentence; second actions stay infinitive.</div><ul class="c-list"><li>Necesito estudiar = I need TO study — first verb conjugates, second stays whole</li><li>Me gusta dibujar — gustar chains to infinitives too</li><li>Adverbs of frequency: siempre (always), a veces (sometimes), nunca (never) slot before the verb</li><li>Para + infinitive states purpose: Estudio para sacar buenas notas</li></ul></div><div class="concept"><div class="c-label">-AR conjugation drills</div><div class="c-text">Speed comes from pattern recognition, not memorizing each verb separately.</div><ul class="c-list"><li>Camina = he/she walks; caminamos = we walk — spot the ending, know the subject</li><li>Usted and él/ella share forms (habla); ustedes and ellos share (hablan)</li><li>Questions flip word order: ¿Trabajas tú los sábados? or just ¿Trabajas los sábados?</li><li>Negatives wrap the verb: No trabajo los domingos</li></ul></div><div class="trap">Don't double-conjugate: Necesito estudio is wrong — Necesito ESTUDIAR</div><div class="trap">The accent in habláis/estudiáis (vosotros) matters — hablais is misspelled</div><div class="trap">Nunca can start the sentence (Nunca trabajo) but then NO doesn't repeat — Nunca trabajo, never No nunca trabajo</div></div></div><div class="unit" data-id="5"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 5: Food & -ER/-IR Verbs<span class="unit-meta">4 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Food vocabulary</div><div class="c-text">Meals and staples anchor daily conversation.</div><ul class="c-list"><li>Meals: el desayuno (breakfast), el almuerzo (lunch), la cena (dinner)</li><li>Drinks: el agua, el jugo (juice), la leche, el refresco, el café</li><li>Fruits/veg: la manzana, el plátano, las uvas, la lechuga, el tomate, la zanahoria</li><li>Proteins & grains: el pollo, el pescado, la carne, el arroz, el pan, los frijoles, el huevo</li><li>Verbs: comer (to eat), beber/tomar (to drink), compartir (to share) — me encanta el pollo</li></ul></div><div class="concept"><div class="c-label">-ER verbs</div><div class="c-text">Same idea as -AR, new endings: drop -er, add -o/-es/-e/-emos/-éis/-en.</div><ul class="c-list"><li>comer: como, comes, come, comemos, coméis, comen</li><li>beber: bebo, bebes…; aprender: aprendo, aprendes, aprende, aprendemos, aprendéis, aprenden</li><li>Leer is irregular in nosotros/yó forms? No — leemos is regular; only its -iendo form (leyendo) changes</li><li>Common -ER: correr, comprender, vender, romper</li></ul></div><div class="concept"><div class="c-label">-IR verbs</div><div class="c-text">Identical to -ER except nosotros/vosotros: -imos / -ís.</div><ul class="c-list"><li>vivir: vivo, vives, vive, vivimos, vivís, viven</li><li>escribir: escribo, escribes, escribe, escribimos, escribís, escriben</li><li>Shared with -ER in yo/tú/él/ellos forms — only we/you-plural differ</li><li>Common -IR: abrir, recibir, decidir, asistir a (to attend)</li></ul></div><div class="concept"><div class="c-label">Restaurant & café phrases</div><div class="c-text">Ordering food politely uses querer + noun and account phrases.</div><ul class="c-list"><li>Quiero… / Quisiera… = I want / I would like (softer)</li><li>La cuenta, por favor = the check please; ¿Algo más? = anything else?</li><li>¿Qué desayunas? = what do you eat for breakfast — meals as verbs: desayunar, almorzar (o→ue), cenar</li><li>Con/sin customization: un café con leche, sin azúcar</li></ul></div><div class="trap">El agua is FEMININE despite el — it takes el for stress but adjectives stay feminine: el agua fría</div><div class="trap">Fish swimming is el pez; fish on your plate is el pescado</div><div class="trap">Don't use ser for hungry-thirsty: Tengo sed/hambre (tener), never Estoy sed</div></div></div><div class="unit" data-id="6"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 6: Gustar & Likes<span class="unit-meta">4 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">How gustar actually works</div><div class="c-text">Gustar means TO BE PLEASING — the thing liked is the subject, not you.</div><ul class="c-list"><li>Me gusta el fútbol = soccer pleases me → English: I like soccer</li><li>Indirect object pronouns carry who likes: me, te, le, nos, os, les</li><li>Singular thing → gusta; plural things → gustan: Me gustan las uvas</li><li>Infinitives always take gusta: Me gusta correr y nadar</li><li>Clarifiers for le/les: A Juan le gusta… ; A mí me encanta…</li></ul></div><div class="concept"><div class="c-label">Gustar-family verbs</div><div class="c-text">Other verbs work the same backward way.</div><ul class="c-list"><li>encantar = to love something: Me encantan los deportes</li><li>faltar (to be missing), doler (to hurt): Me duele la cabeza</li><li>importar (to matter): No me importa = I don't care</li><li>interesar: Me interesa la historia — same structure as gustar</li></ul></div><div class="concept"><div class="c-label">Expressing degree</div><div class="c-text">Dial likes up and down with adverbs and set phrases.</div><ul class="c-list"><li>me gusta mucho / me encanta muchísimo = really love</li><li>no me gusta nada = I don't like it AT ALL (nada after the phrase intensifies)</li><li>más o menos / pues… = so-so hedging</li><li>¿Te gusta…? asks; Sí, me fascina answers strongly</li></ul></div><div class="concept"><div class="c-label">Activities & hobbies vocab</div><div class="c-text">Pair gustar with infinitives and nouns for weekend talk.</div><ul class="c-list"><li>tocar la guitarra (play an instrument) vs jugar videojuegos (play games)</li><li>los fines de semana = weekends; después de las clases = after school</li><li>ver la televisión, escuchar música, pasar tiempo con amigos</li><li>Question flow: ¿Qué te gusta hacer? — Me gusta montar en bicicleta</li></ul></div><div class="trap">Me gusto means I please MYSELF — the pronoun must be indirect: ME GUSTA</div><div class="trap">Two things liked still take plural: Me gustan el pan Y el queso</div><div class="trap">Encantar ≠ weak: it's stronger than gustar (love ≫ like), not a synonym</div></div></div><div class="unit" data-id="7"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 7: Stem-Changers & Clothing<span class="unit-meta">4 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">E→IE boot verbs</div><div class="c-text">The stressed e inside the stem swaps to ie in all forms except nosotros/vosotros.</div><ul class="c-list"><li>pensar: pienso, piensas, piensa, pensamos, pensáis, piensan — the boot shape</li><li>querer (e:ie): quiero, quieres, quiere, queremos, queréis, quieren</li><li>empezar a + inf = to begin to; cerrar (ie) = to close; entender (ie) = to understand</li><li>preferir (e:ie, also i in third person preterite later): prefiero</li><li>Call them boot verbs or shoe verbs — the change only happens inside the boot</li></ul></div><div class="concept"><div class="c-label">O→UE and E→I boots</div><div class="c-text">Two more swap patterns cover most remaining irregulars.</div><ul class="c-list"><li>o→ue: poder (puedo), dormir (duermo), volver (vuelvo), almorzar (almuerzo), costar (cuesta)</li><li>Jugar is the lone u→ue verb: juego, juegas, juega…</li><li>e→i verbs are mostly -IR: pedir (pido), servir (sirvo), repetir (repito)</li><li>Nosotros/vosotros NEVER stem-change: dormimos, podemos, contamos</li></ul></div><div class="concept"><div class="c-label">Clothing vocabulary</div><div class="c-text">Wardrobe words pair with llevar for what someone wears.</div><ul class="c-list"><li>Basics: la camisa (shirt), los pantalones (pants), los jeans, el vestido (dress), la falda (skirt)</li><li>Outer: la chaqueta, el abrigo (coat), los zapatos (shoes), las botas, los calcetines (socks)</li><li>Accessories: el sombrero, la gorra (cap), el cinturón (belt), la bufanda (scarf)</li><li>Colors as adjectives follow the noun: una camisa azul, unos zapatos negros</li></ul></div><div class="concept"><div class="c-label">Shopping & prices</div><div class="c-text">Buying talk uses costar (o:ue), demonstratives, and numbers from Unit 2.</div><ul class="c-list"><li>¿Cuánto cuesta(n)? = how much does/do it/they cost — cuesta singular, cuestan plural</li><li>este/esta (this) → estos/estas; ese/esa (that) → esos/esas: Quiero esta camisa</li><li>Me queda bien/grande/pequeño = it fits me well/too big/too small — quedar for fit</li><li>Pagar en efectivo (cash) / con tarjeta (card); ¿Puedo probar…? = can I try on…?</li></ul></div><div class="trap">Yo puedo but NOSOTROS podemos — never podimos in present tense</div><div class="trap">Costar agrees with the ITEM not the buyer: Cuestan $20 (they cost), even if you say I want them</div><div class="trap">Demonstrative este = near ME, ese = nearer YOU — mixing them confuses which item you're buying</div></div></div><div class="unit" data-id="8"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 8: House & Ser vs Estar<span class="unit-meta">4 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">House vocabulary</div><div class="c-text">Rooms and furniture describe where life happens.</div><ul class="c-list"><li>Rooms: la cocina (kitchen), el comedor (dining room), la sala (living room), el dormitorio (bedroom), el baño</li><li>Outside: el jardín (garden), el garaje, el patio</li><li>Furniture: la cama (bed), la mesa, la silla (chair), el sofá, la lámpara, el espejo (mirror)</li><li>Appliances: la nevera/el refrigerador, la estufa, el lavaplatos</li><li>Floor levels: la planta baja = ground floor, el primer piso = second floor (US counting)</li></ul></div><div class="concept"><div class="c-label">ESTAR basics</div><div class="c-text">Estar handles location and condition — the other to be.</div><ul class="c-list"><li>Conjugation: estoy, estás, está, estamos, estáis, están (irregular yo!)</li><li>Location of anything: El libro está en la mesa; Mi casa está cerca</li><li>Conditions/states: estar cansado, estar enfermo, estar contento — how you are right now</li><li>Progressive tense: estar + -ando/-iendo = action in progress: Estoy estudiando</li></ul></div><div class="concept"><div class="c-label">SER vs ESTAR decision rule</div><div class="c-text">One question settles it: permanent identity (ser) vs state/location right now (estar).</div><ul class="c-list"><li>Origin stays ser even though location moves: SOY de Texas pero ESTOY en California</li><li>Death, jobs, personality = ser; alive-and-kicking moods, temporary states = estar</li><li>Food judgment: La sopa ES de pollo (ingredient) pero ESTÁ caliente (temperature now)</li><li>Events use ser: La fiesta ES en mi casa — even though that's a location!</li></ul></div><div class="concept"><div class="c-label">Prepositions of place</div><div class="c-text">Small words locate everything in the house.</div><ul class="c-list"><li>en (in/on), encima de (on top of), debajo de (under), al lado de (next to)</li><li>delante de (in front of), detrás de (behind), dentro de (inside), lejos/cerca de (far/near)</li><li>El gato está debajo de la cama — classic location sentence pattern</li><li>Contractions only with de+a/el: del (de+el), al (a+el) — de la casa stays separate</li></ul></div><div class="trap">LOCATIONS take estar EXCEPT event venues: la reunión ES en la biblioteca</div><div class="trap">Estás aburrido (you're bored) vs eres aburrido (you're boring) — one adjective, two lives</div><div class="trap">La nevera está en la cocina — never use ser for where furniture sits</div></div></div></div></div>
+</div>
+<script>
+(function(){
+  var card=document.getElementById('spc-card');
+  var summary=document.getElementById('spc-summary');
+  var collapseBtn=document.getElementById('spc-collapse-btn');
+  var KEY='ss-spc-collapsed';
+  function setCollapsed(collapsed){
+    card.classList.toggle('collapsed',collapsed);
+    summary.setAttribute('aria-expanded',String(!collapsed));
+    collapseBtn.setAttribute('aria-expanded',String(!collapsed));
+    try{localStorage.setItem(KEY,collapsed?'1':'0');}catch(e){}
+  }
+  var stored=null;
+  try{stored=localStorage.getItem(KEY);}catch(e){}
+  setCollapsed(stored===null?true:stored==='1');
+  summary.addEventListener('click',function(){setCollapsed(false);});
+  collapseBtn.addEventListener('click',function(){setCollapsed(true);});
+})();
+</script>
+<div id="view-guide" class="view active" role="tabpanel" aria-labelledby="tab-guide" tabindex="0">
+  <div class="ss-sticky-top">
+  <div class="search-wrap">
+    <svg class="search-icon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input id="search-box" type="search" aria-label="Search this guide's topics, terms, and formulas" placeholder="Search topics, terms, formulas…" oninput="searchGuide()">
+    <kbd class="search-kbd" aria-hidden="true">/</kbd>
+    <button type="button" class="search-clear" onclick="clearSearch()" aria-label="Clear search">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div id="search-results"></div>
+  </div>
+  <div class="filter-row-wrap">
+    <div class="filter-row" id="filter-row"><button class="chip on">All Units</button><button class="chip">Unit 1</button><button class="chip">Unit 2</button><button class="chip">Unit 3</button><button class="chip">Unit 4</button><button class="chip">Unit 5</button><button class="chip">Unit 6</button><button class="chip">Unit 7</button><button class="chip">Unit 8</button></div>
+    <select id="filter-select" class="mobile-only-select" aria-label="Filter units" onchange="ssFilterSelectChange()"><option value="0">All Units</option><option value="1">Unit 1</option><option value="2">Unit 2</option><option value="3">Unit 3</option><option value="4">Unit 4</option><option value="5">Unit 5</option><option value="6">Unit 6</option><option value="7">Unit 7</option><option value="8">Unit 8</option></select>
+  </div>
+  <div class="ss-overall-progress" id="ss-overall-progress">
+    <div class="ss-overall-progress-track"><div class="ss-overall-progress-fill" id="ss-overall-progress-fill"></div></div>
+    <span class="ss-overall-progress-label" id="ss-overall-progress-label">0% of the question bank attempted</span>
+  </div>
+  </div>
+  <div id="units"><div class="unit" data-id="1"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 1: Greetings & Introductions<span class="unit-meta">5 concepts · ~21 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Basic greetings</div><div class="c-text">Spanish greetings change with time of day and formality level.</div><ul class="c-list"><li>Hola (hello) works anytime; buenos días (morning), buenas tardes (afternoon), buenas noches (evening/night)</li><li>¿Cómo estás? (informal) vs ¿Cómo está usted? (formal) — tú vs usted choice signals respect</li><li>Common replies: bien (well), muy bien (very well), más o menos (so-so), mal (bad)</li><li>Saying goodbye: adiós, chao, hasta luego (see you later), hasta mañana (see you tomorrow)</li><li>Mucho gusto / Encantada = nice to meet you; ¿Y tú? = and you?</li></ul></div><div class="concept"><div class="c-label">Introducing yourself</div><div class="c-text">Use ser to state your name, origin, and basic identity.</div><ul class="c-list"><li>Me llamo… (I call myself), Soy… (I am), ¿Cómo te llamas? (what's your name?)</li><li>Soy de México = I'm from Mexico; ¿De dónde eres? = where are you from?</li><li>Soy estudiante / soy nuevo(a) — ser describes professions and permanent traits</li><li>Soy nuevo uses masculine; nueva is feminine — adjectives match gender</li><li>Numbers in introductions: tengo quince años = I'm fifteen (tener, not ser, for age)</li></ul></div><div class="concept"><div class="c-label">The verb SER</div><div class="c-text">Ser means to be for permanent qualities: identity, origin, and characteristic traits.</div><ul class="c-list"><li>Conjugation: yo soy, tú eres, él/ella/usted es, nosotros somos, vosotros sois, ellos/ellas/ustedes son</li><li>Use ser for: nationality (soy alta), profession (es doctora), personality (somos simpáticos)</li><li>Es la una for telling one o'clock — ser tells time</li><li>De dónde eres questions answer with ser: Soy de Colombia</li><li>Don't confuse with estar (see Unit 8): feelings and locations take estar</li></ul></div><div class="concept"><div class="c-label">Formal vs informal address</div><div class="c-text">Choosing tú or usted sets the social tone of the whole conversation.</div><ul class="c-list"><li>Tú = friends, family, people your age; usted = adults, teachers, strangers, authority</li><li>Usted grammatically behaves like él/ella (third person): ¿Cómo está usted?</li><li>Latin America: ustedes serves as the plural you everywhere (in Spain, vosotros is informal plural)</li><li>Switching to tú uninvited can seem rude; when unsure, start formal</li><li>Señor/señora/señorita + usted is the safe opening combination</li></ul></div><div class="concept"><div class="c-label">The alphabet & pronunciation</div><div class="c-text">Spanish spelling is phonetic — once you know the letters, you can say any word.</div><ul class="c-list"><li>Ñ (eñe) is its own letter: año (year) ≠ ano — the tilde changes meaning</li><li>H is always silent: hola sounds like OH-la</li><li>J sounds like English H (jabón); G before e/i is harsh (gente)</li><li>LL sounds like Y in most regions (llamar = yah-MAR); RR trills (perro)</li><li>Vowels never change sound: a-e-i-o-u stay pure in every word</li></ul></div><div class="trap">¿Cómo estás? takes estás (estar), NOT eres — feelings use estar even though they seem temporary-permanent confusing</div><div class="trap">Age uses TENER not ser: Tengo quince años, never Soy quince años</div><div class="trap">Buenas noches covers BOTH evening and night — it's not only 'good night' at bedtime</div></div></div><div class="unit" data-id="2"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 2: Numbers, Dates & Time<span class="unit-meta">5 concepts · ~21 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Numbers 0–100</div><div class="c-text">Spanish numbers follow patterns: memorize 0–15, then tens build predictably.</div><ul class="c-list"><li>0-10: cero, uno, dos, tres, cuatro, cinco, seis, siete, ocho, nueve, diez</li><li>11-15: once, doce, trece, catorce, quince — then dieciséis, diecisiete… (diez+y)</li><li>Tens: veinte, treinta, cuarenta, cincuenta, sesenta, setenta, ochenta, noventa</li><li>Combinations: veintiuno (21) but treinta y uno (31) — y appears from 31 up</li><li>Cien = 100 exactly; ciento uno = 101</li></ul></div><div class="concept"><div class="c-label">Number agreement</div><div class="c-text">Uno and numbers ending in one shorten before masculine nouns.</div><ul class="c-list"><li>Un libro (one book) but una pluma — uno drops -o before masculine nouns</li><li>Veintiún años (21 years) — same shortening applies to veintiuno, treinta y uno</li><li>Hundreds agree: doscientas páginas (feminine) vs doscientos libros</li><li>Numbers are masculine nouns when standing alone: el cinco, un diez (an A grade)</li></ul></div><div class="concept"><div class="c-label">Dates</div><div class="c-text">Dates run day-month-year and use ser for the day and month names.</div><ul class="c-list"><li>Format: el 15 de mayo de 2026 — day, de, month, de, year</li><li>Hoy es lunes, el tres de octubre = today is Monday October 3rd</li><li>Months and days are NOT capitalized: enero, lunes</li><li>Primero (or el uno) marks the first of the month: el primero de junio</li><li>¿Cuál es la fecha? asks the date; ¿Qué día es hoy? asks the weekday</li></ul></div><div class="concept"><div class="c-label">Telling time</div><div class="c-text">Time uses ser + definite article: es la una / son las dos.</div><ul class="c-list"><li>One o'clock is singular: Es la una (y cuarto); all others plural: Son las tres</li><li>Media = half past (y media); cuarto = quarter (y cuarto / menos cuarto)</li><li>Son las cuatro y diez = 4:10; Son las seis menos veinte = 5:40</li><li>AM/PM: de la mañana, de la tarde, de la noche; mediodía (noon), medianoche (midnight)</li><li>¿Qué hora es? = what time is it; A las ocho = at eight o'clock (events)</li></ul></div><div class="concept"><div class="c-label">Classroom schedule talk</div><div class="c-text">Combining days, times, and tener describes your weekly routine.</div><ul class="c-list"><li>Tengo matemáticas los martes = I have math on Tuesdays (los + plural weekday)</li><li>La clase de historia es a las nueve y media — a las for class start times</li><li>De la mañana/tarde labels school blocks: primer periodo por la mañana</li><li>¿A qué hora es…? asks when a class meets</li></ul></div><div class="trap">Es la UNA, not son las una — one o'clock breaks the plural rule</div><div class="trap">Don't capitalize months/days: lunes, enero — unlike English</div><div class="trap">31+ uses y (treinta y uno); 21-29 fuses (veintiuno) — mixing these up is the classic error</div></div></div><div class="unit" data-id="3"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 3: Family & Descriptions<span class="unit-meta">5 concepts · ~21 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Family vocabulary</div><div class="c-text">Family terms in Spanish distinguish gender and include in-laws and step-relatives.</div><ul class="c-list"><li>Core: padre/papá (dad), madre/mamá (mom), hermano/hermana (brother/sister)</li><li>Extended: abuelo/abuela (grandparents), tío/tía (uncle/aunt), primo/prima (cousin)</li><li>Married-in: esposo/esposa (spouse), suegro/suegra (parents-in-law), nuera/yerno</li><li>Blended: hermanastro (stepbrother), medio hermano (half-brother)</li><li>Los padres = parents (not fathers); los hijos = children/sons; el perro counts as familia</li></ul></div><div class="concept"><div class="c-label">Possessive adjectives</div><div class="c-text">Possessives agree with the THING owned, not the owner.</div><ul class="c-list"><li>mi/mis (my), tu/tus (your), su/sus (his/her/their/your-formal) — number agrees with noun</li><li>Nuestro/nuestra/nuestros/nuestras agrees BOTH ways: nuestra hermana, nuestros primos</li><li>Su is ambiguous — su madre could be his, her, or their mom; de + person clarifies: la madre de Juan</li><li>Long form (mío, tuyo) goes after the noun for emphasis: un amigo mío = a friend of mine</li></ul></div><div class="concept"><div class="c-label">Descriptive adjectives & agreement</div><div class="c-text">Adjectives copy the gender and number of the person they describe.</div><ul class="c-list"><li>-o/-a pairs: alto/alta; -e and consonant adjectives don't change gender: inteligente, joven</li><li>Plurals add -s (vowel) or -es (consonant): altos, jóvenes</li><li>Word order default: noun + adjective (el chico alto); some adjectives move for meaning</li><li>Ser + adjective for personality: Mi hermana es trabajadora y simpática</li></ul></div><div class="concept"><div class="c-label">Physical & personality traits</div><div class="c-text">Two adjective families describe people: looks and character.</div><ul class="c-list"><li>Physical: alto/bajo (tall/short), delgado/gordo, guapo/apuesto (good-looking), pelirrojo (redhead)</li><li>Hair/eyes use tener: Tiene el pelo largo y los ojos verdes</li><li>Personality: simpático (nice), antipático (mean), serio, divertido (fun), perezoso (lazy), estudioso</li><li>TENER expressions: tener … años (age), tener hambre (hungry), tener miedo (afraid)</li></ul></div><div class="concept"><div class="c-label">Asking about family</div><div class="c-text">Question words let you interview someone about their family.</div><ul class="c-list"><li>¿Cuántos años tiene tu hermano? = how old is your brother (usted-form tiene)</li><li>¿Cómo se llama tu madre? = what's your mom's name (reflexive se llama)</li><li>¿De quién es…? = whose is it? — answer: Es de mi prima</li><li>Pets count: Tengo un gato que se llama Luna</li></ul></div><div class="trap">Mi hermano's possessive is MI not mi'o — short forms never take accents before the noun</div><div class="trap">Tener hambre = to BE hungry, literally to HAVE hunger — no ser/estar involved</div><div class="trap">Los padres means parents; saying los papás de mi papá needs abuelos instead</div></div></div><div class="unit" data-id="4"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 4: School & -AR Verbs<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">School vocabulary</div><div class="c-text">Classes, supplies, and places around campus.</div><ul class="c-list"><li>Subjects: las matemáticas, las ciencias, el español, la historia, el arte, la educación física</li><li>Supplies: el lápiz (pencil), la pluma/el bolígrafo (pen), el cuaderno (notebook), la mochila (backpack)</li><li>Places: la escuela, el salón de clases, la biblioteca, la cafetería, el gimnasio</li><li>People: el maestro/la maestra, el profesor/la profesora, el estudiante, el director</li><li>Necesito… para la clase = I need… for class; tengo que estudiar = I have to study</li></ul></div><div class="concept"><div class="c-label">Present tense -AR verbs</div><div class="c-text">The largest verb family follows one clean pattern: drop -ar, add endings.</div><ul class="c-list"><li>Endings: -o, -as, -a, -amos, -áis, -an → hablar: hablo, hablas, habla, hablamos, habláis, hablan</li><li>Stem stays constant: estudiar→estudio/estudias/estudia/estudiamos/estudiáis/estudian</li><li>Pronouns can drop: hablo español alone means I speak Spanish — ending shows who</li><li>Nosotros form matches the -amos you already know from ser's somos pattern family</li><li>Common -AR verbs: estudiar, hablar, caminar, cocinar, dibujar, escuchar, mirar, necesitar, pasar, preparar, terminar, tomar, trabajar</li></ul></div><div class="concept"><div class="c-label">Using verbs in sentences</div><div class="c-text">One conjugated verb carries a sentence; second actions stay infinitive.</div><ul class="c-list"><li>Necesito estudiar = I need TO study — first verb conjugates, second stays whole</li><li>Me gusta dibujar — gustar chains to infinitives too</li><li>Adverbs of frequency: siempre (always), a veces (sometimes), nunca (never) slot before the verb</li><li>Para + infinitive states purpose: Estudio para sacar buenas notas</li></ul></div><div class="concept"><div class="c-label">-AR conjugation drills</div><div class="c-text">Speed comes from pattern recognition, not memorizing each verb separately.</div><ul class="c-list"><li>Camina = he/she walks; caminamos = we walk — spot the ending, know the subject</li><li>Usted and él/ella share forms (habla); ustedes and ellos share (hablan)</li><li>Questions flip word order: ¿Trabajas tú los sábados? or just ¿Trabajas los sábados?</li><li>Negatives wrap the verb: No trabajo los domingos</li></ul></div><div class="trap">Don't double-conjugate: Necesito estudio is wrong — Necesito ESTUDIAR</div><div class="trap">The accent in habláis/estudiáis (vosotros) matters — hablais is misspelled</div><div class="trap">Nunca can start the sentence (Nunca trabajo) but then NO doesn't repeat — Nunca trabajo, never No nunca trabajo</div></div></div><div class="unit" data-id="5"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 5: Food & -ER/-IR Verbs<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Food vocabulary</div><div class="c-text">Meals and staples anchor daily conversation.</div><ul class="c-list"><li>Meals: el desayuno (breakfast), el almuerzo (lunch), la cena (dinner)</li><li>Drinks: el agua, el jugo (juice), la leche, el refresco, el café</li><li>Fruits/veg: la manzana, el plátano, las uvas, la lechuga, el tomate, la zanahoria</li><li>Proteins & grains: el pollo, el pescado, la carne, el arroz, el pan, los frijoles, el huevo</li><li>Verbs: comer (to eat), beber/tomar (to drink), compartir (to share) — me encanta el pollo</li></ul></div><div class="concept"><div class="c-label">-ER verbs</div><div class="c-text">Same idea as -AR, new endings: drop -er, add -o/-es/-e/-emos/-éis/-en.</div><ul class="c-list"><li>comer: como, comes, come, comemos, coméis, comen</li><li>beber: bebo, bebes…; aprender: aprendo, aprendes, aprende, aprendemos, aprendéis, aprenden</li><li>Leer is irregular in nosotros/yó forms? No — leemos is regular; only its -iendo form (leyendo) changes</li><li>Common -ER: correr, comprender, vender, romper</li></ul></div><div class="concept"><div class="c-label">-IR verbs</div><div class="c-text">Identical to -ER except nosotros/vosotros: -imos / -ís.</div><ul class="c-list"><li>vivir: vivo, vives, vive, vivimos, vivís, viven</li><li>escribir: escribo, escribes, escribe, escribimos, escribís, escriben</li><li>Shared with -ER in yo/tú/él/ellos forms — only we/you-plural differ</li><li>Common -IR: abrir, recibir, decidir, asistir a (to attend)</li></ul></div><div class="concept"><div class="c-label">Restaurant & café phrases</div><div class="c-text">Ordering food politely uses querer + noun and account phrases.</div><ul class="c-list"><li>Quiero… / Quisiera… = I want / I would like (softer)</li><li>La cuenta, por favor = the check please; ¿Algo más? = anything else?</li><li>¿Qué desayunas? = what do you eat for breakfast — meals as verbs: desayunar, almorzar (o→ue), cenar</li><li>Con/sin customization: un café con leche, sin azúcar</li></ul></div><div class="trap">El agua is FEMININE despite el — it takes el for stress but adjectives stay feminine: el agua fría</div><div class="trap">Fish swimming is el pez; fish on your plate is el pescado</div><div class="trap">Don't use ser for hungry-thirsty: Tengo sed/hambre (tener), never Estoy sed</div></div></div><div class="unit" data-id="6"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 6: Gustar & Likes<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">How gustar actually works</div><div class="c-text">Gustar means TO BE PLEASING — the thing liked is the subject, not you.</div><ul class="c-list"><li>Me gusta el fútbol = soccer pleases me → English: I like soccer</li><li>Indirect object pronouns carry who likes: me, te, le, nos, os, les</li><li>Singular thing → gusta; plural things → gustan: Me gustan las uvas</li><li>Infinitives always take gusta: Me gusta correr y nadar</li><li>Clarifiers for le/les: A Juan le gusta… ; A mí me encanta…</li></ul></div><div class="concept"><div class="c-label">Gustar-family verbs</div><div class="c-text">Other verbs work the same backward way.</div><ul class="c-list"><li>encantar = to love something: Me encantan los deportes</li><li>faltar (to be missing), doler (to hurt): Me duele la cabeza</li><li>importar (to matter): No me importa = I don't care</li><li>interesar: Me interesa la historia — same structure as gustar</li></ul></div><div class="concept"><div class="c-label">Expressing degree</div><div class="c-text">Dial likes up and down with adverbs and set phrases.</div><ul class="c-list"><li>me gusta mucho / me encanta muchísimo = really love</li><li>no me gusta nada = I don't like it AT ALL (nada after the phrase intensifies)</li><li>más o menos / pues… = so-so hedging</li><li>¿Te gusta…? asks; Sí, me fascina answers strongly</li></ul></div><div class="concept"><div class="c-label">Activities & hobbies vocab</div><div class="c-text">Pair gustar with infinitives and nouns for weekend talk.</div><ul class="c-list"><li>tocar la guitarra (play an instrument) vs jugar videojuegos (play games)</li><li>los fines de semana = weekends; después de las clases = after school</li><li>ver la televisión, escuchar música, pasar tiempo con amigos</li><li>Question flow: ¿Qué te gusta hacer? — Me gusta montar en bicicleta</li></ul></div><div class="trap">Me gusto means I please MYSELF — the pronoun must be indirect: ME GUSTA</div><div class="trap">Two things liked still take plural: Me gustan el pan Y el queso</div><div class="trap">Encantar ≠ weak: it's stronger than gustar (love ≫ like), not a synonym</div></div></div><div class="unit" data-id="7"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 7: Stem-Changers & Clothing<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">E→IE boot verbs</div><div class="c-text">The stressed e inside the stem swaps to ie in all forms except nosotros/vosotros.</div><ul class="c-list"><li>pensar: pienso, piensas, piensa, pensamos, pensáis, piensan — the boot shape</li><li>querer (e:ie): quiero, quieres, quiere, queremos, queréis, quieren</li><li>empezar a + inf = to begin to; cerrar (ie) = to close; entender (ie) = to understand</li><li>preferir (e:ie, also i in third person preterite later): prefiero</li><li>Call them boot verbs or shoe verbs — the change only happens inside the boot</li></ul></div><div class="concept"><div class="c-label">O→UE and E→I boots</div><div class="c-text">Two more swap patterns cover most remaining irregulars.</div><ul class="c-list"><li>o→ue: poder (puedo), dormir (duermo), volver (vuelvo), almorzar (almuerzo), costar (cuesta)</li><li>Jugar is the lone u→ue verb: juego, juegas, juega…</li><li>e→i verbs are mostly -IR: pedir (pido), servir (sirvo), repetir (repito)</li><li>Nosotros/vosotros NEVER stem-change: dormimos, podemos, contamos</li></ul></div><div class="concept"><div class="c-label">Clothing vocabulary</div><div class="c-text">Wardrobe words pair with llevar for what someone wears.</div><ul class="c-list"><li>Basics: la camisa (shirt), los pantalones (pants), los jeans, el vestido (dress), la falda (skirt)</li><li>Outer: la chaqueta, el abrigo (coat), los zapatos (shoes), las botas, los calcetines (socks)</li><li>Accessories: el sombrero, la gorra (cap), el cinturón (belt), la bufanda (scarf)</li><li>Colors as adjectives follow the noun: una camisa azul, unos zapatos negros</li></ul></div><div class="concept"><div class="c-label">Shopping & prices</div><div class="c-text">Buying talk uses costar (o:ue), demonstratives, and numbers from Unit 2.</div><ul class="c-list"><li>¿Cuánto cuesta(n)? = how much does/do it/they cost — cuesta singular, cuestan plural</li><li>este/esta (this) → estos/estas; ese/esa (that) → esos/esas: Quiero esta camisa</li><li>Me queda bien/grande/pequeño = it fits me well/too big/too small — quedar for fit</li><li>Pagar en efectivo (cash) / con tarjeta (card); ¿Puedo probar…? = can I try on…?</li></ul></div><div class="trap">Yo puedo but NOSOTROS podemos — never podimos in present tense</div><div class="trap">Costar agrees with the ITEM not the buyer: Cuestan $20 (they cost), even if you say I want them</div><div class="trap">Demonstrative este = near ME, ese = nearer YOU — mixing them confuses which item you're buying</div></div></div><div class="unit" data-id="8"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 8: House & Ser vs Estar<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">House vocabulary</div><div class="c-text">Rooms and furniture describe where life happens.</div><ul class="c-list"><li>Rooms: la cocina (kitchen), el comedor (dining room), la sala (living room), el dormitorio (bedroom), el baño</li><li>Outside: el jardín (garden), el garaje, el patio</li><li>Furniture: la cama (bed), la mesa, la silla (chair), el sofá, la lámpara, el espejo (mirror)</li><li>Appliances: la nevera/el refrigerador, la estufa, el lavaplatos</li><li>Floor levels: la planta baja = ground floor, el primer piso = second floor (US counting)</li></ul></div><div class="concept"><div class="c-label">ESTAR basics</div><div class="c-text">Estar handles location and condition — the other to be.</div><ul class="c-list"><li>Conjugation: estoy, estás, está, estamos, estáis, están (irregular yo!)</li><li>Location of anything: El libro está en la mesa; Mi casa está cerca</li><li>Conditions/states: estar cansado, estar enfermo, estar contento — how you are right now</li><li>Progressive tense: estar + -ando/-iendo = action in progress: Estoy estudiando</li></ul></div><div class="concept"><div class="c-label">SER vs ESTAR decision rule</div><div class="c-text">One question settles it: permanent identity (ser) vs state/location right now (estar).</div><ul class="c-list"><li>Origin stays ser even though location moves: SOY de Texas pero ESTOY en California</li><li>Death, jobs, personality = ser; alive-and-kicking moods, temporary states = estar</li><li>Food judgment: La sopa ES de pollo (ingredient) pero ESTÁ caliente (temperature now)</li><li>Events use ser: La fiesta ES en mi casa — even though that's a location!</li></ul></div><div class="concept"><div class="c-label">Prepositions of place</div><div class="c-text">Small words locate everything in the house.</div><ul class="c-list"><li>en (in/on), encima de (on top of), debajo de (under), al lado de (next to)</li><li>delante de (in front of), detrás de (behind), dentro de (inside), lejos/cerca de (far/near)</li><li>El gato está debajo de la cama — classic location sentence pattern</li><li>Contractions only with de+a/el: del (de+el), al (a+el) — de la casa stays separate</li></ul></div><div class="trap">LOCATIONS take estar EXCEPT event venues: la reunión ES en la biblioteca</div><div class="trap">Estás aburrido (you're bored) vs eres aburrido (you're boring) — one adjective, two lives</div><div class="trap">La nevera está en la cocina — never use ser for where furniture sits</div></div></div></div></div>
 <div id="view-cards" class="view" role="tabpanel" aria-labelledby="tab-cards" tabindex="0">
   <div class="fc-bar">
     <select id="fc-sel" aria-label="Choose a flashcard set" onchange="loadFC()"></select>
@@ -509,6 +706,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <button class="diag-btn" id="diag-start-btn" onclick="startDiagnostic()"><svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><span id="diag-start-btn-label">Start Diagnostic — 2 questions per unit, finds your weak spots</span></button>
   <div class="q-bar">
     <select id="q-sel" aria-label="Choose a question set" onchange="loadQ()"></select>
+    <button class="btn" type="button" onclick="quizShuffle()" style="font-size:14px;padding:7px 14px">⇄ Shuffle</button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -638,6 +836,10 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
     <div class="mem-card"><div class="mem-t">Watch out</div><div class="mem-d">Estás aburrido (you're bored) vs eres aburrido (you're boring) — one adjective, two lives</div></div>
     <div class="mem-card"><div class="mem-t">Watch out</div><div class="mem-d">La nevera está en la cocina — never use ser for where furniture sits</div></div>
   </div></div>
+</div>
+<button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+</button>
 <script>
 const UNITS=[{"id":1,"name":"Greetings & Introductions","concepts":[{"l":"Basic greetings","intro":"Spanish greetings change with time of day and formality level.","b":["Hola (hello) works anytime; buenos días (morning), buenas tardes (afternoon), buenas noches (evening/night)","¿Cómo estás? (informal) vs ¿Cómo está usted? (formal) — tú vs usted choice signals respect","Common replies: bien (well), muy bien (very well), más o menos (so-so), mal (bad)","Saying goodbye: adiós, chao, hasta luego (see you later), hasta mañana (see you tomorrow)","Mucho gusto / Encantada = nice to meet you; ¿Y tú? = and you?"]},{"l":"Introducing yourself","intro":"Use ser to state your name, origin, and basic identity.","b":["Me llamo… (I call myself), Soy… (I am), ¿Cómo te llamas? (what's your name?)","Soy de México = I'm from Mexico; ¿De dónde eres? = where are you from?","Soy estudiante / soy nuevo(a) — ser describes professions and permanent traits","Soy nuevo uses masculine; nueva is feminine — adjectives match gender","Numbers in introductions: tengo quince años = I'm fifteen (tener, not ser, for age)"]},{"l":"The verb SER","intro":"Ser means to be for permanent qualities: identity, origin, and characteristic traits.","b":["Conjugation: yo soy, tú eres, él/ella/usted es, nosotros somos, vosotros sois, ellos/ellas/ustedes son","Use ser for: nationality (soy alta), profession (es doctora), personality (somos simpáticos)","Es la una for telling one o'clock — ser tells time","De dónde eres questions answer with ser: Soy de Colombia","Don't confuse with estar (see Unit 8): feelings and locations take estar"]},{"l":"Formal vs informal address","intro":"Choosing tú or usted sets the social tone of the whole conversation.","b":["Tú = friends, family, people your age; usted = adults, teachers, strangers, authority","Usted grammatically behaves like él/ella (third person): ¿Cómo está usted?","Latin America: ustedes serves as the plural you everywhere (in Spain, vosotros is informal plural)","Switching to tú uninvited can seem rude; when unsure, start formal","Señor/señora/señorita + usted is the safe opening combination"]},{"l":"The alphabet & pronunciation","intro":"Spanish spelling is phonetic — once you know the letters, you can say any word.","b":["Ñ (eñe) is its own letter: año (year) ≠ ano — the tilde changes meaning","H is always silent: hola sounds like OH-la","J sounds like English H (jabón); G before e/i is harsh (gente)","LL sounds like Y in most regions (llamar = yah-MAR); RR trills (perro)","Vowels never change sound: a-e-i-o-u stay pure in every word"]}],"keyFacts":["Tú = informal, usted = formal — the verb form changes with the choice","Ser is for permanent identity: origin, profession, personality, time","H is silent; ñ is a separate letter (año ≠ ano)"],"traps":["¿Cómo estás? takes estás (estar), NOT eres — feelings use estar even though they seem temporary-permanent confusing","Age uses TENER not ser: Tengo quince años, never Soy quince años","Buenas noches covers BOTH evening and night — it's not only 'good night' at bedtime"]},{"id":2,"name":"Numbers, Dates & Time","concepts":[{"l":"Numbers 0–100","intro":"Spanish numbers follow patterns: memorize 0–15, then tens build predictably.","b":["0-10: cero, uno, dos, tres, cuatro, cinco, seis, siete, ocho, nueve, diez","11-15: once, doce, trece, catorce, quince — then dieciséis, diecisiete… (diez+y)","Tens: veinte, treinta, cuarenta, cincuenta, sesenta, setenta, ochenta, noventa","Combinations: veintiuno (21) but treinta y uno (31) — y appears from 31 up","Cien = 100 exactly; ciento uno = 101"]},{"l":"Number agreement","intro":"Uno and numbers ending in one shorten before masculine nouns.","b":["Un libro (one book) but una pluma — uno drops -o before masculine nouns","Veintiún años (21 years) — same shortening applies to veintiuno, treinta y uno","Hundreds agree: doscientas páginas (feminine) vs doscientos libros","Numbers are masculine nouns when standing alone: el cinco, un diez (an A grade)"]},{"l":"Dates","intro":"Dates run day-month-year and use ser for the day and month names.","b":["Format: el 15 de mayo de 2026 — day, de, month, de, year","Hoy es lunes, el tres de octubre = today is Monday October 3rd","Months and days are NOT capitalized: enero, lunes","Primero (or el uno) marks the first of the month: el primero de junio","¿Cuál es la fecha? asks the date; ¿Qué día es hoy? asks the weekday"]},{"l":"Telling time","intro":"Time uses ser + definite article: es la una / son las dos.","b":["One o'clock is singular: Es la una (y cuarto); all others plural: Son las tres","Media = half past (y media); cuarto = quarter (y cuarto / menos cuarto)","Son las cuatro y diez = 4:10; Son las seis menos veinte = 5:40","AM/PM: de la mañana, de la tarde, de la noche; mediodía (noon), medianoche (midnight)","¿Qué hora es? = what time is it; A las ocho = at eight o'clock (events)"]},{"l":"Classroom schedule talk","intro":"Combining days, times, and tener describes your weekly routine.","b":["Tengo matemáticas los martes = I have math on Tuesdays (los + plural weekday)","La clase de historia es a las nueve y media — a las for class start times","De la mañana/tarde labels school blocks: primer periodo por la mañana","¿A qué hora es…? asks when a class meets"]}],"keyFacts":["Es la una (1:00) is singular; son las dos+ (plural) — time agrees like articles","y media = :30, y cuarto = :15, menos cuarto = :45","Only primero marks the 1st of a month; other dates use cardinal numbers"],"traps":["Es la UNA, not son las una — one o'clock breaks the plural rule","Don't capitalize months/days: lunes, enero — unlike English","31+ uses y (treinta y uno); 21-29 fuses (veintiuno) — mixing these up is the classic error"]},{"id":3,"name":"Family & Descriptions","concepts":[{"l":"Family vocabulary","intro":"Family terms in Spanish distinguish gender and include in-laws and step-relatives.","b":["Core: padre/papá (dad), madre/mamá (mom), hermano/hermana (brother/sister)","Extended: abuelo/abuela (grandparents), tío/tía (uncle/aunt), primo/prima (cousin)","Married-in: esposo/esposa (spouse), suegro/suegra (parents-in-law), nuera/yerno","Blended: hermanastro (stepbrother), medio hermano (half-brother)","Los padres = parents (not fathers); los hijos = children/sons; el perro counts as familia"]},{"l":"Possessive adjectives","intro":"Possessives agree with the THING owned, not the owner.","b":["mi/mis (my), tu/tus (your), su/sus (his/her/their/your-formal) — number agrees with noun","Nuestro/nuestra/nuestros/nuestras agrees BOTH ways: nuestra hermana, nuestros primos","Su is ambiguous — su madre could be his, her, or their mom; de + person clarifies: la madre de Juan","Long form (mío, tuyo) goes after the noun for emphasis: un amigo mío = a friend of mine"]},{"l":"Descriptive adjectives & agreement","intro":"Adjectives copy the gender and number of the person they describe.","b":["-o/-a pairs: alto/alta; -e and consonant adjectives don't change gender: inteligente, joven","Plurals add -s (vowel) or -es (consonant): altos, jóvenes","Word order default: noun + adjective (el chico alto); some adjectives move for meaning","Ser + adjective for personality: Mi hermana es trabajadora y simpática"]},{"l":"Physical & personality traits","intro":"Two adjective families describe people: looks and character.","b":["Physical: alto/bajo (tall/short), delgado/gordo, guapo/apuesto (good-looking), pelirrojo (redhead)","Hair/eyes use tener: Tiene el pelo largo y los ojos verdes","Personality: simpático (nice), antipático (mean), serio, divertido (fun), perezoso (lazy), estudioso","TENER expressions: tener … años (age), tener hambre (hungry), tener miedo (afraid)"]},{"l":"Asking about family","intro":"Question words let you interview someone about their family.","b":["¿Cuántos años tiene tu hermano? = how old is your brother (usted-form tiene)","¿Cómo se llama tu madre? = what's your mom's name (reflexive se llama)","¿De quién es…? = whose is it? — answer: Es de mi prima","Pets count: Tengo un gato que se llama Luna"]}],"keyFacts":["Possessives agree with the NOWNED thing: nuestra abuela, nuestros abuelos","Su/sus covers his+her+their+your(formal) — context or de + name disambiguates","Adjectives mirror gender AND number: primas simpáticas"],"traps":["Mi hermano's possessive is MI not mi'o — short forms never take accents before the noun","Tener hambre = to BE hungry, literally to HAVE hunger — no ser/estar involved","Los padres means parents; saying los papás de mi papá needs abuelos instead"]},{"id":4,"name":"School & -AR Verbs","concepts":[{"l":"School vocabulary","intro":"Classes, supplies, and places around campus.","b":["Subjects: las matemáticas, las ciencias, el español, la historia, el arte, la educación física","Supplies: el lápiz (pencil), la pluma/el bolígrafo (pen), el cuaderno (notebook), la mochila (backpack)","Places: la escuela, el salón de clases, la biblioteca, la cafetería, el gimnasio","People: el maestro/la maestra, el profesor/la profesora, el estudiante, el director","Necesito… para la clase = I need… for class; tengo que estudiar = I have to study"]},{"l":"Present tense -AR verbs","intro":"The largest verb family follows one clean pattern: drop -ar, add endings.","b":["Endings: -o, -as, -a, -amos, -áis, -an → hablar: hablo, hablas, habla, hablamos, habláis, hablan","Stem stays constant: estudiar→estudio/estudias/estudia/estudiamos/estudiáis/estudian","Pronouns can drop: hablo español alone means I speak Spanish — ending shows who","Nosotros form matches the -amos you already know from ser's somos pattern family","Common -AR verbs: estudiar, hablar, caminar, cocinar, dibujar, escuchar, mirar, necesitar, pasar, preparar, terminar, tomar, trabajar"]},{"l":"Using verbs in sentences","intro":"One conjugated verb carries a sentence; second actions stay infinitive.","b":["Necesito estudiar = I need TO study — first verb conjugates, second stays whole","Me gusta dibujar — gustar chains to infinitives too","Adverbs of frequency: siempre (always), a veces (sometimes), nunca (never) slot before the verb","Para + infinitive states purpose: Estudio para sacar buenas notas"]},{"l":"-AR conjugation drills","intro":"Speed comes from pattern recognition, not memorizing each verb separately.","b":["Camina = he/she walks; caminamos = we walk — spot the ending, know the subject","Usted and él/ella share forms (habla); ustedes and ellos share (hablan)","Questions flip word order: ¿Trabajas tú los sábados? or just ¿Trabajas los sábados?","Negatives wrap the verb: No trabajo los domingos"]}],"keyFacts":["Drop -AR, add: o/as/a/amos/áis/an — one template rules hundreds of verbs","Él and usted share endings; ellos and ustedes share endings","After a conjugated verb, the next verb stays infinitive: Necesito hablar con ella"],"traps":["Don't double-conjugate: Necesito estudio is wrong — Necesito ESTUDIAR","The accent in habláis/estudiáis (vosotros) matters — hablais is misspelled","Nunca can start the sentence (Nunca trabajo) but then NO doesn't repeat — Nunca trabajo, never No nunca trabajo"]},{"id":5,"name":"Food & -ER/-IR Verbs","concepts":[{"l":"Food vocabulary","intro":"Meals and staples anchor daily conversation.","b":["Meals: el desayuno (breakfast), el almuerzo (lunch), la cena (dinner)","Drinks: el agua, el jugo (juice), la leche, el refresco, el café","Fruits/veg: la manzana, el plátano, las uvas, la lechuga, el tomate, la zanahoria","Proteins & grains: el pollo, el pescado, la carne, el arroz, el pan, los frijoles, el huevo","Verbs: comer (to eat), beber/tomar (to drink), compartir (to share) — me encanta el pollo"]},{"l":"-ER verbs","intro":"Same idea as -AR, new endings: drop -er, add -o/-es/-e/-emos/-éis/-en.","b":["comer: como, comes, come, comemos, coméis, comen","beber: bebo, bebes…; aprender: aprendo, aprendes, aprende, aprendemos, aprendéis, aprenden","Leer is irregular in nosotros/yó forms? No — leemos is regular; only its -iendo form (leyendo) changes","Common -ER: correr, comprender, vender, romper"]},{"l":"-IR verbs","intro":"Identical to -ER except nosotros/vosotros: -imos / -ís.","b":["vivir: vivo, vives, vive, vivimos, vivís, viven","escribir: escribo, escribes, escribe, escribimos, escribís, escriben","Shared with -ER in yo/tú/él/ellos forms — only we/you-plural differ","Common -IR: abrir, recibir, decidir, asistir a (to attend)"]},{"l":"Restaurant & café phrases","intro":"Ordering food politely uses querer + noun and account phrases.","b":["Quiero… / Quisiera… = I want / I would like (softer)","La cuenta, por favor = the check please; ¿Algo más? = anything else?","¿Qué desayunas? = what do you eat for breakfast — meals as verbs: desayunar, almorzar (o→ue), cenar","Con/sin customization: un café con leche, sin azúcar"]}],"keyFacts":["-ER endings: o/es/e/emos/éis/en · -IR differs only at -imos/-ís","Compartir el almuerzo = to share lunch; almorzar stem-changes o→ue","Con = with, sin = without — instant order customization"],"traps":["El agua is FEMININE despite el — it takes el for stress but adjectives stay feminine: el agua fría","Fish swimming is el pez; fish on your plate is el pescado","Don't use ser for hungry-thirsty: Tengo sed/hambre (tener), never Estoy sed"]},{"id":6,"name":"Gustar & Likes","concepts":[{"l":"How gustar actually works","intro":"Gustar means TO BE PLEASING — the thing liked is the subject, not you.","b":["Me gusta el fútbol = soccer pleases me → English: I like soccer","Indirect object pronouns carry who likes: me, te, le, nos, os, les","Singular thing → gusta; plural things → gustan: Me gustan las uvas","Infinitives always take gusta: Me gusta correr y nadar","Clarifiers for le/les: A Juan le gusta… ; A mí me encanta…"]},{"l":"Gustar-family verbs","intro":"Other verbs work the same backward way.","b":["encantar = to love something: Me encantan los deportes","faltar (to be missing), doler (to hurt): Me duele la cabeza","importar (to matter): No me importa = I don't care","interesar: Me interesa la historia — same structure as gustar"]},{"l":"Expressing degree","intro":"Dial likes up and down with adverbs and set phrases.","b":["me gusta mucho / me encanta muchísimo = really love","no me gusta nada = I don't like it AT ALL (nada after the phrase intensifies)","más o menos / pues… = so-so hedging","¿Te gusta…? asks; Sí, me fascina answers strongly"]},{"l":"Activities & hobbies vocab","intro":"Pair gustar with infinitives and nouns for weekend talk.","b":["tocar la guitarra (play an instrument) vs jugar videojuegos (play games)","los fines de semana = weekends; después de las clases = after school","ver la televisión, escuchar música, pasar tiempo con amigos","Question flow: ¿Qué te gusta hacer? — Me gusta montar en bicicleta"]}],"keyFacts":["Gustar conjugates to match the THING: gusta (sing/infinitive), gustan (plural)","A mí / A Juan clarifies WHO likes when le/les is ambiguous","No me gusta nada = strongest negative; me gusta mucho = strongest positive"],"traps":["Me gusto means I please MYSELF — the pronoun must be indirect: ME GUSTA","Two things liked still take plural: Me gustan el pan Y el queso","Encantar ≠ weak: it's stronger than gustar (love ≫ like), not a synonym"]},{"id":7,"name":"Stem-Changers & Clothing","concepts":[{"l":"E→IE boot verbs","intro":"The stressed e inside the stem swaps to ie in all forms except nosotros/vosotros.","b":["pensar: pienso, piensas, piensa, pensamos, pensáis, piensan — the boot shape","querer (e:ie): quiero, quieres, quiere, queremos, queréis, quieren","empezar a + inf = to begin to; cerrar (ie) = to close; entender (ie) = to understand","preferir (e:ie, also i in third person preterite later): prefiero","Call them boot verbs or shoe verbs — the change only happens inside the boot"]},{"l":"O→UE and E→I boots","intro":"Two more swap patterns cover most remaining irregulars.","b":["o→ue: poder (puedo), dormir (duermo), volver (vuelvo), almorzar (almuerzo), costar (cuesta)","Jugar is the lone u→ue verb: juego, juegas, juega…","e→i verbs are mostly -IR: pedir (pido), servir (sirvo), repetir (repito)","Nosotros/vosotros NEVER stem-change: dormimos, podemos, contamos"]},{"l":"Clothing vocabulary","intro":"Wardrobe words pair with llevar for what someone wears.","b":["Basics: la camisa (shirt), los pantalones (pants), los jeans, el vestido (dress), la falda (skirt)","Outer: la chaqueta, el abrigo (coat), los zapatos (shoes), las botas, los calcetines (socks)","Accessories: el sombrero, la gorra (cap), el cinturón (belt), la bufanda (scarf)","Colors as adjectives follow the noun: una camisa azul, unos zapatos negros"]},{"l":"Shopping & prices","intro":"Buying talk uses costar (o:ue), demonstratives, and numbers from Unit 2.","b":["¿Cuánto cuesta(n)? = how much does/do it/they cost — cuesta singular, cuestan plural","este/esta (this) → estos/estas; ese/esa (that) → esos/esas: Quiero esta camisa","Me queda bien/grande/pequeño = it fits me well/too big/too small — quedar for fit","Pagar en efectivo (cash) / con tarjeta (card); ¿Puedo probar…? = can I try on…?"]}],"keyFacts":["Stem-changers skip nosotros/vosotros — that's why they're called BOOT verbs","Three patterns: e→ie (querer), o→ue (poder), e→i (pedir); jugar alone goes u→ue","Quedar = fit: Me quedan bien estos zapatos"],"traps":["Yo puedo but NOSOTROS podemos — never podimos in present tense","Costar agrees with the ITEM not the buyer: Cuestan $20 (they cost), even if you say I want them","Demonstrative este = near ME, ese = nearer YOU — mixing them confuses which item you're buying"]},{"id":8,"name":"House & Ser vs Estar","concepts":[{"l":"House vocabulary","intro":"Rooms and furniture describe where life happens.","b":["Rooms: la cocina (kitchen), el comedor (dining room), la sala (living room), el dormitorio (bedroom), el baño","Outside: el jardín (garden), el garaje, el patio","Furniture: la cama (bed), la mesa, la silla (chair), el sofá, la lámpara, el espejo (mirror)","Appliances: la nevera/el refrigerador, la estufa, el lavaplatos","Floor levels: la planta baja = ground floor, el primer piso = second floor (US counting)"]},{"l":"ESTAR basics","intro":"Estar handles location and condition — the other to be.","b":["Conjugation: estoy, estás, está, estamos, estáis, están (irregular yo!)","Location of anything: El libro está en la mesa; Mi casa está cerca","Conditions/states: estar cansado, estar enfermo, estar contento — how you are right now","Progressive tense: estar + -ando/-iendo = action in progress: Estoy estudiando"]},{"l":"SER vs ESTAR decision rule","intro":"One question settles it: permanent identity (ser) vs state/location right now (estar).","b":["Origin stays ser even though location moves: SOY de Texas pero ESTOY en California","Death, jobs, personality = ser; alive-and-kicking moods, temporary states = estar","Food judgment: La sopa ES de pollo (ingredient) pero ESTÁ caliente (temperature now)","Events use ser: La fiesta ES en mi casa — even though that's a location!"]},{"l":"Prepositions of place","intro":"Small words locate everything in the house.","b":["en (in/on), encima de (on top of), debajo de (under), al lado de (next to)","delante de (in front of), detrás de (behind), dentro de (inside), lejos/cerca de (far/near)","El gato está debajo de la cama — classic location sentence pattern","Contractions only with de+a/el: del (de+el), al (a+el) — de la casa stays separate"]}],"keyFacts":["Estar conjugates irregularly in YO only: estoy (the rest look normal)","DOCTOR uses ser (Description, Occupation, Characteristic, Time, Origin, Relationship); PLACE uses estar (Position, Location, Action-in-progress, Condition, Emotion)","de + el = del, a + el = al — the only mandatory contractions"],"traps":["LOCATIONS take estar EXCEPT event venues: la reunión ES en la biblioteca","Estás aburrido (you're bored) vs eres aburrido (you're boring) — one adjective, two lives","La nevera está en la cocina — never use ser for where furniture sits"]}];
 const DIAGRAMS={};
@@ -749,15 +951,25 @@ if(scoreEl)scoreEl.textContent=`Score: ${examScores[part]||0} / ${pool.length}`;
 }
 
 
+// simple helper: re-typeset any $...$/$$...$$ math MathJax may find in
+// freshly-injected DOM. Existing guide content doesn't use LaTeX delimiters
+// yet (a follow-up content pass would be needed for this to visibly do
+// anything) — this just wires the rendering pipeline up for when it does.
+function ssTypeset(el){
+  if(window.MathJax&&window.MathJax.typesetPromise){
+    try{window.MathJax.typesetPromise(el?[el]:undefined);}catch(e){}
+  }
+}
+
 // GUIDE
 const SEARCH_BADGE={concept:'📖 Notes',flashcard:'📇 Flashcard',quiz:'❓ Quiz'};
 function searchGuide(){
   const q=(document.getElementById('search-box').value||'').toLowerCase().trim();
   const sr=document.getElementById('search-results');
   document.querySelectorAll('.unit').forEach(u=>u.style.display='');
-  document.getElementById('filter-row').style.display='flex';
+  document.getElementById('filter-row').style.display='';
   var _hl=document.getElementById('hero-live');
-  if(!q){sr.style.display='none';if(_hl)_hl.textContent='';return;}
+  if(!q){sr.classList.remove('show');sr.style.display='none';if(_hl)_hl.textContent='';return;}
   const matches=[];
   UNITS.forEach(u=>{
     u.concepts.forEach(c=>{
@@ -775,8 +987,8 @@ function searchGuide(){
     const text=(qq.q+' '+(qq.o||[]).join(' ')).toLowerCase();
     if(text.includes(q))matches.push({type:'quiz',unit:qq.u,unitName:unitName(qq.u),concept:'Quiz question',preview:qq.q.slice(0,120)});
   });
-  if(!matches.length){sr.style.display='block';sr.innerHTML='<div style="color:var(--ink-muted);font-size:14px;padding:8px">No results for "'+q+'"</div>';if(_hl)_hl.textContent='No results for '+q;return;}
-  sr.style.display='block';
+  if(!matches.length){sr.style.display='block';sr.classList.add('show');sr.innerHTML='<div style="color:var(--ink-muted);font-size:14px;padding:8px">No results for "'+q+'"</div>';if(_hl)_hl.textContent='No results for '+q;return;}
+  sr.style.display='block';sr.classList.add('show');
   if(_hl)_hl.textContent=matches.length+' result'+(matches.length===1?'':'s')+' for '+q;
   const jump=m=>m.type==='concept'?`jumpToUnit(${m.unit})`:m.type==='flashcard'?`jumpToFlashcardUnit(${m.unit})`:`jumpToQuizUnit(${m.unit})`;
   sr.innerHTML='<div style="font-size:13px;color:var(--ink-muted);margin-bottom:6px">'+matches.length+' result(s)</div>'+
@@ -787,6 +999,14 @@ function searchGuide(){
     </div>`).join('');
 }
 function clearSearch(){document.getElementById('search-box').value='';searchGuide();}
+document.addEventListener('keydown',function(e){
+  if(e.key!=='/')return;
+  var el=document.activeElement;
+  var tag=(el&&el.tagName)||'';
+  if(tag==='INPUT'||tag==='TEXTAREA'||(el&&el.isContentEditable))return;
+  var box=document.getElementById('search-box');
+  if(box){e.preventDefault();box.focus();}
+});
 function jumpToFlashcardUnit(id){
   clearSearch();
   switchTab('cards');
@@ -808,26 +1028,37 @@ function jumpToUnit(id){
 }
 
 const filterTags={};
+// Single source of truth for "which unit is selected", driven by either the
+// desktop chip row or the mobile <select> — both call this so filtering logic
+// never lives in two places.
+function ssFilterByUnit(unitId){
+  const all=document.getElementById('filter-row')&&document.getElementById('filter-row').children[0];
+  if(all)all.classList.toggle('on',!unitId);
+  Object.keys(filterTags).forEach(k=>filterTags[k].classList.toggle('on',!!unitId&&k==unitId));
+  document.querySelectorAll('.unit').forEach(el=>el.style.display=(!unitId||el.dataset.id==unitId)?'':'none');
+  const sel=document.getElementById('filter-select');
+  if(sel&&sel.value!=String(unitId||0))sel.value=String(unitId||0);
+}
+function ssFilterSelectChange(){
+  const sel=document.getElementById('filter-select');
+  ssFilterByUnit(sel?+sel.value:0);
+}
 function buildGuide(){
   const fr=document.getElementById('filter-row');
   const ul=document.getElementById('units');
   const all=document.createElement('button');
   all.className='chip on';all.textContent='All Units';
-  all.onclick=()=>{Object.keys(filterTags).forEach(k=>filterTags[k].classList.remove('on'));all.classList.add('on');document.querySelectorAll('.unit').forEach(u=>u.style.display='');};
+  all.onclick=()=>ssFilterByUnit(0);
   fr.appendChild(all);
   UNITS.forEach(u=>{
     const chip=document.createElement('button');
     chip.className='chip';chip.textContent='Unit '+u.id;
-    chip.onclick=()=>{
-      all.classList.remove('on');
-      Object.values(filterTags).forEach(c=>c.classList.remove('on'));
-      chip.classList.add('on');
-      document.querySelectorAll('.unit').forEach(el=>el.style.display=el.dataset.id==u.id?'':'none');
-    };
+    chip.onclick=()=>ssFilterByUnit(u.id);
     fr.appendChild(chip);filterTags[u.id]=chip;
     const div=document.createElement('div');div.className='unit';div.dataset.id=u.id;
     const hd=document.createElement('div');hd.className='unit-hd';
-    hd.innerHTML=`<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts</span></span><span class="chevron">▾</span>`;
+    const estMins=Math.max(5,Math.round(u.concepts.length*3+(u.traps?u.traps.length:0)*2+(u.fms?u.fms.length:0)*2));
+    hd.innerHTML=`<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts · ~${estMins} min</span></span><span class="chevron">▾</span>`;
     hd.tabIndex=0;hd.setAttribute('role','button');hd.setAttribute('aria-expanded','false');
     hd.onclick=()=>{const isOpen=div.classList.toggle('open');hd.setAttribute('aria-expanded',isOpen?'true':'false');};
     hd.onkeydown=(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();hd.click();}};
@@ -849,15 +1080,10 @@ function hydrateGuide(){
   const fr=document.getElementById('filter-row');
   const chips=Array.from(fr.children);
   const all=chips[0];
-  all.onclick=()=>{Object.keys(filterTags).forEach(k=>filterTags[k].classList.remove('on'));all.classList.add('on');document.querySelectorAll('.unit').forEach(u=>u.style.display='');};
+  all.onclick=()=>ssFilterByUnit(0);
   UNITS.forEach((u,i)=>{
     const chip=chips[i+1];
-    chip.onclick=()=>{
-      all.classList.remove('on');
-      Object.values(filterTags).forEach(c=>c.classList.remove('on'));
-      chip.classList.add('on');
-      document.querySelectorAll('.unit').forEach(el=>el.style.display=el.dataset.id==u.id?'':'none');
-    };
+    chip.onclick=()=>ssFilterByUnit(u.id);
     filterTags[u.id]=chip;
   });
   document.querySelectorAll('.unit').forEach(div=>{
@@ -866,7 +1092,16 @@ function hydrateGuide(){
     hd.onkeydown=(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();hd.click();}};
   });
 }
+(function(){
+  const btn=document.getElementById('back-to-top');
+  if(!btn)return;
+  const threshold=()=>window.innerHeight||800;
+  window.addEventListener('scroll',function(){
+    btn.classList.toggle('visible',window.scrollY>threshold());
+  },{passive:true});
+})();
 if(document.getElementById('units').children.length===0){buildGuide();}else{hydrateGuide();}
+ssTypeset(document.getElementById('units'));
 
 // FLASHCARDS
 let fcDeck=[],fcIdx=0,fcFilterMode='all';
@@ -955,6 +1190,7 @@ function buildExamples(){
     h+='</div>';
   });
   v.innerHTML=h;
+  ssTypeset(v);
 }
 function revealStep(id){
   const w=ex2map[id];const c=document.getElementById('ex2s-'+id);let n=ex2shown[id]||0;
@@ -978,10 +1214,48 @@ window.__ssMasteryInstances = window.__ssMasteryInstances || [];
 function ssStartChemMastery(){
   SS_MASTERY = window.__ssCreateMastery('spanish-1', UNITS.map(function(u){return u.id;}), UNITS.reduce(function(acc,u){acc[u.id]=u.name;return acc;},{}));
   window.__ssMasteryInstances.push(SS_MASTERY);
-  SS_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} try{ if(examplesBuilt) buildExamples(); }catch(e){} });
+  SS_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} try{ if(examplesBuilt) buildExamples(); }catch(e){} try{ ssOverallProgressUpdate(); }catch(e){} });
 }
 if (window.__ssCreateMastery) { ssStartChemMastery(); }
 else { window.addEventListener('ss-mastery-ready', ssStartChemMastery, { once: true }); }
+
+/* bookmarked question ids, kept separate from server-synced mastery state
+   (this is purely a local toggle-and-persist affordance, no filter UI yet) */
+var Q_BOOKMARK_KEY='ssBookmarks_'+'spanish-1';
+function qBookmarkSet(){
+  try{return new Set(JSON.parse(localStorage.getItem(Q_BOOKMARK_KEY)||'[]'));}catch(e){return new Set();}
+}
+function qBookmarkToggle(qid){
+  var set=qBookmarkSet();
+  if(set.has(qid))set.delete(qid);else set.add(qid);
+  try{localStorage.setItem(Q_BOOKMARK_KEY,JSON.stringify(Array.from(set)));}catch(e){}
+  return set.has(qid);
+}
+function qId(q){return q.u+'|'+q.q;}
+
+function quizShuffle(){
+  if(!qPool.length)return;
+  for(let i=qPool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[qPool[i],qPool[j]]=[qPool[j],qPool[i]];}
+  qIdx=0;score=0;requeueCounts=new WeakMap();showQ();
+}
+
+function unitNameFor(unitId){const u=UNITS.find(x=>x.id===unitId);return u?u.name:'Unit '+unitId;}
+
+function ssOverallProgressUpdate(){
+  var fill=document.getElementById('ss-overall-progress-fill');
+  var label=document.getElementById('ss-overall-progress-label');
+  if(!fill||!label)return;
+  var total=(typeof QUIZ!=='undefined'?QUIZ.length:0);
+  if(!total){fill.parentElement.parentElement.style.display='none';return;}
+  var answered=0;
+  if(SS_MASTERY){
+    var mastery=SS_MASTERY.getSnapshot().mastery||{};
+    Object.keys(mastery).forEach(function(k){answered+=mastery[k].total||0;});
+  }
+  var pct=Math.max(0,Math.min(100,Math.round((answered/total)*100)));
+  fill.style.width=pct+'%';
+  label.textContent=pct+'% of the question bank attempted';
+}
 
 let diagMode=false;
 function ssHardQ(){return (typeof HARD_Q!=='undefined'&&Array.isArray(HARD_Q))?HARD_Q:[];}
@@ -1065,10 +1339,38 @@ function showQ(){
   const q=qPool[qIdx];
   document.getElementById('q-prog').textContent=`Q ${qIdx+1}/${qPool.length}`;
   document.getElementById('q-sc').textContent=`Score: ${score}`;
-  let h=`<div class="q-block"><div class="q-text">${q.q}</div><button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button><div class="q-opts">`;
-  q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">${opt}</button>`);
+  const bid=qId(q);
+  const bookmarked=qBookmarkSet().has(bid);
+  const STAR_OUTLINE='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
+  const STAR_FILLED='<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
+  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>`+
+    `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
+    `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
+    `<button class="q-hint-btn" id="q-hint-btn" onclick="toggleQHint()">💡 Hint</button>`+
+    `<div class="q-hint-box" id="q-hint-box">Hint: this is from Unit ${q.u}: ${unitNameFor(q.u)}</div>`+
+    `<div class="q-opts">`;
+  q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">`+
+    `<svg class="q-opt-icon icon-correct" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`+
+    `<svg class="q-opt-icon icon-wrong" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`+
+    `<span>${opt}</span></button>`);
   h+=`</div><div class="q-exp" id="q-exp">${q.e}</div><button class="q-next show" id="q-next" onclick="nextQ()" style="display:none">Next →</button></div>`;
   qb.innerHTML=h;
+  ssTypeset(qb);
+}
+function toggleQBookmark(){
+  const q=qPool[qIdx];if(!q)return;
+  const on=qBookmarkToggle(qId(q));
+  const btn=document.getElementById('q-bookmark');
+  if(!btn)return;
+  btn.classList.toggle('on',on);
+  btn.setAttribute('aria-pressed',String(on));
+  btn.setAttribute('aria-label',on?'Remove bookmark':'Bookmark this question');
+  btn.innerHTML=on?'<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>'
+    :'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
+}
+function toggleQHint(){
+  const box=document.getElementById('q-hint-box');
+  if(box)box.classList.toggle('show');
 }
 let guessFlag=false, guessedQs=[], guessedRight=0;
 function markGuess(){
@@ -1108,6 +1410,7 @@ function ansQ(i){
     }
   }
   if(SS_MASTERY)SS_MASTERY.recordAnswer(q.u,i===q.a);
+  ssOverallProgressUpdate();
   const expEl=document.getElementById('q-exp');
   expEl.classList.add('show');
   if(wasGuess){
@@ -1165,11 +1468,22 @@ buildQSel();
   var daysEl=document.getElementById('spc-days');
   var minsEl=document.getElementById('spc-mins');
   if(!daysEl||!minsEl)return;
+  var daysNum=document.getElementById('spc-days-num');
+  var minsNum=document.getElementById('spc-mins-num');
+  var DAYS_DEFAULT=daysEl.value, MINS_DEFAULT=minsEl.value;
+  function setFill(el){
+    var min=parseFloat(el.min),max=parseFloat(el.max),val=parseFloat(el.value);
+    var pct=max>min?((val-min)/(max-min))*100:0;
+    el.style.setProperty('--fill',pct+'%');
+  }
+  function clamp(v,min,max){return Math.min(max,Math.max(min,v));}
   function update(){
     var days=parseInt(daysEl.value,10);
     var mins=parseInt(minsEl.value,10);
     document.getElementById('spc-days-val').textContent=days+(days===1?' day':' days');
-    document.getElementById('spc-mins-val').textContent=mins+' min';
+    if(daysNum)daysNum.value=days;
+    if(minsNum)minsNum.value=mins;
+    setFill(daysEl);setFill(minsEl);
     var totalMinutes=days*mins;
     var questions=Math.min(SS_TOTAL_Q,Math.round(totalMinutes/MIN_PER_Q));
     var pct=Math.min(100,Math.round((questions/SS_TOTAL_Q)*100));
@@ -1180,19 +1494,32 @@ buildQSel();
     var tier=document.getElementById('spc-tier');
     var title=document.getElementById('spc-tier-title');
     var sub=document.getElementById('spc-tier-sub');
+    tier.classList.remove('good','moderate','behind');
     if(pct>=90){
-      tier.style.background='var(--success-soft)';tier.style.color='var(--success)';
+      tier.classList.add('good');
       title.textContent='Exam Ready';sub.textContent="You'll work through the full question bank before test day.";
     }else if(pct>=50){
-      tier.style.background='var(--accent-soft)';tier.style.color='var(--accent-ink)';
+      tier.classList.add('moderate');
       title.textContent='On Track';sub.textContent='Solid coverage — keep this pace going.';
     }else{
-      tier.style.background='var(--surface-2)';tier.style.color='var(--ink-muted)';
+      tier.classList.add('behind');
       title.textContent='Just Getting Started';sub.textContent='Add a few more minutes a day to cover more ground before your exam.';
     }
   }
   daysEl.addEventListener('input',update);
   minsEl.addEventListener('input',update);
+  if(daysNum)daysNum.addEventListener('change',function(){
+    daysEl.value=clamp(parseInt(daysNum.value,10)||parseInt(daysEl.min,10),parseInt(daysEl.min,10),parseInt(daysEl.max,10));
+    update();
+  });
+  if(minsNum)minsNum.addEventListener('change',function(){
+    minsEl.value=clamp(parseInt(minsNum.value,10)||parseInt(minsEl.min,10),parseInt(minsEl.min,10),parseInt(minsEl.max,10));
+    update();
+  });
+  var resetBtn=document.getElementById('spc-reset-btn');
+  if(resetBtn)resetBtn.addEventListener('click',function(){
+    daysEl.value=DAYS_DEFAULT;minsEl.value=MINS_DEFAULT;update();
+  });
   update();
 })();
 
@@ -1422,20 +1749,34 @@ async function cbotSend(e){
 /* study session timer in the nav */
 (function(){
   var nav=document.querySelector('.hero .nav');if(!nav)return;
+  var ICON_PLAY='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg>';
+  var ICON_PAUSE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>';
+  var ICON_RESET='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 17 5"/><polyline points="21 3 21 9 15 9"/></svg>';
   var d=document.createElement('div');d.id='sg-timer';
-  d.innerHTML='<span id="sgt-time">00:00</span><button class="sgt-b" id="sgt-btn" aria-label="start or pause study timer">▶</button><button class="sgt-b" id="sgt-reset" aria-label="reset study timer">↺</button>';
+  d.innerHTML='<span class="sgt-label">Study timer</span><span id="sgt-time">00:00</span>'+
+    '<button class="sgt-b" id="sgt-btn" aria-label="start or pause study timer">'+ICON_PLAY+'</button>'+
+    '<button class="sgt-b" id="sgt-reset" aria-label="reset study timer">'+ICON_RESET+'</button>';
   nav.appendChild(d);
   var sec=0,run=false,iv=null;
   function fmt(s){var h=Math.floor(s/3600),m=Math.floor((s%3600)/60),ss=s%60;
     return (h?h+':':'')+String(m).padStart(2,'0')+':'+String(ss).padStart(2,'0');}
   document.getElementById('sgt-btn').onclick=function(){
-    run=!run;this.textContent=run?'⏸':'▶';
+    run=!run;this.innerHTML=run?ICON_PAUSE:ICON_PLAY;this.setAttribute('aria-label',run?'pause study timer':'start study timer');
     if(run){iv=setInterval(function(){sec++;var el=document.getElementById('sgt-time');if(el)el.textContent=fmt(sec);},1000);}
     else clearInterval(iv);
   };
   document.getElementById('sgt-reset').onclick=function(){sec=0;clearInterval(iv);run=false;
-    document.getElementById('sgt-btn').textContent='▶';document.getElementById('sgt-time').textContent='00:00';};
+    var btn=document.getElementById('sgt-btn');btn.innerHTML=ICON_PLAY;btn.setAttribute('aria-label','start or pause study timer');
+    document.getElementById('sgt-time').textContent='00:00';};
 })();
+
+/* Pinning the hero tab row on scroll (position:fixed + measured spacer) was
+   found during QA to visually overlap page content in some scroll states —
+   disabled pending a redesign that doesn't rely on a JS-measured spacer.
+   The tab row stays in its normal in-flow position; the independent sticky
+   search/filter bar (.ss-sticky-top, CSS-only position:sticky) is unaffected
+   and still docks correctly since it doesn't depend on --ss-nav-h being set
+   (it defaults to 0px). */
 
 function ssToggleTheme(){
   var isDark = document.documentElement.getAttribute('data-theme') === 'dark';

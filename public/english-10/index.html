@@ -30,6 +30,8 @@
 <link rel="preload" href="/fonts/spacegrotesk-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="stylesheet" href="/fonts/fonts.css"/>
+<script>window.MathJax={tex:{inlineMath:[['$','$']],displayMath:[['$$','$$']]}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -109,9 +111,9 @@
   --diagram-bg:#1b3d33;
 }
 body{transition:background .2s ease,color .2s ease}
-#theme-toggle{background:none;border:1px solid rgba(255,255,255,.18);color:rgba(244,242,234,.75);border-radius:var(--radius-sm);
+#theme-toggle{background:none;border:1px solid rgba(255,255,255,.32);color:rgba(244,242,234,.9);border-radius:var(--radius-sm);
   width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
-#theme-toggle:hover{color:#fff;border-color:rgba(255,255,255,.35)}
+#theme-toggle:hover{color:#fff;border-color:rgba(255,255,255,.5)}
 #theme-toggle svg{width:17px;height:17px}
 #theme-toggle .icon-sun{display:none}
 [data-theme="dark"] #theme-toggle .icon-moon{display:none}
@@ -133,16 +135,28 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:
 .page{margin:0 auto;padding:0 24px 90px;max-width:880px}
 .hero{background:linear-gradient(175deg,#0f1830,#1b2a52 65%,#111c38);padding:52px 24px 40px;position:relative;overflow:hidden}
 .hero-inner{margin:0 auto;position:relative;z-index:1}
-.hero::after{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0.16;background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><g fill='%23e8c874' stroke='none'><path d='M30 8 L34 20 L47 20 L37 28 L41 40 L30 32 L19 40 L23 28 L13 20 L26 20 Z'/><path d='M130 90 L133 99 L143 99 L135 105 L138 114 L130 108 L122 114 L125 105 L117 99 L127 99 Z'/><path d='M70 140 L73 149 L83 149 L75 155 L78 164 L70 158 L62 164 L65 155 L57 149 L67 149 Z'/></g><g stroke='%238aa2f2' stroke-width='1.2' opacity='0.6'><line x1='0' y1='60' x2='180' y2='60'/><line x1='0' y1='125' x2='180' y2='125'/></g></svg>");background-size:180px 180px;background-repeat:repeat}
-.hero .kicker{color:#b7c5f9}
-.hero h1{font-family:'Permanent Marker',cursive;font-size:clamp(40px,4.6vw,58px);font-weight:400;letter-spacing:0;line-height:1.15;color:#f4f2ea;margin-bottom:14px}
+.hero::after{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0.09;background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><g fill='%23e8c874' stroke='none'><path d='M30 8 L34 20 L47 20 L37 28 L41 40 L30 32 L19 40 L23 28 L13 20 L26 20 Z'/><path d='M130 90 L133 99 L143 99 L135 105 L138 114 L130 108 L122 114 L125 105 L117 99 L127 99 Z'/><path d='M70 140 L73 149 L83 149 L75 155 L78 164 L70 158 L62 164 L65 155 L57 149 L67 149 Z'/></g><g stroke='%238aa2f2' stroke-width='1.2' opacity='0.6'><line x1='0' y1='60' x2='180' y2='60'/><line x1='0' y1='125' x2='180' y2='125'/></g></svg>");background-size:180px 180px;background-repeat:repeat}
+.hero .kicker{color:#c7d3fa;display:flex;align-items:center;gap:8px;font-size:20px}
+.kicker-logo{width:20px;height:20px;flex-shrink:0;border-radius:4px}
+.hero h1{font-family:'Space Grotesk',-apple-system,sans-serif;font-size:clamp(40px,4.6vw,58px);font-weight:800;letter-spacing:-.01em;line-height:1.15;color:#f4f2ea;margin-bottom:14px}
 .hero h1 .grad{background:linear-gradient(110deg,#8aa2f2,#d6dffb 55%,#e8c874);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero .edition{color:rgba(244,242,234,.55)}
-.hero .subtitle{color:rgba(244,242,234,.66);margin-bottom:28px}
+.hero .edition{color:rgba(244,242,234,.78)}
+.hero .subtitle{color:rgba(244,242,234,.82);margin-bottom:28px}
 .hero .nav{border-bottom:none;padding-bottom:0;margin-bottom:0}
-.hero .tab-btn{background:rgba(255,255,255,.055);border-color:rgba(255,255,255,.13);color:rgba(244,242,234,.78);box-shadow:none}
-.hero .tab-btn:hover{background:rgba(255,255,255,.11);border-color:rgba(255,255,255,.22);color:#fff}
+.hero .tab-btn{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.24);color:rgba(244,242,234,.9);box-shadow:none}
+.hero .tab-btn:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.32);color:#fff}
 .hero .tab-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.breadcrumb{margin-bottom:14px}
+.breadcrumb ol{list-style:none;display:flex;flex-wrap:wrap;gap:6px;padding:0;margin:0;font-family:'Inter',sans-serif;font-size:14px}
+.breadcrumb li{color:rgba(244,242,234,.78);display:flex;align-items:center;gap:6px}
+.breadcrumb li:not(:last-child)::after{content:'›';margin-left:6px;color:rgba(244,242,234,.55)}
+.breadcrumb a{color:rgba(244,242,234,.85);text-decoration:none;font-weight:600}
+.breadcrumb a:hover{color:#fff;text-decoration:underline}
+.breadcrumb li[aria-current="page"]{color:rgba(244,242,234,.95);font-weight:600}
+.nav-spacer{height:0}
+body.nav-pinned .nav-spacer{display:block}
+.nav-slot .nav.nav-pinned{position:fixed;top:0;left:0;right:0;z-index:100;background:#111c38;padding:12px 24px;
+  border-bottom:1px solid rgba(255,255,255,.14);box-shadow:0 8px 20px rgba(0,0,0,.35);margin:0}
 .page>.spc-card{margin-top:-26px;position:relative;z-index:2;box-shadow:var(--shadow-lg)}
 h1,h2,h3,.tab-btn,.unit-title,.q-text,.ex-qtext,.ex-header h2,.term,.qr-h,.btn,.chip,.ex-part-hd h3,.result .big{
   font-family:'Space Grotesk',-apple-system,sans-serif}
@@ -157,10 +171,39 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .tab-btn.active{background:var(--ink);color:var(--surface);border-color:var(--ink)}
 .view{display:none}.view.active{display:block;animation:fadein .25s ease}
 @keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
-.filter-row{display:flex;gap:8px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:6px;-webkit-overflow-scrolling:touch}.filter-row::-webkit-scrollbar{height:4px}.filter-row::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
-.chip{white-space:nowrap;flex-shrink:0;padding:8px 16px;border-radius:999px;border:1px solid var(--border);background:var(--surface);font-size:14px;cursor:pointer;color:var(--ink-muted)}
-.chip:hover{border-color:var(--border-strong);color:var(--ink)}
+/* ---- sticky search + filter header ---- */
+.ss-sticky-top{position:sticky;top:var(--ss-nav-h,0px);z-index:40;background:var(--bg);padding-top:2px;margin:0 -24px;padding-left:24px;padding-right:24px;transition:top .15s ease}
+@media(max-width:600px){.ss-sticky-top{margin:0 -16px;padding-left:16px;padding-right:16px}}
+.search-wrap{position:relative;margin-bottom:10px}
+.search-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--ink-dim);pointer-events:none}
+#search-box{width:100%;height:48px;padding:0 84px 0 44px;border:1px solid var(--border);border-radius:var(--radius);
+  font-size:16.5px;background:var(--surface);color:var(--ink);box-shadow:var(--shadow-sm);transition:border-color .15s ease,box-shadow .15s ease}
+#search-box::placeholder{color:var(--ink-dim)}
+#search-box:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.search-kbd{position:absolute;right:15px;top:50%;transform:translateY(-50%);font-family:'IBM Plex Mono',monospace;font-size:12px;
+  color:var(--ink-dim);background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:2px 7px;pointer-events:none}
+#search-box:focus~.search-kbd,#search-box:not(:placeholder-shown)~.search-kbd{display:none}
+.search-clear{display:none;position:absolute;right:12px;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;
+  border:none;background:var(--surface-2);color:var(--ink-muted);cursor:pointer;align-items:center;justify-content:center}
+.search-clear:hover{background:var(--surface-hover);color:var(--ink)}
+#search-box:not(:placeholder-shown)~.search-clear{display:flex}
+#search-results{display:none;position:absolute;left:0;right:0;top:calc(100% + 6px);background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:50;max-height:360px;overflow-y:auto;padding:8px}
+#search-results.show{display:block}
+#search-results>div[onclick]{transition:background .12s ease}
+#search-results>div[onclick]:hover{background:var(--surface-2)!important;border-color:var(--border-strong)!important}
+.filter-row-wrap{position:relative}
+.filter-row{display:flex;gap:8px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:6px;-webkit-overflow-scrolling:touch;
+  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 24px,#000 calc(100% - 24px),transparent 100%);
+  mask-image:linear-gradient(to right,transparent 0,#000 24px,#000 calc(100% - 24px),transparent 100%)}
+.filter-row::-webkit-scrollbar{height:4px}.filter-row::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.chip{white-space:nowrap;flex-shrink:0;padding:8px 16px;border-radius:999px;border:1px solid var(--border);background:var(--surface);font-size:14px;cursor:pointer;color:var(--ink-muted);transition:all .15s ease}
+.chip:hover{border-color:var(--border-strong);color:var(--ink);transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.ss-overall-progress{display:flex;align-items:center;gap:10px;margin:8px 0 12px}
+.ss-overall-progress-track{flex:1;height:6px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.ss-overall-progress-fill{height:100%;width:0%;background:var(--accent);border-radius:99px;transition:width .3s ease}
+.ss-overall-progress-label{font-size:12.5px;color:var(--ink-dim);white-space:nowrap;flex-shrink:0}
 .unit{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden;background:var(--surface);
   transition:border-color .15s ease,box-shadow .15s ease}
 .unit:hover{border-color:var(--border-strong)}
@@ -173,7 +216,7 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .chevron{font-size:24px;color:var(--ink-dim);transition:transform .2s ease;display:inline-block}
 .unit.open .chevron{transform:rotate(180deg);color:var(--accent)}
 .unit-body{display:none;padding:6px 18px 20px}
-.unit.open .unit-body{display:block}
+.unit.open .unit-body{display:block;animation:fadein .25s ease}
 .concept{margin-top:12px;padding:15px 17px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm)}
 .concept:first-child{margin-top:2px}
 .c-label{font-size:16.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--accent-ink);margin-bottom:8px;display:flex;align-items:center;gap:8px}
@@ -226,14 +269,31 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .guess-btn.on{background:var(--amber-soft);border-style:solid;border-color:var(--amber);color:var(--amber-ink)}
 .guess-flag{display:inline-block;margin-left:8px;font-size:14px;font-weight:700;color:var(--amber-ink);background:var(--amber-soft);
   border:1px solid var(--amber);border-radius:99px;padding:2px 10px;vertical-align:middle}
-.q-block{border:1px solid var(--border);border-radius:var(--radius);padding:24px;background:var(--surface);box-shadow:var(--shadow-sm)}
-.q-text{font-size:24.8px;font-weight:600;color:var(--ink);line-height:1.55;margin-bottom:20px}
+.q-block{border:1px solid var(--border);border-radius:var(--radius);padding:24px;background:var(--surface);box-shadow:var(--shadow-sm);margin-bottom:22px;transition:transform .15s ease,box-shadow .15s ease}
+.q-block:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.q-block-hd{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px}
+.q-text{font-size:24.8px;font-weight:600;color:var(--ink);line-height:1.55;flex:1}
+.q-bookmark{flex:none;background:none;border:none;cursor:pointer;color:var(--ink-dim);padding:2px;border-radius:6px;transition:color .15s ease,transform .15s ease}
+.q-bookmark:hover{color:var(--amber);transform:scale(1.08)}
+.q-bookmark.on{color:var(--amber)}
+.q-bookmark svg{display:block}
 .q-opts{display:flex;flex-direction:column;gap:9px}
 .q-opt{padding:13px 16px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';
-  font-size:21.8px;color:var(--ink-muted);background:var(--surface);transition:all .15s ease;text-align:left}
+  font-size:21.8px;color:var(--ink-muted);background:var(--surface);transition:all .15s ease;text-align:left;
+  display:flex;align-items:center;gap:9px}
 .q-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}
+.q-opt:disabled{cursor:default}
+.q-opt .q-opt-icon{flex:none;display:none}
 .q-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}
+.q-opt.correct .q-opt-icon.icon-correct{display:inline-flex}
 .q-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}
+.q-opt.wrong .q-opt-icon.icon-wrong{display:inline-flex}
+.q-hint-btn{display:inline-flex;align-items:center;gap:6px;margin-bottom:14px;padding:6px 14px;border:1px dashed var(--border-strong);
+  border-radius:99px;background:transparent;color:var(--ink-dim);font-size:14px;font-family:inherit;cursor:pointer;transition:all .15s ease}
+.q-hint-btn:hover{color:var(--accent-ink);border-color:var(--accent);background:var(--accent-soft)}
+.q-hint-box{display:none;margin:-6px 0 14px;padding:10px 14px;background:var(--accent-soft);border-left:3px solid var(--accent);
+  border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:15px;color:var(--accent-ink);line-height:1.5}
+.q-hint-box.show{display:block}
 .q-exp{margin-top:16px;padding:13px 16px;background:var(--surface-2);border-radius:var(--radius-sm);font-family:'Inter';
   font-size:21px;color:var(--ink-muted);line-height:1.65;display:none}
 .q-exp.show{display:block}
@@ -280,36 +340,81 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .qr-ol li,.qr-ul li{font-size:20.2px;color:var(--ink-muted);line-height:1.65;margin-bottom:8px}
 .qr-ol li:last-child,.qr-ul li:last-child{margin-bottom:0}
 .spc-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow-md)}
+.spc-summary{display:none;width:100%;align-items:center;justify-content:space-between;gap:12px;background:none;border:none;
+  cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;color:var(--ink);padding:0;text-align:left}
+.spc-summary .spc-chevron{font-size:18px;color:var(--ink-dim);transition:transform .2s ease;flex-shrink:0}
+#spc-card.collapsed{padding:16px 20px;cursor:pointer}
+#spc-card.collapsed .spc-summary{display:flex}
+#spc-card.collapsed .spc-body{display:none}
+#spc-card.collapsed .spc-chevron{transform:rotate(-90deg)}
+#spc-card:not(.collapsed) .spc-collapse-btn{display:inline-flex}
+.spc-collapse-btn{display:none;align-items:center;gap:4px;background:none;border:1px solid var(--border);border-radius:999px;
+  color:var(--ink-muted);font-size:13px;font-weight:600;padding:5px 12px;cursor:pointer;margin-left:auto}
+.spc-collapse-btn:hover{color:var(--ink);border-color:var(--border-strong)}
+.spc-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:6px}
+.spc-head-text{flex:1;min-width:0}
 .spc-card h2{font-size:30px;font-weight:600;color:var(--ink);margin-bottom:6px}
-.spc-card>p{font-size:21px;color:var(--ink-muted);line-height:1.55;margin-bottom:24px}
-.spc-row{margin-bottom:20px}
-.spc-row label{display:flex;justify-content:space-between;font-size:21px;font-weight:600;color:var(--ink);margin-bottom:9px}
+.spc-card>.spc-body>p{font-size:21px;color:var(--ink-muted);line-height:1.55;margin-bottom:24px}
+.spc-row{margin-bottom:20px;padding:10px 0}
+.spc-row label{display:flex;justify-content:space-between;align-items:center;font-size:21px;font-weight:600;color:var(--ink);margin-bottom:9px}
 .spc-row label span{color:var(--accent-ink);font-weight:700}
-input[type=range].spc-slider{-webkit-appearance:none;appearance:none;width:100%;height:5px;border-radius:99px;background:var(--surface-2);outline:none}
-input[type=range].spc-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;
-  background:var(--accent);cursor:pointer;border:3px solid var(--surface);box-shadow:0 2px 8px rgba(15,122,112,.4)}
-input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--accent);cursor:pointer;border:3px solid var(--surface)}
+.spc-val-input{width:64px;font-family:inherit;font-size:18px;font-weight:700;color:var(--accent-ink);background:var(--surface-2);
+  border:1px solid var(--border);border-radius:6px;padding:2px 6px;text-align:right}
+input[type=range].spc-slider{-webkit-appearance:none;appearance:none;width:100%;height:8px;border-radius:99px;background:var(--surface-2);outline:none;
+  background-image:linear-gradient(to right, var(--accent) 0%, var(--accent) var(--fill,0%), var(--surface-2) var(--fill,0%), var(--surface-2) 100%)}
+input[type=range].spc-slider::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;
+  background:var(--accent);cursor:pointer;border:4px solid var(--surface);box-shadow:0 2px 8px rgba(15,122,112,.4),0 0 0 3px var(--accent-soft)}
+input[type=range].spc-slider::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:var(--accent);cursor:pointer;border:4px solid var(--surface);box-shadow:0 0 0 3px var(--accent-soft)}
+input[type=range].spc-slider::-moz-range-progress{background:var(--accent);height:8px;border-radius:99px}
 .spc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin:24px 0 16px}
-.spc-stat{background:var(--surface-2);border-radius:var(--radius-sm);padding:14px 10px;text-align:center}
+.spc-stat{background:var(--surface-2);border-radius:var(--radius-sm);padding:14px 10px;text-align:center;box-shadow:var(--shadow-sm)}
 .spc-stat-val{font-size:37.5px;font-weight:700;color:var(--accent-ink);line-height:1}
-.spc-stat-label{font-family:'Inter';font-size:17.2px;color:var(--ink-dim);margin-top:6px;line-height:1.3}
+.spc-stat-label{font-family:'Inter';font-size:17.2px;color:var(--ink-dim);margin-top:6px;line-height:1.3;cursor:help}
 .spc-tier{border-radius:var(--radius-sm);padding:13px 16px;font-size:21px;text-align:center;transition:background .2s,color .2s}
 .spc-tier b{display:block;font-size:22.5px;margin-bottom:2px}
+.spc-tier.good{background:var(--success-soft);color:var(--success)}
+.spc-tier.moderate{background:var(--accent-soft);color:var(--accent-ink)}
+.spc-tier.behind{background:var(--amber-soft);color:var(--amber-ink)}
+.spc-reset-btn{display:inline-flex;align-items:center;gap:6px;margin-top:16px;padding:8px 16px;border:1px solid var(--border);
+  border-radius:999px;background:var(--surface);color:var(--ink-muted);font-size:14px;font-weight:600;cursor:pointer;transition:all .15s ease}
+.spc-reset-btn:hover{color:var(--ink);border-color:var(--border-strong);background:var(--surface-hover)}
+@media (prefers-reduced-motion: no-preference){
+  .spc-body{transition:opacity .2s ease}
+}
 .unit:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .q-block{box-shadow:var(--shadow-md)}
 .diagram{box-shadow:var(--shadow-sm)}
 .face{box-shadow:var(--shadow-md)}
+.mobile-only-select{display:none}
 @media(max-width:600px){
   .page{padding:0 16px 70px}
   .hero{padding:40px 16px 32px}
   .q-block{padding:18px}
   .spc-stats{grid-template-columns:1fr}
+  /* ---- touch targets: >=44x44px effective hit area ---- */
+  .chip{padding:12px 16px;min-height:44px;display:inline-flex;align-items:center}
+  .q-opt{min-height:44px;padding:13px 16px}
+  #theme-toggle{width:44px;height:44px}
+  .tab-btn{min-height:44px;padding:11px 18px;display:inline-flex;align-items:center}
+  /* slider thumbs stay visually small but gain a transparent padded hit-area */
+  input[type=range].spc-slider{height:44px;padding:18px 0;background-clip:content-box;box-sizing:border-box}
+  input[type=range].spc-slider::-webkit-slider-thumb{width:26px;height:26px}
+  input[type=range].spc-slider::-moz-range-thumb{width:26px;height:26px}
+  .back-to-top{width:48px;height:48px}
+  /* ---- mobile unit filter: dropdown replaces the pill row ---- */
+  .filter-row-wrap .filter-row{display:none}
+  .mobile-only-select{display:block;width:100%;min-height:44px;padding:10px 14px;margin-bottom:6px;
+    border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--ink);
+    font-family:'Inter',sans-serif;font-size:16px;cursor:pointer}
 }
-#sg-timer{margin-left:auto;display:flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;
-  color:rgba(244,242,234,.7);font-size:21px;font-variant-numeric:tabular-nums}
-.sgt-b{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:rgba(244,242,234,.75);
-  border-radius:6px;padding:4px 9px;cursor:pointer;font-size:18px;transition:all .15s ease}
-.sgt-b:hover{color:#fff;border-color:rgba(255,255,255,.3)}
+#sg-timer{margin-left:auto;display:flex;align-items:center;gap:9px;font-family:'IBM Plex Mono',monospace;
+  color:rgba(244,242,234,.85);font-size:21px;font-variant-numeric:tabular-nums}
+.sgt-label{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:rgba(244,242,234,.7)}
+.sgt-b{border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:rgba(244,242,234,.9);
+  border-radius:6px;padding:5px 9px;cursor:pointer;font-size:18px;transition:all .15s ease;display:inline-flex;align-items:center;justify-content:center}
+.sgt-b:hover{color:#fff;border-color:rgba(255,255,255,.5)}
+.sgt-b svg{width:15px;height:15px;display:block}
 .mem-intro{font-size:21px;color:var(--ink-muted);background:var(--surface-2);border:1px solid var(--border);
   border-left:3px solid var(--accent);border-radius:var(--radius-sm);padding:13px 16px;margin-bottom:20px;line-height:1.6}
 .mem-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:11px}
@@ -359,7 +464,7 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
   color:#fff;cursor:pointer;font-size:24px;flex-shrink:0}
 #cbot-form button:disabled{opacity:.4;cursor:default}
 .back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Inter';font-size:15px;font-weight:600;
-  color:rgba(244,242,234,.62);text-decoration:none;margin-bottom:18px;transition:color .15s ease}
+  color:rgba(244,242,234,.8);text-decoration:none;margin-bottom:18px;transition:color .15s ease}
 .back-link:hover{color:#fff}
 
 .auth-gate{max-width:460px;margin:40px auto;text-align:center;padding:36px 28px;background:var(--surface);
@@ -375,10 +480,10 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
 .auth-gate .ss-oauth-btn{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-ink);font-weight:700}
 .auth-gate .ss-oauth-btn:hover{background:var(--accent);color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.18)}
 .ss-status{font-family:'Inter';font-size:12.5px;color:var(--ink-dim);margin-top:10px;min-height:16px}
-.ss-account{display:flex;align-items:center;gap:10px;font-family:'Inter';font-size:13px;color:rgba(244,242,234,.75)}
-.ss-account button{background:none;border:1px solid rgba(255,255,255,.18);border-radius:var(--radius-sm);
-  color:rgba(244,242,234,.7);padding:5px 11px;font-size:12px;cursor:pointer;font-family:'Inter'}
-.ss-account button:hover{color:#fff;border-color:rgba(255,255,255,.35)}
+.ss-account{display:flex;align-items:center;gap:10px;font-family:'Inter';font-size:13px;color:rgba(244,242,234,.88)}
+.ss-account button{background:none;border:1px solid rgba(255,255,255,.32);border-radius:var(--radius-sm);
+  color:rgba(244,242,234,.85);padding:5px 11px;font-size:12px;cursor:pointer;font-family:'Inter'}
+.ss-account button:hover{color:#fff;border-color:rgba(255,255,255,.5)}
 body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:2147483647;opacity:.035;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .q-kbd-hint{margin-left:auto;font-size:12.5px;color:var(--ink-dim)}
@@ -400,6 +505,42 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 .ex2-reveal{border-color:var(--accent)!important;color:var(--accent)!important}
 .ex2-done{margin-left:auto}
 
+/* ---- back-to-top ---- */
+.back-to-top{position:fixed;bottom:22px;left:22px;width:52px;height:52px;border-radius:50%;
+  background:var(--surface);color:var(--ink-muted);border:1px solid var(--border-strong);cursor:pointer;
+  box-shadow:var(--shadow-md);z-index:200;display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .2s ease,transform .2s ease,color .15s ease,border-color .15s ease}
+.back-to-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+.back-to-top:hover{color:var(--ink);border-color:var(--accent)}
+.back-to-top svg{width:20px;height:20px;display:block}
+
+/* ---- print / export ---- */
+@media print{
+  :root,[data-theme="dark"]{
+    --bg:#fff;--surface:#fff;--surface-2:#f2f2f2;--surface-hover:#f2f2f2;
+    --border:#ccc;--border-strong:#999;--ink:#000;--ink-muted:#222;--ink-dim:#444;
+    --accent:#000;--accent-ink:#000;--accent-soft:#eee;
+    --amber:#000;--amber-ink:#000;--amber-soft:#eee;
+    --success:#000;--success-soft:#eee;--success-border:#999;
+    --danger:#000;--danger-soft:#eee;--danger-border:#999;
+    --shadow-sm:none;--shadow-md:none;--shadow-lg:none;
+  }
+  body{background:#fff;color:#000}
+  body::before,.hero::after{display:none!important}
+  #theme-toggle,.search-wrap,.ss-sticky-top .filter-row-wrap,.mobile-only-select,.nav,.nav-spacer,.tablist,
+  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
+  .search-kbd,.ss-overall-progress,.q-kbd-hint,.diag-btn{display:none!important}
+  *{position:static!important;box-shadow:none!important}
+  .unit-body{display:block!important}
+  .unit .chevron{display:none!important}
+  .ex-part-body{display:block!important}
+  .q-exp,.q-hint-box{display:block!important}
+  .q-opt{border:1px solid #999!important}
+  details{display:block!important}
+  details>*{display:block!important}
+  a{color:#000;text-decoration:underline}
+}
+
 :root:not([data-theme="dark"]){--accent:#b45309!important;--accent-ink:#753606!important;--accent-soft:#f6eae1!important;--accent-border:#e3bea2!important;--bg:#f8eee6!important;}[data-theme="dark"]{--accent:#d6a078!important;--accent-soft:rgba(180,83,9,0.16)!important;--accent-border:rgba(180,83,9,0.4)!important;--bg:#12182b!important;--surface:#1a2138!important;}:root:not([data-theme="dark"]) .hero{background:linear-gradient(170deg,#753606 0%,#b45309 55%,#f8eee6 130%)!important;}[data-theme="dark"] .hero{background:linear-gradient(170deg,#0a0e1c 0%,#753606 45%,#b45309 100%)!important;}:root:not([data-theme="dark"]) .tab-btn.active,[data-theme="dark"] .tab-btn.active{background:#b45309;border-color:#b45309;color:#fff!important;}.btn{background:#b45309;border-color:#b45309} .unit.open .chevron{color:#b45309}.chip.on{background:#b45309;border-color:#b45309;color:#fff}:root:not([data-theme="dark"]) .spc-card{border-color:#e3bea2;background:linear-gradient(135deg,#f6eae1,var(--surface))!important}[data-theme="dark"] .spc-card{border-color:rgba(180,83,9,0.4);background:linear-gradient(135deg,rgba(180,83,9,0.16),var(--surface))!important}
 .hero::after{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'180'%20height%3D'180'%3E%3Cpath%20d%3D'M30%2040%20q25%20-12%2050%200%20v40%20q-25%20-12%20-50%200%20z'%20fill%3D'none'%20stroke%3D'%23b45309'%20stroke-width%3D'2.5'%20opacity%3D'.4'%2F%3E%3Cpath%20d%3D'M55%2040%20v40'%20stroke%3D'%23b45309'%20stroke-width%3D'2'%20opacity%3D'.4'%2F%3E%3Cpath%20d%3D'M120%20115%20l18%20-26%206%204%20-18%2026%20z'%20fill%3D'%23b45309'%20opacity%3D'.3'%2F%3E%3C%2Fsvg%3E")!important;background-size:180px 180px!important;opacity:.5!important;}
 body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'190'%20height%3D'190'%3E%3Ctext%20x%3D'28'%20y%3D'62'%20font-size%3D'46'%20fill%3D'%23b45309'%20opacity%3D'0.133'%20font-family%3D'Georgia'%3E%22%3C%2Ftext%3E%3Cpath%20d%3D'M110%20118%20h44%20M110%20130%20h30'%20stroke%3D'%23b45309'%20stroke-width%3D'2'%20opacity%3D'0.095'%2F%3E%3C%2Fsvg%3E");background-size:190px 190px;opacity:.9;}
@@ -419,10 +560,20 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <a class="skip-link" href="#main-content">Skip to main content</a>
 <div class="hero">
   <div class="hero-inner">
-    <a href="/" class="back-link" style="opacity:0;animation:fadein .5s ease forwards">← Back to Library</a>
-    <div class="kicker" style="opacity:0;animation:fadein .5s ease .06s forwards">English 10</div>
+    <nav class="breadcrumb" aria-label="Breadcrumb" style="opacity:0;animation:fadein .5s ease forwards">
+      <ol>
+        <li><a href="/">PrecisStudy</a></li>
+        <li><a href="/">All Guides</a></li>
+        <li aria-current="page">English 10 Study Guide</li>
+      </ol>
+    </nav>
+    <div class="kicker" style="opacity:0;animation:fadein .5s ease .06s forwards">
+      <img src="/logo-icon-dark.png" alt="" class="kicker-logo" width="20" height="20">
+      <span>English 10</span>
+    </div>
     <h1 style="opacity:0;animation:fadein .5s ease .12s forwards"><span class="grad">English 10</span> Study Guide</h1>
     <p class="subtitle" style="opacity:0;animation:fadein .5s ease .18s forwards">8 Units · 320 Quiz Questions · 80 Flashcards · Diagnostic · Quick Reference · Memory Tricks · Saved Progress</p>
+    <div class="nav-slot" id="nav-slot">
     <nav class="nav" style="opacity:0;animation:fadein .5s ease .24s forwards">
       <div class="tablist" role="tablist" aria-label="Study guide views">
       <button class="tab-btn active" role="tab" id="tab-guide" aria-controls="view-guide" aria-selected="true" onclick="switchTab('guide')">Study Guide</button>
@@ -437,39 +588,85 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
         <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
       </button>
     </nav>
+    </div>
     <div class="hero-live sr-only" id="hero-live" role="status" aria-live="polite"></div>
   </div>
 </div>
+<div class="nav-spacer" id="nav-spacer" hidden></div>
 <div class="page" id="main-content" role="main" tabindex="-1">
-<div class="spc-card" id="spc-card">
-  <h2>See what your study plan could look like</h2>
-  <p>Based on this guide's real question bank — 320 practice questions across 8 units. Slide to match your situation.</p>
+<div class="spc-card collapsed" id="spc-card">
+  <button type="button" class="spc-summary" id="spc-summary" aria-expanded="false" aria-controls="spc-body">
+    <span>📊 See what your study plan could look like — tap to expand</span>
+    <span class="spc-chevron" aria-hidden="true">▾</span>
+  </button>
+  <div class="spc-body" id="spc-body">
+  <div class="spc-head">
+    <div class="spc-head-text">
+      <h2>See what your study plan could look like</h2>
+      <p>Based on this guide's real question bank — 320 practice questions across 8 units. Slide to match your situation.</p>
+    </div>
+    <button type="button" class="spc-collapse-btn" id="spc-collapse-btn" aria-expanded="true" aria-controls="spc-body">Collapse ▴</button>
+  </div>
   <div class="spc-row">
-    <label for="spc-days">Days until your exam <span id="spc-days-val">14 days</span></label>
+    <label for="spc-days">Days until your exam <span id="spc-days-val">14 days</span> <input type="number" class="spc-val-input" id="spc-days-num" min="1" max="60" value="14" aria-label="Days until your exam, exact number"></label>
     <input type="range" class="spc-slider" id="spc-days" min="1" max="60" value="14">
   </div>
   <div class="spc-row">
-    <label for="spc-mins">Minutes you can study per day <span id="spc-mins-val">30 min</span></label>
+    <label for="spc-mins">Minutes you can study per day <span id="spc-mins-val">30 min</span> <input type="number" class="spc-val-input" id="spc-mins-num" min="10" max="120" step="5" value="30" aria-label="Minutes you can study per day, exact number"></label>
     <input type="range" class="spc-slider" id="spc-mins" min="10" max="120" value="30" step="5">
   </div>
   <div class="spc-stats">
-    <div class="spc-stat"><div class="spc-stat-val" id="spc-questions">0</div><div class="spc-stat-label">Questions you'll complete</div></div>
-    <div class="spc-stat"><div class="spc-stat-val" id="spc-units">0</div><div class="spc-stat-label">Units covered</div></div>
-    <div class="spc-stat"><div class="spc-stat-val" id="spc-pct">0%</div><div class="spc-stat-label">of the full question bank</div></div>
+    <div class="spc-stat"><div class="spc-stat-val" id="spc-questions">0</div><div class="spc-stat-label" title="The total number of quiz questions you'll get through at this pace before your exam date.">Questions you'll complete</div></div>
+    <div class="spc-stat"><div class="spc-stat-val" id="spc-units">0</div><div class="spc-stat-label" title="How many of this guide's units you'll have covered at this pace.">Units covered</div></div>
+    <div class="spc-stat"><div class="spc-stat-val" id="spc-pct">0%</div><div class="spc-stat-label" title="Percentage of every question in this guide's bank you'll get through at this pace.">of the full question bank</div></div>
   </div>
   <div class="spc-tier" id="spc-tier">
     <b id="spc-tier-title"></b>
     <span id="spc-tier-sub"></span>
   </div>
-</div>
-<div id="view-guide" class="view active" role="tabpanel" aria-labelledby="tab-guide" tabindex="0">
-  <div style="display:flex;gap:8px;margin-bottom:10px;align-items:center">
-    <input id="search-box" type="search" aria-label="Search this guide's topics, terms, and formulas" placeholder="Search topics, terms, formulas…" oninput="searchGuide()" style="flex:1;padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:15px;background:var(--surface);color:var(--ink)">
-    <button type="button" onclick="clearSearch()" style="padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);font-size:13px;cursor:pointer;color:var(--ink-muted)">✕ Clear</button>
+  <button type="button" class="spc-reset-btn" id="spc-reset-btn">↺ Reset to Recommended</button>
   </div>
-  <div id="search-results" style="display:none;margin-bottom:12px"></div>
-  <div class="filter-row" id="filter-row"><button class="chip on">All Units</button><button class="chip">Unit 1</button><button class="chip">Unit 2</button><button class="chip">Unit 3</button><button class="chip">Unit 4</button><button class="chip">Unit 5</button><button class="chip">Unit 6</button><button class="chip">Unit 7</button><button class="chip">Unit 8</button></div>
-  <div id="units"><div class="unit" data-id="1"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 1: World Literature & Cultural Context<span class="unit-meta">4 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Reading across cultures</div><div class="c-text">World lit asks you to bracket assumptions and read values from the inside.</div><ul class="c-list"><li>Cultural context = beliefs, history, and social structures shaping a text's meaning</li><li>Avoid ethnocentrism: judge actions by the text's value system first, then compare</li><li>Translation layers matter: wordplay/idioms may not survive language transfer</li><li>Universals vs particulars: shared human themes wear culture-specific clothing</li></ul></div><div class="concept"><div class="c-label">Oral traditions & archetypes</div><div class="c-text">Many world texts began spoken — structure carries their fingerprints.</div><ul class="c-list"><li>Repetition/formula phrases aided memorization (epithets, refrains)</li><li>Trickster figures (Anansi, Coyote) enforce norms by breaking them</li><li>Creation myths encode a culture's cosmology and hierarchy</li><li>Archetypes recur cross-culturally: hero's journey, flood narrative, descent to underworld</li></ul></div><div class="concept"><div class="c-label">Colonial & postcolonial lenses</div><div class="c-text">Power shapes whose stories get told and how.</div><ul class="c-list"><li>Colonial literature often frames colonized people through the colonizer's gaze</li><li>Postcolonial writing reclaims voice: hybridity, resisting narratives, writing back</li><li>Terms: othering, assimilation, diaspora, subaltern</li><li>Read for whose perspective centers the story and whose is erased</li></ul></div><div class="concept"><div class="c-label">Close reading with context</div><div class="c-text">Context informs but evidence proves — balance both.</div><ul class="c-list"><li>Research customs only after first-pass reading; don't outsource interpretation</li><li>Anchor claims in textual detail + cultural knowledge together</li><li>Note your own lens: what surprises you reveals YOUR assumptions</li><li>Compare across texts: how do two cultures treat hospitality, honor, fate?</li></ul></div><div class="trap">Don't grade historical characters by modern standards without noting the anachronism</div><div class="trap">'Universal theme' claims still need textual proof from THAT text</div><div class="trap">Translated names/terms carry weight — check transliteration notes</div></div></div><div class="unit" data-id="2"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 2: Rhetorical Analysis<span class="unit-meta">4 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">The rhetorical situation</div><div class="c-text">Every text answers to speaker, purpose, audience, context, exigence.</div><ul class="c-list"><li>Speaker: constructed voice with stakes and credibility moves</li><li>Purpose: what the text tries to DO (persuade, move, console, provoke)</li><li>Audience: intended readers shape vocabulary, allusions, tone choices</li><li>Exigence: the occasion/urgency that called the text into being</li></ul></div><div class="concept"><div class="c-label">Tone & diction analysis</div><div class="c-text">Word choice is the fingerprint of attitude.</div><ul class="c-list"><li>Name tone precisely: wry, elegiac, indignant, clinical — never just 'negative'</li><li>Diction levels: formal/casual/colloquial/archaic — shifts signal pivots</li><li>Connotation vs denotation: 'thrifty' vs 'stingy' same denotation, opposite spin</li><li>Imagery patterns cluster around motifs supporting the purpose</li></ul></div><div class="concept"><div class="c-label">Structure & syntax moves</div><div class="c-text">How sentences build IS argumentation.</div><ul class="c-list"><li>Short sentence after long ones lands like a hammer — deliberate emphasis</li><li>Parallelism binds equal ideas; antithesis sets opposites colliding</li><li>Repetition + anaphora build momentum toward a climax</li><li>Opening/closing positions carry primacy/recency weight — authors load them</li></ul></div><div class="concept"><div class="c-label">Writing the analysis essay</div><div class="c-text">Analysis explains HOW choices work on audiences — not whether you agree.</div><ul class="c-list"><li>Thesis names strategy + purpose: 'Through X, author Y accomplishes Z for audience W'</li><li>Body paragraphs organize by MOVES, not by chronology of the passage</li><li>Quote → name device → explain audience effect → tie to purpose</li><li>Never editorialize about the topic itself — analyze the persuasion craft</li></ul></div><div class="trap">Summarizing content ≠ analyzing rhetoric — always answer HOW the writing works</div><div class="trap">Device-spotting without effect ('this has anaphora') earns nothing</div><div class="trap">Your opinion of the ISSUE is irrelevant in rhetorical analysis</div></div></div><div class="unit" data-id="3"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 3: Shakespearean Drama & Tragedy<span class="unit-meta">4 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Tragic hero architecture</div><div class="c-text">The noble protagonist falls through hamartia — fatal flaw meeting circumstance.</div><ul class="c-list"><li>Hamartia: tragic error/flaw (ambition, jealousy, indecision)</li><li>Peripeteia: reversal of fortune at the midpoint turn</li><li>Anagnorisis: recognition — hero finally sees truth, too late</li><li>Catharsis: audience purges pity+fear through witnessing the fall</li></ul></div><div class="concept"><div class="c-label">Soliloquy, aside, monologue</div><div class="c-text">Shakespeare's interiority tools differ precisely.</div><ul class="c-list"><li>Soliloquy: ALONE on stage, speaking thoughts to audience — direct mind-access</li><li>Aside: brief remark to audience hidden from other characters</li><li>Monologue: long speech TO other characters (they hear it)</li><li>These expose motive gaps between appearance and reality — dramatic irony fuel</li></ul></div><div class="concept"><div class="c-label">Dramatic irony & foreshadowing</div><div class="c-text">Audience foreknowledge converts scenes into suspense machines.</div><ul class="c-list"><li>Witches' prophecies make every choice read as fate-vs-free-will evidence</li><li>Dramatic irony: we know Duncan's trust is doomed; he doesn't</li><li>Foreshadowing devices: omens, storms, blood imagery accumulating</li><li>Pathetic fallacy: nature mirrors moral disorder (thunder during regicide)</li></ul></div><div class="concept"><div class="c-label">Language: verse, prose & imagery</div><div class="c-text">Form marks class and sanity in Shakespeare.</div><ul class="c-list"><li>Nobles speak blank verse (unrhymed iambic pentameter); commoners prose</li><li>Falling INTO prose can signal madness/loss of control; rising to verse = restored order</li><li>Motif webs: blood, sleep, hands, darkness track guilt in Macbeth</li><li>Apostrophe: addressing absent things ('Sleep, O gentle Sleep…')</li></ul></div><div class="trap">Monologue ≠ soliloquy — presence of listeners is the test</div><div class="trap">Prophecies don't excuse characters: they act on interpretations (free will debate)</div><div class="trap">Comic relief scenes often deepen theme, not distract from it</div></div></div><div class="unit" data-id="4"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 4: Dystopian Literature & Allegory<span class="unit-meta">4 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Dystopia as warning</div><div class="c-text">Dystopias exaggerate present trends into cautionary futures.</div><ul class="c-list"><li>Utopia = perfect society (ironically 'no-place'); dystopia = its nightmare inversion</li><li>Control levers: surveillance, language restriction, history rewriting, engineered pleasure</li><li>Protagonist awakening arc: compliance → doubt → rebellion → ambiguous cost</li><li>Warnings target the author's PRESENT — read historically to decode targets</li></ul></div><div class="concept"><div class="c-label">Totalitarian toolkits in fiction</div><div class="c-text">Classic dystopias map how freedom erodes step by step.</div><ul class="c-list"><li>Newspeak-style language control limits thinkable thoughts (linguistic determinism)</li><li>Surveillance state: panopticon effect — victims internalize the watching gaze</li><li>Slogans replace reasoning; contradictions embraced as loyalty tests (doublethink)</li><li>Bread & circuses: engineered distraction pacifies more efficiently than fear</li></ul></div><div class="concept"><div class="c-label">Allegory mechanics</div><div class="c-text">Allegories run double stories: surface plot plus systematic second meaning.</div><ul class="c-list"><li>Every element maps consistently: characters/settings/events = abstract ideas</li><li>Fable = brief allegory with stated moral; parable = spiritual teaching frame</li><li>Track correspondences on a character-concept chart for sustained allegories</li><li>Degree matters: pure one-to-one allegory vs symbolic realism differ in rigidity</li></ul></div><div class="concept"><div class="c-label">Satire inside allegory</div><div class="c-text">Many allegories satirize specific regimes or human failings.</div><ul class="c-list"><li>Satire critiques through humor/irony — Horatian gentle vs Juvenalian biting</li><li>Exaggeration + inversion expose real absurdities by magnifying them</li><li>Targets may be systems (totalitarianism) AND betrayals within resistance movements</li><li>Ask what behavior gets punished or mocked — that reveals the defended value</li></ul></div><div class="trap">Don't flatten allegory into decoder-ring exercise — literary texture still carries meaning</div><div class="trap">'Orwellian' means language/truth manipulation, not just any government disliked</div><div class="trap">One group's utopia can be another's dystopia — perspective determines label</div></div></div><div class="unit" data-id="5"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 5: Argumentation & Logical Fallacies<span class="unit-meta">4 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Formal logic basics</div><div class="c-text">Arguments chain premises into conclusions; validity and truth are separate checks.</div><ul class="c-list"><li>Deductive reasoning: true premises + valid structure = necessarily true conclusion</li><li>Inductive reasoning: observed patterns support probable (not guaranteed) conclusions</li><li>Syllogism: major premise + minor premise → conclusion</li><li>Soundness requires BOTH valid structure AND actually-true premises</li></ul></div><div class="concept"><div class="c-label">Relevance fallacies</div><div class="c-text">These fallacies distract from the actual question at issue.</div><ul class="c-list"><li>Ad hominem attacks the arguer instead of the argument's merits</li><li>Straw man refutes a distorted, weakened version of the opponent's actual claim</li><li>Red herring drags in irrelevant material to divert attention</li><li>Bandwagon appeal treats popularity as evidence — it is not</li></ul></div><div class="concept"><div class="c-label">Causation & emotional fallacies</div><div class="c-text">Cause-effect shortcuts and feeling substitutions replace proof.</div><ul class="c-list"><li>Post hoc ergo propter hoc: sequence mistaken for causation</li><li>Hasty generalization projects sweeping claims from tiny samples</li><li>Slippery slope asserts an unproven chain of escalating consequences</li><li>Appeal to fear/pity substitutes emotional pressure for evidence</li></ul></div><div class="concept"><div class="c-label">Resisting manipulation</div><div class="c-text">Media literacy is fallacy detection at reading speed.</div><ul class="c-list"><li>Loaded language smuggles conclusions into supposedly neutral descriptions</li><li>Check source incentives: who profits if this claim spreads?</li><li>Steelman opposing views before concluding — test against their best case</li><li>Statistics without denominators mislead: 'doubled' from 1 to 2 cases</li></ul></div><div class="trap">Ad hominem ≠ insulting someone generally — it's dismissing their ARGUMENT via the person</div><div class="trap">Each slippery-slope link needs independent justification; chains fail link-by-link</div><div class="trap">Correlation studies need controls before causal headlines earn belief</div></div></div><div class="unit" data-id="6"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 6: Poetry Analysis II<span class="unit-meta">4 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Tone mapping & shifts</div><div class="c-text">Track attitude word by word; good poems move.</div><ul class="c-list"><li>Name tone precisely on spectra: reverent-mocking, elegiac-celebratory, wistful-bitter</li><li>Mark shift signals: 'but/yet', stanza breaks, volta, image-field changes</li><li>Shift analysis answers WHY the poem needed to turn at that exact point</li><li>Ending tone often retroactively revises earlier lines — reread on finishing</li></ul></div><div class="concept"><div class="c-label">Ambiguity as design</div><div class="c-text">Great poems deliberately mean more than one thing at once.</div><ul class="c-list"><li>Intentional ambiguity resists flattening into a single interpretation</li><li>Multiple readings coexist legitimately when each has textual grounding</li><li>Ambiguity differs from vagueness: precise words open multiple precise doors</li><li>Discuss competing readings, then argue which the text best supports</li></ul></div><div class="concept"><div class="c-label">Extended metaphor & conceit</div><div class="c-text">Conceits stretch comparison into load-bearing architecture.</div><ul class="c-list"><li>Metaphysical conceit: startlingly intellectual parallels (lovers as compass legs)</li><li>Extended metaphor sustains one comparison across entire stanzas</li><li>Tracking every term of the conceit exposes the poem's argument structure</li><li>Mixed metaphors may be intentional — check whether context earns them</li></ul></div><div class="concept"><div class="c-label">Comparative poetry essays</div><div class="c-text">Comparison essays must argue about technique, not just summarize two poems.</div><ul class="c-list"><li>Thesis compares TECHNIQUES serving purposes, never 'poem A is about X, poem B about Y'</li><li>Organize by element (tone shift / imagery / structure), alternating texts within paragraphs</li><li>Maintain balance: roughly equal attention to both poems throughout</li><li>Conclusion states what the comparison itself reveals — insight neither poem gives alone</li></ul></div><div class="trap">Unbounded 'anything goes' readings ignore that text evidence bounds ambiguity</div><div class="trap">Summary sandwich isn't comparison — each paragraph needs an analytical claim</div><div class="trap">Modern lenses need period-aware framing plus textual anchors to persuade</div></div></div><div class="unit" data-id="7"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 7: Research & Citation (MLA)<span class="unit-meta">4 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Research question design</div><div class="c-text">Good research starts with a question worth answering.</div><ul class="c-list"><li>Scope: narrow enough to answer in essay length, broad enough to matter</li><li>Open beats closed: 'How did X affect Y?' invites analysis, not trivia recall</li><li>Preliminary searching tests whether sources actually exist</li><li>Thesis EVOLVES from evidence — never reverse-engineer sources to fit a fixed claim</li></ul></div><div class="concept"><div class="c-label">Source evaluation (CRAAP)</div><div class="c-text">Not every source deserves your citation.</div><ul class="c-list"><li>Currency: date sensitivity varies by field — science fast-moving, history slower</li><li>Authority: author credentials, publisher reputation, peer-review markers</li><li>Accuracy: internal citations, verifiable data, absence of howler errors</li><li>Purpose/bias: advocacy sites disguise themselves — check About pages and funders</li></ul></div><div class="concept"><div class="c-label">MLA in-text citations</div><div class="c-text">MLA uses author-page parentheticals with graceful signal phrasing.</div><ul class="c-list"><li>Basic form: (Fitzgerald 88) — no comma, no 'p.'</li><li>Vary signal verbs: argues, observes, counters, acknowledges</li><li>Prose attribution example: Fitzgerald suggests the parties mask loneliness (55).</li><li>No author → shortened title; web pages without pagination → author only</li></ul></div><div class="concept"><div class="c-label">Works Cited & plagiarism</div><div class="c-text">Every borrowed idea gets credit — not just direct quotes.</div><ul class="c-list"><li>Alphabetical list, hanging indent at 0.5 inch on second lines</li><li>Container system: article inside journal inside database — nested titles</li><li>Cite paraphrases AND summaries; ideas carry ownership, not just wording</li><li>Common-knowledge exception is narrower than students hope: when unsure, cite</li></ul></div><div class="trap">'I reworded it' does not erase the citation requirement — ideas are owned</div><div class="trap">Wikipedia is a source-finding tool, not itself a citable authority</div><div class="trap">Web sources without page numbers cite author alone or shortened title</div></div></div><div class="unit" data-id="8"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 8: Style & Syntax<span class="unit-meta">4 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Sentence variety architecture</div><div class="c-text">Rhythm keeps readers awake; deliberate patterns create emphasis.</div><ul class="c-list"><li>Mix lengths: short sentences punch; long ones chain logic</li><li>Vary openers — participial ('Exhausted, she…'), prepositional, adverbial starts</li><li>Cumulative sentences add detail after the main clause; periodic save the verb for suspense</li><li>Vary any run of three same-shape sentences — rhythm rules of thumb</li></ul></div><div class="concept"><div class="c-label">Diction precision & connotation</div><div class="c-text">Exact words earn their slot; near-synonyms betray fuzzy thinking.</div><ul class="c-list"><li>Prefer concrete over abstract: 'walked heavily' beats 'moved'</li><li>Connotation audit: cheap / inexpensive / thrifty carry opposite judgments</li><li>Delete intensifiers (very, really) — stronger verbs do that work</li><li>Register must match: slang breaks academic tone; pomposity breaks trust</li></ul></div><div class="concept"><div class="c-label">Active voice & concision</div><div class="c-text">Strong subjects performing strong verbs read fastest.</div><ul class="c-list"><li>Active: The committee rejected the proposal. Passive hides or delays the actor</li><li>Passive earns its keep when the actor is unknown, irrelevant, or the receiver deserves emphasis</li><li>Wordiness patterns: there-is openers and nominalizations (make a decision → decide)</li><li>Redundancy cuts: advance planning, end result, absolutely essential</li></ul></div><div class="concept"><div class="c-label">Revision hierarchy</div><div class="c-text">Revise big-to-small: argument before paragraphs before words before commas.</div><ul class="c-list"><li>Pass 1: thesis integrity and paragraph order serve the argument</li><li>Pass 2: PEEL completeness inside paragraphs plus transitions between moves</li><li>Pass 3: sentence concision, variety, active-voice audit</li><li>Pass 4: grammar, punctuation, MLA format — mechanics come last</li></ul></div><div class="trap">Passive voice is a tool, not a crime — blanket bans misfire in methods sections</div><div class="trap">Thesaurus swaps produce wrong connotations: pensive is not interchangeable with sad</div><div class="trap">Fixing commas first wastes effort when the argument still needs restructuring</div></div></div></div></div>
+</div>
+<script>
+(function(){
+  var card=document.getElementById('spc-card');
+  var summary=document.getElementById('spc-summary');
+  var collapseBtn=document.getElementById('spc-collapse-btn');
+  var KEY='ss-spc-collapsed';
+  function setCollapsed(collapsed){
+    card.classList.toggle('collapsed',collapsed);
+    summary.setAttribute('aria-expanded',String(!collapsed));
+    collapseBtn.setAttribute('aria-expanded',String(!collapsed));
+    try{localStorage.setItem(KEY,collapsed?'1':'0');}catch(e){}
+  }
+  var stored=null;
+  try{stored=localStorage.getItem(KEY);}catch(e){}
+  setCollapsed(stored===null?true:stored==='1');
+  summary.addEventListener('click',function(){setCollapsed(false);});
+  collapseBtn.addEventListener('click',function(){setCollapsed(true);});
+})();
+</script>
+<div id="view-guide" class="view active" role="tabpanel" aria-labelledby="tab-guide" tabindex="0">
+  <div class="ss-sticky-top">
+  <div class="search-wrap">
+    <svg class="search-icon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input id="search-box" type="search" aria-label="Search this guide's topics, terms, and formulas" placeholder="Search topics, terms, formulas…" oninput="searchGuide()">
+    <kbd class="search-kbd" aria-hidden="true">/</kbd>
+    <button type="button" class="search-clear" onclick="clearSearch()" aria-label="Clear search">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div id="search-results"></div>
+  </div>
+  <div class="filter-row-wrap">
+    <div class="filter-row" id="filter-row"><button class="chip on">All Units</button><button class="chip">Unit 1</button><button class="chip">Unit 2</button><button class="chip">Unit 3</button><button class="chip">Unit 4</button><button class="chip">Unit 5</button><button class="chip">Unit 6</button><button class="chip">Unit 7</button><button class="chip">Unit 8</button></div>
+    <select id="filter-select" class="mobile-only-select" aria-label="Filter units" onchange="ssFilterSelectChange()"><option value="0">All Units</option><option value="1">Unit 1</option><option value="2">Unit 2</option><option value="3">Unit 3</option><option value="4">Unit 4</option><option value="5">Unit 5</option><option value="6">Unit 6</option><option value="7">Unit 7</option><option value="8">Unit 8</option></select>
+  </div>
+  <div class="ss-overall-progress" id="ss-overall-progress">
+    <div class="ss-overall-progress-track"><div class="ss-overall-progress-fill" id="ss-overall-progress-fill"></div></div>
+    <span class="ss-overall-progress-label" id="ss-overall-progress-label">0% of the question bank attempted</span>
+  </div>
+  </div>
+  <div id="units"><div class="unit" data-id="1"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 1: World Literature & Cultural Context<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Reading across cultures</div><div class="c-text">World lit asks you to bracket assumptions and read values from the inside.</div><ul class="c-list"><li>Cultural context = beliefs, history, and social structures shaping a text's meaning</li><li>Avoid ethnocentrism: judge actions by the text's value system first, then compare</li><li>Translation layers matter: wordplay/idioms may not survive language transfer</li><li>Universals vs particulars: shared human themes wear culture-specific clothing</li></ul></div><div class="concept"><div class="c-label">Oral traditions & archetypes</div><div class="c-text">Many world texts began spoken — structure carries their fingerprints.</div><ul class="c-list"><li>Repetition/formula phrases aided memorization (epithets, refrains)</li><li>Trickster figures (Anansi, Coyote) enforce norms by breaking them</li><li>Creation myths encode a culture's cosmology and hierarchy</li><li>Archetypes recur cross-culturally: hero's journey, flood narrative, descent to underworld</li></ul></div><div class="concept"><div class="c-label">Colonial & postcolonial lenses</div><div class="c-text">Power shapes whose stories get told and how.</div><ul class="c-list"><li>Colonial literature often frames colonized people through the colonizer's gaze</li><li>Postcolonial writing reclaims voice: hybridity, resisting narratives, writing back</li><li>Terms: othering, assimilation, diaspora, subaltern</li><li>Read for whose perspective centers the story and whose is erased</li></ul></div><div class="concept"><div class="c-label">Close reading with context</div><div class="c-text">Context informs but evidence proves — balance both.</div><ul class="c-list"><li>Research customs only after first-pass reading; don't outsource interpretation</li><li>Anchor claims in textual detail + cultural knowledge together</li><li>Note your own lens: what surprises you reveals YOUR assumptions</li><li>Compare across texts: how do two cultures treat hospitality, honor, fate?</li></ul></div><div class="trap">Don't grade historical characters by modern standards without noting the anachronism</div><div class="trap">'Universal theme' claims still need textual proof from THAT text</div><div class="trap">Translated names/terms carry weight — check transliteration notes</div></div></div><div class="unit" data-id="2"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 2: Rhetorical Analysis<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">The rhetorical situation</div><div class="c-text">Every text answers to speaker, purpose, audience, context, exigence.</div><ul class="c-list"><li>Speaker: constructed voice with stakes and credibility moves</li><li>Purpose: what the text tries to DO (persuade, move, console, provoke)</li><li>Audience: intended readers shape vocabulary, allusions, tone choices</li><li>Exigence: the occasion/urgency that called the text into being</li></ul></div><div class="concept"><div class="c-label">Tone & diction analysis</div><div class="c-text">Word choice is the fingerprint of attitude.</div><ul class="c-list"><li>Name tone precisely: wry, elegiac, indignant, clinical — never just 'negative'</li><li>Diction levels: formal/casual/colloquial/archaic — shifts signal pivots</li><li>Connotation vs denotation: 'thrifty' vs 'stingy' same denotation, opposite spin</li><li>Imagery patterns cluster around motifs supporting the purpose</li></ul></div><div class="concept"><div class="c-label">Structure & syntax moves</div><div class="c-text">How sentences build IS argumentation.</div><ul class="c-list"><li>Short sentence after long ones lands like a hammer — deliberate emphasis</li><li>Parallelism binds equal ideas; antithesis sets opposites colliding</li><li>Repetition + anaphora build momentum toward a climax</li><li>Opening/closing positions carry primacy/recency weight — authors load them</li></ul></div><div class="concept"><div class="c-label">Writing the analysis essay</div><div class="c-text">Analysis explains HOW choices work on audiences — not whether you agree.</div><ul class="c-list"><li>Thesis names strategy + purpose: 'Through X, author Y accomplishes Z for audience W'</li><li>Body paragraphs organize by MOVES, not by chronology of the passage</li><li>Quote → name device → explain audience effect → tie to purpose</li><li>Never editorialize about the topic itself — analyze the persuasion craft</li></ul></div><div class="trap">Summarizing content ≠ analyzing rhetoric — always answer HOW the writing works</div><div class="trap">Device-spotting without effect ('this has anaphora') earns nothing</div><div class="trap">Your opinion of the ISSUE is irrelevant in rhetorical analysis</div></div></div><div class="unit" data-id="3"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 3: Shakespearean Drama & Tragedy<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Tragic hero architecture</div><div class="c-text">The noble protagonist falls through hamartia — fatal flaw meeting circumstance.</div><ul class="c-list"><li>Hamartia: tragic error/flaw (ambition, jealousy, indecision)</li><li>Peripeteia: reversal of fortune at the midpoint turn</li><li>Anagnorisis: recognition — hero finally sees truth, too late</li><li>Catharsis: audience purges pity+fear through witnessing the fall</li></ul></div><div class="concept"><div class="c-label">Soliloquy, aside, monologue</div><div class="c-text">Shakespeare's interiority tools differ precisely.</div><ul class="c-list"><li>Soliloquy: ALONE on stage, speaking thoughts to audience — direct mind-access</li><li>Aside: brief remark to audience hidden from other characters</li><li>Monologue: long speech TO other characters (they hear it)</li><li>These expose motive gaps between appearance and reality — dramatic irony fuel</li></ul></div><div class="concept"><div class="c-label">Dramatic irony & foreshadowing</div><div class="c-text">Audience foreknowledge converts scenes into suspense machines.</div><ul class="c-list"><li>Witches' prophecies make every choice read as fate-vs-free-will evidence</li><li>Dramatic irony: we know Duncan's trust is doomed; he doesn't</li><li>Foreshadowing devices: omens, storms, blood imagery accumulating</li><li>Pathetic fallacy: nature mirrors moral disorder (thunder during regicide)</li></ul></div><div class="concept"><div class="c-label">Language: verse, prose & imagery</div><div class="c-text">Form marks class and sanity in Shakespeare.</div><ul class="c-list"><li>Nobles speak blank verse (unrhymed iambic pentameter); commoners prose</li><li>Falling INTO prose can signal madness/loss of control; rising to verse = restored order</li><li>Motif webs: blood, sleep, hands, darkness track guilt in Macbeth</li><li>Apostrophe: addressing absent things ('Sleep, O gentle Sleep…')</li></ul></div><div class="trap">Monologue ≠ soliloquy — presence of listeners is the test</div><div class="trap">Prophecies don't excuse characters: they act on interpretations (free will debate)</div><div class="trap">Comic relief scenes often deepen theme, not distract from it</div></div></div><div class="unit" data-id="4"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 4: Dystopian Literature & Allegory<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Dystopia as warning</div><div class="c-text">Dystopias exaggerate present trends into cautionary futures.</div><ul class="c-list"><li>Utopia = perfect society (ironically 'no-place'); dystopia = its nightmare inversion</li><li>Control levers: surveillance, language restriction, history rewriting, engineered pleasure</li><li>Protagonist awakening arc: compliance → doubt → rebellion → ambiguous cost</li><li>Warnings target the author's PRESENT — read historically to decode targets</li></ul></div><div class="concept"><div class="c-label">Totalitarian toolkits in fiction</div><div class="c-text">Classic dystopias map how freedom erodes step by step.</div><ul class="c-list"><li>Newspeak-style language control limits thinkable thoughts (linguistic determinism)</li><li>Surveillance state: panopticon effect — victims internalize the watching gaze</li><li>Slogans replace reasoning; contradictions embraced as loyalty tests (doublethink)</li><li>Bread & circuses: engineered distraction pacifies more efficiently than fear</li></ul></div><div class="concept"><div class="c-label">Allegory mechanics</div><div class="c-text">Allegories run double stories: surface plot plus systematic second meaning.</div><ul class="c-list"><li>Every element maps consistently: characters/settings/events = abstract ideas</li><li>Fable = brief allegory with stated moral; parable = spiritual teaching frame</li><li>Track correspondences on a character-concept chart for sustained allegories</li><li>Degree matters: pure one-to-one allegory vs symbolic realism differ in rigidity</li></ul></div><div class="concept"><div class="c-label">Satire inside allegory</div><div class="c-text">Many allegories satirize specific regimes or human failings.</div><ul class="c-list"><li>Satire critiques through humor/irony — Horatian gentle vs Juvenalian biting</li><li>Exaggeration + inversion expose real absurdities by magnifying them</li><li>Targets may be systems (totalitarianism) AND betrayals within resistance movements</li><li>Ask what behavior gets punished or mocked — that reveals the defended value</li></ul></div><div class="trap">Don't flatten allegory into decoder-ring exercise — literary texture still carries meaning</div><div class="trap">'Orwellian' means language/truth manipulation, not just any government disliked</div><div class="trap">One group's utopia can be another's dystopia — perspective determines label</div></div></div><div class="unit" data-id="5"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 5: Argumentation & Logical Fallacies<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Formal logic basics</div><div class="c-text">Arguments chain premises into conclusions; validity and truth are separate checks.</div><ul class="c-list"><li>Deductive reasoning: true premises + valid structure = necessarily true conclusion</li><li>Inductive reasoning: observed patterns support probable (not guaranteed) conclusions</li><li>Syllogism: major premise + minor premise → conclusion</li><li>Soundness requires BOTH valid structure AND actually-true premises</li></ul></div><div class="concept"><div class="c-label">Relevance fallacies</div><div class="c-text">These fallacies distract from the actual question at issue.</div><ul class="c-list"><li>Ad hominem attacks the arguer instead of the argument's merits</li><li>Straw man refutes a distorted, weakened version of the opponent's actual claim</li><li>Red herring drags in irrelevant material to divert attention</li><li>Bandwagon appeal treats popularity as evidence — it is not</li></ul></div><div class="concept"><div class="c-label">Causation & emotional fallacies</div><div class="c-text">Cause-effect shortcuts and feeling substitutions replace proof.</div><ul class="c-list"><li>Post hoc ergo propter hoc: sequence mistaken for causation</li><li>Hasty generalization projects sweeping claims from tiny samples</li><li>Slippery slope asserts an unproven chain of escalating consequences</li><li>Appeal to fear/pity substitutes emotional pressure for evidence</li></ul></div><div class="concept"><div class="c-label">Resisting manipulation</div><div class="c-text">Media literacy is fallacy detection at reading speed.</div><ul class="c-list"><li>Loaded language smuggles conclusions into supposedly neutral descriptions</li><li>Check source incentives: who profits if this claim spreads?</li><li>Steelman opposing views before concluding — test against their best case</li><li>Statistics without denominators mislead: 'doubled' from 1 to 2 cases</li></ul></div><div class="trap">Ad hominem ≠ insulting someone generally — it's dismissing their ARGUMENT via the person</div><div class="trap">Each slippery-slope link needs independent justification; chains fail link-by-link</div><div class="trap">Correlation studies need controls before causal headlines earn belief</div></div></div><div class="unit" data-id="6"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 6: Poetry Analysis II<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Tone mapping & shifts</div><div class="c-text">Track attitude word by word; good poems move.</div><ul class="c-list"><li>Name tone precisely on spectra: reverent-mocking, elegiac-celebratory, wistful-bitter</li><li>Mark shift signals: 'but/yet', stanza breaks, volta, image-field changes</li><li>Shift analysis answers WHY the poem needed to turn at that exact point</li><li>Ending tone often retroactively revises earlier lines — reread on finishing</li></ul></div><div class="concept"><div class="c-label">Ambiguity as design</div><div class="c-text">Great poems deliberately mean more than one thing at once.</div><ul class="c-list"><li>Intentional ambiguity resists flattening into a single interpretation</li><li>Multiple readings coexist legitimately when each has textual grounding</li><li>Ambiguity differs from vagueness: precise words open multiple precise doors</li><li>Discuss competing readings, then argue which the text best supports</li></ul></div><div class="concept"><div class="c-label">Extended metaphor & conceit</div><div class="c-text">Conceits stretch comparison into load-bearing architecture.</div><ul class="c-list"><li>Metaphysical conceit: startlingly intellectual parallels (lovers as compass legs)</li><li>Extended metaphor sustains one comparison across entire stanzas</li><li>Tracking every term of the conceit exposes the poem's argument structure</li><li>Mixed metaphors may be intentional — check whether context earns them</li></ul></div><div class="concept"><div class="c-label">Comparative poetry essays</div><div class="c-text">Comparison essays must argue about technique, not just summarize two poems.</div><ul class="c-list"><li>Thesis compares TECHNIQUES serving purposes, never 'poem A is about X, poem B about Y'</li><li>Organize by element (tone shift / imagery / structure), alternating texts within paragraphs</li><li>Maintain balance: roughly equal attention to both poems throughout</li><li>Conclusion states what the comparison itself reveals — insight neither poem gives alone</li></ul></div><div class="trap">Unbounded 'anything goes' readings ignore that text evidence bounds ambiguity</div><div class="trap">Summary sandwich isn't comparison — each paragraph needs an analytical claim</div><div class="trap">Modern lenses need period-aware framing plus textual anchors to persuade</div></div></div><div class="unit" data-id="7"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 7: Research & Citation (MLA)<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Research question design</div><div class="c-text">Good research starts with a question worth answering.</div><ul class="c-list"><li>Scope: narrow enough to answer in essay length, broad enough to matter</li><li>Open beats closed: 'How did X affect Y?' invites analysis, not trivia recall</li><li>Preliminary searching tests whether sources actually exist</li><li>Thesis EVOLVES from evidence — never reverse-engineer sources to fit a fixed claim</li></ul></div><div class="concept"><div class="c-label">Source evaluation (CRAAP)</div><div class="c-text">Not every source deserves your citation.</div><ul class="c-list"><li>Currency: date sensitivity varies by field — science fast-moving, history slower</li><li>Authority: author credentials, publisher reputation, peer-review markers</li><li>Accuracy: internal citations, verifiable data, absence of howler errors</li><li>Purpose/bias: advocacy sites disguise themselves — check About pages and funders</li></ul></div><div class="concept"><div class="c-label">MLA in-text citations</div><div class="c-text">MLA uses author-page parentheticals with graceful signal phrasing.</div><ul class="c-list"><li>Basic form: (Fitzgerald 88) — no comma, no 'p.'</li><li>Vary signal verbs: argues, observes, counters, acknowledges</li><li>Prose attribution example: Fitzgerald suggests the parties mask loneliness (55).</li><li>No author → shortened title; web pages without pagination → author only</li></ul></div><div class="concept"><div class="c-label">Works Cited & plagiarism</div><div class="c-text">Every borrowed idea gets credit — not just direct quotes.</div><ul class="c-list"><li>Alphabetical list, hanging indent at 0.5 inch on second lines</li><li>Container system: article inside journal inside database — nested titles</li><li>Cite paraphrases AND summaries; ideas carry ownership, not just wording</li><li>Common-knowledge exception is narrower than students hope: when unsure, cite</li></ul></div><div class="trap">'I reworded it' does not erase the citation requirement — ideas are owned</div><div class="trap">Wikipedia is a source-finding tool, not itself a citable authority</div><div class="trap">Web sources without page numbers cite author alone or shortened title</div></div></div><div class="unit" data-id="8"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 8: Style & Syntax<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Sentence variety architecture</div><div class="c-text">Rhythm keeps readers awake; deliberate patterns create emphasis.</div><ul class="c-list"><li>Mix lengths: short sentences punch; long ones chain logic</li><li>Vary openers — participial ('Exhausted, she…'), prepositional, adverbial starts</li><li>Cumulative sentences add detail after the main clause; periodic save the verb for suspense</li><li>Vary any run of three same-shape sentences — rhythm rules of thumb</li></ul></div><div class="concept"><div class="c-label">Diction precision & connotation</div><div class="c-text">Exact words earn their slot; near-synonyms betray fuzzy thinking.</div><ul class="c-list"><li>Prefer concrete over abstract: 'walked heavily' beats 'moved'</li><li>Connotation audit: cheap / inexpensive / thrifty carry opposite judgments</li><li>Delete intensifiers (very, really) — stronger verbs do that work</li><li>Register must match: slang breaks academic tone; pomposity breaks trust</li></ul></div><div class="concept"><div class="c-label">Active voice & concision</div><div class="c-text">Strong subjects performing strong verbs read fastest.</div><ul class="c-list"><li>Active: The committee rejected the proposal. Passive hides or delays the actor</li><li>Passive earns its keep when the actor is unknown, irrelevant, or the receiver deserves emphasis</li><li>Wordiness patterns: there-is openers and nominalizations (make a decision → decide)</li><li>Redundancy cuts: advance planning, end result, absolutely essential</li></ul></div><div class="concept"><div class="c-label">Revision hierarchy</div><div class="c-text">Revise big-to-small: argument before paragraphs before words before commas.</div><ul class="c-list"><li>Pass 1: thesis integrity and paragraph order serve the argument</li><li>Pass 2: PEEL completeness inside paragraphs plus transitions between moves</li><li>Pass 3: sentence concision, variety, active-voice audit</li><li>Pass 4: grammar, punctuation, MLA format — mechanics come last</li></ul></div><div class="trap">Passive voice is a tool, not a crime — blanket bans misfire in methods sections</div><div class="trap">Thesaurus swaps produce wrong connotations: pensive is not interchangeable with sad</div><div class="trap">Fixing commas first wastes effort when the argument still needs restructuring</div></div></div></div></div>
 <div id="view-cards" class="view" role="tabpanel" aria-labelledby="tab-cards" tabindex="0">
   <div class="fc-bar">
     <select id="fc-sel" aria-label="Choose a flashcard set" onchange="loadFC()"></select>
@@ -509,6 +706,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <button class="diag-btn" id="diag-start-btn" onclick="startDiagnostic()"><svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><span id="diag-start-btn-label">Start Diagnostic — 2 questions per unit, finds your weak spots</span></button>
   <div class="q-bar">
     <select id="q-sel" aria-label="Choose a question set" onchange="loadQ()"></select>
+    <button class="btn" type="button" onclick="quizShuffle()" style="font-size:14px;padding:7px 14px">⇄ Shuffle</button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -635,6 +833,10 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
     <div class="mem-card"><div class="mem-t">Watch out</div><div class="mem-d">Thesaurus swaps produce wrong connotations: pensive is not interchangeable with sad</div></div>
     <div class="mem-card"><div class="mem-t">Watch out</div><div class="mem-d">Fixing commas first wastes effort when the argument still needs restructuring</div></div>
   </div></div>
+</div>
+<button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+</button>
 <script>
 const UNITS=[{"id":1,"name":"World Literature & Cultural Context","concepts":[{"l":"Reading across cultures","intro":"World lit asks you to bracket assumptions and read values from the inside.","b":["Cultural context = beliefs, history, and social structures shaping a text's meaning","Avoid ethnocentrism: judge actions by the text's value system first, then compare","Translation layers matter: wordplay/idioms may not survive language transfer","Universals vs particulars: shared human themes wear culture-specific clothing"]},{"l":"Oral traditions & archetypes","intro":"Many world texts began spoken — structure carries their fingerprints.","b":["Repetition/formula phrases aided memorization (epithets, refrains)","Trickster figures (Anansi, Coyote) enforce norms by breaking them","Creation myths encode a culture's cosmology and hierarchy","Archetypes recur cross-culturally: hero's journey, flood narrative, descent to underworld"]},{"l":"Colonial & postcolonial lenses","intro":"Power shapes whose stories get told and how.","b":["Colonial literature often frames colonized people through the colonizer's gaze","Postcolonial writing reclaims voice: hybridity, resisting narratives, writing back","Terms: othering, assimilation, diaspora, subaltern","Read for whose perspective centers the story and whose is erased"]},{"l":"Close reading with context","intro":"Context informs but evidence proves — balance both.","b":["Research customs only after first-pass reading; don't outsource interpretation","Anchor claims in textual detail + cultural knowledge together","Note your own lens: what surprises you reveals YOUR assumptions","Compare across texts: how do two cultures treat hospitality, honor, fate?"]}],"keyFacts":["First read for experience; research context second — then reread","Postcolonial reading asks WHO speaks and who is silenced","Tricksters teach norms by violating them"],"traps":["Don't grade historical characters by modern standards without noting the anachronism","'Universal theme' claims still need textual proof from THAT text","Translated names/terms carry weight — check transliteration notes"]},{"id":2,"name":"Rhetorical Analysis","concepts":[{"l":"The rhetorical situation","intro":"Every text answers to speaker, purpose, audience, context, exigence.","b":["Speaker: constructed voice with stakes and credibility moves","Purpose: what the text tries to DO (persuade, move, console, provoke)","Audience: intended readers shape vocabulary, allusions, tone choices","Exigence: the occasion/urgency that called the text into being"]},{"l":"Tone & diction analysis","intro":"Word choice is the fingerprint of attitude.","b":["Name tone precisely: wry, elegiac, indignant, clinical — never just 'negative'","Diction levels: formal/casual/colloquial/archaic — shifts signal pivots","Connotation vs denotation: 'thrifty' vs 'stingy' same denotation, opposite spin","Imagery patterns cluster around motifs supporting the purpose"]},{"l":"Structure & syntax moves","intro":"How sentences build IS argumentation.","b":["Short sentence after long ones lands like a hammer — deliberate emphasis","Parallelism binds equal ideas; antithesis sets opposites colliding","Repetition + anaphora build momentum toward a climax","Opening/closing positions carry primacy/recency weight — authors load them"]},{"l":"Writing the analysis essay","intro":"Analysis explains HOW choices work on audiences — not whether you agree.","b":["Thesis names strategy + purpose: 'Through X, author Y accomplishes Z for audience W'","Body paragraphs organize by MOVES, not by chronology of the passage","Quote → name device → explain audience effect → tie to purpose","Never editorialize about the topic itself — analyze the persuasion craft"]}],"keyFacts":["SPACE: Speaker, Purpose, Audience, Context, Exigence — map before analyzing","Precise tone adjectives beat vague praise/blame","Organize analysis essays by rhetorical strategy"],"traps":["Summarizing content ≠ analyzing rhetoric — always answer HOW the writing works","Device-spotting without effect ('this has anaphora') earns nothing","Your opinion of the ISSUE is irrelevant in rhetorical analysis"]},{"id":3,"name":"Shakespearean Drama & Tragedy","concepts":[{"l":"Tragic hero architecture","intro":"The noble protagonist falls through hamartia — fatal flaw meeting circumstance.","b":["Hamartia: tragic error/flaw (ambition, jealousy, indecision)","Peripeteia: reversal of fortune at the midpoint turn","Anagnorisis: recognition — hero finally sees truth, too late","Catharsis: audience purges pity+fear through witnessing the fall"]},{"l":"Soliloquy, aside, monologue","intro":"Shakespeare's interiority tools differ precisely.","b":["Soliloquy: ALONE on stage, speaking thoughts to audience — direct mind-access","Aside: brief remark to audience hidden from other characters","Monologue: long speech TO other characters (they hear it)","These expose motive gaps between appearance and reality — dramatic irony fuel"]},{"l":"Dramatic irony & foreshadowing","intro":"Audience foreknowledge converts scenes into suspense machines.","b":["Witches' prophecies make every choice read as fate-vs-free-will evidence","Dramatic irony: we know Duncan's trust is doomed; he doesn't","Foreshadowing devices: omens, storms, blood imagery accumulating","Pathetic fallacy: nature mirrors moral disorder (thunder during regicide)"]},{"l":"Language: verse, prose & imagery","intro":"Form marks class and sanity in Shakespeare.","b":["Nobles speak blank verse (unrhymed iambic pentameter); commoners prose","Falling INTO prose can signal madness/loss of control; rising to verse = restored order","Motif webs: blood, sleep, hands, darkness track guilt in Macbeth","Apostrophe: addressing absent things ('Sleep, O gentle Sleep…')"]}],"keyFacts":["Hamartia → peripeteia → anagnorisis → catharsis arc","Soliloquy = alone to audience · aside = sneaky whisper · monologue = heard speech","Prose vs verse marks status and sanity shifts"],"traps":["Monologue ≠ soliloquy — presence of listeners is the test","Prophecies don't excuse characters: they act on interpretations (free will debate)","Comic relief scenes often deepen theme, not distract from it"]},{"id":4,"name":"Dystopian Literature & Allegory","concepts":[{"l":"Dystopia as warning","intro":"Dystopias exaggerate present trends into cautionary futures.","b":["Utopia = perfect society (ironically 'no-place'); dystopia = its nightmare inversion","Control levers: surveillance, language restriction, history rewriting, engineered pleasure","Protagonist awakening arc: compliance → doubt → rebellion → ambiguous cost","Warnings target the author's PRESENT — read historically to decode targets"]},{"l":"Totalitarian toolkits in fiction","intro":"Classic dystopias map how freedom erodes step by step.","b":["Newspeak-style language control limits thinkable thoughts (linguistic determinism)","Surveillance state: panopticon effect — victims internalize the watching gaze","Slogans replace reasoning; contradictions embraced as loyalty tests (doublethink)","Bread & circuses: engineered distraction pacifies more efficiently than fear"]},{"l":"Allegory mechanics","intro":"Allegories run double stories: surface plot plus systematic second meaning.","b":["Every element maps consistently: characters/settings/events = abstract ideas","Fable = brief allegory with stated moral; parable = spiritual teaching frame","Track correspondences on a character-concept chart for sustained allegories","Degree matters: pure one-to-one allegory vs symbolic realism differ in rigidity"]},{"l":"Satire inside allegory","intro":"Many allegories satirize specific regimes or human failings.","b":["Satire critiques through humor/irony — Horatian gentle vs Juvenalian biting","Exaggeration + inversion expose real absurdities by magnifying them","Targets may be systems (totalitarianism) AND betrayals within resistance movements","Ask what behavior gets punished or mocked — that reveals the defended value"]}],"keyFacts":["Dystopias warn about the AUTHOR'S present, not merely imagined futures","Allegory = consistent systematic mapping of surface story onto meaning","Satire defends values BY mocking violations"],"traps":["Don't flatten allegory into decoder-ring exercise — literary texture still carries meaning","'Orwellian' means language/truth manipulation, not just any government disliked","One group's utopia can be another's dystopia — perspective determines label"]},{"id":5,"name":"Argumentation & Logical Fallacies","concepts":[{"l":"Formal logic basics","intro":"Arguments chain premises into conclusions; validity and truth are separate checks.","b":["Deductive reasoning: true premises + valid structure = necessarily true conclusion","Inductive reasoning: observed patterns support probable (not guaranteed) conclusions","Syllogism: major premise + minor premise → conclusion","Soundness requires BOTH valid structure AND actually-true premises"]},{"l":"Relevance fallacies","intro":"These fallacies distract from the actual question at issue.","b":["Ad hominem attacks the arguer instead of the argument's merits","Straw man refutes a distorted, weakened version of the opponent's actual claim","Red herring drags in irrelevant material to divert attention","Bandwagon appeal treats popularity as evidence — it is not"]},{"l":"Causation & emotional fallacies","intro":"Cause-effect shortcuts and feeling substitutions replace proof.","b":["Post hoc ergo propter hoc: sequence mistaken for causation","Hasty generalization projects sweeping claims from tiny samples","Slippery slope asserts an unproven chain of escalating consequences","Appeal to fear/pity substitutes emotional pressure for evidence"]},{"l":"Resisting manipulation","intro":"Media literacy is fallacy detection at reading speed.","b":["Loaded language smuggles conclusions into supposedly neutral descriptions","Check source incentives: who profits if this claim spreads?","Steelman opposing views before concluding — test against their best case","Statistics without denominators mislead: 'doubled' from 1 to 2 cases"]}],"keyFacts":["Valid ≠ sound — structure quality and truth quality are separate checks","Post hoc = sequence confused with causation","Steelmanning beats strawmanning for finding truth"],"traps":["Ad hominem ≠ insulting someone generally — it's dismissing their ARGUMENT via the person","Each slippery-slope link needs independent justification; chains fail link-by-link","Correlation studies need controls before causal headlines earn belief"]},{"id":6,"name":"Poetry Analysis II","concepts":[{"l":"Tone mapping & shifts","intro":"Track attitude word by word; good poems move.","b":["Name tone precisely on spectra: reverent-mocking, elegiac-celebratory, wistful-bitter","Mark shift signals: 'but/yet', stanza breaks, volta, image-field changes","Shift analysis answers WHY the poem needed to turn at that exact point","Ending tone often retroactively revises earlier lines — reread on finishing"]},{"l":"Ambiguity as design","intro":"Great poems deliberately mean more than one thing at once.","b":["Intentional ambiguity resists flattening into a single interpretation","Multiple readings coexist legitimately when each has textual grounding","Ambiguity differs from vagueness: precise words open multiple precise doors","Discuss competing readings, then argue which the text best supports"]},{"l":"Extended metaphor & conceit","intro":"Conceits stretch comparison into load-bearing architecture.","b":["Metaphysical conceit: startlingly intellectual parallels (lovers as compass legs)","Extended metaphor sustains one comparison across entire stanzas","Tracking every term of the conceit exposes the poem's argument structure","Mixed metaphors may be intentional — check whether context earns them"]},{"l":"Comparative poetry essays","intro":"Comparison essays must argue about technique, not just summarize two poems.","b":["Thesis compares TECHNIQUES serving purposes, never 'poem A is about X, poem B about Y'","Organize by element (tone shift / imagery / structure), alternating texts within paragraphs","Maintain balance: roughly equal attention to both poems throughout","Conclusion states what the comparison itself reveals — insight neither poem gives alone"]}],"keyFacts":["Volta/shift signals: pivot conjunctions, stanza breaks, image-field changes","Conceit = extended intellectualized controlling metaphor","Comparative essays organize by ELEMENT with texts alternating inside paragraphs"],"traps":["Unbounded 'anything goes' readings ignore that text evidence bounds ambiguity","Summary sandwich isn't comparison — each paragraph needs an analytical claim","Modern lenses need period-aware framing plus textual anchors to persuade"]},{"id":7,"name":"Research & Citation (MLA)","concepts":[{"l":"Research question design","intro":"Good research starts with a question worth answering.","b":["Scope: narrow enough to answer in essay length, broad enough to matter","Open beats closed: 'How did X affect Y?' invites analysis, not trivia recall","Preliminary searching tests whether sources actually exist","Thesis EVOLVES from evidence — never reverse-engineer sources to fit a fixed claim"]},{"l":"Source evaluation (CRAAP)","intro":"Not every source deserves your citation.","b":["Currency: date sensitivity varies by field — science fast-moving, history slower","Authority: author credentials, publisher reputation, peer-review markers","Accuracy: internal citations, verifiable data, absence of howler errors","Purpose/bias: advocacy sites disguise themselves — check About pages and funders"]},{"l":"MLA in-text citations","intro":"MLA uses author-page parentheticals with graceful signal phrasing.","b":["Basic form: (Fitzgerald 88) — no comma, no 'p.'","Vary signal verbs: argues, observes, counters, acknowledges","Prose attribution example: Fitzgerald suggests the parties mask loneliness (55).","No author → shortened title; web pages without pagination → author only"]},{"l":"Works Cited & plagiarism","intro":"Every borrowed idea gets credit — not just direct quotes.","b":["Alphabetical list, hanging indent at 0.5 inch on second lines","Container system: article inside journal inside database — nested titles","Cite paraphrases AND summaries; ideas carry ownership, not just wording","Common-knowledge exception is narrower than students hope: when unsure, cite"]}],"keyFacts":["MLA in-text = (Author Page): no comma, no p. prefix","Paraphrases and summaries require citations too","CRAAP test: Currency, Relevance, Authority, Accuracy, Purpose"],"traps":["'I reworded it' does not erase the citation requirement — ideas are owned","Wikipedia is a source-finding tool, not itself a citable authority","Web sources without page numbers cite author alone or shortened title"]},{"id":8,"name":"Style & Syntax","concepts":[{"l":"Sentence variety architecture","intro":"Rhythm keeps readers awake; deliberate patterns create emphasis.","b":["Mix lengths: short sentences punch; long ones chain logic","Vary openers — participial ('Exhausted, she…'), prepositional, adverbial starts","Cumulative sentences add detail after the main clause; periodic save the verb for suspense","Vary any run of three same-shape sentences — rhythm rules of thumb"]},{"l":"Diction precision & connotation","intro":"Exact words earn their slot; near-synonyms betray fuzzy thinking.","b":["Prefer concrete over abstract: 'walked heavily' beats 'moved'","Connotation audit: cheap / inexpensive / thrifty carry opposite judgments","Delete intensifiers (very, really) — stronger verbs do that work","Register must match: slang breaks academic tone; pomposity breaks trust"]},{"l":"Active voice & concision","intro":"Strong subjects performing strong verbs read fastest.","b":["Active: The committee rejected the proposal. Passive hides or delays the actor","Passive earns its keep when the actor is unknown, irrelevant, or the receiver deserves emphasis","Wordiness patterns: there-is openers and nominalizations (make a decision → decide)","Redundancy cuts: advance planning, end result, absolutely essential"]},{"l":"Revision hierarchy","intro":"Revise big-to-small: argument before paragraphs before words before commas.","b":["Pass 1: thesis integrity and paragraph order serve the argument","Pass 2: PEEL completeness inside paragraphs plus transitions between moves","Pass 3: sentence concision, variety, active-voice audit","Pass 4: grammar, punctuation, MLA format — mechanics come last"]}],"keyFacts":["Periodic sentences withhold the main clause for suspense; cumulative add after it","Nominalization cuts: made a decision becomes decided","Revision order runs argument → paragraph → sentence → mechanics"],"traps":["Passive voice is a tool, not a crime — blanket bans misfire in methods sections","Thesaurus swaps produce wrong connotations: pensive is not interchangeable with sad","Fixing commas first wastes effort when the argument still needs restructuring"]}];
 const DIAGRAMS={};
@@ -746,15 +948,25 @@ if(scoreEl)scoreEl.textContent=`Score: ${examScores[part]||0} / ${pool.length}`;
 }
 
 
+// simple helper: re-typeset any $...$/$$...$$ math MathJax may find in
+// freshly-injected DOM. Existing guide content doesn't use LaTeX delimiters
+// yet (a follow-up content pass would be needed for this to visibly do
+// anything) — this just wires the rendering pipeline up for when it does.
+function ssTypeset(el){
+  if(window.MathJax&&window.MathJax.typesetPromise){
+    try{window.MathJax.typesetPromise(el?[el]:undefined);}catch(e){}
+  }
+}
+
 // GUIDE
 const SEARCH_BADGE={concept:'📖 Notes',flashcard:'📇 Flashcard',quiz:'❓ Quiz'};
 function searchGuide(){
   const q=(document.getElementById('search-box').value||'').toLowerCase().trim();
   const sr=document.getElementById('search-results');
   document.querySelectorAll('.unit').forEach(u=>u.style.display='');
-  document.getElementById('filter-row').style.display='flex';
+  document.getElementById('filter-row').style.display='';
   var _hl=document.getElementById('hero-live');
-  if(!q){sr.style.display='none';if(_hl)_hl.textContent='';return;}
+  if(!q){sr.classList.remove('show');sr.style.display='none';if(_hl)_hl.textContent='';return;}
   const matches=[];
   UNITS.forEach(u=>{
     u.concepts.forEach(c=>{
@@ -772,8 +984,8 @@ function searchGuide(){
     const text=(qq.q+' '+(qq.o||[]).join(' ')).toLowerCase();
     if(text.includes(q))matches.push({type:'quiz',unit:qq.u,unitName:unitName(qq.u),concept:'Quiz question',preview:qq.q.slice(0,120)});
   });
-  if(!matches.length){sr.style.display='block';sr.innerHTML='<div style="color:var(--ink-muted);font-size:14px;padding:8px">No results for "'+q+'"</div>';if(_hl)_hl.textContent='No results for '+q;return;}
-  sr.style.display='block';
+  if(!matches.length){sr.style.display='block';sr.classList.add('show');sr.innerHTML='<div style="color:var(--ink-muted);font-size:14px;padding:8px">No results for "'+q+'"</div>';if(_hl)_hl.textContent='No results for '+q;return;}
+  sr.style.display='block';sr.classList.add('show');
   if(_hl)_hl.textContent=matches.length+' result'+(matches.length===1?'':'s')+' for '+q;
   const jump=m=>m.type==='concept'?`jumpToUnit(${m.unit})`:m.type==='flashcard'?`jumpToFlashcardUnit(${m.unit})`:`jumpToQuizUnit(${m.unit})`;
   sr.innerHTML='<div style="font-size:13px;color:var(--ink-muted);margin-bottom:6px">'+matches.length+' result(s)</div>'+
@@ -784,6 +996,14 @@ function searchGuide(){
     </div>`).join('');
 }
 function clearSearch(){document.getElementById('search-box').value='';searchGuide();}
+document.addEventListener('keydown',function(e){
+  if(e.key!=='/')return;
+  var el=document.activeElement;
+  var tag=(el&&el.tagName)||'';
+  if(tag==='INPUT'||tag==='TEXTAREA'||(el&&el.isContentEditable))return;
+  var box=document.getElementById('search-box');
+  if(box){e.preventDefault();box.focus();}
+});
 function jumpToFlashcardUnit(id){
   clearSearch();
   switchTab('cards');
@@ -805,26 +1025,37 @@ function jumpToUnit(id){
 }
 
 const filterTags={};
+// Single source of truth for "which unit is selected", driven by either the
+// desktop chip row or the mobile <select> — both call this so filtering logic
+// never lives in two places.
+function ssFilterByUnit(unitId){
+  const all=document.getElementById('filter-row')&&document.getElementById('filter-row').children[0];
+  if(all)all.classList.toggle('on',!unitId);
+  Object.keys(filterTags).forEach(k=>filterTags[k].classList.toggle('on',!!unitId&&k==unitId));
+  document.querySelectorAll('.unit').forEach(el=>el.style.display=(!unitId||el.dataset.id==unitId)?'':'none');
+  const sel=document.getElementById('filter-select');
+  if(sel&&sel.value!=String(unitId||0))sel.value=String(unitId||0);
+}
+function ssFilterSelectChange(){
+  const sel=document.getElementById('filter-select');
+  ssFilterByUnit(sel?+sel.value:0);
+}
 function buildGuide(){
   const fr=document.getElementById('filter-row');
   const ul=document.getElementById('units');
   const all=document.createElement('button');
   all.className='chip on';all.textContent='All Units';
-  all.onclick=()=>{Object.keys(filterTags).forEach(k=>filterTags[k].classList.remove('on'));all.classList.add('on');document.querySelectorAll('.unit').forEach(u=>u.style.display='');};
+  all.onclick=()=>ssFilterByUnit(0);
   fr.appendChild(all);
   UNITS.forEach(u=>{
     const chip=document.createElement('button');
     chip.className='chip';chip.textContent='Unit '+u.id;
-    chip.onclick=()=>{
-      all.classList.remove('on');
-      Object.values(filterTags).forEach(c=>c.classList.remove('on'));
-      chip.classList.add('on');
-      document.querySelectorAll('.unit').forEach(el=>el.style.display=el.dataset.id==u.id?'':'none');
-    };
+    chip.onclick=()=>ssFilterByUnit(u.id);
     fr.appendChild(chip);filterTags[u.id]=chip;
     const div=document.createElement('div');div.className='unit';div.dataset.id=u.id;
     const hd=document.createElement('div');hd.className='unit-hd';
-    hd.innerHTML=`<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts</span></span><span class="chevron">▾</span>`;
+    const estMins=Math.max(5,Math.round(u.concepts.length*3+(u.traps?u.traps.length:0)*2+(u.fms?u.fms.length:0)*2));
+    hd.innerHTML=`<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts · ~${estMins} min</span></span><span class="chevron">▾</span>`;
     hd.tabIndex=0;hd.setAttribute('role','button');hd.setAttribute('aria-expanded','false');
     hd.onclick=()=>{const isOpen=div.classList.toggle('open');hd.setAttribute('aria-expanded',isOpen?'true':'false');};
     hd.onkeydown=(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();hd.click();}};
@@ -846,15 +1077,10 @@ function hydrateGuide(){
   const fr=document.getElementById('filter-row');
   const chips=Array.from(fr.children);
   const all=chips[0];
-  all.onclick=()=>{Object.keys(filterTags).forEach(k=>filterTags[k].classList.remove('on'));all.classList.add('on');document.querySelectorAll('.unit').forEach(u=>u.style.display='');};
+  all.onclick=()=>ssFilterByUnit(0);
   UNITS.forEach((u,i)=>{
     const chip=chips[i+1];
-    chip.onclick=()=>{
-      all.classList.remove('on');
-      Object.values(filterTags).forEach(c=>c.classList.remove('on'));
-      chip.classList.add('on');
-      document.querySelectorAll('.unit').forEach(el=>el.style.display=el.dataset.id==u.id?'':'none');
-    };
+    chip.onclick=()=>ssFilterByUnit(u.id);
     filterTags[u.id]=chip;
   });
   document.querySelectorAll('.unit').forEach(div=>{
@@ -863,7 +1089,16 @@ function hydrateGuide(){
     hd.onkeydown=(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();hd.click();}};
   });
 }
+(function(){
+  const btn=document.getElementById('back-to-top');
+  if(!btn)return;
+  const threshold=()=>window.innerHeight||800;
+  window.addEventListener('scroll',function(){
+    btn.classList.toggle('visible',window.scrollY>threshold());
+  },{passive:true});
+})();
 if(document.getElementById('units').children.length===0){buildGuide();}else{hydrateGuide();}
+ssTypeset(document.getElementById('units'));
 
 // FLASHCARDS
 let fcDeck=[],fcIdx=0,fcFilterMode='all';
@@ -952,6 +1187,7 @@ function buildExamples(){
     h+='</div>';
   });
   v.innerHTML=h;
+  ssTypeset(v);
 }
 function revealStep(id){
   const w=ex2map[id];const c=document.getElementById('ex2s-'+id);let n=ex2shown[id]||0;
@@ -975,10 +1211,48 @@ window.__ssMasteryInstances = window.__ssMasteryInstances || [];
 function ssStartChemMastery(){
   SS_MASTERY = window.__ssCreateMastery('english-10', UNITS.map(function(u){return u.id;}), UNITS.reduce(function(acc,u){acc[u.id]=u.name;return acc;},{}));
   window.__ssMasteryInstances.push(SS_MASTERY);
-  SS_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} try{ if(examplesBuilt) buildExamples(); }catch(e){} });
+  SS_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} try{ if(examplesBuilt) buildExamples(); }catch(e){} try{ ssOverallProgressUpdate(); }catch(e){} });
 }
 if (window.__ssCreateMastery) { ssStartChemMastery(); }
 else { window.addEventListener('ss-mastery-ready', ssStartChemMastery, { once: true }); }
+
+/* bookmarked question ids, kept separate from server-synced mastery state
+   (this is purely a local toggle-and-persist affordance, no filter UI yet) */
+var Q_BOOKMARK_KEY='ssBookmarks_'+'english-10';
+function qBookmarkSet(){
+  try{return new Set(JSON.parse(localStorage.getItem(Q_BOOKMARK_KEY)||'[]'));}catch(e){return new Set();}
+}
+function qBookmarkToggle(qid){
+  var set=qBookmarkSet();
+  if(set.has(qid))set.delete(qid);else set.add(qid);
+  try{localStorage.setItem(Q_BOOKMARK_KEY,JSON.stringify(Array.from(set)));}catch(e){}
+  return set.has(qid);
+}
+function qId(q){return q.u+'|'+q.q;}
+
+function quizShuffle(){
+  if(!qPool.length)return;
+  for(let i=qPool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[qPool[i],qPool[j]]=[qPool[j],qPool[i]];}
+  qIdx=0;score=0;requeueCounts=new WeakMap();showQ();
+}
+
+function unitNameFor(unitId){const u=UNITS.find(x=>x.id===unitId);return u?u.name:'Unit '+unitId;}
+
+function ssOverallProgressUpdate(){
+  var fill=document.getElementById('ss-overall-progress-fill');
+  var label=document.getElementById('ss-overall-progress-label');
+  if(!fill||!label)return;
+  var total=(typeof QUIZ!=='undefined'?QUIZ.length:0);
+  if(!total){fill.parentElement.parentElement.style.display='none';return;}
+  var answered=0;
+  if(SS_MASTERY){
+    var mastery=SS_MASTERY.getSnapshot().mastery||{};
+    Object.keys(mastery).forEach(function(k){answered+=mastery[k].total||0;});
+  }
+  var pct=Math.max(0,Math.min(100,Math.round((answered/total)*100)));
+  fill.style.width=pct+'%';
+  label.textContent=pct+'% of the question bank attempted';
+}
 
 let diagMode=false;
 function ssHardQ(){return (typeof HARD_Q!=='undefined'&&Array.isArray(HARD_Q))?HARD_Q:[];}
@@ -1062,10 +1336,38 @@ function showQ(){
   const q=qPool[qIdx];
   document.getElementById('q-prog').textContent=`Q ${qIdx+1}/${qPool.length}`;
   document.getElementById('q-sc').textContent=`Score: ${score}`;
-  let h=`<div class="q-block"><div class="q-text">${q.q}</div><button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button><div class="q-opts">`;
-  q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">${opt}</button>`);
+  const bid=qId(q);
+  const bookmarked=qBookmarkSet().has(bid);
+  const STAR_OUTLINE='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
+  const STAR_FILLED='<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
+  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>`+
+    `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
+    `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
+    `<button class="q-hint-btn" id="q-hint-btn" onclick="toggleQHint()">💡 Hint</button>`+
+    `<div class="q-hint-box" id="q-hint-box">Hint: this is from Unit ${q.u}: ${unitNameFor(q.u)}</div>`+
+    `<div class="q-opts">`;
+  q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">`+
+    `<svg class="q-opt-icon icon-correct" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`+
+    `<svg class="q-opt-icon icon-wrong" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`+
+    `<span>${opt}</span></button>`);
   h+=`</div><div class="q-exp" id="q-exp">${q.e}</div><button class="q-next show" id="q-next" onclick="nextQ()" style="display:none">Next →</button></div>`;
   qb.innerHTML=h;
+  ssTypeset(qb);
+}
+function toggleQBookmark(){
+  const q=qPool[qIdx];if(!q)return;
+  const on=qBookmarkToggle(qId(q));
+  const btn=document.getElementById('q-bookmark');
+  if(!btn)return;
+  btn.classList.toggle('on',on);
+  btn.setAttribute('aria-pressed',String(on));
+  btn.setAttribute('aria-label',on?'Remove bookmark':'Bookmark this question');
+  btn.innerHTML=on?'<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>'
+    :'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
+}
+function toggleQHint(){
+  const box=document.getElementById('q-hint-box');
+  if(box)box.classList.toggle('show');
 }
 let guessFlag=false, guessedQs=[], guessedRight=0;
 function markGuess(){
@@ -1105,6 +1407,7 @@ function ansQ(i){
     }
   }
   if(SS_MASTERY)SS_MASTERY.recordAnswer(q.u,i===q.a);
+  ssOverallProgressUpdate();
   const expEl=document.getElementById('q-exp');
   expEl.classList.add('show');
   if(wasGuess){
@@ -1162,11 +1465,22 @@ buildQSel();
   var daysEl=document.getElementById('spc-days');
   var minsEl=document.getElementById('spc-mins');
   if(!daysEl||!minsEl)return;
+  var daysNum=document.getElementById('spc-days-num');
+  var minsNum=document.getElementById('spc-mins-num');
+  var DAYS_DEFAULT=daysEl.value, MINS_DEFAULT=minsEl.value;
+  function setFill(el){
+    var min=parseFloat(el.min),max=parseFloat(el.max),val=parseFloat(el.value);
+    var pct=max>min?((val-min)/(max-min))*100:0;
+    el.style.setProperty('--fill',pct+'%');
+  }
+  function clamp(v,min,max){return Math.min(max,Math.max(min,v));}
   function update(){
     var days=parseInt(daysEl.value,10);
     var mins=parseInt(minsEl.value,10);
     document.getElementById('spc-days-val').textContent=days+(days===1?' day':' days');
-    document.getElementById('spc-mins-val').textContent=mins+' min';
+    if(daysNum)daysNum.value=days;
+    if(minsNum)minsNum.value=mins;
+    setFill(daysEl);setFill(minsEl);
     var totalMinutes=days*mins;
     var questions=Math.min(SS_TOTAL_Q,Math.round(totalMinutes/MIN_PER_Q));
     var pct=Math.min(100,Math.round((questions/SS_TOTAL_Q)*100));
@@ -1177,19 +1491,32 @@ buildQSel();
     var tier=document.getElementById('spc-tier');
     var title=document.getElementById('spc-tier-title');
     var sub=document.getElementById('spc-tier-sub');
+    tier.classList.remove('good','moderate','behind');
     if(pct>=90){
-      tier.style.background='var(--success-soft)';tier.style.color='var(--success)';
+      tier.classList.add('good');
       title.textContent='Exam Ready';sub.textContent="You'll work through the full question bank before test day.";
     }else if(pct>=50){
-      tier.style.background='var(--accent-soft)';tier.style.color='var(--accent-ink)';
+      tier.classList.add('moderate');
       title.textContent='On Track';sub.textContent='Solid coverage — keep this pace going.';
     }else{
-      tier.style.background='var(--surface-2)';tier.style.color='var(--ink-muted)';
+      tier.classList.add('behind');
       title.textContent='Just Getting Started';sub.textContent='Add a few more minutes a day to cover more ground before your exam.';
     }
   }
   daysEl.addEventListener('input',update);
   minsEl.addEventListener('input',update);
+  if(daysNum)daysNum.addEventListener('change',function(){
+    daysEl.value=clamp(parseInt(daysNum.value,10)||parseInt(daysEl.min,10),parseInt(daysEl.min,10),parseInt(daysEl.max,10));
+    update();
+  });
+  if(minsNum)minsNum.addEventListener('change',function(){
+    minsEl.value=clamp(parseInt(minsNum.value,10)||parseInt(minsEl.min,10),parseInt(minsEl.min,10),parseInt(minsEl.max,10));
+    update();
+  });
+  var resetBtn=document.getElementById('spc-reset-btn');
+  if(resetBtn)resetBtn.addEventListener('click',function(){
+    daysEl.value=DAYS_DEFAULT;minsEl.value=MINS_DEFAULT;update();
+  });
   update();
 })();
 
@@ -1419,20 +1746,34 @@ async function cbotSend(e){
 /* study session timer in the nav */
 (function(){
   var nav=document.querySelector('.hero .nav');if(!nav)return;
+  var ICON_PLAY='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg>';
+  var ICON_PAUSE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>';
+  var ICON_RESET='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 17 5"/><polyline points="21 3 21 9 15 9"/></svg>';
   var d=document.createElement('div');d.id='sg-timer';
-  d.innerHTML='<span id="sgt-time">00:00</span><button class="sgt-b" id="sgt-btn" aria-label="start or pause study timer">▶</button><button class="sgt-b" id="sgt-reset" aria-label="reset study timer">↺</button>';
+  d.innerHTML='<span class="sgt-label">Study timer</span><span id="sgt-time">00:00</span>'+
+    '<button class="sgt-b" id="sgt-btn" aria-label="start or pause study timer">'+ICON_PLAY+'</button>'+
+    '<button class="sgt-b" id="sgt-reset" aria-label="reset study timer">'+ICON_RESET+'</button>';
   nav.appendChild(d);
   var sec=0,run=false,iv=null;
   function fmt(s){var h=Math.floor(s/3600),m=Math.floor((s%3600)/60),ss=s%60;
     return (h?h+':':'')+String(m).padStart(2,'0')+':'+String(ss).padStart(2,'0');}
   document.getElementById('sgt-btn').onclick=function(){
-    run=!run;this.textContent=run?'⏸':'▶';
+    run=!run;this.innerHTML=run?ICON_PAUSE:ICON_PLAY;this.setAttribute('aria-label',run?'pause study timer':'start study timer');
     if(run){iv=setInterval(function(){sec++;var el=document.getElementById('sgt-time');if(el)el.textContent=fmt(sec);},1000);}
     else clearInterval(iv);
   };
   document.getElementById('sgt-reset').onclick=function(){sec=0;clearInterval(iv);run=false;
-    document.getElementById('sgt-btn').textContent='▶';document.getElementById('sgt-time').textContent='00:00';};
+    var btn=document.getElementById('sgt-btn');btn.innerHTML=ICON_PLAY;btn.setAttribute('aria-label','start or pause study timer');
+    document.getElementById('sgt-time').textContent='00:00';};
 })();
+
+/* Pinning the hero tab row on scroll (position:fixed + measured spacer) was
+   found during QA to visually overlap page content in some scroll states —
+   disabled pending a redesign that doesn't rely on a JS-measured spacer.
+   The tab row stays in its normal in-flow position; the independent sticky
+   search/filter bar (.ss-sticky-top, CSS-only position:sticky) is unaffected
+   and still docks correctly since it doesn't depend on --ss-nav-h being set
+   (it defaults to 0px). */
 
 function ssToggleTheme(){
   var isDark = document.documentElement.getAttribute('data-theme') === 'dark';

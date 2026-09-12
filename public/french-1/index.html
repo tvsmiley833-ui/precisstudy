@@ -30,6 +30,8 @@
 <link rel="preload" href="/fonts/spacegrotesk-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="stylesheet" href="/fonts/fonts.css"/>
+<script>window.MathJax={tex:{inlineMath:[['$','$']],displayMath:[['$$','$$']]}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -109,9 +111,9 @@
   --diagram-bg:#1b3d33;
 }
 body{transition:background .2s ease,color .2s ease}
-#theme-toggle{background:none;border:1px solid rgba(255,255,255,.18);color:rgba(244,242,234,.75);border-radius:var(--radius-sm);
+#theme-toggle{background:none;border:1px solid rgba(255,255,255,.32);color:rgba(244,242,234,.9);border-radius:var(--radius-sm);
   width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
-#theme-toggle:hover{color:#fff;border-color:rgba(255,255,255,.35)}
+#theme-toggle:hover{color:#fff;border-color:rgba(255,255,255,.5)}
 #theme-toggle svg{width:17px;height:17px}
 #theme-toggle .icon-sun{display:none}
 [data-theme="dark"] #theme-toggle .icon-moon{display:none}
@@ -133,16 +135,28 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:
 .page{margin:0 auto;padding:0 24px 90px;max-width:880px}
 .hero{background:linear-gradient(175deg,#0f1830,#1b2a52 65%,#111c38);padding:52px 24px 40px;position:relative;overflow:hidden}
 .hero-inner{margin:0 auto;position:relative;z-index:1}
-.hero::after{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0.16;background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><g fill='%23e8c874' stroke='none'><path d='M30 8 L34 20 L47 20 L37 28 L41 40 L30 32 L19 40 L23 28 L13 20 L26 20 Z'/><path d='M130 90 L133 99 L143 99 L135 105 L138 114 L130 108 L122 114 L125 105 L117 99 L127 99 Z'/><path d='M70 140 L73 149 L83 149 L75 155 L78 164 L70 158 L62 164 L65 155 L57 149 L67 149 Z'/></g><g stroke='%238aa2f2' stroke-width='1.2' opacity='0.6'><line x1='0' y1='60' x2='180' y2='60'/><line x1='0' y1='125' x2='180' y2='125'/></g></svg>");background-size:180px 180px;background-repeat:repeat}
-.hero .kicker{color:#b7c5f9}
-.hero h1{font-family:'Permanent Marker',cursive;font-size:clamp(40px,4.6vw,58px);font-weight:400;letter-spacing:0;line-height:1.15;color:#f4f2ea;margin-bottom:14px}
+.hero::after{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0.09;background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><g fill='%23e8c874' stroke='none'><path d='M30 8 L34 20 L47 20 L37 28 L41 40 L30 32 L19 40 L23 28 L13 20 L26 20 Z'/><path d='M130 90 L133 99 L143 99 L135 105 L138 114 L130 108 L122 114 L125 105 L117 99 L127 99 Z'/><path d='M70 140 L73 149 L83 149 L75 155 L78 164 L70 158 L62 164 L65 155 L57 149 L67 149 Z'/></g><g stroke='%238aa2f2' stroke-width='1.2' opacity='0.6'><line x1='0' y1='60' x2='180' y2='60'/><line x1='0' y1='125' x2='180' y2='125'/></g></svg>");background-size:180px 180px;background-repeat:repeat}
+.hero .kicker{color:#c7d3fa;display:flex;align-items:center;gap:8px;font-size:20px}
+.kicker-logo{width:20px;height:20px;flex-shrink:0;border-radius:4px}
+.hero h1{font-family:'Space Grotesk',-apple-system,sans-serif;font-size:clamp(40px,4.6vw,58px);font-weight:800;letter-spacing:-.01em;line-height:1.15;color:#f4f2ea;margin-bottom:14px}
 .hero h1 .grad{background:linear-gradient(110deg,#8aa2f2,#d6dffb 55%,#e8c874);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero .edition{color:rgba(244,242,234,.55)}
-.hero .subtitle{color:rgba(244,242,234,.66);margin-bottom:28px}
+.hero .edition{color:rgba(244,242,234,.78)}
+.hero .subtitle{color:rgba(244,242,234,.82);margin-bottom:28px}
 .hero .nav{border-bottom:none;padding-bottom:0;margin-bottom:0}
-.hero .tab-btn{background:rgba(255,255,255,.055);border-color:rgba(255,255,255,.13);color:rgba(244,242,234,.78);box-shadow:none}
-.hero .tab-btn:hover{background:rgba(255,255,255,.11);border-color:rgba(255,255,255,.22);color:#fff}
+.hero .tab-btn{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.24);color:rgba(244,242,234,.9);box-shadow:none}
+.hero .tab-btn:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.32);color:#fff}
 .hero .tab-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.breadcrumb{margin-bottom:14px}
+.breadcrumb ol{list-style:none;display:flex;flex-wrap:wrap;gap:6px;padding:0;margin:0;font-family:'Inter',sans-serif;font-size:14px}
+.breadcrumb li{color:rgba(244,242,234,.78);display:flex;align-items:center;gap:6px}
+.breadcrumb li:not(:last-child)::after{content:'›';margin-left:6px;color:rgba(244,242,234,.55)}
+.breadcrumb a{color:rgba(244,242,234,.85);text-decoration:none;font-weight:600}
+.breadcrumb a:hover{color:#fff;text-decoration:underline}
+.breadcrumb li[aria-current="page"]{color:rgba(244,242,234,.95);font-weight:600}
+.nav-spacer{height:0}
+body.nav-pinned .nav-spacer{display:block}
+.nav-slot .nav.nav-pinned{position:fixed;top:0;left:0;right:0;z-index:100;background:#111c38;padding:12px 24px;
+  border-bottom:1px solid rgba(255,255,255,.14);box-shadow:0 8px 20px rgba(0,0,0,.35);margin:0}
 .page>.spc-card{margin-top:-26px;position:relative;z-index:2;box-shadow:var(--shadow-lg)}
 h1,h2,h3,.tab-btn,.unit-title,.q-text,.ex-qtext,.ex-header h2,.term,.qr-h,.btn,.chip,.ex-part-hd h3,.result .big{
   font-family:'Space Grotesk',-apple-system,sans-serif}
@@ -157,10 +171,39 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .tab-btn.active{background:var(--ink);color:var(--surface);border-color:var(--ink)}
 .view{display:none}.view.active{display:block;animation:fadein .25s ease}
 @keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
-.filter-row{display:flex;gap:8px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:6px;-webkit-overflow-scrolling:touch}.filter-row::-webkit-scrollbar{height:4px}.filter-row::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
-.chip{white-space:nowrap;flex-shrink:0;padding:8px 16px;border-radius:999px;border:1px solid var(--border);background:var(--surface);font-size:14px;cursor:pointer;color:var(--ink-muted)}
-.chip:hover{border-color:var(--border-strong);color:var(--ink)}
+/* ---- sticky search + filter header ---- */
+.ss-sticky-top{position:sticky;top:var(--ss-nav-h,0px);z-index:40;background:var(--bg);padding-top:2px;margin:0 -24px;padding-left:24px;padding-right:24px;transition:top .15s ease}
+@media(max-width:600px){.ss-sticky-top{margin:0 -16px;padding-left:16px;padding-right:16px}}
+.search-wrap{position:relative;margin-bottom:10px}
+.search-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--ink-dim);pointer-events:none}
+#search-box{width:100%;height:48px;padding:0 84px 0 44px;border:1px solid var(--border);border-radius:var(--radius);
+  font-size:16.5px;background:var(--surface);color:var(--ink);box-shadow:var(--shadow-sm);transition:border-color .15s ease,box-shadow .15s ease}
+#search-box::placeholder{color:var(--ink-dim)}
+#search-box:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.search-kbd{position:absolute;right:15px;top:50%;transform:translateY(-50%);font-family:'IBM Plex Mono',monospace;font-size:12px;
+  color:var(--ink-dim);background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:2px 7px;pointer-events:none}
+#search-box:focus~.search-kbd,#search-box:not(:placeholder-shown)~.search-kbd{display:none}
+.search-clear{display:none;position:absolute;right:12px;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;
+  border:none;background:var(--surface-2);color:var(--ink-muted);cursor:pointer;align-items:center;justify-content:center}
+.search-clear:hover{background:var(--surface-hover);color:var(--ink)}
+#search-box:not(:placeholder-shown)~.search-clear{display:flex}
+#search-results{display:none;position:absolute;left:0;right:0;top:calc(100% + 6px);background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:50;max-height:360px;overflow-y:auto;padding:8px}
+#search-results.show{display:block}
+#search-results>div[onclick]{transition:background .12s ease}
+#search-results>div[onclick]:hover{background:var(--surface-2)!important;border-color:var(--border-strong)!important}
+.filter-row-wrap{position:relative}
+.filter-row{display:flex;gap:8px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:6px;-webkit-overflow-scrolling:touch;
+  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 24px,#000 calc(100% - 24px),transparent 100%);
+  mask-image:linear-gradient(to right,transparent 0,#000 24px,#000 calc(100% - 24px),transparent 100%)}
+.filter-row::-webkit-scrollbar{height:4px}.filter-row::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.chip{white-space:nowrap;flex-shrink:0;padding:8px 16px;border-radius:999px;border:1px solid var(--border);background:var(--surface);font-size:14px;cursor:pointer;color:var(--ink-muted);transition:all .15s ease}
+.chip:hover{border-color:var(--border-strong);color:var(--ink);transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.ss-overall-progress{display:flex;align-items:center;gap:10px;margin:8px 0 12px}
+.ss-overall-progress-track{flex:1;height:6px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.ss-overall-progress-fill{height:100%;width:0%;background:var(--accent);border-radius:99px;transition:width .3s ease}
+.ss-overall-progress-label{font-size:12.5px;color:var(--ink-dim);white-space:nowrap;flex-shrink:0}
 .unit{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden;background:var(--surface);
   transition:border-color .15s ease,box-shadow .15s ease}
 .unit:hover{border-color:var(--border-strong)}
@@ -173,7 +216,7 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .chevron{font-size:24px;color:var(--ink-dim);transition:transform .2s ease;display:inline-block}
 .unit.open .chevron{transform:rotate(180deg);color:var(--accent)}
 .unit-body{display:none;padding:6px 18px 20px}
-.unit.open .unit-body{display:block}
+.unit.open .unit-body{display:block;animation:fadein .25s ease}
 .concept{margin-top:12px;padding:15px 17px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm)}
 .concept:first-child{margin-top:2px}
 .c-label{font-size:16.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--accent-ink);margin-bottom:8px;display:flex;align-items:center;gap:8px}
@@ -226,14 +269,31 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .guess-btn.on{background:var(--amber-soft);border-style:solid;border-color:var(--amber);color:var(--amber-ink)}
 .guess-flag{display:inline-block;margin-left:8px;font-size:14px;font-weight:700;color:var(--amber-ink);background:var(--amber-soft);
   border:1px solid var(--amber);border-radius:99px;padding:2px 10px;vertical-align:middle}
-.q-block{border:1px solid var(--border);border-radius:var(--radius);padding:24px;background:var(--surface);box-shadow:var(--shadow-sm)}
-.q-text{font-size:24.8px;font-weight:600;color:var(--ink);line-height:1.55;margin-bottom:20px}
+.q-block{border:1px solid var(--border);border-radius:var(--radius);padding:24px;background:var(--surface);box-shadow:var(--shadow-sm);margin-bottom:22px;transition:transform .15s ease,box-shadow .15s ease}
+.q-block:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.q-block-hd{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px}
+.q-text{font-size:24.8px;font-weight:600;color:var(--ink);line-height:1.55;flex:1}
+.q-bookmark{flex:none;background:none;border:none;cursor:pointer;color:var(--ink-dim);padding:2px;border-radius:6px;transition:color .15s ease,transform .15s ease}
+.q-bookmark:hover{color:var(--amber);transform:scale(1.08)}
+.q-bookmark.on{color:var(--amber)}
+.q-bookmark svg{display:block}
 .q-opts{display:flex;flex-direction:column;gap:9px}
 .q-opt{padding:13px 16px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';
-  font-size:21.8px;color:var(--ink-muted);background:var(--surface);transition:all .15s ease;text-align:left}
+  font-size:21.8px;color:var(--ink-muted);background:var(--surface);transition:all .15s ease;text-align:left;
+  display:flex;align-items:center;gap:9px}
 .q-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}
+.q-opt:disabled{cursor:default}
+.q-opt .q-opt-icon{flex:none;display:none}
 .q-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}
+.q-opt.correct .q-opt-icon.icon-correct{display:inline-flex}
 .q-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}
+.q-opt.wrong .q-opt-icon.icon-wrong{display:inline-flex}
+.q-hint-btn{display:inline-flex;align-items:center;gap:6px;margin-bottom:14px;padding:6px 14px;border:1px dashed var(--border-strong);
+  border-radius:99px;background:transparent;color:var(--ink-dim);font-size:14px;font-family:inherit;cursor:pointer;transition:all .15s ease}
+.q-hint-btn:hover{color:var(--accent-ink);border-color:var(--accent);background:var(--accent-soft)}
+.q-hint-box{display:none;margin:-6px 0 14px;padding:10px 14px;background:var(--accent-soft);border-left:3px solid var(--accent);
+  border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:15px;color:var(--accent-ink);line-height:1.5}
+.q-hint-box.show{display:block}
 .q-exp{margin-top:16px;padding:13px 16px;background:var(--surface-2);border-radius:var(--radius-sm);font-family:'Inter';
   font-size:21px;color:var(--ink-muted);line-height:1.65;display:none}
 .q-exp.show{display:block}
@@ -280,36 +340,81 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .qr-ol li,.qr-ul li{font-size:20.2px;color:var(--ink-muted);line-height:1.65;margin-bottom:8px}
 .qr-ol li:last-child,.qr-ul li:last-child{margin-bottom:0}
 .spc-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow-md)}
+.spc-summary{display:none;width:100%;align-items:center;justify-content:space-between;gap:12px;background:none;border:none;
+  cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;color:var(--ink);padding:0;text-align:left}
+.spc-summary .spc-chevron{font-size:18px;color:var(--ink-dim);transition:transform .2s ease;flex-shrink:0}
+#spc-card.collapsed{padding:16px 20px;cursor:pointer}
+#spc-card.collapsed .spc-summary{display:flex}
+#spc-card.collapsed .spc-body{display:none}
+#spc-card.collapsed .spc-chevron{transform:rotate(-90deg)}
+#spc-card:not(.collapsed) .spc-collapse-btn{display:inline-flex}
+.spc-collapse-btn{display:none;align-items:center;gap:4px;background:none;border:1px solid var(--border);border-radius:999px;
+  color:var(--ink-muted);font-size:13px;font-weight:600;padding:5px 12px;cursor:pointer;margin-left:auto}
+.spc-collapse-btn:hover{color:var(--ink);border-color:var(--border-strong)}
+.spc-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:6px}
+.spc-head-text{flex:1;min-width:0}
 .spc-card h2{font-size:30px;font-weight:600;color:var(--ink);margin-bottom:6px}
-.spc-card>p{font-size:21px;color:var(--ink-muted);line-height:1.55;margin-bottom:24px}
-.spc-row{margin-bottom:20px}
-.spc-row label{display:flex;justify-content:space-between;font-size:21px;font-weight:600;color:var(--ink);margin-bottom:9px}
+.spc-card>.spc-body>p{font-size:21px;color:var(--ink-muted);line-height:1.55;margin-bottom:24px}
+.spc-row{margin-bottom:20px;padding:10px 0}
+.spc-row label{display:flex;justify-content:space-between;align-items:center;font-size:21px;font-weight:600;color:var(--ink);margin-bottom:9px}
 .spc-row label span{color:var(--accent-ink);font-weight:700}
-input[type=range].spc-slider{-webkit-appearance:none;appearance:none;width:100%;height:5px;border-radius:99px;background:var(--surface-2);outline:none}
-input[type=range].spc-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;
-  background:var(--accent);cursor:pointer;border:3px solid var(--surface);box-shadow:0 2px 8px rgba(15,122,112,.4)}
-input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--accent);cursor:pointer;border:3px solid var(--surface)}
+.spc-val-input{width:64px;font-family:inherit;font-size:18px;font-weight:700;color:var(--accent-ink);background:var(--surface-2);
+  border:1px solid var(--border);border-radius:6px;padding:2px 6px;text-align:right}
+input[type=range].spc-slider{-webkit-appearance:none;appearance:none;width:100%;height:8px;border-radius:99px;background:var(--surface-2);outline:none;
+  background-image:linear-gradient(to right, var(--accent) 0%, var(--accent) var(--fill,0%), var(--surface-2) var(--fill,0%), var(--surface-2) 100%)}
+input[type=range].spc-slider::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;
+  background:var(--accent);cursor:pointer;border:4px solid var(--surface);box-shadow:0 2px 8px rgba(15,122,112,.4),0 0 0 3px var(--accent-soft)}
+input[type=range].spc-slider::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:var(--accent);cursor:pointer;border:4px solid var(--surface);box-shadow:0 0 0 3px var(--accent-soft)}
+input[type=range].spc-slider::-moz-range-progress{background:var(--accent);height:8px;border-radius:99px}
 .spc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin:24px 0 16px}
-.spc-stat{background:var(--surface-2);border-radius:var(--radius-sm);padding:14px 10px;text-align:center}
+.spc-stat{background:var(--surface-2);border-radius:var(--radius-sm);padding:14px 10px;text-align:center;box-shadow:var(--shadow-sm)}
 .spc-stat-val{font-size:37.5px;font-weight:700;color:var(--accent-ink);line-height:1}
-.spc-stat-label{font-family:'Inter';font-size:17.2px;color:var(--ink-dim);margin-top:6px;line-height:1.3}
+.spc-stat-label{font-family:'Inter';font-size:17.2px;color:var(--ink-dim);margin-top:6px;line-height:1.3;cursor:help}
 .spc-tier{border-radius:var(--radius-sm);padding:13px 16px;font-size:21px;text-align:center;transition:background .2s,color .2s}
 .spc-tier b{display:block;font-size:22.5px;margin-bottom:2px}
+.spc-tier.good{background:var(--success-soft);color:var(--success)}
+.spc-tier.moderate{background:var(--accent-soft);color:var(--accent-ink)}
+.spc-tier.behind{background:var(--amber-soft);color:var(--amber-ink)}
+.spc-reset-btn{display:inline-flex;align-items:center;gap:6px;margin-top:16px;padding:8px 16px;border:1px solid var(--border);
+  border-radius:999px;background:var(--surface);color:var(--ink-muted);font-size:14px;font-weight:600;cursor:pointer;transition:all .15s ease}
+.spc-reset-btn:hover{color:var(--ink);border-color:var(--border-strong);background:var(--surface-hover)}
+@media (prefers-reduced-motion: no-preference){
+  .spc-body{transition:opacity .2s ease}
+}
 .unit:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .q-block{box-shadow:var(--shadow-md)}
 .diagram{box-shadow:var(--shadow-sm)}
 .face{box-shadow:var(--shadow-md)}
+.mobile-only-select{display:none}
 @media(max-width:600px){
   .page{padding:0 16px 70px}
   .hero{padding:40px 16px 32px}
   .q-block{padding:18px}
   .spc-stats{grid-template-columns:1fr}
+  /* ---- touch targets: >=44x44px effective hit area ---- */
+  .chip{padding:12px 16px;min-height:44px;display:inline-flex;align-items:center}
+  .q-opt{min-height:44px;padding:13px 16px}
+  #theme-toggle{width:44px;height:44px}
+  .tab-btn{min-height:44px;padding:11px 18px;display:inline-flex;align-items:center}
+  /* slider thumbs stay visually small but gain a transparent padded hit-area */
+  input[type=range].spc-slider{height:44px;padding:18px 0;background-clip:content-box;box-sizing:border-box}
+  input[type=range].spc-slider::-webkit-slider-thumb{width:26px;height:26px}
+  input[type=range].spc-slider::-moz-range-thumb{width:26px;height:26px}
+  .back-to-top{width:48px;height:48px}
+  /* ---- mobile unit filter: dropdown replaces the pill row ---- */
+  .filter-row-wrap .filter-row{display:none}
+  .mobile-only-select{display:block;width:100%;min-height:44px;padding:10px 14px;margin-bottom:6px;
+    border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--ink);
+    font-family:'Inter',sans-serif;font-size:16px;cursor:pointer}
 }
-#sg-timer{margin-left:auto;display:flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;
-  color:rgba(244,242,234,.7);font-size:21px;font-variant-numeric:tabular-nums}
-.sgt-b{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:rgba(244,242,234,.75);
-  border-radius:6px;padding:4px 9px;cursor:pointer;font-size:18px;transition:all .15s ease}
-.sgt-b:hover{color:#fff;border-color:rgba(255,255,255,.3)}
+#sg-timer{margin-left:auto;display:flex;align-items:center;gap:9px;font-family:'IBM Plex Mono',monospace;
+  color:rgba(244,242,234,.85);font-size:21px;font-variant-numeric:tabular-nums}
+.sgt-label{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:rgba(244,242,234,.7)}
+.sgt-b{border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:rgba(244,242,234,.9);
+  border-radius:6px;padding:5px 9px;cursor:pointer;font-size:18px;transition:all .15s ease;display:inline-flex;align-items:center;justify-content:center}
+.sgt-b:hover{color:#fff;border-color:rgba(255,255,255,.5)}
+.sgt-b svg{width:15px;height:15px;display:block}
 .mem-intro{font-size:21px;color:var(--ink-muted);background:var(--surface-2);border:1px solid var(--border);
   border-left:3px solid var(--accent);border-radius:var(--radius-sm);padding:13px 16px;margin-bottom:20px;line-height:1.6}
 .mem-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:11px}
@@ -359,7 +464,7 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
   color:#fff;cursor:pointer;font-size:24px;flex-shrink:0}
 #cbot-form button:disabled{opacity:.4;cursor:default}
 .back-link{display:inline-flex;align-items:center;gap:6px;font-family:'Inter';font-size:15px;font-weight:600;
-  color:rgba(244,242,234,.62);text-decoration:none;margin-bottom:18px;transition:color .15s ease}
+  color:rgba(244,242,234,.8);text-decoration:none;margin-bottom:18px;transition:color .15s ease}
 .back-link:hover{color:#fff}
 
 .auth-gate{max-width:460px;margin:40px auto;text-align:center;padding:36px 28px;background:var(--surface);
@@ -375,10 +480,10 @@ input[type=range].spc-slider::-moz-range-thumb{width:20px;height:20px;border-rad
 .auth-gate .ss-oauth-btn{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-ink);font-weight:700}
 .auth-gate .ss-oauth-btn:hover{background:var(--accent);color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.18)}
 .ss-status{font-family:'Inter';font-size:12.5px;color:var(--ink-dim);margin-top:10px;min-height:16px}
-.ss-account{display:flex;align-items:center;gap:10px;font-family:'Inter';font-size:13px;color:rgba(244,242,234,.75)}
-.ss-account button{background:none;border:1px solid rgba(255,255,255,.18);border-radius:var(--radius-sm);
-  color:rgba(244,242,234,.7);padding:5px 11px;font-size:12px;cursor:pointer;font-family:'Inter'}
-.ss-account button:hover{color:#fff;border-color:rgba(255,255,255,.35)}
+.ss-account{display:flex;align-items:center;gap:10px;font-family:'Inter';font-size:13px;color:rgba(244,242,234,.88)}
+.ss-account button{background:none;border:1px solid rgba(255,255,255,.32);border-radius:var(--radius-sm);
+  color:rgba(244,242,234,.85);padding:5px 11px;font-size:12px;cursor:pointer;font-family:'Inter'}
+.ss-account button:hover{color:#fff;border-color:rgba(255,255,255,.5)}
 body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:2147483647;opacity:.035;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .q-kbd-hint{margin-left:auto;font-size:12.5px;color:var(--ink-dim)}
@@ -400,6 +505,42 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 .ex2-reveal{border-color:var(--accent)!important;color:var(--accent)!important}
 .ex2-done{margin-left:auto}
 
+/* ---- back-to-top ---- */
+.back-to-top{position:fixed;bottom:22px;left:22px;width:52px;height:52px;border-radius:50%;
+  background:var(--surface);color:var(--ink-muted);border:1px solid var(--border-strong);cursor:pointer;
+  box-shadow:var(--shadow-md);z-index:200;display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .2s ease,transform .2s ease,color .15s ease,border-color .15s ease}
+.back-to-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+.back-to-top:hover{color:var(--ink);border-color:var(--accent)}
+.back-to-top svg{width:20px;height:20px;display:block}
+
+/* ---- print / export ---- */
+@media print{
+  :root,[data-theme="dark"]{
+    --bg:#fff;--surface:#fff;--surface-2:#f2f2f2;--surface-hover:#f2f2f2;
+    --border:#ccc;--border-strong:#999;--ink:#000;--ink-muted:#222;--ink-dim:#444;
+    --accent:#000;--accent-ink:#000;--accent-soft:#eee;
+    --amber:#000;--amber-ink:#000;--amber-soft:#eee;
+    --success:#000;--success-soft:#eee;--success-border:#999;
+    --danger:#000;--danger-soft:#eee;--danger-border:#999;
+    --shadow-sm:none;--shadow-md:none;--shadow-lg:none;
+  }
+  body{background:#fff;color:#000}
+  body::before,.hero::after{display:none!important}
+  #theme-toggle,.search-wrap,.ss-sticky-top .filter-row-wrap,.mobile-only-select,.nav,.nav-spacer,.tablist,
+  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
+  .search-kbd,.ss-overall-progress,.q-kbd-hint,.diag-btn{display:none!important}
+  *{position:static!important;box-shadow:none!important}
+  .unit-body{display:block!important}
+  .unit .chevron{display:none!important}
+  .ex-part-body{display:block!important}
+  .q-exp,.q-hint-box{display:block!important}
+  .q-opt{border:1px solid #999!important}
+  details{display:block!important}
+  details>*{display:block!important}
+  a{color:#000;text-decoration:underline}
+}
+
 :root:not([data-theme="dark"]){--accent:#2563eb!important;--accent-ink:#184099!important;--accent-soft:#e5ecfd!important;--accent-border:#acc4f7!important;--bg:#e9effd!important;}[data-theme="dark"]{--accent:#87a9f4!important;--accent-soft:rgba(37,99,235,0.16)!important;--accent-border:rgba(37,99,235,0.4)!important;--bg:#12182b!important;--surface:#1a2138!important;}:root:not([data-theme="dark"]) .hero{background:linear-gradient(170deg,#184099 0%,#2563eb 55%,#e9effd 130%)!important;}[data-theme="dark"] .hero{background:linear-gradient(170deg,#0a0e1c 0%,#184099 45%,#2563eb 100%)!important;}:root:not([data-theme="dark"]) .tab-btn.active,[data-theme="dark"] .tab-btn.active{background:#2563eb;border-color:#2563eb;color:#fff!important;}.btn{background:#2563eb;border-color:#2563eb} .unit.open .chevron{color:#2563eb}.chip.on{background:#2563eb;border-color:#2563eb;color:#fff}:root:not([data-theme="dark"]) .spc-card{border-color:#acc4f7;background:linear-gradient(135deg,#e5ecfd,var(--surface))!important}[data-theme="dark"] .spc-card{border-color:rgba(37,99,235,0.4);background:linear-gradient(135deg,rgba(37,99,235,0.16),var(--surface))!important}
 .hero::after{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'170'%20height%3D'170'%3E%3Cpath%20d%3D'M40%2015%20l6%2014%2015%201%20-11%2010%203%2015%20-13%20-8%20-13%208%203%20-15%20-11%20-10%2015%20-1%20z'%20fill%3D'%232563eb'%20opacity%3D'.30'%2F%3E%3Ccircle%20cx%3D'130'%20cy%3D'80'%20r%3D'9'%20fill%3D'none'%20stroke%3D'%232563eb'%20stroke-width%3D'2'%20opacity%3D'.35'%2F%3E%3Crect%20x%3D'120'%20y%3D'125'%20width%3D'24'%20height%3D'16'%20rx%3D'3'%20fill%3D'%232563eb'%20opacity%3D'.22'%2F%3E%3C%2Fsvg%3E")!important;background-size:170px 170px!important;opacity:.5!important;}
 body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'190'%20height%3D'190'%3E%3Cpath%20d%3D'M40%2015%20l6%2014%2015%201%20-11%2010%203%2015%20-13%20-8%20-13%208%203%20-15%20-11%20-10%2015%20-1%20z'%20fill%3D'%232563eb'%20opacity%3D'0.133'%2F%3E%3C%2Fsvg%3E");background-size:190px 190px;opacity:.9;}
@@ -419,10 +560,20 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <a class="skip-link" href="#main-content">Skip to main content</a>
 <div class="hero">
   <div class="hero-inner">
-    <a href="/" class="back-link" style="opacity:0;animation:fadein .5s ease forwards">← Back to Library</a>
-    <div class="kicker" style="opacity:0;animation:fadein .5s ease .06s forwards">French 1</div>
+    <nav class="breadcrumb" aria-label="Breadcrumb" style="opacity:0;animation:fadein .5s ease forwards">
+      <ol>
+        <li><a href="/">PrecisStudy</a></li>
+        <li><a href="/">All Guides</a></li>
+        <li aria-current="page">French 1 Study Guide</li>
+      </ol>
+    </nav>
+    <div class="kicker" style="opacity:0;animation:fadein .5s ease .06s forwards">
+      <img src="/logo-icon-dark.png" alt="" class="kicker-logo" width="20" height="20">
+      <span>French 1</span>
+    </div>
     <h1 style="opacity:0;animation:fadein .5s ease .12s forwards"><span class="grad">French 1</span> Study Guide</h1>
     <p class="subtitle" style="opacity:0;animation:fadein .5s ease .18s forwards">8 Units · 310 Quiz Questions · 80 Flashcards · Diagnostic · Quick Reference · Memory Tricks · Saved Progress</p>
+    <div class="nav-slot" id="nav-slot">
     <nav class="nav" style="opacity:0;animation:fadein .5s ease .24s forwards">
       <div class="tablist" role="tablist" aria-label="Study guide views">
       <button class="tab-btn active" role="tab" id="tab-guide" aria-controls="view-guide" aria-selected="true" onclick="switchTab('guide')">Study Guide</button>
@@ -437,39 +588,85 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
         <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
       </button>
     </nav>
+    </div>
     <div class="hero-live sr-only" id="hero-live" role="status" aria-live="polite"></div>
   </div>
 </div>
+<div class="nav-spacer" id="nav-spacer" hidden></div>
 <div class="page" id="main-content" role="main" tabindex="-1">
-<div class="spc-card" id="spc-card">
-  <h2>See what your study plan could look like</h2>
-  <p>Based on this guide's real question bank — 310 practice questions across 8 units. Slide to match your situation.</p>
+<div class="spc-card collapsed" id="spc-card">
+  <button type="button" class="spc-summary" id="spc-summary" aria-expanded="false" aria-controls="spc-body">
+    <span>📊 See what your study plan could look like — tap to expand</span>
+    <span class="spc-chevron" aria-hidden="true">▾</span>
+  </button>
+  <div class="spc-body" id="spc-body">
+  <div class="spc-head">
+    <div class="spc-head-text">
+      <h2>See what your study plan could look like</h2>
+      <p>Based on this guide's real question bank — 310 practice questions across 8 units. Slide to match your situation.</p>
+    </div>
+    <button type="button" class="spc-collapse-btn" id="spc-collapse-btn" aria-expanded="true" aria-controls="spc-body">Collapse ▴</button>
+  </div>
   <div class="spc-row">
-    <label for="spc-days">Days until your exam <span id="spc-days-val">14 days</span></label>
+    <label for="spc-days">Days until your exam <span id="spc-days-val">14 days</span> <input type="number" class="spc-val-input" id="spc-days-num" min="1" max="60" value="14" aria-label="Days until your exam, exact number"></label>
     <input type="range" class="spc-slider" id="spc-days" min="1" max="60" value="14">
   </div>
   <div class="spc-row">
-    <label for="spc-mins">Minutes you can study per day <span id="spc-mins-val">30 min</span></label>
+    <label for="spc-mins">Minutes you can study per day <span id="spc-mins-val">30 min</span> <input type="number" class="spc-val-input" id="spc-mins-num" min="10" max="120" step="5" value="30" aria-label="Minutes you can study per day, exact number"></label>
     <input type="range" class="spc-slider" id="spc-mins" min="10" max="120" value="30" step="5">
   </div>
   <div class="spc-stats">
-    <div class="spc-stat"><div class="spc-stat-val" id="spc-questions">0</div><div class="spc-stat-label">Questions you'll complete</div></div>
-    <div class="spc-stat"><div class="spc-stat-val" id="spc-units">0</div><div class="spc-stat-label">Units covered</div></div>
-    <div class="spc-stat"><div class="spc-stat-val" id="spc-pct">0%</div><div class="spc-stat-label">of the full question bank</div></div>
+    <div class="spc-stat"><div class="spc-stat-val" id="spc-questions">0</div><div class="spc-stat-label" title="The total number of quiz questions you'll get through at this pace before your exam date.">Questions you'll complete</div></div>
+    <div class="spc-stat"><div class="spc-stat-val" id="spc-units">0</div><div class="spc-stat-label" title="How many of this guide's units you'll have covered at this pace.">Units covered</div></div>
+    <div class="spc-stat"><div class="spc-stat-val" id="spc-pct">0%</div><div class="spc-stat-label" title="Percentage of every question in this guide's bank you'll get through at this pace.">of the full question bank</div></div>
   </div>
   <div class="spc-tier" id="spc-tier">
     <b id="spc-tier-title"></b>
     <span id="spc-tier-sub"></span>
   </div>
-</div>
-<div id="view-guide" class="view active" role="tabpanel" aria-labelledby="tab-guide" tabindex="0">
-  <div style="display:flex;gap:8px;margin-bottom:10px;align-items:center">
-    <input id="search-box" type="search" aria-label="Search this guide's topics, terms, and formulas" placeholder="Search topics, terms, formulas…" oninput="searchGuide()" style="flex:1;padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:15px;background:var(--surface);color:var(--ink)">
-    <button type="button" onclick="clearSearch()" style="padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);font-size:13px;cursor:pointer;color:var(--ink-muted)">✕ Clear</button>
+  <button type="button" class="spc-reset-btn" id="spc-reset-btn">↺ Reset to Recommended</button>
   </div>
-  <div id="search-results" style="display:none;margin-bottom:12px"></div>
-  <div class="filter-row" id="filter-row"><button class="chip on">All Units</button><button class="chip">Unit 1</button><button class="chip">Unit 2</button><button class="chip">Unit 3</button><button class="chip">Unit 4</button><button class="chip">Unit 5</button><button class="chip">Unit 6</button><button class="chip">Unit 7</button><button class="chip">Unit 8</button></div>
-  <div id="units"><div class="unit" data-id="1"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 1: Greetings & Alphabet<span class="unit-meta">5 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Basic Greetings</div><div class="c-text">French greetings change with time of day and formality. Getting the right register matters as much as the words themselves.</div><ul class="c-list"><li>Bonjour = hello/good day (used until evening); Bonsoir = good evening</li><li>Salut = hi/bye (informal, use with friends and family only)</li><li>Au revoir = goodbye (all situations); À bientôt = see you soon; À demain = see you tomorrow</li><li>Comment allez-vous ? (formal) vs Comment vas-tu ? / Ça va ? (informal) = How are you?</li><li>Ça va bien, merci = I'm doing well, thanks; Comme ci, comme ça = so-so</li><li>Enchanté(e) = pleased to meet you, used right after an introduction</li></ul></div><div class="concept"><div class="c-label">Tu vs Vous</div><div class="c-text">French has two words for 'you', and choosing the wrong one is a real social error, not just a grammar point.</div><ul class="c-list"><li>Tu = informal 'you', singular — family, friends, children, peers</li><li>Vous = formal 'you' singular (strangers, elders, authority) AND always plural 'you'</li><li>When in doubt with an adult stranger, use vous</li><li>Vous is also used for a group even if all members are close friends</li><li>Switching from vous to tu (se tutoyer) usually happens by mutual invitation</li></ul></div><div class="concept"><div class="c-label">The French Alphabet</div><div class="c-text">The French alphabet has the same 26 letters as English but they are pronounced differently, which matters for spelling names aloud.</div><ul class="c-list"><li>A (ah), B (bé), C (sé), D (dé), E (euh), F (ef), G (jé)</li><li>H (ash) — always silent at the start of a word, e.g. 'hôtel'</li><li>I (i), J (ji), K (ka), L (el), M (em), N (en)</li><li>O (o), P (pé), Q (ku), R (er), S (es), T (té)</li><li>U (u), V (vé), W (double-vé), X (iks), Y (i grec), Z (zed)</li></ul></div><div class="concept"><div class="c-label">Accents & Special Characters</div><div class="c-text">Accents are not decorative — they change pronunciation and sometimes meaning, and must be written correctly.</div><ul class="c-list"><li>é = accent aigu (closed 'ay' sound), e.g. café, étudiant</li><li>è / ê = accent grave / circonflexe (open 'eh' sound), e.g. mère, fête</li><li>ç = cédille, makes 'c' sound like 's' before a, o, u — e.g. ça, français</li><li>ë / ï = tréma, shows two vowels are pronounced separately, e.g. Noël</li><li>a vs à: 'a' = has (from avoir); 'à' = to/at — the accent changes the meaning</li></ul></div><div class="concept"><div class="c-label">Numbers 0–20</div><div class="c-text">Numbers 0–20 are used constantly for ages, phone numbers, and quantities and must be memorized as irregular forms.</div><ul class="c-list"><li>0 zéro, 1 un, 2 deux, 3 trois, 4 quatre, 5 cinq</li><li>6 six, 7 sept, 8 huit, 9 neuf, 10 dix</li><li>11 onze, 12 douze, 13 treize, 14 quatorze, 15 quinze</li><li>16 seize, 17 dix-sept, 18 dix-huit, 19 dix-neuf, 20 vingt</li><li>Final consonants of six, huit, dix are often dropped before a consonant sound (six livres → 'si livres')</li></ul></div><div class="trap">Salut to a teacher or stranger, not Bonjour — Salut is informal and can sound rude to someone you don't know.</div><div class="trap">'Comment tu t'appelles' with vous — mixing tu and vous in the same sentence is inconsistent; pick one register.</div><div class="trap">Dropping accents when typing (cafe instead of café) changes correctness on exams even if pronunciation seems similar.</div><div class="trap">Pronouncing the h in 'huit' or 'hôtel' — French h is silent, not aspirated like English h.</div></div></div><div class="unit" data-id="2"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 2: Articles & Nouns<span class="unit-meta">5 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Grammatical Gender</div><div class="c-text">Every French noun is either masculine or feminine, even for objects with no natural gender, and this must be memorized with each word.</div><ul class="c-list"><li>le livre (m) = the book; la table (f) = the table — gender is arbitrary for objects</li><li>Nouns ending in -e are often (not always) feminine: la chaise, la porte</li><li>Nouns ending in -tion, -sion, -té are almost always feminine: la nation, la liberté</li><li>Nouns ending in -eau, -age, -isme are usually masculine: le bureau, le fromage</li><li>Always learn a noun WITH its article (le/la) rather than the noun alone</li></ul></div><div class="concept"><div class="c-label">Definite Articles: le, la, l', les</div><div class="c-text">Definite articles ('the') agree in gender and number with the noun and contract before vowel sounds.</div><ul class="c-list"><li>le = masculine singular: le garçon, le stylo</li><li>la = feminine singular: la fille, la maison</li><li>l' = before any singular noun starting with a vowel or mute h: l'ami, l'homme</li><li>les = plural for both genders: les garçons, les filles</li><li>Definite articles are used for specific things, general categories, and likes/dislikes (j'aime les chats)</li></ul></div><div class="concept"><div class="c-label">Indefinite Articles: un, une, des</div><div class="c-text">Indefinite articles ('a/an/some') introduce a non-specific noun and also agree in gender and number.</div><ul class="c-list"><li>un = a/an (masculine): un livre, un stylo</li><li>une = a/an (feminine): une table, une pomme</li><li>des = some (plural, both genders): des livres, des pommes</li><li>In negative sentences, un/une/des become 'de' (or 'd'' before a vowel): j'ai un chien → je n'ai pas de chien</li><li>Des is often omitted in English ('I have books') but is required in French (j'ai des livres)</li></ul></div><div class="concept"><div class="c-label">Forming Plurals</div><div class="c-text">Most French nouns form the plural by adding -s, but common exceptions must be memorized.</div><ul class="c-list"><li>Regular: le livre → les livres (add -s, usually silent)</li><li>Nouns ending in -s, -x, -z stay the same: le fils → les fils; la voix → les voix</li><li>Nouns ending in -eau, -eu add -x: le bureau → les bureaux; le jeu → les jeux</li><li>Most nouns ending in -al change to -aux: le journal → les journaux</li><li>The article changes to show plural even when the noun's sound doesn't: le chat → les chats</li></ul></div><div class="concept"><div class="c-label">Contractions with à and de</div><div class="c-text">The prepositions à (to/at) and de (of/from) contract with the masculine and plural definite articles.</div><ul class="c-list"><li>à + le = au: je vais au cinéma (not 'à le')</li><li>à + les = aux: je parle aux étudiants</li><li>de + le = du: le livre du professeur (not 'de le')</li><li>de + les = des: la voiture des parents</li><li>à + la and à + l' do NOT contract: à la piscine, à l'école</li></ul></div><div class="trap">'la programme' instead of 'le programme' — memorize gender per word, don't guess from English logic.</div><div class="trap">Saying 'à le cinéma' instead of 'au cinéma' — à+le must contract to au.</div><div class="trap">Forgetting 'des' in 'j'ai des amis' — English drops the article, French keeps it.</div><div class="trap">Using un/une after a negation ('je n'ai pas un stylo') instead of de: 'je n'ai pas de stylo'.</div></div></div><div class="unit" data-id="3"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 3: Regular -ER Verbs<span class="unit-meta">5 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">The -ER Verb Family</div><div class="c-text">Over 90% of French verbs end in -er in the infinitive and follow one predictable conjugation pattern.</div><ul class="c-list"><li>parler (to speak), aimer (to like/love), habiter (to live), travailler (to work)</li><li>manger (to eat), regarder (to watch/look at), écouter (to listen), donner (to give)</li><li>chercher (to look for), jouer (to play), étudier (to study), arriver (to arrive)</li><li>To conjugate: remove -er from the infinitive to get the stem (parl-, aim-)</li><li>Add the ending that matches the subject pronoun to the stem</li></ul></div><div class="concept"><div class="c-label">Present Tense Endings</div><div class="c-text">The six present-tense endings for -er verbs attach to the stem and must be memorized as a set.</div><ul class="c-list"><li>je parle, tu parles, il/elle/on parle (endings -e, -es, -e all sound the same)</li><li>nous parlons, vous parlez, ils/elles parlent</li><li>-ent (ils/elles) is silent — 'ils parlent' sounds just like 'il parle'</li><li>-ons (nous) and -ez (vous) are the only endings that are clearly pronounced</li><li>je → j' before a vowel sound: j'aime, j'habite, j'écoute</li></ul></div><div class="concept"><div class="c-label">Negation with ne...pas</div><div class="c-text">To make a verb negative, French wraps it in two parts placed around the conjugated verb.</div><ul class="c-list"><li>ne + verb + pas: je ne parle pas (I do not speak)</li><li>ne becomes n' before a vowel sound: je n'aime pas, il n'habite pas</li><li>Both ne and pas are required — dropping ne is only acceptable in very casual spoken French</li><li>Other negations follow the same pattern: ne...jamais (never), ne...plus (no longer)</li><li>Word order: subject + ne + verb + pas + rest of sentence</li></ul></div><div class="concept"><div class="c-label">Spelling-Change -ER Verbs</div><div class="c-text">A few common -er verbs need a small spelling tweak in certain forms to preserve pronunciation.</div><ul class="c-list"><li>manger (to eat) adds an -e before -ons: nous mangeons (keeps the soft 'j' sound)</li><li>commencer (to begin) changes c to ç before -ons: nous commençons</li><li>acheter (to buy) adds a grave accent in most forms: j'achète, but nous achetons</li><li>préférer (to prefer) changes é to è in most forms: je préfère, but nous préférons</li><li>appeler (to call) doubles the l in most forms: j'appelle, but nous appelons</li></ul></div><div class="concept"><div class="c-label">Common Uses & Time Expressions</div><div class="c-text">The present tense in French covers more ground than in English, including some ongoing and near-future actions.</div><ul class="c-list"><li>Je parle can mean 'I speak', 'I am speaking', or 'I do speak' — one form, three English meanings</li><li>aujourd'hui (today), maintenant (now), souvent (often), toujours (always)</li><li>adorer (to adore) and détester (to hate) follow the same -er pattern</li><li>aimer + infinitive: j'aime danser (I like to dance)</li><li>Adverbs like souvent/toujours usually go right after the conjugated verb: je mange souvent</li></ul></div><div class="trap">Pronouncing the -ent ending in 'ils parlent' — it is silent, don't add a syllable.</div><div class="trap">'Je ne aime pas' instead of 'je n'aime pas' — ne must elide to n' before a vowel.</div><div class="trap">'Nous mangons' instead of 'nous mangeons' — manger needs the extra e to keep the soft g sound.</div><div class="trap">Using the infinitive alone as a conjugated verb ('je parler') instead of conjugating: 'je parle'.</div></div></div><div class="unit" data-id="4"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 4: Être, Avoir & Questions<span class="unit-meta">5 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Être (to be)</div><div class="c-text">Être is the most important irregular verb in French, used for identity, description, nationality, and profession.</div><ul class="c-list"><li>je suis, tu es, il/elle/on est</li><li>nous sommes, vous êtes, ils/elles sont</li><li>Used for adjectives of description: elle est grande (she is tall)</li><li>Used for professions and nationalities without an article: il est professeur, elle est française</li><li>C'est vs il/elle est: c'est + noun (c'est un professeur), il/elle est + adjective alone (il est intelligent)</li></ul></div><div class="concept"><div class="c-label">Avoir (to have)</div><div class="c-text">Avoir is the second essential irregular verb, used for possession and many fixed expressions where English uses 'to be'.</div><ul class="c-list"><li>j'ai, tu as, il/elle/on a</li><li>nous avons, vous avez, ils/elles ont</li><li>Possession: j'ai un chat (I have a cat)</li><li>Age: j'ai vingt ans (I am twenty — literally 'I have twenty years')</li><li>Fixed expressions: avoir faim (to be hungry), avoir soif (to be thirsty), avoir chaud/froid (to be hot/cold), avoir peur (to be afraid)</li></ul></div><div class="concept"><div class="c-label">Il y a</div><div class="c-text">Il y a is an invariable expression meaning 'there is/there are', built from il + y + a (from avoir).</div><ul class="c-list"><li>Il y a un livre sur la table = There is a book on the table</li><li>Il y a des étudiants dans la salle = There are students in the room</li><li>Never changes form regardless of singular or plural: always 'il y a', never 'ils y ont'</li><li>Negative: il n'y a pas de + noun (il n'y a pas de pain = there isn't any bread)</li><li>Question form: Y a-t-il...? or Est-ce qu'il y a...?</li></ul></div><div class="concept"><div class="c-label">Yes/No Questions</div><div class="c-text">French has three ways to ask a yes/no question, ranging from casual to formal.</div><ul class="c-list"><li>Rising intonation (informal, spoken): Tu parles français ? (just raise your voice at the end)</li><li>Est-ce que + statement (neutral, common): Est-ce que tu parles français ?</li><li>Inversion (formal/written): Parles-tu français ? (verb and subject pronoun swap, joined by a hyphen)</li><li>With a name/noun subject, inversion adds a pronoun: Marie parle-t-elle français ?</li><li>A -t- is inserted between two vowels in inversion: Parle-t-il ? (not 'Parle-il')</li></ul></div><div class="concept"><div class="c-label">Information Questions</div><div class="c-text">Question words replace the missing information and usually come first in the sentence.</div><ul class="c-list"><li>Qui = who: Qui est-ce ? (Who is it?)</li><li>Que/Qu'est-ce que = what: Qu'est-ce que tu fais ? (What are you doing?)</li><li>Où = where: Où habites-tu ?</li><li>Quand = when; Pourquoi = why; Comment = how; Combien (de) = how much/many</li><li>Quel(le)(s) = which/what, agrees with the noun: Quelle heure est-il ? (What time is it?)</li></ul></div><div class="trap">'Je suis 20 ans' instead of 'j'ai 20 ans' — age uses avoir, not être.</div><div class="trap">'Il est un professeur' instead of 'il est professeur' or 'c'est un professeur' — no article after il/elle est + profession.</div><div class="trap">'Ils y ont des livres' instead of 'il y a des livres' — il y a never conjugates to agree with the noun.</div><div class="trap">Forgetting the -t- in inversion: 'Parle-il' instead of 'Parle-t-il'.</div></div></div><div class="unit" data-id="5"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 5: Adjectives & Description<span class="unit-meta">5 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Gender Agreement</div><div class="c-text">French adjectives must match the gender of the noun they describe, usually by adding -e for the feminine form.</div><ul class="c-list"><li>Regular pattern: add -e for feminine — grand → grande, petit → petite, intelligent → intelligente</li><li>Adjectives already ending in -e don't change: un homme rouge → une femme rouge</li><li>-eux → -euse: heureux → heureuse (happy); -f → -ve: actif → active</li><li>-on/-en double the consonant + e: bon → bonne, italien → italienne</li><li>Some are irregular and must be memorized: beau → belle, nouveau → nouvelle, vieux → vieille</li></ul></div><div class="concept"><div class="c-label">Number Agreement</div><div class="c-text">Adjectives also agree in number, usually by adding -s for the plural, on top of gender agreement.</div><ul class="c-list"><li>Regular: grand → grands (m. pl.), grande → grandes (f. pl.)</li><li>Adjectives ending in -s or -x don't change in the masculine plural: un garçon français → des garçons français</li><li>-eau → -eaux in the masculine plural: un beau tableau → de beaux tableaux</li><li>Agreement is four-way: masc. sing., fem. sing., masc. pl., fem. pl. (petit, petite, petits, petites)</li><li>A mixed-gender group of nouns takes the masculine plural adjective</li></ul></div><div class="concept"><div class="c-label">Adjective Position</div><div class="c-text">Most French adjectives follow the noun, but a short list of common ones come before it — this must be memorized.</div><ul class="c-list"><li>Most descriptive adjectives follow the noun: une voiture rouge, un livre intéressant</li><li>BAGS adjectives come before the noun: Beauty, Age, Goodness, Size</li><li>Beauty/Goodness: beau (beautiful), joli (pretty), bon (good), mauvais (bad)</li><li>Age/Size: jeune (young), vieux (old), nouveau (new), grand (big/tall), petit (small), gros (fat)</li><li>Examples: une belle maison, un jeune homme, un bon livre, une petite table</li></ul></div><div class="concept"><div class="c-label">C'est vs Il/Elle est</div><div class="c-text">French uses two different structures to say 'he/she/it is' depending on what follows.</div><ul class="c-list"><li>C'est + article + noun: c'est un livre, c'est une bonne idée</li><li>C'est + adjective (general comment): c'est intéressant, c'est difficile</li><li>Il/Elle est + adjective alone (describing a specific person/thing already mentioned): elle est grande</li><li>Il/Elle est + profession/nationality (no article): il est médecin, elle est canadienne</li><li>Ce sont (plural of c'est) + noun: ce sont mes amis</li></ul></div><div class="concept"><div class="c-label">Common Descriptive Adjectives</div><div class="c-text">A core set of adjectives lets you describe people, places, and things in almost any conversation.</div><ul class="c-list"><li>grand/grande (tall/big), petit/petite (small), beau/belle (beautiful), joli/jolie (pretty)</li><li>intelligent(e), sympathique (nice/friendly), gentil/gentille (kind), drôle (funny)</li><li>content(e) (happy), triste (sad), fatigué(e) (tired), occupé(e) (busy)</li><li>difficile (difficult), facile (easy), intéressant(e), ennuyeux/ennuyeuse (boring)</li><li>Colors as adjectives agree too: une chemise bleue, des chaussures noires</li></ul></div><div class="trap">'une voiture rouges' instead of 'une voiture rouge' — don't add -s just because it 'sounds descriptive'; agreement is grammatical, not decorative.</div><div class="trap">'un maison grand' instead of 'une grande maison' — grand is a BAGS adjective and must go before the noun.</div><div class="trap">'Il est un docteur' instead of 'il est docteur' or 'c'est un docteur' — mixing the two structures.</div><div class="trap">Forgetting irregular feminine forms: 'une belle' is correct but 'un beau homme' is wrong — it must be 'un bel homme' before a vowel sound.</div></div></div><div class="unit" data-id="6"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 6: Family & Possession<span class="unit-meta">5 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Immediate Family Vocabulary</div><div class="c-text">Family vocabulary is essential for talking about yourself and is tested constantly with possessive adjectives.</div><ul class="c-list"><li>le père (father), la mère (mother), les parents (parents)</li><li>le frère (brother), la sœur (sister), le/la enfant (child)</li><li>le fils (son), la fille (daughter/girl — context tells you which)</li><li>le mari (husband), la femme (wife/woman — context tells you which)</li><li>les grands-parents, le grand-père, la grand-mère</li></ul></div><div class="concept"><div class="c-label">Extended Family Vocabulary</div><div class="c-text">Extended family terms build naturally from the immediate family words using compound patterns.</div><ul class="c-list"><li>l'oncle (uncle), la tante (aunt)</li><li>le cousin, la cousine (cousin)</li><li>le neveu (nephew), la nièce (niece)</li><li>le beau-père (father-in-law/stepfather), la belle-mère (mother-in-law/stepmother)</li><li>les petits-enfants (grandchildren), le petit-fils (grandson), la petite-fille (granddaughter)</li></ul></div><div class="concept"><div class="c-label">Possessive Adjectives: mon/ma/mes, ton/ta/tes</div><div class="c-text">Possessive adjectives agree with the noun they describe (the thing owned), not with the owner's gender.</div><ul class="c-list"><li>mon/ma/mes = my: mon père, ma mère, mes parents</li><li>ton/ta/tes = your (informal): ton frère, ta sœur, tes enfants</li><li>The form depends on the GENDER OF THE NOUN, not the speaker: 'my mother' is 'ma mère' regardless of who's speaking</li><li>mon (not ma) is used before a feminine noun starting with a vowel sound: mon amie (not 'ma amie')</li><li>Plural mes/tes is used for any plural noun regardless of gender</li></ul></div><div class="concept"><div class="c-label">Possessive Adjectives: son/sa/ses, notre/votre/leur</div><div class="c-text">The remaining possessive adjectives cover his/her, our, your (formal/plural), and their.</div><ul class="c-list"><li>son/sa/ses = his/her/its — again agrees with the noun owned, not the owner's gender: son père can mean 'his father' OR 'her father'</li><li>notre/nos = our: notre maison, nos enfants (only two forms: singular and plural)</li><li>votre/vos = your (formal or plural): votre travail, vos amis</li><li>leur/leurs = their: leur chat, leurs chats</li><li>son ami (his/her friend, masc.) vs sa amie is wrong — use son amie before a feminine vowel-starting noun</li></ul></div><div class="concept"><div class="c-label">Possession with de</div><div class="c-text">Besides possessive adjectives, French shows ownership with 'de' + noun, since it has no apostrophe-s like English.</div><ul class="c-list"><li>le livre de Marie = Marie's book (literally 'the book of Marie')</li><li>la voiture de mon père = my father's car</li><li>de + le = du, de + les = des (contractions still apply): le chien du voisin (the neighbor's dog)</li><li>There is no French equivalent of 's — always restructure with de</li><li>C'est le sac de qui ? = Whose bag is it?</li></ul></div><div class="trap">'Sa mère' assumed to mean only 'her mother' — it can equally mean 'his mother'; only context tells you.</div><div class="trap">'Ma amie' instead of 'mon amie' — before a feminine vowel-starting noun, use mon even though the noun is feminine.</div><div class="trap">Writing 'Marie's book' as 'Marie's livre' — French has no apostrophe-s; say 'le livre de Marie'.</div><div class="trap">Confusing 'la fille' (daughter/girl) meaning based on missing context, and 'le fils' (son) — don't mix them up as gender pairs of the same word.</div></div></div><div class="unit" data-id="7"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 7: Food & Café Culture<span class="unit-meta">5 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Everyday Foods & Drinks</div><div class="c-text">Core food vocabulary lets you order, shop, and talk about meals — a high-frequency beginner topic.</div><ul class="c-list"><li>le pain (bread), le fromage (cheese), les œufs (eggs), la viande (meat)</li><li>les légumes (vegetables), les fruits (fruit), le poisson (fish)</li><li>l'eau (water), le café (coffee), le thé (tea), le jus d'orange (orange juice), le vin (wine)</li><li>le petit-déjeuner (breakfast), le déjeuner (lunch), le dîner (dinner)</li><li>sucré (sweet), salé (salty/savory), délicieux/délicieuse (delicious)</li></ul></div><div class="concept"><div class="c-label">The Partitive Article: du, de la, de l', des</div><div class="c-text">The partitive article expresses 'some' of an uncountable or unspecified quantity, and is required where English often omits it.</div><ul class="c-list"><li>du + masculine noun: je mange du pain (I eat/am eating some bread)</li><li>de la + feminine noun: je bois de la limonade</li><li>de l' + vowel-starting noun: je voudrais de l'eau</li><li>des + plural noun: je mange des légumes</li><li>In a negative sentence, all partitives become de/d': je ne mange pas de viande</li></ul></div><div class="concept"><div class="c-label">Verb: Vouloir & Polite Requests</div><div class="c-text">Vouloir (to want) is irregular and its conditional form 'voudrais' is the standard polite way to order or request something.</div><ul class="c-list"><li>je veux, tu veux, il/elle/on veut, nous voulons, vous voulez, ils/elles veulent</li><li>Je voudrais... = I would like... (more polite than je veux for ordering)</li><li>Je voudrais un café, s'il vous plaît = I would like a coffee, please</li><li>vouloir + infinitive: je veux manger (I want to eat)</li><li>s'il vous plaît (formal) vs s'il te plaît (informal) = please</li></ul></div><div class="concept"><div class="c-label">Ordering at a Café</div><div class="c-text">Café culture is central to French daily life, and ordering food/drink follows set polite phrases.</div><ul class="c-list"><li>Qu'est-ce que vous prenez ? = What will you have? (server's question)</li><li>Je prends un café crème = I'll have a coffee with cream (prendre = to take/have food)</li><li>L'addition, s'il vous plaît = The check, please</li><li>C'est combien ? / Ça coûte combien ? = How much is it?</li><li>un croissant, une baguette, un sandwich, une tarte, une crêpe are classic café/bakery items</li></ul></div><div class="concept"><div class="c-label">Expressing Hunger, Thirst & Preferences</div><div class="c-text">Talking about food naturally involves the avoir expressions for hunger/thirst and verbs of preference.</div><ul class="c-list"><li>avoir faim (to be hungry), avoir soif (to be thirsty)</li><li>préférer + noun/infinitive: je préfère le thé (I prefer tea)</li><li>aimer/adorer/détester + le/la/les + food: j'adore le chocolat, je déteste les épinards</li><li>Manger and boire are the key verbs: manger (to eat, regular -er) and boire (to drink, irregular: je bois, nous buvons)</li><li>au restaurant, au café, à la boulangerie (à + la = à la, no contraction) are common location phrases</li></ul></div><div class="trap">'Je mange pain' instead of 'je mange du pain' — the partitive article can't be dropped as it can in English.</div><div class="trap">'Je veux un café' at a counter instead of the more polite 'je voudrais un café, s'il vous plaît'.</div><div class="trap">'Je ne mange pas du fromage' instead of 'je ne mange pas de fromage' — partitive becomes de after negation.</div><div class="trap">Confusing manger (to eat) with the false-friend-sounding 'manager' — manger is a regular -er verb, not related in meaning.</div></div></div><div class="unit" data-id="8"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 8: City Places & Directions<span class="unit-meta">5 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Places in the City</div><div class="c-text">Naming common locations lets you talk about your daily routine and ask for or give directions.</div><ul class="c-list"><li>la banque (bank), la boulangerie (bakery), la pharmacie (pharmacy), le supermarché (supermarket)</li><li>la gare (train station), l'aéroport (airport), l'hôpital (hospital), l'école (school)</li><li>le musée (museum), l'église (church), la bibliothèque (library), le parc (park)</li><li>la poste (post office), le marché (market), la place (square), la rue (street)</li><li>le magasin (store), le cinéma (movie theater), la piscine (pool)</li></ul></div><div class="concept"><div class="c-label">Aller (to go) & au/à la/à l'</div><div class="c-text">Aller is the essential irregular verb for movement and combines with à + place to say where someone is going.</div><ul class="c-list"><li>je vais, tu vas, il/elle/on va, nous allons, vous allez, ils/elles vont</li><li>aller + à + le = aller au: je vais au parc, je vais au musée</li><li>aller + à + la (no contraction): je vais à la banque, je vais à la piscine</li><li>aller + à + l' (no contraction, vowel start): je vais à l'école, je vais à l'hôpital</li><li>aller + à + les = aller aux: je vais aux toilettes</li></ul></div><div class="concept"><div class="c-label">Location Prepositions</div><div class="c-text">Prepositions of place describe exactly where something is relative to another location, essential for directions.</div><ul class="c-list"><li>à côté de (next to), en face de (across from), près de (near), loin de (far from)</li><li>devant (in front of), derrière (behind), entre (between), sur (on), sous (under), dans (in/inside)</li><li>à droite (to/on the right), à gauche (to/on the left), tout droit (straight ahead)</li><li>à côté de + le = à côté du; près de + les = près des (de contracts here too)</li><li>au coin de (at/on the corner of): au coin de la rue</li></ul></div><div class="concept"><div class="c-label">Asking for & Giving Directions</div><div class="c-text">Direction-giving uses the imperative mood and a compact set of fixed phrases every beginner should know.</div><ul class="c-list"><li>Où est... ? / Où se trouve... ? = Where is...?</li><li>Pour aller à..., s'il vous plaît ? = How do I get to..., please?</li><li>Imperative forms: tournez (turn, vous-form), continuez (continue), prenez (take)</li><li>Tournez à droite / Tournez à gauche = Turn right / Turn left</li><li>Continuez tout droit jusqu'à... = Continue straight until...</li></ul></div><div class="concept"><div class="c-label">Talking About Distance & Transportation</div><div class="c-text">Rounding out city vocabulary means being able to say how far something is and how you get there.</div><ul class="c-list"><li>C'est loin ? / C'est près d'ici ? = Is it far? / Is it near here?</li><li>à pied (on foot), en bus (by bus), en voiture (by car), en métro (by subway), à vélo (by bike)</li><li>à + distance: c'est à cinq minutes (it's five minutes away)</li><li>prendre + transportation: je prends le métro (I take the subway)</li><li>Il faut + infinitive = it's necessary to / you have to: il faut tourner à gauche</li></ul></div><div class="trap">'Je vais à le musée' instead of 'je vais au musée' — à+le must contract to au.</div><div class="trap">'à côté de le parc' instead of 'à côté du parc' — de+le contracts to du even inside longer prepositions.</div><div class="trap">Confusing à droite (to the right) with the adjective droit/droite (straight/right-hand) — tout droit means 'straight ahead', not 'all right'.</div><div class="trap">Using tu-form imperative (tourne) with a stranger when giving directions — use the vous-form (tournez) by default.</div></div></div></div></div>
+</div>
+<script>
+(function(){
+  var card=document.getElementById('spc-card');
+  var summary=document.getElementById('spc-summary');
+  var collapseBtn=document.getElementById('spc-collapse-btn');
+  var KEY='ss-spc-collapsed';
+  function setCollapsed(collapsed){
+    card.classList.toggle('collapsed',collapsed);
+    summary.setAttribute('aria-expanded',String(!collapsed));
+    collapseBtn.setAttribute('aria-expanded',String(!collapsed));
+    try{localStorage.setItem(KEY,collapsed?'1':'0');}catch(e){}
+  }
+  var stored=null;
+  try{stored=localStorage.getItem(KEY);}catch(e){}
+  setCollapsed(stored===null?true:stored==='1');
+  summary.addEventListener('click',function(){setCollapsed(false);});
+  collapseBtn.addEventListener('click',function(){setCollapsed(true);});
+})();
+</script>
+<div id="view-guide" class="view active" role="tabpanel" aria-labelledby="tab-guide" tabindex="0">
+  <div class="ss-sticky-top">
+  <div class="search-wrap">
+    <svg class="search-icon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input id="search-box" type="search" aria-label="Search this guide's topics, terms, and formulas" placeholder="Search topics, terms, formulas…" oninput="searchGuide()">
+    <kbd class="search-kbd" aria-hidden="true">/</kbd>
+    <button type="button" class="search-clear" onclick="clearSearch()" aria-label="Clear search">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div id="search-results"></div>
+  </div>
+  <div class="filter-row-wrap">
+    <div class="filter-row" id="filter-row"><button class="chip on">All Units</button><button class="chip">Unit 1</button><button class="chip">Unit 2</button><button class="chip">Unit 3</button><button class="chip">Unit 4</button><button class="chip">Unit 5</button><button class="chip">Unit 6</button><button class="chip">Unit 7</button><button class="chip">Unit 8</button></div>
+    <select id="filter-select" class="mobile-only-select" aria-label="Filter units" onchange="ssFilterSelectChange()"><option value="0">All Units</option><option value="1">Unit 1</option><option value="2">Unit 2</option><option value="3">Unit 3</option><option value="4">Unit 4</option><option value="5">Unit 5</option><option value="6">Unit 6</option><option value="7">Unit 7</option><option value="8">Unit 8</option></select>
+  </div>
+  <div class="ss-overall-progress" id="ss-overall-progress">
+    <div class="ss-overall-progress-track"><div class="ss-overall-progress-fill" id="ss-overall-progress-fill"></div></div>
+    <span class="ss-overall-progress-label" id="ss-overall-progress-label">0% of the question bank attempted</span>
+  </div>
+  </div>
+  <div id="units"><div class="unit" data-id="1"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 1: Greetings & Alphabet<span class="unit-meta">5 concepts · ~23 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Basic Greetings</div><div class="c-text">French greetings change with time of day and formality. Getting the right register matters as much as the words themselves.</div><ul class="c-list"><li>Bonjour = hello/good day (used until evening); Bonsoir = good evening</li><li>Salut = hi/bye (informal, use with friends and family only)</li><li>Au revoir = goodbye (all situations); À bientôt = see you soon; À demain = see you tomorrow</li><li>Comment allez-vous ? (formal) vs Comment vas-tu ? / Ça va ? (informal) = How are you?</li><li>Ça va bien, merci = I'm doing well, thanks; Comme ci, comme ça = so-so</li><li>Enchanté(e) = pleased to meet you, used right after an introduction</li></ul></div><div class="concept"><div class="c-label">Tu vs Vous</div><div class="c-text">French has two words for 'you', and choosing the wrong one is a real social error, not just a grammar point.</div><ul class="c-list"><li>Tu = informal 'you', singular — family, friends, children, peers</li><li>Vous = formal 'you' singular (strangers, elders, authority) AND always plural 'you'</li><li>When in doubt with an adult stranger, use vous</li><li>Vous is also used for a group even if all members are close friends</li><li>Switching from vous to tu (se tutoyer) usually happens by mutual invitation</li></ul></div><div class="concept"><div class="c-label">The French Alphabet</div><div class="c-text">The French alphabet has the same 26 letters as English but they are pronounced differently, which matters for spelling names aloud.</div><ul class="c-list"><li>A (ah), B (bé), C (sé), D (dé), E (euh), F (ef), G (jé)</li><li>H (ash) — always silent at the start of a word, e.g. 'hôtel'</li><li>I (i), J (ji), K (ka), L (el), M (em), N (en)</li><li>O (o), P (pé), Q (ku), R (er), S (es), T (té)</li><li>U (u), V (vé), W (double-vé), X (iks), Y (i grec), Z (zed)</li></ul></div><div class="concept"><div class="c-label">Accents & Special Characters</div><div class="c-text">Accents are not decorative — they change pronunciation and sometimes meaning, and must be written correctly.</div><ul class="c-list"><li>é = accent aigu (closed 'ay' sound), e.g. café, étudiant</li><li>è / ê = accent grave / circonflexe (open 'eh' sound), e.g. mère, fête</li><li>ç = cédille, makes 'c' sound like 's' before a, o, u — e.g. ça, français</li><li>ë / ï = tréma, shows two vowels are pronounced separately, e.g. Noël</li><li>a vs à: 'a' = has (from avoir); 'à' = to/at — the accent changes the meaning</li></ul></div><div class="concept"><div class="c-label">Numbers 0–20</div><div class="c-text">Numbers 0–20 are used constantly for ages, phone numbers, and quantities and must be memorized as irregular forms.</div><ul class="c-list"><li>0 zéro, 1 un, 2 deux, 3 trois, 4 quatre, 5 cinq</li><li>6 six, 7 sept, 8 huit, 9 neuf, 10 dix</li><li>11 onze, 12 douze, 13 treize, 14 quatorze, 15 quinze</li><li>16 seize, 17 dix-sept, 18 dix-huit, 19 dix-neuf, 20 vingt</li><li>Final consonants of six, huit, dix are often dropped before a consonant sound (six livres → 'si livres')</li></ul></div><div class="trap">Salut to a teacher or stranger, not Bonjour — Salut is informal and can sound rude to someone you don't know.</div><div class="trap">'Comment tu t'appelles' with vous — mixing tu and vous in the same sentence is inconsistent; pick one register.</div><div class="trap">Dropping accents when typing (cafe instead of café) changes correctness on exams even if pronunciation seems similar.</div><div class="trap">Pronouncing the h in 'huit' or 'hôtel' — French h is silent, not aspirated like English h.</div></div></div><div class="unit" data-id="2"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 2: Articles & Nouns<span class="unit-meta">5 concepts · ~23 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Grammatical Gender</div><div class="c-text">Every French noun is either masculine or feminine, even for objects with no natural gender, and this must be memorized with each word.</div><ul class="c-list"><li>le livre (m) = the book; la table (f) = the table — gender is arbitrary for objects</li><li>Nouns ending in -e are often (not always) feminine: la chaise, la porte</li><li>Nouns ending in -tion, -sion, -té are almost always feminine: la nation, la liberté</li><li>Nouns ending in -eau, -age, -isme are usually masculine: le bureau, le fromage</li><li>Always learn a noun WITH its article (le/la) rather than the noun alone</li></ul></div><div class="concept"><div class="c-label">Definite Articles: le, la, l', les</div><div class="c-text">Definite articles ('the') agree in gender and number with the noun and contract before vowel sounds.</div><ul class="c-list"><li>le = masculine singular: le garçon, le stylo</li><li>la = feminine singular: la fille, la maison</li><li>l' = before any singular noun starting with a vowel or mute h: l'ami, l'homme</li><li>les = plural for both genders: les garçons, les filles</li><li>Definite articles are used for specific things, general categories, and likes/dislikes (j'aime les chats)</li></ul></div><div class="concept"><div class="c-label">Indefinite Articles: un, une, des</div><div class="c-text">Indefinite articles ('a/an/some') introduce a non-specific noun and also agree in gender and number.</div><ul class="c-list"><li>un = a/an (masculine): un livre, un stylo</li><li>une = a/an (feminine): une table, une pomme</li><li>des = some (plural, both genders): des livres, des pommes</li><li>In negative sentences, un/une/des become 'de' (or 'd'' before a vowel): j'ai un chien → je n'ai pas de chien</li><li>Des is often omitted in English ('I have books') but is required in French (j'ai des livres)</li></ul></div><div class="concept"><div class="c-label">Forming Plurals</div><div class="c-text">Most French nouns form the plural by adding -s, but common exceptions must be memorized.</div><ul class="c-list"><li>Regular: le livre → les livres (add -s, usually silent)</li><li>Nouns ending in -s, -x, -z stay the same: le fils → les fils; la voix → les voix</li><li>Nouns ending in -eau, -eu add -x: le bureau → les bureaux; le jeu → les jeux</li><li>Most nouns ending in -al change to -aux: le journal → les journaux</li><li>The article changes to show plural even when the noun's sound doesn't: le chat → les chats</li></ul></div><div class="concept"><div class="c-label">Contractions with à and de</div><div class="c-text">The prepositions à (to/at) and de (of/from) contract with the masculine and plural definite articles.</div><ul class="c-list"><li>à + le = au: je vais au cinéma (not 'à le')</li><li>à + les = aux: je parle aux étudiants</li><li>de + le = du: le livre du professeur (not 'de le')</li><li>de + les = des: la voiture des parents</li><li>à + la and à + l' do NOT contract: à la piscine, à l'école</li></ul></div><div class="trap">'la programme' instead of 'le programme' — memorize gender per word, don't guess from English logic.</div><div class="trap">Saying 'à le cinéma' instead of 'au cinéma' — à+le must contract to au.</div><div class="trap">Forgetting 'des' in 'j'ai des amis' — English drops the article, French keeps it.</div><div class="trap">Using un/une after a negation ('je n'ai pas un stylo') instead of de: 'je n'ai pas de stylo'.</div></div></div><div class="unit" data-id="3"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 3: Regular -ER Verbs<span class="unit-meta">5 concepts · ~23 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">The -ER Verb Family</div><div class="c-text">Over 90% of French verbs end in -er in the infinitive and follow one predictable conjugation pattern.</div><ul class="c-list"><li>parler (to speak), aimer (to like/love), habiter (to live), travailler (to work)</li><li>manger (to eat), regarder (to watch/look at), écouter (to listen), donner (to give)</li><li>chercher (to look for), jouer (to play), étudier (to study), arriver (to arrive)</li><li>To conjugate: remove -er from the infinitive to get the stem (parl-, aim-)</li><li>Add the ending that matches the subject pronoun to the stem</li></ul></div><div class="concept"><div class="c-label">Present Tense Endings</div><div class="c-text">The six present-tense endings for -er verbs attach to the stem and must be memorized as a set.</div><ul class="c-list"><li>je parle, tu parles, il/elle/on parle (endings -e, -es, -e all sound the same)</li><li>nous parlons, vous parlez, ils/elles parlent</li><li>-ent (ils/elles) is silent — 'ils parlent' sounds just like 'il parle'</li><li>-ons (nous) and -ez (vous) are the only endings that are clearly pronounced</li><li>je → j' before a vowel sound: j'aime, j'habite, j'écoute</li></ul></div><div class="concept"><div class="c-label">Negation with ne...pas</div><div class="c-text">To make a verb negative, French wraps it in two parts placed around the conjugated verb.</div><ul class="c-list"><li>ne + verb + pas: je ne parle pas (I do not speak)</li><li>ne becomes n' before a vowel sound: je n'aime pas, il n'habite pas</li><li>Both ne and pas are required — dropping ne is only acceptable in very casual spoken French</li><li>Other negations follow the same pattern: ne...jamais (never), ne...plus (no longer)</li><li>Word order: subject + ne + verb + pas + rest of sentence</li></ul></div><div class="concept"><div class="c-label">Spelling-Change -ER Verbs</div><div class="c-text">A few common -er verbs need a small spelling tweak in certain forms to preserve pronunciation.</div><ul class="c-list"><li>manger (to eat) adds an -e before -ons: nous mangeons (keeps the soft 'j' sound)</li><li>commencer (to begin) changes c to ç before -ons: nous commençons</li><li>acheter (to buy) adds a grave accent in most forms: j'achète, but nous achetons</li><li>préférer (to prefer) changes é to è in most forms: je préfère, but nous préférons</li><li>appeler (to call) doubles the l in most forms: j'appelle, but nous appelons</li></ul></div><div class="concept"><div class="c-label">Common Uses & Time Expressions</div><div class="c-text">The present tense in French covers more ground than in English, including some ongoing and near-future actions.</div><ul class="c-list"><li>Je parle can mean 'I speak', 'I am speaking', or 'I do speak' — one form, three English meanings</li><li>aujourd'hui (today), maintenant (now), souvent (often), toujours (always)</li><li>adorer (to adore) and détester (to hate) follow the same -er pattern</li><li>aimer + infinitive: j'aime danser (I like to dance)</li><li>Adverbs like souvent/toujours usually go right after the conjugated verb: je mange souvent</li></ul></div><div class="trap">Pronouncing the -ent ending in 'ils parlent' — it is silent, don't add a syllable.</div><div class="trap">'Je ne aime pas' instead of 'je n'aime pas' — ne must elide to n' before a vowel.</div><div class="trap">'Nous mangons' instead of 'nous mangeons' — manger needs the extra e to keep the soft g sound.</div><div class="trap">Using the infinitive alone as a conjugated verb ('je parler') instead of conjugating: 'je parle'.</div></div></div><div class="unit" data-id="4"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 4: Être, Avoir & Questions<span class="unit-meta">5 concepts · ~23 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Être (to be)</div><div class="c-text">Être is the most important irregular verb in French, used for identity, description, nationality, and profession.</div><ul class="c-list"><li>je suis, tu es, il/elle/on est</li><li>nous sommes, vous êtes, ils/elles sont</li><li>Used for adjectives of description: elle est grande (she is tall)</li><li>Used for professions and nationalities without an article: il est professeur, elle est française</li><li>C'est vs il/elle est: c'est + noun (c'est un professeur), il/elle est + adjective alone (il est intelligent)</li></ul></div><div class="concept"><div class="c-label">Avoir (to have)</div><div class="c-text">Avoir is the second essential irregular verb, used for possession and many fixed expressions where English uses 'to be'.</div><ul class="c-list"><li>j'ai, tu as, il/elle/on a</li><li>nous avons, vous avez, ils/elles ont</li><li>Possession: j'ai un chat (I have a cat)</li><li>Age: j'ai vingt ans (I am twenty — literally 'I have twenty years')</li><li>Fixed expressions: avoir faim (to be hungry), avoir soif (to be thirsty), avoir chaud/froid (to be hot/cold), avoir peur (to be afraid)</li></ul></div><div class="concept"><div class="c-label">Il y a</div><div class="c-text">Il y a is an invariable expression meaning 'there is/there are', built from il + y + a (from avoir).</div><ul class="c-list"><li>Il y a un livre sur la table = There is a book on the table</li><li>Il y a des étudiants dans la salle = There are students in the room</li><li>Never changes form regardless of singular or plural: always 'il y a', never 'ils y ont'</li><li>Negative: il n'y a pas de + noun (il n'y a pas de pain = there isn't any bread)</li><li>Question form: Y a-t-il...? or Est-ce qu'il y a...?</li></ul></div><div class="concept"><div class="c-label">Yes/No Questions</div><div class="c-text">French has three ways to ask a yes/no question, ranging from casual to formal.</div><ul class="c-list"><li>Rising intonation (informal, spoken): Tu parles français ? (just raise your voice at the end)</li><li>Est-ce que + statement (neutral, common): Est-ce que tu parles français ?</li><li>Inversion (formal/written): Parles-tu français ? (verb and subject pronoun swap, joined by a hyphen)</li><li>With a name/noun subject, inversion adds a pronoun: Marie parle-t-elle français ?</li><li>A -t- is inserted between two vowels in inversion: Parle-t-il ? (not 'Parle-il')</li></ul></div><div class="concept"><div class="c-label">Information Questions</div><div class="c-text">Question words replace the missing information and usually come first in the sentence.</div><ul class="c-list"><li>Qui = who: Qui est-ce ? (Who is it?)</li><li>Que/Qu'est-ce que = what: Qu'est-ce que tu fais ? (What are you doing?)</li><li>Où = where: Où habites-tu ?</li><li>Quand = when; Pourquoi = why; Comment = how; Combien (de) = how much/many</li><li>Quel(le)(s) = which/what, agrees with the noun: Quelle heure est-il ? (What time is it?)</li></ul></div><div class="trap">'Je suis 20 ans' instead of 'j'ai 20 ans' — age uses avoir, not être.</div><div class="trap">'Il est un professeur' instead of 'il est professeur' or 'c'est un professeur' — no article after il/elle est + profession.</div><div class="trap">'Ils y ont des livres' instead of 'il y a des livres' — il y a never conjugates to agree with the noun.</div><div class="trap">Forgetting the -t- in inversion: 'Parle-il' instead of 'Parle-t-il'.</div></div></div><div class="unit" data-id="5"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 5: Adjectives & Description<span class="unit-meta">5 concepts · ~23 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Gender Agreement</div><div class="c-text">French adjectives must match the gender of the noun they describe, usually by adding -e for the feminine form.</div><ul class="c-list"><li>Regular pattern: add -e for feminine — grand → grande, petit → petite, intelligent → intelligente</li><li>Adjectives already ending in -e don't change: un homme rouge → une femme rouge</li><li>-eux → -euse: heureux → heureuse (happy); -f → -ve: actif → active</li><li>-on/-en double the consonant + e: bon → bonne, italien → italienne</li><li>Some are irregular and must be memorized: beau → belle, nouveau → nouvelle, vieux → vieille</li></ul></div><div class="concept"><div class="c-label">Number Agreement</div><div class="c-text">Adjectives also agree in number, usually by adding -s for the plural, on top of gender agreement.</div><ul class="c-list"><li>Regular: grand → grands (m. pl.), grande → grandes (f. pl.)</li><li>Adjectives ending in -s or -x don't change in the masculine plural: un garçon français → des garçons français</li><li>-eau → -eaux in the masculine plural: un beau tableau → de beaux tableaux</li><li>Agreement is four-way: masc. sing., fem. sing., masc. pl., fem. pl. (petit, petite, petits, petites)</li><li>A mixed-gender group of nouns takes the masculine plural adjective</li></ul></div><div class="concept"><div class="c-label">Adjective Position</div><div class="c-text">Most French adjectives follow the noun, but a short list of common ones come before it — this must be memorized.</div><ul class="c-list"><li>Most descriptive adjectives follow the noun: une voiture rouge, un livre intéressant</li><li>BAGS adjectives come before the noun: Beauty, Age, Goodness, Size</li><li>Beauty/Goodness: beau (beautiful), joli (pretty), bon (good), mauvais (bad)</li><li>Age/Size: jeune (young), vieux (old), nouveau (new), grand (big/tall), petit (small), gros (fat)</li><li>Examples: une belle maison, un jeune homme, un bon livre, une petite table</li></ul></div><div class="concept"><div class="c-label">C'est vs Il/Elle est</div><div class="c-text">French uses two different structures to say 'he/she/it is' depending on what follows.</div><ul class="c-list"><li>C'est + article + noun: c'est un livre, c'est une bonne idée</li><li>C'est + adjective (general comment): c'est intéressant, c'est difficile</li><li>Il/Elle est + adjective alone (describing a specific person/thing already mentioned): elle est grande</li><li>Il/Elle est + profession/nationality (no article): il est médecin, elle est canadienne</li><li>Ce sont (plural of c'est) + noun: ce sont mes amis</li></ul></div><div class="concept"><div class="c-label">Common Descriptive Adjectives</div><div class="c-text">A core set of adjectives lets you describe people, places, and things in almost any conversation.</div><ul class="c-list"><li>grand/grande (tall/big), petit/petite (small), beau/belle (beautiful), joli/jolie (pretty)</li><li>intelligent(e), sympathique (nice/friendly), gentil/gentille (kind), drôle (funny)</li><li>content(e) (happy), triste (sad), fatigué(e) (tired), occupé(e) (busy)</li><li>difficile (difficult), facile (easy), intéressant(e), ennuyeux/ennuyeuse (boring)</li><li>Colors as adjectives agree too: une chemise bleue, des chaussures noires</li></ul></div><div class="trap">'une voiture rouges' instead of 'une voiture rouge' — don't add -s just because it 'sounds descriptive'; agreement is grammatical, not decorative.</div><div class="trap">'un maison grand' instead of 'une grande maison' — grand is a BAGS adjective and must go before the noun.</div><div class="trap">'Il est un docteur' instead of 'il est docteur' or 'c'est un docteur' — mixing the two structures.</div><div class="trap">Forgetting irregular feminine forms: 'une belle' is correct but 'un beau homme' is wrong — it must be 'un bel homme' before a vowel sound.</div></div></div><div class="unit" data-id="6"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 6: Family & Possession<span class="unit-meta">5 concepts · ~23 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Immediate Family Vocabulary</div><div class="c-text">Family vocabulary is essential for talking about yourself and is tested constantly with possessive adjectives.</div><ul class="c-list"><li>le père (father), la mère (mother), les parents (parents)</li><li>le frère (brother), la sœur (sister), le/la enfant (child)</li><li>le fils (son), la fille (daughter/girl — context tells you which)</li><li>le mari (husband), la femme (wife/woman — context tells you which)</li><li>les grands-parents, le grand-père, la grand-mère</li></ul></div><div class="concept"><div class="c-label">Extended Family Vocabulary</div><div class="c-text">Extended family terms build naturally from the immediate family words using compound patterns.</div><ul class="c-list"><li>l'oncle (uncle), la tante (aunt)</li><li>le cousin, la cousine (cousin)</li><li>le neveu (nephew), la nièce (niece)</li><li>le beau-père (father-in-law/stepfather), la belle-mère (mother-in-law/stepmother)</li><li>les petits-enfants (grandchildren), le petit-fils (grandson), la petite-fille (granddaughter)</li></ul></div><div class="concept"><div class="c-label">Possessive Adjectives: mon/ma/mes, ton/ta/tes</div><div class="c-text">Possessive adjectives agree with the noun they describe (the thing owned), not with the owner's gender.</div><ul class="c-list"><li>mon/ma/mes = my: mon père, ma mère, mes parents</li><li>ton/ta/tes = your (informal): ton frère, ta sœur, tes enfants</li><li>The form depends on the GENDER OF THE NOUN, not the speaker: 'my mother' is 'ma mère' regardless of who's speaking</li><li>mon (not ma) is used before a feminine noun starting with a vowel sound: mon amie (not 'ma amie')</li><li>Plural mes/tes is used for any plural noun regardless of gender</li></ul></div><div class="concept"><div class="c-label">Possessive Adjectives: son/sa/ses, notre/votre/leur</div><div class="c-text">The remaining possessive adjectives cover his/her, our, your (formal/plural), and their.</div><ul class="c-list"><li>son/sa/ses = his/her/its — again agrees with the noun owned, not the owner's gender: son père can mean 'his father' OR 'her father'</li><li>notre/nos = our: notre maison, nos enfants (only two forms: singular and plural)</li><li>votre/vos = your (formal or plural): votre travail, vos amis</li><li>leur/leurs = their: leur chat, leurs chats</li><li>son ami (his/her friend, masc.) vs sa amie is wrong — use son amie before a feminine vowel-starting noun</li></ul></div><div class="concept"><div class="c-label">Possession with de</div><div class="c-text">Besides possessive adjectives, French shows ownership with 'de' + noun, since it has no apostrophe-s like English.</div><ul class="c-list"><li>le livre de Marie = Marie's book (literally 'the book of Marie')</li><li>la voiture de mon père = my father's car</li><li>de + le = du, de + les = des (contractions still apply): le chien du voisin (the neighbor's dog)</li><li>There is no French equivalent of 's — always restructure with de</li><li>C'est le sac de qui ? = Whose bag is it?</li></ul></div><div class="trap">'Sa mère' assumed to mean only 'her mother' — it can equally mean 'his mother'; only context tells you.</div><div class="trap">'Ma amie' instead of 'mon amie' — before a feminine vowel-starting noun, use mon even though the noun is feminine.</div><div class="trap">Writing 'Marie's book' as 'Marie's livre' — French has no apostrophe-s; say 'le livre de Marie'.</div><div class="trap">Confusing 'la fille' (daughter/girl) meaning based on missing context, and 'le fils' (son) — don't mix them up as gender pairs of the same word.</div></div></div><div class="unit" data-id="7"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 7: Food & Café Culture<span class="unit-meta">5 concepts · ~23 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Everyday Foods & Drinks</div><div class="c-text">Core food vocabulary lets you order, shop, and talk about meals — a high-frequency beginner topic.</div><ul class="c-list"><li>le pain (bread), le fromage (cheese), les œufs (eggs), la viande (meat)</li><li>les légumes (vegetables), les fruits (fruit), le poisson (fish)</li><li>l'eau (water), le café (coffee), le thé (tea), le jus d'orange (orange juice), le vin (wine)</li><li>le petit-déjeuner (breakfast), le déjeuner (lunch), le dîner (dinner)</li><li>sucré (sweet), salé (salty/savory), délicieux/délicieuse (delicious)</li></ul></div><div class="concept"><div class="c-label">The Partitive Article: du, de la, de l', des</div><div class="c-text">The partitive article expresses 'some' of an uncountable or unspecified quantity, and is required where English often omits it.</div><ul class="c-list"><li>du + masculine noun: je mange du pain (I eat/am eating some bread)</li><li>de la + feminine noun: je bois de la limonade</li><li>de l' + vowel-starting noun: je voudrais de l'eau</li><li>des + plural noun: je mange des légumes</li><li>In a negative sentence, all partitives become de/d': je ne mange pas de viande</li></ul></div><div class="concept"><div class="c-label">Verb: Vouloir & Polite Requests</div><div class="c-text">Vouloir (to want) is irregular and its conditional form 'voudrais' is the standard polite way to order or request something.</div><ul class="c-list"><li>je veux, tu veux, il/elle/on veut, nous voulons, vous voulez, ils/elles veulent</li><li>Je voudrais... = I would like... (more polite than je veux for ordering)</li><li>Je voudrais un café, s'il vous plaît = I would like a coffee, please</li><li>vouloir + infinitive: je veux manger (I want to eat)</li><li>s'il vous plaît (formal) vs s'il te plaît (informal) = please</li></ul></div><div class="concept"><div class="c-label">Ordering at a Café</div><div class="c-text">Café culture is central to French daily life, and ordering food/drink follows set polite phrases.</div><ul class="c-list"><li>Qu'est-ce que vous prenez ? = What will you have? (server's question)</li><li>Je prends un café crème = I'll have a coffee with cream (prendre = to take/have food)</li><li>L'addition, s'il vous plaît = The check, please</li><li>C'est combien ? / Ça coûte combien ? = How much is it?</li><li>un croissant, une baguette, un sandwich, une tarte, une crêpe are classic café/bakery items</li></ul></div><div class="concept"><div class="c-label">Expressing Hunger, Thirst & Preferences</div><div class="c-text">Talking about food naturally involves the avoir expressions for hunger/thirst and verbs of preference.</div><ul class="c-list"><li>avoir faim (to be hungry), avoir soif (to be thirsty)</li><li>préférer + noun/infinitive: je préfère le thé (I prefer tea)</li><li>aimer/adorer/détester + le/la/les + food: j'adore le chocolat, je déteste les épinards</li><li>Manger and boire are the key verbs: manger (to eat, regular -er) and boire (to drink, irregular: je bois, nous buvons)</li><li>au restaurant, au café, à la boulangerie (à + la = à la, no contraction) are common location phrases</li></ul></div><div class="trap">'Je mange pain' instead of 'je mange du pain' — the partitive article can't be dropped as it can in English.</div><div class="trap">'Je veux un café' at a counter instead of the more polite 'je voudrais un café, s'il vous plaît'.</div><div class="trap">'Je ne mange pas du fromage' instead of 'je ne mange pas de fromage' — partitive becomes de after negation.</div><div class="trap">Confusing manger (to eat) with the false-friend-sounding 'manager' — manger is a regular -er verb, not related in meaning.</div></div></div><div class="unit" data-id="8"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 8: City Places & Directions<span class="unit-meta">5 concepts · ~23 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Places in the City</div><div class="c-text">Naming common locations lets you talk about your daily routine and ask for or give directions.</div><ul class="c-list"><li>la banque (bank), la boulangerie (bakery), la pharmacie (pharmacy), le supermarché (supermarket)</li><li>la gare (train station), l'aéroport (airport), l'hôpital (hospital), l'école (school)</li><li>le musée (museum), l'église (church), la bibliothèque (library), le parc (park)</li><li>la poste (post office), le marché (market), la place (square), la rue (street)</li><li>le magasin (store), le cinéma (movie theater), la piscine (pool)</li></ul></div><div class="concept"><div class="c-label">Aller (to go) & au/à la/à l'</div><div class="c-text">Aller is the essential irregular verb for movement and combines with à + place to say where someone is going.</div><ul class="c-list"><li>je vais, tu vas, il/elle/on va, nous allons, vous allez, ils/elles vont</li><li>aller + à + le = aller au: je vais au parc, je vais au musée</li><li>aller + à + la (no contraction): je vais à la banque, je vais à la piscine</li><li>aller + à + l' (no contraction, vowel start): je vais à l'école, je vais à l'hôpital</li><li>aller + à + les = aller aux: je vais aux toilettes</li></ul></div><div class="concept"><div class="c-label">Location Prepositions</div><div class="c-text">Prepositions of place describe exactly where something is relative to another location, essential for directions.</div><ul class="c-list"><li>à côté de (next to), en face de (across from), près de (near), loin de (far from)</li><li>devant (in front of), derrière (behind), entre (between), sur (on), sous (under), dans (in/inside)</li><li>à droite (to/on the right), à gauche (to/on the left), tout droit (straight ahead)</li><li>à côté de + le = à côté du; près de + les = près des (de contracts here too)</li><li>au coin de (at/on the corner of): au coin de la rue</li></ul></div><div class="concept"><div class="c-label">Asking for & Giving Directions</div><div class="c-text">Direction-giving uses the imperative mood and a compact set of fixed phrases every beginner should know.</div><ul class="c-list"><li>Où est... ? / Où se trouve... ? = Where is...?</li><li>Pour aller à..., s'il vous plaît ? = How do I get to..., please?</li><li>Imperative forms: tournez (turn, vous-form), continuez (continue), prenez (take)</li><li>Tournez à droite / Tournez à gauche = Turn right / Turn left</li><li>Continuez tout droit jusqu'à... = Continue straight until...</li></ul></div><div class="concept"><div class="c-label">Talking About Distance & Transportation</div><div class="c-text">Rounding out city vocabulary means being able to say how far something is and how you get there.</div><ul class="c-list"><li>C'est loin ? / C'est près d'ici ? = Is it far? / Is it near here?</li><li>à pied (on foot), en bus (by bus), en voiture (by car), en métro (by subway), à vélo (by bike)</li><li>à + distance: c'est à cinq minutes (it's five minutes away)</li><li>prendre + transportation: je prends le métro (I take the subway)</li><li>Il faut + infinitive = it's necessary to / you have to: il faut tourner à gauche</li></ul></div><div class="trap">'Je vais à le musée' instead of 'je vais au musée' — à+le must contract to au.</div><div class="trap">'à côté de le parc' instead of 'à côté du parc' — de+le contracts to du even inside longer prepositions.</div><div class="trap">Confusing à droite (to the right) with the adjective droit/droite (straight/right-hand) — tout droit means 'straight ahead', not 'all right'.</div><div class="trap">Using tu-form imperative (tourne) with a stranger when giving directions — use the vous-form (tournez) by default.</div></div></div></div></div>
 <div id="view-cards" class="view" role="tabpanel" aria-labelledby="tab-cards" tabindex="0">
   <div class="fc-bar">
     <select id="fc-sel" aria-label="Choose a flashcard set" onchange="loadFC()"></select>
@@ -509,6 +706,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <button class="diag-btn" id="diag-start-btn" onclick="startDiagnostic()"><svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><span id="diag-start-btn-label">Start Diagnostic — 2 questions per unit, finds your weak spots</span></button>
   <div class="q-bar">
     <select id="q-sel" aria-label="Choose a question set" onchange="loadQ()"></select>
+    <button class="btn" type="button" onclick="quizShuffle()" style="font-size:14px;padding:7px 14px">⇄ Shuffle</button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -659,6 +857,10 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
     <div class="mem-card"><div class="mem-t">Watch out</div><div class="mem-d">Confusing à droite (to the right) with the adjective droit/droite (straight/right-hand) — tout droit means 'straight ahead', not 'all right'.</div></div>
     <div class="mem-card"><div class="mem-t">Watch out</div><div class="mem-d">Using tu-form imperative (tourne) with a stranger when giving directions — use the vous-form (tournez) by default.</div></div>
   </div></div>
+</div>
+<button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+</button>
 <script>
 const UNITS=[{"id":1,"name":"Greetings & Alphabet","concepts":[{"l":"Basic Greetings","intro":"French greetings change with time of day and formality. Getting the right register matters as much as the words themselves.","b":["Bonjour = hello/good day (used until evening); Bonsoir = good evening","Salut = hi/bye (informal, use with friends and family only)","Au revoir = goodbye (all situations); À bientôt = see you soon; À demain = see you tomorrow","Comment allez-vous ? (formal) vs Comment vas-tu ? / Ça va ? (informal) = How are you?","Ça va bien, merci = I'm doing well, thanks; Comme ci, comme ça = so-so","Enchanté(e) = pleased to meet you, used right after an introduction"]},{"l":"Tu vs Vous","intro":"French has two words for 'you', and choosing the wrong one is a real social error, not just a grammar point.","b":["Tu = informal 'you', singular — family, friends, children, peers","Vous = formal 'you' singular (strangers, elders, authority) AND always plural 'you'","When in doubt with an adult stranger, use vous","Vous is also used for a group even if all members are close friends","Switching from vous to tu (se tutoyer) usually happens by mutual invitation"]},{"l":"The French Alphabet","intro":"The French alphabet has the same 26 letters as English but they are pronounced differently, which matters for spelling names aloud.","b":["A (ah), B (bé), C (sé), D (dé), E (euh), F (ef), G (jé)","H (ash) — always silent at the start of a word, e.g. 'hôtel'","I (i), J (ji), K (ka), L (el), M (em), N (en)","O (o), P (pé), Q (ku), R (er), S (es), T (té)","U (u), V (vé), W (double-vé), X (iks), Y (i grec), Z (zed)"]},{"l":"Accents & Special Characters","intro":"Accents are not decorative — they change pronunciation and sometimes meaning, and must be written correctly.","b":["é = accent aigu (closed 'ay' sound), e.g. café, étudiant","è / ê = accent grave / circonflexe (open 'eh' sound), e.g. mère, fête","ç = cédille, makes 'c' sound like 's' before a, o, u — e.g. ça, français","ë / ï = tréma, shows two vowels are pronounced separately, e.g. Noël","a vs à: 'a' = has (from avoir); 'à' = to/at — the accent changes the meaning"]},{"l":"Numbers 0–20","intro":"Numbers 0–20 are used constantly for ages, phone numbers, and quantities and must be memorized as irregular forms.","b":["0 zéro, 1 un, 2 deux, 3 trois, 4 quatre, 5 cinq","6 six, 7 sept, 8 huit, 9 neuf, 10 dix","11 onze, 12 douze, 13 treize, 14 quatorze, 15 quinze","16 seize, 17 dix-sept, 18 dix-huit, 19 dix-neuf, 20 vingt","Final consonants of six, huit, dix are often dropped before a consonant sound (six livres → 'si livres')"]}],"keyFacts":["Bonjour is used any time until evening; switch to bonsoir once it gets dark.","Vous is required for strangers/authority and is always used for groups, regardless of familiarity.","The letter h is always silent in French, so 'les hôtels' liaisons as if h weren't there.","Accents change pronunciation and meaning (a vs à, ou vs où) — never optional in spelling."],"traps":["Salut to a teacher or stranger, not Bonjour — Salut is informal and can sound rude to someone you don't know.","'Comment tu t'appelles' with vous — mixing tu and vous in the same sentence is inconsistent; pick one register.","Dropping accents when typing (cafe instead of café) changes correctness on exams even if pronunciation seems similar.","Pronouncing the h in 'huit' or 'hôtel' — French h is silent, not aspirated like English h."]},{"id":2,"name":"Articles & Nouns","concepts":[{"l":"Grammatical Gender","intro":"Every French noun is either masculine or feminine, even for objects with no natural gender, and this must be memorized with each word.","b":["le livre (m) = the book; la table (f) = the table — gender is arbitrary for objects","Nouns ending in -e are often (not always) feminine: la chaise, la porte","Nouns ending in -tion, -sion, -té are almost always feminine: la nation, la liberté","Nouns ending in -eau, -age, -isme are usually masculine: le bureau, le fromage","Always learn a noun WITH its article (le/la) rather than the noun alone"]},{"l":"Definite Articles: le, la, l', les","intro":"Definite articles ('the') agree in gender and number with the noun and contract before vowel sounds.","b":["le = masculine singular: le garçon, le stylo","la = feminine singular: la fille, la maison","l' = before any singular noun starting with a vowel or mute h: l'ami, l'homme","les = plural for both genders: les garçons, les filles","Definite articles are used for specific things, general categories, and likes/dislikes (j'aime les chats)"]},{"l":"Indefinite Articles: un, une, des","intro":"Indefinite articles ('a/an/some') introduce a non-specific noun and also agree in gender and number.","b":["un = a/an (masculine): un livre, un stylo","une = a/an (feminine): une table, une pomme","des = some (plural, both genders): des livres, des pommes","In negative sentences, un/une/des become 'de' (or 'd'' before a vowel): j'ai un chien → je n'ai pas de chien","Des is often omitted in English ('I have books') but is required in French (j'ai des livres)"]},{"l":"Forming Plurals","intro":"Most French nouns form the plural by adding -s, but common exceptions must be memorized.","b":["Regular: le livre → les livres (add -s, usually silent)","Nouns ending in -s, -x, -z stay the same: le fils → les fils; la voix → les voix","Nouns ending in -eau, -eu add -x: le bureau → les bureaux; le jeu → les jeux","Most nouns ending in -al change to -aux: le journal → les journaux","The article changes to show plural even when the noun's sound doesn't: le chat → les chats"]},{"l":"Contractions with à and de","intro":"The prepositions à (to/at) and de (of/from) contract with the masculine and plural definite articles.","b":["à + le = au: je vais au cinéma (not 'à le')","à + les = aux: je parle aux étudiants","de + le = du: le livre du professeur (not 'de le')","de + les = des: la voiture des parents","à + la and à + l' do NOT contract: à la piscine, à l'école"]}],"keyFacts":["Every noun has a gender (masculine or feminine) that must be memorized along with the word itself.","Articles agree in gender and number: le/la/les and un/une/des.","à + le → au and de + le → du are required contractions; à la, à l', de la, de l' never contract.","After a negation, un/une/des become de/d' (except after être)."],"traps":["'la programme' instead of 'le programme' — memorize gender per word, don't guess from English logic.","Saying 'à le cinéma' instead of 'au cinéma' — à+le must contract to au.","Forgetting 'des' in 'j'ai des amis' — English drops the article, French keeps it.","Using un/une after a negation ('je n'ai pas un stylo') instead of de: 'je n'ai pas de stylo'."]},{"id":3,"name":"Regular -ER Verbs","concepts":[{"l":"The -ER Verb Family","intro":"Over 90% of French verbs end in -er in the infinitive and follow one predictable conjugation pattern.","b":["parler (to speak), aimer (to like/love), habiter (to live), travailler (to work)","manger (to eat), regarder (to watch/look at), écouter (to listen), donner (to give)","chercher (to look for), jouer (to play), étudier (to study), arriver (to arrive)","To conjugate: remove -er from the infinitive to get the stem (parl-, aim-)","Add the ending that matches the subject pronoun to the stem"]},{"l":"Present Tense Endings","intro":"The six present-tense endings for -er verbs attach to the stem and must be memorized as a set.","b":["je parle, tu parles, il/elle/on parle (endings -e, -es, -e all sound the same)","nous parlons, vous parlez, ils/elles parlent","-ent (ils/elles) is silent — 'ils parlent' sounds just like 'il parle'","-ons (nous) and -ez (vous) are the only endings that are clearly pronounced","je → j' before a vowel sound: j'aime, j'habite, j'écoute"]},{"l":"Negation with ne...pas","intro":"To make a verb negative, French wraps it in two parts placed around the conjugated verb.","b":["ne + verb + pas: je ne parle pas (I do not speak)","ne becomes n' before a vowel sound: je n'aime pas, il n'habite pas","Both ne and pas are required — dropping ne is only acceptable in very casual spoken French","Other negations follow the same pattern: ne...jamais (never), ne...plus (no longer)","Word order: subject + ne + verb + pas + rest of sentence"]},{"l":"Spelling-Change -ER Verbs","intro":"A few common -er verbs need a small spelling tweak in certain forms to preserve pronunciation.","b":["manger (to eat) adds an -e before -ons: nous mangeons (keeps the soft 'j' sound)","commencer (to begin) changes c to ç before -ons: nous commençons","acheter (to buy) adds a grave accent in most forms: j'achète, but nous achetons","préférer (to prefer) changes é to è in most forms: je préfère, but nous préférons","appeler (to call) doubles the l in most forms: j'appelle, but nous appelons"]},{"l":"Common Uses & Time Expressions","intro":"The present tense in French covers more ground than in English, including some ongoing and near-future actions.","b":["Je parle can mean 'I speak', 'I am speaking', or 'I do speak' — one form, three English meanings","aujourd'hui (today), maintenant (now), souvent (often), toujours (always)","adorer (to adore) and détester (to hate) follow the same -er pattern","aimer + infinitive: j'aime danser (I like to dance)","Adverbs like souvent/toujours usually go right after the conjugated verb: je mange souvent"]}],"keyFacts":["-er verbs share one pattern: stem + -e, -es, -e, -ons, -ez, -ent.","The ils/elles ending -ent is silent, so nous/vous forms carry the audible distinction.","Negation surrounds the verb: ne (n') + verb + pas.","manger, commencer, acheter, préférer, appeler need small spelling adjustments to keep their sound."],"traps":["Pronouncing the -ent ending in 'ils parlent' — it is silent, don't add a syllable.","'Je ne aime pas' instead of 'je n'aime pas' — ne must elide to n' before a vowel.","'Nous mangons' instead of 'nous mangeons' — manger needs the extra e to keep the soft g sound.","Using the infinitive alone as a conjugated verb ('je parler') instead of conjugating: 'je parle'."]},{"id":4,"name":"Être, Avoir & Questions","concepts":[{"l":"Être (to be)","intro":"Être is the most important irregular verb in French, used for identity, description, nationality, and profession.","b":["je suis, tu es, il/elle/on est","nous sommes, vous êtes, ils/elles sont","Used for adjectives of description: elle est grande (she is tall)","Used for professions and nationalities without an article: il est professeur, elle est française","C'est vs il/elle est: c'est + noun (c'est un professeur), il/elle est + adjective alone (il est intelligent)"]},{"l":"Avoir (to have)","intro":"Avoir is the second essential irregular verb, used for possession and many fixed expressions where English uses 'to be'.","b":["j'ai, tu as, il/elle/on a","nous avons, vous avez, ils/elles ont","Possession: j'ai un chat (I have a cat)","Age: j'ai vingt ans (I am twenty — literally 'I have twenty years')","Fixed expressions: avoir faim (to be hungry), avoir soif (to be thirsty), avoir chaud/froid (to be hot/cold), avoir peur (to be afraid)"]},{"l":"Il y a","intro":"Il y a is an invariable expression meaning 'there is/there are', built from il + y + a (from avoir).","b":["Il y a un livre sur la table = There is a book on the table","Il y a des étudiants dans la salle = There are students in the room","Never changes form regardless of singular or plural: always 'il y a', never 'ils y ont'","Negative: il n'y a pas de + noun (il n'y a pas de pain = there isn't any bread)","Question form: Y a-t-il...? or Est-ce qu'il y a...?"]},{"l":"Yes/No Questions","intro":"French has three ways to ask a yes/no question, ranging from casual to formal.","b":["Rising intonation (informal, spoken): Tu parles français ? (just raise your voice at the end)","Est-ce que + statement (neutral, common): Est-ce que tu parles français ?","Inversion (formal/written): Parles-tu français ? (verb and subject pronoun swap, joined by a hyphen)","With a name/noun subject, inversion adds a pronoun: Marie parle-t-elle français ?","A -t- is inserted between two vowels in inversion: Parle-t-il ? (not 'Parle-il')"]},{"l":"Information Questions","intro":"Question words replace the missing information and usually come first in the sentence.","b":["Qui = who: Qui est-ce ? (Who is it?)","Que/Qu'est-ce que = what: Qu'est-ce que tu fais ? (What are you doing?)","Où = where: Où habites-tu ?","Quand = when; Pourquoi = why; Comment = how; Combien (de) = how much/many","Quel(le)(s) = which/what, agrees with the noun: Quelle heure est-il ? (What time is it?)"]}],"keyFacts":["Être and avoir are irregular and must be memorized separately from -er verb patterns.","Avoir is used where English uses 'to be' for age and physical states (faim, soif, chaud, froid, peur).","Il y a is invariable — it never agrees with what follows.","Question words (qui, que, où, quand, pourquoi, comment) go at the start of the sentence."],"traps":["'Je suis 20 ans' instead of 'j'ai 20 ans' — age uses avoir, not être.","'Il est un professeur' instead of 'il est professeur' or 'c'est un professeur' — no article after il/elle est + profession.","'Ils y ont des livres' instead of 'il y a des livres' — il y a never conjugates to agree with the noun.","Forgetting the -t- in inversion: 'Parle-il' instead of 'Parle-t-il'."]},{"id":5,"name":"Adjectives & Description","concepts":[{"l":"Gender Agreement","intro":"French adjectives must match the gender of the noun they describe, usually by adding -e for the feminine form.","b":["Regular pattern: add -e for feminine — grand → grande, petit → petite, intelligent → intelligente","Adjectives already ending in -e don't change: un homme rouge → une femme rouge","-eux → -euse: heureux → heureuse (happy); -f → -ve: actif → active","-on/-en double the consonant + e: bon → bonne, italien → italienne","Some are irregular and must be memorized: beau → belle, nouveau → nouvelle, vieux → vieille"]},{"l":"Number Agreement","intro":"Adjectives also agree in number, usually by adding -s for the plural, on top of gender agreement.","b":["Regular: grand → grands (m. pl.), grande → grandes (f. pl.)","Adjectives ending in -s or -x don't change in the masculine plural: un garçon français → des garçons français","-eau → -eaux in the masculine plural: un beau tableau → de beaux tableaux","Agreement is four-way: masc. sing., fem. sing., masc. pl., fem. pl. (petit, petite, petits, petites)","A mixed-gender group of nouns takes the masculine plural adjective"]},{"l":"Adjective Position","intro":"Most French adjectives follow the noun, but a short list of common ones come before it — this must be memorized.","b":["Most descriptive adjectives follow the noun: une voiture rouge, un livre intéressant","BAGS adjectives come before the noun: Beauty, Age, Goodness, Size","Beauty/Goodness: beau (beautiful), joli (pretty), bon (good), mauvais (bad)","Age/Size: jeune (young), vieux (old), nouveau (new), grand (big/tall), petit (small), gros (fat)","Examples: une belle maison, un jeune homme, un bon livre, une petite table"]},{"l":"C'est vs Il/Elle est","intro":"French uses two different structures to say 'he/she/it is' depending on what follows.","b":["C'est + article + noun: c'est un livre, c'est une bonne idée","C'est + adjective (general comment): c'est intéressant, c'est difficile","Il/Elle est + adjective alone (describing a specific person/thing already mentioned): elle est grande","Il/Elle est + profession/nationality (no article): il est médecin, elle est canadienne","Ce sont (plural of c'est) + noun: ce sont mes amis"]},{"l":"Common Descriptive Adjectives","intro":"A core set of adjectives lets you describe people, places, and things in almost any conversation.","b":["grand/grande (tall/big), petit/petite (small), beau/belle (beautiful), joli/jolie (pretty)","intelligent(e), sympathique (nice/friendly), gentil/gentille (kind), drôle (funny)","content(e) (happy), triste (sad), fatigué(e) (tired), occupé(e) (busy)","difficile (difficult), facile (easy), intéressant(e), ennuyeux/ennuyeuse (boring)","Colors as adjectives agree too: une chemise bleue, des chaussures noires"]}],"keyFacts":["Adjectives agree with the noun in both gender and number, giving four possible forms.","Most adjectives follow the noun; BAGS adjectives (Beauty, Age, Goodness, Size) precede it.","C'est is followed by an article + noun; il/elle est drops the article for professions/nationalities.","Beau, nouveau, and vieux have a special form before a masculine noun starting with a vowel: bel, nouvel, vieil."],"traps":["'une voiture rouges' instead of 'une voiture rouge' — don't add -s just because it 'sounds descriptive'; agreement is grammatical, not decorative.","'un maison grand' instead of 'une grande maison' — grand is a BAGS adjective and must go before the noun.","'Il est un docteur' instead of 'il est docteur' or 'c'est un docteur' — mixing the two structures.","Forgetting irregular feminine forms: 'une belle' is correct but 'un beau homme' is wrong — it must be 'un bel homme' before a vowel sound."]},{"id":6,"name":"Family & Possession","concepts":[{"l":"Immediate Family Vocabulary","intro":"Family vocabulary is essential for talking about yourself and is tested constantly with possessive adjectives.","b":["le père (father), la mère (mother), les parents (parents)","le frère (brother), la sœur (sister), le/la enfant (child)","le fils (son), la fille (daughter/girl — context tells you which)","le mari (husband), la femme (wife/woman — context tells you which)","les grands-parents, le grand-père, la grand-mère"]},{"l":"Extended Family Vocabulary","intro":"Extended family terms build naturally from the immediate family words using compound patterns.","b":["l'oncle (uncle), la tante (aunt)","le cousin, la cousine (cousin)","le neveu (nephew), la nièce (niece)","le beau-père (father-in-law/stepfather), la belle-mère (mother-in-law/stepmother)","les petits-enfants (grandchildren), le petit-fils (grandson), la petite-fille (granddaughter)"]},{"l":"Possessive Adjectives: mon/ma/mes, ton/ta/tes","intro":"Possessive adjectives agree with the noun they describe (the thing owned), not with the owner's gender.","b":["mon/ma/mes = my: mon père, ma mère, mes parents","ton/ta/tes = your (informal): ton frère, ta sœur, tes enfants","The form depends on the GENDER OF THE NOUN, not the speaker: 'my mother' is 'ma mère' regardless of who's speaking","mon (not ma) is used before a feminine noun starting with a vowel sound: mon amie (not 'ma amie')","Plural mes/tes is used for any plural noun regardless of gender"]},{"l":"Possessive Adjectives: son/sa/ses, notre/votre/leur","intro":"The remaining possessive adjectives cover his/her, our, your (formal/plural), and their.","b":["son/sa/ses = his/her/its — again agrees with the noun owned, not the owner's gender: son père can mean 'his father' OR 'her father'","notre/nos = our: notre maison, nos enfants (only two forms: singular and plural)","votre/vos = your (formal or plural): votre travail, vos amis","leur/leurs = their: leur chat, leurs chats","son ami (his/her friend, masc.) vs sa amie is wrong — use son amie before a feminine vowel-starting noun"]},{"l":"Possession with de","intro":"Besides possessive adjectives, French shows ownership with 'de' + noun, since it has no apostrophe-s like English.","b":["le livre de Marie = Marie's book (literally 'the book of Marie')","la voiture de mon père = my father's car","de + le = du, de + les = des (contractions still apply): le chien du voisin (the neighbor's dog)","There is no French equivalent of 's — always restructure with de","C'est le sac de qui ? = Whose bag is it?"]}],"keyFacts":["Possessive adjectives (mon/ton/son etc.) agree with the noun possessed, not with the possessor's gender.","Son/sa/ses can mean his OR her — context clarifies which.","French has no possessive 's; use noun + de + owner instead.","Mon/ton/son replace ma/ta/sa before a feminine noun starting with a vowel sound (mon amie, ton école)."],"traps":["'Sa mère' assumed to mean only 'her mother' — it can equally mean 'his mother'; only context tells you.","'Ma amie' instead of 'mon amie' — before a feminine vowel-starting noun, use mon even though the noun is feminine.","Writing 'Marie's book' as 'Marie's livre' — French has no apostrophe-s; say 'le livre de Marie'.","Confusing 'la fille' (daughter/girl) meaning based on missing context, and 'le fils' (son) — don't mix them up as gender pairs of the same word."]},{"id":7,"name":"Food & Café Culture","concepts":[{"l":"Everyday Foods & Drinks","intro":"Core food vocabulary lets you order, shop, and talk about meals — a high-frequency beginner topic.","b":["le pain (bread), le fromage (cheese), les œufs (eggs), la viande (meat)","les légumes (vegetables), les fruits (fruit), le poisson (fish)","l'eau (water), le café (coffee), le thé (tea), le jus d'orange (orange juice), le vin (wine)","le petit-déjeuner (breakfast), le déjeuner (lunch), le dîner (dinner)","sucré (sweet), salé (salty/savory), délicieux/délicieuse (delicious)"]},{"l":"The Partitive Article: du, de la, de l', des","intro":"The partitive article expresses 'some' of an uncountable or unspecified quantity, and is required where English often omits it.","b":["du + masculine noun: je mange du pain (I eat/am eating some bread)","de la + feminine noun: je bois de la limonade","de l' + vowel-starting noun: je voudrais de l'eau","des + plural noun: je mange des légumes","In a negative sentence, all partitives become de/d': je ne mange pas de viande"]},{"l":"Verb: Vouloir & Polite Requests","intro":"Vouloir (to want) is irregular and its conditional form 'voudrais' is the standard polite way to order or request something.","b":["je veux, tu veux, il/elle/on veut, nous voulons, vous voulez, ils/elles veulent","Je voudrais... = I would like... (more polite than je veux for ordering)","Je voudrais un café, s'il vous plaît = I would like a coffee, please","vouloir + infinitive: je veux manger (I want to eat)","s'il vous plaît (formal) vs s'il te plaît (informal) = please"]},{"l":"Ordering at a Café","intro":"Café culture is central to French daily life, and ordering food/drink follows set polite phrases.","b":["Qu'est-ce que vous prenez ? = What will you have? (server's question)","Je prends un café crème = I'll have a coffee with cream (prendre = to take/have food)","L'addition, s'il vous plaît = The check, please","C'est combien ? / Ça coûte combien ? = How much is it?","un croissant, une baguette, un sandwich, une tarte, une crêpe are classic café/bakery items"]},{"l":"Expressing Hunger, Thirst & Preferences","intro":"Talking about food naturally involves the avoir expressions for hunger/thirst and verbs of preference.","b":["avoir faim (to be hungry), avoir soif (to be thirsty)","préférer + noun/infinitive: je préfère le thé (I prefer tea)","aimer/adorer/détester + le/la/les + food: j'adore le chocolat, je déteste les épinards","Manger and boire are the key verbs: manger (to eat, regular -er) and boire (to drink, irregular: je bois, nous buvons)","au restaurant, au café, à la boulangerie (à + la = à la, no contraction) are common location phrases"]}],"keyFacts":["The partitive article (du/de la/de l'/des) means 'some' and is required with food/drink even when English omits it.","In negative sentences, du/de la/des collapse to de/d'.","Je voudrais is the polite conditional form used for ordering, more courteous than je veux.","Boire (to drink) is irregular: je bois, nous buvons, ils boivent."],"traps":["'Je mange pain' instead of 'je mange du pain' — the partitive article can't be dropped as it can in English.","'Je veux un café' at a counter instead of the more polite 'je voudrais un café, s'il vous plaît'.","'Je ne mange pas du fromage' instead of 'je ne mange pas de fromage' — partitive becomes de after negation.","Confusing manger (to eat) with the false-friend-sounding 'manager' — manger is a regular -er verb, not related in meaning."]},{"id":8,"name":"City Places & Directions","concepts":[{"l":"Places in the City","intro":"Naming common locations lets you talk about your daily routine and ask for or give directions.","b":["la banque (bank), la boulangerie (bakery), la pharmacie (pharmacy), le supermarché (supermarket)","la gare (train station), l'aéroport (airport), l'hôpital (hospital), l'école (school)","le musée (museum), l'église (church), la bibliothèque (library), le parc (park)","la poste (post office), le marché (market), la place (square), la rue (street)","le magasin (store), le cinéma (movie theater), la piscine (pool)"]},{"l":"Aller (to go) & au/à la/à l'","intro":"Aller is the essential irregular verb for movement and combines with à + place to say where someone is going.","b":["je vais, tu vas, il/elle/on va, nous allons, vous allez, ils/elles vont","aller + à + le = aller au: je vais au parc, je vais au musée","aller + à + la (no contraction): je vais à la banque, je vais à la piscine","aller + à + l' (no contraction, vowel start): je vais à l'école, je vais à l'hôpital","aller + à + les = aller aux: je vais aux toilettes"]},{"l":"Location Prepositions","intro":"Prepositions of place describe exactly where something is relative to another location, essential for directions.","b":["à côté de (next to), en face de (across from), près de (near), loin de (far from)","devant (in front of), derrière (behind), entre (between), sur (on), sous (under), dans (in/inside)","à droite (to/on the right), à gauche (to/on the left), tout droit (straight ahead)","à côté de + le = à côté du; près de + les = près des (de contracts here too)","au coin de (at/on the corner of): au coin de la rue"]},{"l":"Asking for & Giving Directions","intro":"Direction-giving uses the imperative mood and a compact set of fixed phrases every beginner should know.","b":["Où est... ? / Où se trouve... ? = Where is...?","Pour aller à..., s'il vous plaît ? = How do I get to..., please?","Imperative forms: tournez (turn, vous-form), continuez (continue), prenez (take)","Tournez à droite / Tournez à gauche = Turn right / Turn left","Continuez tout droit jusqu'à... = Continue straight until..."]},{"l":"Talking About Distance & Transportation","intro":"Rounding out city vocabulary means being able to say how far something is and how you get there.","b":["C'est loin ? / C'est près d'ici ? = Is it far? / Is it near here?","à pied (on foot), en bus (by bus), en voiture (by car), en métro (by subway), à vélo (by bike)","à + distance: c'est à cinq minutes (it's five minutes away)","prendre + transportation: je prends le métro (I take the subway)","Il faut + infinitive = it's necessary to / you have to: il faut tourner à gauche"]}],"keyFacts":["Aller is irregular (vais/vas/va/allons/allez/vont) and combines with à for destinations.","à + le → au and à + les → aux, but à + la and à + l' never contract.","de-based prepositions (à côté de, près de, en face de) also contract: à côté du parc, près des magasins.","Direction-giving uses the vous-form imperative: tournez, continuez, prenez."],"traps":["'Je vais à le musée' instead of 'je vais au musée' — à+le must contract to au.","'à côté de le parc' instead of 'à côté du parc' — de+le contracts to du even inside longer prepositions.","Confusing à droite (to the right) with the adjective droit/droite (straight/right-hand) — tout droit means 'straight ahead', not 'all right'.","Using tu-form imperative (tourne) with a stranger when giving directions — use the vous-form (tournez) by default."]}];
 const DIAGRAMS={};
@@ -770,15 +972,25 @@ if(scoreEl)scoreEl.textContent=`Score: ${examScores[part]||0} / ${pool.length}`;
 }
 
 
+// simple helper: re-typeset any $...$/$$...$$ math MathJax may find in
+// freshly-injected DOM. Existing guide content doesn't use LaTeX delimiters
+// yet (a follow-up content pass would be needed for this to visibly do
+// anything) — this just wires the rendering pipeline up for when it does.
+function ssTypeset(el){
+  if(window.MathJax&&window.MathJax.typesetPromise){
+    try{window.MathJax.typesetPromise(el?[el]:undefined);}catch(e){}
+  }
+}
+
 // GUIDE
 const SEARCH_BADGE={concept:'📖 Notes',flashcard:'📇 Flashcard',quiz:'❓ Quiz'};
 function searchGuide(){
   const q=(document.getElementById('search-box').value||'').toLowerCase().trim();
   const sr=document.getElementById('search-results');
   document.querySelectorAll('.unit').forEach(u=>u.style.display='');
-  document.getElementById('filter-row').style.display='flex';
+  document.getElementById('filter-row').style.display='';
   var _hl=document.getElementById('hero-live');
-  if(!q){sr.style.display='none';if(_hl)_hl.textContent='';return;}
+  if(!q){sr.classList.remove('show');sr.style.display='none';if(_hl)_hl.textContent='';return;}
   const matches=[];
   UNITS.forEach(u=>{
     u.concepts.forEach(c=>{
@@ -796,8 +1008,8 @@ function searchGuide(){
     const text=(qq.q+' '+(qq.o||[]).join(' ')).toLowerCase();
     if(text.includes(q))matches.push({type:'quiz',unit:qq.u,unitName:unitName(qq.u),concept:'Quiz question',preview:qq.q.slice(0,120)});
   });
-  if(!matches.length){sr.style.display='block';sr.innerHTML='<div style="color:var(--ink-muted);font-size:14px;padding:8px">No results for "'+q+'"</div>';if(_hl)_hl.textContent='No results for '+q;return;}
-  sr.style.display='block';
+  if(!matches.length){sr.style.display='block';sr.classList.add('show');sr.innerHTML='<div style="color:var(--ink-muted);font-size:14px;padding:8px">No results for "'+q+'"</div>';if(_hl)_hl.textContent='No results for '+q;return;}
+  sr.style.display='block';sr.classList.add('show');
   if(_hl)_hl.textContent=matches.length+' result'+(matches.length===1?'':'s')+' for '+q;
   const jump=m=>m.type==='concept'?`jumpToUnit(${m.unit})`:m.type==='flashcard'?`jumpToFlashcardUnit(${m.unit})`:`jumpToQuizUnit(${m.unit})`;
   sr.innerHTML='<div style="font-size:13px;color:var(--ink-muted);margin-bottom:6px">'+matches.length+' result(s)</div>'+
@@ -808,6 +1020,14 @@ function searchGuide(){
     </div>`).join('');
 }
 function clearSearch(){document.getElementById('search-box').value='';searchGuide();}
+document.addEventListener('keydown',function(e){
+  if(e.key!=='/')return;
+  var el=document.activeElement;
+  var tag=(el&&el.tagName)||'';
+  if(tag==='INPUT'||tag==='TEXTAREA'||(el&&el.isContentEditable))return;
+  var box=document.getElementById('search-box');
+  if(box){e.preventDefault();box.focus();}
+});
 function jumpToFlashcardUnit(id){
   clearSearch();
   switchTab('cards');
@@ -829,26 +1049,37 @@ function jumpToUnit(id){
 }
 
 const filterTags={};
+// Single source of truth for "which unit is selected", driven by either the
+// desktop chip row or the mobile <select> — both call this so filtering logic
+// never lives in two places.
+function ssFilterByUnit(unitId){
+  const all=document.getElementById('filter-row')&&document.getElementById('filter-row').children[0];
+  if(all)all.classList.toggle('on',!unitId);
+  Object.keys(filterTags).forEach(k=>filterTags[k].classList.toggle('on',!!unitId&&k==unitId));
+  document.querySelectorAll('.unit').forEach(el=>el.style.display=(!unitId||el.dataset.id==unitId)?'':'none');
+  const sel=document.getElementById('filter-select');
+  if(sel&&sel.value!=String(unitId||0))sel.value=String(unitId||0);
+}
+function ssFilterSelectChange(){
+  const sel=document.getElementById('filter-select');
+  ssFilterByUnit(sel?+sel.value:0);
+}
 function buildGuide(){
   const fr=document.getElementById('filter-row');
   const ul=document.getElementById('units');
   const all=document.createElement('button');
   all.className='chip on';all.textContent='All Units';
-  all.onclick=()=>{Object.keys(filterTags).forEach(k=>filterTags[k].classList.remove('on'));all.classList.add('on');document.querySelectorAll('.unit').forEach(u=>u.style.display='');};
+  all.onclick=()=>ssFilterByUnit(0);
   fr.appendChild(all);
   UNITS.forEach(u=>{
     const chip=document.createElement('button');
     chip.className='chip';chip.textContent='Unit '+u.id;
-    chip.onclick=()=>{
-      all.classList.remove('on');
-      Object.values(filterTags).forEach(c=>c.classList.remove('on'));
-      chip.classList.add('on');
-      document.querySelectorAll('.unit').forEach(el=>el.style.display=el.dataset.id==u.id?'':'none');
-    };
+    chip.onclick=()=>ssFilterByUnit(u.id);
     fr.appendChild(chip);filterTags[u.id]=chip;
     const div=document.createElement('div');div.className='unit';div.dataset.id=u.id;
     const hd=document.createElement('div');hd.className='unit-hd';
-    hd.innerHTML=`<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts</span></span><span class="chevron">▾</span>`;
+    const estMins=Math.max(5,Math.round(u.concepts.length*3+(u.traps?u.traps.length:0)*2+(u.fms?u.fms.length:0)*2));
+    hd.innerHTML=`<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts · ~${estMins} min</span></span><span class="chevron">▾</span>`;
     hd.tabIndex=0;hd.setAttribute('role','button');hd.setAttribute('aria-expanded','false');
     hd.onclick=()=>{const isOpen=div.classList.toggle('open');hd.setAttribute('aria-expanded',isOpen?'true':'false');};
     hd.onkeydown=(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();hd.click();}};
@@ -870,15 +1101,10 @@ function hydrateGuide(){
   const fr=document.getElementById('filter-row');
   const chips=Array.from(fr.children);
   const all=chips[0];
-  all.onclick=()=>{Object.keys(filterTags).forEach(k=>filterTags[k].classList.remove('on'));all.classList.add('on');document.querySelectorAll('.unit').forEach(u=>u.style.display='');};
+  all.onclick=()=>ssFilterByUnit(0);
   UNITS.forEach((u,i)=>{
     const chip=chips[i+1];
-    chip.onclick=()=>{
-      all.classList.remove('on');
-      Object.values(filterTags).forEach(c=>c.classList.remove('on'));
-      chip.classList.add('on');
-      document.querySelectorAll('.unit').forEach(el=>el.style.display=el.dataset.id==u.id?'':'none');
-    };
+    chip.onclick=()=>ssFilterByUnit(u.id);
     filterTags[u.id]=chip;
   });
   document.querySelectorAll('.unit').forEach(div=>{
@@ -887,7 +1113,16 @@ function hydrateGuide(){
     hd.onkeydown=(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();hd.click();}};
   });
 }
+(function(){
+  const btn=document.getElementById('back-to-top');
+  if(!btn)return;
+  const threshold=()=>window.innerHeight||800;
+  window.addEventListener('scroll',function(){
+    btn.classList.toggle('visible',window.scrollY>threshold());
+  },{passive:true});
+})();
 if(document.getElementById('units').children.length===0){buildGuide();}else{hydrateGuide();}
+ssTypeset(document.getElementById('units'));
 
 // FLASHCARDS
 let fcDeck=[],fcIdx=0,fcFilterMode='all';
@@ -976,6 +1211,7 @@ function buildExamples(){
     h+='</div>';
   });
   v.innerHTML=h;
+  ssTypeset(v);
 }
 function revealStep(id){
   const w=ex2map[id];const c=document.getElementById('ex2s-'+id);let n=ex2shown[id]||0;
@@ -999,10 +1235,48 @@ window.__ssMasteryInstances = window.__ssMasteryInstances || [];
 function ssStartChemMastery(){
   SS_MASTERY = window.__ssCreateMastery('french-1', UNITS.map(function(u){return u.id;}), UNITS.reduce(function(acc,u){acc[u.id]=u.name;return acc;},{}));
   window.__ssMasteryInstances.push(SS_MASTERY);
-  SS_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} try{ if(examplesBuilt) buildExamples(); }catch(e){} });
+  SS_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} try{ if(examplesBuilt) buildExamples(); }catch(e){} try{ ssOverallProgressUpdate(); }catch(e){} });
 }
 if (window.__ssCreateMastery) { ssStartChemMastery(); }
 else { window.addEventListener('ss-mastery-ready', ssStartChemMastery, { once: true }); }
+
+/* bookmarked question ids, kept separate from server-synced mastery state
+   (this is purely a local toggle-and-persist affordance, no filter UI yet) */
+var Q_BOOKMARK_KEY='ssBookmarks_'+'french-1';
+function qBookmarkSet(){
+  try{return new Set(JSON.parse(localStorage.getItem(Q_BOOKMARK_KEY)||'[]'));}catch(e){return new Set();}
+}
+function qBookmarkToggle(qid){
+  var set=qBookmarkSet();
+  if(set.has(qid))set.delete(qid);else set.add(qid);
+  try{localStorage.setItem(Q_BOOKMARK_KEY,JSON.stringify(Array.from(set)));}catch(e){}
+  return set.has(qid);
+}
+function qId(q){return q.u+'|'+q.q;}
+
+function quizShuffle(){
+  if(!qPool.length)return;
+  for(let i=qPool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[qPool[i],qPool[j]]=[qPool[j],qPool[i]];}
+  qIdx=0;score=0;requeueCounts=new WeakMap();showQ();
+}
+
+function unitNameFor(unitId){const u=UNITS.find(x=>x.id===unitId);return u?u.name:'Unit '+unitId;}
+
+function ssOverallProgressUpdate(){
+  var fill=document.getElementById('ss-overall-progress-fill');
+  var label=document.getElementById('ss-overall-progress-label');
+  if(!fill||!label)return;
+  var total=(typeof QUIZ!=='undefined'?QUIZ.length:0);
+  if(!total){fill.parentElement.parentElement.style.display='none';return;}
+  var answered=0;
+  if(SS_MASTERY){
+    var mastery=SS_MASTERY.getSnapshot().mastery||{};
+    Object.keys(mastery).forEach(function(k){answered+=mastery[k].total||0;});
+  }
+  var pct=Math.max(0,Math.min(100,Math.round((answered/total)*100)));
+  fill.style.width=pct+'%';
+  label.textContent=pct+'% of the question bank attempted';
+}
 
 let diagMode=false;
 function ssHardQ(){return (typeof HARD_Q!=='undefined'&&Array.isArray(HARD_Q))?HARD_Q:[];}
@@ -1086,10 +1360,38 @@ function showQ(){
   const q=qPool[qIdx];
   document.getElementById('q-prog').textContent=`Q ${qIdx+1}/${qPool.length}`;
   document.getElementById('q-sc').textContent=`Score: ${score}`;
-  let h=`<div class="q-block"><div class="q-text">${q.q}</div><button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button><div class="q-opts">`;
-  q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">${opt}</button>`);
+  const bid=qId(q);
+  const bookmarked=qBookmarkSet().has(bid);
+  const STAR_OUTLINE='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
+  const STAR_FILLED='<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
+  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>`+
+    `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
+    `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
+    `<button class="q-hint-btn" id="q-hint-btn" onclick="toggleQHint()">💡 Hint</button>`+
+    `<div class="q-hint-box" id="q-hint-box">Hint: this is from Unit ${q.u}: ${unitNameFor(q.u)}</div>`+
+    `<div class="q-opts">`;
+  q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">`+
+    `<svg class="q-opt-icon icon-correct" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`+
+    `<svg class="q-opt-icon icon-wrong" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`+
+    `<span>${opt}</span></button>`);
   h+=`</div><div class="q-exp" id="q-exp">${q.e}</div><button class="q-next show" id="q-next" onclick="nextQ()" style="display:none">Next →</button></div>`;
   qb.innerHTML=h;
+  ssTypeset(qb);
+}
+function toggleQBookmark(){
+  const q=qPool[qIdx];if(!q)return;
+  const on=qBookmarkToggle(qId(q));
+  const btn=document.getElementById('q-bookmark');
+  if(!btn)return;
+  btn.classList.toggle('on',on);
+  btn.setAttribute('aria-pressed',String(on));
+  btn.setAttribute('aria-label',on?'Remove bookmark':'Bookmark this question');
+  btn.innerHTML=on?'<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>'
+    :'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
+}
+function toggleQHint(){
+  const box=document.getElementById('q-hint-box');
+  if(box)box.classList.toggle('show');
 }
 let guessFlag=false, guessedQs=[], guessedRight=0;
 function markGuess(){
@@ -1129,6 +1431,7 @@ function ansQ(i){
     }
   }
   if(SS_MASTERY)SS_MASTERY.recordAnswer(q.u,i===q.a);
+  ssOverallProgressUpdate();
   const expEl=document.getElementById('q-exp');
   expEl.classList.add('show');
   if(wasGuess){
@@ -1186,11 +1489,22 @@ buildQSel();
   var daysEl=document.getElementById('spc-days');
   var minsEl=document.getElementById('spc-mins');
   if(!daysEl||!minsEl)return;
+  var daysNum=document.getElementById('spc-days-num');
+  var minsNum=document.getElementById('spc-mins-num');
+  var DAYS_DEFAULT=daysEl.value, MINS_DEFAULT=minsEl.value;
+  function setFill(el){
+    var min=parseFloat(el.min),max=parseFloat(el.max),val=parseFloat(el.value);
+    var pct=max>min?((val-min)/(max-min))*100:0;
+    el.style.setProperty('--fill',pct+'%');
+  }
+  function clamp(v,min,max){return Math.min(max,Math.max(min,v));}
   function update(){
     var days=parseInt(daysEl.value,10);
     var mins=parseInt(minsEl.value,10);
     document.getElementById('spc-days-val').textContent=days+(days===1?' day':' days');
-    document.getElementById('spc-mins-val').textContent=mins+' min';
+    if(daysNum)daysNum.value=days;
+    if(minsNum)minsNum.value=mins;
+    setFill(daysEl);setFill(minsEl);
     var totalMinutes=days*mins;
     var questions=Math.min(SS_TOTAL_Q,Math.round(totalMinutes/MIN_PER_Q));
     var pct=Math.min(100,Math.round((questions/SS_TOTAL_Q)*100));
@@ -1201,19 +1515,32 @@ buildQSel();
     var tier=document.getElementById('spc-tier');
     var title=document.getElementById('spc-tier-title');
     var sub=document.getElementById('spc-tier-sub');
+    tier.classList.remove('good','moderate','behind');
     if(pct>=90){
-      tier.style.background='var(--success-soft)';tier.style.color='var(--success)';
+      tier.classList.add('good');
       title.textContent='Exam Ready';sub.textContent="You'll work through the full question bank before test day.";
     }else if(pct>=50){
-      tier.style.background='var(--accent-soft)';tier.style.color='var(--accent-ink)';
+      tier.classList.add('moderate');
       title.textContent='On Track';sub.textContent='Solid coverage — keep this pace going.';
     }else{
-      tier.style.background='var(--surface-2)';tier.style.color='var(--ink-muted)';
+      tier.classList.add('behind');
       title.textContent='Just Getting Started';sub.textContent='Add a few more minutes a day to cover more ground before your exam.';
     }
   }
   daysEl.addEventListener('input',update);
   minsEl.addEventListener('input',update);
+  if(daysNum)daysNum.addEventListener('change',function(){
+    daysEl.value=clamp(parseInt(daysNum.value,10)||parseInt(daysEl.min,10),parseInt(daysEl.min,10),parseInt(daysEl.max,10));
+    update();
+  });
+  if(minsNum)minsNum.addEventListener('change',function(){
+    minsEl.value=clamp(parseInt(minsNum.value,10)||parseInt(minsEl.min,10),parseInt(minsEl.min,10),parseInt(minsEl.max,10));
+    update();
+  });
+  var resetBtn=document.getElementById('spc-reset-btn');
+  if(resetBtn)resetBtn.addEventListener('click',function(){
+    daysEl.value=DAYS_DEFAULT;minsEl.value=MINS_DEFAULT;update();
+  });
   update();
 })();
 
@@ -1443,20 +1770,34 @@ async function cbotSend(e){
 /* study session timer in the nav */
 (function(){
   var nav=document.querySelector('.hero .nav');if(!nav)return;
+  var ICON_PLAY='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg>';
+  var ICON_PAUSE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>';
+  var ICON_RESET='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 17 5"/><polyline points="21 3 21 9 15 9"/></svg>';
   var d=document.createElement('div');d.id='sg-timer';
-  d.innerHTML='<span id="sgt-time">00:00</span><button class="sgt-b" id="sgt-btn" aria-label="start or pause study timer">▶</button><button class="sgt-b" id="sgt-reset" aria-label="reset study timer">↺</button>';
+  d.innerHTML='<span class="sgt-label">Study timer</span><span id="sgt-time">00:00</span>'+
+    '<button class="sgt-b" id="sgt-btn" aria-label="start or pause study timer">'+ICON_PLAY+'</button>'+
+    '<button class="sgt-b" id="sgt-reset" aria-label="reset study timer">'+ICON_RESET+'</button>';
   nav.appendChild(d);
   var sec=0,run=false,iv=null;
   function fmt(s){var h=Math.floor(s/3600),m=Math.floor((s%3600)/60),ss=s%60;
     return (h?h+':':'')+String(m).padStart(2,'0')+':'+String(ss).padStart(2,'0');}
   document.getElementById('sgt-btn').onclick=function(){
-    run=!run;this.textContent=run?'⏸':'▶';
+    run=!run;this.innerHTML=run?ICON_PAUSE:ICON_PLAY;this.setAttribute('aria-label',run?'pause study timer':'start study timer');
     if(run){iv=setInterval(function(){sec++;var el=document.getElementById('sgt-time');if(el)el.textContent=fmt(sec);},1000);}
     else clearInterval(iv);
   };
   document.getElementById('sgt-reset').onclick=function(){sec=0;clearInterval(iv);run=false;
-    document.getElementById('sgt-btn').textContent='▶';document.getElementById('sgt-time').textContent='00:00';};
+    var btn=document.getElementById('sgt-btn');btn.innerHTML=ICON_PLAY;btn.setAttribute('aria-label','start or pause study timer');
+    document.getElementById('sgt-time').textContent='00:00';};
 })();
+
+/* Pinning the hero tab row on scroll (position:fixed + measured spacer) was
+   found during QA to visually overlap page content in some scroll states —
+   disabled pending a redesign that doesn't rely on a JS-measured spacer.
+   The tab row stays in its normal in-flow position; the independent sticky
+   search/filter bar (.ss-sticky-top, CSS-only position:sticky) is unaffected
+   and still docks correctly since it doesn't depend on --ss-nav-h being set
+   (it defaults to 0px). */
 
 function ssToggleTheme(){
   var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
