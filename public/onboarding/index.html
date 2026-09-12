@@ -74,7 +74,7 @@ h1{font-size:25px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;color:
   <div class="card">
     <button class="theme-btn" id="theme-btn" title="Toggle light/dark">🌙</button>
     <h1>Let's get you set up 🎯</h1>
-    <p class="sub">Four quick steps and PrecisStudy will feel like it was built just for you.</p>
+    <p class="sub">Five quick steps and PrecisStudy will feel like it was built just for you.</p>
 
     <div class="pct-row"><span id="pl-label">Step 1 of 5</span><span id="pl-pct">0%</span></div>
     <div class="progress-bar"><div class="progress-fill" id="pf"></div></div>
@@ -102,7 +102,7 @@ h1{font-size:25px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;color:
       <div class="step-body">
         <h3>Connect Google Classroom</h3>
         <p>Pull your Classroom coursework and calendar due-dates right into your dashboard, alongside your study plan.</p>
-        <a class="go" href="/auth/google/connect/start?next=/onboarding">Connect Google Classroom →</a>
+        <a class="go" id="google-connect-link" href="/auth/google/connect/start?next=/onboarding">Connect Google Classroom →</a>
       </div>
     </div>
 
@@ -166,8 +166,13 @@ h1{font-size:25px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;color:
   }
   function mark(k){ state[k]=true; render(); }
 
-  // whole step is clickable → navigates via its button's target
+  // whole step is clickable → navigates via its button's target.
+  // The Google Classroom step is excluded: its "go" is a real external-auth
+  // link, not a data-href button, and marking the step done (which hides
+  // the link via .step.done .go{visibility:hidden}) must only happen from
+  // an actual click on that link — not a stray click anywhere in its body.
   steps.forEach(function(el){
+    if(el.getAttribute('data-step')==='google') return;
     el.addEventListener('click',function(){
       mark(el.getAttribute('data-step'));
     });
@@ -180,6 +185,12 @@ h1{font-size:25px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;color:
       if(step) mark(step.getAttribute('data-step'));
       location.href=b.getAttribute('data-href');
     });
+  });
+  // Google Classroom connect link: mark done only on an actual click of the
+  // link itself, then let the real navigation to the OAuth start URL proceed.
+  document.getElementById('google-connect-link').addEventListener('click',function(ev){
+    ev.stopPropagation();
+    mark('google');
   });
   // theme toggles
   function toggleTheme(){ applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'); }
