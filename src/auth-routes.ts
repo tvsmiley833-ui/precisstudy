@@ -1,10 +1,7 @@
 import {
-  signSession,
-  verifySession,
   issueSessionCookie,
   clearSessionCookie,
   getSession,
-  getCookie,
   createMagicLinkToken,
   consumeMagicLinkToken,
   peekMagicLinkToken,
@@ -15,10 +12,10 @@ import {
   checkRateLimit,
   getClientIp
 } from "./auth.js";
-
-const SITE_ORIGIN = "https://precisstudy.com";
-const STATE_TTL = 60 * 10; // 10 minutes
-const STATE_COOKIE = "ss_oauth_state";
+import {
+  SITE_ORIGIN, STATE_TTL, stateCookie, clearStateCookie,
+  makeState, checkState, safeNext, nextCookie, clearNextCookie, consumeNext
+} from "./auth-state.js";
 
 type ExtraHeaders = Record<string, string | string[]>;
 
@@ -46,39 +43,6 @@ function redirect(location: string, extraHeaders?: ExtraHeaders): Response {
   return new Response(null, { status: 302, headers });
 }
 
-function stateCookie(state: string): string {
-  return `${STATE_COOKIE}=${state}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${STATE_TTL}`;
-}
-
-function clearStateCookie(): string {
-  return `${STATE_COOKIE}=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0`;
-}
-
-const NEXT_COOKIE = "ss_next";
-
-// A post-sign-in destination is only accepted if it is a same-origin absolute
-// path (no scheme, no protocol-relative "//host", no "\" tricks). Anything else
-// falls back to the site root, so this can't become an open redirect.
-function safeNext(raw: string | null): string | null {
-  if (!raw) return null;
-  if (raw[0] !== "/" || raw[1] === "/" || raw[1] === "\\") return null;
-  if (raw.includes("://") || raw.includes("\n") || raw.includes("\r")) return null;
-  return raw.length <= 512 ? raw : null;
-}
-
-function nextCookie(path: string): string {
-  return `${NEXT_COOKIE}=${encodeURIComponent(path)}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${STATE_TTL}`;
-}
-
-function clearNextCookie(): string {
-  return `${NEXT_COOKIE}=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0`;
-}
-
-function consumeNext(request: Request): string | null {
-  const raw = getCookie(request, NEXT_COOKIE);
-  return raw ? safeNext(decodeURIComponent(raw)) : null;
-}
-
 // Categorised, non-sensitive failure reason. The category is surfaced to the
 // student on the homepage as a specific message; the detail (if any) is only
 // logged server-side so operators can see *why* without leaking it to the URL.
@@ -89,19 +53,6 @@ function authErrorRedirect(reason: AuthErrorReason, detail?: string): Response {
   return redirect(SITE_ORIGIN + "/?auth_error=" + reason, {
     "Set-Cookie": [clearStateCookie(), clearNextCookie()]
   });
-}
-
-async function makeState(env: Env): Promise<string> {
-  const now = Math.floor(Date.now() / 1000);
-  return signSession({ purpose: "oauth_state", exp: now + STATE_TTL }, env.SESSION_SECRET);
-}
-
-async function checkState(env: Env, request: Request, state: string): Promise<boolean> {
-  if (!state) return false;
-  const cookieState = getCookie(request, STATE_COOKIE);
-  if (!cookieState || cookieState !== state) return false;
-  const payload = await verifySession(state, env.SESSION_SECRET);
-  return !!(payload && payload.purpose === "oauth_state");
 }
 
 // The Worker serves several custom domains (studystacks.org, precisstudy.com,
