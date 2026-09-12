@@ -30,6 +30,8 @@
 <link rel="preload" href="/fonts/spacegrotesk-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="stylesheet" href="/fonts/fonts.css"/>
+<script>window.MathJax={tex:{inlineMath:[['$','$']],displayMath:[['$$','$$']]}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -169,10 +171,39 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .tab-btn.active{background:var(--ink);color:var(--surface);border-color:var(--ink)}
 .view{display:none}.view.active{display:block;animation:fadein .25s ease}
 @keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
-.filter-row{display:flex;gap:8px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:6px;-webkit-overflow-scrolling:touch}.filter-row::-webkit-scrollbar{height:4px}.filter-row::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+/* ---- sticky search + filter header ---- */
+.ss-sticky-top{position:sticky;top:var(--ss-nav-h,0px);z-index:40;background:var(--bg);padding-top:2px;margin:0 -24px;padding-left:24px;padding-right:24px;transition:top .15s ease}
+@media(max-width:600px){.ss-sticky-top{margin:0 -16px;padding-left:16px;padding-right:16px}}
+.search-wrap{position:relative;margin-bottom:10px}
+.search-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--ink-dim);pointer-events:none}
+#search-box{width:100%;height:48px;padding:0 84px 0 44px;border:1px solid var(--border);border-radius:var(--radius);
+  font-size:16.5px;background:var(--surface);color:var(--ink);box-shadow:var(--shadow-sm);transition:border-color .15s ease,box-shadow .15s ease}
+#search-box::placeholder{color:var(--ink-dim)}
+#search-box:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.search-kbd{position:absolute;right:15px;top:50%;transform:translateY(-50%);font-family:'IBM Plex Mono',monospace;font-size:12px;
+  color:var(--ink-dim);background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:2px 7px;pointer-events:none}
+#search-box:focus~.search-kbd,#search-box:not(:placeholder-shown)~.search-kbd{display:none}
+.search-clear{display:none;position:absolute;right:12px;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;
+  border:none;background:var(--surface-2);color:var(--ink-muted);cursor:pointer;align-items:center;justify-content:center}
+.search-clear:hover{background:var(--surface-hover);color:var(--ink)}
+#search-box:not(:placeholder-shown)~.search-clear{display:flex}
+#search-results{display:none;position:absolute;left:0;right:0;top:calc(100% + 6px);background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:50;max-height:360px;overflow-y:auto;padding:8px}
+#search-results.show{display:block}
+#search-results>div[onclick]{transition:background .12s ease}
+#search-results>div[onclick]:hover{background:var(--surface-2)!important;border-color:var(--border-strong)!important}
+.filter-row-wrap{position:relative}
+.filter-row{display:flex;gap:8px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:6px;-webkit-overflow-scrolling:touch;
+  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 24px,#000 calc(100% - 24px),transparent 100%);
+  mask-image:linear-gradient(to right,transparent 0,#000 24px,#000 calc(100% - 24px),transparent 100%)}
+.filter-row::-webkit-scrollbar{height:4px}.filter-row::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
 .chip{white-space:nowrap;flex-shrink:0;padding:8px 16px;border-radius:999px;border:1px solid var(--border);background:var(--surface);font-size:14px;cursor:pointer;color:var(--ink-muted)}
 .chip:hover{border-color:var(--border-strong);color:var(--ink)}
 .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.ss-overall-progress{display:flex;align-items:center;gap:10px;margin:8px 0 12px}
+.ss-overall-progress-track{flex:1;height:6px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.ss-overall-progress-fill{height:100%;width:0%;background:var(--accent);border-radius:99px;transition:width .3s ease}
+.ss-overall-progress-label{font-size:12.5px;color:var(--ink-dim);white-space:nowrap;flex-shrink:0}
 .unit{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden;background:var(--surface);
   transition:border-color .15s ease,box-shadow .15s ease}
 .unit:hover{border-color:var(--border-strong)}
@@ -238,14 +269,30 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .guess-btn.on{background:var(--amber-soft);border-style:solid;border-color:var(--amber);color:var(--amber-ink)}
 .guess-flag{display:inline-block;margin-left:8px;font-size:14px;font-weight:700;color:var(--amber-ink);background:var(--amber-soft);
   border:1px solid var(--amber);border-radius:99px;padding:2px 10px;vertical-align:middle}
-.q-block{border:1px solid var(--border);border-radius:var(--radius);padding:24px;background:var(--surface);box-shadow:var(--shadow-sm)}
-.q-text{font-size:24.8px;font-weight:600;color:var(--ink);line-height:1.55;margin-bottom:20px}
+.q-block{border:1px solid var(--border);border-radius:var(--radius);padding:24px;background:var(--surface);box-shadow:var(--shadow-sm);margin-bottom:22px}
+.q-block-hd{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px}
+.q-text{font-size:24.8px;font-weight:600;color:var(--ink);line-height:1.55;flex:1}
+.q-bookmark{flex:none;background:none;border:none;cursor:pointer;color:var(--ink-dim);padding:2px;border-radius:6px;transition:color .15s ease,transform .15s ease}
+.q-bookmark:hover{color:var(--amber);transform:scale(1.08)}
+.q-bookmark.on{color:var(--amber)}
+.q-bookmark svg{display:block}
 .q-opts{display:flex;flex-direction:column;gap:9px}
 .q-opt{padding:13px 16px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';
-  font-size:21.8px;color:var(--ink-muted);background:var(--surface);transition:all .15s ease;text-align:left}
+  font-size:21.8px;color:var(--ink-muted);background:var(--surface);transition:all .15s ease;text-align:left;
+  display:flex;align-items:center;gap:9px}
 .q-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}
+.q-opt:disabled{cursor:default}
+.q-opt .q-opt-icon{flex:none;display:none}
 .q-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}
+.q-opt.correct .q-opt-icon.icon-correct{display:inline-flex}
 .q-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}
+.q-opt.wrong .q-opt-icon.icon-wrong{display:inline-flex}
+.q-hint-btn{display:inline-flex;align-items:center;gap:6px;margin-bottom:14px;padding:6px 14px;border:1px dashed var(--border-strong);
+  border-radius:99px;background:transparent;color:var(--ink-dim);font-size:14px;font-family:inherit;cursor:pointer;transition:all .15s ease}
+.q-hint-btn:hover{color:var(--accent-ink);border-color:var(--accent);background:var(--accent-soft)}
+.q-hint-box{display:none;margin:-6px 0 14px;padding:10px 14px;background:var(--accent-soft);border-left:3px solid var(--accent);
+  border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:15px;color:var(--accent-ink);line-height:1.5}
+.q-hint-box.show{display:block}
 .q-exp{margin-top:16px;padding:13px 16px;background:var(--surface-2);border-radius:var(--radius-sm);font-family:'Inter';
   font-size:21px;color:var(--ink-muted);line-height:1.65;display:none}
 .q-exp.show{display:block}
@@ -548,12 +595,24 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 })();
 </script>
 <div id="view-guide" class="view active" role="tabpanel" aria-labelledby="tab-guide" tabindex="0">
-  <div style="display:flex;gap:8px;margin-bottom:10px;align-items:center">
-    <input id="search-box" type="search" aria-label="Search this guide's topics, terms, and formulas" placeholder="Search topics, terms, formulas…" oninput="searchGuide()" style="flex:1;padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:15px;background:var(--surface);color:var(--ink)">
-    <button type="button" onclick="clearSearch()" style="padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);font-size:13px;cursor:pointer;color:var(--ink-muted)">✕ Clear</button>
+  <div class="ss-sticky-top">
+  <div class="search-wrap">
+    <svg class="search-icon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input id="search-box" type="search" aria-label="Search this guide's topics, terms, and formulas" placeholder="Search topics, terms, formulas…" oninput="searchGuide()">
+    <kbd class="search-kbd" aria-hidden="true">/</kbd>
+    <button type="button" class="search-clear" onclick="clearSearch()" aria-label="Clear search">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div id="search-results"></div>
   </div>
-  <div id="search-results" style="display:none;margin-bottom:12px"></div>
-  <div class="filter-row" id="filter-row"><button class="chip on">All Units</button><button class="chip">Unit 1</button><button class="chip">Unit 2</button><button class="chip">Unit 3</button><button class="chip">Unit 4</button><button class="chip">Unit 5</button><button class="chip">Unit 6</button><button class="chip">Unit 7</button><button class="chip">Unit 8</button><button class="chip">Unit 9</button><button class="chip">Unit 10</button><button class="chip">Unit 11</button></div>
+  <div class="filter-row-wrap">
+    <div class="filter-row" id="filter-row"><button class="chip on">All Units</button><button class="chip">Unit 1</button><button class="chip">Unit 2</button><button class="chip">Unit 3</button><button class="chip">Unit 4</button><button class="chip">Unit 5</button><button class="chip">Unit 6</button><button class="chip">Unit 7</button><button class="chip">Unit 8</button><button class="chip">Unit 9</button><button class="chip">Unit 10</button><button class="chip">Unit 11</button></div>
+  </div>
+  <div class="ss-overall-progress" id="ss-overall-progress">
+    <div class="ss-overall-progress-track"><div class="ss-overall-progress-fill" id="ss-overall-progress-fill"></div></div>
+    <span class="ss-overall-progress-label" id="ss-overall-progress-label">0% of the question bank attempted</span>
+  </div>
+  </div>
   <div id="units"><div class="unit" data-id="1"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 1: Polynomial Functions & Operations<span class="unit-meta">5 concepts</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Dividing polynomials</div><div class="c-text">Polynomial division works like long division with numbers — you can also use a shortcut called synthetic division when dividing by (x − c).</div><ul class="c-list"><li>Long division: divide the leading terms, multiply back, subtract, and bring down the next term — repeat until the remainder's degree is less than the divisor's.</li><li>Synthetic division only works when dividing by a linear factor (x − c). It's faster but gives the same quotient and remainder as long division.</li><li>A division problem can always be checked: (divisor)(quotient) + remainder = original dividend.</li></ul></div><div class="concept"><div class="c-label">The Remainder Theorem</div><div class="c-text">A shortcut for evaluating a polynomial at a specific value without fully dividing.</div><ul class="c-list"><li>If a polynomial P(x) is divided by (x − c), the remainder equals P(c).</li><li>This means you can find P(c) either by direct substitution OR by synthetic division — both give the same number.</li><li>Useful for checking synthetic division work: the remainder you compute should match P(c) from substitution.</li></ul></div><div class="concept"><div class="c-label">The Factor Theorem</div><div class="c-text">A special case of the Remainder Theorem that tells you whether (x − c) is a factor.</div><ul class="c-list"><li>(x − c) is a factor of P(x) if and only if P(c) = 0.</li><li>If P(c) = 0, then c is a zero (root) of the polynomial, and (x − c) divides it evenly (remainder 0).</li><li>Used to test possible rational roots before fully factoring a higher-degree polynomial.</li></ul></div><div class="concept"><div class="c-label">Zeros, multiplicity & end behavior</div><div class="c-text">The zeros of a polynomial and how it behaves as x gets very large or very small (in either direction) are both controlled by its factored form.</div><ul class="c-list"><li>A zero's multiplicity is how many times its factor repeats. Odd multiplicity → the graph crosses the x-axis. Even multiplicity → the graph touches and bounces off.</li><li>End behavior is controlled by the degree and the leading coefficient: odd degree → ends point in opposite directions; even degree → both ends point the same direction.</li><li>A positive leading coefficient means the right end goes up; a negative leading coefficient means the right end goes down.</li></ul></div><div class="concept"><div class="c-label">Multiplying polynomials & special products</div><div class="c-text">Before dividing or factoring, you need fluent multiplication — including three patterns worth memorizing.</div><ul class="c-list"><li>Distribute every term of one factor across every term of the other, then combine like terms.</li><li>Difference of squares: (a + b)(a - b) = a^2 - b^2.</li><li>Perfect-square trinomials: (a + b)^2 = a^2 + 2ab + b^2 and (a - b)^2 = a^2 - 2ab + b^2.</li><li>Sum/difference of cubes: (a +/- b)(a^2 -/+ ab + b^2) = a^3 +/- b^3.</li><li>The degree of a product equals the sum of the degrees of the factors.</li></ul></div><div class="trap">Synthetic division only works for a LINEAR divisor (x − c) — you cannot use it to divide by a quadratic.</div><div class="trap">When using synthetic division for (x + 3), remember c = −3, not 3 — the sign flips from how the factor is written.</div><div class="trap">Even multiplicity means the graph TOUCHES the x-axis and bounces back, it does NOT cross through.</div><div class="trap">Assuming (a + b)^2 = a^2 + b^2 — it drops the middle term 2ab.</div><div class="formula">Remainder Theorem: P(x) ÷ (x−c) has remainder P(c)<br>Factor Theorem: (x−c) is a factor ⟺ P(c) = 0<br>Check: (divisor)(quotient) + remainder = dividend<br>Product degree = sum of factor degrees; (a+b)(a-b) = a^2 - b^2.</div><div class="diagram"><div class="dlabel">Diagram</div><svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg" width="100%">
 <line x1="30" y1="180" x2="340" y2="180" stroke="#999" stroke-width="1"/>
 <line x1="185" y1="15" x2="185" y2="195" stroke="#999" stroke-width="1"/>
@@ -646,6 +705,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <button class="diag-btn" id="diag-start-btn" onclick="startDiagnostic()"><svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><span id="diag-start-btn-label">Start Diagnostic — 2 questions per unit, finds your weak spots</span></button>
   <div class="q-bar">
     <select id="q-sel" aria-label="Choose a question set" onchange="loadQ()"></select>
+    <button class="btn" type="button" onclick="quizShuffle()" style="font-size:14px;padding:7px 14px">⇄ Shuffle</button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -870,6 +930,16 @@ if(scoreEl)scoreEl.textContent=`Score: ${examScores[part]||0} / ${pool.length}`;
 }
 
 
+// simple helper: re-typeset any $...$/$$...$$ math MathJax may find in
+// freshly-injected DOM. Existing guide content doesn't use LaTeX delimiters
+// yet (a follow-up content pass would be needed for this to visibly do
+// anything) — this just wires the rendering pipeline up for when it does.
+function ssTypeset(el){
+  if(window.MathJax&&window.MathJax.typesetPromise){
+    try{window.MathJax.typesetPromise(el?[el]:undefined);}catch(e){}
+  }
+}
+
 // GUIDE
 const SEARCH_BADGE={concept:'📖 Notes',flashcard:'📇 Flashcard',quiz:'❓ Quiz'};
 function searchGuide(){
@@ -878,7 +948,7 @@ function searchGuide(){
   document.querySelectorAll('.unit').forEach(u=>u.style.display='');
   document.getElementById('filter-row').style.display='flex';
   var _hl=document.getElementById('hero-live');
-  if(!q){sr.style.display='none';if(_hl)_hl.textContent='';return;}
+  if(!q){sr.classList.remove('show');sr.style.display='none';if(_hl)_hl.textContent='';return;}
   const matches=[];
   UNITS.forEach(u=>{
     u.concepts.forEach(c=>{
@@ -896,8 +966,8 @@ function searchGuide(){
     const text=(qq.q+' '+(qq.o||[]).join(' ')).toLowerCase();
     if(text.includes(q))matches.push({type:'quiz',unit:qq.u,unitName:unitName(qq.u),concept:'Quiz question',preview:qq.q.slice(0,120)});
   });
-  if(!matches.length){sr.style.display='block';sr.innerHTML='<div style="color:var(--ink-muted);font-size:14px;padding:8px">No results for "'+q+'"</div>';if(_hl)_hl.textContent='No results for '+q;return;}
-  sr.style.display='block';
+  if(!matches.length){sr.style.display='block';sr.classList.add('show');sr.innerHTML='<div style="color:var(--ink-muted);font-size:14px;padding:8px">No results for "'+q+'"</div>';if(_hl)_hl.textContent='No results for '+q;return;}
+  sr.style.display='block';sr.classList.add('show');
   if(_hl)_hl.textContent=matches.length+' result'+(matches.length===1?'':'s')+' for '+q;
   const jump=m=>m.type==='concept'?`jumpToUnit(${m.unit})`:m.type==='flashcard'?`jumpToFlashcardUnit(${m.unit})`:`jumpToQuizUnit(${m.unit})`;
   sr.innerHTML='<div style="font-size:13px;color:var(--ink-muted);margin-bottom:6px">'+matches.length+' result(s)</div>'+
@@ -908,6 +978,14 @@ function searchGuide(){
     </div>`).join('');
 }
 function clearSearch(){document.getElementById('search-box').value='';searchGuide();}
+document.addEventListener('keydown',function(e){
+  if(e.key!=='/')return;
+  var el=document.activeElement;
+  var tag=(el&&el.tagName)||'';
+  if(tag==='INPUT'||tag==='TEXTAREA'||(el&&el.isContentEditable))return;
+  var box=document.getElementById('search-box');
+  if(box){e.preventDefault();box.focus();}
+});
 function jumpToFlashcardUnit(id){
   clearSearch();
   switchTab('cards');
@@ -988,6 +1066,7 @@ function hydrateGuide(){
   });
 }
 if(document.getElementById('units').children.length===0){buildGuide();}else{hydrateGuide();}
+ssTypeset(document.getElementById('units'));
 
 // FLASHCARDS
 let fcDeck=[],fcIdx=0,fcFilterMode='all';
@@ -1076,6 +1155,7 @@ function buildExamples(){
     h+='</div>';
   });
   v.innerHTML=h;
+  ssTypeset(v);
 }
 function revealStep(id){
   const w=ex2map[id];const c=document.getElementById('ex2s-'+id);let n=ex2shown[id]||0;
@@ -1099,10 +1179,48 @@ window.__ssMasteryInstances = window.__ssMasteryInstances || [];
 function ssStartChemMastery(){
   SS_MASTERY = window.__ssCreateMastery('algebra2', UNITS.map(function(u){return u.id;}), UNITS.reduce(function(acc,u){acc[u.id]=u.name;return acc;},{}));
   window.__ssMasteryInstances.push(SS_MASTERY);
-  SS_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} try{ if(examplesBuilt) buildExamples(); }catch(e){} });
+  SS_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} try{ if(examplesBuilt) buildExamples(); }catch(e){} try{ ssOverallProgressUpdate(); }catch(e){} });
 }
 if (window.__ssCreateMastery) { ssStartChemMastery(); }
 else { window.addEventListener('ss-mastery-ready', ssStartChemMastery, { once: true }); }
+
+/* bookmarked question ids, kept separate from server-synced mastery state
+   (this is purely a local toggle-and-persist affordance, no filter UI yet) */
+var Q_BOOKMARK_KEY='ssBookmarks_'+'algebra2';
+function qBookmarkSet(){
+  try{return new Set(JSON.parse(localStorage.getItem(Q_BOOKMARK_KEY)||'[]'));}catch(e){return new Set();}
+}
+function qBookmarkToggle(qid){
+  var set=qBookmarkSet();
+  if(set.has(qid))set.delete(qid);else set.add(qid);
+  try{localStorage.setItem(Q_BOOKMARK_KEY,JSON.stringify(Array.from(set)));}catch(e){}
+  return set.has(qid);
+}
+function qId(q){return q.u+'|'+q.q;}
+
+function quizShuffle(){
+  if(!qPool.length)return;
+  for(let i=qPool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[qPool[i],qPool[j]]=[qPool[j],qPool[i]];}
+  qIdx=0;score=0;requeueCounts=new WeakMap();showQ();
+}
+
+function unitNameFor(unitId){const u=UNITS.find(x=>x.id===unitId);return u?u.name:'Unit '+unitId;}
+
+function ssOverallProgressUpdate(){
+  var fill=document.getElementById('ss-overall-progress-fill');
+  var label=document.getElementById('ss-overall-progress-label');
+  if(!fill||!label)return;
+  var total=(typeof QUIZ!=='undefined'?QUIZ.length:0);
+  if(!total){fill.parentElement.parentElement.style.display='none';return;}
+  var answered=0;
+  if(SS_MASTERY){
+    var mastery=SS_MASTERY.getSnapshot().mastery||{};
+    Object.keys(mastery).forEach(function(k){answered+=mastery[k].total||0;});
+  }
+  var pct=Math.max(0,Math.min(100,Math.round((answered/total)*100)));
+  fill.style.width=pct+'%';
+  label.textContent=pct+'% of the question bank attempted';
+}
 
 let diagMode=false;
 function ssHardQ(){return (typeof HARD_Q!=='undefined'&&Array.isArray(HARD_Q))?HARD_Q:[];}
@@ -1186,10 +1304,38 @@ function showQ(){
   const q=qPool[qIdx];
   document.getElementById('q-prog').textContent=`Q ${qIdx+1}/${qPool.length}`;
   document.getElementById('q-sc').textContent=`Score: ${score}`;
-  let h=`<div class="q-block"><div class="q-text">${q.q}</div><button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button><div class="q-opts">`;
-  q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">${opt}</button>`);
+  const bid=qId(q);
+  const bookmarked=qBookmarkSet().has(bid);
+  const STAR_OUTLINE='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
+  const STAR_FILLED='<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
+  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>`+
+    `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
+    `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
+    `<button class="q-hint-btn" id="q-hint-btn" onclick="toggleQHint()">💡 Hint</button>`+
+    `<div class="q-hint-box" id="q-hint-box">Hint: this is from Unit ${q.u}: ${unitNameFor(q.u)}</div>`+
+    `<div class="q-opts">`;
+  q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">`+
+    `<svg class="q-opt-icon icon-correct" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`+
+    `<svg class="q-opt-icon icon-wrong" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`+
+    `<span>${opt}</span></button>`);
   h+=`</div><div class="q-exp" id="q-exp">${q.e}</div><button class="q-next show" id="q-next" onclick="nextQ()" style="display:none">Next →</button></div>`;
   qb.innerHTML=h;
+  ssTypeset(qb);
+}
+function toggleQBookmark(){
+  const q=qPool[qIdx];if(!q)return;
+  const on=qBookmarkToggle(qId(q));
+  const btn=document.getElementById('q-bookmark');
+  if(!btn)return;
+  btn.classList.toggle('on',on);
+  btn.setAttribute('aria-pressed',String(on));
+  btn.setAttribute('aria-label',on?'Remove bookmark':'Bookmark this question');
+  btn.innerHTML=on?'<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>'
+    :'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
+}
+function toggleQHint(){
+  const box=document.getElementById('q-hint-box');
+  if(box)box.classList.toggle('show');
 }
 let guessFlag=false, guessedQs=[], guessedRight=0;
 function markGuess(){
@@ -1229,6 +1375,7 @@ function ansQ(i){
     }
   }
   if(SS_MASTERY)SS_MASTERY.recordAnswer(q.u,i===q.a);
+  ssOverallProgressUpdate();
   const expEl=document.getElementById('q-exp');
   expEl.classList.add('show');
   if(wasGuess){
@@ -1604,11 +1751,13 @@ async function cbotSend(e){
       spacer.hidden=false;
       nav.classList.add('nav-pinned');
       document.body.classList.add('nav-pinned');
+      document.documentElement.style.setProperty('--ss-nav-h',nav.offsetHeight+'px');
     }else{
       nav.classList.remove('nav-pinned');
       document.body.classList.remove('nav-pinned');
       spacer.hidden=true;
       spacer.style.height='0';
+      document.documentElement.style.setProperty('--ss-nav-h','0px');
     }
   }
   window.addEventListener('scroll',onScroll,{passive:true});

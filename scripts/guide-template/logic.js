@@ -97,6 +97,16 @@ if(scoreEl)scoreEl.textContent=`Score: ${examScores[part]||0} / ${pool.length}`;
 }
 
 
+// simple helper: re-typeset any $...$/$$...$$ math MathJax may find in
+// freshly-injected DOM. Existing guide content doesn't use LaTeX delimiters
+// yet (a follow-up content pass would be needed for this to visibly do
+// anything) — this just wires the rendering pipeline up for when it does.
+function ssTypeset(el){
+  if(window.MathJax&&window.MathJax.typesetPromise){
+    try{window.MathJax.typesetPromise(el?[el]:undefined);}catch(e){}
+  }
+}
+
 // GUIDE
 const SEARCH_BADGE={concept:'📖 Notes',flashcard:'📇 Flashcard',quiz:'❓ Quiz'};
 function searchGuide(){
@@ -105,7 +115,7 @@ function searchGuide(){
   document.querySelectorAll('.unit').forEach(u=>u.style.display='');
   document.getElementById('filter-row').style.display='flex';
   var _hl=document.getElementById('hero-live');
-  if(!q){sr.style.display='none';if(_hl)_hl.textContent='';return;}
+  if(!q){sr.classList.remove('show');sr.style.display='none';if(_hl)_hl.textContent='';return;}
   const matches=[];
   UNITS.forEach(u=>{
     u.concepts.forEach(c=>{
@@ -123,8 +133,8 @@ function searchGuide(){
     const text=(qq.q+' '+(qq.o||[]).join(' ')).toLowerCase();
     if(text.includes(q))matches.push({type:'quiz',unit:qq.u,unitName:unitName(qq.u),concept:'Quiz question',preview:qq.q.slice(0,120)});
   });
-  if(!matches.length){sr.style.display='block';sr.innerHTML='<div style="color:var(--ink-muted);font-size:14px;padding:8px">No results for "'+q+'"</div>';if(_hl)_hl.textContent='No results for '+q;return;}
-  sr.style.display='block';
+  if(!matches.length){sr.style.display='block';sr.classList.add('show');sr.innerHTML='<div style="color:var(--ink-muted);font-size:14px;padding:8px">No results for "'+q+'"</div>';if(_hl)_hl.textContent='No results for '+q;return;}
+  sr.style.display='block';sr.classList.add('show');
   if(_hl)_hl.textContent=matches.length+' result'+(matches.length===1?'':'s')+' for '+q;
   const jump=m=>m.type==='concept'?`jumpToUnit(${m.unit})`:m.type==='flashcard'?`jumpToFlashcardUnit(${m.unit})`:`jumpToQuizUnit(${m.unit})`;
   sr.innerHTML='<div style="font-size:13px;color:var(--ink-muted);margin-bottom:6px">'+matches.length+' result(s)</div>'+
@@ -135,6 +145,14 @@ function searchGuide(){
     </div>`).join('');
 }
 function clearSearch(){document.getElementById('search-box').value='';searchGuide();}
+document.addEventListener('keydown',function(e){
+  if(e.key!=='/')return;
+  var el=document.activeElement;
+  var tag=(el&&el.tagName)||'';
+  if(tag==='INPUT'||tag==='TEXTAREA'||(el&&el.isContentEditable))return;
+  var box=document.getElementById('search-box');
+  if(box){e.preventDefault();box.focus();}
+});
 function jumpToFlashcardUnit(id){
   clearSearch();
   switchTab('cards');
@@ -215,6 +233,7 @@ function hydrateGuide(){
   });
 }
 if(document.getElementById('units').children.length===0){buildGuide();}else{hydrateGuide();}
+ssTypeset(document.getElementById('units'));
 
 // FLASHCARDS
 let fcDeck=[],fcIdx=0,fcFilterMode='all';
@@ -303,6 +322,7 @@ function buildExamples(){
     h+='</div>';
   });
   v.innerHTML=h;
+  ssTypeset(v);
 }
 function revealStep(id){
   const w=ex2map[id];const c=document.getElementById('ex2s-'+id);let n=ex2shown[id]||0;
@@ -326,10 +346,48 @@ window.__ssMasteryInstances = window.__ssMasteryInstances || [];
 function ssStartChemMastery(){
   CHEM_MASTERY = window.__ssCreateMastery('apush', UNITS.map(function(u){return u.id;}), UNITS.reduce(function(acc,u){acc[u.id]=u.name;return acc;},{}));
   window.__ssMasteryInstances.push(CHEM_MASTERY);
-  CHEM_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} try{ if(examplesBuilt) buildExamples(); }catch(e){} });
+  CHEM_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} try{ if(examplesBuilt) buildExamples(); }catch(e){} try{ ssOverallProgressUpdate(); }catch(e){} });
 }
 if (window.__ssCreateMastery) { ssStartChemMastery(); }
 else { window.addEventListener('ss-mastery-ready', ssStartChemMastery, { once: true }); }
+
+/* bookmarked question ids, kept separate from server-synced mastery state
+   (this is purely a local toggle-and-persist affordance, no filter UI yet) */
+var Q_BOOKMARK_KEY='ssBookmarks_'+'apush';
+function qBookmarkSet(){
+  try{return new Set(JSON.parse(localStorage.getItem(Q_BOOKMARK_KEY)||'[]'));}catch(e){return new Set();}
+}
+function qBookmarkToggle(qid){
+  var set=qBookmarkSet();
+  if(set.has(qid))set.delete(qid);else set.add(qid);
+  try{localStorage.setItem(Q_BOOKMARK_KEY,JSON.stringify(Array.from(set)));}catch(e){}
+  return set.has(qid);
+}
+function qId(q){return q.u+'|'+q.q;}
+
+function quizShuffle(){
+  if(!qPool.length)return;
+  for(let i=qPool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[qPool[i],qPool[j]]=[qPool[j],qPool[i]];}
+  qIdx=0;score=0;requeueCounts=new WeakMap();showQ();
+}
+
+function unitNameFor(unitId){const u=UNITS.find(x=>x.id===unitId);return u?u.name:'Unit '+unitId;}
+
+function ssOverallProgressUpdate(){
+  var fill=document.getElementById('ss-overall-progress-fill');
+  var label=document.getElementById('ss-overall-progress-label');
+  if(!fill||!label)return;
+  var total=(typeof QUIZ!=='undefined'?QUIZ.length:0);
+  if(!total){fill.parentElement.parentElement.style.display='none';return;}
+  var answered=0;
+  if(CHEM_MASTERY){
+    var mastery=CHEM_MASTERY.getSnapshot().mastery||{};
+    Object.keys(mastery).forEach(function(k){answered+=mastery[k].total||0;});
+  }
+  var pct=Math.max(0,Math.min(100,Math.round((answered/total)*100)));
+  fill.style.width=pct+'%';
+  label.textContent=pct+'% of the question bank attempted';
+}
 
 let diagMode=false;
 function ssHardQ(){return (typeof HARD_Q!=='undefined'&&Array.isArray(HARD_Q))?HARD_Q:[];}
@@ -413,10 +471,38 @@ function showQ(){
   const q=qPool[qIdx];
   document.getElementById('q-prog').textContent=`Q ${qIdx+1}/${qPool.length}`;
   document.getElementById('q-sc').textContent=`Score: ${score}`;
-  let h=`<div class="q-block"><div class="q-text">${q.q}</div><button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button><div class="q-opts">`;
-  q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">${opt}</button>`);
+  const bid=qId(q);
+  const bookmarked=qBookmarkSet().has(bid);
+  const STAR_OUTLINE='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
+  const STAR_FILLED='<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
+  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>`+
+    `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
+    `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
+    `<button class="q-hint-btn" id="q-hint-btn" onclick="toggleQHint()">💡 Hint</button>`+
+    `<div class="q-hint-box" id="q-hint-box">Hint: this is from Unit ${q.u}: ${unitNameFor(q.u)}</div>`+
+    `<div class="q-opts">`;
+  q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">`+
+    `<svg class="q-opt-icon icon-correct" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`+
+    `<svg class="q-opt-icon icon-wrong" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`+
+    `<span>${opt}</span></button>`);
   h+=`</div><div class="q-exp" id="q-exp">${q.e}</div><button class="q-next show" id="q-next" onclick="nextQ()" style="display:none">Next →</button></div>`;
   qb.innerHTML=h;
+  ssTypeset(qb);
+}
+function toggleQBookmark(){
+  const q=qPool[qIdx];if(!q)return;
+  const on=qBookmarkToggle(qId(q));
+  const btn=document.getElementById('q-bookmark');
+  if(!btn)return;
+  btn.classList.toggle('on',on);
+  btn.setAttribute('aria-pressed',String(on));
+  btn.setAttribute('aria-label',on?'Remove bookmark':'Bookmark this question');
+  btn.innerHTML=on?'<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>'
+    :'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
+}
+function toggleQHint(){
+  const box=document.getElementById('q-hint-box');
+  if(box)box.classList.toggle('show');
 }
 let guessFlag=false, guessedQs=[], guessedRight=0;
 function markGuess(){
@@ -456,6 +542,7 @@ function ansQ(i){
     }
   }
   if(CHEM_MASTERY)CHEM_MASTERY.recordAnswer(q.u,i===q.a);
+  ssOverallProgressUpdate();
   const expEl=document.getElementById('q-exp');
   expEl.classList.add('show');
   if(wasGuess){
@@ -831,11 +918,13 @@ async function cbotSend(e){
       spacer.hidden=false;
       nav.classList.add('nav-pinned');
       document.body.classList.add('nav-pinned');
+      document.documentElement.style.setProperty('--ss-nav-h',nav.offsetHeight+'px');
     }else{
       nav.classList.remove('nav-pinned');
       document.body.classList.remove('nav-pinned');
       spacer.hidden=true;
       spacer.style.height='0';
+      document.documentElement.style.setProperty('--ss-nav-h','0px');
     }
   }
   window.addEventListener('scroll',onScroll,{passive:true});
