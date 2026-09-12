@@ -513,11 +513,22 @@ buildQSel();
   var daysEl=document.getElementById('spc-days');
   var minsEl=document.getElementById('spc-mins');
   if(!daysEl||!minsEl)return;
+  var daysNum=document.getElementById('spc-days-num');
+  var minsNum=document.getElementById('spc-mins-num');
+  var DAYS_DEFAULT=daysEl.value, MINS_DEFAULT=minsEl.value;
+  function setFill(el){
+    var min=parseFloat(el.min),max=parseFloat(el.max),val=parseFloat(el.value);
+    var pct=max>min?((val-min)/(max-min))*100:0;
+    el.style.setProperty('--fill',pct+'%');
+  }
+  function clamp(v,min,max){return Math.min(max,Math.max(min,v));}
   function update(){
     var days=parseInt(daysEl.value,10);
     var mins=parseInt(minsEl.value,10);
     document.getElementById('spc-days-val').textContent=days+(days===1?' day':' days');
-    document.getElementById('spc-mins-val').textContent=mins+' min';
+    if(daysNum)daysNum.value=days;
+    if(minsNum)minsNum.value=mins;
+    setFill(daysEl);setFill(minsEl);
     var totalMinutes=days*mins;
     var questions=Math.min(CHEM_TOTAL_Q,Math.round(totalMinutes/MIN_PER_Q));
     var pct=Math.min(100,Math.round((questions/CHEM_TOTAL_Q)*100));
@@ -528,19 +539,32 @@ buildQSel();
     var tier=document.getElementById('spc-tier');
     var title=document.getElementById('spc-tier-title');
     var sub=document.getElementById('spc-tier-sub');
+    tier.classList.remove('good','moderate','behind');
     if(pct>=90){
-      tier.style.background='var(--success-soft)';tier.style.color='var(--success)';
+      tier.classList.add('good');
       title.textContent='Exam Ready';sub.textContent="You'll work through the full question bank before test day.";
     }else if(pct>=50){
-      tier.style.background='var(--accent-soft)';tier.style.color='var(--accent-ink)';
+      tier.classList.add('moderate');
       title.textContent='On Track';sub.textContent='Solid coverage — keep this pace going.';
     }else{
-      tier.style.background='var(--surface-2)';tier.style.color='var(--ink-muted)';
+      tier.classList.add('behind');
       title.textContent='Just Getting Started';sub.textContent='Add a few more minutes a day to cover more ground before your exam.';
     }
   }
   daysEl.addEventListener('input',update);
   minsEl.addEventListener('input',update);
+  if(daysNum)daysNum.addEventListener('change',function(){
+    daysEl.value=clamp(parseInt(daysNum.value,10)||parseInt(daysEl.min,10),parseInt(daysEl.min,10),parseInt(daysEl.max,10));
+    update();
+  });
+  if(minsNum)minsNum.addEventListener('change',function(){
+    minsEl.value=clamp(parseInt(minsNum.value,10)||parseInt(minsEl.min,10),parseInt(minsEl.min,10),parseInt(minsEl.max,10));
+    update();
+  });
+  var resetBtn=document.getElementById('spc-reset-btn');
+  if(resetBtn)resetBtn.addEventListener('click',function(){
+    daysEl.value=DAYS_DEFAULT;minsEl.value=MINS_DEFAULT;update();
+  });
   update();
 })();
 
@@ -770,19 +794,52 @@ async function cbotSend(e){
 /* study session timer in the nav */
 (function(){
   var nav=document.querySelector('.hero .nav');if(!nav)return;
+  var ICON_PLAY='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg>';
+  var ICON_PAUSE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>';
+  var ICON_RESET='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 17 5"/><polyline points="21 3 21 9 15 9"/></svg>';
   var d=document.createElement('div');d.id='sg-timer';
-  d.innerHTML='<span id="sgt-time">00:00</span><button class="sgt-b" id="sgt-btn" aria-label="start or pause study timer">▶</button><button class="sgt-b" id="sgt-reset" aria-label="reset study timer">↺</button>';
+  d.innerHTML='<span class="sgt-label">Study timer</span><span id="sgt-time">00:00</span>'+
+    '<button class="sgt-b" id="sgt-btn" aria-label="start or pause study timer">'+ICON_PLAY+'</button>'+
+    '<button class="sgt-b" id="sgt-reset" aria-label="reset study timer">'+ICON_RESET+'</button>';
   nav.appendChild(d);
   var sec=0,run=false,iv=null;
   function fmt(s){var h=Math.floor(s/3600),m=Math.floor((s%3600)/60),ss=s%60;
     return (h?h+':':'')+String(m).padStart(2,'0')+':'+String(ss).padStart(2,'0');}
   document.getElementById('sgt-btn').onclick=function(){
-    run=!run;this.textContent=run?'⏸':'▶';
+    run=!run;this.innerHTML=run?ICON_PAUSE:ICON_PLAY;this.setAttribute('aria-label',run?'pause study timer':'start study timer');
     if(run){iv=setInterval(function(){sec++;var el=document.getElementById('sgt-time');if(el)el.textContent=fmt(sec);},1000);}
     else clearInterval(iv);
   };
   document.getElementById('sgt-reset').onclick=function(){sec=0;clearInterval(iv);run=false;
-    document.getElementById('sgt-btn').textContent='▶';document.getElementById('sgt-time').textContent='00:00';};
+    var btn=document.getElementById('sgt-btn');btn.innerHTML=ICON_PLAY;btn.setAttribute('aria-label','start or pause study timer');
+    document.getElementById('sgt-time').textContent='00:00';};
+})();
+
+/* sticky nav: pin the hero tab row once the hero scrolls out of view */
+(function(){
+  var nav=document.querySelector('.hero .nav');
+  var spacer=document.getElementById('nav-spacer');
+  if(!nav||!spacer)return;
+  var pinned=false;
+  function onScroll(){
+    var heroBottom=nav.closest('.hero').getBoundingClientRect().bottom;
+    var shouldPin=heroBottom<0;
+    if(shouldPin===pinned)return;
+    pinned=shouldPin;
+    if(pinned){
+      spacer.style.height=nav.offsetHeight+'px';
+      spacer.hidden=false;
+      nav.classList.add('nav-pinned');
+      document.body.classList.add('nav-pinned');
+    }else{
+      nav.classList.remove('nav-pinned');
+      document.body.classList.remove('nav-pinned');
+      spacer.hidden=true;
+      spacer.style.height='0';
+    }
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  onScroll();
 })();
 
 function ssToggleTheme(){

@@ -2,10 +2,20 @@
 <a class="skip-link" href="#main-content">Skip to main content</a>
 <div class="hero">
   <div class="hero-inner">
-    <a href="/" class="back-link" style="opacity:0;animation:fadein .5s ease forwards">← Back to Library</a>
-    <div class="kicker" style="opacity:0;animation:fadein .5s ease .06s forwards">APUSH</div>
+    <nav class="breadcrumb" aria-label="Breadcrumb" style="opacity:0;animation:fadein .5s ease forwards">
+      <ol>
+        <li><a href="/">PrecisStudy</a></li>
+        <li><a href="/">All Guides</a></li>
+        <li aria-current="page">APUSH Study Guide</li>
+      </ol>
+    </nav>
+    <div class="kicker" style="opacity:0;animation:fadein .5s ease .06s forwards">
+      <img src="/logo-icon-dark.png" alt="" class="kicker-logo" width="20" height="20">
+      <span>APUSH</span>
+    </div>
     <h1 style="opacity:0;animation:fadein .5s ease .12s forwards"><span class="grad">APUSH</span> Study Guide</h1>
     <p class="subtitle" style="opacity:0;animation:fadein .5s ease .18s forwards">9 Units · 137 Quiz Questions · 72 Flashcards · Diagnostic · Full Reference Tables · Diagrams · Saved Progress</p>
+    <div class="nav-slot" id="nav-slot">
     <nav class="nav" style="opacity:0;animation:fadein .5s ease .24s forwards">
       <div class="tablist" role="tablist" aria-label="Study guide views">
       <button class="tab-btn active" role="tab" id="tab-guide" aria-controls="view-guide" aria-selected="true" onclick="switchTab('guide')">Study Guide</button>
@@ -21,6 +31,8 @@
         <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
       </button>
     </nav>
+    </div>
     <div class="hero-live sr-only" id="hero-live" role="status" aria-live="polite"></div>
   </div>
 </div>
+<div class="nav-spacer" id="nav-spacer" hidden></div>

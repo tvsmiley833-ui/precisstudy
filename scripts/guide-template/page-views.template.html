@@ -1,25 +1,56 @@
 <div class="page" id="main-content" role="main" tabindex="-1">
-<div class="spc-card" id="spc-card">
-  <h2>See what your study plan could look like</h2>
-  <p>Based on this guide's real question bank — __SPC_INTRO__</p>
+<div class="spc-card collapsed" id="spc-card">
+  <button type="button" class="spc-summary" id="spc-summary" aria-expanded="false" aria-controls="spc-body">
+    <span>📊 See what your study plan could look like — tap to expand</span>
+    <span class="spc-chevron" aria-hidden="true">▾</span>
+  </button>
+  <div class="spc-body" id="spc-body">
+  <div class="spc-head">
+    <div class="spc-head-text">
+      <h2>See what your study plan could look like</h2>
+      <p>Based on this guide's real question bank — __SPC_INTRO__</p>
+    </div>
+    <button type="button" class="spc-collapse-btn" id="spc-collapse-btn" aria-expanded="true" aria-controls="spc-body">Collapse ▴</button>
+  </div>
   <div class="spc-row">
-    <label for="spc-days">Days until your exam <span id="spc-days-val">14 days</span></label>
+    <label for="spc-days">Days until your exam <span id="spc-days-val">14 days</span> <input type="number" class="spc-val-input" id="spc-days-num" min="1" max="60" value="14" aria-label="Days until your exam, exact number"></label>
     <input type="range" class="spc-slider" id="spc-days" min="1" max="60" value="14">
   </div>
   <div class="spc-row">
-    <label for="spc-mins">Minutes you can study per day <span id="spc-mins-val">30 min</span></label>
+    <label for="spc-mins">Minutes you can study per day <span id="spc-mins-val">30 min</span> <input type="number" class="spc-val-input" id="spc-mins-num" min="10" max="120" step="5" value="30" aria-label="Minutes you can study per day, exact number"></label>
     <input type="range" class="spc-slider" id="spc-mins" min="10" max="120" value="30" step="5">
   </div>
   <div class="spc-stats">
-    <div class="spc-stat"><div class="spc-stat-val" id="spc-questions">0</div><div class="spc-stat-label">Questions you'll complete</div></div>
-    <div class="spc-stat"><div class="spc-stat-val" id="spc-units">0</div><div class="spc-stat-label">Units covered</div></div>
-    <div class="spc-stat"><div class="spc-stat-val" id="spc-pct">0%</div><div class="spc-stat-label">of the full question bank</div></div>
+    <div class="spc-stat"><div class="spc-stat-val" id="spc-questions">0</div><div class="spc-stat-label" title="The total number of quiz questions you'll get through at this pace before your exam date.">Questions you'll complete</div></div>
+    <div class="spc-stat"><div class="spc-stat-val" id="spc-units">0</div><div class="spc-stat-label" title="How many of this guide's units you'll have covered at this pace.">Units covered</div></div>
+    <div class="spc-stat"><div class="spc-stat-val" id="spc-pct">0%</div><div class="spc-stat-label" title="Percentage of every question in this guide's bank you'll get through at this pace.">of the full question bank</div></div>
   </div>
   <div class="spc-tier" id="spc-tier">
     <b id="spc-tier-title"></b>
     <span id="spc-tier-sub"></span>
   </div>
+  <button type="button" class="spc-reset-btn" id="spc-reset-btn">↺ Reset to Recommended</button>
+  </div>
 </div>
+<script>
+(function(){
+  var card=document.getElementById('spc-card');
+  var summary=document.getElementById('spc-summary');
+  var collapseBtn=document.getElementById('spc-collapse-btn');
+  var KEY='ss-spc-collapsed';
+  function setCollapsed(collapsed){
+    card.classList.toggle('collapsed',collapsed);
+    summary.setAttribute('aria-expanded',String(!collapsed));
+    collapseBtn.setAttribute('aria-expanded',String(!collapsed));
+    try{localStorage.setItem(KEY,collapsed?'1':'0');}catch(e){}
+  }
+  var stored=null;
+  try{stored=localStorage.getItem(KEY);}catch(e){}
+  setCollapsed(stored===null?true:stored==='1');
+  summary.addEventListener('click',function(){setCollapsed(false);});
+  collapseBtn.addEventListener('click',function(){setCollapsed(true);});
+})();
+</script>
 <div id="view-guide" class="view active" role="tabpanel" aria-labelledby="tab-guide" tabindex="0">
   <div style="display:flex;gap:8px;margin-bottom:10px;align-items:center">
     <input id="search-box" type="search" aria-label="Search this guide's topics, terms, and formulas" placeholder="Search topics, terms, formulas…" oninput="searchGuide()" style="flex:1;padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:15px;background:var(--surface);color:var(--ink)">
