@@ -172,6 +172,32 @@ html{scroll-behavior:smooth}
       </div>
       <div id="push-status" style="margin-top:12px;font-size:13px;color:var(--text-muted);"></div>
     </div>
+
+    <div class="ss-card" id="google-card" style="margin-top:20px;">
+      <div style="font-weight:800;font-size:17px;color:var(--text);margin-bottom:4px;">Connected accounts</div>
+      <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">
+        Connect Google to pull your Classroom assignments and calendar due-dates into one list.
+      </p>
+      <div id="google-status" style="font-size:13px;color:var(--text-muted);margin-bottom:12px;"></div>
+
+      <div id="google-disconnected">
+        <a id="google-connect-btn" class="ss-oauth-btn" style="width:auto;display:inline-flex;padding:10px 20px;text-decoration:none;" href="/auth/google/connect/start?next=/settings">Connect Google</a>
+      </div>
+
+      <div id="google-connected" style="display:none;">
+        <p style="font-size:13px;color:var(--text-muted);margin:0 0 12px;">Connected as <b id="google-email"></b></p>
+        <label style="display:flex;gap:8px;align-items:center;font-size:14px;color:var(--text);margin-bottom:12px;">
+          <input type="checkbox" id="google-schoolwork-only"> Only show schoolwork on my list
+        </label>
+        <div style="font-size:13px;color:var(--text-muted);margin-bottom:6px;">Calendars to include:</div>
+        <div id="google-calendar-list" style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px;"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button id="google-save-btn" style="width:auto;padding:10px 20px;">Save</button>
+          <button id="google-disconnect-btn" class="ss-oauth-btn" style="width:auto;padding:10px 20px;margin-bottom:0;">Disconnect</button>
+        </div>
+        <div id="google-save-status" style="margin-top:10px;font-size:13px;color:var(--text-muted);"></div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -519,6 +545,88 @@ function ssToggleTheme(){
     try { localStorage.setItem('ss-theme', 'dark'); } catch (e) {}
   }
 }
+</script>
+<script>
+(function(){
+  function qs(id){ return document.getElementById(id); }
+
+  function readStatusFlag(){
+    var p = new URLSearchParams(location.search).get('google');
+    if(!p) return;
+    var map = {
+      connected: 'Google connected.',
+      error: 'Could not connect Google — please try again.',
+      norefresh: 'Google did not return offline access. Remove PrecisStudy at myaccount.google.com/permissions, then connect again.'
+    };
+    var el = qs('google-status');
+    if(el && map[p]){ el.textContent = map[p]; }
+    history.replaceState(null, '', '/settings');
+  }
+
+  async function loadGoogleCard(){
+    readStatusFlag();
+    var settings;
+    try {
+      var sres = await fetch('/api/google/settings');
+      if(sres.status === 401) return; // not signed in; the gate handles it
+      settings = await sres.json();
+    } catch(e){ return; }
+
+    var calRes;
+    try { calRes = await (await fetch('/api/google/calendars')).json(); }
+    catch(e){ calRes = { connected: false, calendars: [] }; }
+
+    var connected = !!calRes.connected;
+    qs('google-disconnected').style.display = connected ? 'none' : 'block';
+    qs('google-connected').style.display = connected ? 'block' : 'none';
+    if(!connected) return;
+
+    qs('google-schoolwork-only').checked = settings.schoolworkOnly !== false;
+
+    var chosen = new Set(settings.calendarIds || ['primary']);
+    var list = qs('google-calendar-list');
+    list.innerHTML = '';
+    var cals = calRes.calendars || [];
+    if(!cals.length){
+      list.innerHTML = '<span style="font-size:13px;color:var(--text-muted);">No calendars found.</span>';
+    }
+    cals.forEach(function(c){
+      var row = document.createElement('label');
+      row.style.cssText = 'display:flex;gap:8px;align-items:center;font-size:14px;color:var(--text);';
+      var cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.value = c.id;
+      cb.checked = chosen.has(c.id);
+      row.appendChild(cb);
+      row.appendChild(document.createTextNode(c.summary + (c.primary ? ' (primary)' : '')));
+      list.appendChild(row);
+    });
+  }
+
+  document.addEventListener('click', async function(e){
+    if(e.target && e.target.id === 'google-save-btn'){
+      var ids = Array.prototype.slice.call(document.querySelectorAll('#google-calendar-list input:checked')).map(function(i){ return i.value; });
+      if(!ids.length) ids = ['primary'];
+      var status = qs('google-save-status');
+      status.textContent = 'Saving…';
+      try {
+        var res = await fetch('/api/google/settings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ calendarIds: ids, schoolworkOnly: qs('google-schoolwork-only').checked })
+        });
+        status.textContent = res.ok ? 'Saved.' : 'Could not save.';
+      } catch(err){ status.textContent = 'Could not save.'; }
+    }
+    if(e.target && e.target.id === 'google-disconnect-btn'){
+      e.target.disabled = true;
+      try { await fetch('/api/google/disconnect', { method: 'POST' }); } catch(err){}
+      location.href = '/settings';
+    }
+  });
+
+  window.addEventListener('load', function(){ setTimeout(loadGoogleCard, 0); });
+})();
 </script>
 </body>
 </html>
