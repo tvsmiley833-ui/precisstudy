@@ -210,7 +210,7 @@ function buildJsonLd(config, description) {
 
 export function generateGuide(config) {
   const { slug, title, accentColor, units, quiz, flashcards,
-          examParts, masteryKey } = config;
+          examParts, masteryKey, officialReferenceUrl, officialReferenceLabel } = config;
   const worked = Array.isArray(config.workedExamples) ? config.workedExamples : [];
   const hardQ = Array.isArray(config.hardQuiz) ? config.hardQuiz : [];
 
@@ -376,6 +376,12 @@ export function generateGuide(config) {
     parts: examMetaParts,
   };
   html += `const EXAM_META=${js(examMeta)};\n`;
+  // Optional link (not a copy) to the real official reference/formula sheet
+  // for guides that map to an actual standardized test (AP, Regents, SAT).
+  // A hyperlink to the testing organization's own hosted PDF carries no
+  // copyright risk (unlike reproducing the document itself, which their
+  // terms prohibit) and always shows their current, correct version.
+  html += `const OFFICIAL_REFERENCE=${js(officialReferenceUrl ? { url: officialReferenceUrl, label: officialReferenceLabel || "Official Reference Sheet" } : null)};\n`;
   // logic.js's buildExam() injects this into a <style> tag on first render;
   // it must be defined before logic.js runs.
   html += `const EXAM_CSS=${js(templateExamCss)};\n`;

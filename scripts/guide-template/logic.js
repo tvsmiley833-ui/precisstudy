@@ -1240,6 +1240,9 @@ function toolkitInit(){
   if(DESMOS_API_KEY){
     item('Calculator','<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M8 6V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1"/><path d="M3 12h18"/><path d="M10 12v2M14 12v2"/></svg>',desmosToggle);
   }
+  if(typeof OFFICIAL_REFERENCE!=='undefined'&&OFFICIAL_REFERENCE){
+    item(OFFICIAL_REFERENCE.label,'<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M9 15h6M9 11h2"/></svg>',function(){window.open(OFFICIAL_REFERENCE.url,'_blank','noopener');});
+  }
 
   fab.onclick=toolkitToggle;
   document.body.appendChild(menu);
