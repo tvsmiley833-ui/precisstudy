@@ -1140,17 +1140,6 @@ const DESMOS_API_KEY = "8479496f50ff414cac31c105094c403c";
 let desmosScriptLoaded=false, desmosCalculator=null;
 function desmosInit(){
   if(!DESMOS_API_KEY)return;
-  var fab=document.createElement('button');
-  fab.id='desmos-fab';
-  fab.className='desmos-fab';
-  fab.type='button';
-  fab.setAttribute('aria-label','Toggle graphing calculator');
-  fab.setAttribute('aria-expanded','false');
-  fab.title='Graphing calculator';
-  fab.textContent='\u{1F4C8}';
-  fab.onclick=desmosToggle;
-  document.body.appendChild(fab);
-
   var panel=document.createElement('div');
   panel.id='desmos-panel';
   panel.className='desmos-panel';
@@ -1191,7 +1180,110 @@ function desmosLoadScript(){
   };
   document.head.appendChild(s);
 }
+/* The AI Study Helper's panel (#cbot-panel and children) is referenced by
+   id throughout cbotToggle()/cbotSend()/etc. above, but no template file
+   ever emits that markup as static HTML — inject it once here so those
+   existing functions have something to operate on. */
+function cbotPanelInit(){
+  if(document.getElementById('cbot-panel'))return;
+  var panel=document.createElement('div');
+  panel.id='cbot-panel';
+  panel.innerHTML='<div class="cbot-hd"><b>Study Helper</b>'+
+    '<button id="cbot-settings-btn" onclick="cbotToggleSettings()" title="AI connection settings">'+
+      '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82A1.65 1.65 0 0 0 3 13.09H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>'+
+    '<button type="button" onclick="cbotToggle()" aria-label="Close study helper">✕</button></div>'+
+    '<div id="cbot-settings">'+
+      '<div class="cbot-hint">By default this searches the guide itself — no setup needed. Paste your OmniRoute API key below to enable open-ended AI answers, routed through your local OmniRoute server. Stored only in this browser (localStorage), never in this file.</div>'+
+      '<label for="cbot-key">OmniRoute API key</label>'+
+      '<input id="cbot-key" type="password" placeholder="sk-…"/>'+
+      '<div class="cbot-set-row"><button class="primary" onclick="cbotSaveSettings()">Save</button><button onclick="cbotClearSettings()">Clear</button></div>'+
+    '</div>'+
+    '<div id="cbot-msgs"></div>'+
+    '<form id="cbot-form" onsubmit="return cbotSend(event)">'+
+      '<input id="cbot-input" type="text" placeholder="Ask about a term or concept…" autocomplete="off"/>'+
+      '<button type="submit" aria-label="Send">➤</button>'+
+    '</form>';
+  document.body.appendChild(panel);
+}
+
+/* Consolidated "toolkit" FAB: one floating button that pops open a small
+   speed-dial menu of the individual tools (Quick Reference, AI Study
+   Helper, and — only when configured — the Desmos calculator), instead of
+   each tool having its own separate floating button. */
+function toolkitInit(){
+  var fab=document.createElement('button');
+  fab.type='button';
+  fab.id='toolkit-fab';
+  fab.className='toolkit-fab';
+  fab.setAttribute('aria-label','Open study toolkit');
+  fab.setAttribute('aria-expanded','false');
+  fab.title='Study toolkit';
+  fab.innerHTML='<svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M8 6V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1"/><path d="M3 12h18"/><path d="M10 12v2M14 12v2"/></svg>';
+
+  var menu=document.createElement('div');
+  menu.id='toolkit-menu';
+  menu.className='toolkit-menu';
+  menu.setAttribute('role','menu');
+
+  function item(label,svg,onClick){
+    var b=document.createElement('button');
+    b.type='button';
+    b.className='toolkit-item';
+    b.setAttribute('role','menuitem');
+    b.innerHTML=svg+'<span>'+label+'</span>';
+    b.onclick=function(){ toolkitClose(); toolkitCloseAllPanels(); onClick(); };
+    menu.appendChild(b);
+  }
+
+  item('Quick Reference','<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',qrefDrawerToggle);
+  item('AI Study Helper','<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>',cbotToggle);
+  if(DESMOS_API_KEY){
+    item('Calculator','<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M8 6V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1"/><path d="M3 12h18"/><path d="M10 12v2M14 12v2"/></svg>',desmosToggle);
+  }
+
+  fab.onclick=toolkitToggle;
+  document.body.appendChild(menu);
+  document.body.appendChild(fab);
+}
+/* The AI helper and calculator panels share the same anchor point (docked
+   under the single toolkit FAB) so only one may be open at a time — force
+   the others closed before the requested one's own toggle runs. */
+function toolkitCloseAllPanels(){
+  qrefDrawerClose();
+  var cbot=document.getElementById('cbot-panel');
+  if(cbot)cbot.classList.remove('open');
+  var desmos=document.getElementById('desmos-panel');
+  if(desmos){desmos.classList.remove('open');desmos.setAttribute('aria-hidden','true');}
+}
+function toolkitToggle(){
+  var menu=document.getElementById('toolkit-menu');
+  if(menu&&menu.classList.contains('open'))toolkitClose();else toolkitOpen();
+}
+function toolkitOpen(){
+  var menu=document.getElementById('toolkit-menu'),fab=document.getElementById('toolkit-fab');
+  if(!menu||!fab)return;
+  menu.classList.add('open');
+  fab.setAttribute('aria-expanded','true');
+  document.addEventListener('keydown',toolkitKeydown);
+  document.addEventListener('click',toolkitOutsideClick,true);
+}
+function toolkitClose(){
+  var menu=document.getElementById('toolkit-menu'),fab=document.getElementById('toolkit-fab');
+  if(!menu||!menu.classList.contains('open'))return;
+  menu.classList.remove('open');
+  if(fab)fab.setAttribute('aria-expanded','false');
+  document.removeEventListener('keydown',toolkitKeydown);
+  document.removeEventListener('click',toolkitOutsideClick,true);
+}
+function toolkitKeydown(e){if(e.key==='Escape')toolkitClose();}
+function toolkitOutsideClick(e){
+  var menu=document.getElementById('toolkit-menu'),fab=document.getElementById('toolkit-fab');
+  if(menu&&!menu.contains(e.target)&&fab&&!fab.contains(e.target))toolkitClose();
+}
+
 desmosInit();
+cbotPanelInit();
+toolkitInit();
 
 /* ----- unit-filtered practice, e.g. /chemistry?practice=3 (from the dashboard's "study this next") ----- */
 (async function ssPracticeMode(){

@@ -434,11 +434,8 @@ input[type=range].spc-slider::-moz-range-progress{background:var(--accent);heigh
 .mem-d{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);line-height:1.6}
 .mem-d b{color:var(--ink)}
 
-#cbot-fab{position:fixed;bottom:22px;right:22px;width:56px;height:56px;border-radius:50%;
-  background:var(--accent);color:#fff;border:none;font-size:39px;cursor:pointer;
-  box-shadow:0 8px 24px -6px rgba(15,122,112,.4);z-index:200;display:flex;align-items:center;
-  justify-content:center;transition:transform .15s ease}
-#cbot-fab:hover{transform:scale(1.06)}
+/* The AI Study Helper is opened from the toolkit menu (no separate FAB of
+   its own — see .toolkit-fab/.toolkit-menu above). */
 #cbot-panel{position:fixed;bottom:88px;right:22px;width:min(360px,calc(100vw - 32px));
   height:min(520px,calc(100dvh - 120px));background:var(--surface);border:1px solid var(--border-strong);
   border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:200;
@@ -524,15 +521,31 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 .back-to-top:hover{color:var(--ink);border-color:var(--accent)}
 .back-to-top svg{width:20px;height:20px;display:block}
 
-/* ---- reference drawer: quick-access companion to the Quick Reference tab,
-   reachable from any tab. Sits bottom-center, clear of back-to-top
-   (bottom:22/left:22..74) and #cbot-fab (bottom:22/right:22..78). ---- */
-.qref-drawer-fab{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);width:52px;height:52px;
-  border-radius:50%;background:var(--surface);color:var(--ink-muted);border:1px solid var(--border-strong);
-  cursor:pointer;box-shadow:var(--shadow-md);z-index:190;display:flex;align-items:center;justify-content:center;
-  transition:color .15s ease,border-color .15s ease}
-.qref-drawer-fab:hover{color:var(--accent);border-color:var(--accent)}
-.qref-drawer-fab svg{width:20px;height:20px;display:block}
+/* ---- study toolkit: one floating FAB (bottom-right, clear of back-to-top
+   at bottom-left) that pops open a small speed-dial menu of the individual
+   tools below, instead of each tool having its own separate floating
+   button. ---- */
+.toolkit-fab{position:fixed;bottom:22px;right:22px;width:56px;height:56px;border-radius:50%;
+  background:var(--accent);color:#fff;border:none;cursor:pointer;
+  box-shadow:0 8px 24px -6px rgba(15,122,112,.4);z-index:220;display:flex;align-items:center;justify-content:center;
+  transition:transform .15s ease}
+.toolkit-fab:hover{transform:scale(1.06)}
+.toolkit-fab[aria-expanded="true"]{transform:rotate(15deg)}
+.toolkit-menu{position:fixed;bottom:88px;right:22px;z-index:219;display:flex;flex-direction:column;gap:8px;
+  align-items:flex-end;opacity:0;visibility:hidden;transform:translateY(8px);pointer-events:none;
+  transition:opacity .18s ease,transform .18s ease,visibility 0s linear .18s}
+.toolkit-menu.open{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto;
+  transition:opacity .18s ease,transform .18s ease}
+.toolkit-item{display:flex;align-items:center;gap:9px;padding:9px 16px 9px 12px;border-radius:999px;
+  background:var(--surface);color:var(--ink);border:1px solid var(--border-strong);cursor:pointer;
+  box-shadow:var(--shadow-md);font-family:'Inter',sans-serif;font-size:14px;font-weight:600;white-space:nowrap}
+.toolkit-item:hover{border-color:var(--accent);color:var(--accent-ink)}
+.toolkit-item svg{flex-shrink:0}
+@media(max-width:600px){
+  .toolkit-fab{right:16px;bottom:16px}
+  .toolkit-menu{right:16px;bottom:80px}
+}
+
 .qref-drawer{position:fixed;top:0;right:0;height:100dvh;width:min(420px,100vw);background:var(--surface);
   border-left:1px solid var(--border-strong);box-shadow:var(--shadow-lg);z-index:210;display:flex;flex-direction:column;
   transform:translateX(100%);opacity:0;visibility:hidden;transition:transform .25s ease,opacity .25s ease,visibility 0s linear .25s}
@@ -549,15 +562,11 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 
 /* ---- optional Desmos graphing calculator (see DESMOS_API_KEY in logic.js).
    Markup is only ever created by JS when a key is configured, so this CSS
-   has no visible effect until then. Placed clear of #cbot-fab (right:22..78). ---- */
-.desmos-fab{position:fixed;bottom:22px;right:90px;width:52px;height:52px;border-radius:50%;
-  background:var(--accent);color:#fff;border:none;font-size:22px;cursor:pointer;
-  box-shadow:0 8px 24px -6px rgba(15,122,112,.4);z-index:195;display:flex;align-items:center;justify-content:center;
-  transition:transform .15s ease}
-.desmos-fab:hover{transform:scale(1.06)}
-.desmos-panel{position:fixed;bottom:88px;right:90px;width:min(380px,calc(100vw - 32px));
+   has no visible effect until then. Opened from the toolkit menu, so it
+   anchors under the single toolkit FAB (bottom:22/right:22). ---- */
+.desmos-panel{position:fixed;bottom:88px;right:22px;width:min(380px,calc(100vw - 32px));
   height:min(420px,calc(100dvh - 160px));background:var(--surface);border:1px solid var(--border-strong);
-  border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:205;display:none;flex-direction:column;overflow:hidden}
+  border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:225;display:none;flex-direction:column;overflow:hidden}
 .desmos-panel.open{display:flex}
 .desmos-panel-hd{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--border);background:var(--surface-2)}
 .desmos-panel-hd b{font-family:'Space Grotesk';font-size:18px;color:var(--ink);flex:1}
@@ -565,7 +574,6 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 .desmos-panel-close:hover{color:var(--ink);background:var(--surface-hover)}
 .desmos-calc{flex:1;width:100%;height:100%}
 @media(max-width:600px){
-  .desmos-fab{right:22px;bottom:82px}
   .desmos-panel{right:12px;bottom:144px}
 }
 
@@ -583,7 +591,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
   body{background:#fff;color:#000}
   body::before,.hero::after{display:none!important}
   #theme-toggle,.search-wrap,.ss-sticky-top .filter-row-wrap,.mobile-only-select,.nav,.nav-spacer,.tablist,
-  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.qref-drawer-fab,.qref-drawer,.desmos-fab,.desmos-panel,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
+  #spc-card,#cbot-panel,.back-to-top,.toolkit-fab,.toolkit-menu,.qref-drawer,.desmos-panel,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
   .search-kbd,.ss-overall-progress,.q-kbd-hint,.diag-btn{display:none!important}
   *{position:static!important;box-shadow:none!important}
   .unit-body{display:block!important}
@@ -928,9 +936,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 </div>
 <button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
   <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
-</button>
-<button type="button" id="qref-drawer-fab" class="qref-drawer-fab" onclick="qrefDrawerToggle()" aria-label="Open quick reference" aria-expanded="false" aria-controls="qref-drawer" title="Quick Reference">
-  <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
 </button>
 <div id="qref-drawer" class="qref-drawer" role="dialog" aria-modal="true" aria-label="Quick Reference" aria-hidden="true">
   <div class="qref-drawer-hd">
@@ -2094,17 +2099,6 @@ const DESMOS_API_KEY = "8479496f50ff414cac31c105094c403c";
 let desmosScriptLoaded=false, desmosCalculator=null;
 function desmosInit(){
   if(!DESMOS_API_KEY)return;
-  var fab=document.createElement('button');
-  fab.id='desmos-fab';
-  fab.className='desmos-fab';
-  fab.type='button';
-  fab.setAttribute('aria-label','Toggle graphing calculator');
-  fab.setAttribute('aria-expanded','false');
-  fab.title='Graphing calculator';
-  fab.textContent='\u{1F4C8}';
-  fab.onclick=desmosToggle;
-  document.body.appendChild(fab);
-
   var panel=document.createElement('div');
   panel.id='desmos-panel';
   panel.className='desmos-panel';
@@ -2145,7 +2139,110 @@ function desmosLoadScript(){
   };
   document.head.appendChild(s);
 }
+/* The AI Study Helper's panel (#cbot-panel and children) is referenced by
+   id throughout cbotToggle()/cbotSend()/etc. above, but no template file
+   ever emits that markup as static HTML — inject it once here so those
+   existing functions have something to operate on. */
+function cbotPanelInit(){
+  if(document.getElementById('cbot-panel'))return;
+  var panel=document.createElement('div');
+  panel.id='cbot-panel';
+  panel.innerHTML='<div class="cbot-hd"><b>Study Helper</b>'+
+    '<button id="cbot-settings-btn" onclick="cbotToggleSettings()" title="AI connection settings">'+
+      '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82A1.65 1.65 0 0 0 3 13.09H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>'+
+    '<button type="button" onclick="cbotToggle()" aria-label="Close study helper">✕</button></div>'+
+    '<div id="cbot-settings">'+
+      '<div class="cbot-hint">By default this searches the guide itself — no setup needed. Paste your OmniRoute API key below to enable open-ended AI answers, routed through your local OmniRoute server. Stored only in this browser (localStorage), never in this file.</div>'+
+      '<label for="cbot-key">OmniRoute API key</label>'+
+      '<input id="cbot-key" type="password" placeholder="sk-…"/>'+
+      '<div class="cbot-set-row"><button class="primary" onclick="cbotSaveSettings()">Save</button><button onclick="cbotClearSettings()">Clear</button></div>'+
+    '</div>'+
+    '<div id="cbot-msgs"></div>'+
+    '<form id="cbot-form" onsubmit="return cbotSend(event)">'+
+      '<input id="cbot-input" type="text" placeholder="Ask about a term or concept…" autocomplete="off"/>'+
+      '<button type="submit" aria-label="Send">➤</button>'+
+    '</form>';
+  document.body.appendChild(panel);
+}
+
+/* Consolidated "toolkit" FAB: one floating button that pops open a small
+   speed-dial menu of the individual tools (Quick Reference, AI Study
+   Helper, and — only when configured — the Desmos calculator), instead of
+   each tool having its own separate floating button. */
+function toolkitInit(){
+  var fab=document.createElement('button');
+  fab.type='button';
+  fab.id='toolkit-fab';
+  fab.className='toolkit-fab';
+  fab.setAttribute('aria-label','Open study toolkit');
+  fab.setAttribute('aria-expanded','false');
+  fab.title='Study toolkit';
+  fab.innerHTML='<svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M8 6V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1"/><path d="M3 12h18"/><path d="M10 12v2M14 12v2"/></svg>';
+
+  var menu=document.createElement('div');
+  menu.id='toolkit-menu';
+  menu.className='toolkit-menu';
+  menu.setAttribute('role','menu');
+
+  function item(label,svg,onClick){
+    var b=document.createElement('button');
+    b.type='button';
+    b.className='toolkit-item';
+    b.setAttribute('role','menuitem');
+    b.innerHTML=svg+'<span>'+label+'</span>';
+    b.onclick=function(){ toolkitClose(); toolkitCloseAllPanels(); onClick(); };
+    menu.appendChild(b);
+  }
+
+  item('Quick Reference','<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',qrefDrawerToggle);
+  item('AI Study Helper','<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>',cbotToggle);
+  if(DESMOS_API_KEY){
+    item('Calculator','<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M8 6V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1"/><path d="M3 12h18"/><path d="M10 12v2M14 12v2"/></svg>',desmosToggle);
+  }
+
+  fab.onclick=toolkitToggle;
+  document.body.appendChild(menu);
+  document.body.appendChild(fab);
+}
+/* The AI helper and calculator panels share the same anchor point (docked
+   under the single toolkit FAB) so only one may be open at a time — force
+   the others closed before the requested one's own toggle runs. */
+function toolkitCloseAllPanels(){
+  qrefDrawerClose();
+  var cbot=document.getElementById('cbot-panel');
+  if(cbot)cbot.classList.remove('open');
+  var desmos=document.getElementById('desmos-panel');
+  if(desmos){desmos.classList.remove('open');desmos.setAttribute('aria-hidden','true');}
+}
+function toolkitToggle(){
+  var menu=document.getElementById('toolkit-menu');
+  if(menu&&menu.classList.contains('open'))toolkitClose();else toolkitOpen();
+}
+function toolkitOpen(){
+  var menu=document.getElementById('toolkit-menu'),fab=document.getElementById('toolkit-fab');
+  if(!menu||!fab)return;
+  menu.classList.add('open');
+  fab.setAttribute('aria-expanded','true');
+  document.addEventListener('keydown',toolkitKeydown);
+  document.addEventListener('click',toolkitOutsideClick,true);
+}
+function toolkitClose(){
+  var menu=document.getElementById('toolkit-menu'),fab=document.getElementById('toolkit-fab');
+  if(!menu||!menu.classList.contains('open'))return;
+  menu.classList.remove('open');
+  if(fab)fab.setAttribute('aria-expanded','false');
+  document.removeEventListener('keydown',toolkitKeydown);
+  document.removeEventListener('click',toolkitOutsideClick,true);
+}
+function toolkitKeydown(e){if(e.key==='Escape')toolkitClose();}
+function toolkitOutsideClick(e){
+  var menu=document.getElementById('toolkit-menu'),fab=document.getElementById('toolkit-fab');
+  if(menu&&!menu.contains(e.target)&&fab&&!fab.contains(e.target))toolkitClose();
+}
+
 desmosInit();
+cbotPanelInit();
+toolkitInit();
 
 /* ----- unit-filtered practice, e.g. /chemistry?practice=3 (from the dashboard's "study this next") ----- */
 (async function ssPracticeMode(){
