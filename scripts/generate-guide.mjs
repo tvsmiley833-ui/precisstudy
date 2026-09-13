@@ -366,7 +366,11 @@ export function generateGuide(config) {
   }
   const examMeta = {
     title: examMetaCfg.title || `${title} — Full Practice Exam`,
-    subtitle: Object.values(examMetaParts)
+    // Guides that only use 2 of the 4 exam-part slots (e.g. two SAT modules,
+    // not four APUSH-style parts) shouldn't advertise the two empty ones.
+    subtitle: ["PART_A", "PART_B1", "PART_B2", "PART_C"]
+      .filter(part => examPartQs[part].length > 0)
+      .map(part => examMetaParts[part])
       .map(p => `${p.title.replace(/\s*—.*$/, "")} (${p.points} pt${p.points === 1 ? "" : "s"})`)
       .join(" · "),
     parts: examMetaParts,

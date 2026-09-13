@@ -936,6 +936,7 @@ function examPartMeta(id){return (EXAM_META&&EXAM_META.parts&&EXAM_META.parts['P
 function exTimerHtml(id){return examPartMeta(id).minutes?`<span class="ex-timer" id="timer-${id}"></span>`:'';}
 
 function buildPartMC(id,qs){
+if(!qs.length)return'';
 const meta=examPartMeta(id);
 const items=qs.map(q=>`
 <div class="ex-q" id="exq-${id}-${q.n}">
@@ -955,6 +956,7 @@ return `<div class="ex-part" id="ex-part-${id}">
 }
 
 function buildPartFR(id,qs){
+if(!qs.length)return'';
 // Some guides author these as genuine free-response (q.sa, a model answer to
 // reveal); others reuse the multiple-choice shape (q.o/q.a) for this part.
 // Render whichever shape the data actually has instead of assuming sa exists.
