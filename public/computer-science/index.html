@@ -273,6 +273,16 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .q-block:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .q-block-hd{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px}
 .q-text{font-size:24.8px;font-weight:600;color:var(--ink);line-height:1.55;flex:1}
+.q-diff{flex:none;display:inline-block;padding:3px 11px;border-radius:999px;font-size:13px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;border:1px solid transparent;align-self:flex-start;margin-top:2px}
+.q-diff-easy{background:var(--success-soft);color:var(--success);border-color:var(--success-border)}
+.q-diff-medium{background:var(--amber-soft);color:var(--amber-ink);border-color:var(--amber)}
+.q-diff-hard{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}
+.q-topic{font-size:14.5px;color:var(--ink-dim);margin:-14px 0 14px;font-style:italic}
+.mistake-log-btn{position:relative}
+.mistake-log-count{display:inline-block;margin-left:6px;background:var(--danger);color:#fff;border-radius:999px;
+  font-size:12px;font-weight:700;padding:1px 7px}
+.mistake-log-empty{padding:24px;text-align:center;color:var(--ink-muted);font-size:18px}
 .q-bookmark{flex:none;background:none;border:none;cursor:pointer;color:var(--ink-dim);padding:2px;border-radius:6px;transition:color .15s ease,transform .15s ease}
 .q-bookmark:hover{color:var(--amber);transform:scale(1.08)}
 .q-bookmark.on{color:var(--amber)}
@@ -514,6 +524,51 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 .back-to-top:hover{color:var(--ink);border-color:var(--accent)}
 .back-to-top svg{width:20px;height:20px;display:block}
 
+/* ---- reference drawer: quick-access companion to the Quick Reference tab,
+   reachable from any tab. Sits bottom-center, clear of back-to-top
+   (bottom:22/left:22..74) and #cbot-fab (bottom:22/right:22..78). ---- */
+.qref-drawer-fab{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);width:52px;height:52px;
+  border-radius:50%;background:var(--surface);color:var(--ink-muted);border:1px solid var(--border-strong);
+  cursor:pointer;box-shadow:var(--shadow-md);z-index:190;display:flex;align-items:center;justify-content:center;
+  transition:color .15s ease,border-color .15s ease}
+.qref-drawer-fab:hover{color:var(--accent);border-color:var(--accent)}
+.qref-drawer-fab svg{width:20px;height:20px;display:block}
+.qref-drawer{position:fixed;top:0;right:0;height:100dvh;width:min(420px,100vw);background:var(--surface);
+  border-left:1px solid var(--border-strong);box-shadow:var(--shadow-lg);z-index:210;display:flex;flex-direction:column;
+  transform:translateX(100%);opacity:0;visibility:hidden;transition:transform .25s ease,opacity .25s ease,visibility 0s linear .25s}
+.qref-drawer.open{transform:translateX(0);opacity:1;visibility:visible;transition:transform .25s ease,opacity .25s ease}
+.qref-drawer-hd{display:flex;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--surface-2);flex-shrink:0}
+.qref-drawer-hd b{font-family:'Space Grotesk';font-size:20px;color:var(--ink);flex:1}
+.qref-drawer-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:6px 8px;border-radius:6px}
+.qref-drawer-close:hover{color:var(--ink);background:var(--surface-hover)}
+.qref-drawer-body{flex:1;overflow-y:auto;padding:16px}
+.qref-drawer-body .qr-section:not(:last-child){margin-bottom:20px}
+@media(max-width:600px){
+  .qref-drawer{width:100vw}
+}
+
+/* ---- optional Desmos graphing calculator (see DESMOS_API_KEY in logic.js).
+   Markup is only ever created by JS when a key is configured, so this CSS
+   has no visible effect until then. Placed clear of #cbot-fab (right:22..78). ---- */
+.desmos-fab{position:fixed;bottom:22px;right:90px;width:52px;height:52px;border-radius:50%;
+  background:var(--accent);color:#fff;border:none;font-size:22px;cursor:pointer;
+  box-shadow:0 8px 24px -6px rgba(15,122,112,.4);z-index:195;display:flex;align-items:center;justify-content:center;
+  transition:transform .15s ease}
+.desmos-fab:hover{transform:scale(1.06)}
+.desmos-panel{position:fixed;bottom:88px;right:90px;width:min(380px,calc(100vw - 32px));
+  height:min(420px,calc(100dvh - 160px));background:var(--surface);border:1px solid var(--border-strong);
+  border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:205;display:none;flex-direction:column;overflow:hidden}
+.desmos-panel.open{display:flex}
+.desmos-panel-hd{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+.desmos-panel-hd b{font-family:'Space Grotesk';font-size:18px;color:var(--ink);flex:1}
+.desmos-panel-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:4px 6px;border-radius:6px}
+.desmos-panel-close:hover{color:var(--ink);background:var(--surface-hover)}
+.desmos-calc{flex:1;width:100%;height:100%}
+@media(max-width:600px){
+  .desmos-fab{right:22px;bottom:82px}
+  .desmos-panel{right:12px;bottom:144px}
+}
+
 /* ---- print / export ---- */
 @media print{
   :root,[data-theme="dark"]{
@@ -528,7 +583,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
   body{background:#fff;color:#000}
   body::before,.hero::after{display:none!important}
   #theme-toggle,.search-wrap,.ss-sticky-top .filter-row-wrap,.mobile-only-select,.nav,.nav-spacer,.tablist,
-  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
+  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.qref-drawer-fab,.qref-drawer,.desmos-fab,.desmos-panel,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
   .search-kbd,.ss-overall-progress,.q-kbd-hint,.diag-btn{display:none!important}
   *{position:static!important;box-shadow:none!important}
   .unit-body{display:block!important}
@@ -707,6 +762,13 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <div class="q-bar">
     <select id="q-sel" aria-label="Choose a question set" onchange="loadQ()"></select>
     <button class="btn" type="button" onclick="quizShuffle()" style="font-size:14px;padding:7px 14px">⇄ Shuffle</button>
+    <div class="diff-chips" role="group" aria-label="Filter by difficulty" style="display:flex;gap:6px">
+      <button class="chip on diff-chip" type="button" data-diff="all" onclick="setDifficultyFilter('all')">All</button>
+      <button class="chip diff-chip" type="button" data-diff="easy" onclick="setDifficultyFilter('easy')">Easy</button>
+      <button class="chip diff-chip" type="button" data-diff="medium" onclick="setDifficultyFilter('medium')">Medium</button>
+      <button class="chip diff-chip" type="button" data-diff="hard" onclick="setDifficultyFilter('hard')">Hard</button>
+    </div>
+    <button class="btn mistake-log-btn" type="button" onclick="openMistakeLog()">Mistake Log<span class="mistake-log-count" id="mistake-log-count" style="display:none">0</span></button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -867,6 +929,16 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
   <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
 </button>
+<button type="button" id="qref-drawer-fab" class="qref-drawer-fab" onclick="qrefDrawerToggle()" aria-label="Open quick reference" aria-expanded="false" aria-controls="qref-drawer" title="Quick Reference">
+  <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+</button>
+<div id="qref-drawer" class="qref-drawer" role="dialog" aria-modal="true" aria-label="Quick Reference" aria-hidden="true">
+  <div class="qref-drawer-hd">
+    <b>Quick Reference</b>
+    <button type="button" class="qref-drawer-close" onclick="qrefDrawerToggle()" aria-label="Close quick reference">✕</button>
+  </div>
+  <div class="qref-drawer-body" id="qref-drawer-body"></div>
+</div>
 <script>
 const UNITS=[{"id":1,"name":"Computing Basics & Binary","concepts":[{"l":"What a Computer Actually Does","intro":"A computer is a machine that stores and manipulates data as electrical signals, following a stored program of instructions.","b":["The CPU (central processing unit) fetches, decodes, and executes instructions one step at a time","RAM (memory) holds the program and data currently in use; it is fast but erased when power is lost","Storage (SSD/hard drive) holds data permanently, even without power","Input devices (keyboard, mouse, sensors) bring data in; output devices (screen, speaker) send results out","The fetch-decode-execute cycle repeats billions of times per second, measured in Hertz (clock speed)"]},{"l":"Binary: The Language of Computers","intro":"Computers represent all data using binary (base-2), a number system with only two digits: 0 and 1, because transistors are easiest to build as simple on/off switches.","b":["A single binary digit (0 or 1) is called a bit","8 bits grouped together form a byte, the basic unit of storage (e.g., one character)","Each bit position represents a power of 2: 1, 2, 4, 8, 16, 32, 64, 128...","To convert binary to decimal, add the powers of 2 where there is a 1 (e.g., 1011 = 8+0+2+1 = 11)","To convert decimal to binary, repeatedly divide by 2 and record the remainders","Everything digital — text, images, sound, video — is ultimately stored as sequences of bits"]},{"l":"Hexadecimal and Other Number Systems","intro":"Hexadecimal (base-16) is a compact way to represent binary values, since each hex digit maps exactly to 4 bits.","b":["Hex uses digits 0-9 and letters A-F, where A=10, B=11, C=12, D=13, E=14, F=15","One hex digit represents exactly 4 bits (a 'nibble'), so 2 hex digits represent one byte","Hex is commonly used for colors (#FF0000 = red), memory addresses, and error codes","To convert hex to binary, translate each hex digit into its 4-bit binary equivalent","Decimal (base-10) is what humans normally use; computers use binary internally for hardware simplicity"]},{"l":"How Data Is Represented","intro":"Different kinds of data (numbers, text, images, sound) are all encoded into binary using agreed-upon schemes.","b":["ASCII assigns each English letter, digit, and symbol a number from 0-127, stored as a byte","Unicode (like UTF-8) extends this to represent characters from virtually every language and emoji","Images are stored as grids of pixels, each pixel's color encoded as binary RGB values","Sound is captured by sampling the wave thousands of times per second and storing each sample as a number","File size depends on how much data is stored: more pixels, higher sample rates, or longer text mean larger files"]},{"l":"Hardware Components","intro":"A computer's physical hardware works together, with each component playing a specialized role in processing information.","b":["CPU: executes instructions; measured in GHz (clock speed) and number of cores","RAM: temporary, volatile working memory; more RAM lets more programs run smoothly at once","Storage (SSD/HDD): permanent, non-volatile; SSDs are faster than traditional spinning hard disks","Motherboard: connects all components together and lets them communicate","GPU: specialized processor originally for graphics, now also used for parallel computations like AI"]},{"l":"Operating Systems and Software","intro":"The operating system (OS) is software that manages hardware resources and provides a platform for other programs to run.","b":["Examples of operating systems: Windows, macOS, Linux, Android, iOS","The OS manages memory allocation, scheduling which program uses the CPU, and file storage","System software (like the OS) supports the computer itself; application software (like a browser) helps users do tasks","A file system organizes how data is stored and retrieved from storage devices","Drivers are small programs that let the OS communicate with specific hardware devices"]}],"keyFacts":["1 byte = 8 bits; 1 kilobyte (KB) ≈ 1000 bytes; 1 megabyte (MB) ≈ 1,000,000 bytes","Binary 1011 = decimal 11; decimal 25 = binary 11001","ASCII uses 7-8 bits per character; UTF-8 can use 1-4 bytes per character to support all languages","Moore's Law observed that transistor counts (and roughly computing power) doubled about every two years"],"traps":["RAM is temporary/volatile working memory, not permanent storage — data in RAM is lost when power is off","A byte is 8 bits, not 10 bits — binary place values are powers of 2, not powers of 10","The CPU executes instructions; it is the GPU, not the CPU, that is optimized for massively parallel tasks like graphics","Hexadecimal is a human-friendly shorthand for binary, not a separate system computers use internally — hardware still stores everything in binary"]},{"id":2,"name":"Programming Fundamentals","concepts":[{"l":"Variables and Data Types","intro":"A variable is a named storage location that holds a value which can change while a program runs; every value has a data type that determines what operations are valid on it.","b":["Common data types: integer (whole numbers), float/double (decimals), string (text), boolean (true/false)","A variable is created (declared) with a name and often an initial value, e.g., age = 16","Variable names should be descriptive and follow naming rules (no spaces, can't start with a digit)","Type matters: adding two integers gives a number, but adding two strings concatenates (joins) them","Some languages require declaring the type explicitly (statically typed); others infer it automatically (dynamically typed)"]},{"l":"Operators and Expressions","intro":"Operators combine values and variables into expressions that produce a result, covering arithmetic, comparison, and logic.","b":["Arithmetic operators: + (add), - (subtract), * (multiply), / (divide), % (modulo/remainder)","Comparison operators: == (equal), != (not equal), <, >, <=, >= — these produce a boolean result","Logical operators: AND, OR, NOT combine boolean expressions (e.g., age >= 13 AND age <= 19)","Order of operations (PEMDAS-like precedence) applies: multiplication/division before addition/subtraction","The assignment operator (=) stores a value into a variable; it is different from the equality operator (==)"]},{"l":"Input, Output, and Program Structure","intro":"Programs typically follow a pattern of receiving input, processing it, and producing output, structured as a sequence of statements executed in order.","b":["Output statements (like print) display information to the user","Input statements collect data from the user, often read in as a string that may need converting to a number","A statement is a single instruction; a program is a sequence of statements executed top to bottom by default","Comments (e.g., starting with # or //) are ignored by the computer but help humans understand code","Syntax errors occur when code doesn't follow a language's grammar rules and won't run at all"]},{"l":"Debugging and Errors","intro":"Errors (bugs) are inevitable in programming; recognizing the type of error is the first step to fixing it.","b":["Syntax errors: code violates the language's grammar rules (e.g., missing a colon or parenthesis)","Runtime errors: code is valid but fails while running (e.g., dividing by zero, opening a missing file)","Logic errors: code runs without crashing but produces the wrong result due to flawed reasoning","Debugging strategies include reading error messages carefully, using print statements to trace values, and testing small pieces separately","A debugger is a tool that lets you pause execution and inspect variable values step by step"]},{"l":"Writing Readable, Reliable Code","intro":"Good programming style makes code easier to read, test, and maintain, both for yourself and others.","b":["Use meaningful variable and function names instead of single letters like x or temp","Keep consistent indentation to show code structure (especially important in Python)","Break repeated logic into functions rather than copy-pasting the same code multiple times","Test code with a range of inputs, including edge cases like zero, negative numbers, or empty strings","Version control (like Git) tracks changes to code over time and allows collaboration"]},{"l":"Programming Paradigms and Languages","intro":"Programming languages provide different tools and styles for expressing solutions, but most fundamentals transfer between them.","b":["Popular beginner languages include Python, JavaScript, and Java, each with different syntax but similar core concepts","A compiler translates entire source code into machine code before running; an interpreter executes code line by line","High-level languages (like Python) are closer to human language; low-level languages (like assembly) are closer to hardware","Procedural programming organizes code as a sequence of steps/functions; object-oriented programming organizes code around objects with data and behavior","Libraries and frameworks provide pre-written code so programmers don't have to solve common problems from scratch"]}],"keyFacts":["The modulo operator (%) returns the remainder of division, e.g., 7 % 2 = 1","In most languages, = assigns a value while == checks for equality","Python uses indentation to define code blocks; languages like Java use curly braces {}","A compiler translates code before execution; an interpreter translates and runs it line-by-line"],"traps":["= is assignment (stores a value), not ==, which is comparison (checks equality)","A syntax error prevents code from running at all; a logic error lets code run but produces a wrong answer, not a crash","Concatenating strings with + joins text together, not adds numbers — '2' + '2' gives '22' in many languages, not 4","Compiled and interpreted are about when/how code is translated, not about which language is 'better' — both approaches are valid"]},{"id":3,"name":"Control Flow & Functions","concepts":[{"l":"Conditionals (if/else)","intro":"Conditionals let a program make decisions, executing different code depending on whether a condition is true or false.","b":["An if statement runs a block of code only when its condition evaluates to true","else runs when the if condition is false; else if (or elif) checks an additional condition","Conditions are boolean expressions, often built with comparison operators (==, <, >, etc.)","Nested conditionals place an if statement inside another to check multiple layers of logic","Only one branch of an if/elif/else chain executes per run, not multiple"]},{"l":"Loops: For and While","intro":"Loops let a program repeat a block of code multiple times without rewriting it, controlled by a counter or a condition.","b":["A for loop typically repeats a fixed or known number of times, often iterating over a range or collection","A while loop repeats as long as a condition remains true, useful when the number of repetitions isn't known in advance","An infinite loop happens when the loop's condition never becomes false — a common bug to watch for","break exits a loop immediately; continue skips to the next iteration without finishing the current one","Loop variables (like i in 'for i in range(10)') track progress through the repetition"]},{"l":"Functions and Parameters","intro":"A function is a reusable, named block of code that performs a task, optionally accepting inputs (parameters) and returning an output.","b":["Defining a function specifies its name, parameters, and the code it runs when called","Calling a function executes its code, passing in specific values called arguments","A return statement sends a value back to wherever the function was called, ending the function","Parameters are placeholders in the function definition; arguments are the actual values passed in when calling","Functions with no explicit return statement typically return a special 'nothing' value (e.g., None in Python)"]},{"l":"Scope","intro":"Scope determines where in a program a variable can be accessed, which prevents naming conflicts and controls how data flows.","b":["A local variable is defined inside a function and can only be used within that function","A global variable is defined outside all functions and can be accessed from anywhere in the program","Variables with the same name in different scopes are treated as entirely separate variables","Using too many global variables can make code harder to debug, since any function might change them","When a function ends, its local variables are typically destroyed and no longer accessible"]},{"l":"Combining Control Flow","intro":"Real programs combine conditionals, loops, and functions together to build more complex, useful behavior.","b":["A loop can contain a conditional inside it to make decisions on each iteration (e.g., check each item in a list)","A function can contain loops and conditionals inside its body to perform complex logic","Recursion is when a function calls itself to solve a smaller version of the same problem, eventually reaching a base case","Every recursive function needs a base case (a stopping condition) or it will run forever, similar to an infinite loop","Tracing through code step-by-step (mentally or on paper) helps verify control flow logic works as intended"]},{"l":"Common Patterns and Pitfalls","intro":"Certain patterns in control flow appear repeatedly across programs, along with common mistakes beginners make.","b":["Accumulator pattern: use a variable (like total = 0) that updates inside a loop to build up a result","Off-by-one errors happen when a loop runs one time too many or too few, often from range/index miscounting","Forgetting to update a loop's counter or condition variable can cause an infinite loop","Comparing floats for exact equality can be unreliable due to how decimals are stored in binary","Testing loops and conditionals with boundary values (like 0, the first item, or the last item) catches many bugs"]}],"keyFacts":["An if/elif/else chain executes exactly one branch per run, never more than one","A for loop is best when the number of repetitions is known; a while loop is best when it depends on a condition","Every function call with a return statement produces a value that can be stored or used elsewhere","A recursive function must have a base case to avoid infinite recursion"],"traps":["break exits the loop entirely; continue skips only the current iteration and keeps looping — they are not the same","Parameters are the names in a function's definition; arguments are the actual values passed in when calling it","A local variable inside a function is not accessible outside it, even though a global variable with a similar name might exist","An infinite loop is a bug caused by a condition that never becomes false, not an intentional feature"]},{"id":4,"name":"Data Structures Intro","concepts":[{"l":"Arrays and Lists","intro":"An array (or list) stores multiple values together in a single ordered collection, each accessible by a numeric index.","b":["Indexing typically starts at 0, so the first element is at index 0, the second at index 1, and so on","Arrays have a fixed size in many languages, while lists (like Python lists) can grow or shrink dynamically","Common operations include accessing an element by index, adding an element, removing an element, and searching","Accessing an element by index is fast (constant time), but searching for a value without knowing its index is slower","A 2D array (array of arrays) can represent grids, like a tic-tac-toe board or a spreadsheet"]},{"l":"Stacks and Queues","intro":"Stacks and queues are ordered collections that restrict how you add and remove elements, following specific access patterns.","b":["A stack follows LIFO (Last In, First Out): the most recently added item is the first one removed","Stack operations are called push (add to top) and pop (remove from top); think of a stack of plates","A queue follows FIFO (First In, First Out): the first item added is the first one removed","Queue operations are called enqueue (add to back) and dequeue (remove from front); think of a checkout line","Stacks are used for undo functionality and function call tracking; queues are used for task scheduling and print jobs"]},{"l":"Dictionaries / Hash Maps","intro":"A dictionary (also called a hash map or associative array) stores data as key-value pairs, letting you look up a value quickly using a unique key instead of a numeric index.","b":["Each key in a dictionary must be unique; the value it maps to can be any data type, including another data structure","Looking up a value by its key is typically very fast (close to constant time) due to hashing","Common uses include storing a phone book (name to number), counting word frequency, or caching results","Unlike arrays, dictionaries are generally not ordered by position (though some modern languages preserve insertion order)","A hash function converts a key into an index internally, which is how fast lookups are achieved"]},{"l":"Sets","intro":"A set is a collection that stores only unique values, with no duplicates and typically no guaranteed order.","b":["Adding a duplicate value to a set has no effect — the set still contains only one copy","Sets support operations like union (combine), intersection (common elements), and difference (elements in one but not another)","Checking whether a value exists in a set is typically very fast, similar to a dictionary lookup","Sets are useful for removing duplicates from a collection or quickly testing membership","Unlike a list, a set does not let you access elements by a numeric index"]},{"l":"Trees and Graphs (Introductory)","intro":"Trees and graphs are structures used to represent hierarchical or interconnected data, going beyond simple linear sequences.","b":["A tree consists of nodes connected by edges, starting from a root node, with each node having child nodes below it","A binary tree restricts each node to at most two children, often labeled left and right","A graph is a more general structure of nodes (vertices) connected by edges, which can represent networks like social connections or maps","Trees are used to represent file systems, organizational charts, and decision-making processes","Graphs can be 'directed' (edges have a one-way direction) or 'undirected' (edges go both ways)"]},{"l":"Choosing the Right Data Structure","intro":"Different data structures have different strengths, and choosing the right one depends on what operations your program needs to perform efficiently.","b":["Use an array/list when order matters and you need to access items by position","Use a stack when you need to process the most recently added item first (like undo history)","Use a queue when you need to process items in the order they arrived (like a task queue)","Use a dictionary when you need fast lookups by a meaningful key rather than a position","Use a set when you need to guarantee uniqueness or quickly check if something exists in a collection"]}],"keyFacts":["Arrays/lists are zero-indexed in most programming languages: the first element is at index 0","Stack = LIFO (Last In, First Out); Queue = FIFO (First In, First Out)","Dictionary lookups by key are typically much faster than searching an unsorted list for a value","A set automatically eliminates duplicate values"],"traps":["A stack is LIFO, not FIFO — the last item added is the first removed, unlike a queue","Accessing an array element by index is fast; searching for a value's position without an index is slower, especially in an unsorted array","Dictionaries are not guaranteed to be ordered by position the way arrays are (even if some languages preserve insertion order as an implementation detail)","A tree is a specific, hierarchical type of graph (no cycles, one root), not a completely separate unrelated concept from graphs"]},{"id":5,"name":"Algorithms & Problem Solving","concepts":[{"l":"What Is an Algorithm?","intro":"An algorithm is a precise, step-by-step procedure for solving a problem or completing a task, which a computer can follow exactly.","b":["An algorithm must be unambiguous: each step must have exactly one clear meaning","An algorithm must eventually terminate (finish), unlike an infinite loop","The same problem can often be solved by multiple different algorithms, some more efficient than others","Pseudocode is an informal, human-readable way to describe an algorithm's steps before writing real code","A good algorithm should work correctly for all valid inputs, not just the examples it was designed for"]},{"l":"Searching Algorithms","intro":"Searching algorithms find whether (and where) a target value exists within a collection of data.","b":["Linear search checks each element one at a time from the start until it finds the target or reaches the end","Linear search works on unsorted data but can be slow for large collections since it may check every element","Binary search repeatedly cuts a sorted collection in half, comparing the middle element to the target","Binary search requires the data to be sorted first, but is much faster than linear search on large datasets","Binary search eliminates half the remaining possibilities with each comparison, making it very efficient"]},{"l":"Sorting Algorithms","intro":"Sorting algorithms arrange data into a specific order (like ascending numbers or alphabetical order), which is often a prerequisite for efficient searching.","b":["Bubble sort repeatedly compares adjacent elements and swaps them if they're out of order, passing through the list multiple times","Selection sort repeatedly finds the smallest remaining element and moves it to its correct position","Bubble sort and selection sort are simple to understand but slow on large datasets compared to more advanced algorithms","Merge sort divides the data in half repeatedly, sorts each half, then merges the sorted halves back together (a 'divide and conquer' approach)","More advanced sorting algorithms (like merge sort or quicksort) scale much better to large amounts of data than simple sorts"]},{"l":"Big-O Notation: Measuring Efficiency","intro":"Big-O notation describes how an algorithm's running time (or memory use) grows as the size of its input grows, allowing comparison of efficiency independent of hardware.","b":["O(1) — constant time: the operation takes the same amount of time regardless of input size (e.g., accessing an array element by index)","O(n) — linear time: time grows proportionally with input size (e.g., linear search checking every element once)","O(log n) — logarithmic time: time grows very slowly as input grows, by repeatedly cutting the problem in half (e.g., binary search)","O(n²) — quadratic time: time grows with the square of input size, often from nested loops over the same data (e.g., bubble sort)","Big-O focuses on the worst-case (or general) growth trend for large inputs, not exact timing on any one computer"]},{"l":"Problem-Solving Strategies","intro":"Effective problem solving in computer science often follows a repeatable process: understand, plan, implement, and test.","b":["Break a large problem into smaller, more manageable subproblems (decomposition)","Look for patterns: has a similar problem been solved before, or can this be reduced to a known problem?","Abstraction means focusing on the important details of a problem while ignoring irrelevant complexity","Write pseudocode or draw a diagram/flowchart before jumping straight into code","Test your solution with simple cases first, then edge cases (like empty input or very large input)"]},{"l":"Algorithm Design Trade-offs","intro":"Choosing an algorithm often involves trade-offs between speed, memory usage, and simplicity, rather than one single 'best' choice.","b":["A faster algorithm may use more memory (a common time-versus-space trade-off)","A simpler algorithm may be easier to write correctly but slower than a more complex, optimized one","For small inputs, a simple algorithm's inefficiency may not matter in practice","For large inputs, choosing an efficient algorithm (like binary search over linear search) can make a huge practical difference","Real-world engineering often favors 'good enough and correct' over 'theoretically fastest but error-prone'"]}],"keyFacts":["Binary search requires sorted data and runs in O(log n) time, much faster than linear search's O(n) for large datasets","Bubble sort and selection sort run in O(n²) time, making them inefficient for large datasets","Big-O notation describes how runtime grows with input size, not the exact number of seconds a program takes","Decomposition (breaking a problem into smaller parts) is a foundational problem-solving strategy in computer science"],"traps":["Binary search only works on sorted data — running it on unsorted data gives incorrect results","O(log n) is much faster than O(n) for large inputs, not slower — logarithmic growth is very slow-growing, which is good","Big-O describes growth trends for large inputs, not a literal count of seconds or a guarantee about small inputs","An algorithm that works on the example given isn't automatically correct — it must be verified against edge cases and all valid inputs"]},{"id":6,"name":"Web & Internet How It Works","concepts":[{"l":"The Internet vs. the Web","intro":"The internet is a global network of interconnected computers, while the World Wide Web is a system of linked documents (websites) that runs on top of that network.","b":["The internet is the physical/logical infrastructure: cables, routers, satellites, and protocols connecting devices worldwide","The Web (WWW) is one application that uses the internet, alongside others like email and file transfer","A network is any group of connected devices that can share data; the internet is a 'network of networks'","Data on the internet travels in small chunks called packets, which are reassembled at the destination","The internet has no single owner; it operates through cooperating networks following shared standard protocols"]},{"l":"IP Addresses and DNS","intro":"Every device on the internet needs a unique address to send and receive data, and a naming system to make those addresses human-friendly.","b":["An IP address (like 192.168.1.1) is a numeric label uniquely identifying a device on a network","IPv4 addresses use four numbers (0-255) separated by dots; IPv6 was created because IPv4 addresses were running out","DNS (Domain Name System) translates human-readable domain names (like google.com) into numeric IP addresses","Without DNS, users would need to memorize IP addresses instead of easy-to-remember website names","A domain name is registered and can point to different IP addresses over time as servers change"]},{"l":"How Web Pages Are Loaded","intro":"Loading a website involves a client (your browser) requesting data from a server, which responds with the content to display.","b":["A client is the device/program requesting a resource (typically a web browser); a server stores and provides resources","HTTP (Hypertext Transfer Protocol) is the set of rules browsers and servers use to communicate requests and responses","HTTPS is the secure version of HTTP, encrypting data in transit using SSL/TLS so it can't easily be intercepted","A URL (Uniform Resource Locator) specifies the address of a resource, including protocol, domain, and path","HTML structures a webpage's content, CSS styles its appearance, and JavaScript adds interactivity"]},{"l":"HTTP Requests, Responses, and Status Codes","intro":"Communication between a browser and server follows a request-response pattern, with standardized codes indicating the outcome.","b":["Common HTTP methods: GET (retrieve data), POST (send/submit data), PUT (update data), DELETE (remove data)","A 200 status code means 'OK' — the request succeeded","A 404 status code means 'Not Found' — the requested resource doesn't exist at that address","A 500 status code means 'Internal Server Error' — something went wrong on the server's side","Cookies are small pieces of data a server asks a browser to store, often used for login sessions or preferences"]},{"l":"Web Development Basics","intro":"Building websites typically combines structural, visual, and behavioral layers, alongside a place to store and serve the site.","b":["HTML (HyperText Markup Language) uses tags to define the structure and content of a webpage, like headings and paragraphs","CSS (Cascading Style Sheets) controls a webpage's visual presentation: colors, fonts, layout, spacing","JavaScript is a programming language that runs in the browser to make web pages interactive and dynamic","Front-end development focuses on what users see and interact with directly (client-side)","Back-end development focuses on servers, databases, and logic that runs behind the scenes (server-side)"]},{"l":"Networking Concepts and Security Basics","intro":"Understanding how networks are structured and protected is foundational to using the internet safely.","b":["A firewall monitors and controls incoming/outgoing network traffic based on security rules","Encryption scrambles data so only someone with the correct key can read it, protecting data in transit or storage","A Wi-Fi router connects devices within a local network and typically connects that network to the wider internet","Bandwidth measures how much data can be transferred over a network connection in a given time","Public Wi-Fi networks are riskier than private ones because data may be more easily intercepted by others on the same network"]}],"keyFacts":["DNS translates human-readable domain names into numeric IP addresses","HTTPS encrypts data between browser and server; HTTP does not","A 404 status code means the requested resource was not found; a 200 means success","HTML structures content, CSS styles it, and JavaScript adds interactivity"],"traps":["The internet and the World Wide Web are not the same thing — the Web is a service (linked documents) that runs on top of the internet infrastructure","HTTPS is not just 'HTTP but newer' — it specifically adds encryption (via SSL/TLS) to protect data in transit","A 404 error means the resource wasn't found, not that the whole internet is down — it's specific to that URL/request","IP addresses identify devices numerically; domain names are the human-friendly labels DNS maps to those numbers, not the reverse"]},{"id":7,"name":"Data & Privacy","concepts":[{"l":"Encryption Basics","intro":"Encryption scrambles readable data (plaintext) into unreadable data (ciphertext) using a key, so only someone with the right key can reverse the process.","b":["Symmetric encryption uses the same key to encrypt and decrypt (fast, but the key must be shared secretly, e.g. AES)","Asymmetric encryption uses a public key to encrypt and a private key to decrypt — the public key can be shared openly (e.g. RSA)","HTTPS uses a combination: asymmetric encryption to safely exchange a symmetric session key, then symmetric encryption for the actual data","Hashing is different from encryption: a hash is one-way and cannot be reversed, used to verify passwords or file integrity without storing the original","The lock icon in a browser means the connection is encrypted (HTTPS/TLS), not that the website itself is trustworthy","Longer keys and modern algorithms resist brute-force attacks; outdated algorithms (like old DES) can be cracked with enough computing power"]},{"l":"Data Breaches","intro":"A data breach happens when unauthorized parties gain access to sensitive stored data, often through stolen credentials, software vulnerabilities, or social engineering.","b":["Common causes include weak/reused passwords, unpatched software, phishing attacks, and misconfigured databases left publicly accessible","Breached data often includes usernames, passwords, credit card numbers, or personal identifiers, which attackers sell or use for identity theft","Companies mitigate damage by hashing and salting stored passwords, so a stolen database doesn't reveal plaintext passwords","Two-factor authentication (2FA) limits damage from breaches: even a stolen password isn't enough to log in without the second factor","After a breach, best practice is to notify affected users, force password resets, and patch the vulnerability that caused it","Reusing the same password across sites means one breach can compromise all your other accounts (credential stuffing)"]},{"l":"Cookies & Tracking","intro":"Cookies are small pieces of data websites store in your browser to remember information between visits, such as login state, preferences, or browsing behavior.","b":["First-party cookies are set by the site you're visiting (e.g. keeping you logged in); third-party cookies are set by other domains embedded on the page (e.g. ad networks)","Third-party cookies enable cross-site tracking: an advertiser can see that the same browser visited many different sites, building a behavior profile","Session cookies expire when you close the browser; persistent cookies remain until their expiration date or you delete them","Browsers increasingly block third-party cookies by default, pushing advertisers toward alternatives like device fingerprinting","Local storage and web storage are similar to cookies but hold more data and aren't automatically sent with every request","Clearing cookies logs you out of sites and removes tracking history, but doesn't remove data already collected by trackers"]},{"l":"Privacy Regulations (GDPR-style)","intro":"Privacy laws like the EU's GDPR (General Data Protection Regulation) give individuals rights over their personal data and require organizations to handle it responsibly.","b":["Core rights include the right to access your data, the right to correct it, and the right to erasure (\"right to be forgotten\")","Companies must obtain clear, informed consent before collecting personal data — pre-checked boxes or buried fine print don't count","Data minimization means collecting only the data actually needed for a stated purpose, not everything possible","Organizations must report data breaches to regulators and affected users within a set time frame (72 hours under GDPR)","GDPR applies to any company handling EU residents' data, regardless of where the company is based, which is why many global sites show cookie consent banners","Violations can result in significant fines, calculated as a percentage of a company's global revenue"]},{"l":"Cybersecurity Fundamentals","intro":"Cybersecurity is the practice of protecting systems, networks, and data from unauthorized access, damage, or disruption.","b":["Phishing tricks users into revealing credentials or installing malware by impersonating a trusted source (email, text, or fake website)","Malware is a broad term for malicious software: viruses attach to files and spread, worms self-replicate across networks, and ransomware encrypts files and demands payment","A firewall filters network traffic based on rules, blocking unauthorized access while allowing legitimate traffic through","The principle of least privilege means giving users and programs only the access they need to do their job, limiting damage if an account is compromised","Software updates and patches fix known security vulnerabilities — delaying updates leaves systems exposed to attacks that already have public exploits","Social engineering exploits human trust rather than technical flaws, making user awareness a critical defense alongside technical safeguards"]}],"keyFacts":["Encryption scrambles data reversibly with a key; hashing transforms data one-way and cannot be reversed.","HTTPS combines asymmetric encryption (to exchange a key) with symmetric encryption (to protect the actual data).","GDPR gives users rights to access, correct, and erase their personal data, and requires breach notification within 72 hours.","Two-factor authentication and unique passwords are the most effective everyday defenses against account breaches."],"traps":["A hash is one-way and cannot be decrypted, not a form of encryption you can reverse with a key.","The HTTPS padlock means the connection is encrypted, not that the site itself is safe or legitimate.","Third-party cookies enable cross-site tracking; first-party cookies just support the site you're actually visiting, not ad networks.","Clearing your cookies removes local tracking data, not the data companies already collected and stored on their servers."]},{"id":8,"name":"Ethics & Careers","concepts":[{"l":"Algorithmic Bias","intro":"Algorithmic bias occurs when a computer system produces systematically unfair outcomes for certain groups, usually because of biased training data or flawed design choices, not because a program is intentionally programmed to discriminate.","b":["Bias often comes from training data that reflects historical human bias — a hiring algorithm trained on past resumes may learn to favor the same demographics that were historically hired","Underrepresentation in training data (e.g. facial recognition trained mostly on lighter-skinned faces) can make a system perform worse for underrepresented groups","Proxy variables can encode bias indirectly: a model might not use race directly but use zip code, which correlates strongly with race in many places","Feedback loops can worsen bias over time: a biased predictive policing model sends more patrols to a neighborhood, generates more arrests there, and 'confirms' its own bias","Auditing models for disparate impact across groups (not just overall accuracy) is a key technique for catching bias before deployment","Removing a sensitive attribute (like race) from a dataset does not guarantee fairness, since other correlated features can still encode it"]},{"l":"AI Ethics","intro":"AI ethics addresses the responsibilities that come with building and deploying artificial intelligence systems that can affect people's lives, rights, and opportunities.","b":["Transparency means users and affected people can understand, at some level, how and why an AI system reached a decision","Accountability means a person or organization — not 'the algorithm' — is responsible when an AI system causes harm","Explainability is especially important in high-stakes domains like healthcare, lending, or criminal justice, where a wrong or opaque decision has serious consequences","Privacy concerns arise because many AI systems are trained on large amounts of personal data, sometimes collected without full user awareness or consent","The trolley-problem style dilemmas around autonomous vehicles illustrate that AI systems can face genuine ethical trade-offs, not just technical bugs","Deepfakes and generative AI raise new ethical questions around consent, misinformation, and the erosion of trust in audio/video evidence"]},{"l":"Intellectual Property & Licensing","intro":"Intellectual property (IP) law protects creative and technical work; in software, licenses define exactly how others are legally allowed to use, modify, and distribute that work.","b":["Copyright automatically protects original code and creative work the moment it's created, giving the creator exclusive rights to copy, modify, and distribute it","Open-source licenses (like MIT or GPL) grant others permission to use and modify code, but under specific conditions the license spells out","Permissive licenses (MIT, Apache) allow nearly unrestricted reuse, even in proprietary closed-source products, as long as attribution is kept","Copyleft licenses (like GPL) require that any derivative work using the code must also be released under the same open license — this is sometimes called a 'viral' license","Patents protect novel inventions or processes (including some software methods) for a limited time, preventing others from using them without a license","Using someone else's code without checking its license, or violating a license's terms (e.g. shipping GPL code in closed-source software), can create real legal liability"]},{"l":"Careers in Tech","intro":"The tech industry offers many distinct career paths that require different skill combinations, from writing code to designing systems to analyzing data.","b":["Software engineers design, build, and maintain applications and systems; roles often specialize into front-end (user interfaces), back-end (servers/databases), or full-stack (both)","Data scientists and data analysts extract insights from data, often using statistics, programming (like Python or SQL), and visualization tools","UX/UI designers focus on how usable and intuitive a product feels, blending research, psychology, and visual design rather than writing production code","DevOps and systems/network engineers keep infrastructure running reliably — deploying code, managing servers, and ensuring uptime and security","Cybersecurity specialists focus on protecting systems from attacks, including roles like penetration testers who are hired to find vulnerabilities before attackers do","A traditional four-year degree is one path into tech, but bootcamps, certifications, self-teaching, and portfolios of personal projects are all recognized alternative routes"]},{"l":"Ethics & Careers: Exam Lens","intro":"Questions on this unit test whether you can identify real ethical failure modes and distinguish them from unrelated technical concepts covered elsewhere in the course.","b":["Expect scenario-based questions: you'll be given a situation (a biased hiring tool, a scraped dataset, a mislabeled license) and asked to name the underlying issue","Distinguish between bias in data, bias in algorithm design, and bias in how a system's output is used by humans — exam questions often hinge on this distinction","Know the difference between copyright, patents, and licenses — they're related but protect different things and are tested separately","Be ready to distinguish an ethical/legal question (should we do this?) from a purely technical one (can we do this?) — both types appear, but they test different reasoning","Career-path questions test whether you know which role does which kind of work, not just that the roles exist"]}],"keyFacts":["Algorithmic bias usually comes from biased or unrepresentative training data, not from an explicit intent to discriminate.","Removing a sensitive attribute from a dataset does not eliminate bias if correlated proxy variables (like zip code) remain.","Copyleft licenses (like GPL) require derivative works to be released under the same license; permissive licenses (like MIT) do not.","Accountability in AI ethics means a person or organization is responsible for an AI system's harms — not the algorithm itself."],"traps":["Algorithmic bias is usually the result of skewed training data or flawed design, not deliberate programmer intent to discriminate.","A permissive license like MIT allows use in closed-source software; a copyleft license like GPL requires derivatives to stay open-source — mixing them up is a common exam trap.","Copyright protects creative/expressive works automatically at creation, while a patent must be formally applied for and approved to protect an invention or process.","High overall accuracy does not prove a model is fair — it can still perform far worse for specific subgroups, which is why disparate-impact audits matter."]}];
 const DIAGRAMS={};
@@ -878,7 +950,8 @@ const PART_A=[{"n":1,"u":1,"q":"How many distinct values can a single byte (8 bi
 const PART_B1=[{"n":31,"u":1,"q":"A computer's storage (SSD/hard drive) differs from RAM primarily because storage is:","o":["Faster than RAM","Non-volatile, keeping data without power","Only used for output devices","Always larger than any RAM"],"a":1,"e":"Storage is non-volatile, retaining data even when power is removed, unlike RAM which is volatile."},{"n":32,"u":1,"q":"What is the decimal value of the binary number 1111?","o":["8","12","15","16"],"a":2,"e":"1111 = 8+4+2+1 = 15."},{"n":33,"u":2,"q":"Which of these is considered good practice for writing readable code?","o":["Using single-letter variable names everywhere","Using descriptive variable names and consistent formatting","Avoiding comments entirely","Writing the whole program as one line"],"a":1,"e":"Readable code uses clear, descriptive names and consistent style so others (and future you) can understand it easily."},{"n":34,"u":2,"q":"What is a syntax error?","o":["An error caused by faulty logic that gives wrong results","A violation of a programming language's grammar rules that prevents the code from running","A hardware failure","A network timeout"],"a":1,"e":"A syntax error occurs when code doesn't follow the rules of the language's grammar, so it fails to parse or compile."},{"n":35,"u":3,"q":"What happens to a variable declared inside a function once the function finishes running (assuming it is a local variable)?","o":["It becomes a global variable","It goes out of scope and is no longer accessible","It is automatically printed","It turns into a constant"],"a":1,"e":"Local variables exist only within the function's scope and are discarded once the function returns."},{"n":36,"u":3,"q":"Which loop type is best suited when the number of iterations is not known in advance and depends on a condition?","o":["For loop with a fixed range","While loop","A single if statement","A function declaration"],"a":1,"e":"A while loop continues as long as its condition holds, making it ideal when the iteration count isn't known ahead of time."},{"n":37,"u":4,"q":"Which data structure would be most appropriate for representing a family tree with parent-child relationships?","o":["Stack","Queue","Tree","Set"],"a":2,"e":"A tree naturally models hierarchical parent-child relationships like a family tree or org chart."},{"n":38,"u":4,"q":"An array differs from a linked list in that an array typically provides:","o":["Slower access to elements by index","Constant-time (O(1)) access to any element by its index","No way to store multiple values","Only unique values"],"a":1,"e":"Arrays store elements in contiguous memory, allowing direct O(1) indexed access, unlike linked lists which require traversal."},{"n":39,"u":5,"q":"Which sorting algorithm repeatedly swaps adjacent elements that are out of order?","o":["Binary search","Bubble sort","Hashing","Depth-first search"],"a":1,"e":"Bubble sort repeatedly steps through the list, swapping adjacent elements that are in the wrong order."},{"n":40,"u":5,"q":"An algorithm with time complexity O(n^2) compared to one with O(n log n) will generally, for large inputs:","o":["Run faster","Run slower","Run at exactly the same speed","Use no memory"],"a":1,"e":"O(n^2) grows faster than O(n log n) as input size increases, so it becomes slower for large inputs."},{"n":41,"u":6,"q":"What does a web browser do first when you type a URL, before it can request the page?","o":["Render the CSS","Look up the domain's IP address via DNS","Execute JavaScript","Display a 404 error"],"a":1,"e":"The browser must resolve the domain name to an IP address via DNS before it can send an HTTP request to the server."},{"n":42,"u":6,"q":"Which HTTP status code indicates that a requested resource was not found?","o":["200","301","404","500"],"a":2,"e":"404 Not Found is the standard status code for a resource that does not exist on the server."},{"n":43,"u":7,"q":"Which of these best describes the goal of GDPR-style privacy regulations?","o":["To ban all data collection entirely","To give individuals rights over their personal data and require organizations to handle it responsibly","To speed up internet connections","To eliminate the need for passwords"],"a":1,"e":"GDPR-style regulations grant individuals rights over their personal data and impose responsible data-handling obligations on organizations."},{"n":44,"u":7,"q":"What is a firewall used for in cybersecurity?","o":["Encrypting files on disk","Monitoring and controlling incoming/outgoing network traffic based on security rules","Speeding up web page rendering","Writing program code"],"a":1,"e":"A firewall filters network traffic according to defined security rules to block unauthorized access."},{"n":45,"u":8,"q":"Why is transparency often recommended when deploying AI systems that affect people's lives?","o":["It makes the AI run faster","It has no real benefit","It helps people understand and challenge decisions, reducing hidden bias and unfairness","It is legally irrelevant"],"a":2,"e":"Transparency allows people to understand how AI decisions are made, enabling accountability and the ability to contest unfair outcomes."},{"n":46,"u":2,"q":"What is the purpose of an 'else' clause when paired with an 'if' statement?","o":["To repeat a block of code","To run a block of code when the if condition is false","To declare a variable","To define a function"],"a":1,"e":"The else clause provides an alternative block of code to run when the associated if condition evaluates to false."},{"n":47,"u":3,"q":"What is a common pitfall when using loops?","o":["Loops always run exactly once","An off-by-one error causing the loop to run one time too many or too few","Loops cannot contain conditionals","Loops always cause syntax errors"],"a":1,"e":"Off-by-one errors, where a loop iterates one time too many or too few, are among the most common loop bugs."},{"n":48,"u":4,"q":"Which is true of a hash map (dictionary)'s average-case lookup time?","o":["O(n)","O(n^2)","O(1)","O(log n) always, never faster"],"a":2,"e":"Hash maps use a hash function to place data, giving average-case O(1) lookup time."},{"n":49,"u":5,"q":"What is the main goal of a divide-and-conquer problem-solving strategy?","o":["Solve the entire problem at once with no breakdown","Break a problem into smaller subproblems, solve them, and combine results","Avoid using functions","Guess the answer randomly"],"a":1,"e":"Divide-and-conquer splits a large problem into smaller, more manageable subproblems, solves each, then merges the results."},{"n":50,"u":6,"q":"What does an IP address uniquely identify on a network?","o":["A specific webpage's color scheme","A device's location/address for sending and receiving data","A programming language","A type of file format"],"a":1,"e":"An IP address uniquely identifies a device on a network so data can be routed to and from it."}];
 const PART_B2=[{"n":51,"u":1,"q":"Why do computers use binary instead of decimal internally?","o":["Binary is easier for humans to read","Transistors are simplest to build as two-state (on/off) switches","Binary uses fewer digits so it's always faster to compute","Decimal is not a real number system"],"a":1,"e":"Binary maps naturally onto transistors' two stable states (on/off), making it the simplest and most reliable system for digital hardware."},{"n":52,"u":2,"q":"Which of the following is an example of a runtime error rather than a syntax error?","o":["Missing a closing parenthesis","Dividing a number by zero while the program is running","Misspelling a keyword","Forgetting a semicolon where required"],"a":1,"e":"A runtime error, such as division by zero, occurs while the program is executing correctly-formed code, unlike a syntax error caught before execution."},{"n":53,"u":3,"q":"In a function, what is the difference between a parameter and an argument?","o":["They are exactly the same with no difference","A parameter is the placeholder in the function definition; an argument is the actual value passed in when calling it","An argument is only used in loops","A parameter can only be a number"],"a":1,"e":"Parameters are the named placeholders in a function's definition, while arguments are the actual values supplied at the call site."},{"n":54,"u":4,"q":"When should you prefer a queue over a stack?","o":["When you need Last-In-First-Out processing, like undo history","When you need First-In-First-Out processing, like a print job or task queue","When you need to store only unique values","When you need constant-time indexed access"],"a":1,"e":"A queue is appropriate when items must be processed in the order they arrived (FIFO), such as tasks waiting in line."},{"n":55,"u":5,"q":"Which best describes a greedy algorithm strategy?","o":["It always finds the optimal solution to every problem","It makes the locally best choice at each step, hoping to reach a good overall solution","It tries every possible combination exhaustively","It only works on sorted arrays"],"a":1,"e":"Greedy algorithms make the best-looking choice at each step without reconsidering, which is fast but doesn't guarantee a global optimum for every problem."},{"n":56,"u":6,"q":"What role does a web server play when a browser requests a page?","o":["It only stores DNS records","It receives the HTTP request and sends back a response, such as an HTML page","It converts domain names into hexadecimal","It replaces the need for the Internet"],"a":1,"e":"A web server listens for HTTP requests and responds with the requested resource, such as an HTML document."},{"n":57,"u":7,"q":"Why are strong, unique passwords considered a cybersecurity fundamental?","o":["They make the computer run faster","They reduce the risk of accounts being compromised through guessing or reused-credential attacks","They are required by every programming language","They automatically encrypt all files on a device"],"a":1,"e":"Strong, unique passwords make it much harder for attackers to guess credentials or exploit reused passwords from other breaches."},{"n":58,"u":8,"q":"Which of these best exemplifies a career path directly tied to building software systems?","o":["Software engineer","Grocery store cashier","Professional athlete","Farmer"],"a":0,"e":"A software engineer designs, builds, and maintains software systems, making it a direct tech career path covered in this unit."},{"n":59,"u":4,"q":"What is a key trade-off when choosing between an array and a linked list for frequent insertions in the middle of the collection?","o":["Arrays always insert faster in the middle","Linked lists can insert in the middle more efficiently since no shifting of elements is needed","Both have identical performance in every case","Neither structure supports insertion"],"a":1,"e":"Linked lists allow O(1) insertion at a known position by just relinking pointers, while arrays must shift subsequent elements, which is slower."},{"n":60,"u":6,"q":"What is the purpose of a status code like 500 in an HTTP response?","o":["It indicates the request succeeded perfectly","It indicates a server-side error occurred while processing the request","It means the page was redirected","It means the user is not authenticated"],"a":1,"e":"A 500 status code signals an internal server error, meaning something went wrong on the server while handling the request."}];
 const PART_C=[{"n":61,"u":1,"q":"Written response: choose TWO concepts from different units and construct an argument connecting them. Cite specific evidence from each.","o":["Names both concepts precisely, gives concrete evidence for each, and explains the causal/logical bridge","Lists the two topics without connecting them","Describes only one concept in detail","Gives a personal opinion with no course evidence"],"a":0,"e":"Strong responses anchor every claim in specific unit content."},{"n":62,"u":8,"q":"Essay plan: identify the single most important takeaway of this course. Defend it using three units as evidence, then address one counterargument.","o":["Clear thesis, three unit-specific pieces of evidence, genuine counterargument, resolution","Thesis with no support","Topic list with no argument","Anecdote unrelated to course content"],"a":0,"e":"Full argumentative architecture earns top marks."}];
-const EXAM_CSS=".ex-header{background:var(--ink);color:var(--surface);padding:20px 22px;border-radius:var(--radius);margin-bottom:22px}\n.ex-header h2{font-family:'Space Grotesk';font-size:28.5px;font-weight:700;margin-bottom:4px}\n.ex-header p{font-family:'Inter';font-size:19.5px;color:rgba(255,255,255,.65)}\n.ex-part{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--surface)}\n.ex-part-hd{background:var(--surface-2);padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}\n.ex-part-hd:hover{background:var(--surface-hover)}\n.ex-part-hd h3{font-size:21px;font-weight:700;color:var(--ink)}\n.ex-part-hd span{font-family:'Inter';font-size:18px;color:var(--ink-dim)}\n.ex-part-body{display:none;padding:20px}\n.ex-part.open .ex-part-body{display:block}\n.ex-q{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}\n.ex-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}\n.ex-qnum{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}\n.ex-qtext{font-size:21.8px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:13px}\n.ex-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}\n.ex-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface);text-align:left;transition:all .12s}\n.ex-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}\n.ex-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}\n.ex-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}\n.ex-exp{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface-2);padding:11px 14px;border-radius:var(--radius-sm);margin-top:9px;display:none;line-height:1.6}\n.ex-exp.show{display:block}\n.ex-sa{padding:13px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter';font-size:20.2px;color:var(--amber-ink);line-height:1.6;margin-top:9px}\n.ex-sa strong{display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:var(--amber)}\n.ex-score{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px;display:none}\n.ex-score strong{font-family:'Space Grotesk';color:var(--success);font-size:22.5px}\n.ex-score span{font-family:'Inter';color:var(--success);font-size:19.5px}\n.ex-reset{padding:10px 20px;border:1px solid var(--border);border-radius:999px;background:var(--surface);cursor:pointer;font-family:'Space Grotesk';font-weight:600;font-size:19.5px;margin-top:10px;transition:all .15s}\n.ex-reset:hover{background:var(--surface-hover);border-color:var(--border-strong)}\n";
+const EXAM_META={"title":"Computer Science — Full Practice Exam","subtitle":"Part A (30 pts) · Part B–1 (20 pts) · Part B–2 (10 pts) · Part C (2 pts)","parts":{"PART_A":{"title":"Part A — Multiple Choice","points":30,"minutes":null},"PART_B1":{"title":"Part B–1 — Multiple Choice","points":20,"minutes":null},"PART_B2":{"title":"Part B–2 — Short Answer","points":10,"minutes":null},"PART_C":{"title":"Part C — Extended Response","points":2,"minutes":null}}};
+const EXAM_CSS=".ex-header{background:var(--ink);color:var(--surface);padding:20px 22px;border-radius:var(--radius);margin-bottom:22px}\n.ex-header h2{font-family:'Space Grotesk';font-size:28.5px;font-weight:700;margin-bottom:4px}\n.ex-header p{font-family:'Inter';font-size:19.5px;color:rgba(255,255,255,.65)}\n.ex-part{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--surface)}\n.ex-part-hd{background:var(--surface-2);padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}\n.ex-part-hd:hover{background:var(--surface-hover)}\n.ex-part-hd h3{font-size:21px;font-weight:700;color:var(--ink)}\n.ex-part-hd span{font-family:'Inter';font-size:18px;color:var(--ink-dim)}\n.ex-part-hd-meta{display:flex;align-items:center;gap:14px;flex:none}\n.ex-timer{font-family:'Space Grotesk';font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink-dim)}\n.ex-timer.ex-timer-up{color:var(--danger)}\n.ex-part-body{display:none;padding:20px}\n.ex-part.open .ex-part-body{display:block}\n.ex-q{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}\n.ex-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}\n.ex-qnum{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}\n.ex-qtext{font-size:21.8px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:13px}\n.ex-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}\n.ex-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface);text-align:left;transition:all .12s}\n.ex-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}\n.ex-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}\n.ex-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}\n.ex-exp{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface-2);padding:11px 14px;border-radius:var(--radius-sm);margin-top:9px;display:none;line-height:1.6}\n.ex-exp.show{display:block}\n.ex-sa{padding:13px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter';font-size:20.2px;color:var(--amber-ink);line-height:1.6;margin-top:9px}\n.ex-sa strong{display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:var(--amber)}\n.ex-score{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px;display:none}\n.ex-score strong{font-family:'Space Grotesk';color:var(--success);font-size:22.5px}\n.ex-score span{font-family:'Inter';color:var(--success);font-size:19.5px}\n.ex-reset{padding:10px 20px;border:1px solid var(--border);border-radius:999px;background:var(--surface);cursor:pointer;font-family:'Space Grotesk';font-weight:600;font-size:19.5px;margin-top:10px;transition:all .15s}\n.ex-reset:hover{background:var(--surface-hover);border-color:var(--border-strong)}\n";
 function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');var idx=-1;tabs.forEach((b,i)=>{if(b.id==='tab-'+id)idx=i;});if(idx!==-1){tabs.forEach((b,i)=>{var on=i===idx;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;});var _hl=document.getElementById('hero-live');if(_hl)_hl.textContent=tabs[idx].textContent.trim()+' tab';}if(id==='examples'&&!examplesBuilt)buildExamples();if(id==='exam'&&!examBuilt)buildExam();var spc=document.getElementById('spc-card');if(spc)spc.style.display=(id==='guide')?'':'none';}
 let examBuilt=false;
 var examplesBuilt=false, ex2map={}, ex2shown={};
@@ -891,20 +964,25 @@ const st=document.createElement('style');st.textContent=EXAM_CSS;document.head.a
 
 v.innerHTML=`
 <div class="ex-header">
-  <h2>Computer Science — Full Practice Exam</h2>
-  <p>Part A (30 pts) · Part B-1 (20 pts) · Part B-2 (15 pts) · Part C (20 pts) · Based on Jan 2026 format</p>
+  <h2>${EXAM_META.title}</h2>
+  <p>${EXAM_META.subtitle}</p>
 </div>
 <div id="ex-score-box" class="ex-score"></div>
-${buildPartMC('A','Part A — Multiple Choice (30 questions, 1 pt each)',PART_A)}
-${buildPartMC('B1','Part B–1 — Multiple Choice (20 questions, 1 pt each)',PART_B1)}
-${buildPartFR('B2','Part B–2 — Short Answer (show work, 1 pt each)',PART_B2)}
-${buildPartFR('C','Part C — Extended Response (1–2 pts each)',PART_C)}
+${buildPartMC('A',PART_A)}
+${buildPartMC('B1',PART_B1)}
+${buildPartFR('B2',PART_B2)}
+${buildPartFR('C',PART_C)}
 `;
 // open Part A by default
-document.getElementById('ex-part-A').classList.add('open');
+togglePart('A');
 }
 
-function buildPartMC(id,title,qs){
+function examPartMeta(id){return (EXAM_META&&EXAM_META.parts&&EXAM_META.parts['PART_'+id])||{};}
+function exTimerHtml(id){return examPartMeta(id).minutes?`<span class="ex-timer" id="timer-${id}"></span>`:'';}
+
+function buildPartMC(id,qs){
+if(!qs.length)return'';
+const meta=examPartMeta(id);
 const items=qs.map(q=>`
 <div class="ex-q" id="exq-${id}-${q.n}">
   <div class="ex-qnum">Question ${q.n}</div>
@@ -916,15 +994,18 @@ const items=qs.map(q=>`
 </div>`).join('');
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${title}</h3><span id="score-${id}">Score: 0 / ${qs.length}</span>
+  <h3>${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'}, 1 pt each)</h3>
+  <div class="ex-part-hd-meta"><span id="score-${id}">Score: 0 / ${qs.length}</span>${exTimerHtml(id)}</div>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
 }
 
-function buildPartFR(id,title,qs){
+function buildPartFR(id,qs){
+if(!qs.length)return'';
 // Some guides author these as genuine free-response (q.sa, a model answer to
 // reveal); others reuse the multiple-choice shape (q.o/q.a) for this part.
 // Render whichever shape the data actually has instead of assuming sa exists.
+const meta=examPartMeta(id);
 const items=qs.map(q=>q.sa!==undefined?`
 <div class="ex-q">
   <div class="ex-qnum">Question ${q.n}</div>
@@ -941,11 +1022,43 @@ const items=qs.map(q=>q.sa!==undefined?`
   <div class="ex-exp" id="exp-${id}-${q.n}">${q.e}</div>
 </div>`).join('');
 const allMC=qs.every(q=>q.sa===undefined);
+const rightMeta=allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`;
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${title}</h3>${allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`}
+  <h3>${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'})</h3>
+  <div class="ex-part-hd-meta">${rightMeta}${exTimerHtml(id)}</div>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
+}
+
+/* Per-part countdown timer. In-memory only (module-level `examTimers`) — a
+   refresh resets it, matching the fact that exam progress/scores are never
+   persisted to localStorage either. Not a proctored test: hitting zero just
+   shows "Time's up" and stops, it never auto-submits or locks the part. */
+var examTimers={};
+function startPartTimer(id){
+  const meta=examPartMeta(id);
+  if(!meta.minutes)return;
+  let t=examTimers[id];
+  if(!t){t=examTimers[id]={remaining:meta.minutes*60,expired:false,intervalId:null};}
+  if(t.expired||t.intervalId)return; // already ticking, or already ran out
+  t.intervalId=setInterval(function(){
+    t.remaining--;
+    if(t.remaining<=0){
+      t.remaining=0;t.expired=true;
+      clearInterval(t.intervalId);t.intervalId=null;
+    }
+    renderPartTimer(id);
+  },1000);
+  renderPartTimer(id);
+}
+function renderPartTimer(id){
+  const el=document.getElementById('timer-'+id);
+  const t=examTimers[id];
+  if(!el||!t)return;
+  if(t.expired){el.textContent="Time's up";el.classList.add('ex-timer-up');return;}
+  const m=Math.floor(t.remaining/60),s=t.remaining%60;
+  el.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
 }
 
 function togglePart(id){
@@ -953,6 +1066,7 @@ function togglePart(id){
   const isOpen=part.classList.toggle('open');
   const hd=part.querySelector('.ex-part-hd');
   if(hd)hd.setAttribute('aria-expanded',isOpen?'true':'false');
+  if(isOpen)startPartTimer(id);
 }
 
 function toggleSA(btn){
@@ -1260,6 +1374,58 @@ function qBookmarkToggle(qid){
 }
 function qId(q){return q.u+'|'+q.q;}
 
+/* Mistake Log: localStorage-backed, keyed the same way as the bookmark set
+   (ssBookmarks_<slug>) — a currently-unresolved-misses list, not full history.
+   A question moves in when answered wrong and out the moment it's answered
+   correctly again (from anywhere: normal quiz, diagnostic, hard mode, or the
+   log's own review pass). */
+var MISTAKE_LOG_KEY='ssMistakes_'+'computer-science';
+function mistakeLogMap(){
+  try{return JSON.parse(localStorage.getItem(MISTAKE_LOG_KEY)||'{}');}catch(e){return {};}
+}
+function mistakeLogSave(map){
+  try{localStorage.setItem(MISTAKE_LOG_KEY,JSON.stringify(map));}catch(e){}
+  updateMistakeLogBadge();
+}
+function mistakeLogAdd(q){
+  const map=mistakeLogMap();
+  map[qId(q)]={u:q.u,q:q.q,o:q.o,a:q.a,e:q.e,d:q.d,topic:q.topic};
+  mistakeLogSave(map);
+}
+function mistakeLogRemove(q){
+  const map=mistakeLogMap();
+  const id=qId(q);
+  if(!(id in map))return;
+  delete map[id];
+  mistakeLogSave(map);
+}
+function updateMistakeLogBadge(){
+  const el=document.getElementById('mistake-log-count');
+  if(!el)return;
+  const n=Object.keys(mistakeLogMap()).length;
+  el.textContent=String(n);
+  el.style.display=n?'':'none';
+}
+var mistakeReviewMode=false;
+function openMistakeLog(){
+  switchTab('quiz');
+  mistakeReviewMode=true;
+  diagMode=false;
+  const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
+  const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
+  const map=mistakeLogMap();
+  qPool=Object.values(map);
+  qIdx=0;score=0;requeueCounts=new WeakMap();
+  const qb=document.getElementById('qbox');
+  if(!qPool.length){
+    qb.innerHTML='<div class="mistake-log-empty">No mistakes logged right now — nice work. Answer a question wrong anywhere in the quiz and it will show up here until you get it right.</div>';
+    document.getElementById('q-prog').textContent='';
+    document.getElementById('q-sc').textContent='';
+    return;
+  }
+  showQ();
+}
+
 function quizShuffle(){
   if(!qPool.length)return;
   for(let i=qPool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[qPool[i],qPool[j]]=[qPool[j],qPool[i]];}
@@ -1294,8 +1460,15 @@ function buildQSel(){
   if(HQ.length)sel.innerHTML+='<option value="hard">Hard Mode Only ('+HQ.length+' Qs)</option>';
   loadQ();
 }
+let difficultyFilter='all';
+function setDifficultyFilter(d){
+  difficultyFilter=d;
+  document.querySelectorAll('.diff-chip').forEach(function(c){c.classList.toggle('on',c.dataset.diff===d);});
+  loadQ();
+}
 function loadQ(){
   diagMode=false;
+  mistakeReviewMode=false;
   const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
   const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
   const raw=document.getElementById('q-sel').value;
@@ -1304,6 +1477,7 @@ function loadQ(){
   if(raw==='hard')src=HQ.slice();
   else if(+raw===0)src=QUIZ.concat(HQ);
   else src=QUIZ.concat(HQ).filter(q=>q.u===+raw);
+  if(difficultyFilter!=='all')src=src.filter(q=>q.d===difficultyFilter);
   qPool=src.sort(()=>Math.random()-.5);
   qIdx=0;score=0;requeueCounts=new WeakMap();showQ();
 }
@@ -1370,8 +1544,10 @@ function showQ(){
   const bookmarked=qBookmarkSet().has(bid);
   const STAR_OUTLINE='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
   const STAR_FILLED='<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
-  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>`+
+  const diffPill=q.d?`<span class="q-diff q-diff-${q.d}">${q.d}</span>`:'';
+  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>${diffPill}`+
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
+    (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
     `<button class="q-hint-btn" id="q-hint-btn" onclick="toggleQHint()">💡 Hint</button>`+
     `<div class="q-hint-box" id="q-hint-box">Hint: this is from Unit ${q.u}: ${unitNameFor(q.u)}</div>`+
@@ -1437,6 +1613,7 @@ function ansQ(i){
     }
   }
   if(SS_MASTERY)SS_MASTERY.recordAnswer(q.u,i===q.a);
+  if(i===q.a)mistakeLogRemove(q);else mistakeLogAdd(q);
   ssOverallProgressUpdate();
   const expEl=document.getElementById('q-exp');
   expEl.classList.add('show');
@@ -1466,6 +1643,7 @@ function ssQuizKeyboardShortcuts(e){
 }
 document.addEventListener('keydown',ssQuizKeyboardShortcuts);
 buildQSel();
+updateMistakeLogBadge();
 
 /* ----- APG tabs: roving-tabindex arrow-key nav on the hero tab bar. Manual
    activation — arrows move focus only; Enter/Space fire the button's own click
@@ -1869,6 +2047,105 @@ async function ssQuizTabClick(){
 }
 
 ssCheckSession();
+
+/* ----- Reference drawer: a compact, always-available companion to the full
+   Quick Reference TAB. Reuses the exact HTML the generator already emits into
+   #view-qref (buildQref() in generate-guide.mjs) instead of rebuilding it —
+   the drawer body is filled by copying that markup once, on first open. ----- */
+function qrefDrawerOpen(){
+  var panel=document.getElementById('qref-drawer');
+  if(!panel)return;
+  var body=document.getElementById('qref-drawer-body');
+  if(body&&!body.dataset.filled){
+    var src=document.getElementById('view-qref');
+    if(src){body.innerHTML=src.innerHTML;body.dataset.filled='1';}
+  }
+  panel.classList.add('open');
+  panel.setAttribute('aria-hidden','false');
+  var fab=document.getElementById('qref-drawer-fab');
+  if(fab)fab.setAttribute('aria-expanded','true');
+  var closeBtn=panel.querySelector('.qref-drawer-close');
+  if(closeBtn)closeBtn.focus();
+  document.addEventListener('keydown',qrefDrawerKeydown);
+}
+function qrefDrawerClose(){
+  var panel=document.getElementById('qref-drawer');
+  if(!panel||!panel.classList.contains('open'))return;
+  panel.classList.remove('open');
+  panel.setAttribute('aria-hidden','true');
+  var fab=document.getElementById('qref-drawer-fab');
+  if(fab){fab.setAttribute('aria-expanded','false');fab.focus();}
+  document.removeEventListener('keydown',qrefDrawerKeydown);
+}
+function qrefDrawerToggle(){
+  var panel=document.getElementById('qref-drawer');
+  if(panel&&panel.classList.contains('open'))qrefDrawerClose();else qrefDrawerOpen();
+}
+function qrefDrawerKeydown(e){if(e.key==='Escape')qrefDrawerClose();}
+
+/* ----- Optional Desmos graphing calculator. Disabled by default: leave
+   DESMOS_API_KEY empty and this entire feature (button, panel, external
+   script) never appears and never makes a network request. To enable it,
+   the site owner gets a free key for personal/school use at
+   https://www.desmos.com/api/v1.12/calculator.js docs (sign in at
+   desmos.com/my-api) and pastes it in below. Generic — available on every
+   guide once a key is configured, not gated to any subject. ----- */
+const DESMOS_API_KEY = "";
+let desmosScriptLoaded=false, desmosCalculator=null;
+function desmosInit(){
+  if(!DESMOS_API_KEY)return;
+  var fab=document.createElement('button');
+  fab.id='desmos-fab';
+  fab.className='desmos-fab';
+  fab.type='button';
+  fab.setAttribute('aria-label','Toggle graphing calculator');
+  fab.setAttribute('aria-expanded','false');
+  fab.title='Graphing calculator';
+  fab.textContent='\u{1F4C8}';
+  fab.onclick=desmosToggle;
+  document.body.appendChild(fab);
+
+  var panel=document.createElement('div');
+  panel.id='desmos-panel';
+  panel.className='desmos-panel';
+  panel.setAttribute('role','dialog');
+  panel.setAttribute('aria-modal','true');
+  panel.setAttribute('aria-label','Graphing calculator');
+  panel.setAttribute('aria-hidden','true');
+  panel.innerHTML='<div class="desmos-panel-hd"><b>Graphing Calculator</b>'+
+    '<button type="button" class="desmos-panel-close" aria-label="Close graphing calculator">✕</button></div>'+
+    '<div class="desmos-calc" id="desmos-calc"></div>';
+  document.body.appendChild(panel);
+  panel.querySelector('.desmos-panel-close').onclick=desmosToggle;
+}
+function desmosToggle(){
+  var panel=document.getElementById('desmos-panel');
+  if(!panel)return;
+  var opening=!panel.classList.contains('open');
+  panel.classList.toggle('open',opening);
+  panel.setAttribute('aria-hidden',opening?'false':'true');
+  var fab=document.getElementById('desmos-fab');
+  if(fab)fab.setAttribute('aria-expanded',opening?'true':'false');
+  if(opening){
+    document.addEventListener('keydown',desmosKeydown);
+    if(!desmosScriptLoaded)desmosLoadScript();
+  }else{
+    document.removeEventListener('keydown',desmosKeydown);
+    if(fab)fab.focus();
+  }
+}
+function desmosKeydown(e){if(e.key==='Escape')desmosToggle();}
+function desmosLoadScript(){
+  desmosScriptLoaded=true;
+  var s=document.createElement('script');
+  s.src='https://www.desmos.com/api/v1.12/calculator.js?apiKey='+encodeURIComponent(DESMOS_API_KEY);
+  s.onload=function(){
+    var el=document.getElementById('desmos-calc');
+    if(el&&window.Desmos)desmosCalculator=Desmos.GraphingCalculator(el);
+  };
+  document.head.appendChild(s);
+}
+desmosInit();
 
 /* ----- unit-filtered practice, e.g. /chemistry?practice=3 (from the dashboard's "study this next") ----- */
 (async function ssPracticeMode(){

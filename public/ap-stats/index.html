@@ -273,6 +273,16 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .q-block:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .q-block-hd{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px}
 .q-text{font-size:24.8px;font-weight:600;color:var(--ink);line-height:1.55;flex:1}
+.q-diff{flex:none;display:inline-block;padding:3px 11px;border-radius:999px;font-size:13px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;border:1px solid transparent;align-self:flex-start;margin-top:2px}
+.q-diff-easy{background:var(--success-soft);color:var(--success);border-color:var(--success-border)}
+.q-diff-medium{background:var(--amber-soft);color:var(--amber-ink);border-color:var(--amber)}
+.q-diff-hard{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}
+.q-topic{font-size:14.5px;color:var(--ink-dim);margin:-14px 0 14px;font-style:italic}
+.mistake-log-btn{position:relative}
+.mistake-log-count{display:inline-block;margin-left:6px;background:var(--danger);color:#fff;border-radius:999px;
+  font-size:12px;font-weight:700;padding:1px 7px}
+.mistake-log-empty{padding:24px;text-align:center;color:var(--ink-muted);font-size:18px}
 .q-bookmark{flex:none;background:none;border:none;cursor:pointer;color:var(--ink-dim);padding:2px;border-radius:6px;transition:color .15s ease,transform .15s ease}
 .q-bookmark:hover{color:var(--amber);transform:scale(1.08)}
 .q-bookmark.on{color:var(--amber)}
@@ -514,6 +524,51 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 .back-to-top:hover{color:var(--ink);border-color:var(--accent)}
 .back-to-top svg{width:20px;height:20px;display:block}
 
+/* ---- reference drawer: quick-access companion to the Quick Reference tab,
+   reachable from any tab. Sits bottom-center, clear of back-to-top
+   (bottom:22/left:22..74) and #cbot-fab (bottom:22/right:22..78). ---- */
+.qref-drawer-fab{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);width:52px;height:52px;
+  border-radius:50%;background:var(--surface);color:var(--ink-muted);border:1px solid var(--border-strong);
+  cursor:pointer;box-shadow:var(--shadow-md);z-index:190;display:flex;align-items:center;justify-content:center;
+  transition:color .15s ease,border-color .15s ease}
+.qref-drawer-fab:hover{color:var(--accent);border-color:var(--accent)}
+.qref-drawer-fab svg{width:20px;height:20px;display:block}
+.qref-drawer{position:fixed;top:0;right:0;height:100dvh;width:min(420px,100vw);background:var(--surface);
+  border-left:1px solid var(--border-strong);box-shadow:var(--shadow-lg);z-index:210;display:flex;flex-direction:column;
+  transform:translateX(100%);opacity:0;visibility:hidden;transition:transform .25s ease,opacity .25s ease,visibility 0s linear .25s}
+.qref-drawer.open{transform:translateX(0);opacity:1;visibility:visible;transition:transform .25s ease,opacity .25s ease}
+.qref-drawer-hd{display:flex;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--surface-2);flex-shrink:0}
+.qref-drawer-hd b{font-family:'Space Grotesk';font-size:20px;color:var(--ink);flex:1}
+.qref-drawer-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:6px 8px;border-radius:6px}
+.qref-drawer-close:hover{color:var(--ink);background:var(--surface-hover)}
+.qref-drawer-body{flex:1;overflow-y:auto;padding:16px}
+.qref-drawer-body .qr-section:not(:last-child){margin-bottom:20px}
+@media(max-width:600px){
+  .qref-drawer{width:100vw}
+}
+
+/* ---- optional Desmos graphing calculator (see DESMOS_API_KEY in logic.js).
+   Markup is only ever created by JS when a key is configured, so this CSS
+   has no visible effect until then. Placed clear of #cbot-fab (right:22..78). ---- */
+.desmos-fab{position:fixed;bottom:22px;right:90px;width:52px;height:52px;border-radius:50%;
+  background:var(--accent);color:#fff;border:none;font-size:22px;cursor:pointer;
+  box-shadow:0 8px 24px -6px rgba(15,122,112,.4);z-index:195;display:flex;align-items:center;justify-content:center;
+  transition:transform .15s ease}
+.desmos-fab:hover{transform:scale(1.06)}
+.desmos-panel{position:fixed;bottom:88px;right:90px;width:min(380px,calc(100vw - 32px));
+  height:min(420px,calc(100dvh - 160px));background:var(--surface);border:1px solid var(--border-strong);
+  border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:205;display:none;flex-direction:column;overflow:hidden}
+.desmos-panel.open{display:flex}
+.desmos-panel-hd{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+.desmos-panel-hd b{font-family:'Space Grotesk';font-size:18px;color:var(--ink);flex:1}
+.desmos-panel-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:4px 6px;border-radius:6px}
+.desmos-panel-close:hover{color:var(--ink);background:var(--surface-hover)}
+.desmos-calc{flex:1;width:100%;height:100%}
+@media(max-width:600px){
+  .desmos-fab{right:22px;bottom:82px}
+  .desmos-panel{right:12px;bottom:144px}
+}
+
 /* ---- print / export ---- */
 @media print{
   :root,[data-theme="dark"]{
@@ -528,7 +583,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
   body{background:#fff;color:#000}
   body::before,.hero::after{display:none!important}
   #theme-toggle,.search-wrap,.ss-sticky-top .filter-row-wrap,.mobile-only-select,.nav,.nav-spacer,.tablist,
-  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
+  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.qref-drawer-fab,.qref-drawer,.desmos-fab,.desmos-panel,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
   .search-kbd,.ss-overall-progress,.q-kbd-hint,.diag-btn{display:none!important}
   *{position:static!important;box-shadow:none!important}
   .unit-body{display:block!important}
@@ -707,6 +762,13 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <div class="q-bar">
     <select id="q-sel" aria-label="Choose a question set" onchange="loadQ()"></select>
     <button class="btn" type="button" onclick="quizShuffle()" style="font-size:14px;padding:7px 14px">⇄ Shuffle</button>
+    <div class="diff-chips" role="group" aria-label="Filter by difficulty" style="display:flex;gap:6px">
+      <button class="chip on diff-chip" type="button" data-diff="all" onclick="setDifficultyFilter('all')">All</button>
+      <button class="chip diff-chip" type="button" data-diff="easy" onclick="setDifficultyFilter('easy')">Easy</button>
+      <button class="chip diff-chip" type="button" data-diff="medium" onclick="setDifficultyFilter('medium')">Medium</button>
+      <button class="chip diff-chip" type="button" data-diff="hard" onclick="setDifficultyFilter('hard')">Hard</button>
+    </div>
+    <button class="btn mistake-log-btn" type="button" onclick="openMistakeLog()">Mistake Log<span class="mistake-log-count" id="mistake-log-count" style="display:none">0</span></button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -866,6 +928,16 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
   <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
 </button>
+<button type="button" id="qref-drawer-fab" class="qref-drawer-fab" onclick="qrefDrawerToggle()" aria-label="Open quick reference" aria-expanded="false" aria-controls="qref-drawer" title="Quick Reference">
+  <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+</button>
+<div id="qref-drawer" class="qref-drawer" role="dialog" aria-modal="true" aria-label="Quick Reference" aria-hidden="true">
+  <div class="qref-drawer-hd">
+    <b>Quick Reference</b>
+    <button type="button" class="qref-drawer-close" onclick="qrefDrawerToggle()" aria-label="Close quick reference">✕</button>
+  </div>
+  <div class="qref-drawer-body" id="qref-drawer-body"></div>
+</div>
 <script>
 const UNITS=[{"id":1,"name":"Exploring Data","concepts":[{"l":"Shape, Center, and Spread","intro":"Every distribution of quantitative data is described by its shape (symmetric, skewed, unimodal/bimodal), center (mean or median), and spread (range, IQR, or standard deviation), along with any outliers.","b":["Always describe distributions with SOCS: Shape, Outliers, Center, Spread, in context","Skewed left: tail points left, mean < median; skewed right: tail points right, mean > median","Symmetric distributions have mean ≈ median","Unimodal = one peak, bimodal = two peaks, uniform = flat","Use the shape to decide which center/spread measures are appropriate"]},{"l":"Measures of Center","intro":"The mean is the arithmetic average and is sensitive to outliers/skew, while the median is the middle value and resists extreme values.","b":["Mean: x̄ = (Σx)/n","Median: middle value of ordered data (average of two middle values if n is even)","Mean is pulled toward the tail in a skewed distribution; median is resistant","For skewed data or data with outliers, report the median as the 'typical' value","Mode is the most frequent value; useful mainly for categorical or discrete data"]},{"l":"Measures of Spread","intro":"Spread describes how variable the data are; range and IQR are resistant-friendly, while variance and standard deviation use every value.","b":["Range = max − min","IQR = Q3 − Q1 (spread of the middle 50%), resistant to outliers","Variance: s² = Σ(x − x̄)²/(n − 1); Standard deviation s = √(variance)","SD measures the typical distance of a value from the mean","Standard deviation is not resistant — outliers inflate it","Use IQR with median (skewed data); use SD with mean (roughly symmetric data)"]},{"l":"Five-Number Summary, Boxplots, and Outliers","intro":"The five-number summary (min, Q1, median, Q3, max) is displayed visually with a boxplot, and the 1.5×IQR rule flags potential outliers.","b":["Five-number summary: Min, Q1, Median, Q3, Max","Outlier rule: any value below Q1 − 1.5(IQR) or above Q3 + 1.5(IQR)","Boxplots show the IQR as a box with whiskers to the most extreme non-outlier values","Modified boxplots plot outliers as separate points","Boxplots are good for comparing distributions across groups side by side"]},{"l":"z-Scores and Standardization","intro":"A z-score converts a raw value into the number of standard deviations it lies from the mean, letting you compare values from different distributions.","b":["z = (x − μ) / σ (or (x − x̄)/s for sample data)","Positive z: value is above the mean; negative z: value is below the mean","Standardizing does not change the shape of a distribution","z-scores allow comparison of values measured on different scales (e.g., test scores from different exams)","Adding a constant to every value shifts center but not spread; multiplying by a constant changes both center and spread proportionally"]},{"l":"Comparing Distributions and Density","intro":"When comparing two or more distributions, always compare shape, center, spread, and outliers in context rather than describing them separately.","b":["Use parallel boxplots, back-to-back stemplots, or dotplots to compare groups","Comment on which group has the higher center and which has more/less variability","Relative frequency (percent) is used, not counts, when group sizes differ","Density curves show the proportion of data as area under the curve, total area = 1","Always write comparative statements in context, using words like 'greater than' or 'less variable than'"]}],"keyFacts":["x̄ = (Σx)/n ; s = √[Σ(x−x̄)²/(n−1)]","IQR = Q3 − Q1; outliers lie beyond Q1 − 1.5·IQR or Q3 + 1.5·IQR","z = (x − μ)/σ","Mean is pulled toward the tail in skewed data; median resists skew"],"traps":["‘Skewed left’ describes the direction of the longer tail, not where most data pile up","Standard deviation can never be negative; a computed negative SD means an arithmetic error","Adding a constant to all data shifts the mean but leaves the standard deviation unchanged — only multiplying changes spread","Comparing distributions requires comparative language in context, not two separate one-group descriptions"]},{"id":2,"name":"Modeling Distributions","concepts":[{"l":"Density Curves","intro":"A density curve is a smooth curve that models the shape of a distribution, where the total area underneath equals 1 and area corresponds to proportion of data.","b":["Total area under a density curve = 1 (100% of data)","Area under the curve over an interval = proportion of observations in that interval","The median divides the area in half; the mean is the balance point of the curve","In a skewed density curve, the mean is pulled toward the longer tail relative to the median","Density curves are idealized models, not the actual data"]},{"l":"The Normal Distribution","intro":"The Normal distribution is a symmetric, bell-shaped density curve fully described by its mean μ and standard deviation σ, following the Empirical (68-95-99.7) Rule.","b":["Notation: N(μ, σ)","68% of values fall within 1 SD of the mean (μ ± σ)","95% of values fall within 2 SD of the mean (μ ± 2σ)","99.7% of values fall within 3 SD of the mean (μ ± 3σ)","Normal curves are symmetric with mean = median = mode at the center","Inflection points of the curve occur at μ ± σ"]},{"l":"Standardizing and z-Scores","intro":"Any Normal distribution can be converted to the standard Normal distribution N(0,1) by standardizing values with z = (x − μ)/σ.","b":["z = (x − μ)/σ converts x to a standard score","Standard Normal distribution: N(0, 1)","Use a z-table or calculator (normalcdf) to find proportions/probabilities","invNorm is used to find a value given a percentile/proportion","z-scores let you compare observations from different Normal distributions"]},{"l":"Normal Probability Calculations","intro":"Calculator functions normalcdf and invNorm let you compute probabilities/proportions and find values from percentiles for any Normal distribution.","b":["normalcdf(lower, upper, μ, σ) finds the proportion/probability between two values","invNorm(percentile, μ, σ) finds the value at a given percentile","For 'less than', use normalcdf(-1E99, x, μ, σ); for 'greater than', use normalcdf(x, 1E99, μ, σ)","Always sketch and shade the Normal curve before calculating","Check reasonableness: answers should be between 0 and 1 for probabilities"]},{"l":"Assessing Normality","intro":"A Normal probability plot (or comparing the data to the 68-95-99.7 rule) helps determine whether a data set is approximately Normally distributed.","b":["A Normal probability plot that is roughly linear suggests the data are approximately Normal","Curvature in the plot indicates skewness or non-Normality","Compare observed percentages within 1, 2, 3 SD of the mean to 68%, 95%, 99.7%","Histograms/boxplots showing strong skew or outliers suggest data are not Normal","Many statistical procedures assume Normality, so checking it matters for inference later"]}],"keyFacts":["Empirical Rule: 68% within ±1σ, 95% within ±2σ, 99.7% within ±3σ of μ","z = (x − μ)/σ ; x = μ + zσ","Total area under any density curve = 1","Standard Normal: N(0,1)"],"traps":["The Empirical Rule only applies to (approximately) Normal distributions, not all distributions","A Normal probability plot with a clear curve — not a straight line — signals the data are NOT Normal","Area under a density curve represents proportion, not probability of a single exact point (P(X = x) = 0 for continuous variables)","z-scores can be negative; a negative z simply means the value is below the mean, not an error"]},{"id":3,"name":"Describing Bivariate Data","concepts":[{"l":"Scatterplots and Association","intro":"A scatterplot displays the relationship between two quantitative variables, revealing direction, form, strength, and unusual features (outliers).","b":["Explanatory variable (x) is plotted on the horizontal axis; response variable (y) on the vertical axis","Direction: positive (as x increases, y increases) or negative association","Form: linear or nonlinear (curved) pattern","Strength: how closely points follow the pattern (tight vs. scattered)","Always note any outliers or unusual points separately"]},{"l":"Correlation (r)","intro":"The correlation coefficient r measures the strength and direction of a linear relationship between two quantitative variables, ranging from -1 to 1.","b":["r ranges from -1 to +1; sign matches the direction of association","r close to ±1 indicates a strong linear relationship; r close to 0 indicates a weak/no linear relationship","r measures only linear association — it can be misleading for curved relationships","r has no units and is not affected by which variable is x or y","r is strongly affected by outliers","r² (coefficient of determination) is discussed separately"]},{"l":"Least-Squares Regression Line","intro":"The least-squares regression line ŷ = a + bx minimizes the sum of squared residuals and is used to predict y from x.","b":["Slope b = r(sy/sx); the line passes through (x̄, ȳ)","Interpretation of slope: 'for each one-unit increase in x, ŷ is predicted to change by b units'","Interpretation of y-intercept a: predicted value of y when x = 0 (only meaningful if x=0 is in scope)","Extrapolation (predicting far outside the observed x-range) is unreliable","Regression line is only appropriate for genuinely linear relationships"]},{"l":"Residuals and Residual Plots","intro":"A residual is the difference between an observed and predicted value (residual = y − ŷ), and residual plots help check whether a linear model is appropriate.","b":["Residual = observed y − predicted ŷ","A residual plot with no pattern (random scatter around 0) supports a linear model","A curved pattern in the residual plot indicates the relationship is not linear","Increasing spread (fan shape) in residuals indicates non-constant variability","The sum of residuals for a least-squares line is always 0"]},{"l":"r² (Coefficient of Determination)","intro":"r² is the proportion of variation in y that is explained by the linear regression on x, and is always between 0 and 1.","b":["r² = (correlation r)²","Interpretation: 'r²×100% of the variation in y is explained by the linear relationship with x'","r² closer to 1 means the regression line explains most of the variability in y","r² does not indicate causation, only explanatory strength of the linear model","Standard deviation of residuals (s) measures typical prediction error in y's units"]},{"l":"Outliers, Influential Points, and Transformations","intro":"Outliers and especially influential points (often high-leverage x-values) can dramatically change the regression line, and nonlinear data may require transformation.","b":["An outlier in regression has a large residual (far from the pattern)","An influential point substantially changes the slope/intercept if removed, often due to extreme x-value","Log or power transformations can linearize exponential or power-model data before regression","Always check a residual plot before trusting a linear model's predictions","Correlation/regression describe association, never prove causation"]}],"keyFacts":["b = r(sy/sx); line passes through (x̄, ȳ)","r² = r²; proportion of variation in y explained by x","residual = y − ŷ; residuals sum to 0 for LSRL","-1 ≤ r ≤ 1; r measures strength/direction of LINEAR association only"],"traps":["Correlation does NOT imply causation — a strong r only shows association","A high r² does not fix a nonlinear relationship; always check the residual plot first","Extrapolation beyond the observed x-range is unreliable even with a high r²","Correlation r is not resistant — a single outlier can drastically change its value"]},{"id":4,"name":"Designing Studies","concepts":[{"l":"Sampling Methods","intro":"Good sampling methods use chance to select a subset of a population so the sample represents the whole population without bias.","b":["Simple Random Sample (SRS): every group of n individuals has an equal chance of being chosen","Stratified random sample: population divided into homogeneous strata, then SRS taken within each stratum","Cluster sample: population divided into heterogeneous clusters, then entire clusters are randomly selected","Systematic sample: select every kth individual from a list after a random start","Convenience and voluntary response samples are NOT random and typically produce biased results"]},{"l":"Bias in Sampling","intro":"Bias occurs when a sampling method systematically favors certain outcomes, making the sample not representative of the population.","b":["Undercoverage: some groups of the population are left out of the sampling frame","Nonresponse bias: individuals selected don't respond, and responders differ from non-responders","Response bias: participants respond inaccurately due to question wording, interviewer, or social pressure","Voluntary response bias: sample consists only of people who choose to respond (e.g., call-in polls), often overrepresenting strong opinions","Larger sample size does NOT fix a biased sampling method"]},{"l":"Observational Studies vs. Experiments","intro":"An observational study measures variables without imposing treatments, while an experiment deliberately imposes treatments to study cause-and-effect.","b":["Observational studies can show association but cannot establish causation due to potential confounding","Experiments impose a treatment on subjects and can establish causation if well-designed","Confounding variables are variables whose effects on the response cannot be separated from the explanatory variable's effect","Retrospective (case-control) and prospective (cohort) studies are types of observational studies","Random assignment (not random sampling) is what allows experiments to infer causation"]},{"l":"Principles of Experimental Design","intro":"Well-designed experiments use control, randomization, and replication to reduce bias and allow cause-and-effect conclusions.","b":["Control: control for lurking variables by comparing multiple treatments, e.g., including a control/placebo group","Randomize: use chance to assign subjects to treatment groups, balancing out lurking variables","Replicate: apply each treatment to many subjects to reduce the role of chance variation","Placebo effect: subjects respond simply to receiving any treatment; a placebo group controls for this","Double-blind: neither subjects nor those measuring the response know which treatment was given, reducing bias"]},{"l":"Blocking and Matched Pairs","intro":"Blocking groups experimental units by a variable expected to affect the response before randomizing treatments within each block, increasing precision.","b":["A block is a group of experimental units known to be similar in some way that affects the response (e.g., gender, age group)","Randomize treatments separately within each block ('block what you can, randomize what you cannot')","Matched pairs design: a special case of blocking with blocks of size two (e.g., before/after, or twins)","Blocking reduces variability from the blocking variable, making treatment effects easier to detect","Blocking is not the same as stratifying in sampling, though the logic is similar"]},{"l":"Scope of Inference","intro":"The scope of conclusions you can draw depends on whether random sampling and/or random assignment were used in a study.","b":["Random sampling → results can be generalized to the population","Random assignment → cause-and-effect conclusions can be drawn","Random sampling AND random assignment → can generalize causal conclusions to the population","No randomization at all → conclusions apply only to the subjects studied, and only as association, not causation","Always identify explanatory and response variables, and check for confounding before making claims"]}],"keyFacts":["SRS: every possible sample of size n is equally likely","Random assignment → causation; random sampling → generalizability","3 Principles of experimental design: Control, Randomize, Replicate","Block what you can, randomize what you cannot"],"traps":["A large sample size cannot fix bias from a poor sampling method (e.g., a huge voluntary response sample is still biased)","Random sampling and random assignment are different: sampling allows generalization, assignment allows causal claims","Observational studies, no matter how large, cannot establish causation because of possible confounding variables","Blocking is done BEFORE random assignment; it's not the same as simply comparing groups after the fact"]},{"id":5,"name":"Probability & Simulation","concepts":[{"l":"Basic Probability Rules","intro":"Probability quantifies the likelihood of an event, always between 0 and 1, and follows specific rules for combining events.","b":["0 ≤ P(A) ≤ 1 for any event A; P(sample space) = 1","Complement Rule: P(not A) = 1 − P(A)","Addition Rule (general): P(A or B) = P(A) + P(B) − P(A and B)","Mutually exclusive (disjoint) events: P(A and B) = 0, so P(A or B) = P(A) + P(B)","Law of Large Numbers: as trials increase, the observed relative frequency approaches the true probability"]},{"l":"Independence and Mutual Exclusivity","intro":"Two events are independent if the occurrence of one does not change the probability of the other; this is a different concept from mutually exclusive events.","b":["Events A and B are independent if P(A|B) = P(A) (and equivalently P(B|A) = P(B))","Mutually exclusive events CANNOT both occur (P(A and B) = 0); independent events CAN both occur","Mutually exclusive events with nonzero probabilities are NEVER independent","Check independence with the multiplication rule: P(A and B) = P(A)×P(B) only if independent","Real-world context often needs the general multiplication rule if events aren't independent"]},{"l":"Conditional Probability","intro":"Conditional probability P(A|B) gives the probability of event A occurring given that event B has already occurred, restricting the sample space to B.","b":["P(A|B) = P(A and B) / P(B), provided P(B) > 0","Two-way tables are useful for computing conditional probabilities directly from counts","Conditional probability restricts attention to only the outcomes where the given condition is true","Order matters: P(A|B) is generally not equal to P(B|A)","Use conditional probability to formally test for independence"]},{"l":"The General Multiplication Rule","intro":"The multiplication rule finds the probability that two events both occur: P(A and B) = P(A)×P(B|A), simplifying to P(A)×P(B) when independent.","b":["General rule: P(A and B) = P(A) × P(B|A)","If A and B are independent: P(A and B) = P(A) × P(B)","Tree diagrams visually organize sequential/conditional probabilities and multiply along branches","Sampling without replacement typically creates dependent events (probabilities change after each draw)","Sampling with replacement typically creates independent events"]},{"l":"Simulation","intro":"Simulation uses random number generators (or physical devices) to imitate chance behavior, estimating probabilities that are hard to calculate directly.","b":["Steps: (1) State the assumptions/model, (2) Assign digits/outcomes to represent events, (3) Run many trials, (4) Compute the estimated probability from the results","More trials produce a more accurate simulation estimate (Law of Large Numbers)","Simulation gives an APPROXIMATION of the true probability, not an exact answer","Random digit tables or calculator random number generators (randInt) are common tools","Clearly define what constitutes 'success' in each trial before running the simulation"]},{"l":"Two-Way Tables and Venn Diagrams","intro":"Two-way tables organize data by two categorical variables, and Venn diagrams visually represent unions, intersections, and complements of events.","b":["Marginal probability: probability based on a row or column total divided by the grand total","Joint probability: probability of the intersection of two specific categories (a single cell / grand total)","Venn diagram overlap represents 'and' (intersection); combined regions represent 'or' (union)","Two-way tables make it easy to compute conditional probabilities: (cell count)/(row or column total)","Check independence in a two-way table by comparing conditional and marginal probabilities"]}],"keyFacts":["P(A or B) = P(A) + P(B) − P(A and B); if disjoint, P(A or B) = P(A) + P(B)","P(A|B) = P(A and B)/P(B)","P(A and B) = P(A)×P(B|A); if independent, = P(A)×P(B)","Independent ≠ Mutually Exclusive: disjoint events with P>0 are never independent"],"traps":["Mutually exclusive events are NOT independent (if both have positive probability) — a very common mix-up","P(A|B) ≠ P(B|A) in general — order and conditioning direction matter","'At least one' problems are usually easiest using the complement rule: P(at least one) = 1 − P(none)","Sampling without replacement changes probabilities from draw to draw, creating dependence, even if it 'feels' independent for large populations (approximately independent only when population is much larger than sample)"]},{"id":6,"name":"Random Variables","concepts":[{"l":"Discrete Random Variables & Probability Distributions","intro":"A discrete random variable X takes a countable set of numeric values, each with a probability; the probability distribution lists every value with P(X = x).","b":["Valid distribution requires every P(x) ≥ 0 and ΣP(x) = 1","Probability histograms display the distribution visually; shape, center, and spread all matter","P(X = a) is a single bar; P(X ≤ a) or P(X ≥ a) sums the relevant bars (cumulative probability)","Discrete RVs take isolated values (counts); continuous RVs take any value in an interval (measured with density curves/area)","Use two-way tables or context to build a distribution from raw counts before computing summary values"]},{"l":"Expected Value (Mean) of a Random Variable","intro":"The expected value μX is the long-run average outcome of a random variable if the chance process were repeated infinitely many times — a probability-weighted average, not a typical single outcome.","b":["μX = E(X) = Σ x·P(x), summing over every possible value","E(X) need not be a value X can actually take (e.g., average number of children = 2.3)","For a linear transformation: E(a + bX) = a + b·E(X)","For the sum of two random variables: E(X + Y) = E(X) + E(Y), always — no independence needed","E(X − Y) = E(X) − E(Y), always true as well"]},{"l":"Variance and Standard Deviation of a Random Variable","intro":"Variance measures the average squared deviation of a random variable from its mean, quantifying spread; standard deviation is its square root, back in the original units.","b":["σ²X = Var(X) = Σ (x − μX)²·P(x); σX = √ Var(X)","For a linear transformation: Var(a + bX) = b²·Var(X); adding a constant a never changes spread","If X and Y are INDEPENDENT: Var(X + Y) = Var(X) + Var(Y) and Var(X − Y) = Var(X) + Var(Y) — variances always add for independent RVs, even when subtracting","Standard deviations do NOT add or subtract directly; you must add variances first, then take the square root","Combining random variables that are NOT independent requires a covariance term, which is beyond the standard AP formula but the AP exam assumes independence unless stated otherwise"]},{"l":"Combining Random Variables","intro":"New random variables formed by adding, subtracting, or scaling other random variables follow predictable rules for their mean and variance.","b":["Mean of a sum/difference: μ(X±Y) = μX ± μY, regardless of independence","Variance of a sum/difference (independent X, Y only): σ²(X±Y) = σ²X + σ²Y","Example: total time for two independent tasks — add means and add variances, then take the square root for the combined SD","Watch units and context carefully: 'X − Y' models a difference in outcomes, not a probability of X being less than Y","Check independence explicitly before adding variances; dependent variables need extra (non-AP-formula) covariance information"]},{"l":"Binomial Distributions","intro":"A binomial random variable counts the number of successes in a fixed number of independent trials, each with the same two possible outcomes and the same probability of success.","b":["BINS conditions: Binary outcomes, Independent trials, fixed Number of trials n, Same probability p of success on each trial","P(X = k) = C(n,k)·p^k·(1−p)^(n−k), where C(n,k) = n!/(k!(n−k)!)","Mean: μX = np; Standard deviation: σX = √(np(1−p))","10% condition: sampling without replacement from a finite population is approximately independent (binomial-like) only if the sample is less than 10% of the population","Large Counts condition (np ≥ 10 and n(1−p) ≥ 10) allows a Normal approximation to the binomial distribution"]},{"l":"Geometric Distributions","intro":"A geometric random variable counts the number of trials needed to get the FIRST success in a sequence of independent trials with constant probability of success.","b":["Conditions are BITS: Binary outcomes, Independent trials, constant probability p, trials continue until the first Success (no fixed n)","P(X = k) = (1−p)^(k−1)·p, for k = 1, 2, 3, … (X starts at 1, not 0)","Mean: μX = 1/p; Standard deviation: σX = √((1−p)/p²)","P(X > n) = (1−p)^n, the probability of no success in the first n trials","Distinguish from binomial: geometric has no fixed number of trials and asks 'how long until,' while binomial fixes n and counts successes"]}],"keyFacts":["E(X) = Σ x·P(x); Var(X) = Σ (x−μ)²·P(x); σX = √Var(X)","Linear transform: E(a+bX) = a+b·E(X); Var(a+bX) = b²·Var(X)","Binomial: μ = np, σ = √(np(1−p)); P(X=k) = C(n,k)p^k(1−p)^(n−k)","Geometric: μ = 1/p, σ = √((1−p)/p²); P(X=k) = (1−p)^(k−1)p"],"traps":["Variances add for independent RVs even when you SUBTRACT the variables: Var(X−Y) = Var(X)+Var(Y), not Var(X)−Var(Y)","Standard deviations never add or subtract directly — always combine variances first, then take the square root at the end","A binomial variable requires a FIXED number of trials n; if the question asks 'how many trials until the first success,' that's geometric, not binomial","Geometric random variables start at X = 1 (you need at least one trial), never at X = 0"]},{"id":7,"name":"Sampling Distributions","concepts":[{"l":"Sampling Distributions: Core Idea","intro":"A sampling distribution describes the distribution of a statistic (like a sample mean or sample proportion) computed from every possible sample of a given size — it tells us how much a statistic varies from sample to sample.","b":["A statistic (from a sample) estimates a parameter (from the population); statistics vary, parameters are fixed","The sampling distribution's shape, center, and spread describe how the statistic behaves across repeated sampling","An estimator is unbiased if the mean of its sampling distribution equals the true parameter value","Variability of a sampling distribution decreases as sample size n increases","Bias relates to accuracy (centered on the parameter); variability relates to precision (how spread out the statistic's values are)"]},{"l":"Sampling Distribution of a Sample Proportion","intro":"When repeatedly sampling from a population with true proportion p, the sample proportion p̂ has a predictable mean, standard deviation, and (under conditions) approximately Normal shape.","b":["Mean: μp̂ = p (p̂ is an unbiased estimator of p)","Standard deviation: σp̂ = √(p(1−p)/n)","10% condition: sample size n must be less than 10% of the population for independence (so σp̂ formula is accurate)","Large Counts condition: np ≥ 10 and n(1−p) ≥ 10 for the sampling distribution of p̂ to be approximately Normal","As n increases, σp̂ decreases (more precise estimates), but the mean stays at p"]},{"l":"Sampling Distribution of a Sample Mean","intro":"When repeatedly sampling from a population with mean μ and standard deviation σ, the sample mean x̄ has its own sampling distribution with predictable mean and standard deviation.","b":["Mean: μx̄ = μ (x̄ is an unbiased estimator of μ) — true for any sample size","Standard deviation (standard error): σx̄ = σ/√n, requires the 10% condition when sampling without replacement","If the population itself is Normally distributed, x̄ is exactly Normally distributed for any n","If the population is NOT Normal, x̄'s distribution becomes approximately Normal as n grows large (Central Limit Theorem)","Increasing n reduces σx̄ (more precision) but does not change μx̄"]},{"l":"The Central Limit Theorem (CLT)","intro":"The Central Limit Theorem states that as sample size n increases, the sampling distribution of the sample mean x̄ approaches a Normal distribution, regardless of the shape of the population distribution.","b":["Rule of thumb: CLT applies well once n ≥ 30 for most population shapes, though strongly skewed populations may need larger n","CLT justifies using Normal-based procedures (z-scores, confidence intervals) for means even when the population isn't Normal","The CLT applies to sums and means of independent, identically distributed random variables","The CLT does NOT change μx̄ = μ or σx̄ = σ/√n — it only affects the SHAPE of the sampling distribution","For proportions, the analogous Large Counts condition (np≥10, n(1−p)≥10) plays a similar Normal-approximation role"]},{"l":"Standard Error and the Effect of Sample Size","intro":"Standard error is the estimated standard deviation of a sampling distribution when the population parameter is unknown; it shrinks as sample size grows, following an inverse square-root relationship.","b":["Standard error of p̂: SE(p̂) = √(p̂(1−p̂)/n), using the sample proportion since p is unknown","Standard error of x̄: SE(x̄) = s/√n, using the sample standard deviation s since σ is unknown","To cut the standard error in half, you must QUADRUPLE the sample size (since σ/√n involves a square root)","Larger samples give more precise (less variable) estimates, but do not remove bias caused by poor sampling methods","Larger sample size never fixes a biased sampling method — that requires proper random sampling design, not more data"]}],"keyFacts":["μp̂ = p; σp̂ = √(p(1−p)/n)","μx̄ = μ; σx̄ = σ/√n","CLT: shape of x̄'s sampling distribution → approximately Normal as n grows (rule of thumb n≥30)","Large Counts (proportions): np≥10 and n(1−p)≥10; 10% condition needed for independence in both cases"],"traps":["Increasing sample size reduces variability (σ/√n) but never removes bias from a flawed sampling method","σx̄ = σ/√n, NOT σ/n — a common algebra slip that badly underestimates spread","The CLT describes the SHAPE of the sampling distribution of x̄, not the shape of the original population data","To halve the standard error, you must quadruple n, not just double it, because of the square root in σ/√n"]},{"id":8,"name":"Inference: Confidence & Tests","concepts":[{"l":"Confidence Intervals: Logic and Structure","intro":"A confidence interval uses a sample statistic plus a margin of error to estimate an unknown population parameter, with a stated level of confidence in the method used to produce it.","b":["General form: statistic ± (critical value)×(standard error)","Confidence level describes the long-run capture rate of the METHOD: e.g., 95% of all intervals built this way would capture the true parameter over many repetitions","Higher confidence level → wider interval (larger critical value), all else equal","Larger sample size → narrower interval (smaller standard error), all else equal","Conditions to check: Random (random sample/assignment), Normal/Large Counts (shape of sampling distribution), Independent (10% condition)"]},{"l":"Confidence Interval for a Proportion and a Mean","intro":"The one-proportion z-interval and one-sample t-interval are the two core confidence interval procedures for estimating a population proportion or population mean.","b":["One-proportion z-interval: p̂ ± z*·√(p̂(1−p̂)/n)","One-sample t-interval for a mean: x̄ ± t*·(s/√n), using t* from a t-distribution with n−1 degrees of freedom because σ is unknown","The t-distribution is shorter and wider (fatter tails) than the Normal distribution, especially for small n, to account for extra uncertainty from estimating σ with s","As degrees of freedom (n−1) increase, the t-distribution approaches the standard Normal distribution","Common critical values: z*=1.645 (90%), 1.96 (95%), 2.576 (99%); t* depends on both confidence level and df (found via table or technology)"]},{"l":"Hypothesis Testing: Logic and Structure","intro":"A hypothesis test uses sample evidence to assess a claim about a population, weighing the null hypothesis (no effect/no difference) against an alternative hypothesis.","b":["H0 (null): typically states 'no effect' or equality (e.g., p = 0.5, μ1 = μ2); Ha (alternative): what we suspect is true (≠, <, or >)","The P-value is the probability of getting a test statistic at least as extreme as the one observed, ASSUMING H0 is true","Small P-value = strong evidence against H0; if P-value < α (significance level), reject H0; otherwise, fail to reject H0","'Fail to reject H0' is NOT the same as 'accept H0' or 'prove H0 true' — it just means insufficient evidence against it","Same Random/Normal(or Large Counts)/Independent conditions from confidence intervals also apply before running a hypothesis test"]},{"l":"Type I and Type II Errors, and Power","intro":"Every hypothesis test risks two types of mistakes: rejecting a true null hypothesis (Type I) or failing to reject a false null hypothesis (Type II); power measures the test's ability to correctly detect a real effect.","b":["Type I error: rejecting H0 when H0 is actually TRUE; P(Type I error) = α, the significance level","Type II error: failing to reject H0 when H0 is actually FALSE (Ha is true); P(Type II error) = β","Power = 1 − β = the probability of correctly rejecting a false H0; higher power is better","Decreasing α (e.g., from 0.05 to 0.01) reduces the risk of Type I error but INCREASES the risk of Type II error (lowers power)","Increasing sample size increases power without increasing α, because it reduces standard error"]},{"l":"t-Tests, Chi-Square Tests, and Choosing a Procedure","intro":"Different inference procedures fit different data types: t-tests compare means, chi-square tests analyze categorical count data, and each has its own test statistic and distribution.","b":["One-sample t-test statistic: t = (x̄ − μ0)/(s/√n), with df = n−1","Two-sample t-test statistic (independent samples): t = (x̄1 − x̄2)/√(s1²/n1 + s2²/n2), for comparing two population means","Chi-square test statistic: χ² = Σ (observed − expected)²/expected, used for goodness-of-fit, homogeneity, or independence tests with categorical data","Chi-square goodness-of-fit compares one categorical variable to a hypothesized distribution; chi-square test for independence/association examines two categorical variables in a two-way table","Choose a proportion procedure (z) for categorical data summarized as counts/percentages; choose a t-procedure for quantitative data summarized as means"]}],"keyFacts":["CI form: statistic ± (critical value)×(SE); proportion: p̂ ± z*√(p̂(1−p̂)/n); mean: x̄ ± t*(s/√n), df=n−1","Test statistic: (statistic − hypothesized value)/(standard error); one-sample t: (x̄−μ0)/(s/√n)","χ² = Σ(observed−expected)²/expected","P(Type I error)=α; P(Type II error)=β; Power=1−β"],"traps":["'Fail to reject H0' does NOT mean H0 is proven true — it only means there's insufficient evidence against it","A P-value is NOT the probability that H0 is true; it's the probability of data this extreme (or more) GIVEN H0 is true","Decreasing α to reduce Type I error risk INCREASES the risk of Type II error (lowers power) — you can't minimize both simultaneously without changing the sample size","Confidence level describes the long-run success rate of the METHOD across many samples, not the probability that one specific interval contains the true parameter"]}];
 const DIAGRAMS={};
@@ -877,7 +949,8 @@ const PART_A=[{"n":1,"u":1,"q":"A distribution of exam scores is strongly skewed
 const PART_B1=[{"n":31,"u":1,"q":"A data set of 9 exam scores, sorted, is: 60, 65, 70, 72, 75, 78, 80, 85, 90. What is the five-number summary's median?","o":["75","72","78","70"],"a":0,"e":"With 9 ordered values, the median is the 5th value: 75."},{"n":32,"u":1,"q":"A data set has Q1 = 40 and Q3 = 60. What is the IQR?","o":["20","100","50","10"],"a":0,"e":"IQR = Q3 - Q1 = 60 - 40 = 20."},{"n":33,"u":2,"q":"For a Normal distribution, approximately what percent of values lie within 2 standard deviations of the mean?","o":["95%","68%","99.7%","50%"],"a":0,"e":"The empirical (68-95-99.7) rule states about 95% of values fall within 2 standard deviations of the mean for Normal data."},{"n":34,"u":2,"q":"A value has a z-score of 0 in a Normal distribution. What does this tell us?","o":["The value equals the mean of the distribution","The value is the maximum in the data set","The value is an outlier","The value is one standard deviation above the mean"],"a":0,"e":"A z-score of 0 means the value equals the mean, since z = (x - mean)/SD = 0 only when x = mean."},{"n":35,"u":3,"q":"Which value of the correlation coefficient r indicates the strongest linear relationship?","o":["r = -0.95","r = 0.50","r = 0.10","r = -0.30"],"a":0,"e":"Strength of linear association is measured by |r|; |-0.95| = 0.95 is closest to 1, indicating the strongest linear relationship (here negative direction)."},{"n":36,"u":3,"q":"A regression line predicts house price (in $1000s) as ŷ = 50 + 2x, where x is square footage (in 100s). What does the slope of 2 mean in context?","o":["For each additional 100 square feet, predicted price increases by $2,000 on average","The house costs $2 per square foot","When x = 0, the price is $2,000","Price increases by 2% for each square foot"],"a":0,"e":"The slope represents the predicted change in y (price in $1000s) per unit increase in x (100 sq ft), so an increase of 2 means $2,000 more predicted price per additional 100 sq ft."},{"n":37,"u":4,"q":"A study assigns treatments to subjects using a coin flip for each subject independently, rather than a fixed number in each group. This describes:","o":["Completely randomized design with independent random assignment","A block design","A matched pairs design","A stratified sample"],"a":0,"e":"Randomly and independently assigning each subject to a treatment (like flipping a coin per subject) is a form of completely randomized design."},{"n":38,"u":4,"q":"Which of the following is an example of undercoverage in a sampling method?","o":["A phone survey that only calls landlines, missing people who only use cell phones","A survey where selected people choose not to respond","People with strong opinions being more likely to respond","Researchers making up data instead of collecting it"],"a":0,"e":"Undercoverage occurs when some group in the population is left out of the sampling frame, such as cell-phone-only households being excluded from a landline survey."},{"n":39,"u":5,"q":"A fair six-sided die is rolled once. What is P(rolling an even number or a number greater than 4)?","o":["4/6","3/6","2/6","5/6"],"a":0,"e":"Even numbers: {2,4,6}. Greater than 4: {5,6}. Union: {2,4,5,6}, which is 4 outcomes out of 6, so P = 4/6."},{"n":40,"u":5,"q":"Events A and B are mutually exclusive with P(A) = 0.3 and P(B) = 0.4. What is P(A or B)?","o":["0.7","0.12","1.0","0.1"],"a":0,"e":"For mutually exclusive events, P(A or B) = P(A) + P(B) = 0.3 + 0.4 = 0.7 (since P(A and B) = 0)."},{"n":41,"u":6,"q":"A binomial random variable has n = 20 trials and p = 0.5. What is its standard deviation?","o":["≈2.24","10","0.5","4"],"a":0,"e":"SD of a binomial = sqrt(np(1-p)) = sqrt(20 x 0.5 x 0.5) = sqrt(5) ≈ 2.24."},{"n":42,"u":6,"q":"If a random variable X has mean 10, what is the mean of the random variable Y = 3X + 5?","o":["35","30","15","10"],"a":0,"e":"For linear transformations, mean(aX+b) = a(mean of X) + b = 3(10) + 5 = 35."},{"n":43,"u":7,"q":"Which condition is generally required before applying the Normal approximation to a sampling distribution of a sample proportion?","o":["Both np and n(1-p) are at least 10","The sample size is at least 1000","The population must be Normally distributed","p must equal 0.5"],"a":0,"e":"The large counts condition, np ≥ 10 and n(1-p) ≥ 10, is used to justify treating the sampling distribution of p̂ as approximately Normal."},{"n":44,"u":7,"q":"Increasing the sample size n in a sampling distribution of the sample mean has what effect on the standard error?","o":["It decreases, since standard error = σ/√n","It increases proportionally with n","It stays exactly the same","It becomes zero once n exceeds 30"],"a":0,"e":"Standard error = σ/√n, so as n increases, the standard error decreases (though never reaches exactly zero for finite n)."},{"n":45,"u":8,"q":"When constructing a confidence interval for a population mean with an unknown population standard deviation, which distribution is typically used?","o":["The t-distribution with n-1 degrees of freedom","The standard Normal (z) distribution always","The binomial distribution","The chi-square distribution"],"a":0,"e":"When σ is unknown and estimated by the sample standard deviation, the t-distribution with n-1 degrees of freedom is used for inference about a mean."},{"n":46,"u":8,"q":"As the confidence level of a confidence interval increases from 90% to 99% (holding sample size fixed), the width of the interval:","o":["Increases, because a higher confidence level requires a larger critical value","Decreases, because higher confidence means a more precise estimate","Stays exactly the same","Becomes zero"],"a":0,"e":"Higher confidence levels require larger critical values (e.g., z* or t*), which widen the margin of error and thus the interval, all else equal."},{"n":47,"u":8,"q":"A hypothesis test has power = 0.80. What does this mean?","o":["There is an 80% chance of correctly rejecting a false null hypothesis","There is an 80% chance the null hypothesis is true","The significance level is 0.80","There is an 80% chance of making a Type I error"],"a":0,"e":"Power is the probability of correctly rejecting the null hypothesis when it is actually false, i.e., detecting a real effect."},{"n":48,"u":1,"q":"Which measure of spread is most resistant to outliers?","o":["Interquartile range (IQR)","Standard deviation","Range","Variance"],"a":0,"e":"The IQR is based on quartiles (middle 50% of data) and is not affected by extreme values, unlike range, variance, or standard deviation."},{"n":49,"u":3,"q":"A data point has a large residual and is far removed in the x-direction from the rest of the data, and removing it substantially changes the slope of the regression line. This point is best described as:","o":["An influential point","A resistant point","A categorical outlier","A block"],"a":0,"e":"An influential point, often with an extreme x-value, is one whose removal noticeably changes the regression line, especially the slope."},{"n":50,"u":4,"q":"In an experiment testing a new drug, neither the subjects nor the researchers evaluating outcomes know who received the drug versus placebo. This design feature is called:","o":["Double-blinding","Blocking","Random sampling","Matched pairs"],"a":0,"e":"Double-blinding means both subjects and the evaluators are unaware of treatment assignment, which helps prevent bias in reporting or assessing outcomes."}];
 const PART_B2=[{"n":51,"u":1,"q":"A distribution is described as 'skewed right with several high outliers.' Which pair of center/spread measures should be reported?","o":["Median and IQR","Mean and standard deviation","Mean and range","Mode and variance"],"a":0,"e":"For skewed distributions with outliers, resistant measures (median and IQR) give a more accurate picture than the mean and standard deviation, which are pulled by extreme values."},{"n":52,"u":2,"q":"A set of test scores is approximately Normal with mean 70 and SD 8. Approximately what score marks the 84th percentile?","o":["78","86","62","70"],"a":0,"e":"The 84th percentile corresponds to about z = 1 (since 68% is within ±1 SD, leaving 16% above +1 SD, so 84% below). Score = 70 + 1(8) = 78."},{"n":53,"u":3,"q":"Two variables have correlation r = -0.9. Which statement is true?","o":["As one variable increases, the other tends to decrease, and the linear relationship is strong","As one variable increases, the other also increases strongly","There is almost no linear relationship between the variables","The variables are causally related"],"a":0,"e":"A correlation close to -1 indicates a strong negative linear association: as one variable increases, the other tends to decrease."},{"n":54,"u":4,"q":"A researcher wants to estimate opinions of a school's students and separately samples proportional numbers of freshmen, sophomores, juniors, and seniors, then randomly samples within each group. This is:","o":["Stratified random sampling","Cluster sampling","Simple random sampling","Systematic sampling"],"a":0,"e":"Dividing the population into groups (strata) based on a characteristic (grade level) and randomly sampling within each stratum defines stratified random sampling."},{"n":55,"u":5,"q":"A weather app reports a 30% chance of rain today and a 40% chance of rain tomorrow, and these are independent events. What is the probability it rains on both days?","o":["0.12","0.70","0.10","0.34"],"a":0,"e":"For independent events, P(both) = P(A) x P(B) = 0.30 x 0.40 = 0.12."},{"n":56,"u":6,"q":"A geometric random variable has probability of success p = 0.2 on each trial. What is the expected (mean) number of trials until the first success?","o":["5","0.2","1.25","4"],"a":0,"e":"For a geometric random variable, mean = 1/p = 1/0.2 = 5."},{"n":57,"u":7,"q":"A population of test scores has mean 500 and standard deviation 100. For random samples of size 400, what is the standard error of the sample mean?","o":["5","25","100","2"],"a":0,"e":"Standard error = σ/√n = 100/√400 = 100/20 = 5."},{"n":58,"u":8,"q":"A 90% confidence interval for a proportion is calculated as p̂ ± 1.645 x sqrt[p̂(1-p̂)/n]. If p̂ = 0.5 and n = 100, what is the margin of error (rounded)?","o":["≈0.082","≈0.050","≈0.164","≈0.025"],"a":0,"e":"ME = 1.645 x sqrt(0.5 x 0.5/100) = 1.645 x sqrt(0.0025) = 1.645 x 0.05 = 0.08225 ≈ 0.082."},{"n":59,"u":8,"q":"A significance test for a mean produces a test statistic t = 2.5 with a small p-value below alpha = 0.05. Which conclusion is appropriate in context?","o":["There is convincing statistical evidence that the true mean differs from the hypothesized value","We have proven the null hypothesis is false with certainty","The alternative hypothesis has been proven true","The sample mean equals the population mean exactly"],"a":0,"e":"A small p-value below alpha leads to rejecting the null hypothesis, providing convincing evidence for the alternative, but statistical tests never prove hypotheses with certainty."},{"n":60,"u":4,"q":"A study observes that ice cream sales and drowning incidents are both higher in summer months, and are positively correlated. Which explains this WITHOUT implying ice cream causes drowning?","o":["A lurking (confounding) variable, warm weather, increases both variables independently","The correlation coefficient must be negative","This is direct causation between the two variables","The sample size must be too small to matter"],"a":0,"e":"A lurking variable (warm weather leading to more swimming and more ice cream consumption) explains the association without any direct causal link between the two variables."}];
 const PART_C=[{"n":61,"u":1,"q":"Written response: choose TWO concepts from different units and construct an argument connecting them. Cite specific evidence from each.","o":["Names both concepts precisely, gives concrete evidence for each, and explains the causal/logical bridge","Lists the two topics without connecting them","Describes only one concept in detail","Gives a personal opinion with no course evidence"],"a":0,"e":"Strong responses anchor every claim in specific unit content."},{"n":62,"u":8,"q":"Essay plan: identify the single most important takeaway of this course. Defend it using three units as evidence, then address one counterargument.","o":["Clear thesis, three unit-specific pieces of evidence, genuine counterargument, resolution","Thesis with no support","Topic list with no argument","Anecdote unrelated to course content"],"a":0,"e":"Full argumentative architecture earns top marks."}];
-const EXAM_CSS=".ex-header{background:var(--ink);color:var(--surface);padding:20px 22px;border-radius:var(--radius);margin-bottom:22px}\n.ex-header h2{font-family:'Space Grotesk';font-size:28.5px;font-weight:700;margin-bottom:4px}\n.ex-header p{font-family:'Inter';font-size:19.5px;color:rgba(255,255,255,.65)}\n.ex-part{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--surface)}\n.ex-part-hd{background:var(--surface-2);padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}\n.ex-part-hd:hover{background:var(--surface-hover)}\n.ex-part-hd h3{font-size:21px;font-weight:700;color:var(--ink)}\n.ex-part-hd span{font-family:'Inter';font-size:18px;color:var(--ink-dim)}\n.ex-part-body{display:none;padding:20px}\n.ex-part.open .ex-part-body{display:block}\n.ex-q{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}\n.ex-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}\n.ex-qnum{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}\n.ex-qtext{font-size:21.8px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:13px}\n.ex-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}\n.ex-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface);text-align:left;transition:all .12s}\n.ex-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}\n.ex-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}\n.ex-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}\n.ex-exp{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface-2);padding:11px 14px;border-radius:var(--radius-sm);margin-top:9px;display:none;line-height:1.6}\n.ex-exp.show{display:block}\n.ex-sa{padding:13px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter';font-size:20.2px;color:var(--amber-ink);line-height:1.6;margin-top:9px}\n.ex-sa strong{display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:var(--amber)}\n.ex-score{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px;display:none}\n.ex-score strong{font-family:'Space Grotesk';color:var(--success);font-size:22.5px}\n.ex-score span{font-family:'Inter';color:var(--success);font-size:19.5px}\n.ex-reset{padding:10px 20px;border:1px solid var(--border);border-radius:999px;background:var(--surface);cursor:pointer;font-family:'Space Grotesk';font-weight:600;font-size:19.5px;margin-top:10px;transition:all .15s}\n.ex-reset:hover{background:var(--surface-hover);border-color:var(--border-strong)}\n";
+const EXAM_META={"title":"AP Statistics — Full Practice Exam","subtitle":"Part A (30 pts) · Part B–1 (20 pts) · Part B–2 (10 pts) · Part C (2 pts)","parts":{"PART_A":{"title":"Part A — Multiple Choice","points":30,"minutes":null},"PART_B1":{"title":"Part B–1 — Multiple Choice","points":20,"minutes":null},"PART_B2":{"title":"Part B–2 — Short Answer","points":10,"minutes":null},"PART_C":{"title":"Part C — Extended Response","points":2,"minutes":null}}};
+const EXAM_CSS=".ex-header{background:var(--ink);color:var(--surface);padding:20px 22px;border-radius:var(--radius);margin-bottom:22px}\n.ex-header h2{font-family:'Space Grotesk';font-size:28.5px;font-weight:700;margin-bottom:4px}\n.ex-header p{font-family:'Inter';font-size:19.5px;color:rgba(255,255,255,.65)}\n.ex-part{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--surface)}\n.ex-part-hd{background:var(--surface-2);padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}\n.ex-part-hd:hover{background:var(--surface-hover)}\n.ex-part-hd h3{font-size:21px;font-weight:700;color:var(--ink)}\n.ex-part-hd span{font-family:'Inter';font-size:18px;color:var(--ink-dim)}\n.ex-part-hd-meta{display:flex;align-items:center;gap:14px;flex:none}\n.ex-timer{font-family:'Space Grotesk';font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink-dim)}\n.ex-timer.ex-timer-up{color:var(--danger)}\n.ex-part-body{display:none;padding:20px}\n.ex-part.open .ex-part-body{display:block}\n.ex-q{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}\n.ex-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}\n.ex-qnum{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}\n.ex-qtext{font-size:21.8px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:13px}\n.ex-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}\n.ex-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface);text-align:left;transition:all .12s}\n.ex-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}\n.ex-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}\n.ex-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}\n.ex-exp{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface-2);padding:11px 14px;border-radius:var(--radius-sm);margin-top:9px;display:none;line-height:1.6}\n.ex-exp.show{display:block}\n.ex-sa{padding:13px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter';font-size:20.2px;color:var(--amber-ink);line-height:1.6;margin-top:9px}\n.ex-sa strong{display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:var(--amber)}\n.ex-score{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px;display:none}\n.ex-score strong{font-family:'Space Grotesk';color:var(--success);font-size:22.5px}\n.ex-score span{font-family:'Inter';color:var(--success);font-size:19.5px}\n.ex-reset{padding:10px 20px;border:1px solid var(--border);border-radius:999px;background:var(--surface);cursor:pointer;font-family:'Space Grotesk';font-weight:600;font-size:19.5px;margin-top:10px;transition:all .15s}\n.ex-reset:hover{background:var(--surface-hover);border-color:var(--border-strong)}\n";
 function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');var idx=-1;tabs.forEach((b,i)=>{if(b.id==='tab-'+id)idx=i;});if(idx!==-1){tabs.forEach((b,i)=>{var on=i===idx;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;});var _hl=document.getElementById('hero-live');if(_hl)_hl.textContent=tabs[idx].textContent.trim()+' tab';}if(id==='examples'&&!examplesBuilt)buildExamples();if(id==='exam'&&!examBuilt)buildExam();var spc=document.getElementById('spc-card');if(spc)spc.style.display=(id==='guide')?'':'none';}
 let examBuilt=false;
 var examplesBuilt=false, ex2map={}, ex2shown={};
@@ -890,20 +963,25 @@ const st=document.createElement('style');st.textContent=EXAM_CSS;document.head.a
 
 v.innerHTML=`
 <div class="ex-header">
-  <h2>AP Statistics — Full Practice Exam</h2>
-  <p>Part A (30 pts) · Part B-1 (20 pts) · Part B-2 (15 pts) · Part C (20 pts) · Based on Jan 2026 format</p>
+  <h2>${EXAM_META.title}</h2>
+  <p>${EXAM_META.subtitle}</p>
 </div>
 <div id="ex-score-box" class="ex-score"></div>
-${buildPartMC('A','Part A — Multiple Choice (30 questions, 1 pt each)',PART_A)}
-${buildPartMC('B1','Part B–1 — Multiple Choice (20 questions, 1 pt each)',PART_B1)}
-${buildPartFR('B2','Part B–2 — Short Answer (show work, 1 pt each)',PART_B2)}
-${buildPartFR('C','Part C — Extended Response (1–2 pts each)',PART_C)}
+${buildPartMC('A',PART_A)}
+${buildPartMC('B1',PART_B1)}
+${buildPartFR('B2',PART_B2)}
+${buildPartFR('C',PART_C)}
 `;
 // open Part A by default
-document.getElementById('ex-part-A').classList.add('open');
+togglePart('A');
 }
 
-function buildPartMC(id,title,qs){
+function examPartMeta(id){return (EXAM_META&&EXAM_META.parts&&EXAM_META.parts['PART_'+id])||{};}
+function exTimerHtml(id){return examPartMeta(id).minutes?`<span class="ex-timer" id="timer-${id}"></span>`:'';}
+
+function buildPartMC(id,qs){
+if(!qs.length)return'';
+const meta=examPartMeta(id);
 const items=qs.map(q=>`
 <div class="ex-q" id="exq-${id}-${q.n}">
   <div class="ex-qnum">Question ${q.n}</div>
@@ -915,15 +993,18 @@ const items=qs.map(q=>`
 </div>`).join('');
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${title}</h3><span id="score-${id}">Score: 0 / ${qs.length}</span>
+  <h3>${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'}, 1 pt each)</h3>
+  <div class="ex-part-hd-meta"><span id="score-${id}">Score: 0 / ${qs.length}</span>${exTimerHtml(id)}</div>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
 }
 
-function buildPartFR(id,title,qs){
+function buildPartFR(id,qs){
+if(!qs.length)return'';
 // Some guides author these as genuine free-response (q.sa, a model answer to
 // reveal); others reuse the multiple-choice shape (q.o/q.a) for this part.
 // Render whichever shape the data actually has instead of assuming sa exists.
+const meta=examPartMeta(id);
 const items=qs.map(q=>q.sa!==undefined?`
 <div class="ex-q">
   <div class="ex-qnum">Question ${q.n}</div>
@@ -940,11 +1021,43 @@ const items=qs.map(q=>q.sa!==undefined?`
   <div class="ex-exp" id="exp-${id}-${q.n}">${q.e}</div>
 </div>`).join('');
 const allMC=qs.every(q=>q.sa===undefined);
+const rightMeta=allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`;
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${title}</h3>${allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`}
+  <h3>${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'})</h3>
+  <div class="ex-part-hd-meta">${rightMeta}${exTimerHtml(id)}</div>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
+}
+
+/* Per-part countdown timer. In-memory only (module-level `examTimers`) — a
+   refresh resets it, matching the fact that exam progress/scores are never
+   persisted to localStorage either. Not a proctored test: hitting zero just
+   shows "Time's up" and stops, it never auto-submits or locks the part. */
+var examTimers={};
+function startPartTimer(id){
+  const meta=examPartMeta(id);
+  if(!meta.minutes)return;
+  let t=examTimers[id];
+  if(!t){t=examTimers[id]={remaining:meta.minutes*60,expired:false,intervalId:null};}
+  if(t.expired||t.intervalId)return; // already ticking, or already ran out
+  t.intervalId=setInterval(function(){
+    t.remaining--;
+    if(t.remaining<=0){
+      t.remaining=0;t.expired=true;
+      clearInterval(t.intervalId);t.intervalId=null;
+    }
+    renderPartTimer(id);
+  },1000);
+  renderPartTimer(id);
+}
+function renderPartTimer(id){
+  const el=document.getElementById('timer-'+id);
+  const t=examTimers[id];
+  if(!el||!t)return;
+  if(t.expired){el.textContent="Time's up";el.classList.add('ex-timer-up');return;}
+  const m=Math.floor(t.remaining/60),s=t.remaining%60;
+  el.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
 }
 
 function togglePart(id){
@@ -952,6 +1065,7 @@ function togglePart(id){
   const isOpen=part.classList.toggle('open');
   const hd=part.querySelector('.ex-part-hd');
   if(hd)hd.setAttribute('aria-expanded',isOpen?'true':'false');
+  if(isOpen)startPartTimer(id);
 }
 
 function toggleSA(btn){
@@ -1259,6 +1373,58 @@ function qBookmarkToggle(qid){
 }
 function qId(q){return q.u+'|'+q.q;}
 
+/* Mistake Log: localStorage-backed, keyed the same way as the bookmark set
+   (ssBookmarks_<slug>) — a currently-unresolved-misses list, not full history.
+   A question moves in when answered wrong and out the moment it's answered
+   correctly again (from anywhere: normal quiz, diagnostic, hard mode, or the
+   log's own review pass). */
+var MISTAKE_LOG_KEY='ssMistakes_'+'ap-stats';
+function mistakeLogMap(){
+  try{return JSON.parse(localStorage.getItem(MISTAKE_LOG_KEY)||'{}');}catch(e){return {};}
+}
+function mistakeLogSave(map){
+  try{localStorage.setItem(MISTAKE_LOG_KEY,JSON.stringify(map));}catch(e){}
+  updateMistakeLogBadge();
+}
+function mistakeLogAdd(q){
+  const map=mistakeLogMap();
+  map[qId(q)]={u:q.u,q:q.q,o:q.o,a:q.a,e:q.e,d:q.d,topic:q.topic};
+  mistakeLogSave(map);
+}
+function mistakeLogRemove(q){
+  const map=mistakeLogMap();
+  const id=qId(q);
+  if(!(id in map))return;
+  delete map[id];
+  mistakeLogSave(map);
+}
+function updateMistakeLogBadge(){
+  const el=document.getElementById('mistake-log-count');
+  if(!el)return;
+  const n=Object.keys(mistakeLogMap()).length;
+  el.textContent=String(n);
+  el.style.display=n?'':'none';
+}
+var mistakeReviewMode=false;
+function openMistakeLog(){
+  switchTab('quiz');
+  mistakeReviewMode=true;
+  diagMode=false;
+  const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
+  const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
+  const map=mistakeLogMap();
+  qPool=Object.values(map);
+  qIdx=0;score=0;requeueCounts=new WeakMap();
+  const qb=document.getElementById('qbox');
+  if(!qPool.length){
+    qb.innerHTML='<div class="mistake-log-empty">No mistakes logged right now — nice work. Answer a question wrong anywhere in the quiz and it will show up here until you get it right.</div>';
+    document.getElementById('q-prog').textContent='';
+    document.getElementById('q-sc').textContent='';
+    return;
+  }
+  showQ();
+}
+
 function quizShuffle(){
   if(!qPool.length)return;
   for(let i=qPool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[qPool[i],qPool[j]]=[qPool[j],qPool[i]];}
@@ -1293,8 +1459,15 @@ function buildQSel(){
   if(HQ.length)sel.innerHTML+='<option value="hard">Hard Mode Only ('+HQ.length+' Qs)</option>';
   loadQ();
 }
+let difficultyFilter='all';
+function setDifficultyFilter(d){
+  difficultyFilter=d;
+  document.querySelectorAll('.diff-chip').forEach(function(c){c.classList.toggle('on',c.dataset.diff===d);});
+  loadQ();
+}
 function loadQ(){
   diagMode=false;
+  mistakeReviewMode=false;
   const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
   const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
   const raw=document.getElementById('q-sel').value;
@@ -1303,6 +1476,7 @@ function loadQ(){
   if(raw==='hard')src=HQ.slice();
   else if(+raw===0)src=QUIZ.concat(HQ);
   else src=QUIZ.concat(HQ).filter(q=>q.u===+raw);
+  if(difficultyFilter!=='all')src=src.filter(q=>q.d===difficultyFilter);
   qPool=src.sort(()=>Math.random()-.5);
   qIdx=0;score=0;requeueCounts=new WeakMap();showQ();
 }
@@ -1369,8 +1543,10 @@ function showQ(){
   const bookmarked=qBookmarkSet().has(bid);
   const STAR_OUTLINE='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
   const STAR_FILLED='<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
-  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>`+
+  const diffPill=q.d?`<span class="q-diff q-diff-${q.d}">${q.d}</span>`:'';
+  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>${diffPill}`+
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
+    (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
     `<button class="q-hint-btn" id="q-hint-btn" onclick="toggleQHint()">💡 Hint</button>`+
     `<div class="q-hint-box" id="q-hint-box">Hint: this is from Unit ${q.u}: ${unitNameFor(q.u)}</div>`+
@@ -1436,6 +1612,7 @@ function ansQ(i){
     }
   }
   if(SS_MASTERY)SS_MASTERY.recordAnswer(q.u,i===q.a);
+  if(i===q.a)mistakeLogRemove(q);else mistakeLogAdd(q);
   ssOverallProgressUpdate();
   const expEl=document.getElementById('q-exp');
   expEl.classList.add('show');
@@ -1465,6 +1642,7 @@ function ssQuizKeyboardShortcuts(e){
 }
 document.addEventListener('keydown',ssQuizKeyboardShortcuts);
 buildQSel();
+updateMistakeLogBadge();
 
 /* ----- APG tabs: roving-tabindex arrow-key nav on the hero tab bar. Manual
    activation — arrows move focus only; Enter/Space fire the button's own click
@@ -1868,6 +2046,105 @@ async function ssQuizTabClick(){
 }
 
 ssCheckSession();
+
+/* ----- Reference drawer: a compact, always-available companion to the full
+   Quick Reference TAB. Reuses the exact HTML the generator already emits into
+   #view-qref (buildQref() in generate-guide.mjs) instead of rebuilding it —
+   the drawer body is filled by copying that markup once, on first open. ----- */
+function qrefDrawerOpen(){
+  var panel=document.getElementById('qref-drawer');
+  if(!panel)return;
+  var body=document.getElementById('qref-drawer-body');
+  if(body&&!body.dataset.filled){
+    var src=document.getElementById('view-qref');
+    if(src){body.innerHTML=src.innerHTML;body.dataset.filled='1';}
+  }
+  panel.classList.add('open');
+  panel.setAttribute('aria-hidden','false');
+  var fab=document.getElementById('qref-drawer-fab');
+  if(fab)fab.setAttribute('aria-expanded','true');
+  var closeBtn=panel.querySelector('.qref-drawer-close');
+  if(closeBtn)closeBtn.focus();
+  document.addEventListener('keydown',qrefDrawerKeydown);
+}
+function qrefDrawerClose(){
+  var panel=document.getElementById('qref-drawer');
+  if(!panel||!panel.classList.contains('open'))return;
+  panel.classList.remove('open');
+  panel.setAttribute('aria-hidden','true');
+  var fab=document.getElementById('qref-drawer-fab');
+  if(fab){fab.setAttribute('aria-expanded','false');fab.focus();}
+  document.removeEventListener('keydown',qrefDrawerKeydown);
+}
+function qrefDrawerToggle(){
+  var panel=document.getElementById('qref-drawer');
+  if(panel&&panel.classList.contains('open'))qrefDrawerClose();else qrefDrawerOpen();
+}
+function qrefDrawerKeydown(e){if(e.key==='Escape')qrefDrawerClose();}
+
+/* ----- Optional Desmos graphing calculator. Disabled by default: leave
+   DESMOS_API_KEY empty and this entire feature (button, panel, external
+   script) never appears and never makes a network request. To enable it,
+   the site owner gets a free key for personal/school use at
+   https://www.desmos.com/api/v1.12/calculator.js docs (sign in at
+   desmos.com/my-api) and pastes it in below. Generic — available on every
+   guide once a key is configured, not gated to any subject. ----- */
+const DESMOS_API_KEY = "";
+let desmosScriptLoaded=false, desmosCalculator=null;
+function desmosInit(){
+  if(!DESMOS_API_KEY)return;
+  var fab=document.createElement('button');
+  fab.id='desmos-fab';
+  fab.className='desmos-fab';
+  fab.type='button';
+  fab.setAttribute('aria-label','Toggle graphing calculator');
+  fab.setAttribute('aria-expanded','false');
+  fab.title='Graphing calculator';
+  fab.textContent='\u{1F4C8}';
+  fab.onclick=desmosToggle;
+  document.body.appendChild(fab);
+
+  var panel=document.createElement('div');
+  panel.id='desmos-panel';
+  panel.className='desmos-panel';
+  panel.setAttribute('role','dialog');
+  panel.setAttribute('aria-modal','true');
+  panel.setAttribute('aria-label','Graphing calculator');
+  panel.setAttribute('aria-hidden','true');
+  panel.innerHTML='<div class="desmos-panel-hd"><b>Graphing Calculator</b>'+
+    '<button type="button" class="desmos-panel-close" aria-label="Close graphing calculator">✕</button></div>'+
+    '<div class="desmos-calc" id="desmos-calc"></div>';
+  document.body.appendChild(panel);
+  panel.querySelector('.desmos-panel-close').onclick=desmosToggle;
+}
+function desmosToggle(){
+  var panel=document.getElementById('desmos-panel');
+  if(!panel)return;
+  var opening=!panel.classList.contains('open');
+  panel.classList.toggle('open',opening);
+  panel.setAttribute('aria-hidden',opening?'false':'true');
+  var fab=document.getElementById('desmos-fab');
+  if(fab)fab.setAttribute('aria-expanded',opening?'true':'false');
+  if(opening){
+    document.addEventListener('keydown',desmosKeydown);
+    if(!desmosScriptLoaded)desmosLoadScript();
+  }else{
+    document.removeEventListener('keydown',desmosKeydown);
+    if(fab)fab.focus();
+  }
+}
+function desmosKeydown(e){if(e.key==='Escape')desmosToggle();}
+function desmosLoadScript(){
+  desmosScriptLoaded=true;
+  var s=document.createElement('script');
+  s.src='https://www.desmos.com/api/v1.12/calculator.js?apiKey='+encodeURIComponent(DESMOS_API_KEY);
+  s.onload=function(){
+    var el=document.getElementById('desmos-calc');
+    if(el&&window.Desmos)desmosCalculator=Desmos.GraphingCalculator(el);
+  };
+  document.head.appendChild(s);
+}
+desmosInit();
 
 /* ----- unit-filtered practice, e.g. /chemistry?practice=3 (from the dashboard's "study this next") ----- */
 (async function ssPracticeMode(){

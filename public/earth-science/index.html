@@ -273,6 +273,16 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .q-block:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .q-block-hd{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px}
 .q-text{font-size:24.8px;font-weight:600;color:var(--ink);line-height:1.55;flex:1}
+.q-diff{flex:none;display:inline-block;padding:3px 11px;border-radius:999px;font-size:13px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;border:1px solid transparent;align-self:flex-start;margin-top:2px}
+.q-diff-easy{background:var(--success-soft);color:var(--success);border-color:var(--success-border)}
+.q-diff-medium{background:var(--amber-soft);color:var(--amber-ink);border-color:var(--amber)}
+.q-diff-hard{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}
+.q-topic{font-size:14.5px;color:var(--ink-dim);margin:-14px 0 14px;font-style:italic}
+.mistake-log-btn{position:relative}
+.mistake-log-count{display:inline-block;margin-left:6px;background:var(--danger);color:#fff;border-radius:999px;
+  font-size:12px;font-weight:700;padding:1px 7px}
+.mistake-log-empty{padding:24px;text-align:center;color:var(--ink-muted);font-size:18px}
 .q-bookmark{flex:none;background:none;border:none;cursor:pointer;color:var(--ink-dim);padding:2px;border-radius:6px;transition:color .15s ease,transform .15s ease}
 .q-bookmark:hover{color:var(--amber);transform:scale(1.08)}
 .q-bookmark.on{color:var(--amber)}
@@ -514,6 +524,51 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 .back-to-top:hover{color:var(--ink);border-color:var(--accent)}
 .back-to-top svg{width:20px;height:20px;display:block}
 
+/* ---- reference drawer: quick-access companion to the Quick Reference tab,
+   reachable from any tab. Sits bottom-center, clear of back-to-top
+   (bottom:22/left:22..74) and #cbot-fab (bottom:22/right:22..78). ---- */
+.qref-drawer-fab{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);width:52px;height:52px;
+  border-radius:50%;background:var(--surface);color:var(--ink-muted);border:1px solid var(--border-strong);
+  cursor:pointer;box-shadow:var(--shadow-md);z-index:190;display:flex;align-items:center;justify-content:center;
+  transition:color .15s ease,border-color .15s ease}
+.qref-drawer-fab:hover{color:var(--accent);border-color:var(--accent)}
+.qref-drawer-fab svg{width:20px;height:20px;display:block}
+.qref-drawer{position:fixed;top:0;right:0;height:100dvh;width:min(420px,100vw);background:var(--surface);
+  border-left:1px solid var(--border-strong);box-shadow:var(--shadow-lg);z-index:210;display:flex;flex-direction:column;
+  transform:translateX(100%);opacity:0;visibility:hidden;transition:transform .25s ease,opacity .25s ease,visibility 0s linear .25s}
+.qref-drawer.open{transform:translateX(0);opacity:1;visibility:visible;transition:transform .25s ease,opacity .25s ease}
+.qref-drawer-hd{display:flex;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--surface-2);flex-shrink:0}
+.qref-drawer-hd b{font-family:'Space Grotesk';font-size:20px;color:var(--ink);flex:1}
+.qref-drawer-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:6px 8px;border-radius:6px}
+.qref-drawer-close:hover{color:var(--ink);background:var(--surface-hover)}
+.qref-drawer-body{flex:1;overflow-y:auto;padding:16px}
+.qref-drawer-body .qr-section:not(:last-child){margin-bottom:20px}
+@media(max-width:600px){
+  .qref-drawer{width:100vw}
+}
+
+/* ---- optional Desmos graphing calculator (see DESMOS_API_KEY in logic.js).
+   Markup is only ever created by JS when a key is configured, so this CSS
+   has no visible effect until then. Placed clear of #cbot-fab (right:22..78). ---- */
+.desmos-fab{position:fixed;bottom:22px;right:90px;width:52px;height:52px;border-radius:50%;
+  background:var(--accent);color:#fff;border:none;font-size:22px;cursor:pointer;
+  box-shadow:0 8px 24px -6px rgba(15,122,112,.4);z-index:195;display:flex;align-items:center;justify-content:center;
+  transition:transform .15s ease}
+.desmos-fab:hover{transform:scale(1.06)}
+.desmos-panel{position:fixed;bottom:88px;right:90px;width:min(380px,calc(100vw - 32px));
+  height:min(420px,calc(100dvh - 160px));background:var(--surface);border:1px solid var(--border-strong);
+  border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:205;display:none;flex-direction:column;overflow:hidden}
+.desmos-panel.open{display:flex}
+.desmos-panel-hd{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+.desmos-panel-hd b{font-family:'Space Grotesk';font-size:18px;color:var(--ink);flex:1}
+.desmos-panel-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:4px 6px;border-radius:6px}
+.desmos-panel-close:hover{color:var(--ink);background:var(--surface-hover)}
+.desmos-calc{flex:1;width:100%;height:100%}
+@media(max-width:600px){
+  .desmos-fab{right:22px;bottom:82px}
+  .desmos-panel{right:12px;bottom:144px}
+}
+
 /* ---- print / export ---- */
 @media print{
   :root,[data-theme="dark"]{
@@ -528,7 +583,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
   body{background:#fff;color:#000}
   body::before,.hero::after{display:none!important}
   #theme-toggle,.search-wrap,.ss-sticky-top .filter-row-wrap,.mobile-only-select,.nav,.nav-spacer,.tablist,
-  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
+  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.qref-drawer-fab,.qref-drawer,.desmos-fab,.desmos-panel,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
   .search-kbd,.ss-overall-progress,.q-kbd-hint,.diag-btn{display:none!important}
   *{position:static!important;box-shadow:none!important}
   .unit-body{display:block!important}
@@ -707,6 +762,13 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <div class="q-bar">
     <select id="q-sel" aria-label="Choose a question set" onchange="loadQ()"></select>
     <button class="btn" type="button" onclick="quizShuffle()" style="font-size:14px;padding:7px 14px">⇄ Shuffle</button>
+    <div class="diff-chips" role="group" aria-label="Filter by difficulty" style="display:flex;gap:6px">
+      <button class="chip on diff-chip" type="button" data-diff="all" onclick="setDifficultyFilter('all')">All</button>
+      <button class="chip diff-chip" type="button" data-diff="easy" onclick="setDifficultyFilter('easy')">Easy</button>
+      <button class="chip diff-chip" type="button" data-diff="medium" onclick="setDifficultyFilter('medium')">Medium</button>
+      <button class="chip diff-chip" type="button" data-diff="hard" onclick="setDifficultyFilter('hard')">Hard</button>
+    </div>
+    <button class="btn mistake-log-btn" type="button" onclick="openMistakeLog()">Mistake Log<span class="mistake-log-count" id="mistake-log-count" style="display:none">0</span></button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -837,6 +899,16 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
   <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
 </button>
+<button type="button" id="qref-drawer-fab" class="qref-drawer-fab" onclick="qrefDrawerToggle()" aria-label="Open quick reference" aria-expanded="false" aria-controls="qref-drawer" title="Quick Reference">
+  <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+</button>
+<div id="qref-drawer" class="qref-drawer" role="dialog" aria-modal="true" aria-label="Quick Reference" aria-hidden="true">
+  <div class="qref-drawer-hd">
+    <b>Quick Reference</b>
+    <button type="button" class="qref-drawer-close" onclick="qrefDrawerToggle()" aria-label="Close quick reference">✕</button>
+  </div>
+  <div class="qref-drawer-body" id="qref-drawer-body"></div>
+</div>
 <script>
 const UNITS=[{"id":1,"name":"Earth Systems & Scientific Method","concepts":[{"l":"Four Earth spheres","intro":"Earth runs as interconnected systems exchanging matter and energy.","b":["Geosphere: rocks, mantle, core — the solid Earth","Hydrosphere: all water (oceans 97%, glaciers 2%, fresh <1%)","Atmosphere: gas envelope — N₂ 78%, O₂ 21%, Ar ~1%","Biosphere: all life — overlaps every other sphere"]},{"l":"Scientific method cycle","intro":"Science self-corrects through hypothesis testing.","b":["Observation → question → hypothesis (testable!) → experiment → analysis → conclusion","Hypothesis must be falsifiable — 'untestable' claims aren't scientific","Theory = heavily-tested explanation bundle (not a 'guess'); law = what happens, theory = why","Controlled experiments change ONE variable (independent) and measure another (dependent)"]},{"l":"Maps & rates","intro":"Topo maps and rate formulas are Earth science's daily tools.","b":["Contour lines connect equal elevation; close spacing = steep slope","Gradient = (elevation difference) ÷ distance — usually ft/mi","Map scale converts map distance to real distance","Rate problems: distance ÷ time (stream flow, plate motion cm/yr)"]},{"l":"Energy in Earth systems","intro":"Two engines power everything: solar (external) and planetary heat (internal).","b":["Solar drives weather, ocean currents, water cycle, wind","Internal heat (radioactive decay + primordial) drives plate tectonics, volcanism","Energy transfers: conduction (contact), convection (fluid circulation), radiation (waves)","Density stratification explains layering: densest materials sink (iron core)"]}],"keyFacts":["Atmosphere: 78% N₂ / 21% O₂ — the test's favorite numbers","Gradient formula: Δelevation ÷ distance","Convection requires fluidity — solids can't convect (mostly)"],"traps":["A theory is NOT a guess — it's a tested explanatory framework (theory of plate tectonics)","Ocean water is saltwater — don't count it as freshwater supply","Contour lines never cross — one point, one elevation"]},{"id":2,"name":"Plate Tectonics","concepts":[{"l":"Layers & plates","intro":"The lithosphere rides on the asthenosphere in moving plates.","b":["Crust (oceanic basalt denser / continental granite thicker) → mantle → outer core (liquid) → inner core (solid iron)","Lithosphere = crust + rigid upper mantle; floats on plastic asthenosphere","Plates move centimeters/year — about fingernail growth speed","Heat from radioactive decay powers convection currents driving plates"]},{"l":"Divergent boundaries","intro":"Plates separate; new crust forms — mid-ocean ridges and rifts.","b":["Seafloor spreading at mid-ocean ridges (Mid-Atlantic Ridge)","Magma rises, cools → new basaltic crust; magnetic striping records flips","Rift valleys on land (East African Rift) may become new oceans","Shallow earthquakes characterize divergent zones"]},{"l":"Convergent boundaries","intro":"Collision courses produce subduction, mountains, and deep quakes.","b":["Ocean-continent: denser oceanic plate SUBDUCTS → trench + volcanic arc (Andes)","Ocean-ocean: older/denser subducts → island arcs (Japan)","Continent-continent: no subduction, crumple into mountains (Himalayas)","Deep earthquakes only occur in subduction zones (Wadati-Benioff zone)"]},{"l":"Transform boundaries & evidence","intro":"Slide-past boundaries and the proof that sealed the theory.","b":["Transform faults: plates grind sideways — San Andreas Fault; shallow strong quakes","Fossil matches across oceans (Mesosaurus); mountain continuity","Glacial striations aligning when continents reassembled","Seafloor age increases with distance from ridge — smoking-gun proof"]}],"keyFacts":["Oceanic crust DENSES under continental at convergent boundaries (subduction)","Plate speed ≈ cm/yr — fingernail-growth pace","Seafloor age increases away from ridges = spreading proof"],"traps":["Inner core is SOLID despite being hottest — pressure forces solid state","Continents don't plow through ocean floor — plates carry both crust types","Not all boundaries make volcanoes: transform boundaries generally don't"]},{"id":3,"name":"Earthquakes & Volcanoes","concepts":[{"l":"Earthquake basics","intro":"Elastic rebound releases accumulated strain as seismic waves.","b":["Focus (hypocenter) = rupture origin underground; epicenter = surface point above","P-waves: fastest, compressional, travel through solids AND liquids","S-waves: slower, shear, CANNOT pass liquids","Surface waves: slowest, most destructive (rolling/side-swipe)"]},{"l":"Locating epicenters","intro":"Triangulation uses wave arrival-time differences.","b":["P-S lag grows with distance from epicenter","One station gives a RADIUS circle; three stations' circles intersect at the epicenter","Travel-time graphs convert lag seconds into distance","Need minimum THREE stations for a unique location"]},{"l":"Measuring & hazards","intro":"Magnitude scales measure energy; intensity varies locally.","b":["Richter/modern moment magnitude: logarithmic — each unit = ~10× amplitude, ~32× energy","Mercalli intensity scale: I-XII based on observed damage (subjective)","Tsunamis from undersea quakes: warning = sudden sea withdrawal","Liquefaction: wet sediments behave like liquid during shaking"]},{"l":"Volcano types & magma chemistry","intro":"Silica content controls explosiveness — the controlling variable.","b":["Basaltic magma (low silica ~50%): runny → shield volcanoes, gentle Hawaiian eruptions","Andesitic (intermediate): composite/stratovolcanoes — alternating flows+ash (Fuji, St. Helens)","Rhyolitic (high silica ~70%): sticky → explosive caldera eruptions","Volatile (gas) content amplifies explosiveness with high silica"]}],"keyFacts":["P-waves through everything · S-waves blocked by liquid outer core","Logarithmic magnitude: +1 unit ≈ 10× amplitude / 32× energy","Low silica = gentle; high silica = explosive"],"traps":["The epicenter is NOT underground — the focus is; epicenter is directly above on the surface","S-wave shadow zone proved the OUTER CORE is liquid — not inner","Bigger magnitude ≠ proportionally bigger shaking — logarithmic means counterintuitive jumps"]},{"id":4,"name":"Minerals & Rocks","concepts":[{"l":"Mineral properties","intro":"Minerals are naturally-occurring crystalline solids with defined chemistry.","b":["Five criteria: natural, inorganic, solid, definite composition, ordered crystal structure","Hardness = Mohs scale 1-10 (talc→diamond); scratch tests order minerals","Luster: metallic vs non-metallic (glassy, pearly, dull)","Streak = powdered color on porcelain — more reliable than surface color","Cleavage vs fracture: clean planes vs irregular breaks"]},{"l":"The rock cycle","intro":"Three rock families transform endlessly via melting, heat, pressure, weathering.","b":["Igneous: cooled magma/lava (intrusive = inside, coarse crystals; extrusive = surface, fine/glassy)","Sedimentary: compacted/cemented sediments — often layered, sometimes fossils","Metamorphic: changed by heat+pressure WITHOUT melting (foliation banding)","Any rock type can become any other — cycle has no beginning"]},{"l":"Rock identification logic","intro":"Texture + composition identify rocks stepwise.","b":["Igneous texture: crystal size tells cooling speed (large=slow intrusive, small/fast=extrusive)","Sedimentary clues: layers, grains, fossils, cement","Metamorphic foliation: alignment from directed pressure (gneiss banding, slate splitting)","Common examples: granite, basalt, sandstone, limestone, shale, gneiss, marble, slate"]},{"l":"Rock record & dating intro","intro":"Rocks archive Earth history; relative dating orders events.","b":["Law of superposition: oldest layers on bottom (undisturbed)","Cross-cutting: intrusions/faults YOUNGER than the rocks they cut","Fossil succession: same fossil assemblage = similar age worldwide","Index fossils: widespread, abundant, short-lived species date layers"]}],"keyFacts":["Mohs 1-10; fingernail ~2.5, penny ~3.5, glass ~5.5","Intrusive = large crystals (slow cooling) · extrusive = small (fast)","Superposition: undisturbed = bottom oldest"],"traps":["Streak beats color for ID — many minerals vary in surface color but constant in streak","Marble is METAMORPHosed limestone, not sedimentary anymore","Foliation needs PRESSURE direction, not just any metamorphism (marble doesn't foliate)"]},{"id":5,"name":"Weathering, Erosion & Geologic Time","concepts":[{"l":"Weathering types","intro":"Breakdown happens chemically and physically in place.","b":["Physical/mechanical: frost wedging, root pry, abrasion, exfoliation — size shrinks, composition unchanged","Chemical: oxidation (rust), hydrolysis (feldspar→clay), carbonation (limestone+dissolved CO₂)","Climate controls: chemical dominates warm-wet; physical dominates cold-dry/high altitude","Surface area feedback: broken pieces weather FASTER (more exposed faces)"]},{"l":"Erosion & deposition agents","intro":"Gravity plus moving fluids transport and sort sediment.","b":["Water #1 agent: streams carry, deposit by velocity (heavy first, fine last)","Sorted deposits: graded beds, deltas, point bars; unsorted: glaciers drop till","Wind: dunes and loess — only small particles","Wave action: beaches sort by wave energy; longshore drift migrates sand"]},{"l":"Soil formation","intro":"Weathered rock + organics mature into soil horizons over centuries.","b":["Horizons: O (organic litter), A (topsoil), B (subsoil accumulation), C (weathered parent)","Formation rates: ~1 inch per 100–400 years — effectively nonrenewable short-term","Climate + time + parent material + organisms + slope = five soil factors","Desert soils thin/salty; grassland soils deep/fertile (breadbaskets)"]},{"l":"Geologic time & absolute dating","intro":"Deep time measured with radioactive decay clocks.","b":["Half-life: time for HALF the parent isotope to decay — constant, measurable","Carbon-14 half-life 5,730 yrs → dates organic remains to ~50k yrs (not dinosaurs!)","U-238 (4.5 Byr) dates ancient igneous rocks → Earth ≈ 4.6 billion years","Geologic time scale: eons→eras→periods; K-Pg extinction 66 Mya"]}],"keyFacts":["C-14 dates RECENT organic material only (~50k yr limit)","Chemical weathering loves warm+wet; frost wedging loves cold cycles","Half-life = half decays per interval — never fully zero"],"traps":["C-14 canNOT date rocks or dinosaurs (too old + not organic) — use U-Pb instead","Erosion ≠ weathering: breakdown in place vs TRANSPORT elsewhere","Glaciers deposit UNSORTED till; water sorts by size — mixing these up fails lab questions"]},{"id":6,"name":"Atmosphere & Weather","concepts":[{"l":"Atmospheric layers","intro":"Temperature breaks define the layers — memorize the pattern.","b":["Troposphere (0–12 km): weather lives here; temp falls with height","Stratosphere: rises (ozone absorbs UV); jets fly low-stratosphere","Mesosphere: falls again — meteors burn here","Thermosphere: rises sharply (absorbs X-rays); auroras & ISS altitude"]},{"l":"Moisture, clouds & precipitation","intro":"Humidity, condensation nuclei, and lifting make rain.","b":["Relative humidity = actual vapor ÷ capacity ×100%; capacity grows with temperature","Dew point = saturation temperature — closer dewpoint to air temp = muggier","Cloud formation needs: lift, cooling to dew point, condensation nuclei","Lifting mechanisms: convection, frontal (warm over cold), orographic (mountains → rain shadow)"]},{"l":"Air masses, fronts & pressure systems","intro":["Air mass = vast body with uniform source-region traits (mT maritime tropical = humid warm)","Cold front: dense air bulldozes under — steep, brief heavy storms, clear after","Warm front: gentle overrunning — long steady precipitation ahead of front","Low pressure = rising air, clouds/L-storms; High = sinking, fair skies","Coriolis deflects winds right (N hemisphere): cyclones spin counterclockwise"],"b":[]},{"l":"Severe weather & forecasting tools","intro":"Instability + moisture + lift = storms; instruments measure it all.","b":["Thunderstorm ingredients: moisture, instability, lifting trigger","Tornado genesis in supercells via wind shear mesocyclones; EF-scale rates damage","Hurricanes feed on WARM OCEAN water (>26.5°C) — weaken over land (no fuel)","Station models, isobars (pressure lines), isotherms (temperature) map the forecast"]}],"keyFacts":["Dew point spread small = saturated/near-saturated air","Low pressure → rise → clouds; High → sink → clear","Hurricanes need warm ocean ≥26.5°C — die over land/cool water"],"traps":["Warm fronts produce LONG steady rain AHEAD of the front — not the brief burst of cold fronts","Orographic LEE side is dry (rain shadow) — windward gets the rain","Relative humidity can be high in COLD air with little vapor — it's a ratio, not amount"]},{"id":7,"name":"Climate & Climate Change","concepts":[{"l":"Weather vs climate & climate controls","intro":"Climate is the 30-year average personality; six factors set it.","b":["Latitude: solar angle drives global temperature bands","Elevation: temp drops ~3.5°F/1000ft (6.5°C/km) — mountaintop tundra at equator","Proximity to water moderates: maritime = mild, continental = extreme seasons","Ocean currents redistribute heat (Gulf Stream warms Western Europe)","Mountain barriers create rain shadows; prevailing winds steer moisture"]},{"l":"Greenhouse effect basics","intro":"Natural warming makes Earth livable; amplification is the problem.","b":["Shortwave solar in → surface absorbs → longwave infrared out tries to escape","GHGs (CO₂, CH₄, H₂O vapor) absorb/re-radiate IR back downward","Natural greenhouse ≈ +33°C — without it Earth freezes (~0°F average)","Human additions (fossil fuels, deforestation) thicken the blanket"]},{"l":"Evidence of modern climate change","intro":"Multiple independent lines agree — the case is cumulative.","b":["Global temps up ~1.2°C since pre-industrial; fastest in Arctic amplification","Glaciers/ice sheets retreating worldwide; sea level ~20cm rise and accelerating","Ocean acidification as seas absorb CO₂ (pH dropping, shell-building suffers)","Earlier springs, species range shifts poleward/upward"]},{"l":"Feedbacks & response options","intro":"Feedback loops amplify or dampen; responses split mitigation vs adaptation.","b":["Ice-albedo feedback: melt exposes dark ocean → absorbs more heat → more melt (positive)","Permafrost methane release = another positive loop","Mitigation = cut emissions (renewables, efficiency); adaptation = adjust (seawalls, crops)","Carbon sinks: oceans/planting absorb CO₂ but have saturation limits"]}],"keyFacts":["Greenhouse effect natural +33°C keeps Earth habitable — excess is the issue","Arctic warms fastest (ice-albedo positive feedback)","Mitigation cuts causes; adaptation manages effects"],"traps":["Weather ≠ climate: one cold day doesn't refute warming trends (trend vs event)","Ozone hole is a SEPARATE issue from global warming — different chemistry, recovering via Montreal Protocol","Sea level rise comes mostly from thermal expansion + land ice melt, not floating ice"]},{"id":8,"name":"Astronomy: Earth-Moon-Sun & Solar System","concepts":[{"l":"Earth's motions & seasons","intro":"Tilt + revolution (not distance!) make seasons.","b":["Axial tilt 23.5° fixed direction (points to Polaris) — hemisphere leaning toward Sun = summer","Solstices: max/min sun angle (Jun 21 / Dec 21); equinoxes equal day-night (Mar/Sep 21)","Revolution 365.25 d; rotation 24 h — leap years fix the quarter-day","Direct rays hit between tropics only; angle determines intensity"]},{"l":"Moon phases & eclipses","intro":"Phases come from geometry, not shadow.","b":["Lunar cycle 29.5 days; we always see the SAME lunar face (tidal lock)","Waxing = growing light (right side lit, N hemisphere); waning opposite","Solar eclipse = Moon's shadow on Earth (new moon phase ONLY); lunar = Earth's shadow on full moon","Eclipses don't occur monthly — 5° orbital tilt usually misses alignment"]},{"l":"Tides","intro":["Moon's gravity pulls tidal bulges; Earth rotates through two bulges daily","Spring tides: Sun-Moon aligned (new/full) → extreme ranges","Neap tides: 90° apart (quarter moons) → minimal range","Tidal friction slows Earth's spin over eons"],"b":[]},{"l":"Solar system architecture","intro":"Formation disk explains layout patterns.","b":["Terrestrial inner planets (rocky, dense): Mercury→Mars; Jovian outer (gas/ice giants): Jupiter→Neptune","Asteroid belt between Mars/Jupiter; Kuiper belt beyond Neptune (Pluto lives here)","Kepler/Newton laws: elliptical orbits, faster near perihelion (closer)","Retrograde rotation oddballs: Venus spins backwards; Uranus rolls on its side"]}],"keyFacts":["Seasons caused by 23.5° TILT, not Earth-Sun distance","Same moon face always — tidally locked to Earth","Spring tides at new+full moons; neap at quarter moons"],"traps":["Earth is CLOSEST to the Sun (perihelion) in JANUARY — Northern winter! Distance isn't the cause","Lunar eclipses need FULL moon, solar need NEW moon — swapping them fails tests","The Moon DOES rotate — once per orbit, which is why we see one face"]}];
 const DIAGRAMS={};
@@ -848,7 +920,8 @@ const PART_A=[{"n":1,"q":"Percentage of oxygen in Earth's atmosphere:","o":["78%
 const PART_B1=[{"n":31,"q":"Biosphere overlaps:","o":["geosphere only","all other spheres","atmosphere only","hydrosphere only"],"a":1,"e":"Life extends through sea, air, rock, ice."},{"n":32,"q":"Independent variable is the one you:","o":["measure as outcome","deliberately change/control","ignore","always plot on Y"],"a":1,"e":"Manipulated variable drives response."},{"n":33,"q":"Stream velocity increases → sediment size carried:","o":["decreases","increases","unchanged","floats"],"a":1,"e":"Competence scales with speed."},{"n":34,"q":"Paleomagnetic striping symmetrical about ridges proved:","o":["seafloor spreading","drift only","quake cycles","random reversals"],"a":0,"e":"Mirror polarity bands recorded spreading."},{"n":35,"q":"Composite volcano hazard profile:","o":["gentle lava rivers","explosive pyroclastic flows + lahars","only gas","none"],"a":1,"e":"Alternating viscous lava/ash builds steep cones."},{"n":36,"q":"Tsunami natural warning at coast:","o":["fish jumping","sudden sea withdrawal","red sky","temperature drop"],"a":1,"e":"Trough arrives first exposing seafloor — run uphill."},{"n":37,"q":"Index fossil qualifications:","o":["rare, local, long-lived","widespread, abundant, short-lived","large only","pretty"],"a":1,"e":"Short window + wide range = precise dating."},{"n":38,"q":"Oxidation rusting is ______ weathering.","o":["physical","chemical","biological","erosional"],"a":1,"e":"Oxygen chemically alters minerals."},{"n":39,"q":"Soil horizon A is:","o":["bedrock","topsoil rich in organics","parent rock","pure sand"],"a":1,"e":"A hosts roots, biota, nutrients."},{"n":40,"q":"U-238 suits dating:","o":["last week's leaf","ancient igneous crystallization","this year's coral","glacial ages only"],"a":1,"e":"Long clock matches ancient formation events."},{"n":41,"q":"Stratosphere warms due to:","o":["ozone UV absorption","surface heat","auroras","jet exhaust"],"a":0,"e":"Ozone soaks ultraviolet radiation."},{"n":42,"q":"Warm front passage sequence:","o":["brief downpour then cold","long steady rain then gradual clearing","instant clear","hail immediately"],"a":1,"e":"Overrunning slope stretches precipitation for hours."},{"n":43,"q":"Close isobars indicate:","o":["calm winds","strong pressure gradient → strong winds","high humidity","inversion"],"a":1,"e":"Tight spacing = steep gradient = fast wind."},{"n":44,"q":"Ocean acidification harms:","o":["shell/coral builders","storm tracks","sunlight","tides"],"a":0,"e":"Lower pH dissolves carbonate structures."},{"n":45,"q":"K-Pg mass extinction timing:","o":["4.6 Bya","542 Mya","66 Mya","12 kya"],"a":2,"e":"Chicxulub impact ended non-avian dinosaurs."},{"n":46,"q":"Equinox day-night relationship:","o":["longest day","equal worldwide","shortest day","polar night only"],"a":1,"e":"Sun over equator gives 12h/12h everywhere."},{"n":47,"q":"Uranus's ~98° axis tilt means it:","o":["rolls on its side","doesn't orbit","has no moons","is hottest"],"a":0,"e":"Likely ancient giant impact legacy."},{"n":48,"q":"Kepler: planets move fastest at:","o":["aphelion","perihelion","equinox","midnight"],"a":1,"e":"Angular momentum conservation near closest approach."},{"n":49,"q":"Plates move 5 cm/yr for 2 million years = ","o":["10 km","100 km","1000 km","1 km"],"a":0,"e":"5cm x 2e6 yr = 100 km after unit conversion."},{"n":50,"q":"Best evidence humans drive modern CO2 rise:","o":["one hot summer","isotopic fingerprint + rapid rate","model guesses","urban sensors only"],"a":1,"e":"Fossil-carbon signature + pace distinguish forcing."}];
 const PART_B2=[{"n":51,"q":"A coast town has cool summers and mild winters while an inland town at the same latitude bakes and freezes. Explain via:","o":["latitude difference","water's high specific heat moderating coastal temperature ranges","different moon phases","elevation must differ"],"a":1,"e":"Maritime vs continental climate control — water buffers temperature swings."},{"n":52,"q":"Seismogram shows P-wave arrival at 2:00:00 and S-wave at 2:03:30. Using a travel-time graph, the 3.5-min lag places the station ~2100 km from the epicenter. Two other stations give 1500 km and 2600 km circles. Next step:","o":["average the distances","plot three circles; their intersection = epicenter","pick the largest circle","declare focus depth instead"],"a":1,"e":"Triangulation needs all three circles; intersection pins the point."},{"n":53,"q":"A granite boulder sits in a sandstone layer far from any granite source. Best inference:","o":["granite grew there","glacial erratic transported by ice","humans placed it","it fell from space necessarily"],"a":1,"e":"Erratics record past glaciation transport paths."},{"n":54,"q":"Relative humidity is 90% with temperature 5°C; another day is 40% at 35°C. Which air holds MORE water vapor?","o":["the 90% cold day","cannot be determined","the 40% hot day — capacity grows exponentially with temp","equal amounts"],"a":2,"e":"RH is a ratio; warm air's 100% capacity dwarfs cold air's — absolute humidity can be higher at lower RH."},{"n":55,"q":"Igneous rock X contains visible quartz, feldspar, and hornblende crystals 5mm across. Identify cooling environment & likely name:","o":["extrusive rhyolite","intrusive granite — slow cooling allowed large crystals","sedimentary conglomerate","metamorphic slate"],"a":1,"e":"Coarse interlocked crystals = plutonic slow cool; quartz+feldspar assemblage = granite."},{"n":56,"q":"Design an investigation proving frost wedging breaks rock faster than chemical weathering in YOUR climate (cold winters). Control variables list should include:","o":["nothing — just watch rocks","same rock type, identical crack sizes, differing exposure (one sealed dry indoors), same duration","only temperature","only rain amount"],"a":1,"e":"Isolate mechanism by holding material/geometry constant while toggling the weathering process access."},{"n":57,"q":"A lava flow radiometrically dates 3 million years but sits BENEATH a sediment layer containing a 10-million-year-old index fossil. Resolve:","o":["radiometric dating failed","fossil was reworked/redeposited into younger sediment OR layer overturned — geologic reasoning required","laws violated","lava floated up"],"a":1,"e":"Apparent violations signal reworking or structural overturning — test both against field evidence."},{"n":58,"q":"Explain why the same side of the Moon faces us using angular momentum:","o":["Moon doesn't spin","Tidal friction long ago synchronized rotation with orbit (1:1 resonance)","Magnetic locking","Coincidence"],"a":1,"e":"Earth's tides torqued the Moon until rotational period matched orbital period."},{"n":59,"q":"Climate model projects +2°C globally but +6°C Arctic. Mechanism:","o":["uniform warming always","ice-albedo feedback concentrates warming where ice retreats","Arctic closer to Sun in summer","measurement error"],"a":1,"e":"Polar amplification: reflective ice loss converts to absorptive ocean."},{"n":60,"q":"Match each sphere exchange: photosynthesis draws CO₂ from ______ into the ______.","o":["atmosphere → biosphere","biosphere → atmosphere","geosphere → hydrosphere","hydrosphere → geosphere"],"a":0,"e":"Fluxes between spheres define Earth system science."}];
 const PART_C=[{"n":61,"q":"Synthesis: A region shows basalt layers, a dike cutting them, fossil-rich sandstone above the dike, and glacial till atop everything. Order events youngest→oldest and justify each:","o":["till, sandstone, dike, basalt — random guess","Basalt flows first; dike intrudes (younger than basalt); land erodes, sandstone deposits ABOVE dike containing fossils (youngest); till deposited last during glaciation. Each uses superposition/cross-cutting/inclusion logic.","All formed simultaneously","Impossible sequence"],"a":1,"e":"Applies superposition (stacking order), cross-cutting (dike younger), and till-on-top (ice age last) — relative dating synthesis."},{"n":62,"q":"Essay: 'Should coastal cities invest primarily in sea walls (adaptation) or emissions cuts (mitigation)?' Build strongest evidence-based position:","o":["Walls everywhere — done.","Both, weighted locally: cuts address root cause globally (only true fix) but lag decades; walls protect near-term assets yet induce 'coastal squeeze' and need renewal — so aggressive mitigation NOW plus targeted adaptation for dense coasts is optimal policy mix.","Neither — hope.","Mitigation alone; walls are cheating."],"a":1,"e":"Weighs timescales, externalities, and equity; avoids either/or fallacy with mechanism-aware policy design."}];
-const EXAM_CSS=".ex-header{background:var(--ink);color:var(--surface);padding:20px 22px;border-radius:var(--radius);margin-bottom:22px}\n.ex-header h2{font-family:'Space Grotesk';font-size:28.5px;font-weight:700;margin-bottom:4px}\n.ex-header p{font-family:'Inter';font-size:19.5px;color:rgba(255,255,255,.65)}\n.ex-part{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--surface)}\n.ex-part-hd{background:var(--surface-2);padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}\n.ex-part-hd:hover{background:var(--surface-hover)}\n.ex-part-hd h3{font-size:21px;font-weight:700;color:var(--ink)}\n.ex-part-hd span{font-family:'Inter';font-size:18px;color:var(--ink-dim)}\n.ex-part-body{display:none;padding:20px}\n.ex-part.open .ex-part-body{display:block}\n.ex-q{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}\n.ex-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}\n.ex-qnum{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}\n.ex-qtext{font-size:21.8px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:13px}\n.ex-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}\n.ex-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface);text-align:left;transition:all .12s}\n.ex-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}\n.ex-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}\n.ex-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}\n.ex-exp{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface-2);padding:11px 14px;border-radius:var(--radius-sm);margin-top:9px;display:none;line-height:1.6}\n.ex-exp.show{display:block}\n.ex-sa{padding:13px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter';font-size:20.2px;color:var(--amber-ink);line-height:1.6;margin-top:9px}\n.ex-sa strong{display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:var(--amber)}\n.ex-score{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px;display:none}\n.ex-score strong{font-family:'Space Grotesk';color:var(--success);font-size:22.5px}\n.ex-score span{font-family:'Inter';color:var(--success);font-size:19.5px}\n.ex-reset{padding:10px 20px;border:1px solid var(--border);border-radius:999px;background:var(--surface);cursor:pointer;font-family:'Space Grotesk';font-weight:600;font-size:19.5px;margin-top:10px;transition:all .15s}\n.ex-reset:hover{background:var(--surface-hover);border-color:var(--border-strong)}\n";
+const EXAM_META={"title":"Earth Science — Full Practice Exam","subtitle":"Part A (30 pts) · Part B–1 (20 pts) · Part B–2 (10 pts) · Part C (2 pts)","parts":{"PART_A":{"title":"Part A — Multiple Choice","points":30,"minutes":null},"PART_B1":{"title":"Part B–1 — Multiple Choice","points":20,"minutes":null},"PART_B2":{"title":"Part B–2 — Short Answer","points":10,"minutes":null},"PART_C":{"title":"Part C — Extended Response","points":2,"minutes":null}}};
+const EXAM_CSS=".ex-header{background:var(--ink);color:var(--surface);padding:20px 22px;border-radius:var(--radius);margin-bottom:22px}\n.ex-header h2{font-family:'Space Grotesk';font-size:28.5px;font-weight:700;margin-bottom:4px}\n.ex-header p{font-family:'Inter';font-size:19.5px;color:rgba(255,255,255,.65)}\n.ex-part{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--surface)}\n.ex-part-hd{background:var(--surface-2);padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}\n.ex-part-hd:hover{background:var(--surface-hover)}\n.ex-part-hd h3{font-size:21px;font-weight:700;color:var(--ink)}\n.ex-part-hd span{font-family:'Inter';font-size:18px;color:var(--ink-dim)}\n.ex-part-hd-meta{display:flex;align-items:center;gap:14px;flex:none}\n.ex-timer{font-family:'Space Grotesk';font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink-dim)}\n.ex-timer.ex-timer-up{color:var(--danger)}\n.ex-part-body{display:none;padding:20px}\n.ex-part.open .ex-part-body{display:block}\n.ex-q{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}\n.ex-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}\n.ex-qnum{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}\n.ex-qtext{font-size:21.8px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:13px}\n.ex-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}\n.ex-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface);text-align:left;transition:all .12s}\n.ex-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}\n.ex-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}\n.ex-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}\n.ex-exp{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface-2);padding:11px 14px;border-radius:var(--radius-sm);margin-top:9px;display:none;line-height:1.6}\n.ex-exp.show{display:block}\n.ex-sa{padding:13px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter';font-size:20.2px;color:var(--amber-ink);line-height:1.6;margin-top:9px}\n.ex-sa strong{display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:var(--amber)}\n.ex-score{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px;display:none}\n.ex-score strong{font-family:'Space Grotesk';color:var(--success);font-size:22.5px}\n.ex-score span{font-family:'Inter';color:var(--success);font-size:19.5px}\n.ex-reset{padding:10px 20px;border:1px solid var(--border);border-radius:999px;background:var(--surface);cursor:pointer;font-family:'Space Grotesk';font-weight:600;font-size:19.5px;margin-top:10px;transition:all .15s}\n.ex-reset:hover{background:var(--surface-hover);border-color:var(--border-strong)}\n";
 function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');var idx=-1;tabs.forEach((b,i)=>{if(b.id==='tab-'+id)idx=i;});if(idx!==-1){tabs.forEach((b,i)=>{var on=i===idx;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;});var _hl=document.getElementById('hero-live');if(_hl)_hl.textContent=tabs[idx].textContent.trim()+' tab';}if(id==='examples'&&!examplesBuilt)buildExamples();if(id==='exam'&&!examBuilt)buildExam();var spc=document.getElementById('spc-card');if(spc)spc.style.display=(id==='guide')?'':'none';}
 let examBuilt=false;
 var examplesBuilt=false, ex2map={}, ex2shown={};
@@ -861,20 +934,25 @@ const st=document.createElement('style');st.textContent=EXAM_CSS;document.head.a
 
 v.innerHTML=`
 <div class="ex-header">
-  <h2>Earth Science — Full Practice Exam</h2>
-  <p>Part A (30 pts) · Part B-1 (20 pts) · Part B-2 (15 pts) · Part C (20 pts) · Based on Jan 2026 format</p>
+  <h2>${EXAM_META.title}</h2>
+  <p>${EXAM_META.subtitle}</p>
 </div>
 <div id="ex-score-box" class="ex-score"></div>
-${buildPartMC('A','Part A — Multiple Choice (30 questions, 1 pt each)',PART_A)}
-${buildPartMC('B1','Part B–1 — Multiple Choice (20 questions, 1 pt each)',PART_B1)}
-${buildPartFR('B2','Part B–2 — Short Answer (show work, 1 pt each)',PART_B2)}
-${buildPartFR('C','Part C — Extended Response (1–2 pts each)',PART_C)}
+${buildPartMC('A',PART_A)}
+${buildPartMC('B1',PART_B1)}
+${buildPartFR('B2',PART_B2)}
+${buildPartFR('C',PART_C)}
 `;
 // open Part A by default
-document.getElementById('ex-part-A').classList.add('open');
+togglePart('A');
 }
 
-function buildPartMC(id,title,qs){
+function examPartMeta(id){return (EXAM_META&&EXAM_META.parts&&EXAM_META.parts['PART_'+id])||{};}
+function exTimerHtml(id){return examPartMeta(id).minutes?`<span class="ex-timer" id="timer-${id}"></span>`:'';}
+
+function buildPartMC(id,qs){
+if(!qs.length)return'';
+const meta=examPartMeta(id);
 const items=qs.map(q=>`
 <div class="ex-q" id="exq-${id}-${q.n}">
   <div class="ex-qnum">Question ${q.n}</div>
@@ -886,15 +964,18 @@ const items=qs.map(q=>`
 </div>`).join('');
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${title}</h3><span id="score-${id}">Score: 0 / ${qs.length}</span>
+  <h3>${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'}, 1 pt each)</h3>
+  <div class="ex-part-hd-meta"><span id="score-${id}">Score: 0 / ${qs.length}</span>${exTimerHtml(id)}</div>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
 }
 
-function buildPartFR(id,title,qs){
+function buildPartFR(id,qs){
+if(!qs.length)return'';
 // Some guides author these as genuine free-response (q.sa, a model answer to
 // reveal); others reuse the multiple-choice shape (q.o/q.a) for this part.
 // Render whichever shape the data actually has instead of assuming sa exists.
+const meta=examPartMeta(id);
 const items=qs.map(q=>q.sa!==undefined?`
 <div class="ex-q">
   <div class="ex-qnum">Question ${q.n}</div>
@@ -911,11 +992,43 @@ const items=qs.map(q=>q.sa!==undefined?`
   <div class="ex-exp" id="exp-${id}-${q.n}">${q.e}</div>
 </div>`).join('');
 const allMC=qs.every(q=>q.sa===undefined);
+const rightMeta=allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`;
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${title}</h3>${allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`}
+  <h3>${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'})</h3>
+  <div class="ex-part-hd-meta">${rightMeta}${exTimerHtml(id)}</div>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
+}
+
+/* Per-part countdown timer. In-memory only (module-level `examTimers`) — a
+   refresh resets it, matching the fact that exam progress/scores are never
+   persisted to localStorage either. Not a proctored test: hitting zero just
+   shows "Time's up" and stops, it never auto-submits or locks the part. */
+var examTimers={};
+function startPartTimer(id){
+  const meta=examPartMeta(id);
+  if(!meta.minutes)return;
+  let t=examTimers[id];
+  if(!t){t=examTimers[id]={remaining:meta.minutes*60,expired:false,intervalId:null};}
+  if(t.expired||t.intervalId)return; // already ticking, or already ran out
+  t.intervalId=setInterval(function(){
+    t.remaining--;
+    if(t.remaining<=0){
+      t.remaining=0;t.expired=true;
+      clearInterval(t.intervalId);t.intervalId=null;
+    }
+    renderPartTimer(id);
+  },1000);
+  renderPartTimer(id);
+}
+function renderPartTimer(id){
+  const el=document.getElementById('timer-'+id);
+  const t=examTimers[id];
+  if(!el||!t)return;
+  if(t.expired){el.textContent="Time's up";el.classList.add('ex-timer-up');return;}
+  const m=Math.floor(t.remaining/60),s=t.remaining%60;
+  el.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
 }
 
 function togglePart(id){
@@ -923,6 +1036,7 @@ function togglePart(id){
   const isOpen=part.classList.toggle('open');
   const hd=part.querySelector('.ex-part-hd');
   if(hd)hd.setAttribute('aria-expanded',isOpen?'true':'false');
+  if(isOpen)startPartTimer(id);
 }
 
 function toggleSA(btn){
@@ -1230,6 +1344,58 @@ function qBookmarkToggle(qid){
 }
 function qId(q){return q.u+'|'+q.q;}
 
+/* Mistake Log: localStorage-backed, keyed the same way as the bookmark set
+   (ssBookmarks_<slug>) — a currently-unresolved-misses list, not full history.
+   A question moves in when answered wrong and out the moment it's answered
+   correctly again (from anywhere: normal quiz, diagnostic, hard mode, or the
+   log's own review pass). */
+var MISTAKE_LOG_KEY='ssMistakes_'+'earth-science';
+function mistakeLogMap(){
+  try{return JSON.parse(localStorage.getItem(MISTAKE_LOG_KEY)||'{}');}catch(e){return {};}
+}
+function mistakeLogSave(map){
+  try{localStorage.setItem(MISTAKE_LOG_KEY,JSON.stringify(map));}catch(e){}
+  updateMistakeLogBadge();
+}
+function mistakeLogAdd(q){
+  const map=mistakeLogMap();
+  map[qId(q)]={u:q.u,q:q.q,o:q.o,a:q.a,e:q.e,d:q.d,topic:q.topic};
+  mistakeLogSave(map);
+}
+function mistakeLogRemove(q){
+  const map=mistakeLogMap();
+  const id=qId(q);
+  if(!(id in map))return;
+  delete map[id];
+  mistakeLogSave(map);
+}
+function updateMistakeLogBadge(){
+  const el=document.getElementById('mistake-log-count');
+  if(!el)return;
+  const n=Object.keys(mistakeLogMap()).length;
+  el.textContent=String(n);
+  el.style.display=n?'':'none';
+}
+var mistakeReviewMode=false;
+function openMistakeLog(){
+  switchTab('quiz');
+  mistakeReviewMode=true;
+  diagMode=false;
+  const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
+  const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
+  const map=mistakeLogMap();
+  qPool=Object.values(map);
+  qIdx=0;score=0;requeueCounts=new WeakMap();
+  const qb=document.getElementById('qbox');
+  if(!qPool.length){
+    qb.innerHTML='<div class="mistake-log-empty">No mistakes logged right now — nice work. Answer a question wrong anywhere in the quiz and it will show up here until you get it right.</div>';
+    document.getElementById('q-prog').textContent='';
+    document.getElementById('q-sc').textContent='';
+    return;
+  }
+  showQ();
+}
+
 function quizShuffle(){
   if(!qPool.length)return;
   for(let i=qPool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[qPool[i],qPool[j]]=[qPool[j],qPool[i]];}
@@ -1264,8 +1430,15 @@ function buildQSel(){
   if(HQ.length)sel.innerHTML+='<option value="hard">Hard Mode Only ('+HQ.length+' Qs)</option>';
   loadQ();
 }
+let difficultyFilter='all';
+function setDifficultyFilter(d){
+  difficultyFilter=d;
+  document.querySelectorAll('.diff-chip').forEach(function(c){c.classList.toggle('on',c.dataset.diff===d);});
+  loadQ();
+}
 function loadQ(){
   diagMode=false;
+  mistakeReviewMode=false;
   const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
   const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
   const raw=document.getElementById('q-sel').value;
@@ -1274,6 +1447,7 @@ function loadQ(){
   if(raw==='hard')src=HQ.slice();
   else if(+raw===0)src=QUIZ.concat(HQ);
   else src=QUIZ.concat(HQ).filter(q=>q.u===+raw);
+  if(difficultyFilter!=='all')src=src.filter(q=>q.d===difficultyFilter);
   qPool=src.sort(()=>Math.random()-.5);
   qIdx=0;score=0;requeueCounts=new WeakMap();showQ();
 }
@@ -1340,8 +1514,10 @@ function showQ(){
   const bookmarked=qBookmarkSet().has(bid);
   const STAR_OUTLINE='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
   const STAR_FILLED='<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
-  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>`+
+  const diffPill=q.d?`<span class="q-diff q-diff-${q.d}">${q.d}</span>`:'';
+  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>${diffPill}`+
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
+    (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
     `<button class="q-hint-btn" id="q-hint-btn" onclick="toggleQHint()">💡 Hint</button>`+
     `<div class="q-hint-box" id="q-hint-box">Hint: this is from Unit ${q.u}: ${unitNameFor(q.u)}</div>`+
@@ -1407,6 +1583,7 @@ function ansQ(i){
     }
   }
   if(SS_MASTERY)SS_MASTERY.recordAnswer(q.u,i===q.a);
+  if(i===q.a)mistakeLogRemove(q);else mistakeLogAdd(q);
   ssOverallProgressUpdate();
   const expEl=document.getElementById('q-exp');
   expEl.classList.add('show');
@@ -1436,6 +1613,7 @@ function ssQuizKeyboardShortcuts(e){
 }
 document.addEventListener('keydown',ssQuizKeyboardShortcuts);
 buildQSel();
+updateMistakeLogBadge();
 
 /* ----- APG tabs: roving-tabindex arrow-key nav on the hero tab bar. Manual
    activation — arrows move focus only; Enter/Space fire the button's own click
@@ -1839,6 +2017,105 @@ async function ssQuizTabClick(){
 }
 
 ssCheckSession();
+
+/* ----- Reference drawer: a compact, always-available companion to the full
+   Quick Reference TAB. Reuses the exact HTML the generator already emits into
+   #view-qref (buildQref() in generate-guide.mjs) instead of rebuilding it —
+   the drawer body is filled by copying that markup once, on first open. ----- */
+function qrefDrawerOpen(){
+  var panel=document.getElementById('qref-drawer');
+  if(!panel)return;
+  var body=document.getElementById('qref-drawer-body');
+  if(body&&!body.dataset.filled){
+    var src=document.getElementById('view-qref');
+    if(src){body.innerHTML=src.innerHTML;body.dataset.filled='1';}
+  }
+  panel.classList.add('open');
+  panel.setAttribute('aria-hidden','false');
+  var fab=document.getElementById('qref-drawer-fab');
+  if(fab)fab.setAttribute('aria-expanded','true');
+  var closeBtn=panel.querySelector('.qref-drawer-close');
+  if(closeBtn)closeBtn.focus();
+  document.addEventListener('keydown',qrefDrawerKeydown);
+}
+function qrefDrawerClose(){
+  var panel=document.getElementById('qref-drawer');
+  if(!panel||!panel.classList.contains('open'))return;
+  panel.classList.remove('open');
+  panel.setAttribute('aria-hidden','true');
+  var fab=document.getElementById('qref-drawer-fab');
+  if(fab){fab.setAttribute('aria-expanded','false');fab.focus();}
+  document.removeEventListener('keydown',qrefDrawerKeydown);
+}
+function qrefDrawerToggle(){
+  var panel=document.getElementById('qref-drawer');
+  if(panel&&panel.classList.contains('open'))qrefDrawerClose();else qrefDrawerOpen();
+}
+function qrefDrawerKeydown(e){if(e.key==='Escape')qrefDrawerClose();}
+
+/* ----- Optional Desmos graphing calculator. Disabled by default: leave
+   DESMOS_API_KEY empty and this entire feature (button, panel, external
+   script) never appears and never makes a network request. To enable it,
+   the site owner gets a free key for personal/school use at
+   https://www.desmos.com/api/v1.12/calculator.js docs (sign in at
+   desmos.com/my-api) and pastes it in below. Generic — available on every
+   guide once a key is configured, not gated to any subject. ----- */
+const DESMOS_API_KEY = "";
+let desmosScriptLoaded=false, desmosCalculator=null;
+function desmosInit(){
+  if(!DESMOS_API_KEY)return;
+  var fab=document.createElement('button');
+  fab.id='desmos-fab';
+  fab.className='desmos-fab';
+  fab.type='button';
+  fab.setAttribute('aria-label','Toggle graphing calculator');
+  fab.setAttribute('aria-expanded','false');
+  fab.title='Graphing calculator';
+  fab.textContent='\u{1F4C8}';
+  fab.onclick=desmosToggle;
+  document.body.appendChild(fab);
+
+  var panel=document.createElement('div');
+  panel.id='desmos-panel';
+  panel.className='desmos-panel';
+  panel.setAttribute('role','dialog');
+  panel.setAttribute('aria-modal','true');
+  panel.setAttribute('aria-label','Graphing calculator');
+  panel.setAttribute('aria-hidden','true');
+  panel.innerHTML='<div class="desmos-panel-hd"><b>Graphing Calculator</b>'+
+    '<button type="button" class="desmos-panel-close" aria-label="Close graphing calculator">✕</button></div>'+
+    '<div class="desmos-calc" id="desmos-calc"></div>';
+  document.body.appendChild(panel);
+  panel.querySelector('.desmos-panel-close').onclick=desmosToggle;
+}
+function desmosToggle(){
+  var panel=document.getElementById('desmos-panel');
+  if(!panel)return;
+  var opening=!panel.classList.contains('open');
+  panel.classList.toggle('open',opening);
+  panel.setAttribute('aria-hidden',opening?'false':'true');
+  var fab=document.getElementById('desmos-fab');
+  if(fab)fab.setAttribute('aria-expanded',opening?'true':'false');
+  if(opening){
+    document.addEventListener('keydown',desmosKeydown);
+    if(!desmosScriptLoaded)desmosLoadScript();
+  }else{
+    document.removeEventListener('keydown',desmosKeydown);
+    if(fab)fab.focus();
+  }
+}
+function desmosKeydown(e){if(e.key==='Escape')desmosToggle();}
+function desmosLoadScript(){
+  desmosScriptLoaded=true;
+  var s=document.createElement('script');
+  s.src='https://www.desmos.com/api/v1.12/calculator.js?apiKey='+encodeURIComponent(DESMOS_API_KEY);
+  s.onload=function(){
+    var el=document.getElementById('desmos-calc');
+    if(el&&window.Desmos)desmosCalculator=Desmos.GraphingCalculator(el);
+  };
+  document.head.appendChild(s);
+}
+desmosInit();
 
 /* ----- unit-filtered practice, e.g. /chemistry?practice=3 (from the dashboard's "study this next") ----- */
 (async function ssPracticeMode(){

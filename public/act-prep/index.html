@@ -273,6 +273,16 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .q-block:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .q-block-hd{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px}
 .q-text{font-size:24.8px;font-weight:600;color:var(--ink);line-height:1.55;flex:1}
+.q-diff{flex:none;display:inline-block;padding:3px 11px;border-radius:999px;font-size:13px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;border:1px solid transparent;align-self:flex-start;margin-top:2px}
+.q-diff-easy{background:var(--success-soft);color:var(--success);border-color:var(--success-border)}
+.q-diff-medium{background:var(--amber-soft);color:var(--amber-ink);border-color:var(--amber)}
+.q-diff-hard{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}
+.q-topic{font-size:14.5px;color:var(--ink-dim);margin:-14px 0 14px;font-style:italic}
+.mistake-log-btn{position:relative}
+.mistake-log-count{display:inline-block;margin-left:6px;background:var(--danger);color:#fff;border-radius:999px;
+  font-size:12px;font-weight:700;padding:1px 7px}
+.mistake-log-empty{padding:24px;text-align:center;color:var(--ink-muted);font-size:18px}
 .q-bookmark{flex:none;background:none;border:none;cursor:pointer;color:var(--ink-dim);padding:2px;border-radius:6px;transition:color .15s ease,transform .15s ease}
 .q-bookmark:hover{color:var(--amber);transform:scale(1.08)}
 .q-bookmark.on{color:var(--amber)}
@@ -514,6 +524,51 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 .back-to-top:hover{color:var(--ink);border-color:var(--accent)}
 .back-to-top svg{width:20px;height:20px;display:block}
 
+/* ---- reference drawer: quick-access companion to the Quick Reference tab,
+   reachable from any tab. Sits bottom-center, clear of back-to-top
+   (bottom:22/left:22..74) and #cbot-fab (bottom:22/right:22..78). ---- */
+.qref-drawer-fab{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);width:52px;height:52px;
+  border-radius:50%;background:var(--surface);color:var(--ink-muted);border:1px solid var(--border-strong);
+  cursor:pointer;box-shadow:var(--shadow-md);z-index:190;display:flex;align-items:center;justify-content:center;
+  transition:color .15s ease,border-color .15s ease}
+.qref-drawer-fab:hover{color:var(--accent);border-color:var(--accent)}
+.qref-drawer-fab svg{width:20px;height:20px;display:block}
+.qref-drawer{position:fixed;top:0;right:0;height:100dvh;width:min(420px,100vw);background:var(--surface);
+  border-left:1px solid var(--border-strong);box-shadow:var(--shadow-lg);z-index:210;display:flex;flex-direction:column;
+  transform:translateX(100%);opacity:0;visibility:hidden;transition:transform .25s ease,opacity .25s ease,visibility 0s linear .25s}
+.qref-drawer.open{transform:translateX(0);opacity:1;visibility:visible;transition:transform .25s ease,opacity .25s ease}
+.qref-drawer-hd{display:flex;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--surface-2);flex-shrink:0}
+.qref-drawer-hd b{font-family:'Space Grotesk';font-size:20px;color:var(--ink);flex:1}
+.qref-drawer-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:6px 8px;border-radius:6px}
+.qref-drawer-close:hover{color:var(--ink);background:var(--surface-hover)}
+.qref-drawer-body{flex:1;overflow-y:auto;padding:16px}
+.qref-drawer-body .qr-section:not(:last-child){margin-bottom:20px}
+@media(max-width:600px){
+  .qref-drawer{width:100vw}
+}
+
+/* ---- optional Desmos graphing calculator (see DESMOS_API_KEY in logic.js).
+   Markup is only ever created by JS when a key is configured, so this CSS
+   has no visible effect until then. Placed clear of #cbot-fab (right:22..78). ---- */
+.desmos-fab{position:fixed;bottom:22px;right:90px;width:52px;height:52px;border-radius:50%;
+  background:var(--accent);color:#fff;border:none;font-size:22px;cursor:pointer;
+  box-shadow:0 8px 24px -6px rgba(15,122,112,.4);z-index:195;display:flex;align-items:center;justify-content:center;
+  transition:transform .15s ease}
+.desmos-fab:hover{transform:scale(1.06)}
+.desmos-panel{position:fixed;bottom:88px;right:90px;width:min(380px,calc(100vw - 32px));
+  height:min(420px,calc(100dvh - 160px));background:var(--surface);border:1px solid var(--border-strong);
+  border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:205;display:none;flex-direction:column;overflow:hidden}
+.desmos-panel.open{display:flex}
+.desmos-panel-hd{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+.desmos-panel-hd b{font-family:'Space Grotesk';font-size:18px;color:var(--ink);flex:1}
+.desmos-panel-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:4px 6px;border-radius:6px}
+.desmos-panel-close:hover{color:var(--ink);background:var(--surface-hover)}
+.desmos-calc{flex:1;width:100%;height:100%}
+@media(max-width:600px){
+  .desmos-fab{right:22px;bottom:82px}
+  .desmos-panel{right:12px;bottom:144px}
+}
+
 /* ---- print / export ---- */
 @media print{
   :root,[data-theme="dark"]{
@@ -528,7 +583,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
   body{background:#fff;color:#000}
   body::before,.hero::after{display:none!important}
   #theme-toggle,.search-wrap,.ss-sticky-top .filter-row-wrap,.mobile-only-select,.nav,.nav-spacer,.tablist,
-  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
+  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.qref-drawer-fab,.qref-drawer,.desmos-fab,.desmos-panel,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
   .search-kbd,.ss-overall-progress,.q-kbd-hint,.diag-btn{display:none!important}
   *{position:static!important;box-shadow:none!important}
   .unit-body{display:block!important}
@@ -707,6 +762,13 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <div class="q-bar">
     <select id="q-sel" aria-label="Choose a question set" onchange="loadQ()"></select>
     <button class="btn" type="button" onclick="quizShuffle()" style="font-size:14px;padding:7px 14px">⇄ Shuffle</button>
+    <div class="diff-chips" role="group" aria-label="Filter by difficulty" style="display:flex;gap:6px">
+      <button class="chip on diff-chip" type="button" data-diff="all" onclick="setDifficultyFilter('all')">All</button>
+      <button class="chip diff-chip" type="button" data-diff="easy" onclick="setDifficultyFilter('easy')">Easy</button>
+      <button class="chip diff-chip" type="button" data-diff="medium" onclick="setDifficultyFilter('medium')">Medium</button>
+      <button class="chip diff-chip" type="button" data-diff="hard" onclick="setDifficultyFilter('hard')">Hard</button>
+    </div>
+    <button class="btn mistake-log-btn" type="button" onclick="openMistakeLog()">Mistake Log<span class="mistake-log-count" id="mistake-log-count" style="display:none">0</span></button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -863,6 +925,16 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
   <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
 </button>
+<button type="button" id="qref-drawer-fab" class="qref-drawer-fab" onclick="qrefDrawerToggle()" aria-label="Open quick reference" aria-expanded="false" aria-controls="qref-drawer" title="Quick Reference">
+  <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+</button>
+<div id="qref-drawer" class="qref-drawer" role="dialog" aria-modal="true" aria-label="Quick Reference" aria-hidden="true">
+  <div class="qref-drawer-hd">
+    <b>Quick Reference</b>
+    <button type="button" class="qref-drawer-close" onclick="qrefDrawerToggle()" aria-label="Close quick reference">✕</button>
+  </div>
+  <div class="qref-drawer-body" id="qref-drawer-body"></div>
+</div>
 <script>
 const UNITS=[{"id":1,"name":"English Section Tactics","concepts":[{"l":"Comma Rules That Get Tested","intro":"Most ACT English comma questions test three patterns: unnecessary commas, missing commas around nonessential info, and comma splices.","b":["Never place a single comma between a subject and its verb (e.g., 'The dog, ran' is wrong).","Nonessential clauses/appositives need commas on BOTH sides: 'My brother, a doctor, called.'","Essential (restrictive) clauses take NO commas: 'The book that I lent you is overdue.'","A comma splice (two independent clauses joined only by a comma) is always wrong — use a period, semicolon, or conjunction instead.","Never use a comma before a single coordinating conjunction joining two words or phrases (only before one joining two independent clauses).","Introductory phrases of 4+ words are usually followed by a comma."]},{"l":"Semicolons, Colons, and Dashes","intro":"These three punctuation marks are ACT favorites because students often use them interchangeably when they shouldn't be.","b":["A semicolon joins two independent clauses (each side must be a complete sentence).","A colon follows a complete independent clause and introduces a list, explanation, or quotation.","Never put a colon directly after a verb or preposition (e.g., NOT 'The ingredients are: eggs, milk.').","A pair of dashes can replace a pair of commas to set off nonessential information — but don't mix one dash and one comma.","Semicolons can also separate items in a complex list that already contains commas.","If you can't identify two independent clauses, a semicolon is wrong."]},{"l":"Redundancy and Wordiness (Concision)","intro":"When answer choices differ mainly in length, the ACT usually rewards the shortest option that preserves meaning and grammar.","b":["Eliminate phrases that repeat an idea already stated, like 'combine together' or 'past history.'","Prefer active voice and direct phrasing over wordy constructions like 'due to the fact that' (use 'because').","Watch for answer choices that just add extra words without adding meaning — these are usually wrong.","'The reason why is because' is always redundant; choose 'because' alone.","Concise is not always correct — never cut information the passage needs for clarity.","Check whether a shorter option changes the meaning; if not, pick it."]},{"l":"Subject-Verb and Pronoun Agreement","intro":"Agreement errors are hidden by long prepositional phrases or lists inserted between the subject and the verb.","b":["Cross out prepositional phrases between subject and verb to find the true subject: 'The list of items (is/are) long' → 'list ... is'.","Collective nouns (team, group, family) usually take singular verbs on the ACT.","A pronoun must agree in number with its antecedent: 'Each student must bring their (wrong) → his or her/their own pencil' depends on style rules given.","Watch for vague pronouns with no clear antecedent — the ACT will flag ambiguous 'it' or 'they.'","Compound subjects joined by 'and' are plural; joined by 'or/nor' agree with the nearer subject.","Indefinite pronouns like 'each,' 'everyone,' and 'neither' are singular."]},{"l":"Rhetorical Skills: Transitions, Order, and Purpose","intro":"About a quarter of English questions ask about the passage as a whole rather than grammar — these test logic and organization.","b":["Transition words must match the logical relationship: contrast (however, although), addition (furthermore), cause/effect (therefore, as a result).","'ADD/DELETE' questions require you to check whether the sentence supports the paragraph's main point, not just whether it's interesting.","Sentence-order questions rely on pronoun references and time clues to find the correct sequence.","'Which choice best accomplishes the writer's goal' questions require rereading the stated goal, not just picking the best-sounding sentence.","Conclusion questions need a sentence that wraps up the paragraph's specific point, not a generic summary.","Always check one sentence before and after the underlined portion for context."]},{"l":"Apostrophes and Word Choice Pairs","intro":"The ACT frequently tests commonly confused words and possessive forms in the same passage.","b":["'Its' is possessive; 'it's' means 'it is' — never confuse them.","'Their' is possessive, 'there' is a location, 'they're' means 'they are.'","Plural possessive nouns ending in -s take only an apostrophe: 'the students' books.'","'Affect' is usually a verb (to influence); 'effect' is usually a noun (a result).","'Then' refers to time/sequence; 'than' is used for comparisons.","Singular possessive nouns take apostrophe + s, even if the noun ends in s: 'James's car.'"]}],"keyFacts":["The English test has 75 questions in 45 minutes across 5 passages — about 9 minutes per passage.","Roughly 40% of questions test grammar/usage (punctuation, agreement) and 60% test rhetorical skills (style, organization, strategy).","When choices vary only in punctuation, identify whether the surrounding clauses are independent or dependent first.","'NO CHANGE' is correct about 25% of the time — don't avoid it just because it feels too easy."],"traps":["Choosing the most 'formal-sounding' answer, not the grammatically correct or most concise one.","Adding a comma wherever you would naturally pause when reading aloud, rather than following a comma rule.","Answering rhetorical 'writer's goal' questions based on general quality of writing, not the stated goal.","Fixing only the underlined error and ignoring how the sentence fits the surrounding paragraph."]},{"id":2,"name":"Math Section Tactics","concepts":[{"l":"Backsolving and Plugging In Answers","intro":"When a question asks for a specific numeric value and gives answer choices, working backward from the choices is often faster than solving algebraically.","b":["Start with choice (C) or (B) — the middle value — since answers are usually ordered numerically, so you can adjust up or down.","Plug the choice back into the original word problem, not into a derived equation.","Backsolving is fastest for problems involving one variable and multiple steps of arithmetic.","Avoid backsolving on problems asking for an expression or a variable in terms of another variable.","Combine backsolving with estimation to eliminate 2-3 choices immediately.","For 'least/greatest possible value' questions, test the extreme answer choices first."]},{"l":"Plugging In Numbers for Variables","intro":"For problems with variables in both the question and the answer choices, substituting simple numbers avoids abstract algebra errors.","b":["Choose easy, non-trivial numbers like 2 or 3 — avoid 0 and 1, which can make multiple answers look correct.","Compute the target value using your chosen number(s) before checking answer choices.","Plug the same number(s) into every answer choice and eliminate any that don't match your target.","If two answers match, pick a different set of numbers to break the tie.","This method works especially well on percent, ratio, and 'in terms of' problems.","For geometry, picking numbers for side lengths can simplify area/perimeter comparisons."]},{"l":"Key Geometry Formulas","intro":"The ACT math section leans heavily on a small set of geometry formulas that appear across many question types.","b":["Area of a triangle: (1/2) × base × height; area of a circle: πr²; circumference: 2πr.","Pythagorean theorem: a² + b² = c², used constantly in right-triangle and distance problems.","Special right triangles: 45-45-90 (sides x, x, x√2) and 30-60-90 (sides x, x√3, 2x) save time versus the Pythagorean theorem.","Sum of interior angles of a polygon: (n − 2) × 180°.","Slope formula: (y₂ − y₁)/(x₂ − x₁); slope-intercept form: y = mx + b.","Distance formula: √[(x₂−x₁)² + (y₂−y₁)²], derived directly from the Pythagorean theorem."]},{"l":"Algebra and Function Manipulation","intro":"Function notation and systems of equations questions reward recognizing structure quickly rather than brute-force solving.","b":["f(x) notation just means 'plug x into the function' — evaluate step by step, innermost operation first.","For systems of equations, use substitution when one variable is already isolated; use elimination when coefficients line up.","A quadratic in the form ax² + bx + c = 0 can often be solved faster by factoring than by the quadratic formula.","When a graph question gives f(x) and asks about f(x) + k or f(x − h), remember: +k shifts up, −h shifts right.","Inequalities flip direction only when multiplying or dividing both sides by a negative number.","For 'solve for x in terms of y' questions, isolate x using standard algebra, then match the answer format given."]},{"l":"Calculator Strategy and Time Management","intro":"A calculator can speed up arithmetic but can also cost time if used on problems better solved with reasoning.","b":["Not every problem requires a calculator — number-sense and logic problems are often faster by hand.","Use the calculator to check answers after solving algebraically, not as your primary problem-solving tool.","Store useful values (like π or a computed ratio) in calculator memory for multi-step problems.","For probability and combinatorics, know factorial and combination functions if your calculator supports them.","On graphing questions, you can graph both sides of an equation and find intersection points to solve.","Convert fractions to decimals only when needed for comparison — exact fractions avoid rounding errors."]},{"l":"Statistics, Probability, and Data Interpretation","intro":"The ACT tests basic statistics and probability concepts, often embedded in tables, graphs, or word problems.","b":["Mean = sum of values ÷ number of values; median is the middle value when data is ordered.","Probability = (favorable outcomes) ÷ (total possible outcomes), always between 0 and 1.","For independent events, multiply individual probabilities: P(A and B) = P(A) × P(B).","Range = maximum − minimum; a single outlier affects the mean far more than the median.","When reading tables/graphs, check the axis labels and units before selecting a value.","Weighted averages require multiplying each value by its weight (frequency) and dividing by the total weight."]}],"keyFacts":["The Math test has 60 questions in 60 minutes — pace roughly one question per minute, but the first 20 are usually easier and faster.","Calculators are allowed for the entire math section (per current ACT policy), but strategic use matters more than calculator speed.","Roughly 60% of questions cover algebra and functions, and roughly 40% cover geometry, statistics, and probability combined.","Skipping a hard question and returning later beats spending 5 minutes stuck on one problem."],"traps":["Solving with full algebra when plugging in numbers or backsolving would be faster and less error-prone.","Choosing 0 or 1 when plugging in numbers, which can make several answer choices appear correct.","Forgetting to flip an inequality sign when multiplying or dividing by a negative number.","Misreading a graph's scale or units, leading to an answer that's off by a factor of 10 or more."]},{"id":3,"name":"Reading Speed Strategies","concepts":[{"l":"Passage Mapping Instead of Full Reading","intro":"With only about 8-9 minutes per passage including questions, skimming for structure beats reading every word closely.","b":["Read the first and last sentence of each paragraph carefully; skim the middle for supporting detail.","Jot a 3-5 word margin note capturing each paragraph's main idea as you go.","Note where the author's opinion or a turning point ('however,' 'but,' 'in contrast') appears — these are common question targets.","Underline or mentally flag proper nouns, dates, and numbers since detail questions often ask about them.","Don't try to memorize the passage — build a mental map you can return to using line references.","Spend no more than 3-4 minutes reading before moving to the questions."]},{"l":"Order of Passages and Question Triage","intro":"You control the order you tackle the four passages, and picking wisely protects your overall score.","b":["Passage order rotates (Literary Narrative, Social Science, Humanities, Natural Science) but difficulty varies by test-taker strength, not fixed difficulty.","Do your strongest passage type first to bank points and build confidence/time cushion.","Within a passage, answer line-reference and detail questions before big-picture/inference questions, since they're faster to locate.","If a question stumps you after ~20 seconds of rereading, mark it and move on — return only if time remains.","Never leave a question blank on the ACT — there's no penalty for guessing, so always fill in an answer.","Save the hardest passage type for last so a time crunch affects it, not your strongest section."]},{"l":"Using Line References and Context","intro":"Most reading questions point you to a specific location — using that window efficiently is the core reading skill tested.","b":["Always reread a few lines before AND after the cited line reference — the answer is rarely only in the exact line quoted.","For vocabulary-in-context questions, plug your own word into the sentence before looking at answer choices.","Watch for words that have a common meaning and a less common, more precise meaning — the ACT usually tests the less common one.","'According to the passage' questions require textual proof, not outside knowledge or assumptions.","'It can be reasonably inferred' questions still require direct textual support — inference is a small logical step, not a guess.","When two answers seem right, choose the one most directly supported by the text, not the one that sounds smartest."]},{"l":"Author's Purpose and Tone","intro":"Many big-picture questions ask why the author included something or how they feel about the topic.","b":["Identify whether the overall tone is objective/informative, critical, or admiring within the first two paragraphs.","'Why did the author include paragraph X' questions test function, not content — ask what job the paragraph does.","Watch for shifts in tone signaled by contrast words; the tone before and after a shift may differ.","Rhetorical questions and figurative language in Literary Narrative passages often reveal the narrator's attitude.","In paired-passage sets, compare each author's stance on the same issue — questions often ask how they'd respond to each other.","Avoid choices that describe an extreme tone (e.g., 'furious,' 'ecstatic') unless the text clearly supports that intensity."]},{"l":"Eliminating Wrong Answer Patterns","intro":"ACT Reading wrong answers follow predictable patterns that can be spotted and eliminated quickly.","b":["Eliminate answers that are true statements but don't answer the specific question asked (out of scope).","Eliminate extreme language ('always,' 'never,' 'completely') unless the passage explicitly supports it.","Eliminate answers that reverse a relationship stated in the passage (e.g., swapping cause and effect).","Eliminate 'half-right' answers that start correctly but include one incorrect detail.","Eliminate answers that bring in outside knowledge not stated in the passage, even if factually true.","The correct answer is usually a restatement of the text in different words, not new information."]}],"keyFacts":["The Reading test has 40 questions across 4 passages in 35 minutes — about 8-9 minutes per passage including questions.","There is no penalty for wrong answers, so every question should be answered, even if guessed.","Paired passages (two shorter related passages) appear in one of the four slots and include comparison questions.","Correct answers are almost always directly supported by the text, not by outside knowledge or opinion."],"traps":["Rereading the entire passage from scratch to answer each question instead of using line references.","Picking an answer because it sounds sophisticated rather than because the text supports it.","Confusing a detail question (needs proof from the text) with an inference question (needs a small logical step).","Getting stuck on a hard vocabulary-in-context question instead of substituting your own word first."]},{"id":4,"name":"Science Reasoning","concepts":[{"l":"The Three Passage Types","intro":"ACT Science has three recurring passage formats, and knowing which one you're facing tells you how to attack it.","b":["Data Representation passages present graphs/tables and ask you to read and interpret trends directly.","Research Summaries describe one or more experiments and ask about design, variables, and results.","Conflicting Viewpoints presents 2-3 scientists' differing hypotheses about the same phenomenon and asks you to compare them.","Data Representation and Research Summaries questions rarely require outside science knowledge — the answer is in the figures.","Conflicting Viewpoints requires careful reading since there's more text and less data to scan.","Identify the passage type in the first few seconds by scanning for graphs/tables versus paragraphs of viewpoints."]},{"l":"Reading Graphs and Tables Efficiently","intro":"Most Science questions can be answered without reading the passage text at all — just the figures.","b":["Identify the independent variable (x-axis) and dependent variable (y-axis) before reading any question.","Check units and scale on every axis — a jump from 10-20-40 is not evenly spaced.","For multi-line graphs, note which line represents which condition using the legend before comparing them.","Interpolation (estimating a value between two plotted points) is common; extrapolation (beyond the data) is riskier and less often correct.","When a question references 'Table 1' or 'Figure 2,' go straight to that figure — don't reread the whole passage.","Trends (increasing, decreasing, constant, or no clear pattern) are the most frequently tested relationship type."]},{"l":"Experimental Design Concepts","intro":"Research Summaries test understanding of how experiments are structured, not memorized science facts.","b":["The independent variable is what the experimenter changes; the dependent variable is what is measured.","A control group/trial is used as a baseline for comparison and typically has no treatment applied.","Variables held constant across trials are 'controlled variables,' meant to isolate the effect of the one variable being tested.","Comparing two experiments usually means identifying exactly what changed between them and what stayed the same.","'Why did the researchers include a control?' answers should reference isolating the effect of the independent variable.","Repeating trials increases reliability of results, not necessarily accuracy of a single measurement."]},{"l":"Conflicting Viewpoints Strategy","intro":"This passage type tests reading comprehension applied to scientific arguments rather than data analysis.","b":["Make a quick note of each scientist's core claim and the evidence/mechanism they cite for it.","Identify what all viewpoints agree on versus where they diverge — agreement points are common question targets.","'Which scientist would most likely agree with the following statement' questions require matching the statement's logic to one viewpoint's reasoning.","New data presented in a question can support one viewpoint and contradict another — check both.","Avoid using outside scientific knowledge to judge which viewpoint is 'more correct' — the ACT only tests reading comprehension here.","Track terminology differences between viewpoints, since one scientist's specific term may not apply to another's model."]},{"l":"Scientific Method and Units Basics","intro":"A small amount of outside science knowledge — mostly about method and measurement — does appear on the ACT.","b":["A hypothesis is a testable, falsifiable prediction, not simply a guess.","Correlation between two variables does not by itself establish causation.","Common metric units (grams, liters, meters, °C) may appear; know basic prefixes like kilo- (1000x) and milli- (1/1000).","A directly proportional relationship means both variables increase together; inversely proportional means one increases as the other decreases.","Significant figures/precision in a table can hint at measurement reliability but rarely require calculation.","The scientific method process: observation, hypothesis, experiment, analysis, conclusion."]}],"keyFacts":["The Science test has 40 questions across 6-7 passages in 35 minutes — roughly 5 minutes per passage.","About 90% of questions can be answered directly from the given data without outside science knowledge.","Data Representation and Research Summaries passages together make up most of the section; Conflicting Viewpoints is usually just 1 passage.","Answering figure-based questions before reading passage text often saves significant time."],"traps":["Trying to apply memorized science class facts instead of reading the given data or viewpoint carefully.","Confusing which axis is the independent variable versus the dependent variable on a graph.","Assuming a trend continues beyond the plotted data range (extrapolating) when the question only supports interpolation.","Mixing up two scientists' viewpoints in Conflicting Viewpoints passages because their terminology overlaps."]},{"id":5,"name":"Writing (Optional) Overview","concepts":[{"l":"Essay Prompt Structure","intro":"The ACT Writing prompt always presents an issue and three different perspectives on it, asking you to develop your own position.","b":["You get 40 minutes to read the prompt, plan, write, and proofread a single essay.","The three given perspectives typically represent different value trade-offs — read all three before choosing your position.","You may agree fully with one perspective, partially agree, or synthesize elements of two — full agreement isn't required for a high score.","Your essay must explicitly discuss the relationship between your own perspective and at least one of the given perspectives.","Prompts are usually about broad social or ethical issues (technology, education, community) accessible without specialized knowledge.","Spend the first 5 minutes planning before writing — a clear plan matters more than a fast start."]},{"l":"The Four Scoring Domains","intro":"ACT Writing is scored by two graders on four domains, each on a 1-6 scale, then combined into a final 2-12 score.","b":["Ideas and Analysis: the depth and clarity of your argument and your engagement with multiple perspectives.","Development and Support: how well you use specific reasoning, examples, and evidence to back up claims.","Organization: a clear structure with logical progression, effective transitions, and a strong intro/conclusion.","Language Use: sentence variety, word choice, and control of grammar/mechanics appropriate for a timed essay.","All four domains are weighted equally, so a paper with a brilliant idea but poor organization won't earn a top score.","The essay score does not count toward your Composite score — it is reported separately."]},{"l":"Building a Strong Thesis and Structure","intro":"A clear five-paragraph structure with an explicit thesis gives graders an easy way to award points.","b":["State your own perspective clearly in the introduction, including how it relates to the given perspectives.","Use one body paragraph per major point of support, each starting with a clear topic sentence.","Dedicate at least one paragraph to directly analyzing a perspective you disagree with or complicate.","Use concrete examples (historical, personal, or hypothetical) rather than vague generalizations.","End with a conclusion that reinforces your thesis and briefly acknowledges the broader significance of the issue.","Avoid restating the prompt word-for-word in your introduction; paraphrase it briefly instead."]},{"l":"Analyzing Multiple Perspectives","intro":"The highest-scoring essays don't just state an opinion — they actively compare and evaluate the given perspectives.","b":["Summarize each of the three perspectives accurately before critiquing or building on any of them.","Explain the underlying value or assumption behind each perspective (e.g., prioritizing efficiency vs. fairness).","Show how your own view addresses a limitation or blind spot in at least one given perspective.","Avoid a simple 'perspective one is right, the others are wrong' approach — nuanced engagement scores higher.","Use transition phrases like 'while this view assumes X, it overlooks Y' to signal analytical depth.","Address counterarguments to your own position, then explain why your reasoning still holds."]},{"l":"Time Management for the Essay","intro":"With only 40 minutes total, allocating time deliberately across planning, writing, and revising prevents an unfinished essay.","b":["Spend about 5 minutes reading the prompt and the three perspectives carefully.","Spend about 5 minutes outlining your thesis and body paragraph structure.","Spend about 25 minutes writing the full essay, aiming for roughly 4-5 paragraphs.","Reserve the last 5 minutes for proofreading grammar, spelling, and clarity — not for major rewrites.","Write legibly; graders can only score what they can read within their limited grading time.","If running short on time, prioritize finishing your conclusion over adding another body paragraph."]}],"keyFacts":["The Writing test is optional and not included in your Composite score, but many colleges request it.","The essay is scored on a 2-12 scale, averaging four domain scores from two graders each scored 1-6.","You must engage with at least one of the three given perspectives, not just state your own opinion in isolation.","Length alone doesn't earn points — a well-organized, well-supported shorter essay beats a rambling long one."],"traps":["Simply restating all three perspectives without ever developing your own distinct argument.","Ignoring the given perspectives entirely and writing a generic essay on the topic.","Ending abruptly without a conclusion because too much time was spent on body paragraphs.","Using only vague, general claims with no specific examples or reasoning to back them up."]},{"id":6,"name":"Timing Frameworks","concepts":[{"l":"Section-by-Section Time Budgets","intro":"Each ACT section has a fixed time limit and question count, so knowing your per-question budget prevents running out of time.","b":["English: 75 questions / 45 minutes ≈ 36 seconds per question.","Math: 60 questions / 60 minutes = 1 minute per question, front-loaded easier at the start.","Reading: 40 questions / 35 minutes ≈ 8-9 minutes per passage (including reading time).","Science: 40 questions / 35 minutes ≈ 5 minutes per passage.","Writing (optional): 1 essay / 40 minutes, split roughly 5/5/25/5 across reading, planning, writing, and proofreading.","Build in a 2-3 minute buffer per section for review of flagged/skipped questions."]},{"l":"Pacing Checkpoints","intro":"Using checkpoints during a section prevents discovering you're behind schedule only when time is called.","b":["Check the clock at the midpoint of each section — you should be roughly at the halfway question count.","In Math, expect to be through question 30 by the 30-minute mark; adjust pace if significantly behind.","In Reading/Science, use the passage transition as a natural checkpoint rather than checking the clock mid-passage.","If behind pace, switch to answering only questions you can solve in under 30 seconds, and guess/flag the rest.","If ahead of pace, use the extra time to double check flagged questions rather than slowing down overall.","Practice with a visible timer during prep so checkpoint pacing becomes automatic on test day."]},{"l":"The Two-Pass Strategy","intro":"Answering every 'easy for you' question first, then returning for harder ones, maximizes points per minute.","b":["On your first pass through a section, answer every question you can solve quickly and skip (but mark) the rest.","Never leave a bubble blank on your first pass — fill in a guess, then revisit if time allows.","On the second pass, spend remaining time only on marked/flagged questions, starting with ones that seem most solvable.","This strategy protects against running out of time before reaching easier questions later in a section.","Two-pass works especially well on Math, where difficulty roughly increases with question number.","For Reading/Science, apply two-pass within each passage rather than across the whole section."]},{"l":"Guessing Strategy and No Penalty for Wrong Answers","intro":"The ACT's scoring rewards guessing over leaving blanks, which should shape late-section decisions.","b":["There is no penalty for incorrect answers, so every question should have a bubble filled in before time is called.","If you must guess blindly, pick one 'letter of the day' (e.g., always C) and use it consistently for speed.","Eliminating even one implausible choice before guessing meaningfully raises your odds versus a blind guess.","Reserve the last minute of any section to bubble in guesses for all remaining unanswered questions.","Never spend more than 60-90 seconds total deciding whether to guess on a single stuck question.","Guessing strategically (eliminating options) beats guessing randomly, but both beat leaving a blank."]},{"l":"Full-Test Time Management","intro":"The whole ACT (excluding Writing) runs about 2 hours and 55 minutes, and stamina management matters as much as per-section pacing.","b":["Standard test order is English, Math, (short break), Reading, Science, (Writing if taken).","A 10-15 minute break typically occurs after Math — use it to hydrate, stretch, and mentally reset, not to review answers.","Fatigue tends to hit hardest in Science (the last multiple-choice section), so practice full-length tests to build stamina.","Avoid perfectionism on any single section; a poor Math section shouldn't be allowed to bleed into your Reading mindset.","Simulate full-length, timed practice tests at least 2-3 times before test day to calibrate real pacing.","Track your actual per-section timing in practice to identify which section needs the most pacing work."]}],"keyFacts":["Total ACT time (without Writing) is about 2 hours 55 minutes across English, Math, Reading, and Science.","Math is the only section giving a full 1 minute per question on average; others require faster pacing.","There is no penalty for wrong answers on the ACT, so guessing is always better than leaving a blank.","A short break follows Math, before Reading and Science — plan hydration and a stretch around it."],"traps":["Spending 3+ minutes on a single hard question instead of marking it and moving on.","Leaving questions blank because you didn't reach them, instead of guessing before time is called.","Ignoring pacing checkpoints and only realizing you're behind schedule near the end of a section.","Using break time to obsess over a previous section instead of resting for the next one."]},{"id":7,"name":"Question Type Patterns","concepts":[{"l":"English: Grammar vs. Rhetorical Skills Questions","intro":"English questions fall into two broad families that require different approaches: fixing errors versus improving effectiveness.","b":["Grammar/usage questions (punctuation, agreement, verb tense) have one objectively correct answer based on rules.","Rhetorical skills questions (organization, style, strategy) ask which choice best fits the writer's purpose or the paragraph's logic.","Underlined-portion questions test grammar most often; 'whole passage' questions (often at the end) test rhetorical skills.","Tense consistency questions require checking the tense used elsewhere in the same paragraph, not just the sentence.","Questions asking to 'add a sentence that provides...' require matching content to a specific stated purpose.","'Which choice is NOT acceptable' questions flip the usual approach — find the option that breaks a rule."]},{"l":"Math: Question Formats and Traps","intro":"ACT Math questions repeat a handful of formats; recognizing the format quickly speeds up solving.","b":["'Solve for x' questions want a numeric or algebraic answer — check whether the choices are numbers or expressions.","'Which of the following must be true' questions require checking ALL cases, not just one example that seems to work.","'Which of the following could be true' questions only need ONE valid example to justify an answer.","Word problems often bury a trap by asking for a value related to, but not identical to, what you first solve for (e.g., solving for x when the question asks for x+3).","Diagram-based geometry problems may not be drawn to scale — never estimate an answer purely from the picture.","'Approximately' in a question signals it's fine (and often faster) to estimate rather than calculate exactly."]},{"l":"Reading: Detail, Inference, and Big-Picture Questions","intro":"Reading questions split into three main categories, each requiring a different search strategy in the text.","b":["Detail questions ask 'what does the passage state' — the answer is a near-paraphrase of an explicit sentence.","Inference questions ask 'what can reasonably be concluded' — the answer requires one small logical step beyond the text.","Big-picture questions ask about the main idea, purpose, or tone of an entire passage or paragraph.","Vocabulary-in-context questions test the meaning of a word AS USED in that specific sentence, not its most common definition.","Comparison questions in paired passages ask how the two authors' views relate — look for explicit points of agreement/disagreement.","Function questions ask why the author included a specific detail, example, or paragraph."]},{"l":"Science: Trend, Comparison, and Prediction Questions","intro":"Science questions almost always ask you to read a trend, compare data points, or predict an unlisted value.","b":["Trend questions ask how one variable changes as another changes — read the direction directly off the graph/table.","Comparison questions ask you to evaluate two or more trials, figures, or scientists' claims against each other.","Prediction questions ask for a value not directly shown — check whether it falls within the data range (interpolation, safer) or beyond it (extrapolation, riskier).","'Which figure supports the statement' questions require matching a claim to specific numbers, not general impressions.","Questions with 'if only Table 1 were used' logic test whether you understand what each specific data set does and doesn't show.","Questions about experimental flaws or improvements test understanding of controls and variables, not outside science facts."]},{"l":"Recognizing Question Stems Fast","intro":"Learning to recognize a question type from its first few words saves seconds you can reinvest across the section.","b":["'According to the passage/table' signals a direct-lookup question with no inference required.","'It can be inferred/reasonably assumed' signals you need a small logical extension of stated facts.","'The author's primary purpose' or 'the main idea' signals a big-picture question — don't over-focus on one detail.","'Which choice best maintains the sentence pattern' or 'is most consistent with the writer's tone' signals a style-matching question.","'If the experiment were repeated with...' signals a hypothetical scenario question requiring you to apply, not just read, the data.","Questions naming a specific paragraph, line, figure, or table number should send you straight there, not to the whole passage."]}],"keyFacts":["Each of the four multiple-choice sections has 4 answer choices (A-D or F-J), unlike the SAT's 4-option format for all questions too.","Recognizing whether a question is asking for an explicit detail versus an inference changes how much text-searching you need to do.","'Must be true' requires checking every case; 'could be true' requires only a single valid example.","Odd-numbered English answer choices are labeled A-D and even-numbered ones F-J to make bubble sheets easier to read."],"traps":["Treating an inference question like a detail question and demanding the exact wording appear in the text.","Assuming a 'must be true' answer is correct after checking only one example instead of all possible cases.","Extrapolating far beyond a graph's data range and treating the result as equally reliable as interpolation.","Ignoring the specific figure/table/line reference in a question and rereading the entire passage instead."]},{"id":8,"name":"Full Practice Workflow","concepts":[{"l":"Building a Study Schedule","intro":"A structured multi-week plan targeting weak areas outperforms unfocused, last-minute review.","b":["Take one full-length diagnostic test first to identify your baseline score and weakest section.","Allocate more weekly study time to your lowest-scoring section, but don't neglect strong sections entirely.","Plan for at least one full-length, timed practice test every 1-2 weeks to track progress under real conditions.","Leave the final 2-3 days before the test for light review only — avoid new content or heavy cramming.","Space practice sessions across multiple days rather than cramming, since spaced repetition improves retention.","Track score trends across practice tests, not just the raw score of the most recent one."]},{"l":"Reviewing Missed Questions Effectively","intro":"How you review practice questions matters more for improvement than how many you complete.","b":["For every missed question, identify WHY you missed it: content gap, careless error, timing pressure, or misread question.","Keep an error log categorizing mistakes by type (e.g., comma rules, inference questions) to spot patterns.","Redo missed math and science questions without looking at the solution first, to test if it was a fluke or a true gap.","For English/Reading, go back to the passage and locate the exact textual evidence for the correct answer.","Review correct-but-slow answers too — a right answer that took 3 minutes reveals a pacing weakness.","Revisit your error log weekly to confirm previously weak categories are improving."]},{"l":"Simulating Real Test Conditions","intro":"Practicing under conditions that mirror test day reduces surprises and anxiety on the actual exam.","b":["Take full-length practice tests in one sitting with only the official short break, not spread across days.","Use an actual answer sheet and bubble in answers (or a timed digital interface) rather than circling in the book.","Practice with the same calculator you'll bring on test day so you're fluent with its functions.","Sit in a quiet space free of phone notifications to build focus stamina for the full ~3 hours.","Time each section strictly with a stopwatch or timer, stopping exactly when time is called, even mid-question.","Simulate the optional Writing test too if you plan to take it, since it adds 40 minutes of additional stamina demand."]},{"l":"Score Reports and Target Setting","intro":"Understanding how ACT scores are calculated helps set realistic, motivating goals.","b":["Each of the four main sections is scored 1-36; the Composite score is the rounded average of all four.","A raw score (number correct) converts to a scaled score via a table that varies slightly by test form.","Colleges often superscore, averaging your best section scores across multiple test dates — check each target school's policy.","Set a target Composite score based on the middle 50% range of admitted students at your target colleges.","Focus on your single lowest-scoring section for the biggest potential Composite score gain.","A 1-2 point Composite gain often requires answering just a few more questions correctly across sections."]},{"l":"Test-Day Logistics and Mindset","intro":"Physical preparation and a calm mindset are as much a part of an ACT strategy as content mastery.","b":["Confirm your test center, start time, and required ID the night before, and lay out materials in advance.","Bring an approved calculator, several No. 2 pencils, a photo ID, and your admission ticket.","Eat a balanced meal beforehand and bring an approved snack for the break to maintain energy.","Arrive early to reduce pre-test stress; rushing in late increases anxiety and error rates.","Use brief breathing resets between sections rather than dwelling on a section you felt went poorly.","Remember one weak section doesn't determine your Composite — stay focused on the section in front of you."]}],"keyFacts":["Consistent, spaced full-length practice tests are the single best predictor of ACT score improvement.","An error log that categorizes WHY you missed each question turns practice into targeted improvement.","The Composite score is the rounded average of the four 1-36 section scores (English, Math, Reading, Science).","Many colleges superscore the ACT, so strategic retesting focused on your weakest section can raise your Composite."],"traps":["Taking many practice tests without ever reviewing why questions were missed.","Cramming new content in the final 1-2 days instead of resting and doing light review.","Ignoring pacing during practice tests by pausing the clock, which hides real timing weaknesses.","Focusing study time evenly across all sections instead of prioritizing the lowest-scoring one for the biggest gain."]}];
 const DIAGRAMS={};
@@ -874,7 +946,8 @@ const PART_A=[{"n":1,"u":1,"q":"Which punctuation correctly joins two independen
 const PART_B1=[{"n":31,"u":1,"q":"Which choice correctly fixes: \"Each of the students have finished their homework\"?","o":["have finished their homework","has finished their homework","has finished its homework","having finished their homework"],"a":1,"e":"\"Each\" is singular, so it takes the singular verb \"has,\" not \"have.\""},{"n":32,"u":1,"q":"An ACT English question asking whether a proposed sentence should be added to a paragraph is primarily testing:","o":["Punctuation rules","Relevance and unity within the paragraph","Verb tense consistency","Word choice precision"],"a":1,"e":"Add/delete sentence questions test whether the sentence supports the paragraph's main idea, not grammar mechanics."},{"n":33,"u":1,"q":"Which sentence uses \"who\"/\"whoever\" correctly?","o":["Whom is going to the store?","Give the ticket to whoever arrives first.","Give the ticket to whomever arrives first.","She is the person who I trust the most, whom is rare."],"a":1,"e":"\"Whoever\" is the subject of \"arrives,\" so the subjective case is correct even though the whole clause is the object of \"to.\""},{"n":34,"u":2,"q":"What is the slope of a line passing through the points (2, 3) and (6, 11)?","o":["1","2","4","8"],"a":1,"e":"Slope = (11-3)/(6-2) = 8/4 = 2."},{"n":35,"u":2,"q":"If 3x - 7 = 20, what is the value of x?","o":["7","8","9","13"],"a":2,"e":"3x = 27, so x = 9."},{"n":36,"u":2,"q":"A rectangle has a length of 12 and a width of 5. What is its area?","o":["17","34","60","85"],"a":2,"e":"Area = length x width = 12 x 5 = 60."},{"n":37,"u":3,"q":"On the ACT Reading section, a \"vocabulary-in-context\" question asks you to:","o":["Define a word using outside knowledge","Determine how a word is used specifically within the passage","Identify the most common dictionary definition","Find a synonym regardless of context"],"a":1,"e":"These questions require using the surrounding sentence to determine the word's meaning as used in that specific passage, which is often not the most common definition."},{"n":38,"u":3,"q":"When a Reading question does NOT give a line reference, the best strategy is to:","o":["Skip the question entirely","Guess based on general impression only","Use your passage map/notes to locate the relevant section quickly","Reread the entire passage from the beginning"],"a":2,"e":"Efficient passage mapping lets you locate the relevant section without rereading the whole passage, saving time."},{"n":39,"u":3,"q":"A \"main idea\" question on the ACT Reading section asks about:","o":["A minor supporting detail","The overall point or purpose of the passage","The author's use of a single word","A statistic mentioned in paragraph two"],"a":1,"e":"Main idea questions test comprehension of the passage's central point, not isolated details."},{"n":40,"u":4,"q":"On the ACT Science section, a \"Research Summaries\" passage typically presents:","o":["A single data table with no experiments","Descriptions of one or more experiments and their results","Two scientists arguing opposing theories","Only reading comprehension text with no data"],"a":1,"e":"Research Summaries passages describe experiments, including methods and results, usually with figures or tables."},{"n":41,"u":4,"q":"If a science passage shows that as variable X increases, variable Y decreases, this represents:","o":["A direct relationship","An inverse relationship","No relationship","A random relationship"],"a":1,"e":"When one variable increases while the other decreases, that is an inverse (negative) relationship."},{"n":42,"u":4,"q":"In a Science section question, extrapolating beyond the given data range means:","o":["Reading a value directly off the table","Predicting a trend beyond the measured data points","Ignoring the data entirely","Averaging all given values"],"a":1,"e":"Extrapolation means projecting a trend to estimate values outside the range that was actually measured."},{"n":43,"u":5,"q":"On the ACT Writing test, a strong essay should address the given perspectives by:","o":["Ignoring all three perspectives and inventing a new one","Analyzing the perspectives and presenting your own, with reasoning","Simply restating each perspective without analysis","Choosing a perspective at random without support"],"a":1,"e":"Scorers reward essays that engage with the provided perspectives, explain their strengths/weaknesses, and support the writer's own view with reasoning."},{"n":44,"u":5,"q":"Which of the following most strengthens an ACT essay's development score?","o":["Repeating the thesis in every paragraph","Providing specific, relevant examples and explaining their significance","Using long words even if imprecise","Keeping every paragraph to one sentence"],"a":1,"e":"Development is scored on how well ideas are explained and supported with specific reasoning and examples, not on vocabulary or repetition."},{"n":45,"u":6,"q":"If you are running low on time near the end of the ACT Math section, the best strategy is usually to:","o":["Leave remaining questions blank","Guess the same letter for all remaining questions since there is no penalty for wrong answers","Go back and redo every completed question","Stop working immediately"],"a":1,"e":"Since there is no guessing penalty, filling in an answer for every remaining question (a consistent letter is efficient) maximizes expected score versus leaving blanks."},{"n":46,"u":6,"q":"A \"pacing checkpoint\" during a timed ACT section means:","o":["Stopping the section early","Checking at set intervals (e.g., after 15 questions) whether you're on pace to finish","Skipping checkpoints entirely","Only checking the time once at the very end"],"a":1,"e":"Pacing checkpoints let you compare your progress to the time elapsed so you can adjust speed before it's too late."},{"n":47,"u":7,"q":"An ACT Math question asking you to find where two lines intersect is testing:","o":["Systems of equations","Probability","Data representation only","Vocabulary"],"a":0,"e":"Finding the intersection point of two lines is solving a system of equations, either by substitution or elimination."},{"n":48,"u":7,"q":"An English question that asks you to choose the most concise, non-redundant phrasing is testing:","o":["Subject-verb agreement","Conciseness/wordiness","Punctuation placement","Pronoun-antecedent agreement"],"a":1,"e":"These questions test the ACT's preference for the shortest option that preserves the sentence's meaning."},{"n":49,"u":8,"q":"When building an ACT study schedule, it's most effective to:","o":["Study only the day before the test","Focus exclusively on your strongest section","Prioritize review of your weakest question types based on practice test data","Avoid taking any full-length practice tests"],"a":2,"e":"Targeted review of weak areas, identified through practice test results, produces the most score improvement per hour studied."},{"n":50,"u":8,"q":"Simulating real test conditions during a practice test includes:","o":["Taking breaks whenever you want","Using a timer and taking only the official section breaks","Skipping the Science section entirely","Looking up answers as you go"],"a":1,"e":"Realistic practice means timing each section accurately and only taking breaks where the real test allows them, to build stamina and pacing skills."}];
 const PART_B2=[{"n":51,"u":1,"q":"Which sentence correctly uses an apostrophe?","o":["The dog wagged it's tail.","The dogs' owner arrived late.","The dogs owner's arrived late.","Its' tail wagged happily."],"a":1,"e":"\"Dogs'\" (plural possessive) correctly shows the owner belongs to multiple dogs; \"it's\" is a contraction for \"it is,\" not a possessive."},{"n":52,"u":2,"q":"What is 20% of 150?","o":["15","20","30","45"],"a":2,"e":"20% of 150 = 0.20 x 150 = 30."},{"n":53,"u":3,"q":"A question asking \"the passage suggests that the narrator feels ___ about the decision\" is testing:","o":["Literal recall of a stated fact","Inference based on textual evidence","Vocabulary definition","The author's biography"],"a":1,"e":"\"Suggests\" signals an inference question — the answer isn't stated directly but must be reasonably drawn from the text."},{"n":54,"u":4,"q":"In the ACT Science section, a \"Conflicting Viewpoints\" passage is best approached by:","o":["Assuming all scientists agree","Identifying where each viewpoint agrees and disagrees before answering questions","Skipping the passage since it has no data","Answering questions before reading either viewpoint"],"a":1,"e":"Mapping the points of agreement and disagreement between viewpoints up front makes it much faster to answer comparison questions."},{"n":55,"u":5,"q":"On the ACT Writing test, the essay is scored on a scale of:","o":["1 to 6 per domain, averaged","2 to 12 total","1 to 36 total","1 to 4 domains only, no numeric score"],"a":0,"e":"Each of the four domains is scored 1-6 by two graders (2-12 combined per domain), and the domain scores are averaged for the reported essay score."},{"n":56,"u":6,"q":"The ACT Reading section gives 35 minutes for 40 questions across four passages. About how much time should you budget per passage?","o":["4-5 minutes","8-9 minutes","15 minutes","20 minutes"],"a":1,"e":"35 minutes / 4 passages is roughly 8-9 minutes per passage, including reading and answering."},{"n":57,"u":7,"q":"A Science question asking \"based on the data in Table 1, which of the following best predicts the result at 50°C\" is testing:","o":["Pure vocabulary recall","Interpolation/extrapolation from data trends","Random guessing strategy","Essay-writing skills"],"a":1,"e":"Predicting an untested value from a data trend is a classic interpolation or extrapolation question type."},{"n":58,"u":8,"q":"After completing a full-length ACT practice test, the most valuable next step is to:","o":["Immediately take another full practice test","Review every missed question to understand the specific error type","Ignore the results and move on","Only check your overall score, not individual questions"],"a":1,"e":"Reviewing missed questions to identify patterns (careless error vs. content gap vs. timing issue) drives targeted improvement more than repeated blind testing."},{"n":59,"u":1,"q":"Which choice best corrects the wordy phrase: \"due to the fact that it was raining\"?","o":["due to the fact that it was raining","because it was raining","being that it was raining","for the reason that it was raining"],"a":1,"e":"\"Because it was raining\" conveys the same meaning far more concisely; the ACT favors the shortest correct option."},{"n":60,"u":2,"q":"A circle has a radius of 4. What is its circumference (in terms of π)?","o":["4π","8π","16π","32π"],"a":1,"e":"Circumference = 2πr = 2π(4) = 8π."}];
 const PART_C=[{"n":61,"u":1,"q":"Written response: choose TWO concepts from different units and construct an argument connecting them. Cite specific evidence from each.","o":["Names both concepts precisely, gives concrete evidence for each, and explains the causal/logical bridge","Lists the two topics without connecting them","Describes only one concept in detail","Gives a personal opinion with no course evidence"],"a":0,"e":"Strong responses anchor every claim in specific unit content."},{"n":62,"u":8,"q":"Essay plan: identify the single most important takeaway of this course. Defend it using three units as evidence, then address one counterargument.","o":["Clear thesis, three unit-specific pieces of evidence, genuine counterargument, resolution","Thesis with no support","Topic list with no argument","Anecdote unrelated to course content"],"a":0,"e":"Full argumentative architecture earns top marks."}];
-const EXAM_CSS=".ex-header{background:var(--ink);color:var(--surface);padding:20px 22px;border-radius:var(--radius);margin-bottom:22px}\n.ex-header h2{font-family:'Space Grotesk';font-size:28.5px;font-weight:700;margin-bottom:4px}\n.ex-header p{font-family:'Inter';font-size:19.5px;color:rgba(255,255,255,.65)}\n.ex-part{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--surface)}\n.ex-part-hd{background:var(--surface-2);padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}\n.ex-part-hd:hover{background:var(--surface-hover)}\n.ex-part-hd h3{font-size:21px;font-weight:700;color:var(--ink)}\n.ex-part-hd span{font-family:'Inter';font-size:18px;color:var(--ink-dim)}\n.ex-part-body{display:none;padding:20px}\n.ex-part.open .ex-part-body{display:block}\n.ex-q{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}\n.ex-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}\n.ex-qnum{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}\n.ex-qtext{font-size:21.8px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:13px}\n.ex-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}\n.ex-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface);text-align:left;transition:all .12s}\n.ex-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}\n.ex-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}\n.ex-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}\n.ex-exp{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface-2);padding:11px 14px;border-radius:var(--radius-sm);margin-top:9px;display:none;line-height:1.6}\n.ex-exp.show{display:block}\n.ex-sa{padding:13px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter';font-size:20.2px;color:var(--amber-ink);line-height:1.6;margin-top:9px}\n.ex-sa strong{display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:var(--amber)}\n.ex-score{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px;display:none}\n.ex-score strong{font-family:'Space Grotesk';color:var(--success);font-size:22.5px}\n.ex-score span{font-family:'Inter';color:var(--success);font-size:19.5px}\n.ex-reset{padding:10px 20px;border:1px solid var(--border);border-radius:999px;background:var(--surface);cursor:pointer;font-family:'Space Grotesk';font-weight:600;font-size:19.5px;margin-top:10px;transition:all .15s}\n.ex-reset:hover{background:var(--surface-hover);border-color:var(--border-strong)}\n";
+const EXAM_META={"title":"ACT Prep — Full Practice Exam","subtitle":"Part A (30 pts) · Part B–1 (20 pts) · Part B–2 (10 pts) · Part C (2 pts)","parts":{"PART_A":{"title":"Part A — Multiple Choice","points":30,"minutes":null},"PART_B1":{"title":"Part B–1 — Multiple Choice","points":20,"minutes":null},"PART_B2":{"title":"Part B–2 — Short Answer","points":10,"minutes":null},"PART_C":{"title":"Part C — Extended Response","points":2,"minutes":null}}};
+const EXAM_CSS=".ex-header{background:var(--ink);color:var(--surface);padding:20px 22px;border-radius:var(--radius);margin-bottom:22px}\n.ex-header h2{font-family:'Space Grotesk';font-size:28.5px;font-weight:700;margin-bottom:4px}\n.ex-header p{font-family:'Inter';font-size:19.5px;color:rgba(255,255,255,.65)}\n.ex-part{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--surface)}\n.ex-part-hd{background:var(--surface-2);padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}\n.ex-part-hd:hover{background:var(--surface-hover)}\n.ex-part-hd h3{font-size:21px;font-weight:700;color:var(--ink)}\n.ex-part-hd span{font-family:'Inter';font-size:18px;color:var(--ink-dim)}\n.ex-part-hd-meta{display:flex;align-items:center;gap:14px;flex:none}\n.ex-timer{font-family:'Space Grotesk';font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink-dim)}\n.ex-timer.ex-timer-up{color:var(--danger)}\n.ex-part-body{display:none;padding:20px}\n.ex-part.open .ex-part-body{display:block}\n.ex-q{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}\n.ex-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}\n.ex-qnum{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}\n.ex-qtext{font-size:21.8px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:13px}\n.ex-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}\n.ex-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface);text-align:left;transition:all .12s}\n.ex-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}\n.ex-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}\n.ex-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}\n.ex-exp{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface-2);padding:11px 14px;border-radius:var(--radius-sm);margin-top:9px;display:none;line-height:1.6}\n.ex-exp.show{display:block}\n.ex-sa{padding:13px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter';font-size:20.2px;color:var(--amber-ink);line-height:1.6;margin-top:9px}\n.ex-sa strong{display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:var(--amber)}\n.ex-score{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px;display:none}\n.ex-score strong{font-family:'Space Grotesk';color:var(--success);font-size:22.5px}\n.ex-score span{font-family:'Inter';color:var(--success);font-size:19.5px}\n.ex-reset{padding:10px 20px;border:1px solid var(--border);border-radius:999px;background:var(--surface);cursor:pointer;font-family:'Space Grotesk';font-weight:600;font-size:19.5px;margin-top:10px;transition:all .15s}\n.ex-reset:hover{background:var(--surface-hover);border-color:var(--border-strong)}\n";
 function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');var idx=-1;tabs.forEach((b,i)=>{if(b.id==='tab-'+id)idx=i;});if(idx!==-1){tabs.forEach((b,i)=>{var on=i===idx;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;});var _hl=document.getElementById('hero-live');if(_hl)_hl.textContent=tabs[idx].textContent.trim()+' tab';}if(id==='examples'&&!examplesBuilt)buildExamples();if(id==='exam'&&!examBuilt)buildExam();var spc=document.getElementById('spc-card');if(spc)spc.style.display=(id==='guide')?'':'none';}
 let examBuilt=false;
 var examplesBuilt=false, ex2map={}, ex2shown={};
@@ -887,20 +960,25 @@ const st=document.createElement('style');st.textContent=EXAM_CSS;document.head.a
 
 v.innerHTML=`
 <div class="ex-header">
-  <h2>ACT Prep — Full Practice Exam</h2>
-  <p>Part A (30 pts) · Part B-1 (20 pts) · Part B-2 (15 pts) · Part C (20 pts) · Based on Jan 2026 format</p>
+  <h2>${EXAM_META.title}</h2>
+  <p>${EXAM_META.subtitle}</p>
 </div>
 <div id="ex-score-box" class="ex-score"></div>
-${buildPartMC('A','Part A — Multiple Choice (30 questions, 1 pt each)',PART_A)}
-${buildPartMC('B1','Part B–1 — Multiple Choice (20 questions, 1 pt each)',PART_B1)}
-${buildPartFR('B2','Part B–2 — Short Answer (show work, 1 pt each)',PART_B2)}
-${buildPartFR('C','Part C — Extended Response (1–2 pts each)',PART_C)}
+${buildPartMC('A',PART_A)}
+${buildPartMC('B1',PART_B1)}
+${buildPartFR('B2',PART_B2)}
+${buildPartFR('C',PART_C)}
 `;
 // open Part A by default
-document.getElementById('ex-part-A').classList.add('open');
+togglePart('A');
 }
 
-function buildPartMC(id,title,qs){
+function examPartMeta(id){return (EXAM_META&&EXAM_META.parts&&EXAM_META.parts['PART_'+id])||{};}
+function exTimerHtml(id){return examPartMeta(id).minutes?`<span class="ex-timer" id="timer-${id}"></span>`:'';}
+
+function buildPartMC(id,qs){
+if(!qs.length)return'';
+const meta=examPartMeta(id);
 const items=qs.map(q=>`
 <div class="ex-q" id="exq-${id}-${q.n}">
   <div class="ex-qnum">Question ${q.n}</div>
@@ -912,15 +990,18 @@ const items=qs.map(q=>`
 </div>`).join('');
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${title}</h3><span id="score-${id}">Score: 0 / ${qs.length}</span>
+  <h3>${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'}, 1 pt each)</h3>
+  <div class="ex-part-hd-meta"><span id="score-${id}">Score: 0 / ${qs.length}</span>${exTimerHtml(id)}</div>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
 }
 
-function buildPartFR(id,title,qs){
+function buildPartFR(id,qs){
+if(!qs.length)return'';
 // Some guides author these as genuine free-response (q.sa, a model answer to
 // reveal); others reuse the multiple-choice shape (q.o/q.a) for this part.
 // Render whichever shape the data actually has instead of assuming sa exists.
+const meta=examPartMeta(id);
 const items=qs.map(q=>q.sa!==undefined?`
 <div class="ex-q">
   <div class="ex-qnum">Question ${q.n}</div>
@@ -937,11 +1018,43 @@ const items=qs.map(q=>q.sa!==undefined?`
   <div class="ex-exp" id="exp-${id}-${q.n}">${q.e}</div>
 </div>`).join('');
 const allMC=qs.every(q=>q.sa===undefined);
+const rightMeta=allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`;
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${title}</h3>${allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`}
+  <h3>${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'})</h3>
+  <div class="ex-part-hd-meta">${rightMeta}${exTimerHtml(id)}</div>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
+}
+
+/* Per-part countdown timer. In-memory only (module-level `examTimers`) — a
+   refresh resets it, matching the fact that exam progress/scores are never
+   persisted to localStorage either. Not a proctored test: hitting zero just
+   shows "Time's up" and stops, it never auto-submits or locks the part. */
+var examTimers={};
+function startPartTimer(id){
+  const meta=examPartMeta(id);
+  if(!meta.minutes)return;
+  let t=examTimers[id];
+  if(!t){t=examTimers[id]={remaining:meta.minutes*60,expired:false,intervalId:null};}
+  if(t.expired||t.intervalId)return; // already ticking, or already ran out
+  t.intervalId=setInterval(function(){
+    t.remaining--;
+    if(t.remaining<=0){
+      t.remaining=0;t.expired=true;
+      clearInterval(t.intervalId);t.intervalId=null;
+    }
+    renderPartTimer(id);
+  },1000);
+  renderPartTimer(id);
+}
+function renderPartTimer(id){
+  const el=document.getElementById('timer-'+id);
+  const t=examTimers[id];
+  if(!el||!t)return;
+  if(t.expired){el.textContent="Time's up";el.classList.add('ex-timer-up');return;}
+  const m=Math.floor(t.remaining/60),s=t.remaining%60;
+  el.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
 }
 
 function togglePart(id){
@@ -949,6 +1062,7 @@ function togglePart(id){
   const isOpen=part.classList.toggle('open');
   const hd=part.querySelector('.ex-part-hd');
   if(hd)hd.setAttribute('aria-expanded',isOpen?'true':'false');
+  if(isOpen)startPartTimer(id);
 }
 
 function toggleSA(btn){
@@ -1256,6 +1370,58 @@ function qBookmarkToggle(qid){
 }
 function qId(q){return q.u+'|'+q.q;}
 
+/* Mistake Log: localStorage-backed, keyed the same way as the bookmark set
+   (ssBookmarks_<slug>) — a currently-unresolved-misses list, not full history.
+   A question moves in when answered wrong and out the moment it's answered
+   correctly again (from anywhere: normal quiz, diagnostic, hard mode, or the
+   log's own review pass). */
+var MISTAKE_LOG_KEY='ssMistakes_'+'act-prep';
+function mistakeLogMap(){
+  try{return JSON.parse(localStorage.getItem(MISTAKE_LOG_KEY)||'{}');}catch(e){return {};}
+}
+function mistakeLogSave(map){
+  try{localStorage.setItem(MISTAKE_LOG_KEY,JSON.stringify(map));}catch(e){}
+  updateMistakeLogBadge();
+}
+function mistakeLogAdd(q){
+  const map=mistakeLogMap();
+  map[qId(q)]={u:q.u,q:q.q,o:q.o,a:q.a,e:q.e,d:q.d,topic:q.topic};
+  mistakeLogSave(map);
+}
+function mistakeLogRemove(q){
+  const map=mistakeLogMap();
+  const id=qId(q);
+  if(!(id in map))return;
+  delete map[id];
+  mistakeLogSave(map);
+}
+function updateMistakeLogBadge(){
+  const el=document.getElementById('mistake-log-count');
+  if(!el)return;
+  const n=Object.keys(mistakeLogMap()).length;
+  el.textContent=String(n);
+  el.style.display=n?'':'none';
+}
+var mistakeReviewMode=false;
+function openMistakeLog(){
+  switchTab('quiz');
+  mistakeReviewMode=true;
+  diagMode=false;
+  const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
+  const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
+  const map=mistakeLogMap();
+  qPool=Object.values(map);
+  qIdx=0;score=0;requeueCounts=new WeakMap();
+  const qb=document.getElementById('qbox');
+  if(!qPool.length){
+    qb.innerHTML='<div class="mistake-log-empty">No mistakes logged right now — nice work. Answer a question wrong anywhere in the quiz and it will show up here until you get it right.</div>';
+    document.getElementById('q-prog').textContent='';
+    document.getElementById('q-sc').textContent='';
+    return;
+  }
+  showQ();
+}
+
 function quizShuffle(){
   if(!qPool.length)return;
   for(let i=qPool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[qPool[i],qPool[j]]=[qPool[j],qPool[i]];}
@@ -1290,8 +1456,15 @@ function buildQSel(){
   if(HQ.length)sel.innerHTML+='<option value="hard">Hard Mode Only ('+HQ.length+' Qs)</option>';
   loadQ();
 }
+let difficultyFilter='all';
+function setDifficultyFilter(d){
+  difficultyFilter=d;
+  document.querySelectorAll('.diff-chip').forEach(function(c){c.classList.toggle('on',c.dataset.diff===d);});
+  loadQ();
+}
 function loadQ(){
   diagMode=false;
+  mistakeReviewMode=false;
   const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
   const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
   const raw=document.getElementById('q-sel').value;
@@ -1300,6 +1473,7 @@ function loadQ(){
   if(raw==='hard')src=HQ.slice();
   else if(+raw===0)src=QUIZ.concat(HQ);
   else src=QUIZ.concat(HQ).filter(q=>q.u===+raw);
+  if(difficultyFilter!=='all')src=src.filter(q=>q.d===difficultyFilter);
   qPool=src.sort(()=>Math.random()-.5);
   qIdx=0;score=0;requeueCounts=new WeakMap();showQ();
 }
@@ -1366,8 +1540,10 @@ function showQ(){
   const bookmarked=qBookmarkSet().has(bid);
   const STAR_OUTLINE='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
   const STAR_FILLED='<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
-  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>`+
+  const diffPill=q.d?`<span class="q-diff q-diff-${q.d}">${q.d}</span>`:'';
+  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>${diffPill}`+
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
+    (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
     `<button class="q-hint-btn" id="q-hint-btn" onclick="toggleQHint()">💡 Hint</button>`+
     `<div class="q-hint-box" id="q-hint-box">Hint: this is from Unit ${q.u}: ${unitNameFor(q.u)}</div>`+
@@ -1433,6 +1609,7 @@ function ansQ(i){
     }
   }
   if(SS_MASTERY)SS_MASTERY.recordAnswer(q.u,i===q.a);
+  if(i===q.a)mistakeLogRemove(q);else mistakeLogAdd(q);
   ssOverallProgressUpdate();
   const expEl=document.getElementById('q-exp');
   expEl.classList.add('show');
@@ -1462,6 +1639,7 @@ function ssQuizKeyboardShortcuts(e){
 }
 document.addEventListener('keydown',ssQuizKeyboardShortcuts);
 buildQSel();
+updateMistakeLogBadge();
 
 /* ----- APG tabs: roving-tabindex arrow-key nav on the hero tab bar. Manual
    activation — arrows move focus only; Enter/Space fire the button's own click
@@ -1865,6 +2043,105 @@ async function ssQuizTabClick(){
 }
 
 ssCheckSession();
+
+/* ----- Reference drawer: a compact, always-available companion to the full
+   Quick Reference TAB. Reuses the exact HTML the generator already emits into
+   #view-qref (buildQref() in generate-guide.mjs) instead of rebuilding it —
+   the drawer body is filled by copying that markup once, on first open. ----- */
+function qrefDrawerOpen(){
+  var panel=document.getElementById('qref-drawer');
+  if(!panel)return;
+  var body=document.getElementById('qref-drawer-body');
+  if(body&&!body.dataset.filled){
+    var src=document.getElementById('view-qref');
+    if(src){body.innerHTML=src.innerHTML;body.dataset.filled='1';}
+  }
+  panel.classList.add('open');
+  panel.setAttribute('aria-hidden','false');
+  var fab=document.getElementById('qref-drawer-fab');
+  if(fab)fab.setAttribute('aria-expanded','true');
+  var closeBtn=panel.querySelector('.qref-drawer-close');
+  if(closeBtn)closeBtn.focus();
+  document.addEventListener('keydown',qrefDrawerKeydown);
+}
+function qrefDrawerClose(){
+  var panel=document.getElementById('qref-drawer');
+  if(!panel||!panel.classList.contains('open'))return;
+  panel.classList.remove('open');
+  panel.setAttribute('aria-hidden','true');
+  var fab=document.getElementById('qref-drawer-fab');
+  if(fab){fab.setAttribute('aria-expanded','false');fab.focus();}
+  document.removeEventListener('keydown',qrefDrawerKeydown);
+}
+function qrefDrawerToggle(){
+  var panel=document.getElementById('qref-drawer');
+  if(panel&&panel.classList.contains('open'))qrefDrawerClose();else qrefDrawerOpen();
+}
+function qrefDrawerKeydown(e){if(e.key==='Escape')qrefDrawerClose();}
+
+/* ----- Optional Desmos graphing calculator. Disabled by default: leave
+   DESMOS_API_KEY empty and this entire feature (button, panel, external
+   script) never appears and never makes a network request. To enable it,
+   the site owner gets a free key for personal/school use at
+   https://www.desmos.com/api/v1.12/calculator.js docs (sign in at
+   desmos.com/my-api) and pastes it in below. Generic — available on every
+   guide once a key is configured, not gated to any subject. ----- */
+const DESMOS_API_KEY = "";
+let desmosScriptLoaded=false, desmosCalculator=null;
+function desmosInit(){
+  if(!DESMOS_API_KEY)return;
+  var fab=document.createElement('button');
+  fab.id='desmos-fab';
+  fab.className='desmos-fab';
+  fab.type='button';
+  fab.setAttribute('aria-label','Toggle graphing calculator');
+  fab.setAttribute('aria-expanded','false');
+  fab.title='Graphing calculator';
+  fab.textContent='\u{1F4C8}';
+  fab.onclick=desmosToggle;
+  document.body.appendChild(fab);
+
+  var panel=document.createElement('div');
+  panel.id='desmos-panel';
+  panel.className='desmos-panel';
+  panel.setAttribute('role','dialog');
+  panel.setAttribute('aria-modal','true');
+  panel.setAttribute('aria-label','Graphing calculator');
+  panel.setAttribute('aria-hidden','true');
+  panel.innerHTML='<div class="desmos-panel-hd"><b>Graphing Calculator</b>'+
+    '<button type="button" class="desmos-panel-close" aria-label="Close graphing calculator">✕</button></div>'+
+    '<div class="desmos-calc" id="desmos-calc"></div>';
+  document.body.appendChild(panel);
+  panel.querySelector('.desmos-panel-close').onclick=desmosToggle;
+}
+function desmosToggle(){
+  var panel=document.getElementById('desmos-panel');
+  if(!panel)return;
+  var opening=!panel.classList.contains('open');
+  panel.classList.toggle('open',opening);
+  panel.setAttribute('aria-hidden',opening?'false':'true');
+  var fab=document.getElementById('desmos-fab');
+  if(fab)fab.setAttribute('aria-expanded',opening?'true':'false');
+  if(opening){
+    document.addEventListener('keydown',desmosKeydown);
+    if(!desmosScriptLoaded)desmosLoadScript();
+  }else{
+    document.removeEventListener('keydown',desmosKeydown);
+    if(fab)fab.focus();
+  }
+}
+function desmosKeydown(e){if(e.key==='Escape')desmosToggle();}
+function desmosLoadScript(){
+  desmosScriptLoaded=true;
+  var s=document.createElement('script');
+  s.src='https://www.desmos.com/api/v1.12/calculator.js?apiKey='+encodeURIComponent(DESMOS_API_KEY);
+  s.onload=function(){
+    var el=document.getElementById('desmos-calc');
+    if(el&&window.Desmos)desmosCalculator=Desmos.GraphingCalculator(el);
+  };
+  document.head.appendChild(s);
+}
+desmosInit();
 
 /* ----- unit-filtered practice, e.g. /chemistry?practice=3 (from the dashboard's "study this next") ----- */
 (async function ssPracticeMode(){

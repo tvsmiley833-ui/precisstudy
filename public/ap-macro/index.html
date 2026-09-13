@@ -273,6 +273,16 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .q-block:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .q-block-hd{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px}
 .q-text{font-size:24.8px;font-weight:600;color:var(--ink);line-height:1.55;flex:1}
+.q-diff{flex:none;display:inline-block;padding:3px 11px;border-radius:999px;font-size:13px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;border:1px solid transparent;align-self:flex-start;margin-top:2px}
+.q-diff-easy{background:var(--success-soft);color:var(--success);border-color:var(--success-border)}
+.q-diff-medium{background:var(--amber-soft);color:var(--amber-ink);border-color:var(--amber)}
+.q-diff-hard{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}
+.q-topic{font-size:14.5px;color:var(--ink-dim);margin:-14px 0 14px;font-style:italic}
+.mistake-log-btn{position:relative}
+.mistake-log-count{display:inline-block;margin-left:6px;background:var(--danger);color:#fff;border-radius:999px;
+  font-size:12px;font-weight:700;padding:1px 7px}
+.mistake-log-empty{padding:24px;text-align:center;color:var(--ink-muted);font-size:18px}
 .q-bookmark{flex:none;background:none;border:none;cursor:pointer;color:var(--ink-dim);padding:2px;border-radius:6px;transition:color .15s ease,transform .15s ease}
 .q-bookmark:hover{color:var(--amber);transform:scale(1.08)}
 .q-bookmark.on{color:var(--amber)}
@@ -514,6 +524,51 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 .back-to-top:hover{color:var(--ink);border-color:var(--accent)}
 .back-to-top svg{width:20px;height:20px;display:block}
 
+/* ---- reference drawer: quick-access companion to the Quick Reference tab,
+   reachable from any tab. Sits bottom-center, clear of back-to-top
+   (bottom:22/left:22..74) and #cbot-fab (bottom:22/right:22..78). ---- */
+.qref-drawer-fab{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);width:52px;height:52px;
+  border-radius:50%;background:var(--surface);color:var(--ink-muted);border:1px solid var(--border-strong);
+  cursor:pointer;box-shadow:var(--shadow-md);z-index:190;display:flex;align-items:center;justify-content:center;
+  transition:color .15s ease,border-color .15s ease}
+.qref-drawer-fab:hover{color:var(--accent);border-color:var(--accent)}
+.qref-drawer-fab svg{width:20px;height:20px;display:block}
+.qref-drawer{position:fixed;top:0;right:0;height:100dvh;width:min(420px,100vw);background:var(--surface);
+  border-left:1px solid var(--border-strong);box-shadow:var(--shadow-lg);z-index:210;display:flex;flex-direction:column;
+  transform:translateX(100%);opacity:0;visibility:hidden;transition:transform .25s ease,opacity .25s ease,visibility 0s linear .25s}
+.qref-drawer.open{transform:translateX(0);opacity:1;visibility:visible;transition:transform .25s ease,opacity .25s ease}
+.qref-drawer-hd{display:flex;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--surface-2);flex-shrink:0}
+.qref-drawer-hd b{font-family:'Space Grotesk';font-size:20px;color:var(--ink);flex:1}
+.qref-drawer-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:6px 8px;border-radius:6px}
+.qref-drawer-close:hover{color:var(--ink);background:var(--surface-hover)}
+.qref-drawer-body{flex:1;overflow-y:auto;padding:16px}
+.qref-drawer-body .qr-section:not(:last-child){margin-bottom:20px}
+@media(max-width:600px){
+  .qref-drawer{width:100vw}
+}
+
+/* ---- optional Desmos graphing calculator (see DESMOS_API_KEY in logic.js).
+   Markup is only ever created by JS when a key is configured, so this CSS
+   has no visible effect until then. Placed clear of #cbot-fab (right:22..78). ---- */
+.desmos-fab{position:fixed;bottom:22px;right:90px;width:52px;height:52px;border-radius:50%;
+  background:var(--accent);color:#fff;border:none;font-size:22px;cursor:pointer;
+  box-shadow:0 8px 24px -6px rgba(15,122,112,.4);z-index:195;display:flex;align-items:center;justify-content:center;
+  transition:transform .15s ease}
+.desmos-fab:hover{transform:scale(1.06)}
+.desmos-panel{position:fixed;bottom:88px;right:90px;width:min(380px,calc(100vw - 32px));
+  height:min(420px,calc(100dvh - 160px));background:var(--surface);border:1px solid var(--border-strong);
+  border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:205;display:none;flex-direction:column;overflow:hidden}
+.desmos-panel.open{display:flex}
+.desmos-panel-hd{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+.desmos-panel-hd b{font-family:'Space Grotesk';font-size:18px;color:var(--ink);flex:1}
+.desmos-panel-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:4px 6px;border-radius:6px}
+.desmos-panel-close:hover{color:var(--ink);background:var(--surface-hover)}
+.desmos-calc{flex:1;width:100%;height:100%}
+@media(max-width:600px){
+  .desmos-fab{right:22px;bottom:82px}
+  .desmos-panel{right:12px;bottom:144px}
+}
+
 /* ---- print / export ---- */
 @media print{
   :root,[data-theme="dark"]{
@@ -528,7 +583,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
   body{background:#fff;color:#000}
   body::before,.hero::after{display:none!important}
   #theme-toggle,.search-wrap,.ss-sticky-top .filter-row-wrap,.mobile-only-select,.nav,.nav-spacer,.tablist,
-  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
+  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.qref-drawer-fab,.qref-drawer,.desmos-fab,.desmos-panel,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
   .search-kbd,.ss-overall-progress,.q-kbd-hint,.diag-btn{display:none!important}
   *{position:static!important;box-shadow:none!important}
   .unit-body{display:block!important}
@@ -707,6 +762,13 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <div class="q-bar">
     <select id="q-sel" aria-label="Choose a question set" onchange="loadQ()"></select>
     <button class="btn" type="button" onclick="quizShuffle()" style="font-size:14px;padding:7px 14px">⇄ Shuffle</button>
+    <div class="diff-chips" role="group" aria-label="Filter by difficulty" style="display:flex;gap:6px">
+      <button class="chip on diff-chip" type="button" data-diff="all" onclick="setDifficultyFilter('all')">All</button>
+      <button class="chip diff-chip" type="button" data-diff="easy" onclick="setDifficultyFilter('easy')">Easy</button>
+      <button class="chip diff-chip" type="button" data-diff="medium" onclick="setDifficultyFilter('medium')">Medium</button>
+      <button class="chip diff-chip" type="button" data-diff="hard" onclick="setDifficultyFilter('hard')">Hard</button>
+    </div>
+    <button class="btn mistake-log-btn" type="button" onclick="openMistakeLog()">Mistake Log<span class="mistake-log-count" id="mistake-log-count" style="display:none">0</span></button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -862,6 +924,16 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
   <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
 </button>
+<button type="button" id="qref-drawer-fab" class="qref-drawer-fab" onclick="qrefDrawerToggle()" aria-label="Open quick reference" aria-expanded="false" aria-controls="qref-drawer" title="Quick Reference">
+  <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+</button>
+<div id="qref-drawer" class="qref-drawer" role="dialog" aria-modal="true" aria-label="Quick Reference" aria-hidden="true">
+  <div class="qref-drawer-hd">
+    <b>Quick Reference</b>
+    <button type="button" class="qref-drawer-close" onclick="qrefDrawerToggle()" aria-label="Close quick reference">✕</button>
+  </div>
+  <div class="qref-drawer-body" id="qref-drawer-body"></div>
+</div>
 <script>
 const UNITS=[{"id":1,"name":"Basic Economic Concepts","concepts":[{"l":"Scarcity and Opportunity Cost","intro":"Scarcity means unlimited wants versus limited resources, forcing every choice to have an opportunity cost.","b":["Opportunity cost = value of the next-best alternative given up","Every point on a Production Possibilities Curve (PPC) reflects a trade-off","'There is no such thing as a free lunch' — even 'free' goods have opportunity costs","Sunk costs (already spent, unrecoverable) should NOT factor into future decisions","Explicit costs are direct payments; implicit costs are foregone alternatives (e.g., forgone wages)"]},{"l":"Production Possibilities Curve (PPC)","intro":"The PPC shows the maximum combinations of two goods an economy can produce with fixed resources and technology.","b":["Points on the curve = full/efficient use of resources; points inside = unemployment/inefficiency; points outside = unattainable (currently)","Bowed-out (concave) PPC reflects increasing opportunity cost due to resources not being perfectly adaptable","A straight-line PPC implies constant opportunity cost (perfect resource substitutability)","Outward shift of the entire PPC = economic growth (more resources, better technology, more capital)","A shift favoring one good only (e.g., a technology improvement in just one industry) rotates the PPC on that axis"]},{"l":"Comparative Advantage & Specialization","intro":"Comparative advantage means producing a good at a lower opportunity cost than another producer, which is the basis for beneficial trade — even if one party has an absolute advantage in everything.","b":["Absolute advantage = producing more output with the same resources (compare total output)","Comparative advantage = lower opportunity cost (compare trade-offs, not totals)","Mutually beneficial trade requires a terms-of-trade price between each party's own opportunity costs","Specialization based on comparative advantage increases total world output","A country can have absolute advantage in both goods but comparative advantage in only one"]},{"l":"Demand","intro":"The Law of Demand states price and quantity demanded are inversely related, holding all else constant (ceteris paribus).","b":["Determinants that shift demand: Tastes, Income (normal vs. inferior goods), Prices of related goods (substitutes/complements), Number of buyers, Expectations (memorize: T-I-P-N-E)","A change in price causes movement ALONG the demand curve (change in quantity demanded)","A change in a determinant shifts the ENTIRE demand curve (change in demand)","Normal goods: demand rises when income rises; inferior goods: demand falls when income rises","Substitutes: price of one rises, demand for the other rises; complements: price of one rises, demand for the other falls"]},{"l":"Supply","intro":"The Law of Supply states price and quantity supplied are directly related, holding all else constant.","b":["Determinants that shift supply: Resource (input) costs, Technology, Taxes/subsidies, Prices of other goods producers could make, Number of sellers, Expectations (memorize: R-O-T-T-E-N)","A change in price causes movement ALONG the supply curve (change in quantity supplied)","A change in a determinant shifts the ENTIRE supply curve (change in supply)","A per-unit tax on producers shifts supply left (up); a subsidy shifts supply right (down)","Improved technology or lower input costs shift supply to the right"]},{"l":"Market Equilibrium & Price Controls","intro":"Equilibrium is where quantity demanded equals quantity supplied; government price controls that deviate from equilibrium create shortages or surpluses.","b":["Price ceiling below equilibrium price causes a persistent shortage (e.g., rent control)","Price floor above equilibrium price causes a persistent surplus (e.g., minimum wage, agricultural price supports)","A price ceiling above equilibrium or a price floor below equilibrium is non-binding (no effect)","Simultaneous shifts: if both curves shift, one variable (price or quantity) is determinate and the other is ambiguous without more information","Consumer surplus = area below demand, above price; producer surplus = area above supply, below price"]}],"keyFacts":["Opportunity cost is the value of the next-best foregone alternative — not just money spent.","A bowed-out PPC shows increasing opportunity cost; a straight-line PPC shows constant opportunity cost.","Comparative advantage (lowest opportunity cost) — not absolute advantage — determines mutually beneficial specialization and trade.","Price ceilings below equilibrium cause shortages; price floors above equilibrium cause surpluses."],"traps":["A price change moves you ALONG a curve, not the curve itself — only a determinant shifts the whole curve.","Absolute advantage is about who produces MORE; comparative advantage is about who gives up LESS — trade is based on the latter, not the former.","Sunk costs should be ignored in decision-making, not treated as a reason to 'stick with' a bad investment.","A country can have an absolute advantage in every good and still benefit from trade if comparative advantage differs."]},{"id":2,"name":"Economic Indicators & GDP","concepts":[{"l":"Circular Flow Model","intro":"The circular flow model shows how money, goods, and resources move between households, firms, the government, and the foreign sector.","b":["Households supply factors of production (land, labor, capital, entrepreneurship) to firms via factor markets","Firms supply goods and services to households via product markets, in exchange for spending","Leakages (savings, taxes, imports) remove money from the flow; injections (investment, government spending, exports) add money","For equilibrium GDP, leakages must equal injections: S + T + M = I + G + X","The government and foreign sectors add complexity beyond the basic two-sector household-firm loop"]},{"l":"GDP: Definition & Measurement","intro":"GDP (Gross Domestic Product) is the market value of all final goods and services produced within a country's borders in a given year.","b":["Expenditure approach: GDP = C + I + G + Xn (Consumption + Investment + Government spending + Net exports)","Only FINAL goods count — intermediate goods are excluded to avoid double-counting","Only production WITHIN the country's borders counts (GDP), regardless of who owns the resources (contrast with GNP, which is by nationality)","Investment (I) includes business investment in capital and inventories, and residential construction — NOT financial investments like stocks/bonds","Non-market and used-good transactions (housework, illegal sales, resale of used cars) are excluded from GDP"]},{"l":"Nominal vs. Real GDP & the GDP Deflator","intro":"Nominal GDP measures output at current prices, while real GDP adjusts for inflation to allow comparison across years.","b":["Real GDP = (Nominal GDP / GDP Deflator) × 100","GDP Deflator = (Nominal GDP / Real GDP) × 100, a price index for all goods in the economy","Real GDP uses constant base-year prices, isolating changes in actual output from changes in price level","If nominal GDP rises but real GDP falls, all the 'growth' was due to inflation, not more output","Real GDP per capita = real GDP divided by population; used to measure living standards over time"]},{"l":"Business Cycle","intro":"The business cycle describes the recurring pattern of expansion and contraction in real GDP over time.","b":["Phases in order: expansion (growth) → peak → contraction/recession → trough → expansion again","A recession is commonly defined as two consecutive quarters of declining real GDP","Peak: economy at/near full employment and maximum output; Trough: output and employment at their lowest point","The long-run trend line represents potential/full-employment GDP; actual GDP fluctuates around it","A recessionary gap occurs when actual GDP < potential GDP; an inflationary gap occurs when actual GDP > potential GDP"]},{"l":"Limitations of GDP","intro":"GDP is a useful but imperfect measure of a nation's economic well-being and total output.","b":["Excludes non-market production: household labor, volunteer work, unpaid childcare","Excludes the underground/illegal economy (unreported cash transactions, black markets)","Does not measure quality of life, leisure time, income distribution, or environmental quality/externalities","Does not account for the composition of output (e.g., military goods vs. consumer goods) or negative externalities like pollution","GDP per capita can be misleading if income is highly unequally distributed across the population"]}],"keyFacts":["GDP = C + I + G + Xn is the expenditure approach — memorize each component's exact meaning.","Real GDP = (Nominal GDP ÷ GDP Deflator) × 100 — always adjust nominal figures for price-level changes before comparing years.","A recession is generally two consecutive quarters of falling real GDP; the trough is the low point, the peak is the high point.","GDP excludes non-market activity, used goods, intermediate goods, and purely financial transactions."],"traps":["GDP counts only FINAL goods, not intermediate goods — counting both would double-count the same value added.","'Investment' in macro means new capital goods and inventory changes, not buying stocks or bonds — don't confuse it with financial investing.","A rising nominal GDP does not necessarily mean the economy is actually producing more; check real GDP to rule out pure inflation.","GNP measures output by a country's citizens/firms anywhere in the world, while GDP measures output within a country's borders regardless of ownership — these are not interchangeable."]},{"id":3,"name":"Unemployment & Inflation","concepts":[{"l":"Measuring Unemployment","intro":"The unemployment rate measures the share of the labor force that is jobless and actively seeking work.","b":["Unemployment rate = (Number unemployed / Labor force) × 100","Labor force = employed + unemployed (people who are actively seeking work); excludes discouraged workers and those not seeking work","Labor force participation rate = (Labor force / Working-age population) × 100","Discouraged workers who stop looking for jobs are NOT counted as unemployed, which can understate true joblessness","Underemployed workers (part-time but wanting full-time work) are counted as fully employed, also understating labor market slack"]},{"l":"Types of Unemployment","intro":"Economists classify unemployment by its underlying cause, which affects whether it signals a healthy or struggling economy.","b":["Frictional: short-term, from workers transitioning between jobs or entering the labor force (natural and generally healthy)","Structural: mismatch between workers' skills/location and available jobs, often from technological change or industry decline","Cyclical: caused by a downturn in the business cycle (falls in a recession, rises in a boom); the only type tied to the business cycle","Seasonal: predictable, recurring unemployment tied to a time of year (e.g., agriculture, holiday retail)","Natural rate of unemployment (NRU) = frictional + structural unemployment (assumes zero cyclical unemployment); economy is at full employment when actual = natural rate"]},{"l":"Inflation & the CPI","intro":"Inflation is a sustained rise in the general price level; the Consumer Price Index (CPI) is the most common tool to measure it.","b":["CPI tracks the cost of a fixed 'market basket' of goods and services over time relative to a base year","Inflation rate = [(CPI this year − CPI last year) / CPI last year] × 100","CPI can overstate inflation due to substitution bias, quality/new-product bias, and outlet bias","GDP deflator differs from CPI: the deflator covers ALL domestically produced goods (varies basket), CPI covers a FIXED basket of consumer goods (including imports)","Demand-pull inflation is caused by excess aggregate demand ('too much money chasing too few goods'); cost-push inflation is caused by rising input/production costs"]},{"l":"Costs of Inflation & Redistributive Effects","intro":"Inflation redistributes wealth and imposes real economic costs, especially when unanticipated.","b":["Menu costs: the real resource cost of updating prices","Shoe-leather costs: the cost/effort of holding less cash and making more trips to the bank to avoid inflation's erosion of money's value","Unanticipated inflation hurts lenders/creditors (repaid in less valuable dollars) and helps borrowers/debtors","Anticipated inflation is less costly because it can be built into contracts, wages, and interest rates (nominal rate = real rate + expected inflation)","Inflation hurts people on fixed incomes (e.g., pensions) and savers holding cash; it helps those holding real assets or fixed-rate debt"]},{"l":"Real vs. Nominal Values & the Fisher Equation","intro":"Nominal values are stated in current dollars; real values are adjusted for inflation to reflect true purchasing power.","b":["Fisher equation: Nominal interest rate = Real interest rate + Expected inflation rate","Real interest rate = Nominal interest rate − Expected (or actual) inflation rate","Real income/wage growth = Nominal income/wage growth − Inflation rate","If inflation exceeds the nominal interest rate, the real interest rate is negative — savers effectively lose purchasing power","Purchasing power of money moves inversely with the price level: as prices rise, each dollar buys less"]}],"keyFacts":["Unemployment rate = (Unemployed / Labor force) × 100; discouraged workers are excluded from the labor force entirely.","Natural rate of unemployment = frictional + structural unemployment; full employment does NOT mean zero unemployment.","Fisher equation: nominal interest rate = real interest rate + expected inflation.","Unanticipated inflation redistributes wealth from lenders to borrowers; anticipated inflation has smaller real costs."],"traps":["'Full employment' means zero CYCLICAL unemployment, not zero unemployment overall — frictional and structural unemployment still exist.","Discouraged workers are NOT counted as unemployed because they've stopped searching, which can make the official unemployment rate understate true labor market weakness — this is a definitional trap, not a data error.","Inflation redistributes income; it does not automatically make everyone poorer — real asset holders and debtors can benefit from unanticipated inflation.","CPI inflation and GDP deflator inflation can differ because CPI uses a FIXED market basket including imports, while the deflator reflects all current domestic output."]},{"id":4,"name":"AD-AS Model","concepts":[{"l":"Aggregate Demand (AD)","intro":"Aggregate demand is the total quantity of real GDP demanded by households, firms, government, and foreigners at each price level.","b":["AD curve slopes downward due to three effects: wealth effect, interest rate effect, and foreign trade (exchange rate) effect","Wealth effect: higher price level reduces the real value of savings, so people spend less","Interest rate effect: higher price level raises interest rates (more money demanded), reducing investment/consumption","Foreign trade effect: higher domestic price level makes exports relatively more expensive and imports cheaper, reducing net exports","AD shifts (not movements) come from changes in C, I, G, or Xn — e.g., consumer confidence, tax cuts, interest rate changes, foreign income"]},{"l":"Short-Run Aggregate Supply (SRAS)","intro":"SRAS shows the relationship between the price level and real GDP supplied in the short run, when input prices (especially wages) are sticky.","b":["SRAS slopes upward because higher prices increase profits when input costs (wages) are fixed in the short run, encouraging more output","SRAS shifts left (decreases) with rising input/resource costs, negative supply shocks (e.g., oil price spike), or higher business taxes","SRAS shifts right (increases) with falling input costs, productivity improvements, or subsidies to producers","Stagflation = SRAS shifts left, causing simultaneous higher price level (inflation) AND lower real GDP (recession/higher unemployment)","A supply shock is distinct from a demand shock: it moves price level and output in OPPOSITE directions"]},{"l":"Long-Run Aggregate Supply (LRAS)","intro":"LRAS represents the economy's potential (full-employment) output, determined by resources, technology, and institutions — independent of the price level.","b":["LRAS is a vertical line at potential/full-employment real GDP (natural rate of unemployment)","In the long run, wages and prices fully adjust, so changes in price level do not affect real output","LRAS shifts only from changes in the quantity/quality of resources, technology, or institutions — the same things that shift the PPC outward","The intersection of AD and LRAS represents long-run macroeconomic equilibrium","Economic growth is shown as a rightward shift of the LRAS curve (and PPC), not a movement along it"]},{"l":"Short-Run Equilibrium & Output Gaps","intro":"Short-run macroeconomic equilibrium occurs where AD intersects SRAS; this may not coincide with full-employment output on LRAS.","b":["Recessionary gap: SR equilibrium GDP < potential GDP (LRAS) — associated with high unemployment","Inflationary gap: SR equilibrium GDP > potential GDP (LRAS) — economy is 'overheating,' unsustainable in the long run","In a recessionary gap, high unemployment eventually pushes wages down, shifting SRAS right until it returns to LRAS (self-correction) — a slow process","In an inflationary gap, rising wages from labor shortages shift SRAS left, raising prices until output returns to LRAS","Policy is often used to speed up this adjustment rather than waiting for the slow, painful self-correction mechanism"]},{"l":"Shifts, Multipliers & Combined Analysis","intro":"Changes in AD or AS shift the curves and change equilibrium price level and real GDP; the size of the AD shift depends on the spending multiplier.","b":["An increase in AD shifts it right, raising both price level and real GDP (in the short run)","A decrease in AD shifts it left, lowering both price level and real GDP","Simultaneous AD and AS shifts: if AD rises and SRAS falls simultaneously, price level definitely rises but real GDP change is ambiguous","The multiplier effect: an initial change in spending leads to a larger shift in AD because one person's spending is another's income","Spending multiplier = 1 / MPS = 1 / (1 − MPC); this determines the horizontal size of an AD shift from a given change in spending"]}],"keyFacts":["AD slopes down due to the wealth, interest rate, and foreign trade effects — not the Law of Demand's substitution logic.","SRAS slopes up because of sticky input costs; LRAS is vertical at potential GDP, independent of price level.","A recessionary gap is actual GDP < potential GDP; an inflationary gap is actual GDP > potential GDP.","The spending multiplier = 1/(1−MPC) = 1/MPS determines how much an initial spending change shifts AD."],"traps":["AD's downward slope is NOT the same reasoning as microeconomic demand (substitution among goods) — it comes from the wealth, interest rate, and foreign trade effects.","LRAS does not shift due to a change in price level — only changes in resources, technology, or institutions shift it (same as PPC shifts).","Stagflation (falling output + rising prices) comes from a leftward SRAS shift, NOT from an AD shift — AD shifts move price and output in the SAME direction, supply shocks move them in OPPOSITE directions.","'Full employment' equilibrium (AD = LRAS = SRAS) is a long-run concept; short-run equilibrium (AD = SRAS) can sit above or below potential GDP."]},{"id":5,"name":"Fiscal Policy","concepts":[{"l":"Fiscal Policy Basics","intro":"Fiscal policy is the use of government spending and taxation, decided by Congress and the President, to influence aggregate demand and stabilize the economy.","b":["Expansionary fiscal policy: increase government spending and/or decrease taxes to close a recessionary gap (shifts AD right)","Contractionary fiscal policy: decrease government spending and/or increase taxes to close an inflationary gap (shifts AD left)","Discretionary fiscal policy requires deliberate legislative action; automatic stabilizers work without new legislation","Automatic stabilizers: progressive income taxes and unemployment/welfare benefits that automatically counteract business cycle swings","Fiscal policy directly shifts AD; it does not directly affect the money supply (that's monetary policy)"]},{"l":"The Spending Multiplier","intro":"Because one person's spending becomes another's income, an initial change in spending leads to a larger, magnified change in real GDP.","b":["MPC (marginal propensity to consume) = fraction of extra income spent; MPS (marginal propensity to save) = fraction saved; MPC + MPS = 1","Spending multiplier = 1 / MPS = 1 / (1 − MPC)","Total change in real GDP = initial change in spending × spending multiplier","A higher MPC means a larger multiplier (more of each dollar gets re-spent, generating more rounds of income)","Government spending changes affect AD dollar-for-dollar times the multiplier; tax changes affect AD by less because part of a tax cut is saved, not spent"]},{"l":"The Tax Multiplier","intro":"Tax changes affect AD indirectly through disposable income and consumption, making the tax multiplier smaller than the spending multiplier.","b":["Tax multiplier = −MPC / MPS = −MPC / (1 − MPC)","The tax multiplier is smaller in absolute value than the spending multiplier because the first round of a tax cut is partly saved (only MPC × tax cut is spent)","A tax increase is contractionary (negative effect on GDP); a tax cut is expansionary (positive effect on GDP)","Balanced-budget multiplier: equal increases in G and T raise real GDP by exactly the amount of the spending increase (multiplier = 1)","To calculate total effect: multiply the tax change by the tax multiplier, or the spending change by the spending multiplier, and sum for combined policies"]},{"l":"Government Budget: Deficits, Surpluses & the National Debt","intro":"The budget balance is the difference between government revenue and spending in a given year; the national debt is the accumulation of past deficits.","b":["Budget deficit: government spending > tax revenue in a given year (must borrow, issuing Treasury bonds)","Budget surplus: tax revenue > government spending in a given year","National debt = the cumulative sum of all past deficits minus surpluses, accumulated over time","Expansionary fiscal policy (more spending/lower taxes) tends to increase deficits; contractionary fiscal policy tends to reduce them","Financing deficits by borrowing can lead to crowding out of private investment (see below)"]},{"l":"Crowding Out & Supply-Side Fiscal Policy","intro":"Government borrowing to finance deficit spending can raise interest rates and reduce private investment, partially offsetting fiscal stimulus.","b":["Crowding out: increased government borrowing raises interest rates (higher demand for loanable funds), which reduces private investment spending","Crowding out reduces the effectiveness of expansionary fiscal policy on real GDP","Supply-side fiscal policy (e.g., cutting tax rates, deregulation) aims to shift SRAS/LRAS right by increasing incentives to work, save, and invest","The Laffer Curve suggests tax revenue can rise OR fall with a tax rate cut depending on where the current rate sits relative to the revenue-maximizing rate","Supply-side policy differs from demand-side fiscal policy because it targets aggregate SUPPLY, not aggregate demand"]}],"keyFacts":["Spending multiplier = 1/MPS = 1/(1−MPC); Tax multiplier = −MPC/MPS — the tax multiplier is always smaller in absolute value.","Expansionary fiscal policy (↑G, ↓T) targets a recessionary gap; contractionary fiscal policy (↓G, ↑T) targets an inflationary gap.","The balanced-budget multiplier (equal ΔG and ΔT) equals 1 — GDP rises by exactly the amount of the spending increase.","Government borrowing to finance deficits can crowd out private investment by raising interest rates."],"traps":["A tax cut of $X does NOT shift AD by the same amount as a government spending increase of $X — the tax multiplier is smaller because part of the tax cut is saved, not all spent.","Automatic stabilizers (progressive taxes, unemployment benefits) work WITHOUT new legislation — don't confuse them with discretionary fiscal policy, which requires a new law.","Running a budget deficit in one year adds to, but is not the same as, the national debt — the debt is the cumulative stock, the deficit is the annual flow.","Fiscal policy shifts AD, not SRAS or LRAS directly — only supply-side fiscal policy (tax rate/incentive changes) is aimed at the supply side."]},{"id":6,"name":"Money, Banking & Fed","concepts":[{"l":"Functions & Definition of Money","intro":"Money is anything widely accepted as payment, and it serves three key economic functions.","b":["Three functions of money: medium of exchange, unit of account, store of value","M1 = currency in circulation + checkable (demand) deposits + traveler's checks — the most liquid measure of money","M2 = M1 + savings deposits + small time deposits (e.g., CDs) + money market mutual funds — less liquid, broader measure","Money must be: durable, portable, divisible, and scarce (limited supply) to function well","Money is NOT wealth itself — it is a claim on wealth/goods, and its value depends on price level (purchasing power)"]},{"l":"The Banking System & Fractional Reserve Banking","intro":"Commercial banks create money by lending out a fraction of their deposits, keeping the rest as required reserves.","b":["Required reserve ratio (RRR) = the fraction of deposits banks must hold, set by the Federal Reserve","Required reserves = deposits × RRR; Excess reserves = total reserves − required reserves","Banks can only loan out excess reserves — this is the basis of the money-creation process","A bank's simplified balance sheet: Assets (reserves, loans, securities) must equal Liabilities + Net Worth (deposits owed to customers)","When a bank makes a new loan, it creates new checkable deposits, i.e., new money, in the process"]},{"l":"The Money Multiplier","intro":"Because each bank in the system re-lends its excess reserves, an initial deposit expands into a much larger increase in the total money supply.","b":["Money multiplier = 1 / RRR","Maximum change in the money supply = initial change in excess reserves × money multiplier","The actual multiplier is often smaller than 1/RRR in reality due to cash leakage (holding currency) and banks holding excess reserves beyond the requirement","A higher RRR means a smaller money multiplier and less money creation from a given deposit","This multiplier process explains how the banking system, not just the Fed printing cash, expands the money supply"]},{"l":"The Federal Reserve System","intro":"The Federal Reserve ('the Fed') is the U.S. central bank, responsible for conducting monetary policy and regulating the banking system.","b":["The Fed's dual mandate: maximize employment and maintain stable prices (control inflation)","Structure: Board of Governors + 12 regional Federal Reserve Banks + the Federal Open Market Committee (FOMC), which sets monetary policy","The Fed is the 'lender of last resort' to commercial banks and regulates/supervises the banking system","The Fed does NOT control fiscal policy (spending/taxes) — that is Congress and the President's role","The Fed's balance sheet: Assets include government securities and loans to banks; Liabilities include currency in circulation and bank reserves"]},{"l":"Money Market: Demand & Supply of Money","intro":"The money market determines the nominal interest rate through the interaction of money demand and the Fed-controlled money supply.","b":["Money demand slopes downward: at lower interest rates, people hold more money (lower opportunity cost of holding cash) instead of interest-bearing assets","Money demand shifts with: changes in price level, real GDP/income, or expectations — NOT with interest rate changes (those cause movement along the curve)","Money supply is a vertical line, controlled by the Fed independent of interest rate","Equilibrium nominal interest rate is where money demand equals money supply","An increase in the money supply lowers the nominal interest rate (shifts supply right along a fixed demand curve); a decrease raises it"]}],"keyFacts":["Money multiplier = 1/RRR; maximum money creation = excess reserves × (1/RRR).","M1 (most liquid: currency + checkable deposits) is a subset of the broader M2 (M1 + savings, small time deposits, money market funds).","The Fed's dual mandate is maximum employment and price stability — it is achieved via monetary policy, not fiscal policy.","Money demand slopes down against the interest rate (opportunity cost of holding money); money supply is vertical, set by the Fed."],"traps":["Banks can only lend out EXCESS reserves, not total reserves — required reserves must stay on hand.","The money multiplier (1/RRR) gives the theoretical MAXIMUM expansion of the money supply; actual expansion is usually smaller due to leakages and excess reserve holding.","The Fed controls the money supply and interest rates (monetary policy); it does NOT set government spending or tax rates (fiscal policy) — these are separate tools with separate policymakers.","A change in the interest rate causes a movement ALONG the money demand curve, not a shift of the whole curve — only price level, real income, or expectations shift money demand."]},{"id":7,"name":"Monetary Policy","concepts":[{"l":"Tools of Monetary Policy","intro":"The Fed uses three main tools to change the money supply and influence interest rates.","b":["Open market operations (OMO): the Fed's primary and most-used tool — buying government securities increases the money supply; selling decreases it","Reserve requirement: raising the RRR decreases the money supply (banks must hold more, lend less); lowering it increases the money supply","Discount rate: the rate the Fed charges banks for short-term loans; lowering it encourages more borrowing/lending, increasing the money supply","Federal funds rate: the rate banks charge EACH OTHER for overnight loans — the Fed targets this rate via OMO, it is not directly set by decree","Interest on reserves: paying banks interest on reserves held at the Fed can also influence how much banks choose to lend out"]},{"l":"Expansionary & Contractionary Monetary Policy","intro":"Monetary policy targets the money supply and interest rates to influence investment, consumption, AD, and ultimately real GDP and price level.","b":["Expansionary (easy money) policy: buy bonds / lower RRR / lower discount rate → increases money supply → lowers interest rates → used to close a recessionary gap","Contractionary (tight money) policy: sell bonds / raise RRR / raise discount rate → decreases money supply → raises interest rates → used to close an inflationary gap","Lower interest rates stimulate investment and interest-sensitive consumption (e.g., durable goods, housing), shifting AD right","Higher interest rates discourage investment and consumption, shifting AD left","Monetary policy operates with a transmission lag: money market changes → interest rate changes → investment/consumption changes → AD shift → real GDP/price level changes"]},{"l":"Loanable Funds Market","intro":"The loanable funds market shows how the real interest rate is determined by the supply of savings and the demand for borrowing (investment).","b":["Supply of loanable funds comes from savings (households, businesses, foreign lenders, government surplus)","Demand for loanable funds comes from borrowers (businesses investing, government financing deficits, consumers borrowing)","Equilibrium REAL interest rate is where supply of and demand for loanable funds intersect","An increase in government borrowing (deficit spending) shifts demand for loanable funds right, raising the real interest rate — this is the mechanism behind crowding out","An increase in private savings shifts the supply of loanable funds right, lowering the real interest rate"]},{"l":"Money Market vs. Loanable Funds Market","intro":"The money market determines the NOMINAL interest rate in the short run via money supply/demand; the loanable funds market determines the REAL interest rate via saving/investment.","b":["Money market: vertical money supply (set by Fed), downward-sloping money demand → determines nominal interest rate","Loanable funds market: upward-sloping supply of savings, downward-sloping demand for borrowing → determines real interest rate","Monetary policy (Fed action) is best modeled in the money market; fiscal policy/deficit effects are best modeled in the loanable funds market","Both markets are used together on the AP exam to trace: Fed action → money market rate change → loanable funds/investment change → AD shift → GDP/price level","Quantity of money (stock, e.g., $ in the economy) is different from quantity of loanable funds (flow, e.g., $ borrowed/lent per year)"]},{"l":"Monetary Policy & the AD-AS Model (Full Chain)","intro":"Monetary policy's effects flow through several markets before reaching output and the price level — the AP exam frequently tests the full causal chain.","b":["Expansionary chain: Fed buys bonds → money supply increases → nominal interest rate falls → investment/consumption rises → AD shifts right → real GDP rises, price level rises (closes recessionary gap)","Contractionary chain: Fed sells bonds → money supply decreases → nominal interest rate rises → investment/consumption falls → AD shifts left → real GDP falls, price level falls (closes inflationary gap)","The Phillips Curve shows a short-run trade-off between inflation and unemployment; in the long run it is vertical at the natural rate of unemployment","Easy money policy can worsen inflation if used when the economy is already at/above full employment","A liquidity trap or lag can weaken monetary policy's effectiveness even when the Fed acts correctly"]}],"keyFacts":["Open market operations are the Fed's primary tool: buying bonds expands the money supply, selling contracts it.","Expansionary monetary policy → lower interest rates → more investment → AD shifts right (used for recessionary gaps).","The money market sets the nominal interest rate; the loanable funds market sets the real interest rate.","Full causal chain: Fed action → money supply → interest rate → investment/consumption → AD → real GDP & price level."],"traps":["The Federal funds rate is the rate banks charge each other, and the Fed only TARGETS it through OMO — it does not set it by direct decree like the discount rate.","Lowering the required reserve ratio INCREASES the money supply (banks can lend more) — a common sign-error trap.","Contractionary monetary policy raises interest rates and is used to fight inflation, not to fight a recession — don't reverse expansionary/contractionary with fiscal policy sign conventions.","The short-run Phillips Curve trade-off between inflation and unemployment disappears in the long run — the long-run Phillips Curve is vertical at the natural rate of unemployment."]},{"id":8,"name":"International Trade & FOREX","concepts":[{"l":"Balance of Payments","intro":"The balance of payments records all economic transactions between a country's residents and the rest of the world.","b":["Current account: records trade in goods/services (net exports), net investment income, and net transfers","Capital/financial account: records flows of financial assets — foreign investment, loans, purchases of securities and real estate","By definition, current account balance + financial account balance ≈ 0 (they must offset, since one records why money leaves/enters, the other how it does)","A current account deficit (importing more than exporting) is generally matched by a financial account surplus (net capital inflow financing that deficit)","Trade balance = exports − imports; a trade deficit means imports > exports"]},{"l":"Foreign Exchange (FOREX) Market","intro":"The foreign exchange market determines exchange rates through the supply and demand for currencies, driven by international trade and investment.","b":["Demand for a currency comes from foreigners wanting to buy that country's exports or invest in its assets","Supply of a currency comes from that country's residents wanting to buy foreign goods or invest abroad","Currency appreciation: a currency becomes more valuable relative to another (buys more foreign currency)","Currency depreciation: a currency becomes less valuable relative to another (buys less foreign currency)","Exchange rates are determined by supply and demand for each currency in the FOREX market (flexible/floating exchange rate system)"]},{"l":"Determinants of Exchange Rate Shifts","intro":"Several factors shift currency supply and demand curves, changing equilibrium exchange rates.","b":["Relative interest rates: higher real interest rates in a country attract foreign investment, increasing demand for its currency, causing appreciation","Relative inflation rates: higher inflation makes a country's goods relatively more expensive, decreasing demand for its currency, causing depreciation","Relative income growth: rising domestic income increases demand for imports, increasing the supply of domestic currency, causing depreciation","Changes in preferences/expectations: if foreign goods or assets become more desirable, this shifts currency supply and demand accordingly","Central bank intervention: buying/selling currency reserves can also directly shift supply or demand in the short run"]},{"l":"Effects of Exchange Rate Changes on Trade","intro":"Currency appreciation and depreciation directly affect a country's net exports and, through AD, its real GDP and price level.","b":["Currency appreciation makes a country's exports MORE expensive to foreigners and imports CHEAPER for domestic residents → net exports fall","Currency depreciation makes a country's exports CHEAPER to foreigners and imports MORE expensive for domestic residents → net exports rise","A fall in net exports shifts AD left (contractionary effect); a rise in net exports shifts AD right (expansionary effect)","Appreciation of the domestic currency can help fight inflation (cheaper imports, less net export demand) but hurts export-dependent industries","These exchange-rate-driven AD shifts connect FOREX directly to the AD-AS model tested throughout the course"]},{"l":"Linking Monetary Policy, Interest Rates & Exchange Rates","intro":"Domestic monetary policy affects interest rates, which in turn affects exchange rates and net exports — an important full-chain reasoning sequence on the AP exam.","b":["Expansionary monetary policy → lower domestic interest rates → decreased foreign demand for domestic currency/increased demand for foreign assets → domestic currency depreciates","Currency depreciation → exports cheaper, imports pricier → net exports rise → AD shifts further right (reinforces expansionary policy)","Contractionary monetary policy → higher domestic interest rates → currency appreciates → net exports fall → AD shifts further left (reinforces contractionary policy)","This means exchange rate effects tend to REINFORCE, not offset, the direct effects of monetary policy on AD","Comparative advantage (Unit 1) is the underlying reason why countries engage in the trade being financed and exchanged here"]}],"keyFacts":["Currency appreciation makes exports more expensive and imports cheaper, reducing net exports and shifting AD left.","Higher relative interest rates attract foreign investment, increasing demand for the currency and causing it to appreciate.","Current account balance and financial account balance offset each other in the balance of payments.","Expansionary monetary policy depreciates the currency, which reinforces (not offsets) the AD-increasing effect of lower interest rates."],"traps":["Currency appreciation HURTS net exports (cheaper imports, pricier exports) — students often reverse this and think a 'stronger' currency helps exports.","A trade deficit is not inherently 'bad economics' — it is definitionally offset by a financial account surplus (capital inflows), not a sign of an accounting error.","Higher inflation relative to trading partners causes currency DEPRECIATION (less demand for now-less-competitive goods), not appreciation.","The exchange-rate effect of monetary policy reinforces the direct interest-rate effect on AD — it does not work in the opposite direction."]}];
 const DIAGRAMS={};
@@ -873,7 +945,8 @@ const PART_A=[{"n":1,"u":1,"q":"A country is currently producing inside its Prod
 const PART_B1=[{"n":31,"u":2,"q":"If a country's GNP exceeds its GDP, this most likely indicates that:","o":["Foreign-owned production within the country exceeds domestic-owned production abroad","Domestic-owned production abroad exceeds foreign-owned production within the country","The country has a trade surplus","The country has high inflation"],"a":1,"e":"GNP measures output by a country's citizens/firms anywhere in the world; if GNP > GDP, income earned by nationals abroad exceeds income earned by foreigners domestically."},{"n":32,"u":5,"q":"A government increases spending by $20 billion when the MPC is 0.8. What is the maximum resulting increase in real GDP?","o":["$16 billion","$20 billion","$100 billion","$25 billion"],"a":2,"e":"Spending multiplier = 1/(1−0.8) = 5. Change in GDP = $20 billion × 5 = $100 billion."},{"n":33,"u":8,"q":"Relative to trading partners, if a country's inflation rate rises, its currency will most likely:","o":["Appreciate, since higher prices attract investors","Depreciate, since its goods become less competitive","Remain fixed regardless of inflation","Only affect the current account, not the currency"],"a":1,"e":"Higher relative inflation makes a country's goods more expensive and less competitive, decreasing demand for its currency and causing depreciation."},{"n":34,"u":3,"q":"Which best describes structural unemployment?","o":["Short-term unemployment from job switching","Unemployment from a mismatch between workers' skills and available jobs","Unemployment caused by a recession","Unemployment tied to a season, like holiday retail"],"a":1,"e":"Structural unemployment results from a mismatch between the skills or location of workers and the requirements of available jobs, often due to technological change."},{"n":35,"u":6,"q":"An initial deposit of $5,000 with a required reserve ratio of 10% could theoretically expand the money supply by a maximum of:","o":["$500","$5,000","$50,000","$45,000"],"a":2,"e":"Money multiplier = 1/0.10 = 10. Maximum expansion = $5,000 × 10 = $50,000."},{"n":36,"u":1,"q":"A straight-line (linear) PPC implies:","o":["Increasing opportunity cost as production shifts between goods","Constant opportunity cost between the two goods","Decreasing opportunity cost","No opportunity cost exists"],"a":1,"e":"A straight-line PPC reflects constant opportunity cost, implying resources are perfectly substitutable between the two goods."},{"n":37,"u":4,"q":"An increase in consumer confidence would most directly cause which shift in the AD-AS model?","o":["AD shifts right","AD shifts left","SRAS shifts right","LRAS shifts right"],"a":0,"e":"Higher consumer confidence increases consumption spending (C), which is a component of AD, shifting the AD curve to the right."},{"n":38,"u":7,"q":"Which market determines the nominal interest rate in the short run?","o":["The loanable funds market","The money market","The goods market","The foreign exchange market"],"a":1,"e":"The money market — where a vertical money supply set by the Fed meets downward-sloping money demand — determines the nominal interest rate."},{"n":39,"u":2,"q":"Which of the following would cause the GDP deflator and CPI inflation rate to diverge most?","o":["A shift in the composition of domestically produced goods versus the fixed consumer basket (including imports)","A general rise in all prices equally","A change in the labor force participation rate","A decrease in the unemployment rate"],"a":0,"e":"The GDP deflator covers all domestically produced goods, while CPI covers a fixed basket of consumer goods including imports, so shifts in production composition or import prices can cause divergence."},{"n":40,"u":5,"q":"Which of the following is a discretionary fiscal policy action?","o":["Unemployment benefits rising automatically during a recession","Congress passing a new tax cut bill to stimulate the economy","Progressive income tax revenue falling automatically as incomes fall","The Federal Reserve lowering the discount rate"],"a":1,"e":"Discretionary fiscal policy requires deliberate legislative action, such as Congress passing a new tax cut, unlike automatic stabilizers."},{"n":41,"u":8,"q":"An expansionary monetary policy that lowers domestic interest rates will most likely cause the domestic currency to:","o":["Appreciate, reinforcing the AD increase","Depreciate, reinforcing the AD increase","Depreciate, offsetting the AD increase","Appreciate, offsetting the AD increase"],"a":1,"e":"Lower interest rates reduce foreign demand for the domestic currency, causing depreciation, which makes exports cheaper and reinforces (not offsets) the AD increase."},{"n":42,"u":3,"q":"If the CPI was 200 last year and 210 this year, the inflation rate is:","o":["5%","10%","2%","20%"],"a":0,"e":"Inflation rate = [(210 − 200)/200] × 100 = 5%."},{"n":43,"u":6,"q":"Which of the following would decrease the actual money multiplier below its theoretical maximum of 1/RRR?","o":["Banks lending out all excess reserves immediately","The public holding no cash","Banks holding excess reserves beyond the requirement, or cash leakage","A decrease in the required reserve ratio"],"a":2,"e":"The actual multiplier is often smaller than 1/RRR because of cash leakage (people holding currency) and banks choosing to hold excess reserves beyond what's required."},{"n":44,"u":1,"q":"Country A can produce 10 cars or 20 bikes; Country B can produce 6 cars or 6 bikes, using the same resources. Country A has a comparative advantage in:","o":["Cars, since its opportunity cost of a car (2 bikes) is lower than Country B's (1 bike)","Bikes, since its opportunity cost of a bike is lower","Both goods, since it has an absolute advantage in both","Neither good, since outputs must be equal to trade"],"a":1,"e":"Country A's opportunity cost of a bike is 0.5 cars, versus Country B's 1 car per bike — Country A has comparative advantage in bikes, not cars."},{"n":45,"u":4,"q":"In the short run, if AD increases while SRAS remains unchanged, real GDP and price level will:","o":["Both increase","Both decrease","Real GDP increases; price level decreases","Real GDP decreases; price level increases"],"a":0,"e":"An increase in AD along an unchanged SRAS curve raises both the equilibrium price level and real GDP in the short run."},{"n":46,"u":7,"q":"The Federal funds rate is best described as:","o":["The rate the Fed charges banks for emergency loans","The rate banks charge each other for overnight loans, targeted by the Fed via OMO","The interest rate on U.S. Treasury bonds","The rate the Fed pays on required reserves"],"a":1,"e":"The federal funds rate is the rate banks charge one another for overnight loans; the Fed targets, but does not directly set, this rate through open market operations."},{"n":47,"u":2,"q":"Which of the following transactions is included in current-year U.S. GDP?","o":["A homeowner selling a house built five years ago","A retailer's purchase of steel to make cars, which are then sold","A newly built house sold this year by a construction company","Grandma's home-cooked meals for the family"],"a":2,"e":"GDP counts only final goods and services produced in the current year; a newly built and sold house counts, while used-good resales, intermediate goods, and non-market production do not."},{"n":48,"u":5,"q":"An increase in government spending financed by borrowing may partially reduce private investment through a process known as:","o":["The multiplier effect","Crowding out","The Laffer effect","The wealth effect"],"a":1,"e":"Crowding out occurs when government borrowing raises interest rates, reducing private investment spending and partially offsetting the fiscal stimulus."},{"n":49,"u":8,"q":"In the balance of payments, which account records the trade in goods and services along with net investment income?","o":["The financial account","The current account","The capital reserve account","The fiscal account"],"a":1,"e":"The current account records trade in goods and services (net exports), net investment income, and net transfers."},{"n":50,"u":3,"q":"An economy at the natural rate of unemployment is best described as being at:","o":["Zero unemployment","Full employment, with only frictional and structural unemployment present","The peak of the business cycle only","A recessionary gap"],"a":1,"e":"Full employment occurs when actual unemployment equals the natural rate — meaning zero cyclical unemployment, but frictional and structural unemployment still exist."}];
 const PART_B2=[{"n":51,"u":3,"q":"During an inflationary gap, the self-correction mechanism works through:","o":["Falling wages shifting SRAS right","Rising wages from labor shortages shifting SRAS left, raising prices until output returns to LRAS","A permanent increase in potential GDP","Government spending automatically decreasing"],"a":1,"e":"In an inflationary gap, labor shortages push wages up, shifting SRAS left and raising the price level until short-run equilibrium returns to potential GDP (LRAS)."},{"n":52,"u":8,"q":"A depreciation of a country's currency will most likely have which effect on its trade balance and AD?","o":["Net exports fall; AD shifts left","Net exports rise; AD shifts right","No effect on net exports or AD","Net exports rise; AD shifts left"],"a":1,"e":"Depreciation makes exports cheaper for foreigners and imports more expensive domestically, raising net exports and shifting AD to the right."},{"n":53,"u":5,"q":"If MPC = 0.6, what is the value of the tax multiplier?","o":["2.5","-2.5","-1.5","1.5"],"a":2,"e":"Tax multiplier = −MPC/(1−MPC) = −0.6/0.4 = −1.5."},{"n":54,"u":2,"q":"Which limitation of GDP means it fails to capture a nation's true standard of living?","o":["It excludes non-market production like household labor and volunteer work","It always overstates the size of the economy","It only measures nominal, never real, output","It cannot be adjusted for population size"],"a":0,"e":"GDP excludes non-market activities such as unpaid household labor, volunteer work, and childcare, understating total economic well-being and activity."},{"n":55,"u":7,"q":"Which of the following describes the full transmission mechanism of contractionary monetary policy?","o":["Fed sells bonds → money supply falls → interest rates rise → investment falls → AD shifts left → real GDP and price level fall","Fed buys bonds → money supply rises → interest rates fall → AD shifts right","Fed raises taxes → AD shifts left","Fed lowers the discount rate → money supply falls"],"a":0,"e":"Contractionary policy: the Fed sells bonds, decreasing the money supply, raising interest rates, reducing investment/consumption, shifting AD left, and lowering real GDP and price level — used to fight inflation."},{"n":56,"u":4,"q":"If both AD increases and SRAS decreases at the same time, which outcome is certain?","o":["Real GDP definitely rises","Real GDP definitely falls","The price level definitely rises","The price level definitely falls"],"a":2,"e":"When AD rises and SRAS falls, both push the price level up, so the price level increase is certain, while the net effect on real GDP is ambiguous."},{"n":57,"u":1,"q":"Which statement about sunk costs and rational decision-making is correct?","o":["Sunk costs should be factored heavily into future decisions","Sunk costs are already spent and irrecoverable, and should not influence future decisions","Sunk costs are the same as opportunity costs","Sunk costs only apply to government spending decisions"],"a":1,"e":"Sunk costs are unrecoverable past expenditures and should not factor into rational decisions about future actions, which should be based on marginal costs and benefits going forward."},{"n":58,"u":6,"q":"Which sequence correctly describes how a single new checkable deposit expands the total money supply through the banking system?","o":["The bank holds 100% as reserves and no lending occurs","The bank lends its excess reserves, and as those loans are redeposited elsewhere, other banks re-lend their excess reserves, repeating throughout the system","The Fed mails new currency to match every deposit","Money supply cannot expand beyond the size of the initial deposit"],"a":1,"e":"As loaned funds are spent, redeposited, and re-lent by subsequent banks, the initial deposit expands into a much larger total increase in the money supply — the money multiplier process."},{"n":59,"u":3,"q":"Unanticipated inflation tends to benefit which group?","o":["Lenders, who are repaid in less valuable dollars","Borrowers/debtors, who repay loans with less valuable dollars","People on fixed incomes","Savers holding cash"],"a":1,"e":"Unanticipated inflation redistributes wealth from lenders (repaid in dollars worth less) to borrowers, who repay their debts with cheaper dollars."},{"n":60,"u":8,"q":"Comparative advantage from Unit 1 relates most directly to international trade (Unit 8) because it explains:","o":["Why exchange rates float freely","Why countries specialize and trade to increase total world output","Why the Fed sets interest rates","Why tariffs are always beneficial"],"a":1,"e":"Comparative advantage — producing at the lowest opportunity cost — is the underlying economic reason countries specialize and engage in mutually beneficial international trade."}];
 const PART_C=[{"n":61,"u":1,"q":"Written response: choose TWO concepts from different units and construct an argument connecting them. Cite specific evidence from each.","o":["Names both concepts precisely, gives concrete evidence for each, and explains the causal/logical bridge","Lists the two topics without connecting them","Describes only one concept in detail","Gives a personal opinion with no course evidence"],"a":0,"e":"Strong responses anchor every claim in specific unit content."},{"n":62,"u":8,"q":"Essay plan: identify the single most important takeaway of this course. Defend it using three units as evidence, then address one counterargument.","o":["Clear thesis, three unit-specific pieces of evidence, genuine counterargument, resolution","Thesis with no support","Topic list with no argument","Anecdote unrelated to course content"],"a":0,"e":"Full argumentative architecture earns top marks."}];
-const EXAM_CSS=".ex-header{background:var(--ink);color:var(--surface);padding:20px 22px;border-radius:var(--radius);margin-bottom:22px}\n.ex-header h2{font-family:'Space Grotesk';font-size:28.5px;font-weight:700;margin-bottom:4px}\n.ex-header p{font-family:'Inter';font-size:19.5px;color:rgba(255,255,255,.65)}\n.ex-part{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--surface)}\n.ex-part-hd{background:var(--surface-2);padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}\n.ex-part-hd:hover{background:var(--surface-hover)}\n.ex-part-hd h3{font-size:21px;font-weight:700;color:var(--ink)}\n.ex-part-hd span{font-family:'Inter';font-size:18px;color:var(--ink-dim)}\n.ex-part-body{display:none;padding:20px}\n.ex-part.open .ex-part-body{display:block}\n.ex-q{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}\n.ex-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}\n.ex-qnum{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}\n.ex-qtext{font-size:21.8px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:13px}\n.ex-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}\n.ex-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface);text-align:left;transition:all .12s}\n.ex-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}\n.ex-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}\n.ex-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}\n.ex-exp{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface-2);padding:11px 14px;border-radius:var(--radius-sm);margin-top:9px;display:none;line-height:1.6}\n.ex-exp.show{display:block}\n.ex-sa{padding:13px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter';font-size:20.2px;color:var(--amber-ink);line-height:1.6;margin-top:9px}\n.ex-sa strong{display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:var(--amber)}\n.ex-score{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px;display:none}\n.ex-score strong{font-family:'Space Grotesk';color:var(--success);font-size:22.5px}\n.ex-score span{font-family:'Inter';color:var(--success);font-size:19.5px}\n.ex-reset{padding:10px 20px;border:1px solid var(--border);border-radius:999px;background:var(--surface);cursor:pointer;font-family:'Space Grotesk';font-weight:600;font-size:19.5px;margin-top:10px;transition:all .15s}\n.ex-reset:hover{background:var(--surface-hover);border-color:var(--border-strong)}\n";
+const EXAM_META={"title":"AP Macroeconomics — Full Practice Exam","subtitle":"Part A (30 pts) · Part B–1 (20 pts) · Part B–2 (10 pts) · Part C (2 pts)","parts":{"PART_A":{"title":"Part A — Multiple Choice","points":30,"minutes":null},"PART_B1":{"title":"Part B–1 — Multiple Choice","points":20,"minutes":null},"PART_B2":{"title":"Part B–2 — Short Answer","points":10,"minutes":null},"PART_C":{"title":"Part C — Extended Response","points":2,"minutes":null}}};
+const EXAM_CSS=".ex-header{background:var(--ink);color:var(--surface);padding:20px 22px;border-radius:var(--radius);margin-bottom:22px}\n.ex-header h2{font-family:'Space Grotesk';font-size:28.5px;font-weight:700;margin-bottom:4px}\n.ex-header p{font-family:'Inter';font-size:19.5px;color:rgba(255,255,255,.65)}\n.ex-part{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--surface)}\n.ex-part-hd{background:var(--surface-2);padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}\n.ex-part-hd:hover{background:var(--surface-hover)}\n.ex-part-hd h3{font-size:21px;font-weight:700;color:var(--ink)}\n.ex-part-hd span{font-family:'Inter';font-size:18px;color:var(--ink-dim)}\n.ex-part-hd-meta{display:flex;align-items:center;gap:14px;flex:none}\n.ex-timer{font-family:'Space Grotesk';font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink-dim)}\n.ex-timer.ex-timer-up{color:var(--danger)}\n.ex-part-body{display:none;padding:20px}\n.ex-part.open .ex-part-body{display:block}\n.ex-q{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}\n.ex-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}\n.ex-qnum{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}\n.ex-qtext{font-size:21.8px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:13px}\n.ex-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}\n.ex-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface);text-align:left;transition:all .12s}\n.ex-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}\n.ex-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}\n.ex-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}\n.ex-exp{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface-2);padding:11px 14px;border-radius:var(--radius-sm);margin-top:9px;display:none;line-height:1.6}\n.ex-exp.show{display:block}\n.ex-sa{padding:13px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter';font-size:20.2px;color:var(--amber-ink);line-height:1.6;margin-top:9px}\n.ex-sa strong{display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:var(--amber)}\n.ex-score{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px;display:none}\n.ex-score strong{font-family:'Space Grotesk';color:var(--success);font-size:22.5px}\n.ex-score span{font-family:'Inter';color:var(--success);font-size:19.5px}\n.ex-reset{padding:10px 20px;border:1px solid var(--border);border-radius:999px;background:var(--surface);cursor:pointer;font-family:'Space Grotesk';font-weight:600;font-size:19.5px;margin-top:10px;transition:all .15s}\n.ex-reset:hover{background:var(--surface-hover);border-color:var(--border-strong)}\n";
 function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');var idx=-1;tabs.forEach((b,i)=>{if(b.id==='tab-'+id)idx=i;});if(idx!==-1){tabs.forEach((b,i)=>{var on=i===idx;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;});var _hl=document.getElementById('hero-live');if(_hl)_hl.textContent=tabs[idx].textContent.trim()+' tab';}if(id==='examples'&&!examplesBuilt)buildExamples();if(id==='exam'&&!examBuilt)buildExam();var spc=document.getElementById('spc-card');if(spc)spc.style.display=(id==='guide')?'':'none';}
 let examBuilt=false;
 var examplesBuilt=false, ex2map={}, ex2shown={};
@@ -886,20 +959,25 @@ const st=document.createElement('style');st.textContent=EXAM_CSS;document.head.a
 
 v.innerHTML=`
 <div class="ex-header">
-  <h2>AP Macroeconomics — Full Practice Exam</h2>
-  <p>Part A (30 pts) · Part B-1 (20 pts) · Part B-2 (15 pts) · Part C (20 pts) · Based on Jan 2026 format</p>
+  <h2>${EXAM_META.title}</h2>
+  <p>${EXAM_META.subtitle}</p>
 </div>
 <div id="ex-score-box" class="ex-score"></div>
-${buildPartMC('A','Part A — Multiple Choice (30 questions, 1 pt each)',PART_A)}
-${buildPartMC('B1','Part B–1 — Multiple Choice (20 questions, 1 pt each)',PART_B1)}
-${buildPartFR('B2','Part B–2 — Short Answer (show work, 1 pt each)',PART_B2)}
-${buildPartFR('C','Part C — Extended Response (1–2 pts each)',PART_C)}
+${buildPartMC('A',PART_A)}
+${buildPartMC('B1',PART_B1)}
+${buildPartFR('B2',PART_B2)}
+${buildPartFR('C',PART_C)}
 `;
 // open Part A by default
-document.getElementById('ex-part-A').classList.add('open');
+togglePart('A');
 }
 
-function buildPartMC(id,title,qs){
+function examPartMeta(id){return (EXAM_META&&EXAM_META.parts&&EXAM_META.parts['PART_'+id])||{};}
+function exTimerHtml(id){return examPartMeta(id).minutes?`<span class="ex-timer" id="timer-${id}"></span>`:'';}
+
+function buildPartMC(id,qs){
+if(!qs.length)return'';
+const meta=examPartMeta(id);
 const items=qs.map(q=>`
 <div class="ex-q" id="exq-${id}-${q.n}">
   <div class="ex-qnum">Question ${q.n}</div>
@@ -911,15 +989,18 @@ const items=qs.map(q=>`
 </div>`).join('');
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${title}</h3><span id="score-${id}">Score: 0 / ${qs.length}</span>
+  <h3>${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'}, 1 pt each)</h3>
+  <div class="ex-part-hd-meta"><span id="score-${id}">Score: 0 / ${qs.length}</span>${exTimerHtml(id)}</div>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
 }
 
-function buildPartFR(id,title,qs){
+function buildPartFR(id,qs){
+if(!qs.length)return'';
 // Some guides author these as genuine free-response (q.sa, a model answer to
 // reveal); others reuse the multiple-choice shape (q.o/q.a) for this part.
 // Render whichever shape the data actually has instead of assuming sa exists.
+const meta=examPartMeta(id);
 const items=qs.map(q=>q.sa!==undefined?`
 <div class="ex-q">
   <div class="ex-qnum">Question ${q.n}</div>
@@ -936,11 +1017,43 @@ const items=qs.map(q=>q.sa!==undefined?`
   <div class="ex-exp" id="exp-${id}-${q.n}">${q.e}</div>
 </div>`).join('');
 const allMC=qs.every(q=>q.sa===undefined);
+const rightMeta=allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`;
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${title}</h3>${allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`}
+  <h3>${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'})</h3>
+  <div class="ex-part-hd-meta">${rightMeta}${exTimerHtml(id)}</div>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
+}
+
+/* Per-part countdown timer. In-memory only (module-level `examTimers`) — a
+   refresh resets it, matching the fact that exam progress/scores are never
+   persisted to localStorage either. Not a proctored test: hitting zero just
+   shows "Time's up" and stops, it never auto-submits or locks the part. */
+var examTimers={};
+function startPartTimer(id){
+  const meta=examPartMeta(id);
+  if(!meta.minutes)return;
+  let t=examTimers[id];
+  if(!t){t=examTimers[id]={remaining:meta.minutes*60,expired:false,intervalId:null};}
+  if(t.expired||t.intervalId)return; // already ticking, or already ran out
+  t.intervalId=setInterval(function(){
+    t.remaining--;
+    if(t.remaining<=0){
+      t.remaining=0;t.expired=true;
+      clearInterval(t.intervalId);t.intervalId=null;
+    }
+    renderPartTimer(id);
+  },1000);
+  renderPartTimer(id);
+}
+function renderPartTimer(id){
+  const el=document.getElementById('timer-'+id);
+  const t=examTimers[id];
+  if(!el||!t)return;
+  if(t.expired){el.textContent="Time's up";el.classList.add('ex-timer-up');return;}
+  const m=Math.floor(t.remaining/60),s=t.remaining%60;
+  el.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
 }
 
 function togglePart(id){
@@ -948,6 +1061,7 @@ function togglePart(id){
   const isOpen=part.classList.toggle('open');
   const hd=part.querySelector('.ex-part-hd');
   if(hd)hd.setAttribute('aria-expanded',isOpen?'true':'false');
+  if(isOpen)startPartTimer(id);
 }
 
 function toggleSA(btn){
@@ -1255,6 +1369,58 @@ function qBookmarkToggle(qid){
 }
 function qId(q){return q.u+'|'+q.q;}
 
+/* Mistake Log: localStorage-backed, keyed the same way as the bookmark set
+   (ssBookmarks_<slug>) — a currently-unresolved-misses list, not full history.
+   A question moves in when answered wrong and out the moment it's answered
+   correctly again (from anywhere: normal quiz, diagnostic, hard mode, or the
+   log's own review pass). */
+var MISTAKE_LOG_KEY='ssMistakes_'+'ap-macro';
+function mistakeLogMap(){
+  try{return JSON.parse(localStorage.getItem(MISTAKE_LOG_KEY)||'{}');}catch(e){return {};}
+}
+function mistakeLogSave(map){
+  try{localStorage.setItem(MISTAKE_LOG_KEY,JSON.stringify(map));}catch(e){}
+  updateMistakeLogBadge();
+}
+function mistakeLogAdd(q){
+  const map=mistakeLogMap();
+  map[qId(q)]={u:q.u,q:q.q,o:q.o,a:q.a,e:q.e,d:q.d,topic:q.topic};
+  mistakeLogSave(map);
+}
+function mistakeLogRemove(q){
+  const map=mistakeLogMap();
+  const id=qId(q);
+  if(!(id in map))return;
+  delete map[id];
+  mistakeLogSave(map);
+}
+function updateMistakeLogBadge(){
+  const el=document.getElementById('mistake-log-count');
+  if(!el)return;
+  const n=Object.keys(mistakeLogMap()).length;
+  el.textContent=String(n);
+  el.style.display=n?'':'none';
+}
+var mistakeReviewMode=false;
+function openMistakeLog(){
+  switchTab('quiz');
+  mistakeReviewMode=true;
+  diagMode=false;
+  const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
+  const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
+  const map=mistakeLogMap();
+  qPool=Object.values(map);
+  qIdx=0;score=0;requeueCounts=new WeakMap();
+  const qb=document.getElementById('qbox');
+  if(!qPool.length){
+    qb.innerHTML='<div class="mistake-log-empty">No mistakes logged right now — nice work. Answer a question wrong anywhere in the quiz and it will show up here until you get it right.</div>';
+    document.getElementById('q-prog').textContent='';
+    document.getElementById('q-sc').textContent='';
+    return;
+  }
+  showQ();
+}
+
 function quizShuffle(){
   if(!qPool.length)return;
   for(let i=qPool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[qPool[i],qPool[j]]=[qPool[j],qPool[i]];}
@@ -1289,8 +1455,15 @@ function buildQSel(){
   if(HQ.length)sel.innerHTML+='<option value="hard">Hard Mode Only ('+HQ.length+' Qs)</option>';
   loadQ();
 }
+let difficultyFilter='all';
+function setDifficultyFilter(d){
+  difficultyFilter=d;
+  document.querySelectorAll('.diff-chip').forEach(function(c){c.classList.toggle('on',c.dataset.diff===d);});
+  loadQ();
+}
 function loadQ(){
   diagMode=false;
+  mistakeReviewMode=false;
   const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
   const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
   const raw=document.getElementById('q-sel').value;
@@ -1299,6 +1472,7 @@ function loadQ(){
   if(raw==='hard')src=HQ.slice();
   else if(+raw===0)src=QUIZ.concat(HQ);
   else src=QUIZ.concat(HQ).filter(q=>q.u===+raw);
+  if(difficultyFilter!=='all')src=src.filter(q=>q.d===difficultyFilter);
   qPool=src.sort(()=>Math.random()-.5);
   qIdx=0;score=0;requeueCounts=new WeakMap();showQ();
 }
@@ -1365,8 +1539,10 @@ function showQ(){
   const bookmarked=qBookmarkSet().has(bid);
   const STAR_OUTLINE='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
   const STAR_FILLED='<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
-  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>`+
+  const diffPill=q.d?`<span class="q-diff q-diff-${q.d}">${q.d}</span>`:'';
+  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>${diffPill}`+
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
+    (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
     `<button class="q-hint-btn" id="q-hint-btn" onclick="toggleQHint()">💡 Hint</button>`+
     `<div class="q-hint-box" id="q-hint-box">Hint: this is from Unit ${q.u}: ${unitNameFor(q.u)}</div>`+
@@ -1432,6 +1608,7 @@ function ansQ(i){
     }
   }
   if(SS_MASTERY)SS_MASTERY.recordAnswer(q.u,i===q.a);
+  if(i===q.a)mistakeLogRemove(q);else mistakeLogAdd(q);
   ssOverallProgressUpdate();
   const expEl=document.getElementById('q-exp');
   expEl.classList.add('show');
@@ -1461,6 +1638,7 @@ function ssQuizKeyboardShortcuts(e){
 }
 document.addEventListener('keydown',ssQuizKeyboardShortcuts);
 buildQSel();
+updateMistakeLogBadge();
 
 /* ----- APG tabs: roving-tabindex arrow-key nav on the hero tab bar. Manual
    activation — arrows move focus only; Enter/Space fire the button's own click
@@ -1864,6 +2042,105 @@ async function ssQuizTabClick(){
 }
 
 ssCheckSession();
+
+/* ----- Reference drawer: a compact, always-available companion to the full
+   Quick Reference TAB. Reuses the exact HTML the generator already emits into
+   #view-qref (buildQref() in generate-guide.mjs) instead of rebuilding it —
+   the drawer body is filled by copying that markup once, on first open. ----- */
+function qrefDrawerOpen(){
+  var panel=document.getElementById('qref-drawer');
+  if(!panel)return;
+  var body=document.getElementById('qref-drawer-body');
+  if(body&&!body.dataset.filled){
+    var src=document.getElementById('view-qref');
+    if(src){body.innerHTML=src.innerHTML;body.dataset.filled='1';}
+  }
+  panel.classList.add('open');
+  panel.setAttribute('aria-hidden','false');
+  var fab=document.getElementById('qref-drawer-fab');
+  if(fab)fab.setAttribute('aria-expanded','true');
+  var closeBtn=panel.querySelector('.qref-drawer-close');
+  if(closeBtn)closeBtn.focus();
+  document.addEventListener('keydown',qrefDrawerKeydown);
+}
+function qrefDrawerClose(){
+  var panel=document.getElementById('qref-drawer');
+  if(!panel||!panel.classList.contains('open'))return;
+  panel.classList.remove('open');
+  panel.setAttribute('aria-hidden','true');
+  var fab=document.getElementById('qref-drawer-fab');
+  if(fab){fab.setAttribute('aria-expanded','false');fab.focus();}
+  document.removeEventListener('keydown',qrefDrawerKeydown);
+}
+function qrefDrawerToggle(){
+  var panel=document.getElementById('qref-drawer');
+  if(panel&&panel.classList.contains('open'))qrefDrawerClose();else qrefDrawerOpen();
+}
+function qrefDrawerKeydown(e){if(e.key==='Escape')qrefDrawerClose();}
+
+/* ----- Optional Desmos graphing calculator. Disabled by default: leave
+   DESMOS_API_KEY empty and this entire feature (button, panel, external
+   script) never appears and never makes a network request. To enable it,
+   the site owner gets a free key for personal/school use at
+   https://www.desmos.com/api/v1.12/calculator.js docs (sign in at
+   desmos.com/my-api) and pastes it in below. Generic — available on every
+   guide once a key is configured, not gated to any subject. ----- */
+const DESMOS_API_KEY = "";
+let desmosScriptLoaded=false, desmosCalculator=null;
+function desmosInit(){
+  if(!DESMOS_API_KEY)return;
+  var fab=document.createElement('button');
+  fab.id='desmos-fab';
+  fab.className='desmos-fab';
+  fab.type='button';
+  fab.setAttribute('aria-label','Toggle graphing calculator');
+  fab.setAttribute('aria-expanded','false');
+  fab.title='Graphing calculator';
+  fab.textContent='\u{1F4C8}';
+  fab.onclick=desmosToggle;
+  document.body.appendChild(fab);
+
+  var panel=document.createElement('div');
+  panel.id='desmos-panel';
+  panel.className='desmos-panel';
+  panel.setAttribute('role','dialog');
+  panel.setAttribute('aria-modal','true');
+  panel.setAttribute('aria-label','Graphing calculator');
+  panel.setAttribute('aria-hidden','true');
+  panel.innerHTML='<div class="desmos-panel-hd"><b>Graphing Calculator</b>'+
+    '<button type="button" class="desmos-panel-close" aria-label="Close graphing calculator">✕</button></div>'+
+    '<div class="desmos-calc" id="desmos-calc"></div>';
+  document.body.appendChild(panel);
+  panel.querySelector('.desmos-panel-close').onclick=desmosToggle;
+}
+function desmosToggle(){
+  var panel=document.getElementById('desmos-panel');
+  if(!panel)return;
+  var opening=!panel.classList.contains('open');
+  panel.classList.toggle('open',opening);
+  panel.setAttribute('aria-hidden',opening?'false':'true');
+  var fab=document.getElementById('desmos-fab');
+  if(fab)fab.setAttribute('aria-expanded',opening?'true':'false');
+  if(opening){
+    document.addEventListener('keydown',desmosKeydown);
+    if(!desmosScriptLoaded)desmosLoadScript();
+  }else{
+    document.removeEventListener('keydown',desmosKeydown);
+    if(fab)fab.focus();
+  }
+}
+function desmosKeydown(e){if(e.key==='Escape')desmosToggle();}
+function desmosLoadScript(){
+  desmosScriptLoaded=true;
+  var s=document.createElement('script');
+  s.src='https://www.desmos.com/api/v1.12/calculator.js?apiKey='+encodeURIComponent(DESMOS_API_KEY);
+  s.onload=function(){
+    var el=document.getElementById('desmos-calc');
+    if(el&&window.Desmos)desmosCalculator=Desmos.GraphingCalculator(el);
+  };
+  document.head.appendChild(s);
+}
+desmosInit();
 
 /* ----- unit-filtered practice, e.g. /chemistry?practice=3 (from the dashboard's "study this next") ----- */
 (async function ssPracticeMode(){

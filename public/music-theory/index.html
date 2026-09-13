@@ -273,6 +273,16 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .q-block:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .q-block-hd{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px}
 .q-text{font-size:24.8px;font-weight:600;color:var(--ink);line-height:1.55;flex:1}
+.q-diff{flex:none;display:inline-block;padding:3px 11px;border-radius:999px;font-size:13px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;border:1px solid transparent;align-self:flex-start;margin-top:2px}
+.q-diff-easy{background:var(--success-soft);color:var(--success);border-color:var(--success-border)}
+.q-diff-medium{background:var(--amber-soft);color:var(--amber-ink);border-color:var(--amber)}
+.q-diff-hard{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}
+.q-topic{font-size:14.5px;color:var(--ink-dim);margin:-14px 0 14px;font-style:italic}
+.mistake-log-btn{position:relative}
+.mistake-log-count{display:inline-block;margin-left:6px;background:var(--danger);color:#fff;border-radius:999px;
+  font-size:12px;font-weight:700;padding:1px 7px}
+.mistake-log-empty{padding:24px;text-align:center;color:var(--ink-muted);font-size:18px}
 .q-bookmark{flex:none;background:none;border:none;cursor:pointer;color:var(--ink-dim);padding:2px;border-radius:6px;transition:color .15s ease,transform .15s ease}
 .q-bookmark:hover{color:var(--amber);transform:scale(1.08)}
 .q-bookmark.on{color:var(--amber)}
@@ -514,6 +524,51 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 .back-to-top:hover{color:var(--ink);border-color:var(--accent)}
 .back-to-top svg{width:20px;height:20px;display:block}
 
+/* ---- reference drawer: quick-access companion to the Quick Reference tab,
+   reachable from any tab. Sits bottom-center, clear of back-to-top
+   (bottom:22/left:22..74) and #cbot-fab (bottom:22/right:22..78). ---- */
+.qref-drawer-fab{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);width:52px;height:52px;
+  border-radius:50%;background:var(--surface);color:var(--ink-muted);border:1px solid var(--border-strong);
+  cursor:pointer;box-shadow:var(--shadow-md);z-index:190;display:flex;align-items:center;justify-content:center;
+  transition:color .15s ease,border-color .15s ease}
+.qref-drawer-fab:hover{color:var(--accent);border-color:var(--accent)}
+.qref-drawer-fab svg{width:20px;height:20px;display:block}
+.qref-drawer{position:fixed;top:0;right:0;height:100dvh;width:min(420px,100vw);background:var(--surface);
+  border-left:1px solid var(--border-strong);box-shadow:var(--shadow-lg);z-index:210;display:flex;flex-direction:column;
+  transform:translateX(100%);opacity:0;visibility:hidden;transition:transform .25s ease,opacity .25s ease,visibility 0s linear .25s}
+.qref-drawer.open{transform:translateX(0);opacity:1;visibility:visible;transition:transform .25s ease,opacity .25s ease}
+.qref-drawer-hd{display:flex;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--surface-2);flex-shrink:0}
+.qref-drawer-hd b{font-family:'Space Grotesk';font-size:20px;color:var(--ink);flex:1}
+.qref-drawer-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:6px 8px;border-radius:6px}
+.qref-drawer-close:hover{color:var(--ink);background:var(--surface-hover)}
+.qref-drawer-body{flex:1;overflow-y:auto;padding:16px}
+.qref-drawer-body .qr-section:not(:last-child){margin-bottom:20px}
+@media(max-width:600px){
+  .qref-drawer{width:100vw}
+}
+
+/* ---- optional Desmos graphing calculator (see DESMOS_API_KEY in logic.js).
+   Markup is only ever created by JS when a key is configured, so this CSS
+   has no visible effect until then. Placed clear of #cbot-fab (right:22..78). ---- */
+.desmos-fab{position:fixed;bottom:22px;right:90px;width:52px;height:52px;border-radius:50%;
+  background:var(--accent);color:#fff;border:none;font-size:22px;cursor:pointer;
+  box-shadow:0 8px 24px -6px rgba(15,122,112,.4);z-index:195;display:flex;align-items:center;justify-content:center;
+  transition:transform .15s ease}
+.desmos-fab:hover{transform:scale(1.06)}
+.desmos-panel{position:fixed;bottom:88px;right:90px;width:min(380px,calc(100vw - 32px));
+  height:min(420px,calc(100dvh - 160px));background:var(--surface);border:1px solid var(--border-strong);
+  border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:205;display:none;flex-direction:column;overflow:hidden}
+.desmos-panel.open{display:flex}
+.desmos-panel-hd{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+.desmos-panel-hd b{font-family:'Space Grotesk';font-size:18px;color:var(--ink);flex:1}
+.desmos-panel-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:4px 6px;border-radius:6px}
+.desmos-panel-close:hover{color:var(--ink);background:var(--surface-hover)}
+.desmos-calc{flex:1;width:100%;height:100%}
+@media(max-width:600px){
+  .desmos-fab{right:22px;bottom:82px}
+  .desmos-panel{right:12px;bottom:144px}
+}
+
 /* ---- print / export ---- */
 @media print{
   :root,[data-theme="dark"]{
@@ -528,7 +583,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
   body{background:#fff;color:#000}
   body::before,.hero::after{display:none!important}
   #theme-toggle,.search-wrap,.ss-sticky-top .filter-row-wrap,.mobile-only-select,.nav,.nav-spacer,.tablist,
-  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
+  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.qref-drawer-fab,.qref-drawer,.desmos-fab,.desmos-panel,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
   .search-kbd,.ss-overall-progress,.q-kbd-hint,.diag-btn{display:none!important}
   *{position:static!important;box-shadow:none!important}
   .unit-body{display:block!important}
@@ -707,6 +762,13 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <div class="q-bar">
     <select id="q-sel" aria-label="Choose a question set" onchange="loadQ()"></select>
     <button class="btn" type="button" onclick="quizShuffle()" style="font-size:14px;padding:7px 14px">⇄ Shuffle</button>
+    <div class="diff-chips" role="group" aria-label="Filter by difficulty" style="display:flex;gap:6px">
+      <button class="chip on diff-chip" type="button" data-diff="all" onclick="setDifficultyFilter('all')">All</button>
+      <button class="chip diff-chip" type="button" data-diff="easy" onclick="setDifficultyFilter('easy')">Easy</button>
+      <button class="chip diff-chip" type="button" data-diff="medium" onclick="setDifficultyFilter('medium')">Medium</button>
+      <button class="chip diff-chip" type="button" data-diff="hard" onclick="setDifficultyFilter('hard')">Hard</button>
+    </div>
+    <button class="btn mistake-log-btn" type="button" onclick="openMistakeLog()">Mistake Log<span class="mistake-log-count" id="mistake-log-count" style="display:none">0</span></button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -861,6 +923,16 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
   <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
 </button>
+<button type="button" id="qref-drawer-fab" class="qref-drawer-fab" onclick="qrefDrawerToggle()" aria-label="Open quick reference" aria-expanded="false" aria-controls="qref-drawer" title="Quick Reference">
+  <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+</button>
+<div id="qref-drawer" class="qref-drawer" role="dialog" aria-modal="true" aria-label="Quick Reference" aria-hidden="true">
+  <div class="qref-drawer-hd">
+    <b>Quick Reference</b>
+    <button type="button" class="qref-drawer-close" onclick="qrefDrawerToggle()" aria-label="Close quick reference">✕</button>
+  </div>
+  <div class="qref-drawer-body" id="qref-drawer-body"></div>
+</div>
 <script>
 const UNITS=[{"id":1,"name":"Notes, Staff & Clefs","concepts":[{"l":"The Staff and Ledger Lines","intro":"Music is written on a staff: five horizontal lines and four spaces, counted from bottom to top.","b":["The staff has 5 lines and 4 spaces, each representing a specific pitch once a clef is applied.","Ledger lines are short extra lines added above or below the staff to notate pitches outside its range.","Middle C sits on the first ledger line below the treble staff and the first ledger line above the bass staff.","A grand staff (piano staff) joins a treble staff and a bass staff with a brace and a connecting barline.","Notes are placed either on a line or in a space; consecutive note names alternate line-space-line-space."]},{"l":"The Treble Clef (G Clef)","intro":"The treble clef curls around the second line from the bottom, fixing that line as G4.","b":["Treble clef lines (bottom to top): E-G-B-D-F, remembered as 'Every Good Boy Does Fine'.","Treble clef spaces (bottom to top): F-A-C-E, spelling the word FACE.","The treble clef is used for higher-pitched instruments and voices: violin, flute, right hand of piano, soprano.","It is also called the G clef because its spiral center circles the G line.","Notes above the staff use ledger lines going up (e.g., the space just above the top line is G5)."]},{"l":"The Bass Clef (F Clef)","intro":"The bass clef's two dots surround the fourth line from the bottom, fixing that line as F3.","b":["Bass clef lines (bottom to top): G-B-D-F-A, remembered as 'Good Boys Do Fine Always'.","Bass clef spaces (bottom to top): A-C-E-G, remembered as 'All Cows Eat Grass'.","The bass clef is used for lower-pitched instruments and voices: cello, bassoon, left hand of piano, bass.","It is also called the F clef because its two dots straddle the F line.","On the grand staff, the bass clef sits below the treble clef and connects at middle C via ledger lines."]},{"l":"Note Names and the Musical Alphabet","intro":"Pitches are named using only seven letters, A through G, which then repeat in higher or lower octaves.","b":["The musical alphabet is A, B, C, D, E, F, G, then it repeats: ...G, A, B, C...","An octave is the distance from one letter name to the next instance of that same letter name.","Scientific pitch notation adds an octave number, so middle C is C4, the C above it is C5, and so on.","Each octave register sounds like the same note class but at double or half the frequency.","Piano keys alternate white keys (natural notes) with black keys (sharps/flats) in a repeating 12-key pattern."]},{"l":"Accidentals and Enharmonic Spelling","intro":"Accidentals raise or lower a note by a half step and apply for the rest of that measure unless canceled.","b":["A sharp (#) raises a pitch by one half step; a flat (b) lowers a pitch by one half step.","A natural sign cancels a previous sharp or flat, returning the note to its unaltered pitch.","Double sharps (x) raise by a whole step and double flats (bb) lower by a whole step.","Enharmonic equivalents are two different note names for the same sounding pitch, e.g., C# and Db.","An accidental placed before a note affects every occurrence of that same pitch in the same measure."]}],"keyFacts":["Treble clef lines spell EGBDF (Every Good Boy Does Fine); spaces spell FACE.","Bass clef lines spell GBDFA (Good Boys Do Fine Always); spaces spell ACEG (All Cows Eat Grass).","Middle C (C4) sits on the ledger line directly between the treble and bass staves on a grand staff.","The musical alphabet uses only seven letters (A-G) that repeat across octaves."],"traps":["Sharps and flats are half steps, not whole steps — don't confuse a half step with a whole step (two half steps).","A key signature accidental applies to every octave of that letter name, not just the one it's drawn on.","An accidental in a measure lasts only until the next barline, not for the rest of the piece.","C# and Db sound identical on a piano (enharmonic) but are spelled differently depending on musical context."]},{"id":2,"name":"Rhythm & Meter","concepts":[{"l":"Note and Rest Values","intro":"Rhythm is built from a system of proportional note values, each worth half the duration of the one before it.","b":["A whole note gets 4 beats in 4/4 time and splits into two half notes (2 beats each).","A half note splits into two quarter notes (1 beat each); a quarter note splits into two eighth notes.","An eighth note splits into two sixteenth notes; eighth and sixteenth notes are beamed together in groups.","Every note value has a matching rest symbol of identical duration but silent: whole, half, quarter, eighth, sixteenth rests.","A dot placed after a note or rest adds half of that note's original value (a dotted half note = 3 beats)."]},{"l":"Time Signatures: Simple Meter","intro":"A time signature's top number tells how many beats per measure; the bottom number tells what note value equals one beat.","b":["In simple meter, the beat divides naturally into two equal parts.","2/4 = duple simple meter (2 quarter-note beats per measure); 3/4 = triple simple (3 quarter-note beats); 4/4 = quadruple simple (4 quarter-note beats).","4/4 is also called common time and is sometimes notated with a large C symbol.","The bottom number 4 means the quarter note is the beat unit; a bottom number of 2 means the half note is the beat unit.","Cut time (2/2, symbol C with a slash) means two half-note beats per measure, felt faster than 4/4."]},{"l":"Time Signatures: Compound Meter","intro":"In compound meter the beat is a dotted note that divides naturally into three equal parts instead of two.","b":["6/8, 9/8, and 12/8 are the most common compound meters.","6/8 = duple compound (2 dotted-quarter beats per measure, each beat splits into 3 eighth notes).","9/8 = triple compound (3 dotted-quarter beats per measure); 12/8 = quadruple compound (4 dotted-quarter beats).","To find the number of beats in compound meter, divide the top number by 3 (6/8 has 6÷3 = 2 beats).","Compound meter has a rolling, triplet-like feel compared to the even division of simple meter."]},{"l":"Tempo and Expression Markings","intro":"Tempo markings tell performers how fast or slow to play, either with Italian terms or an exact metronome marking.","b":["Common tempo terms from slowest to fastest: Largo, Adagio, Andante, Moderato, Allegro, Presto.","A metronome marking such as quarter note = 120 (♩=120) states an exact number of beats per minute (BPM).","Ritardando (rit.) means gradually slowing down; accelerando (accel.) means gradually speeding up.","A fermata symbol tells the performer to hold a note or rest longer than its written value.","Tempo markings are usually placed above the staff at the start of a piece or at a change in speed."]},{"l":"Ties, Syncopation, and the Beat","intro":"Beyond basic note values, rhythm gets its energy from ties, syncopation, and how rhythms interact with the underlying pulse.","b":["A tie connects two notes of the same pitch across a barline or within a measure, combining their durations into one sustained sound.","A slur looks similar to a tie but connects notes of different pitches, indicating smooth, connected articulation (legato).","Syncopation occurs when accents fall on normally weak beats or off-beats, working against the expected pulse.","The downbeat is the strong first beat of a measure; the upbeat (or pickup/anacrusis) is a note or notes before beat one.","A measure (or bar) is the space between two barlines containing the number of beats set by the time signature."]}],"keyFacts":["Each note value is worth exactly half of the next-larger value: whole > half > quarter > eighth > sixteenth.","Simple meter beats divide into 2; compound meter beats divide into 3.","A dot adds half of the original note's value to itself.","The time signature's bottom number names the note value that equals one beat (in simple meter)."],"traps":["6/8 is NOT the same feel as 3/4, even though both can total the same number of eighth notes — 6/8 groups in 2, 3/4 groups in 3.","A tie combines durations of the SAME pitch; a slur connects DIFFERENT pitches for smooth phrasing — don't mix them up.","In compound meter the beat is a dotted note, not a plain quarter note, so counting divides by 3, not by the bottom number alone.","A fermata affects note length, not tempo of the whole piece — it's a pause, not a permanent tempo change."]},{"id":3,"name":"Scales & Keys","concepts":[{"l":"Building the Major Scale","intro":"A major scale is built from a fixed pattern of whole steps (W) and half steps (H) starting on the tonic.","b":["The major scale formula is W-W-H-W-W-W-H (e.g., C major: C-D-E-F-G-A-B-C).","Half steps naturally occur between scale degrees 3-4 and 7-8 in a major scale.","Every major scale contains 7 different letter names before repeating the tonic an octave higher.","The major scale sound is often described as bright, happy, or resolved.","Applying the W-W-H-W-W-W-H formula to any starting pitch produces that pitch's major scale."]},{"l":"Building Minor Scales","intro":"Minor scales come in three common forms — natural, harmonic, and melodic — each altering the natural minor pattern differently.","b":["Natural minor formula: W-H-W-W-H-W-W (e.g., A natural minor: A-B-C-D-E-F-G-A).","Harmonic minor raises the 7th scale degree by a half step, creating a strong pull to the tonic (leading tone) and a distinctive augmented 2nd between degrees 6 and 7.","Melodic minor raises both the 6th and 7th degrees when ascending, but reverts to natural minor when descending.","The minor scale sound is often described as dark, sad, or unresolved compared to major.","All three minor forms share the same first five scale degrees; they differ only in degrees 6 and 7."]},{"l":"Key Signatures and the Circle of Fifths","intro":"A key signature is a set of sharps or flats placed at the start of every staff line, showing which notes are consistently altered.","b":["Order of sharps: F#, C#, G#, D#, A#, E#, B# (mnemonic: Father Charles Goes Down And Ends Battle).","Order of flats: Bb, Eb, Ab, Db, Gb, Cb, Fb (mnemonic: Battle Ends And Down Goes Charles' Father — the reverse of sharps).","The circle of fifths arranges all 12 major keys so each step clockwise adds one sharp (or removes one flat), moving up a perfect 5th each time.","C major and A minor have no sharps or flats, sitting at the top of the circle of fifths.","To find a sharp key's name, take the last sharp in the signature and go up one half step; to find a flat key's name (with 2+ flats), the second-to-last flat is the key name."]},{"l":"Relative and Parallel Keys","intro":"Major and minor keys relate to each other in two distinct ways: sharing a key signature, or sharing a tonic.","b":["Relative minor starts on the 6th scale degree of its relative major and shares the exact same key signature (C major / A minor).","Parallel keys share the same tonic note but have different key signatures (C major / C minor).","To find a relative minor from a major key, count down 3 half steps (or up to scale degree 6).","Relative keys sound different in mood despite sharing identical notes/accidentals, because the tonal center shifts.","Parallel major and minor keys sound related in color because they share a tonic, but differ by 3 accidentals in signature."]},{"l":"Scale Degree Names","intro":"Each note of a scale has a functional name describing its role relative to the tonic, used constantly in harmonic analysis.","b":["1 = Tonic (home base), 2 = Supertonic, 3 = Mediant, 4 = Subdominant.","5 = Dominant (strongest pull back to tonic), 6 = Submediant, 7 = Leading Tone (in major/harmonic minor) or Subtonic (in natural minor).","The leading tone is a half step below the tonic and strongly wants to resolve upward to it.","The subtonic (natural minor's 7th) is a whole step below the tonic and has a weaker pull to resolve.","The dominant (5th degree) and tonic (1st degree) relationship is the backbone of most Western harmonic progressions."]}],"keyFacts":["Major scale pattern: W-W-H-W-W-W-H. Natural minor pattern: W-H-W-W-H-W-W.","Relative keys share a key signature; parallel keys share a tonic.","Order of sharps: F-C-G-D-A-E-B. Order of flats is the exact reverse: B-E-A-D-G-C-F.","Harmonic minor raises scale degree 7; melodic minor raises degrees 6 and 7 ascending only."],"traps":["Relative minor is NOT the same as parallel minor — relative shares a key signature, parallel shares a tonic note.","The order of flats is the reverse of the order of sharps, not the same order.","Melodic minor changes its own descending form back to natural minor — it is not raised both ways.","The 'last sharp + half step up' trick finds a major key; for flats, use the second-to-last flat instead."]},{"id":4,"name":"Intervals","concepts":[{"l":"Measuring Intervals: Number and Quality","intro":"An interval is the distance between two pitches, described by a number (how many letter names it spans) and a quality (its exact size).","b":["The interval number counts letter names inclusively: C to E is a 3rd because it spans C-D-E (3 letters).","Interval quality labels include: perfect, major, minor, augmented, and diminished.","Unisons, 4ths, 5ths, and octaves can be perfect, augmented, or diminished — but never major or minor.","2nds, 3rds, 6ths, and 7ths can be major, minor, augmented, or diminished — but never perfect.","To fully name an interval, state both quality and number together, e.g., 'major 3rd' or 'perfect 5th'."]},{"l":"Perfect Intervals","intro":"Perfect intervals (unison, 4th, 5th, octave) are considered the most stable and consonant because of their simple frequency ratios.","b":["A perfect unison is the same pitch played or sung twice (0 half steps).","A perfect 4th spans 5 half steps (e.g., C to F); a perfect 5th spans 7 half steps (e.g., C to G).","A perfect octave spans 12 half steps and returns to the same letter name (e.g., C4 to C5).","Raising a perfect interval by a half step makes it augmented; lowering it by a half step makes it diminished.","Perfect intervals sound highly stable and are foundational to power chords and open harmony."]},{"l":"Major and Minor Intervals","intro":"2nds, 3rds, 6ths, and 7ths come in major or minor quality, differing from each other by exactly one half step.","b":["A major 2nd = 2 half steps (whole step); a minor 2nd = 1 half step.","A major 3rd = 4 half steps; a minor 3rd = 3 half steps — this single half-step difference is what makes chords sound major or minor.","A major 6th = 9 half steps; a minor 6th = 8 half steps.","A major 7th = 11 half steps; a minor 7th = 10 half steps.","Lowering a major interval by a half step makes it minor; lowering a minor interval by a half step makes it diminished."]},{"l":"Interval Inversion","intro":"Inverting an interval means moving the lower note up an octave (or the upper note down an octave) so the two notes swap position.","b":["When an interval is inverted, its number and the inverted number always add up to 9 (a 3rd inverts to a 6th, a 5th inverts to a 4th).","Perfect intervals invert to perfect intervals (perfect 4th inverts to perfect 5th, and vice versa).","Major intervals invert to minor intervals, and minor intervals invert to major intervals.","Augmented intervals invert to diminished intervals, and diminished intervals invert to augmented intervals.","Inversion is a quick way to identify a large interval by finding its smaller, easier-to-hear complement."]},{"l":"Consonance, Dissonance, and Compound Intervals","intro":"Intervals are also classified by how stable or tense they sound, and by whether they exceed a single octave.","b":["Consonant intervals (perfect unison/4th/5th/octave, major/minor 3rds and 6ths) sound stable and restful.","Dissonant intervals (2nds, 7ths, and any augmented/diminished interval, plus the tritone) sound tense and want to resolve.","The tritone (augmented 4th / diminished 5th, 6 half steps) splits the octave exactly in half and is the most unstable interval.","A compound interval is larger than an octave, such as a 9th (octave + 2nd) or an 11th (octave + 4th).","Compound intervals are named by adding 7 to their simple interval number (a 2nd becomes a 9th, a 3rd becomes a 10th)."]}],"keyFacts":["Perfect intervals: unison, 4th, 5th, octave. All others (2nd, 3rd, 6th, 7th) are major/minor.","A major 3rd = 4 half steps; a minor 3rd = 3 half steps — the building block of major/minor chords.","Inverted interval numbers always sum to 9; perfect stays perfect, major/minor swap, augmented/diminished swap.","The tritone (6 half steps) is the most dissonant common interval and splits the octave evenly."],"traps":["You can never call a 4th or 5th 'major' or 'minor' — only perfect, augmented, or diminished.","Counting half steps alone can mislabel an interval; always count letter names first to get the correct number.","Inversion numbers sum to 9, not 8 or 10 — a common arithmetic slip.","A diminished 5th and an augmented 4th sound identical (both the tritone) but are spelled differently depending on context."]},{"id":5,"name":"Chords & Harmony","concepts":[{"l":"Building Triads","intro":"A triad is a three-note chord built by stacking two thirds on top of a root note.","b":["Major triad = major 3rd + minor 3rd on top (root-3rd-5th), e.g., C-E-G.","Minor triad = minor 3rd + major 3rd on top, e.g., C-Eb-G.","Diminished triad = minor 3rd + minor 3rd (both thirds minor), e.g., C-Eb-Gb — sounds tense and unstable.","Augmented triad = major 3rd + major 3rd (both thirds major), e.g., C-E-G# — sounds tense and unresolved in a different way.","The root, 3rd, and 5th of a triad are named for their interval distance above the root."]},{"l":"Seventh Chords","intro":"A seventh chord adds a fourth note, a 7th above the root, on top of a triad for extra color and tension.","b":["Major 7th chord = major triad + major 7th above root (e.g., Cmaj7: C-E-G-B) — smooth, lush sound.","Dominant 7th chord = major triad + minor 7th above root (e.g., C7: C-E-G-Bb) — tense, wants to resolve, built on scale degree 5.","Minor 7th chord = minor triad + minor 7th above root (e.g., Cm7: C-Eb-G-Bb) — mellow, jazzy sound.","Half-diminished 7th chord = diminished triad + minor 7th above root (e.g., Cm7b5: C-Eb-Gb-Bb).","Fully diminished 7th chord = diminished triad + diminished 7th above root (e.g., Cdim7: C-Eb-Gb-Bbb), dividing the octave into equal minor 3rds."]},{"l":"Chord Inversions","intro":"Inversions describe which chord tone is in the lowest (bass) voice, changing the chord's sound without changing its notes.","b":["Root position: the root is in the bass (lowest note), e.g., C-E-G.","First inversion: the 3rd is in the bass, e.g., E-G-C — labeled with figured bass symbol '6'.","Second inversion: the 5th is in the bass, e.g., G-C-E — labeled with figured bass symbol '6/4'.","Inversions let a bass line move more smoothly (stepwise) between chords instead of jumping between roots.","For seventh chords, third inversion places the 7th in the bass, labeled '4/2' in figured bass."]},{"l":"Roman Numeral Analysis","intro":"Roman numerals label chords by their scale degree root and quality within a key, showing harmonic function at a glance.","b":["Uppercase Roman numerals (I, IV, V) represent major chords; lowercase (ii, iii, vi) represent minor chords.","A small circle (vii°) marks a diminished chord; a plus sign (III+) marks an augmented chord.","In a major key, the diatonic triads are: I, ii, iii, IV, V, vi, vii°.","In natural minor, the diatonic triads are: i, ii°, III, iv, v, VI, VII.","Adding a superscript 7 (V7, ii7) indicates a seventh chord built on that scale degree."]},{"l":"Harmonic Function and Cadences","intro":"Chords group into three functional families — tonic, subdominant, and dominant — that create tension and release, ending phrases with cadences.","b":["Tonic function (I, vi) feels stable and 'home'; dominant function (V, vii°) feels tense and wants to resolve to tonic.","Subdominant function (IV, ii) feels like it's moving away from home, often leading toward the dominant.","An authentic cadence (V-I or V7-I) is the strongest, most conclusive ending in tonal music.","A plagal cadence (IV-I) is often called the 'Amen cadence' from its use at the end of hymns.","A half cadence ends on V (sounds unfinished); a deceptive cadence resolves V to vi instead of I (a surprise ending)."]}],"keyFacts":["Major triad = major 3rd + minor 3rd; minor triad = minor 3rd + major 3rd (stacked from the root).","Dominant 7th chords are built on scale degree 5 and strongly pull to the tonic.","Root position has the root in the bass; 1st inversion has the 3rd in the bass; 2nd inversion has the 5th in the bass.","Authentic cadence (V-I) is the strongest resolution; half cadence ends on V; deceptive cadence goes V-vi."],"traps":["A diminished triad stacks two minor 3rds, not a minor 3rd plus a major 3rd — that combination is a minor triad.","Lowercase Roman numerals mean minor chords, not 'lower in pitch' — case indicates quality, not register.","A plagal cadence (IV-I) is weaker/different from an authentic cadence (V-I) — don't treat all two-chord endings as equal.","Inversion changes the bass note only, not the chord's letter names or its Roman numeral label."]},{"id":6,"name":"Song Form & Structure","concepts":[{"l":"Strophic and Verse-Chorus Form","intro":"Many songs are organized around repeating sections, the simplest being strophic form and the most common in popular music being verse-chorus form.","b":["Strophic form repeats the same music for every verse with new lyrics each time (common in hymns and folk songs).","Verse-chorus form alternates contrasting verse sections (advancing the story, same music/new lyrics) with a chorus (same music AND lyrics each time, carrying the main hook).","A pre-chorus is a short transitional section that builds energy from the verse into the chorus.","A bridge is a contrasting section, usually appearing once, that provides a break from the verse/chorus pattern before a final chorus.","An intro and outro frame the song at the beginning and end and are not usually labeled as verse or chorus."]},{"l":"AABA (32-Bar) Form","intro":"AABA form, common in jazz standards and Tin Pan Alley songs, divides a chorus into four 8-bar sections.","b":["AABA form totals 32 bars: A (8 bars) - A (8 bars) - B (8 bars) - A (8 bars).","The 'A' sections share the same melody and harmonic material, usually with the same or very similar lyrics.","The 'B' section, called the bridge or 'the release,' contrasts in melody and often modulates to a related key.","The final 'A' typically returns to the original key and material to bring the tune to a close.","Many Great American Songbook standards ('Over the Rainbow,' 'I Got Rhythm') use AABA form."]},{"l":"Binary and Ternary Form","intro":"Binary and ternary forms describe classical and instrumental structures built from two or three contrasting large sections.","b":["Binary form (AB) has two distinct sections, often each repeated, with the second section contrasting or developing the first.","Ternary form (ABA) has three sections where the third repeats or closely resembles the first, framing a contrasting middle section.","A minuet and trio is a classic ternary form example: minuet (A) - trio (B) - minuet repeated (A).","In binary form, the two sections may be labeled 'rounded binary' if the A material briefly returns at the end of the B section.","Ternary form differs from AABA because it usually has three broader sections rather than four short 8-bar phrases."]},{"l":"Rondo and Larger Forms","intro":"Rondo form and sonata form organize longer instrumental works by alternating or developing thematic material across multiple sections.","b":["Rondo form repeats a main theme (A) between contrasting episodes: ABACA or ABACABA.","The recurring 'A' section in a rondo acts as a stable anchor that listeners recognize each time it returns.","Sonata form has three main parts: exposition (introduces themes, usually in two keys), development (themes are fragmented and explored in different keys), and recapitulation (themes return, now in the home key).","Sonata form is common in the first movements of Classical-era symphonies, sonatas, and string quartets.","Both rondo and sonata form rely on the tension between a stable 'home' idea and contrasting departures from it."]},{"l":"Formal Terminology and Phrase Structure","intro":"Smaller-scale terms describe how phrases combine to build the larger sections found in song and instrumental forms.","b":["A phrase is a musical sentence, often 4 or 8 bars long, ending with a cadence.","A period is a pair of phrases (antecedent and consequent) where the first ends less conclusively and the second answers it with a stronger cadence.","A motif (or motive) is a short, recognizable musical idea (rhythm and/or pitch pattern) that can be repeated or developed throughout a piece.","A hook is a short, catchy musical or lyrical phrase designed to be memorable, often found in the chorus.","Formal labels (A, B, verse, chorus) describe function and repetition pattern, not any fixed absolute length."]}],"keyFacts":["Verse-chorus form: verses change lyrics over the same music; the chorus repeats both music and lyrics.","AABA form is 32 bars total: two A sections, a contrasting B (bridge/release), then a final A.","Sonata form = exposition, development, recapitulation.","A rondo alternates a recurring theme (A) with contrasting episodes: ABACA."],"traps":["A 'bridge' in a verse-chorus pop song and the 'B' (release) in AABA form are related ideas but not identically defined — context matters.","Strophic form repeats music with NEW lyrics each verse; it is not the same as a chorus, which repeats both music and lyrics.","Ternary form (ABA) is a broad three-part structure, not the same thing as the four 8-bar sections of AABA form.","Sonata form's 'recapitulation' restates themes in the home key — it is not identical to the exposition, which often modulates."]},{"id":7,"name":"Ear Training Basics","concepts":[{"l":"Solfège and Scale Degree Function","intro":"Movable-do solfège assigns a syllable to each scale degree, training the ear to hear pitches by their function rather than by fixed letter names.","b":["Movable-do syllables: Do-Re-Mi-Fa-Sol-La-Ti-Do, always mapped to scale degrees 1-2-3-4-5-6-7-1 regardless of key.","'Do' always represents the tonic (scale degree 1), the most stable, 'home' pitch in a key.","'Ti' (scale degree 7, the leading tone) feels unstable and pulls strongly upward to resolve to 'Do'.","'Fa' (scale degree 4) also feels unstable and often resolves downward to 'Mi' (scale degree 3).","In minor keys using movable-do, the lowered scale degrees are altered: 'Me' (b3), 'Le' (b6), 'Te' (b7)."]},{"l":"Recognizing Intervals by Ear","intro":"A common ear-training technique pairs each interval with the opening notes of a familiar song to make its sound memorable.","b":["Ascending major 2nd: opening of 'Happy Birthday' or 'Do-Re-Mi' (Do to Re).","Ascending perfect 4th: opening of 'Here Comes the Bride' or the 'Bridal Chorus'.","Ascending perfect 5th: opening of 'Twinkle, Twinkle, Little Star' or the theme from 'Star Wars'.","Ascending major 6th: opening of 'My Bonnie Lies Over the Ocean'.","Ascending minor 3rd is often associated with the opening of 'Greensleeves' or a stereotypical siren/cuckoo call."]},{"l":"Major vs. Minor Mode by Ear","intro":"One of the first aural skills is telling major and minor tonality apart, based mainly on the quality of the 3rd scale degree.","b":["Major mode is typically described as bright, happy, or triumphant sounding.","Minor mode is typically described as dark, sad, mysterious, or tense sounding.","The key aural difference is the 3rd scale degree: a major 3rd above the tonic sounds major; a minor 3rd sounds minor.","Listening to the tonic triad (1-3-5) alone is often enough to identify whether a passage is in major or minor.","Film and game composers deliberately use major/minor mode shifts to signal emotional changes to the listener."]},{"l":"Rhythmic Dictation and Subdivision","intro":"Rhythmic ear training builds the skill of hearing, counting, and notating rhythms accurately by internalizing a steady subdivided pulse.","b":["Subdivision means mentally dividing each beat into smaller equal parts (e.g., counting '1-and' for eighth notes) to place rhythms accurately.","Counting systems like '1-e-and-a' help performers place sixteenth notes precisely within a beat.","Clapping or tapping the beat while listening helps isolate whether a rhythm is on the beat or syncopated (off the beat).","Internalizing a steady pulse (audiation) before dictation prevents rhythms from speeding up or slowing down inaccurately.","Rhythmic dictation exercises typically build gradually from quarter/half notes to eighth, then sixteenth note patterns."]},{"l":"Call and Response, and Audiation","intro":"Ear training also develops the internal skill of 'hearing' music in the mind, and the practice of echoing and improvising musical ideas.","b":["Audiation is the ability to hear and understand music internally, even without the sound physically present.","Call and response is a musical technique where one phrase (the call) is directly answered by another (the response), used in training and in genres like blues and gospel.","Singing back a melody you just heard trains pitch matching and short-term musical memory simultaneously.","Sight-singing (reading notation and singing it accurately) is the visual counterpart to dictation (hearing and writing notation).","Regular short daily ear-training practice builds recognition skills faster than occasional long sessions."]}],"keyFacts":["Movable-do solfège: Do-Re-Mi-Fa-Sol-La-Ti-Do always maps to scale degrees 1-7-1 in any key.","The leading tone ('Ti') pulls up to the tonic ('Do'); it is a half step below Do.","Major vs. minor mode is distinguished mainly by the quality of the 3rd scale degree above the tonic.","Audiation is hearing music internally in the mind, without it sounding out loud."],"traps":["'Fixed-do' (where Do always means C) and 'movable-do' (where Do always means the tonic) are different systems — most ear training uses movable-do.","A perfect 5th and a perfect 4th are inversions of each other and can sound similarly 'open' — use reference songs to tell them apart.","Minor mode is not simply 'major but sadder-sounding notes at random' — the defining change is specifically the 3rd (and often 6th/7th) scale degree.","Subdivision must stay steady; speeding up during faster note values is a common rhythmic dictation error."]},{"id":8,"name":"Analysis & Composition Starter","concepts":[{"l":"Nonharmonic Tones","intro":"Nonharmonic (nonchord) tones are notes that don't belong to the underlying chord but add melodic interest and motion.","b":["A passing tone connects two chord tones a 3rd apart by step, filling in the gap (approached and left by step in the same direction).","A neighbor tone steps away from a chord tone and back to the same chord tone (upper or lower neighbor).","A suspension holds over a note from the previous chord that becomes dissonant against the new chord, then resolves down by step.","An appoggiatura is approached by leap and resolved by step, landing on a strong beat before resolving — creating an accented, expressive dissonance.","An escape tone (échappée) is approached by step and left by leap in the opposite direction."]},{"l":"Voice Leading Basics","intro":"Voice leading is the practice of moving each individual musical line (voice) smoothly and correctly from chord to chord.","b":["Prefer stepwise motion and common tones between chords over large leaps, especially in inner voices.","Parallel 5ths and parallel octaves between two voices are traditionally avoided in four-part harmony because they weaken the independence of the voices.","Contrary motion (voices moving in opposite directions) and oblique motion (one voice stays, one moves) create the smoothest, most independent-sounding textures.","Resolve the leading tone (scale degree 7) up to the tonic, especially in an outer voice, since it has a strong pull.","Double the root of a triad in four-part writing when possible, rather than doubling the leading tone."]},{"l":"Musical Texture","intro":"Texture describes how many independent melodic lines are present and how they relate to one another.","b":["Monophonic texture is a single melodic line with no accompaniment or harmony (e.g., unaccompanied Gregorian chant).","Homophonic texture is a melody supported by chordal accompaniment (most pop, rock, and hymn music).","Polyphonic (contrapuntal) texture has two or more independent melodic lines happening simultaneously (e.g., a Bach fugue).","Heterophonic texture involves multiple performers playing the same basic melody with slight individual variations at once.","Composers often shift texture within a piece to create contrast between simpler and denser passages."]},{"l":"Motif, Sequence, and Development","intro":"Composers develop musical ideas by repeating and transforming a short motif in various ways throughout a piece.","b":["A motif (motive) is a short, distinctive melodic and/or rhythmic idea that recurs and can be developed.","A sequence repeats a musical pattern at a new pitch level (higher or lower), preserving the same intervallic shape.","Melodic development techniques include inversion (flipping the melodic contour upside down), retrograde (playing it backward), and augmentation/diminution (stretching or shrinking note values).","Fragmentation takes a small piece of a motif and repeats or develops just that fragment.","Beethoven's Fifth Symphony opening (short-short-short-long) is a famous example of a motif developed extensively throughout a movement."]},{"l":"Starting a Chord Progression","intro":"Basic functional progressions give a beginning composer a reliable harmonic skeleton to write a melody over.","b":["The I-IV-V-I progression is one of the most common in Western music, moving from tonic, through subdominant, through dominant, and back to tonic.","The ii-V-I progression is extremely common in jazz, moving through the subdominant-function ii chord to the dominant V, resolving to I.","The vi-IV-I-V ('pop-punk') progression appears across countless popular songs due to its strong, singable harmonic motion.","A I-V-vi-IV progression is another widely used pop pattern, notable for its deceptive-feeling move from V to vi.","Starting and ending a short composition on the tonic chord (I or i) reinforces a clear sense of key and closure."]}],"keyFacts":["Passing tones and neighbor tones are approached and left by step; appoggiaturas are approached by leap, left by step.","Avoid parallel 5ths and parallel octaves between voices in traditional four-part harmony.","Texture types: monophonic (one line), homophonic (melody + accompaniment), polyphonic (independent simultaneous lines).","A sequence repeats a musical pattern at a new pitch level; a motif is the short idea being developed."],"traps":["A suspension resolves DOWN by step, not up — don't confuse its resolution direction with the leading tone's upward pull.","Homophonic texture (melody + chords) is not the same as monophonic (single unaccompanied line) — one has harmony, one doesn't.","A sequence changes pitch level but keeps the same shape/pattern; simply repeating the exact same pitches is not a sequence.","ii-V-I is a jazz-associated progression built on scale-degree function, not a fixed set of specific chord letter names across all keys."]}];
 const DIAGRAMS={};
@@ -872,7 +944,8 @@ const PART_A=[{"u":1,"q":"What determines the pitch of a note written on a staff
 const PART_B1=[{"u":2,"q":"What is the purpose of a tie connecting two notes of the same pitch across a barline?","o":["To sustain the pitch continuously across the barline as one combined duration","To indicate a repeat of the measure","To indicate a rest","To change the note's pitch"],"a":0,"e":"A tie merges the durations of same-pitch notes into one uninterrupted sound, even across a barline.","n":31},{"u":5,"q":"What chord progression defines an authentic cadence?","o":["V (or V7) resolving to I","IV resolving to I","I resolving to V","ii resolving to V without reaching I"],"a":0,"e":"The authentic cadence (V-I) provides the strongest sense of harmonic closure in tonal music.","n":32},{"u":8,"q":"What does rhythmic augmentation do to a theme?","o":["Lengthens its note durations, typically doubling them","Shortens its note durations","Removes notes from the theme","Transposes the theme to a new key"],"a":0,"e":"Augmentation stretches a theme's rhythm, commonly doubling every note value to slow it down.","n":33},{"u":3,"q":"How many sharps does the key of A major contain?","o":["3","2","4","1"],"a":0,"e":"A major has three sharps: F#, C#, and G#.","n":34},{"u":6,"q":"In sonata form, what occurs during the recapitulation?","o":["The exposition's themes return, typically all restated in the tonic key","Entirely new themes are introduced for the first time","The piece modulates permanently away from the tonic","A cadenza is improvised with no thematic material"],"a":0,"e":"The recapitulation resolves earlier key tensions by restating exposition themes in the home key.","n":35},{"u":1,"q":"What does the accidental apply to for the remainder of a measure, unless cancelled?","o":["Every instance of that same pitch/line in that measure","Only the first note it is attached to","All notes in the following measure","Only notes played louder than mezzo-forte"],"a":0,"e":"An accidental affects every occurrence of that pitch on that line/space for the rest of the measure.","n":36},{"u":4,"q":"What is the interval from C to F# called?","o":["Augmented fourth (a tritone)","Perfect fourth","Diminished fourth","Major fourth"],"a":0,"e":"C to F# spans 6 half steps, classified as an augmented fourth, one spelling of the tritone.","n":37},{"u":7,"q":"What skill does rhythmic dictation practice develop?","o":["Accurately notating a rhythm after hearing it performed","Naming chord qualities by ear","Identifying key signatures visually","Reading pitch from a score silently"],"a":0,"e":"Rhythmic dictation trains transcription of heard rhythmic patterns into correct notation.","n":38},{"u":2,"q":"In simple meter, each beat divides naturally into how many equal parts?","o":["Two","Three","Four","Five"],"a":0,"e":"Simple meters (like 2/4, 3/4, 4/4) divide each main beat into two equal subdivisions.","n":39},{"u":5,"q":"What makes a deceptive cadence 'deceptive'?","o":["A V chord resolves to vi instead of the expected I","A IV chord resolves to I as expected","A ii chord resolves to V as expected","There is no dominant chord involved"],"a":0,"e":"The deceptive cadence sets up dominant resolution but substitutes vi for the expected tonic, avoiding full closure.","n":40},{"u":8,"q":"What texture features a single melody with subordinate chordal accompaniment?","o":["Homophonic texture","Polyphonic texture","Monophonic texture","Heterophonic texture"],"a":0,"e":"Homophonic texture pairs one prominent melody with supporting harmony beneath it.","n":41},{"u":3,"q":"How many flats does the key of Eb major contain?","o":["3","2","4","1"],"a":0,"e":"Eb major has three flats: Bb, Eb, and Ab.","n":42},{"u":6,"q":"What pattern describes rondo form?","o":["A recurring main theme alternating with contrasting episodes, e.g., A-B-A-C-A","A single theme with no return","Two themes with no repetition","A strictly through-composed structure"],"a":0,"e":"Rondo form keeps returning to a central theme between contrasting episodes.","n":43},{"u":1,"q":"Which statement about the alto clef is accurate?","o":["It centers middle C on the middle line of the staff, and is used mainly for viola","It fixes G4 on the second line","It is only used in bass instrument notation","It cannot notate middle C"],"a":0,"e":"The alto (C) clef places middle C on the center line, distinguishing it from treble and bass clefs.","n":44},{"u":4,"q":"Which interval qualities are exclusive to unisons, fourths, fifths, and octaves?","o":["Perfect, diminished, and augmented (not major/minor)","Major and minor only","Augmented only","Diminished only"],"a":0,"e":"Unisons, 4ths, 5ths, and octaves use perfect (and its diminished/augmented alterations) rather than major/minor labels.","n":45},{"u":7,"q":"What cue helps a listener recognize an authentic (V-I) cadence by ear?","o":["A strong sense of resolution as the dominant chord resolves into the tonic","A sustained note with no chord change","A sudden meter change","An unresolved half-step motion with no chord resolution"],"a":0,"e":"The V-I authentic cadence produces the clearest sense of harmonic arrival and closure, easily recognized by ear.","n":46},{"u":2,"q":"What is an anacrusis (pickup)?","o":["One or more notes preceding the first complete measure of a piece","The final measure of a piece","A rest placed at a phrase's end","A repeated rhythmic motif"],"a":0,"e":"An anacrusis is a partial measure of lead-in notes occurring before the first full measure/downbeat.","n":47},{"u":5,"q":"What is a dominant seventh chord's construction?","o":["A major triad plus a minor seventh above the root","A minor triad plus a major seventh above the root","A diminished triad plus a diminished seventh","An augmented triad plus a major seventh"],"a":0,"e":"Dominant seventh chords (e.g., G7) combine a major triad with an added minor seventh, typically built on scale degree 5.","n":48},{"u":8,"q":"What texture consists of two or more independent melodic lines of comparable importance?","o":["Polyphonic texture","Homophonic texture","Monophonic texture","No texture at all"],"a":0,"e":"Polyphonic (contrapuntal) texture layers multiple simultaneous, independent melodic lines.","n":49},{"u":3,"q":"What scale-degree name is given to the 5th degree of a scale?","o":["Dominant","Subdominant","Mediant","Submediant"],"a":0,"e":"The 5th scale degree is called the dominant, central to harmonic tension in tonal music.","n":50}];
 const PART_B2=[{"u":3,"q":"What distinguishes ascending melodic minor from natural minor?","o":["Its 6th and 7th degrees are raised a half step each","Its 2nd and 3rd degrees are lowered","Its 4th degree is raised","There is no difference"],"a":0,"e":"Ascending melodic minor raises both the 6th and 7th scale degrees compared to natural minor.","n":51},{"u":8,"q":"What is a passing tone in melodic analysis?","o":["A non-chord tone that fills the stepwise gap between two chord tones","A chord tone emphasized by an accent","A tone that always resolves upward by leap","A tone used only at cadences"],"a":0,"e":"Passing tones connect two chord tones by stepwise motion, decorating the melody outside the current harmony.","n":52},{"u":5,"q":"What term describes the smooth, stepwise movement of individual chord tones from chord to chord?","o":["Voice leading","Cadential motion","Modulation","Inversion"],"a":0,"e":"Voice leading concerns how each individual voice moves logically and smoothly between successive chords.","n":53},{"u":2,"q":"A triplet marking over three eighth notes means what?","o":["Those three notes are performed in the time normally taken by two eighth notes","Those three notes are performed at triple the normal tempo","Those three notes are held three times as long","Those three notes are silent"],"a":0,"e":"A triplet compresses three equal notes into the time span a simple meter would normally allot to two.","n":54},{"u":7,"q":"What does 'audiation' refer to in music learning?","o":["Internally hearing and comprehending music without it being physically played","Reading music silently without any mental sound","Playing by ear without notation","Composing new melodies spontaneously"],"a":0,"e":"Audiation is the cognitive process of hearing and understanding music mentally, even in silence.","n":55},{"u":4,"q":"What defines a compound interval?","o":["An interval that exceeds one octave in span","An interval smaller than a second","An interval built from two perfect fourths","Any minor interval"],"a":0,"e":"Compound intervals are larger than an octave, such as a major ninth (octave + major second).","n":56},{"u":1,"q":"If a note is enharmonically respelled from G# to Ab, what changes?","o":["Only the letter name and notational spelling; the sounding pitch stays the same","The sounding pitch becomes higher","The sounding pitch becomes lower","The note's rhythmic duration changes"],"a":0,"e":"Enharmonic equivalents like G# and Ab sound identical in standard tuning but are spelled differently for context.","n":57},{"u":6,"q":"What is the function of a coda?","o":["A concluding passage added to bring a piece to a definitive close","The opening theme of a piece","A repeated verse with new lyrics","A modulation occurring mid-verse"],"a":0,"e":"The coda extends the ending, often building energy or providing final harmonic resolution.","n":58},{"u":3,"q":"What is the chromatic scale composed of?","o":["All twelve half steps within one octave","Only the seven natural notes","Five notes with no half steps","Only sharps, never flats"],"a":0,"e":"The chromatic scale includes all 12 semitones in an octave, moving entirely by half steps.","n":59},{"u":8,"q":"What is a practical first step when starting a short composition exercise?","o":["Sketching a basic harmonic plan, such as I-IV-V-I, before adding melody","Writing the final cadence first with no other planning","Choosing instrumentation with no harmonic plan","Picking a tempo and stopping there"],"a":0,"e":"A simple harmonic skeleton gives structure that melody and rhythm choices can then be built around.","n":60}];
 const PART_C=[{"n":61,"u":1,"q":"Written response: choose TWO concepts from different units and construct an argument connecting them. Cite specific evidence from each.","o":["Names both concepts precisely, gives concrete evidence for each, and explains the causal/logical bridge","Lists the two topics without connecting them","Describes only one concept in detail","Gives a personal opinion with no course evidence"],"a":0,"e":"Strong responses anchor every claim in specific unit content."},{"n":62,"u":8,"q":"Essay plan: identify the single most important takeaway of this course. Defend it using three units as evidence, then address one counterargument.","o":["Clear thesis, three unit-specific pieces of evidence, genuine counterargument, resolution","Thesis with no support","Topic list with no argument","Anecdote unrelated to course content"],"a":0,"e":"Full argumentative architecture earns top marks."}];
-const EXAM_CSS=".ex-header{background:var(--ink);color:var(--surface);padding:20px 22px;border-radius:var(--radius);margin-bottom:22px}\n.ex-header h2{font-family:'Space Grotesk';font-size:28.5px;font-weight:700;margin-bottom:4px}\n.ex-header p{font-family:'Inter';font-size:19.5px;color:rgba(255,255,255,.65)}\n.ex-part{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--surface)}\n.ex-part-hd{background:var(--surface-2);padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}\n.ex-part-hd:hover{background:var(--surface-hover)}\n.ex-part-hd h3{font-size:21px;font-weight:700;color:var(--ink)}\n.ex-part-hd span{font-family:'Inter';font-size:18px;color:var(--ink-dim)}\n.ex-part-body{display:none;padding:20px}\n.ex-part.open .ex-part-body{display:block}\n.ex-q{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}\n.ex-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}\n.ex-qnum{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}\n.ex-qtext{font-size:21.8px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:13px}\n.ex-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}\n.ex-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface);text-align:left;transition:all .12s}\n.ex-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}\n.ex-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}\n.ex-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}\n.ex-exp{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface-2);padding:11px 14px;border-radius:var(--radius-sm);margin-top:9px;display:none;line-height:1.6}\n.ex-exp.show{display:block}\n.ex-sa{padding:13px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter';font-size:20.2px;color:var(--amber-ink);line-height:1.6;margin-top:9px}\n.ex-sa strong{display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:var(--amber)}\n.ex-score{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px;display:none}\n.ex-score strong{font-family:'Space Grotesk';color:var(--success);font-size:22.5px}\n.ex-score span{font-family:'Inter';color:var(--success);font-size:19.5px}\n.ex-reset{padding:10px 20px;border:1px solid var(--border);border-radius:999px;background:var(--surface);cursor:pointer;font-family:'Space Grotesk';font-weight:600;font-size:19.5px;margin-top:10px;transition:all .15s}\n.ex-reset:hover{background:var(--surface-hover);border-color:var(--border-strong)}\n";
+const EXAM_META={"title":"Music Theory — Full Practice Exam","subtitle":"Part A (30 pts) · Part B–1 (20 pts) · Part B–2 (10 pts) · Part C (2 pts)","parts":{"PART_A":{"title":"Part A — Multiple Choice","points":30,"minutes":null},"PART_B1":{"title":"Part B–1 — Multiple Choice","points":20,"minutes":null},"PART_B2":{"title":"Part B–2 — Short Answer","points":10,"minutes":null},"PART_C":{"title":"Part C — Extended Response","points":2,"minutes":null}}};
+const EXAM_CSS=".ex-header{background:var(--ink);color:var(--surface);padding:20px 22px;border-radius:var(--radius);margin-bottom:22px}\n.ex-header h2{font-family:'Space Grotesk';font-size:28.5px;font-weight:700;margin-bottom:4px}\n.ex-header p{font-family:'Inter';font-size:19.5px;color:rgba(255,255,255,.65)}\n.ex-part{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--surface)}\n.ex-part-hd{background:var(--surface-2);padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}\n.ex-part-hd:hover{background:var(--surface-hover)}\n.ex-part-hd h3{font-size:21px;font-weight:700;color:var(--ink)}\n.ex-part-hd span{font-family:'Inter';font-size:18px;color:var(--ink-dim)}\n.ex-part-hd-meta{display:flex;align-items:center;gap:14px;flex:none}\n.ex-timer{font-family:'Space Grotesk';font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink-dim)}\n.ex-timer.ex-timer-up{color:var(--danger)}\n.ex-part-body{display:none;padding:20px}\n.ex-part.open .ex-part-body{display:block}\n.ex-q{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}\n.ex-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}\n.ex-qnum{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}\n.ex-qtext{font-size:21.8px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:13px}\n.ex-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}\n.ex-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface);text-align:left;transition:all .12s}\n.ex-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}\n.ex-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}\n.ex-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}\n.ex-exp{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface-2);padding:11px 14px;border-radius:var(--radius-sm);margin-top:9px;display:none;line-height:1.6}\n.ex-exp.show{display:block}\n.ex-sa{padding:13px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter';font-size:20.2px;color:var(--amber-ink);line-height:1.6;margin-top:9px}\n.ex-sa strong{display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:var(--amber)}\n.ex-score{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px;display:none}\n.ex-score strong{font-family:'Space Grotesk';color:var(--success);font-size:22.5px}\n.ex-score span{font-family:'Inter';color:var(--success);font-size:19.5px}\n.ex-reset{padding:10px 20px;border:1px solid var(--border);border-radius:999px;background:var(--surface);cursor:pointer;font-family:'Space Grotesk';font-weight:600;font-size:19.5px;margin-top:10px;transition:all .15s}\n.ex-reset:hover{background:var(--surface-hover);border-color:var(--border-strong)}\n";
 function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');var idx=-1;tabs.forEach((b,i)=>{if(b.id==='tab-'+id)idx=i;});if(idx!==-1){tabs.forEach((b,i)=>{var on=i===idx;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;});var _hl=document.getElementById('hero-live');if(_hl)_hl.textContent=tabs[idx].textContent.trim()+' tab';}if(id==='examples'&&!examplesBuilt)buildExamples();if(id==='exam'&&!examBuilt)buildExam();var spc=document.getElementById('spc-card');if(spc)spc.style.display=(id==='guide')?'':'none';}
 let examBuilt=false;
 var examplesBuilt=false, ex2map={}, ex2shown={};
@@ -885,20 +958,25 @@ const st=document.createElement('style');st.textContent=EXAM_CSS;document.head.a
 
 v.innerHTML=`
 <div class="ex-header">
-  <h2>Music Theory — Full Practice Exam</h2>
-  <p>Part A (30 pts) · Part B-1 (20 pts) · Part B-2 (15 pts) · Part C (20 pts) · Based on Jan 2026 format</p>
+  <h2>${EXAM_META.title}</h2>
+  <p>${EXAM_META.subtitle}</p>
 </div>
 <div id="ex-score-box" class="ex-score"></div>
-${buildPartMC('A','Part A — Multiple Choice (30 questions, 1 pt each)',PART_A)}
-${buildPartMC('B1','Part B–1 — Multiple Choice (20 questions, 1 pt each)',PART_B1)}
-${buildPartFR('B2','Part B–2 — Short Answer (show work, 1 pt each)',PART_B2)}
-${buildPartFR('C','Part C — Extended Response (1–2 pts each)',PART_C)}
+${buildPartMC('A',PART_A)}
+${buildPartMC('B1',PART_B1)}
+${buildPartFR('B2',PART_B2)}
+${buildPartFR('C',PART_C)}
 `;
 // open Part A by default
-document.getElementById('ex-part-A').classList.add('open');
+togglePart('A');
 }
 
-function buildPartMC(id,title,qs){
+function examPartMeta(id){return (EXAM_META&&EXAM_META.parts&&EXAM_META.parts['PART_'+id])||{};}
+function exTimerHtml(id){return examPartMeta(id).minutes?`<span class="ex-timer" id="timer-${id}"></span>`:'';}
+
+function buildPartMC(id,qs){
+if(!qs.length)return'';
+const meta=examPartMeta(id);
 const items=qs.map(q=>`
 <div class="ex-q" id="exq-${id}-${q.n}">
   <div class="ex-qnum">Question ${q.n}</div>
@@ -910,15 +988,18 @@ const items=qs.map(q=>`
 </div>`).join('');
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${title}</h3><span id="score-${id}">Score: 0 / ${qs.length}</span>
+  <h3>${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'}, 1 pt each)</h3>
+  <div class="ex-part-hd-meta"><span id="score-${id}">Score: 0 / ${qs.length}</span>${exTimerHtml(id)}</div>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
 }
 
-function buildPartFR(id,title,qs){
+function buildPartFR(id,qs){
+if(!qs.length)return'';
 // Some guides author these as genuine free-response (q.sa, a model answer to
 // reveal); others reuse the multiple-choice shape (q.o/q.a) for this part.
 // Render whichever shape the data actually has instead of assuming sa exists.
+const meta=examPartMeta(id);
 const items=qs.map(q=>q.sa!==undefined?`
 <div class="ex-q">
   <div class="ex-qnum">Question ${q.n}</div>
@@ -935,11 +1016,43 @@ const items=qs.map(q=>q.sa!==undefined?`
   <div class="ex-exp" id="exp-${id}-${q.n}">${q.e}</div>
 </div>`).join('');
 const allMC=qs.every(q=>q.sa===undefined);
+const rightMeta=allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`;
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${title}</h3>${allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`}
+  <h3>${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'})</h3>
+  <div class="ex-part-hd-meta">${rightMeta}${exTimerHtml(id)}</div>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
+}
+
+/* Per-part countdown timer. In-memory only (module-level `examTimers`) — a
+   refresh resets it, matching the fact that exam progress/scores are never
+   persisted to localStorage either. Not a proctored test: hitting zero just
+   shows "Time's up" and stops, it never auto-submits or locks the part. */
+var examTimers={};
+function startPartTimer(id){
+  const meta=examPartMeta(id);
+  if(!meta.minutes)return;
+  let t=examTimers[id];
+  if(!t){t=examTimers[id]={remaining:meta.minutes*60,expired:false,intervalId:null};}
+  if(t.expired||t.intervalId)return; // already ticking, or already ran out
+  t.intervalId=setInterval(function(){
+    t.remaining--;
+    if(t.remaining<=0){
+      t.remaining=0;t.expired=true;
+      clearInterval(t.intervalId);t.intervalId=null;
+    }
+    renderPartTimer(id);
+  },1000);
+  renderPartTimer(id);
+}
+function renderPartTimer(id){
+  const el=document.getElementById('timer-'+id);
+  const t=examTimers[id];
+  if(!el||!t)return;
+  if(t.expired){el.textContent="Time's up";el.classList.add('ex-timer-up');return;}
+  const m=Math.floor(t.remaining/60),s=t.remaining%60;
+  el.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
 }
 
 function togglePart(id){
@@ -947,6 +1060,7 @@ function togglePart(id){
   const isOpen=part.classList.toggle('open');
   const hd=part.querySelector('.ex-part-hd');
   if(hd)hd.setAttribute('aria-expanded',isOpen?'true':'false');
+  if(isOpen)startPartTimer(id);
 }
 
 function toggleSA(btn){
@@ -1254,6 +1368,58 @@ function qBookmarkToggle(qid){
 }
 function qId(q){return q.u+'|'+q.q;}
 
+/* Mistake Log: localStorage-backed, keyed the same way as the bookmark set
+   (ssBookmarks_<slug>) — a currently-unresolved-misses list, not full history.
+   A question moves in when answered wrong and out the moment it's answered
+   correctly again (from anywhere: normal quiz, diagnostic, hard mode, or the
+   log's own review pass). */
+var MISTAKE_LOG_KEY='ssMistakes_'+'music-theory';
+function mistakeLogMap(){
+  try{return JSON.parse(localStorage.getItem(MISTAKE_LOG_KEY)||'{}');}catch(e){return {};}
+}
+function mistakeLogSave(map){
+  try{localStorage.setItem(MISTAKE_LOG_KEY,JSON.stringify(map));}catch(e){}
+  updateMistakeLogBadge();
+}
+function mistakeLogAdd(q){
+  const map=mistakeLogMap();
+  map[qId(q)]={u:q.u,q:q.q,o:q.o,a:q.a,e:q.e,d:q.d,topic:q.topic};
+  mistakeLogSave(map);
+}
+function mistakeLogRemove(q){
+  const map=mistakeLogMap();
+  const id=qId(q);
+  if(!(id in map))return;
+  delete map[id];
+  mistakeLogSave(map);
+}
+function updateMistakeLogBadge(){
+  const el=document.getElementById('mistake-log-count');
+  if(!el)return;
+  const n=Object.keys(mistakeLogMap()).length;
+  el.textContent=String(n);
+  el.style.display=n?'':'none';
+}
+var mistakeReviewMode=false;
+function openMistakeLog(){
+  switchTab('quiz');
+  mistakeReviewMode=true;
+  diagMode=false;
+  const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
+  const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
+  const map=mistakeLogMap();
+  qPool=Object.values(map);
+  qIdx=0;score=0;requeueCounts=new WeakMap();
+  const qb=document.getElementById('qbox');
+  if(!qPool.length){
+    qb.innerHTML='<div class="mistake-log-empty">No mistakes logged right now — nice work. Answer a question wrong anywhere in the quiz and it will show up here until you get it right.</div>';
+    document.getElementById('q-prog').textContent='';
+    document.getElementById('q-sc').textContent='';
+    return;
+  }
+  showQ();
+}
+
 function quizShuffle(){
   if(!qPool.length)return;
   for(let i=qPool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[qPool[i],qPool[j]]=[qPool[j],qPool[i]];}
@@ -1288,8 +1454,15 @@ function buildQSel(){
   if(HQ.length)sel.innerHTML+='<option value="hard">Hard Mode Only ('+HQ.length+' Qs)</option>';
   loadQ();
 }
+let difficultyFilter='all';
+function setDifficultyFilter(d){
+  difficultyFilter=d;
+  document.querySelectorAll('.diff-chip').forEach(function(c){c.classList.toggle('on',c.dataset.diff===d);});
+  loadQ();
+}
 function loadQ(){
   diagMode=false;
+  mistakeReviewMode=false;
   const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
   const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
   const raw=document.getElementById('q-sel').value;
@@ -1298,6 +1471,7 @@ function loadQ(){
   if(raw==='hard')src=HQ.slice();
   else if(+raw===0)src=QUIZ.concat(HQ);
   else src=QUIZ.concat(HQ).filter(q=>q.u===+raw);
+  if(difficultyFilter!=='all')src=src.filter(q=>q.d===difficultyFilter);
   qPool=src.sort(()=>Math.random()-.5);
   qIdx=0;score=0;requeueCounts=new WeakMap();showQ();
 }
@@ -1364,8 +1538,10 @@ function showQ(){
   const bookmarked=qBookmarkSet().has(bid);
   const STAR_OUTLINE='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
   const STAR_FILLED='<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
-  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>`+
+  const diffPill=q.d?`<span class="q-diff q-diff-${q.d}">${q.d}</span>`:'';
+  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>${diffPill}`+
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
+    (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
     `<button class="q-hint-btn" id="q-hint-btn" onclick="toggleQHint()">💡 Hint</button>`+
     `<div class="q-hint-box" id="q-hint-box">Hint: this is from Unit ${q.u}: ${unitNameFor(q.u)}</div>`+
@@ -1431,6 +1607,7 @@ function ansQ(i){
     }
   }
   if(SS_MASTERY)SS_MASTERY.recordAnswer(q.u,i===q.a);
+  if(i===q.a)mistakeLogRemove(q);else mistakeLogAdd(q);
   ssOverallProgressUpdate();
   const expEl=document.getElementById('q-exp');
   expEl.classList.add('show');
@@ -1460,6 +1637,7 @@ function ssQuizKeyboardShortcuts(e){
 }
 document.addEventListener('keydown',ssQuizKeyboardShortcuts);
 buildQSel();
+updateMistakeLogBadge();
 
 /* ----- APG tabs: roving-tabindex arrow-key nav on the hero tab bar. Manual
    activation — arrows move focus only; Enter/Space fire the button's own click
@@ -1863,6 +2041,105 @@ async function ssQuizTabClick(){
 }
 
 ssCheckSession();
+
+/* ----- Reference drawer: a compact, always-available companion to the full
+   Quick Reference TAB. Reuses the exact HTML the generator already emits into
+   #view-qref (buildQref() in generate-guide.mjs) instead of rebuilding it —
+   the drawer body is filled by copying that markup once, on first open. ----- */
+function qrefDrawerOpen(){
+  var panel=document.getElementById('qref-drawer');
+  if(!panel)return;
+  var body=document.getElementById('qref-drawer-body');
+  if(body&&!body.dataset.filled){
+    var src=document.getElementById('view-qref');
+    if(src){body.innerHTML=src.innerHTML;body.dataset.filled='1';}
+  }
+  panel.classList.add('open');
+  panel.setAttribute('aria-hidden','false');
+  var fab=document.getElementById('qref-drawer-fab');
+  if(fab)fab.setAttribute('aria-expanded','true');
+  var closeBtn=panel.querySelector('.qref-drawer-close');
+  if(closeBtn)closeBtn.focus();
+  document.addEventListener('keydown',qrefDrawerKeydown);
+}
+function qrefDrawerClose(){
+  var panel=document.getElementById('qref-drawer');
+  if(!panel||!panel.classList.contains('open'))return;
+  panel.classList.remove('open');
+  panel.setAttribute('aria-hidden','true');
+  var fab=document.getElementById('qref-drawer-fab');
+  if(fab){fab.setAttribute('aria-expanded','false');fab.focus();}
+  document.removeEventListener('keydown',qrefDrawerKeydown);
+}
+function qrefDrawerToggle(){
+  var panel=document.getElementById('qref-drawer');
+  if(panel&&panel.classList.contains('open'))qrefDrawerClose();else qrefDrawerOpen();
+}
+function qrefDrawerKeydown(e){if(e.key==='Escape')qrefDrawerClose();}
+
+/* ----- Optional Desmos graphing calculator. Disabled by default: leave
+   DESMOS_API_KEY empty and this entire feature (button, panel, external
+   script) never appears and never makes a network request. To enable it,
+   the site owner gets a free key for personal/school use at
+   https://www.desmos.com/api/v1.12/calculator.js docs (sign in at
+   desmos.com/my-api) and pastes it in below. Generic — available on every
+   guide once a key is configured, not gated to any subject. ----- */
+const DESMOS_API_KEY = "";
+let desmosScriptLoaded=false, desmosCalculator=null;
+function desmosInit(){
+  if(!DESMOS_API_KEY)return;
+  var fab=document.createElement('button');
+  fab.id='desmos-fab';
+  fab.className='desmos-fab';
+  fab.type='button';
+  fab.setAttribute('aria-label','Toggle graphing calculator');
+  fab.setAttribute('aria-expanded','false');
+  fab.title='Graphing calculator';
+  fab.textContent='\u{1F4C8}';
+  fab.onclick=desmosToggle;
+  document.body.appendChild(fab);
+
+  var panel=document.createElement('div');
+  panel.id='desmos-panel';
+  panel.className='desmos-panel';
+  panel.setAttribute('role','dialog');
+  panel.setAttribute('aria-modal','true');
+  panel.setAttribute('aria-label','Graphing calculator');
+  panel.setAttribute('aria-hidden','true');
+  panel.innerHTML='<div class="desmos-panel-hd"><b>Graphing Calculator</b>'+
+    '<button type="button" class="desmos-panel-close" aria-label="Close graphing calculator">✕</button></div>'+
+    '<div class="desmos-calc" id="desmos-calc"></div>';
+  document.body.appendChild(panel);
+  panel.querySelector('.desmos-panel-close').onclick=desmosToggle;
+}
+function desmosToggle(){
+  var panel=document.getElementById('desmos-panel');
+  if(!panel)return;
+  var opening=!panel.classList.contains('open');
+  panel.classList.toggle('open',opening);
+  panel.setAttribute('aria-hidden',opening?'false':'true');
+  var fab=document.getElementById('desmos-fab');
+  if(fab)fab.setAttribute('aria-expanded',opening?'true':'false');
+  if(opening){
+    document.addEventListener('keydown',desmosKeydown);
+    if(!desmosScriptLoaded)desmosLoadScript();
+  }else{
+    document.removeEventListener('keydown',desmosKeydown);
+    if(fab)fab.focus();
+  }
+}
+function desmosKeydown(e){if(e.key==='Escape')desmosToggle();}
+function desmosLoadScript(){
+  desmosScriptLoaded=true;
+  var s=document.createElement('script');
+  s.src='https://www.desmos.com/api/v1.12/calculator.js?apiKey='+encodeURIComponent(DESMOS_API_KEY);
+  s.onload=function(){
+    var el=document.getElementById('desmos-calc');
+    if(el&&window.Desmos)desmosCalculator=Desmos.GraphingCalculator(el);
+  };
+  document.head.appendChild(s);
+}
+desmosInit();
 
 /* ----- unit-filtered practice, e.g. /chemistry?practice=3 (from the dashboard's "study this next") ----- */
 (async function ssPracticeMode(){

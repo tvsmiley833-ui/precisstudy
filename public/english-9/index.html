@@ -273,6 +273,16 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .q-block:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .q-block-hd{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px}
 .q-text{font-size:24.8px;font-weight:600;color:var(--ink);line-height:1.55;flex:1}
+.q-diff{flex:none;display:inline-block;padding:3px 11px;border-radius:999px;font-size:13px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;border:1px solid transparent;align-self:flex-start;margin-top:2px}
+.q-diff-easy{background:var(--success-soft);color:var(--success);border-color:var(--success-border)}
+.q-diff-medium{background:var(--amber-soft);color:var(--amber-ink);border-color:var(--amber)}
+.q-diff-hard{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}
+.q-topic{font-size:14.5px;color:var(--ink-dim);margin:-14px 0 14px;font-style:italic}
+.mistake-log-btn{position:relative}
+.mistake-log-count{display:inline-block;margin-left:6px;background:var(--danger);color:#fff;border-radius:999px;
+  font-size:12px;font-weight:700;padding:1px 7px}
+.mistake-log-empty{padding:24px;text-align:center;color:var(--ink-muted);font-size:18px}
 .q-bookmark{flex:none;background:none;border:none;cursor:pointer;color:var(--ink-dim);padding:2px;border-radius:6px;transition:color .15s ease,transform .15s ease}
 .q-bookmark:hover{color:var(--amber);transform:scale(1.08)}
 .q-bookmark.on{color:var(--amber)}
@@ -514,6 +524,51 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 .back-to-top:hover{color:var(--ink);border-color:var(--accent)}
 .back-to-top svg{width:20px;height:20px;display:block}
 
+/* ---- reference drawer: quick-access companion to the Quick Reference tab,
+   reachable from any tab. Sits bottom-center, clear of back-to-top
+   (bottom:22/left:22..74) and #cbot-fab (bottom:22/right:22..78). ---- */
+.qref-drawer-fab{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);width:52px;height:52px;
+  border-radius:50%;background:var(--surface);color:var(--ink-muted);border:1px solid var(--border-strong);
+  cursor:pointer;box-shadow:var(--shadow-md);z-index:190;display:flex;align-items:center;justify-content:center;
+  transition:color .15s ease,border-color .15s ease}
+.qref-drawer-fab:hover{color:var(--accent);border-color:var(--accent)}
+.qref-drawer-fab svg{width:20px;height:20px;display:block}
+.qref-drawer{position:fixed;top:0;right:0;height:100dvh;width:min(420px,100vw);background:var(--surface);
+  border-left:1px solid var(--border-strong);box-shadow:var(--shadow-lg);z-index:210;display:flex;flex-direction:column;
+  transform:translateX(100%);opacity:0;visibility:hidden;transition:transform .25s ease,opacity .25s ease,visibility 0s linear .25s}
+.qref-drawer.open{transform:translateX(0);opacity:1;visibility:visible;transition:transform .25s ease,opacity .25s ease}
+.qref-drawer-hd{display:flex;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--surface-2);flex-shrink:0}
+.qref-drawer-hd b{font-family:'Space Grotesk';font-size:20px;color:var(--ink);flex:1}
+.qref-drawer-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:6px 8px;border-radius:6px}
+.qref-drawer-close:hover{color:var(--ink);background:var(--surface-hover)}
+.qref-drawer-body{flex:1;overflow-y:auto;padding:16px}
+.qref-drawer-body .qr-section:not(:last-child){margin-bottom:20px}
+@media(max-width:600px){
+  .qref-drawer{width:100vw}
+}
+
+/* ---- optional Desmos graphing calculator (see DESMOS_API_KEY in logic.js).
+   Markup is only ever created by JS when a key is configured, so this CSS
+   has no visible effect until then. Placed clear of #cbot-fab (right:22..78). ---- */
+.desmos-fab{position:fixed;bottom:22px;right:90px;width:52px;height:52px;border-radius:50%;
+  background:var(--accent);color:#fff;border:none;font-size:22px;cursor:pointer;
+  box-shadow:0 8px 24px -6px rgba(15,122,112,.4);z-index:195;display:flex;align-items:center;justify-content:center;
+  transition:transform .15s ease}
+.desmos-fab:hover{transform:scale(1.06)}
+.desmos-panel{position:fixed;bottom:88px;right:90px;width:min(380px,calc(100vw - 32px));
+  height:min(420px,calc(100dvh - 160px));background:var(--surface);border:1px solid var(--border-strong);
+  border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:205;display:none;flex-direction:column;overflow:hidden}
+.desmos-panel.open{display:flex}
+.desmos-panel-hd{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+.desmos-panel-hd b{font-family:'Space Grotesk';font-size:18px;color:var(--ink);flex:1}
+.desmos-panel-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:4px 6px;border-radius:6px}
+.desmos-panel-close:hover{color:var(--ink);background:var(--surface-hover)}
+.desmos-calc{flex:1;width:100%;height:100%}
+@media(max-width:600px){
+  .desmos-fab{right:22px;bottom:82px}
+  .desmos-panel{right:12px;bottom:144px}
+}
+
 /* ---- print / export ---- */
 @media print{
   :root,[data-theme="dark"]{
@@ -528,7 +583,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
   body{background:#fff;color:#000}
   body::before,.hero::after{display:none!important}
   #theme-toggle,.search-wrap,.ss-sticky-top .filter-row-wrap,.mobile-only-select,.nav,.nav-spacer,.tablist,
-  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
+  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.qref-drawer-fab,.qref-drawer,.desmos-fab,.desmos-panel,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
   .search-kbd,.ss-overall-progress,.q-kbd-hint,.diag-btn{display:none!important}
   *{position:static!important;box-shadow:none!important}
   .unit-body{display:block!important}
@@ -707,6 +762,13 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <div class="q-bar">
     <select id="q-sel" aria-label="Choose a question set" onchange="loadQ()"></select>
     <button class="btn" type="button" onclick="quizShuffle()" style="font-size:14px;padding:7px 14px">⇄ Shuffle</button>
+    <div class="diff-chips" role="group" aria-label="Filter by difficulty" style="display:flex;gap:6px">
+      <button class="chip on diff-chip" type="button" data-diff="all" onclick="setDifficultyFilter('all')">All</button>
+      <button class="chip diff-chip" type="button" data-diff="easy" onclick="setDifficultyFilter('easy')">Easy</button>
+      <button class="chip diff-chip" type="button" data-diff="medium" onclick="setDifficultyFilter('medium')">Medium</button>
+      <button class="chip diff-chip" type="button" data-diff="hard" onclick="setDifficultyFilter('hard')">Hard</button>
+    </div>
+    <button class="btn mistake-log-btn" type="button" onclick="openMistakeLog()">Mistake Log<span class="mistake-log-count" id="mistake-log-count" style="display:none">0</span></button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -837,6 +899,16 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
   <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
 </button>
+<button type="button" id="qref-drawer-fab" class="qref-drawer-fab" onclick="qrefDrawerToggle()" aria-label="Open quick reference" aria-expanded="false" aria-controls="qref-drawer" title="Quick Reference">
+  <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+</button>
+<div id="qref-drawer" class="qref-drawer" role="dialog" aria-modal="true" aria-label="Quick Reference" aria-hidden="true">
+  <div class="qref-drawer-hd">
+    <b>Quick Reference</b>
+    <button type="button" class="qref-drawer-close" onclick="qrefDrawerToggle()" aria-label="Close quick reference">✕</button>
+  </div>
+  <div class="qref-drawer-body" id="qref-drawer-body"></div>
+</div>
 <script>
 const UNITS=[{"id":1,"name":"Elements of Story","concepts":[{"l":"Plot structure","intro":"Stories follow a shape: exposition → rising action → climax → falling action → resolution.","b":["Exposition sets characters, setting, and the status quo the story will disturb","Rising action piles on complications — each conflict raises stakes","Climax = the turning point where the protagonist's fate tips; highest tension, not necessarily loudest scene","Falling action releases tension; resolution ties loose ends (denouement)","Not every story follows this line linearly — in medias res starts mid-action, flashbacks loop back"]},{"l":"Point of view","intro":"Who tells the story controls what readers know and trust.","b":["First person: I narrator — intimate but limited; everything filtered through one mind","Second person: you — rare, immersive (choose-your-own-adventure effect)","Third limited: outside narrator locked to ONE character's thoughts","Third omniscient: narrator knows everyone's inner life","Unreliable narrator: first-person voice whose account we suspect — irony engine"]},{"l":"Characterization methods","intro":"Characters emerge through what they do, say, think, look like — and what others say.","b":["Direct characterization: author states traits outright ('She was stubborn')","Indirect (STEAL): Speech, Thoughts, Effects on others, Actions, Looks","Protagonist drives the plot; antagonist opposes — not always a villain, sometimes nature or self","Flat vs round: flat = one trait; round = complex, capable of surprise","Static vs dynamic: dynamic characters CHANGE by the end — arc is the point"]},{"l":"Conflict types","intro":"Every plot runs on conflict; four classic engines.","b":["Person vs person: the visible duel (rival, villain, sibling)","Person vs self: internal war — fear, guilt, addiction; often the deepest arc","Person vs society: laws, norms, institutions press on an individual","Person vs nature/fate: survival against storm, disease, destiny"]}],"keyFacts":["Climax = turning point, not 'most exciting moment' by volume","Third limited = one head; omniscient = all heads","Dynamic characters change; static ones reveal the world around them"],"traps":["Climax ≠ ending — resolutions come AFTER the climax","Antagonist isn't automatically evil; it's whatever blocks the protagonist","First-person narrators can lie or misread — don't equate narrator with author"]},{"id":2,"name":"Figurative Language & Literary Devices","concepts":[{"l":"Comparison devices","intro":"Simile, metaphor, and personification trade literal language for imaginative force.","b":["Simile compares WITH like/as: 'Brave as a lion'","Metaphor compares WITHOUT: 'Time is a thief' — asserts identity","Extended metaphor runs across a whole passage/poem (allegory lives here)","Personification gives human traits to non-human: 'The wind whispered'","Implied metaphor skips naming one side: 'She sailed through exams'"]},{"l":"Sound & repetition devices","intro":"Poets and prose stylists pattern sound to make language memorable.","b":["Alliteration: repeated initial consonants ('Peter Piper')","Assonance: repeated vowel sounds inside words ('the light of the fire')","Consonance: repeated consonant sounds ('pitter-patter')","Onomatopoeia: words that imitate sound (buzz, crash)","Hyperbole = deliberate exaggeration ('I've told you a million times')"]},{"l":"Irony family","intro":"Irony lives in the gap between expectation and reality.","b":["Verbal irony: saying the opposite of meaning ('Lovely weather' in a storm)","Situational irony: outcome contradicts expectation (fire station burns down)","Dramatic irony: AUDIENCE knows what character doesn't — horror and tragedy fuel it","Sarcasm = bitter verbal irony aimed at someone"]},{"l":"Allusion & symbol vs motif","intro":"References and recurring images deepen theme.","b":["Allusion: brief reference to myth, Bible, history ('He's a real Romeo')","Symbol: object standing for bigger idea (dove → peace); concrete carrying abstract","Motif: recurring image/idea that gains meaning through repetition","A symbol appears once possible; a motif MUST recur"]}],"keyFacts":["Simile uses like/as; metaphor doesn't — that's the whole test","Dramatic irony = reader knows, character doesn't","Symbol once vs motif repeats — recurrence defines motif"],"traps":["'The rain cried' is personification, NOT pathetic fallacy confusion — keep terms precise","Hyperbole isn't meant literally — flagging it as a 'lie' misses the point","Verbal irony ≠ coincidence: situational irony needs expectation violated"]},{"id":3,"name":"Symbolism, Theme & Motif","concepts":[{"l":"Finding theme","intro":"Theme is the argument a story makes about life — a full idea, not one word.","b":["Theme ≠ topic: topic = 'love'; theme = 'Love demands sacrifice'","State themes as complete sentences about how the world works","Themes are debatable — evidence must support your reading","Multiple themes coexist; major + minor threads weave together"]},{"l":"Theme evidence method","intro":"Claims about theme stand on three-legged evidence: pattern, pivot, payoff.","b":["Pattern: what recurs (images, phrases, situations) — motifs point at theme","Pivot: the moment characters realize/choose — thematic thesis lives in choices","Payoff: ending's consequence — what the story rewards or punishes","Formula to avoid plot summary: 'By doing X, the author argues Y'"]},{"l":"Symbol deep-reads","intro":"Common literary symbols and how context bends their meaning.","b":["Water: baptism/rebirth — or drowning/danger; direction depends on treatment","Seasons: spring birth, winter death; autumn harvest or decline","Light/dark: knowledge vs ignorance, safety vs threat","A symbol means what THIS text earns — no symbol dictionary beats context"]},{"l":"Title & framing devices","intro":"Titles, frame stories, and endings encode theme deliberately.","b":["Titles often name the central symbol or ironic phrase ('The Gift of the Magi')","Frame narrative (story inside story) contrasts values across tellings","Circular endings repeat an image changed by experience","Last lines reward rereading — authors plant theme in final sentences"]}],"keyFacts":["Theme = full sentence argument; topic = single word","Evidence trio for theme essays: pattern → pivot → payoff","Symbols earn meaning from context, not from symbol dictionaries"],"traps":["'Love' is a TOPIC not a theme — theme must assert something about love","Don't hunt symbols first and force theme later; patterns emerge FROM reading","Motif ≠ symbol strictly: motif recurs; a symbol can fire once"]},{"id":4,"name":"Poetry Essentials","concepts":[{"l":"Form & structure","intro":"Lines, stanzas, and fixed forms shape a poem before a single word lands.","b":["Stanza names: couplet (2), tercet (3), quatrain (4), sestet (6), octave (8)","Sonnet = 14 lines: Shakespearean (ABAB CDCD EFEF GG) vs Petrarchan (octave+sestet)","Free verse abandons meter/rhyme — but still makes deliberate line breaks","Enjambment runs syntax past line end; caesura = pause mid-line"]},{"l":"Meter & rhythm","intro":"Feet are stress-pattern bricks; iambic is English's native beat.","b":["Iamb = unstressed-STRESSED (da-DUM): 'Shall I comPARE thee…'","Trochee reversed (DUM-da); anapest (da-da-DUM); dactyl (DUM-da-da)","Measure by count: pentameter = five feet per line — iambic pentameter = 10 syllables","Spondee (STRESS-STRESS) slows lines for weight"]},{"l":"Rhyme & sound scheme","intro":"Rhyme maps a poem's skeleton with letters.","b":["Mark rhyme ABAB by end-sounds; slant rhyme is near-rhyme ('worm/form')","Internal rhyme sits INSIDE lines; rhyme scheme reveals stanza logic","Couplets snap conclusions — Shakespeare's sonnets argue then flip in the final couplet","Refrain returns whole lines like choruses — villanelles live on repetition"]},{"l":"Speaker & tone","intro":"Every poem has a constructed voice, distinct from the poet.","b":["Speaker ≠ author always — dramatized voices, personas, monologues","Tone = speaker's attitude; diction and imagery carry it","Shifts (volta!) mark turns: sonnet volta arrives at line 9 or the couplet","Ask: who speaks, to whom, under what circumstances, wanting what?"]}],"keyFacts":["Iambic pentameter = 5 iambs = 10 syllables, da-DUM × 5","Shakespearean sonnet: 14 lines, ABAB CDCD EFEF GG, volta often in couplet","Speaker ≠ poet — analyze the constructed voice"],"traps":["Free verse isn't formless — line breaks and stanzas still make meaning","Rhyme SCHEME letters track END sounds only, not internal rhymes","The volta is a TURN in thought, not just another line"]},{"id":5,"name":"The Epic & The Odyssey","concepts":[{"l":"Epic conventions","intro":"Epic poems share a toolkit: invocation, epithets, vast scope, divine machinery.","b":["Invocation: poet calls on a Muse to tell the story (Sing through me…)","In medias res: action starts mid-journey; backstory arrives via flashback","Epithet: recurring tag phrases — 'rosy-fingered Dawn,' 'Odysseus of many wiles'","Epic simile: extended comparisons running several lines, elevating the moment"]},{"l":"The hero's journey template","intro":"Odysseus's route maps the classic monomyth arc.","b":["Call & refusal/launch → trials at sea (Lotus, Cyclops, Circe, Sirens, Scylla)","Underworld visit = descent and knowledge gained (Tiresias's prophecy)","Homecoming disguise/test phase — Odysseus returns as beggar to test loyalty","Return/restoration: reclaiming home, restoring order, reunions earned"]},{"l":"Key episodes & what they prove","intro":"Each trial tests a different virtue or flaw.","b":["Cyclops Polyphemus: wit over strength ('Nobody' trick) but hubris in shouting his name — curse follows","Sirens: temptation of knowledge/past; binding to mast = discipline beats desire","Scylla & Charybdis: impossible choices — sacrifice some crew to save the ship","Suitors & the bow test: identity proven through competence only he possesses"]},{"l":"Xenia & Greek values","intro":"Hospitality is the epic's moral operating system.","b":["Xenia = guest-host law: hosts feed/gift guests BEFORE asking names","Violations of xenia draw punishment: suitors' doom is moral, not just plot","Kleos (glory/fame) motivates heroes — reputation outlives life","Nostos = homecoming song — the Odyssey IS the great nostos poem"]}],"keyFacts":["In medias res + invocation + epithets = instant epic markers","Xenia violations drive the plot's justice: the suitors die for breaking hospitality","Epithets aid oral memory: 'wine-dark sea,' 'clever Odysseus'"],"traps":["The Odyssey doesn't begin with Odysseus — it opens on Telemachus (the Telemachy)","Hubris means overreaching pride against gods' order, not just 'confidence'","Aeolus's wind bag fails because the CREW opens it — distrust, not Odysseus's sleep alone"]},{"id":6,"name":"Rhetoric & Persuasion","concepts":[{"l":"Ethos, pathos, logos","intro":"Aristotle's three appeals still structure every argument you'll read.","b":["Ethos: credibility — credentials, experience, fair tone, shared values","Pathos: emotion — stories, vivid images, fear/hope/pride activation","Logos: logic — facts, statistics, syllogisms, cause-effect chains","Strong arguments braid all three; pure logos can feel cold, pure pathos manipulative"]},{"l":"Claim, reasons, evidence","intro":"Arguments build from a debatable claim down through support.","b":["Claim must be ARGUABLE — reasonable people could disagree","Reasons = mini-claims explaining why the claim holds","Evidence types: facts/stats, expert testimony, examples/anecdotes, analogies","Warrant: the unstated link between evidence and claim — make it explicit"]},{"l":"Counterargument & rebuttal","intro":"Strong writers invite the opposition in — then answer it.","b":["Address the strongest counterargument, not a strawman","Concede where true ('It's true that costs rise…'), then pivot ('…but the long-term…')","Rebuttal structure: they say → but → because (evidence) → so","Refuting weak versions of opponents' views backfires with informed readers"]},{"l":"Persuasive techniques in the wild","intro":"Ads, speeches, and op-eds deploy repeatable moves worth naming.","b":["Rhetorical question: plants your conclusion as the audience's own thought","Anaphora: repeated openers build momentum ('We shall fight… we shall fight')","Tricolon: three-part lists feel complete ('life, liberty, and the pursuit…')","Loaded language: word choice smuggling judgment ('reform' vs 'gut')"]}],"keyFacts":["Ethos = credibility · pathos = emotion · logos = logic","Claim → reasons → evidence → warrant: make the unstated link explicit","Best rebuttals concede what's true, then outweigh it"],"traps":["A counterargument isn't weakness — omitting it is","Pathos isn't automatically bad; unearned pathos is the problem","Correlation in 'evidence' isn't causation — watch for leap-in-logic logos"]},{"id":7,"name":"Grammar & Mechanics Essentials","concepts":[{"l":"Clauses & sentence types","intro":"Independent clauses can stand alone; dependents cannot — that's the whole architecture.","b":["Independent clause = complete thought: 'The bell rang'","Dependent clause starts with subordinator (because, although, when): 'Because it rained…'","Simple = 1 IC · Compound = IC + IC (fanboys) · Complex = IC + DC · Compound-complex = 2+ IC + 1+ DC","Avoid comma splices (IC,IC) and run-ons — fix with period, semicolon, or fanboy"]},{"l":"Comma rules that matter","intro":"Six comma jobs cover 95% of real writing.","b":["Items in a series (with Oxford comma for clarity): red, white, and blue","After intro elements: 'After the game, we ate'","Around nonessential appositives: 'My brother, a chef, cooks' — essential ones take no commas","Before fanboys joining two ICs; NEVER between verb and its object","With quotes splitting dialogue tags: 'I'm here,' she said."]},{"l":"Apostrophes & pronoun cases","intro":"Possession vs contraction; subject vs object pronouns.","b":["Singular possessive 's; plural ending in s takes just an apostrophe (the dogs' bowls)","Its = possessive; it's = it is — the classic trap","Pronoun case: I/he/she/they as subjects; me/him/her/them as objects","Compare formally: 'She's taller than I (am)' — the missing verb reveals case"]},{"l":"Agreement & common errors","intro":"Subjects agree with verbs; pronouns agree with antecedents.","b":["Intervening phrases don't change agreement: 'The box of nails IS heavy'","Indefinite pronouns: each/everyone/either = singular","They/them now standard for singular unknown gender reference","Shift avoidance: keep person and number consistent within sentences"]}],"keyFacts":["Compound needs a comma + fanboy before the second IC","its = possessive / it's = it is","Subject-verb agreement ignores interrupting prepositional phrases"],"traps":["'Between you and me' — prepositions take OBJECT case; 'between you and I' is the hypercorrection error","Nonessential appositive commas change meaning: my sister Ann (essential) vs my sister, Ann (one sister only)","Fewer for countables, less for amounts: fewer calories, less sugar"]},{"id":8,"name":"Writing: Thesis, Evidence & Paragraph Craft","concepts":[{"l":"Thesis construction","intro":"A thesis is a specific, arguable roadmap — not a fact or announcement.","b":["Weak: 'This essay is about social media.' Strong: 'Social media erodes teen attention by rewarding speed over depth.'","Formula starter: [Subject] + [your arguable assertion] + [because/reason frame]","Place at end of intro in timed essays; complexity can split across two sentences","Test: could a smart person argue the opposite? If not, it's a fact, not a thesis"]},{"l":"Paragraph anatomy (PEEL)","intro":"Body paragraphs are self-contained argument units.","b":["Point: topic sentence stating THIS paragraph's mini-claim (links to thesis)","Evidence: quote/data/fact — introduced with context, never dropped naked","Explanation: YOUR analysis of how evidence proves the point — longest part","Link: closing sentence ties back to thesis / bridges to next paragraph"]},{"l":"Embedding quotations","intro":"Quotes serve your syntax; they never stand alone.","b":["Integrate grammar-wise: She calls the sea 'a breaker of hearts,' framing…","Signal verbs vary: argues, suggests, admits, observes — avoid 'says' repetition","Cite properly per class style (page/line); ellipses trim middles honestly","Quote only what you'll analyze — paraphrase background, quote language worth weighing"]},{"l":"Openings & conclusions","intro":"Intros hook then commit; conclusions land the significance.","b":["Hook options: surprising stat, vivid scene image, provocative question (then ANSWER it)","Funnel shape: broad-but-relevant → narrower → thesis","Conclusions restate thesis in NEW words + zoom out to significance ('why this matters')","No new evidence in conclusions — synthesis, not surprise"]}],"keyFacts":["Thesis test: could someone reasonably disagree?","PEEL = Point, Evidence, Explanation, Link — explanation is the longest block","Never drop a quote without introducing and analyzing it"],"traps":["Plot summary ≠ analysis — every body paragraph must ARGUE something","'In conclusion…' announcements weaken endings; just conclude","Announcing a topic ('I will write about courage') isn't a thesis"]}];
 const DIAGRAMS={};
@@ -848,7 +920,8 @@ const PART_A=[{"n":1,"q":"The exposition of a story establishes:","o":["the clim
 const PART_B1=[{"n":31,"q":"Rising action functions to:","o":["resolve conflict","complicate and raise stakes toward climax","introduce theme last","end the story"],"a":1,"e":"Complications tighten tension en route to the turning point."},{"n":32,"q":"First-person POV risks:","o":["omniscience","unreliability and limited knowledge","head-hopping","rhyming"],"a":1,"e":"One mind filters everything — bias included."},{"n":33,"q":"An extended metaphor across a whole poem borders on:","o":["allegory","caesura","slant rhyme","litotes"],"a":0,"e":"Sustained figurative systems read allegorically."},{"n":34,"q":"Assonance repeats:","o":["initial consonants","vowel sounds","final consonants","whole words"],"a":1,"e":"Vowel echoes inside words: light/fire/kind."},{"n":35,"q":"A title naming the central object usually flags:","o":["symbol/theme centrality","the author's name","genre","nothing"],"a":1,"e":"Titles often plant the controlling symbol."},{"n":36,"q":"Petrarchan sonnet divides into:","o":["three quatrains + couplet","octave + sestet","couplets only","free stanzas"],"a":1,"e":"8-line problem, 6-line turn at line 9."},{"n":37,"q":"Scylla and Charybdis forces:","o":["a riddle","choosing between two evils","a wedding","a storm god's trial"],"a":1,"e":"Sacrifice some crew or lose all."},{"n":38,"q":"Epithets originally served:","o":["oral poets' memory and meter","printing houses","editors","censors"],"a":0,"e":"Formula tags aided performing bards."},{"n":39,"q":"Logos fails when correlation implies:","o":["causation","statistics","samples","charts"],"a":0,"e":"X before Y isn't X causes Y."},{"n":40,"q":"Tricolon effect:","o":["completeness via three parts","confusion","doubt","brevity only"],"a":0,"e":"Triads feel finished and quotable."},{"n":41,"q":"Essential appositive commas:","o":["always required","omitted when phrase identifies uniquely","illegal","poetic license"],"a":1,"e":"My sister Ann takes no commas; my sister, Ann, does."},{"n":42,"q":"Fewer vs less:","o":["fewer chairs, less water","less chairs","fewer water","interchangeable"],"a":0,"e":"Count nouns: fewer; mass nouns: less."},{"n":43,"q":"Quote ellipses are honest when they:","o":["change meaning","trim non-essential middles faithfully","hide counter-evidence","add words"],"a":1,"e":"Trimming fine; distortion not."},{"n":44,"q":"Dynamic arc payoff appears in:","o":["exposition","climax choice & final state","title","footnotes"],"a":1,"e":"Change crystallizes in decisions and endings."},{"n":45,"q":"Personification differs from anthropomorphism by:","o":["giving traits vs full characterhood","being shorter","rhyming","never in poems"],"a":0,"e":"Wind whispers vs talking-animal casts."},{"n":46,"q":"Best thesis placement in timed essays:","o":["first sentence","end of introduction","middle paragraph","conclusion only"],"a":1,"e":"Hook, funnel, then thesis lands."},{"n":47,"q":"Hubris in the Odyssey:","o":["Odysseus shouting his name to the Cyclops","Penelope weaving","Telemachus sailing","Argos barking"],"a":0,"e":"Bragging earns Poseidon's curse."},{"n":48,"q":"Warrant gaps appear when evidence:","o":["supports obviously","sits unconnected to the claim","is quoted","is cited"],"a":1,"e":"Spell out why-this-proves-that."},{"n":49,"q":"Slant rhyme pairs:","o":["worm/form","cat/hat","moon/june","sing/ring"],"a":0,"e":"Near-match consonants; imperfect vowels."},{"n":50,"q":"Counterargument placement works best:","o":["never mentioned","after your strongest point, before conclusion","first line","in footnotes"],"a":1,"e":"Address opposition late, land your closer."}];
 const PART_B2=[{"n":51,"q":"Unpack the symbolism: a wilting plant on a windowsill across three scenes most likely tracks:","o":["gardening tips","a relationship's or hope's decline — and possibly revival at scene's end","weather","the narrator's allergy"],"a":1,"e":"Recurring object + placement near key moments = thematic barometer; the last appearance decides direction."},{"n":52,"q":"Distinguish the speaker's stance from the poet's in one sentence:","o":["They are always identical","The speaker is a constructed voice; the poet authors it — stances may clash (ironist's mask)","Poets never construct voices","Only sonnets have speakers"],"a":1,"e":"Persona poems make the speaker/poet gap the whole point."},{"n":53,"q":"Which thesis BEST fits evidence about later school starts improving attendance?","o":["Schools start too early.","Because teen circadian rhythms run late, delayed start times measurably raise attendance — districts should adopt them.","Attendance matters.","Some kids are tired."],"a":1,"e":"Specific claim + causal reasoning + policy payoff = full-strength thesis."},{"n":54,"q":"Name the device: 'Ask not what your country can do for you…'","o":["chiasmus/antithesis with inverted structure","simile","understatement","apostrophe to an absent person"],"a":0,"e":"Mirrored reversal of structure = chiasmus; also antithetical framing."},{"n":55,"q":"A director frames the Sirens scene with Odysseus straining against ropes. The shot argues:","o":["discipline as costly but saving","music is evil","sailing is fun","crew loyalty"],"a":0,"e":"Visual emphasis on restraint dramatizes the discipline-over-desire theme."},{"n":56,"q":"Fix and justify: 'Each of the players have a locker.'","o":["have → has: 'each' is singular regardless of the plural noun that follows","have is fine","players → player","drop of"],"a":0,"e":"Indefinite pronoun each takes singular agreement."},{"n":57,"q":"Why does Homer delay Odysseus's reveal until the bow test?","o":["Padding","Identity proven through competence makes the reunion earned, not given","He forgot","To honor Antinous"],"a":1,"e":"Narrative deferral converts recognition into justice."},{"n":58,"q":"Convert to formal register: 'Kids these days don't even read, which is super bad.'","o":["Contemporary students read less frequently, a trend with measurable costs.","Kids = bad readers now.","Reading is dead.","Whatever."],"a":0,"e":"Formal register: precise nouns, hedged claims, no slang intensifiers."},{"n":59,"q":"Spot the faulty logos: 'Sales rose after our mascot change, so the mascot caused it.'","o":["Valid causal inference","Post hoc reasoning — other variables uncontrolled","Pathos","Ethos appeal"],"a":1,"e":"Sequence isn't causation; confounds abound."},{"n":60,"q":"Choose the correctly punctuated complex sentence:","o":["Although the storm passed, the harbor remained closed.","Although the storm passed the harbor remained closed.","The storm passed, the harbor remained closed.","Storm passing; harbor closed although."],"a":0,"e":"Introductory dependent clause takes a comma; splice avoided."}];
 const PART_C=[{"n":61,"q":"Synthesis: Using ONE epic convention and ONE rhetorical appeal, argue why The Odyssey remains taught today. Strongest answer:","o":["It's old and famous.","Its in-medias-res structure (convention) still hooks modern audiences the same way ethos-laden retellings (appeal) borrow Homeric credibility — proving the toolkit endures because it works on human attention.","I liked the Cyclops part.","Epics are long."],"a":1,"e":"Names concrete convention + appeal, then argues the causal link to enduring relevance — synthesis, not summary."},{"n":62,"q":"Essay prompt: 'Fiction teaches empathy better than nonfiction.' Draft your thesis + PEEL skeleton. Best skeleton:","o":["Thesis: Fiction builds empathy by simulating inner lives; P1 point: first-person POV trains perspective-taking + quote from a novel + explanation linking brain research; P2: literary counterargument conceded (facts matter) but outweighed; Link back.","Thesis: books are good. P1: reading. P2: more reading.","No thesis; list five novels I enjoyed.","Thesis: nonfiction is fake news; P1: opinions."],"a":0,"e":"Arguable thesis, POV-specific mechanism, evidence types named, counterargument conceded and outweighed — complete argument architecture."}];
-const EXAM_CSS=".ex-header{background:var(--ink);color:var(--surface);padding:20px 22px;border-radius:var(--radius);margin-bottom:22px}\n.ex-header h2{font-family:'Space Grotesk';font-size:28.5px;font-weight:700;margin-bottom:4px}\n.ex-header p{font-family:'Inter';font-size:19.5px;color:rgba(255,255,255,.65)}\n.ex-part{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--surface)}\n.ex-part-hd{background:var(--surface-2);padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}\n.ex-part-hd:hover{background:var(--surface-hover)}\n.ex-part-hd h3{font-size:21px;font-weight:700;color:var(--ink)}\n.ex-part-hd span{font-family:'Inter';font-size:18px;color:var(--ink-dim)}\n.ex-part-body{display:none;padding:20px}\n.ex-part.open .ex-part-body{display:block}\n.ex-q{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}\n.ex-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}\n.ex-qnum{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}\n.ex-qtext{font-size:21.8px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:13px}\n.ex-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}\n.ex-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface);text-align:left;transition:all .12s}\n.ex-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}\n.ex-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}\n.ex-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}\n.ex-exp{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface-2);padding:11px 14px;border-radius:var(--radius-sm);margin-top:9px;display:none;line-height:1.6}\n.ex-exp.show{display:block}\n.ex-sa{padding:13px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter';font-size:20.2px;color:var(--amber-ink);line-height:1.6;margin-top:9px}\n.ex-sa strong{display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:var(--amber)}\n.ex-score{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px;display:none}\n.ex-score strong{font-family:'Space Grotesk';color:var(--success);font-size:22.5px}\n.ex-score span{font-family:'Inter';color:var(--success);font-size:19.5px}\n.ex-reset{padding:10px 20px;border:1px solid var(--border);border-radius:999px;background:var(--surface);cursor:pointer;font-family:'Space Grotesk';font-weight:600;font-size:19.5px;margin-top:10px;transition:all .15s}\n.ex-reset:hover{background:var(--surface-hover);border-color:var(--border-strong)}\n";
+const EXAM_META={"title":"English 9 — Full Practice Exam","subtitle":"Part A (30 pts) · Part B–1 (20 pts) · Part B–2 (10 pts) · Part C (2 pts)","parts":{"PART_A":{"title":"Part A — Multiple Choice","points":30,"minutes":null},"PART_B1":{"title":"Part B–1 — Multiple Choice","points":20,"minutes":null},"PART_B2":{"title":"Part B–2 — Short Answer","points":10,"minutes":null},"PART_C":{"title":"Part C — Extended Response","points":2,"minutes":null}}};
+const EXAM_CSS=".ex-header{background:var(--ink);color:var(--surface);padding:20px 22px;border-radius:var(--radius);margin-bottom:22px}\n.ex-header h2{font-family:'Space Grotesk';font-size:28.5px;font-weight:700;margin-bottom:4px}\n.ex-header p{font-family:'Inter';font-size:19.5px;color:rgba(255,255,255,.65)}\n.ex-part{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--surface)}\n.ex-part-hd{background:var(--surface-2);padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}\n.ex-part-hd:hover{background:var(--surface-hover)}\n.ex-part-hd h3{font-size:21px;font-weight:700;color:var(--ink)}\n.ex-part-hd span{font-family:'Inter';font-size:18px;color:var(--ink-dim)}\n.ex-part-hd-meta{display:flex;align-items:center;gap:14px;flex:none}\n.ex-timer{font-family:'Space Grotesk';font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink-dim)}\n.ex-timer.ex-timer-up{color:var(--danger)}\n.ex-part-body{display:none;padding:20px}\n.ex-part.open .ex-part-body{display:block}\n.ex-q{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}\n.ex-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}\n.ex-qnum{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}\n.ex-qtext{font-size:21.8px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:13px}\n.ex-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}\n.ex-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface);text-align:left;transition:all .12s}\n.ex-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}\n.ex-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}\n.ex-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}\n.ex-exp{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface-2);padding:11px 14px;border-radius:var(--radius-sm);margin-top:9px;display:none;line-height:1.6}\n.ex-exp.show{display:block}\n.ex-sa{padding:13px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter';font-size:20.2px;color:var(--amber-ink);line-height:1.6;margin-top:9px}\n.ex-sa strong{display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:var(--amber)}\n.ex-score{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px;display:none}\n.ex-score strong{font-family:'Space Grotesk';color:var(--success);font-size:22.5px}\n.ex-score span{font-family:'Inter';color:var(--success);font-size:19.5px}\n.ex-reset{padding:10px 20px;border:1px solid var(--border);border-radius:999px;background:var(--surface);cursor:pointer;font-family:'Space Grotesk';font-weight:600;font-size:19.5px;margin-top:10px;transition:all .15s}\n.ex-reset:hover{background:var(--surface-hover);border-color:var(--border-strong)}\n";
 function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');var idx=-1;tabs.forEach((b,i)=>{if(b.id==='tab-'+id)idx=i;});if(idx!==-1){tabs.forEach((b,i)=>{var on=i===idx;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;});var _hl=document.getElementById('hero-live');if(_hl)_hl.textContent=tabs[idx].textContent.trim()+' tab';}if(id==='examples'&&!examplesBuilt)buildExamples();if(id==='exam'&&!examBuilt)buildExam();var spc=document.getElementById('spc-card');if(spc)spc.style.display=(id==='guide')?'':'none';}
 let examBuilt=false;
 var examplesBuilt=false, ex2map={}, ex2shown={};
@@ -861,20 +934,25 @@ const st=document.createElement('style');st.textContent=EXAM_CSS;document.head.a
 
 v.innerHTML=`
 <div class="ex-header">
-  <h2>English 9 — Full Practice Exam</h2>
-  <p>Part A (30 pts) · Part B-1 (20 pts) · Part B-2 (15 pts) · Part C (20 pts) · Based on Jan 2026 format</p>
+  <h2>${EXAM_META.title}</h2>
+  <p>${EXAM_META.subtitle}</p>
 </div>
 <div id="ex-score-box" class="ex-score"></div>
-${buildPartMC('A','Part A — Multiple Choice (30 questions, 1 pt each)',PART_A)}
-${buildPartMC('B1','Part B–1 — Multiple Choice (20 questions, 1 pt each)',PART_B1)}
-${buildPartFR('B2','Part B–2 — Short Answer (show work, 1 pt each)',PART_B2)}
-${buildPartFR('C','Part C — Extended Response (1–2 pts each)',PART_C)}
+${buildPartMC('A',PART_A)}
+${buildPartMC('B1',PART_B1)}
+${buildPartFR('B2',PART_B2)}
+${buildPartFR('C',PART_C)}
 `;
 // open Part A by default
-document.getElementById('ex-part-A').classList.add('open');
+togglePart('A');
 }
 
-function buildPartMC(id,title,qs){
+function examPartMeta(id){return (EXAM_META&&EXAM_META.parts&&EXAM_META.parts['PART_'+id])||{};}
+function exTimerHtml(id){return examPartMeta(id).minutes?`<span class="ex-timer" id="timer-${id}"></span>`:'';}
+
+function buildPartMC(id,qs){
+if(!qs.length)return'';
+const meta=examPartMeta(id);
 const items=qs.map(q=>`
 <div class="ex-q" id="exq-${id}-${q.n}">
   <div class="ex-qnum">Question ${q.n}</div>
@@ -886,15 +964,18 @@ const items=qs.map(q=>`
 </div>`).join('');
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${title}</h3><span id="score-${id}">Score: 0 / ${qs.length}</span>
+  <h3>${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'}, 1 pt each)</h3>
+  <div class="ex-part-hd-meta"><span id="score-${id}">Score: 0 / ${qs.length}</span>${exTimerHtml(id)}</div>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
 }
 
-function buildPartFR(id,title,qs){
+function buildPartFR(id,qs){
+if(!qs.length)return'';
 // Some guides author these as genuine free-response (q.sa, a model answer to
 // reveal); others reuse the multiple-choice shape (q.o/q.a) for this part.
 // Render whichever shape the data actually has instead of assuming sa exists.
+const meta=examPartMeta(id);
 const items=qs.map(q=>q.sa!==undefined?`
 <div class="ex-q">
   <div class="ex-qnum">Question ${q.n}</div>
@@ -911,11 +992,43 @@ const items=qs.map(q=>q.sa!==undefined?`
   <div class="ex-exp" id="exp-${id}-${q.n}">${q.e}</div>
 </div>`).join('');
 const allMC=qs.every(q=>q.sa===undefined);
+const rightMeta=allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`;
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${title}</h3>${allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`}
+  <h3>${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'})</h3>
+  <div class="ex-part-hd-meta">${rightMeta}${exTimerHtml(id)}</div>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
+}
+
+/* Per-part countdown timer. In-memory only (module-level `examTimers`) — a
+   refresh resets it, matching the fact that exam progress/scores are never
+   persisted to localStorage either. Not a proctored test: hitting zero just
+   shows "Time's up" and stops, it never auto-submits or locks the part. */
+var examTimers={};
+function startPartTimer(id){
+  const meta=examPartMeta(id);
+  if(!meta.minutes)return;
+  let t=examTimers[id];
+  if(!t){t=examTimers[id]={remaining:meta.minutes*60,expired:false,intervalId:null};}
+  if(t.expired||t.intervalId)return; // already ticking, or already ran out
+  t.intervalId=setInterval(function(){
+    t.remaining--;
+    if(t.remaining<=0){
+      t.remaining=0;t.expired=true;
+      clearInterval(t.intervalId);t.intervalId=null;
+    }
+    renderPartTimer(id);
+  },1000);
+  renderPartTimer(id);
+}
+function renderPartTimer(id){
+  const el=document.getElementById('timer-'+id);
+  const t=examTimers[id];
+  if(!el||!t)return;
+  if(t.expired){el.textContent="Time's up";el.classList.add('ex-timer-up');return;}
+  const m=Math.floor(t.remaining/60),s=t.remaining%60;
+  el.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
 }
 
 function togglePart(id){
@@ -923,6 +1036,7 @@ function togglePart(id){
   const isOpen=part.classList.toggle('open');
   const hd=part.querySelector('.ex-part-hd');
   if(hd)hd.setAttribute('aria-expanded',isOpen?'true':'false');
+  if(isOpen)startPartTimer(id);
 }
 
 function toggleSA(btn){
@@ -1230,6 +1344,58 @@ function qBookmarkToggle(qid){
 }
 function qId(q){return q.u+'|'+q.q;}
 
+/* Mistake Log: localStorage-backed, keyed the same way as the bookmark set
+   (ssBookmarks_<slug>) — a currently-unresolved-misses list, not full history.
+   A question moves in when answered wrong and out the moment it's answered
+   correctly again (from anywhere: normal quiz, diagnostic, hard mode, or the
+   log's own review pass). */
+var MISTAKE_LOG_KEY='ssMistakes_'+'english-9';
+function mistakeLogMap(){
+  try{return JSON.parse(localStorage.getItem(MISTAKE_LOG_KEY)||'{}');}catch(e){return {};}
+}
+function mistakeLogSave(map){
+  try{localStorage.setItem(MISTAKE_LOG_KEY,JSON.stringify(map));}catch(e){}
+  updateMistakeLogBadge();
+}
+function mistakeLogAdd(q){
+  const map=mistakeLogMap();
+  map[qId(q)]={u:q.u,q:q.q,o:q.o,a:q.a,e:q.e,d:q.d,topic:q.topic};
+  mistakeLogSave(map);
+}
+function mistakeLogRemove(q){
+  const map=mistakeLogMap();
+  const id=qId(q);
+  if(!(id in map))return;
+  delete map[id];
+  mistakeLogSave(map);
+}
+function updateMistakeLogBadge(){
+  const el=document.getElementById('mistake-log-count');
+  if(!el)return;
+  const n=Object.keys(mistakeLogMap()).length;
+  el.textContent=String(n);
+  el.style.display=n?'':'none';
+}
+var mistakeReviewMode=false;
+function openMistakeLog(){
+  switchTab('quiz');
+  mistakeReviewMode=true;
+  diagMode=false;
+  const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
+  const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
+  const map=mistakeLogMap();
+  qPool=Object.values(map);
+  qIdx=0;score=0;requeueCounts=new WeakMap();
+  const qb=document.getElementById('qbox');
+  if(!qPool.length){
+    qb.innerHTML='<div class="mistake-log-empty">No mistakes logged right now — nice work. Answer a question wrong anywhere in the quiz and it will show up here until you get it right.</div>';
+    document.getElementById('q-prog').textContent='';
+    document.getElementById('q-sc').textContent='';
+    return;
+  }
+  showQ();
+}
+
 function quizShuffle(){
   if(!qPool.length)return;
   for(let i=qPool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[qPool[i],qPool[j]]=[qPool[j],qPool[i]];}
@@ -1264,8 +1430,15 @@ function buildQSel(){
   if(HQ.length)sel.innerHTML+='<option value="hard">Hard Mode Only ('+HQ.length+' Qs)</option>';
   loadQ();
 }
+let difficultyFilter='all';
+function setDifficultyFilter(d){
+  difficultyFilter=d;
+  document.querySelectorAll('.diff-chip').forEach(function(c){c.classList.toggle('on',c.dataset.diff===d);});
+  loadQ();
+}
 function loadQ(){
   diagMode=false;
+  mistakeReviewMode=false;
   const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
   const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
   const raw=document.getElementById('q-sel').value;
@@ -1274,6 +1447,7 @@ function loadQ(){
   if(raw==='hard')src=HQ.slice();
   else if(+raw===0)src=QUIZ.concat(HQ);
   else src=QUIZ.concat(HQ).filter(q=>q.u===+raw);
+  if(difficultyFilter!=='all')src=src.filter(q=>q.d===difficultyFilter);
   qPool=src.sort(()=>Math.random()-.5);
   qIdx=0;score=0;requeueCounts=new WeakMap();showQ();
 }
@@ -1340,8 +1514,10 @@ function showQ(){
   const bookmarked=qBookmarkSet().has(bid);
   const STAR_OUTLINE='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
   const STAR_FILLED='<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
-  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>`+
+  const diffPill=q.d?`<span class="q-diff q-diff-${q.d}">${q.d}</span>`:'';
+  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>${diffPill}`+
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
+    (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
     `<button class="q-hint-btn" id="q-hint-btn" onclick="toggleQHint()">💡 Hint</button>`+
     `<div class="q-hint-box" id="q-hint-box">Hint: this is from Unit ${q.u}: ${unitNameFor(q.u)}</div>`+
@@ -1407,6 +1583,7 @@ function ansQ(i){
     }
   }
   if(SS_MASTERY)SS_MASTERY.recordAnswer(q.u,i===q.a);
+  if(i===q.a)mistakeLogRemove(q);else mistakeLogAdd(q);
   ssOverallProgressUpdate();
   const expEl=document.getElementById('q-exp');
   expEl.classList.add('show');
@@ -1436,6 +1613,7 @@ function ssQuizKeyboardShortcuts(e){
 }
 document.addEventListener('keydown',ssQuizKeyboardShortcuts);
 buildQSel();
+updateMistakeLogBadge();
 
 /* ----- APG tabs: roving-tabindex arrow-key nav on the hero tab bar. Manual
    activation — arrows move focus only; Enter/Space fire the button's own click
@@ -1839,6 +2017,105 @@ async function ssQuizTabClick(){
 }
 
 ssCheckSession();
+
+/* ----- Reference drawer: a compact, always-available companion to the full
+   Quick Reference TAB. Reuses the exact HTML the generator already emits into
+   #view-qref (buildQref() in generate-guide.mjs) instead of rebuilding it —
+   the drawer body is filled by copying that markup once, on first open. ----- */
+function qrefDrawerOpen(){
+  var panel=document.getElementById('qref-drawer');
+  if(!panel)return;
+  var body=document.getElementById('qref-drawer-body');
+  if(body&&!body.dataset.filled){
+    var src=document.getElementById('view-qref');
+    if(src){body.innerHTML=src.innerHTML;body.dataset.filled='1';}
+  }
+  panel.classList.add('open');
+  panel.setAttribute('aria-hidden','false');
+  var fab=document.getElementById('qref-drawer-fab');
+  if(fab)fab.setAttribute('aria-expanded','true');
+  var closeBtn=panel.querySelector('.qref-drawer-close');
+  if(closeBtn)closeBtn.focus();
+  document.addEventListener('keydown',qrefDrawerKeydown);
+}
+function qrefDrawerClose(){
+  var panel=document.getElementById('qref-drawer');
+  if(!panel||!panel.classList.contains('open'))return;
+  panel.classList.remove('open');
+  panel.setAttribute('aria-hidden','true');
+  var fab=document.getElementById('qref-drawer-fab');
+  if(fab){fab.setAttribute('aria-expanded','false');fab.focus();}
+  document.removeEventListener('keydown',qrefDrawerKeydown);
+}
+function qrefDrawerToggle(){
+  var panel=document.getElementById('qref-drawer');
+  if(panel&&panel.classList.contains('open'))qrefDrawerClose();else qrefDrawerOpen();
+}
+function qrefDrawerKeydown(e){if(e.key==='Escape')qrefDrawerClose();}
+
+/* ----- Optional Desmos graphing calculator. Disabled by default: leave
+   DESMOS_API_KEY empty and this entire feature (button, panel, external
+   script) never appears and never makes a network request. To enable it,
+   the site owner gets a free key for personal/school use at
+   https://www.desmos.com/api/v1.12/calculator.js docs (sign in at
+   desmos.com/my-api) and pastes it in below. Generic — available on every
+   guide once a key is configured, not gated to any subject. ----- */
+const DESMOS_API_KEY = "";
+let desmosScriptLoaded=false, desmosCalculator=null;
+function desmosInit(){
+  if(!DESMOS_API_KEY)return;
+  var fab=document.createElement('button');
+  fab.id='desmos-fab';
+  fab.className='desmos-fab';
+  fab.type='button';
+  fab.setAttribute('aria-label','Toggle graphing calculator');
+  fab.setAttribute('aria-expanded','false');
+  fab.title='Graphing calculator';
+  fab.textContent='\u{1F4C8}';
+  fab.onclick=desmosToggle;
+  document.body.appendChild(fab);
+
+  var panel=document.createElement('div');
+  panel.id='desmos-panel';
+  panel.className='desmos-panel';
+  panel.setAttribute('role','dialog');
+  panel.setAttribute('aria-modal','true');
+  panel.setAttribute('aria-label','Graphing calculator');
+  panel.setAttribute('aria-hidden','true');
+  panel.innerHTML='<div class="desmos-panel-hd"><b>Graphing Calculator</b>'+
+    '<button type="button" class="desmos-panel-close" aria-label="Close graphing calculator">✕</button></div>'+
+    '<div class="desmos-calc" id="desmos-calc"></div>';
+  document.body.appendChild(panel);
+  panel.querySelector('.desmos-panel-close').onclick=desmosToggle;
+}
+function desmosToggle(){
+  var panel=document.getElementById('desmos-panel');
+  if(!panel)return;
+  var opening=!panel.classList.contains('open');
+  panel.classList.toggle('open',opening);
+  panel.setAttribute('aria-hidden',opening?'false':'true');
+  var fab=document.getElementById('desmos-fab');
+  if(fab)fab.setAttribute('aria-expanded',opening?'true':'false');
+  if(opening){
+    document.addEventListener('keydown',desmosKeydown);
+    if(!desmosScriptLoaded)desmosLoadScript();
+  }else{
+    document.removeEventListener('keydown',desmosKeydown);
+    if(fab)fab.focus();
+  }
+}
+function desmosKeydown(e){if(e.key==='Escape')desmosToggle();}
+function desmosLoadScript(){
+  desmosScriptLoaded=true;
+  var s=document.createElement('script');
+  s.src='https://www.desmos.com/api/v1.12/calculator.js?apiKey='+encodeURIComponent(DESMOS_API_KEY);
+  s.onload=function(){
+    var el=document.getElementById('desmos-calc');
+    if(el&&window.Desmos)desmosCalculator=Desmos.GraphingCalculator(el);
+  };
+  document.head.appendChild(s);
+}
+desmosInit();
 
 /* ----- unit-filtered practice, e.g. /chemistry?practice=3 (from the dashboard's "study this next") ----- */
 (async function ssPracticeMode(){

@@ -273,6 +273,16 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .q-block:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .q-block-hd{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px}
 .q-text{font-size:24.8px;font-weight:600;color:var(--ink);line-height:1.55;flex:1}
+.q-diff{flex:none;display:inline-block;padding:3px 11px;border-radius:999px;font-size:13px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;border:1px solid transparent;align-self:flex-start;margin-top:2px}
+.q-diff-easy{background:var(--success-soft);color:var(--success);border-color:var(--success-border)}
+.q-diff-medium{background:var(--amber-soft);color:var(--amber-ink);border-color:var(--amber)}
+.q-diff-hard{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}
+.q-topic{font-size:14.5px;color:var(--ink-dim);margin:-14px 0 14px;font-style:italic}
+.mistake-log-btn{position:relative}
+.mistake-log-count{display:inline-block;margin-left:6px;background:var(--danger);color:#fff;border-radius:999px;
+  font-size:12px;font-weight:700;padding:1px 7px}
+.mistake-log-empty{padding:24px;text-align:center;color:var(--ink-muted);font-size:18px}
 .q-bookmark{flex:none;background:none;border:none;cursor:pointer;color:var(--ink-dim);padding:2px;border-radius:6px;transition:color .15s ease,transform .15s ease}
 .q-bookmark:hover{color:var(--amber);transform:scale(1.08)}
 .q-bookmark.on{color:var(--amber)}
@@ -514,6 +524,51 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 .back-to-top:hover{color:var(--ink);border-color:var(--accent)}
 .back-to-top svg{width:20px;height:20px;display:block}
 
+/* ---- reference drawer: quick-access companion to the Quick Reference tab,
+   reachable from any tab. Sits bottom-center, clear of back-to-top
+   (bottom:22/left:22..74) and #cbot-fab (bottom:22/right:22..78). ---- */
+.qref-drawer-fab{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);width:52px;height:52px;
+  border-radius:50%;background:var(--surface);color:var(--ink-muted);border:1px solid var(--border-strong);
+  cursor:pointer;box-shadow:var(--shadow-md);z-index:190;display:flex;align-items:center;justify-content:center;
+  transition:color .15s ease,border-color .15s ease}
+.qref-drawer-fab:hover{color:var(--accent);border-color:var(--accent)}
+.qref-drawer-fab svg{width:20px;height:20px;display:block}
+.qref-drawer{position:fixed;top:0;right:0;height:100dvh;width:min(420px,100vw);background:var(--surface);
+  border-left:1px solid var(--border-strong);box-shadow:var(--shadow-lg);z-index:210;display:flex;flex-direction:column;
+  transform:translateX(100%);opacity:0;visibility:hidden;transition:transform .25s ease,opacity .25s ease,visibility 0s linear .25s}
+.qref-drawer.open{transform:translateX(0);opacity:1;visibility:visible;transition:transform .25s ease,opacity .25s ease}
+.qref-drawer-hd{display:flex;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--surface-2);flex-shrink:0}
+.qref-drawer-hd b{font-family:'Space Grotesk';font-size:20px;color:var(--ink);flex:1}
+.qref-drawer-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:6px 8px;border-radius:6px}
+.qref-drawer-close:hover{color:var(--ink);background:var(--surface-hover)}
+.qref-drawer-body{flex:1;overflow-y:auto;padding:16px}
+.qref-drawer-body .qr-section:not(:last-child){margin-bottom:20px}
+@media(max-width:600px){
+  .qref-drawer{width:100vw}
+}
+
+/* ---- optional Desmos graphing calculator (see DESMOS_API_KEY in logic.js).
+   Markup is only ever created by JS when a key is configured, so this CSS
+   has no visible effect until then. Placed clear of #cbot-fab (right:22..78). ---- */
+.desmos-fab{position:fixed;bottom:22px;right:90px;width:52px;height:52px;border-radius:50%;
+  background:var(--accent);color:#fff;border:none;font-size:22px;cursor:pointer;
+  box-shadow:0 8px 24px -6px rgba(15,122,112,.4);z-index:195;display:flex;align-items:center;justify-content:center;
+  transition:transform .15s ease}
+.desmos-fab:hover{transform:scale(1.06)}
+.desmos-panel{position:fixed;bottom:88px;right:90px;width:min(380px,calc(100vw - 32px));
+  height:min(420px,calc(100dvh - 160px));background:var(--surface);border:1px solid var(--border-strong);
+  border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:205;display:none;flex-direction:column;overflow:hidden}
+.desmos-panel.open{display:flex}
+.desmos-panel-hd{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+.desmos-panel-hd b{font-family:'Space Grotesk';font-size:18px;color:var(--ink);flex:1}
+.desmos-panel-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:4px 6px;border-radius:6px}
+.desmos-panel-close:hover{color:var(--ink);background:var(--surface-hover)}
+.desmos-calc{flex:1;width:100%;height:100%}
+@media(max-width:600px){
+  .desmos-fab{right:22px;bottom:82px}
+  .desmos-panel{right:12px;bottom:144px}
+}
+
 /* ---- print / export ---- */
 @media print{
   :root,[data-theme="dark"]{
@@ -528,7 +583,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
   body{background:#fff;color:#000}
   body::before,.hero::after{display:none!important}
   #theme-toggle,.search-wrap,.ss-sticky-top .filter-row-wrap,.mobile-only-select,.nav,.nav-spacer,.tablist,
-  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
+  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.qref-drawer-fab,.qref-drawer,.desmos-fab,.desmos-panel,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
   .search-kbd,.ss-overall-progress,.q-kbd-hint,.diag-btn{display:none!important}
   *{position:static!important;box-shadow:none!important}
   .unit-body{display:block!important}
@@ -707,6 +762,13 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <div class="q-bar">
     <select id="q-sel" aria-label="Choose a question set" onchange="loadQ()"></select>
     <button class="btn" type="button" onclick="quizShuffle()" style="font-size:14px;padding:7px 14px">⇄ Shuffle</button>
+    <div class="diff-chips" role="group" aria-label="Filter by difficulty" style="display:flex;gap:6px">
+      <button class="chip on diff-chip" type="button" data-diff="all" onclick="setDifficultyFilter('all')">All</button>
+      <button class="chip diff-chip" type="button" data-diff="easy" onclick="setDifficultyFilter('easy')">Easy</button>
+      <button class="chip diff-chip" type="button" data-diff="medium" onclick="setDifficultyFilter('medium')">Medium</button>
+      <button class="chip diff-chip" type="button" data-diff="hard" onclick="setDifficultyFilter('hard')">Hard</button>
+    </div>
+    <button class="btn mistake-log-btn" type="button" onclick="openMistakeLog()">Mistake Log<span class="mistake-log-count" id="mistake-log-count" style="display:none">0</span></button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -840,6 +902,16 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
   <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
 </button>
+<button type="button" id="qref-drawer-fab" class="qref-drawer-fab" onclick="qrefDrawerToggle()" aria-label="Open quick reference" aria-expanded="false" aria-controls="qref-drawer" title="Quick Reference">
+  <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+</button>
+<div id="qref-drawer" class="qref-drawer" role="dialog" aria-modal="true" aria-label="Quick Reference" aria-hidden="true">
+  <div class="qref-drawer-hd">
+    <b>Quick Reference</b>
+    <button type="button" class="qref-drawer-close" onclick="qrefDrawerToggle()" aria-label="Close quick reference">✕</button>
+  </div>
+  <div class="qref-drawer-body" id="qref-drawer-body"></div>
+</div>
 <script>
 const UNITS=[{"id":1,"name":"Greetings & Introductions","concepts":[{"l":"Basic greetings","intro":"Spanish greetings change with time of day and formality level.","b":["Hola (hello) works anytime; buenos días (morning), buenas tardes (afternoon), buenas noches (evening/night)","¿Cómo estás? (informal) vs ¿Cómo está usted? (formal) — tú vs usted choice signals respect","Common replies: bien (well), muy bien (very well), más o menos (so-so), mal (bad)","Saying goodbye: adiós, chao, hasta luego (see you later), hasta mañana (see you tomorrow)","Mucho gusto / Encantada = nice to meet you; ¿Y tú? = and you?"]},{"l":"Introducing yourself","intro":"Use ser to state your name, origin, and basic identity.","b":["Me llamo… (I call myself), Soy… (I am), ¿Cómo te llamas? (what's your name?)","Soy de México = I'm from Mexico; ¿De dónde eres? = where are you from?","Soy estudiante / soy nuevo(a) — ser describes professions and permanent traits","Soy nuevo uses masculine; nueva is feminine — adjectives match gender","Numbers in introductions: tengo quince años = I'm fifteen (tener, not ser, for age)"]},{"l":"The verb SER","intro":"Ser means to be for permanent qualities: identity, origin, and characteristic traits.","b":["Conjugation: yo soy, tú eres, él/ella/usted es, nosotros somos, vosotros sois, ellos/ellas/ustedes son","Use ser for: nationality (soy alta), profession (es doctora), personality (somos simpáticos)","Es la una for telling one o'clock — ser tells time","De dónde eres questions answer with ser: Soy de Colombia","Don't confuse with estar (see Unit 8): feelings and locations take estar"]},{"l":"Formal vs informal address","intro":"Choosing tú or usted sets the social tone of the whole conversation.","b":["Tú = friends, family, people your age; usted = adults, teachers, strangers, authority","Usted grammatically behaves like él/ella (third person): ¿Cómo está usted?","Latin America: ustedes serves as the plural you everywhere (in Spain, vosotros is informal plural)","Switching to tú uninvited can seem rude; when unsure, start formal","Señor/señora/señorita + usted is the safe opening combination"]},{"l":"The alphabet & pronunciation","intro":"Spanish spelling is phonetic — once you know the letters, you can say any word.","b":["Ñ (eñe) is its own letter: año (year) ≠ ano — the tilde changes meaning","H is always silent: hola sounds like OH-la","J sounds like English H (jabón); G before e/i is harsh (gente)","LL sounds like Y in most regions (llamar = yah-MAR); RR trills (perro)","Vowels never change sound: a-e-i-o-u stay pure in every word"]}],"keyFacts":["Tú = informal, usted = formal — the verb form changes with the choice","Ser is for permanent identity: origin, profession, personality, time","H is silent; ñ is a separate letter (año ≠ ano)"],"traps":["¿Cómo estás? takes estás (estar), NOT eres — feelings use estar even though they seem temporary-permanent confusing","Age uses TENER not ser: Tengo quince años, never Soy quince años","Buenas noches covers BOTH evening and night — it's not only 'good night' at bedtime"]},{"id":2,"name":"Numbers, Dates & Time","concepts":[{"l":"Numbers 0–100","intro":"Spanish numbers follow patterns: memorize 0–15, then tens build predictably.","b":["0-10: cero, uno, dos, tres, cuatro, cinco, seis, siete, ocho, nueve, diez","11-15: once, doce, trece, catorce, quince — then dieciséis, diecisiete… (diez+y)","Tens: veinte, treinta, cuarenta, cincuenta, sesenta, setenta, ochenta, noventa","Combinations: veintiuno (21) but treinta y uno (31) — y appears from 31 up","Cien = 100 exactly; ciento uno = 101"]},{"l":"Number agreement","intro":"Uno and numbers ending in one shorten before masculine nouns.","b":["Un libro (one book) but una pluma — uno drops -o before masculine nouns","Veintiún años (21 years) — same shortening applies to veintiuno, treinta y uno","Hundreds agree: doscientas páginas (feminine) vs doscientos libros","Numbers are masculine nouns when standing alone: el cinco, un diez (an A grade)"]},{"l":"Dates","intro":"Dates run day-month-year and use ser for the day and month names.","b":["Format: el 15 de mayo de 2026 — day, de, month, de, year","Hoy es lunes, el tres de octubre = today is Monday October 3rd","Months and days are NOT capitalized: enero, lunes","Primero (or el uno) marks the first of the month: el primero de junio","¿Cuál es la fecha? asks the date; ¿Qué día es hoy? asks the weekday"]},{"l":"Telling time","intro":"Time uses ser + definite article: es la una / son las dos.","b":["One o'clock is singular: Es la una (y cuarto); all others plural: Son las tres","Media = half past (y media); cuarto = quarter (y cuarto / menos cuarto)","Son las cuatro y diez = 4:10; Son las seis menos veinte = 5:40","AM/PM: de la mañana, de la tarde, de la noche; mediodía (noon), medianoche (midnight)","¿Qué hora es? = what time is it; A las ocho = at eight o'clock (events)"]},{"l":"Classroom schedule talk","intro":"Combining days, times, and tener describes your weekly routine.","b":["Tengo matemáticas los martes = I have math on Tuesdays (los + plural weekday)","La clase de historia es a las nueve y media — a las for class start times","De la mañana/tarde labels school blocks: primer periodo por la mañana","¿A qué hora es…? asks when a class meets"]}],"keyFacts":["Es la una (1:00) is singular; son las dos+ (plural) — time agrees like articles","y media = :30, y cuarto = :15, menos cuarto = :45","Only primero marks the 1st of a month; other dates use cardinal numbers"],"traps":["Es la UNA, not son las una — one o'clock breaks the plural rule","Don't capitalize months/days: lunes, enero — unlike English","31+ uses y (treinta y uno); 21-29 fuses (veintiuno) — mixing these up is the classic error"]},{"id":3,"name":"Family & Descriptions","concepts":[{"l":"Family vocabulary","intro":"Family terms in Spanish distinguish gender and include in-laws and step-relatives.","b":["Core: padre/papá (dad), madre/mamá (mom), hermano/hermana (brother/sister)","Extended: abuelo/abuela (grandparents), tío/tía (uncle/aunt), primo/prima (cousin)","Married-in: esposo/esposa (spouse), suegro/suegra (parents-in-law), nuera/yerno","Blended: hermanastro (stepbrother), medio hermano (half-brother)","Los padres = parents (not fathers); los hijos = children/sons; el perro counts as familia"]},{"l":"Possessive adjectives","intro":"Possessives agree with the THING owned, not the owner.","b":["mi/mis (my), tu/tus (your), su/sus (his/her/their/your-formal) — number agrees with noun","Nuestro/nuestra/nuestros/nuestras agrees BOTH ways: nuestra hermana, nuestros primos","Su is ambiguous — su madre could be his, her, or their mom; de + person clarifies: la madre de Juan","Long form (mío, tuyo) goes after the noun for emphasis: un amigo mío = a friend of mine"]},{"l":"Descriptive adjectives & agreement","intro":"Adjectives copy the gender and number of the person they describe.","b":["-o/-a pairs: alto/alta; -e and consonant adjectives don't change gender: inteligente, joven","Plurals add -s (vowel) or -es (consonant): altos, jóvenes","Word order default: noun + adjective (el chico alto); some adjectives move for meaning","Ser + adjective for personality: Mi hermana es trabajadora y simpática"]},{"l":"Physical & personality traits","intro":"Two adjective families describe people: looks and character.","b":["Physical: alto/bajo (tall/short), delgado/gordo, guapo/apuesto (good-looking), pelirrojo (redhead)","Hair/eyes use tener: Tiene el pelo largo y los ojos verdes","Personality: simpático (nice), antipático (mean), serio, divertido (fun), perezoso (lazy), estudioso","TENER expressions: tener … años (age), tener hambre (hungry), tener miedo (afraid)"]},{"l":"Asking about family","intro":"Question words let you interview someone about their family.","b":["¿Cuántos años tiene tu hermano? = how old is your brother (usted-form tiene)","¿Cómo se llama tu madre? = what's your mom's name (reflexive se llama)","¿De quién es…? = whose is it? — answer: Es de mi prima","Pets count: Tengo un gato que se llama Luna"]}],"keyFacts":["Possessives agree with the NOWNED thing: nuestra abuela, nuestros abuelos","Su/sus covers his+her+their+your(formal) — context or de + name disambiguates","Adjectives mirror gender AND number: primas simpáticas"],"traps":["Mi hermano's possessive is MI not mi'o — short forms never take accents before the noun","Tener hambre = to BE hungry, literally to HAVE hunger — no ser/estar involved","Los padres means parents; saying los papás de mi papá needs abuelos instead"]},{"id":4,"name":"School & -AR Verbs","concepts":[{"l":"School vocabulary","intro":"Classes, supplies, and places around campus.","b":["Subjects: las matemáticas, las ciencias, el español, la historia, el arte, la educación física","Supplies: el lápiz (pencil), la pluma/el bolígrafo (pen), el cuaderno (notebook), la mochila (backpack)","Places: la escuela, el salón de clases, la biblioteca, la cafetería, el gimnasio","People: el maestro/la maestra, el profesor/la profesora, el estudiante, el director","Necesito… para la clase = I need… for class; tengo que estudiar = I have to study"]},{"l":"Present tense -AR verbs","intro":"The largest verb family follows one clean pattern: drop -ar, add endings.","b":["Endings: -o, -as, -a, -amos, -áis, -an → hablar: hablo, hablas, habla, hablamos, habláis, hablan","Stem stays constant: estudiar→estudio/estudias/estudia/estudiamos/estudiáis/estudian","Pronouns can drop: hablo español alone means I speak Spanish — ending shows who","Nosotros form matches the -amos you already know from ser's somos pattern family","Common -AR verbs: estudiar, hablar, caminar, cocinar, dibujar, escuchar, mirar, necesitar, pasar, preparar, terminar, tomar, trabajar"]},{"l":"Using verbs in sentences","intro":"One conjugated verb carries a sentence; second actions stay infinitive.","b":["Necesito estudiar = I need TO study — first verb conjugates, second stays whole","Me gusta dibujar — gustar chains to infinitives too","Adverbs of frequency: siempre (always), a veces (sometimes), nunca (never) slot before the verb","Para + infinitive states purpose: Estudio para sacar buenas notas"]},{"l":"-AR conjugation drills","intro":"Speed comes from pattern recognition, not memorizing each verb separately.","b":["Camina = he/she walks; caminamos = we walk — spot the ending, know the subject","Usted and él/ella share forms (habla); ustedes and ellos share (hablan)","Questions flip word order: ¿Trabajas tú los sábados? or just ¿Trabajas los sábados?","Negatives wrap the verb: No trabajo los domingos"]}],"keyFacts":["Drop -AR, add: o/as/a/amos/áis/an — one template rules hundreds of verbs","Él and usted share endings; ellos and ustedes share endings","After a conjugated verb, the next verb stays infinitive: Necesito hablar con ella"],"traps":["Don't double-conjugate: Necesito estudio is wrong — Necesito ESTUDIAR","The accent in habláis/estudiáis (vosotros) matters — hablais is misspelled","Nunca can start the sentence (Nunca trabajo) but then NO doesn't repeat — Nunca trabajo, never No nunca trabajo"]},{"id":5,"name":"Food & -ER/-IR Verbs","concepts":[{"l":"Food vocabulary","intro":"Meals and staples anchor daily conversation.","b":["Meals: el desayuno (breakfast), el almuerzo (lunch), la cena (dinner)","Drinks: el agua, el jugo (juice), la leche, el refresco, el café","Fruits/veg: la manzana, el plátano, las uvas, la lechuga, el tomate, la zanahoria","Proteins & grains: el pollo, el pescado, la carne, el arroz, el pan, los frijoles, el huevo","Verbs: comer (to eat), beber/tomar (to drink), compartir (to share) — me encanta el pollo"]},{"l":"-ER verbs","intro":"Same idea as -AR, new endings: drop -er, add -o/-es/-e/-emos/-éis/-en.","b":["comer: como, comes, come, comemos, coméis, comen","beber: bebo, bebes…; aprender: aprendo, aprendes, aprende, aprendemos, aprendéis, aprenden","Leer is irregular in nosotros/yó forms? No — leemos is regular; only its -iendo form (leyendo) changes","Common -ER: correr, comprender, vender, romper"]},{"l":"-IR verbs","intro":"Identical to -ER except nosotros/vosotros: -imos / -ís.","b":["vivir: vivo, vives, vive, vivimos, vivís, viven","escribir: escribo, escribes, escribe, escribimos, escribís, escriben","Shared with -ER in yo/tú/él/ellos forms — only we/you-plural differ","Common -IR: abrir, recibir, decidir, asistir a (to attend)"]},{"l":"Restaurant & café phrases","intro":"Ordering food politely uses querer + noun and account phrases.","b":["Quiero… / Quisiera… = I want / I would like (softer)","La cuenta, por favor = the check please; ¿Algo más? = anything else?","¿Qué desayunas? = what do you eat for breakfast — meals as verbs: desayunar, almorzar (o→ue), cenar","Con/sin customization: un café con leche, sin azúcar"]}],"keyFacts":["-ER endings: o/es/e/emos/éis/en · -IR differs only at -imos/-ís","Compartir el almuerzo = to share lunch; almorzar stem-changes o→ue","Con = with, sin = without — instant order customization"],"traps":["El agua is FEMININE despite el — it takes el for stress but adjectives stay feminine: el agua fría","Fish swimming is el pez; fish on your plate is el pescado","Don't use ser for hungry-thirsty: Tengo sed/hambre (tener), never Estoy sed"]},{"id":6,"name":"Gustar & Likes","concepts":[{"l":"How gustar actually works","intro":"Gustar means TO BE PLEASING — the thing liked is the subject, not you.","b":["Me gusta el fútbol = soccer pleases me → English: I like soccer","Indirect object pronouns carry who likes: me, te, le, nos, os, les","Singular thing → gusta; plural things → gustan: Me gustan las uvas","Infinitives always take gusta: Me gusta correr y nadar","Clarifiers for le/les: A Juan le gusta… ; A mí me encanta…"]},{"l":"Gustar-family verbs","intro":"Other verbs work the same backward way.","b":["encantar = to love something: Me encantan los deportes","faltar (to be missing), doler (to hurt): Me duele la cabeza","importar (to matter): No me importa = I don't care","interesar: Me interesa la historia — same structure as gustar"]},{"l":"Expressing degree","intro":"Dial likes up and down with adverbs and set phrases.","b":["me gusta mucho / me encanta muchísimo = really love","no me gusta nada = I don't like it AT ALL (nada after the phrase intensifies)","más o menos / pues… = so-so hedging","¿Te gusta…? asks; Sí, me fascina answers strongly"]},{"l":"Activities & hobbies vocab","intro":"Pair gustar with infinitives and nouns for weekend talk.","b":["tocar la guitarra (play an instrument) vs jugar videojuegos (play games)","los fines de semana = weekends; después de las clases = after school","ver la televisión, escuchar música, pasar tiempo con amigos","Question flow: ¿Qué te gusta hacer? — Me gusta montar en bicicleta"]}],"keyFacts":["Gustar conjugates to match the THING: gusta (sing/infinitive), gustan (plural)","A mí / A Juan clarifies WHO likes when le/les is ambiguous","No me gusta nada = strongest negative; me gusta mucho = strongest positive"],"traps":["Me gusto means I please MYSELF — the pronoun must be indirect: ME GUSTA","Two things liked still take plural: Me gustan el pan Y el queso","Encantar ≠ weak: it's stronger than gustar (love ≫ like), not a synonym"]},{"id":7,"name":"Stem-Changers & Clothing","concepts":[{"l":"E→IE boot verbs","intro":"The stressed e inside the stem swaps to ie in all forms except nosotros/vosotros.","b":["pensar: pienso, piensas, piensa, pensamos, pensáis, piensan — the boot shape","querer (e:ie): quiero, quieres, quiere, queremos, queréis, quieren","empezar a + inf = to begin to; cerrar (ie) = to close; entender (ie) = to understand","preferir (e:ie, also i in third person preterite later): prefiero","Call them boot verbs or shoe verbs — the change only happens inside the boot"]},{"l":"O→UE and E→I boots","intro":"Two more swap patterns cover most remaining irregulars.","b":["o→ue: poder (puedo), dormir (duermo), volver (vuelvo), almorzar (almuerzo), costar (cuesta)","Jugar is the lone u→ue verb: juego, juegas, juega…","e→i verbs are mostly -IR: pedir (pido), servir (sirvo), repetir (repito)","Nosotros/vosotros NEVER stem-change: dormimos, podemos, contamos"]},{"l":"Clothing vocabulary","intro":"Wardrobe words pair with llevar for what someone wears.","b":["Basics: la camisa (shirt), los pantalones (pants), los jeans, el vestido (dress), la falda (skirt)","Outer: la chaqueta, el abrigo (coat), los zapatos (shoes), las botas, los calcetines (socks)","Accessories: el sombrero, la gorra (cap), el cinturón (belt), la bufanda (scarf)","Colors as adjectives follow the noun: una camisa azul, unos zapatos negros"]},{"l":"Shopping & prices","intro":"Buying talk uses costar (o:ue), demonstratives, and numbers from Unit 2.","b":["¿Cuánto cuesta(n)? = how much does/do it/they cost — cuesta singular, cuestan plural","este/esta (this) → estos/estas; ese/esa (that) → esos/esas: Quiero esta camisa","Me queda bien/grande/pequeño = it fits me well/too big/too small — quedar for fit","Pagar en efectivo (cash) / con tarjeta (card); ¿Puedo probar…? = can I try on…?"]}],"keyFacts":["Stem-changers skip nosotros/vosotros — that's why they're called BOOT verbs","Three patterns: e→ie (querer), o→ue (poder), e→i (pedir); jugar alone goes u→ue","Quedar = fit: Me quedan bien estos zapatos"],"traps":["Yo puedo but NOSOTROS podemos — never podimos in present tense","Costar agrees with the ITEM not the buyer: Cuestan $20 (they cost), even if you say I want them","Demonstrative este = near ME, ese = nearer YOU — mixing them confuses which item you're buying"]},{"id":8,"name":"House & Ser vs Estar","concepts":[{"l":"House vocabulary","intro":"Rooms and furniture describe where life happens.","b":["Rooms: la cocina (kitchen), el comedor (dining room), la sala (living room), el dormitorio (bedroom), el baño","Outside: el jardín (garden), el garaje, el patio","Furniture: la cama (bed), la mesa, la silla (chair), el sofá, la lámpara, el espejo (mirror)","Appliances: la nevera/el refrigerador, la estufa, el lavaplatos","Floor levels: la planta baja = ground floor, el primer piso = second floor (US counting)"]},{"l":"ESTAR basics","intro":"Estar handles location and condition — the other to be.","b":["Conjugation: estoy, estás, está, estamos, estáis, están (irregular yo!)","Location of anything: El libro está en la mesa; Mi casa está cerca","Conditions/states: estar cansado, estar enfermo, estar contento — how you are right now","Progressive tense: estar + -ando/-iendo = action in progress: Estoy estudiando"]},{"l":"SER vs ESTAR decision rule","intro":"One question settles it: permanent identity (ser) vs state/location right now (estar).","b":["Origin stays ser even though location moves: SOY de Texas pero ESTOY en California","Death, jobs, personality = ser; alive-and-kicking moods, temporary states = estar","Food judgment: La sopa ES de pollo (ingredient) pero ESTÁ caliente (temperature now)","Events use ser: La fiesta ES en mi casa — even though that's a location!"]},{"l":"Prepositions of place","intro":"Small words locate everything in the house.","b":["en (in/on), encima de (on top of), debajo de (under), al lado de (next to)","delante de (in front of), detrás de (behind), dentro de (inside), lejos/cerca de (far/near)","El gato está debajo de la cama — classic location sentence pattern","Contractions only with de+a/el: del (de+el), al (a+el) — de la casa stays separate"]}],"keyFacts":["Estar conjugates irregularly in YO only: estoy (the rest look normal)","DOCTOR uses ser (Description, Occupation, Characteristic, Time, Origin, Relationship); PLACE uses estar (Position, Location, Action-in-progress, Condition, Emotion)","de + el = del, a + el = al — the only mandatory contractions"],"traps":["LOCATIONS take estar EXCEPT event venues: la reunión ES en la biblioteca","Estás aburrido (you're bored) vs eres aburrido (you're boring) — one adjective, two lives","La nevera está en la cocina — never use ser for where furniture sits"]}];
 const DIAGRAMS={};
@@ -851,7 +923,8 @@ const PART_A=[{"n":1,"q":"Your teacher asks ¿Cómo está usted? A proper reply:
 const PART_B1=[{"n":31,"q":"¿Cómo se llama tu madre? asks her:","o":["age","name","origin","job"],"a":1,"e":"Llamarse = to be called; se llama = her name is."},{"n":32,"q":"Personality adjective meaning hard-working:","o":["trabajador(a)","perezoso(a)","serio(a)","antipático(a)"],"a":0,"e":"Trabajador(a) = hardworking; perezoso = lazy."},{"n":33,"q":"Correct question about your cousin's age:","o":["Cuántos años tienes tu primo?","Cuántos años tiene tu primo?","Cómo viejo es tu primo?","Qué edad haces tu primo?"],"a":1,"e":"About a THIRD person use tiene (usted/él form): ¿Cuántos años tiene tu primo?"},{"n":34,"q":"Mis primos ______ muy simpáticos. (be, permanent)","o":["están","son","tienen","hay"],"a":1,"e":"Personality = ser: son simpáticos."},{"n":35,"q":"Which day pair is weekend?","o":["lunes y martes","sábado y domingo","miércoles y jueves","viernes y lunes"],"a":1,"e":"El fin de semana = sábado + domingo."},{"n":36,"q":"Son las ocho y cuarto reads:","o":["7:45","8:15","8:45","9:15"],"a":1,"e":"Y cuarto adds a quarter past: 8:15."},{"n":37,"q":"Order naturally: 'la / yo / siempre / tarea / hago'","o":["Yo siempre hago la tarea","Siempre la yo hago tarea","Hago yo la siempre tarea","La tarea siempre yo"],"a":0,"e":"Subject first, frequency adverb before the verb phrase: Yo siempre hago la tarea."},{"n":38,"q":"Aprender means:","o":["to teach","to learn","to run","to sell"],"a":1,"e":"Aprender = learn (aprender español); enseñar = teach."},{"n":39,"q":"Restaurant request, most polite:","o":["Dame el menú","Quisiera el menú, por favor","Menú ahora","¿Dónde menú?"],"a":1,"e":"Quisiera softens requests — the polite conditional flavor."},{"n":40,"q":"Las uvas are:","o":["lettuce","grapes","carrots","onions"],"a":1,"e":"Uvas = grapes (plural-only fruit word)."},{"n":41,"q":"Me gustan ___ y el queso. Choose article for bread:","o":["el pan","la pan","los panes","una pan"],"a":0,"e":"Each item keeps its own article; mixed genders still take singular nouns after gustan when listing pairs: Me gustan el pan y el queso."},{"n":42,"q":"Tocar vs jugar:","o":["tocar sports, jugar guitar","tocar instrument, jugar games/sports","both identical","jugar is music only"],"a":1,"e":"Tocar la guitarra; jugar videojuegos/fútbol."},{"n":43,"q":"Duermo is from:","o":["dormir","doler","dominar","donar"],"a":0,"e":"Dormir o→ue: duermo (I sleep)."},{"n":44,"q":"'That cap over there':","o":["esta gorra","esa gorra","aquella gorra","esto gorra"],"a":2,"e":"Far from BOTH speakers = aquella; ese = near listener."},{"n":45,"q":"Probarse means:","o":["to prove","to try on (clothing)","to taste soup","to test others"],"a":1,"e":"Probarse reflexive = try on clothes: ¿Puedo probármelo?"},{"n":46,"q":"Ser or estar: 'El examen ___ a las nueve.'","o":["es","está","tiene","empieza obligatorio"],"a":0,"e":"Event time/place uses SER: es a las nueve en la biblioteca."},{"n":47,"q":"Detrás de means:","o":["in front of","behind","inside","next to"],"a":1,"e":"Detrás de = behind; delante de = in front of."},{"n":48,"q":"Al lado del sofá contracts because:","o":["sofá is fancy","al lado DE EL sofá → del","lado drops its d","No contraction needed"],"a":1,"e":"de + el = del mandatory: al lado DEL sofá."},{"n":49,"q":"Which is clothing?","o":["el cinturón","la cocina","el desayuno","la cuenta"],"a":0,"e":"Cinturón = belt (clothing); cocina kitchen; desayuno breakfast."},{"n":50,"q":"Nosotros ______ (almorzar) al mediodía.","o":["almorzamos","almuerzamos","almuerzo","almorzan"],"a":0,"e":"Nosotros NEVER stem-changes: almorzamos (plain o)."}];
 const PART_B2=[{"n":51,"q":"Why is 'Soy quince años' wrong?","o":["Age needs estar","Age uses tener: tengo quince años","Missing 'muy'","Años must be año"],"a":1,"e":"Spanish treats age as possession: TENER years."},{"n":52,"q":"Pick the sentence where ser is correct:","o":["La sopa es caliente ahora","María es de Colombia","El baño es sucio ahora mismo","Estoy alto"],"a":1,"e":"Origin = ser. Soup temperature now = está; temporary state = estás cansado etc."},{"n":53,"q":"Best translation: 'We never watch TV.'","o":["Nosotros miramos nunca la tele","Nunca miramos la tele","No siempre vemos tele nunca","Miramos la tele no nunca"],"a":1,"e":"Frequency adverb before verb, one negative only: Nunca miramos la tele."},{"n":54,"q":"Ustedes ______ (vivir) en Texas.","o":["viven","vivís","vivimos","vive"],"a":0,"e":"Ustedes shares ellos endings: viven."},{"n":55,"q":"'Her parents are fun.':","o":["Sus padres son divertidos","Sus padres están divertido","Sus padre es divertidas","Nuestros padres son divertida"],"a":0,"e":"Sus padres (her parents) + son + plural masculine adjective."},{"n":56,"q":"Which greeting sequence is chronological?","o":["noches → días → tardes","días → tardes → noches","tardes → días → noches","noches → tardes → días"],"a":1,"e":"Morning → afternoon → evening: días, tardes, noches."},{"n":57,"q":"Emphasize WHO loves soccer when ambiguous:","o":["Le gusta el fútbol mucho","A él le encanta el fútbol","Él es fútbol","El fútbol le gusto"],"a":1,"e":"A + pronoun/name + le disambiguates; encanta adds strength."},{"n":58,"q":"Class starts at 8:50. Say it:","o":["Son las nueve menos diez","Son las ocho y cincuenta mejor","Es las ocho y diez","Son las diez menos ocho"],"a":0,"e":"Minutes-to-next-hour uses menos: nueve menos diez (8:50)."},{"n":59,"q":"Choose ALL correct uses of estar: position, feeling, progressive, origin:","o":["All four","Position, feeling, progressive only","Feeling and origin only","Progressive only"],"a":1,"e":"Origin stays SER even with location-like phrasing (soy de…)."},{"n":60,"q":"'These books are mine' (long-form emphasis):","o":["Estos libros son míos","Estos libros son mi","Estos libros son mías","Estos son libros mi"],"a":0,"e":"Long possessive after noun/verb agrees: míos (masculine plural)."}];
 const PART_C=[{"n":61,"q":"Compose: invite a friend to study Monday at three and say what you'll bring. Which reply covers all requirements correctly?","o":["¿Quieres estudiar el lunes a las tres? Llevo mis apuntes y unos bolígrafos.","¿Quieres estudiar lunes a tres? Llevo mis apuntes y unos bolígrafos.","Quieres estudias el lunes en las tres? Traigo apuntes y bolígrafo soy.","Estudiar lunes tres sí? Llevar apuntes y plumas yo."],"a":0,"e":"Needs a las for clock time, correct -AR/-ER forms, and llevar for bring."},{"n":62,"q":"Describe your family's house: two rooms, furniture locations, plus who is tired tonight — pick the fully correct version:","o":["Mi casa tiene una cocina y un dormitorio. El sofá está en la sala. Mis hermanos están cansados esta noche.","Mi casa es una cocina y un dormitorio. El sofá es en la sala. Mis hermanos son cansados esta noche.","Mi casa tiene una cocina y un dormitorio. El sofá es debajo la sala. Mis hermanos tienen cansados esta noche.","Mi casa está una cocina y un dormitorio. El sofá hace en la sala. Mis hermanos están cansancio esta noche."],"a":0,"e":"Rooms with tener; furniture location estar; condition cansados with estar — all three rules respected."}];
-const EXAM_CSS=".ex-header{background:var(--ink);color:var(--surface);padding:20px 22px;border-radius:var(--radius);margin-bottom:22px}\n.ex-header h2{font-family:'Space Grotesk';font-size:28.5px;font-weight:700;margin-bottom:4px}\n.ex-header p{font-family:'Inter';font-size:19.5px;color:rgba(255,255,255,.65)}\n.ex-part{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--surface)}\n.ex-part-hd{background:var(--surface-2);padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}\n.ex-part-hd:hover{background:var(--surface-hover)}\n.ex-part-hd h3{font-size:21px;font-weight:700;color:var(--ink)}\n.ex-part-hd span{font-family:'Inter';font-size:18px;color:var(--ink-dim)}\n.ex-part-body{display:none;padding:20px}\n.ex-part.open .ex-part-body{display:block}\n.ex-q{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}\n.ex-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}\n.ex-qnum{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}\n.ex-qtext{font-size:21.8px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:13px}\n.ex-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}\n.ex-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface);text-align:left;transition:all .12s}\n.ex-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}\n.ex-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}\n.ex-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}\n.ex-exp{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface-2);padding:11px 14px;border-radius:var(--radius-sm);margin-top:9px;display:none;line-height:1.6}\n.ex-exp.show{display:block}\n.ex-sa{padding:13px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter';font-size:20.2px;color:var(--amber-ink);line-height:1.6;margin-top:9px}\n.ex-sa strong{display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:var(--amber)}\n.ex-score{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px;display:none}\n.ex-score strong{font-family:'Space Grotesk';color:var(--success);font-size:22.5px}\n.ex-score span{font-family:'Inter';color:var(--success);font-size:19.5px}\n.ex-reset{padding:10px 20px;border:1px solid var(--border);border-radius:999px;background:var(--surface);cursor:pointer;font-family:'Space Grotesk';font-weight:600;font-size:19.5px;margin-top:10px;transition:all .15s}\n.ex-reset:hover{background:var(--surface-hover);border-color:var(--border-strong)}\n";
+const EXAM_META={"title":"Spanish 1 — Full Practice Exam","subtitle":"Part A (30 pts) · Part B–1 (20 pts) · Part B–2 (10 pts) · Part C (2 pts)","parts":{"PART_A":{"title":"Part A — Multiple Choice","points":30,"minutes":null},"PART_B1":{"title":"Part B–1 — Multiple Choice","points":20,"minutes":null},"PART_B2":{"title":"Part B–2 — Short Answer","points":10,"minutes":null},"PART_C":{"title":"Part C — Extended Response","points":2,"minutes":null}}};
+const EXAM_CSS=".ex-header{background:var(--ink);color:var(--surface);padding:20px 22px;border-radius:var(--radius);margin-bottom:22px}\n.ex-header h2{font-family:'Space Grotesk';font-size:28.5px;font-weight:700;margin-bottom:4px}\n.ex-header p{font-family:'Inter';font-size:19.5px;color:rgba(255,255,255,.65)}\n.ex-part{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--surface)}\n.ex-part-hd{background:var(--surface-2);padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}\n.ex-part-hd:hover{background:var(--surface-hover)}\n.ex-part-hd h3{font-size:21px;font-weight:700;color:var(--ink)}\n.ex-part-hd span{font-family:'Inter';font-size:18px;color:var(--ink-dim)}\n.ex-part-hd-meta{display:flex;align-items:center;gap:14px;flex:none}\n.ex-timer{font-family:'Space Grotesk';font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink-dim)}\n.ex-timer.ex-timer-up{color:var(--danger)}\n.ex-part-body{display:none;padding:20px}\n.ex-part.open .ex-part-body{display:block}\n.ex-q{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}\n.ex-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}\n.ex-qnum{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}\n.ex-qtext{font-size:21.8px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:13px}\n.ex-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}\n.ex-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface);text-align:left;transition:all .12s}\n.ex-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}\n.ex-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}\n.ex-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}\n.ex-exp{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface-2);padding:11px 14px;border-radius:var(--radius-sm);margin-top:9px;display:none;line-height:1.6}\n.ex-exp.show{display:block}\n.ex-sa{padding:13px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter';font-size:20.2px;color:var(--amber-ink);line-height:1.6;margin-top:9px}\n.ex-sa strong{display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:var(--amber)}\n.ex-score{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px;display:none}\n.ex-score strong{font-family:'Space Grotesk';color:var(--success);font-size:22.5px}\n.ex-score span{font-family:'Inter';color:var(--success);font-size:19.5px}\n.ex-reset{padding:10px 20px;border:1px solid var(--border);border-radius:999px;background:var(--surface);cursor:pointer;font-family:'Space Grotesk';font-weight:600;font-size:19.5px;margin-top:10px;transition:all .15s}\n.ex-reset:hover{background:var(--surface-hover);border-color:var(--border-strong)}\n";
 function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');var idx=-1;tabs.forEach((b,i)=>{if(b.id==='tab-'+id)idx=i;});if(idx!==-1){tabs.forEach((b,i)=>{var on=i===idx;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;});var _hl=document.getElementById('hero-live');if(_hl)_hl.textContent=tabs[idx].textContent.trim()+' tab';}if(id==='examples'&&!examplesBuilt)buildExamples();if(id==='exam'&&!examBuilt)buildExam();var spc=document.getElementById('spc-card');if(spc)spc.style.display=(id==='guide')?'':'none';}
 let examBuilt=false;
 var examplesBuilt=false, ex2map={}, ex2shown={};
@@ -864,20 +937,25 @@ const st=document.createElement('style');st.textContent=EXAM_CSS;document.head.a
 
 v.innerHTML=`
 <div class="ex-header">
-  <h2>Spanish 1 — Full Practice Exam</h2>
-  <p>Part A (30 pts) · Part B-1 (20 pts) · Part B-2 (15 pts) · Part C (20 pts) · Based on Jan 2026 format</p>
+  <h2>${EXAM_META.title}</h2>
+  <p>${EXAM_META.subtitle}</p>
 </div>
 <div id="ex-score-box" class="ex-score"></div>
-${buildPartMC('A','Part A — Multiple Choice (30 questions, 1 pt each)',PART_A)}
-${buildPartMC('B1','Part B–1 — Multiple Choice (20 questions, 1 pt each)',PART_B1)}
-${buildPartFR('B2','Part B–2 — Short Answer (show work, 1 pt each)',PART_B2)}
-${buildPartFR('C','Part C — Extended Response (1–2 pts each)',PART_C)}
+${buildPartMC('A',PART_A)}
+${buildPartMC('B1',PART_B1)}
+${buildPartFR('B2',PART_B2)}
+${buildPartFR('C',PART_C)}
 `;
 // open Part A by default
-document.getElementById('ex-part-A').classList.add('open');
+togglePart('A');
 }
 
-function buildPartMC(id,title,qs){
+function examPartMeta(id){return (EXAM_META&&EXAM_META.parts&&EXAM_META.parts['PART_'+id])||{};}
+function exTimerHtml(id){return examPartMeta(id).minutes?`<span class="ex-timer" id="timer-${id}"></span>`:'';}
+
+function buildPartMC(id,qs){
+if(!qs.length)return'';
+const meta=examPartMeta(id);
 const items=qs.map(q=>`
 <div class="ex-q" id="exq-${id}-${q.n}">
   <div class="ex-qnum">Question ${q.n}</div>
@@ -889,15 +967,18 @@ const items=qs.map(q=>`
 </div>`).join('');
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${title}</h3><span id="score-${id}">Score: 0 / ${qs.length}</span>
+  <h3>${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'}, 1 pt each)</h3>
+  <div class="ex-part-hd-meta"><span id="score-${id}">Score: 0 / ${qs.length}</span>${exTimerHtml(id)}</div>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
 }
 
-function buildPartFR(id,title,qs){
+function buildPartFR(id,qs){
+if(!qs.length)return'';
 // Some guides author these as genuine free-response (q.sa, a model answer to
 // reveal); others reuse the multiple-choice shape (q.o/q.a) for this part.
 // Render whichever shape the data actually has instead of assuming sa exists.
+const meta=examPartMeta(id);
 const items=qs.map(q=>q.sa!==undefined?`
 <div class="ex-q">
   <div class="ex-qnum">Question ${q.n}</div>
@@ -914,11 +995,43 @@ const items=qs.map(q=>q.sa!==undefined?`
   <div class="ex-exp" id="exp-${id}-${q.n}">${q.e}</div>
 </div>`).join('');
 const allMC=qs.every(q=>q.sa===undefined);
+const rightMeta=allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`;
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${title}</h3>${allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`}
+  <h3>${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'})</h3>
+  <div class="ex-part-hd-meta">${rightMeta}${exTimerHtml(id)}</div>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
+}
+
+/* Per-part countdown timer. In-memory only (module-level `examTimers`) — a
+   refresh resets it, matching the fact that exam progress/scores are never
+   persisted to localStorage either. Not a proctored test: hitting zero just
+   shows "Time's up" and stops, it never auto-submits or locks the part. */
+var examTimers={};
+function startPartTimer(id){
+  const meta=examPartMeta(id);
+  if(!meta.minutes)return;
+  let t=examTimers[id];
+  if(!t){t=examTimers[id]={remaining:meta.minutes*60,expired:false,intervalId:null};}
+  if(t.expired||t.intervalId)return; // already ticking, or already ran out
+  t.intervalId=setInterval(function(){
+    t.remaining--;
+    if(t.remaining<=0){
+      t.remaining=0;t.expired=true;
+      clearInterval(t.intervalId);t.intervalId=null;
+    }
+    renderPartTimer(id);
+  },1000);
+  renderPartTimer(id);
+}
+function renderPartTimer(id){
+  const el=document.getElementById('timer-'+id);
+  const t=examTimers[id];
+  if(!el||!t)return;
+  if(t.expired){el.textContent="Time's up";el.classList.add('ex-timer-up');return;}
+  const m=Math.floor(t.remaining/60),s=t.remaining%60;
+  el.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
 }
 
 function togglePart(id){
@@ -926,6 +1039,7 @@ function togglePart(id){
   const isOpen=part.classList.toggle('open');
   const hd=part.querySelector('.ex-part-hd');
   if(hd)hd.setAttribute('aria-expanded',isOpen?'true':'false');
+  if(isOpen)startPartTimer(id);
 }
 
 function toggleSA(btn){
@@ -1233,6 +1347,58 @@ function qBookmarkToggle(qid){
 }
 function qId(q){return q.u+'|'+q.q;}
 
+/* Mistake Log: localStorage-backed, keyed the same way as the bookmark set
+   (ssBookmarks_<slug>) — a currently-unresolved-misses list, not full history.
+   A question moves in when answered wrong and out the moment it's answered
+   correctly again (from anywhere: normal quiz, diagnostic, hard mode, or the
+   log's own review pass). */
+var MISTAKE_LOG_KEY='ssMistakes_'+'spanish-1';
+function mistakeLogMap(){
+  try{return JSON.parse(localStorage.getItem(MISTAKE_LOG_KEY)||'{}');}catch(e){return {};}
+}
+function mistakeLogSave(map){
+  try{localStorage.setItem(MISTAKE_LOG_KEY,JSON.stringify(map));}catch(e){}
+  updateMistakeLogBadge();
+}
+function mistakeLogAdd(q){
+  const map=mistakeLogMap();
+  map[qId(q)]={u:q.u,q:q.q,o:q.o,a:q.a,e:q.e,d:q.d,topic:q.topic};
+  mistakeLogSave(map);
+}
+function mistakeLogRemove(q){
+  const map=mistakeLogMap();
+  const id=qId(q);
+  if(!(id in map))return;
+  delete map[id];
+  mistakeLogSave(map);
+}
+function updateMistakeLogBadge(){
+  const el=document.getElementById('mistake-log-count');
+  if(!el)return;
+  const n=Object.keys(mistakeLogMap()).length;
+  el.textContent=String(n);
+  el.style.display=n?'':'none';
+}
+var mistakeReviewMode=false;
+function openMistakeLog(){
+  switchTab('quiz');
+  mistakeReviewMode=true;
+  diagMode=false;
+  const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
+  const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
+  const map=mistakeLogMap();
+  qPool=Object.values(map);
+  qIdx=0;score=0;requeueCounts=new WeakMap();
+  const qb=document.getElementById('qbox');
+  if(!qPool.length){
+    qb.innerHTML='<div class="mistake-log-empty">No mistakes logged right now — nice work. Answer a question wrong anywhere in the quiz and it will show up here until you get it right.</div>';
+    document.getElementById('q-prog').textContent='';
+    document.getElementById('q-sc').textContent='';
+    return;
+  }
+  showQ();
+}
+
 function quizShuffle(){
   if(!qPool.length)return;
   for(let i=qPool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[qPool[i],qPool[j]]=[qPool[j],qPool[i]];}
@@ -1267,8 +1433,15 @@ function buildQSel(){
   if(HQ.length)sel.innerHTML+='<option value="hard">Hard Mode Only ('+HQ.length+' Qs)</option>';
   loadQ();
 }
+let difficultyFilter='all';
+function setDifficultyFilter(d){
+  difficultyFilter=d;
+  document.querySelectorAll('.diff-chip').forEach(function(c){c.classList.toggle('on',c.dataset.diff===d);});
+  loadQ();
+}
 function loadQ(){
   diagMode=false;
+  mistakeReviewMode=false;
   const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
   const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
   const raw=document.getElementById('q-sel').value;
@@ -1277,6 +1450,7 @@ function loadQ(){
   if(raw==='hard')src=HQ.slice();
   else if(+raw===0)src=QUIZ.concat(HQ);
   else src=QUIZ.concat(HQ).filter(q=>q.u===+raw);
+  if(difficultyFilter!=='all')src=src.filter(q=>q.d===difficultyFilter);
   qPool=src.sort(()=>Math.random()-.5);
   qIdx=0;score=0;requeueCounts=new WeakMap();showQ();
 }
@@ -1343,8 +1517,10 @@ function showQ(){
   const bookmarked=qBookmarkSet().has(bid);
   const STAR_OUTLINE='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
   const STAR_FILLED='<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
-  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>`+
+  const diffPill=q.d?`<span class="q-diff q-diff-${q.d}">${q.d}</span>`:'';
+  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>${diffPill}`+
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
+    (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
     `<button class="q-hint-btn" id="q-hint-btn" onclick="toggleQHint()">💡 Hint</button>`+
     `<div class="q-hint-box" id="q-hint-box">Hint: this is from Unit ${q.u}: ${unitNameFor(q.u)}</div>`+
@@ -1410,6 +1586,7 @@ function ansQ(i){
     }
   }
   if(SS_MASTERY)SS_MASTERY.recordAnswer(q.u,i===q.a);
+  if(i===q.a)mistakeLogRemove(q);else mistakeLogAdd(q);
   ssOverallProgressUpdate();
   const expEl=document.getElementById('q-exp');
   expEl.classList.add('show');
@@ -1439,6 +1616,7 @@ function ssQuizKeyboardShortcuts(e){
 }
 document.addEventListener('keydown',ssQuizKeyboardShortcuts);
 buildQSel();
+updateMistakeLogBadge();
 
 /* ----- APG tabs: roving-tabindex arrow-key nav on the hero tab bar. Manual
    activation — arrows move focus only; Enter/Space fire the button's own click
@@ -1842,6 +2020,105 @@ async function ssQuizTabClick(){
 }
 
 ssCheckSession();
+
+/* ----- Reference drawer: a compact, always-available companion to the full
+   Quick Reference TAB. Reuses the exact HTML the generator already emits into
+   #view-qref (buildQref() in generate-guide.mjs) instead of rebuilding it —
+   the drawer body is filled by copying that markup once, on first open. ----- */
+function qrefDrawerOpen(){
+  var panel=document.getElementById('qref-drawer');
+  if(!panel)return;
+  var body=document.getElementById('qref-drawer-body');
+  if(body&&!body.dataset.filled){
+    var src=document.getElementById('view-qref');
+    if(src){body.innerHTML=src.innerHTML;body.dataset.filled='1';}
+  }
+  panel.classList.add('open');
+  panel.setAttribute('aria-hidden','false');
+  var fab=document.getElementById('qref-drawer-fab');
+  if(fab)fab.setAttribute('aria-expanded','true');
+  var closeBtn=panel.querySelector('.qref-drawer-close');
+  if(closeBtn)closeBtn.focus();
+  document.addEventListener('keydown',qrefDrawerKeydown);
+}
+function qrefDrawerClose(){
+  var panel=document.getElementById('qref-drawer');
+  if(!panel||!panel.classList.contains('open'))return;
+  panel.classList.remove('open');
+  panel.setAttribute('aria-hidden','true');
+  var fab=document.getElementById('qref-drawer-fab');
+  if(fab){fab.setAttribute('aria-expanded','false');fab.focus();}
+  document.removeEventListener('keydown',qrefDrawerKeydown);
+}
+function qrefDrawerToggle(){
+  var panel=document.getElementById('qref-drawer');
+  if(panel&&panel.classList.contains('open'))qrefDrawerClose();else qrefDrawerOpen();
+}
+function qrefDrawerKeydown(e){if(e.key==='Escape')qrefDrawerClose();}
+
+/* ----- Optional Desmos graphing calculator. Disabled by default: leave
+   DESMOS_API_KEY empty and this entire feature (button, panel, external
+   script) never appears and never makes a network request. To enable it,
+   the site owner gets a free key for personal/school use at
+   https://www.desmos.com/api/v1.12/calculator.js docs (sign in at
+   desmos.com/my-api) and pastes it in below. Generic — available on every
+   guide once a key is configured, not gated to any subject. ----- */
+const DESMOS_API_KEY = "";
+let desmosScriptLoaded=false, desmosCalculator=null;
+function desmosInit(){
+  if(!DESMOS_API_KEY)return;
+  var fab=document.createElement('button');
+  fab.id='desmos-fab';
+  fab.className='desmos-fab';
+  fab.type='button';
+  fab.setAttribute('aria-label','Toggle graphing calculator');
+  fab.setAttribute('aria-expanded','false');
+  fab.title='Graphing calculator';
+  fab.textContent='\u{1F4C8}';
+  fab.onclick=desmosToggle;
+  document.body.appendChild(fab);
+
+  var panel=document.createElement('div');
+  panel.id='desmos-panel';
+  panel.className='desmos-panel';
+  panel.setAttribute('role','dialog');
+  panel.setAttribute('aria-modal','true');
+  panel.setAttribute('aria-label','Graphing calculator');
+  panel.setAttribute('aria-hidden','true');
+  panel.innerHTML='<div class="desmos-panel-hd"><b>Graphing Calculator</b>'+
+    '<button type="button" class="desmos-panel-close" aria-label="Close graphing calculator">✕</button></div>'+
+    '<div class="desmos-calc" id="desmos-calc"></div>';
+  document.body.appendChild(panel);
+  panel.querySelector('.desmos-panel-close').onclick=desmosToggle;
+}
+function desmosToggle(){
+  var panel=document.getElementById('desmos-panel');
+  if(!panel)return;
+  var opening=!panel.classList.contains('open');
+  panel.classList.toggle('open',opening);
+  panel.setAttribute('aria-hidden',opening?'false':'true');
+  var fab=document.getElementById('desmos-fab');
+  if(fab)fab.setAttribute('aria-expanded',opening?'true':'false');
+  if(opening){
+    document.addEventListener('keydown',desmosKeydown);
+    if(!desmosScriptLoaded)desmosLoadScript();
+  }else{
+    document.removeEventListener('keydown',desmosKeydown);
+    if(fab)fab.focus();
+  }
+}
+function desmosKeydown(e){if(e.key==='Escape')desmosToggle();}
+function desmosLoadScript(){
+  desmosScriptLoaded=true;
+  var s=document.createElement('script');
+  s.src='https://www.desmos.com/api/v1.12/calculator.js?apiKey='+encodeURIComponent(DESMOS_API_KEY);
+  s.onload=function(){
+    var el=document.getElementById('desmos-calc');
+    if(el&&window.Desmos)desmosCalculator=Desmos.GraphingCalculator(el);
+  };
+  document.head.appendChild(s);
+}
+desmosInit();
 
 /* ----- unit-filtered practice, e.g. /chemistry?practice=3 (from the dashboard's "study this next") ----- */
 (async function ssPracticeMode(){

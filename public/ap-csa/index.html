@@ -273,6 +273,16 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .q-block:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .q-block-hd{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px}
 .q-text{font-size:24.8px;font-weight:600;color:var(--ink);line-height:1.55;flex:1}
+.q-diff{flex:none;display:inline-block;padding:3px 11px;border-radius:999px;font-size:13px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;border:1px solid transparent;align-self:flex-start;margin-top:2px}
+.q-diff-easy{background:var(--success-soft);color:var(--success);border-color:var(--success-border)}
+.q-diff-medium{background:var(--amber-soft);color:var(--amber-ink);border-color:var(--amber)}
+.q-diff-hard{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}
+.q-topic{font-size:14.5px;color:var(--ink-dim);margin:-14px 0 14px;font-style:italic}
+.mistake-log-btn{position:relative}
+.mistake-log-count{display:inline-block;margin-left:6px;background:var(--danger);color:#fff;border-radius:999px;
+  font-size:12px;font-weight:700;padding:1px 7px}
+.mistake-log-empty{padding:24px;text-align:center;color:var(--ink-muted);font-size:18px}
 .q-bookmark{flex:none;background:none;border:none;cursor:pointer;color:var(--ink-dim);padding:2px;border-radius:6px;transition:color .15s ease,transform .15s ease}
 .q-bookmark:hover{color:var(--amber);transform:scale(1.08)}
 .q-bookmark.on{color:var(--amber)}
@@ -514,6 +524,51 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 .back-to-top:hover{color:var(--ink);border-color:var(--accent)}
 .back-to-top svg{width:20px;height:20px;display:block}
 
+/* ---- reference drawer: quick-access companion to the Quick Reference tab,
+   reachable from any tab. Sits bottom-center, clear of back-to-top
+   (bottom:22/left:22..74) and #cbot-fab (bottom:22/right:22..78). ---- */
+.qref-drawer-fab{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);width:52px;height:52px;
+  border-radius:50%;background:var(--surface);color:var(--ink-muted);border:1px solid var(--border-strong);
+  cursor:pointer;box-shadow:var(--shadow-md);z-index:190;display:flex;align-items:center;justify-content:center;
+  transition:color .15s ease,border-color .15s ease}
+.qref-drawer-fab:hover{color:var(--accent);border-color:var(--accent)}
+.qref-drawer-fab svg{width:20px;height:20px;display:block}
+.qref-drawer{position:fixed;top:0;right:0;height:100dvh;width:min(420px,100vw);background:var(--surface);
+  border-left:1px solid var(--border-strong);box-shadow:var(--shadow-lg);z-index:210;display:flex;flex-direction:column;
+  transform:translateX(100%);opacity:0;visibility:hidden;transition:transform .25s ease,opacity .25s ease,visibility 0s linear .25s}
+.qref-drawer.open{transform:translateX(0);opacity:1;visibility:visible;transition:transform .25s ease,opacity .25s ease}
+.qref-drawer-hd{display:flex;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--surface-2);flex-shrink:0}
+.qref-drawer-hd b{font-family:'Space Grotesk';font-size:20px;color:var(--ink);flex:1}
+.qref-drawer-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:6px 8px;border-radius:6px}
+.qref-drawer-close:hover{color:var(--ink);background:var(--surface-hover)}
+.qref-drawer-body{flex:1;overflow-y:auto;padding:16px}
+.qref-drawer-body .qr-section:not(:last-child){margin-bottom:20px}
+@media(max-width:600px){
+  .qref-drawer{width:100vw}
+}
+
+/* ---- optional Desmos graphing calculator (see DESMOS_API_KEY in logic.js).
+   Markup is only ever created by JS when a key is configured, so this CSS
+   has no visible effect until then. Placed clear of #cbot-fab (right:22..78). ---- */
+.desmos-fab{position:fixed;bottom:22px;right:90px;width:52px;height:52px;border-radius:50%;
+  background:var(--accent);color:#fff;border:none;font-size:22px;cursor:pointer;
+  box-shadow:0 8px 24px -6px rgba(15,122,112,.4);z-index:195;display:flex;align-items:center;justify-content:center;
+  transition:transform .15s ease}
+.desmos-fab:hover{transform:scale(1.06)}
+.desmos-panel{position:fixed;bottom:88px;right:90px;width:min(380px,calc(100vw - 32px));
+  height:min(420px,calc(100dvh - 160px));background:var(--surface);border:1px solid var(--border-strong);
+  border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:205;display:none;flex-direction:column;overflow:hidden}
+.desmos-panel.open{display:flex}
+.desmos-panel-hd{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+.desmos-panel-hd b{font-family:'Space Grotesk';font-size:18px;color:var(--ink);flex:1}
+.desmos-panel-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:4px 6px;border-radius:6px}
+.desmos-panel-close:hover{color:var(--ink);background:var(--surface-hover)}
+.desmos-calc{flex:1;width:100%;height:100%}
+@media(max-width:600px){
+  .desmos-fab{right:22px;bottom:82px}
+  .desmos-panel{right:12px;bottom:144px}
+}
+
 /* ---- print / export ---- */
 @media print{
   :root,[data-theme="dark"]{
@@ -528,7 +583,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
   body{background:#fff;color:#000}
   body::before,.hero::after{display:none!important}
   #theme-toggle,.search-wrap,.ss-sticky-top .filter-row-wrap,.mobile-only-select,.nav,.nav-spacer,.tablist,
-  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
+  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.qref-drawer-fab,.qref-drawer,.desmos-fab,.desmos-panel,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
   .search-kbd,.ss-overall-progress,.q-kbd-hint,.diag-btn{display:none!important}
   *{position:static!important;box-shadow:none!important}
   .unit-body{display:block!important}
@@ -707,6 +762,13 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <div class="q-bar">
     <select id="q-sel" aria-label="Choose a question set" onchange="loadQ()"></select>
     <button class="btn" type="button" onclick="quizShuffle()" style="font-size:14px;padding:7px 14px">⇄ Shuffle</button>
+    <div class="diff-chips" role="group" aria-label="Filter by difficulty" style="display:flex;gap:6px">
+      <button class="chip on diff-chip" type="button" data-diff="all" onclick="setDifficultyFilter('all')">All</button>
+      <button class="chip diff-chip" type="button" data-diff="easy" onclick="setDifficultyFilter('easy')">Easy</button>
+      <button class="chip diff-chip" type="button" data-diff="medium" onclick="setDifficultyFilter('medium')">Medium</button>
+      <button class="chip diff-chip" type="button" data-diff="hard" onclick="setDifficultyFilter('hard')">Hard</button>
+    </div>
+    <button class="btn mistake-log-btn" type="button" onclick="openMistakeLog()">Mistake Log<span class="mistake-log-count" id="mistake-log-count" style="display:none">0</span></button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -869,6 +931,16 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
   <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
 </button>
+<button type="button" id="qref-drawer-fab" class="qref-drawer-fab" onclick="qrefDrawerToggle()" aria-label="Open quick reference" aria-expanded="false" aria-controls="qref-drawer" title="Quick Reference">
+  <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+</button>
+<div id="qref-drawer" class="qref-drawer" role="dialog" aria-modal="true" aria-label="Quick Reference" aria-hidden="true">
+  <div class="qref-drawer-hd">
+    <b>Quick Reference</b>
+    <button type="button" class="qref-drawer-close" onclick="qrefDrawerToggle()" aria-label="Close quick reference">✕</button>
+  </div>
+  <div class="qref-drawer-body" id="qref-drawer-body"></div>
+</div>
 <script>
 const UNITS=[{"id":1,"name":"Java Basics & Primitive Types","concepts":[{"l":"Compiling and Running Java","intro":"Java source code (.java) is compiled by javac into bytecode (.class), which the JVM executes, making Java platform-independent.","b":["public class Main { public static void main(String[] args) { } } is the required entry point.","Every .java file's public class name must match the filename exactly (Main.java -> class Main).","javac Main.java produces Main.class; java Main runs it via the JVM.","Java is statically typed: every variable's type is declared and checked at compile time.","A missing semicolon or unmatched brace causes a compile-time error, not a runtime error."]},{"l":"Primitive Types: int and double","intro":"AP CSA uses int for whole numbers and double for decimal (floating-point) numbers as the two primary numeric types.","b":["int stores 32-bit whole numbers, e.g. int x = 5;","double stores double-precision decimals, e.g. double pi = 3.14159;","Integer division truncates: 7 / 2 evaluates to 3, not 3.5.","Mixing types promotes to the wider type: 7 / 2.0 evaluates to 3.5.","Casting: (double) 7 / 2 gives 3.5; (int) 3.9 gives 3 (truncates, does not round).","The modulus operator % returns the remainder: 7 % 2 is 1."]},{"l":"Variables, Declarations, and Assignment","intro":"A variable must be declared with a type before use, and assignment stores a value into that variable's memory location.","b":["Declaration: int score; Assignment: score = 90; Combined: int score = 90;","Variable names are case-sensitive and conventionally use camelCase (totalScore, not TotalScore).","Compound assignment operators: x += 5 means x = x + 5; also -=, *=, /=, %=.","Increment/decrement: x++ and x-- change a variable by 1.","boolean stores only true or false and is used for logical conditions.","String is not primitive; it's a reference type representing text, e.g. String name = \"Ada\";"]},{"l":"String Basics","intro":"String objects represent immutable sequences of characters and support several key methods tested on the AP exam.","b":["Concatenation with + joins strings: \"Hi\" + \"there\" produces \"Hithere\".","str.length() returns the number of characters, e.g. \"hello\".length() is 5.","str.substring(a, b) returns characters from index a up to (not including) b.","str.charAt(i) returns the character at index i (0-indexed).","str.equals(other) checks value equality; == checks reference equality (a common trap).","str.indexOf(\"x\") returns the index of the first occurrence, or -1 if not found."]},{"l":"Expressions and Operator Precedence","intro":"Java evaluates expressions following a strict order of operations, similar to standard math precedence rules.","b":["Parentheses first, then unary (-, ++, --), then *, /, %, then +, -, then relational, then logical.","* / % have equal precedence and evaluate left to right: 8 / 4 * 2 = 4, not 1.","Operator precedence determines order but associativity determines direction for equal-precedence ops.","System.out.println(2 + 3 + \"4\") prints \"54\" because 2+3 evaluates first, then concatenates with \"4\".","System.out.println(\"4\" + 2 + 3) prints \"423\" because left-to-right string concatenation happens first."]},{"l":"Wrapper Classes and Integer Overflow","intro":"Java provides wrapper classes like Integer and Double to treat primitives as objects, and ints have a fixed range that can overflow.","b":["Integer.MAX_VALUE is 2147483647; adding 1 to it overflows to Integer.MIN_VALUE (a wraparound bug).","Autoboxing automatically converts int to Integer and back when needed, e.g. in ArrayList<Integer>.","Double.parseDouble(\"3.14\") and Integer.parseInt(\"42\") convert Strings to numeric types.","Math.pow(base, exp), Math.sqrt(x), and Math.abs(x) are common static Math class methods.","Math.random() returns a double in [0.0, 1.0); (int)(Math.random() * n) gives a random int in [0, n)."]}],"keyFacts":["int / int always truncates toward zero; cast one operand to double to get a decimal result.","String comparison must use .equals(), never == (== compares object references, not content).","Java is case-sensitive: int, String, and boolean must be lowercase/exact-case keywords.","Every statement ends in a semicolon; blocks of code are grouped with { }."],"traps":["Using == to compare Strings, not .equals() — == checks if two references point to the same object.","Expecting 5 / 2 to equal 2.5, not 2 — integer division truncates the decimal part entirely.","Forgetting that (int) casting truncates toward zero, not rounds — (int) 4.9 is 4, not 5.","Confusing = (assignment) with == (equality comparison) inside conditions."]},{"id":2,"name":"Objects & Classes","concepts":[{"l":"Classes as Blueprints","intro":"A class defines the instance variables (state) and methods (behavior) that every object created from it will have.","b":["Instance variables are declared inside the class but outside any method, typically private.","private restricts access to within the class only, enforcing encapsulation.","An object is a specific instance of a class, created with the new keyword.","class Dog { private String name; private int age; } defines a Dog blueprint with two fields.","Each object has its own copy of instance variables, independent of other objects of the same class."]},{"l":"Constructors","intro":"A constructor initializes a new object's instance variables and shares its name with the class.","b":["public Dog(String n, int a) { name = n; age = a; } is a constructor for class Dog.","Constructors have no return type, not even void.","The keyword this refers to the current object, e.g. this.name = name; resolves naming conflicts with parameters.","If no constructor is written, Java provides a default no-argument constructor automatically.","You can overload constructors: multiple constructors with different parameter lists in the same class."]},{"l":"Accessor and Mutator Methods","intro":"Getters (accessors) return the value of a private field, and setters (mutators) change it, preserving encapsulation.","b":["public int getAge() { return age; } is a standard accessor (getter).","public void setAge(int a) { age = a; } is a standard mutator (setter).","Encapsulation means keeping fields private and exposing controlled access via public methods.","Getters/setters let a class validate data (e.g. reject negative age) before changing state.","toString() is a special method that returns a String representation of an object, often overridden."]},{"l":"Method Signatures and Overloading","intro":"A method's signature is its name plus parameter types, and Java allows multiple methods with the same name if signatures differ.","b":["public void bark(int times) and public void bark() are overloaded methods (different parameter lists).","Return type alone does NOT distinguish overloaded methods — parameter lists must differ.","Method parameters are passed by value: primitives are copied, and object references are copied (but point to the same object).","A void method returns nothing; a method with a return type must return a matching value on every path.","public static methods belong to the class itself, not an instance, and are called like ClassName.method()."]},{"l":"Object References and Aliasing","intro":"A variable of an object type stores a reference (memory address) to the object, not the object itself, which leads to aliasing.","b":["Dog a = new Dog(\"Rex\", 3); Dog b = a; makes b an alias — both point to the same Dog object.","Changing b.setAge(5) also changes what a.getAge() returns, since they reference the same object.","null means a reference variable points to no object; calling a method on null throws a NullPointerException.","Two references are == only if they point to the exact same object in memory.","Passing an object to a method passes the reference, so the method can mutate the object's fields."]},{"l":"Inheritance Basics (Preview)","intro":"A class can extend another class to inherit its fields and methods, forming an 'is-a' relationship (fully explored in Unit 7).","b":["class Puppy extends Dog { } makes Puppy inherit Dog's public and protected members.","super() calls the parent class's constructor and must be the first line in the subclass constructor.","protected members are accessible in the class, subclasses, and same package.","Overriding a method means redefining a parent method in the subclass with the same signature.","@Override is a common annotation (not required by AP exam) that flags an intentional override."]}],"keyFacts":["Constructors share the class name and have no return type, including no void.","this.field = parameter is the standard fix when a constructor parameter shadows a field name.","Objects are compared for identity with ==, but for logical equality you should use .equals().","Private fields are only directly accessible inside their own class's methods."],"traps":["Writing a constructor with a return type (even void) — this makes it a regular method, not a constructor.","Forgetting this. when a parameter name matches a field name, causing the field to never actually update.","Assuming Dog b = a; copies the object — it only copies the reference; both variables alias the same object.","Comparing objects with == expecting value equality instead of reference equality."]},{"id":3,"name":"Boolean Logic & Ifs","concepts":[{"l":"Relational and Boolean Operators","intro":"Relational operators compare values and produce a boolean, while logical operators combine boolean expressions.","b":["Relational operators: ==, !=, <, >, <=, >= compare numeric values and return true/false.","Logical AND (&&): both sides must be true for the whole expression to be true.","Logical OR (||): true if at least one side is true.","Logical NOT (!): flips a boolean's value, e.g. !true is false.","&& and || use short-circuit evaluation: if the left side of && is false, the right side is never evaluated."]},{"l":"if, else if, else","intro":"Conditional statements let a program execute different code blocks depending on whether a boolean expression is true.","b":["if (condition) { ... } else { ... } executes one branch or the other, never both.","else if chains test conditions in order; only the first true branch executes.","Conditions must be boolean expressions; Java does not allow if (1) like C does.","Nested if statements place one if inside another to test compound conditions.","Braces {} are optional for single-statement blocks but recommended to avoid dangling-else bugs."]},{"l":"De Morgan's Laws and Compound Conditions","intro":"De Morgan's Laws describe how to negate compound boolean expressions, a frequently tested exam skill.","b":["!(A && B) is equivalent to (!A || !B).","!(A || B) is equivalent to (!A && !B).","Negating a relational operator flips it: !(x > 5) is equivalent to x <= 5.","Complex conditions can be simplified using truth tables to verify equivalence.","De Morgan's Laws are commonly tested by asking which expression is logically equivalent to a negated compound condition."]},{"l":"Comparing Objects vs Primitives","intro":"Comparing primitive values with == checks their actual value, but comparing objects with == checks reference identity, not content.","b":["For primitives (int, double, boolean), == correctly compares values.","For objects (String, custom classes), == compares whether two references point to the same object.","String s1 = \"cat\"; String s2 = \"cat\"; s1 == s2 may be true due to String pooling, but this is unreliable — always use .equals().","new String(\"cat\") == \"cat\" is false because new forces a distinct object.","compareTo() returns negative, zero, or positive to indicate ordering, e.g. \"apple\".compareTo(\"banana\") is negative."]},{"l":"The Conditional (Ternary) Operator","intro":"The ternary operator ?: is a compact way to write a simple if-else that produces a value.","b":["condition ? valueIfTrue : valueIfFalse; e.g. int max = (a > b) ? a : b;","The ternary operator's result can be assigned directly to a variable or printed.","Ternary expressions can be nested, but this quickly becomes hard to read.","Both branches must produce compatible types for the assignment to work.","Ternary operators are common in short evaluations but not required by the AP exam."]},{"l":"Truth Tables and Logical Equivalence","intro":"A truth table exhaustively lists every input combination and the resulting output, used to verify or compare boolean expressions.","b":["For && there are 4 rows; only T,T yields true.","For || there are 4 rows; only F,F yields false.","Exclusive or (XOR) behavior can be built with (A || B) && !(A && B).","Two expressions are logically equivalent if their truth tables match on every row.","AP free-response questions sometimes ask you to trace boolean expressions with specific variable values."]}],"keyFacts":["&& and || short-circuit: the right operand may never execute if the left already determines the result.","Always use .equals() for String/object content comparison; == is for primitives and reference identity.","De Morgan's Laws: !(A&&B) == (!A||!B) and !(A||B) == (!A&&!B).","A boolean-valued condition is required inside if(), while(), and the middle clause of for()."],"traps":["Using = instead of == inside a condition, which assigns rather than compares (and often won't compile for non-boolean types).","Comparing Strings with ==, not .equals() — this trap resurfaces constantly across units.","Misapplying De Morgan's Law by forgetting to flip the relational operator along with the connective.","Assuming short-circuit && still evaluates the right side even when the left side is false — it does not."]},{"id":4,"name":"Iteration Loops","concepts":[{"l":"while Loops","intro":"A while loop repeats a block of code as long as its boolean condition remains true, checked before each iteration.","b":["while (condition) { ... } — the condition is checked before the loop body runs each time.","If the condition is false initially, the loop body never executes (0 iterations possible).","The loop variable must be updated inside the body, or the loop runs forever (infinite loop).","while (true) { ... break; } is a common pattern for loops with an exit condition inside the body.","while loops are ideal when the number of iterations isn't known in advance."]},{"l":"for Loops","intro":"A for loop packages initialization, condition, and update into one line, ideal for a known number of iterations.","b":["for (int i = 0; i < n; i++) { ... } initializes i, checks i < n before each pass, then increments i after.","The loop runs n times for i = 0, 1, ..., n-1 (classic 0-indexed counting).","for (int i = n; i > 0; i--) counts downward from n to 1.","Any of the three for-loop clauses can be omitted, but the semicolons must remain.","Nested for loops (a loop inside a loop) are used for 2D array traversal and pattern printing."]},{"l":"do-while Loops","intro":"A do-while loop executes its body once before checking the condition, guaranteeing at least one execution.","b":["do { ... } while (condition); checks the condition AFTER running the body.","Useful when code must run at least once regardless of the condition, e.g. menu prompts.","do-while loops are less common on the AP exam than while and for but still testable.","The semicolon after while (condition) in a do-while is required (a common syntax slip).","Off-by-one behavior differs from while: a do-while with a false condition still runs once."]},{"l":"Loop Control: break and continue","intro":"break exits a loop entirely, while continue skips to the next iteration without finishing the current one.","b":["break immediately terminates the nearest enclosing loop (or switch).","continue skips the rest of the current iteration's body and jumps to the loop's update/condition check.","In a for loop, continue still executes the increment (i++) before re-checking the condition.","Overusing break/continue can make loop logic harder to trace; AP favors clear conditions when possible.","break only exits the innermost loop it's directly inside, not outer loops in nested structures."]},{"l":"Off-By-One Errors and Loop Bounds","intro":"Off-by-one errors occur when a loop iterates one time too many or too few, often due to boundary condition mistakes.","b":["for (int i = 0; i <= n; i++) runs n+1 times, which often causes an IndexOutOfBoundsException on arrays of size n.","The safe array-traversal bound is i < arr.length, not i <= arr.length.","Changing < to <= (or vice versa) in a loop condition is a classic single-character bug.","Tracing a loop by hand with a small example (n=3) quickly reveals off-by-one mistakes.","Reversed iteration for (int i = arr.length - 1; i >= 0; i--) correctly visits every valid index."]},{"l":"Accumulator Patterns","intro":"An accumulator pattern uses a loop to build up a running result, such as a sum, count, product, or maximum.","b":["int sum = 0; for (int x : arr) { sum += x; } accumulates a running total.","int count = 0; for (...) { if (condition) count++; } counts matching elements.","double product = 1; ... product *= x; is the multiplicative accumulator pattern (starts at 1, not 0).","Finding a maximum: initialize max to the first element (or a very small value), then compare and update.","Accumulator variables must be declared and initialized BEFORE the loop begins, not inside it."]}],"keyFacts":["while checks its condition before running; do-while checks after, guaranteeing at least one execution.","for (int i = 0; i < arr.length; i++) is the standard safe way to traverse an array by index.","break exits the loop entirely; continue skips only to the next iteration.","A sum accumulator starts at 0; a product accumulator starts at 1."],"traps":["Using <= instead of < in an array loop bound, causing ArrayIndexOutOfBoundsException.","Forgetting to update the loop control variable, creating an infinite loop.","Initializing an accumulator inside the loop instead of before it, resetting it every iteration.","Assuming do-while behaves like while — do-while always executes its body at least once."]},{"id":5,"name":"Arrays","concepts":[{"l":"Declaring and Creating Arrays","intro":"An array is a fixed-size, ordered collection of elements of the same type, indexed starting at 0.","b":["int[] nums = new int[5]; creates an array of 5 ints, all initialized to 0.","int[] nums = {1, 2, 3}; creates and initializes an array literal in one step.","Array length is fixed at creation; nums.length gives the size (no parentheses — it's a field, not a method).","Valid indices range from 0 to length - 1; accessing arr[arr.length] throws ArrayIndexOutOfBoundsException.","Array elements default to 0 for numeric types, false for boolean, and null for object types."]},{"l":"Traversing Arrays","intro":"Arrays are commonly traversed with a standard for loop (for index access) or an enhanced for-each loop (for read-only access).","b":["for (int i = 0; i < arr.length; i++) gives index-based access, needed when modifying elements.","for (int x : arr) { ... } is the enhanced for-each loop; x is a copy, so you cannot modify arr through it.","Reversing an array in place swaps arr[i] and arr[arr.length-1-i] for i from 0 to length/2.","Searching linearly checks each element in order until a match is found or the array ends.","The for-each loop cannot access the index, only the value, so use a regular for loop when the index matters."]},{"l":"Common Array Algorithms","intro":"Several standard algorithms — linear search, finding min/max, and sum/average — appear frequently on the AP exam.","b":["Linear search: loop through checking arr[i] == target; return index if found, -1 if the loop finishes without a match.","Finding the max: initialize max = arr[0], then compare each subsequent element and update if larger.","Sum and average: accumulate a sum with a loop, then divide by arr.length (cast to double to avoid integer division).","Counting occurrences: loop and increment a counter whenever arr[i] matches a condition.","Checking if an array is sorted: compare each adjacent pair arr[i] <= arr[i+1] across the whole array."]},{"l":"Arrays as Method Parameters","intro":"Arrays are objects in Java, so passing an array to a method passes a reference, allowing the method to modify the caller's array.","b":["public static void doubleAll(int[] arr) { for (int i=0; i<arr.length; i++) arr[i] *= 2; } permanently changes the caller's array.","Methods can return arrays: public static int[] makeArray(int n) { ... return result; }","Arrays.toString(arr) converts an array to a printable String like [1, 2, 3].","You cannot resize an array; to 'grow' it, you must create a new, larger array and copy elements over.","System.arraycopy() or a manual loop is used to copy elements between arrays."]},{"l":"Selection Sort and Insertion Sort","intro":"AP CSA requires knowing two O(n^2) sorting algorithms by name and behavior: selection sort and insertion sort.","b":["Selection sort repeatedly finds the minimum of the unsorted portion and swaps it into place at the front.","Selection sort makes exactly n-1 swaps regardless of initial order.","Insertion sort builds a sorted portion at the front by taking each next element and shifting it into place.","Insertion sort performs well on nearly-sorted data (fewer shifts needed) while selection sort's work is constant.","Both selection sort and insertion sort run in O(n^2) time in the worst case."]},{"l":"Binary Search","intro":"Binary search efficiently finds a target in a SORTED array by repeatedly halving the search range, running in O(log n) time.","b":["Binary search requires the array to already be sorted; it fails on unsorted data.","Compare the target to the middle element: if equal, found; if target is smaller, search the left half; if larger, search the right half.","int mid = (low + high) / 2; is the standard midpoint calculation.","Binary search runs in O(log n) time, dramatically faster than linear search's O(n) on large arrays.","The loop/recursion ends when low > high (not found, return -1) or the target is located."]}],"keyFacts":["Array indices run from 0 to arr.length - 1; arr.length has no parentheses (it's a field).","Arrays are reference types: passing one to a method lets that method modify the original array's contents.","Binary search requires a sorted array and runs in O(log n); linear search works unsorted in O(n).","Selection sort always makes n-1 swaps; insertion sort's work depends on how sorted the data already is."],"traps":["Using arr.length() with parentheses — for arrays it's arr.length, a field, not a method call.","Off-by-one with < vs <= in array loop bounds, causing ArrayIndexOutOfBoundsException.","Running binary search on an unsorted array — it silently gives wrong results instead of erroring.","Assuming a for-each loop (for (int x : arr)) can modify the original array — it only has a copy of each value."]},{"id":6,"name":"ArrayLists & References","concepts":[{"l":"ArrayList Basics","intro":"ArrayList is a resizable, generic collection class in java.util that grows and shrinks dynamically, unlike fixed-size arrays.","b":["ArrayList<String> list = new ArrayList<String>(); declares and creates an empty ArrayList of Strings.","list.add(\"cat\") appends to the end; list.add(0, \"dog\") inserts at a specific index.","list.get(i) retrieves the element at index i; list.set(i, val) replaces it.","list.size() returns the number of elements currently stored (like arr.length, but it's a method with parentheses).","ArrayLists only hold objects (reference types), so primitives like int are autoboxed to Integer."]},{"l":"Modifying an ArrayList","intro":"ArrayLists support insertion and removal anywhere, automatically shifting elements to keep indices contiguous.","b":["list.remove(i) removes by index (int argument); list.remove(Object o) removes by value.","list.remove(2) removes the element AT index 2; list.remove(Integer.valueOf(2)) removes the value 2.","Removing or adding elements shifts all subsequent elements' indices, which can break a forward-iterating loop.","list.contains(val) returns true/false; list.indexOf(val) returns the index or -1 if absent.","list.clear() removes all elements, resetting size() to 0."]},{"l":"Traversing and Removing Safely","intro":"Because removal shifts indices, looping forward while removing elements is a classic AP CSA bug; looping backward avoids it.","b":["for (int i = 0; i < list.size(); i++) { if (cond) list.remove(i); } can skip elements after a removal.","The fix: iterate backward — for (int i = list.size()-1; i >= 0; i--) — so shifting doesn't skip unvisited elements.","Using a for-each loop while modifying the list throws a ConcurrentModificationException.","An alternative fix is to build a new ArrayList of items to keep instead of removing in place.","size() must be re-checked each loop iteration since it changes as elements are added/removed."]},{"l":"ArrayList vs Array","intro":"ArrayLists trade some performance and syntax simplicity for dynamic resizing and built-in convenience methods that arrays lack.","b":["Arrays have fixed size set at creation; ArrayLists grow and shrink automatically via add/remove.","Arrays use [] syntax (arr[i]); ArrayLists use method calls (list.get(i), list.set(i, val)).","Arrays can hold primitives directly; ArrayLists require wrapper classes (ArrayList<Integer>, not ArrayList<int>).","Arrays use .length (field); ArrayLists use .size() (method with parentheses).","Converting: many algorithms are easier to write on arrays first, then adapted for ArrayLists."]},{"l":"Reference Semantics with ArrayLists","intro":"Like all objects, ArrayLists are manipulated by reference, so aliasing and pass-by-reference rules from Unit 2 apply here too.","b":["ArrayList<String> b = a; makes b an alias of a — modifying b also changes what a sees.","Passing an ArrayList to a method allows that method to permanently modify its contents (add/remove/set).","To make an independent copy, use new ArrayList<>(originalList), which copies references to elements, not a deep copy.","Comparing two ArrayLists with == checks reference identity; use .equals() to check if their contents match.","Wrapper class objects like Integer should be compared with .equals() or unboxed for value comparison, not ==, for values outside the small cached range."]},{"l":"Common ArrayList Algorithms","intro":"Many array algorithms — search, sum, filter — translate directly to ArrayLists using get() and size() instead of [] and length.","b":["Linear search: for (int i = 0; i < list.size(); i++) if (list.get(i).equals(target)) return i;","Sum: for (int x : list) sum += x; works because ArrayList<Integer> auto-unboxes in arithmetic.","Filtering into a new list: create ArrayList<T> result, loop through source, add matching elements.","Finding max: track a running max object, compare using .compareTo() for Comparable types like Integer or String.","Removing all elements matching a condition safely requires backward iteration or list.removeIf() (not always covered but useful)."]}],"keyFacts":["ArrayList uses .size() (a method) while arrays use .length (a field) — mixing these up is a compile error.","ArrayList<Integer> can only hold Integer objects, not primitive int, due to Java generics restrictions.","list.remove(int) removes by index; list.remove(Object) removes by matching value — overload ambiguity with Integer is a classic trap.","Removing elements while iterating forward with indices can skip elements; iterate backward to remove safely."],"traps":["Calling list.length instead of list.size() — ArrayLists never use .length.","Removing elements in a forward for loop, which skips the element that shifts into the just-vacated index.","Writing list.remove(2) when meaning to remove the value 2 from an ArrayList<Integer> — it removes the element AT index 2 instead.","Assuming a for-each loop can be used to remove elements — it throws ConcurrentModificationException."]},{"id":7,"name":"2D Arrays & Inheritance","concepts":[{"l":"Declaring and Traversing 2D Arrays","intro":"A 2D array is an array of arrays, commonly visualized as a grid with rows and columns, indexed as arr[row][col].","b":["int[][] grid = new int[3][4]; creates a grid with 3 rows and 4 columns, all initialized to 0.","int[][] grid = {{1,2},{3,4},{5,6}}; creates and initializes a 2D array literal with 3 rows of 2 columns each.","grid.length gives the number of rows; grid[0].length gives the number of columns in row 0.","Nested for loops traverse a 2D array: outer loop for rows, inner loop for columns — for (int r=0;r<grid.length;r++) for (int c=0;c<grid[r].length;c++).","Rows in a 2D array can have different lengths (a 'ragged' or jagged array) since each row is itself a separate array."]},{"l":"Row-Major vs Column-Major Traversal","intro":"The order in which nested loops iterate rows and columns changes the order elements are visited, though not which elements exist.","b":["Row-major traversal: outer loop over rows, inner loop over columns — visits grid[0][0], grid[0][1], ... row by row.","Column-major traversal: outer loop over columns, inner loop over rows — visits grid[0][0], grid[1][0], ... column by column.","Summing an entire 2D array requires visiting every [r][c] pair exactly once, in either traversal order.","Diagonal traversal (grid[i][i]) only works cleanly on square (n x n) grids.","AP free-response often asks to trace or write nested-loop code that processes only part of a grid (e.g. one row)."]},{"l":"Inheritance: extends and super","intro":"A subclass inherits fields and methods from a superclass using extends, modeling an 'is-a' relationship between classes.","b":["class Cat extends Animal { } makes Cat a subclass of Animal, inheriting its public/protected members.","super(args) calls the superclass constructor and must be the very first statement in the subclass constructor.","super.methodName() explicitly calls the superclass's version of a method (useful when overriding).","A subclass does NOT inherit private fields/methods directly, but can access them through inherited public/protected methods.","Every class in Java implicitly extends Object if no other superclass is specified."]},{"l":"Overriding Methods and Polymorphism","intro":"Overriding lets a subclass provide its own implementation of a method inherited from its superclass, enabling polymorphic behavior.","b":["An overriding method must have the same name, parameter list, and a compatible return type as the parent's method.","Animal a = new Cat(); a.makeSound(); calls Cat's overridden makeSound(), not Animal's — this is dynamic (runtime) binding.","Polymorphism means a superclass reference variable can hold subclass objects, and the actual object's type determines which overridden method runs.","Overloading (same name, different parameters) is resolved at compile time; overriding (same signature) is resolved at runtime.","instanceof checks an object's actual runtime type, e.g. if (a instanceof Cat) allows safe downcasting."]},{"l":"Abstract Classes and Interfaces","intro":"Abstract classes and interfaces define contracts that other classes must fulfill, supporting polymorphism without full implementation.","b":["An abstract class (abstract class Shape { abstract double area(); }) cannot be instantiated directly with new.","A subclass of an abstract class must override all abstract methods or itself be declared abstract.","An interface (interface Comparable) specifies method signatures that implementing classes must define, using implements.","A class can implement multiple interfaces but can only extend one superclass (Java has single inheritance for classes).","Comparable<T> requires a compareTo(T other) method, used by Collections.sort() and similar utilities."]},{"l":"The Object Superclass and equals()","intro":"Every Java class inherits from Object, which provides default equals(), toString(), and hashCode() methods that are often overridden.","b":["The default Object.equals() checks reference equality (same as ==) unless a class overrides it.","Overriding equals(Object other) lets a class define logical (content-based) equality, e.g. two Points with the same x,y.","toString() is called implicitly by System.out.println(obj) and string concatenation with an object.","A well-written equals() typically checks the parameter's type/cast before comparing fields.","Overriding equals() without overriding hashCode() can cause inconsistent behavior in hash-based collections (a conceptual note, not tested in depth on AP CSA)."]}],"keyFacts":["2D array access is grid[row][col]; grid.length is the row count, grid[0].length is the column count of row 0.","super(...) must be the first line of a subclass constructor if used at all.","Overriding requires an identical method signature; overloading requires a different parameter list.","A superclass reference can point to a subclass object, and overridden methods run based on the object's actual type (dynamic binding)."],"traps":["Swapping row and column indices (grid[col][row] instead of grid[row][col]), scrambling the grid's meaning.","Forgetting super(args) must be the first statement, causing a compile error if other code precedes it.","Confusing overriding with overloading — overriding needs the exact same parameters; overloading needs different ones.","Assuming grid[r].length is the same for every row — jagged 2D arrays can have different-length rows."]},{"id":8,"name":"Recursion & Algorithms","concepts":[{"l":"Recursion Fundamentals","intro":"A recursive method calls itself to solve smaller instances of the same problem, requiring a base case to stop the recursion.","b":["Every recursive method needs a base case (a condition that returns without recursing) to avoid infinite recursion.","The recursive case calls the method again on a smaller/simpler version of the problem, moving toward the base case.","public static int factorial(int n) { if (n == 0) return 1; return n * factorial(n-1); } is a classic example.","Each recursive call gets its own stack frame with its own copies of local variables and parameters.","Missing or unreachable base cases cause a StackOverflowError at runtime."]},{"l":"Tracing Recursive Calls","intro":"Tracing recursion means following each call down to the base case, then following the returns back up, often drawn as a call stack or tree.","b":["factorial(4) calls factorial(3), which calls factorial(2), ..., down to factorial(0), which returns 1 directly.","Return values propagate back up: factorial(1)=1*1=1, factorial(2)=2*1=2, factorial(3)=3*2=6, factorial(4)=4*6=24.","Drawing an explicit call stack (each call waiting for the one below it to return) helps avoid trace errors.","Recursive Fibonacci fib(n) = fib(n-1) + fib(n-2) makes TWO recursive calls per non-base case, forming a call tree.","AP free-response frequently asks students to trace a recursive method's output for a specific input by hand."]},{"l":"Recursion on Strings and Arrays","intro":"Recursion can process Strings and arrays by operating on one element and recursing on the rest (a smaller substring or sub-array).","b":["Recursive string reversal: reverse(s) = reverse(s.substring(1)) + s.charAt(0), with base case s.length() <= 1.","Recursive array sum: sum(arr, i) = arr[i] + sum(arr, i+1), with base case i == arr.length returning 0.","Recursive linear search on an array checks index i, then recurses on i+1 if no match, base case i == arr.length.","Palindrome check recursively compares the first and last characters, then recurses on the substring between them.","Recursion on a String typically shrinks via substring(); recursion on an array typically shrinks via an index parameter."]},{"l":"Recursion vs Iteration","intro":"Any recursive algorithm can be rewritten iteratively with a loop, and choosing between them is a matter of clarity versus overhead.","b":["Recursive solutions are often more concise for problems with a naturally recursive structure (trees, divide-and-conquer).","Iterative solutions avoid the memory overhead of building up many stack frames.","Deep recursion (very large n) risks StackOverflowError, while an equivalent loop does not.","Recursion is required conceptually for algorithms like merge sort, even though loops handle simpler tasks like summing an array.","AP CSA expects you to convert between simple recursive and iterative versions of the same algorithm."]},{"l":"Recursive Binary Search","intro":"Binary search can be implemented recursively, recursing into the left or right half of a sorted array based on a midpoint comparison.","b":["binarySearch(arr, target, low, high): base case is low > high, returning -1 (not found).","If arr[mid] == target, return mid; if target < arr[mid], recurse on (low, mid-1); else recurse on (mid+1, high).","Each recursive call halves the search space, giving binary search its O(log n) time complexity.","Recursive binary search requires the array to be sorted, same as the iterative version.","int mid = low + (high - low) / 2; avoids potential overflow compared to (low + high) / 2 (a subtle but real detail)."]},{"l":"Merge Sort and Big-O Basics","intro":"Merge sort is a recursive, divide-and-conquer sorting algorithm running in O(n log n) time, and Big-O describes algorithm efficiency as input grows.","b":["Merge sort recursively splits the array in half, sorts each half, then merges the two sorted halves back together.","Merge sort runs in O(n log n) time, faster than selection/insertion sort's O(n^2) for large inputs.","Big-O notation describes worst-case growth rate: O(1) constant, O(log n) logarithmic, O(n) linear, O(n^2) quadratic.","Linear search is O(n); binary search is O(log n); selection/insertion sort are O(n^2); merge sort is O(n log n).","The merge step combines two already-sorted halves by repeatedly comparing their front elements and taking the smaller."]}],"keyFacts":["Every correct recursive method needs a base case and a recursive case that moves toward it.","Recursive calls build a call stack; unreachable base cases cause a StackOverflowError.","Binary search and merge sort both run in O(log n) and O(n log n) respectively, beating linear-time and O(n^2) alternatives.","Big-O order from fastest to slowest growth: O(1) < O(log n) < O(n) < O(n log n) < O(n^2)."],"traps":["Forgetting the base case entirely, or writing one that's never actually reached, causing infinite recursion.","Tracing recursive calls in the wrong order — remember calls return in reverse (last call in, first to return).","Assuming recursion is always faster than iteration — it often has more overhead due to stack frames.","Mixing up which recursive call handles the 'left half' vs 'right half' in recursive binary search, breaking the search."]}];
 const DIAGRAMS={};
@@ -880,7 +952,8 @@ const PART_A=[{"n":1,"u":1,"q":"What is the result of the expression 7 / 2 in Ja
 const PART_B1=[{"n":31,"u":2,"q":"What is printed by the following code?\n\nString s = \"hello\";\nSystem.out.println(s.substring(1, 4));","o":["ell","hell","ello","hel"],"a":0,"e":"substring(1,4) returns characters from index 1 up to (not including) index 4: 'e','l','l' = \"ell\"."},{"n":32,"u":5,"q":"A class Rectangle has private fields width and height and a constructor Rectangle(int w, int h). Which method correctly computes area using accessor-free direct field access from within the class?","o":["public int getArea() { return width * height; }","public int getArea() { return this.getWidth() * getHeight; }","public void getArea() { return width * height; }","public int getArea(int width, int height) { return width * height; }"],"a":0,"e":"Inside its own class, a method can access private fields directly; the method must return int and use * to multiply width and height."},{"n":33,"u":8,"q":"Given int[][] grid = new int[3][4];, what is the value of grid.length and grid[0].length?","o":["3 and 4","4 and 3","3 and 3","12 and 12"],"a":0,"e":"grid.length is the number of rows (3); grid[0].length is the number of columns in the first row (4)."},{"n":34,"u":3,"q":"What is the value of the boolean expression (5 > 3) && (2 == 3) || true?","o":["true","false","5","Compile error"],"a":0,"e":"&& has higher precedence than ||. (5>3)&&(2==3) is true&&false = false. Then false || true = true."},{"n":35,"u":6,"q":"What does the following code print?\n\nint[] arr = {10, 20, 30, 40};\nfor (int i = arr.length - 1; i >= 0; i--) {\n    System.out.print(arr[i] + \" \");\n}","o":["40 30 20 10 ","10 20 30 40 ","40 30 20 ","Index out of bounds"],"a":0,"e":"The loop starts at the last valid index (arr.length - 1 = 3) and decrements to 0, printing the array in reverse order."},{"n":36,"u":1,"q":"Which of the following correctly casts a double to an int, truncating the decimal portion?","o":["int x = (int) 9.75;","int x = (double) 9.75;","int x = int(9.75);","int x = Math.round(9.75);"],"a":0,"e":"A cast (int) truncates toward zero rather than rounding, so (int) 9.75 evaluates to 9."},{"n":37,"u":4,"q":"How many times will the following loop body execute?\n\nint count = 0;\nfor (int i = 0; i < 10; i += 2) {\n    count++;\n}","o":["5","10","4","6"],"a":0,"e":"i takes values 0,2,4,6,8 before failing i < 10, so the body executes 5 times."},{"n":38,"u":7,"q":"After executing:\n\nArrayList<Integer> list = new ArrayList<Integer>();\nlist.add(10);\nlist.add(20);\nlist.add(30);\nlist.remove(1);\n\nwhat does list contain?","o":["[10, 30]","[10, 20]","[20, 30]","[10, 20, 30]"],"a":0,"e":"remove(1) removes the element at index 1 (the value 20), shifting subsequent elements left, leaving [10, 30]."},{"n":39,"u":2,"q":"Which statement about the String class in Java is true?","o":["Strings are immutable, so methods like toUpperCase() return a new String rather than modifying the original.","Strings are mutable, so s.toUpperCase() changes s in place.","The == operator always correctly compares the contents of two String objects.","String objects cannot be compared using the equals method."],"a":0,"e":"String objects are immutable in Java; methods such as toUpperCase(), substring(), and concat() return new String objects."},{"n":40,"u":5,"q":"Consider a class with this constructor:\n\npublic Point(int x, int y) {\n    this.x = x;\n    this.y = y;\n}\n\nWhy is 'this' needed here?","o":["To distinguish the instance fields x and y from the constructor's parameters, which share the same names.","Because Java requires 'this' in every constructor.","To call the superclass constructor.","To make the fields static."],"a":0,"e":"'this.x' refers to the instance field, while 'x' alone refers to the parameter; 'this' disambiguates them when names collide."},{"n":41,"u":8,"q":"What does the following nested loop print?\n\nint[][] arr = {{1,2},{3,4}};\nint sum = 0;\nfor (int[] row : arr) {\n    for (int val : row) {\n        sum += val;\n    }\n}\nSystem.out.println(sum);","o":["10","4","6","Compile error"],"a":0,"e":"The enhanced for loops traverse every element of the 2D array: 1+2+3+4 = 10."},{"n":42,"u":3,"q":"What is printed by the following code?\n\nint x = 7;\nif (x % 2 == 0) {\n    System.out.println(\"even\");\n} else if (x > 5) {\n    System.out.println(\"big odd\");\n} else {\n    System.out.println(\"small odd\");\n}","o":["big odd","even","small odd","Nothing is printed"],"a":0,"e":"7 % 2 is 1, not 0, so the first branch is skipped; since 7 > 5 is true, \"big odd\" is printed."},{"n":43,"u":6,"q":"Which code segment correctly finds the maximum value in the array int[] nums = {4, 9, 2, 7};?","o":["int max = nums[0];\nfor (int i = 1; i < nums.length; i++) {\n    if (nums[i] > max) max = nums[i];\n}","int max = 0;\nfor (int i = 0; i < nums.length; i++) {\n    if (nums[i] > max) max = i;\n}","int max = nums[0];\nfor (int i = 0; i <= nums.length; i++) {\n    if (nums[i] > max) max = nums[i];\n}","int max = nums.length;\nfor (int n : nums) {\n    max = n;\n}"],"a":0,"e":"Initializing max to the first element and comparing each remaining element correctly finds the largest value; the loop bound must be < nums.length to avoid an index-out-of-bounds error."},{"n":44,"u":1,"q":"What is the result of the expression (int)(5 / 2.0)?","o":["2","2.5","3","2.0"],"a":0,"e":"5 / 2.0 performs floating-point division because one operand is a double, giving 2.5; casting to int truncates it to 2."},{"n":45,"u":4,"q":"What is the output of the following code?\n\nint i = 0;\nwhile (i < 5) {\n    if (i == 3) {\n        break;\n    }\n    System.out.print(i + \" \");\n    i++;\n}","o":["0 1 2 ","0 1 2 3 ","0 1 2 3 4 ","Infinite loop"],"a":0,"e":"The loop prints i and increments until i equals 3, at which point break exits the loop immediately before printing 3."},{"n":46,"u":7,"q":"Which import statement is required to use the ArrayList class in a Java program?","o":["import java.util.ArrayList;","import java.io.ArrayList;","import java.lang.ArrayList;","import java.arraylist.ArrayList;"],"a":0,"e":"ArrayList is part of the java.util package, so it must be imported with import java.util.ArrayList; (or java.util.*)."},{"n":47,"u":2,"q":"Given Integer a = 100; and Integer b = 100;, which statement about a == b is most accurate for the AP CSA exam?","o":["Using == to compare wrapper objects compares references, not values, so equals() should be used instead to compare contents.","== always returns true for any two Integer objects with the same value.","== will cause a compile-time error.","Integer objects cannot be compared at all."],"a":0,"e":"For object types like Integer, == compares object references. The AP CSA course expects students to use .equals() to compare the actual values stored in objects."},{"n":48,"u":5,"q":"What is method overloading?","o":["Defining multiple methods in the same class with the same name but different parameter lists.","Defining a method in a subclass that replaces a method in the superclass with the same signature.","Calling a method recursively.","Declaring a method as private."],"a":0,"e":"Overloading lets a class have several methods sharing a name as long as their parameter lists differ in number or type."},{"n":49,"u":8,"q":"What value does grid[1][2] refer to in int[][] grid = {{1,2,3},{4,5,6},{7,8,9}};?","o":["6","5","3","9"],"a":0,"e":"grid[1] is the second row {4,5,6}; index 2 of that row is 6."},{"n":50,"u":3,"q":"What does the following expression evaluate to?\n\n!(5 < 3) && (10 == 10)","o":["true","false","Compile error","10"],"a":0,"e":"5 < 3 is false, so !(false) is true. true && (10==10) is true && true, which is true."}];
 const PART_B2=[{"n":51,"u":3,"q":"What is printed by the following code?\n\nint x = 4;\nif (x > 0)\n    if (x > 10)\n        System.out.println(\"big\");\n    else\n        System.out.println(\"small\");","o":["small","big","Nothing is printed","Compile error"],"a":0,"e":"The else binds to the nearest unmatched if (x > 10), which is false since x is 4, so \"small\" is printed."},{"n":52,"u":8,"q":"Which code correctly prints every element of a 2D array int[][] a = new int[2][3]; row by row?","o":["for (int r = 0; r < a.length; r++) {\n    for (int c = 0; c < a[r].length; c++) {\n        System.out.print(a[r][c] + \" \");\n    }\n    System.out.println();\n}","for (int r = 0; r < a[0].length; r++) {\n    for (int c = 0; c < a.length; c++) {\n        System.out.print(a[r][c]);\n    }\n}","for (int r = 0; r <= a.length; r++) {\n    System.out.print(a[r]);\n}","for (int x : a) {\n    System.out.print(x);\n}"],"a":0,"e":"Correct row-major traversal iterates rows with a.length and columns with a[r].length, avoiding an off-by-one index error."},{"n":53,"u":5,"q":"What is the purpose of a class's toString() method?","o":["It returns a String representation of the object, often used automatically when the object is printed.","It converts a String parameter into the object's type.","It must always return null.","It is required for every class to compile."],"a":0,"e":"Overriding toString() lets System.out.println(obj) and string concatenation automatically produce a meaningful text representation of the object."},{"n":54,"u":2,"q":"What does the following code print?\n\nString a = \"cat\";\nString b = \"cat\";\nSystem.out.println(a.equals(b));","o":["true","false","Compile error","null"],"a":0,"e":"The equals method compares the actual character content of the two Strings, which are identical, so it returns true."},{"n":55,"u":7,"q":"What happens when you call list.get(5) on an ArrayList<Integer> that currently has only 3 elements?","o":["It throws an IndexOutOfBoundsException at runtime.","It returns null.","It returns 0.","It automatically resizes the list and returns 0."],"a":0,"e":"Accessing an index beyond the current size (indices 0-2 are valid for size 3) throws an IndexOutOfBoundsException."},{"n":56,"u":4,"q":"What is the output of the following nested loop?\n\nfor (int i = 1; i <= 3; i++) {\n    for (int j = 1; j <= i; j++) {\n        System.out.print(\"*\");\n    }\n    System.out.println();\n}","o":["*\n**\n***\n","***\n***\n***\n","*\n*\n*\n","Compile error"],"a":0,"e":"For i=1, inner loop runs once (*); for i=2, twice (**); for i=3, three times (***), each followed by a newline."},{"n":57,"u":1,"q":"What data type should be used to store a true/false value in Java?","o":["boolean","int","String","char"],"a":0,"e":"The boolean primitive type holds one of two literal values, true or false, and is used in conditions and logical expressions."},{"n":58,"u":6,"q":"What is wrong with the following code intended to sum all elements of an array?\n\nint[] nums = {1, 2, 3, 4};\nint sum;\nfor (int i = 0; i <= nums.length; i++) {\n    sum += nums[i];\n}","o":["sum is not initialized to 0, and the loop condition i <= nums.length causes an ArrayIndexOutOfBoundsException.","The code is correct as written.","The for loop syntax is invalid.","Arrays cannot be summed in Java."],"a":0,"e":"Local variables like sum must be explicitly initialized before use, and using <= with nums.length lets i reach an invalid index equal to the array length."},{"n":59,"u":3,"q":"Which boolean expression correctly tests whether an int variable n is divisible by both 3 and 5?","o":["n % 3 == 0 && n % 5 == 0","n % 3 == 0 || n % 5 == 0","n / 3 == 0 && n / 5 == 0","n % 15 == 1"],"a":0,"e":"The modulus operator % gives the remainder after division; a remainder of 0 for both 3 and 5, joined with &&, confirms divisibility by both."},{"n":60,"u":8,"q":"A 2D array is declared as int[][] table = new int[4][5];. How many total int elements does it contain?","o":["20","9","4","5"],"a":0,"e":"The array has 4 rows and 5 columns, so it holds 4 * 5 = 20 total int elements."}];
 const PART_C=[{"n":61,"u":1,"q":"Written response: choose TWO concepts from different units and construct an argument connecting them. Cite specific evidence from each.","o":["Names both concepts precisely, gives concrete evidence for each, and explains the causal/logical bridge","Lists the two topics without connecting them","Describes only one concept in detail","Gives a personal opinion with no course evidence"],"a":0,"e":"Strong responses anchor every claim in specific unit content."},{"n":62,"u":8,"q":"Essay plan: identify the single most important takeaway of this course. Defend it using three units as evidence, then address one counterargument.","o":["Clear thesis, three unit-specific pieces of evidence, genuine counterargument, resolution","Thesis with no support","Topic list with no argument","Anecdote unrelated to course content"],"a":0,"e":"Full argumentative architecture earns top marks."}];
-const EXAM_CSS=".ex-header{background:var(--ink);color:var(--surface);padding:20px 22px;border-radius:var(--radius);margin-bottom:22px}\n.ex-header h2{font-family:'Space Grotesk';font-size:28.5px;font-weight:700;margin-bottom:4px}\n.ex-header p{font-family:'Inter';font-size:19.5px;color:rgba(255,255,255,.65)}\n.ex-part{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--surface)}\n.ex-part-hd{background:var(--surface-2);padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}\n.ex-part-hd:hover{background:var(--surface-hover)}\n.ex-part-hd h3{font-size:21px;font-weight:700;color:var(--ink)}\n.ex-part-hd span{font-family:'Inter';font-size:18px;color:var(--ink-dim)}\n.ex-part-body{display:none;padding:20px}\n.ex-part.open .ex-part-body{display:block}\n.ex-q{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}\n.ex-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}\n.ex-qnum{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}\n.ex-qtext{font-size:21.8px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:13px}\n.ex-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}\n.ex-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface);text-align:left;transition:all .12s}\n.ex-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}\n.ex-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}\n.ex-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}\n.ex-exp{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface-2);padding:11px 14px;border-radius:var(--radius-sm);margin-top:9px;display:none;line-height:1.6}\n.ex-exp.show{display:block}\n.ex-sa{padding:13px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter';font-size:20.2px;color:var(--amber-ink);line-height:1.6;margin-top:9px}\n.ex-sa strong{display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:var(--amber)}\n.ex-score{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px;display:none}\n.ex-score strong{font-family:'Space Grotesk';color:var(--success);font-size:22.5px}\n.ex-score span{font-family:'Inter';color:var(--success);font-size:19.5px}\n.ex-reset{padding:10px 20px;border:1px solid var(--border);border-radius:999px;background:var(--surface);cursor:pointer;font-family:'Space Grotesk';font-weight:600;font-size:19.5px;margin-top:10px;transition:all .15s}\n.ex-reset:hover{background:var(--surface-hover);border-color:var(--border-strong)}\n";
+const EXAM_META={"title":"AP Computer Science A — Full Practice Exam","subtitle":"Part A (30 pts) · Part B–1 (20 pts) · Part B–2 (10 pts) · Part C (2 pts)","parts":{"PART_A":{"title":"Part A — Multiple Choice","points":30,"minutes":null},"PART_B1":{"title":"Part B–1 — Multiple Choice","points":20,"minutes":null},"PART_B2":{"title":"Part B–2 — Short Answer","points":10,"minutes":null},"PART_C":{"title":"Part C — Extended Response","points":2,"minutes":null}}};
+const EXAM_CSS=".ex-header{background:var(--ink);color:var(--surface);padding:20px 22px;border-radius:var(--radius);margin-bottom:22px}\n.ex-header h2{font-family:'Space Grotesk';font-size:28.5px;font-weight:700;margin-bottom:4px}\n.ex-header p{font-family:'Inter';font-size:19.5px;color:rgba(255,255,255,.65)}\n.ex-part{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--surface)}\n.ex-part-hd{background:var(--surface-2);padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}\n.ex-part-hd:hover{background:var(--surface-hover)}\n.ex-part-hd h3{font-size:21px;font-weight:700;color:var(--ink)}\n.ex-part-hd span{font-family:'Inter';font-size:18px;color:var(--ink-dim)}\n.ex-part-hd-meta{display:flex;align-items:center;gap:14px;flex:none}\n.ex-timer{font-family:'Space Grotesk';font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink-dim)}\n.ex-timer.ex-timer-up{color:var(--danger)}\n.ex-part-body{display:none;padding:20px}\n.ex-part.open .ex-part-body{display:block}\n.ex-q{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}\n.ex-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}\n.ex-qnum{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}\n.ex-qtext{font-size:21.8px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:13px}\n.ex-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}\n.ex-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface);text-align:left;transition:all .12s}\n.ex-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}\n.ex-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}\n.ex-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}\n.ex-exp{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface-2);padding:11px 14px;border-radius:var(--radius-sm);margin-top:9px;display:none;line-height:1.6}\n.ex-exp.show{display:block}\n.ex-sa{padding:13px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter';font-size:20.2px;color:var(--amber-ink);line-height:1.6;margin-top:9px}\n.ex-sa strong{display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:var(--amber)}\n.ex-score{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px;display:none}\n.ex-score strong{font-family:'Space Grotesk';color:var(--success);font-size:22.5px}\n.ex-score span{font-family:'Inter';color:var(--success);font-size:19.5px}\n.ex-reset{padding:10px 20px;border:1px solid var(--border);border-radius:999px;background:var(--surface);cursor:pointer;font-family:'Space Grotesk';font-weight:600;font-size:19.5px;margin-top:10px;transition:all .15s}\n.ex-reset:hover{background:var(--surface-hover);border-color:var(--border-strong)}\n";
 function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');var idx=-1;tabs.forEach((b,i)=>{if(b.id==='tab-'+id)idx=i;});if(idx!==-1){tabs.forEach((b,i)=>{var on=i===idx;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;});var _hl=document.getElementById('hero-live');if(_hl)_hl.textContent=tabs[idx].textContent.trim()+' tab';}if(id==='examples'&&!examplesBuilt)buildExamples();if(id==='exam'&&!examBuilt)buildExam();var spc=document.getElementById('spc-card');if(spc)spc.style.display=(id==='guide')?'':'none';}
 let examBuilt=false;
 var examplesBuilt=false, ex2map={}, ex2shown={};
@@ -893,20 +966,25 @@ const st=document.createElement('style');st.textContent=EXAM_CSS;document.head.a
 
 v.innerHTML=`
 <div class="ex-header">
-  <h2>AP Computer Science A — Full Practice Exam</h2>
-  <p>Part A (30 pts) · Part B-1 (20 pts) · Part B-2 (15 pts) · Part C (20 pts) · Based on Jan 2026 format</p>
+  <h2>${EXAM_META.title}</h2>
+  <p>${EXAM_META.subtitle}</p>
 </div>
 <div id="ex-score-box" class="ex-score"></div>
-${buildPartMC('A','Part A — Multiple Choice (30 questions, 1 pt each)',PART_A)}
-${buildPartMC('B1','Part B–1 — Multiple Choice (20 questions, 1 pt each)',PART_B1)}
-${buildPartFR('B2','Part B–2 — Short Answer (show work, 1 pt each)',PART_B2)}
-${buildPartFR('C','Part C — Extended Response (1–2 pts each)',PART_C)}
+${buildPartMC('A',PART_A)}
+${buildPartMC('B1',PART_B1)}
+${buildPartFR('B2',PART_B2)}
+${buildPartFR('C',PART_C)}
 `;
 // open Part A by default
-document.getElementById('ex-part-A').classList.add('open');
+togglePart('A');
 }
 
-function buildPartMC(id,title,qs){
+function examPartMeta(id){return (EXAM_META&&EXAM_META.parts&&EXAM_META.parts['PART_'+id])||{};}
+function exTimerHtml(id){return examPartMeta(id).minutes?`<span class="ex-timer" id="timer-${id}"></span>`:'';}
+
+function buildPartMC(id,qs){
+if(!qs.length)return'';
+const meta=examPartMeta(id);
 const items=qs.map(q=>`
 <div class="ex-q" id="exq-${id}-${q.n}">
   <div class="ex-qnum">Question ${q.n}</div>
@@ -918,15 +996,18 @@ const items=qs.map(q=>`
 </div>`).join('');
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${title}</h3><span id="score-${id}">Score: 0 / ${qs.length}</span>
+  <h3>${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'}, 1 pt each)</h3>
+  <div class="ex-part-hd-meta"><span id="score-${id}">Score: 0 / ${qs.length}</span>${exTimerHtml(id)}</div>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
 }
 
-function buildPartFR(id,title,qs){
+function buildPartFR(id,qs){
+if(!qs.length)return'';
 // Some guides author these as genuine free-response (q.sa, a model answer to
 // reveal); others reuse the multiple-choice shape (q.o/q.a) for this part.
 // Render whichever shape the data actually has instead of assuming sa exists.
+const meta=examPartMeta(id);
 const items=qs.map(q=>q.sa!==undefined?`
 <div class="ex-q">
   <div class="ex-qnum">Question ${q.n}</div>
@@ -943,11 +1024,43 @@ const items=qs.map(q=>q.sa!==undefined?`
   <div class="ex-exp" id="exp-${id}-${q.n}">${q.e}</div>
 </div>`).join('');
 const allMC=qs.every(q=>q.sa===undefined);
+const rightMeta=allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`;
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${title}</h3>${allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`}
+  <h3>${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'})</h3>
+  <div class="ex-part-hd-meta">${rightMeta}${exTimerHtml(id)}</div>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
+}
+
+/* Per-part countdown timer. In-memory only (module-level `examTimers`) — a
+   refresh resets it, matching the fact that exam progress/scores are never
+   persisted to localStorage either. Not a proctored test: hitting zero just
+   shows "Time's up" and stops, it never auto-submits or locks the part. */
+var examTimers={};
+function startPartTimer(id){
+  const meta=examPartMeta(id);
+  if(!meta.minutes)return;
+  let t=examTimers[id];
+  if(!t){t=examTimers[id]={remaining:meta.minutes*60,expired:false,intervalId:null};}
+  if(t.expired||t.intervalId)return; // already ticking, or already ran out
+  t.intervalId=setInterval(function(){
+    t.remaining--;
+    if(t.remaining<=0){
+      t.remaining=0;t.expired=true;
+      clearInterval(t.intervalId);t.intervalId=null;
+    }
+    renderPartTimer(id);
+  },1000);
+  renderPartTimer(id);
+}
+function renderPartTimer(id){
+  const el=document.getElementById('timer-'+id);
+  const t=examTimers[id];
+  if(!el||!t)return;
+  if(t.expired){el.textContent="Time's up";el.classList.add('ex-timer-up');return;}
+  const m=Math.floor(t.remaining/60),s=t.remaining%60;
+  el.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
 }
 
 function togglePart(id){
@@ -955,6 +1068,7 @@ function togglePart(id){
   const isOpen=part.classList.toggle('open');
   const hd=part.querySelector('.ex-part-hd');
   if(hd)hd.setAttribute('aria-expanded',isOpen?'true':'false');
+  if(isOpen)startPartTimer(id);
 }
 
 function toggleSA(btn){
@@ -1262,6 +1376,58 @@ function qBookmarkToggle(qid){
 }
 function qId(q){return q.u+'|'+q.q;}
 
+/* Mistake Log: localStorage-backed, keyed the same way as the bookmark set
+   (ssBookmarks_<slug>) — a currently-unresolved-misses list, not full history.
+   A question moves in when answered wrong and out the moment it's answered
+   correctly again (from anywhere: normal quiz, diagnostic, hard mode, or the
+   log's own review pass). */
+var MISTAKE_LOG_KEY='ssMistakes_'+'ap-csa';
+function mistakeLogMap(){
+  try{return JSON.parse(localStorage.getItem(MISTAKE_LOG_KEY)||'{}');}catch(e){return {};}
+}
+function mistakeLogSave(map){
+  try{localStorage.setItem(MISTAKE_LOG_KEY,JSON.stringify(map));}catch(e){}
+  updateMistakeLogBadge();
+}
+function mistakeLogAdd(q){
+  const map=mistakeLogMap();
+  map[qId(q)]={u:q.u,q:q.q,o:q.o,a:q.a,e:q.e,d:q.d,topic:q.topic};
+  mistakeLogSave(map);
+}
+function mistakeLogRemove(q){
+  const map=mistakeLogMap();
+  const id=qId(q);
+  if(!(id in map))return;
+  delete map[id];
+  mistakeLogSave(map);
+}
+function updateMistakeLogBadge(){
+  const el=document.getElementById('mistake-log-count');
+  if(!el)return;
+  const n=Object.keys(mistakeLogMap()).length;
+  el.textContent=String(n);
+  el.style.display=n?'':'none';
+}
+var mistakeReviewMode=false;
+function openMistakeLog(){
+  switchTab('quiz');
+  mistakeReviewMode=true;
+  diagMode=false;
+  const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
+  const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
+  const map=mistakeLogMap();
+  qPool=Object.values(map);
+  qIdx=0;score=0;requeueCounts=new WeakMap();
+  const qb=document.getElementById('qbox');
+  if(!qPool.length){
+    qb.innerHTML='<div class="mistake-log-empty">No mistakes logged right now — nice work. Answer a question wrong anywhere in the quiz and it will show up here until you get it right.</div>';
+    document.getElementById('q-prog').textContent='';
+    document.getElementById('q-sc').textContent='';
+    return;
+  }
+  showQ();
+}
+
 function quizShuffle(){
   if(!qPool.length)return;
   for(let i=qPool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[qPool[i],qPool[j]]=[qPool[j],qPool[i]];}
@@ -1296,8 +1462,15 @@ function buildQSel(){
   if(HQ.length)sel.innerHTML+='<option value="hard">Hard Mode Only ('+HQ.length+' Qs)</option>';
   loadQ();
 }
+let difficultyFilter='all';
+function setDifficultyFilter(d){
+  difficultyFilter=d;
+  document.querySelectorAll('.diff-chip').forEach(function(c){c.classList.toggle('on',c.dataset.diff===d);});
+  loadQ();
+}
 function loadQ(){
   diagMode=false;
+  mistakeReviewMode=false;
   const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
   const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
   const raw=document.getElementById('q-sel').value;
@@ -1306,6 +1479,7 @@ function loadQ(){
   if(raw==='hard')src=HQ.slice();
   else if(+raw===0)src=QUIZ.concat(HQ);
   else src=QUIZ.concat(HQ).filter(q=>q.u===+raw);
+  if(difficultyFilter!=='all')src=src.filter(q=>q.d===difficultyFilter);
   qPool=src.sort(()=>Math.random()-.5);
   qIdx=0;score=0;requeueCounts=new WeakMap();showQ();
 }
@@ -1372,8 +1546,10 @@ function showQ(){
   const bookmarked=qBookmarkSet().has(bid);
   const STAR_OUTLINE='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
   const STAR_FILLED='<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
-  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>`+
+  const diffPill=q.d?`<span class="q-diff q-diff-${q.d}">${q.d}</span>`:'';
+  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>${diffPill}`+
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
+    (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
     `<button class="q-hint-btn" id="q-hint-btn" onclick="toggleQHint()">💡 Hint</button>`+
     `<div class="q-hint-box" id="q-hint-box">Hint: this is from Unit ${q.u}: ${unitNameFor(q.u)}</div>`+
@@ -1439,6 +1615,7 @@ function ansQ(i){
     }
   }
   if(SS_MASTERY)SS_MASTERY.recordAnswer(q.u,i===q.a);
+  if(i===q.a)mistakeLogRemove(q);else mistakeLogAdd(q);
   ssOverallProgressUpdate();
   const expEl=document.getElementById('q-exp');
   expEl.classList.add('show');
@@ -1468,6 +1645,7 @@ function ssQuizKeyboardShortcuts(e){
 }
 document.addEventListener('keydown',ssQuizKeyboardShortcuts);
 buildQSel();
+updateMistakeLogBadge();
 
 /* ----- APG tabs: roving-tabindex arrow-key nav on the hero tab bar. Manual
    activation — arrows move focus only; Enter/Space fire the button's own click
@@ -1871,6 +2049,105 @@ async function ssQuizTabClick(){
 }
 
 ssCheckSession();
+
+/* ----- Reference drawer: a compact, always-available companion to the full
+   Quick Reference TAB. Reuses the exact HTML the generator already emits into
+   #view-qref (buildQref() in generate-guide.mjs) instead of rebuilding it —
+   the drawer body is filled by copying that markup once, on first open. ----- */
+function qrefDrawerOpen(){
+  var panel=document.getElementById('qref-drawer');
+  if(!panel)return;
+  var body=document.getElementById('qref-drawer-body');
+  if(body&&!body.dataset.filled){
+    var src=document.getElementById('view-qref');
+    if(src){body.innerHTML=src.innerHTML;body.dataset.filled='1';}
+  }
+  panel.classList.add('open');
+  panel.setAttribute('aria-hidden','false');
+  var fab=document.getElementById('qref-drawer-fab');
+  if(fab)fab.setAttribute('aria-expanded','true');
+  var closeBtn=panel.querySelector('.qref-drawer-close');
+  if(closeBtn)closeBtn.focus();
+  document.addEventListener('keydown',qrefDrawerKeydown);
+}
+function qrefDrawerClose(){
+  var panel=document.getElementById('qref-drawer');
+  if(!panel||!panel.classList.contains('open'))return;
+  panel.classList.remove('open');
+  panel.setAttribute('aria-hidden','true');
+  var fab=document.getElementById('qref-drawer-fab');
+  if(fab){fab.setAttribute('aria-expanded','false');fab.focus();}
+  document.removeEventListener('keydown',qrefDrawerKeydown);
+}
+function qrefDrawerToggle(){
+  var panel=document.getElementById('qref-drawer');
+  if(panel&&panel.classList.contains('open'))qrefDrawerClose();else qrefDrawerOpen();
+}
+function qrefDrawerKeydown(e){if(e.key==='Escape')qrefDrawerClose();}
+
+/* ----- Optional Desmos graphing calculator. Disabled by default: leave
+   DESMOS_API_KEY empty and this entire feature (button, panel, external
+   script) never appears and never makes a network request. To enable it,
+   the site owner gets a free key for personal/school use at
+   https://www.desmos.com/api/v1.12/calculator.js docs (sign in at
+   desmos.com/my-api) and pastes it in below. Generic — available on every
+   guide once a key is configured, not gated to any subject. ----- */
+const DESMOS_API_KEY = "";
+let desmosScriptLoaded=false, desmosCalculator=null;
+function desmosInit(){
+  if(!DESMOS_API_KEY)return;
+  var fab=document.createElement('button');
+  fab.id='desmos-fab';
+  fab.className='desmos-fab';
+  fab.type='button';
+  fab.setAttribute('aria-label','Toggle graphing calculator');
+  fab.setAttribute('aria-expanded','false');
+  fab.title='Graphing calculator';
+  fab.textContent='\u{1F4C8}';
+  fab.onclick=desmosToggle;
+  document.body.appendChild(fab);
+
+  var panel=document.createElement('div');
+  panel.id='desmos-panel';
+  panel.className='desmos-panel';
+  panel.setAttribute('role','dialog');
+  panel.setAttribute('aria-modal','true');
+  panel.setAttribute('aria-label','Graphing calculator');
+  panel.setAttribute('aria-hidden','true');
+  panel.innerHTML='<div class="desmos-panel-hd"><b>Graphing Calculator</b>'+
+    '<button type="button" class="desmos-panel-close" aria-label="Close graphing calculator">✕</button></div>'+
+    '<div class="desmos-calc" id="desmos-calc"></div>';
+  document.body.appendChild(panel);
+  panel.querySelector('.desmos-panel-close').onclick=desmosToggle;
+}
+function desmosToggle(){
+  var panel=document.getElementById('desmos-panel');
+  if(!panel)return;
+  var opening=!panel.classList.contains('open');
+  panel.classList.toggle('open',opening);
+  panel.setAttribute('aria-hidden',opening?'false':'true');
+  var fab=document.getElementById('desmos-fab');
+  if(fab)fab.setAttribute('aria-expanded',opening?'true':'false');
+  if(opening){
+    document.addEventListener('keydown',desmosKeydown);
+    if(!desmosScriptLoaded)desmosLoadScript();
+  }else{
+    document.removeEventListener('keydown',desmosKeydown);
+    if(fab)fab.focus();
+  }
+}
+function desmosKeydown(e){if(e.key==='Escape')desmosToggle();}
+function desmosLoadScript(){
+  desmosScriptLoaded=true;
+  var s=document.createElement('script');
+  s.src='https://www.desmos.com/api/v1.12/calculator.js?apiKey='+encodeURIComponent(DESMOS_API_KEY);
+  s.onload=function(){
+    var el=document.getElementById('desmos-calc');
+    if(el&&window.Desmos)desmosCalculator=Desmos.GraphingCalculator(el);
+  };
+  document.head.appendChild(s);
+}
+desmosInit();
 
 /* ----- unit-filtered practice, e.g. /chemistry?practice=3 (from the dashboard's "study this next") ----- */
 (async function ssPracticeMode(){

@@ -273,6 +273,16 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .q-block:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .q-block-hd{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px}
 .q-text{font-size:24.8px;font-weight:600;color:var(--ink);line-height:1.55;flex:1}
+.q-diff{flex:none;display:inline-block;padding:3px 11px;border-radius:999px;font-size:13px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;border:1px solid transparent;align-self:flex-start;margin-top:2px}
+.q-diff-easy{background:var(--success-soft);color:var(--success);border-color:var(--success-border)}
+.q-diff-medium{background:var(--amber-soft);color:var(--amber-ink);border-color:var(--amber)}
+.q-diff-hard{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}
+.q-topic{font-size:14.5px;color:var(--ink-dim);margin:-14px 0 14px;font-style:italic}
+.mistake-log-btn{position:relative}
+.mistake-log-count{display:inline-block;margin-left:6px;background:var(--danger);color:#fff;border-radius:999px;
+  font-size:12px;font-weight:700;padding:1px 7px}
+.mistake-log-empty{padding:24px;text-align:center;color:var(--ink-muted);font-size:18px}
 .q-bookmark{flex:none;background:none;border:none;cursor:pointer;color:var(--ink-dim);padding:2px;border-radius:6px;transition:color .15s ease,transform .15s ease}
 .q-bookmark:hover{color:var(--amber);transform:scale(1.08)}
 .q-bookmark.on{color:var(--amber)}
@@ -514,6 +524,51 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 .back-to-top:hover{color:var(--ink);border-color:var(--accent)}
 .back-to-top svg{width:20px;height:20px;display:block}
 
+/* ---- reference drawer: quick-access companion to the Quick Reference tab,
+   reachable from any tab. Sits bottom-center, clear of back-to-top
+   (bottom:22/left:22..74) and #cbot-fab (bottom:22/right:22..78). ---- */
+.qref-drawer-fab{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);width:52px;height:52px;
+  border-radius:50%;background:var(--surface);color:var(--ink-muted);border:1px solid var(--border-strong);
+  cursor:pointer;box-shadow:var(--shadow-md);z-index:190;display:flex;align-items:center;justify-content:center;
+  transition:color .15s ease,border-color .15s ease}
+.qref-drawer-fab:hover{color:var(--accent);border-color:var(--accent)}
+.qref-drawer-fab svg{width:20px;height:20px;display:block}
+.qref-drawer{position:fixed;top:0;right:0;height:100dvh;width:min(420px,100vw);background:var(--surface);
+  border-left:1px solid var(--border-strong);box-shadow:var(--shadow-lg);z-index:210;display:flex;flex-direction:column;
+  transform:translateX(100%);opacity:0;visibility:hidden;transition:transform .25s ease,opacity .25s ease,visibility 0s linear .25s}
+.qref-drawer.open{transform:translateX(0);opacity:1;visibility:visible;transition:transform .25s ease,opacity .25s ease}
+.qref-drawer-hd{display:flex;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--surface-2);flex-shrink:0}
+.qref-drawer-hd b{font-family:'Space Grotesk';font-size:20px;color:var(--ink);flex:1}
+.qref-drawer-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:6px 8px;border-radius:6px}
+.qref-drawer-close:hover{color:var(--ink);background:var(--surface-hover)}
+.qref-drawer-body{flex:1;overflow-y:auto;padding:16px}
+.qref-drawer-body .qr-section:not(:last-child){margin-bottom:20px}
+@media(max-width:600px){
+  .qref-drawer{width:100vw}
+}
+
+/* ---- optional Desmos graphing calculator (see DESMOS_API_KEY in logic.js).
+   Markup is only ever created by JS when a key is configured, so this CSS
+   has no visible effect until then. Placed clear of #cbot-fab (right:22..78). ---- */
+.desmos-fab{position:fixed;bottom:22px;right:90px;width:52px;height:52px;border-radius:50%;
+  background:var(--accent);color:#fff;border:none;font-size:22px;cursor:pointer;
+  box-shadow:0 8px 24px -6px rgba(15,122,112,.4);z-index:195;display:flex;align-items:center;justify-content:center;
+  transition:transform .15s ease}
+.desmos-fab:hover{transform:scale(1.06)}
+.desmos-panel{position:fixed;bottom:88px;right:90px;width:min(380px,calc(100vw - 32px));
+  height:min(420px,calc(100dvh - 160px));background:var(--surface);border:1px solid var(--border-strong);
+  border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:205;display:none;flex-direction:column;overflow:hidden}
+.desmos-panel.open{display:flex}
+.desmos-panel-hd{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+.desmos-panel-hd b{font-family:'Space Grotesk';font-size:18px;color:var(--ink);flex:1}
+.desmos-panel-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:4px 6px;border-radius:6px}
+.desmos-panel-close:hover{color:var(--ink);background:var(--surface-hover)}
+.desmos-calc{flex:1;width:100%;height:100%}
+@media(max-width:600px){
+  .desmos-fab{right:22px;bottom:82px}
+  .desmos-panel{right:12px;bottom:144px}
+}
+
 /* ---- print / export ---- */
 @media print{
   :root,[data-theme="dark"]{
@@ -528,7 +583,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
   body{background:#fff;color:#000}
   body::before,.hero::after{display:none!important}
   #theme-toggle,.search-wrap,.ss-sticky-top .filter-row-wrap,.mobile-only-select,.nav,.nav-spacer,.tablist,
-  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
+  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.qref-drawer-fab,.qref-drawer,.desmos-fab,.desmos-panel,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
   .search-kbd,.ss-overall-progress,.q-kbd-hint,.diag-btn{display:none!important}
   *{position:static!important;box-shadow:none!important}
   .unit-body{display:block!important}
@@ -707,6 +762,13 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <div class="q-bar">
     <select id="q-sel" aria-label="Choose a question set" onchange="loadQ()"></select>
     <button class="btn" type="button" onclick="quizShuffle()" style="font-size:14px;padding:7px 14px">⇄ Shuffle</button>
+    <div class="diff-chips" role="group" aria-label="Filter by difficulty" style="display:flex;gap:6px">
+      <button class="chip on diff-chip" type="button" data-diff="all" onclick="setDifficultyFilter('all')">All</button>
+      <button class="chip diff-chip" type="button" data-diff="easy" onclick="setDifficultyFilter('easy')">Easy</button>
+      <button class="chip diff-chip" type="button" data-diff="medium" onclick="setDifficultyFilter('medium')">Medium</button>
+      <button class="chip diff-chip" type="button" data-diff="hard" onclick="setDifficultyFilter('hard')">Hard</button>
+    </div>
+    <button class="btn mistake-log-btn" type="button" onclick="openMistakeLog()">Mistake Log<span class="mistake-log-count" id="mistake-log-count" style="display:none">0</span></button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -865,6 +927,16 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
   <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
 </button>
+<button type="button" id="qref-drawer-fab" class="qref-drawer-fab" onclick="qrefDrawerToggle()" aria-label="Open quick reference" aria-expanded="false" aria-controls="qref-drawer" title="Quick Reference">
+  <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+</button>
+<div id="qref-drawer" class="qref-drawer" role="dialog" aria-modal="true" aria-label="Quick Reference" aria-hidden="true">
+  <div class="qref-drawer-hd">
+    <b>Quick Reference</b>
+    <button type="button" class="qref-drawer-close" onclick="qrefDrawerToggle()" aria-label="Close quick reference">✕</button>
+  </div>
+  <div class="qref-drawer-body" id="qref-drawer-body"></div>
+</div>
 <script>
 const UNITS=[{"id":1,"name":"Atomic Structure & Moles","concepts":[{"l":"Subatomic Particles & Isotopes","intro":"Atoms are built from protons, neutrons, and electrons, and isotopes of an element differ only in neutron count.","b":["Protons (+1, in nucleus) define the element via atomic number Z; neutrons (0, in nucleus) add mass; electrons (-1) occupy orbitals around the nucleus","Mass number A = protons + neutrons; isotopes have the same Z but different A","Atomic mass on the periodic table is a weighted average of all naturally occurring isotopes","Ions form when atoms gain or lose electrons: cations (+) lose electrons, anions (-) gain electrons","Nuclear symbol notation: superscript = mass number, subscript = atomic number, e.g. carbon-14 is written with A=14, Z=6"]},{"l":"The Mole and Avogadro's Number","intro":"The mole is chemistry's counting unit, linking the atomic scale to measurable macroscopic quantities.","b":["1 mole = 6.022 x 10^23 particles (Avogadro's number, N_A)","Molar mass (g/mol) numerically equals the atomic/molecular mass in amu from the periodic table","moles = mass (g) / molar mass (g/mol); mass = moles x molar mass","number of particles = moles x 6.022 x 10^23","Molar mass of a compound is the sum of the molar masses of all atoms in its formula"]},{"l":"Mass Spectrometry & Average Atomic Mass","intro":"Mass spectrometry measures isotope masses and relative abundances, which are used to calculate an element's average atomic mass.","b":["A mass spectrometer ionizes, accelerates, and deflects particles by mass-to-charge ratio to separate isotopes","Average atomic mass = sum of (isotope mass x fractional abundance) for all isotopes","Example: chlorine is ~75.77% Cl-35 (34.97 amu) and ~24.23% Cl-37 (36.97 amu), giving an average of about 35.45 amu","Peaks further right on a mass spectrum correspond to heavier isotopes; peak height/intensity corresponds to relative abundance"]},{"l":"Empirical & Molecular Formulas","intro":"The empirical formula is the simplest whole-number ratio of atoms in a compound; the molecular formula is a whole-number multiple of it.","b":["To find an empirical formula from mass or % composition: convert to moles, divide by the smallest mole value, then convert to whole numbers","Molecular formula = empirical formula x n, where n = molar mass (molecular) / empirical formula mass","Percent composition of an element = (mass of element in 1 mole compound / molar mass of compound) x 100%","Combustion analysis of a hydrocarbon uses moles of CO2 produced to find moles of C, and moles of H2O to find moles of H"]},{"l":"Coulomb's Law and Atomic-Scale Interactions","intro":"Coulomb's law governs the electrostatic attraction between the nucleus and electrons, underlying atomic size and ionization trends.","b":["Coulomb's law: F is proportional to (q1 x q2)/r^2 — force increases with charge magnitude and decreases with the square of distance","Higher effective nuclear charge pulls electrons closer, shrinking atomic radius","Greater distance between nucleus and valence electrons (more shielding/energy levels) weakens attraction, easing ionization","This same law explains why removing successive electrons from an atom requires increasingly more energy"]}],"keyFacts":["n = m/M (moles = mass / molar mass); particles = n x 6.022 x 10^23","Average atomic mass = Σ(isotope mass x fractional abundance)","Molecular formula = empirical formula x n, where n = (molar mass)/(empirical formula mass)","Mass number (A) = protons + neutrons; atomic number (Z) = protons = electrons in a neutral atom"],"traps":["Atomic mass on the periodic table is a weighted average of isotopes, not the mass of any single atom","Molar mass and molecular mass have the same numeric value but different units (g/mol vs amu) — students often confuse them","An empirical formula is the simplest ratio; it is not necessarily the actual molecular formula unless n = 1","Isotopes of the same element have identical chemical behavior (same electron count) but different mass — mass differences don't change reactivity"]},{"id":2,"name":"Stoichiometry","concepts":[{"l":"Balancing Chemical Equations","intro":"A balanced equation conserves atoms of each element and reflects the law of conservation of mass.","b":["Balance by adjusting coefficients only, never subscripts (changing a subscript changes the substance's identity)","Balance elements that appear in only one reactant and one product first; balance free elements (like O2, H2) last","Check work by counting atoms of every element on both sides after balancing","Balanced coefficients give the mole ratios used in all stoichiometry calculations"]},{"l":"Mole Ratios and Stoichiometric Calculations","intro":"Balanced equation coefficients give exact mole ratios that convert between amounts of any two substances in a reaction.","b":["General path: mass/volume of A -> moles of A -> moles of B (using mole ratio from balanced equation) -> mass/volume of B","Mole ratio = coefficient of desired substance / coefficient of given substance","For gases at STP, 1 mole of any ideal gas occupies 22.4 L","For solutions, moles = Molarity (mol/L) x Volume (L)"]},{"l":"Limiting Reactants and Percent Yield","intro":"The limiting reactant is used up first and determines the maximum theoretical amount of product; percent yield compares actual to theoretical.","b":["To find the limiting reactant, calculate moles of product possible from each reactant — the one giving less product is limiting","Excess reactant is left over after the reaction goes to completion","Theoretical yield is the maximum product calculated from the limiting reactant","Percent yield = (actual yield / theoretical yield) x 100%","Percent yield is always less than or equal to 100% due to side reactions, impurities, or practical losses"]},{"l":"Solution Stoichiometry and Dilution","intro":"Molarity expresses solution concentration, and dilution calculations track moles of solute as volume changes.","b":["Molarity (M) = moles of solute / liters of solution","Dilution equation: M1V1 = M2V2 (moles of solute stay constant when solvent is added)","To make a solution of known molarity, calculate moles needed, then mass needed via molar mass","Titration uses the equation moles acid = moles base at the equivalence point (for a 1:1 acid-base reaction) to find an unknown concentration"]},{"l":"Types of Chemical Reactions","intro":"Reactions are often classified by pattern, which helps predict products before balancing.","b":["Synthesis: A + B -> AB; Decomposition: AB -> A + B","Single replacement: A + BC -> AC + B (predict using an activity series for metals)","Double replacement (often precipitation or acid-base): AB + CD -> AD + CB","Combustion of a hydrocarbon: CxHy + O2 -> CO2 + H2O","Net ionic equations omit spectator ions, showing only species that actually change in a reaction"]}],"keyFacts":["Percent yield = (actual yield / theoretical yield) x 100%","M1V1 = M2V2 for dilutions; moles = M x V for solutions","The limiting reactant produces the least amount of product and is fully consumed","At STP, 1 mole of ideal gas = 22.4 L"],"traps":["Mole ratios come from balanced coefficients, not from the masses or grams given in the problem — convert to moles first, not last","The reactant with the smaller mass or fewer grams is not automatically the limiting reactant — you must compare moles of product each could form","Percent yield over 100% signals an experimental error (like impure product), not a real result — it should be flagged, not accepted","Balancing equations changes coefficients, never subscripts — changing a subscript makes a different compound entirely"]},{"id":3,"name":"Gas Laws","concepts":[{"l":"Kinetic Molecular Theory","intro":"KMT models gases as particles in constant, random motion whose average kinetic energy depends only on temperature.","b":["Gas particles are in constant, random, straight-line motion until they collide","Collisions between gas particles and container walls are perfectly elastic (no energy lost)","The volume of gas particles themselves is negligible compared to the container volume","Average kinetic energy is directly proportional to Kelvin temperature: KE_avg = (3/2)RT","There are no attractive or repulsive forces between ideal gas particles"]},{"l":"The Ideal Gas Law","intro":"PV = nRT relates pressure, volume, moles, and temperature for an ideal gas in a single equation.","b":["PV = nRT, where R = 0.0821 L·atm/(mol·K) (or 8.314 J/(mol·K) with SI units)","Temperature must always be converted to Kelvin: K = °C + 273","Can be rearranged to find molar mass: M = mRT/PV, or density: d = PM/RT","STP (standard conditions) is 0°C (273 K) and 1 atm, where 1 mole of ideal gas occupies 22.4 L"]},{"l":"Combined and Individual Gas Laws","intro":"Boyle's, Charles's, Gay-Lussac's, and the combined gas law describe relationships between two gas variables when others are held constant.","b":["Boyle's Law (constant T, n): P1V1 = P2V2 — pressure and volume are inversely proportional","Charles's Law (constant P, n): V1/T1 = V2/T2 — volume and temperature are directly proportional","Gay-Lussac's Law (constant V, n): P1/T1 = P2/T2 — pressure and temperature are directly proportional","Combined gas law (constant n): P1V1/T1 = P2V2/T2","Avogadro's Law (constant P, T): V1/n1 = V2/n2 — volume and moles are directly proportional"]},{"l":"Partial Pressures and Gas Mixtures","intro":"Dalton's Law states that in a mixture of non-reacting gases, each gas contributes a partial pressure independent of the others.","b":["Dalton's Law: P_total = P1 + P2 + P3 + ...","Partial pressure of a gas = mole fraction of that gas x total pressure: Pi = Xi x P_total","Mole fraction Xi = moles of gas i / total moles of gas","Common application: collecting gas over water requires subtracting water vapor pressure from total pressure to find the dry gas pressure"]},{"l":"Effusion, Diffusion, and Real Gas Deviations","intro":"Graham's Law describes how gas molar mass affects speed, while real gases deviate from ideal behavior at high pressure and low temperature.","b":["Graham's Law: rate1/rate2 = sqrt(M2/M1) — lighter gases effuse/diffuse faster than heavier gases","Effusion is escape through a tiny hole; diffusion is gas spreading through space or another gas","Real gases deviate from ideal behavior most at high pressure (particle volume becomes significant) and low temperature (attractive forces become significant)","The van der Waals equation adds correction terms for intermolecular attraction (a) and particle volume (b) to the ideal gas law"]}],"keyFacts":["PV = nRT, with R = 0.0821 L·atm/(mol·K); always convert temperature to Kelvin","P1V1/T1 = P2V2/T2 (combined gas law) when moles are constant","Graham's Law: rate1/rate2 = sqrt(M2/M1)","Dalton's Law: P_total = sum of partial pressures; Pi = Xi x P_total"],"traps":["Temperature must be in Kelvin for all gas law calculations, not Celsius — forgetting this is the single most common gas law error","Real gases deviate most from ideal behavior at high pressure and low temperature, not at STP where ideal behavior is a good approximation","Lighter gases effuse faster, not slower — students often reverse Graham's Law's inverse square-root relationship","Ideal Gas Law assumes negligible particle volume and no intermolecular forces; these assumptions break down for real gases under extreme conditions"]},{"id":4,"name":"Thermochemistry","concepts":[{"l":"Heat, Temperature, and Specific Heat","intro":"Heat is energy transferred due to a temperature difference, and specific heat capacity determines how much a substance's temperature changes for a given heat input.","b":["q = mcΔT, where q = heat (J), m = mass (g), c = specific heat (J/g·°C), ΔT = T_final - T_initial","Specific heat of water is 4.18 J/(g·°C), unusually high, which is why water resists temperature change","Temperature is a measure of average kinetic energy; heat is energy transferred between objects at different temperatures","Heat flows spontaneously from a higher-temperature object to a lower-temperature object until thermal equilibrium is reached"]},{"l":"Calorimetry","intro":"Calorimetry measures heat flow in physical or chemical processes, typically assuming heat lost by one substance equals heat gained by another.","b":["In a coffee-cup calorimeter (constant pressure), q_reaction = -q_solution, and q_solution = mcΔT of the water/solution","Heat capacity of the calorimeter itself is often included in more precise calculations: q_cal = C_cal x ΔT","Bomb calorimeters measure heat at constant volume, giving ΔE (internal energy change) rather than ΔH directly","Molar enthalpy of reaction = q_reaction / moles of limiting reactant"]},{"l":"Enthalpy and Hess's Law","intro":"Enthalpy (H) is a state function, so Hess's Law allows ΔH for a reaction to be calculated by adding known steps regardless of path.","b":["Hess's Law: if a reaction is the sum of steps, ΔH_total = sum of ΔH for each step","Reversing a reaction changes the sign of ΔH; multiplying a reaction by a factor multiplies ΔH by that factor","ΔH_rxn = Σ ΔHf°(products) - Σ ΔHf°(reactants), using standard enthalpies of formation","ΔHf° of an element in its standard state is defined as zero","Exothermic reactions release heat (ΔH < 0); endothermic reactions absorb heat (ΔH > 0)"]},{"l":"Bond Energies and Enthalpy","intro":"Enthalpy change can be estimated from the energy required to break bonds in reactants versus the energy released forming bonds in products.","b":["ΔH_rxn ≈ Σ(bond energies broken, reactants) - Σ(bond energies formed, products)","Breaking bonds always requires energy input (endothermic); forming bonds always releases energy (exothermic)","This method gives an estimate because average bond energies vary slightly depending on molecular environment","A reaction is exothermic overall if more energy is released forming new bonds than was required to break old ones"]},{"l":"Thermodynamics: Enthalpy, Entropy, and Gibbs Free Energy","intro":"Gibbs free energy combines enthalpy and entropy to predict whether a process is spontaneous at a given temperature.","b":["ΔG = ΔH - TΔS (T in Kelvin); a negative ΔG indicates a spontaneous process","Entropy (S) is a measure of disorder/dispersal of energy; ΔS > 0 favors spontaneity, especially at high T","Four sign combinations: ΔH<0,ΔS>0 always spontaneous; ΔH>0,ΔS<0 never spontaneous; the other two combinations are temperature-dependent","Phase changes (solid→liquid→gas) increase entropy because molecular disorder and freedom of motion increase"]}],"keyFacts":["q = mcΔT for heat transfer in a substance without phase change","ΔH_rxn = Σ ΔHf°(products) - Σ ΔHf°(reactants)","ΔG = ΔH - TΔS; ΔG < 0 means spontaneous","Hess's Law: ΔH values add when reaction steps are added; reversing a step flips the sign of ΔH"],"traps":["Exothermic means the system releases energy (ΔH negative), but the surroundings get warmer, not colder — students often confuse which side loses energy","In calorimetry, q_reaction = -q_solution (opposite signs) because energy lost by one is gained by the other, not equal positive values","A reaction can be spontaneous even if endothermic, as long as ΔS is positive enough and T is high enough to make ΔG negative — spontaneity is not just about heat release","Bond breaking always costs energy and bond forming always releases energy; a common error is reversing which process is endothermic vs. exothermic"]},{"id":5,"name":"Atomic Structure & Periodicity","concepts":[{"l":"Electron Configuration","intro":"Electrons fill orbitals in a predictable order set by energy, and this arrangement explains chemical behavior.","b":["Aufbau principle: electrons fill lowest-energy orbitals first, following the order 1s 2s 2p 3s 3p 4s 3d 4p 5s 4d 5p...","Pauli exclusion principle: each orbital holds at most 2 electrons, with opposite spins","Hund's rule: electrons fill degenerate (same-energy) orbitals singly before pairing up","Noble gas (condensed) notation abbreviates configurations, e.g. Cl is [Ne]3s^2 3p^5","Transition metals lose 4s electrons before 3d electrons when forming cations, e.g. Fe -> Fe2+ removes two 4s electrons","Valence electrons (outermost s and p, plus d for transition metals) determine bonding and chemical properties"]},{"l":"Quantum Numbers & Orbital Shapes","intro":"Four quantum numbers uniquely describe each electron's energy, shape, orientation, and spin within an atom.","b":["Principal quantum number n (1, 2, 3...) gives the energy level/shell size","Angular momentum number l (0 to n-1) gives the subshell shape: l=0 is s, l=1 is p, l=2 is d, l=3 is f","Magnetic quantum number m_l gives orbital orientation (e.g. p has 3 orbitals: px, py, pz)","Spin quantum number m_s is +1/2 or -1/2, describing the two possible electron spins in an orbital","s orbitals are spherical; p orbitals are dumbbell-shaped along an axis; d orbitals have more complex cloverleaf shapes"]},{"l":"Periodic Trends: Atomic & Ionic Radius","intro":"Atomic size changes predictably across periods and down groups due to nuclear charge and shielding.","b":["Atomic radius decreases left to right across a period: increasing nuclear charge pulls electrons in with little added shielding","Atomic radius increases down a group: each row adds a new occupied shell, increasing distance from the nucleus","Cations are smaller than their parent atom (fewer electrons, same or more nuclear pull); anions are larger than their parent atom","Isoelectronic species (same electron count) shrink as nuclear charge increases, e.g. O2- > F- > Ne > Na+ > Mg2+","Effective nuclear charge (Z_eff) is the net positive charge felt by valence electrons after accounting for shielding by inner electrons"]},{"l":"Periodic Trends: Ionization Energy & Electronegativity","intro":"Ionization energy and electronegativity both generally increase toward fluorine, reflecting how tightly an atom holds electrons.","b":["First ionization energy (IE1) is the energy to remove one electron from a gaseous atom; it increases across a period and decreases down a group","Successive ionization energies increase, with a large jump after removing all valence electrons (breaking into a stable core shell)","Exceptions: IE dips slightly from Group 2 to 13 (p orbital easier to remove than filled s) and from Group 15 to 16 (paired electron easier to remove than half-filled set)","Electronegativity measures an atom's pull on shared electrons in a bond; it increases across a period and decreases down a group","Fluorine is the most electronegative element; cesium/francium are among the least (most metallic/electropositive)","Electron affinity (energy change when an atom gains an electron) is generally most negative (most favorable) near the halogens"]},{"l":"Photoelectron Spectroscopy (PES)","intro":"PES experimentally measures the binding energies of electrons in different orbitals, providing direct evidence for electron configuration and shielding.","b":["PES bombards atoms with high-energy photons, ejecting electrons; measuring their kinetic energy gives the binding energy of the orbital they came from","Higher binding energy = electrons held more tightly = closer to the nucleus or less shielded (core electrons > valence electrons)","A PES spectrum shows peaks at different binding energies; peak height (relative intensity) is proportional to the number of electrons in that orbital/subshell","Peaks cluster into groups matching shells; within a shell, s orbitals have higher binding energy than p (closer to nucleus, less shielded)","PES data can be used to identify unknown elements or confirm electron configurations from first principles"]},{"l":"Coulomb's Law & Atomic Behavior","intro":"Coulomb's law quantifies the electrostatic forces between charges and underlies most periodic trends and bonding.","b":["Coulomb's law: F = k(q1 x q2)/r^2 — force is proportional to the product of charges and inversely proportional to the square of distance","Larger effective nuclear charge (more protons felt) means stronger attraction, higher ionization energy, and smaller radius","Greater distance between nucleus and valence electrons (larger n, more shielding) means weaker attraction, lower ionization energy, larger radius","Shielding (inner electrons blocking nuclear charge) reduces the effective pull felt by valence electrons","These same electrostatic principles explain why ionic bond strength (lattice energy) increases with higher charge and smaller ionic radius"]}],"keyFacts":["Electron configurations fill in order of increasing energy (Aufbau) with Hund's rule maximizing unpaired spins in degenerate orbitals.","Atomic radius decreases across a period and increases down a group; ionization energy and electronegativity show the opposite trend.","PES peak position = binding energy (closer to nucleus = higher); peak height = number of electrons in that orbital.","Effective nuclear charge and Coulomb's law (F = kq1q2/r^2) explain essentially every periodic trend."],"traps":["Transition metals lose 4s electrons first when ionizing, not 3d electrons — Fe2+ is [Ar]3d^6, not [Ar]4s^2 3d^4.","Ionization energy increases across a period and up a group, not down a group — don't mix up radius and IE directions.","PES peak height reflects the number of electrons in a subshell, not the energy — taller peaks mean more electrons, not more tightly bound.","Anions are larger, not smaller, than their neutral parent atom because added electron-electron repulsion outweighs the same nuclear charge."]},{"id":6,"name":"Bonding & IMFs","concepts":[{"l":"Ionic, Covalent & Metallic Bonding","intro":"The three major bonding types arise from different ways atoms share or transfer electrons, driven by electronegativity differences.","b":["Ionic bonds form via electron transfer between a metal and nonmetal, creating a lattice of oppositely charged ions held by electrostatic attraction","Covalent bonds form via electron sharing between nonmetals; can be nonpolar (equal sharing, same/similar electronegativity) or polar (unequal sharing)","Metallic bonding involves a 'sea of delocalized electrons' around a lattice of metal cations, explaining conductivity, malleability, and ductility","Bond polarity is judged by electronegativity difference: ~0 is nonpolar covalent, ~0.4-1.7 is polar covalent, >1.7 is generally ionic (rule of thumb)","Lattice energy (ionic bond strength) increases with higher ionic charge and smaller ionic radius, per Coulomb's law","Network covalent solids (e.g. diamond, SiO2) have covalent bonds throughout, giving very high melting points and hardness"]},{"l":"Lewis Structures & Formal Charge","intro":"Lewis structures show how valence electrons are arranged as bonds and lone pairs, with formal charge helping choose the best structure.","b":["Count total valence electrons, place atoms with least electronegative (usually) in center, connect with single bonds, then distribute remaining electrons as lone pairs to satisfy octets","Formal charge = (valence electrons) - (nonbonding electrons) - (1/2 bonding electrons); the best Lewis structure minimizes formal charges, with negative charges on more electronegative atoms","Resonance structures occur when multiple valid Lewis structures differ only in electron placement (e.g. ozone, nitrate); the real structure is an average (resonance hybrid)","Expanded octets are possible for period 3+ elements (e.g. S, P) using available d-orbitals or higher orbital availability, e.g. SF6, PCl5","Exceptions to the octet rule include odd-electron species (NO, NO2), electron-deficient atoms (BF3, B has 6 electrons), and expanded octets"]},{"l":"VSEPR Theory & Molecular Geometry","intro":"VSEPR theory predicts 3D molecular shape from the number of electron domains (bonds + lone pairs) around a central atom, which repel each other to minimize energy.","b":["2 domains: linear (180 degrees), e.g. CO2; 3 domains: trigonal planar (120 degrees), e.g. BF3, or bent (~120) with 1 lone pair, e.g. SO2","4 domains: tetrahedral (109.5 degrees), e.g. CH4; trigonal pyramidal with 1 lone pair, e.g. NH3; bent with 2 lone pairs, e.g. H2O","5 domains: trigonal bipyramidal (90/120 degrees), e.g. PCl5; seesaw (1 lone pair), T-shaped (2 lone pairs), linear (3 lone pairs)","6 domains: octahedral (90 degrees), e.g. SF6; square pyramidal (1 lone pair); square planar (2 lone pairs)","Lone pairs occupy more space than bonding pairs, compressing bond angles slightly below ideal (e.g. H2O is ~104.5 degrees, not 109.5)","Hybridization matches electron domain count: 2 domains = sp, 3 = sp2, 4 = sp3, 5 = sp3d, 6 = sp3d2"]},{"l":"Molecular Polarity & Dipole Moments","intro":"A molecule's overall polarity depends on both individual bond polarities and molecular geometry, since bond dipoles can cancel by symmetry.","b":["A polar bond contributes a bond dipole pointing toward the more electronegative atom","A molecule is nonpolar if bond dipoles cancel by symmetry, even with polar bonds (e.g. CO2, CCl4, BF3)","A molecule is polar if bond dipoles do not cancel, often due to lone pairs or asymmetry (e.g. H2O, NH3, CHCl3)","Symmetric molecules with identical terminal atoms and no lone pairs on the central atom (linear, trigonal planar, tetrahedral, trigonal bipyramidal, octahedral) tend to be nonpolar","Molecular polarity determines solubility ('like dissolves like') and physical properties like boiling point"]},{"l":"Intermolecular Forces (IMFs)","intro":"Intermolecular forces are attractions between separate molecules, weaker than covalent/ionic bonds, but they govern boiling points, solubility, and physical states.","b":["London dispersion forces (LDFs) exist between all molecules/atoms, from temporary induced dipoles; strength increases with more electrons and larger surface area","Dipole-dipole forces occur between polar molecules, from permanent partial charges attracting oppositely charged ends of neighboring molecules","Hydrogen bonding is an especially strong dipole-dipole interaction when H is bonded directly to N, O, or F, which then attracts a lone pair on N/O/F of another molecule","Relative strength: ionic/covalent bonds > hydrogen bonding > dipole-dipole > London dispersion (for similar-sized molecules)","Stronger IMFs lead to higher boiling/melting points, higher viscosity, and lower vapor pressure","Water's unusually high boiling point, surface tension, and the fact that ice floats are all consequences of extensive hydrogen bonding"]},{"l":"Solids & Phase Behavior","intro":"The type of particle and force holding a solid together determines its physical properties, and phase diagrams map how substances change state with temperature and pressure.","b":["Ionic solids: hard, brittle, high melting point, conduct electricity only when molten/dissolved (e.g. NaCl)","Metallic solids: malleable, ductile, conduct electricity as solids (delocalized electrons), wide range of melting points","Molecular solids: held by IMFs (LDF, dipole-dipole, H-bonding); generally soft with low melting points, do not conduct electricity","Network covalent (atomic) solids: extremely hard, very high melting points, generally do not conduct (except graphite) (e.g. diamond, quartz)","Phase diagrams plot pressure vs. temperature, showing solid/liquid/gas regions separated by phase-boundary curves that meet at the triple point"]}],"keyFacts":["Bond type follows electronegativity difference: metal + nonmetal = ionic; nonmetal + nonmetal = covalent (polar or nonpolar).","VSEPR shape depends on total electron domains (bonding + lone pairs); lone pairs compress bond angles below the ideal.","IMF strength ranking: ionic/covalent bonds > hydrogen bonding > dipole-dipole > London dispersion forces.","A molecule can have polar bonds yet be nonpolar overall if the bond dipoles cancel by symmetry (e.g. CO2, CCl4)."],"traps":["A molecule with polar bonds is not automatically polar — check geometry, since symmetric shapes cancel dipoles (CO2 is nonpolar despite polar C=O bonds).","Hydrogen bonding requires H bonded directly to N, O, or F — an O-H bond elsewhere in a molecule counts, but C-H bonds never count as hydrogen bonding.","London dispersion forces exist in ALL molecules, not just nonpolar ones — they're often the dominant force in large nonpolar molecules, sometimes stronger than dipole-dipole in smaller polar ones.","Lone pairs count as electron domains for determining shape (VSEPR), but they are not counted when naming the molecular geometry itself (e.g. NH3 is 'trigonal pyramidal,' not 'tetrahedral,' despite 4 domains)."]},{"id":7,"name":"Kinetics & Equilibrium","concepts":[{"l":"Reaction Rates & Rate Laws","intro":"Reaction rate measures how fast reactants are consumed or products form, and the rate law expresses this mathematically in terms of concentrations.","b":["Rate = -(1/a)[d[A]/dt] = (1/b)[d[B]/dt]... using stoichiometric coefficients to relate rates of different species","Rate law: rate = k[A]^m[B]^n, where m and n are reaction orders determined experimentally (NOT from stoichiometric coefficients)","Overall reaction order = sum of individual orders (m + n); k is the rate constant, specific to a reaction at a given temperature","Method of initial rates: compare experiments where one concentration changes while others are held constant to solve for each order","Zero order: rate is independent of [A] (rate = k); first order: rate is proportional to [A]; second order: rate is proportional to [A]^2","Units of k depend on overall order: M/s for zero order, 1/s for first order, 1/(M*s) for second order"]},{"l":"Integrated Rate Laws & Half-Life","intro":"Integrated rate laws relate concentration directly to time, letting you predict concentration at any point or determine reaction order from a graph.","b":["Zero order: [A] = [A]0 - kt; a plot of [A] vs. t is linear","First order: ln[A] = ln[A]0 - kt (or ln([A]0/[A]) = kt); a plot of ln[A] vs. t is linear","Second order: 1/[A] = 1/[A]0 + kt; a plot of 1/[A] vs. t is linear","Half-life (t1/2) for first order is constant: t1/2 = 0.693/k, independent of concentration","Zero-order half-life decreases over time ([A]0/2k); second-order half-life increases over time (1/(k[A]0))","Graphing concentration data in these three ways (linear, ln, 1/[A]) and finding which gives a straight line reveals the reaction order"]},{"l":"Collision Theory & Reaction Mechanisms","intro":"Reactions occur when molecules collide with sufficient energy and correct orientation, and most reactions proceed through a multi-step mechanism.","b":["Collision theory: reaction rate depends on collision frequency, energy (must exceed activation energy Ea), and proper orientation","Activation energy (Ea) is the minimum energy needed for a collision to result in reaction; a catalyst lowers Ea by providing an alternate pathway","A reaction mechanism is a series of elementary steps that sum to the overall reaction; intermediates are produced then consumed (don't appear in overall equation)","The rate-determining step (slowest step) determines the overall rate law; for an elementary step, the rate law can be written directly from its stoichiometry","A valid mechanism must sum to the overall balanced equation and produce a rate law consistent with the experimentally observed one","Catalysts increase rate without being consumed; they appear in an early step and are regenerated in a later step"]},{"l":"Chemical Equilibrium & Keq","intro":"Equilibrium is a dynamic state where forward and reverse reaction rates are equal, and Keq quantifies the ratio of products to reactants at that point.","b":["At equilibrium, forward rate = reverse rate, so concentrations (not necessarily equal) remain constant over time","Keq = [products]^coefficients / [reactants]^coefficients, using equilibrium concentrations; pure solids and liquids are omitted","Kc uses concentrations; Kp uses partial pressures for gases, related by Kp = Kc(RT)^(delta n)","Large K (>>1) favors products at equilibrium; small K (<<1) favors reactants; K near 1 means comparable amounts of both","Reaction quotient Q has the same form as K but uses current (non-equilibrium) concentrations; if Q < K reaction shifts forward, if Q > K it shifts reverse, if Q = K it's at equilibrium","ICE tables (Initial, Change, Equilibrium) organize concentration changes to solve for equilibrium concentrations or K"]},{"l":"Le Chatelier's Principle","intro":"Le Chatelier's principle predicts how an equilibrium system responds to a disturbance by shifting to partially counteract the change.","b":["Adding a reactant (or removing a product) shifts equilibrium toward products (forward); the reverse shifts it toward reactants","Increasing volume/decreasing pressure shifts equilibrium toward the side with more moles of gas; decreasing volume/increasing pressure shifts toward fewer moles of gas","Adding an inert gas at constant volume does not shift equilibrium (partial pressures/concentrations of reactants and products are unchanged)","Increasing temperature shifts equilibrium in the endothermic direction; decreasing temperature shifts it in the exothermic direction (treat heat as a reactant or product)","Changing temperature is the only disturbance that actually changes the value of K; changing concentration, pressure, or volume shifts the position but K stays the same","Catalysts speed up the approach to equilibrium (both directions equally) but do not shift its position or change K"]},{"l":"Free Energy & Equilibrium Connection","intro":"Gibbs free energy determines reaction spontaneity and connects thermodynamics to the equilibrium constant.","b":["Delta G = Delta H - T*Delta S; a reaction is spontaneous (favorable) when Delta G < 0","Delta G < 0: exergonic/spontaneous as written; Delta G > 0: nonspontaneous as written (spontaneous in reverse); Delta G = 0: at equilibrium","Delta G° relates to K by Delta G° = -RT ln(K); large K corresponds to very negative Delta G°","Delta G = Delta G° + RT ln(Q) describes free energy under non-standard conditions, showing how a reaction proceeds toward equilibrium (Q approaches K)","Temperature can flip spontaneity when Delta H and Delta S have the same sign (e.g. endothermic but entropy-increasing reactions become spontaneous at high T)"]}],"keyFacts":["Rate laws (rate = k[A]^m[B]^n) are determined experimentally, never from the balanced equation's coefficients.","First-order half-life is constant (t1/2 = 0.693/k); zero- and second-order half-lives change with concentration.","Only a temperature change alters the value of K; concentration, pressure/volume, and catalysts shift the equilibrium position but not K itself.","Delta G° = -RT ln(K): a very negative Delta G° corresponds to a very large K, and Delta G = 0 exactly at equilibrium."],"traps":["Reaction order comes from experimental data (initial rates method), not from the stoichiometric coefficients in the balanced equation.","Adding an inert gas at constant volume does NOT shift equilibrium, because it doesn't change any reactant/product concentration or partial pressure.","A catalyst speeds up both the forward and reverse reactions equally — it changes the rate at which equilibrium is reached, not the equilibrium position or K.","Increasing temperature shifts equilibrium based on which direction is endothermic, not simply 'always toward products' — treat heat as a reactant (endothermic) or product (exothermic)."]},{"id":8,"name":"Acids-Bases & Electrochemistry","concepts":[{"l":"Acid-Base Definitions & pH/pOH","intro":"Acids and bases can be defined by proton or electron transfer, and pH/pOH provide a convenient scale for describing [H+] and [OH-].","b":["Bronsted-Lowry: acids donate H+ (protons), bases accept H+; Lewis: acids accept electron pairs, bases donate electron pairs","pH = -log[H+]; pOH = -log[OH-]; pH + pOH = 14.00 at 25°C (from Kw = [H+][OH-] = 1.0 x 10^-14)","Neutral: pH = 7; acidic: pH < 7; basic: pH > 7 (at 25°C)","Strong acids (HCl, HBr, HI, HNO3, H2SO4, HClO4) and strong bases (Group 1/2 hydroxides) dissociate 100% in water","For strong acids/bases, [H+] or [OH-] equals the given concentration directly (accounting for stoichiometry, e.g. Ca(OH)2 gives 2x [OH-])","Conjugate acid-base pairs differ by one H+ (e.g. NH4+/NH3, HCO3-/CO3^2-); the stronger the acid, the weaker its conjugate base"]},{"l":"Weak Acids/Bases: Ka, Kb & Equilibrium","intro":"Weak acids and bases only partially dissociate in water, and Ka/Kb quantify the extent of that ionization at equilibrium.","b":["Ka = [H+][A-]/[HA] for HA <-> H+ + A-; larger Ka means a stronger (more dissociated) weak acid","Kb = [BH+][OH-]/[B] for B + H2O <-> BH+ + OH-; larger Kb means a stronger weak base","Ka x Kb = Kw = 1.0 x 10^-14 for a conjugate acid-base pair (pKa + pKb = 14)","For a weak acid, use an ICE table with x = [H+] and the approximation x << [HA]0 (valid when Ka is small relative to concentration)","Percent ionization = ([H+]/[HA]0) x 100%; percent ionization increases as initial concentration decreases (more dilute = more dissociated)","pKa = -log(Ka); a lower pKa means a stronger acid"]},{"l":"Buffers & the Henderson-Hasselbalch Equation","intro":"Buffers resist changes in pH by containing both a weak acid and its conjugate base (or weak base and conjugate acid) in significant amounts.","b":["A buffer is made from a weak acid/conjugate base pair (or weak base/conjugate acid pair) present in comparable amounts","Henderson-Hasselbalch: pH = pKa + log([A-]/[HA]); useful for finding buffer pH or the ratio needed for a target pH","Buffer capacity is greatest when [A-] = [HA] (pH = pKa), and buffers work best within about 1 pH unit of pKa","Adding acid to a buffer: H+ reacts with the conjugate base (A-); adding base: OH- reacts with the weak acid (HA); the buffer components adjust to absorb the change","Buffers are used in blood (carbonic acid/bicarbonate), biological systems, and lab solutions to maintain stable pH"]},{"l":"Titrations & Equivalence Points","intro":"Titrations use a solution of known concentration to determine the concentration or identity of an unknown acid or base, tracked via a pH curve.","b":["Equivalence point: moles of acid = moles of base (accounting for stoichiometry); this is where the titration curve has its steepest rise (inflection point)","Strong acid + strong base titration: equivalence point pH = 7","Weak acid + strong base titration: equivalence point pH > 7 (conjugate base of the weak acid makes the solution basic)","Weak base + strong acid titration: equivalence point pH < 7 (conjugate acid makes the solution acidic)","Half-equivalence point (half of the acid neutralized): pH = pKa for a weak acid titration, since [HA] = [A-] there","Indicators change color near their own pKa; choose an indicator whose color-change range brackets the equivalence point pH","Titration curves for polyprotic acids show multiple equivalence points, one for each ionizable proton"]},{"l":"Redox Reactions & Oxidation States","intro":"Oxidation-reduction (redox) reactions involve electron transfer, tracked using oxidation numbers and balanced with half-reactions.","b":["Oxidation = loss of electrons (oxidation number increases); reduction = gain of electrons (oxidation number decreases) — 'OIL RIG'","The oxidizing agent is reduced (it causes oxidation of something else); the reducing agent is oxidized (it causes reduction of something else)","Assign oxidation numbers: free elements = 0; monatomic ions = ion charge; O is usually -2; H is usually +1; sum of oxidation numbers = overall charge","Balance redox equations using half-reactions: separate oxidation and reduction, balance atoms then charge (add electrons), then combine so electrons cancel","In acidic solution, balance O with H2O and H with H+; in basic solution, balance as if acidic, then add OH- to both sides to neutralize H+"]},{"l":"Galvanic (Voltaic) Cells & Electrochemistry","intro":"Galvanic cells convert spontaneous redox reactions into electrical energy, with standard reduction potentials predicting voltage and spontaneity.","b":["In a galvanic cell, oxidation occurs at the anode (negative electrode) and reduction occurs at the cathode (positive electrode) — 'AN OX, RED CAT'","Electrons flow through the external wire from anode to cathode; a salt bridge maintains charge neutrality by allowing ion flow between half-cells","E°cell = E°cathode(reduction) - E°anode(reduction), using standard reduction potentials from a table; a positive E°cell means a spontaneous reaction","Delta G° = -nFE°cell, linking cell potential to free energy (n = moles of electrons transferred, F = Faraday's constant, 96,485 C/mol)","The Nernst equation, E = E° - (RT/nF)ln(Q), gives cell potential under non-standard conditions; at 25°C this simplifies to E = E° - (0.0592/n)log(Q)","Electrolytic cells use an external power source to force a nonspontaneous redox reaction to occur (opposite of galvanic cells, but same electrode naming: oxidation at anode, reduction at cathode)"]}],"keyFacts":["pH + pOH = 14.00 at 25°C; Ka x Kb = Kw = 1.0 x 10^-14 for a conjugate acid-base pair.","Henderson-Hasselbalch: pH = pKa + log([A-]/[HA]); buffers work best when pH is within about 1 unit of pKa.","At the half-equivalence point of a weak acid titration, pH = pKa; strong acid-strong base equivalence point is pH 7.","Galvanic cells: oxidation at the anode, reduction at the cathode, electrons flow anode to cathode, and a positive E°cell means a spontaneous reaction."],"traps":["A weak acid-strong base titration has an equivalence point pH greater than 7, not 7 — don't assume every equivalence point is neutral.","Ka and Kb are related by Ka x Kb = Kw for a conjugate pair, not Ka = Kb — a stronger acid always has a weaker conjugate base.","In a galvanic cell, electrons flow from anode to cathode through the wire, while conventional current and cations in the salt bridge move to maintain charge balance — don't reverse anode/cathode with electrode charge sign.","Oxidation is loss of electrons (increase in oxidation number), not gain — mixing up OIL RIG is one of the most common redox errors."]}];
 const DIAGRAMS={};
@@ -876,7 +948,8 @@ const PART_A=[{"n":1,"u":1,"q":"An atom of chlorine-37 has 17 protons. How many 
 const PART_B1=[{"n":31,"u":1,"q":"[Application] A sample contains 3.01 x 10^23 atoms of iron. How many moles of iron does this represent?","o":["0.500 mol","1.00 mol","2.00 mol","3.01 mol"],"a":0,"e":"moles = particles / N_A = 3.01x10^23 / 6.022x10^23 = 0.500 mol."},{"n":32,"u":1,"q":"[Application] A compound has an empirical formula of CH2 and a molar mass of 84 g/mol. What is its molecular formula?","o":["CH2","C2H4","C6H12","C4H8"],"a":2,"e":"Empirical formula mass of CH2 = 14 g/mol. 84/14 = 6, so the molecular formula is (CH2)x6 = C6H12."},{"n":33,"u":2,"q":"[Application] For the reaction Fe2O3 + 3 CO -> 2 Fe + 3 CO2, how many moles of Fe form from 6.0 mol CO reacting completely?","o":["2.0 mol","3.0 mol","4.0 mol","6.0 mol"],"a":2,"e":"Mole ratio CO:Fe is 3:2, so 6.0 mol CO x (2 mol Fe/3 mol CO) = 4.0 mol Fe."},{"n":34,"u":2,"q":"[Application] A reaction produces 8.5 g of product but the theoretical yield is 10.0 g. What is the percent yield?","o":["15%","65%","85%","117%"],"a":2,"e":"Percent yield = (actual/theoretical) x 100 = (8.5/10.0) x 100 = 85%."},{"n":35,"u":3,"q":"[Application] A gas at 1.0 atm and 27 C (300 K) is heated to 600 K at constant volume. What is the new pressure?","o":["0.5 atm","1.0 atm","2.0 atm","4.0 atm"],"a":2,"e":"By Gay-Lussac's law (P1/T1 = P2/T2) at constant volume, doubling absolute temperature doubles pressure: 1.0 atm x 2 = 2.0 atm."},{"n":36,"u":3,"q":"[Application] What is the molar mass of a gas if 2.0 g occupies 1.12 L at STP (22.4 L/mol at STP)?","o":["10 g/mol","20 g/mol","40 g/mol","44.8 g/mol"],"a":2,"e":"moles = 1.12 L / 22.4 L/mol = 0.0500 mol. Molar mass = 2.0 g / 0.0500 mol = 40 g/mol."},{"n":37,"u":4,"q":"[Application] Using bond energies, if breaking reactant bonds requires 500 kJ and forming product bonds releases 620 kJ, what is deltaH for the reaction?","o":["+1120 kJ","+120 kJ","-120 kJ","-1120 kJ"],"a":2,"e":"deltaH = (bonds broken) - (bonds formed) = 500 - 620 = -120 kJ, an exothermic reaction."},{"n":38,"u":4,"q":"[Application] 100.0 g of water at 80.0 C is mixed with 100.0 g of water at 20.0 C. Assuming no heat loss, what is the final temperature?","o":["20.0 C","40.0 C","50.0 C","80.0 C"],"a":2,"e":"Equal masses of the same substance mixed together reach the average temperature: (80.0+20.0)/2 = 50.0 C."},{"n":39,"u":5,"q":"[Application] Which set of quantum numbers is not allowed for an electron?","o":["n=2, l=1, ml=0, ms=+1/2","n=3, l=2, ml=-1, ms=-1/2","n=2, l=2, ml=0, ms=+1/2","n=1, l=0, ml=0, ms=-1/2"],"a":2,"e":"The azimuthal quantum number l must range from 0 to n-1. For n=2, l can only be 0 or 1, so l=2 is not allowed."},{"n":40,"u":5,"q":"[Application] Which of these has the smallest ionic radius: Na+, Mg2+, or Al3+ (all isoelectronic with Ne)?","o":["Na+","Mg2+","Al3+","All are equal"],"a":2,"e":"Isoelectronic ions have the same electron count, but Al3+ has the most protons pulling the same electrons in tightest, giving it the smallest radius."},{"n":41,"u":6,"q":"[Application] Draw the Lewis structure for CO2 (2 O atoms double-bonded to central C). What is the formal charge on carbon?","o":["-2","-1","0","+1"],"a":2,"e":"Carbon has 4 valence electrons, forms 2 double bonds (4 bonding pairs, 0 lone pairs): formal charge = 4 - 0 - (8/2) = 4 - 4 = 0."},{"n":42,"u":6,"q":"[Application] What is the molecular geometry of NH3, which has 3 bonding pairs and 1 lone pair on nitrogen?","o":["Tetrahedral","Trigonal pyramidal","Trigonal planar","Bent"],"a":1,"e":"With 4 electron domains (3 bonding, 1 lone pair) arranged tetrahedrally, the molecular shape (ignoring the lone pair) is trigonal pyramidal."},{"n":43,"u":7,"q":"[Application] A first-order reaction has a rate constant k = 0.0693 min^-1. What is its half-life?","o":["1 min","5 min","10 min","20 min"],"a":2,"e":"For first order, t1/2 = 0.693/k = 0.693/0.0693 = 10 min."},{"n":44,"u":7,"q":"[Application] At equilibrium for N2 + 3H2 <-> 2NH3, Keq = 100 at a given temperature. If Q = 10 for a reaction mixture, in which direction will the reaction shift?","o":["Forward, toward products","Reverse, toward reactants","No shift, already at equilibrium","Cannot be determined"],"a":0,"e":"Since Q (10) < Keq (100), the reaction proceeds forward to produce more products until Q equals Keq."},{"n":45,"u":7,"q":"[Application] For the exothermic reaction N2 + 3H2 <-> 2NH3, how does increasing temperature affect the equilibrium position?","o":["Shifts toward products, increasing NH3 yield","Shifts toward reactants, decreasing NH3 yield","No effect on equilibrium position","Increases Keq"],"a":1,"e":"By Le Chatelier's principle, adding heat to an exothermic reaction (treating heat as a product) shifts equilibrium backward toward reactants, decreasing NH3 yield."},{"n":46,"u":8,"q":"[Application] A weak acid HA has Ka = 1.0 x 10^-5 and initial concentration 0.10 M. What is the approximate [H+] at equilibrium?","o":["1.0 x 10^-5 M","1.0 x 10^-4 M","1.0 x 10^-3 M","1.0 x 10^-6 M"],"a":2,"e":"[H+] = sqrt(Ka x C) = sqrt(1.0x10^-5 x 0.10) = sqrt(1.0x10^-6) = 1.0x10^-3 M."},{"n":47,"u":8,"q":"[Application] A buffer contains 0.20 M acetic acid (Ka = 1.8x10^-5, pKa = 4.74) and 0.20 M sodium acetate. What is the buffer's pH?","o":["3.74","4.74","5.74","7.00"],"a":1,"e":"By Henderson-Hasselbalch, pH = pKa + log([A-]/[HA]) = 4.74 + log(1) = 4.74 since concentrations are equal."},{"n":48,"u":8,"q":"[Application] In the titration of a weak acid with a strong base, what is true of the pH at the equivalence point?","o":["pH = 7 exactly","pH < 7 because the conjugate base is present","pH > 7 because the conjugate base is a weak base","pH is undefined"],"a":2,"e":"At the equivalence point of a weak acid/strong base titration, the solution contains only the conjugate base, which hydrolyzes water to make the solution basic (pH > 7)."},{"n":49,"u":8,"q":"[Application] In the reaction Zn + Cu2+ -> Zn2+ + Cu, what is the oxidation state change of zinc?","o":["0 to +2 (oxidized)","0 to -2 (reduced)","+2 to 0 (reduced)","+2 to +2 (unchanged)"],"a":0,"e":"Zn goes from oxidation state 0 (elemental) to +2 in Zn2+, losing 2 electrons, so it is oxidized."},{"n":50,"u":8,"q":"[Application] In a galvanic cell, if E_cell is positive, what can be concluded about the reaction?","o":["It is non-spontaneous","It is spontaneous as written","It is at equilibrium","No current will flow"],"a":1,"e":"A positive E_cell corresponds to a negative deltaG (deltaG = -nFE), meaning the redox reaction is spontaneous as written."}];
 const PART_B2=[{"n":51,"u":1,"q":"[Synthesis] A student determines an unknown metal's molar mass by reacting it with excess acid and measuring H2 gas volume, then uses mole ratios and mass to find molar mass. Which core mole concepts are combined here?","o":["Gas stoichiometry and moles-to-mass conversion only","Moles, molar mass, and stoichiometric mole ratios from a balanced equation","Only Avogadro's number","Empirical formula determination only"],"a":1,"e":"This task requires converting gas volume to moles (via gas laws), using the balanced equation's mole ratio to find moles of metal, then converting to molar mass using measured mass, combining several mole-based skills."},{"n":52,"u":2,"q":"[Synthesis] A reaction has both a limiting reactant calculation and a percent yield step. If the theoretical yield calculated from the limiting reactant is 12.0 g and the percent yield is 75%, what is the actual yield?","o":["9.00 g","12.0 g","16.0 g","3.00 g"],"a":0,"e":"Actual yield = theoretical yield x percent yield = 12.0 g x 0.75 = 9.00 g, combining limiting reactant and percent yield concepts."},{"n":53,"u":3,"q":"[Synthesis] A gas mixture's total pressure and mole fractions are used to find partial pressures, which are then plugged into the ideal gas law to find moles of one component. Which two gas law concepts does this combine?","o":["Dalton's law of partial pressures and the ideal gas law","Graham's law and Boyle's law","Charles's law and Avogadro's law only","Kinetic molecular theory only"],"a":0,"e":"Finding a component's partial pressure from mole fraction (Dalton's law) and then using PV=nRT with that partial pressure to solve for moles combines Dalton's law and the ideal gas law."},{"n":54,"u":4,"q":"[Synthesis] Hess's law is used to find deltaH for an overall reaction, and then deltaS is estimated to determine whether the reaction is spontaneous at 298 K using deltaG = deltaH - TdeltaS. This calculation connects which two thermochemistry ideas?","o":["Enthalpy from Hess's law and Gibbs free energy/spontaneity","Specific heat and calorimetry only","Bond energies and kinetic theory","Heat capacity and phase changes"],"a":0,"e":"This combines calculating deltaH via Hess's law with using the Gibbs free energy equation (deltaG = deltaH - TdeltaS) to assess spontaneity."},{"n":55,"u":5,"q":"[Synthesis] A PES spectrum shows peak binding energies that increase with decreasing distance from the nucleus and increasing effective nuclear charge. This connects PES data to which underlying atomic model?","o":["Coulomb's law and periodic trends in electron shielding/effective nuclear charge","The ideal gas law","VSEPR theory","Le Chatelier's principle"],"a":0,"e":"PES binding energies reflect how strongly electrons are held, which is explained by Coulomb's law (charge and distance) combined with periodic trends in nuclear charge and shielding."},{"n":56,"u":6,"q":"[Synthesis] A molecule's Lewis structure, VSEPR geometry, and bond polarities together determine which macroscopic property?","o":["Overall molecular polarity, which affects intermolecular forces and boiling point","Only the molecule's mass","Only its empirical formula","Only its number of valence electrons"],"a":0,"e":"Lewis structures give bonding/lone pairs, VSEPR gives 3D shape, and combined with individual bond polarities this determines whether the molecule is polar overall, which governs IMFs and physical properties like boiling point."},{"n":57,"u":7,"q":"[Synthesis] A reaction's rate law is determined experimentally, then used with the collision theory concept of activation energy to explain why raising temperature increases rate. Which two kinetics ideas are connected here?","o":["Rate laws (from experimental data) and the Arrhenius/collision theory explanation of temperature's effect on rate","Equilibrium constants and Le Chatelier's principle only","Reaction mechanisms and stoichiometry only","Zero-order kinetics and half-life only"],"a":0,"e":"This connects the empirical rate law (order determined from data) with the theoretical explanation from collision theory/Arrhenius behavior for why more molecules exceed the activation energy at higher temperature."},{"n":58,"u":8,"q":"[Synthesis] A buffer's pH is calculated using Henderson-Hasselbalch, then a strong acid is added and the new pH is found after the buffer partially neutralizes it. Which two acid-base concepts are combined?","o":["Buffer equilibrium (Henderson-Hasselbalch) and stoichiometric neutralization reactions","Titration equivalence points only","Strong acid dissociation only","Ksp and solubility only"],"a":0,"e":"Analyzing buffer response to an added strong acid requires first using stoichiometry to find new moles of acid/conjugate base, then applying Henderson-Hasselbalch to find the resulting pH."},{"n":59,"u":8,"q":"[Synthesis] A redox reaction's standard cell potential is used to calculate deltaG via deltaG = -nFE, connecting electrochemistry to which broader chemistry concept?","o":["Thermodynamics and the relationship between spontaneity and free energy","Gas laws and pressure","VSEPR molecular geometry","Rate laws and reaction order"],"a":0,"e":"The equation deltaG = -nFE directly links electrochemical cell potential to Gibbs free energy, tying redox chemistry to thermodynamic spontaneity."},{"n":60,"u":4,"q":"[Synthesis] A calorimetry experiment measures heat released by a reaction, which is then used with Hess's law and known bond energies to estimate an unknown bond dissociation energy. Which three thermochemistry tools are integrated in this analysis?","o":["Calorimetry, Hess's law, and bond energy calculations","Only specific heat capacity","Only phase change diagrams","Only entropy calculations"],"a":0,"e":"This synthesis task uses calorimetry data (q=mcT) as an experimental deltaH, combines it with Hess's law to find an overall enthalpy change, and applies bond energy relationships to isolate the unknown bond energy."}];
 const PART_C=[{"n":61,"u":1,"q":"Written response: choose TWO concepts from different units and construct an argument connecting them. Cite specific evidence from each.","o":["Names both concepts precisely, gives concrete evidence for each, and explains the causal/logical bridge","Lists the two topics without connecting them","Describes only one concept in detail","Gives a personal opinion with no course evidence"],"a":0,"e":"Strong responses anchor every claim in specific unit content."},{"n":62,"u":8,"q":"Essay plan: identify the single most important takeaway of this course. Defend it using three units as evidence, then address one counterargument.","o":["Clear thesis, three unit-specific pieces of evidence, genuine counterargument, resolution","Thesis with no support","Topic list with no argument","Anecdote unrelated to course content"],"a":0,"e":"Full argumentative architecture earns top marks."}];
-const EXAM_CSS=".ex-header{background:var(--ink);color:var(--surface);padding:20px 22px;border-radius:var(--radius);margin-bottom:22px}\n.ex-header h2{font-family:'Space Grotesk';font-size:28.5px;font-weight:700;margin-bottom:4px}\n.ex-header p{font-family:'Inter';font-size:19.5px;color:rgba(255,255,255,.65)}\n.ex-part{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--surface)}\n.ex-part-hd{background:var(--surface-2);padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}\n.ex-part-hd:hover{background:var(--surface-hover)}\n.ex-part-hd h3{font-size:21px;font-weight:700;color:var(--ink)}\n.ex-part-hd span{font-family:'Inter';font-size:18px;color:var(--ink-dim)}\n.ex-part-body{display:none;padding:20px}\n.ex-part.open .ex-part-body{display:block}\n.ex-q{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}\n.ex-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}\n.ex-qnum{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}\n.ex-qtext{font-size:21.8px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:13px}\n.ex-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}\n.ex-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface);text-align:left;transition:all .12s}\n.ex-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}\n.ex-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}\n.ex-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}\n.ex-exp{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface-2);padding:11px 14px;border-radius:var(--radius-sm);margin-top:9px;display:none;line-height:1.6}\n.ex-exp.show{display:block}\n.ex-sa{padding:13px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter';font-size:20.2px;color:var(--amber-ink);line-height:1.6;margin-top:9px}\n.ex-sa strong{display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:var(--amber)}\n.ex-score{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px;display:none}\n.ex-score strong{font-family:'Space Grotesk';color:var(--success);font-size:22.5px}\n.ex-score span{font-family:'Inter';color:var(--success);font-size:19.5px}\n.ex-reset{padding:10px 20px;border:1px solid var(--border);border-radius:999px;background:var(--surface);cursor:pointer;font-family:'Space Grotesk';font-weight:600;font-size:19.5px;margin-top:10px;transition:all .15s}\n.ex-reset:hover{background:var(--surface-hover);border-color:var(--border-strong)}\n";
+const EXAM_META={"title":"AP Chemistry — Full Practice Exam","subtitle":"Part A (30 pts) · Part B–1 (20 pts) · Part B–2 (10 pts) · Part C (2 pts)","parts":{"PART_A":{"title":"Part A — Multiple Choice","points":30,"minutes":null},"PART_B1":{"title":"Part B–1 — Multiple Choice","points":20,"minutes":null},"PART_B2":{"title":"Part B–2 — Short Answer","points":10,"minutes":null},"PART_C":{"title":"Part C — Extended Response","points":2,"minutes":null}}};
+const EXAM_CSS=".ex-header{background:var(--ink);color:var(--surface);padding:20px 22px;border-radius:var(--radius);margin-bottom:22px}\n.ex-header h2{font-family:'Space Grotesk';font-size:28.5px;font-weight:700;margin-bottom:4px}\n.ex-header p{font-family:'Inter';font-size:19.5px;color:rgba(255,255,255,.65)}\n.ex-part{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--surface)}\n.ex-part-hd{background:var(--surface-2);padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}\n.ex-part-hd:hover{background:var(--surface-hover)}\n.ex-part-hd h3{font-size:21px;font-weight:700;color:var(--ink)}\n.ex-part-hd span{font-family:'Inter';font-size:18px;color:var(--ink-dim)}\n.ex-part-hd-meta{display:flex;align-items:center;gap:14px;flex:none}\n.ex-timer{font-family:'Space Grotesk';font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink-dim)}\n.ex-timer.ex-timer-up{color:var(--danger)}\n.ex-part-body{display:none;padding:20px}\n.ex-part.open .ex-part-body{display:block}\n.ex-q{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}\n.ex-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}\n.ex-qnum{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}\n.ex-qtext{font-size:21.8px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:13px}\n.ex-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}\n.ex-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface);text-align:left;transition:all .12s}\n.ex-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}\n.ex-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}\n.ex-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}\n.ex-exp{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface-2);padding:11px 14px;border-radius:var(--radius-sm);margin-top:9px;display:none;line-height:1.6}\n.ex-exp.show{display:block}\n.ex-sa{padding:13px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter';font-size:20.2px;color:var(--amber-ink);line-height:1.6;margin-top:9px}\n.ex-sa strong{display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:var(--amber)}\n.ex-score{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px;display:none}\n.ex-score strong{font-family:'Space Grotesk';color:var(--success);font-size:22.5px}\n.ex-score span{font-family:'Inter';color:var(--success);font-size:19.5px}\n.ex-reset{padding:10px 20px;border:1px solid var(--border);border-radius:999px;background:var(--surface);cursor:pointer;font-family:'Space Grotesk';font-weight:600;font-size:19.5px;margin-top:10px;transition:all .15s}\n.ex-reset:hover{background:var(--surface-hover);border-color:var(--border-strong)}\n";
 function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');var idx=-1;tabs.forEach((b,i)=>{if(b.id==='tab-'+id)idx=i;});if(idx!==-1){tabs.forEach((b,i)=>{var on=i===idx;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;});var _hl=document.getElementById('hero-live');if(_hl)_hl.textContent=tabs[idx].textContent.trim()+' tab';}if(id==='examples'&&!examplesBuilt)buildExamples();if(id==='exam'&&!examBuilt)buildExam();var spc=document.getElementById('spc-card');if(spc)spc.style.display=(id==='guide')?'':'none';}
 let examBuilt=false;
 var examplesBuilt=false, ex2map={}, ex2shown={};
@@ -889,20 +962,25 @@ const st=document.createElement('style');st.textContent=EXAM_CSS;document.head.a
 
 v.innerHTML=`
 <div class="ex-header">
-  <h2>AP Chemistry — Full Practice Exam</h2>
-  <p>Part A (30 pts) · Part B-1 (20 pts) · Part B-2 (15 pts) · Part C (20 pts) · Based on Jan 2026 format</p>
+  <h2>${EXAM_META.title}</h2>
+  <p>${EXAM_META.subtitle}</p>
 </div>
 <div id="ex-score-box" class="ex-score"></div>
-${buildPartMC('A','Part A — Multiple Choice (30 questions, 1 pt each)',PART_A)}
-${buildPartMC('B1','Part B–1 — Multiple Choice (20 questions, 1 pt each)',PART_B1)}
-${buildPartFR('B2','Part B–2 — Short Answer (show work, 1 pt each)',PART_B2)}
-${buildPartFR('C','Part C — Extended Response (1–2 pts each)',PART_C)}
+${buildPartMC('A',PART_A)}
+${buildPartMC('B1',PART_B1)}
+${buildPartFR('B2',PART_B2)}
+${buildPartFR('C',PART_C)}
 `;
 // open Part A by default
-document.getElementById('ex-part-A').classList.add('open');
+togglePart('A');
 }
 
-function buildPartMC(id,title,qs){
+function examPartMeta(id){return (EXAM_META&&EXAM_META.parts&&EXAM_META.parts['PART_'+id])||{};}
+function exTimerHtml(id){return examPartMeta(id).minutes?`<span class="ex-timer" id="timer-${id}"></span>`:'';}
+
+function buildPartMC(id,qs){
+if(!qs.length)return'';
+const meta=examPartMeta(id);
 const items=qs.map(q=>`
 <div class="ex-q" id="exq-${id}-${q.n}">
   <div class="ex-qnum">Question ${q.n}</div>
@@ -914,15 +992,18 @@ const items=qs.map(q=>`
 </div>`).join('');
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${title}</h3><span id="score-${id}">Score: 0 / ${qs.length}</span>
+  <h3>${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'}, 1 pt each)</h3>
+  <div class="ex-part-hd-meta"><span id="score-${id}">Score: 0 / ${qs.length}</span>${exTimerHtml(id)}</div>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
 }
 
-function buildPartFR(id,title,qs){
+function buildPartFR(id,qs){
+if(!qs.length)return'';
 // Some guides author these as genuine free-response (q.sa, a model answer to
 // reveal); others reuse the multiple-choice shape (q.o/q.a) for this part.
 // Render whichever shape the data actually has instead of assuming sa exists.
+const meta=examPartMeta(id);
 const items=qs.map(q=>q.sa!==undefined?`
 <div class="ex-q">
   <div class="ex-qnum">Question ${q.n}</div>
@@ -939,11 +1020,43 @@ const items=qs.map(q=>q.sa!==undefined?`
   <div class="ex-exp" id="exp-${id}-${q.n}">${q.e}</div>
 </div>`).join('');
 const allMC=qs.every(q=>q.sa===undefined);
+const rightMeta=allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`;
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${title}</h3>${allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`}
+  <h3>${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'})</h3>
+  <div class="ex-part-hd-meta">${rightMeta}${exTimerHtml(id)}</div>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
+}
+
+/* Per-part countdown timer. In-memory only (module-level `examTimers`) — a
+   refresh resets it, matching the fact that exam progress/scores are never
+   persisted to localStorage either. Not a proctored test: hitting zero just
+   shows "Time's up" and stops, it never auto-submits or locks the part. */
+var examTimers={};
+function startPartTimer(id){
+  const meta=examPartMeta(id);
+  if(!meta.minutes)return;
+  let t=examTimers[id];
+  if(!t){t=examTimers[id]={remaining:meta.minutes*60,expired:false,intervalId:null};}
+  if(t.expired||t.intervalId)return; // already ticking, or already ran out
+  t.intervalId=setInterval(function(){
+    t.remaining--;
+    if(t.remaining<=0){
+      t.remaining=0;t.expired=true;
+      clearInterval(t.intervalId);t.intervalId=null;
+    }
+    renderPartTimer(id);
+  },1000);
+  renderPartTimer(id);
+}
+function renderPartTimer(id){
+  const el=document.getElementById('timer-'+id);
+  const t=examTimers[id];
+  if(!el||!t)return;
+  if(t.expired){el.textContent="Time's up";el.classList.add('ex-timer-up');return;}
+  const m=Math.floor(t.remaining/60),s=t.remaining%60;
+  el.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
 }
 
 function togglePart(id){
@@ -951,6 +1064,7 @@ function togglePart(id){
   const isOpen=part.classList.toggle('open');
   const hd=part.querySelector('.ex-part-hd');
   if(hd)hd.setAttribute('aria-expanded',isOpen?'true':'false');
+  if(isOpen)startPartTimer(id);
 }
 
 function toggleSA(btn){
@@ -1258,6 +1372,58 @@ function qBookmarkToggle(qid){
 }
 function qId(q){return q.u+'|'+q.q;}
 
+/* Mistake Log: localStorage-backed, keyed the same way as the bookmark set
+   (ssBookmarks_<slug>) — a currently-unresolved-misses list, not full history.
+   A question moves in when answered wrong and out the moment it's answered
+   correctly again (from anywhere: normal quiz, diagnostic, hard mode, or the
+   log's own review pass). */
+var MISTAKE_LOG_KEY='ssMistakes_'+'ap-chemistry';
+function mistakeLogMap(){
+  try{return JSON.parse(localStorage.getItem(MISTAKE_LOG_KEY)||'{}');}catch(e){return {};}
+}
+function mistakeLogSave(map){
+  try{localStorage.setItem(MISTAKE_LOG_KEY,JSON.stringify(map));}catch(e){}
+  updateMistakeLogBadge();
+}
+function mistakeLogAdd(q){
+  const map=mistakeLogMap();
+  map[qId(q)]={u:q.u,q:q.q,o:q.o,a:q.a,e:q.e,d:q.d,topic:q.topic};
+  mistakeLogSave(map);
+}
+function mistakeLogRemove(q){
+  const map=mistakeLogMap();
+  const id=qId(q);
+  if(!(id in map))return;
+  delete map[id];
+  mistakeLogSave(map);
+}
+function updateMistakeLogBadge(){
+  const el=document.getElementById('mistake-log-count');
+  if(!el)return;
+  const n=Object.keys(mistakeLogMap()).length;
+  el.textContent=String(n);
+  el.style.display=n?'':'none';
+}
+var mistakeReviewMode=false;
+function openMistakeLog(){
+  switchTab('quiz');
+  mistakeReviewMode=true;
+  diagMode=false;
+  const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
+  const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
+  const map=mistakeLogMap();
+  qPool=Object.values(map);
+  qIdx=0;score=0;requeueCounts=new WeakMap();
+  const qb=document.getElementById('qbox');
+  if(!qPool.length){
+    qb.innerHTML='<div class="mistake-log-empty">No mistakes logged right now — nice work. Answer a question wrong anywhere in the quiz and it will show up here until you get it right.</div>';
+    document.getElementById('q-prog').textContent='';
+    document.getElementById('q-sc').textContent='';
+    return;
+  }
+  showQ();
+}
+
 function quizShuffle(){
   if(!qPool.length)return;
   for(let i=qPool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[qPool[i],qPool[j]]=[qPool[j],qPool[i]];}
@@ -1292,8 +1458,15 @@ function buildQSel(){
   if(HQ.length)sel.innerHTML+='<option value="hard">Hard Mode Only ('+HQ.length+' Qs)</option>';
   loadQ();
 }
+let difficultyFilter='all';
+function setDifficultyFilter(d){
+  difficultyFilter=d;
+  document.querySelectorAll('.diff-chip').forEach(function(c){c.classList.toggle('on',c.dataset.diff===d);});
+  loadQ();
+}
 function loadQ(){
   diagMode=false;
+  mistakeReviewMode=false;
   const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
   const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
   const raw=document.getElementById('q-sel').value;
@@ -1302,6 +1475,7 @@ function loadQ(){
   if(raw==='hard')src=HQ.slice();
   else if(+raw===0)src=QUIZ.concat(HQ);
   else src=QUIZ.concat(HQ).filter(q=>q.u===+raw);
+  if(difficultyFilter!=='all')src=src.filter(q=>q.d===difficultyFilter);
   qPool=src.sort(()=>Math.random()-.5);
   qIdx=0;score=0;requeueCounts=new WeakMap();showQ();
 }
@@ -1368,8 +1542,10 @@ function showQ(){
   const bookmarked=qBookmarkSet().has(bid);
   const STAR_OUTLINE='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
   const STAR_FILLED='<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
-  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>`+
+  const diffPill=q.d?`<span class="q-diff q-diff-${q.d}">${q.d}</span>`:'';
+  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>${diffPill}`+
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
+    (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
     `<button class="q-hint-btn" id="q-hint-btn" onclick="toggleQHint()">💡 Hint</button>`+
     `<div class="q-hint-box" id="q-hint-box">Hint: this is from Unit ${q.u}: ${unitNameFor(q.u)}</div>`+
@@ -1435,6 +1611,7 @@ function ansQ(i){
     }
   }
   if(SS_MASTERY)SS_MASTERY.recordAnswer(q.u,i===q.a);
+  if(i===q.a)mistakeLogRemove(q);else mistakeLogAdd(q);
   ssOverallProgressUpdate();
   const expEl=document.getElementById('q-exp');
   expEl.classList.add('show');
@@ -1464,6 +1641,7 @@ function ssQuizKeyboardShortcuts(e){
 }
 document.addEventListener('keydown',ssQuizKeyboardShortcuts);
 buildQSel();
+updateMistakeLogBadge();
 
 /* ----- APG tabs: roving-tabindex arrow-key nav on the hero tab bar. Manual
    activation — arrows move focus only; Enter/Space fire the button's own click
@@ -1867,6 +2045,105 @@ async function ssQuizTabClick(){
 }
 
 ssCheckSession();
+
+/* ----- Reference drawer: a compact, always-available companion to the full
+   Quick Reference TAB. Reuses the exact HTML the generator already emits into
+   #view-qref (buildQref() in generate-guide.mjs) instead of rebuilding it —
+   the drawer body is filled by copying that markup once, on first open. ----- */
+function qrefDrawerOpen(){
+  var panel=document.getElementById('qref-drawer');
+  if(!panel)return;
+  var body=document.getElementById('qref-drawer-body');
+  if(body&&!body.dataset.filled){
+    var src=document.getElementById('view-qref');
+    if(src){body.innerHTML=src.innerHTML;body.dataset.filled='1';}
+  }
+  panel.classList.add('open');
+  panel.setAttribute('aria-hidden','false');
+  var fab=document.getElementById('qref-drawer-fab');
+  if(fab)fab.setAttribute('aria-expanded','true');
+  var closeBtn=panel.querySelector('.qref-drawer-close');
+  if(closeBtn)closeBtn.focus();
+  document.addEventListener('keydown',qrefDrawerKeydown);
+}
+function qrefDrawerClose(){
+  var panel=document.getElementById('qref-drawer');
+  if(!panel||!panel.classList.contains('open'))return;
+  panel.classList.remove('open');
+  panel.setAttribute('aria-hidden','true');
+  var fab=document.getElementById('qref-drawer-fab');
+  if(fab){fab.setAttribute('aria-expanded','false');fab.focus();}
+  document.removeEventListener('keydown',qrefDrawerKeydown);
+}
+function qrefDrawerToggle(){
+  var panel=document.getElementById('qref-drawer');
+  if(panel&&panel.classList.contains('open'))qrefDrawerClose();else qrefDrawerOpen();
+}
+function qrefDrawerKeydown(e){if(e.key==='Escape')qrefDrawerClose();}
+
+/* ----- Optional Desmos graphing calculator. Disabled by default: leave
+   DESMOS_API_KEY empty and this entire feature (button, panel, external
+   script) never appears and never makes a network request. To enable it,
+   the site owner gets a free key for personal/school use at
+   https://www.desmos.com/api/v1.12/calculator.js docs (sign in at
+   desmos.com/my-api) and pastes it in below. Generic — available on every
+   guide once a key is configured, not gated to any subject. ----- */
+const DESMOS_API_KEY = "";
+let desmosScriptLoaded=false, desmosCalculator=null;
+function desmosInit(){
+  if(!DESMOS_API_KEY)return;
+  var fab=document.createElement('button');
+  fab.id='desmos-fab';
+  fab.className='desmos-fab';
+  fab.type='button';
+  fab.setAttribute('aria-label','Toggle graphing calculator');
+  fab.setAttribute('aria-expanded','false');
+  fab.title='Graphing calculator';
+  fab.textContent='\u{1F4C8}';
+  fab.onclick=desmosToggle;
+  document.body.appendChild(fab);
+
+  var panel=document.createElement('div');
+  panel.id='desmos-panel';
+  panel.className='desmos-panel';
+  panel.setAttribute('role','dialog');
+  panel.setAttribute('aria-modal','true');
+  panel.setAttribute('aria-label','Graphing calculator');
+  panel.setAttribute('aria-hidden','true');
+  panel.innerHTML='<div class="desmos-panel-hd"><b>Graphing Calculator</b>'+
+    '<button type="button" class="desmos-panel-close" aria-label="Close graphing calculator">✕</button></div>'+
+    '<div class="desmos-calc" id="desmos-calc"></div>';
+  document.body.appendChild(panel);
+  panel.querySelector('.desmos-panel-close').onclick=desmosToggle;
+}
+function desmosToggle(){
+  var panel=document.getElementById('desmos-panel');
+  if(!panel)return;
+  var opening=!panel.classList.contains('open');
+  panel.classList.toggle('open',opening);
+  panel.setAttribute('aria-hidden',opening?'false':'true');
+  var fab=document.getElementById('desmos-fab');
+  if(fab)fab.setAttribute('aria-expanded',opening?'true':'false');
+  if(opening){
+    document.addEventListener('keydown',desmosKeydown);
+    if(!desmosScriptLoaded)desmosLoadScript();
+  }else{
+    document.removeEventListener('keydown',desmosKeydown);
+    if(fab)fab.focus();
+  }
+}
+function desmosKeydown(e){if(e.key==='Escape')desmosToggle();}
+function desmosLoadScript(){
+  desmosScriptLoaded=true;
+  var s=document.createElement('script');
+  s.src='https://www.desmos.com/api/v1.12/calculator.js?apiKey='+encodeURIComponent(DESMOS_API_KEY);
+  s.onload=function(){
+    var el=document.getElementById('desmos-calc');
+    if(el&&window.Desmos)desmosCalculator=Desmos.GraphingCalculator(el);
+  };
+  document.head.appendChild(s);
+}
+desmosInit();
 
 /* ----- unit-filtered practice, e.g. /chemistry?practice=3 (from the dashboard's "study this next") ----- */
 (async function ssPracticeMode(){

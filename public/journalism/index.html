@@ -273,6 +273,16 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .q-block:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .q-block-hd{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px}
 .q-text{font-size:24.8px;font-weight:600;color:var(--ink);line-height:1.55;flex:1}
+.q-diff{flex:none;display:inline-block;padding:3px 11px;border-radius:999px;font-size:13px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;border:1px solid transparent;align-self:flex-start;margin-top:2px}
+.q-diff-easy{background:var(--success-soft);color:var(--success);border-color:var(--success-border)}
+.q-diff-medium{background:var(--amber-soft);color:var(--amber-ink);border-color:var(--amber)}
+.q-diff-hard{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}
+.q-topic{font-size:14.5px;color:var(--ink-dim);margin:-14px 0 14px;font-style:italic}
+.mistake-log-btn{position:relative}
+.mistake-log-count{display:inline-block;margin-left:6px;background:var(--danger);color:#fff;border-radius:999px;
+  font-size:12px;font-weight:700;padding:1px 7px}
+.mistake-log-empty{padding:24px;text-align:center;color:var(--ink-muted);font-size:18px}
 .q-bookmark{flex:none;background:none;border:none;cursor:pointer;color:var(--ink-dim);padding:2px;border-radius:6px;transition:color .15s ease,transform .15s ease}
 .q-bookmark:hover{color:var(--amber);transform:scale(1.08)}
 .q-bookmark.on{color:var(--amber)}
@@ -514,6 +524,51 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 .back-to-top:hover{color:var(--ink);border-color:var(--accent)}
 .back-to-top svg{width:20px;height:20px;display:block}
 
+/* ---- reference drawer: quick-access companion to the Quick Reference tab,
+   reachable from any tab. Sits bottom-center, clear of back-to-top
+   (bottom:22/left:22..74) and #cbot-fab (bottom:22/right:22..78). ---- */
+.qref-drawer-fab{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);width:52px;height:52px;
+  border-radius:50%;background:var(--surface);color:var(--ink-muted);border:1px solid var(--border-strong);
+  cursor:pointer;box-shadow:var(--shadow-md);z-index:190;display:flex;align-items:center;justify-content:center;
+  transition:color .15s ease,border-color .15s ease}
+.qref-drawer-fab:hover{color:var(--accent);border-color:var(--accent)}
+.qref-drawer-fab svg{width:20px;height:20px;display:block}
+.qref-drawer{position:fixed;top:0;right:0;height:100dvh;width:min(420px,100vw);background:var(--surface);
+  border-left:1px solid var(--border-strong);box-shadow:var(--shadow-lg);z-index:210;display:flex;flex-direction:column;
+  transform:translateX(100%);opacity:0;visibility:hidden;transition:transform .25s ease,opacity .25s ease,visibility 0s linear .25s}
+.qref-drawer.open{transform:translateX(0);opacity:1;visibility:visible;transition:transform .25s ease,opacity .25s ease}
+.qref-drawer-hd{display:flex;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--surface-2);flex-shrink:0}
+.qref-drawer-hd b{font-family:'Space Grotesk';font-size:20px;color:var(--ink);flex:1}
+.qref-drawer-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:6px 8px;border-radius:6px}
+.qref-drawer-close:hover{color:var(--ink);background:var(--surface-hover)}
+.qref-drawer-body{flex:1;overflow-y:auto;padding:16px}
+.qref-drawer-body .qr-section:not(:last-child){margin-bottom:20px}
+@media(max-width:600px){
+  .qref-drawer{width:100vw}
+}
+
+/* ---- optional Desmos graphing calculator (see DESMOS_API_KEY in logic.js).
+   Markup is only ever created by JS when a key is configured, so this CSS
+   has no visible effect until then. Placed clear of #cbot-fab (right:22..78). ---- */
+.desmos-fab{position:fixed;bottom:22px;right:90px;width:52px;height:52px;border-radius:50%;
+  background:var(--accent);color:#fff;border:none;font-size:22px;cursor:pointer;
+  box-shadow:0 8px 24px -6px rgba(15,122,112,.4);z-index:195;display:flex;align-items:center;justify-content:center;
+  transition:transform .15s ease}
+.desmos-fab:hover{transform:scale(1.06)}
+.desmos-panel{position:fixed;bottom:88px;right:90px;width:min(380px,calc(100vw - 32px));
+  height:min(420px,calc(100dvh - 160px));background:var(--surface);border:1px solid var(--border-strong);
+  border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:205;display:none;flex-direction:column;overflow:hidden}
+.desmos-panel.open{display:flex}
+.desmos-panel-hd{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+.desmos-panel-hd b{font-family:'Space Grotesk';font-size:18px;color:var(--ink);flex:1}
+.desmos-panel-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:4px 6px;border-radius:6px}
+.desmos-panel-close:hover{color:var(--ink);background:var(--surface-hover)}
+.desmos-calc{flex:1;width:100%;height:100%}
+@media(max-width:600px){
+  .desmos-fab{right:22px;bottom:82px}
+  .desmos-panel{right:12px;bottom:144px}
+}
+
 /* ---- print / export ---- */
 @media print{
   :root,[data-theme="dark"]{
@@ -528,7 +583,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
   body{background:#fff;color:#000}
   body::before,.hero::after{display:none!important}
   #theme-toggle,.search-wrap,.ss-sticky-top .filter-row-wrap,.mobile-only-select,.nav,.nav-spacer,.tablist,
-  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
+  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.qref-drawer-fab,.qref-drawer,.desmos-fab,.desmos-panel,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
   .search-kbd,.ss-overall-progress,.q-kbd-hint,.diag-btn{display:none!important}
   *{position:static!important;box-shadow:none!important}
   .unit-body{display:block!important}
@@ -707,6 +762,13 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <div class="q-bar">
     <select id="q-sel" aria-label="Choose a question set" onchange="loadQ()"></select>
     <button class="btn" type="button" onclick="quizShuffle()" style="font-size:14px;padding:7px 14px">⇄ Shuffle</button>
+    <div class="diff-chips" role="group" aria-label="Filter by difficulty" style="display:flex;gap:6px">
+      <button class="chip on diff-chip" type="button" data-diff="all" onclick="setDifficultyFilter('all')">All</button>
+      <button class="chip diff-chip" type="button" data-diff="easy" onclick="setDifficultyFilter('easy')">Easy</button>
+      <button class="chip diff-chip" type="button" data-diff="medium" onclick="setDifficultyFilter('medium')">Medium</button>
+      <button class="chip diff-chip" type="button" data-diff="hard" onclick="setDifficultyFilter('hard')">Hard</button>
+    </div>
+    <button class="btn mistake-log-btn" type="button" onclick="openMistakeLog()">Mistake Log<span class="mistake-log-count" id="mistake-log-count" style="display:none">0</span></button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -862,6 +924,16 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
   <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
 </button>
+<button type="button" id="qref-drawer-fab" class="qref-drawer-fab" onclick="qrefDrawerToggle()" aria-label="Open quick reference" aria-expanded="false" aria-controls="qref-drawer" title="Quick Reference">
+  <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+</button>
+<div id="qref-drawer" class="qref-drawer" role="dialog" aria-modal="true" aria-label="Quick Reference" aria-hidden="true">
+  <div class="qref-drawer-hd">
+    <b>Quick Reference</b>
+    <button type="button" class="qref-drawer-close" onclick="qrefDrawerToggle()" aria-label="Close quick reference">✕</button>
+  </div>
+  <div class="qref-drawer-body" id="qref-drawer-body"></div>
+</div>
 <script>
 const UNITS=[{"id":1,"name":"What Makes News","concepts":[{"l":"News Values","intro":"Editors decide what becomes news by weighing a shared set of news values against each other; a story rarely needs all of them, but the strongest stories carry several at once.","b":["Timeliness: recent events beat old ones — 'news' literally means new","Proximity: events closer to the audience (geographically or culturally) feel more relevant","Impact/consequence: how many people are affected and how seriously","Prominence: well-known people or institutions make ordinary events newsworthy","Conflict: disagreement, competition, or controversy draws attention","Human interest: emotionally engaging stories about ordinary people"]},{"l":"Oddity and Novelty","intro":"Unusual or unexpected events are newsworthy precisely because they break from routine — 'dog bites man' is not news, but 'man bites dog' is.","b":["Novelty covers firsts, records, and rare occurrences","Oddity relies on violating audience expectations","Overused novelty angles can trivialize serious topics","Editors must balance oddity against genuine significance","Novelty alone rarely justifies front-page placement without other values"]},{"l":"The News Cycle","intro":"The news cycle is the ongoing process by which stories are reported, updated, and eventually replaced by newer developments.","b":["24-hour digital cycles have replaced the old once-daily print cycle","Breaking news gets updated continuously as facts emerge","Follow-up stories add context, reaction, and consequence over days","Social media can compress the cycle to minutes","Speed pressure increases the risk of reporting errors"]},{"l":"Hard News vs. Soft News","intro":"Hard news covers timely, significant events (crime, politics, disasters); soft news covers lifestyle, entertainment, and human-interest topics with less time pressure.","b":["Hard news is typically written in inverted-pyramid style","Soft news allows more narrative and creative structure","Hard news usually runs quickly; soft news can run anytime","Both require the same standards of accuracy and sourcing","The line between them blurs in feature-style hard-news coverage"]},{"l":"Gatekeeping and Agenda-Setting","intro":"Editors act as gatekeepers, deciding which stories reach the public; by choosing what to cover, the press also shapes what audiences think about (agenda-setting), even if not what to think.","b":["Gatekeeping happens at every stage: pitch, assignment, edit, and publish","Agenda-setting theory holds that media prominence signals importance to the public","Social media has distributed gatekeeping beyond traditional editors","News judgment reflects a newsroom's values and audience","Bias can enter through story selection, not just wording"]}],"keyFacts":["The core news values are timeliness, proximity, impact, prominence, conflict, novelty, and human interest.","A story's newsworthiness usually comes from combining several values, not just one.","Gatekeeping is the editorial process of deciding which stories get published.","Agenda-setting theory says media coverage influences what topics the public considers important."],"traps":["Confusing 'interesting to me' with 'newsworthy' — newsworthiness depends on audience relevance, not personal curiosity","Treating oddity as sufficient on its own; unusual is not automatically important","Assuming proximity only means physical distance — cultural and community proximity count too","Forgetting that agenda-setting theory is about influencing what people think about, not what they think"]},{"id":2,"name":"News Writing & Inverted Pyramid","concepts":[{"l":"The Inverted Pyramid","intro":"The inverted pyramid structures a news story from most to least important information, so editors can cut from the bottom and readers get the key facts immediately.","b":["Most newsworthy facts appear first, least important last","Allows editors to trim length from the bottom without losing essentials","Suits skimming readers who may not finish the article","Contrasts with chronological or narrative storytelling structures","Originated partly from unreliable telegraph transmission during the Civil War era"]},{"l":"The Lead (Lede)","intro":"The lead is the opening sentence or paragraph that summarizes the story's most essential information and hooks the reader.","b":["A summary lead answers the most important of the Five Ws and H","Hard-news leads are typically one sentence, 25-35 words","Feature leads (delayed/anecdotal) can defer the main point for effect","A strong lead avoids burying the news under minor details","Leads should avoid starting with a quote or a question in hard news"]},{"l":"The Five Ws and H","intro":"Who, What, When, Where, Why, and How are the essential questions every basic news story must answer.","b":["Who: the people or organizations involved","What: the event or action that occurred","When and Where: the time and location","Why: the cause or motivation behind the event","How: the manner in which it happened","Not every W needs to be in the lead — prioritize the most newsworthy ones"]},{"l":"Nut Graf and Body Structure","intro":"The nut graf (nutshell paragraph) follows the lead to explain why the story matters, then the body elaborates with supporting facts and quotes in descending importance.","b":["Nut graf gives context and significance the lead couldn't fit","Body paragraphs should each carry one clear idea","Supporting quotes should reinforce, not just repeat, the facts","Background/context info sits lower since it's less time-sensitive","Transitions guide the reader logically between related facts"]},{"l":"AP Style and News Writing Mechanics","intro":"AP Style is the standard style guide most U.S. newsrooms use for consistency in grammar, punctuation, abbreviations, and numerals.","b":["Numbers one through nine are spelled out; 10 and above use numerals","Titles are capitalized before a name, lowercase after","Attribution typically uses 'said,' not more dramatic synonyms","Avoid editorializing adjectives; let facts speak for themselves","Consistent style builds credibility and reader trust"]},{"l":"Attribution and Sourcing in Copy","intro":"Every factual claim in a news story should be attributed to a clear, identifiable source so readers can judge its credibility.","b":["Direct quotes must be word-for-word accurate","Paraphrased information still needs attribution","Attribution should come early in a sentence when the source matters","Avoid anonymous sourcing unless justified and approved by editors","Never present opinion as unattributed fact in a news story"]}],"keyFacts":["The inverted pyramid places the most newsworthy information first, least important last.","A hard-news lead should answer the most important of the Five Ws and H in one concise sentence.","The nut graf explains why a story matters, right after the lead.","AP Style provides the standardized grammar, punctuation, and formatting rules most U.S. newsrooms follow."],"traps":["Burying the lead — putting the most important fact several paragraphs in, not right at the top","Writing a lead that tries to answer all six Ws at once instead of prioritizing the most newsworthy ones","Using dramatic attribution verbs like 'claimed' or 'admitted' instead of the neutral 'said'","Treating the nut graf as optional filler rather than the paragraph that justifies the story's importance"]},{"id":3,"name":"Interviewing Skills","concepts":[{"l":"Preparing for an Interview","intro":"Strong interviews start before the recorder turns on: research the subject, define your goal, and draft flexible questions.","b":["Research the subject's background, prior statements, and public record","Identify the story's central question the interview must answer","Draft open-ended questions but stay ready to improvise","Decide on setting, timing, and recording method in advance","Anticipate sensitive topics and plan how to raise them respectfully"]},{"l":"Open vs. Closed Questions","intro":"Open-ended questions invite detailed, reflective answers, while closed questions elicit short factual confirmations — skilled interviewers use both strategically.","b":["Open questions ('How did that feel?') encourage elaboration and quotes","Closed questions ('Did you sign the contract?') confirm specific facts","Leading questions that suggest an answer should be avoided","Follow-up questions probe deeper into unclear or evasive answers","Silence after a question can prompt a source to keep talking"]},{"l":"Active Listening and Follow-Up","intro":"Effective interviewers listen more than they talk, catching details that spark better follow-up questions than any pre-written list.","b":["Maintain eye contact and minimal interruptions to build rapport","Note surprising or vague statements for immediate follow-up","Avoid rigidly following a script when a better angle emerges","Paraphrasing an answer back can confirm understanding and get clarity","Take detailed notes even when recording, in case of technical failure"]},{"l":"Handling Difficult Sources","intro":"Evasive, hostile, or emotionally distressed sources require patience, tact, and persistence without crossing ethical lines.","b":["Rephrase a dodged question rather than abandoning it","Stay calm and professional even if a source becomes defensive","Give grieving or traumatized sources space and let them decline questions","Avoid badgering; repeated respectful follow-ups work better than pressure","Know when to end an interview that has become unproductive or unsafe"]},{"l":"On/Off the Record and Attribution Levels","intro":"Sources and reporters must agree clearly on ground rules before information is shared, since these terms govern how it can be used.","b":["On the record: everything can be quoted and attributed by name","On background: information can be used but not attributed to the named source","On deep background: information can be used but with no attribution at all","Off the record: information cannot be published at all","Ground rules must be agreed upon before the information is shared, not after"]}],"keyFacts":["Effective interviews rely on preparation: research the subject and identify the story's key question beforehand.","Open-ended questions draw out detail and reflection; closed questions confirm specific facts.","The four attribution levels are on the record, on background, on deep background, and off the record.","Ground rules for attribution must be negotiated before information is shared, not retroactively."],"traps":["Asking leading questions that suggest the desired answer instead of neutral open questions","Assuming 'off the record' means the same as 'not for attribution' — they are different levels","Sticking rigidly to a prepared question list instead of following up on unexpected answers","Agreeing to off-the-record terms after the source has already revealed the information"]},{"id":4,"name":"Fact-Checking & Ethics","concepts":[{"l":"The SPJ Code of Ethics","intro":"The Society of Professional Journalists' Code of Ethics organizes journalistic responsibility into four core principles that guide everyday newsroom decisions.","b":["Seek truth and report it: verify information and provide context","Minimize harm: treat sources, subjects, and the vulnerable with compassion","Act independently: avoid conflicts of interest and outside influence","Be accountable and transparent: acknowledge errors and explain decisions","The code is a set of aspirational guidelines, not enforceable law"]},{"l":"Verification and Fact-Checking Process","intro":"Before publishing, journalists must independently confirm claims using multiple, credible, ideally primary sources.","b":["Cross-check facts with at least two independent sources when possible","Prefer primary sources (documents, direct witnesses) over secondary ones","Verify names, titles, dates, numbers, and quotes exactly","Be skeptical of viral or unverified social media claims","Document sourcing so claims can be defended if challenged"]},{"l":"Conflicts of Interest","intro":"A conflict of interest arises when a journalist's personal relationships, financial ties, or biases could compromise — or appear to compromise — their objectivity.","b":["Financial ties to a story's subject must be disclosed or avoided","Personal relationships with sources can create real or perceived bias","Journalists generally avoid political activism related to their beat","Gifts or favors from sources should be declined","Even the appearance of a conflict can damage credibility"]},{"l":"Plagiarism and Fabrication","intro":"Plagiarism (using others' work without credit) and fabrication (inventing facts, quotes, or sources) are among journalism's most serious ethical violations.","b":["Plagiarism includes copying text, ideas, or structure without attribution","Fabrication includes invented quotes, composite characters, or fake events","Both violations can end careers and destroy outlet credibility","Proper attribution and original reporting prevent plagiarism","Corrections cannot fix fabrication — it requires retraction and accountability"]},{"l":"Corrections and Accountability","intro":"When errors occur, credible news organizations promptly and transparently correct the record rather than quietly editing or ignoring mistakes.","b":["Corrections should be clearly labeled and explain what was wrong","Minor typos may be fixed silently; substantive errors require a formal correction","Transparency about mistakes builds long-term audience trust","Ombudsmen or public editors at some outlets review complaints independently","Failing to correct known errors is itself an ethical failure"]}],"keyFacts":["The SPJ Code of Ethics rests on four pillars: seek truth and report it, minimize harm, act independently, and be accountable and transparent.","Facts should be verified with multiple independent, preferably primary, sources before publication.","A conflict of interest can damage credibility even if it's only a perceived, not actual, bias.","Fabrication (inventing facts or quotes) is a more severe violation than a simple factual error and typically ends careers."],"traps":["Confusing plagiarism (uncredited copying) with fabrication (inventing information) — both are serious but distinct violations","Assuming a single source is enough verification for a significant or controversial claim","Believing the SPJ Code of Ethics is legally binding — it is a professional guideline, not law","Quietly fixing a substantive factual error without publishing a formal correction"]},{"id":5,"name":"Feature Writing","concepts":[{"l":"Narrative Structure","intro":"Unlike hard news, features are usually built as stories with a beginning, middle, and end rather than an inverted pyramid — information is released for dramatic and emotional effect, not just efficiency.","b":["The 'hourglass' and narrative arc structures replace the inverted pyramid for many features","A strong lede (anecdotal, scene-setting, or descriptive) draws the reader in before the nut graf explains why the story matters","The nut graf (or 'nut paragraph') tells the reader the point of the story after the narrative hook","Scenes, chronology, and character development pace the story like fiction, even though the facts must be true","The kicker — a strong final quote, image, or detail — closes the story with resonance","Foreshadowing and callbacks to the opening scene give features a sense of unity"]},{"l":"Human-Interest Angles","intro":"Human-interest features find the personal, emotional dimension of a larger issue by focusing on how it affects a specific person or small group.","b":["A human-interest angle uses one person's experience as a lens onto a bigger trend or issue","Profiles are a common feature form, built around a single subject's life, work, or personality","Empathy and specificity — names, details, dialogue — make readers care about the subject","Reporters must balance emotional appeal with factual accuracy; a moving story is not an excuse to embellish","Human-interest stories often run alongside hard-news coverage of the same event to add context and emotional depth"]},{"l":"Descriptive Detail and Scene-Setting","intro":"Features rely on sensory, specific detail to put readers in a scene, rather than the general summary language typical of straight news writing.","b":["Show, don't tell: concrete sensory details (sight, sound, smell) work better than abstract adjectives","Specific details (a person's cracked hands, a particular smell in a room) are more credible and vivid than vague ones","Description should serve the story's point, not just decorate it","Dialogue and direct quotation, reproduced accurately, bring scenes to life","Overwriting — piling on adjectives or purple prose — can undermine credibility and clarity"]},{"l":"Types of Feature Stories","intro":"Feature writing covers several recognizable subgenres, each with its own conventions.","b":["Profile features focus on one person's life, achievements, or personality","Trend stories identify and illustrate a pattern happening across many people or places","Human-interest features center on emotionally engaging personal stories","Explanatory/backgrounder features unpack the context behind a complex ongoing story","How-to and service features give readers practical, actionable information","Seasonal or 'evergreen' features are not tied to a specific news event and can run anytime"]},{"l":"Reporting for Features","intro":"Because features rely on scene and character, they typically demand more time-intensive reporting than a daily news story.","b":["Feature reporters spend extended time observing subjects to gather authentic scenes and quotes","Detailed notes on setting, appearance, and behavior support later descriptive writing","Multiple interviews, sometimes over weeks, build a fuller picture of a subject","Fact-checking remains as rigorous as hard news — narrative style never excuses inaccuracy","Feature writers still need a clear focus or theme (a 'nut graf' idea) before drafting, to avoid a meandering story"]}],"keyFacts":["The inverted pyramid is replaced in features by narrative structures like the hourglass, where an anecdotal lede leads into a nut graf that states the story's significance.","A 'nut graf' explains why the story matters and what it is really about, usually placed after the opening scene or anecdote.","Human-interest stories use one person's specific experience to illuminate a broader issue or trend.","Features demand the same factual accuracy as hard news; vivid, specific detail — not invented detail — creates believability."],"traps":["A feature can bury the lede with a long anecdote and no nut graf, not skip factual verification — accuracy standards do not relax in feature writing.","Descriptive detail should be concrete and specific ('rust-streaked gutters'), not vague adjectives ('a nice old house').","A kicker is the story's closing line or image, not a quick summary paragraph like a hard-news story's ending.","Human interest means finding the personal angle on real events, not fabricating composite characters or invented scenes for effect."]},{"id":6,"name":"Opinion vs News","concepts":[{"l":"Fact vs. Opinion","intro":"A fact is a statement that can be verified as true or false with evidence; an opinion expresses a belief, judgment, or interpretation that cannot be proven the same way.","b":["Facts are verifiable through documents, data, records, or direct observation","Opinions rely on values, preferences, or interpretation and can vary between people","News reporting should stick to verifiable facts and attributed claims, not the reporter's judgments","Opinion writing is explicitly labeled as opinion, editorial, or commentary so readers know the difference","A statement can mix fact and opinion, e.g. 'the mayor raised taxes' (fact) 'which was reckless' (opinion)"]},{"l":"Editorials and the Editorial Board","intro":"An editorial is an unsigned opinion piece that represents the official position of a publication, typically written or approved by an editorial board separate from the newsroom.","b":["Editorials are institutional opinions, not the view of any single reporter","Most publications keep a wall of separation between the editorial board and the news reporting staff","Editorials often argue for a specific action or position, such as endorsing a candidate or policy","They typically appear on a dedicated 'opinion' or 'editorial' page, clearly separated from news","Editorial boards may include publishers, senior editors, and sometimes community members"]},{"l":"Op-Eds and Columns","intro":"An op-ed ('opposite the editorial page') is a signed opinion piece written by someone outside the editorial board, while a column is a recurring, signed piece reflecting one writer's consistent viewpoint.","b":["Op-eds are typically submitted by outside experts, politicians, or public figures, not staff editors","Columns run regularly and are tied to one writer's byline and voice","Both op-eds and columns must be clearly labeled as opinion content","Op-ed writers are still expected to support their arguments with accurate facts and evidence","News organizations often have separate editorial standards and fact-checking processes for opinion content"]},{"l":"Objectivity and Balance","intro":"Objectivity is the journalistic standard of reporting facts without personal bias, while balance means fairly representing relevant perspectives on a controversy.","b":["Objectivity does not mean 'no viewpoint exists' — it means the reporter's own opinion should not shape the reporting","Balance requires including significant, relevant viewpoints, not necessarily equal space to every claim","False balance occurs when a fringe or unsupported view is given equal weight to a well-evidenced one","Objectivity is upheld through sourcing, attribution, and separating fact from interpretation","Some newsrooms now favor 'fairness' or 'accuracy' over strict objectivity, while still avoiding advocacy in news stories"]},{"l":"Recognizing Bias in Coverage","intro":"Bias can enter news coverage through word choice, story selection, source selection, and framing, even without an explicit statement of opinion.","b":["Loaded language (e.g., 'regime' vs. 'government') can signal bias without stating an opinion directly","Story selection bias occurs when certain topics are consistently covered or ignored","Source selection bias happens when only one side's experts or witnesses are quoted","Framing bias shapes how an issue is presented, such as emphasizing conflict over cooperation","Critical readers check for attribution, multiple sources, and loaded language to spot bias","Confirmation bias in audiences can make biased coverage feel 'objective' if it matches existing beliefs"]}],"keyFacts":["News reporting presents verifiable, attributed facts; opinion content (editorials, op-eds, columns) is explicitly labeled and argues a viewpoint.","An editorial represents a publication's institutional position, decided by an editorial board, separate from the newsroom that reports the news.","An op-ed is a signed opinion piece from someone outside the publication's staff; a column is a recurring signed piece by one writer.","Bias can appear in reporting through word choice, story selection, source selection, and framing, even when no explicit opinion is stated."],"traps":["An editorial reflects the publication's institutional stance, not the personal opinion of an individual reporter.","Objectivity means keeping the reporter's own opinion out of the story, not pretending that no legitimate viewpoints exist.","Balance means including significant, relevant perspectives, not giving equal weight to a fringe claim and a well-evidenced one (false balance).","Op-eds must still be factually accurate; being labeled 'opinion' permits argument and interpretation, not fabrication."]},{"id":7,"name":"Media Law Basics","concepts":[{"l":"Libel and Slander (Defamation)","intro":"Defamation is a false statement presented as fact that damages someone's reputation; libel is written/published defamation, while slander is spoken defamation.","b":["To prove defamation, a plaintiff generally must show a false statement of fact, publication to a third party, identification, and damage to reputation","Truth is an absolute defense against a defamation claim in the U.S.","Public officials and public figures must prove 'actual malice' — that the publisher knew the statement was false or acted with reckless disregard for the truth (New York Times v. Sullivan, 1964)","Private individuals generally only need to prove negligence, a lower standard than actual malice","Opinion, clearly labeled as such, is generally protected and cannot be defamatory if it doesn't imply false facts","Retractions and corrections can limit damages but do not automatically erase liability"]},{"l":"Shield Laws and Protecting Sources","intro":"Shield laws protect journalists from being legally compelled to reveal confidential sources or unpublished material in court.","b":["Shield laws vary by state; there is no comprehensive federal shield law in the U.S.","They exist to protect the free flow of information by letting sources speak without fear of exposure","Protections are not absolute — courts can sometimes compel disclosure in criminal cases or when no other source can provide the information","Confidentiality promises to sources are treated as serious ethical commitments even when legal protection is limited","Reporters who refuse court orders to reveal sources can face contempt of court charges, including fines or jail time"]},{"l":"Prior Restraint","intro":"Prior restraint is government action that blocks speech or publication before it happens, rather than punishing it afterward; U.S. courts treat it as the most serious First Amendment violation.","b":["The Supreme Court has held prior restraint is presumptively unconstitutional and requires an extremely high burden of justification","New York Times Co. v. United States (1971, the 'Pentagon Papers' case) rejected the government's attempt to block publication of classified material","Courts generally prefer to let material be published and pursue after-the-fact remedies (like defamation suits) rather than censor in advance","National security claims alone are not automatically sufficient to justify prior restraint","Prior restraint differs from post-publication liability, which punishes a publisher after the fact for content already published"]},{"l":"Freedom of Information Act (FOIA)","intro":"FOIA is a federal law giving the public and press the right to request access to records held by federal government agencies, with state-level equivalents for state and local records.","b":["FOIA requests can be filed by anyone, not just journalists, to obtain government records","Agencies must generally respond within a set statutory timeframe, though delays are common in practice","FOIA includes specific exemptions, such as national security, personal privacy, and law enforcement investigations","State versions of FOIA (often called 'sunshine laws' or open-records laws) apply to state and local government records","FOIA is a key investigative journalism tool for uncovering government documents, data, and communications"]},{"l":"Privacy Torts and Newsgathering Limits","intro":"Beyond defamation, journalists must navigate privacy law and other legal limits when gathering and publishing information about individuals.","b":["Invasion of privacy can include intrusion upon seclusion, public disclosure of private facts, and false light","Newsworthiness is a key defense: information of legitimate public concern is generally protected even if private","Trespassing or using hidden recording devices to gather news can create separate legal liability, distinct from what is ultimately published","Many states have laws governing consent for recording conversations (one-party vs. two-party consent states)","Copyright law limits the unauthorized reuse of others' photos, video, or text, separate from defamation or privacy concerns"]}],"keyFacts":["Libel is written defamation; slander is spoken defamation. Truth is an absolute defense to both.","Public officials and public figures must prove 'actual malice' (knowledge of falsity or reckless disregard for the truth) to win a defamation case, per New York Times v. Sullivan (1964).","Prior restraint — blocking publication before it happens — is presumptively unconstitutional and was rejected in the Pentagon Papers case, New York Times Co. v. United States (1971).","FOIA lets the public and press request federal government records, subject to specific exemptions; state open-records laws cover state and local records."],"traps":["Libel is written defamation and slander is spoken defamation, not interchangeable terms for the same thing.","Public figures must prove actual malice, not mere negligence — private individuals face the lower negligence standard, not the other way around.","Shield laws vary by state and are not absolute; there is no comprehensive federal shield law protecting all journalists in all situations.","FOIA gives a right to request records, not an unconditional right to receive them — exemptions like national security and privacy can justify withholding."]},{"id":8,"name":"Digital Storytelling","concepts":[{"l":"Multimedia Storytelling Formats","intro":"Digital journalism combines text, photography, video, audio, and interactive graphics to tell stories in the format best suited to the content, rather than relying on text alone.","b":["Multimedia packages let editors choose the best medium for each part of a story (e.g., video for action, graphics for data, text for analysis)","Interactive graphics let readers explore data or scenarios themselves, such as maps or searchable databases","Live blogs provide continuously updated, chronological coverage of breaking events","Podcasts and audio journalism allow long-form, voice-driven storytelling distinct from written articles","Mobile-first design considerations (short paragraphs, vertical video, fast load times) shape how digital stories are built"]},{"l":"SEO Basics for Journalists","intro":"Search engine optimization (SEO) is the practice of structuring content so it is more easily found through search engines, helping journalism reach readers who are actively searching for information.","b":["Clear, descriptive headlines that include relevant keywords help search engines and readers understand a story's topic","Metadata (title tags, meta descriptions) summarizes a page's content for search engine results pages","Structuring articles with subheadings and clear paragraphs improves readability and searchability","SEO should never override accuracy or ethics — 'clickbait' headlines that mislead readers damage credibility","Internal links to related stories keep readers on a site longer and helps search engines understand site structure","Search intent (what a searcher is actually trying to find) should guide how a story is framed and titled"]},{"l":"Social Media Journalism Ethics","intro":"Social media has become both a newsgathering tool and a publishing platform, raising ethical questions about verification, transparency, and a journalist's personal versus professional voice.","b":["Content found on social media (photos, videos, claims) must still be verified before republication, just like any other source","Reverse image searches and metadata checks help confirm whether social media content is authentic and correctly dated","Journalists must consider how personal opinions posted on social media can affect perceptions of their outlet's objectivity","Many newsrooms have explicit social media policies governing what staff can post, especially about topics they cover","Engaging with audiences on social media (replying, correcting errors publicly) is part of modern accountability journalism","Speed pressure on social media increases the risk of spreading unverified information or misinformation"]},{"l":"Data Journalism and Interactive Visualization","intro":"Data journalism uses data analysis and visualization to uncover and communicate stories, often paired with interactive tools that let readers investigate the data themselves.","b":["Data journalists must verify the source, methodology, and limitations of any dataset before publishing conclusions from it","Visualizations (charts, maps, timelines) should accurately represent data without misleading scale or cherry-picked ranges","Interactive tools can let readers filter data relevant to their own location or interests","Open data portals and FOIA requests are common sources for original data journalism projects","Clear sourcing and methodology notes let readers evaluate a data story's reliability"]},{"l":"Digital Ethics and Verification Tools","intro":"Digital storytelling introduces new verification challenges, from manipulated images to AI-generated content, requiring updated tools and standards.","b":["Reverse image search tools help detect recycled or out-of-context photos and videos","Deepfakes and AI-generated images/video pose a growing verification challenge for newsrooms","Digital manipulation of photos (beyond basic cropping/color correction) violates most newsroom photo ethics policies","Corrections and updates should be clearly marked and timestamped on digital articles, since online content can be edited invisibly","Archiving original versions of digital content (via screenshots or web archiving tools) helps preserve evidence before it can be altered or deleted"]}],"keyFacts":["Multimedia storytelling matches each part of a story to its best format — video, interactive graphics, audio, or text — rather than defaulting to text alone.","SEO means writing clear, keyword-relevant headlines and structured content so search engines and readers can find accurate journalism, without resorting to misleading clickbait.","Content sourced from social media must be independently verified (e.g., via reverse image search) before republication, exactly like any other source.","Digital corrections should be clearly marked and timestamped, since online articles can otherwise be edited invisibly after publication."],"traps":["SEO means optimizing accurate, clear headlines for discoverability, not writing misleading clickbait that inflates clicks at the expense of accuracy.","Content found on social media still requires verification before being republished — it is not automatically trustworthy just because it is public.","A journalist's personal social media posts can still affect perceptions of their outlet's objectivity, so 'personal opinion' is not fully separate from professional reporting.","Digital corrections must be clearly marked and dated; quietly editing a published article without disclosure undermines transparency, not just style."]}];
 const DIAGRAMS={};
@@ -873,7 +945,8 @@ const PART_A=[{"n":1,"u":1,"q":"Which news value refers to how many people are a
 const PART_B1=[{"n":31,"u":1,"q":"[Application] A local paper covers a minor traffic accident because the driver is a famous actor. Which news value is most responsible for this becoming a story?","o":["Prominence","Timeliness","Proximity","Oddity"],"a":0,"e":"A well-known person's involvement makes an otherwise minor event newsworthy — the definition of prominence."},{"n":32,"u":2,"q":"[Application] A hard news story about a factory fire buries the number of injuries in the seventh paragraph. What structural principle has been violated?","o":["The inverted pyramid, which requires the most important facts first","The Five Ws and H, which requires alphabetical order","The nut graf rule, which only applies to features","The AP Style rule on numerals"],"a":0,"e":"Key facts like casualties belong near the top under inverted pyramid structure, not buried deep in the story."},{"n":33,"u":3,"q":"[Application] A source suddenly reveals an unexpected, important detail mid-interview that the reporter had not planned to ask about. What should the reporter do?","o":["Follow up with clarifying questions based on active listening, even if it departs from the prepared list","Ignore it and continue with the prepared questions only","End the interview immediately","Refuse to include it in the story regardless of relevance"],"a":0,"e":"Active listening means adapting the interview to pursue newsworthy details as they emerge."},{"n":34,"u":4,"q":"[Application] A reporter has one anonymous source for a serious allegation against a public official. What is the best practice before publishing?","o":["Seek independent corroboration from additional sources or documents","Publish immediately since one source is always sufficient","Wait for the official to confirm the allegation personally","Rely solely on the source's reputation for honesty"],"a":0,"e":"Serious claims generally require corroboration beyond a single anonymous source to meet verification standards."},{"n":35,"u":5,"q":"[Application] A feature story opens with a vivid scene of a nurse comforting a patient, then in paragraph three explains that the story is really about a nationwide nursing shortage. What is paragraph three functioning as?","o":["The nut graf","The kicker","The dateline","The headline"],"a":0,"e":"The paragraph that reveals why the story matters, after the narrative opening, is the nut graf."},{"n":36,"u":6,"q":"[Application] A news article about a new policy uses the word 'controversial regime' instead of 'government.' What issue does this illustrate?","o":["Loaded language that may signal bias","A correctly balanced report","A properly labeled editorial","An example of actual malice"],"a":0,"e":"Word choices like 'regime' carry connotations that can bias a supposedly neutral news report."},{"n":37,"u":7,"q":"[Application] A newspaper publishes a leaked but authentic classified document. The government seeks a court order to stop further distribution before it's fully published. What legal doctrine is most relevant?","o":["Prior restraint, which courts treat as presumptively unconstitutional","Actual malice, which applies only to defamation","FOIA exemptions, which apply only to record requests","Shield law protections, which apply only to sources"],"a":0,"e":"Blocking publication in advance is prior restraint, which the Supreme Court has held requires an extremely high burden to justify."},{"n":38,"u":8,"q":"[Application] A reporter finds a dramatic photo circulating on social media claiming to show a local disaster. What should they do before using it?","o":["Run a reverse image search and verify its date, location, and source","Publish it immediately since it is already public","Assume it is authentic because it has many shares","Credit it to 'social media' without further checking"],"a":0,"e":"Verification tools like reverse image search are essential before republishing unconfirmed social media content."},{"n":39,"u":1,"q":"[Synthesis] How do news values and gatekeeping work together to shape what audiences see?","o":["Editors apply news values to select stories, and that selection itself sets the public agenda","News values determine legal liability, while gatekeeping determines story length","Gatekeeping eliminates the need for news values","News values apply only to soft news, gatekeeping only to hard news"],"a":0,"e":"Gatekeepers use news values to choose stories, and those choices shape which topics gain public attention (agenda-setting)."},{"n":40,"u":2,"q":"[Synthesis] Why does the inverted pyramid structure support both readers and editors?","o":["It lets readers get key facts quickly and lets editors cut from the bottom without losing essential information","It guarantees a story will never need editing","It replaces the need for headlines","It only benefits editors, not readers"],"a":0,"e":"Because information is ordered by importance, editors can trim length from the end while preserving the core facts for readers."},{"n":41,"u":3,"q":"[Synthesis] How does thorough pre-interview research connect to effective fact-checking later?","o":["Good research helps reporters ask precise questions and recognize inconsistencies that need later verification","Research replaces the need for any fact-checking","Fact-checking only applies to written documents, not interviews","Research and fact-checking are unrelated processes"],"a":0,"e":"Preparation sharpens interview questions and helps reporters flag claims that will require independent verification."},{"n":42,"u":4,"q":"[Synthesis] Why do transparency and corrections matter to maintaining public trust in journalism?","o":["Openly acknowledging and fixing errors demonstrates a commitment to accuracy over image","Corrections make a publication appear less credible","Trust depends only on speed of publication","Transparency is only relevant to opinion journalism"],"a":0,"e":"Visible accountability for mistakes, rather than hiding them, is central to maintaining journalistic credibility."},{"n":43,"u":5,"q":"[Synthesis] How does descriptive detail support the overall goals of narrative structure in a feature?","o":["Specific, sensory detail brings scenes to life, helping the narrative arc engage readers emotionally","Description is unrelated to a feature's structure","Vague description strengthens narrative pacing better than specific detail","Descriptive detail is only used in the kicker"],"a":0,"e":"Concrete, sensory detail supports the scene-by-scene storytelling that narrative feature structures depend on."},{"n":44,"u":6,"q":"[Synthesis] Why is the separation between editorial boards and newsrooms important for maintaining objectivity?","o":["It prevents the publication's institutional opinions from shaping supposedly neutral news reporting","It eliminates the need for fact-checking in opinion content","It means editorials are illegal","It ensures reporters never have personal opinions"],"a":0,"e":"The wall of separation protects the news desk's independence from the outlet's institutional stances."},{"n":45,"u":7,"q":"[Synthesis] How do shield laws and the actual malice standard both serve free press values, despite addressing different issues?","o":["Both provide legal breathing room — shield laws protect sources, and actual malice protects vigorous reporting on public figures","Both are federal laws automatically covering every journalist","Both eliminate the need for factual accuracy","Both apply exclusively to broadcast journalism"],"a":0,"e":"Though distinct doctrines, both reduce legal risk in ways that support robust, independent journalism."},{"n":46,"u":8,"q":"[Synthesis] How does SEO best practice align with journalism ethics, when done correctly?","o":["Clear, accurate, keyword-relevant headlines serve both discoverability and honesty, unlike clickbait","SEO always requires sacrificing accuracy for clicks","Ethics and SEO can never be reconciled","SEO applies only to opinion content"],"a":0,"e":"Good SEO practice — accurate, descriptive headlines and structure — reinforces rather than undermines ethical standards."},{"n":47,"u":2,"q":"[Synthesis] How do the Five Ws and H relate to the inverted pyramid's opening paragraphs?","o":["The most critical Ws (who, what, when, where) are typically answered in the lede, with why and how following","The Five Ws and H apply only to feature writing, not hard news","The inverted pyramid ignores the Five Ws entirely","Why and how must always appear before who and what"],"a":0,"e":"The lede typically covers the core facts (who, what, when, where), while why and how can be developed shortly after."},{"n":48,"u":4,"q":"[Synthesis] How does avoiding conflicts of interest support the broader goal of objectivity discussed elsewhere in the course?","o":["Both aim to keep personal factors from shaping how facts are reported","Conflicts of interest are unrelated to objectivity","Objectivity requires reporters to have financial stakes in their stories","Avoiding conflicts of interest only matters in opinion writing"],"a":0,"e":"Managing conflicts of interest is one concrete way reporters uphold the broader standard of objective reporting."},{"n":49,"u":6,"q":"[Synthesis] How does the fact-versus-opinion distinction connect to avoiding false balance?","o":["Recognizing that opinions and unsupported claims are not facts helps journalists avoid presenting them as equally credible to well-evidenced facts","Fact-checking makes false balance impossible by definition","Opinions are always facts once published","False balance only concerns editorials, not news"],"a":0,"e":"Understanding the fact/opinion distinction helps journalists weigh evidence properly rather than treating unsupported claims as equally valid."},{"n":50,"u":8,"q":"[Synthesis] Why is verification particularly critical in the era of deepfakes and AI-generated content, connecting to fact-checking principles from earlier units?","o":["The core fact-checking obligation to verify claims before publishing now extends to verifying the authenticity of digital media itself","Fact-checking principles do not apply to visual or audio content","AI-generated content is always self-labeled, so no extra verification is needed","Verification is now less important since technology has improved accuracy"],"a":0,"e":"The traditional duty to verify claims now must extend to authenticating video, audio, and images against sophisticated fabrication."}];
 const PART_B2=[{"n":51,"u":1,"q":"[Synthesis] A story about a small local election spreads nationally after a viral clip surfaces from the event. Which combination of news values best explains its unexpected reach?","o":["Novelty/oddity combined with the viral spread accelerating the news cycle","Proximity alone, since it is a local story","Prominence, because local candidates are always famous","Impact, because local elections always affect millions"],"a":0,"e":"An unusual, viral moment (novelty) combined with rapid digital spread illustrates how the news cycle can elevate a local story nationally."},{"n":52,"u":3,"q":"[Synthesis] A reporter interviewing a grieving family for a feature must balance sensitivity with the need for authentic detail. Which principle from interviewing and feature writing units applies here?","o":["Building trust and rapport while still gathering concrete, honest detail for the story","Avoiding all direct quotes to protect the family","Skipping the interview since sensitive topics cannot be reported","Only using information from official police reports"],"a":0,"e":"Ethical interviewing balances compassion with the reporting rigor needed for an authentic feature."},{"n":53,"u":2,"q":"[Synthesis] A wire service story and a local feature both cover the same disaster. How would their structures likely differ?","o":["The wire story likely uses the inverted pyramid for speed, while the feature may use a narrative arc for emotional depth","Both must use identical structures under AP style","The feature must appear before the wire story","Wire stories never include the Five Ws"],"a":0,"e":"Straight news favors the inverted pyramid for speed and clarity, while features often use narrative structures for emotional engagement."},{"n":54,"u":4,"q":"[Synthesis] A publication corrects a factual error within an hour of publishing and clearly labels the correction. How does this reflect the ethical standards discussed across the course?","o":["It demonstrates the transparency and accuracy standards expected of both hard news and feature journalism","Corrections are only required for opinion content","Fast corrections indicate poor initial fact-checking and nothing else","Labeling corrections is optional under most ethics codes"],"a":0,"e":"Prompt, transparent correction reflects the accountability standard that applies across all journalism, not just one genre."},{"n":55,"u":6,"q":"[Synthesis] An editorial board endorses a candidate while the newsroom continues neutral coverage of the race. What does this arrangement demonstrate?","o":["The separation between institutional opinion and objective news reporting","A conflict of interest that violates journalism ethics","Evidence that the newsroom is biased","A rare and improper practice not used by real newspapers"],"a":0,"e":"This is the standard, ethical structure: editorial opinion and news reporting operate independently within the same publication."},{"n":56,"u":7,"q":"[Synthesis] A journalist uses a FOIA request to obtain records revealing a discrepancy from a source's earlier claims. What does this illustrate about combining reporting tools?","o":["Public records can independently verify or challenge information gathered through interviews","FOIA requests always contradict source interviews","Sources are unnecessary once FOIA records are obtained","FOIA cannot be used alongside interview-based reporting"],"a":0,"e":"Combining documentary evidence with interviews strengthens verification, showing how different reporting tools reinforce each other."},{"n":57,"u":8,"q":"[Synthesis] A data journalism project uses an interactive map built from a FOIA-obtained dataset. Which two units' concepts does this project combine?","o":["Media law (FOIA) and digital storytelling (data visualization)","Interviewing skills and editorial writing only","Feature writing and libel law only","News values and headline SEO only"],"a":0,"e":"The project draws on media law's FOIA process to obtain data and digital storytelling's visualization techniques to present it."},{"n":58,"u":5,"q":"[Synthesis] A feature writer spends three weeks observing a subject before writing, gathering specific sensory details and multiple interviews. How does this reporting process connect to fact-checking standards from earlier units?","o":["Extended, careful reporting supports the same rigorous verification standard required of all journalism, not just hard news","Features are exempt from fact-checking due to their narrative style","Observation alone eliminates the need for source interviews","Sensory detail does not need to be factually accurate"],"a":0,"e":"Even narrative, descriptive reporting must meet the same verification standards as straight news."},{"n":59,"u":1,"q":"[Synthesis] A newsroom must decide between covering a novel but minor local event and a high-impact but less unusual national story with limited space. What editorial process determines the choice?","o":["Gatekeeping, which weighs competing news values like novelty and impact against available space","FOIA, which only applies to government records","Actual malice, which only applies to defamation","SEO, which only concerns headline wording"],"a":0,"e":"Editors act as gatekeepers, weighing competing news values to decide what limited space or airtime covers."},{"n":60,"u":7,"q":"[Synthesis] A reporter is subpoenaed to reveal a confidential source used in an investigative feature. Which two concepts from the course are most directly in tension here?","o":["Shield law protections for sources and the legal risk of contempt of court for refusing to comply","SEO and headline writing","Objectivity and the inverted pyramid","News values and gatekeeping"],"a":0,"e":"This scenario pits a reporter's ethical/legal commitment to source confidentiality (shield laws) against the legal consequence of contempt for refusing a court order."}];
 const PART_C=[{"n":61,"u":1,"q":"Written response: choose TWO concepts from different units and construct an argument connecting them. Cite specific evidence from each.","o":["Names both concepts precisely, gives concrete evidence for each, and explains the causal/logical bridge","Lists the two topics without connecting them","Describes only one concept in detail","Gives a personal opinion with no course evidence"],"a":0,"e":"Strong responses anchor every claim in specific unit content."},{"n":62,"u":8,"q":"Essay plan: identify the single most important takeaway of this course. Defend it using three units as evidence, then address one counterargument.","o":["Clear thesis, three unit-specific pieces of evidence, genuine counterargument, resolution","Thesis with no support","Topic list with no argument","Anecdote unrelated to course content"],"a":0,"e":"Full argumentative architecture earns top marks."}];
-const EXAM_CSS=".ex-header{background:var(--ink);color:var(--surface);padding:20px 22px;border-radius:var(--radius);margin-bottom:22px}\n.ex-header h2{font-family:'Space Grotesk';font-size:28.5px;font-weight:700;margin-bottom:4px}\n.ex-header p{font-family:'Inter';font-size:19.5px;color:rgba(255,255,255,.65)}\n.ex-part{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--surface)}\n.ex-part-hd{background:var(--surface-2);padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}\n.ex-part-hd:hover{background:var(--surface-hover)}\n.ex-part-hd h3{font-size:21px;font-weight:700;color:var(--ink)}\n.ex-part-hd span{font-family:'Inter';font-size:18px;color:var(--ink-dim)}\n.ex-part-body{display:none;padding:20px}\n.ex-part.open .ex-part-body{display:block}\n.ex-q{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}\n.ex-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}\n.ex-qnum{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}\n.ex-qtext{font-size:21.8px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:13px}\n.ex-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}\n.ex-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface);text-align:left;transition:all .12s}\n.ex-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}\n.ex-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}\n.ex-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}\n.ex-exp{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface-2);padding:11px 14px;border-radius:var(--radius-sm);margin-top:9px;display:none;line-height:1.6}\n.ex-exp.show{display:block}\n.ex-sa{padding:13px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter';font-size:20.2px;color:var(--amber-ink);line-height:1.6;margin-top:9px}\n.ex-sa strong{display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:var(--amber)}\n.ex-score{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px;display:none}\n.ex-score strong{font-family:'Space Grotesk';color:var(--success);font-size:22.5px}\n.ex-score span{font-family:'Inter';color:var(--success);font-size:19.5px}\n.ex-reset{padding:10px 20px;border:1px solid var(--border);border-radius:999px;background:var(--surface);cursor:pointer;font-family:'Space Grotesk';font-weight:600;font-size:19.5px;margin-top:10px;transition:all .15s}\n.ex-reset:hover{background:var(--surface-hover);border-color:var(--border-strong)}\n";
+const EXAM_META={"title":"Journalism — Full Practice Exam","subtitle":"Part A (30 pts) · Part B–1 (20 pts) · Part B–2 (10 pts) · Part C (2 pts)","parts":{"PART_A":{"title":"Part A — Multiple Choice","points":30,"minutes":null},"PART_B1":{"title":"Part B–1 — Multiple Choice","points":20,"minutes":null},"PART_B2":{"title":"Part B–2 — Short Answer","points":10,"minutes":null},"PART_C":{"title":"Part C — Extended Response","points":2,"minutes":null}}};
+const EXAM_CSS=".ex-header{background:var(--ink);color:var(--surface);padding:20px 22px;border-radius:var(--radius);margin-bottom:22px}\n.ex-header h2{font-family:'Space Grotesk';font-size:28.5px;font-weight:700;margin-bottom:4px}\n.ex-header p{font-family:'Inter';font-size:19.5px;color:rgba(255,255,255,.65)}\n.ex-part{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--surface)}\n.ex-part-hd{background:var(--surface-2);padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}\n.ex-part-hd:hover{background:var(--surface-hover)}\n.ex-part-hd h3{font-size:21px;font-weight:700;color:var(--ink)}\n.ex-part-hd span{font-family:'Inter';font-size:18px;color:var(--ink-dim)}\n.ex-part-hd-meta{display:flex;align-items:center;gap:14px;flex:none}\n.ex-timer{font-family:'Space Grotesk';font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink-dim)}\n.ex-timer.ex-timer-up{color:var(--danger)}\n.ex-part-body{display:none;padding:20px}\n.ex-part.open .ex-part-body{display:block}\n.ex-q{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}\n.ex-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}\n.ex-qnum{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}\n.ex-qtext{font-size:21.8px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:13px}\n.ex-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}\n.ex-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface);text-align:left;transition:all .12s}\n.ex-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}\n.ex-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}\n.ex-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}\n.ex-exp{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface-2);padding:11px 14px;border-radius:var(--radius-sm);margin-top:9px;display:none;line-height:1.6}\n.ex-exp.show{display:block}\n.ex-sa{padding:13px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter';font-size:20.2px;color:var(--amber-ink);line-height:1.6;margin-top:9px}\n.ex-sa strong{display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:var(--amber)}\n.ex-score{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px;display:none}\n.ex-score strong{font-family:'Space Grotesk';color:var(--success);font-size:22.5px}\n.ex-score span{font-family:'Inter';color:var(--success);font-size:19.5px}\n.ex-reset{padding:10px 20px;border:1px solid var(--border);border-radius:999px;background:var(--surface);cursor:pointer;font-family:'Space Grotesk';font-weight:600;font-size:19.5px;margin-top:10px;transition:all .15s}\n.ex-reset:hover{background:var(--surface-hover);border-color:var(--border-strong)}\n";
 function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');var idx=-1;tabs.forEach((b,i)=>{if(b.id==='tab-'+id)idx=i;});if(idx!==-1){tabs.forEach((b,i)=>{var on=i===idx;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;});var _hl=document.getElementById('hero-live');if(_hl)_hl.textContent=tabs[idx].textContent.trim()+' tab';}if(id==='examples'&&!examplesBuilt)buildExamples();if(id==='exam'&&!examBuilt)buildExam();var spc=document.getElementById('spc-card');if(spc)spc.style.display=(id==='guide')?'':'none';}
 let examBuilt=false;
 var examplesBuilt=false, ex2map={}, ex2shown={};
@@ -886,20 +959,25 @@ const st=document.createElement('style');st.textContent=EXAM_CSS;document.head.a
 
 v.innerHTML=`
 <div class="ex-header">
-  <h2>Journalism — Full Practice Exam</h2>
-  <p>Part A (30 pts) · Part B-1 (20 pts) · Part B-2 (15 pts) · Part C (20 pts) · Based on Jan 2026 format</p>
+  <h2>${EXAM_META.title}</h2>
+  <p>${EXAM_META.subtitle}</p>
 </div>
 <div id="ex-score-box" class="ex-score"></div>
-${buildPartMC('A','Part A — Multiple Choice (30 questions, 1 pt each)',PART_A)}
-${buildPartMC('B1','Part B–1 — Multiple Choice (20 questions, 1 pt each)',PART_B1)}
-${buildPartFR('B2','Part B–2 — Short Answer (show work, 1 pt each)',PART_B2)}
-${buildPartFR('C','Part C — Extended Response (1–2 pts each)',PART_C)}
+${buildPartMC('A',PART_A)}
+${buildPartMC('B1',PART_B1)}
+${buildPartFR('B2',PART_B2)}
+${buildPartFR('C',PART_C)}
 `;
 // open Part A by default
-document.getElementById('ex-part-A').classList.add('open');
+togglePart('A');
 }
 
-function buildPartMC(id,title,qs){
+function examPartMeta(id){return (EXAM_META&&EXAM_META.parts&&EXAM_META.parts['PART_'+id])||{};}
+function exTimerHtml(id){return examPartMeta(id).minutes?`<span class="ex-timer" id="timer-${id}"></span>`:'';}
+
+function buildPartMC(id,qs){
+if(!qs.length)return'';
+const meta=examPartMeta(id);
 const items=qs.map(q=>`
 <div class="ex-q" id="exq-${id}-${q.n}">
   <div class="ex-qnum">Question ${q.n}</div>
@@ -911,15 +989,18 @@ const items=qs.map(q=>`
 </div>`).join('');
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${title}</h3><span id="score-${id}">Score: 0 / ${qs.length}</span>
+  <h3>${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'}, 1 pt each)</h3>
+  <div class="ex-part-hd-meta"><span id="score-${id}">Score: 0 / ${qs.length}</span>${exTimerHtml(id)}</div>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
 }
 
-function buildPartFR(id,title,qs){
+function buildPartFR(id,qs){
+if(!qs.length)return'';
 // Some guides author these as genuine free-response (q.sa, a model answer to
 // reveal); others reuse the multiple-choice shape (q.o/q.a) for this part.
 // Render whichever shape the data actually has instead of assuming sa exists.
+const meta=examPartMeta(id);
 const items=qs.map(q=>q.sa!==undefined?`
 <div class="ex-q">
   <div class="ex-qnum">Question ${q.n}</div>
@@ -936,11 +1017,43 @@ const items=qs.map(q=>q.sa!==undefined?`
   <div class="ex-exp" id="exp-${id}-${q.n}">${q.e}</div>
 </div>`).join('');
 const allMC=qs.every(q=>q.sa===undefined);
+const rightMeta=allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`;
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${title}</h3>${allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`}
+  <h3>${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'})</h3>
+  <div class="ex-part-hd-meta">${rightMeta}${exTimerHtml(id)}</div>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
+}
+
+/* Per-part countdown timer. In-memory only (module-level `examTimers`) — a
+   refresh resets it, matching the fact that exam progress/scores are never
+   persisted to localStorage either. Not a proctored test: hitting zero just
+   shows "Time's up" and stops, it never auto-submits or locks the part. */
+var examTimers={};
+function startPartTimer(id){
+  const meta=examPartMeta(id);
+  if(!meta.minutes)return;
+  let t=examTimers[id];
+  if(!t){t=examTimers[id]={remaining:meta.minutes*60,expired:false,intervalId:null};}
+  if(t.expired||t.intervalId)return; // already ticking, or already ran out
+  t.intervalId=setInterval(function(){
+    t.remaining--;
+    if(t.remaining<=0){
+      t.remaining=0;t.expired=true;
+      clearInterval(t.intervalId);t.intervalId=null;
+    }
+    renderPartTimer(id);
+  },1000);
+  renderPartTimer(id);
+}
+function renderPartTimer(id){
+  const el=document.getElementById('timer-'+id);
+  const t=examTimers[id];
+  if(!el||!t)return;
+  if(t.expired){el.textContent="Time's up";el.classList.add('ex-timer-up');return;}
+  const m=Math.floor(t.remaining/60),s=t.remaining%60;
+  el.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
 }
 
 function togglePart(id){
@@ -948,6 +1061,7 @@ function togglePart(id){
   const isOpen=part.classList.toggle('open');
   const hd=part.querySelector('.ex-part-hd');
   if(hd)hd.setAttribute('aria-expanded',isOpen?'true':'false');
+  if(isOpen)startPartTimer(id);
 }
 
 function toggleSA(btn){
@@ -1255,6 +1369,58 @@ function qBookmarkToggle(qid){
 }
 function qId(q){return q.u+'|'+q.q;}
 
+/* Mistake Log: localStorage-backed, keyed the same way as the bookmark set
+   (ssBookmarks_<slug>) — a currently-unresolved-misses list, not full history.
+   A question moves in when answered wrong and out the moment it's answered
+   correctly again (from anywhere: normal quiz, diagnostic, hard mode, or the
+   log's own review pass). */
+var MISTAKE_LOG_KEY='ssMistakes_'+'journalism';
+function mistakeLogMap(){
+  try{return JSON.parse(localStorage.getItem(MISTAKE_LOG_KEY)||'{}');}catch(e){return {};}
+}
+function mistakeLogSave(map){
+  try{localStorage.setItem(MISTAKE_LOG_KEY,JSON.stringify(map));}catch(e){}
+  updateMistakeLogBadge();
+}
+function mistakeLogAdd(q){
+  const map=mistakeLogMap();
+  map[qId(q)]={u:q.u,q:q.q,o:q.o,a:q.a,e:q.e,d:q.d,topic:q.topic};
+  mistakeLogSave(map);
+}
+function mistakeLogRemove(q){
+  const map=mistakeLogMap();
+  const id=qId(q);
+  if(!(id in map))return;
+  delete map[id];
+  mistakeLogSave(map);
+}
+function updateMistakeLogBadge(){
+  const el=document.getElementById('mistake-log-count');
+  if(!el)return;
+  const n=Object.keys(mistakeLogMap()).length;
+  el.textContent=String(n);
+  el.style.display=n?'':'none';
+}
+var mistakeReviewMode=false;
+function openMistakeLog(){
+  switchTab('quiz');
+  mistakeReviewMode=true;
+  diagMode=false;
+  const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
+  const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
+  const map=mistakeLogMap();
+  qPool=Object.values(map);
+  qIdx=0;score=0;requeueCounts=new WeakMap();
+  const qb=document.getElementById('qbox');
+  if(!qPool.length){
+    qb.innerHTML='<div class="mistake-log-empty">No mistakes logged right now — nice work. Answer a question wrong anywhere in the quiz and it will show up here until you get it right.</div>';
+    document.getElementById('q-prog').textContent='';
+    document.getElementById('q-sc').textContent='';
+    return;
+  }
+  showQ();
+}
+
 function quizShuffle(){
   if(!qPool.length)return;
   for(let i=qPool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[qPool[i],qPool[j]]=[qPool[j],qPool[i]];}
@@ -1289,8 +1455,15 @@ function buildQSel(){
   if(HQ.length)sel.innerHTML+='<option value="hard">Hard Mode Only ('+HQ.length+' Qs)</option>';
   loadQ();
 }
+let difficultyFilter='all';
+function setDifficultyFilter(d){
+  difficultyFilter=d;
+  document.querySelectorAll('.diff-chip').forEach(function(c){c.classList.toggle('on',c.dataset.diff===d);});
+  loadQ();
+}
 function loadQ(){
   diagMode=false;
+  mistakeReviewMode=false;
   const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
   const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
   const raw=document.getElementById('q-sel').value;
@@ -1299,6 +1472,7 @@ function loadQ(){
   if(raw==='hard')src=HQ.slice();
   else if(+raw===0)src=QUIZ.concat(HQ);
   else src=QUIZ.concat(HQ).filter(q=>q.u===+raw);
+  if(difficultyFilter!=='all')src=src.filter(q=>q.d===difficultyFilter);
   qPool=src.sort(()=>Math.random()-.5);
   qIdx=0;score=0;requeueCounts=new WeakMap();showQ();
 }
@@ -1365,8 +1539,10 @@ function showQ(){
   const bookmarked=qBookmarkSet().has(bid);
   const STAR_OUTLINE='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
   const STAR_FILLED='<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
-  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>`+
+  const diffPill=q.d?`<span class="q-diff q-diff-${q.d}">${q.d}</span>`:'';
+  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>${diffPill}`+
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
+    (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
     `<button class="q-hint-btn" id="q-hint-btn" onclick="toggleQHint()">💡 Hint</button>`+
     `<div class="q-hint-box" id="q-hint-box">Hint: this is from Unit ${q.u}: ${unitNameFor(q.u)}</div>`+
@@ -1432,6 +1608,7 @@ function ansQ(i){
     }
   }
   if(SS_MASTERY)SS_MASTERY.recordAnswer(q.u,i===q.a);
+  if(i===q.a)mistakeLogRemove(q);else mistakeLogAdd(q);
   ssOverallProgressUpdate();
   const expEl=document.getElementById('q-exp');
   expEl.classList.add('show');
@@ -1461,6 +1638,7 @@ function ssQuizKeyboardShortcuts(e){
 }
 document.addEventListener('keydown',ssQuizKeyboardShortcuts);
 buildQSel();
+updateMistakeLogBadge();
 
 /* ----- APG tabs: roving-tabindex arrow-key nav on the hero tab bar. Manual
    activation — arrows move focus only; Enter/Space fire the button's own click
@@ -1864,6 +2042,105 @@ async function ssQuizTabClick(){
 }
 
 ssCheckSession();
+
+/* ----- Reference drawer: a compact, always-available companion to the full
+   Quick Reference TAB. Reuses the exact HTML the generator already emits into
+   #view-qref (buildQref() in generate-guide.mjs) instead of rebuilding it —
+   the drawer body is filled by copying that markup once, on first open. ----- */
+function qrefDrawerOpen(){
+  var panel=document.getElementById('qref-drawer');
+  if(!panel)return;
+  var body=document.getElementById('qref-drawer-body');
+  if(body&&!body.dataset.filled){
+    var src=document.getElementById('view-qref');
+    if(src){body.innerHTML=src.innerHTML;body.dataset.filled='1';}
+  }
+  panel.classList.add('open');
+  panel.setAttribute('aria-hidden','false');
+  var fab=document.getElementById('qref-drawer-fab');
+  if(fab)fab.setAttribute('aria-expanded','true');
+  var closeBtn=panel.querySelector('.qref-drawer-close');
+  if(closeBtn)closeBtn.focus();
+  document.addEventListener('keydown',qrefDrawerKeydown);
+}
+function qrefDrawerClose(){
+  var panel=document.getElementById('qref-drawer');
+  if(!panel||!panel.classList.contains('open'))return;
+  panel.classList.remove('open');
+  panel.setAttribute('aria-hidden','true');
+  var fab=document.getElementById('qref-drawer-fab');
+  if(fab){fab.setAttribute('aria-expanded','false');fab.focus();}
+  document.removeEventListener('keydown',qrefDrawerKeydown);
+}
+function qrefDrawerToggle(){
+  var panel=document.getElementById('qref-drawer');
+  if(panel&&panel.classList.contains('open'))qrefDrawerClose();else qrefDrawerOpen();
+}
+function qrefDrawerKeydown(e){if(e.key==='Escape')qrefDrawerClose();}
+
+/* ----- Optional Desmos graphing calculator. Disabled by default: leave
+   DESMOS_API_KEY empty and this entire feature (button, panel, external
+   script) never appears and never makes a network request. To enable it,
+   the site owner gets a free key for personal/school use at
+   https://www.desmos.com/api/v1.12/calculator.js docs (sign in at
+   desmos.com/my-api) and pastes it in below. Generic — available on every
+   guide once a key is configured, not gated to any subject. ----- */
+const DESMOS_API_KEY = "";
+let desmosScriptLoaded=false, desmosCalculator=null;
+function desmosInit(){
+  if(!DESMOS_API_KEY)return;
+  var fab=document.createElement('button');
+  fab.id='desmos-fab';
+  fab.className='desmos-fab';
+  fab.type='button';
+  fab.setAttribute('aria-label','Toggle graphing calculator');
+  fab.setAttribute('aria-expanded','false');
+  fab.title='Graphing calculator';
+  fab.textContent='\u{1F4C8}';
+  fab.onclick=desmosToggle;
+  document.body.appendChild(fab);
+
+  var panel=document.createElement('div');
+  panel.id='desmos-panel';
+  panel.className='desmos-panel';
+  panel.setAttribute('role','dialog');
+  panel.setAttribute('aria-modal','true');
+  panel.setAttribute('aria-label','Graphing calculator');
+  panel.setAttribute('aria-hidden','true');
+  panel.innerHTML='<div class="desmos-panel-hd"><b>Graphing Calculator</b>'+
+    '<button type="button" class="desmos-panel-close" aria-label="Close graphing calculator">✕</button></div>'+
+    '<div class="desmos-calc" id="desmos-calc"></div>';
+  document.body.appendChild(panel);
+  panel.querySelector('.desmos-panel-close').onclick=desmosToggle;
+}
+function desmosToggle(){
+  var panel=document.getElementById('desmos-panel');
+  if(!panel)return;
+  var opening=!panel.classList.contains('open');
+  panel.classList.toggle('open',opening);
+  panel.setAttribute('aria-hidden',opening?'false':'true');
+  var fab=document.getElementById('desmos-fab');
+  if(fab)fab.setAttribute('aria-expanded',opening?'true':'false');
+  if(opening){
+    document.addEventListener('keydown',desmosKeydown);
+    if(!desmosScriptLoaded)desmosLoadScript();
+  }else{
+    document.removeEventListener('keydown',desmosKeydown);
+    if(fab)fab.focus();
+  }
+}
+function desmosKeydown(e){if(e.key==='Escape')desmosToggle();}
+function desmosLoadScript(){
+  desmosScriptLoaded=true;
+  var s=document.createElement('script');
+  s.src='https://www.desmos.com/api/v1.12/calculator.js?apiKey='+encodeURIComponent(DESMOS_API_KEY);
+  s.onload=function(){
+    var el=document.getElementById('desmos-calc');
+    if(el&&window.Desmos)desmosCalculator=Desmos.GraphingCalculator(el);
+  };
+  document.head.appendChild(s);
+}
+desmosInit();
 
 /* ----- unit-filtered practice, e.g. /chemistry?practice=3 (from the dashboard's "study this next") ----- */
 (async function ssPracticeMode(){

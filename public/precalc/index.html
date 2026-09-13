@@ -273,6 +273,16 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .q-block:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .q-block-hd{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px}
 .q-text{font-size:24.8px;font-weight:600;color:var(--ink);line-height:1.55;flex:1}
+.q-diff{flex:none;display:inline-block;padding:3px 11px;border-radius:999px;font-size:13px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;border:1px solid transparent;align-self:flex-start;margin-top:2px}
+.q-diff-easy{background:var(--success-soft);color:var(--success);border-color:var(--success-border)}
+.q-diff-medium{background:var(--amber-soft);color:var(--amber-ink);border-color:var(--amber)}
+.q-diff-hard{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}
+.q-topic{font-size:14.5px;color:var(--ink-dim);margin:-14px 0 14px;font-style:italic}
+.mistake-log-btn{position:relative}
+.mistake-log-count{display:inline-block;margin-left:6px;background:var(--danger);color:#fff;border-radius:999px;
+  font-size:12px;font-weight:700;padding:1px 7px}
+.mistake-log-empty{padding:24px;text-align:center;color:var(--ink-muted);font-size:18px}
 .q-bookmark{flex:none;background:none;border:none;cursor:pointer;color:var(--ink-dim);padding:2px;border-radius:6px;transition:color .15s ease,transform .15s ease}
 .q-bookmark:hover{color:var(--amber);transform:scale(1.08)}
 .q-bookmark.on{color:var(--amber)}
@@ -514,6 +524,51 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 .back-to-top:hover{color:var(--ink);border-color:var(--accent)}
 .back-to-top svg{width:20px;height:20px;display:block}
 
+/* ---- reference drawer: quick-access companion to the Quick Reference tab,
+   reachable from any tab. Sits bottom-center, clear of back-to-top
+   (bottom:22/left:22..74) and #cbot-fab (bottom:22/right:22..78). ---- */
+.qref-drawer-fab{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);width:52px;height:52px;
+  border-radius:50%;background:var(--surface);color:var(--ink-muted);border:1px solid var(--border-strong);
+  cursor:pointer;box-shadow:var(--shadow-md);z-index:190;display:flex;align-items:center;justify-content:center;
+  transition:color .15s ease,border-color .15s ease}
+.qref-drawer-fab:hover{color:var(--accent);border-color:var(--accent)}
+.qref-drawer-fab svg{width:20px;height:20px;display:block}
+.qref-drawer{position:fixed;top:0;right:0;height:100dvh;width:min(420px,100vw);background:var(--surface);
+  border-left:1px solid var(--border-strong);box-shadow:var(--shadow-lg);z-index:210;display:flex;flex-direction:column;
+  transform:translateX(100%);opacity:0;visibility:hidden;transition:transform .25s ease,opacity .25s ease,visibility 0s linear .25s}
+.qref-drawer.open{transform:translateX(0);opacity:1;visibility:visible;transition:transform .25s ease,opacity .25s ease}
+.qref-drawer-hd{display:flex;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--surface-2);flex-shrink:0}
+.qref-drawer-hd b{font-family:'Space Grotesk';font-size:20px;color:var(--ink);flex:1}
+.qref-drawer-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:6px 8px;border-radius:6px}
+.qref-drawer-close:hover{color:var(--ink);background:var(--surface-hover)}
+.qref-drawer-body{flex:1;overflow-y:auto;padding:16px}
+.qref-drawer-body .qr-section:not(:last-child){margin-bottom:20px}
+@media(max-width:600px){
+  .qref-drawer{width:100vw}
+}
+
+/* ---- optional Desmos graphing calculator (see DESMOS_API_KEY in logic.js).
+   Markup is only ever created by JS when a key is configured, so this CSS
+   has no visible effect until then. Placed clear of #cbot-fab (right:22..78). ---- */
+.desmos-fab{position:fixed;bottom:22px;right:90px;width:52px;height:52px;border-radius:50%;
+  background:var(--accent);color:#fff;border:none;font-size:22px;cursor:pointer;
+  box-shadow:0 8px 24px -6px rgba(15,122,112,.4);z-index:195;display:flex;align-items:center;justify-content:center;
+  transition:transform .15s ease}
+.desmos-fab:hover{transform:scale(1.06)}
+.desmos-panel{position:fixed;bottom:88px;right:90px;width:min(380px,calc(100vw - 32px));
+  height:min(420px,calc(100dvh - 160px));background:var(--surface);border:1px solid var(--border-strong);
+  border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:205;display:none;flex-direction:column;overflow:hidden}
+.desmos-panel.open{display:flex}
+.desmos-panel-hd{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+.desmos-panel-hd b{font-family:'Space Grotesk';font-size:18px;color:var(--ink);flex:1}
+.desmos-panel-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:4px 6px;border-radius:6px}
+.desmos-panel-close:hover{color:var(--ink);background:var(--surface-hover)}
+.desmos-calc{flex:1;width:100%;height:100%}
+@media(max-width:600px){
+  .desmos-fab{right:22px;bottom:82px}
+  .desmos-panel{right:12px;bottom:144px}
+}
+
 /* ---- print / export ---- */
 @media print{
   :root,[data-theme="dark"]{
@@ -528,7 +583,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
   body{background:#fff;color:#000}
   body::before,.hero::after{display:none!important}
   #theme-toggle,.search-wrap,.ss-sticky-top .filter-row-wrap,.mobile-only-select,.nav,.nav-spacer,.tablist,
-  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
+  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.qref-drawer-fab,.qref-drawer,.desmos-fab,.desmos-panel,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
   .search-kbd,.ss-overall-progress,.q-kbd-hint,.diag-btn{display:none!important}
   *{position:static!important;box-shadow:none!important}
   .unit-body{display:block!important}
@@ -707,6 +762,13 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <div class="q-bar">
     <select id="q-sel" aria-label="Choose a question set" onchange="loadQ()"></select>
     <button class="btn" type="button" onclick="quizShuffle()" style="font-size:14px;padding:7px 14px">⇄ Shuffle</button>
+    <div class="diff-chips" role="group" aria-label="Filter by difficulty" style="display:flex;gap:6px">
+      <button class="chip on diff-chip" type="button" data-diff="all" onclick="setDifficultyFilter('all')">All</button>
+      <button class="chip diff-chip" type="button" data-diff="easy" onclick="setDifficultyFilter('easy')">Easy</button>
+      <button class="chip diff-chip" type="button" data-diff="medium" onclick="setDifficultyFilter('medium')">Medium</button>
+      <button class="chip diff-chip" type="button" data-diff="hard" onclick="setDifficultyFilter('hard')">Hard</button>
+    </div>
+    <button class="btn mistake-log-btn" type="button" onclick="openMistakeLog()">Mistake Log<span class="mistake-log-count" id="mistake-log-count" style="display:none">0</span></button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -848,6 +910,16 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
   <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
 </button>
+<button type="button" id="qref-drawer-fab" class="qref-drawer-fab" onclick="qrefDrawerToggle()" aria-label="Open quick reference" aria-expanded="false" aria-controls="qref-drawer" title="Quick Reference">
+  <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+</button>
+<div id="qref-drawer" class="qref-drawer" role="dialog" aria-modal="true" aria-label="Quick Reference" aria-hidden="true">
+  <div class="qref-drawer-hd">
+    <b>Quick Reference</b>
+    <button type="button" class="qref-drawer-close" onclick="qrefDrawerToggle()" aria-label="Close quick reference">✕</button>
+  </div>
+  <div class="qref-drawer-body" id="qref-drawer-body"></div>
+</div>
 <script>
 const UNITS=[{"id":1,"name":"Functions & Their Graphs","concepts":[{"l":"Function notation & evaluation","intro":"A function f assigns exactly one output f(x) to each input x. Function notation f(x) replaces 'y' and lets you name and evaluate relations precisely.","b":["f(x) is read 'f of x' — NOT f times x","To evaluate f(3), substitute 3 for every x in the rule: f(x)=2x²−1 → f(3)=2(9)−1=17","Vertical Line Test: a graph represents a function iff every vertical line crosses it at most once","Composite functions: (f∘g)(x)=f(g(x)) — evaluate the INSIDE function first","Example: f(x)=x+2, g(x)=x². (f∘g)(3)=f(9)=11. (g∘f)(3)=g(5)=25 — order matters!","Difference quotient: [f(x+h)−f(x)]/h, the building block for average rate of change and derivatives"]},{"l":"Domain and range","intro":"Domain = all valid x-inputs; range = all resulting y-outputs. Restrictions come from division by zero, even roots of negatives, and logs of non-positives.","b":["Rational functions: exclude x-values that make the denominator 0 (e.g., f(x)=1/(x−3): domain is x≠3)","Even-root functions: the radicand must be ≥0 (e.g., f(x)=√(x−4): domain is x≥4)","Polynomial functions: domain is always all real numbers (−∞,∞)","Range is found from the graph's minimum/maximum behavior (e.g., y=x² has range y≥0)","Interval notation: use parentheses for excluded endpoints, brackets for included endpoints","Domain of a sum/product/quotient of functions = intersection of each piece's domain (and denominator ≠0 for quotients)"]},{"l":"Transformations of functions","intro":"Given a parent function f(x), transformations shift, stretch, compress, or reflect the graph. Changes INSIDE the parentheses affect x (opposite/counterintuitive direction); changes OUTSIDE affect y (intuitive direction).","b":["f(x)+k: shifts UP k units (k>0) | f(x)−k: shifts DOWN k units","f(x−h): shifts RIGHT h units | f(x+h): shifts LEFT h units (opposite of the sign!)","a·f(x): vertical stretch if |a|>1, vertical compression if 0<|a|<1","f(bx): horizontal compression if |b|>1, horizontal stretch if 0<|b|<1","−f(x): reflects over the x-axis | f(−x): reflects over the y-axis","Order of operations for combined transformations: horizontal shift/stretch first (inside), then vertical stretch, then vertical shift (outside)"]},{"l":"Even and odd functions","intro":"Symmetry tests reveal structure that simplifies graphing and algebra (useful later for trig identities and integration).","b":["Even function: f(−x)=f(x) for all x — graph is symmetric about the y-axis (e.g., f(x)=x², f(x)=cos x)","Odd function: f(−x)=−f(x) for all x — graph has 180° rotational symmetry about the origin (e.g., f(x)=x³, f(x)=sin x)","To test algebraically: plug −x into f(x), simplify, and compare to f(x) and −f(x)","A function can be neither even nor odd (most functions), but cannot be both unless f(x)=0 for all x","Sum of two even functions is even; sum of two odd functions is odd; product of two odd functions is even"]},{"l":"Piecewise functions","intro":"A piecewise function uses different formulas over different intervals of the domain. Evaluate by first identifying which interval the input falls into.","b":["Notation: f(x)={rule₁ if x<a; rule₂ if x≥a} — check the given x against each interval's boundary","Example: f(x)={x+3 if x<2; x² if x≥2}. f(2)=2²=4 (use second rule since 2≥2); f(−1)=−1+3=2","Graph each piece only over its stated domain; use open circles for excluded endpoints, closed circles for included","Step functions (e.g., the greatest integer/floor function ⌊x⌋) are a special piecewise case with constant horizontal segments","Continuity at a breakpoint requires the two pieces to meet at the same y-value there"]}],"traps":["f(x+2) is NOT f(x)+2 — you substitute (x+2) for x everywhere it appears, don't just add 2 to the output.","Horizontal shifts move opposite the sign inside parentheses: f(x−3) shifts RIGHT, not left.","An even function is symmetric about the y-axis; an odd function is symmetric about the ORIGIN, not the x-axis.","In a piecewise function, always check boundary inequalities (< vs ≤) carefully — using the wrong piece gives the wrong value."],"fms":["(f∘g)(x)=f(g(x))","Difference quotient: [f(x+h)−f(x)]/h","f(−x)=f(x) even; f(−x)=−f(x) odd"]},{"id":2,"name":"Polynomial & Rational Functions","concepts":[{"l":"End behavior of polynomials","intro":"The leading term (highest-degree term) determines what happens to y as x→±∞.","b":["Odd degree, positive leading coefficient: falls left, rises right (like y=x³)","Odd degree, negative leading coefficient: rises left, falls right (like y=−x³)","Even degree, positive leading coefficient: rises left and right (like y=x²)","Even degree, negative leading coefficient: falls left and right (like y=−x²)","Degree = maximum number of real zeros (counting multiplicity) and one less than the max number of turning points","Example: f(x)=−2x⁵+3x²−1 has odd degree (5) and negative leading coefficient → rises left, falls right"]},{"l":"Factoring & finding zeros","intro":"Zeros (roots) of a polynomial are the x-values where f(x)=0 — where the graph crosses or touches the x-axis.","b":["Factor completely, set each factor to 0, solve for x (zero product property)","Multiplicity 1 (odd, simple): graph CROSSES the x-axis at that zero","Multiplicity 2 (even): graph TOUCHES the x-axis and turns back (bounces)","Multiplicity 3 (odd, ≥3): graph crosses but flattens (inflects) at that zero","Example: f(x)=x³−4x = x(x−2)(x+2) → zeros at x=0,2,−2, each multiplicity 1, all crossings","Difference of squares: a²−b²=(a−b)(a+b); sum/difference of cubes: a³±b³=(a±b)(a²∓ab+b²)"]},{"l":"Rational Root Theorem & synthetic division","intro":"The Rational Root Theorem narrows down candidate rational zeros of a polynomial before testing them.","b":["Possible rational roots = ±(factors of constant term)/(factors of leading coefficient)","Example: 2x³−3x²−11x+6=0 → constant=6 (factors 1,2,3,6), leading=2 (factors 1,2) → candidates ±1,2,3,6,1/2,3/2","Test candidates using synthetic division; a remainder of 0 confirms a root and gives the depressed (reduced) polynomial","Synthetic division steps: bring down leading coefficient, multiply by the root, add to next coefficient, repeat","Example: dividing 2x³−3x²−11x+6 by (x−3) using synthetic division with root 3 gives 2x²+3x−2 remainder 0, confirming x=3 is a root","Once reduced to a quadratic, use factoring or the quadratic formula to find remaining roots"]},{"l":"Rational functions & asymptotes","intro":"A rational function is a ratio of two polynomials, f(x)=p(x)/q(x). Its graph is shaped by vertical, horizontal, and sometimes slant asymptotes.","b":["Vertical asymptote: at x-values where the denominator = 0 AND the numerator ≠ 0 there (a hole occurs if both are 0 after cancelling common factors)","Horizontal asymptote (compare degrees of numerator n and denominator m): if n<m, y=0; if n=m, y=(ratio of leading coefficients); if n>m, no horizontal asymptote","Slant (oblique) asymptote exists when n=m+1 exactly one degree higher — found via polynomial long division, ignoring the remainder","Example: f(x)=(x²−1)/(x−1) simplifies to x+1 with a HOLE at x=1 (not a vertical asymptote) since (x−1) cancels","Example: f(x)=(3x²+1)/(x²−4) has horizontal asymptote y=3 (equal degrees, ratio of leading coefficients 3/1) and vertical asymptotes at x=±2"]},{"l":"Solving rational equations & inequalities","intro":"Clear denominators by multiplying through by the LCD, but always check for extraneous solutions that make an original denominator zero.","b":["Multiply every term by the LCD to eliminate fractions, then solve the resulting polynomial equation","Always check solutions back in the ORIGINAL equation — any value making a denominator 0 must be rejected (extraneous)","For rational inequalities: move everything to one side, find critical values (zeros and undefined points), test each interval on a sign chart","Example: solve (x−1)/(x+2)≥0 → critical values x=1, x=−2 (excluded, open circle); test intervals → solution x<−2 or x≥1"]}],"traps":["A 'hole' occurs when a factor cancels from both numerator and denominator — it is NOT a vertical asymptote.","Always check rational-equation solutions in the original equation; a value that zeroes a denominator must be rejected.","Even multiplicity means the graph BOUNCES off the x-axis; odd multiplicity means it CROSSES.","Comparing degrees for horizontal asymptotes: if the numerator's degree is strictly greater, there is NO horizontal asymptote (there may be a slant one instead)."],"fms":["Rational Root candidates = ±(factors of constant)/(factors of leading coeff)","HA rules: n<m→y=0; n=m→y=leading ratio; n>m→none","a³±b³=(a±b)(a²∓ab+b²)"]},{"id":3,"name":"Exponential & Logarithmic Functions","concepts":[{"l":"Exponential growth and decay","intro":"Exponential functions model quantities that grow or shrink by a constant PERCENT rate over equal time intervals: A(t)=A₀(1+r)^t (growth) or A(t)=A₀(1−r)^t (decay).","b":["A₀ = initial amount, r = rate as a decimal, t = number of time periods, b=(1+r) or (1−r) is the growth/decay factor","If b>1 the function models growth; if 0<b<1 it models decay","Example: population growing 5%/year from 2000: A(t)=2000(1.05)^t → after 10 years A(10)=2000(1.05)¹⁰≈3257.8","Continuous growth/decay uses A(t)=A₀e^(rt) where e≈2.71828 (r>0 growth, r<0 decay)","Half-life problems: A(t)=A₀(1/2)^(t/h) where h is the half-life","Compound interest: A=P(1+r/n)^(nt); continuously compounded: A=Pe^(rt)"]},{"l":"Laws of exponents","intro":"These rules let you simplify and manipulate expressions with the same base before solving exponential equations.","b":["Product rule: bᵐ·bⁿ=bᵐ⁺ⁿ | Quotient rule: bᵐ/bⁿ=bᵐ⁻ⁿ","Power rule: (bᵐ)ⁿ=bᵐⁿ | Power of a product: (ab)ⁿ=aⁿbⁿ","Zero exponent: b⁰=1 (b≠0) | Negative exponent: b⁻ⁿ=1/bⁿ","Rational (fractional) exponent: b^(m/n)=ⁿ√(bᵐ)=(ⁿ√b)ᵐ","Example: 8^(2/3)=(³√8)²=2²=4","To solve exponential equations with matching bases: set exponents equal once bases match (e.g., 2^(x+1)=8 → 2^(x+1)=2³ → x+1=3 → x=2)"]},{"l":"Logarithm definition & properties","intro":"A logarithm is the inverse operation of exponentiation: log_b(x)=y means bʸ=x. Logs answer 'to what power must b be raised to get x?'","b":["log_b(x)=y ⟺ bʸ=x (b>0, b≠1, x>0)","Product rule: log_b(MN)=log_b(M)+log_b(N)","Quotient rule: log_b(M/N)=log_b(M)−log_b(N)","Power rule: log_b(Mᵏ)=k·log_b(M)","log_b(1)=0 always (since b⁰=1); log_b(b)=1 always (since b¹=b)","Change of base formula: log_b(x)=ln(x)/ln(b)=log(x)/log(b) — needed for bases other than 10 or e on a calculator"]},{"l":"Solving exponential & logarithmic equations","intro":"Use inverse operations — take logs to bring down exponents, or exponentiate to remove logs — and always check for extraneous solutions in log equations.","b":["To solve bˣ=k (unlike bases): take ln or log of both sides → x=ln(k)/ln(b)","Example: 5^x=40 → x=ln(40)/ln(5)≈2.292","To solve log_b(x)=k: rewrite in exponential form x=bᵏ","Example: log₂(x)=5 → x=2⁵=32","When both sides are logs with the same base: log_b(A)=log_b(B) ⟹ A=B (then check domain — argument must stay positive)","Extraneous solutions: after solving a log equation, reject any solution that makes an argument of a log ≤0 in the ORIGINAL equation"]},{"l":"Natural log and e","intro":"The natural logarithm ln(x)=log_e(x) uses base e≈2.71828..., the base for continuous growth/decay and calculus.","b":["ln(x) and eˣ are inverse functions: ln(eˣ)=x and e^(ln x)=x","ln(1)=0, ln(e)=1","Solve eˣ=k by taking ln of both sides: x=ln(k)","Solve ln(x)=k by exponentiating: x=eᵏ","Continuous compounding/growth: A=Pe^(rt) — appears in population models, radioactive decay, and continuously compounded interest","Example: solve e^(2x)=15 → 2x=ln(15) → x=ln(15)/2≈1.354"]}],"traps":["log(A+B) is NOT log(A)+log(B) — there is no log rule for sums/differences inside a single log.","log_b(x) is only defined for x>0 — always check the domain restriction before finalizing a log-equation solution.","(1+r) is used for growth, (1−r) for decay — mixing up the sign of r gives the wrong model entirely.","Change of base requires dividing (ln x)/(ln b), not (ln b)/(ln x) — order matters."],"fms":["log_b(x)=y ⟺ bʸ=x","Change of base: log_b(x)=ln(x)/ln(b)","A=Pe^(rt); A=P(1+r/n)^(nt)"]},{"id":4,"name":"Trigonometric Functions","concepts":[{"l":"The unit circle","intro":"The unit circle has radius 1, centered at the origin. For an angle θ measured from the positive x-axis, the terminal point is (cos θ, sin θ).","b":["cos θ = x-coordinate, sin θ = y-coordinate of the point where the terminal ray meets the circle","tan θ = sin θ / cos θ = y/x (undefined when cos θ=0, i.e., θ=90°,270°)","Quadrant signs (ASTC, 'All Students Take Calculus'): QI all positive, QII sine positive, QIII tangent positive, QIV cosine positive","Key points to memorize: (1,0) at 0°, (0,1) at 90°, (−1,0) at 180°, (0,−1) at 270°","The unit circle repeats every 360° (2π radians) — this is why trig functions are periodic"]},{"l":"Radians vs degrees","intro":"Radians measure angles as arc length divided by radius; a full circle is 2π radians = 360°.","b":["Conversion: radians = degrees × (π/180) | degrees = radians × (180/π)","180°=π rad, 90°=π/2 rad, 60°=π/3 rad, 45°=π/4 rad, 30°=π/6 rad","Example: convert 150° to radians: 150×(π/180)=5π/6","Example: convert 7π/4 rad to degrees: (7π/4)×(180/π)=315°","Arc length formula: s=rθ (θ MUST be in radians)","Angular/linear speed problems use s=rθ and v=s/t or ω=θ/t (ω in rad/time)"]},{"l":"Graphs of sine, cosine, and tangent","intro":"y=A sin(Bx−C)+D and y=A cos(Bx−C)+D describe transformed sinusoids; y=tan x has a different shape with vertical asymptotes.","b":["Amplitude = |A| (half the distance between max and min); period = 2π/|B|","Phase shift = C/B (shift right if positive); vertical shift = D (midline y=D)","y=sin x: starts at midline going up, zeros at 0,π,2π, max at π/2, min at 3π/2","y=cos x: starts at max, zeros at π/2,3π/2, min at π","y=tan x has period π (not 2π) and vertical asymptotes at x=π/2+kπ; no amplitude (unbounded range)","Example: y=3sin(2x)+1 has amplitude 3, period 2π/2=π, midline y=1, no phase shift"]},{"l":"Reference angles","intro":"A reference angle is the acute angle (0°–90°) between the terminal side and the x-axis — used to find exact trig values in any quadrant.","b":["QI: reference angle = θ itself","QII: reference angle = 180°−θ (or π−θ)","QIII: reference angle = θ−180° (or θ−π)","QIV: reference angle = 360°−θ (or 2π−θ)","Find the trig value of the reference angle, then apply the correct sign for the original quadrant (ASTC)","Example: sin(210°): QIII, reference angle=210−180=30°, sin(30°)=1/2, QIII sine is negative → sin(210°)=−1/2"]},{"l":"Special angle trig values","intro":"Exact values for 0°,30°,45°,60°,90° (and their radian equivalents) must be memorized — they recur constantly in identities and equations.","b":["0°(0): sin=0, cos=1, tan=0","30°(π/6): sin=1/2, cos=√3/2, tan=√3/3 (=1/√3)","45°(π/4): sin=√2/2, cos=√2/2, tan=1","60°(π/3): sin=√3/2, cos=1/2, tan=√3","90°(π/2): sin=1, cos=0, tan=undefined","Memory trick: sin values at 0°,30°,45°,60°,90° follow √0/2,√1/2,√2/2,√3/2,√4/2 (simplify each); cos is the reverse order"]}],"traps":["Arc length s=rθ requires θ in RADIANS — using degrees gives a wrong answer without a conversion.","tan θ is undefined wherever cos θ=0 (90°,270°) — these are vertical asymptotes on the tangent graph, not zeros.","The reference angle is always POSITIVE and between 0° and 90° — never use the original angle's sign for it.","Period of tan x is π, not 2π like sine and cosine — don't apply the sine/cosine period formula to tangent."],"fms":["s=rθ (θ in radians)","Period: sin/cos = 2π/|B|; tan = π/|B|","tan θ = sin θ/cos θ"]},{"id":5,"name":"Trigonometric Identities & Equations","concepts":[{"l":"Pythagorean identities","intro":"Derived directly from x²+y²=r²=1 on the unit circle, these are the most fundamental trig identities.","b":["sin²θ+cos²θ=1 (the core identity — memorize this one first)","Divide by cos²θ: 1+tan²θ=sec²θ","Divide by sin²θ: 1+cot²θ=csc²θ","Rearranged forms are useful for simplifying: sin²θ=1−cos²θ, cos²θ=1−sin²θ","Example: simplify sin²θ/(1−cos θ) using 1−cos²θ=(1−cosθ)(1+cosθ): sin²θ/(1−cosθ)=(1−cosθ)(1+cosθ)/(1−cosθ)=1+cosθ"]},{"l":"Sum and difference formulas","intro":"These formulas expand trig functions of a sum or difference of two angles — used to find exact values of non-special angles like 15° or 75°.","b":["sin(A±B)=sin A cos B ± cos A sin B","cos(A±B)=cos A cos B ∓ sin A sin B (note the sign FLIPS for cosine)","tan(A±B)=(tan A ± tan B)/(1 ∓ tan A tan B)","Example: find cos(75°)=cos(45°+30°)=cos45°cos30°−sin45°sin30°=(√2/2)(√3/2)−(√2/2)(1/2)=(√6−√2)/4","Cofunction identities follow from these: sin(90°−θ)=cos θ, cos(90°−θ)=sin θ"]},{"l":"Double-angle formulas","intro":"Double-angle formulas express trig functions of 2θ in terms of single θ — derived by setting A=B=θ in the sum formulas.","b":["sin(2θ)=2 sin θ cos θ","cos(2θ)=cos²θ−sin²θ = 2cos²θ−1 = 1−2sin²θ (three equivalent forms — pick based on what's given)","tan(2θ)=2tanθ/(1−tan²θ)","Example: if sinθ=3/5 and θ in QI (cosθ=4/5), then sin(2θ)=2(3/5)(4/5)=24/25","Half-angle formulas (derived from double-angle, less common but related): sin(θ/2)=±√[(1−cosθ)/2], cos(θ/2)=±√[(1+cosθ)/2]"]},{"l":"Solving trigonometric equations","intro":"Solve for θ using algebra and identities, then use the unit circle/reference angles to find ALL solutions in the given interval, remembering periodicity.","b":["Isolate the trig function first, then find the reference angle from its exact value","Find every solution in [0,2π) or [0°,360°) by applying the correct quadrant signs (ASTC), then add multiples of the period for a general solution (+2πk or +360°k)","Example: solve 2sinθ−1=0 on [0,2π): sinθ=1/2 → reference angle π/6 → sine positive in QI,QII → θ=π/6, 5π/6","For quadratics in a trig function (e.g., 2sin²θ−sinθ−1=0), factor like a normal quadratic: (2sinθ+1)(sinθ−1)=0 → sinθ=−1/2 or sinθ=1","When an equation has multiple trig functions, use identities (Pythagorean, double-angle) to rewrite everything in terms of ONE function before solving"]}],"traps":["cos(A+B) ≠ cos A + cos B — you must use the full sum formula, not distribute like multiplication.","There are THREE equivalent forms of cos(2θ) — pick the one matching the given information (e.g., use 1−2sin²θ if only sinθ is known).","When solving trig equations over an interval, forgetting to check BOTH quadrants where a function is positive/negative loses half the solutions.","sin²θ+cos²θ=1 is an identity (true for ALL θ) — don't confuse it with an equation to 'solve for θ'."],"fms":["sin²θ+cos²θ=1","sin(2θ)=2sinθcosθ; cos(2θ)=cos²θ−sin²θ","sin(A±B)=sinAcosB±cosAsinB"]},{"id":6,"name":"Analytic Trigonometry & Applications","concepts":[{"l":"Law of Sines","intro":"For any triangle (not just right triangles) with sides a,b,c opposite angles A,B,C: a/sinA = b/sinB = c/sinC. Used when you know an angle-side opposite pair.","b":["Use when given: AAS, ASA, or SSA (the 'ambiguous case')","Set up as a proportion and cross-multiply to solve for the unknown side or angle","Example: A=40°, a=15, B=60°. Find b: 15/sin40°=b/sin60° → b=15·sin60°/sin40°≈20.2","Ambiguous case (SSA): given two sides and a non-included angle, there may be 0, 1, or 2 valid triangles — check by comparing the given side to h=b·sinA","Sum of angles in any triangle = 180°, so the third angle is always found by subtraction once two are known"]},{"l":"Law of Cosines","intro":"Generalizes the Pythagorean theorem to any triangle: c²=a²+b²−2ab·cosC. Used when you know SAS or SSS.","b":["Use when given: SAS (two sides and the included angle) or SSS (three sides, no angles)","Solving for a side (SAS): c²=a²+b²−2ab·cos C, then take the square root","Solving for an angle (SSS): rearrange to cos C=(a²+b²−c²)/(2ab), then take cos⁻¹","Example (SAS): a=8, b=10, C=50° → c²=64+100−2(8)(10)cos50°≈61.13 → c≈7.82","Example (SSS): a=5,b=7,c=10 → cosC=(25+49−100)/(2·5·7)=−26/70≈−0.371 → C≈111.8°","If cos C comes out negative, the angle C is obtuse (>90°) — this is a normal, valid result"]},{"l":"Solving triangles & area","intro":"Combine the Law of Sines, Law of Cosines, and area formulas to fully solve (find all sides and angles of) any triangle.","b":["SSS or SAS → start with Law of Cosines; AAS/ASA/SSA → start with Law of Sines","Once one angle is found via Law of Cosines, use Law of Sines for the rest (often easier algebra)","Area of any triangle given SAS: Area=(1/2)ab·sinC (works without needing the height)","Example: a=6,b=9,C=30° → Area=(1/2)(6)(9)sin30°=27(0.5)=13.5","Heron's formula (SSS, no angles needed): s=(a+b+c)/2, Area=√[s(s−a)(s−b)(s−c)]"]},{"l":"Inverse trigonometric functions","intro":"Inverse trig functions 'undo' trig functions but must have RESTRICTED ranges to be true functions (since sin, cos, tan are not one-to-one).","b":["sin⁻¹x (arcsin): domain [−1,1], range [−π/2,π/2] (QI and QIV)","cos⁻¹x (arccos): domain [−1,1], range [0,π] (QI and QII)","tan⁻¹x (arctan): domain all reals, range (−π/2,π/2)","sin⁻¹(sinθ)=θ only if θ is already in [−π/2,π/2]; otherwise find the equivalent angle in range","Example: sin⁻¹(1/2)=π/6 (30°) — the answer must be in [−π/2,π/2], so 150° is NOT the output even though sin150°=1/2 too","Used to solve for an unknown ANGLE once a trig ratio is known (e.g., in right-triangle applications: angle of elevation/depression)"]}],"traps":["Law of Sines' SSA case is 'ambiguous' — always check whether 0, 1, or 2 triangles are possible before finalizing an answer.","In Law of Cosines, cos C can be negative — that just means C is obtuse; don't discard the result.","Inverse trig functions return only ONE angle in a restricted range — sin⁻¹(1/2)=30° only, even though 150° also has sine 1/2.","Area=(1/2)ab sinC requires the INCLUDED angle C (between sides a and b), not just any angle."],"fms":["a/sinA=b/sinB=c/sinC","c²=a²+b²−2ab·cosC","Area=(1/2)ab·sinC"]},{"id":7,"name":"Systems & Matrices","concepts":[{"l":"Solving systems by substitution & elimination","intro":"A system of equations has a solution where all equations are simultaneously true — geometrically, where the graphs intersect.","b":["Substitution: solve one equation for one variable, substitute into the other equation(s)","Elimination: multiply equations by constants so one variable's coefficients are opposites, then add the equations","Example (elimination): 2x+3y=7 and 4x−3y=11 → add directly: 6x=18 → x=3, then y=1/3(7−6)=1/3","A system with NO solution: equations simplify to a false statement (e.g., 0=5) — lines are parallel","A system with INFINITE solutions: equations simplify to a true statement (e.g., 0=0) — lines coincide","For 3-variable systems, eliminate one variable at a time to reduce to a 2-variable system"]},{"l":"Matrices — basics","intro":"A matrix is a rectangular array of numbers. Its dimensions are given as rows × columns.","b":["A matrix with m rows and n columns is an m×n matrix","Two matrices are equal only if they have the same dimensions AND every corresponding entry is equal","A matrix can represent a system of equations as an augmented matrix (coefficients | constants)","Row operations (swap rows, multiply a row by a nonzero constant, add a multiple of one row to another) don't change the system's solution — basis of row-reduction/Gaussian elimination","The identity matrix I (1's on the diagonal, 0's elsewhere) acts like the number 1 in matrix multiplication: AI=IA=A"]},{"l":"Matrix operations","intro":"Addition/subtraction require matching dimensions; multiplication has its own rule based on rows and columns.","b":["Add/subtract matrices by adding/subtracting corresponding entries — matrices MUST be the same dimensions","Scalar multiplication: multiply every entry by the scalar","Matrix multiplication AB is defined only if the number of COLUMNS of A equals the number of ROWS of B","Result dimensions: if A is m×n and B is n×p, then AB is m×p","Entry (row i, col j) of AB = dot product of row i of A with column j of B","Matrix multiplication is NOT commutative in general: AB ≠ BA"]},{"l":"Determinants","intro":"The determinant is a single number computed from a square matrix that reveals whether it has an inverse.","b":["2×2 matrix [[a,b],[c,d]]: determinant = ad−bc","A matrix has an inverse iff its determinant ≠ 0 (a matrix with det=0 is called 'singular')","3×3 determinant via cofactor expansion along the top row: expand and use the checkerboard sign pattern (+,−,+)","Example: det([[2,3],[1,4]])=2(4)−3(1)=8−3=5","The inverse of a 2×2 matrix [[a,b],[c,d]] is (1/det)·[[d,−b],[−c,a]]"]},{"l":"Cramer's Rule","intro":"Cramer's Rule solves a system of linear equations using determinants, without row-reducing.","b":["For ax+by=e, cx+dy=f: x=Dx/D, y=Dy/D, where D is the coefficient matrix's determinant","D=det([[a,b],[c,d]]); Dx=det([[e,b],[f,d]]) (replace the x-column with constants); Dy=det([[a,e],[c,f]]) (replace the y-column)","Example: 2x+y=5, x−3y=−8 → D=2(−3)−1(1)=−7; Dx=5(−3)−1(−8)=−7; Dy=2(−8)−5(1)=−21 → x=1, y=3","If D=0, Cramer's Rule fails — the system either has no solution or infinitely many (cannot be determined by Cramer's Rule alone)"]}],"traps":["Matrix multiplication AB requires columns of A = rows of B — mismatched dimensions mean the product doesn't exist.","AB ≠ BA in general for matrices — order matters, unlike ordinary number multiplication.","If a system's determinant D=0, Cramer's Rule cannot give a unique solution — don't divide by zero.","det=ad−bc for a 2×2 matrix [[a,b],[c,d]] — a common error is bc−ad (sign flipped) or ac−bd (wrong entries)."],"fms":["det([[a,b],[c,d]])=ad−bc","Cramer's Rule: x=Dx/D, y=Dy/D","Inverse of [[a,b],[c,d]] = (1/det)[[d,−b],[−c,a]]"]},{"id":8,"name":"Sequences, Series & Conics","concepts":[{"l":"Arithmetic sequences","intro":"An arithmetic sequence has a CONSTANT difference d between consecutive terms.","b":["Explicit (nth term) formula: aₙ=a₁+(n−1)d","d = common difference = aₙ − aₙ₋₁ (any term minus the one before it)","Example: 5,9,13,17,... has a₁=5, d=4 → a₁₀=5+9(4)=41","Recursive form: aₙ=aₙ₋₁+d, with a₁ given","To find d given two non-consecutive terms: d=(aₙ−aₘ)/(n−m)"]},{"l":"Geometric sequences","intro":"A geometric sequence has a CONSTANT ratio r between consecutive terms.","b":["Explicit (nth term) formula: aₙ=a₁·r^(n−1)","r = common ratio = aₙ/aₙ₋₁ (any term divided by the one before it)","Example: 3,6,12,24,... has a₁=3, r=2 → a₈=3·2⁷=384","If |r|<1, terms shrink toward 0 (e.g., 8,4,2,1,0.5,...); if |r|>1, terms grow without bound","Recursive form: aₙ=r·aₙ₋₁, with a₁ given"]},{"l":"Series and sigma notation","intro":"A series is the SUM of a sequence's terms. Sigma notation Σ compactly represents these sums.","b":["Sigma notation: Σ(from k=1 to n) f(k) means add f(1)+f(2)+...+f(n)","Arithmetic series sum: Sₙ=n(a₁+aₙ)/2 = n[2a₁+(n−1)d]/2","Finite geometric series sum: Sₙ=a₁(1−rⁿ)/(1−r), for r≠1","Infinite geometric series sum (converges only if |r|<1): S=a₁/(1−r)","Example: find S for 1+1/2+1/4+1/8+...: a₁=1, r=1/2 → S=1/(1−1/2)=2","Example: sum of first 20 terms of 4,7,10,...: a₁=4, d=3, a₂₀=4+19(3)=61 → S₂₀=20(4+61)/2=650"]},{"l":"Parabolas","intro":"A conic section formed by slicing a cone parallel to its side; the set of points equidistant from a focus and a directrix.","b":["Vertex form (vertex at origin), opens up/down: x²=4py (p=distance from vertex to focus, and to directrix)","Opens left/right: y²=4px","If p>0: opens up (or right); if p<0: opens down (or left)","Focus is INSIDE the curve at distance |p| from vertex; directrix is a line OUTSIDE at distance |p| on the opposite side","Example: x²=8y → 4p=8 → p=2 → focus at (0,2), directrix y=−2","General vertex-form parabola (vertex (h,k)): (x−h)²=4p(y−k) or (y−k)²=4p(x−h)"]},{"l":"Ellipses and hyperbolas (basics)","intro":"Both are centered conics defined by a and b (semi-axes); an ellipse is a 'squashed circle', a hyperbola has two separate branches.","b":["Ellipse standard form centered at origin: x²/a²+y²/b²=1, where a is the semi-major axis, b the semi-minor axis (a>b)","Ellipse foci lie on the major axis at distance c from center, where c²=a²−b²","Hyperbola standard form (opens left/right): x²/a²−y²/b²=1; (opens up/down): y²/a²−x²/b²=1","Hyperbola foci satisfy c²=a²+b² (note the PLUS sign, unlike the ellipse)","Hyperbolas have asymptotes y=±(b/a)x (for the x²/a²−y²/b²=1 form) that the branches approach but never touch","Example: x²/25+y²/9=1 is an ellipse with a=5,b=3 → c²=25−9=16 → c=4, foci at (±4,0)"]}],"traps":["An arithmetic sequence has a constant DIFFERENCE; a geometric sequence has a constant RATIO — don't mix up which formula to use.","Infinite geometric series only converge (have a finite sum) when |r|<1 — if |r|≥1 the sum diverges (no formula applies).","Ellipse foci use c²=a²−b² (minus); hyperbola foci use c²=a²+b² (plus) — swapping these signs gives the wrong foci.","In x²=4py, the coefficient of the squared term is 4p, not p — solve for p by dividing by 4, don't forget that step."],"fms":["aₙ=a₁+(n−1)d ; aₙ=a₁r^(n−1)","Sₙ=a₁(1−rⁿ)/(1−r) ; S∞=a₁/(1−r), |r|<1","Ellipse: c²=a²−b² ; Hyperbola: c²=a²+b²"]},{"id":9,"name":"Limits & Intro to Calculus Concepts","concepts":[{"l":"The intuitive idea of a limit","intro":"lim(x→a) f(x)=L means f(x) gets arbitrarily close to L as x gets arbitrarily close to a (from both sides), regardless of the actual value f(a) (which may not even exist).","b":["A limit describes the function's BEHAVIOR NEAR a point, not necessarily the value AT that point","Two-sided limit exists only if the left-hand limit and right-hand limit are EQUAL: lim(x→a⁻)f(x)=lim(x→a⁺)f(x)","Notation: lim(x→a⁻) means approaching from the left (values less than a); lim(x→a⁺) means approaching from the right","A limit can exist at a point even if the function is undefined there (e.g., a hole in the graph)","A limit fails to exist if the function jumps (left/right limits differ), oscillates infinitely, or increases/decreases without bound near a"]},{"l":"Evaluating limits graphically and numerically","intro":"Without algebra, limits can be estimated by reading a graph or by plugging in values approaching a from both sides.","b":["Graphically: trace the curve from both sides toward x=a and see what y-value it approaches (ignore any open/closed dot exactly at x=a)","Numerically: build a table of x-values very close to a (e.g., a−0.1, a−0.01, a+0.01, a+0.1) and see what f(x) approaches","Example: lim(x→2) (x²−4)/(x−2) — direct substitution gives 0/0 (indeterminate), but the table shows values approaching 4","Algebraically confirm: (x²−4)/(x−2)=(x−2)(x+2)/(x−2)=x+2 (for x≠2) → limit as x→2 is 2+2=4","Direct substitution works to evaluate a limit whenever the function is continuous at that point (most polynomials, and rational functions where the denominator isn't 0)"]},{"l":"Average rate of change","intro":"The average rate of change of f over [a,b] is the slope of the secant line connecting (a,f(a)) and (b,f(b)) — identical in form to the difference quotient.","b":["Average rate of change = [f(b)−f(a)] / (b−a)","This is exactly a SLOPE calculation — same formula as (y₂−y₁)/(x₂−x₁)","Example: f(x)=x², find average rate of change on [1,4]: [f(4)−f(1)]/(4−1)=(16−1)/3=5","As the interval [a,b] shrinks (b→a), the average rate of change approaches the INSTANTANEOUS rate of change at x=a — this is the core idea that leads to the derivative","Units matter in applications: e.g., average velocity = change in position / change in time"]},{"l":"Introduction to derivatives as slope of the tangent line","intro":"The derivative f'(a) is the instantaneous rate of change of f at x=a — the slope of the line TANGENT to the curve at that single point, defined as a limit of average rates of change (secant slopes) as the interval shrinks to zero.","b":["Definition: f'(a)=lim(h→0) [f(a+h)−f(a)]/h — the limit of the difference quotient as h→0","This is the limiting slope of secant lines through (a,f(a)) and (a+h,f(a+h)) as h shrinks toward 0","Geometrically: the tangent line touches the curve at exactly one point (locally) and matches its instantaneous direction there","Example: for f(x)=x², f'(a)=lim(h→0) [(a+h)²−a²]/h = lim(h→0) [2ah+h²]/h = lim(h→0)(2a+h)=2a — so the slope of the tangent to y=x² at any point a is 2a","This 'slope of the tangent line' interpretation is the geometric heart of every derivative computed in calculus"]}],"traps":["A limit describes behavior NEAR a point — f(a) itself can be undefined, different from the limit, or equal to it; all three are possible.","Direct substitution giving 0/0 does NOT mean the limit doesn't exist — it means you must factor/simplify first (indeterminate form).","A two-sided limit only exists if the LEFT and RIGHT limits are equal — a jump discontinuity means the limit does not exist even if both one-sided limits exist.","Average rate of change is a SECANT slope over an interval; the derivative is the limiting TANGENT slope at a single point — don't conflate the two."],"fms":["Avg rate of change = [f(b)−f(a)]/(b−a)","f'(a)=lim(h→0) [f(a+h)−f(a)]/h","Limit exists iff lim(x→a⁻)f(x)=lim(x→a⁺)f(x)"]}];
 const DIAGRAMS={};
@@ -859,7 +931,8 @@ const PART_A=[{"n":1,"q":"Which conclusion resulted directly from the gold foil 
 const PART_B1=[{"n":31,"q":"Which electron configuration represents a lithium atom in an excited state?","o":["2-1","2-2","1-2-1","1-1-1"],"a":3,"e":"Li has 3 electrons. Ground state = 2-1. Excited: an electron jumps to a higher shell. 1-1-1 = 3 electrons spread across 3 shells → excited state."},{"n":32,"q":"Selenium (Se) is in Group 16. How many valence electrons does a ground-state Se atom have?","o":["2","4","6","8"],"a":2,"e":"Group 16 elements have 6 valence electrons. Se: [Ar] 3d¹⁰ 4s² 4p⁴ → 6 valence electrons."},{"n":33,"q":"Which element could be represented by X in the oxide formula X₂O?","o":["Cd","Cr","Ca","Cs"],"a":3,"e":"X₂O: 2 X atoms balance O²⁻ → each X = +1. Group 1 elements have +1 charge. Cs is Group 1."},{"n":34,"q":"What is the chemical name for the compound PdO?","o":["palladium (II) oxide","palladium (IV) oxide","palladium peroxide","palladium hydroxide"],"a":0,"e":"O = −2, so Pd = +2 for neutral compound. Roman numeral II → palladium(II) oxide."},{"n":35,"q":"CH₄(g) + 2O₂(g) → 2H₂O(ℓ) + CO₂(g). When 12 g CH₄ reacts with 48 g O₂ to produce 33 g CO₂, how many grams of H₂O are produced?","o":["12 g","27 g","60. g","69 g"],"a":1,"e":"Conservation of mass: 12 + 48 = 60 g total reactants. Products: 33 g CO₂ + x g H₂O = 60 g → x = 27 g H₂O."},{"n":36,"q":"What is the gram-formula mass of P₂O₅? (P = 31, O = 16)","o":["47 g/mol","111 g/mol","142 g/mol","187 g/mol"],"a":2,"e":"GFM = 2(31) + 5(16) = 62 + 80 = 142 g/mol."},{"n":37,"q":"In the ground state, ions of which two elements each have the same electron configuration as neon?","o":["lithium and fluorine","sodium and chlorine","magnesium and oxygen","calcium and sulfur"],"a":2,"e":"Ne has 10 electrons. Mg²⁺ (loses 2 e⁻: 12−2=10); O²⁻ (gains 2 e⁻: 8+2=10). Both isoelectronic with Ne."},{"n":38,"q":"Fluorine (F₂) is a diatomic gas at STP. Which particle model diagram correctly represents a sample of fluorine at STP?","o":["Pairs of identical atoms, gas phase (spread out)","Single atoms spread out","Mixed pairs of different atoms","Solid lattice of F atoms"],"a":0,"e":"F₂ at STP: diatomic molecules (pairs of identical F atoms) in the gas phase → spread out, paired."},{"n":39,"q":"Based on Table F, which compound is most soluble in water?","o":["Ag₂CrO₄","AgNO₃","CuCO₃","Cu₃(PO₄)₂"],"a":1,"e":"Table F: AgNO₃ is listed as soluble (all nitrates are soluble). Ag₂CrO₄, CuCO₃, Cu₃(PO₄)₂ are all insoluble."},{"n":40,"q":"Which solution has the lowest freezing point?","o":["1.0 M NaCl(aq)","1.0 M C₆H₁₂O₆(aq)","2.0 M NaCl(aq)","2.0 M C₆H₁₂O₆(aq)"],"a":2,"e":"2.0 M NaCl → 2.0×2 = 4.0 mol particles/L (Na⁺ + Cl⁻). Most particles → greatest FP depression → lowest FP."},{"n":41,"q":"What is the amount of heat energy required to completely vaporize 12.5 g of H₂O(ℓ) at 373 K? (H_v = 2260 J/g)","o":["4180 J","5230 J","19500 J","28300 J"],"a":3,"e":"q = mH_v = 12.5 g × 2260 J/g = 28,250 J ≈ 28,300 J. At 100°C = phase change → use H_v."},{"n":42,"q":"A 2.0-gram sample of solid iron reacts with 25 mL of 0.10 M HCl(aq). Which conditions produce the fastest reaction rate?","o":["powdered iron at 273 K","powdered iron at 303 K","strip of iron at 273 K","strip of iron at 303 K"],"a":1,"e":"Fastest rate: powdered iron (max surface area) at 303 K (higher temperature) → most frequent, highest-energy collisions."},{"n":43,"q":"Which term describes a sealed 100.-mL flask containing 50. grams of water at 25°C?","o":["physical equilibrium, only","chemical equilibrium, only","condensation, only","evaporation, only"],"a":0,"e":"Sealed flask: evaporation rate = condensation rate → liquid-vapor physical equilibrium. No chemical reaction occurs."},{"n":44,"q":"For the reaction N₂O₄(g) ⇌ 2NO₂(g), a concentration-vs-time graph shows concentrations becoming constant at approximately 50 s. At which time is the system at equilibrium?","o":["12 s","22 s","50. s","70. s"],"a":2,"e":"Equilibrium is reached when all concentration curves become flat and remain constant. The graph levels off at ≈50 s."},{"n":45,"q":"Given: H₂(g) + I₂(g) + energy ⇌ 2HI(g). When temperature is increased, equilibrium shifts to the","o":["right and the concentration of HI(g) decreases","right and the concentration of HI(g) increases","left and the concentration of HI(g) decreases","left and the concentration of HI(g) increases"],"a":1,"e":"Endothermic (heat is a reactant). Increasing T adds a reactant → shifts RIGHT → more HI produced."},{"n":46,"q":"A structural formula shows a 6-carbon chain with a CH₃ branch at carbon 3. What is the IUPAC name?","o":["4-methylhexane","3-methylhexane","3,4-dimethylpentane","2,3-dimethylpentane"],"a":1,"e":"Longest chain = 6 carbons (hexane). CH₃ branch on C3 → 3-methylhexane. Number from the end giving the branch the lowest number."},{"n":47,"q":"What is the oxidation state of chlorine in the compound KClO₃?","o":["+1","−1","+5","+7"],"a":2,"e":"K = +1, O = −2 (×3 = −6). Sum = 0: +1 + Cl − 6 = 0 → Cl = +5."},{"n":48,"q":"In the reversible reaction NH₃(g) + H₂O(ℓ) ⇌ NH₄⁺(aq) + OH⁻(aq), the species in the reverse reaction that donates an H⁺ ion is","o":["NH₃(g)","H₂O(ℓ)","NH₄⁺(aq)","OH⁻(aq)"],"a":2,"e":"In the reverse reaction: NH₄⁺ → NH₃ + H⁺ (donates a proton) → NH₄⁺ is the Brønsted-Lowry acid in the reverse direction."},{"n":49,"q":"When the pH value of a solution changes from 4.0 to 7.0, what is the change in the concentration of hydronium ions?","o":["decreased by a factor of 1000","decreased by a factor of 3","increased by a factor of 1000","increased by a factor of 3"],"a":0,"e":"pH increases by 3 → [H₃O⁺] decreases by 10³ = 1000×. Higher pH = less acidic = fewer H⁺ ions."},{"n":50,"q":"A radioactive emission from chromium-51 passes straight through an electric field without deflection. Which type of emission is this?","o":["alpha particle","beta particle","gamma radiation","positron"],"a":2,"e":"Gamma radiation has no charge and no mass → not deflected by electric fields. Alpha (+2) and beta (−1) and positron (+1) are all deflected."}];
 const PART_B2=[{"n":51,"q":"Determine the percent composition by mass of Cu in CuSO₄ (GFM = 160. g/mol). Show your work.","sa":"% Cu = (mass of Cu / GFM of CuSO₄) × 100\n= (64 g/mol / 160. g/mol) × 100\n= 40.%\n\nAnswer: 40.% Cu"},{"n":52,"q":"State, in terms of both protons and neutrons, why an atom of K-39 is an isotope of an atom of K-40.","sa":"Both K-39 and K-40 have the same number of protons (19 protons each — same element, potassium), but K-39 has 20 neutrons while K-40 has 21 neutrons. Isotopes have the same proton count but different neutron counts."},{"n":53,"q":"Compare the energy of an electron in the first shell of a potassium atom to the energy of an electron in the fourth shell of the same atom.","sa":"An electron in the first shell has LESS energy than an electron in the fourth shell. Electrons closer to the nucleus (lower shell number) are at lower energy levels. The fourth shell is at a higher energy level than the first shell."},{"n":54,"q":"Show a numerical setup for calculating the atomic mass of potassium using the isotope data: K-39 (38.964 u, 93.26%), K-40 (39.964 u, 0.01%), K-41 (40.962 u, 6.73%).","sa":"Atomic mass = (38.964 × 0.9326) + (39.964 × 0.0001) + (40.962 × 0.0673)\n\n= 36.338 + 0.00400 + 2.757\n\n≈ 39.10 u (matches periodic table value of ~39.1)"},{"n":55,"q":"Given: N₂(g) + 3H₂(g) → 2NH₃(g) + 91.8 kJ. State, in terms of the number of each type of atom, why this equation is balanced.","sa":"The equation is balanced because the number of each type of atom is the same on both sides:\n• Nitrogen: 2 atoms on the left (N₂), 2 atoms on the right (2NH₃) ✓\n• Hydrogen: 6 atoms on the left (3H₂ = 3×2), 6 atoms on the right (2NH₃ = 2×3) ✓\nMass is conserved."},{"n":56,"q":"Given: N₂(g) + 3H₂(g) → 2NH₃(g) + 91.8 kJ. State evidence from the equation that the reaction is exothermic.","sa":"Evidence: The energy term (91.8 kJ) appears on the product side (right side) of the equation. This means energy is released as a product of the reaction → exothermic. Also, ΔH is negative for exothermic reactions."},{"n":57,"q":"Determine the number of moles of H₂(g) required to react completely with N₂(g) to produce 10.0 moles of NH₃(g). (N₂ + 3H₂ → 2NH₃)","sa":"Mole ratio H₂ : NH₃ = 3 : 2\n\nMoles H₂ = 10.0 mol NH₃ × (3 mol H₂ / 2 mol NH₃)\n\n= 15.0 mol H₂"},{"n":58,"q":"A 320.-mL sample of N₂(g) is at 300. K and 100. kPa. State the number of significant figures in the original temperature.","sa":"300. K — the decimal point after 300 makes all three digits significant.\n\nAnswer: 3 significant figures"},{"n":59,"q":"Compare the force of collisions of N₂ gas particles at 300. K to the force of collisions at 450. K.","sa":"At 450. K, the force of collisions is GREATER than at 300. K. Higher temperature means particles have greater average kinetic energy and move faster → collide with greater force."},{"n":60,"q":"State a change in temperature AND a change in pressure that will cause N₂ gas to behave more like an ideal gas.","sa":"Increase the temperature AND decrease the pressure.\n\nReason: High temperature → particles move faster, spend less time near each other → intermolecular attractions are less significant. Low pressure → particles are farther apart → less interaction. Both conditions reduce deviation from ideal behavior."},{"n":61,"q":"Determine the volume of N₂ gas when temperature changes to 450. K and pressure changes to 60.0 kPa. (Initial: 320. mL, 300. K, 100. kPa)","sa":"Combined Gas Law: P₁V₁/T₁ = P₂V₂/T₂\n\nV₂ = (P₁ × V₁ × T₂) / (T₁ × P₂)\n= (100. kPa × 320. mL × 450. K) / (300. K × 60.0 kPa)\n= 14,400,000 / 18,000\n= 800. mL"}];
 const PART_C=[{"n":66,"q":"State, in terms of valence electrons, why bromine and iodine have similar chemical properties.","sa":"Bromine and iodine are both in Group 17 (halogens). Both have 7 valence electrons. Elements with the same number of valence electrons have similar chemical properties because they react in the same way to complete their outermost shell."},{"n":67,"q":"State, in terms of the strength of intermolecular forces, why bromine has a higher boiling point than chlorine at standard pressure.","sa":"Bromine (Br₂) has stronger intermolecular forces (London dispersion forces) than chlorine (Cl₂). Br₂ has more electrons and greater molar mass → stronger temporary dipoles → stronger LDFs. Stronger IMFs require more energy to overcome → higher boiling point."},{"n":68,"q":"Based on Table S, state the trend in first ionization energy for the four halogen elements (F, Cl, Br, I) as atomic number increases.","sa":"As atomic number increases (F → Cl → Br → I), the first ionization energy decreases. Going down the group, electrons are farther from the nucleus (more electron shells) → held less tightly → less energy required to remove the outermost electron."},{"n":69,"q":"Based on Table S, state why the tungsten filament does not melt in the operating halogen lightbulb at 3200 K.","sa":"According to Table S, the melting point of tungsten (W) is 3695 K. Since the operating temperature of the halogen lightbulb (3200 K) is below tungsten's melting point (3695 K), the filament remains solid and does not melt."},{"n":70,"q":"State the element classification of tungsten.","sa":"Tungsten (W) is classified as a metal (specifically a transition metal, located in Group 6 of the d-block on the periodic table)."},{"n":71,"q":"Convert the temperature of the dry towel after 8 minutes (22.0°C) to kelvins.","sa":"K = °C + 273\n= 22.0°C + 273\n= 295 K"},{"n":72,"q":"Determine the amount of heat absorbed when 3.60 grams of water is heated from 22.0°C to 67.0°C. (C_water = 4.18 J/g·K)","sa":"q = mCΔT\nΔT = 67.0 − 22.0 = 45.0°C (= 45.0 K)\nq = 3.60 g × 4.18 J/g·K × 45.0 K\n= 677 J"},{"n":73,"q":"State the direction of heat flow between the hot water on the towel (67°C) and the air at room temperature (22°C).","sa":"Heat flows from the hot water on the towel (higher temperature, 67°C) to the cooler surrounding air (lower temperature, 22°C). Heat always flows from higher temperature to lower temperature."},{"n":74,"q":"State what happens to the potential energy of the water molecules as water evaporates from the wet towels.","sa":"The potential energy of the water molecules INCREASES as water evaporates. Molecules must overcome the intermolecular attractive forces (hydrogen bonds) to escape the liquid surface. This requires energy input, which is stored as potential energy in the separated molecules."},{"n":75,"q":"State, in terms of experimental design, why the student left one paper towel dry on a beaker.","sa":"The dry towel serves as the CONTROL in the experiment. It provides a baseline (no evaporation occurring) to compare against the wet towels. Without a control, the student could not determine whether any temperature change was caused by evaporation or by some other variable."},{"n":76,"q":"State the form of energy that is converted to electrical energy in the operating voltaic cell (Ni²⁺ + Zn → Ni + Zn²⁺).","sa":"Chemical energy is converted to electrical energy. In a voltaic cell, a spontaneous redox reaction releases energy, which is captured as electrical energy (electron flow through the external circuit)."},{"n":77,"q":"Identify the electrode that is the anode in the voltaic cell: Ni²⁺(aq) + Zn(s) → Ni(s) + Zn²⁺(aq).","sa":"The ZINC (Zn) electrode is the anode. In this reaction, Zn is oxidized: Zn(s) → Zn²⁺(aq) + 2e⁻. Oxidation always occurs at the anode."},{"n":78,"q":"Write a balanced half-reaction for what occurs at the nickel electrode in the voltaic cell above.","sa":"At the nickel electrode (cathode), Ni²⁺ is reduced:\n\nNi²⁺(aq) + 2e⁻ → Ni(s)\n\n(Reduction occurs at the cathode — electrons are gained)"},{"n":79,"q":"Identify the negative ion present in the NaOH(aq) solution.","sa":"The negative ion in NaOH(aq) is the hydroxide ion: OH⁻\n\nNaOH dissociates completely: NaOH → Na⁺ + OH⁻"},{"n":80,"q":"Complete the neutralization: HCl(aq) + NaOH(aq) → NaCl(aq) + ___","sa":"The missing product is H₂O (water).\n\nFull equation: HCl(aq) + NaOH(aq) → NaCl(aq) + H₂O(ℓ)\n\nAcid + Base → Salt + Water (neutralization)"},{"n":81,"q":"State the color of methyl orange indicator if added to a sample of NaOH(aq).","sa":"Methyl orange in NaOH(aq) would be YELLOW. NaOH is a strong base (pH >> 7). According to Table M, methyl orange is yellow in base (pH > 4.4)."},{"n":82,"q":"Determine the concentration of HCl(aq) using titration data: 15.0 mL HCl neutralized by 25.2 mL of 0.50 M NaOH.","sa":"M_A × V_A = M_B × V_B\nM_A × 15.0 mL = 0.50 M × 25.2 mL\nM_A = (0.50 × 25.2) / 15.0\nM_A = 12.6 / 15.0\nM_A = 0.84 M HCl"},{"n":83,"q":"Based on Table N, state the decay mode of tritium (H-3).","sa":"According to Table N, tritium (H-3) undergoes beta-minus (β⁻) decay.\n\nDecay: ³₁H → ⁰₋₁e + ³₂He\n\nA neutron converts to a proton plus a high-speed electron (beta particle)."},{"n":84,"q":"Complete the nuclear fusion equation for deuterium + tritium: ²₁H + ³₁H → ___ + ¹₀n","sa":"²₁H + ³₁H → ⁴₂He + ¹₀n\n\nCheck: Mass numbers: 2+3 = 4+1 = 5 ✓\nAtomic numbers: 1+1 = 2+0 = 2 ✓\n\nThe missing product is ⁴₂He (helium-4 / alpha particle)."},{"n":85,"q":"Based on Table N, determine the fraction of an original sample of tritium (H-3, t½ = 12.31 yr) that remains unchanged after 36.93 years.","sa":"Number of half-lives = total time / t½ = 36.93 yr / 12.31 yr = 3 half-lives\n\nFraction remaining = (½)³ = 1/8\n\nAnswer: 1/8 of the original sample remains after 36.93 years."}];
-const EXAM_CSS=".ex-header{background:var(--ink);color:var(--surface);padding:20px 22px;border-radius:var(--radius);margin-bottom:22px}\n.ex-header h2{font-family:'Space Grotesk';font-size:28.5px;font-weight:700;margin-bottom:4px}\n.ex-header p{font-family:'Inter';font-size:19.5px;color:rgba(255,255,255,.65)}\n.ex-part{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--surface)}\n.ex-part-hd{background:var(--surface-2);padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}\n.ex-part-hd:hover{background:var(--surface-hover)}\n.ex-part-hd h3{font-size:21px;font-weight:700;color:var(--ink)}\n.ex-part-hd span{font-family:'Inter';font-size:18px;color:var(--ink-dim)}\n.ex-part-body{display:none;padding:20px}\n.ex-part.open .ex-part-body{display:block}\n.ex-q{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}\n.ex-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}\n.ex-qnum{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}\n.ex-qtext{font-size:21.8px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:13px}\n.ex-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}\n.ex-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface);text-align:left;transition:all .12s}\n.ex-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}\n.ex-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}\n.ex-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}\n.ex-exp{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface-2);padding:11px 14px;border-radius:var(--radius-sm);margin-top:9px;display:none;line-height:1.6}\n.ex-exp.show{display:block}\n.ex-sa{padding:13px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter';font-size:20.2px;color:var(--amber-ink);line-height:1.6;margin-top:9px}\n.ex-sa strong{display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:var(--amber)}\n.ex-score{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px;display:none}\n.ex-score strong{font-family:'Space Grotesk';color:var(--success);font-size:22.5px}\n.ex-score span{font-family:'Inter';color:var(--success);font-size:19.5px}\n.ex-reset{padding:10px 20px;border:1px solid var(--border);border-radius:999px;background:var(--surface);cursor:pointer;font-family:'Space Grotesk';font-weight:600;font-size:19.5px;margin-top:10px;transition:all .15s}\n.ex-reset:hover{background:var(--surface-hover);border-color:var(--border-strong)}\n";
+const EXAM_META={"title":"PreCalculus — Full Practice Exam","subtitle":"Part A (30 pts) · Part B–1 (20 pts) · Part B–2 (11 pts) · Part C (20 pts)","parts":{"PART_A":{"title":"Part A — Multiple Choice","points":30,"minutes":null},"PART_B1":{"title":"Part B–1 — Multiple Choice","points":20,"minutes":null},"PART_B2":{"title":"Part B–2 — Short Answer","points":11,"minutes":null},"PART_C":{"title":"Part C — Extended Response","points":20,"minutes":null}}};
+const EXAM_CSS=".ex-header{background:var(--ink);color:var(--surface);padding:20px 22px;border-radius:var(--radius);margin-bottom:22px}\n.ex-header h2{font-family:'Space Grotesk';font-size:28.5px;font-weight:700;margin-bottom:4px}\n.ex-header p{font-family:'Inter';font-size:19.5px;color:rgba(255,255,255,.65)}\n.ex-part{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--surface)}\n.ex-part-hd{background:var(--surface-2);padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}\n.ex-part-hd:hover{background:var(--surface-hover)}\n.ex-part-hd h3{font-size:21px;font-weight:700;color:var(--ink)}\n.ex-part-hd span{font-family:'Inter';font-size:18px;color:var(--ink-dim)}\n.ex-part-hd-meta{display:flex;align-items:center;gap:14px;flex:none}\n.ex-timer{font-family:'Space Grotesk';font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink-dim)}\n.ex-timer.ex-timer-up{color:var(--danger)}\n.ex-part-body{display:none;padding:20px}\n.ex-part.open .ex-part-body{display:block}\n.ex-q{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}\n.ex-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}\n.ex-qnum{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}\n.ex-qtext{font-size:21.8px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:13px}\n.ex-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}\n.ex-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface);text-align:left;transition:all .12s}\n.ex-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}\n.ex-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}\n.ex-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}\n.ex-exp{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface-2);padding:11px 14px;border-radius:var(--radius-sm);margin-top:9px;display:none;line-height:1.6}\n.ex-exp.show{display:block}\n.ex-sa{padding:13px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter';font-size:20.2px;color:var(--amber-ink);line-height:1.6;margin-top:9px}\n.ex-sa strong{display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:var(--amber)}\n.ex-score{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px;display:none}\n.ex-score strong{font-family:'Space Grotesk';color:var(--success);font-size:22.5px}\n.ex-score span{font-family:'Inter';color:var(--success);font-size:19.5px}\n.ex-reset{padding:10px 20px;border:1px solid var(--border);border-radius:999px;background:var(--surface);cursor:pointer;font-family:'Space Grotesk';font-weight:600;font-size:19.5px;margin-top:10px;transition:all .15s}\n.ex-reset:hover{background:var(--surface-hover);border-color:var(--border-strong)}\n";
 function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');var idx=-1;tabs.forEach((b,i)=>{if(b.id==='tab-'+id)idx=i;});if(idx!==-1){tabs.forEach((b,i)=>{var on=i===idx;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;});var _hl=document.getElementById('hero-live');if(_hl)_hl.textContent=tabs[idx].textContent.trim()+' tab';}if(id==='examples'&&!examplesBuilt)buildExamples();if(id==='exam'&&!examBuilt)buildExam();var spc=document.getElementById('spc-card');if(spc)spc.style.display=(id==='guide')?'':'none';}
 let examBuilt=false;
 var examplesBuilt=false, ex2map={}, ex2shown={};
@@ -872,20 +945,25 @@ const st=document.createElement('style');st.textContent=EXAM_CSS;document.head.a
 
 v.innerHTML=`
 <div class="ex-header">
-  <h2>PreCalculus — Full Practice Exam</h2>
-  <p>Part A (30 pts) · Part B-1 (20 pts) · Part B-2 (15 pts) · Part C (20 pts) · Based on Jan 2026 format</p>
+  <h2>${EXAM_META.title}</h2>
+  <p>${EXAM_META.subtitle}</p>
 </div>
 <div id="ex-score-box" class="ex-score"></div>
-${buildPartMC('A','Part A — Multiple Choice (30 questions, 1 pt each)',PART_A)}
-${buildPartMC('B1','Part B–1 — Multiple Choice (20 questions, 1 pt each)',PART_B1)}
-${buildPartFR('B2','Part B–2 — Short Answer (show work, 1 pt each)',PART_B2)}
-${buildPartFR('C','Part C — Extended Response (1–2 pts each)',PART_C)}
+${buildPartMC('A',PART_A)}
+${buildPartMC('B1',PART_B1)}
+${buildPartFR('B2',PART_B2)}
+${buildPartFR('C',PART_C)}
 `;
 // open Part A by default
-document.getElementById('ex-part-A').classList.add('open');
+togglePart('A');
 }
 
-function buildPartMC(id,title,qs){
+function examPartMeta(id){return (EXAM_META&&EXAM_META.parts&&EXAM_META.parts['PART_'+id])||{};}
+function exTimerHtml(id){return examPartMeta(id).minutes?`<span class="ex-timer" id="timer-${id}"></span>`:'';}
+
+function buildPartMC(id,qs){
+if(!qs.length)return'';
+const meta=examPartMeta(id);
 const items=qs.map(q=>`
 <div class="ex-q" id="exq-${id}-${q.n}">
   <div class="ex-qnum">Question ${q.n}</div>
@@ -897,15 +975,18 @@ const items=qs.map(q=>`
 </div>`).join('');
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${title}</h3><span id="score-${id}">Score: 0 / ${qs.length}</span>
+  <h3>${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'}, 1 pt each)</h3>
+  <div class="ex-part-hd-meta"><span id="score-${id}">Score: 0 / ${qs.length}</span>${exTimerHtml(id)}</div>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
 }
 
-function buildPartFR(id,title,qs){
+function buildPartFR(id,qs){
+if(!qs.length)return'';
 // Some guides author these as genuine free-response (q.sa, a model answer to
 // reveal); others reuse the multiple-choice shape (q.o/q.a) for this part.
 // Render whichever shape the data actually has instead of assuming sa exists.
+const meta=examPartMeta(id);
 const items=qs.map(q=>q.sa!==undefined?`
 <div class="ex-q">
   <div class="ex-qnum">Question ${q.n}</div>
@@ -922,11 +1003,43 @@ const items=qs.map(q=>q.sa!==undefined?`
   <div class="ex-exp" id="exp-${id}-${q.n}">${q.e}</div>
 </div>`).join('');
 const allMC=qs.every(q=>q.sa===undefined);
+const rightMeta=allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`;
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${title}</h3>${allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`}
+  <h3>${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'})</h3>
+  <div class="ex-part-hd-meta">${rightMeta}${exTimerHtml(id)}</div>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
+}
+
+/* Per-part countdown timer. In-memory only (module-level `examTimers`) — a
+   refresh resets it, matching the fact that exam progress/scores are never
+   persisted to localStorage either. Not a proctored test: hitting zero just
+   shows "Time's up" and stops, it never auto-submits or locks the part. */
+var examTimers={};
+function startPartTimer(id){
+  const meta=examPartMeta(id);
+  if(!meta.minutes)return;
+  let t=examTimers[id];
+  if(!t){t=examTimers[id]={remaining:meta.minutes*60,expired:false,intervalId:null};}
+  if(t.expired||t.intervalId)return; // already ticking, or already ran out
+  t.intervalId=setInterval(function(){
+    t.remaining--;
+    if(t.remaining<=0){
+      t.remaining=0;t.expired=true;
+      clearInterval(t.intervalId);t.intervalId=null;
+    }
+    renderPartTimer(id);
+  },1000);
+  renderPartTimer(id);
+}
+function renderPartTimer(id){
+  const el=document.getElementById('timer-'+id);
+  const t=examTimers[id];
+  if(!el||!t)return;
+  if(t.expired){el.textContent="Time's up";el.classList.add('ex-timer-up');return;}
+  const m=Math.floor(t.remaining/60),s=t.remaining%60;
+  el.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
 }
 
 function togglePart(id){
@@ -934,6 +1047,7 @@ function togglePart(id){
   const isOpen=part.classList.toggle('open');
   const hd=part.querySelector('.ex-part-hd');
   if(hd)hd.setAttribute('aria-expanded',isOpen?'true':'false');
+  if(isOpen)startPartTimer(id);
 }
 
 function toggleSA(btn){
@@ -1241,6 +1355,58 @@ function qBookmarkToggle(qid){
 }
 function qId(q){return q.u+'|'+q.q;}
 
+/* Mistake Log: localStorage-backed, keyed the same way as the bookmark set
+   (ssBookmarks_<slug>) — a currently-unresolved-misses list, not full history.
+   A question moves in when answered wrong and out the moment it's answered
+   correctly again (from anywhere: normal quiz, diagnostic, hard mode, or the
+   log's own review pass). */
+var MISTAKE_LOG_KEY='ssMistakes_'+'precalc';
+function mistakeLogMap(){
+  try{return JSON.parse(localStorage.getItem(MISTAKE_LOG_KEY)||'{}');}catch(e){return {};}
+}
+function mistakeLogSave(map){
+  try{localStorage.setItem(MISTAKE_LOG_KEY,JSON.stringify(map));}catch(e){}
+  updateMistakeLogBadge();
+}
+function mistakeLogAdd(q){
+  const map=mistakeLogMap();
+  map[qId(q)]={u:q.u,q:q.q,o:q.o,a:q.a,e:q.e,d:q.d,topic:q.topic};
+  mistakeLogSave(map);
+}
+function mistakeLogRemove(q){
+  const map=mistakeLogMap();
+  const id=qId(q);
+  if(!(id in map))return;
+  delete map[id];
+  mistakeLogSave(map);
+}
+function updateMistakeLogBadge(){
+  const el=document.getElementById('mistake-log-count');
+  if(!el)return;
+  const n=Object.keys(mistakeLogMap()).length;
+  el.textContent=String(n);
+  el.style.display=n?'':'none';
+}
+var mistakeReviewMode=false;
+function openMistakeLog(){
+  switchTab('quiz');
+  mistakeReviewMode=true;
+  diagMode=false;
+  const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
+  const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
+  const map=mistakeLogMap();
+  qPool=Object.values(map);
+  qIdx=0;score=0;requeueCounts=new WeakMap();
+  const qb=document.getElementById('qbox');
+  if(!qPool.length){
+    qb.innerHTML='<div class="mistake-log-empty">No mistakes logged right now — nice work. Answer a question wrong anywhere in the quiz and it will show up here until you get it right.</div>';
+    document.getElementById('q-prog').textContent='';
+    document.getElementById('q-sc').textContent='';
+    return;
+  }
+  showQ();
+}
+
 function quizShuffle(){
   if(!qPool.length)return;
   for(let i=qPool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[qPool[i],qPool[j]]=[qPool[j],qPool[i]];}
@@ -1275,8 +1441,15 @@ function buildQSel(){
   if(HQ.length)sel.innerHTML+='<option value="hard">Hard Mode Only ('+HQ.length+' Qs)</option>';
   loadQ();
 }
+let difficultyFilter='all';
+function setDifficultyFilter(d){
+  difficultyFilter=d;
+  document.querySelectorAll('.diff-chip').forEach(function(c){c.classList.toggle('on',c.dataset.diff===d);});
+  loadQ();
+}
 function loadQ(){
   diagMode=false;
+  mistakeReviewMode=false;
   const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
   const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
   const raw=document.getElementById('q-sel').value;
@@ -1285,6 +1458,7 @@ function loadQ(){
   if(raw==='hard')src=HQ.slice();
   else if(+raw===0)src=QUIZ.concat(HQ);
   else src=QUIZ.concat(HQ).filter(q=>q.u===+raw);
+  if(difficultyFilter!=='all')src=src.filter(q=>q.d===difficultyFilter);
   qPool=src.sort(()=>Math.random()-.5);
   qIdx=0;score=0;requeueCounts=new WeakMap();showQ();
 }
@@ -1351,8 +1525,10 @@ function showQ(){
   const bookmarked=qBookmarkSet().has(bid);
   const STAR_OUTLINE='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
   const STAR_FILLED='<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
-  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>`+
+  const diffPill=q.d?`<span class="q-diff q-diff-${q.d}">${q.d}</span>`:'';
+  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>${diffPill}`+
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
+    (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
     `<button class="q-hint-btn" id="q-hint-btn" onclick="toggleQHint()">💡 Hint</button>`+
     `<div class="q-hint-box" id="q-hint-box">Hint: this is from Unit ${q.u}: ${unitNameFor(q.u)}</div>`+
@@ -1418,6 +1594,7 @@ function ansQ(i){
     }
   }
   if(SS_MASTERY)SS_MASTERY.recordAnswer(q.u,i===q.a);
+  if(i===q.a)mistakeLogRemove(q);else mistakeLogAdd(q);
   ssOverallProgressUpdate();
   const expEl=document.getElementById('q-exp');
   expEl.classList.add('show');
@@ -1447,6 +1624,7 @@ function ssQuizKeyboardShortcuts(e){
 }
 document.addEventListener('keydown',ssQuizKeyboardShortcuts);
 buildQSel();
+updateMistakeLogBadge();
 
 /* ----- APG tabs: roving-tabindex arrow-key nav on the hero tab bar. Manual
    activation — arrows move focus only; Enter/Space fire the button's own click
@@ -1850,6 +2028,105 @@ async function ssQuizTabClick(){
 }
 
 ssCheckSession();
+
+/* ----- Reference drawer: a compact, always-available companion to the full
+   Quick Reference TAB. Reuses the exact HTML the generator already emits into
+   #view-qref (buildQref() in generate-guide.mjs) instead of rebuilding it —
+   the drawer body is filled by copying that markup once, on first open. ----- */
+function qrefDrawerOpen(){
+  var panel=document.getElementById('qref-drawer');
+  if(!panel)return;
+  var body=document.getElementById('qref-drawer-body');
+  if(body&&!body.dataset.filled){
+    var src=document.getElementById('view-qref');
+    if(src){body.innerHTML=src.innerHTML;body.dataset.filled='1';}
+  }
+  panel.classList.add('open');
+  panel.setAttribute('aria-hidden','false');
+  var fab=document.getElementById('qref-drawer-fab');
+  if(fab)fab.setAttribute('aria-expanded','true');
+  var closeBtn=panel.querySelector('.qref-drawer-close');
+  if(closeBtn)closeBtn.focus();
+  document.addEventListener('keydown',qrefDrawerKeydown);
+}
+function qrefDrawerClose(){
+  var panel=document.getElementById('qref-drawer');
+  if(!panel||!panel.classList.contains('open'))return;
+  panel.classList.remove('open');
+  panel.setAttribute('aria-hidden','true');
+  var fab=document.getElementById('qref-drawer-fab');
+  if(fab){fab.setAttribute('aria-expanded','false');fab.focus();}
+  document.removeEventListener('keydown',qrefDrawerKeydown);
+}
+function qrefDrawerToggle(){
+  var panel=document.getElementById('qref-drawer');
+  if(panel&&panel.classList.contains('open'))qrefDrawerClose();else qrefDrawerOpen();
+}
+function qrefDrawerKeydown(e){if(e.key==='Escape')qrefDrawerClose();}
+
+/* ----- Optional Desmos graphing calculator. Disabled by default: leave
+   DESMOS_API_KEY empty and this entire feature (button, panel, external
+   script) never appears and never makes a network request. To enable it,
+   the site owner gets a free key for personal/school use at
+   https://www.desmos.com/api/v1.12/calculator.js docs (sign in at
+   desmos.com/my-api) and pastes it in below. Generic — available on every
+   guide once a key is configured, not gated to any subject. ----- */
+const DESMOS_API_KEY = "";
+let desmosScriptLoaded=false, desmosCalculator=null;
+function desmosInit(){
+  if(!DESMOS_API_KEY)return;
+  var fab=document.createElement('button');
+  fab.id='desmos-fab';
+  fab.className='desmos-fab';
+  fab.type='button';
+  fab.setAttribute('aria-label','Toggle graphing calculator');
+  fab.setAttribute('aria-expanded','false');
+  fab.title='Graphing calculator';
+  fab.textContent='\u{1F4C8}';
+  fab.onclick=desmosToggle;
+  document.body.appendChild(fab);
+
+  var panel=document.createElement('div');
+  panel.id='desmos-panel';
+  panel.className='desmos-panel';
+  panel.setAttribute('role','dialog');
+  panel.setAttribute('aria-modal','true');
+  panel.setAttribute('aria-label','Graphing calculator');
+  panel.setAttribute('aria-hidden','true');
+  panel.innerHTML='<div class="desmos-panel-hd"><b>Graphing Calculator</b>'+
+    '<button type="button" class="desmos-panel-close" aria-label="Close graphing calculator">✕</button></div>'+
+    '<div class="desmos-calc" id="desmos-calc"></div>';
+  document.body.appendChild(panel);
+  panel.querySelector('.desmos-panel-close').onclick=desmosToggle;
+}
+function desmosToggle(){
+  var panel=document.getElementById('desmos-panel');
+  if(!panel)return;
+  var opening=!panel.classList.contains('open');
+  panel.classList.toggle('open',opening);
+  panel.setAttribute('aria-hidden',opening?'false':'true');
+  var fab=document.getElementById('desmos-fab');
+  if(fab)fab.setAttribute('aria-expanded',opening?'true':'false');
+  if(opening){
+    document.addEventListener('keydown',desmosKeydown);
+    if(!desmosScriptLoaded)desmosLoadScript();
+  }else{
+    document.removeEventListener('keydown',desmosKeydown);
+    if(fab)fab.focus();
+  }
+}
+function desmosKeydown(e){if(e.key==='Escape')desmosToggle();}
+function desmosLoadScript(){
+  desmosScriptLoaded=true;
+  var s=document.createElement('script');
+  s.src='https://www.desmos.com/api/v1.12/calculator.js?apiKey='+encodeURIComponent(DESMOS_API_KEY);
+  s.onload=function(){
+    var el=document.getElementById('desmos-calc');
+    if(el&&window.Desmos)desmosCalculator=Desmos.GraphingCalculator(el);
+  };
+  document.head.appendChild(s);
+}
+desmosInit();
 
 /* ----- unit-filtered practice, e.g. /chemistry?practice=3 (from the dashboard's "study this next") ----- */
 (async function ssPracticeMode(){
