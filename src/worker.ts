@@ -153,7 +153,7 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
   // Generated from SUBJECT_PATHS so it can never drift from the live routes the
   // way a checked-in sitemap.xml did (it listed 17 of 50+ pages).
   if (url.pathname === "/sitemap.xml") {
-    const staticPages = ["/", "/about/", "/request/", "/privacy/", "/terms/"];
+    const staticPages = ["/", "/about/", "/request/", "/privacy/", "/terms/", "/parents-bill-of-rights/"];
     const locs = [
       ...staticPages,
       ...[...SUBJECT_PATHS].sort().map(s => `/${s}/`)
