@@ -92,6 +92,51 @@ html{scroll-behavior:smooth}
 #settings-status.err{color:var(--accent)}
 .ss-skip-link:focus{left:16px!important;top:16px!important}
 :focus-visible{outline:2px solid var(--accent-bright);outline-offset:2px;border-radius:6px}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+}
+
+/* ---- search/filter inputs (matches guide-template #search-box pattern) ---- */
+.ss-search-wrap{position:relative;margin-bottom:14px}
+.ss-search-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--text-muted);pointer-events:none;display:flex}
+.ss-search-icon svg{width:18px;height:18px}
+.ss-search-input{width:100%;height:46px;box-sizing:border-box;padding:0 16px 0 44px;border:1px solid var(--border);
+  border-radius:12px;font-size:15px;font-family:inherit;background:var(--bg-card);color:var(--text);
+  box-shadow:0 1px 2px rgba(0,0,0,.03);transition:border-color .15s ease,box-shadow .15s ease}
+.ss-search-input::placeholder{color:var(--text-muted)}
+.ss-search-input:focus{outline:none;border-color:var(--accent-bright);box-shadow:0 0 0 3px color-mix(in srgb, var(--accent-bright) 20%, transparent)}
+.ss-no-match{padding:22px 10px;text-align:center;color:var(--text-muted);font-size:14px}
+
+/* ---- class category accordions ---- */
+.ss-cat{border:2px solid var(--border);border-radius:14px;margin-bottom:10px;overflow:hidden}
+.ss-cat>summary{cursor:pointer;list-style:none;padding:13px 16px;font-weight:700;font-size:14.5px;color:var(--text);
+  display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--bg-card)}
+.ss-cat>summary::-webkit-details-marker{display:none}
+.ss-cat>summary .ss-cat-chevron{transition:transform .18s ease;color:var(--text-muted);flex-shrink:0}
+.ss-cat[open]>summary .ss-cat-chevron{transform:rotate(90deg)}
+.ss-cat>summary .ss-cat-count{font-weight:600;color:var(--text-muted);font-size:12.5px}
+.ss-cat-body{padding:0 12px 12px}
+.ss-cat[hidden]{display:none}
+.class-row[hidden]{display:none}
+
+/* ---- floating unsaved-changes bar ---- */
+#ss-unsaved-bar{position:fixed;left:50%;bottom:22px;transform:translate(-50%,120%);width:min(520px,calc(100% - 32px));
+  background:var(--bg-header);border:2px solid var(--border);border-radius:16px;padding:14px 18px;
+  box-shadow:0 12px 32px rgba(0,0,0,.22);display:flex;align-items:center;justify-content:space-between;gap:14px;
+  z-index:80;opacity:0;pointer-events:none;transition:transform .22s ease,opacity .22s ease}
+#ss-unsaved-bar.visible{transform:translate(-50%,0);opacity:1;pointer-events:auto}
+#ss-unsaved-bar span{font-size:14px;font-weight:600;color:var(--text)}
+#ss-unsaved-save{background:var(--accent-solid);color:#fff;border:none;border-radius:999px;padding:10px 22px;font-weight:700;
+  font-size:14.5px;font-family:inherit;cursor:pointer;white-space:nowrap;transition:background .2s ease}
+#ss-unsaved-save:hover{background:var(--accent-solid-hover)}
+#ss-unsaved-save:disabled{opacity:.6;cursor:default}
+
+/* ---- save toast ---- */
+#ss-toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,120%);background:var(--accent-solid);color:#fff;
+  font-weight:700;font-size:14px;padding:12px 22px;border-radius:999px;box-shadow:0 12px 32px rgba(0,0,0,.22);
+  z-index:90;opacity:0;pointer-events:none;transition:transform .22s ease,opacity .22s ease}
+#ss-toast.visible{transform:translate(-50%,0);opacity:1}
 </style>
 </head>
 <body style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);">
@@ -156,6 +201,12 @@ html{scroll-behavior:smooth}
       <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">
         Pick the classes you're taking. The homepage will show just these — you can change this anytime.
       </p>
+      <div class="ss-search-wrap">
+        <span class="ss-search-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </span>
+        <input type="text" id="class-search" class="ss-search-input" placeholder="Search your classes…" aria-label="Search classes" autocomplete="off"/>
+      </div>
       <div id="class-list"></div>
       <button id="settings-save-btn" style="margin-top:6px;">Save</button>
       <div id="settings-status"></div>
@@ -201,62 +252,79 @@ html{scroll-behavior:smooth}
   </div>
 </div>
 
+<div id="ss-unsaved-bar" role="status" aria-live="polite">
+  <span>You have unsaved changes</span>
+  <button id="ss-unsaved-save" type="button">Save Changes</button>
+</div>
+<div id="ss-toast" role="status" aria-live="polite"></div>
+
 <script>
 var SUBJECTS = [
-  { key: 'geometry', label: 'Geometry', color: '#d9a441', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="3,20 21,20 3,3"/><line x1="7" y1="20" x2="7" y2="17"/><line x1="11" y1="20" x2="11" y2="17"/><line x1="15" y1="20" x2="15" y2="17"/></svg>' },
-  { key: 'chemistry', label: 'Chemistry', color: '#0f7a70', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2h10v6c0 1-1 2-2 2H9c-1 0-2-1-2-2V2z"/><path d="M7 8h10v10c0 2-1.5 3-5 3s-5-1-5-3V8z"/><circle cx="10" cy="12" r="1"/><circle cx="14" cy="14" r="0.8"/></svg>' },
-  { key: 'algebra1', label: 'Algebra I', color: '#2563a8', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="19" x2="20" y2="5"/><circle cx="6" cy="17" r="1.4" fill="currentColor" stroke="none"/><circle cx="18" cy="7" r="1.4" fill="currentColor" stroke="none"/><path d="M14 19h6"/><path d="M4 9V5h4"/></svg>' },
-  { key: 'algebra2', label: 'Algebra II', color: '#1c7a4a', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14"/><path d="M5 20h14"/><path d="M5 4l14 16"/><path d="M19 4L5 20"/></svg>' },
-  { key: 'aplang', label: 'AP English Lang & Comp', color: '#8b2942', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>' },
-  { key: 'globalhistory', label: 'Global History', color: '#b5541f', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.5 3.5 5.5 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-5.5-3.5-9s1-6.5 3.5-9z"/></svg>' },
-  { key: 'apbiology', label: 'AP Biology', color: '#2e7d4f', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-4 3-7 6-7 11a7 7 0 0 0 14 0c0-5-3-8-7-11z"/><path d="M12 8v10"/></svg>' },
-  { key: 'apush', label: 'APUSH', color: '#1e4d8b', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6l9-3 9 3"/><path d="M4 10v8M9 10v8M15 10v8M20 10v8"/><path d="M2 21h20"/></svg>' },
-  { key: 'us-history', label: 'US History', color: '#8a5a2b', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6l9-3 9 3"/><path d="M4 10v8M9 10v8M15 10v8M20 10v8"/><path d="M2 21h20"/></svg>' },
-  { key: 'physics', label: 'Physics', color: '#7a3ba8', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.2"/><ellipse cx="12" cy="12" rx="9" ry="3.6"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(120 12 12)"/></svg>' },
-  { key: 'biology', label: 'Biology', color: '#2e7d4f', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="5"/><circle cx="15" cy="15" r="5"/></svg>' },
-  { key: 'precalc', label: 'PreCalculus', color: '#0f6e73', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17c3-8 6-12 8-12s3 6 4 10 3 4 4 1"/></svg>' },
-  { key: 'act-prep', label: 'ACT Prep', color: '#b91c1c', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg>' },
-  { key: 'anatomy', label: 'Anatomy & Physiology', color: '#be123c', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/><path d="M7 12h3l1.5-3 2 6L15 9l1 3h2" stroke-width="1.2"/></svg>' },
-  { key: 'ap-chemistry', label: 'AP Chemistry', color: '#0369a1', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2h10v6c0 1-1 2-2 2H9c-1 0-2-1-2-2V2z"/><path d="M7 8h10v10c0 2-1.5 3-5 3s-5-1-5-3V8z"/><circle cx="10" cy="12" r="1"/><circle cx="14" cy="14" r="0.8"/></svg>' },
-  { key: 'ap-csa', label: 'AP Computer Science A', color: '#1e40af', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>' },
-  { key: 'ap-euro', label: 'AP European History', color: '#166534', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21h16"/><path d="M5 21V9M9 21V9M15 21V9M19 21V9"/><path d="M3 9l9-6 9 6"/></svg>' },
-  { key: 'ap-macro', label: 'AP Macroeconomics', color: '#065f46', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="13" width="3" height="5"/><rect x="12" y="9" width="3" height="9"/><rect x="17" y="6" width="3" height="12"/></svg>' },
-  { key: 'ap-micro', label: 'AP Microeconomics', color: '#9a3412', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M7 6h7a3 3 0 0 1 0 6H9a3 3 0 0 0 0 6h8"/></svg>' },
-  { key: 'ap-physics', label: 'AP Physics 1', color: '#1d4ed8', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.2"/><ellipse cx="12" cy="12" rx="9" ry="3.6"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(120 12 12)"/></svg>' },
-  { key: 'ap-psych', label: 'AP Psychology', color: '#9333ea', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3a4 4 0 0 0-4 4c0 1 .3 1.7.8 2.3A3.5 3.5 0 0 0 4 12.5 3.5 3.5 0 0 0 6.5 16c-.1.4-.2.8-.2 1.2A3.8 3.8 0 0 0 10 21c1.3 0 2-.6 2-1.8V7a4 4 0 0 0-3-4z"/><path d="M15 3a4 4 0 0 1 4 4c0 1-.3 1.7-.8 2.3a3.5 3.5 0 0 1 .8 6.2c.1.4.2.8.2 1.2A3.8 3.8 0 0 1 15 21c-1.3 0-2-.6-2-1.8V7a4 4 0 0 1 2-4z"/></svg>' },
-  { key: 'ap-stats', label: 'AP Statistics', color: '#c2410c', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M9 20V4M14 20v-7M19 20V8"/></svg>' },
-  { key: 'ap-usgov', label: 'AP US Government', color: '#1e3a8a', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c2 2 3 4 3 7H9c0-3 1-5 3-7z"/><path d="M4 11h16M5 11v8M9 11v8M15 11v8M19 11v8"/><path d="M3 21h18"/></svg>' },
-  { key: 'ap-world', label: 'AP World History', color: '#a16207', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 9h18M3 15h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18" stroke-width="1.1"/></svg>' },
-  { key: 'art-history', label: 'Art History', color: '#9f1239', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18c1.5 0 2-.8 2-1.8 0-1.6-1.6-1.7-1.6-3 0-1 .8-1.7 2.1-1.7H17a4 4 0 0 0 4-4c0-5-4-8.5-9-8.5z"/><circle cx="8" cy="9" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="7" r="1" fill="currentColor" stroke="none"/><circle cx="16" cy="9" r="1" fill="currentColor" stroke="none"/></svg>' },
-  { key: 'astronomy', label: 'Astronomy', color: '#4338ca', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><g stroke-width="1"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></g></svg>' },
-  { key: 'computer-science', label: 'Computer Science', color: '#4338ca', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>' },
-  { key: 'creative-writing', label: 'Creative Writing', color: '#db2777', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>' },
-  { key: 'earth-science', label: 'Earth Science', color: '#0e7490', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17c3-1 5-4 9-4s6 3 9 4"/><path d="M3 21c3-1 5-4 9-4s6 3 9 4"/><circle cx="12" cy="7" r="4"/></svg>' },
-  { key: 'economics', label: 'Economics', color: '#7c3aed', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>' },
-  { key: 'english-10', label: 'English 10', color: '#b45309', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6l4-3 4 3v13l-4-2-4 2V6z"/><path d="M10 6l4-3 4 3v13l-4-2-4 2"/></svg>' },
-  { key: 'english-9', label: 'English 9', color: '#be185d', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6l4-3 4 3v13l-4-2-4 2V6z"/><path d="M10 6l4-3 4 3v13l-4-2-4 2"/></svg>' },
-  { key: 'environmental-science', label: 'Environmental Science', color: '#15803d', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>' },
-  { key: 'french-1', label: 'French 1', color: '#2563eb', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M8 4h8M8 20h8M12 2c-3 2-4 5-4 8 0 4 2 8 4 10 2-2 4-6 4-10 0-3-1-6-4-8z"/></svg>' },
-  { key: 'geography', label: 'Geography', color: '#059669', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3.5 9h17M3.5 15h17"/></svg>' },
-  { key: 'german-1', label: 'German 1', color: '#334155', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 9.3h16M4 14.6h16M9.3 4v16M14.6 4v16"/></svg>' },
-  { key: 'health', label: 'Health', color: '#dc2626', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>' },
-  { key: 'journalism', label: 'Journalism', color: '#0f766e', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8V6z"/></svg>' },
-  { key: 'music-theory', label: 'Music Theory', color: '#b45309', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>' },
-  { key: 'psychology', label: 'Psychology', color: '#7c3aed', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/><path d="M9 3h6M9 21h6" stroke-width="1.2"/></svg>' },
-  { key: 'sat-math', label: 'SAT Math Prep', color: '#0369a1', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg>' },
-  { key: 'sat-reading', label: 'SAT Reading & Writing', color: '#7c2d12', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg>' },
-  { key: 'sociology', label: 'Sociology', color: '#0891b2', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><circle cx="16.5" cy="9.5" r="2.6"/><path d="M3.5 20c.5-3.5 2.7-5.5 5.5-5.5s5 2 5.5 5.5"/><path d="M15.5 15.5c2.3.3 4.2 2 4.8 4.5"/></svg>' },
-  { key: 'spanish-1', label: 'Spanish 1', color: '#c2410c', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><text x="12" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor" stroke="none" font-family="Georgia">ñ</text></svg>' },
-  { key: 'spanish-2', label: 'Spanish 2', color: '#9a3412', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><text x="12" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor" stroke="none" font-family="Georgia">ñ</text><path d="M4 20h16" stroke-width="1.2"/></svg>' },
-  { key: 'spanish-3', label: 'Spanish 3', color: '#ea580c', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><text x="12" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor" stroke="none" font-family="Georgia">¿</text></svg>' },
-  { key: 'speech-debate', label: 'Speech & Debate', color: '#7e22ce', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg>' },
-  { key: 'statistics', label: 'Statistics', color: '#d97706', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M9 20V4M14 20v-7M19 20V8"/></svg>' },
-  { key: 'study-skills', label: 'Study Skills', color: '#4d7c0f', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>' },
-  { key: 'us-government', label: 'US Government', color: '#23744f', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c2 2 3 4 3 7H9c0-3 1-5 3-7z"/><path d="M4 11h16M5 11v8M9 11v8M15 11v8M19 11v8"/><path d="M3 21h18"/></svg>' },
-  { key: 'world-history', label: 'World History', color: '#8b5cf6', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h6M7 13h8M7 17h5"/></svg>' },
-  { key: 'calculus', label: 'Calculus', color: '#0e7490', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18c3-9 6-13 8-13s3 7 4 11 3 5 4 2"/></svg>' },
-  { key: 'calc-ab', label: 'AP Calculus AB', color: '#4338ca', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18c3-9 6-13 8-13s3 7 4 11"/><path d="M8 15.5 L18 8.5" stroke-dasharray="1.5 2"/><circle cx="11.6" cy="12.3" r="1.1" fill="currentColor" stroke="none"/></svg>' },
-  { key: 'calc-bc', label: 'AP Calculus BC', color: '#7c3aed', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12 m-2,0 a2,2 0 1,0 4,0 a2,2 0 1,0 -4,0"/><path d="M12 12 m-5,0 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0" stroke-dasharray="1.5 2"/><path d="M12 12 m-8.5,0 a8.5,8.5 0 1,0 17,0 a8.5,8.5 0 1,0 -17,0" stroke-dasharray="1 3"/></svg>' },
+  { key: 'geometry', cat: 'math', label: 'Geometry', color: '#d9a441', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="3,20 21,20 3,3"/><line x1="7" y1="20" x2="7" y2="17"/><line x1="11" y1="20" x2="11" y2="17"/><line x1="15" y1="20" x2="15" y2="17"/></svg>' },
+  { key: 'chemistry', cat: 'science', label: 'Chemistry', color: '#0f7a70', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2h10v6c0 1-1 2-2 2H9c-1 0-2-1-2-2V2z"/><path d="M7 8h10v10c0 2-1.5 3-5 3s-5-1-5-3V8z"/><circle cx="10" cy="12" r="1"/><circle cx="14" cy="14" r="0.8"/></svg>' },
+  { key: 'algebra1', cat: 'math', label: 'Algebra I', color: '#2563a8', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="19" x2="20" y2="5"/><circle cx="6" cy="17" r="1.4" fill="currentColor" stroke="none"/><circle cx="18" cy="7" r="1.4" fill="currentColor" stroke="none"/><path d="M14 19h6"/><path d="M4 9V5h4"/></svg>' },
+  { key: 'algebra2', cat: 'math', label: 'Algebra II', color: '#1c7a4a', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14"/><path d="M5 20h14"/><path d="M5 4l14 16"/><path d="M19 4L5 20"/></svg>' },
+  { key: 'aplang', cat: 'ap', label: 'AP English Lang & Comp', color: '#8b2942', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>' },
+  { key: 'globalhistory', cat: 'humanities', label: 'Global History', color: '#b5541f', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.5 3.5 5.5 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-5.5-3.5-9s1-6.5 3.5-9z"/></svg>' },
+  { key: 'apbiology', cat: 'ap', label: 'AP Biology', color: '#2e7d4f', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-4 3-7 6-7 11a7 7 0 0 0 14 0c0-5-3-8-7-11z"/><path d="M12 8v10"/></svg>' },
+  { key: 'apush', cat: 'ap', label: 'APUSH', color: '#1e4d8b', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6l9-3 9 3"/><path d="M4 10v8M9 10v8M15 10v8M20 10v8"/><path d="M2 21h20"/></svg>' },
+  { key: 'us-history', cat: 'humanities', label: 'US History', color: '#8a5a2b', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6l9-3 9 3"/><path d="M4 10v8M9 10v8M15 10v8M20 10v8"/><path d="M2 21h20"/></svg>' },
+  { key: 'physics', cat: 'science', label: 'Physics', color: '#7a3ba8', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.2"/><ellipse cx="12" cy="12" rx="9" ry="3.6"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(120 12 12)"/></svg>' },
+  { key: 'biology', cat: 'science', label: 'Biology', color: '#2e7d4f', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="5"/><circle cx="15" cy="15" r="5"/></svg>' },
+  { key: 'precalc', cat: 'math', label: 'PreCalculus', color: '#0f6e73', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17c3-8 6-12 8-12s3 6 4 10 3 4 4 1"/></svg>' },
+  { key: 'act-prep', cat: 'testprep', label: 'ACT Prep', color: '#b91c1c', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg>' },
+  { key: 'anatomy', cat: 'science', label: 'Anatomy & Physiology', color: '#be123c', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/><path d="M7 12h3l1.5-3 2 6L15 9l1 3h2" stroke-width="1.2"/></svg>' },
+  { key: 'ap-chemistry', cat: 'ap', label: 'AP Chemistry', color: '#0369a1', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2h10v6c0 1-1 2-2 2H9c-1 0-2-1-2-2V2z"/><path d="M7 8h10v10c0 2-1.5 3-5 3s-5-1-5-3V8z"/><circle cx="10" cy="12" r="1"/><circle cx="14" cy="14" r="0.8"/></svg>' },
+  { key: 'ap-csa', cat: 'ap', label: 'AP Computer Science A', color: '#1e40af', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>' },
+  { key: 'ap-euro', cat: 'ap', label: 'AP European History', color: '#166534', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21h16"/><path d="M5 21V9M9 21V9M15 21V9M19 21V9"/><path d="M3 9l9-6 9 6"/></svg>' },
+  { key: 'ap-macro', cat: 'ap', label: 'AP Macroeconomics', color: '#065f46', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="13" width="3" height="5"/><rect x="12" y="9" width="3" height="9"/><rect x="17" y="6" width="3" height="12"/></svg>' },
+  { key: 'ap-micro', cat: 'ap', label: 'AP Microeconomics', color: '#9a3412', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M7 6h7a3 3 0 0 1 0 6H9a3 3 0 0 0 0 6h8"/></svg>' },
+  { key: 'ap-physics', cat: 'ap', label: 'AP Physics 1', color: '#1d4ed8', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.2"/><ellipse cx="12" cy="12" rx="9" ry="3.6"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="3.6" transform="rotate(120 12 12)"/></svg>' },
+  { key: 'ap-psych', cat: 'ap', label: 'AP Psychology', color: '#9333ea', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3a4 4 0 0 0-4 4c0 1 .3 1.7.8 2.3A3.5 3.5 0 0 0 4 12.5 3.5 3.5 0 0 0 6.5 16c-.1.4-.2.8-.2 1.2A3.8 3.8 0 0 0 10 21c1.3 0 2-.6 2-1.8V7a4 4 0 0 0-3-4z"/><path d="M15 3a4 4 0 0 1 4 4c0 1-.3 1.7-.8 2.3a3.5 3.5 0 0 1 .8 6.2c.1.4.2.8.2 1.2A3.8 3.8 0 0 1 15 21c-1.3 0-2-.6-2-1.8V7a4 4 0 0 1 2-4z"/></svg>' },
+  { key: 'ap-stats', cat: 'ap', label: 'AP Statistics', color: '#c2410c', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M9 20V4M14 20v-7M19 20V8"/></svg>' },
+  { key: 'ap-usgov', cat: 'ap', label: 'AP US Government', color: '#1e3a8a', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c2 2 3 4 3 7H9c0-3 1-5 3-7z"/><path d="M4 11h16M5 11v8M9 11v8M15 11v8M19 11v8"/><path d="M3 21h18"/></svg>' },
+  { key: 'ap-world', cat: 'ap', label: 'AP World History', color: '#a16207', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 9h18M3 15h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18" stroke-width="1.1"/></svg>' },
+  { key: 'art-history', cat: 'humanities', label: 'Art History', color: '#9f1239', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18c1.5 0 2-.8 2-1.8 0-1.6-1.6-1.7-1.6-3 0-1 .8-1.7 2.1-1.7H17a4 4 0 0 0 4-4c0-5-4-8.5-9-8.5z"/><circle cx="8" cy="9" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="7" r="1" fill="currentColor" stroke="none"/><circle cx="16" cy="9" r="1" fill="currentColor" stroke="none"/></svg>' },
+  { key: 'astronomy', cat: 'science', label: 'Astronomy', color: '#4338ca', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><g stroke-width="1"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></g></svg>' },
+  { key: 'computer-science', cat: 'electives', label: 'Computer Science', color: '#4338ca', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>' },
+  { key: 'creative-writing', cat: 'english', label: 'Creative Writing', color: '#db2777', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>' },
+  { key: 'earth-science', cat: 'science', label: 'Earth Science', color: '#0e7490', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17c3-1 5-4 9-4s6 3 9 4"/><path d="M3 21c3-1 5-4 9-4s6 3 9 4"/><circle cx="12" cy="7" r="4"/></svg>' },
+  { key: 'economics', cat: 'humanities', label: 'Economics', color: '#7c3aed', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>' },
+  { key: 'english-10', cat: 'english', label: 'English 10', color: '#b45309', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6l4-3 4 3v13l-4-2-4 2V6z"/><path d="M10 6l4-3 4 3v13l-4-2-4 2"/></svg>' },
+  { key: 'english-9', cat: 'english', label: 'English 9', color: '#be185d', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6l4-3 4 3v13l-4-2-4 2V6z"/><path d="M10 6l4-3 4 3v13l-4-2-4 2"/></svg>' },
+  { key: 'environmental-science', cat: 'science', label: 'Environmental Science', color: '#15803d', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>' },
+  { key: 'french-1', cat: 'languages', label: 'French 1', color: '#2563eb', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M8 4h8M8 20h8M12 2c-3 2-4 5-4 8 0 4 2 8 4 10 2-2 4-6 4-10 0-3-1-6-4-8z"/></svg>' },
+  { key: 'geography', cat: 'humanities', label: 'Geography', color: '#059669', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3.5 9h17M3.5 15h17"/></svg>' },
+  { key: 'german-1', cat: 'languages', label: 'German 1', color: '#334155', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 9.3h16M4 14.6h16M9.3 4v16M14.6 4v16"/></svg>' },
+  { key: 'health', cat: 'electives', label: 'Health', color: '#dc2626', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>' },
+  { key: 'journalism', cat: 'english', label: 'Journalism', color: '#0f766e', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8V6z"/></svg>' },
+  { key: 'music-theory', cat: 'electives', label: 'Music Theory', color: '#b45309', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>' },
+  { key: 'psychology', cat: 'humanities', label: 'Psychology', color: '#7c3aed', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/><path d="M9 3h6M9 21h6" stroke-width="1.2"/></svg>' },
+  { key: 'sat-math', cat: 'testprep', label: 'SAT Math Prep', color: '#0369a1', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg>' },
+  { key: 'sat-reading', cat: 'testprep', label: 'SAT Reading & Writing', color: '#7c2d12', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg>' },
+  { key: 'sociology', cat: 'humanities', label: 'Sociology', color: '#0891b2', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><circle cx="16.5" cy="9.5" r="2.6"/><path d="M3.5 20c.5-3.5 2.7-5.5 5.5-5.5s5 2 5.5 5.5"/><path d="M15.5 15.5c2.3.3 4.2 2 4.8 4.5"/></svg>' },
+  { key: 'spanish-1', cat: 'languages', label: 'Spanish 1', color: '#c2410c', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><text x="12" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor" stroke="none" font-family="Georgia">ñ</text></svg>' },
+  { key: 'spanish-2', cat: 'languages', label: 'Spanish 2', color: '#9a3412', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><text x="12" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor" stroke="none" font-family="Georgia">ñ</text><path d="M4 20h16" stroke-width="1.2"/></svg>' },
+  { key: 'spanish-3', cat: 'languages', label: 'Spanish 3', color: '#ea580c', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><text x="12" y="16" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor" stroke="none" font-family="Georgia">¿</text></svg>' },
+  { key: 'speech-debate', cat: 'english', label: 'Speech & Debate', color: '#7e22ce', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg>' },
+  { key: 'statistics', cat: 'math', label: 'Statistics', color: '#d97706', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M9 20V4M14 20v-7M19 20V8"/></svg>' },
+  { key: 'study-skills', cat: 'electives', label: 'Study Skills', color: '#4d7c0f', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>' },
+  { key: 'us-government', cat: 'humanities', label: 'US Government', color: '#23744f', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c2 2 3 4 3 7H9c0-3 1-5 3-7z"/><path d="M4 11h16M5 11v8M9 11v8M15 11v8M19 11v8"/><path d="M3 21h18"/></svg>' },
+  { key: 'world-history', cat: 'humanities', label: 'World History', color: '#8b5cf6', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h6M7 13h8M7 17h5"/></svg>' },
+  { key: 'calculus', cat: 'math', label: 'Calculus', color: '#0e7490', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18c3-9 6-13 8-13s3 7 4 11 3 5 4 2"/></svg>' },
+  { key: 'calc-ab', cat: 'ap', label: 'AP Calculus AB', color: '#4338ca', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18c3-9 6-13 8-13s3 7 4 11"/><path d="M8 15.5 L18 8.5" stroke-dasharray="1.5 2"/><circle cx="11.6" cy="12.3" r="1.1" fill="currentColor" stroke="none"/></svg>' },
+  { key: 'calc-bc', cat: 'ap', label: 'AP Calculus BC', color: '#7c3aed', icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12 m-2,0 a2,2 0 1,0 4,0 a2,2 0 1,0 -4,0"/><path d="M12 12 m-5,0 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0" stroke-dasharray="1.5 2"/><path d="M12 12 m-8.5,0 a8.5,8.5 0 1,0 17,0 a8.5,8.5 0 1,0 -17,0" stroke-dasharray="1 3"/></svg>' },
+];
+
+var SUBJECT_CATEGORIES = [
+  { key: 'math', label: 'Mathematics' },
+  { key: 'science', label: 'Science' },
+  { key: 'humanities', label: 'Humanities & Social Studies' },
+  { key: 'english', label: 'English & Writing' },
+  { key: 'languages', label: 'World Languages' },
+  { key: 'ap', label: 'AP Courses' },
+  { key: 'testprep', label: 'Test Prep' },
+  { key: 'electives', label: 'Electives & Skills' },
 ];
 
 function ssEscapeHtml(s){
@@ -319,26 +387,111 @@ document.addEventListener('click', function(e){
   }
 });
 
+var SS_ORIGINAL_ENROLLED = new Set();
+
+function ssCurrentEnrolledSet(){
+  return new Set(Array.prototype.slice.call(document.querySelectorAll('#class-list input[type="checkbox"]:checked'))
+    .map(function(cb){ return cb.dataset.key; }));
+}
+
+function ssSetsEqual(a, b){
+  if(a.size !== b.size) return false;
+  for(var v of a){ if(!b.has(v)) return false; }
+  return true;
+}
+
+function ssClassListDirty(){
+  return !ssSetsEqual(ssCurrentEnrolledSet(), SS_ORIGINAL_ENROLLED);
+}
+
+function ssUpdateUnsavedBar(){
+  var bar = document.getElementById('ss-unsaved-bar');
+  if(!bar) return;
+  bar.classList.toggle('visible', ssClassListDirty());
+}
+
 function renderClassList(enrolled){
-  var enrolledSet = new Set(enrolled || []);
+  SS_ORIGINAL_ENROLLED = new Set(enrolled || []);
+  var enrolledSet = SS_ORIGINAL_ENROLLED;
   var list = document.getElementById('class-list');
-  list.innerHTML = SUBJECTS.map(function(s){
-    var checked = enrolledSet.has(s.key);
-    return '<label class="class-row' + (checked ? ' checked' : '') + '" data-key="' + s.key + '">'
-      + '<input type="checkbox" data-key="' + s.key + '"' + (checked ? ' checked' : '') + '/>'
-      + '<span class="swatch" style="color:' + s.color + '">' + s.icon + '</span>'
-      + '<span class="name">' + ssEscapeHtml(s.label) + '</span>'
-      + '</label>';
-  }).join('');
+
+  var byCat = {};
+  SUBJECTS.forEach(function(s){ (byCat[s.cat] = byCat[s.cat] || []).push(s); });
+
+  list.innerHTML = SUBJECT_CATEGORIES.map(function(cat){
+    var subjects = byCat[cat.key] || [];
+    if(!subjects.length) return '';
+    var openCount = subjects.filter(function(s){ return enrolledSet.has(s.key); }).length;
+    var rows = subjects.map(function(s){
+      var checked = enrolledSet.has(s.key);
+      return '<label class="class-row' + (checked ? ' checked' : '') + '" data-key="' + s.key + '" data-name="' + ssEscapeHtml(s.label.toLowerCase()) + '">'
+        + '<input type="checkbox" data-key="' + s.key + '"' + (checked ? ' checked' : '') + '/>'
+        + '<span class="swatch" style="color:' + s.color + '">' + s.icon + '</span>'
+        + '<span class="name">' + ssEscapeHtml(s.label) + '</span>'
+        + '</label>';
+    }).join('');
+    return '<details class="ss-cat" data-cat="' + cat.key + '"' + (openCount ? ' open' : '') + '>'
+      + '<summary><span>' + ssEscapeHtml(cat.label) + '</span>'
+      + '<span style="display:flex;align-items:center;gap:8px;">'
+      + '<span class="ss-cat-count">' + subjects.length + '</span>'
+      + '<svg class="ss-cat-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>'
+      + '</span></summary>'
+      + '<div class="ss-cat-body">' + rows + '</div>'
+      + '</details>';
+  }).join('') + '<div id="class-no-match" class="ss-no-match" hidden>No classes match your search.</div>';
+
   list.querySelectorAll('input[type="checkbox"]').forEach(function(cb){
     cb.addEventListener('change', function(){
       cb.closest('.class-row').classList.toggle('checked', cb.checked);
+      ssUpdateUnsavedBar();
     });
   });
+  ssUpdateUnsavedBar();
+}
+
+function ssFilterClassList(query){
+  var q = (query || '').trim().toLowerCase();
+  var list = document.getElementById('class-list');
+  if(!list) return;
+  var cats = list.querySelectorAll('.ss-cat');
+  var anyVisible = false;
+  cats.forEach(function(cat){
+    var rows = cat.querySelectorAll('.class-row');
+    var catHasMatch = false;
+    rows.forEach(function(row){
+      var match = !q || row.dataset.name.indexOf(q) !== -1;
+      row.hidden = !match;
+      if(match) catHasMatch = true;
+    });
+    cat.hidden = !catHasMatch;
+    if(catHasMatch) anyVisible = true;
+    if(q){
+      cat.open = catHasMatch;
+    }else{
+      // restore default open state (already-enrolled categories) when search is cleared
+      cat.open = cat.querySelectorAll('.class-row.checked').length > 0;
+    }
+  });
+  var noMatch = document.getElementById('class-no-match');
+  if(noMatch) noMatch.hidden = anyVisible || !q;
+}
+
+document.getElementById('class-search').addEventListener('input', function(e){
+  ssFilterClassList(e.target.value);
+});
+
+function ssShowToast(message){
+  var toast = document.getElementById('ss-toast');
+  if(!toast) return;
+  toast.textContent = message;
+  toast.classList.add('visible');
+  clearTimeout(toast._hideTimer);
+  toast._hideTimer = setTimeout(function(){ toast.classList.remove('visible'); }, 2600);
 }
 
 async function saveEnrolledSubjects(){
   var btn = document.getElementById('settings-save-btn');
+  var unsavedBtn = document.getElementById('ss-unsaved-save');
   var status = document.getElementById('settings-status');
   var checked = Array.prototype.slice.call(document.querySelectorAll('#class-list input[type="checkbox"]:checked'))
     .map(function(cb){ return cb.dataset.key; });
@@ -346,6 +499,7 @@ async function saveEnrolledSubjects(){
   status.textContent = '';
   status.className = '';
   btn.disabled = true;
+  if(unsavedBtn) unsavedBtn.disabled = true;
   var original = btn.textContent;
   btn.textContent = 'Saving…';
 
@@ -359,6 +513,9 @@ async function saveEnrolledSubjects(){
     if(res.ok){
       status.textContent = 'Saved! Your homepage will now show just these classes.';
       status.className = 'ok';
+      SS_ORIGINAL_ENROLLED = new Set(checked);
+      ssUpdateUnsavedBar();
+      ssShowToast('Changes saved successfully');
     }else{
       status.textContent = data.error || 'Something went wrong — try again.';
       status.className = 'err';
@@ -368,6 +525,7 @@ async function saveEnrolledSubjects(){
     status.className = 'err';
   }
   btn.disabled = false;
+  if(unsavedBtn) unsavedBtn.disabled = false;
   btn.textContent = original;
 }
 
@@ -530,6 +688,7 @@ if(session && new URLSearchParams(location.search).get('welcome') === '1'){
   }
 
   document.getElementById('settings-save-btn').addEventListener('click', saveEnrolledSubjects);
+  document.getElementById('ss-unsaved-save').addEventListener('click', saveEnrolledSubjects);
   await pushRefreshUI();
 }
 
