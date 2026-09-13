@@ -17,6 +17,16 @@ function shouldRun() {
 
 const TIP_LERP = 0.5; // how tightly the arrow tracks the pointer
 
+// Only actual text-entry inputs get the native text (I-beam) cursor / hide
+// the chalk arrow. Range sliders, checkboxes, radios, etc. keep their own
+// native pointer cursor and should keep showing the chalk arrow too.
+const TEXT_INPUT_TYPES = [
+  'input:not([type])', 'input[type=text]', 'input[type=search]',
+  'input[type=email]', 'input[type=number]', 'input[type=password]',
+  'input[type=tel]', 'input[type=url]'
+];
+const TEXT_INPUT_CSS_SCOPED = TEXT_INPUT_TYPES.map(s => 'html.chalk-cursor-on ' + s).join(',');
+
 function setup() {
   if (!window.matchMedia || !document.body) return;
 
@@ -24,7 +34,7 @@ function setup() {
   const style = document.createElement("style");
   style.textContent =
     "html.chalk-cursor-on,html.chalk-cursor-on *{cursor:none!important}" +
-    "html.chalk-cursor-on input,html.chalk-cursor-on textarea,html.chalk-cursor-on [contenteditable=\"true\"]{cursor:text!important}" +
+    TEXT_INPUT_CSS_SCOPED + ",html.chalk-cursor-on textarea,html.chalk-cursor-on [contenteditable=\"true\"]{cursor:text!important}" +
     ".chalk-arrow{position:fixed;left:0;top:0;width:28px;height:30px;pointer-events:none;" +
       "z-index:2147483000;will-change:transform;opacity:0;transition:opacity .16s ease;" +
       "filter:drop-shadow(0 0 3px color-mix(in srgb,var(--chalk-cursor-color,#f3efe2) 40%,transparent))}";
@@ -92,7 +102,7 @@ function setup() {
   // cursor via the CSS rule above — drawing the chalk arrow on top of that
   // looks like two overlapping cursors. Hide the chalk arrow there instead
   // of fighting the native one.
-  const TEXT_FIELD = "input,textarea,select,[contenteditable=\"true\"]";
+  const TEXT_FIELD = TEXT_INPUT_TYPES.join(",") + ",textarea,[contenteditable=\"true\"]";
 
   addEventListener("pointermove", (e) => {
     if (e.pointerType === "touch") return;
