@@ -120,6 +120,15 @@ body{transition:background .2s ease,color .2s ease}
 @media(prefers-reduced-motion:reduce){.skel-bar{animation:none;background:var(--border)}}
 .ss-skip-link:focus{left:16px!important;top:16px!important}
 :focus-visible{outline:2px solid var(--accent-bright);outline-offset:2px;border-radius:6px}
+
+.ss-filter-input{width:100%;box-sizing:border-box;height:46px;padding:0 14px 0 40px;border:1px solid var(--border);
+  border-radius:12px;background:var(--bg-card);color:var(--text);font-family:inherit;font-size:14.5px}
+.ss-filter-input:focus{border-color:var(--accent-bright)}
+.ss-filter-input::placeholder{color:var(--text-muted)}
+
+.ss-resume-card{background:var(--bg-card);border:2px solid var(--accent-bright);border-radius:18px;padding:18px 24px;
+  box-shadow:var(--card-shadow);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);">
@@ -165,6 +174,8 @@ body{transition:background .2s ease,color .2s ease}
 <div id="dash-content" style="display:none;padding:0 32px 64px;">
   <div style="max-width:840px;margin:0 auto;display:grid;gap:20px;">
     <div id="dash-goal" style="display:none;font-size:14px;color:var(--text-muted);text-align:center;"></div>
+
+    <div id="dash-resume" style="display:none;"></div>
 
     <div class="ss-card" id="dash-assignments-card">
       <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px;">
@@ -215,6 +226,10 @@ body{transition:background .2s ease,color .2s ease}
     </div>
 
     <p id="dash-classes-note" style="max-width:840px;margin:0 auto 14px;font-size:13.5px;color:var(--text-muted);text-align:center;"></p>
+    <div id="dash-subject-filter-wrap" style="display:none;position:relative;margin-bottom:2px;">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);pointer-events:none;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="dash-subject-filter" type="text" placeholder="Filter your classes…" aria-label="Filter your classes" class="ss-filter-input"/>
+    </div>
     <div id="dash-subjects" style="display:grid;gap:20px;"></div>
   </div>
 </div>
@@ -907,6 +922,35 @@ async function loadDashAssignments() {
   }).join('') + '</div>';
 }
 
+// "Continue where you left off": the progress data model has no per-subject
+// last-active timestamp (only a global blob.updatedAt), so this reads a
+// localStorage marker the dashboard itself stamps when a student clicks
+// into a subject card (see renderDashSubjects above). Honest but limited:
+// it only knows about visits that started from this dashboard, on this
+// device/browser -- a visit made directly from a bookmark, or from another
+// device, won't update it. Hidden entirely for first-time users.
+function renderResumeBanner(availableSubjects) {
+  const el = document.getElementById('dash-resume');
+  if (!el) return;
+  let last;
+  try {
+    last = JSON.parse(localStorage.getItem('ss-last-subject') || 'null');
+  } catch (e) { last = null; }
+
+  if (!last || !last.key || !last.href) { el.style.display = 'none'; el.innerHTML = ''; return; }
+  // Only resume into a subject still visible on this dashboard (e.g. not
+  // removed from the student's class list since the last visit).
+  const stillAvailable = availableSubjects.some(s => s.key === last.key);
+  if (!stillAvailable) { el.style.display = 'none'; el.innerHTML = ''; return; }
+
+  el.style.display = 'block';
+  el.innerHTML = '<div class="ss-resume-card">'
+    + '<div><div style="font-size:12.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;">Continue where you left off</div>'
+    + '<div style="font-size:18px;font-weight:800;color:var(--text);margin-top:2px;">' + ssEscapeHtml(last.label) + '</div></div>'
+    + '<a href="' + ssEscapeHtml(last.href) + '" class="ss-cta-btn" style="background:var(--accent-solid);color:#fff;padding:10px 22px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:700;white-space:nowrap;">Resume →</a>'
+    + '</div>';
+}
+
 async function loadDashboard() {
   const session = await ssCheckSession();
   const gate = document.getElementById('dash-gate');
@@ -947,6 +991,7 @@ async function loadDashboard() {
   const enrolledSet = new Set(blob.enrolledSubjects || []);
   SUBJECTS_FOR_SCHEDULE = enrolledSet.size === 0 ? SUBJECTS_CONFIG : SUBJECTS_CONFIG.filter(s => enrolledSet.has(s.key));
   const noteEl = document.getElementById('dash-classes-note');
+  const filterInputEl = document.getElementById('dash-subject-filter');
   let dashShowAll = enrolledSet.size === 0;
   window.dashShowAllClasses = function(){ dashShowAll = true; renderDashSubjects(); };
 
@@ -961,12 +1006,32 @@ async function loadDashboard() {
         + ' · <a href="/settings" style="color:var(--text-muted);text-decoration:none;">edit</a>';
     }
 
+    const filterWrap = document.getElementById('dash-subject-filter-wrap');
+    const filterInput = document.getElementById('dash-subject-filter');
+    filterWrap.style.display = list.length > 8 ? 'block' : 'none';
+    const filterTerm = (filterInput && filterInput.value || '').trim().toLowerCase();
+    const visibleList = filterTerm ? list.filter(s => s.label.toLowerCase().includes(filterTerm)) : list;
+
     const subjectsEl = document.getElementById('dash-subjects');
     subjectsEl.innerHTML = '';
-    list.forEach(s => {
+    if (filterTerm && !visibleList.length) {
+      subjectsEl.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--text-muted);font-size:14px;">No classes match "' + ssEscapeHtml(filterInput.value.trim()) + '".</p>';
+    }
+    visibleList.forEach(s => {
       const card = document.createElement('div');
       card.id = 'dash-subject-' + s.key;
       card.className = 'ss-card';
+      // Stamp which subject the student navigated into from here, so a
+      // future dashboard visit can offer a one-click "Resume" -- there's no
+      // per-subject "last active" timestamp in the progress data model, so
+      // this is the only honest signal the dashboard itself can produce.
+      card.addEventListener('click', function (e) {
+        const link = e.target.closest('a[href]');
+        if (!link || !card.contains(link)) return;
+        try {
+          localStorage.setItem('ss-last-subject', JSON.stringify({ key: s.key, label: s.label, href: s.href, ts: Date.now() }));
+        } catch (err) { /* ignore */ }
+      });
       subjectsEl.appendChild(card);
 
       const unitIds = s.units.map(u => u.id);
@@ -976,6 +1041,8 @@ async function loadDashboard() {
     });
   }
   renderDashSubjects();
+  if (filterInputEl) filterInputEl.addEventListener('input', renderDashSubjects);
+  renderResumeBanner(SUBJECTS_FOR_SCHEDULE);
 
   const goalEl = document.getElementById('dash-goal');
   if (blob.goal && blob.goal.days && blob.goal.minutesPerDay) {
