@@ -88,10 +88,21 @@ function setup() {
     if (!running && !document.hidden) { running = true; requestAnimationFrame(frame); }
   }
 
+  // Over a real text field the browser already shows its own text (I-beam)
+  // cursor via the CSS rule above — drawing the chalk arrow on top of that
+  // looks like two overlapping cursors. Hide the chalk arrow there instead
+  // of fighting the native one.
+  const TEXT_FIELD = "input,textarea,select,[contenteditable=\"true\"]";
+
   addEventListener("pointermove", (e) => {
     if (e.pointerType === "touch") return;
     pointerX = e.clientX;
     pointerY = e.clientY;
+    const overTextField = e.target instanceof Element && e.target.closest(TEXT_FIELD);
+    if (overTextField) {
+      if (visible) { visible = false; arrow.style.opacity = "0"; }
+      return;
+    }
     if (!visible) { visible = true; arrow.style.opacity = "1"; }
     kick();
   }, { passive: true });
