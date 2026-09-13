@@ -65,6 +65,7 @@ function buildUnitsStatic(units, diagrams) {
     ));
     const hd = `<div class="unit-hd" tabindex="0" role="button" aria-expanded="false">` +
       `<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts · ~${estMins} min</span></span>` +
+      `<span class="unit-progress" id="unit-progress-${u.id}" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span>` +
       `<span class="chevron">▾</span></div>`;
     return `<div class="unit" data-id="${u.id}">${hd}<div class="unit-body">${body}</div></div>`;
   }).join("");

@@ -82,6 +82,17 @@ return `<div class="ex-part" id="ex-part-${id}">
    persisted to localStorage either. Not a proctored test: hitting zero just
    shows "Time's up" and stops, it never auto-submits or locks the part. */
 var examTimers={};
+// Per-unit exam correctness, keyed by unit id — populated only for guides
+// whose exam questions carry a `u` field (see examRecordUnit()/ansExam()).
+// In-memory only, matching the fact that exam progress is never persisted.
+var examUnitStats={};
+function examRecordUnit(q,correct){
+  if(!q||q.u===undefined)return;
+  var s=examUnitStats[q.u]||(examUnitStats[q.u]={correct:0,total:0});
+  s.total++;
+  if(correct)s.correct++;
+  renderUnitProgress(q.u);
+}
 function startPartTimer(id){
   const meta=examPartMeta(id);
   if(!meta.minutes)return;
@@ -135,6 +146,7 @@ if(chosen===correct){examScores[part]=(examScores[part]||0)+1;}
 const pool={A:PART_A,B1:PART_B1,B2:PART_B2,C:PART_C}[part];
 const scoreEl=document.getElementById('score-'+part);
 if(scoreEl)scoreEl.textContent=`Score: ${examScores[part]||0} / ${pool.length}`;
+examRecordUnit(pool.find(function(x){return x.n===qn;}),chosen===correct);
 }
 
 
@@ -194,6 +206,33 @@ document.addEventListener('keydown',function(e){
   var box=document.getElementById('search-box');
   if(box){e.preventDefault();box.focus();}
 });
+/* Spacebar: flip the current flashcard whenever the Flashcards tab is the
+   active view — not just when the card itself has focus (the scene element
+   already handles Space/Enter locally via its own onkeydown in
+   page-views.template.html; this is the page-level, more-discoverable
+   version of the same action). Uses the exact activeElement/tag guard as
+   the "/" search shortcut above so it never hijacks typing. Also skips
+   BUTTON/A and the scene itself so a Space that's about to natively
+   activate a focused button (e.g. "Know it") or that the scene's own inline
+   handler will already process isn't double-handled. */
+document.addEventListener('keydown',function(e){
+  if(e.key!==' ')return;
+  var el=document.activeElement;
+  var tag=(el&&el.tagName)||'';
+  if(tag==='INPUT'||tag==='TEXTAREA'||(el&&el.isContentEditable))return;
+  if(tag==='BUTTON'||tag==='A'||(el&&el.id==='scene'))return;
+  var vc=document.getElementById('view-cards');
+  if(vc&&vc.classList.contains('active')){e.preventDefault();flip();}
+});
+/* "?" opens the keyboard-shortcuts reference modal. Same guard as above. */
+document.addEventListener('keydown',function(e){
+  if(e.key!=='?')return;
+  var el=document.activeElement;
+  var tag=(el&&el.tagName)||'';
+  if(tag==='INPUT'||tag==='TEXTAREA'||(el&&el.isContentEditable))return;
+  e.preventDefault();
+  shortcutsModalToggle();
+});
 function jumpToFlashcardUnit(id){
   clearSearch();
   switchTab('cards');
@@ -245,7 +284,7 @@ function buildGuide(){
     const div=document.createElement('div');div.className='unit';div.dataset.id=u.id;
     const hd=document.createElement('div');hd.className='unit-hd';
     const estMins=Math.max(5,Math.round(u.concepts.length*3+(u.traps?u.traps.length:0)*2+(u.fms?u.fms.length:0)*2));
-    hd.innerHTML=`<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts · ~${estMins} min</span></span><span class="chevron">▾</span>`;
+    hd.innerHTML=`<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts · ~${estMins} min</span></span><span class="unit-progress" id="unit-progress-${u.id}" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span><span class="chevron">▾</span>`;
     hd.tabIndex=0;hd.setAttribute('role','button');hd.setAttribute('aria-expanded','false');
     hd.onclick=()=>{const isOpen=div.classList.toggle('open');hd.setAttribute('aria-expanded',isOpen?'true':'false');};
     hd.onkeydown=(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();hd.click();}};
@@ -335,6 +374,7 @@ function rateFC(rating){
   const card=deck[fcIdx];
   if(rating==='known')CHEM_MASTERY.markCardKnown(card.t);
   else CHEM_MASTERY.unmarkCardKnown(card.t);
+  renderUnitProgress(card.u);
   fcNav(1);
 }
 function filterFC(){
@@ -401,7 +441,7 @@ window.__ssMasteryInstances = window.__ssMasteryInstances || [];
 function ssStartChemMastery(){
   CHEM_MASTERY = window.__ssCreateMastery('apush', UNITS.map(function(u){return u.id;}), UNITS.reduce(function(acc,u){acc[u.id]=u.name;return acc;},{}));
   window.__ssMasteryInstances.push(CHEM_MASTERY);
-  CHEM_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} try{ if(examplesBuilt) buildExamples(); }catch(e){} try{ ssOverallProgressUpdate(); }catch(e){} });
+  CHEM_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} try{ if(examplesBuilt) buildExamples(); }catch(e){} try{ ssOverallProgressUpdate(); }catch(e){} try{ renderAllUnitProgress(); }catch(e){} });
 }
 if (window.__ssCreateMastery) { ssStartChemMastery(); }
 else { window.addEventListener('ss-mastery-ready', ssStartChemMastery, { once: true }); }
@@ -479,6 +519,58 @@ function quizShuffle(){
 }
 
 function unitNameFor(unitId){const u=UNITS.find(x=>x.id===unitId);return u?u.name:'Unit '+unitId;}
+
+/* ----- Per-unit weighted progress (feature: per-unit accordion badges) -----
+   Blends up to three signals into a single 0-100 score for one unit:
+     - Flashcards known: knownCards / totalCardsInUnit          (weight .40)
+     - Quiz accuracy:    correctAnswered / totalAnswered so far  (weight .40)
+     - Exam accuracy:    correctAnswered / totalAnswered so far  (weight .20)
+       among this unit's practice-exam questions (only guides whose exam
+       questions carry a `u` field support this — most don't yet).
+   A component is only counted once there is something to measure: a unit
+   with zero flashcards drops the flashcard term, and quiz/exam terms only
+   count once at least one question in that unit has actually been
+   answered (an unattempted quiz isn't "0% mastery", it's "not started" —
+   same distinction the shared mastery module already makes at total<2).
+   Whatever weight a dropped component held is redistributed proportionally
+   across the components that ARE present, so e.g. a unit with flashcards
+   and quiz activity but no exam coverage is scored 50/50 instead of being
+   capped near 80%. If nothing has been touched yet for a unit, returns
+   null so callers can omit the badge entirely rather than show a
+   meaningless 0%. */
+function unitWeightedPct(unitId){
+  var parts=[];
+  var cards=(typeof FLASHCARDS!=='undefined'?FLASHCARDS:[]).filter(function(f){return f.u===unitId;});
+  if(cards.length){
+    var known=fcKnownSet();
+    var knownCount=cards.filter(function(c){return known.has(c.t);}).length;
+    parts.push({weight:0.4,pct:(knownCount/cards.length)*100});
+  }
+  var mastery=CHEM_MASTERY?(CHEM_MASTERY.getSnapshot().mastery||{}):{};
+  var qrec=mastery[String(unitId)];
+  if(qrec&&qrec.total>0)parts.push({weight:0.4,pct:(qrec.correct/qrec.total)*100});
+  var erec=examUnitStats[unitId];
+  if(erec&&erec.total>0)parts.push({weight:0.2,pct:(erec.correct/erec.total)*100});
+  if(!parts.length)return null;
+  var totalWeight=parts.reduce(function(s,p){return s+p.weight;},0);
+  var weighted=parts.reduce(function(s,p){return s+p.pct*(p.weight/totalWeight);},0);
+  return Math.max(0,Math.min(100,Math.round(weighted)));
+}
+function renderUnitProgress(unitId){
+  var el=document.getElementById('unit-progress-'+unitId);
+  if(!el)return;
+  var pct=unitWeightedPct(unitId);
+  if(pct===null){el.style.display='none';return;}
+  el.style.display='';
+  var fill=el.querySelector('.unit-progress-fill');
+  var label=el.querySelector('.unit-progress-label');
+  if(fill)fill.style.width=pct+'%';
+  if(label)label.textContent=pct+'%';
+}
+function renderAllUnitProgress(){
+  if(typeof UNITS==='undefined')return;
+  UNITS.forEach(function(u){renderUnitProgress(u.id);});
+}
 
 function ssOverallProgressUpdate(){
   var fill=document.getElementById('ss-overall-progress-fill');
@@ -661,6 +753,7 @@ function ansQ(i){
   if(CHEM_MASTERY)CHEM_MASTERY.recordAnswer(q.u,i===q.a);
   if(i===q.a)mistakeLogRemove(q);else mistakeLogAdd(q);
   ssOverallProgressUpdate();
+  renderUnitProgress(q.u);
   const expEl=document.getElementById('q-exp');
   expEl.classList.add('show');
   if(wasGuess){
@@ -1257,6 +1350,7 @@ function toolkitCloseAllPanels(){
   if(cbot)cbot.classList.remove('open');
   var desmos=document.getElementById('desmos-panel');
   if(desmos){desmos.classList.remove('open');desmos.setAttribute('aria-hidden','true');}
+  shortcutsModalClose();
 }
 function toolkitToggle(){
   var menu=document.getElementById('toolkit-menu');
@@ -1284,9 +1378,58 @@ function toolkitOutsideClick(e){
   if(menu&&!menu.contains(e.target)&&fab&&!fab.contains(e.target))toolkitClose();
 }
 
+/* ----- Keyboard-shortcuts reference modal, opened with "?" (see the
+   keydown listener above). Injected the same way as the AI helper panel
+   (cbotPanelInit) since no static template markup exists for it — this is a
+   template-only, always-available feature, not subject-specific content. ----- */
+function shortcutsModalInit(){
+  if(document.getElementById('shortcuts-modal'))return;
+  var panel=document.createElement('div');
+  panel.id='shortcuts-modal';
+  panel.className='shortcuts-modal';
+  panel.setAttribute('role','dialog');
+  panel.setAttribute('aria-modal','true');
+  panel.setAttribute('aria-label','Keyboard shortcuts');
+  panel.setAttribute('aria-hidden','true');
+  var rows=[
+    ['/','Focus search'],
+    ['Space','Flip flashcard (Flashcards tab)'],
+    ['1 – 4','Answer a quiz question (Quiz tab)'],
+    ['Enter','Next question · flip flashcard'],
+    ['Esc','Close panels'],
+    ['?','Show this list']
+  ];
+  panel.innerHTML='<div class="shortcuts-modal-card"><div class="shortcuts-modal-hd"><b>Keyboard Shortcuts</b>'+
+    '<button type="button" class="shortcuts-modal-close" onclick="shortcutsModalClose()" aria-label="Close shortcuts">✕</button></div>'+
+    '<div class="shortcuts-modal-body">'+rows.map(function(r){return '<div class="shortcuts-modal-row"><span>'+r[1]+'</span><kbd>'+r[0]+'</kbd></div>';}).join('')+'</div></div>';
+  document.body.appendChild(panel);
+}
+function shortcutsModalOpen(){
+  var panel=document.getElementById('shortcuts-modal');
+  if(!panel)return;
+  panel.classList.add('open');
+  panel.setAttribute('aria-hidden','false');
+  var closeBtn=panel.querySelector('.shortcuts-modal-close');
+  if(closeBtn)closeBtn.focus();
+  document.addEventListener('keydown',shortcutsModalKeydown);
+}
+function shortcutsModalClose(){
+  var panel=document.getElementById('shortcuts-modal');
+  if(!panel||!panel.classList.contains('open'))return;
+  panel.classList.remove('open');
+  panel.setAttribute('aria-hidden','true');
+  document.removeEventListener('keydown',shortcutsModalKeydown);
+}
+function shortcutsModalToggle(){
+  var panel=document.getElementById('shortcuts-modal');
+  if(panel&&panel.classList.contains('open'))shortcutsModalClose();else shortcutsModalOpen();
+}
+function shortcutsModalKeydown(e){if(e.key==='Escape')shortcutsModalClose();}
+
 desmosInit();
 cbotPanelInit();
 toolkitInit();
+shortcutsModalInit();
 
 /* ----- unit-filtered practice, e.g. /chemistry?practice=3 (from the dashboard's "study this next") ----- */
 (async function ssPracticeMode(){
