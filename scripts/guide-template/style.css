@@ -189,6 +189,16 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .q-block:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .q-block-hd{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px}
 .q-text{font-size:24.8px;font-weight:600;color:var(--ink);line-height:1.55;flex:1}
+.q-diff{flex:none;display:inline-block;padding:3px 11px;border-radius:999px;font-size:13px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;border:1px solid transparent;align-self:flex-start;margin-top:2px}
+.q-diff-easy{background:var(--success-soft);color:var(--success);border-color:var(--success-border)}
+.q-diff-medium{background:var(--amber-soft);color:var(--amber-ink);border-color:var(--amber)}
+.q-diff-hard{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}
+.q-topic{font-size:14.5px;color:var(--ink-dim);margin:-14px 0 14px;font-style:italic}
+.mistake-log-btn{position:relative}
+.mistake-log-count{display:inline-block;margin-left:6px;background:var(--danger);color:#fff;border-radius:999px;
+  font-size:12px;font-weight:700;padding:1px 7px}
+.mistake-log-empty{padding:24px;text-align:center;color:var(--ink-muted);font-size:18px}
 .q-bookmark{flex:none;background:none;border:none;cursor:pointer;color:var(--ink-dim);padding:2px;border-radius:6px;transition:color .15s ease,transform .15s ease}
 .q-bookmark:hover{color:var(--amber);transform:scale(1.08)}
 .q-bookmark.on{color:var(--amber)}

@@ -335,10 +335,43 @@ export function generateGuide(config) {
   const isValidExamQ = (q) =>
     (typeof q.sa === "string" && q.sa.trim().length > 0) ||
     (Array.isArray(q.o) && q.o.length === 4 && Number.isInteger(q.a) && q.a >= 0 && q.a <= 3);
+  // Default per-part display title (used when examMeta/parts.<id>.title is
+  // absent) mirrors the original hand-authored APUSH labels, generalized.
+  const PART_DEFAULT_TITLE = {
+    PART_A: "Part A — Multiple Choice",
+    PART_B1: "Part B–1 — Multiple Choice",
+    PART_B2: "Part B–2 — Short Answer",
+    PART_C: "Part C — Extended Response",
+  };
+  const examPartQs = {};
   for (const part of ["PART_A", "PART_B1", "PART_B2", "PART_C"]) {
     const qs = (examParts?.[part] || []).filter(isValidExamQ);
+    examPartQs[part] = qs;
     html += `const ${part}=${js(qs)};\n`;
   }
+  // Data-driven exam header/labels/timing (examMeta in guides/<slug>.json is
+  // optional — undeclared guides synthesize a reasonable default from the
+  // guide's own title and each part's actual question count, so they render
+  // exactly as before: untimed, with generic Part A/B-1/B-2/C labels).
+  const examMetaCfg = config.examMeta || {};
+  const examMetaParts = {};
+  for (const part of ["PART_A", "PART_B1", "PART_B2", "PART_C"]) {
+    const p = examMetaCfg.parts?.[part] || {};
+    const n = examPartQs[part].length;
+    examMetaParts[part] = {
+      title: p.title || PART_DEFAULT_TITLE[part],
+      points: Number.isFinite(p.points) ? p.points : n,
+      minutes: Number.isFinite(p.minutes) && p.minutes > 0 ? p.minutes : null,
+    };
+  }
+  const examMeta = {
+    title: examMetaCfg.title || `${title} — Full Practice Exam`,
+    subtitle: Object.values(examMetaParts)
+      .map(p => `${p.title.replace(/\s*—.*$/, "")} (${p.points} pt${p.points === 1 ? "" : "s"})`)
+      .join(" · "),
+    parts: examMetaParts,
+  };
+  html += `const EXAM_META=${js(examMeta)};\n`;
   // logic.js's buildExam() injects this into a <style> tag on first render;
   // it must be defined before logic.js runs.
   html += `const EXAM_CSS=${js(templateExamCss)};\n`;

@@ -10,20 +10,24 @@ const st=document.createElement('style');st.textContent=EXAM_CSS;document.head.a
 
 v.innerHTML=`
 <div class="ex-header">
-  <h2>APUSH — Full Practice Exam</h2>
-  <p>Part A (30 pts) · Part B-1 (20 pts) · Part B-2 (15 pts) · Part C (20 pts) · Based on Jan 2026 format</p>
+  <h2>${EXAM_META.title}</h2>
+  <p>${EXAM_META.subtitle}</p>
 </div>
 <div id="ex-score-box" class="ex-score"></div>
-${buildPartMC('A','Part A — Multiple Choice (30 questions, 1 pt each)',PART_A)}
-${buildPartMC('B1','Part B–1 — Multiple Choice (20 questions, 1 pt each)',PART_B1)}
-${buildPartFR('B2','Part B–2 — Short Answer (show work, 1 pt each)',PART_B2)}
-${buildPartFR('C','Part C — Extended Response (1–2 pts each)',PART_C)}
+${buildPartMC('A',PART_A)}
+${buildPartMC('B1',PART_B1)}
+${buildPartFR('B2',PART_B2)}
+${buildPartFR('C',PART_C)}
 `;
 // open Part A by default
-document.getElementById('ex-part-A').classList.add('open');
+togglePart('A');
 }
 
-function buildPartMC(id,title,qs){
+function examPartMeta(id){return (EXAM_META&&EXAM_META.parts&&EXAM_META.parts['PART_'+id])||{};}
+function exTimerHtml(id){return examPartMeta(id).minutes?`<span class="ex-timer" id="timer-${id}"></span>`:'';}
+
+function buildPartMC(id,qs){
+const meta=examPartMeta(id);
 const items=qs.map(q=>`
 <div class="ex-q" id="exq-${id}-${q.n}">
   <div class="ex-qnum">Question ${q.n}</div>
@@ -35,15 +39,17 @@ const items=qs.map(q=>`
 </div>`).join('');
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${title}</h3><span id="score-${id}">Score: 0 / ${qs.length}</span>
+  <h3>${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'}, 1 pt each)</h3>
+  <div class="ex-part-hd-meta"><span id="score-${id}">Score: 0 / ${qs.length}</span>${exTimerHtml(id)}</div>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
 }
 
-function buildPartFR(id,title,qs){
+function buildPartFR(id,qs){
 // Some guides author these as genuine free-response (q.sa, a model answer to
 // reveal); others reuse the multiple-choice shape (q.o/q.a) for this part.
 // Render whichever shape the data actually has instead of assuming sa exists.
+const meta=examPartMeta(id);
 const items=qs.map(q=>q.sa!==undefined?`
 <div class="ex-q">
   <div class="ex-qnum">Question ${q.n}</div>
@@ -60,11 +66,43 @@ const items=qs.map(q=>q.sa!==undefined?`
   <div class="ex-exp" id="exp-${id}-${q.n}">${q.e}</div>
 </div>`).join('');
 const allMC=qs.every(q=>q.sa===undefined);
+const rightMeta=allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`;
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${title}</h3>${allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`}
+  <h3>${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'})</h3>
+  <div class="ex-part-hd-meta">${rightMeta}${exTimerHtml(id)}</div>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
+}
+
+/* Per-part countdown timer. In-memory only (module-level `examTimers`) — a
+   refresh resets it, matching the fact that exam progress/scores are never
+   persisted to localStorage either. Not a proctored test: hitting zero just
+   shows "Time's up" and stops, it never auto-submits or locks the part. */
+var examTimers={};
+function startPartTimer(id){
+  const meta=examPartMeta(id);
+  if(!meta.minutes)return;
+  let t=examTimers[id];
+  if(!t){t=examTimers[id]={remaining:meta.minutes*60,expired:false,intervalId:null};}
+  if(t.expired||t.intervalId)return; // already ticking, or already ran out
+  t.intervalId=setInterval(function(){
+    t.remaining--;
+    if(t.remaining<=0){
+      t.remaining=0;t.expired=true;
+      clearInterval(t.intervalId);t.intervalId=null;
+    }
+    renderPartTimer(id);
+  },1000);
+  renderPartTimer(id);
+}
+function renderPartTimer(id){
+  const el=document.getElementById('timer-'+id);
+  const t=examTimers[id];
+  if(!el||!t)return;
+  if(t.expired){el.textContent="Time's up";el.classList.add('ex-timer-up');return;}
+  const m=Math.floor(t.remaining/60),s=t.remaining%60;
+  el.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
 }
 
 function togglePart(id){
@@ -72,6 +110,7 @@ function togglePart(id){
   const isOpen=part.classList.toggle('open');
   const hd=part.querySelector('.ex-part-hd');
   if(hd)hd.setAttribute('aria-expanded',isOpen?'true':'false');
+  if(isOpen)startPartTimer(id);
 }
 
 function toggleSA(btn){
@@ -379,6 +418,58 @@ function qBookmarkToggle(qid){
 }
 function qId(q){return q.u+'|'+q.q;}
 
+/* Mistake Log: localStorage-backed, keyed the same way as the bookmark set
+   (ssBookmarks_<slug>) — a currently-unresolved-misses list, not full history.
+   A question moves in when answered wrong and out the moment it's answered
+   correctly again (from anywhere: normal quiz, diagnostic, hard mode, or the
+   log's own review pass). */
+var MISTAKE_LOG_KEY='ssMistakes_'+'apush';
+function mistakeLogMap(){
+  try{return JSON.parse(localStorage.getItem(MISTAKE_LOG_KEY)||'{}');}catch(e){return {};}
+}
+function mistakeLogSave(map){
+  try{localStorage.setItem(MISTAKE_LOG_KEY,JSON.stringify(map));}catch(e){}
+  updateMistakeLogBadge();
+}
+function mistakeLogAdd(q){
+  const map=mistakeLogMap();
+  map[qId(q)]={u:q.u,q:q.q,o:q.o,a:q.a,e:q.e,d:q.d,topic:q.topic};
+  mistakeLogSave(map);
+}
+function mistakeLogRemove(q){
+  const map=mistakeLogMap();
+  const id=qId(q);
+  if(!(id in map))return;
+  delete map[id];
+  mistakeLogSave(map);
+}
+function updateMistakeLogBadge(){
+  const el=document.getElementById('mistake-log-count');
+  if(!el)return;
+  const n=Object.keys(mistakeLogMap()).length;
+  el.textContent=String(n);
+  el.style.display=n?'':'none';
+}
+var mistakeReviewMode=false;
+function openMistakeLog(){
+  switchTab('quiz');
+  mistakeReviewMode=true;
+  diagMode=false;
+  const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
+  const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
+  const map=mistakeLogMap();
+  qPool=Object.values(map);
+  qIdx=0;score=0;requeueCounts=new WeakMap();
+  const qb=document.getElementById('qbox');
+  if(!qPool.length){
+    qb.innerHTML='<div class="mistake-log-empty">No mistakes logged right now — nice work. Answer a question wrong anywhere in the quiz and it will show up here until you get it right.</div>';
+    document.getElementById('q-prog').textContent='';
+    document.getElementById('q-sc').textContent='';
+    return;
+  }
+  showQ();
+}
+
 function quizShuffle(){
   if(!qPool.length)return;
   for(let i=qPool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[qPool[i],qPool[j]]=[qPool[j],qPool[i]];}
@@ -413,8 +504,15 @@ function buildQSel(){
   if(HQ.length)sel.innerHTML+='<option value="hard">Hard Mode Only ('+HQ.length+' Qs)</option>';
   loadQ();
 }
+let difficultyFilter='all';
+function setDifficultyFilter(d){
+  difficultyFilter=d;
+  document.querySelectorAll('.diff-chip').forEach(function(c){c.classList.toggle('on',c.dataset.diff===d);});
+  loadQ();
+}
 function loadQ(){
   diagMode=false;
+  mistakeReviewMode=false;
   const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
   const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
   const raw=document.getElementById('q-sel').value;
@@ -423,6 +521,7 @@ function loadQ(){
   if(raw==='hard')src=HQ.slice();
   else if(+raw===0)src=QUIZ.concat(HQ);
   else src=QUIZ.concat(HQ).filter(q=>q.u===+raw);
+  if(difficultyFilter!=='all')src=src.filter(q=>q.d===difficultyFilter);
   qPool=src.sort(()=>Math.random()-.5);
   qIdx=0;score=0;requeueCounts=new WeakMap();showQ();
 }
@@ -489,8 +588,10 @@ function showQ(){
   const bookmarked=qBookmarkSet().has(bid);
   const STAR_OUTLINE='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
   const STAR_FILLED='<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
-  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>`+
+  const diffPill=q.d?`<span class="q-diff q-diff-${q.d}">${q.d}</span>`:'';
+  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>${diffPill}`+
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
+    (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
     `<button class="q-hint-btn" id="q-hint-btn" onclick="toggleQHint()">💡 Hint</button>`+
     `<div class="q-hint-box" id="q-hint-box">Hint: this is from Unit ${q.u}: ${unitNameFor(q.u)}</div>`+
@@ -556,6 +657,7 @@ function ansQ(i){
     }
   }
   if(CHEM_MASTERY)CHEM_MASTERY.recordAnswer(q.u,i===q.a);
+  if(i===q.a)mistakeLogRemove(q);else mistakeLogAdd(q);
   ssOverallProgressUpdate();
   const expEl=document.getElementById('q-exp');
   expEl.classList.add('show');
@@ -585,6 +687,7 @@ function ssQuizKeyboardShortcuts(e){
 }
 document.addEventListener('keydown',ssQuizKeyboardShortcuts);
 buildQSel();
+updateMistakeLogBadge();
 
 /* ----- APG tabs: roving-tabindex arrow-key nav on the hero tab bar. Manual
    activation — arrows move focus only; Enter/Space fire the button's own click

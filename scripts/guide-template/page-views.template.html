@@ -112,6 +112,13 @@ __FC_ARCHIVE__</div></div>
   <div class="q-bar">
     <select id="q-sel" aria-label="Choose a question set" onchange="loadQ()"></select>
     <button class="btn" type="button" onclick="quizShuffle()" style="font-size:14px;padding:7px 14px">⇄ Shuffle</button>
+    <div class="diff-chips" role="group" aria-label="Filter by difficulty" style="display:flex;gap:6px">
+      <button class="chip on diff-chip" type="button" data-diff="all" onclick="setDifficultyFilter('all')">All</button>
+      <button class="chip diff-chip" type="button" data-diff="easy" onclick="setDifficultyFilter('easy')">Easy</button>
+      <button class="chip diff-chip" type="button" data-diff="medium" onclick="setDifficultyFilter('medium')">Medium</button>
+      <button class="chip diff-chip" type="button" data-diff="hard" onclick="setDifficultyFilter('hard')">Hard</button>
+    </div>
+    <button class="btn mistake-log-btn" type="button" onclick="openMistakeLog()">Mistake Log<span class="mistake-log-count" id="mistake-log-count" style="display:none">0</span></button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
