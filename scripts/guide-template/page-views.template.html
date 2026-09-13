@@ -140,3 +140,13 @@ __QREF__
 <button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
   <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
 </button>
+<button type="button" id="qref-drawer-fab" class="qref-drawer-fab" onclick="qrefDrawerToggle()" aria-label="Open quick reference" aria-expanded="false" aria-controls="qref-drawer" title="Quick Reference">
+  <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+</button>
+<div id="qref-drawer" class="qref-drawer" role="dialog" aria-modal="true" aria-label="Quick Reference" aria-hidden="true">
+  <div class="qref-drawer-hd">
+    <b>Quick Reference</b>
+    <button type="button" class="qref-drawer-close" onclick="qrefDrawerToggle()" aria-label="Close quick reference">✕</button>
+  </div>
+  <div class="qref-drawer-body" id="qref-drawer-body"></div>
+</div>

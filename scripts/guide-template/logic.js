@@ -1094,6 +1094,105 @@ async function ssQuizTabClick(){
 
 ssCheckSession();
 
+/* ----- Reference drawer: a compact, always-available companion to the full
+   Quick Reference TAB. Reuses the exact HTML the generator already emits into
+   #view-qref (buildQref() in generate-guide.mjs) instead of rebuilding it —
+   the drawer body is filled by copying that markup once, on first open. ----- */
+function qrefDrawerOpen(){
+  var panel=document.getElementById('qref-drawer');
+  if(!panel)return;
+  var body=document.getElementById('qref-drawer-body');
+  if(body&&!body.dataset.filled){
+    var src=document.getElementById('view-qref');
+    if(src){body.innerHTML=src.innerHTML;body.dataset.filled='1';}
+  }
+  panel.classList.add('open');
+  panel.setAttribute('aria-hidden','false');
+  var fab=document.getElementById('qref-drawer-fab');
+  if(fab)fab.setAttribute('aria-expanded','true');
+  var closeBtn=panel.querySelector('.qref-drawer-close');
+  if(closeBtn)closeBtn.focus();
+  document.addEventListener('keydown',qrefDrawerKeydown);
+}
+function qrefDrawerClose(){
+  var panel=document.getElementById('qref-drawer');
+  if(!panel||!panel.classList.contains('open'))return;
+  panel.classList.remove('open');
+  panel.setAttribute('aria-hidden','true');
+  var fab=document.getElementById('qref-drawer-fab');
+  if(fab){fab.setAttribute('aria-expanded','false');fab.focus();}
+  document.removeEventListener('keydown',qrefDrawerKeydown);
+}
+function qrefDrawerToggle(){
+  var panel=document.getElementById('qref-drawer');
+  if(panel&&panel.classList.contains('open'))qrefDrawerClose();else qrefDrawerOpen();
+}
+function qrefDrawerKeydown(e){if(e.key==='Escape')qrefDrawerClose();}
+
+/* ----- Optional Desmos graphing calculator. Disabled by default: leave
+   DESMOS_API_KEY empty and this entire feature (button, panel, external
+   script) never appears and never makes a network request. To enable it,
+   the site owner gets a free key for personal/school use at
+   https://www.desmos.com/api/v1.12/calculator.js docs (sign in at
+   desmos.com/my-api) and pastes it in below. Generic — available on every
+   guide once a key is configured, not gated to any subject. ----- */
+const DESMOS_API_KEY = "";
+let desmosScriptLoaded=false, desmosCalculator=null;
+function desmosInit(){
+  if(!DESMOS_API_KEY)return;
+  var fab=document.createElement('button');
+  fab.id='desmos-fab';
+  fab.className='desmos-fab';
+  fab.type='button';
+  fab.setAttribute('aria-label','Toggle graphing calculator');
+  fab.setAttribute('aria-expanded','false');
+  fab.title='Graphing calculator';
+  fab.textContent='\u{1F4C8}';
+  fab.onclick=desmosToggle;
+  document.body.appendChild(fab);
+
+  var panel=document.createElement('div');
+  panel.id='desmos-panel';
+  panel.className='desmos-panel';
+  panel.setAttribute('role','dialog');
+  panel.setAttribute('aria-modal','true');
+  panel.setAttribute('aria-label','Graphing calculator');
+  panel.setAttribute('aria-hidden','true');
+  panel.innerHTML='<div class="desmos-panel-hd"><b>Graphing Calculator</b>'+
+    '<button type="button" class="desmos-panel-close" aria-label="Close graphing calculator">✕</button></div>'+
+    '<div class="desmos-calc" id="desmos-calc"></div>';
+  document.body.appendChild(panel);
+  panel.querySelector('.desmos-panel-close').onclick=desmosToggle;
+}
+function desmosToggle(){
+  var panel=document.getElementById('desmos-panel');
+  if(!panel)return;
+  var opening=!panel.classList.contains('open');
+  panel.classList.toggle('open',opening);
+  panel.setAttribute('aria-hidden',opening?'false':'true');
+  var fab=document.getElementById('desmos-fab');
+  if(fab)fab.setAttribute('aria-expanded',opening?'true':'false');
+  if(opening){
+    document.addEventListener('keydown',desmosKeydown);
+    if(!desmosScriptLoaded)desmosLoadScript();
+  }else{
+    document.removeEventListener('keydown',desmosKeydown);
+    if(fab)fab.focus();
+  }
+}
+function desmosKeydown(e){if(e.key==='Escape')desmosToggle();}
+function desmosLoadScript(){
+  desmosScriptLoaded=true;
+  var s=document.createElement('script');
+  s.src='https://www.desmos.com/api/v1.12/calculator.js?apiKey='+encodeURIComponent(DESMOS_API_KEY);
+  s.onload=function(){
+    var el=document.getElementById('desmos-calc');
+    if(el&&window.Desmos)desmosCalculator=Desmos.GraphingCalculator(el);
+  };
+  document.head.appendChild(s);
+}
+desmosInit();
+
 /* ----- unit-filtered practice, e.g. /chemistry?practice=3 (from the dashboard's "study this next") ----- */
 (async function ssPracticeMode(){
   var practiceUnit = new URLSearchParams(location.search).get('practice');

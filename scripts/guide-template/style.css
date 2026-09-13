@@ -440,6 +440,51 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 .back-to-top:hover{color:var(--ink);border-color:var(--accent)}
 .back-to-top svg{width:20px;height:20px;display:block}
 
+/* ---- reference drawer: quick-access companion to the Quick Reference tab,
+   reachable from any tab. Sits bottom-center, clear of back-to-top
+   (bottom:22/left:22..74) and #cbot-fab (bottom:22/right:22..78). ---- */
+.qref-drawer-fab{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);width:52px;height:52px;
+  border-radius:50%;background:var(--surface);color:var(--ink-muted);border:1px solid var(--border-strong);
+  cursor:pointer;box-shadow:var(--shadow-md);z-index:190;display:flex;align-items:center;justify-content:center;
+  transition:color .15s ease,border-color .15s ease}
+.qref-drawer-fab:hover{color:var(--accent);border-color:var(--accent)}
+.qref-drawer-fab svg{width:20px;height:20px;display:block}
+.qref-drawer{position:fixed;top:0;right:0;height:100dvh;width:min(420px,100vw);background:var(--surface);
+  border-left:1px solid var(--border-strong);box-shadow:var(--shadow-lg);z-index:210;display:flex;flex-direction:column;
+  transform:translateX(100%);opacity:0;visibility:hidden;transition:transform .25s ease,opacity .25s ease,visibility 0s linear .25s}
+.qref-drawer.open{transform:translateX(0);opacity:1;visibility:visible;transition:transform .25s ease,opacity .25s ease}
+.qref-drawer-hd{display:flex;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--surface-2);flex-shrink:0}
+.qref-drawer-hd b{font-family:'Space Grotesk';font-size:20px;color:var(--ink);flex:1}
+.qref-drawer-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:6px 8px;border-radius:6px}
+.qref-drawer-close:hover{color:var(--ink);background:var(--surface-hover)}
+.qref-drawer-body{flex:1;overflow-y:auto;padding:16px}
+.qref-drawer-body .qr-section:not(:last-child){margin-bottom:20px}
+@media(max-width:600px){
+  .qref-drawer{width:100vw}
+}
+
+/* ---- optional Desmos graphing calculator (see DESMOS_API_KEY in logic.js).
+   Markup is only ever created by JS when a key is configured, so this CSS
+   has no visible effect until then. Placed clear of #cbot-fab (right:22..78). ---- */
+.desmos-fab{position:fixed;bottom:22px;right:90px;width:52px;height:52px;border-radius:50%;
+  background:var(--accent);color:#fff;border:none;font-size:22px;cursor:pointer;
+  box-shadow:0 8px 24px -6px rgba(15,122,112,.4);z-index:195;display:flex;align-items:center;justify-content:center;
+  transition:transform .15s ease}
+.desmos-fab:hover{transform:scale(1.06)}
+.desmos-panel{position:fixed;bottom:88px;right:90px;width:min(380px,calc(100vw - 32px));
+  height:min(420px,calc(100dvh - 160px));background:var(--surface);border:1px solid var(--border-strong);
+  border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:205;display:none;flex-direction:column;overflow:hidden}
+.desmos-panel.open{display:flex}
+.desmos-panel-hd{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+.desmos-panel-hd b{font-family:'Space Grotesk';font-size:18px;color:var(--ink);flex:1}
+.desmos-panel-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:4px 6px;border-radius:6px}
+.desmos-panel-close:hover{color:var(--ink);background:var(--surface-hover)}
+.desmos-calc{flex:1;width:100%;height:100%}
+@media(max-width:600px){
+  .desmos-fab{right:22px;bottom:82px}
+  .desmos-panel{right:12px;bottom:144px}
+}
+
 /* ---- print / export ---- */
 @media print{
   :root,[data-theme="dark"]{
@@ -454,7 +499,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
   body{background:#fff;color:#000}
   body::before,.hero::after{display:none!important}
   #theme-toggle,.search-wrap,.ss-sticky-top .filter-row-wrap,.mobile-only-select,.nav,.nav-spacer,.tablist,
-  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
+  #spc-card,#cbot-fab,#cbot-panel,.back-to-top,.qref-drawer-fab,.qref-drawer,.desmos-fab,.desmos-panel,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
   .search-kbd,.ss-overall-progress,.q-kbd-hint,.diag-btn{display:none!important}
   *{position:static!important;box-shadow:none!important}
   .unit-body{display:block!important}
