@@ -167,7 +167,8 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .nav{display:flex;gap:6px;margin-bottom:24px;flex-wrap:wrap;border-bottom:1px solid var(--border);padding-bottom:14px}
 .tab-btn{padding:9px 18px;border:1px solid var(--border);background:var(--surface);border-radius:999px;cursor:pointer;
   font-size:21px;font-weight:600;color:var(--ink-muted);transition:all .15s ease;box-shadow:var(--shadow-sm)}
-.tab-btn:hover{color:var(--ink);border-color:var(--border-strong);background:var(--surface-hover)}
+.tab-btn:hover{color:var(--ink);border-color:var(--border-strong);background:var(--surface-hover);transform:scale(1.02)}
+.tab-btn:active{transform:scale(.98)}
 .tab-btn.active{background:var(--ink);color:var(--surface);border-color:var(--ink)}
 .view{display:none}.view.active{display:block;animation:fadein .25s ease}
 @keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
@@ -199,6 +200,7 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .filter-row::-webkit-scrollbar{height:4px}.filter-row::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
 .chip{white-space:nowrap;flex-shrink:0;padding:8px 16px;border-radius:999px;border:1px solid var(--border);background:var(--surface);font-size:14px;cursor:pointer;color:var(--ink-muted);transition:all .15s ease}
 .chip:hover{border-color:var(--border-strong);color:var(--ink);transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.chip:active{transform:scale(.98)}
 .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
 .ss-overall-progress{display:flex;align-items:center;gap:10px;margin:8px 0 12px}
 .ss-overall-progress-track{flex:1;height:6px;border-radius:99px;background:var(--surface-2);overflow:hidden}
@@ -208,11 +210,19 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
   transition:border-color .15s ease,box-shadow .15s ease}
 .unit:hover{border-color:var(--border-strong)}
 .unit.open{box-shadow:var(--shadow-sm)}
-.unit-hd{display:flex;justify-content:space-between;align-items:center;padding:15px 18px;cursor:pointer;user-select:none;transition:background .15s}
-.unit-hd:hover{background:var(--surface-2)}
+.unit-hd{display:flex;justify-content:space-between;align-items:center;padding:15px 18px;cursor:pointer;user-select:none;transition:background .15s,transform .15s ease}
+.unit-hd:hover{background:var(--surface-2);transform:scale(1.01)}
+.unit-hd:active{transform:scale(.99)}
 .unit.open .unit-hd{border-bottom:1px solid var(--border)}
 .unit-title{font-size:22.5px;font-weight:600;color:var(--ink)}
 .unit-meta{font-family:'Inter';font-size:18px;color:var(--ink-dim);margin-left:8px;font-weight:400}
+/* Per-unit weighted progress badge, shown in the unit accordion header once
+   the student has any tracked activity for that unit (see unitWeightedPct()
+   in logic.js) — omitted entirely at 0% so untouched units stay clean. */
+.unit-progress{display:inline-flex;align-items:center;gap:6px;margin-left:10px;flex-shrink:0}
+.unit-progress-track{width:52px;height:5px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.unit-progress-fill{height:100%;background:var(--accent);border-radius:99px;transition:width .3s ease}
+.unit-progress-label{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink-dim)}
 .chevron{font-size:24px;color:var(--ink-dim);transition:transform .2s ease;display:inline-block}
 .unit.open .chevron{transform:rotate(180deg);color:var(--accent)}
 .unit-body{display:none;padding:6px 18px 20px}
@@ -262,7 +272,8 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .fc-nav{display:flex;gap:10px;justify-content:center}
 .btn{padding:10px 22px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--ink);
   cursor:pointer;font-size:21px;font-weight:600;transition:all .15s ease;box-shadow:var(--shadow-sm)}
-.btn:hover{background:var(--surface-hover);border-color:var(--border-strong)}
+.btn:hover{background:var(--surface-hover);border-color:var(--border-strong);transform:scale(1.02)}
+.btn:active{transform:scale(.98)}
 .guess-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;margin-bottom:14px;border:1px dashed var(--border-strong);
   border-radius:99px;background:transparent;color:var(--ink-dim);font-size:16px;font-family:inherit;cursor:pointer;transition:all .18s ease}
 .guess-btn:hover{color:var(--amber);border-color:var(--amber);background:var(--amber-soft)}
@@ -292,6 +303,7 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
   font-size:21.8px;color:var(--ink-muted);background:var(--surface);transition:all .15s ease;text-align:left;
   display:flex;align-items:center;gap:9px}
 .q-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}
+.q-opt:active:not(:disabled){transform:scale(.98)}
 .q-opt:disabled{cursor:default}
 .q-opt .q-opt-icon{flex:none;display:none}
 .q-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}
@@ -577,6 +589,26 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
   .desmos-panel{right:12px;bottom:144px}
 }
 
+/* ---- keyboard-shortcuts reference modal, opened with "?" (see
+   shortcutsModalToggle() in logic.js). Follows the same fixed-panel +
+   Escape-to-close + open-class pattern as .desmos-panel/.qref-drawer, but
+   centered like a dialog rather than docked to an edge. ---- */
+.shortcuts-modal{position:fixed;inset:0;z-index:230;display:none;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.45);padding:20px}
+.shortcuts-modal.open{display:flex}
+.shortcuts-modal-card{width:min(420px,100%);max-height:min(500px,calc(100dvh - 40px));overflow-y:auto;
+  background:var(--surface);border:1px solid var(--border-strong);border-radius:var(--radius);box-shadow:var(--shadow-lg)}
+.shortcuts-modal-hd{display:flex;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+.shortcuts-modal-hd b{font-family:'Space Grotesk';font-size:19px;color:var(--ink);flex:1}
+.shortcuts-modal-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:4px 8px;border-radius:6px}
+.shortcuts-modal-close:hover{color:var(--ink);background:var(--surface-hover)}
+.shortcuts-modal-body{padding:6px 16px 16px}
+.shortcuts-modal-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--border)}
+.shortcuts-modal-row:last-child{border-bottom:none}
+.shortcuts-modal-row span{font-size:15px;color:var(--ink-muted)}
+.shortcuts-modal-row kbd{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink);background:var(--surface-2);
+  border:1px solid var(--border);border-radius:6px;padding:3px 8px}
+
 /* ---- print / export ---- */
 @media print{
   :root,[data-theme="dark"]{
@@ -591,8 +623,8 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
   body{background:#fff;color:#000}
   body::before,.hero::after{display:none!important}
   #theme-toggle,.search-wrap,.ss-sticky-top .filter-row-wrap,.mobile-only-select,.nav,.nav-spacer,.tablist,
-  #spc-card,#cbot-panel,.back-to-top,.toolkit-fab,.toolkit-menu,.qref-drawer,.desmos-panel,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
-  .search-kbd,.ss-overall-progress,.q-kbd-hint,.diag-btn{display:none!important}
+  #spc-card,#cbot-panel,.back-to-top,.toolkit-fab,.toolkit-menu,.qref-drawer,.desmos-panel,.shortcuts-modal,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
+  .search-kbd,.ss-overall-progress,.unit-progress,.q-kbd-hint,.diag-btn{display:none!important}
   *{position:static!important;box-shadow:none!important}
   .unit-body{display:block!important}
   .unit .chevron{display:none!important}
@@ -729,7 +761,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
     <span class="ss-overall-progress-label" id="ss-overall-progress-label">0% of the question bank attempted</span>
   </div>
   </div>
-  <div id="units"><div class="unit" data-id="1"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 1: World Literature & Cultural Context<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Reading across cultures</div><div class="c-text">World lit asks you to bracket assumptions and read values from the inside.</div><ul class="c-list"><li>Cultural context = beliefs, history, and social structures shaping a text's meaning</li><li>Avoid ethnocentrism: judge actions by the text's value system first, then compare</li><li>Translation layers matter: wordplay/idioms may not survive language transfer</li><li>Universals vs particulars: shared human themes wear culture-specific clothing</li></ul></div><div class="concept"><div class="c-label">Oral traditions & archetypes</div><div class="c-text">Many world texts began spoken — structure carries their fingerprints.</div><ul class="c-list"><li>Repetition/formula phrases aided memorization (epithets, refrains)</li><li>Trickster figures (Anansi, Coyote) enforce norms by breaking them</li><li>Creation myths encode a culture's cosmology and hierarchy</li><li>Archetypes recur cross-culturally: hero's journey, flood narrative, descent to underworld</li></ul></div><div class="concept"><div class="c-label">Colonial & postcolonial lenses</div><div class="c-text">Power shapes whose stories get told and how.</div><ul class="c-list"><li>Colonial literature often frames colonized people through the colonizer's gaze</li><li>Postcolonial writing reclaims voice: hybridity, resisting narratives, writing back</li><li>Terms: othering, assimilation, diaspora, subaltern</li><li>Read for whose perspective centers the story and whose is erased</li></ul></div><div class="concept"><div class="c-label">Close reading with context</div><div class="c-text">Context informs but evidence proves — balance both.</div><ul class="c-list"><li>Research customs only after first-pass reading; don't outsource interpretation</li><li>Anchor claims in textual detail + cultural knowledge together</li><li>Note your own lens: what surprises you reveals YOUR assumptions</li><li>Compare across texts: how do two cultures treat hospitality, honor, fate?</li></ul></div><div class="trap">Don't grade historical characters by modern standards without noting the anachronism</div><div class="trap">'Universal theme' claims still need textual proof from THAT text</div><div class="trap">Translated names/terms carry weight — check transliteration notes</div></div></div><div class="unit" data-id="2"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 2: Rhetorical Analysis<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">The rhetorical situation</div><div class="c-text">Every text answers to speaker, purpose, audience, context, exigence.</div><ul class="c-list"><li>Speaker: constructed voice with stakes and credibility moves</li><li>Purpose: what the text tries to DO (persuade, move, console, provoke)</li><li>Audience: intended readers shape vocabulary, allusions, tone choices</li><li>Exigence: the occasion/urgency that called the text into being</li></ul></div><div class="concept"><div class="c-label">Tone & diction analysis</div><div class="c-text">Word choice is the fingerprint of attitude.</div><ul class="c-list"><li>Name tone precisely: wry, elegiac, indignant, clinical — never just 'negative'</li><li>Diction levels: formal/casual/colloquial/archaic — shifts signal pivots</li><li>Connotation vs denotation: 'thrifty' vs 'stingy' same denotation, opposite spin</li><li>Imagery patterns cluster around motifs supporting the purpose</li></ul></div><div class="concept"><div class="c-label">Structure & syntax moves</div><div class="c-text">How sentences build IS argumentation.</div><ul class="c-list"><li>Short sentence after long ones lands like a hammer — deliberate emphasis</li><li>Parallelism binds equal ideas; antithesis sets opposites colliding</li><li>Repetition + anaphora build momentum toward a climax</li><li>Opening/closing positions carry primacy/recency weight — authors load them</li></ul></div><div class="concept"><div class="c-label">Writing the analysis essay</div><div class="c-text">Analysis explains HOW choices work on audiences — not whether you agree.</div><ul class="c-list"><li>Thesis names strategy + purpose: 'Through X, author Y accomplishes Z for audience W'</li><li>Body paragraphs organize by MOVES, not by chronology of the passage</li><li>Quote → name device → explain audience effect → tie to purpose</li><li>Never editorialize about the topic itself — analyze the persuasion craft</li></ul></div><div class="trap">Summarizing content ≠ analyzing rhetoric — always answer HOW the writing works</div><div class="trap">Device-spotting without effect ('this has anaphora') earns nothing</div><div class="trap">Your opinion of the ISSUE is irrelevant in rhetorical analysis</div></div></div><div class="unit" data-id="3"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 3: Shakespearean Drama & Tragedy<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Tragic hero architecture</div><div class="c-text">The noble protagonist falls through hamartia — fatal flaw meeting circumstance.</div><ul class="c-list"><li>Hamartia: tragic error/flaw (ambition, jealousy, indecision)</li><li>Peripeteia: reversal of fortune at the midpoint turn</li><li>Anagnorisis: recognition — hero finally sees truth, too late</li><li>Catharsis: audience purges pity+fear through witnessing the fall</li></ul></div><div class="concept"><div class="c-label">Soliloquy, aside, monologue</div><div class="c-text">Shakespeare's interiority tools differ precisely.</div><ul class="c-list"><li>Soliloquy: ALONE on stage, speaking thoughts to audience — direct mind-access</li><li>Aside: brief remark to audience hidden from other characters</li><li>Monologue: long speech TO other characters (they hear it)</li><li>These expose motive gaps between appearance and reality — dramatic irony fuel</li></ul></div><div class="concept"><div class="c-label">Dramatic irony & foreshadowing</div><div class="c-text">Audience foreknowledge converts scenes into suspense machines.</div><ul class="c-list"><li>Witches' prophecies make every choice read as fate-vs-free-will evidence</li><li>Dramatic irony: we know Duncan's trust is doomed; he doesn't</li><li>Foreshadowing devices: omens, storms, blood imagery accumulating</li><li>Pathetic fallacy: nature mirrors moral disorder (thunder during regicide)</li></ul></div><div class="concept"><div class="c-label">Language: verse, prose & imagery</div><div class="c-text">Form marks class and sanity in Shakespeare.</div><ul class="c-list"><li>Nobles speak blank verse (unrhymed iambic pentameter); commoners prose</li><li>Falling INTO prose can signal madness/loss of control; rising to verse = restored order</li><li>Motif webs: blood, sleep, hands, darkness track guilt in Macbeth</li><li>Apostrophe: addressing absent things ('Sleep, O gentle Sleep…')</li></ul></div><div class="trap">Monologue ≠ soliloquy — presence of listeners is the test</div><div class="trap">Prophecies don't excuse characters: they act on interpretations (free will debate)</div><div class="trap">Comic relief scenes often deepen theme, not distract from it</div></div></div><div class="unit" data-id="4"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 4: Dystopian Literature & Allegory<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Dystopia as warning</div><div class="c-text">Dystopias exaggerate present trends into cautionary futures.</div><ul class="c-list"><li>Utopia = perfect society (ironically 'no-place'); dystopia = its nightmare inversion</li><li>Control levers: surveillance, language restriction, history rewriting, engineered pleasure</li><li>Protagonist awakening arc: compliance → doubt → rebellion → ambiguous cost</li><li>Warnings target the author's PRESENT — read historically to decode targets</li></ul></div><div class="concept"><div class="c-label">Totalitarian toolkits in fiction</div><div class="c-text">Classic dystopias map how freedom erodes step by step.</div><ul class="c-list"><li>Newspeak-style language control limits thinkable thoughts (linguistic determinism)</li><li>Surveillance state: panopticon effect — victims internalize the watching gaze</li><li>Slogans replace reasoning; contradictions embraced as loyalty tests (doublethink)</li><li>Bread & circuses: engineered distraction pacifies more efficiently than fear</li></ul></div><div class="concept"><div class="c-label">Allegory mechanics</div><div class="c-text">Allegories run double stories: surface plot plus systematic second meaning.</div><ul class="c-list"><li>Every element maps consistently: characters/settings/events = abstract ideas</li><li>Fable = brief allegory with stated moral; parable = spiritual teaching frame</li><li>Track correspondences on a character-concept chart for sustained allegories</li><li>Degree matters: pure one-to-one allegory vs symbolic realism differ in rigidity</li></ul></div><div class="concept"><div class="c-label">Satire inside allegory</div><div class="c-text">Many allegories satirize specific regimes or human failings.</div><ul class="c-list"><li>Satire critiques through humor/irony — Horatian gentle vs Juvenalian biting</li><li>Exaggeration + inversion expose real absurdities by magnifying them</li><li>Targets may be systems (totalitarianism) AND betrayals within resistance movements</li><li>Ask what behavior gets punished or mocked — that reveals the defended value</li></ul></div><div class="trap">Don't flatten allegory into decoder-ring exercise — literary texture still carries meaning</div><div class="trap">'Orwellian' means language/truth manipulation, not just any government disliked</div><div class="trap">One group's utopia can be another's dystopia — perspective determines label</div></div></div><div class="unit" data-id="5"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 5: Argumentation & Logical Fallacies<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Formal logic basics</div><div class="c-text">Arguments chain premises into conclusions; validity and truth are separate checks.</div><ul class="c-list"><li>Deductive reasoning: true premises + valid structure = necessarily true conclusion</li><li>Inductive reasoning: observed patterns support probable (not guaranteed) conclusions</li><li>Syllogism: major premise + minor premise → conclusion</li><li>Soundness requires BOTH valid structure AND actually-true premises</li></ul></div><div class="concept"><div class="c-label">Relevance fallacies</div><div class="c-text">These fallacies distract from the actual question at issue.</div><ul class="c-list"><li>Ad hominem attacks the arguer instead of the argument's merits</li><li>Straw man refutes a distorted, weakened version of the opponent's actual claim</li><li>Red herring drags in irrelevant material to divert attention</li><li>Bandwagon appeal treats popularity as evidence — it is not</li></ul></div><div class="concept"><div class="c-label">Causation & emotional fallacies</div><div class="c-text">Cause-effect shortcuts and feeling substitutions replace proof.</div><ul class="c-list"><li>Post hoc ergo propter hoc: sequence mistaken for causation</li><li>Hasty generalization projects sweeping claims from tiny samples</li><li>Slippery slope asserts an unproven chain of escalating consequences</li><li>Appeal to fear/pity substitutes emotional pressure for evidence</li></ul></div><div class="concept"><div class="c-label">Resisting manipulation</div><div class="c-text">Media literacy is fallacy detection at reading speed.</div><ul class="c-list"><li>Loaded language smuggles conclusions into supposedly neutral descriptions</li><li>Check source incentives: who profits if this claim spreads?</li><li>Steelman opposing views before concluding — test against their best case</li><li>Statistics without denominators mislead: 'doubled' from 1 to 2 cases</li></ul></div><div class="trap">Ad hominem ≠ insulting someone generally — it's dismissing their ARGUMENT via the person</div><div class="trap">Each slippery-slope link needs independent justification; chains fail link-by-link</div><div class="trap">Correlation studies need controls before causal headlines earn belief</div></div></div><div class="unit" data-id="6"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 6: Poetry Analysis II<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Tone mapping & shifts</div><div class="c-text">Track attitude word by word; good poems move.</div><ul class="c-list"><li>Name tone precisely on spectra: reverent-mocking, elegiac-celebratory, wistful-bitter</li><li>Mark shift signals: 'but/yet', stanza breaks, volta, image-field changes</li><li>Shift analysis answers WHY the poem needed to turn at that exact point</li><li>Ending tone often retroactively revises earlier lines — reread on finishing</li></ul></div><div class="concept"><div class="c-label">Ambiguity as design</div><div class="c-text">Great poems deliberately mean more than one thing at once.</div><ul class="c-list"><li>Intentional ambiguity resists flattening into a single interpretation</li><li>Multiple readings coexist legitimately when each has textual grounding</li><li>Ambiguity differs from vagueness: precise words open multiple precise doors</li><li>Discuss competing readings, then argue which the text best supports</li></ul></div><div class="concept"><div class="c-label">Extended metaphor & conceit</div><div class="c-text">Conceits stretch comparison into load-bearing architecture.</div><ul class="c-list"><li>Metaphysical conceit: startlingly intellectual parallels (lovers as compass legs)</li><li>Extended metaphor sustains one comparison across entire stanzas</li><li>Tracking every term of the conceit exposes the poem's argument structure</li><li>Mixed metaphors may be intentional — check whether context earns them</li></ul></div><div class="concept"><div class="c-label">Comparative poetry essays</div><div class="c-text">Comparison essays must argue about technique, not just summarize two poems.</div><ul class="c-list"><li>Thesis compares TECHNIQUES serving purposes, never 'poem A is about X, poem B about Y'</li><li>Organize by element (tone shift / imagery / structure), alternating texts within paragraphs</li><li>Maintain balance: roughly equal attention to both poems throughout</li><li>Conclusion states what the comparison itself reveals — insight neither poem gives alone</li></ul></div><div class="trap">Unbounded 'anything goes' readings ignore that text evidence bounds ambiguity</div><div class="trap">Summary sandwich isn't comparison — each paragraph needs an analytical claim</div><div class="trap">Modern lenses need period-aware framing plus textual anchors to persuade</div></div></div><div class="unit" data-id="7"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 7: Research & Citation (MLA)<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Research question design</div><div class="c-text">Good research starts with a question worth answering.</div><ul class="c-list"><li>Scope: narrow enough to answer in essay length, broad enough to matter</li><li>Open beats closed: 'How did X affect Y?' invites analysis, not trivia recall</li><li>Preliminary searching tests whether sources actually exist</li><li>Thesis EVOLVES from evidence — never reverse-engineer sources to fit a fixed claim</li></ul></div><div class="concept"><div class="c-label">Source evaluation (CRAAP)</div><div class="c-text">Not every source deserves your citation.</div><ul class="c-list"><li>Currency: date sensitivity varies by field — science fast-moving, history slower</li><li>Authority: author credentials, publisher reputation, peer-review markers</li><li>Accuracy: internal citations, verifiable data, absence of howler errors</li><li>Purpose/bias: advocacy sites disguise themselves — check About pages and funders</li></ul></div><div class="concept"><div class="c-label">MLA in-text citations</div><div class="c-text">MLA uses author-page parentheticals with graceful signal phrasing.</div><ul class="c-list"><li>Basic form: (Fitzgerald 88) — no comma, no 'p.'</li><li>Vary signal verbs: argues, observes, counters, acknowledges</li><li>Prose attribution example: Fitzgerald suggests the parties mask loneliness (55).</li><li>No author → shortened title; web pages without pagination → author only</li></ul></div><div class="concept"><div class="c-label">Works Cited & plagiarism</div><div class="c-text">Every borrowed idea gets credit — not just direct quotes.</div><ul class="c-list"><li>Alphabetical list, hanging indent at 0.5 inch on second lines</li><li>Container system: article inside journal inside database — nested titles</li><li>Cite paraphrases AND summaries; ideas carry ownership, not just wording</li><li>Common-knowledge exception is narrower than students hope: when unsure, cite</li></ul></div><div class="trap">'I reworded it' does not erase the citation requirement — ideas are owned</div><div class="trap">Wikipedia is a source-finding tool, not itself a citable authority</div><div class="trap">Web sources without page numbers cite author alone or shortened title</div></div></div><div class="unit" data-id="8"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 8: Style & Syntax<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Sentence variety architecture</div><div class="c-text">Rhythm keeps readers awake; deliberate patterns create emphasis.</div><ul class="c-list"><li>Mix lengths: short sentences punch; long ones chain logic</li><li>Vary openers — participial ('Exhausted, she…'), prepositional, adverbial starts</li><li>Cumulative sentences add detail after the main clause; periodic save the verb for suspense</li><li>Vary any run of three same-shape sentences — rhythm rules of thumb</li></ul></div><div class="concept"><div class="c-label">Diction precision & connotation</div><div class="c-text">Exact words earn their slot; near-synonyms betray fuzzy thinking.</div><ul class="c-list"><li>Prefer concrete over abstract: 'walked heavily' beats 'moved'</li><li>Connotation audit: cheap / inexpensive / thrifty carry opposite judgments</li><li>Delete intensifiers (very, really) — stronger verbs do that work</li><li>Register must match: slang breaks academic tone; pomposity breaks trust</li></ul></div><div class="concept"><div class="c-label">Active voice & concision</div><div class="c-text">Strong subjects performing strong verbs read fastest.</div><ul class="c-list"><li>Active: The committee rejected the proposal. Passive hides or delays the actor</li><li>Passive earns its keep when the actor is unknown, irrelevant, or the receiver deserves emphasis</li><li>Wordiness patterns: there-is openers and nominalizations (make a decision → decide)</li><li>Redundancy cuts: advance planning, end result, absolutely essential</li></ul></div><div class="concept"><div class="c-label">Revision hierarchy</div><div class="c-text">Revise big-to-small: argument before paragraphs before words before commas.</div><ul class="c-list"><li>Pass 1: thesis integrity and paragraph order serve the argument</li><li>Pass 2: PEEL completeness inside paragraphs plus transitions between moves</li><li>Pass 3: sentence concision, variety, active-voice audit</li><li>Pass 4: grammar, punctuation, MLA format — mechanics come last</li></ul></div><div class="trap">Passive voice is a tool, not a crime — blanket bans misfire in methods sections</div><div class="trap">Thesaurus swaps produce wrong connotations: pensive is not interchangeable with sad</div><div class="trap">Fixing commas first wastes effort when the argument still needs restructuring</div></div></div></div></div>
+  <div id="units"><div class="unit" data-id="1"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 1: World Literature & Cultural Context<span class="unit-meta">4 concepts · ~18 min</span></span><span class="unit-progress" id="unit-progress-1" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Reading across cultures</div><div class="c-text">World lit asks you to bracket assumptions and read values from the inside.</div><ul class="c-list"><li>Cultural context = beliefs, history, and social structures shaping a text's meaning</li><li>Avoid ethnocentrism: judge actions by the text's value system first, then compare</li><li>Translation layers matter: wordplay/idioms may not survive language transfer</li><li>Universals vs particulars: shared human themes wear culture-specific clothing</li></ul></div><div class="concept"><div class="c-label">Oral traditions & archetypes</div><div class="c-text">Many world texts began spoken — structure carries their fingerprints.</div><ul class="c-list"><li>Repetition/formula phrases aided memorization (epithets, refrains)</li><li>Trickster figures (Anansi, Coyote) enforce norms by breaking them</li><li>Creation myths encode a culture's cosmology and hierarchy</li><li>Archetypes recur cross-culturally: hero's journey, flood narrative, descent to underworld</li></ul></div><div class="concept"><div class="c-label">Colonial & postcolonial lenses</div><div class="c-text">Power shapes whose stories get told and how.</div><ul class="c-list"><li>Colonial literature often frames colonized people through the colonizer's gaze</li><li>Postcolonial writing reclaims voice: hybridity, resisting narratives, writing back</li><li>Terms: othering, assimilation, diaspora, subaltern</li><li>Read for whose perspective centers the story and whose is erased</li></ul></div><div class="concept"><div class="c-label">Close reading with context</div><div class="c-text">Context informs but evidence proves — balance both.</div><ul class="c-list"><li>Research customs only after first-pass reading; don't outsource interpretation</li><li>Anchor claims in textual detail + cultural knowledge together</li><li>Note your own lens: what surprises you reveals YOUR assumptions</li><li>Compare across texts: how do two cultures treat hospitality, honor, fate?</li></ul></div><div class="trap">Don't grade historical characters by modern standards without noting the anachronism</div><div class="trap">'Universal theme' claims still need textual proof from THAT text</div><div class="trap">Translated names/terms carry weight — check transliteration notes</div></div></div><div class="unit" data-id="2"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 2: Rhetorical Analysis<span class="unit-meta">4 concepts · ~18 min</span></span><span class="unit-progress" id="unit-progress-2" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">The rhetorical situation</div><div class="c-text">Every text answers to speaker, purpose, audience, context, exigence.</div><ul class="c-list"><li>Speaker: constructed voice with stakes and credibility moves</li><li>Purpose: what the text tries to DO (persuade, move, console, provoke)</li><li>Audience: intended readers shape vocabulary, allusions, tone choices</li><li>Exigence: the occasion/urgency that called the text into being</li></ul></div><div class="concept"><div class="c-label">Tone & diction analysis</div><div class="c-text">Word choice is the fingerprint of attitude.</div><ul class="c-list"><li>Name tone precisely: wry, elegiac, indignant, clinical — never just 'negative'</li><li>Diction levels: formal/casual/colloquial/archaic — shifts signal pivots</li><li>Connotation vs denotation: 'thrifty' vs 'stingy' same denotation, opposite spin</li><li>Imagery patterns cluster around motifs supporting the purpose</li></ul></div><div class="concept"><div class="c-label">Structure & syntax moves</div><div class="c-text">How sentences build IS argumentation.</div><ul class="c-list"><li>Short sentence after long ones lands like a hammer — deliberate emphasis</li><li>Parallelism binds equal ideas; antithesis sets opposites colliding</li><li>Repetition + anaphora build momentum toward a climax</li><li>Opening/closing positions carry primacy/recency weight — authors load them</li></ul></div><div class="concept"><div class="c-label">Writing the analysis essay</div><div class="c-text">Analysis explains HOW choices work on audiences — not whether you agree.</div><ul class="c-list"><li>Thesis names strategy + purpose: 'Through X, author Y accomplishes Z for audience W'</li><li>Body paragraphs organize by MOVES, not by chronology of the passage</li><li>Quote → name device → explain audience effect → tie to purpose</li><li>Never editorialize about the topic itself — analyze the persuasion craft</li></ul></div><div class="trap">Summarizing content ≠ analyzing rhetoric — always answer HOW the writing works</div><div class="trap">Device-spotting without effect ('this has anaphora') earns nothing</div><div class="trap">Your opinion of the ISSUE is irrelevant in rhetorical analysis</div></div></div><div class="unit" data-id="3"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 3: Shakespearean Drama & Tragedy<span class="unit-meta">4 concepts · ~18 min</span></span><span class="unit-progress" id="unit-progress-3" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Tragic hero architecture</div><div class="c-text">The noble protagonist falls through hamartia — fatal flaw meeting circumstance.</div><ul class="c-list"><li>Hamartia: tragic error/flaw (ambition, jealousy, indecision)</li><li>Peripeteia: reversal of fortune at the midpoint turn</li><li>Anagnorisis: recognition — hero finally sees truth, too late</li><li>Catharsis: audience purges pity+fear through witnessing the fall</li></ul></div><div class="concept"><div class="c-label">Soliloquy, aside, monologue</div><div class="c-text">Shakespeare's interiority tools differ precisely.</div><ul class="c-list"><li>Soliloquy: ALONE on stage, speaking thoughts to audience — direct mind-access</li><li>Aside: brief remark to audience hidden from other characters</li><li>Monologue: long speech TO other characters (they hear it)</li><li>These expose motive gaps between appearance and reality — dramatic irony fuel</li></ul></div><div class="concept"><div class="c-label">Dramatic irony & foreshadowing</div><div class="c-text">Audience foreknowledge converts scenes into suspense machines.</div><ul class="c-list"><li>Witches' prophecies make every choice read as fate-vs-free-will evidence</li><li>Dramatic irony: we know Duncan's trust is doomed; he doesn't</li><li>Foreshadowing devices: omens, storms, blood imagery accumulating</li><li>Pathetic fallacy: nature mirrors moral disorder (thunder during regicide)</li></ul></div><div class="concept"><div class="c-label">Language: verse, prose & imagery</div><div class="c-text">Form marks class and sanity in Shakespeare.</div><ul class="c-list"><li>Nobles speak blank verse (unrhymed iambic pentameter); commoners prose</li><li>Falling INTO prose can signal madness/loss of control; rising to verse = restored order</li><li>Motif webs: blood, sleep, hands, darkness track guilt in Macbeth</li><li>Apostrophe: addressing absent things ('Sleep, O gentle Sleep…')</li></ul></div><div class="trap">Monologue ≠ soliloquy — presence of listeners is the test</div><div class="trap">Prophecies don't excuse characters: they act on interpretations (free will debate)</div><div class="trap">Comic relief scenes often deepen theme, not distract from it</div></div></div><div class="unit" data-id="4"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 4: Dystopian Literature & Allegory<span class="unit-meta">4 concepts · ~18 min</span></span><span class="unit-progress" id="unit-progress-4" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Dystopia as warning</div><div class="c-text">Dystopias exaggerate present trends into cautionary futures.</div><ul class="c-list"><li>Utopia = perfect society (ironically 'no-place'); dystopia = its nightmare inversion</li><li>Control levers: surveillance, language restriction, history rewriting, engineered pleasure</li><li>Protagonist awakening arc: compliance → doubt → rebellion → ambiguous cost</li><li>Warnings target the author's PRESENT — read historically to decode targets</li></ul></div><div class="concept"><div class="c-label">Totalitarian toolkits in fiction</div><div class="c-text">Classic dystopias map how freedom erodes step by step.</div><ul class="c-list"><li>Newspeak-style language control limits thinkable thoughts (linguistic determinism)</li><li>Surveillance state: panopticon effect — victims internalize the watching gaze</li><li>Slogans replace reasoning; contradictions embraced as loyalty tests (doublethink)</li><li>Bread & circuses: engineered distraction pacifies more efficiently than fear</li></ul></div><div class="concept"><div class="c-label">Allegory mechanics</div><div class="c-text">Allegories run double stories: surface plot plus systematic second meaning.</div><ul class="c-list"><li>Every element maps consistently: characters/settings/events = abstract ideas</li><li>Fable = brief allegory with stated moral; parable = spiritual teaching frame</li><li>Track correspondences on a character-concept chart for sustained allegories</li><li>Degree matters: pure one-to-one allegory vs symbolic realism differ in rigidity</li></ul></div><div class="concept"><div class="c-label">Satire inside allegory</div><div class="c-text">Many allegories satirize specific regimes or human failings.</div><ul class="c-list"><li>Satire critiques through humor/irony — Horatian gentle vs Juvenalian biting</li><li>Exaggeration + inversion expose real absurdities by magnifying them</li><li>Targets may be systems (totalitarianism) AND betrayals within resistance movements</li><li>Ask what behavior gets punished or mocked — that reveals the defended value</li></ul></div><div class="trap">Don't flatten allegory into decoder-ring exercise — literary texture still carries meaning</div><div class="trap">'Orwellian' means language/truth manipulation, not just any government disliked</div><div class="trap">One group's utopia can be another's dystopia — perspective determines label</div></div></div><div class="unit" data-id="5"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 5: Argumentation & Logical Fallacies<span class="unit-meta">4 concepts · ~18 min</span></span><span class="unit-progress" id="unit-progress-5" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Formal logic basics</div><div class="c-text">Arguments chain premises into conclusions; validity and truth are separate checks.</div><ul class="c-list"><li>Deductive reasoning: true premises + valid structure = necessarily true conclusion</li><li>Inductive reasoning: observed patterns support probable (not guaranteed) conclusions</li><li>Syllogism: major premise + minor premise → conclusion</li><li>Soundness requires BOTH valid structure AND actually-true premises</li></ul></div><div class="concept"><div class="c-label">Relevance fallacies</div><div class="c-text">These fallacies distract from the actual question at issue.</div><ul class="c-list"><li>Ad hominem attacks the arguer instead of the argument's merits</li><li>Straw man refutes a distorted, weakened version of the opponent's actual claim</li><li>Red herring drags in irrelevant material to divert attention</li><li>Bandwagon appeal treats popularity as evidence — it is not</li></ul></div><div class="concept"><div class="c-label">Causation & emotional fallacies</div><div class="c-text">Cause-effect shortcuts and feeling substitutions replace proof.</div><ul class="c-list"><li>Post hoc ergo propter hoc: sequence mistaken for causation</li><li>Hasty generalization projects sweeping claims from tiny samples</li><li>Slippery slope asserts an unproven chain of escalating consequences</li><li>Appeal to fear/pity substitutes emotional pressure for evidence</li></ul></div><div class="concept"><div class="c-label">Resisting manipulation</div><div class="c-text">Media literacy is fallacy detection at reading speed.</div><ul class="c-list"><li>Loaded language smuggles conclusions into supposedly neutral descriptions</li><li>Check source incentives: who profits if this claim spreads?</li><li>Steelman opposing views before concluding — test against their best case</li><li>Statistics without denominators mislead: 'doubled' from 1 to 2 cases</li></ul></div><div class="trap">Ad hominem ≠ insulting someone generally — it's dismissing their ARGUMENT via the person</div><div class="trap">Each slippery-slope link needs independent justification; chains fail link-by-link</div><div class="trap">Correlation studies need controls before causal headlines earn belief</div></div></div><div class="unit" data-id="6"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 6: Poetry Analysis II<span class="unit-meta">4 concepts · ~18 min</span></span><span class="unit-progress" id="unit-progress-6" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Tone mapping & shifts</div><div class="c-text">Track attitude word by word; good poems move.</div><ul class="c-list"><li>Name tone precisely on spectra: reverent-mocking, elegiac-celebratory, wistful-bitter</li><li>Mark shift signals: 'but/yet', stanza breaks, volta, image-field changes</li><li>Shift analysis answers WHY the poem needed to turn at that exact point</li><li>Ending tone often retroactively revises earlier lines — reread on finishing</li></ul></div><div class="concept"><div class="c-label">Ambiguity as design</div><div class="c-text">Great poems deliberately mean more than one thing at once.</div><ul class="c-list"><li>Intentional ambiguity resists flattening into a single interpretation</li><li>Multiple readings coexist legitimately when each has textual grounding</li><li>Ambiguity differs from vagueness: precise words open multiple precise doors</li><li>Discuss competing readings, then argue which the text best supports</li></ul></div><div class="concept"><div class="c-label">Extended metaphor & conceit</div><div class="c-text">Conceits stretch comparison into load-bearing architecture.</div><ul class="c-list"><li>Metaphysical conceit: startlingly intellectual parallels (lovers as compass legs)</li><li>Extended metaphor sustains one comparison across entire stanzas</li><li>Tracking every term of the conceit exposes the poem's argument structure</li><li>Mixed metaphors may be intentional — check whether context earns them</li></ul></div><div class="concept"><div class="c-label">Comparative poetry essays</div><div class="c-text">Comparison essays must argue about technique, not just summarize two poems.</div><ul class="c-list"><li>Thesis compares TECHNIQUES serving purposes, never 'poem A is about X, poem B about Y'</li><li>Organize by element (tone shift / imagery / structure), alternating texts within paragraphs</li><li>Maintain balance: roughly equal attention to both poems throughout</li><li>Conclusion states what the comparison itself reveals — insight neither poem gives alone</li></ul></div><div class="trap">Unbounded 'anything goes' readings ignore that text evidence bounds ambiguity</div><div class="trap">Summary sandwich isn't comparison — each paragraph needs an analytical claim</div><div class="trap">Modern lenses need period-aware framing plus textual anchors to persuade</div></div></div><div class="unit" data-id="7"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 7: Research & Citation (MLA)<span class="unit-meta">4 concepts · ~18 min</span></span><span class="unit-progress" id="unit-progress-7" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Research question design</div><div class="c-text">Good research starts with a question worth answering.</div><ul class="c-list"><li>Scope: narrow enough to answer in essay length, broad enough to matter</li><li>Open beats closed: 'How did X affect Y?' invites analysis, not trivia recall</li><li>Preliminary searching tests whether sources actually exist</li><li>Thesis EVOLVES from evidence — never reverse-engineer sources to fit a fixed claim</li></ul></div><div class="concept"><div class="c-label">Source evaluation (CRAAP)</div><div class="c-text">Not every source deserves your citation.</div><ul class="c-list"><li>Currency: date sensitivity varies by field — science fast-moving, history slower</li><li>Authority: author credentials, publisher reputation, peer-review markers</li><li>Accuracy: internal citations, verifiable data, absence of howler errors</li><li>Purpose/bias: advocacy sites disguise themselves — check About pages and funders</li></ul></div><div class="concept"><div class="c-label">MLA in-text citations</div><div class="c-text">MLA uses author-page parentheticals with graceful signal phrasing.</div><ul class="c-list"><li>Basic form: (Fitzgerald 88) — no comma, no 'p.'</li><li>Vary signal verbs: argues, observes, counters, acknowledges</li><li>Prose attribution example: Fitzgerald suggests the parties mask loneliness (55).</li><li>No author → shortened title; web pages without pagination → author only</li></ul></div><div class="concept"><div class="c-label">Works Cited & plagiarism</div><div class="c-text">Every borrowed idea gets credit — not just direct quotes.</div><ul class="c-list"><li>Alphabetical list, hanging indent at 0.5 inch on second lines</li><li>Container system: article inside journal inside database — nested titles</li><li>Cite paraphrases AND summaries; ideas carry ownership, not just wording</li><li>Common-knowledge exception is narrower than students hope: when unsure, cite</li></ul></div><div class="trap">'I reworded it' does not erase the citation requirement — ideas are owned</div><div class="trap">Wikipedia is a source-finding tool, not itself a citable authority</div><div class="trap">Web sources without page numbers cite author alone or shortened title</div></div></div><div class="unit" data-id="8"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 8: Style & Syntax<span class="unit-meta">4 concepts · ~18 min</span></span><span class="unit-progress" id="unit-progress-8" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Sentence variety architecture</div><div class="c-text">Rhythm keeps readers awake; deliberate patterns create emphasis.</div><ul class="c-list"><li>Mix lengths: short sentences punch; long ones chain logic</li><li>Vary openers — participial ('Exhausted, she…'), prepositional, adverbial starts</li><li>Cumulative sentences add detail after the main clause; periodic save the verb for suspense</li><li>Vary any run of three same-shape sentences — rhythm rules of thumb</li></ul></div><div class="concept"><div class="c-label">Diction precision & connotation</div><div class="c-text">Exact words earn their slot; near-synonyms betray fuzzy thinking.</div><ul class="c-list"><li>Prefer concrete over abstract: 'walked heavily' beats 'moved'</li><li>Connotation audit: cheap / inexpensive / thrifty carry opposite judgments</li><li>Delete intensifiers (very, really) — stronger verbs do that work</li><li>Register must match: slang breaks academic tone; pomposity breaks trust</li></ul></div><div class="concept"><div class="c-label">Active voice & concision</div><div class="c-text">Strong subjects performing strong verbs read fastest.</div><ul class="c-list"><li>Active: The committee rejected the proposal. Passive hides or delays the actor</li><li>Passive earns its keep when the actor is unknown, irrelevant, or the receiver deserves emphasis</li><li>Wordiness patterns: there-is openers and nominalizations (make a decision → decide)</li><li>Redundancy cuts: advance planning, end result, absolutely essential</li></ul></div><div class="concept"><div class="c-label">Revision hierarchy</div><div class="c-text">Revise big-to-small: argument before paragraphs before words before commas.</div><ul class="c-list"><li>Pass 1: thesis integrity and paragraph order serve the argument</li><li>Pass 2: PEEL completeness inside paragraphs plus transitions between moves</li><li>Pass 3: sentence concision, variety, active-voice audit</li><li>Pass 4: grammar, punctuation, MLA format — mechanics come last</li></ul></div><div class="trap">Passive voice is a tool, not a crime — blanket bans misfire in methods sections</div><div class="trap">Thesaurus swaps produce wrong connotations: pensive is not interchangeable with sad</div><div class="trap">Fixing commas first wastes effort when the argument still needs restructuring</div></div></div></div></div>
 <div id="view-cards" class="view" role="tabpanel" aria-labelledby="tab-cards" tabindex="0">
   <div class="fc-bar">
     <select id="fc-sel" aria-label="Choose a flashcard set" onchange="loadFC()"></select>
@@ -1012,6 +1044,17 @@ return `<div class="ex-part" id="ex-part-${id}">
    persisted to localStorage either. Not a proctored test: hitting zero just
    shows "Time's up" and stops, it never auto-submits or locks the part. */
 var examTimers={};
+// Per-unit exam correctness, keyed by unit id — populated only for guides
+// whose exam questions carry a `u` field (see examRecordUnit()/ansExam()).
+// In-memory only, matching the fact that exam progress is never persisted.
+var examUnitStats={};
+function examRecordUnit(q,correct){
+  if(!q||q.u===undefined)return;
+  var s=examUnitStats[q.u]||(examUnitStats[q.u]={correct:0,total:0});
+  s.total++;
+  if(correct)s.correct++;
+  renderUnitProgress(q.u);
+}
 function startPartTimer(id){
   const meta=examPartMeta(id);
   if(!meta.minutes)return;
@@ -1065,6 +1108,7 @@ if(chosen===correct){examScores[part]=(examScores[part]||0)+1;}
 const pool={A:PART_A,B1:PART_B1,B2:PART_B2,C:PART_C}[part];
 const scoreEl=document.getElementById('score-'+part);
 if(scoreEl)scoreEl.textContent=`Score: ${examScores[part]||0} / ${pool.length}`;
+examRecordUnit(pool.find(function(x){return x.n===qn;}),chosen===correct);
 }
 
 
@@ -1124,6 +1168,33 @@ document.addEventListener('keydown',function(e){
   var box=document.getElementById('search-box');
   if(box){e.preventDefault();box.focus();}
 });
+/* Spacebar: flip the current flashcard whenever the Flashcards tab is the
+   active view — not just when the card itself has focus (the scene element
+   already handles Space/Enter locally via its own onkeydown in
+   page-views.template.html; this is the page-level, more-discoverable
+   version of the same action). Uses the exact activeElement/tag guard as
+   the "/" search shortcut above so it never hijacks typing. Also skips
+   BUTTON/A and the scene itself so a Space that's about to natively
+   activate a focused button (e.g. "Know it") or that the scene's own inline
+   handler will already process isn't double-handled. */
+document.addEventListener('keydown',function(e){
+  if(e.key!==' ')return;
+  var el=document.activeElement;
+  var tag=(el&&el.tagName)||'';
+  if(tag==='INPUT'||tag==='TEXTAREA'||(el&&el.isContentEditable))return;
+  if(tag==='BUTTON'||tag==='A'||(el&&el.id==='scene'))return;
+  var vc=document.getElementById('view-cards');
+  if(vc&&vc.classList.contains('active')){e.preventDefault();flip();}
+});
+/* "?" opens the keyboard-shortcuts reference modal. Same guard as above. */
+document.addEventListener('keydown',function(e){
+  if(e.key!=='?')return;
+  var el=document.activeElement;
+  var tag=(el&&el.tagName)||'';
+  if(tag==='INPUT'||tag==='TEXTAREA'||(el&&el.isContentEditable))return;
+  e.preventDefault();
+  shortcutsModalToggle();
+});
 function jumpToFlashcardUnit(id){
   clearSearch();
   switchTab('cards');
@@ -1175,7 +1246,7 @@ function buildGuide(){
     const div=document.createElement('div');div.className='unit';div.dataset.id=u.id;
     const hd=document.createElement('div');hd.className='unit-hd';
     const estMins=Math.max(5,Math.round(u.concepts.length*3+(u.traps?u.traps.length:0)*2+(u.fms?u.fms.length:0)*2));
-    hd.innerHTML=`<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts · ~${estMins} min</span></span><span class="chevron">▾</span>`;
+    hd.innerHTML=`<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts · ~${estMins} min</span></span><span class="unit-progress" id="unit-progress-${u.id}" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span><span class="chevron">▾</span>`;
     hd.tabIndex=0;hd.setAttribute('role','button');hd.setAttribute('aria-expanded','false');
     hd.onclick=()=>{const isOpen=div.classList.toggle('open');hd.setAttribute('aria-expanded',isOpen?'true':'false');};
     hd.onkeydown=(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();hd.click();}};
@@ -1265,6 +1336,7 @@ function rateFC(rating){
   const card=deck[fcIdx];
   if(rating==='known')SS_MASTERY.markCardKnown(card.t);
   else SS_MASTERY.unmarkCardKnown(card.t);
+  renderUnitProgress(card.u);
   fcNav(1);
 }
 function filterFC(){
@@ -1331,7 +1403,7 @@ window.__ssMasteryInstances = window.__ssMasteryInstances || [];
 function ssStartChemMastery(){
   SS_MASTERY = window.__ssCreateMastery('english-10', UNITS.map(function(u){return u.id;}), UNITS.reduce(function(acc,u){acc[u.id]=u.name;return acc;},{}));
   window.__ssMasteryInstances.push(SS_MASTERY);
-  SS_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} try{ if(examplesBuilt) buildExamples(); }catch(e){} try{ ssOverallProgressUpdate(); }catch(e){} });
+  SS_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} try{ if(examplesBuilt) buildExamples(); }catch(e){} try{ ssOverallProgressUpdate(); }catch(e){} try{ renderAllUnitProgress(); }catch(e){} });
 }
 if (window.__ssCreateMastery) { ssStartChemMastery(); }
 else { window.addEventListener('ss-mastery-ready', ssStartChemMastery, { once: true }); }
@@ -1409,6 +1481,58 @@ function quizShuffle(){
 }
 
 function unitNameFor(unitId){const u=UNITS.find(x=>x.id===unitId);return u?u.name:'Unit '+unitId;}
+
+/* ----- Per-unit weighted progress (feature: per-unit accordion badges) -----
+   Blends up to three signals into a single 0-100 score for one unit:
+     - Flashcards known: knownCards / totalCardsInUnit          (weight .40)
+     - Quiz accuracy:    correctAnswered / totalAnswered so far  (weight .40)
+     - Exam accuracy:    correctAnswered / totalAnswered so far  (weight .20)
+       among this unit's practice-exam questions (only guides whose exam
+       questions carry a `u` field support this — most don't yet).
+   A component is only counted once there is something to measure: a unit
+   with zero flashcards drops the flashcard term, and quiz/exam terms only
+   count once at least one question in that unit has actually been
+   answered (an unattempted quiz isn't "0% mastery", it's "not started" —
+   same distinction the shared mastery module already makes at total<2).
+   Whatever weight a dropped component held is redistributed proportionally
+   across the components that ARE present, so e.g. a unit with flashcards
+   and quiz activity but no exam coverage is scored 50/50 instead of being
+   capped near 80%. If nothing has been touched yet for a unit, returns
+   null so callers can omit the badge entirely rather than show a
+   meaningless 0%. */
+function unitWeightedPct(unitId){
+  var parts=[];
+  var cards=(typeof FLASHCARDS!=='undefined'?FLASHCARDS:[]).filter(function(f){return f.u===unitId;});
+  if(cards.length){
+    var known=fcKnownSet();
+    var knownCount=cards.filter(function(c){return known.has(c.t);}).length;
+    parts.push({weight:0.4,pct:(knownCount/cards.length)*100});
+  }
+  var mastery=SS_MASTERY?(SS_MASTERY.getSnapshot().mastery||{}):{};
+  var qrec=mastery[String(unitId)];
+  if(qrec&&qrec.total>0)parts.push({weight:0.4,pct:(qrec.correct/qrec.total)*100});
+  var erec=examUnitStats[unitId];
+  if(erec&&erec.total>0)parts.push({weight:0.2,pct:(erec.correct/erec.total)*100});
+  if(!parts.length)return null;
+  var totalWeight=parts.reduce(function(s,p){return s+p.weight;},0);
+  var weighted=parts.reduce(function(s,p){return s+p.pct*(p.weight/totalWeight);},0);
+  return Math.max(0,Math.min(100,Math.round(weighted)));
+}
+function renderUnitProgress(unitId){
+  var el=document.getElementById('unit-progress-'+unitId);
+  if(!el)return;
+  var pct=unitWeightedPct(unitId);
+  if(pct===null){el.style.display='none';return;}
+  el.style.display='';
+  var fill=el.querySelector('.unit-progress-fill');
+  var label=el.querySelector('.unit-progress-label');
+  if(fill)fill.style.width=pct+'%';
+  if(label)label.textContent=pct+'%';
+}
+function renderAllUnitProgress(){
+  if(typeof UNITS==='undefined')return;
+  UNITS.forEach(function(u){renderUnitProgress(u.id);});
+}
 
 function ssOverallProgressUpdate(){
   var fill=document.getElementById('ss-overall-progress-fill');
@@ -1591,6 +1715,7 @@ function ansQ(i){
   if(SS_MASTERY)SS_MASTERY.recordAnswer(q.u,i===q.a);
   if(i===q.a)mistakeLogRemove(q);else mistakeLogAdd(q);
   ssOverallProgressUpdate();
+  renderUnitProgress(q.u);
   const expEl=document.getElementById('q-exp');
   expEl.classList.add('show');
   if(wasGuess){
@@ -2187,6 +2312,7 @@ function toolkitCloseAllPanels(){
   if(cbot)cbot.classList.remove('open');
   var desmos=document.getElementById('desmos-panel');
   if(desmos){desmos.classList.remove('open');desmos.setAttribute('aria-hidden','true');}
+  shortcutsModalClose();
 }
 function toolkitToggle(){
   var menu=document.getElementById('toolkit-menu');
@@ -2214,9 +2340,58 @@ function toolkitOutsideClick(e){
   if(menu&&!menu.contains(e.target)&&fab&&!fab.contains(e.target))toolkitClose();
 }
 
+/* ----- Keyboard-shortcuts reference modal, opened with "?" (see the
+   keydown listener above). Injected the same way as the AI helper panel
+   (cbotPanelInit) since no static template markup exists for it — this is a
+   template-only, always-available feature, not subject-specific content. ----- */
+function shortcutsModalInit(){
+  if(document.getElementById('shortcuts-modal'))return;
+  var panel=document.createElement('div');
+  panel.id='shortcuts-modal';
+  panel.className='shortcuts-modal';
+  panel.setAttribute('role','dialog');
+  panel.setAttribute('aria-modal','true');
+  panel.setAttribute('aria-label','Keyboard shortcuts');
+  panel.setAttribute('aria-hidden','true');
+  var rows=[
+    ['/','Focus search'],
+    ['Space','Flip flashcard (Flashcards tab)'],
+    ['1 – 4','Answer a quiz question (Quiz tab)'],
+    ['Enter','Next question · flip flashcard'],
+    ['Esc','Close panels'],
+    ['?','Show this list']
+  ];
+  panel.innerHTML='<div class="shortcuts-modal-card"><div class="shortcuts-modal-hd"><b>Keyboard Shortcuts</b>'+
+    '<button type="button" class="shortcuts-modal-close" onclick="shortcutsModalClose()" aria-label="Close shortcuts">✕</button></div>'+
+    '<div class="shortcuts-modal-body">'+rows.map(function(r){return '<div class="shortcuts-modal-row"><span>'+r[1]+'</span><kbd>'+r[0]+'</kbd></div>';}).join('')+'</div></div>';
+  document.body.appendChild(panel);
+}
+function shortcutsModalOpen(){
+  var panel=document.getElementById('shortcuts-modal');
+  if(!panel)return;
+  panel.classList.add('open');
+  panel.setAttribute('aria-hidden','false');
+  var closeBtn=panel.querySelector('.shortcuts-modal-close');
+  if(closeBtn)closeBtn.focus();
+  document.addEventListener('keydown',shortcutsModalKeydown);
+}
+function shortcutsModalClose(){
+  var panel=document.getElementById('shortcuts-modal');
+  if(!panel||!panel.classList.contains('open'))return;
+  panel.classList.remove('open');
+  panel.setAttribute('aria-hidden','true');
+  document.removeEventListener('keydown',shortcutsModalKeydown);
+}
+function shortcutsModalToggle(){
+  var panel=document.getElementById('shortcuts-modal');
+  if(panel&&panel.classList.contains('open'))shortcutsModalClose();else shortcutsModalOpen();
+}
+function shortcutsModalKeydown(e){if(e.key==='Escape')shortcutsModalClose();}
+
 desmosInit();
 cbotPanelInit();
 toolkitInit();
+shortcutsModalInit();
 
 /* ----- unit-filtered practice, e.g. /chemistry?practice=3 (from the dashboard's "study this next") ----- */
 (async function ssPracticeMode(){

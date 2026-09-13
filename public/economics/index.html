@@ -167,7 +167,8 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .nav{display:flex;gap:6px;margin-bottom:24px;flex-wrap:wrap;border-bottom:1px solid var(--border);padding-bottom:14px}
 .tab-btn{padding:9px 18px;border:1px solid var(--border);background:var(--surface);border-radius:999px;cursor:pointer;
   font-size:21px;font-weight:600;color:var(--ink-muted);transition:all .15s ease;box-shadow:var(--shadow-sm)}
-.tab-btn:hover{color:var(--ink);border-color:var(--border-strong);background:var(--surface-hover)}
+.tab-btn:hover{color:var(--ink);border-color:var(--border-strong);background:var(--surface-hover);transform:scale(1.02)}
+.tab-btn:active{transform:scale(.98)}
 .tab-btn.active{background:var(--ink);color:var(--surface);border-color:var(--ink)}
 .view{display:none}.view.active{display:block;animation:fadein .25s ease}
 @keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
@@ -199,6 +200,7 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .filter-row::-webkit-scrollbar{height:4px}.filter-row::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
 .chip{white-space:nowrap;flex-shrink:0;padding:8px 16px;border-radius:999px;border:1px solid var(--border);background:var(--surface);font-size:14px;cursor:pointer;color:var(--ink-muted);transition:all .15s ease}
 .chip:hover{border-color:var(--border-strong);color:var(--ink);transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.chip:active{transform:scale(.98)}
 .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
 .ss-overall-progress{display:flex;align-items:center;gap:10px;margin:8px 0 12px}
 .ss-overall-progress-track{flex:1;height:6px;border-radius:99px;background:var(--surface-2);overflow:hidden}
@@ -208,11 +210,19 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
   transition:border-color .15s ease,box-shadow .15s ease}
 .unit:hover{border-color:var(--border-strong)}
 .unit.open{box-shadow:var(--shadow-sm)}
-.unit-hd{display:flex;justify-content:space-between;align-items:center;padding:15px 18px;cursor:pointer;user-select:none;transition:background .15s}
-.unit-hd:hover{background:var(--surface-2)}
+.unit-hd{display:flex;justify-content:space-between;align-items:center;padding:15px 18px;cursor:pointer;user-select:none;transition:background .15s,transform .15s ease}
+.unit-hd:hover{background:var(--surface-2);transform:scale(1.01)}
+.unit-hd:active{transform:scale(.99)}
 .unit.open .unit-hd{border-bottom:1px solid var(--border)}
 .unit-title{font-size:22.5px;font-weight:600;color:var(--ink)}
 .unit-meta{font-family:'Inter';font-size:18px;color:var(--ink-dim);margin-left:8px;font-weight:400}
+/* Per-unit weighted progress badge, shown in the unit accordion header once
+   the student has any tracked activity for that unit (see unitWeightedPct()
+   in logic.js) — omitted entirely at 0% so untouched units stay clean. */
+.unit-progress{display:inline-flex;align-items:center;gap:6px;margin-left:10px;flex-shrink:0}
+.unit-progress-track{width:52px;height:5px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.unit-progress-fill{height:100%;background:var(--accent);border-radius:99px;transition:width .3s ease}
+.unit-progress-label{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink-dim)}
 .chevron{font-size:24px;color:var(--ink-dim);transition:transform .2s ease;display:inline-block}
 .unit.open .chevron{transform:rotate(180deg);color:var(--accent)}
 .unit-body{display:none;padding:6px 18px 20px}
@@ -262,7 +272,8 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .fc-nav{display:flex;gap:10px;justify-content:center}
 .btn{padding:10px 22px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--ink);
   cursor:pointer;font-size:21px;font-weight:600;transition:all .15s ease;box-shadow:var(--shadow-sm)}
-.btn:hover{background:var(--surface-hover);border-color:var(--border-strong)}
+.btn:hover{background:var(--surface-hover);border-color:var(--border-strong);transform:scale(1.02)}
+.btn:active{transform:scale(.98)}
 .guess-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;margin-bottom:14px;border:1px dashed var(--border-strong);
   border-radius:99px;background:transparent;color:var(--ink-dim);font-size:16px;font-family:inherit;cursor:pointer;transition:all .18s ease}
 .guess-btn:hover{color:var(--amber);border-color:var(--amber);background:var(--amber-soft)}
@@ -292,6 +303,7 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
   font-size:21.8px;color:var(--ink-muted);background:var(--surface);transition:all .15s ease;text-align:left;
   display:flex;align-items:center;gap:9px}
 .q-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}
+.q-opt:active:not(:disabled){transform:scale(.98)}
 .q-opt:disabled{cursor:default}
 .q-opt .q-opt-icon{flex:none;display:none}
 .q-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}
@@ -577,6 +589,26 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
   .desmos-panel{right:12px;bottom:144px}
 }
 
+/* ---- keyboard-shortcuts reference modal, opened with "?" (see
+   shortcutsModalToggle() in logic.js). Follows the same fixed-panel +
+   Escape-to-close + open-class pattern as .desmos-panel/.qref-drawer, but
+   centered like a dialog rather than docked to an edge. ---- */
+.shortcuts-modal{position:fixed;inset:0;z-index:230;display:none;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.45);padding:20px}
+.shortcuts-modal.open{display:flex}
+.shortcuts-modal-card{width:min(420px,100%);max-height:min(500px,calc(100dvh - 40px));overflow-y:auto;
+  background:var(--surface);border:1px solid var(--border-strong);border-radius:var(--radius);box-shadow:var(--shadow-lg)}
+.shortcuts-modal-hd{display:flex;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+.shortcuts-modal-hd b{font-family:'Space Grotesk';font-size:19px;color:var(--ink);flex:1}
+.shortcuts-modal-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:4px 8px;border-radius:6px}
+.shortcuts-modal-close:hover{color:var(--ink);background:var(--surface-hover)}
+.shortcuts-modal-body{padding:6px 16px 16px}
+.shortcuts-modal-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--border)}
+.shortcuts-modal-row:last-child{border-bottom:none}
+.shortcuts-modal-row span{font-size:15px;color:var(--ink-muted)}
+.shortcuts-modal-row kbd{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink);background:var(--surface-2);
+  border:1px solid var(--border);border-radius:6px;padding:3px 8px}
+
 /* ---- print / export ---- */
 @media print{
   :root,[data-theme="dark"]{
@@ -591,8 +623,8 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
   body{background:#fff;color:#000}
   body::before,.hero::after{display:none!important}
   #theme-toggle,.search-wrap,.ss-sticky-top .filter-row-wrap,.mobile-only-select,.nav,.nav-spacer,.tablist,
-  #spc-card,#cbot-panel,.back-to-top,.toolkit-fab,.toolkit-menu,.qref-drawer,.desmos-panel,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
-  .search-kbd,.ss-overall-progress,.q-kbd-hint,.diag-btn{display:none!important}
+  #spc-card,#cbot-panel,.back-to-top,.toolkit-fab,.toolkit-menu,.qref-drawer,.desmos-panel,.shortcuts-modal,.q-bookmark,.guess-btn,.q-hint-btn,.search-clear,
+  .search-kbd,.ss-overall-progress,.unit-progress,.q-kbd-hint,.diag-btn{display:none!important}
   *{position:static!important;box-shadow:none!important}
   .unit-body{display:block!important}
   .unit .chevron{display:none!important}
@@ -729,7 +761,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
     <span class="ss-overall-progress-label" id="ss-overall-progress-label">0% of the question bank attempted</span>
   </div>
   </div>
-  <div id="units"><div class="unit" data-id="1"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 1: Scarcity & Opportunity Cost<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Scarcity & factors of production</div><div class="c-text">Unlimited wants meet limited resources — the core problem economics solves.</div><ul class="c-list"><li>Scarcity forces choice; every choice has a cost even when 'free'</li><li>Factors: land (natural resources), labor (human work), capital (tools/machines), entrepreneurship (organizing risk)</li><li>Goods vs services; tangible vs intangible outputs</li><li>Shortage = temporary; scarcity = permanent condition</li></ul></div><div class="concept"><div class="c-label">Opportunity cost & trade-offs</div><div class="c-text">The real cost of anything is what you gave up to get it.</div><ul class="c-list"><li>Opportunity cost = value of the NEXT-BEST alternative forgone</li><li>Trade-off = giving up one thing for another (broader term)</li><li>Money cost vs time cost vs foregone experience all count</li><li>'There's no such thing as a free lunch' (TINSTAAFL)</li></ul></div><div class="concept"><div class="c-label">Production possibilities frontier (PPF)</div><div class="c-text">A curve showing maximum output combos of two goods with fixed resources.</div><ul class="c-list"><li>Points ON the curve = efficient; INSIDE = underutilization; OUTSIDE = unattainable now</li><li>Straight-line PPF = constant opportunity costs; bowed-out = increasing costs (law of increasing opportunity cost)</li><li>Growth shifts the whole curve outward (more resources/technology)</li><li>Moving along the curve shows trade-offs: more guns, fewer butter</li></ul></div><div class="concept"><div class="c-label">Three economic questions & systems</div><div class="c-text">Every economy must answer: what, how, and for whom to produce.</div><ul class="c-list"><li>Traditional economy: custom answers (subsistence, stable, stagnant)</li><li>Command economy: government decides (Cuba, North Korea)</li><li>Market economy: buyers/sellers decide via prices (US is mixed, market-leaning)</li><li>Mixed economies blend; most real nations live on the spectrum</li></ul></div><div class="trap">Opportunity cost isn't ALL alternatives — only the next-best single one</div><div class="trap">A free concert still costs your time (scarcity never sleeps)</div><div class="trap">Growth moves the PPF outward; moving ALONG the curve is not growth</div></div></div><div class="unit" data-id="2"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 2: Supply & Demand<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Demand & its law</div><div class="c-text">Price up, quantity demanded down — the demand curve slopes downward.</div><ul class="c-list"><li>Law of demand: inverse price-quantity relationship</li><li>Movement ALONG the curve = price change; SHIFT of the curve = determinants changed</li><li>Demand shifters: income (normal vs inferior goods), tastes, related goods' prices (substitutes/complements), expectations, number of buyers</li><li>Substitutes rise together (Coke↔Pepsi); complements move opposite (gas↔SUVs)</li></ul></div><div class="concept"><div class="c-label">Supply & its law</div><div class="c-text">Producers offer more at higher prices — upward-sloping supply.</div><ul class="c-list"><li>Law of supply: direct relationship between price and quantity supplied</li><li>Supply shifters: input costs, technology, taxes/subsidies, expectations, number of sellers</li><li>Technology lowers costs → supply shifts RIGHT</li><li>Weather/catastrophe can shift agricultural supply left instantly</li></ul></div><div class="concept"><div class="c-label">Equilibrium & shortages/surpluses</div><div class="c-text">Where curves cross, markets clear — no shortage, no surplus.</div><ul class="c-list"><li>Equilibrium price = quantity demanded exactly equals quantity supplied</li><li>Price ABOVE equilibrium → surplus → downward pressure</li><li>Price BELOW equilibrium → shortage → upward pressure</li><li>Markets self-correct toward equilibrium unless price-controlled</li></ul></div><div class="concept"><div class="c-label">Price floors & ceilings</div><div class="c-text">Government interference creates persistent gaps.</div><ul class="c-list"><li>Price ceiling below equilibrium (rent control) → chronic shortage</li><li>Price floor above equilibrium (minimum wage debate) → potential surplus (unemployment)</li><li>Binding controls require being on the 'wrong side' of equilibrium</li><li>Black markets often emerge under binding ceilings</li></ul></div><div class="trap">Change in QUANTITY demanded (movement) ≠ change in DEMAND (shift)</div><div class="trap">Demand curve slopes DOWN; supply UP — flipping them is the classic error</div><div class="trap">Minimum wage is a FLOOR not a ceiling — rent control is the ceiling example</div></div></div><div class="unit" data-id="3"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 3: Market Structures<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Perfect competition</div><div class="c-text">Many tiny sellers, identical products, zero barriers — pure price takers.</div><ul class="c-list"><li>Characteristics: many buyers/sellers, homogeneous product, free entry/exit, perfect information</li><li>Firms are PRICE TAKERS — no market power at all</li><li>Examples: agricultural commodities approximating it (wheat, corn)</li><li>Long-run economic profit trends to zero via entry</li></ul></div><div class="concept"><div class="c-label">Monopoly</div><div class="c-text">One seller controls the market behind high barriers.</div><ul class="c-list"><li>Barriers: legal (patents), natural (utilities' infrastructure), resource control</li><li>Monopolists are PRICE MAKERS (within demand limits)</li><li>Can charge higher prices, produce less than socially optimal</li><li>Natural monopoly = cheapest with ONE provider due to huge fixed costs</li></ul></div><div class="concept"><div class="c-label">Oligopoly & monopolistic competition</div><div class="c-text">The middle grounds where most real businesses live.</div><ul class="c-list"><li>Oligopoly: few big firms, interdependent pricing (airlines, telecoms); collusion/kinked-demand risks</li><li>Monopolistic competition: MANY sellers, DIFFERENTIATED products, easy entry (restaurants, clothing brands)</li><li>Product differentiation gives slight pricing power via branding</li><li>Non-price competition (ads, features) dominates monopolistic competition</li></ul></div><div class="concept"><div class="c-label">Market failures</div><div class="c-text">Markets sometimes misallocate on their own.</div><ul class="c-list"><li>Externalities: spillover costs (pollution) or benefits (education/vaccines)</li><li>Public goods: non-excludable + non-rival (national defense) — markets undersupply them</li><li>Information asymmetry: used-car problem (adverse selection)</li><li>Government responds with taxes, subsidies, regulation</li></ul></div><div class="trap">Oligopoly needs FEW firms — three coffee shops on a block isn't one by headcount alone</div><div class="trap">Differentiation (not product identity) defines monopolistic competition</div><div class="trap">Externalities are THIRD-PARTY effects, not buyer/seller harms</div></div></div><div class="unit" data-id="4"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 4: Business Organizations & Labor<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Sole proprietorship & partnership</div><div class="c-text">Simple ownership structures trade liability for ease.</div><ul class="c-list"><li>Sole prop: one owner, full control, unlimited personal liability, easy taxes (pass-through)</li><li>General partnership: shared ownership/management/debt — partners jointly liable</li><li>Limited partnership: silent limited partners cap risk</li><li>Biggest weakness of both: personal assets exposed to business debts</li></ul></div><div class="concept"><div class="c-label">Corporations & franchises</div><div class="c-text">Incorporation creates a legal person that shields owners.</div><ul class="c-list"><li>Corporation: shareholders own, board governs, officers run — LIMITED liability</li><li>Stocks = ownership shares; dividends = profit distributions; double taxation drawback</li><li>S-corp/LLC hybrids blend pass-through taxes with liability protection</li><li>Franchise: license a proven brand/model (McDonald's) — fees + standards</li></ul></div><div class="concept"><div class="c-label">Labor market basics</div><div class="c-text">Wages emerge from supply and demand for skills.</div><ul class="c-list"><li>Demand for labor = derived demand (from demand for the product)</li><li>Skilled labor commands premiums: education/training as investment in human capital</li><li>Unions negotiate collectively: wages, benefits, conditions; strikes = ultimate leverage</li><li>Minimum wage debates center on floors in this market</li></ul></div><div class="concept"><div class="c-label">Business cycles & indicators</div><div class="c-text">Economies breathe in expansions and contractions.</div><ul class="c-list"><li>Cycle phases: expansion → peak → contraction (recession) → trough → recovery</li><li>Recession rule-of-thumb: two consecutive quarters of falling GDP</li><li>Leading indicators predict (stock market, building permits); lagging confirm (unemployment duration)</li><li>GDP = total value of final goods/services produced domestically in a period</li></ul></div><div class="trap">LLCs protect personal assets; sole props don't — mixing them up is costly advice</div><div class="trap">GDP counts FINAL goods only — intermediate sales would double-count</div><div class="trap">Unemployment rate ≠ percentage of population without jobs — it's of the LABOR FORCE</div></div></div><div class="unit" data-id="5"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 5: Money, Banking & the Fed<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Functions & characteristics of money</div><div class="c-text">Money is whatever does money's three jobs well.</div><ul class="c-list"><li>Functions: medium of exchange, unit of account, store of value</li><li>Commodity money (gold) vs fiat money (US dollar — valuable by government decree/trust)</li><li>Characteristics: durable, portable, divisible, uniform, limited supply, acceptable</li><li>Hyperinflation destroys store-of-value function (Weimar Germany, Zimbabwe)</li></ul></div><div class="concept"><div class="c-label">Banking mechanics & fractional reserves</div><div class="c-text">Banks create money by lending most of what you deposit.</div><ul class="c-list"><li>Fractional reserve system: banks keep a fraction, lend the rest</li><li>Money multiplier ≈ 1/reserve ratio (10% reserve → up to 10x expansion)</li><li>Deposit insurance (FDIC) prevents bank runs from rumor</li><li>Interest: banks pay you less than they charge borrowers — the spread is their profit</li></ul></div><div class="concept"><div class="c-label">The Federal Reserve structure</div><div class="c-text">The US central bank: independent, dual-mandated, decentralized.</div><ul class="c-list"><li>Dual mandate: price stability + maximum employment</li><li>Board of Governors (7, presidential appointments) + 12 regional banks</li><li>FOMC conducts open-market operations — the main policy lever</li><li>Fed is NOT part of the executive branch — independence insulates politics</li></ul></div><div class="concept"><div class="c-label">The three monetary tools</div><div class="c-text">The Fed moves the economy with three levers.</div><ul class="c-list"><li>Open market operations: buy bonds → inject money (expansionary); sell → drain (contractionary)</li><li>Reserve requirement changes (rarely used — too blunt)</li><li>Discount rate: rate Fed charges banks to borrow — signals stance</li><li>Expansionary tools fight recessions; contractionary fights inflation</li></ul></div><div class="trap">The Fed is NOT a government agency under the President — quasi-independent matters</div><div class="trap">Printing more money doesn't create wealth — it can dilute it (inflation)</div><div class="trap">Reserve requirements change rarely; OMOs are the daily driver</div></div></div><div class="unit" data-id="6"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 6: Personal Finance<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Budgeting & saving</div><div class="c-text">Income minus expenses minus savings should equal zero — on purpose.</div><ul class="c-list"><li>Pay-yourself-first: treat savings as a fixed expense (aim 10–20%)</li><li>Fixed vs variable expenses; emergency fund = 3–6 months of costs first</li><li>Needs vs wants triage keeps variable spending honest</li><li>Zero-based budget assigns every dollar a job before the month starts</li></ul></div><div class="concept"><div class="c-label">Credit scores & debt</div><div class="c-text">Borrowed money amplifies outcomes both ways.</div><ul class="c-list"><li>Credit score drivers: payment history (biggest), amounts owed/utilization, length, new credit, mix</li><li>Utilization under ~30% protects your score</li><li>APR compounds against you: minimum-payment traps stretch debt for decades</li><li>Good debt buys appreciating/earning assets (education, mortgage); bad debt funds consumption</li></ul></div><div class="concept"><div class="c-label">Interest math</div><div class="c-text">Compounding is the engine — direction just depends on which side you're on.</div><ul class="c-list"><li>Simple interest = principal × rate × time</li><li>Compound interest earns interest ON interest: A=P(1+r/n)^(nt)</li><li>Rule of 72: years to double ≈ 72 ÷ interest rate</li><li>Start-early advantage: $1,000 at 8% from age 18 beats $3,000 at 28 by retirement</li></ul></div><div class="concept"><div class="c-label">Investing fundamentals</div><div class="c-text">Risk and return are conjoined twins; diversification tames them.</div><ul class="c-list"><li>Stocks = ownership (volatile, higher expected return); bonds = loans (steadier, lower return)</li><li>Diversification spreads risk — index funds automate it cheaply</li><li>Risk tolerance + time horizon determine allocation</li><li>Time IN the market beats timing the market for most investors</li></ul></div><div class="trap">Minimum credit-card payments mostly service interest — principal barely moves</div><div class="trap">A 'free' trial that needs a card isn't free — it's auto-renewal bait</div><div class="trap">High return ALWAYS pairs with high risk; guaranteed high returns are scams</div></div></div><div class="unit" data-id="7"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 7: Government & the Economy<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Taxes: types & principles</div><div class="c-text">Governments fund themselves through structures with different fairness logics.</div><ul class="c-list"><li>Progressive tax: rate rises with income (federal income tax brackets)</li><li>Regressive tax: takes a LARGER share from lower incomes (sales taxes)</li><li>Proportional/flat tax: same percentage for everyone</li><li>Principles: benefit received vs ability to pay; equity vs efficiency tension</li></ul></div><div class="concept"><div class="c-label">Fiscal policy</div><div class="c-text">Congress + President steer spending and taxes.</div><ul class="c-list"><li>Expansionary fiscal (recession): raise spending, cut taxes → deficit-financed stimulus</li><li>Contractionary fiscal (inflation): cut spending, raise taxes → cool demand</li><li>Multiplier effect: initial spending ripples through the economy</li><li>Deficits = yearly gap; debt = accumulated total — national debt is the sum of deficits</li></ul></div><div class="concept"><div class="c-label">Monetary policy coordination</div><div class="c-text">The Fed's levers (Unit 5) aim at the same targets from the money side.</div><ul class="c-list"><li>Easy money (expansionary): buy bonds, cut rates → borrowing rises</li><li>Tight money (contractionary): sell bonds, raise rates → inflation cools</li><li>Lags: monetary policy acts faster to implement but works through slower channels</li><li>Policy mix matters: conflicting fiscal+monetary steps can cancel</li></ul></div><div class="concept"><div class="c-label">Externalities & public policy responses</div><div class="c-text">When prices lie about true costs, government corrects.</div><ul class="c-list"><li>Negative externality (pollution) → per-unit taxes/regulation internalize costs</li><li>Positive externality (vaccination) → subsidies encourage output</li><li>Direct regulation vs market-based instruments (cap-and-trade)</li><li>Public goods require taxation because free-riders dodge payment</li></ul></div><div class="trap">Debt ≠ deficit — deficit is annual flow; debt is the accumulated stock</div><div class="trap">Contractionary policy fights INFLATION, not recession — mixing these flips answers</div><div class="trap">A flat tax is proportional, not regressive — percentage constant even if burden feels heavier low-income</div></div></div><div class="unit" data-id="8"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 8: International Trade & Globalization<span class="unit-meta">4 concepts · ~18 min</span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Absolute vs comparative advantage</div><div class="c-text">Trade happens because of RELATIVE efficiency, not absolute skill.</div><ul class="c-list"><li>Absolute advantage: can produce more total output with same resources</li><li>Comparative advantage: LOWER opportunity cost producer should specialize</li><li>Both sides gain when each specializes in their comparative advantage and trades</li><li>Even the country worse at EVERYTHING still has a comparative advantage in something</li></ul></div><div class="concept"><div class="c-label">Barriers: tariffs & quotas</div><div class="c-text">Protectionism taxes or caps trade — consumers pay.</div><ul class="c-list"><li>Tariff = tax on imports → raises domestic price, protects local producers, hurts consumers</li><li>Quota = quantity limit on imports — similar consumer cost via scarcity</li><li>Deadweight loss: gains that vanish under trade barriers</li><li>Retaliation risks trade wars shrinking everyone's pie</li></ul></div><div class="concept"><div class="c-label">Exchange rates & trade balances</div><div class="c-text">Currency prices steer trade flows automatically.</div><ul class="c-list"><li>Appreciating dollar: imports cheaper for Americans, exports pricier abroad → trade deficit widens</li><li>Depreciating dollar reverses both effects</li><li>Trade deficit = imports > exports (not inherently 'losing') — offset by capital flows</li><li>Purchasing power parity: identical baskets should cost the same across currencies long-run</li></ul></div><div class="concept"><div class="c-label">Globalization's faces</div><div class="c-text">Integration delivers growth AND dislocation simultaneously.</div><ul class="c-list"><li>Gains: cheaper goods, bigger markets, technology diffusion, specialization gains</li><li>Costs: manufacturing job shifts, wage pressure on unskilled labor, cultural homogenization anxiety</li><li>Development spectrum: developing nations gain factory jobs → climb value chain (Korea, Taiwan models)</li><li>Institutions grease trade: WTO rules, regional blocs (USMCA, EU)</li></ul></div><div class="trap">Absolute advantage doesn't determine trade patterns — comparative advantage does</div><div class="trap">A trade deficit isn't a scoreboard loss — it reflects investment flows too</div><div class="trap">Tariffs help protected producers but cost consumers MORE than producers gain (deadweight loss)</div></div></div></div></div>
+  <div id="units"><div class="unit" data-id="1"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 1: Scarcity & Opportunity Cost<span class="unit-meta">4 concepts · ~18 min</span></span><span class="unit-progress" id="unit-progress-1" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Scarcity & factors of production</div><div class="c-text">Unlimited wants meet limited resources — the core problem economics solves.</div><ul class="c-list"><li>Scarcity forces choice; every choice has a cost even when 'free'</li><li>Factors: land (natural resources), labor (human work), capital (tools/machines), entrepreneurship (organizing risk)</li><li>Goods vs services; tangible vs intangible outputs</li><li>Shortage = temporary; scarcity = permanent condition</li></ul></div><div class="concept"><div class="c-label">Opportunity cost & trade-offs</div><div class="c-text">The real cost of anything is what you gave up to get it.</div><ul class="c-list"><li>Opportunity cost = value of the NEXT-BEST alternative forgone</li><li>Trade-off = giving up one thing for another (broader term)</li><li>Money cost vs time cost vs foregone experience all count</li><li>'There's no such thing as a free lunch' (TINSTAAFL)</li></ul></div><div class="concept"><div class="c-label">Production possibilities frontier (PPF)</div><div class="c-text">A curve showing maximum output combos of two goods with fixed resources.</div><ul class="c-list"><li>Points ON the curve = efficient; INSIDE = underutilization; OUTSIDE = unattainable now</li><li>Straight-line PPF = constant opportunity costs; bowed-out = increasing costs (law of increasing opportunity cost)</li><li>Growth shifts the whole curve outward (more resources/technology)</li><li>Moving along the curve shows trade-offs: more guns, fewer butter</li></ul></div><div class="concept"><div class="c-label">Three economic questions & systems</div><div class="c-text">Every economy must answer: what, how, and for whom to produce.</div><ul class="c-list"><li>Traditional economy: custom answers (subsistence, stable, stagnant)</li><li>Command economy: government decides (Cuba, North Korea)</li><li>Market economy: buyers/sellers decide via prices (US is mixed, market-leaning)</li><li>Mixed economies blend; most real nations live on the spectrum</li></ul></div><div class="trap">Opportunity cost isn't ALL alternatives — only the next-best single one</div><div class="trap">A free concert still costs your time (scarcity never sleeps)</div><div class="trap">Growth moves the PPF outward; moving ALONG the curve is not growth</div></div></div><div class="unit" data-id="2"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 2: Supply & Demand<span class="unit-meta">4 concepts · ~18 min</span></span><span class="unit-progress" id="unit-progress-2" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Demand & its law</div><div class="c-text">Price up, quantity demanded down — the demand curve slopes downward.</div><ul class="c-list"><li>Law of demand: inverse price-quantity relationship</li><li>Movement ALONG the curve = price change; SHIFT of the curve = determinants changed</li><li>Demand shifters: income (normal vs inferior goods), tastes, related goods' prices (substitutes/complements), expectations, number of buyers</li><li>Substitutes rise together (Coke↔Pepsi); complements move opposite (gas↔SUVs)</li></ul></div><div class="concept"><div class="c-label">Supply & its law</div><div class="c-text">Producers offer more at higher prices — upward-sloping supply.</div><ul class="c-list"><li>Law of supply: direct relationship between price and quantity supplied</li><li>Supply shifters: input costs, technology, taxes/subsidies, expectations, number of sellers</li><li>Technology lowers costs → supply shifts RIGHT</li><li>Weather/catastrophe can shift agricultural supply left instantly</li></ul></div><div class="concept"><div class="c-label">Equilibrium & shortages/surpluses</div><div class="c-text">Where curves cross, markets clear — no shortage, no surplus.</div><ul class="c-list"><li>Equilibrium price = quantity demanded exactly equals quantity supplied</li><li>Price ABOVE equilibrium → surplus → downward pressure</li><li>Price BELOW equilibrium → shortage → upward pressure</li><li>Markets self-correct toward equilibrium unless price-controlled</li></ul></div><div class="concept"><div class="c-label">Price floors & ceilings</div><div class="c-text">Government interference creates persistent gaps.</div><ul class="c-list"><li>Price ceiling below equilibrium (rent control) → chronic shortage</li><li>Price floor above equilibrium (minimum wage debate) → potential surplus (unemployment)</li><li>Binding controls require being on the 'wrong side' of equilibrium</li><li>Black markets often emerge under binding ceilings</li></ul></div><div class="trap">Change in QUANTITY demanded (movement) ≠ change in DEMAND (shift)</div><div class="trap">Demand curve slopes DOWN; supply UP — flipping them is the classic error</div><div class="trap">Minimum wage is a FLOOR not a ceiling — rent control is the ceiling example</div></div></div><div class="unit" data-id="3"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 3: Market Structures<span class="unit-meta">4 concepts · ~18 min</span></span><span class="unit-progress" id="unit-progress-3" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Perfect competition</div><div class="c-text">Many tiny sellers, identical products, zero barriers — pure price takers.</div><ul class="c-list"><li>Characteristics: many buyers/sellers, homogeneous product, free entry/exit, perfect information</li><li>Firms are PRICE TAKERS — no market power at all</li><li>Examples: agricultural commodities approximating it (wheat, corn)</li><li>Long-run economic profit trends to zero via entry</li></ul></div><div class="concept"><div class="c-label">Monopoly</div><div class="c-text">One seller controls the market behind high barriers.</div><ul class="c-list"><li>Barriers: legal (patents), natural (utilities' infrastructure), resource control</li><li>Monopolists are PRICE MAKERS (within demand limits)</li><li>Can charge higher prices, produce less than socially optimal</li><li>Natural monopoly = cheapest with ONE provider due to huge fixed costs</li></ul></div><div class="concept"><div class="c-label">Oligopoly & monopolistic competition</div><div class="c-text">The middle grounds where most real businesses live.</div><ul class="c-list"><li>Oligopoly: few big firms, interdependent pricing (airlines, telecoms); collusion/kinked-demand risks</li><li>Monopolistic competition: MANY sellers, DIFFERENTIATED products, easy entry (restaurants, clothing brands)</li><li>Product differentiation gives slight pricing power via branding</li><li>Non-price competition (ads, features) dominates monopolistic competition</li></ul></div><div class="concept"><div class="c-label">Market failures</div><div class="c-text">Markets sometimes misallocate on their own.</div><ul class="c-list"><li>Externalities: spillover costs (pollution) or benefits (education/vaccines)</li><li>Public goods: non-excludable + non-rival (national defense) — markets undersupply them</li><li>Information asymmetry: used-car problem (adverse selection)</li><li>Government responds with taxes, subsidies, regulation</li></ul></div><div class="trap">Oligopoly needs FEW firms — three coffee shops on a block isn't one by headcount alone</div><div class="trap">Differentiation (not product identity) defines monopolistic competition</div><div class="trap">Externalities are THIRD-PARTY effects, not buyer/seller harms</div></div></div><div class="unit" data-id="4"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 4: Business Organizations & Labor<span class="unit-meta">4 concepts · ~18 min</span></span><span class="unit-progress" id="unit-progress-4" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Sole proprietorship & partnership</div><div class="c-text">Simple ownership structures trade liability for ease.</div><ul class="c-list"><li>Sole prop: one owner, full control, unlimited personal liability, easy taxes (pass-through)</li><li>General partnership: shared ownership/management/debt — partners jointly liable</li><li>Limited partnership: silent limited partners cap risk</li><li>Biggest weakness of both: personal assets exposed to business debts</li></ul></div><div class="concept"><div class="c-label">Corporations & franchises</div><div class="c-text">Incorporation creates a legal person that shields owners.</div><ul class="c-list"><li>Corporation: shareholders own, board governs, officers run — LIMITED liability</li><li>Stocks = ownership shares; dividends = profit distributions; double taxation drawback</li><li>S-corp/LLC hybrids blend pass-through taxes with liability protection</li><li>Franchise: license a proven brand/model (McDonald's) — fees + standards</li></ul></div><div class="concept"><div class="c-label">Labor market basics</div><div class="c-text">Wages emerge from supply and demand for skills.</div><ul class="c-list"><li>Demand for labor = derived demand (from demand for the product)</li><li>Skilled labor commands premiums: education/training as investment in human capital</li><li>Unions negotiate collectively: wages, benefits, conditions; strikes = ultimate leverage</li><li>Minimum wage debates center on floors in this market</li></ul></div><div class="concept"><div class="c-label">Business cycles & indicators</div><div class="c-text">Economies breathe in expansions and contractions.</div><ul class="c-list"><li>Cycle phases: expansion → peak → contraction (recession) → trough → recovery</li><li>Recession rule-of-thumb: two consecutive quarters of falling GDP</li><li>Leading indicators predict (stock market, building permits); lagging confirm (unemployment duration)</li><li>GDP = total value of final goods/services produced domestically in a period</li></ul></div><div class="trap">LLCs protect personal assets; sole props don't — mixing them up is costly advice</div><div class="trap">GDP counts FINAL goods only — intermediate sales would double-count</div><div class="trap">Unemployment rate ≠ percentage of population without jobs — it's of the LABOR FORCE</div></div></div><div class="unit" data-id="5"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 5: Money, Banking & the Fed<span class="unit-meta">4 concepts · ~18 min</span></span><span class="unit-progress" id="unit-progress-5" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Functions & characteristics of money</div><div class="c-text">Money is whatever does money's three jobs well.</div><ul class="c-list"><li>Functions: medium of exchange, unit of account, store of value</li><li>Commodity money (gold) vs fiat money (US dollar — valuable by government decree/trust)</li><li>Characteristics: durable, portable, divisible, uniform, limited supply, acceptable</li><li>Hyperinflation destroys store-of-value function (Weimar Germany, Zimbabwe)</li></ul></div><div class="concept"><div class="c-label">Banking mechanics & fractional reserves</div><div class="c-text">Banks create money by lending most of what you deposit.</div><ul class="c-list"><li>Fractional reserve system: banks keep a fraction, lend the rest</li><li>Money multiplier ≈ 1/reserve ratio (10% reserve → up to 10x expansion)</li><li>Deposit insurance (FDIC) prevents bank runs from rumor</li><li>Interest: banks pay you less than they charge borrowers — the spread is their profit</li></ul></div><div class="concept"><div class="c-label">The Federal Reserve structure</div><div class="c-text">The US central bank: independent, dual-mandated, decentralized.</div><ul class="c-list"><li>Dual mandate: price stability + maximum employment</li><li>Board of Governors (7, presidential appointments) + 12 regional banks</li><li>FOMC conducts open-market operations — the main policy lever</li><li>Fed is NOT part of the executive branch — independence insulates politics</li></ul></div><div class="concept"><div class="c-label">The three monetary tools</div><div class="c-text">The Fed moves the economy with three levers.</div><ul class="c-list"><li>Open market operations: buy bonds → inject money (expansionary); sell → drain (contractionary)</li><li>Reserve requirement changes (rarely used — too blunt)</li><li>Discount rate: rate Fed charges banks to borrow — signals stance</li><li>Expansionary tools fight recessions; contractionary fights inflation</li></ul></div><div class="trap">The Fed is NOT a government agency under the President — quasi-independent matters</div><div class="trap">Printing more money doesn't create wealth — it can dilute it (inflation)</div><div class="trap">Reserve requirements change rarely; OMOs are the daily driver</div></div></div><div class="unit" data-id="6"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 6: Personal Finance<span class="unit-meta">4 concepts · ~18 min</span></span><span class="unit-progress" id="unit-progress-6" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Budgeting & saving</div><div class="c-text">Income minus expenses minus savings should equal zero — on purpose.</div><ul class="c-list"><li>Pay-yourself-first: treat savings as a fixed expense (aim 10–20%)</li><li>Fixed vs variable expenses; emergency fund = 3–6 months of costs first</li><li>Needs vs wants triage keeps variable spending honest</li><li>Zero-based budget assigns every dollar a job before the month starts</li></ul></div><div class="concept"><div class="c-label">Credit scores & debt</div><div class="c-text">Borrowed money amplifies outcomes both ways.</div><ul class="c-list"><li>Credit score drivers: payment history (biggest), amounts owed/utilization, length, new credit, mix</li><li>Utilization under ~30% protects your score</li><li>APR compounds against you: minimum-payment traps stretch debt for decades</li><li>Good debt buys appreciating/earning assets (education, mortgage); bad debt funds consumption</li></ul></div><div class="concept"><div class="c-label">Interest math</div><div class="c-text">Compounding is the engine — direction just depends on which side you're on.</div><ul class="c-list"><li>Simple interest = principal × rate × time</li><li>Compound interest earns interest ON interest: A=P(1+r/n)^(nt)</li><li>Rule of 72: years to double ≈ 72 ÷ interest rate</li><li>Start-early advantage: $1,000 at 8% from age 18 beats $3,000 at 28 by retirement</li></ul></div><div class="concept"><div class="c-label">Investing fundamentals</div><div class="c-text">Risk and return are conjoined twins; diversification tames them.</div><ul class="c-list"><li>Stocks = ownership (volatile, higher expected return); bonds = loans (steadier, lower return)</li><li>Diversification spreads risk — index funds automate it cheaply</li><li>Risk tolerance + time horizon determine allocation</li><li>Time IN the market beats timing the market for most investors</li></ul></div><div class="trap">Minimum credit-card payments mostly service interest — principal barely moves</div><div class="trap">A 'free' trial that needs a card isn't free — it's auto-renewal bait</div><div class="trap">High return ALWAYS pairs with high risk; guaranteed high returns are scams</div></div></div><div class="unit" data-id="7"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 7: Government & the Economy<span class="unit-meta">4 concepts · ~18 min</span></span><span class="unit-progress" id="unit-progress-7" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Taxes: types & principles</div><div class="c-text">Governments fund themselves through structures with different fairness logics.</div><ul class="c-list"><li>Progressive tax: rate rises with income (federal income tax brackets)</li><li>Regressive tax: takes a LARGER share from lower incomes (sales taxes)</li><li>Proportional/flat tax: same percentage for everyone</li><li>Principles: benefit received vs ability to pay; equity vs efficiency tension</li></ul></div><div class="concept"><div class="c-label">Fiscal policy</div><div class="c-text">Congress + President steer spending and taxes.</div><ul class="c-list"><li>Expansionary fiscal (recession): raise spending, cut taxes → deficit-financed stimulus</li><li>Contractionary fiscal (inflation): cut spending, raise taxes → cool demand</li><li>Multiplier effect: initial spending ripples through the economy</li><li>Deficits = yearly gap; debt = accumulated total — national debt is the sum of deficits</li></ul></div><div class="concept"><div class="c-label">Monetary policy coordination</div><div class="c-text">The Fed's levers (Unit 5) aim at the same targets from the money side.</div><ul class="c-list"><li>Easy money (expansionary): buy bonds, cut rates → borrowing rises</li><li>Tight money (contractionary): sell bonds, raise rates → inflation cools</li><li>Lags: monetary policy acts faster to implement but works through slower channels</li><li>Policy mix matters: conflicting fiscal+monetary steps can cancel</li></ul></div><div class="concept"><div class="c-label">Externalities & public policy responses</div><div class="c-text">When prices lie about true costs, government corrects.</div><ul class="c-list"><li>Negative externality (pollution) → per-unit taxes/regulation internalize costs</li><li>Positive externality (vaccination) → subsidies encourage output</li><li>Direct regulation vs market-based instruments (cap-and-trade)</li><li>Public goods require taxation because free-riders dodge payment</li></ul></div><div class="trap">Debt ≠ deficit — deficit is annual flow; debt is the accumulated stock</div><div class="trap">Contractionary policy fights INFLATION, not recession — mixing these flips answers</div><div class="trap">A flat tax is proportional, not regressive — percentage constant even if burden feels heavier low-income</div></div></div><div class="unit" data-id="8"><div class="unit-hd" tabindex="0" role="button" aria-expanded="false"><span class="unit-title">Unit 8: International Trade & Globalization<span class="unit-meta">4 concepts · ~18 min</span></span><span class="unit-progress" id="unit-progress-8" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span><span class="chevron">▾</span></div><div class="unit-body"><div class="concept"><div class="c-label">Absolute vs comparative advantage</div><div class="c-text">Trade happens because of RELATIVE efficiency, not absolute skill.</div><ul class="c-list"><li>Absolute advantage: can produce more total output with same resources</li><li>Comparative advantage: LOWER opportunity cost producer should specialize</li><li>Both sides gain when each specializes in their comparative advantage and trades</li><li>Even the country worse at EVERYTHING still has a comparative advantage in something</li></ul></div><div class="concept"><div class="c-label">Barriers: tariffs & quotas</div><div class="c-text">Protectionism taxes or caps trade — consumers pay.</div><ul class="c-list"><li>Tariff = tax on imports → raises domestic price, protects local producers, hurts consumers</li><li>Quota = quantity limit on imports — similar consumer cost via scarcity</li><li>Deadweight loss: gains that vanish under trade barriers</li><li>Retaliation risks trade wars shrinking everyone's pie</li></ul></div><div class="concept"><div class="c-label">Exchange rates & trade balances</div><div class="c-text">Currency prices steer trade flows automatically.</div><ul class="c-list"><li>Appreciating dollar: imports cheaper for Americans, exports pricier abroad → trade deficit widens</li><li>Depreciating dollar reverses both effects</li><li>Trade deficit = imports > exports (not inherently 'losing') — offset by capital flows</li><li>Purchasing power parity: identical baskets should cost the same across currencies long-run</li></ul></div><div class="concept"><div class="c-label">Globalization's faces</div><div class="c-text">Integration delivers growth AND dislocation simultaneously.</div><ul class="c-list"><li>Gains: cheaper goods, bigger markets, technology diffusion, specialization gains</li><li>Costs: manufacturing job shifts, wage pressure on unskilled labor, cultural homogenization anxiety</li><li>Development spectrum: developing nations gain factory jobs → climb value chain (Korea, Taiwan models)</li><li>Institutions grease trade: WTO rules, regional blocs (USMCA, EU)</li></ul></div><div class="trap">Absolute advantage doesn't determine trade patterns — comparative advantage does</div><div class="trap">A trade deficit isn't a scoreboard loss — it reflects investment flows too</div><div class="trap">Tariffs help protected producers but cost consumers MORE than producers gain (deadweight loss)</div></div></div></div></div>
 <div id="view-cards" class="view" role="tabpanel" aria-labelledby="tab-cards" tabindex="0">
   <div class="fc-bar">
     <select id="fc-sel" aria-label="Choose a flashcard set" onchange="loadFC()"></select>
@@ -1012,6 +1044,17 @@ return `<div class="ex-part" id="ex-part-${id}">
    persisted to localStorage either. Not a proctored test: hitting zero just
    shows "Time's up" and stops, it never auto-submits or locks the part. */
 var examTimers={};
+// Per-unit exam correctness, keyed by unit id — populated only for guides
+// whose exam questions carry a `u` field (see examRecordUnit()/ansExam()).
+// In-memory only, matching the fact that exam progress is never persisted.
+var examUnitStats={};
+function examRecordUnit(q,correct){
+  if(!q||q.u===undefined)return;
+  var s=examUnitStats[q.u]||(examUnitStats[q.u]={correct:0,total:0});
+  s.total++;
+  if(correct)s.correct++;
+  renderUnitProgress(q.u);
+}
 function startPartTimer(id){
   const meta=examPartMeta(id);
   if(!meta.minutes)return;
@@ -1065,6 +1108,7 @@ if(chosen===correct){examScores[part]=(examScores[part]||0)+1;}
 const pool={A:PART_A,B1:PART_B1,B2:PART_B2,C:PART_C}[part];
 const scoreEl=document.getElementById('score-'+part);
 if(scoreEl)scoreEl.textContent=`Score: ${examScores[part]||0} / ${pool.length}`;
+examRecordUnit(pool.find(function(x){return x.n===qn;}),chosen===correct);
 }
 
 
@@ -1124,6 +1168,33 @@ document.addEventListener('keydown',function(e){
   var box=document.getElementById('search-box');
   if(box){e.preventDefault();box.focus();}
 });
+/* Spacebar: flip the current flashcard whenever the Flashcards tab is the
+   active view — not just when the card itself has focus (the scene element
+   already handles Space/Enter locally via its own onkeydown in
+   page-views.template.html; this is the page-level, more-discoverable
+   version of the same action). Uses the exact activeElement/tag guard as
+   the "/" search shortcut above so it never hijacks typing. Also skips
+   BUTTON/A and the scene itself so a Space that's about to natively
+   activate a focused button (e.g. "Know it") or that the scene's own inline
+   handler will already process isn't double-handled. */
+document.addEventListener('keydown',function(e){
+  if(e.key!==' ')return;
+  var el=document.activeElement;
+  var tag=(el&&el.tagName)||'';
+  if(tag==='INPUT'||tag==='TEXTAREA'||(el&&el.isContentEditable))return;
+  if(tag==='BUTTON'||tag==='A'||(el&&el.id==='scene'))return;
+  var vc=document.getElementById('view-cards');
+  if(vc&&vc.classList.contains('active')){e.preventDefault();flip();}
+});
+/* "?" opens the keyboard-shortcuts reference modal. Same guard as above. */
+document.addEventListener('keydown',function(e){
+  if(e.key!=='?')return;
+  var el=document.activeElement;
+  var tag=(el&&el.tagName)||'';
+  if(tag==='INPUT'||tag==='TEXTAREA'||(el&&el.isContentEditable))return;
+  e.preventDefault();
+  shortcutsModalToggle();
+});
 function jumpToFlashcardUnit(id){
   clearSearch();
   switchTab('cards');
@@ -1175,7 +1246,7 @@ function buildGuide(){
     const div=document.createElement('div');div.className='unit';div.dataset.id=u.id;
     const hd=document.createElement('div');hd.className='unit-hd';
     const estMins=Math.max(5,Math.round(u.concepts.length*3+(u.traps?u.traps.length:0)*2+(u.fms?u.fms.length:0)*2));
-    hd.innerHTML=`<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts · ~${estMins} min</span></span><span class="chevron">▾</span>`;
+    hd.innerHTML=`<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts · ~${estMins} min</span></span><span class="unit-progress" id="unit-progress-${u.id}" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span><span class="chevron">▾</span>`;
     hd.tabIndex=0;hd.setAttribute('role','button');hd.setAttribute('aria-expanded','false');
     hd.onclick=()=>{const isOpen=div.classList.toggle('open');hd.setAttribute('aria-expanded',isOpen?'true':'false');};
     hd.onkeydown=(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();hd.click();}};
@@ -1265,6 +1336,7 @@ function rateFC(rating){
   const card=deck[fcIdx];
   if(rating==='known')SS_MASTERY.markCardKnown(card.t);
   else SS_MASTERY.unmarkCardKnown(card.t);
+  renderUnitProgress(card.u);
   fcNav(1);
 }
 function filterFC(){
@@ -1331,7 +1403,7 @@ window.__ssMasteryInstances = window.__ssMasteryInstances || [];
 function ssStartChemMastery(){
   SS_MASTERY = window.__ssCreateMastery('economics', UNITS.map(function(u){return u.id;}), UNITS.reduce(function(acc,u){acc[u.id]=u.name;return acc;},{}));
   window.__ssMasteryInstances.push(SS_MASTERY);
-  SS_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} try{ if(examplesBuilt) buildExamples(); }catch(e){} try{ ssOverallProgressUpdate(); }catch(e){} });
+  SS_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} try{ if(examplesBuilt) buildExamples(); }catch(e){} try{ ssOverallProgressUpdate(); }catch(e){} try{ renderAllUnitProgress(); }catch(e){} });
 }
 if (window.__ssCreateMastery) { ssStartChemMastery(); }
 else { window.addEventListener('ss-mastery-ready', ssStartChemMastery, { once: true }); }
@@ -1409,6 +1481,58 @@ function quizShuffle(){
 }
 
 function unitNameFor(unitId){const u=UNITS.find(x=>x.id===unitId);return u?u.name:'Unit '+unitId;}
+
+/* ----- Per-unit weighted progress (feature: per-unit accordion badges) -----
+   Blends up to three signals into a single 0-100 score for one unit:
+     - Flashcards known: knownCards / totalCardsInUnit          (weight .40)
+     - Quiz accuracy:    correctAnswered / totalAnswered so far  (weight .40)
+     - Exam accuracy:    correctAnswered / totalAnswered so far  (weight .20)
+       among this unit's practice-exam questions (only guides whose exam
+       questions carry a `u` field support this — most don't yet).
+   A component is only counted once there is something to measure: a unit
+   with zero flashcards drops the flashcard term, and quiz/exam terms only
+   count once at least one question in that unit has actually been
+   answered (an unattempted quiz isn't "0% mastery", it's "not started" —
+   same distinction the shared mastery module already makes at total<2).
+   Whatever weight a dropped component held is redistributed proportionally
+   across the components that ARE present, so e.g. a unit with flashcards
+   and quiz activity but no exam coverage is scored 50/50 instead of being
+   capped near 80%. If nothing has been touched yet for a unit, returns
+   null so callers can omit the badge entirely rather than show a
+   meaningless 0%. */
+function unitWeightedPct(unitId){
+  var parts=[];
+  var cards=(typeof FLASHCARDS!=='undefined'?FLASHCARDS:[]).filter(function(f){return f.u===unitId;});
+  if(cards.length){
+    var known=fcKnownSet();
+    var knownCount=cards.filter(function(c){return known.has(c.t);}).length;
+    parts.push({weight:0.4,pct:(knownCount/cards.length)*100});
+  }
+  var mastery=SS_MASTERY?(SS_MASTERY.getSnapshot().mastery||{}):{};
+  var qrec=mastery[String(unitId)];
+  if(qrec&&qrec.total>0)parts.push({weight:0.4,pct:(qrec.correct/qrec.total)*100});
+  var erec=examUnitStats[unitId];
+  if(erec&&erec.total>0)parts.push({weight:0.2,pct:(erec.correct/erec.total)*100});
+  if(!parts.length)return null;
+  var totalWeight=parts.reduce(function(s,p){return s+p.weight;},0);
+  var weighted=parts.reduce(function(s,p){return s+p.pct*(p.weight/totalWeight);},0);
+  return Math.max(0,Math.min(100,Math.round(weighted)));
+}
+function renderUnitProgress(unitId){
+  var el=document.getElementById('unit-progress-'+unitId);
+  if(!el)return;
+  var pct=unitWeightedPct(unitId);
+  if(pct===null){el.style.display='none';return;}
+  el.style.display='';
+  var fill=el.querySelector('.unit-progress-fill');
+  var label=el.querySelector('.unit-progress-label');
+  if(fill)fill.style.width=pct+'%';
+  if(label)label.textContent=pct+'%';
+}
+function renderAllUnitProgress(){
+  if(typeof UNITS==='undefined')return;
+  UNITS.forEach(function(u){renderUnitProgress(u.id);});
+}
 
 function ssOverallProgressUpdate(){
   var fill=document.getElementById('ss-overall-progress-fill');
@@ -1591,6 +1715,7 @@ function ansQ(i){
   if(SS_MASTERY)SS_MASTERY.recordAnswer(q.u,i===q.a);
   if(i===q.a)mistakeLogRemove(q);else mistakeLogAdd(q);
   ssOverallProgressUpdate();
+  renderUnitProgress(q.u);
   const expEl=document.getElementById('q-exp');
   expEl.classList.add('show');
   if(wasGuess){
@@ -2187,6 +2312,7 @@ function toolkitCloseAllPanels(){
   if(cbot)cbot.classList.remove('open');
   var desmos=document.getElementById('desmos-panel');
   if(desmos){desmos.classList.remove('open');desmos.setAttribute('aria-hidden','true');}
+  shortcutsModalClose();
 }
 function toolkitToggle(){
   var menu=document.getElementById('toolkit-menu');
@@ -2214,9 +2340,58 @@ function toolkitOutsideClick(e){
   if(menu&&!menu.contains(e.target)&&fab&&!fab.contains(e.target))toolkitClose();
 }
 
+/* ----- Keyboard-shortcuts reference modal, opened with "?" (see the
+   keydown listener above). Injected the same way as the AI helper panel
+   (cbotPanelInit) since no static template markup exists for it — this is a
+   template-only, always-available feature, not subject-specific content. ----- */
+function shortcutsModalInit(){
+  if(document.getElementById('shortcuts-modal'))return;
+  var panel=document.createElement('div');
+  panel.id='shortcuts-modal';
+  panel.className='shortcuts-modal';
+  panel.setAttribute('role','dialog');
+  panel.setAttribute('aria-modal','true');
+  panel.setAttribute('aria-label','Keyboard shortcuts');
+  panel.setAttribute('aria-hidden','true');
+  var rows=[
+    ['/','Focus search'],
+    ['Space','Flip flashcard (Flashcards tab)'],
+    ['1 – 4','Answer a quiz question (Quiz tab)'],
+    ['Enter','Next question · flip flashcard'],
+    ['Esc','Close panels'],
+    ['?','Show this list']
+  ];
+  panel.innerHTML='<div class="shortcuts-modal-card"><div class="shortcuts-modal-hd"><b>Keyboard Shortcuts</b>'+
+    '<button type="button" class="shortcuts-modal-close" onclick="shortcutsModalClose()" aria-label="Close shortcuts">✕</button></div>'+
+    '<div class="shortcuts-modal-body">'+rows.map(function(r){return '<div class="shortcuts-modal-row"><span>'+r[1]+'</span><kbd>'+r[0]+'</kbd></div>';}).join('')+'</div></div>';
+  document.body.appendChild(panel);
+}
+function shortcutsModalOpen(){
+  var panel=document.getElementById('shortcuts-modal');
+  if(!panel)return;
+  panel.classList.add('open');
+  panel.setAttribute('aria-hidden','false');
+  var closeBtn=panel.querySelector('.shortcuts-modal-close');
+  if(closeBtn)closeBtn.focus();
+  document.addEventListener('keydown',shortcutsModalKeydown);
+}
+function shortcutsModalClose(){
+  var panel=document.getElementById('shortcuts-modal');
+  if(!panel||!panel.classList.contains('open'))return;
+  panel.classList.remove('open');
+  panel.setAttribute('aria-hidden','true');
+  document.removeEventListener('keydown',shortcutsModalKeydown);
+}
+function shortcutsModalToggle(){
+  var panel=document.getElementById('shortcuts-modal');
+  if(panel&&panel.classList.contains('open'))shortcutsModalClose();else shortcutsModalOpen();
+}
+function shortcutsModalKeydown(e){if(e.key==='Escape')shortcutsModalClose();}
+
 desmosInit();
 cbotPanelInit();
 toolkitInit();
+shortcutsModalInit();
 
 /* ----- unit-filtered practice, e.g. /chemistry?practice=3 (from the dashboard's "study this next") ----- */
 (async function ssPracticeMode(){
