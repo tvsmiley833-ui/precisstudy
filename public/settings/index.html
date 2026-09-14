@@ -276,6 +276,26 @@ html{scroll-behavior:smooth}
       </div>
     </div>
 
+    <div class="ss-card" id="canvas-card" style="margin-top:20px;">
+      <div style="font-weight:800;font-size:17px;color:var(--text);margin-bottom:4px;">Canvas</div>
+      <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">
+        Connect Canvas to pull your assignments into the same list as Google Classroom.
+      </p>
+      <div id="canvas-disconnected">
+        <label style="display:block;font-size:13px;color:var(--text-muted);margin-bottom:4px;">Canvas domain</label>
+        <input type="text" id="canvas-domain" placeholder="yourschool.instructure.com" style="width:100%;box-sizing:border-box;padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font-size:13px;margin-bottom:10px;"/>
+        <label style="display:block;font-size:13px;color:var(--text-muted);margin-bottom:4px;">Access token</label>
+        <input type="password" id="canvas-token" placeholder="Canvas access token" style="width:100%;box-sizing:border-box;padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font-size:13px;margin-bottom:10px;"/>
+        <button id="canvas-connect-btn" style="width:auto;padding:10px 20px;">Connect</button>
+        <p style="font-size:12.5px;color:var(--text-muted);margin:10px 0 0;">Generate a token from Canvas: Account → Settings → "+ New Access Token".</p>
+      </div>
+      <div id="canvas-connected" style="display:none;">
+        <p style="font-size:13px;color:var(--text-muted);margin:0 0 12px;">Connected to <b id="canvas-domain-label"></b></p>
+        <button id="canvas-disconnect-btn" class="ss-oauth-btn" style="width:auto;padding:10px 20px;margin-bottom:0;">Disconnect</button>
+      </div>
+      <div id="canvas-status" style="margin-top:10px;font-size:13px;color:var(--text-muted);"></div>
+    </div>
+
     <div class="ss-card" style="margin-top:20px;">
       <div style="font-weight:800;font-size:17px;color:var(--text);margin-bottom:4px;">Export your data</div>
       <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">
@@ -961,7 +981,58 @@ async function initSettings(){
   document.getElementById('notif-pref-daily').addEventListener('change', function(){ ssSaveNotifPref('daily', this.checked); });
   document.getElementById('notif-pref-streak').addEventListener('change', function(){ ssSaveNotifPref('streak', this.checked); });
   document.getElementById('notif-pref-blocks').addEventListener('change', function(){ ssSaveNotifPref('blocks', this.checked); });
+  document.getElementById('canvas-connect-btn').addEventListener('click', ssCanvasConnect);
+  document.getElementById('canvas-disconnect-btn').addEventListener('click', ssCanvasDisconnect);
+  await ssRefreshCanvasStatus();
   await pushRefreshUI();
+}
+
+async function ssRefreshCanvasStatus(){
+  try{
+    var res = await fetch('/api/canvas/status');
+    var data = res.ok ? await res.json() : { connected: false, domain: null };
+    document.getElementById('canvas-disconnected').style.display = data.connected ? 'none' : 'block';
+    document.getElementById('canvas-connected').style.display = data.connected ? 'block' : 'none';
+    if(data.connected) document.getElementById('canvas-domain-label').textContent = data.domain || '';
+  }catch(e){ /* leave the disconnected form showing */ }
+}
+
+async function ssCanvasConnect(){
+  var domain = document.getElementById('canvas-domain').value.trim();
+  var apiToken = document.getElementById('canvas-token').value.trim();
+  var status = document.getElementById('canvas-status');
+  var btn = document.getElementById('canvas-connect-btn');
+  btn.disabled = true;
+  status.textContent = 'Connecting…';
+  try{
+    var res = await fetch('/api/canvas/connect', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ domain: domain, apiToken: apiToken })
+    });
+    var data = await res.json();
+    if(!res.ok){
+      status.textContent = data.error || "Couldn't connect — try again.";
+      btn.disabled = false;
+      return;
+    }
+    document.getElementById('canvas-token').value = '';
+    status.textContent = '';
+    await ssRefreshCanvasStatus();
+  }catch(e){
+    status.textContent = "Couldn't connect — check your connection and try again.";
+  }
+  btn.disabled = false;
+}
+
+async function ssCanvasDisconnect(){
+  var btn = document.getElementById('canvas-disconnect-btn');
+  btn.disabled = true;
+  try{
+    await fetch('/api/canvas/disconnect', { method: 'POST' });
+  }catch(e){ /* fall through to refresh either way */ }
+  await ssRefreshCanvasStatus();
+  btn.disabled = false;
 }
 
 initSettings();

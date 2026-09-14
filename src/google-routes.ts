@@ -4,6 +4,7 @@ import {
   syncGoogleAssignments, googleCacheKey, DEFAULT_SETTINGS,
   type GoogleSettings, type Feed, type Assignment
 } from "./google-sync.js";
+import { syncCanvasAssignments } from "./canvas-sync.js";
 
 function json(body: unknown, status?: number): Response {
   return new Response(JSON.stringify(body), {
@@ -42,6 +43,11 @@ export async function handleAssignments(request: Request, env: Env): Promise<Res
   const session = await getSession(request, env);
   if (!session) return json({ error: "Sign in required" }, 401);
 
+  // Canvas has no cache layer of its own (see canvas-sync.ts) -- it's
+  // always fetched live and merged in, independent of whether the
+  // Google-sourced half of the feed came from cache or a fresh sync.
+  const canvas = await syncCanvasAssignments(env, session.email);
+
   const skipCache = new URL(request.url).searchParams.get("refresh") === "1";
   if (!skipCache) {
     const raw = await env.PROGRESS.get(googleCacheKey(session.email));
@@ -50,7 +56,7 @@ export async function handleAssignments(request: Request, env: Env): Promise<Res
         const entry = JSON.parse(raw) as { items: Assignment[]; fetchedAt: string };
         const age = Date.now() - Date.parse(entry.fetchedAt);
         if (Number.isFinite(age) && age >= 0 && age < CACHE_FRESH_MS) {
-          return json({ connected: true, items: entry.items, fetchedAt: entry.fetchedAt } satisfies Feed);
+          return json({ connected: true, items: entry.items.concat(canvas.items), fetchedAt: entry.fetchedAt } satisfies Feed);
         }
       } catch (e) {
         // fall through to a fresh sync
@@ -60,7 +66,7 @@ export async function handleAssignments(request: Request, env: Env): Promise<Res
 
   const settings = await loadGoogleSettings(env, session.email);
   const feed = await syncGoogleAssignments(env, session.email, settings);
-  return json(feed);
+  return json({ ...feed, items: feed.items.concat(canvas.items) });
 }
 
 export async function handleGoogleCalendars(request: Request, env: Env): Promise<Response> {

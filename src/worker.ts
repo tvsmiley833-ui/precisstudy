@@ -23,6 +23,7 @@ import {
   handleAssignments, handleGoogleCalendars, handleGoogleDisconnect,
   handleGoogleSettingsGet, handleGoogleSettingsPost
 } from "./google-routes.js";
+import { handleCanvasConnect, handleCanvasDisconnect, handleCanvasStatus } from "./canvas-routes.js";
 
 const SUBJECT_PATHS = new Set(["geometry", "chemistry", "algebra1", "algebra2", "ap-lang", "global-history", "ap-biology", "apush", "physics", "biology", "precalc", "us-government", "spanish-1", "spanish-2", "earth-science", "economics", "english-9", "english-10", "world-history", "geography", "health", "psychology", "sociology", "statistics", "computer-science", "art-history", "music-theory", "spanish-3", "french-1", "german-1", "environmental-science", "anatomy", "astronomy", "creative-writing", "journalism", "speech-debate", "ap-chemistry", "ap-physics", "ap-stats", "ap-csa", "ap-psych", "ap-world", "ap-euro", "ap-usgov", "ap-macro", "ap-micro", "ap-human-geography", "sat-math", "sat-reading", "act-prep", "study-skills", "calculus", "calc-ab", "calc-bc", "us-history"]);
 const SUBJECT_VIEW_SEGMENTS = new Set(["flashcards", "quiz", "examples", "exam", "reference", "memory"]);
@@ -290,6 +291,21 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
   if (url.pathname === "/api/google/settings") {
     if (request.method === "GET") return handleGoogleSettingsGet(request, env);
     if (request.method === "POST") return handleGoogleSettingsPost(request, env);
+    return json({ error: "Method not allowed" }, 405);
+  }
+
+  if (url.pathname === "/api/canvas/connect") {
+    if (request.method === "POST") return handleCanvasConnect(request, env);
+    return json({ error: "Method not allowed" }, 405);
+  }
+
+  if (url.pathname === "/api/canvas/disconnect") {
+    if (request.method === "POST") return handleCanvasDisconnect(request, env);
+    return json({ error: "Method not allowed" }, 405);
+  }
+
+  if (url.pathname === "/api/canvas/status") {
+    if (request.method === "GET") return handleCanvasStatus(request, env);
     return json({ error: "Method not allowed" }, 405);
   }
 

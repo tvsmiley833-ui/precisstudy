@@ -6,6 +6,7 @@ import {
 } from "../src/google-routes.js";
 import { putGoogleToken, googleTokenKey } from "../src/google-token.js";
 import { googleCacheKey } from "../src/google-sync.js";
+import { putCanvasToken } from "../src/canvas-token.js";
 
 const SECRET = "test-session-secret";
 
@@ -74,6 +75,27 @@ describe("/api/assignments", () => {
     const c = await cookie("s@e.edu");
     const res = await handleAssignments(get("https://precisstudy.com/api/assignments", c), e);
     expect(await res.json()).toMatchObject({ connected: false, items: [] });
+  });
+
+  it("merges Canvas assignments into the feed alongside the (cached) Google-sourced items", async () => {
+    const e = env();
+    const c = await cookie("s@e.edu");
+    await putGoogleToken(e, "s@e.edu", { refreshToken: "1//rt", googleEmail: "s@e.edu", scopes: [], connectedAt: "x" });
+    await putCanvasToken(e, "s@e.edu", { domain: "school.instructure.com", apiToken: "canvas-tok", connectedAt: "x" });
+    const entry = { items: [{ id: "classroom:c:w", source: "classroom", title: "Google Cached", courseName: null, dueAt: null, allDay: true, link: null, state: "todo" }], fetchedAt: new Date().toISOString() };
+    e.PROGRESS._store.set(googleCacheKey("s@e.edu"), JSON.stringify(entry));
+    globalThis.fetch = async (url) => {
+      const u = String(url);
+      if (u === "https://school.instructure.com/api/v1/users/self/upcoming_events") {
+        return new Response(JSON.stringify([{ id: 9, title: "Canvas Essay", due_at: "2026-09-21T00:00:00Z", html_url: "https://school.instructure.com/x" }]), { status: 200 });
+      }
+      throw new Error("must not touch Google on a warm cache: " + u);
+    };
+    const res = await handleAssignments(get("https://precisstudy.com/api/assignments", c), e);
+    const feed = await res.json();
+    const titles = feed.items.map(i => i.title).sort();
+    expect(titles).toEqual(["Canvas Essay", "Google Cached"]);
+    expect(feed.items.find(i => i.title === "Canvas Essay").source).toBe("canvas");
   });
 });
 
