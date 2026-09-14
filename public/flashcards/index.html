@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>My Flashcards — PrecisStudy</title>
+<meta name="robots" content="noindex"/>
+<link rel="icon" type="image/png" href="/favicon.png"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="manifest" href="/manifest.json"/>
+<script>
+(function(){
+  try {
+    var saved = localStorage.getItem('ss-theme');
+    if (saved !== 'light') document.documentElement.setAttribute('data-theme', 'dark');
+  } catch (e) {}
+})();
+</script>
+<style>
+:root{
+  --bg:#eef1ea; --bg-card:#fff;
+  --border:#c8d2c5;
+  --text:#233a31; --text-muted:#5a6f63;
+  --accent:#1f6e46; --accent-bright:#268a58;
+  --status-red:#a83f2e;
+}
+[data-theme="dark"]{
+  --bg:#14302a; --bg-card:#1b3d33;
+  --border:#2f5346;
+  --text:#f2f5ee; --text-muted:#b7c9bc;
+  --accent:#4fbf85; --accent-bright:#63d199;
+  --status-red:#e08a70;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Nunito','Segoe UI',system-ui,sans-serif;padding:40px 20px;}
+.wrap{max-width:640px;margin:0 auto;}
+.hd{display:flex;align-items:center;gap:8px;font-weight:800;font-size:18px;margin-bottom:28px;text-decoration:none;color:var(--text);}
+h1{font-size:22px;margin:0 0 4px;}
+.sub{font-size:14px;color:var(--text-muted);margin:0 0 24px;}
+.card{background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:24px;margin-bottom:16px;}
+button, .btn{font-family:inherit;font-size:14px;font-weight:700;border-radius:12px;padding:10px 20px;cursor:pointer;border:2px solid var(--border);background:var(--bg-card);color:var(--text);}
+button:hover, .btn:hover{border-color:var(--accent-bright);}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff;}
+button.primary:hover{background:var(--accent-bright);border-color:var(--accent-bright);}
+button:disabled{opacity:.5;cursor:default;}
+textarea{width:100%;min-height:160px;padding:12px;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-family:inherit;font-size:14px;resize:vertical;}
+input[type=text]{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-family:inherit;font-size:14px;}
+.deck-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+.deck-row:last-child{border-bottom:none;}
+.deck-name{font-weight:700;}
+.deck-count{font-size:13px;color:var(--text-muted);}
+.row-actions{display:flex;gap:8px;}
+.status{margin-top:10px;font-size:13px;color:var(--text-muted);}
+.empty{color:var(--text-muted);font-size:14px;}
+.cardprev{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border);}
+.cardprev:last-child{border-bottom:none;}
+.cardprev input{margin-bottom:6px;}
+.flip-card{background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:40px 24px;min-height:160px;
+  display:flex;align-items:center;justify-content:center;text-align:center;font-size:18px;font-weight:700;cursor:pointer;user-select:none;margin-bottom:16px;position:relative;}
+.flip-card .label{position:absolute;top:16px;left:20px;font-size:11px;font-weight:800;letter-spacing:.05em;color:var(--text-muted);text-transform:uppercase;}
+.study-nav{display:flex;justify-content:space-between;align-items:center;gap:12px;}
+.study-progress{font-size:13px;color:var(--text-muted);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a href="/dashboard" class="hd">📔 PrecisStudy</a>
+  <h1>My Flashcards</h1>
+  <p class="sub">Paste your notes, get an AI-generated deck, study it whenever.</p>
+
+  <div id="fc-gate" class="card" style="display:none;">
+    <p style="margin:0 0 12px;">Sign in to generate and save flashcard decks.</p>
+    <a class="btn primary" href="/auth/google/start?next=/flashcards">Continue with Google</a>
+  </div>
+
+  <div id="fc-content" style="display:none;">
+
+    <div id="fc-list-view">
+      <div class="card">
+        <button class="primary" id="fc-new-btn">Generate new deck</button>
+      </div>
+      <div id="fc-deck-list"></div>
+    </div>
+
+    <div id="fc-generate-view" class="card" style="display:none;">
+      <p style="margin:0 0 10px;font-size:14px;color:var(--text-muted);">Paste class notes, a handout, or anything you want turned into flashcards.</p>
+      <textarea id="fc-notes" placeholder="Paste your notes here…" maxlength="6000"></textarea>
+      <div style="display:flex;gap:10px;margin-top:12px;">
+        <button class="primary" id="fc-generate-btn">Generate</button>
+        <button id="fc-generate-cancel-btn">Cancel</button>
+      </div>
+      <div class="status" id="fc-generate-status"></div>
+
+      <div id="fc-preview" style="display:none;margin-top:20px;padding-top:20px;border-top:1px solid var(--border);">
+        <label style="display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px;">Deck name</label>
+        <input type="text" id="fc-deck-name" maxlength="80"/>
+        <div id="fc-preview-cards" style="margin-top:16px;"></div>
+        <div style="display:flex;gap:10px;margin-top:16px;">
+          <button class="primary" id="fc-save-btn">Save deck</button>
+          <button id="fc-discard-btn">Discard</button>
+        </div>
+        <div class="status" id="fc-save-status"></div>
+      </div>
+    </div>
+
+    <div id="fc-study-view" style="display:none;">
+      <button id="fc-study-back-btn" style="margin-bottom:16px;">← Back to decks</button>
+      <div class="flip-card" id="fc-flip-card"><span class="label" id="fc-flip-label">Front</span><span id="fc-flip-text"></span></div>
+      <div class="study-nav">
+        <button id="fc-prev-btn">Previous</button>
+        <span class="study-progress" id="fc-study-progress"></span>
+        <button id="fc-next-btn">Next</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<script>
+function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+
+var FC_BLOB = null;
+var FC_PREVIEW_CARDS = [];
+var FC_STUDY_DECK = null;
+var FC_STUDY_INDEX = 0;
+var FC_STUDY_FLIPPED = false;
+
+function showView(id){
+  ['fc-list-view', 'fc-generate-view', 'fc-study-view'].forEach(function(v){
+    document.getElementById(v).style.display = (v === id) ? 'block' : 'none';
+  });
+}
+
+function renderDeckList(){
+  var el = document.getElementById('fc-deck-list');
+  var decks = (FC_BLOB && FC_BLOB.customDecks) || [];
+  if (!decks.length) {
+    el.innerHTML = '<div class="card empty">No decks yet — generate one from your notes above.</div>';
+    return;
+  }
+  el.innerHTML = '<div class="card">' + decks.slice().reverse().map(function(d){
+    return '<div class="deck-row"><div><div class="deck-name">' + esc(d.name) + '</div><div class="deck-count">' + d.cards.length + ' card' + (d.cards.length === 1 ? '' : 's') + '</div></div>'
+      + '<div class="row-actions"><button data-study="' + esc(d.id) + '">Study</button><button data-delete="' + esc(d.id) + '">Delete</button></div></div>';
+  }).join('') + '</div>';
+  el.querySelectorAll('[data-study]').forEach(function(btn){
+    btn.addEventListener('click', function(){ startStudy(btn.getAttribute('data-study')); });
+  });
+  el.querySelectorAll('[data-delete]').forEach(function(btn){
+    btn.addEventListener('click', function(){ deleteDeck(btn.getAttribute('data-delete')); });
+  });
+}
+
+async function loadDecks(){
+  try{
+    var res = await fetch('/api/progress');
+    FC_BLOB = res.ok ? await res.json() : { customDecks: [] };
+  }catch(e){
+    FC_BLOB = { customDecks: [] };
+  }
+  renderDeckList();
+}
+
+async function deleteDeck(id){
+  if(!confirm('Delete this deck? This cannot be undone.')) return;
+  try{
+    await fetch('/api/flashcards/delete', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ id: id }) });
+  }catch(e){ /* fall through to reload either way */ }
+  await loadDecks();
+}
+
+document.getElementById('fc-new-btn').addEventListener('click', function(){
+  document.getElementById('fc-notes').value = '';
+  document.getElementById('fc-generate-status').textContent = '';
+  document.getElementById('fc-preview').style.display = 'none';
+  FC_PREVIEW_CARDS = [];
+  showView('fc-generate-view');
+});
+document.getElementById('fc-generate-cancel-btn').addEventListener('click', function(){ showView('fc-list-view'); });
+
+document.getElementById('fc-generate-btn').addEventListener('click', async function(){
+  var notes = document.getElementById('fc-notes').value.trim();
+  var status = document.getElementById('fc-generate-status');
+  var btn = document.getElementById('fc-generate-btn');
+  if (!notes) { status.textContent = 'Paste some notes first.'; return; }
+  btn.disabled = true;
+  status.textContent = 'Generating flashcards…';
+  document.getElementById('fc-preview').style.display = 'none';
+  try{
+    var res = await fetch('/api/flashcards/generate', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ text: notes }) });
+    var data = await res.json();
+    if(!res.ok){
+      status.textContent = data.error || "Couldn't generate flashcards — try again.";
+      btn.disabled = false;
+      return;
+    }
+    FC_PREVIEW_CARDS = data.cards;
+    renderPreview();
+    document.getElementById('fc-deck-name').value = notes.slice(0, 60).split('\n')[0] || 'My Flashcards';
+    document.getElementById('fc-preview').style.display = 'block';
+    status.textContent = data.cards.length + ' cards generated — review below, then save.';
+  }catch(e){
+    status.textContent = "Couldn't generate flashcards — check your connection and try again.";
+  }
+  btn.disabled = false;
+});
+
+function renderPreview(){
+  var el = document.getElementById('fc-preview-cards');
+  el.innerHTML = FC_PREVIEW_CARDS.map(function(c, i){
+    return '<div class="cardprev"><div style="flex:1;">'
+      + '<input type="text" data-front="' + i + '" value="' + esc(c.front) + '" style="margin-bottom:6px;"/>'
+      + '<input type="text" data-back="' + i + '" value="' + esc(c.back) + '"/>'
+      + '</div><button data-remove-card="' + i + '">✕</button></div>';
+  }).join('');
+  el.querySelectorAll('[data-front]').forEach(function(inp){
+    inp.addEventListener('input', function(){ FC_PREVIEW_CARDS[+inp.getAttribute('data-front')].front = inp.value; });
+  });
+  el.querySelectorAll('[data-back]').forEach(function(inp){
+    inp.addEventListener('input', function(){ FC_PREVIEW_CARDS[+inp.getAttribute('data-back')].back = inp.value; });
+  });
+  el.querySelectorAll('[data-remove-card]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      FC_PREVIEW_CARDS.splice(+btn.getAttribute('data-remove-card'), 1);
+      renderPreview();
+    });
+  });
+}
+
+document.getElementById('fc-discard-btn').addEventListener('click', function(){ showView('fc-list-view'); });
+
+document.getElementById('fc-save-btn').addEventListener('click', async function(){
+  var name = document.getElementById('fc-deck-name').value.trim();
+  var status = document.getElementById('fc-save-status');
+  var btn = document.getElementById('fc-save-btn');
+  if (!name) { status.textContent = 'Give this deck a name.'; return; }
+  if (!FC_PREVIEW_CARDS.length) { status.textContent = 'This deck has no cards left.'; return; }
+  btn.disabled = true;
+  status.textContent = 'Saving…';
+  try{
+    var res = await fetch('/api/flashcards/save', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ name: name, cards: FC_PREVIEW_CARDS }) });
+    var data = await res.json();
+    if(!res.ok){
+      status.textContent = data.error || "Couldn't save — try again.";
+      btn.disabled = false;
+      return;
+    }
+    await loadDecks();
+    showView('fc-list-view');
+  }catch(e){
+    status.textContent = "Couldn't save — check your connection and try again.";
+  }
+  btn.disabled = false;
+});
+
+function startStudy(id){
+  var decks = (FC_BLOB && FC_BLOB.customDecks) || [];
+  var deck = decks.find(function(d){ return d.id === id; });
+  if (!deck) return;
+  FC_STUDY_DECK = deck;
+  FC_STUDY_INDEX = 0;
+  FC_STUDY_FLIPPED = false;
+  renderStudyCard();
+  showView('fc-study-view');
+}
+
+function renderStudyCard(){
+  var card = FC_STUDY_DECK.cards[FC_STUDY_INDEX];
+  document.getElementById('fc-flip-label').textContent = FC_STUDY_FLIPPED ? 'Back' : 'Front';
+  document.getElementById('fc-flip-text').textContent = FC_STUDY_FLIPPED ? card.back : card.front;
+  document.getElementById('fc-study-progress').textContent = (FC_STUDY_INDEX + 1) + ' / ' + FC_STUDY_DECK.cards.length;
+}
+
+document.getElementById('fc-flip-card').addEventListener('click', function(){
+  FC_STUDY_FLIPPED = !FC_STUDY_FLIPPED;
+  renderStudyCard();
+});
+document.getElementById('fc-next-btn').addEventListener('click', function(){
+  FC_STUDY_INDEX = (FC_STUDY_INDEX + 1) % FC_STUDY_DECK.cards.length;
+  FC_STUDY_FLIPPED = false;
+  renderStudyCard();
+});
+document.getElementById('fc-prev-btn').addEventListener('click', function(){
+  FC_STUDY_INDEX = (FC_STUDY_INDEX - 1 + FC_STUDY_DECK.cards.length) % FC_STUDY_DECK.cards.length;
+  FC_STUDY_FLIPPED = false;
+  renderStudyCard();
+});
+document.getElementById('fc-study-back-btn').addEventListener('click', function(){ showView('fc-list-view'); });
+
+(async function init(){
+  try{
+    var res = await fetch('/auth/me');
+    var data = await res.json();
+    if (!data.loggedIn) {
+      document.getElementById('fc-gate').style.display = 'block';
+      return;
+    }
+  }catch(e){
+    document.getElementById('fc-gate').style.display = 'block';
+    return;
+  }
+  document.getElementById('fc-content').style.display = 'block';
+  await loadDecks();
+})();
+</script>
+</body>
+</html>

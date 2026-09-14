@@ -1,4 +1,5 @@
 import { getSession } from "./auth.js";
+import { randomToken } from "./random-token.js";
 
 const SUBJECTS = ["geometry", "chemistry", "algebra1", "algebra2", "aplang", "globalhistory", "apbiology", "apush", "physics", "biology", "precalc", "act-prep", "anatomy", "ap-chemistry", "ap-csa", "ap-euro", "ap-human-geography", "ap-macro", "ap-micro", "ap-physics", "ap-psych", "ap-stats", "ap-usgov", "ap-world", "art-history", "astronomy", "computer-science", "creative-writing", "earth-science", "economics", "english-10", "english-9", "environmental-science", "french-1", "geography", "german-1", "health", "journalism", "music-theory", "psychology", "sat-math", "sat-reading", "sociology", "spanish-1", "spanish-2", "spanish-3", "speech-debate", "statistics", "study-skills", "us-government", "world-history", "calculus", "calc-ab", "calc-bc", "us-history"];
 
@@ -40,6 +41,10 @@ type ProgressBlob = {
   // Per-notification-type opt-out (Settings). A missing key means "on" --
   // see notificationAllowed() in push-routes.ts, which reads this same field.
   notificationPrefs?: { daily?: boolean; streak?: boolean; blocks?: boolean } | null;
+  // AI-generated flashcard decks (see flashcards-routes.ts), independent of
+  // the per-guide FLASHCARDS arrays baked into guide pages at generate time.
+  // Capped at MAX_CUSTOM_DECKS, oldest evicted first.
+  customDecks?: { id: string; name: string; cards: { front: string; back: string }[]; createdAt: string }[];
 } & Record<string, SubjectProgress>;
 
 interface PushSubscriptionRecord {
@@ -249,17 +254,6 @@ export async function handlePostProgressReset(request: Request, env: Env): Promi
 
   await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
   return json({ ok: true });
-}
-
-// Base64url, not hex -- same entropy in a shorter, URL-safe string. 18 random
-// bytes (144 bits) is comfortably unguessable for a link that's only ever
-// meant to be shared deliberately, not brute-forced.
-function randomToken(): string {
-  const bytes = new Uint8Array(18);
-  crypto.getRandomValues(bytes);
-  let binary = "";
-  for (const b of bytes) binary += String.fromCharCode(b);
-  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
 
 // Settings' "Share your progress": generates a new opt-in public link,
