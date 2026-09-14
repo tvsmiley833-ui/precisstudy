@@ -1,11 +1,17 @@
-// Site-wide high-contrast mode toggle, loaded on every page (homepage,
-// dashboard, settings, all subject guides) via one
+// Site-wide high-contrast mode, loaded on every page (homepage, dashboard,
+// settings, all subject guides) via one
 // <script src="/shared/high-contrast.js" defer> tag -- same rollout pattern
 // as command-palette.js. Overrides the CSS custom properties both page
 // families use (--bg-card/--text/--border on the homepage/dashboard/
 // settings, --surface/--ink/--border on guide pages) so near-black-on-white
 // / near-white-on-black contrast applies everywhere those tokens are used,
 // without needing per-selector overrides on every page's own stylesheet.
+//
+// The only control surface is the Settings page's own checkbox (see
+// ssInitHighContrastToggle() in public/settings/index.html), which calls
+// window.ssSetHighContrast(). This file used to also inject a small "AA"
+// button into every page's header; that was removed to keep exactly one
+// place to turn it on/off.
 (function () {
   var KEY = 'ss-contrast';
 
@@ -35,51 +41,24 @@
     '--accent-ink:#6cb6ff!important;--accent-soft:#000!important;' +
     '--status-badge-text:#000!important;--done-badge-bg:#00ff00!important' +
     '}' +
-    '[data-contrast="high"] *{box-shadow:none!important;text-shadow:none!important}' +
-    '#contrast-toggle{background:none;border:1px solid var(--border,#ccc);color:var(--text-muted,var(--ink-muted,#666));' +
-    'border-radius:999px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;' +
-    'cursor:pointer;flex-shrink:0;font-weight:800;font-size:13px;font-family:inherit;margin-left:6px}' +
-    '#contrast-toggle:hover{border-color:var(--accent-bright,var(--accent,#6cb6ff));color:var(--accent,#3399ff)}' +
-    '#contrast-toggle.on{background:var(--accent-bright,var(--accent,#3399ff));border-color:var(--accent-bright,var(--accent,#3399ff));color:#fff}';
+    '[data-contrast="high"] *{box-shadow:none!important;text-shadow:none!important}';
   document.head.appendChild(style);
 
   function apply(on) {
     if (on) document.documentElement.setAttribute('data-contrast', 'high');
     else document.documentElement.removeAttribute('data-contrast');
-    var btn = document.getElementById('contrast-toggle');
-    if (btn) {
-      btn.classList.toggle('on', on);
-      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-    }
   }
 
   var saved;
   try { saved = localStorage.getItem(KEY) === 'high'; } catch (e) { saved = false; }
   apply(saved);
 
-  function injectButton() {
-    if (document.getElementById('contrast-toggle')) return;
-    var themeToggle = document.getElementById('theme-toggle');
-    if (!themeToggle || !themeToggle.parentNode) return;
-    var btn = document.createElement('button');
-    btn.id = 'contrast-toggle';
-    btn.type = 'button';
-    btn.setAttribute('aria-label', 'Toggle high-contrast mode');
-    btn.setAttribute('aria-pressed', saved ? 'true' : 'false');
-    btn.title = 'Toggle high-contrast mode';
-    btn.textContent = 'AA';
-    btn.className = saved ? 'on' : '';
-    btn.addEventListener('click', function () {
-      var next = document.documentElement.getAttribute('data-contrast') !== 'high';
-      apply(next);
-      try { localStorage.setItem(KEY, next ? 'high' : 'normal'); } catch (e) { /* ignore */ }
-    });
-    themeToggle.parentNode.insertBefore(btn, themeToggle.nextSibling);
-  }
+  window.ssIsHighContrast = function () {
+    return document.documentElement.getAttribute('data-contrast') === 'high';
+  };
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', injectButton);
-  } else {
-    injectButton();
-  }
+  window.ssSetHighContrast = function (on) {
+    apply(on);
+    try { localStorage.setItem(KEY, on ? 'high' : 'normal'); } catch (e) { /* ignore */ }
+  };
 })();

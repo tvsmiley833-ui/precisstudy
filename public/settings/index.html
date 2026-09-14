@@ -998,20 +998,16 @@ async function initSettings(){
   await pushRefreshUI();
 }
 
-// Defers to high-contrast.js's own toggle button (already injected into the
-// header on every page that loads that script, this one included) for the
-// actual apply/persist logic, rather than re-implementing the CSS-variable
-// override and localStorage key here -- one source of truth for what "on"
-// means, this checkbox is just a second, labeled entry point to the same
-// toggle.
+// Calls straight into high-contrast.js's window.ssSetHighContrast() rather
+// than re-implementing the CSS-variable override and localStorage key here
+// -- one source of truth for what "on" means. This checkbox is the only
+// control surface for it (the header used to also carry a small "AA"
+// button; that was removed so there's exactly one place to toggle it).
 function ssInitHighContrastToggle(){
   var checkbox = document.getElementById('settings-high-contrast');
-  var sync = function(){ checkbox.checked = document.documentElement.getAttribute('data-contrast') === 'high'; };
-  sync();
+  checkbox.checked = window.ssIsHighContrast ? window.ssIsHighContrast() : false;
   checkbox.addEventListener('change', function(){
-    var headerBtn = document.getElementById('contrast-toggle');
-    if(headerBtn) headerBtn.click();
-    sync();
+    if(window.ssSetHighContrast) window.ssSetHighContrast(checkbox.checked);
   });
 }
 
