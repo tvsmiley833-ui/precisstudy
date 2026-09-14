@@ -1,6 +1,6 @@
 import { SELF } from "cloudflare:test";
 import { describe, it, expect } from "vitest";
-import { handleGoogleStart, handleGoogleCallback, handleGithubStart, handleGithubCallback, handleVerify, handleVerifyConfirm, handleDeleteAccount } from "../src/auth-routes.js";
+import { handleGoogleStart, handleGoogleCallback, handleGithubStart, handleGithubCallback, handleVerify, handleVerifyConfirm, handleDeleteAccount, handleSignOutEverywhere } from "../src/auth-routes.js";
 import { createMagicLinkToken, issueSessionCookie, getSessionVersion } from "../src/auth.js";
 
 describe("/auth/me", () => {
@@ -88,6 +88,46 @@ describe("/auth/delete-account", () => {
       headers: { Cookie: cookie.split(";")[0] }
     }), env);
     expect(res.status).toBe(401);
+  });
+});
+
+describe("/auth/sign-out-everywhere", () => {
+  function kvStub() {
+    const m = new Map();
+    return {
+      _m: m,
+      get: (k) => Promise.resolve(m.has(k) ? m.get(k) : null),
+      put: (k, v) => { m.set(k, v); return Promise.resolve(); },
+      delete: (k) => { m.delete(k); return Promise.resolve(); },
+      list: () => Promise.resolve({ keys: [], list_complete: true })
+    };
+  }
+
+  it("requires a session", async () => {
+    const res = await handleSignOutEverywhere(new Request("https://precisstudy.com/auth/sign-out-everywhere", { method: "POST" }), { SESSION_SECRET: "s", PROGRESS: kvStub() });
+    expect(res.status).toBe(401);
+  });
+
+  it("bumps the session version and clears the cookie, invalidating every outstanding token", async () => {
+    const email = "learner@example.com";
+    const env = { SESSION_SECRET: "s", PROGRESS: kvStub() };
+    const cookie = await issueSessionCookie(env, { email, name: email, provider: "email" });
+
+    const res = await handleSignOutEverywhere(new Request("https://precisstudy.com/auth/sign-out-everywhere", {
+      method: "POST",
+      headers: { Cookie: cookie.split(";")[0] }
+    }), env);
+
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true });
+    expect(res.headers.get("Set-Cookie")).toContain("Max-Age=0");
+    expect(await getSessionVersion(env.PROGRESS, email)).toBe(1);
+
+    const again = await handleSignOutEverywhere(new Request("https://precisstudy.com/auth/sign-out-everywhere", {
+      method: "POST",
+      headers: { Cookie: cookie.split(";")[0] }
+    }), env);
+    expect(again.status).toBe(401); // old cookie no longer authenticates
   });
 });
 

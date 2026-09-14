@@ -68,6 +68,14 @@ interface ProgressBlob {
   goal?: { days: number; minutesPerDay: number; savedAt: string } | null;
   streak?: StreakData | null;
   schedule?: ScheduleData | null;
+  // Per-notification-type opt-out (Settings). A missing key -- or a missing
+  // notificationPrefs object entirely -- means "on", so every subscriber
+  // from before this existed keeps getting all three kinds unchanged.
+  notificationPrefs?: { daily?: boolean; streak?: boolean; blocks?: boolean } | null;
+}
+
+function notificationAllowed(blob: ProgressBlob, kind: "daily" | "streak" | "blocks"): boolean {
+  return blob.notificationPrefs?.[kind] !== false;
 }
 
 interface ScheduleData {
@@ -247,7 +255,7 @@ export async function sendDailyReminders(env: Env): Promise<{ checked: number; s
         continue;
       }
       const subs = Array.isArray(blob.pushSubscriptions) ? blob.pushSubscriptions : [];
-      if (!subs.length || !blob.goal) continue;
+      if (!subs.length || !blob.goal || !notificationAllowed(blob, "daily")) continue;
 
       const stillValid: PushSubscription[] = [];
       for (const sub of subs) {
@@ -340,7 +348,7 @@ export async function sendStreakReminders(env: Env): Promise<{ checked: number; 
 
       const streak = blob.streak;
       const subs = Array.isArray(blob.pushSubscriptions) ? blob.pushSubscriptions : [];
-      if (!streak || !(streak.current > 0) || !streak.timezone || !subs.length) continue;
+      if (!streak || !(streak.current > 0) || !streak.timezone || !subs.length || !notificationAllowed(blob, "streak")) continue;
 
       let local: { day: string; minutes: number };
       let today: string;
@@ -408,7 +416,7 @@ export async function sendScheduledBlockReminders(env: Env): Promise<{ checked: 
 
       const schedule = blob.schedule;
       const subs = Array.isArray(blob.pushSubscriptions) ? blob.pushSubscriptions : [];
-      if (!schedule || !schedule.notifyEnabled || !schedule.timezone || !subs.length) continue;
+      if (!schedule || !schedule.notifyEnabled || !schedule.timezone || !subs.length || !notificationAllowed(blob, "blocks")) continue;
       const blocks = Array.isArray(schedule.blocks) ? schedule.blocks : [];
       if (!blocks.length) continue;
 

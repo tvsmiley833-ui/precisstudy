@@ -333,6 +333,19 @@ export async function handleLogout(request: Request, env: Env): Promise<Response
   return json({ ok: true }, 200, { "Set-Cookie": clearSessionCookie() });
 }
 
+// Settings' explicit "Sign out of all devices" security action. Functionally
+// identical to handleLogout (which already bumps the version on every call,
+// not just this one) -- this exists as its own named, confirmed endpoint so
+// Settings can offer "sign out everywhere" as a deliberate choice distinct
+// from the plain logout link elsewhere in the app, requires an active
+// session (logout doesn't), and can carry its own copy/confirmation.
+export async function handleSignOutEverywhere(request: Request, env: Env): Promise<Response> {
+  const session = await getSession(request, env);
+  if (!session) return json({ error: "Sign in required" }, 401);
+  await bumpSessionVersion(env, session.email);
+  return json({ ok: true }, 200, { "Set-Cookie": clearSessionCookie() });
+}
+
 export async function handleDeleteAccount(request: Request, env: Env): Promise<Response> {
   const session = await getSession(request, env);
   if (!session) return json({ error: "Sign in required" }, 401);

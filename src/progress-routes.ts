@@ -37,6 +37,9 @@ type ProgressBlob = {
   // which need real day-over-day history to plot. Capped in
   // recordDailySnapshots() so this can't grow unbounded.
   history?: { date: string; subjects: Record<string, number>; totalAnswered?: number }[];
+  // Per-notification-type opt-out (Settings). A missing key means "on" --
+  // see notificationAllowed() in push-routes.ts, which reads this same field.
+  notificationPrefs?: { daily?: boolean; streak?: boolean; blocks?: boolean } | null;
 } & Record<string, SubjectProgress>;
 
 interface PushSubscriptionRecord {
@@ -71,7 +74,7 @@ function emptySubject(): SubjectProgress {
 }
 
 function emptyBlob(): ProgressBlob {
-  const blob = { goal: null, updatedAt: null, enrolledSubjects: [], pushSubscriptions: [], schedule: null, streak: null } as unknown as ProgressBlob;
+  const blob = { goal: null, updatedAt: null, enrolledSubjects: [], pushSubscriptions: [], schedule: null, streak: null, notificationPrefs: null } as unknown as ProgressBlob;
   for (const subject of SUBJECTS) blob[subject] = emptySubject();
   return blob;
 }
@@ -467,4 +470,37 @@ export async function handlePostGoal(request: Request, env: Env): Promise<Respon
 
   await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
   return json({ ok: true, goal: blob.goal });
+}
+
+// Settings' per-notification-type toggles. Partial merge (like handlePostGoal
+// isn't, but this needs to be -- flipping one switch shouldn't silently reset
+// the other two to their defaults), so only keys actually present in the body
+// are written; an omitted key keeps whatever was stored before.
+export async function handlePostNotificationPrefs(request: Request, env: Env): Promise<Response> {
+  const session = await getSession(request, env);
+  if (!session) return json({ error: "Sign in required" }, 401);
+  if (!env.PROGRESS) return json({ error: "Progress sync isn't configured yet" }, 503);
+
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch (e) {
+    return json({ error: "Invalid JSON body" }, 400);
+  }
+  if (!body || typeof body !== "object") return json({ error: "Invalid JSON body" }, 400);
+  const rec = body as Record<string, unknown>;
+
+  const blob = await loadBlob(env, session.email);
+  const prefs = { ...(blob.notificationPrefs || {}) };
+  for (const key of ["daily", "streak", "blocks"] as const) {
+    if (key in rec) {
+      if (typeof rec[key] !== "boolean") return json({ error: `${key} must be a boolean` }, 400);
+      prefs[key] = rec[key] as boolean;
+    }
+  }
+  blob.notificationPrefs = prefs;
+  blob.updatedAt = new Date().toISOString();
+
+  await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  return json({ ok: true, notificationPrefs: prefs });
 }

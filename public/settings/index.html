@@ -233,6 +233,18 @@ html{scroll-behavior:smooth}
         <button id="push-test-btn" class="ss-oauth-btn" style="width:auto;padding:10px 20px;margin-bottom:0;display:none;">Send test notification</button>
       </div>
       <div id="push-status" style="margin-top:12px;font-size:13px;color:var(--text-muted);"></div>
+      <div id="notif-prefs" style="display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--border);flex-direction:column;gap:10px;">
+        <label style="display:flex;gap:8px;align-items:center;font-size:14px;color:var(--text);">
+          <input type="checkbox" id="notif-pref-daily" checked> Daily study reminder
+        </label>
+        <label style="display:flex;gap:8px;align-items:center;font-size:14px;color:var(--text);">
+          <input type="checkbox" id="notif-pref-streak" checked> Streak reminder (8pm, if you haven't studied yet)
+        </label>
+        <label style="display:flex;gap:8px;align-items:center;font-size:14px;color:var(--text);">
+          <input type="checkbox" id="notif-pref-blocks" checked> Study-block reminders (10 min before a scheduled block)
+        </label>
+        <div id="notif-prefs-status" style="font-size:13px;color:var(--text-muted);"></div>
+      </div>
     </div>
 
     <div class="ss-card" id="google-card" style="margin-top:20px;">
@@ -295,6 +307,15 @@ html{scroll-behavior:smooth}
       </p>
       <button id="reset-progress-btn" style="width:auto;padding:10px 20px;">Reset all progress</button>
       <div id="reset-progress-status" style="margin-top:10px;font-size:13px;color:var(--text-muted);"></div>
+    </div>
+
+    <div class="ss-card" style="margin-top:20px;">
+      <div style="font-weight:800;font-size:17px;color:var(--text);margin-bottom:4px;">Sign out of all devices</div>
+      <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">
+        Signs out every browser currently signed in to your account, including this one — useful if you signed in on a shared or lost device.
+      </p>
+      <button id="sign-out-everywhere-btn" style="width:auto;padding:10px 20px;">Sign out everywhere</button>
+      <div id="sign-out-everywhere-status" style="margin-top:10px;font-size:13px;color:var(--text-muted);"></div>
     </div>
 
     <div class="ss-card" style="margin-top:20px;border-color:#b3362c;">
@@ -530,6 +551,27 @@ async function ssResetAllProgress(){
     btn.disabled = false;
   }
 }
+async function ssSignOutEverywhere(){
+  if(!confirm('Sign out of all devices? Every browser currently signed in, including this one, will need to sign in again.')) return;
+  var btn = document.getElementById('sign-out-everywhere-btn');
+  var status = document.getElementById('sign-out-everywhere-status');
+  btn.disabled = true;
+  status.textContent = 'Signing out…';
+  try{
+    var res = await fetch('/auth/sign-out-everywhere', {method:'POST'});
+    if(!res.ok){
+      var data = await res.json().catch(function(){ return {}; });
+      status.textContent = data.error || "Couldn't sign out — try again.";
+      btn.disabled = false;
+      return;
+    }
+    location.href = '/';
+  }catch(e){
+    status.textContent = "Couldn't sign out — check your connection and try again.";
+    btn.disabled = false;
+  }
+}
+
 async function ssDeleteAccount(){
   if(!confirm('Delete your account? This permanently erases your saved progress, streak, classes, and connected accounts and cannot be undone.')) return;
   var btn = document.getElementById('delete-account-btn');
@@ -751,14 +793,17 @@ async function pushRefreshUI(){
   var btn = document.getElementById('push-toggle-btn');
   var testBtn = document.getElementById('push-test-btn');
   var status = document.getElementById('push-status');
+  var prefs = document.getElementById('notif-prefs');
   if (!pushSupported()) {
     btn.style.display = 'none';
+    prefs.style.display = 'none';
     status.textContent = "Push notifications aren't supported in this browser.";
     return;
   }
   if (Notification.permission === 'denied') {
     btn.style.display = 'none';
     testBtn.style.display = 'none';
+    prefs.style.display = 'none';
     status.textContent = "Notifications are blocked for this site — enable them in your browser's site settings to turn this on.";
     return;
   }
@@ -767,10 +812,38 @@ async function pushRefreshUI(){
     btn.textContent = 'Turn off notifications';
     btn.onclick = pushDisable;
     testBtn.style.display = 'inline-flex';
+    prefs.style.display = 'flex';
+    document.getElementById('notif-pref-daily').checked = SS_NOTIF_PREFS.daily !== false;
+    document.getElementById('notif-pref-streak').checked = SS_NOTIF_PREFS.streak !== false;
+    document.getElementById('notif-pref-blocks').checked = SS_NOTIF_PREFS.blocks !== false;
   } else {
     btn.textContent = 'Enable notifications';
     btn.onclick = pushEnable;
     testBtn.style.display = 'none';
+    prefs.style.display = 'none';
+  }
+}
+
+var SS_NOTIF_PREFS = {};
+
+async function ssSaveNotifPref(kind, checked){
+  var status = document.getElementById('notif-prefs-status');
+  status.textContent = 'Saving…';
+  try{
+    var body = {}; body[kind] = checked;
+    var res = await fetch('/api/notification-prefs', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(body)
+    });
+    if(res.ok){
+      SS_NOTIF_PREFS[kind] = checked;
+      status.textContent = 'Saved ✓';
+    }else{
+      status.textContent = "Couldn't save — try again.";
+    }
+  }catch(e){
+    status.textContent = "Couldn't save — check your connection and try again.";
   }
 }
 
@@ -868,6 +941,7 @@ async function initSettings(){
     var blob = res.ok ? await res.json() : {};
     renderClassList(blob.enrolledSubjects || []);
     ssRenderShareState(blob.shareToken || null);
+    SS_NOTIF_PREFS = blob.notificationPrefs || {};
   }catch(e){
     renderClassList([]);
   }
@@ -880,6 +954,10 @@ async function initSettings(){
   document.getElementById('ss-share-revoke-btn').addEventListener('click', ssShareRevoke);
   document.getElementById('reset-progress-btn').addEventListener('click', ssResetAllProgress);
   document.getElementById('delete-account-btn').addEventListener('click', ssDeleteAccount);
+  document.getElementById('sign-out-everywhere-btn').addEventListener('click', ssSignOutEverywhere);
+  document.getElementById('notif-pref-daily').addEventListener('change', function(){ ssSaveNotifPref('daily', this.checked); });
+  document.getElementById('notif-pref-streak').addEventListener('change', function(){ ssSaveNotifPref('streak', this.checked); });
+  document.getElementById('notif-pref-blocks').addEventListener('change', function(){ ssSaveNotifPref('blocks', this.checked); });
   await pushRefreshUI();
 }
 

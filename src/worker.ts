@@ -10,11 +10,12 @@ import {
   handleVerifyConfirm,
   handleMe,
   handleLogout,
+  handleSignOutEverywhere,
   handleDeleteAccount
 } from "./auth-routes.js";
 import { handleRequestGuideSubmit } from "./guide-requests.js";
 import { handleAdminMe, handleAdminListGuideRequests, handleAdminDeleteGuideRequest, handleAdminStats, handleAdminGetGuideRequestFile } from "./admin-routes.js";
-import { handleGetProgress, handlePostProgress, handlePostProgressReset, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak, recordDailySnapshots, handlePostShareGenerate, handlePostShareRevoke, handleGetShare } from "./progress-routes.js";
+import { handleGetProgress, handlePostProgress, handlePostProgressReset, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak, handlePostNotificationPrefs, recordDailySnapshots, handlePostShareGenerate, handlePostShareRevoke, handleGetShare } from "./progress-routes.js";
 import { handlePushSubscribe, handlePushUnsubscribe, handlePushTest, sendDailyReminders, sendScheduledBlockReminders, sendStreakReminders } from "./push-routes.js";
 import { handleGoogleConnectStart, handleGoogleConnectCallback } from "./google-connect.js";
 import {
@@ -35,6 +36,7 @@ const AUTH_ROUTES: Record<string, Record<string, (request: Request, env: Env) =>
   "/auth/verify": { GET: handleVerify, POST: handleVerifyConfirm },
   "/auth/me": { GET: handleMe },
   "/auth/logout": { POST: handleLogout },
+  "/auth/sign-out-everywhere": { POST: handleSignOutEverywhere },
   "/auth/delete-account": { POST: handleDeleteAccount },
   "/auth/google/connect/start": { GET: handleGoogleConnectStart },
   "/auth/google/connect/callback": { GET: handleGoogleConnectCallback }
@@ -231,6 +233,11 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
 
   if (url.pathname === "/api/goal") {
     if (request.method === "POST") return handlePostGoal(request, env);
+    return json({ error: "Method not allowed" }, 405);
+  }
+
+  if (url.pathname === "/api/notification-prefs") {
+    if (request.method === "POST") return handlePostNotificationPrefs(request, env);
     return json({ error: "Method not allowed" }, 405);
   }
 

@@ -253,6 +253,19 @@ describe("sendDailyReminders", () => {
     expect(fetchSpy).not.toHaveBeenCalled();
     expect(result.sent).toBe(0);
   });
+
+  it("skips a student who has opted out of daily reminders specifically", async () => {
+    const sub = { endpoint: "https://fcm.googleapis.com/fcm/send/opted-out", keys: VALID_KEYS, expirationTime: null };
+    const kv = fakeKV({
+      "progress:opted-out@example.com": JSON.stringify({ goal: { days: 14, minutesPerDay: 30 }, pushSubscriptions: [sub], notificationPrefs: { daily: false } })
+    });
+    const fetchSpy = vi.spyOn(globalThis, "fetch");
+
+    const result = await sendDailyReminders({ PROGRESS: kv, ...VAPID });
+
+    expect(fetchSpy).not.toHaveBeenCalled();
+    expect(result.sent).toBe(0);
+  });
 });
 
 describe("sendScheduledBlockReminders", () => {
@@ -355,6 +368,21 @@ describe("sendScheduledBlockReminders", () => {
     const result = await sendScheduledBlockReminders({ PROGRESS: fakeKV() });
     expect(result).toEqual({ checked: 0, sent: 0 });
   });
+
+  it("skips a student who has opted out of block reminders specifically", async () => {
+    const kv = fakeKV({
+      "progress:opted-out@example.com": JSON.stringify({
+        ...scheduleWith([{ day: "tue", start: "16:10", end: "17:00", subjectKey: "geometry", subjectLabel: "Geometry" }]),
+        notificationPrefs: { blocks: false }
+      })
+    });
+    const fetchSpy = vi.spyOn(globalThis, "fetch");
+
+    const result = await sendScheduledBlockReminders({ PROGRESS: kv, ...VAPID });
+
+    expect(fetchSpy).not.toHaveBeenCalled();
+    expect(result.sent).toBe(0);
+  });
 });
 
 describe("sendStreakReminders", () => {
@@ -385,6 +413,22 @@ describe("sendStreakReminders", () => {
 
     expect(result.sent).toBe(1);
     expect(fetchSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it("skips a student who has opted out of streak reminders specifically", async () => {
+    const kv = fakeKV({
+      "progress:opted-out@example.com": JSON.stringify({
+        streak: { current: 5, longest: 10, lastActiveDate: "2026-03-09", timezone: TZ },
+        pushSubscriptions: [sub],
+        notificationPrefs: { streak: false }
+      })
+    });
+    const fetchSpy = vi.spyOn(globalThis, "fetch");
+
+    const result = await sendStreakReminders({ PROGRESS: kv, ...VAPID });
+
+    expect(fetchSpy).not.toHaveBeenCalled();
+    expect(result.sent).toBe(0);
   });
 
   it("does not send to a student who already studied today", async () => {

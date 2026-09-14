@@ -1,7 +1,7 @@
 import { SELF } from "cloudflare:test";
 import { describe, it, expect } from "vitest";
 import { signSession, SESSION_COOKIE } from "../src/auth.js";
-import { handleGetProgress, handlePostProgress, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak, recordDailySnapshots, handlePostShareGenerate, handlePostShareRevoke, handleGetShare } from "../src/progress-routes.js";
+import { handleGetProgress, handlePostProgress, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak, handlePostNotificationPrefs, recordDailySnapshots, handlePostShareGenerate, handlePostShareRevoke, handleGetShare } from "../src/progress-routes.js";
 
 const SECRET = "test-session-secret";
 
@@ -111,7 +111,8 @@ describe("handleGetProgress", () => {
       enrolledSubjects: [],
       pushSubscriptions: [],
       schedule: null,
-      streak: null
+      streak: null,
+      notificationPrefs: null
     });
   });
 
@@ -178,7 +179,8 @@ describe("handleGetProgress", () => {
       enrolledSubjects: ["geometry"],
       pushSubscriptions: [],
       schedule: null,
-      streak: null
+      streak: null,
+      notificationPrefs: null
     };
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify(saved) });
     const res = await handleGetProgress(req("https://example.com/api/progress", cookie), { SESSION_SECRET: SECRET, PROGRESS: kv });
@@ -673,5 +675,41 @@ describe("share link", () => {
   it("rejects an unknown token", async () => {
     const res = await handleGetShare(req("https://example.com/api/share?t=doesnotexist1234567890"), { PROGRESS: fakeKV() });
     expect(res.status).toBe(404);
+  });
+});
+
+describe("handlePostNotificationPrefs", () => {
+  it("401s with no session", async () => {
+    const res = await handlePostNotificationPrefs(req("https://example.com/api/notification-prefs", null, "POST", { daily: false }), { SESSION_SECRET: SECRET, PROGRESS: fakeKV() });
+    expect(res.status).toBe(401);
+  });
+
+  it("sets a single pref and leaves the others at their default (true)", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV();
+    const res = await handlePostNotificationPrefs(req("https://example.com/api/notification-prefs", cookie, "POST", { daily: false }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(data.notificationPrefs).toEqual({ daily: false });
+
+    const saved = JSON.parse(kv._store.get("progress:student@example.com"));
+    expect(saved.notificationPrefs).toEqual({ daily: false });
+  });
+
+  it("partial merges -- setting one pref doesn't reset a previously-set one", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV({
+      "progress:student@example.com": JSON.stringify({ notificationPrefs: { daily: false } })
+    });
+    const res = await handlePostNotificationPrefs(req("https://example.com/api/notification-prefs", cookie, "POST", { streak: false }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(res.status).toBe(200);
+    const saved = JSON.parse(kv._store.get("progress:student@example.com"));
+    expect(saved.notificationPrefs).toEqual({ daily: false, streak: false });
+  });
+
+  it("rejects a non-boolean value", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const res = await handlePostNotificationPrefs(req("https://example.com/api/notification-prefs", cookie, "POST", { daily: "nope" }), { SESSION_SECRET: SECRET, PROGRESS: fakeKV() });
+    expect(res.status).toBe(400);
   });
 });
