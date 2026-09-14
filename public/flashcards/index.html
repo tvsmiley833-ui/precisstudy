@@ -83,7 +83,7 @@ input[type=text]{width:100%;padding:10px 12px;border-radius:10px;border:1px soli
     </div>
 
     <div id="fc-generate-view" class="card" style="display:none;">
-      <p style="margin:0 0 10px;font-size:14px;color:var(--text-muted);">Paste class notes, a handout, or anything you want turned into flashcards.</p>
+      <label for="fc-notes" style="display:block;font-size:13px;color:var(--text-muted);margin-bottom:8px;">Paste class notes, a handout, or anything you want turned into flashcards.</label>
       <textarea id="fc-notes" placeholder="Paste your notes here…" maxlength="6000"></textarea>
       <div style="display:flex;gap:10px;margin-top:12px;">
         <button class="primary" id="fc-generate-btn">Generate</button>
@@ -92,7 +92,7 @@ input[type=text]{width:100%;padding:10px 12px;border-radius:10px;border:1px soli
       <div class="status" id="fc-generate-status"></div>
 
       <div id="fc-preview" style="display:none;margin-top:20px;padding-top:20px;border-top:1px solid var(--border);">
-        <label style="display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px;">Deck name</label>
+        <label for="fc-deck-name" style="display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px;">Deck name</label>
         <input type="text" id="fc-deck-name" maxlength="80"/>
         <div id="fc-preview-cards" style="margin-top:16px;"></div>
         <div style="display:flex;gap:10px;margin-top:16px;">
@@ -105,7 +105,7 @@ input[type=text]{width:100%;padding:10px 12px;border-radius:10px;border:1px soli
 
     <div id="fc-study-view" style="display:none;">
       <button id="fc-study-back-btn" style="margin-bottom:16px;">← Back to decks</button>
-      <div class="flip-card" id="fc-flip-card"><span class="label" id="fc-flip-label">Front</span><span id="fc-flip-text"></span></div>
+      <div class="flip-card" id="fc-flip-card" role="button" tabindex="0" aria-label="Flashcard — activate to flip between front and back" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();this.click();}"><span class="label" id="fc-flip-label">Front</span><span id="fc-flip-text"></span></div>
       <div class="study-nav">
         <button id="fc-prev-btn">Previous</button>
         <span class="study-progress" id="fc-study-progress"></span>
@@ -139,7 +139,7 @@ function renderDeckList(){
   }
   el.innerHTML = '<div class="card">' + decks.slice().reverse().map(function(d){
     return '<div class="deck-row"><div><div class="deck-name">' + esc(d.name) + '</div><div class="deck-count">' + d.cards.length + ' card' + (d.cards.length === 1 ? '' : 's') + '</div></div>'
-      + '<div class="row-actions"><button data-study="' + esc(d.id) + '">Study</button><button data-delete="' + esc(d.id) + '">Delete</button></div></div>';
+      + '<div class="row-actions"><button data-study="' + esc(d.id) + '" aria-label="Study ' + esc(d.name) + '">Study</button><button data-delete="' + esc(d.id) + '" aria-label="Delete ' + esc(d.name) + '">Delete</button></div></div>';
   }).join('') + '</div>';
   el.querySelectorAll('[data-study]').forEach(function(btn){
     btn.addEventListener('click', function(){ startStudy(btn.getAttribute('data-study')); });
@@ -207,9 +207,9 @@ function renderPreview(){
   var el = document.getElementById('fc-preview-cards');
   el.innerHTML = FC_PREVIEW_CARDS.map(function(c, i){
     return '<div class="cardprev"><div style="flex:1;">'
-      + '<input type="text" data-front="' + i + '" value="' + esc(c.front) + '" style="margin-bottom:6px;"/>'
-      + '<input type="text" data-back="' + i + '" value="' + esc(c.back) + '"/>'
-      + '</div><button data-remove-card="' + i + '">✕</button></div>';
+      + '<input type="text" data-front="' + i + '" value="' + esc(c.front) + '" aria-label="Card ' + (i + 1) + ' front" style="margin-bottom:6px;"/>'
+      + '<input type="text" data-back="' + i + '" value="' + esc(c.back) + '" aria-label="Card ' + (i + 1) + ' back"/>'
+      + '</div><button data-remove-card="' + i + '" aria-label="Remove card ' + (i + 1) + '">✕</button></div>';
   }).join('');
   el.querySelectorAll('[data-front]').forEach(function(inp){
     inp.addEventListener('input', function(){ FC_PREVIEW_CARDS[+inp.getAttribute('data-front')].front = inp.value; });
