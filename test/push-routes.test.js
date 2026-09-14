@@ -274,13 +274,13 @@ describe("sendScheduledBlockReminders", () => {
     return { schedule: { blocks, timezone: TZ, notifyEnabled: true, ...overrides }, pushSubscriptions: [sub] };
   }
 
-  it("sends for a block starting exactly now, and for one starting a few minutes from now (within the 5-minute window)", async () => {
+  it("sends for a block starting in exactly 10 minutes, and for one starting in 14 minutes (within the 10-15 minute window)", async () => {
     const kv = fakeKV({
-      "progress:on-time@example.com": JSON.stringify(scheduleWith([
-        { day: "tue", start: "16:00", end: "17:00", subjectKey: "geometry", subjectLabel: "Geometry" }
+      "progress:ten-min@example.com": JSON.stringify(scheduleWith([
+        { day: "tue", start: "16:10", end: "17:00", subjectKey: "geometry", subjectLabel: "Geometry" }
       ])),
       "progress:soon@example.com": JSON.stringify(scheduleWith([
-        { day: "tue", start: "16:04", end: "17:00", subjectKey: "chemistry", subjectLabel: "Chemistry" }
+        { day: "tue", start: "16:14", end: "17:00", subjectKey: "chemistry", subjectLabel: "Chemistry" }
       ]))
     });
     const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(null, { status: 201 }));
@@ -291,13 +291,16 @@ describe("sendScheduledBlockReminders", () => {
     expect(fetchSpy).toHaveBeenCalledTimes(2);
   });
 
-  it("does not send for a block just outside the 5-minute window, on the wrong day, or already past", async () => {
+  it("does not send for a block starting too soon (< 10 min away), too far out (>= 15 min away), on the wrong day, or already past", async () => {
     const kv = fakeKV({
-      "progress:too-late@example.com": JSON.stringify(scheduleWith([
+      "progress:too-soon@example.com": JSON.stringify(scheduleWith([
         { day: "tue", start: "16:05", end: "17:00", subjectKey: "geometry", subjectLabel: "Geometry" }
       ])),
+      "progress:too-far@example.com": JSON.stringify(scheduleWith([
+        { day: "tue", start: "16:15", end: "17:00", subjectKey: "geometry", subjectLabel: "Geometry" }
+      ])),
       "progress:wrong-day@example.com": JSON.stringify(scheduleWith([
-        { day: "wed", start: "16:00", end: "17:00", subjectKey: "geometry", subjectLabel: "Geometry" }
+        { day: "wed", start: "16:10", end: "17:00", subjectKey: "geometry", subjectLabel: "Geometry" }
       ])),
       "progress:already-passed@example.com": JSON.stringify(scheduleWith([
         { day: "tue", start: "09:00", end: "10:00", subjectKey: "geometry", subjectLabel: "Geometry" }
@@ -331,7 +334,7 @@ describe("sendScheduledBlockReminders", () => {
     const kv = fakeKV({
       "progress:student@example.com": JSON.stringify({
         schedule: {
-          blocks: [{ day: "tue", start: "16:00", end: "17:00", subjectKey: "aplang", subjectLabel: "AP English Lang & Comp" }],
+          blocks: [{ day: "tue", start: "16:10", end: "17:00", subjectKey: "aplang", subjectLabel: "AP English Lang & Comp" }],
           timezone: TZ,
           notifyEnabled: true
         },

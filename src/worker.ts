@@ -9,11 +9,12 @@ import {
   handleVerify,
   handleVerifyConfirm,
   handleMe,
-  handleLogout
+  handleLogout,
+  handleDeleteAccount
 } from "./auth-routes.js";
 import { handleRequestGuideSubmit } from "./guide-requests.js";
 import { handleAdminMe, handleAdminListGuideRequests, handleAdminDeleteGuideRequest, handleAdminStats, handleAdminGetGuideRequestFile } from "./admin-routes.js";
-import { handleGetProgress, handlePostProgress, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak } from "./progress-routes.js";
+import { handleGetProgress, handlePostProgress, handlePostProgressReset, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak, recordDailySnapshots, handlePostShareGenerate, handlePostShareRevoke, handleGetShare } from "./progress-routes.js";
 import { handlePushSubscribe, handlePushUnsubscribe, handlePushTest, sendDailyReminders, sendScheduledBlockReminders, sendStreakReminders } from "./push-routes.js";
 import { handleGoogleConnectStart, handleGoogleConnectCallback } from "./google-connect.js";
 import {
@@ -21,7 +22,7 @@ import {
   handleGoogleSettingsGet, handleGoogleSettingsPost
 } from "./google-routes.js";
 
-const SUBJECT_PATHS = new Set(["geometry", "chemistry", "algebra1", "algebra2", "ap-lang", "global-history", "ap-biology", "apush", "physics", "biology", "precalc", "us-government", "spanish-1", "spanish-2", "earth-science", "economics", "english-9", "english-10", "world-history", "geography", "health", "psychology", "sociology", "statistics", "computer-science", "art-history", "music-theory", "spanish-3", "french-1", "german-1", "environmental-science", "anatomy", "astronomy", "creative-writing", "journalism", "speech-debate", "ap-chemistry", "ap-physics", "ap-stats", "ap-csa", "ap-psych", "ap-world", "ap-euro", "ap-usgov", "ap-macro", "ap-micro", "sat-math", "sat-reading", "act-prep", "study-skills", "calculus", "calc-ab", "calc-bc", "us-history"]);
+const SUBJECT_PATHS = new Set(["geometry", "chemistry", "algebra1", "algebra2", "ap-lang", "global-history", "ap-biology", "apush", "physics", "biology", "precalc", "us-government", "spanish-1", "spanish-2", "earth-science", "economics", "english-9", "english-10", "world-history", "geography", "health", "psychology", "sociology", "statistics", "computer-science", "art-history", "music-theory", "spanish-3", "french-1", "german-1", "environmental-science", "anatomy", "astronomy", "creative-writing", "journalism", "speech-debate", "ap-chemistry", "ap-physics", "ap-stats", "ap-csa", "ap-psych", "ap-world", "ap-euro", "ap-usgov", "ap-macro", "ap-micro", "ap-human-geography", "sat-math", "sat-reading", "act-prep", "study-skills", "calculus", "calc-ab", "calc-bc", "us-history"]);
 const SUBJECT_VIEW_SEGMENTS = new Set(["flashcards", "quiz", "examples", "exam", "reference", "memory"]);
 const SUBJECT_VIEW_RE = /^\/([a-z0-9-]+)\/([a-z0-9-]+)\/?$/;
 
@@ -34,6 +35,7 @@ const AUTH_ROUTES: Record<string, Record<string, (request: Request, env: Env) =>
   "/auth/verify": { GET: handleVerify, POST: handleVerifyConfirm },
   "/auth/me": { GET: handleMe },
   "/auth/logout": { POST: handleLogout },
+  "/auth/delete-account": { POST: handleDeleteAccount },
   "/auth/google/connect/start": { GET: handleGoogleConnectStart },
   "/auth/google/connect/callback": { GET: handleGoogleConnectCallback }
 };
@@ -108,6 +110,7 @@ export default {
       run("streakReminders", sendStreakReminders(env));
     } else {
       run("dailyReminders", sendDailyReminders(env));
+      run("dailySnapshots", recordDailySnapshots(env));
     }
   }
 };
@@ -203,6 +206,26 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
   if (url.pathname === "/api/progress") {
     if (request.method === "GET") return handleGetProgress(request, env);
     if (request.method === "POST") return handlePostProgress(request, env);
+    return json({ error: "Method not allowed" }, 405);
+  }
+
+  if (url.pathname === "/api/progress/reset") {
+    if (request.method === "POST") return handlePostProgressReset(request, env);
+    return json({ error: "Method not allowed" }, 405);
+  }
+
+  if (url.pathname === "/api/share/generate") {
+    if (request.method === "POST") return handlePostShareGenerate(request, env);
+    return json({ error: "Method not allowed" }, 405);
+  }
+
+  if (url.pathname === "/api/share/revoke") {
+    if (request.method === "POST") return handlePostShareRevoke(request, env);
+    return json({ error: "Method not allowed" }, 405);
+  }
+
+  if (url.pathname === "/api/share") {
+    if (request.method === "GET") return handleGetShare(request, env);
     return json({ error: "Method not allowed" }, 405);
   }
 

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Study Progress — PrecisStudy</title>
+<meta name="robots" content="noindex"/>
+<link rel="icon" type="image/png" href="/favicon.png"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<script>
+(function(){
+  try {
+    var saved = localStorage.getItem('ss-theme');
+    if (saved !== 'light') document.documentElement.setAttribute('data-theme', 'dark');
+  } catch (e) {}
+})();
+</script>
+<style>
+:root{
+  --bg:#eef1ea; --bg-card:#fff;
+  --border:#c8d2c5;
+  --text:#233a31; --text-muted:#5a6f63;
+  --accent:#1f6e46; --accent-bright:#268a58;
+  --status-red:#a83f2e;
+}
+[data-theme="dark"]{
+  --bg:#14302a; --bg-card:#1b3d33;
+  --border:#2f5346;
+  --text:#f2f5ee; --text-muted:#b7c9bc;
+  --accent:#4fbf85; --accent-bright:#63d199;
+  --status-red:#e08a70;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Nunito','Segoe UI',system-ui,sans-serif;padding:40px 20px;}
+.wrap{max-width:560px;margin:0 auto;}
+.hd{display:flex;align-items:center;gap:8px;font-weight:800;font-size:18px;margin-bottom:28px;text-decoration:none;color:var(--text);}
+.card{background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;}
+h1{font-size:22px;margin:0 0 4px;}
+.sub{font-size:14px;color:var(--text-muted);margin:0 0 24px;}
+.row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--border);}
+.row:last-child{border-bottom:none}
+.pct{font-weight:800;font-size:15px;}
+.streak{display:inline-flex;align-items:center;gap:7px;background:var(--bg);border:1px solid var(--border);font-weight:800;font-size:14px;padding:8px 16px;border-radius:999px;margin-bottom:20px;}
+.empty{color:var(--text-muted);font-size:14px;}
+.footer{margin-top:20px;font-size:12.5px;color:var(--text-muted);text-align:center;}
+.footer a{color:var(--text-muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a href="/" class="hd">📔 PrecisStudy</a>
+  <div class="card" id="share-card">
+    <div class="empty">Loading…</div>
+  </div>
+  <div class="footer">This is a read-only view a student chose to share — no account needed to view it. <a href="/">What's PrecisStudy?</a></div>
+</div>
+<script>
+var SUBJECT_LABELS = {"geometry":"Geometry","chemistry":"Chemistry","algebra1":"Algebra I","algebra2":"Algebra II","aplang":"AP English Lang & Comp","globalhistory":"Global History","apbiology":"AP Biology","apush":"APUSH","us-history":"US History","physics":"Physics","biology":"Biology","precalc":"PreCalculus","act-prep":"ACT Prep","anatomy":"Anatomy & Physiology","ap-chemistry":"AP Chemistry","ap-csa":"AP Computer Science A","ap-euro":"AP European History","ap-macro":"AP Macroeconomics","ap-micro":"AP Microeconomics","ap-physics":"AP Physics 1","ap-psych":"AP Psychology","ap-stats":"AP Statistics","ap-usgov":"AP US Government","ap-world":"AP World History","ap-human-geography":"AP Human Geography","art-history":"Art History","astronomy":"Astronomy","computer-science":"Computer Science","creative-writing":"Creative Writing","earth-science":"Earth Science","economics":"Economics","english-10":"English 10","english-9":"English 9","environmental-science":"Environmental Science","french-1":"French 1","geography":"Geography","german-1":"German 1","health":"Health","journalism":"Journalism","music-theory":"Music Theory","psychology":"Psychology","sat-math":"SAT Math Prep","sat-reading":"SAT Reading & Writing","sociology":"Sociology","spanish-1":"Spanish 1","spanish-2":"Spanish 2","spanish-3":"Spanish 3","speech-debate":"Speech & Debate","statistics":"Statistics","study-skills":"Study Skills","us-government":"US Government","world-history":"World History","calculus":"Calculus","calc-ab":"AP Calculus AB","calc-bc":"AP Calculus BC"};
+
+function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+function pctColor(pct){ if(pct>=80) return 'var(--accent-bright)'; if(pct>=50) return '#c99a2e'; return 'var(--status-red)'; }
+
+(async function(){
+  var card = document.getElementById('share-card');
+  var token = new URLSearchParams(location.search).get('t');
+  if (!token) {
+    card.innerHTML = '<h1>No link provided</h1><p class="sub">This page needs a share link from a student\'s Settings page.</p>';
+    return;
+  }
+  try {
+    var res = await fetch('/api/share?t=' + encodeURIComponent(token));
+    var data = await res.json();
+    if (!res.ok) {
+      card.innerHTML = '<h1>Link not available</h1><p class="sub">' + esc(data.error || 'This share link is invalid or has been revoked.') + '</p>';
+      return;
+    }
+    var streakHtml = data.streak && data.streak.current > 0
+      ? '<div class="streak">🔥 ' + data.streak.current + '-day streak' + (data.streak.longest > data.streak.current ? ' · best ' + data.streak.longest : '') + '</div>'
+      : '';
+    var rowsHtml = (data.subjects || []).length
+      ? data.subjects.map(function (s) {
+          var label = SUBJECT_LABELS[s.key] || s.key;
+          return '<div class="row"><span>' + esc(label) + '</span><span class="pct" style="color:' + pctColor(s.pct) + '">' + s.pct + '%</span></div>';
+        }).join('')
+      : '<p class="empty">No graded classes yet.</p>';
+    card.innerHTML = '<h1>Study Progress</h1><p class="sub">Accuracy across assessed classes.</p>' + streakHtml + rowsHtml;
+  } catch (e) {
+    card.innerHTML = '<h1>Couldn\'t load this</h1><p class="sub">Check your connection and try again.</p>';
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,3 +1,21 @@
+// Some subjects' quiz content was authored with the correct answer always
+// (or almost always) listed first -- shuffles q.o once per question instance
+// (guarded by q._shuffled so repeats/requeues of the same question keep a
+// stable order) and remaps q.a to match, so every caller that already
+// compares against q.a (ansQ, ansExam, the mistake log, printWorksheet's
+// answer key) keeps working unchanged.
+function ssShuffleOptions(q){
+  if(!q||!q.o||q.o.length<2||q._shuffled)return;
+  const orig=q.o.slice();
+  const order=orig.map((_,i)=>i);
+  for(let i=order.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    const t=order[i];order[i]=order[j];order[j]=t;
+  }
+  q.o=order.map(i=>orig[i]);
+  if(typeof q.a==='number')q.a=order.indexOf(q.a);
+  q._shuffled=true;
+}
 function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');var idx=-1;tabs.forEach((b,i)=>{if(b.id==='tab-'+id)idx=i;});if(idx!==-1){tabs.forEach((b,i)=>{var on=i===idx;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;});var _hl=document.getElementById('hero-live');if(_hl)_hl.textContent=tabs[idx].textContent.trim()+' tab';}if(id==='examples'&&!examplesBuilt)buildExamples();if(id==='exam'&&!examBuilt)buildExam();var spc=document.getElementById('spc-card');if(spc)spc.style.display=(id==='guide')?'':'none';}
 let examBuilt=false;
 var examplesBuilt=false, ex2map={}, ex2shown={};
@@ -29,6 +47,7 @@ function exTimerHtml(id){return examPartMeta(id).minutes?`<span class="ex-timer"
 function buildPartMC(id,qs){
 if(!qs.length)return'';
 const meta=examPartMeta(id);
+qs.forEach(ssShuffleOptions);
 const items=qs.map(q=>`
 <div class="ex-q" id="exq-${id}-${q.n}">
   <div class="ex-qnum">Question ${q.n}</div>
@@ -52,6 +71,7 @@ if(!qs.length)return'';
 // reveal); others reuse the multiple-choice shape (q.o/q.a) for this part.
 // Render whichever shape the data actually has instead of assuming sa exists.
 const meta=examPartMeta(id);
+qs.forEach(function(q){if(q.sa===undefined)ssShuffleOptions(q);});
 const items=qs.map(q=>q.sa!==undefined?`
 <div class="ex-q">
   <div class="ex-qnum">Question ${q.n}</div>
@@ -186,7 +206,7 @@ function searchGuide(){
     const text=(qq.q+' '+(qq.o||[]).join(' ')).toLowerCase();
     if(text.includes(q))matches.push({type:'quiz',unit:qq.u,unitName:unitName(qq.u),concept:'Quiz question',preview:qq.q.slice(0,120)});
   });
-  if(!matches.length){sr.style.display='block';sr.classList.add('show');sr.innerHTML='<div style="color:var(--ink-muted);font-size:14px;padding:8px">No results for "'+q+'"</div>';if(_hl)_hl.textContent='No results for '+q;return;}
+  if(!matches.length){sr.style.display='block';sr.classList.add('show');const qEsc=q.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));sr.innerHTML='<div style="color:var(--ink-muted);font-size:14px;padding:8px">No results for "'+qEsc+'"</div>';if(_hl)_hl.textContent='No results for '+q;return;}
   sr.style.display='block';sr.classList.add('show');
   if(_hl)_hl.textContent=matches.length+' result'+(matches.length===1?'':'s')+' for '+q;
   const jump=m=>m.type==='concept'?`jumpToUnit(${m.unit})`:m.type==='flashcard'?`jumpToFlashcardUnit(${m.unit})`:`jumpToQuizUnit(${m.unit})`;
@@ -252,6 +272,20 @@ function jumpToUnit(id){
   const el=document.querySelector(`.unit[data-id="${id}"]`);
   if(el){el.classList.add('open');el.scrollIntoView({behavior:'smooth',block:'start'});}
 }
+// "Just Start" (diag-skip-btn): a student with zero background skips the
+// diagnostic entirely, so the dashboard would otherwise leave this subject
+// sitting in "Not yet assessed" forever -- seed a real 0% record on Unit 1
+// the same way two wrong quiz answers would (recordAnswer requires
+// total>=2 before computeReadiness treats a unit as assessed), so the
+// subject shows up as a real 0% card instead of hiding in that accordion.
+function justStartUnit1(){
+  if(CHEM_MASTERY&&UNITS.length){
+    CHEM_MASTERY.recordAnswer(UNITS[0].id,false);
+    CHEM_MASTERY.recordAnswer(UNITS[0].id,false);
+    renderUnitProgress(UNITS[0].id);
+  }
+  jumpToUnit(UNITS[0].id);
+}
 
 const filterTags={};
 // Single source of truth for "which unit is selected", driven by either the
@@ -269,6 +303,49 @@ function ssFilterSelectChange(){
   const sel=document.getElementById('filter-select');
   ssFilterByUnit(sel?+sel.value:0);
 }
+// Text-to-speech: reads a unit's concepts aloud via the browser's built-in
+// Web Speech API (no TTS provider/API key needed -- distinct from
+// "AI-generated audio narration", which would need one). One utterance at a
+// time across the whole page; clicking the same unit's button again, or
+// starting a different unit, both stop whatever is currently speaking.
+const SS_TTS_SPEAKER_ICON='<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+const SS_TTS_STOP_ICON='<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="1"/></svg>';
+let ssTtsUnitId=null;
+function ssCollectUnitText(u){
+  const parts=['Unit '+u.id+': '+u.name+'.'];
+  u.concepts.forEach(function(c){
+    parts.push(c.l+'.');
+    if(c.intro)parts.push(c.intro);
+    if(c.b&&c.b.length)parts.push(c.b.join('. '));
+  });
+  return parts.join(' ');
+}
+function ssUpdateTtsButtons(){
+  document.querySelectorAll('.unit-tts-btn').forEach(function(b){
+    const active=ssTtsUnitId===parseInt(b.dataset.unit,10);
+    b.classList.toggle('on',active);
+    b.setAttribute('aria-label',active?'Stop reading aloud':'Read this unit aloud');
+    b.innerHTML=active?SS_TTS_STOP_ICON:SS_TTS_SPEAKER_ICON;
+  });
+}
+function ssReadUnitAloud(unitId){
+  if(!('speechSynthesis' in window))return;
+  const synth=window.speechSynthesis;
+  const wasThisUnit=ssTtsUnitId===unitId;
+  synth.cancel();
+  if(wasThisUnit){ssTtsUnitId=null;ssUpdateTtsButtons();return;}
+  const u=UNITS.find(function(x){return x.id===unitId;});
+  if(!u)return;
+  const utter=new SpeechSynthesisUtterance(ssCollectUnitText(u));
+  utter.onend=function(){ssTtsUnitId=null;ssUpdateTtsButtons();};
+  utter.onerror=function(){ssTtsUnitId=null;ssUpdateTtsButtons();};
+  ssTtsUnitId=unitId;
+  ssUpdateTtsButtons();
+  synth.speak(utter);
+}
+if('speechSynthesis' in window){
+  window.addEventListener('beforeunload',function(){window.speechSynthesis.cancel();});
+}
 function buildGuide(){
   const fr=document.getElementById('filter-row');
   const ul=document.getElementById('units');
@@ -284,7 +361,7 @@ function buildGuide(){
     const div=document.createElement('div');div.className='unit';div.dataset.id=u.id;
     const hd=document.createElement('div');hd.className='unit-hd';
     const estMins=Math.max(5,Math.round(u.concepts.length*3+(u.traps?u.traps.length:0)*2+(u.fms?u.fms.length:0)*2));
-    hd.innerHTML=`<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts · ~${estMins} min</span></span><span class="unit-progress" id="unit-progress-${u.id}" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span><span class="chevron">▾</span>`;
+    hd.innerHTML=`<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts · ~${estMins} min</span></span><span class="unit-progress" id="unit-progress-${u.id}" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span><button type="button" class="unit-tts-btn" data-unit="${u.id}" aria-label="Read this unit aloud" onclick="event.stopPropagation();ssReadUnitAloud(${u.id})">${SS_TTS_SPEAKER_ICON}</button><span class="chevron">▾</span>`;
     hd.tabIndex=0;hd.setAttribute('role','button');hd.setAttribute('aria-expanded','false');
     hd.onclick=()=>{const isOpen=div.classList.toggle('open');hd.setAttribute('aria-expanded',isOpen?'true':'false');};
     hd.onkeydown=(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();hd.click();}};
@@ -368,6 +445,74 @@ function showFC(){
 function flip(){document.getElementById('scene').classList.toggle('flipped');}
 function fcNav(d){const deck=getActiveDeck();if(!deck.length)return;fcIdx=(fcIdx+d+deck.length)%deck.length;showFC();}
 function fcShuffle(){const deck=getActiveDeck();for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}fcIdx=0;showFC();}
+// Anki/Quizlet both import plain tab-separated text (front<TAB>back per
+// line) via their "Import" flow, so one export format covers both --
+// avoids maintaining two export paths for one underlying need. The
+// 'apush' literal here is replaced with the real subject slug by
+// generate-guide.mjs's existing substitution, same as CHEM_MASTERY's key.
+function exportFlashcards(){
+  const rows=FLASHCARDS.map(f=>f.t.replace(/\t/g,' ')+'\t'+f.d.replace(/\t/g,' ').replace(/\n/g,' '));
+  const blob=new Blob([rows.join('\n')],{type:'text/plain;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='apush'+'-flashcards.txt';
+  document.body.appendChild(a);a.click();a.remove();
+  URL.revokeObjectURL(url);
+}
+// Builds a throwaway #ss-print-container with just the requested content,
+// hides everything else via body.ss-printing (see style.css), prints, then
+// cleans up on 'afterprint' -- simpler and more robust than trying to print
+// the interactive flip-card/quiz UI (or a JS PDF library) for content that's
+// already just static text.
+function ssRunPrintJob(title,bodyHtml){
+  var old=document.getElementById('ss-print-container');
+  if(old)old.remove();
+  var container=document.createElement('div');
+  container.id='ss-print-container';
+  container.innerHTML='<h1>'+title+'</h1>'+bodyHtml;
+  document.body.appendChild(container);
+  document.body.classList.add('ss-printing');
+  function cleanup(){
+    document.body.classList.remove('ss-printing');
+    container.remove();
+    window.removeEventListener('afterprint',cleanup);
+  }
+  window.addEventListener('afterprint',cleanup);
+  setTimeout(function(){window.print();},50);
+}
+function printFlashcardSheet(){
+  var byUnit={};
+  (FLASHCARDS||[]).forEach(function(f){(byUnit[f.u]=byUnit[f.u]||[]).push(f);});
+  var body=UNITS.map(function(u){
+    var cards=byUnit[u.id]||[];
+    if(!cards.length)return '';
+    return '<h2>Unit '+u.id+': '+u.name+'</h2>'
+      +'<table class="ss-print-table"><thead><tr><th>Term</th><th>Definition</th></tr></thead><tbody>'
+      +cards.map(function(f){return '<tr><td>'+f.t+'</td><td>'+f.d+'</td></tr>';}).join('')
+      +'</tbody></table>';
+  }).join('');
+  ssRunPrintJob(document.title.replace(/\s*[—-].*$/,'')+' — Flashcards Study Sheet',body);
+}
+function printWorksheet(){
+  var byUnit={};
+  (QUIZ||[]).forEach(function(q){(byUnit[q.u]=byUnit[q.u]||[]).push(q);});
+  var num=0;
+  var keyLines=[];
+  var letters=['A','B','C','D','E','F'];
+  var body=UNITS.map(function(u){
+    var qs=byUnit[u.id]||[];
+    if(!qs.length)return '';
+    var qHtml=qs.map(function(q){
+      num++;
+      keyLines.push('<span>'+num+'. '+letters[q.a]+'</span>');
+      return '<div class="ss-print-q"><div class="ss-print-q-text">'+num+'. '+q.q+'</div>'
+        +'<div class="ss-print-opts">'+(q.o||[]).map(function(o,i){return '<div>'+letters[i]+'. '+o+'</div>';}).join('')+'</div></div>';
+    }).join('');
+    return '<h2>Unit '+u.id+': '+u.name+'</h2>'+qHtml;
+  }).join('');
+  var answerKey='<div class="ss-print-pagebreak"></div><h2>Answer Key</h2><div class="ss-print-key">'+keyLines.join('')+'</div>';
+  ssRunPrintJob(document.title.replace(/\s*[—-].*$/,'')+' — Practice Worksheet',body+answerKey);
+}
 function rateFC(rating){
   const deck=getActiveDeck();
   if(!deck.length||!CHEM_MASTERY)return;
@@ -661,6 +806,7 @@ function showDiagSummary(){
   if(!weak.length){
     summary.innerHTML='<div class="result" style="padding:16px"><div class="sub" style="color:var(--success)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:5px"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Every unit you were tested on scored 80%+! Try the practice exam next.</div></div>'+(SS_SESSION?'':'<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:14.5px;color:var(--ink-muted)">Sign in to save these results and unlock the full question bank.<div class="ss-login-box" style="margin-top:8px"></div></div>');
     if(!SS_SESSION)ssRenderLoginBoxes();
+    ssDiagBatchRenderContinue();
     return;
   }
   summary.innerHTML='<div style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;margin-top:14px">'
@@ -669,6 +815,7 @@ function showDiagSummary(){
       <span style="color:var(--ink)">Unit ${r.id}: ${r.name}</span><span style="color:var(--danger);font-weight:700">${r.pct}%</span></div>`).join('')
     +'</div>'+(SS_SESSION?'':'<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:14.5px;color:var(--ink-muted)">Sign in to save these results and unlock the full question bank.<div class="ss-login-box" style="margin-top:8px"></div></div>');
   if(!SS_SESSION)ssRenderLoginBoxes();
+  ssDiagBatchRenderContinue();
 }
 function showQ(){
   const qb=document.getElementById('qbox');
@@ -676,6 +823,7 @@ function showQ(){
     if(diagMode)showDiagSummary();
     qb.innerHTML=`<div class="result"><div class="big">${score}/${qPool.length}</div><div class="sub">${Math.round(score/qPool.length*100)}% — ${score/qPool.length>=.85?'Excellent work':score/qPool.length>=.65?'Solid — review the misses':'Keep reviewing this unit'}</div><button class="btn" onclick="loadQ()">Try Again</button></div>`;return;}
   const q=qPool[qIdx];
+  ssShuffleOptions(q);
   document.getElementById('q-prog').textContent=`Q ${qIdx+1}/${qPool.length}`;
   document.getElementById('q-sc').textContent=`Score: ${score}`;
   const bid=qId(q);
@@ -988,7 +1136,28 @@ function cbotClearSettings(){
   if(raw&&raw.key){const k=document.getElementById('cbot-key');if(k)k.value=raw.key;}
 })();
 
+// Bouncing-dots bubble shown while the AI Study Helper's reply is pending.
+// cbotAddMsg() removes it automatically the moment a real bot message
+// renders, so every reply path (proxy, custom API, local search fallback)
+// clears it without needing its own cleanup call.
+function cbotShowTyping(){
+  cbotHideTyping();
+  const wrap=document.getElementById('cbot-msgs');
+  if(!wrap)return;
+  const div=document.createElement('div');
+  div.className='cbot-msg bot cbot-typing';
+  div.id='cbot-typing-indicator';
+  div.setAttribute('aria-label','AI Study Helper is typing');
+  div.innerHTML='<span class="cbot-typing-dot"></span><span class="cbot-typing-dot"></span><span class="cbot-typing-dot"></span>';
+  wrap.appendChild(div);
+  wrap.scrollTop=wrap.scrollHeight;
+}
+function cbotHideTyping(){
+  const el=document.getElementById('cbot-typing-indicator');
+  if(el)el.remove();
+}
 function cbotAddMsg(role,text,jumpFn,jumpLabel){
+  if(role==='bot')cbotHideTyping();
   const wrap=document.getElementById('cbot-msgs');
   const div=document.createElement('div');
   div.className='cbot-msg '+role;
@@ -1053,6 +1222,7 @@ async function cbotSend(e){
   input.value='';
   const sendBtn=document.querySelector('#cbot-form button[type="submit"]');
   sendBtn.disabled=true;
+  cbotShowTyping();
 
   const results=cbotSearch(query);
   const cfg=CBOT_PUBLISHED?null:cbotLoadSettings();
@@ -1334,7 +1504,12 @@ function toolkitInit(){
     item('Calculator','<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M8 6V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1"/><path d="M3 12h18"/><path d="M10 12v2M14 12v2"/></svg>',desmosToggle);
   }
   if(typeof OFFICIAL_REFERENCE!=='undefined'&&OFFICIAL_REFERENCE){
-    item(OFFICIAL_REFERENCE.label,'<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M9 15h6M9 11h2"/></svg>',function(){window.open(OFFICIAL_REFERENCE.url,'_blank','noopener');});
+    var refSvg='<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M9 15h6M9 11h2"/></svg>';
+    // .content is a self-contained formula sheet rendered in-page (e.g. the
+    // Digital SAT's on-screen Math Reference) -- .url is for a genuinely
+    // external, authoritative document (a state exam's official PDF) that
+    // this site shouldn't be reproducing or risk going stale on.
+    item(OFFICIAL_REFERENCE.label,refSvg,OFFICIAL_REFERENCE.content?referencePanelToggle:function(){window.open(OFFICIAL_REFERENCE.url,'_blank','noopener');});
   }
 
   fab.onclick=toolkitToggle;
@@ -1351,6 +1526,7 @@ function toolkitCloseAllPanels(){
   var desmos=document.getElementById('desmos-panel');
   if(desmos){desmos.classList.remove('open');desmos.setAttribute('aria-hidden','true');}
   shortcutsModalClose();
+  referencePanelClose();
 }
 function toolkitToggle(){
   var menu=document.getElementById('toolkit-menu');
@@ -1426,6 +1602,51 @@ function shortcutsModalToggle(){
 }
 function shortcutsModalKeydown(e){if(e.key==='Escape')shortcutsModalClose();}
 
+/* ----- official reference sheet, e.g. the Digital SAT's on-screen Math
+   Reference -- rendered inline from OFFICIAL_REFERENCE.content instead of
+   linking out to a PDF (see toolkitInit()). Only built when a guide
+   actually configures reference content, same lazy-init pattern as the
+   AI helper and shortcuts panels. ----- */
+function referencePanelInit(){
+  if(document.getElementById('reference-panel'))return;
+  if(typeof OFFICIAL_REFERENCE==='undefined'||!OFFICIAL_REFERENCE||!OFFICIAL_REFERENCE.content)return;
+  var panel=document.createElement('div');
+  panel.id='reference-panel';
+  panel.className='reference-panel';
+  panel.setAttribute('role','dialog');
+  panel.setAttribute('aria-modal','true');
+  panel.setAttribute('aria-label',OFFICIAL_REFERENCE.label);
+  panel.setAttribute('aria-hidden','true');
+  var pdfLink=OFFICIAL_REFERENCE.url?'<div class="reference-panel-pdf-link"><a href="'+OFFICIAL_REFERENCE.url+'" target="_blank" rel="noopener">View the full official PDF ↗</a></div>':'';
+  panel.innerHTML='<div class="reference-panel-card"><div class="reference-panel-hd">'+
+    '<div class="reference-panel-hd-text"><b>'+OFFICIAL_REFERENCE.label+'</b><small>Available anytime while you work.</small></div>'+
+    '<button type="button" class="reference-panel-close" onclick="referencePanelClose()" aria-label="Close reference sheet">✕</button></div>'+
+    '<div class="reference-panel-body">'+OFFICIAL_REFERENCE.content+pdfLink+'</div></div>';
+  document.body.appendChild(panel);
+}
+function referencePanelOpen(){
+  referencePanelInit();
+  var panel=document.getElementById('reference-panel');
+  if(!panel)return;
+  panel.classList.add('open');
+  panel.setAttribute('aria-hidden','false');
+  var closeBtn=panel.querySelector('.reference-panel-close');
+  if(closeBtn)closeBtn.focus();
+  document.addEventListener('keydown',referencePanelKeydown);
+}
+function referencePanelClose(){
+  var panel=document.getElementById('reference-panel');
+  if(!panel||!panel.classList.contains('open'))return;
+  panel.classList.remove('open');
+  panel.setAttribute('aria-hidden','true');
+  document.removeEventListener('keydown',referencePanelKeydown);
+}
+function referencePanelToggle(){
+  var panel=document.getElementById('reference-panel');
+  if(panel&&panel.classList.contains('open'))referencePanelClose();else referencePanelOpen();
+}
+function referencePanelKeydown(e){if(e.key==='Escape')referencePanelClose();}
+
 desmosInit();
 cbotPanelInit();
 toolkitInit();
@@ -1440,6 +1661,39 @@ shortcutsModalInit();
   var sel = document.getElementById('q-sel');
   if(sel){ sel.value = practiceUnit; loadQ(); }
 })();
+
+/* ----- diagnostic batch starter: /geometry?diagnostic=1 auto-starts the
+   diagnostic (queued by the dashboard's "Start diagnostics for all
+   unassessed" button — see sbStartDiagBatch() there). When it finishes,
+   showDiagSummary() checks sessionStorage for the rest of the queue and
+   offers a one-click "Next subject" button instead of making the student
+   navigate back to the dashboard between every diagnostic. ----- */
+(async function ssDiagnosticMode(){
+  if(new URLSearchParams(location.search).get('diagnostic')!=='1') return;
+  await ssQuizTabClick();
+  startDiagnostic();
+})();
+function ssDiagBatchPeekQueue(){
+  var queue=[];
+  try{queue=JSON.parse(sessionStorage.getItem('ssDiagBatchQueue')||'[]');}catch(e){}
+  return Array.isArray(queue)?queue:[];
+}
+function ssDiagBatchRenderContinue(){
+  var queue=ssDiagBatchPeekQueue();
+  if(!queue.length)return;
+  var summary=document.getElementById('diag-summary');
+  if(!summary)return;
+  var next=queue[0], rest=queue.slice(1);
+  var box=document.createElement('div');
+  box.style.cssText='margin-top:14px;padding:14px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap';
+  box.innerHTML='<div style="font-size:14px;color:var(--ink)">Diagnostic batch: '+queue.length+' more to go</div>'
+    +'<button type="button" class="btn" id="ss-diag-batch-next-btn">Next: '+next.label+' &rarr;</button>';
+  summary.appendChild(box);
+  document.getElementById('ss-diag-batch-next-btn').addEventListener('click',function(){
+    try{sessionStorage.setItem('ssDiagBatchQueue',JSON.stringify(rest));}catch(e){}
+    location.href=next.href+(next.href.indexOf('?')===-1?'?':'&')+'diagnostic=1';
+  });
+}
 
 /* ----- real per-view URLs: /chemistry/flashcards, /chemistry/quiz, /chemistry/exam, etc.
    Each view is now a genuine bookmarkable/shareable URL instead of only a client-side
@@ -1472,4 +1726,3 @@ shortcutsModalInit();
   var initialTab=tabFromUrl();
   if(initialTab!=='guide') activate(initialTab);
 })();
-</script></body></html>

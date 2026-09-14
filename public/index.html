@@ -22,11 +22,50 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"PrecisStudy","url":"https://precisstudy.com/","description":"Free study guides with quizzes, flashcards, practice exams, and an AI study assistant. Built by a student, for students — no paywalls.","inLanguage":"en","publisher":{"@type":"Organization","name":"PrecisStudy","url":"https://precisstudy.com/"}}</script>
 <link rel="icon" type="image/png" href="/favicon.png"/>
 <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="manifest" href="/manifest.json"/>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){});});}</script>
 <link rel="preload" href="/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="preload" href="/fonts/permanentmarker-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="stylesheet" href="/fonts/home.css"/>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7861875126032749"
-     crossorigin="anonymous"></script>
+<script>
+(function(){
+  // AdSense sets non-essential cookies (ad personalization/measurement), so
+  // it only loads after the visitor accepts -- see the banner + footer
+  // "Cookie preferences" link below. 'rejected' or no choice yet both mean
+  // "don't load it"; only 'accepted' does.
+  function loadAdsense(){
+    var s = document.createElement('script');
+    s.async = true;
+    s.crossOrigin = 'anonymous';
+    s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7861875126032749';
+    document.head.appendChild(s);
+  }
+  var choice;
+  try { choice = localStorage.getItem('ss-cookie-consent'); } catch (e) { choice = null; }
+  if (choice === 'accepted') loadAdsense();
+  window.ssCookieConsentAccept = function(){
+    try { localStorage.setItem('ss-cookie-consent', 'accepted'); } catch (e) {}
+    loadAdsense();
+    var banner = document.getElementById('ss-cookie-banner');
+    if (banner) banner.style.display = 'none';
+  };
+  window.ssCookieConsentReject = function(){
+    try { localStorage.setItem('ss-cookie-consent', 'rejected'); } catch (e) {}
+    var banner = document.getElementById('ss-cookie-banner');
+    if (banner) banner.style.display = 'none';
+  };
+  window.ssOpenCookiePreferences = function(){
+    var banner = document.getElementById('ss-cookie-banner');
+    if (banner) banner.style.display = 'flex';
+  };
+  window.addEventListener('DOMContentLoaded', function(){
+    if (!choice) {
+      var banner = document.getElementById('ss-cookie-banner');
+      if (banner) banner.style.display = 'flex';
+    }
+  });
+})();
+</script>
 <script>
 (function(){
   try {
@@ -45,9 +84,9 @@
   --status-none:#a3b3a8; --status-green:#1f8a5f; --status-amber:#7a5810; --status-red:#a83f2e;
   --chip-bg:#dde8df; --chip-text:#175a39;
   --border-hover-soon:#a9c0b4;
-  --card-shadow-sm:0 1px 3px rgba(35,58,49,.07),0 18px 32px -22px rgba(35,58,49,.22);
+  --card-shadow-sm:0 1px 2px rgba(35,58,49,.06);
   --card-shadow-soon:0 1px 2px rgba(35,58,49,.05);
-  --card-shadow-hero:0 1px 3px rgba(35,58,49,.07),0 28px 56px -30px rgba(35,58,49,.24);
+  --card-shadow-hero:0 1px 2px rgba(35,58,49,.06);
   --hero-glow:radial-gradient(ellipse at center, rgba(31,110,70,.14), rgba(31,110,70,0) 70%);
   --tier-ready-bg:#e5f3ec; --tier-ready-text:#1f8a5f;
   --tier-ontrack-bg:#f6ecd8; --tier-ontrack-text:#a87c1f;
@@ -62,14 +101,18 @@
   --status-none:#6f8377; --status-green:#3ecf8e; --status-amber:#e0c260; --status-red:#e08a70;
   --chip-bg:#22362c; --chip-text:#63d199;
   --border-hover-soon:#3d6753;
-  --card-shadow-sm:0 1px 3px rgba(0,0,0,.35),0 20px 36px -22px rgba(0,0,0,.55);
-  --card-shadow-soon:0 1px 2px rgba(0,0,0,.28);
-  --card-shadow-hero:0 1px 3px rgba(0,0,0,.35),0 24px 48px -26px rgba(0,0,0,.6);
+  --card-shadow-sm:0 1px 2px rgba(0,0,0,.2);
+  --card-shadow-soon:0 1px 2px rgba(0,0,0,.16);
+  --card-shadow-hero:0 1px 2px rgba(0,0,0,.2);
   --hero-glow:radial-gradient(ellipse at center, rgba(79,191,133,.12), rgba(79,191,133,0) 70%);
   --tier-ready-bg:rgba(62,207,142,.15); --tier-ready-text:#3ecf8e;
   --tier-ontrack-bg:rgba(224,194,96,.15); --tier-ontrack-text:#e0c260;
   --tier-start-bg:rgba(232,145,122,.15); --tier-start-text:#e8917a;
 }
+.header-bar{position:sticky !important;top:0;z-index:100;transition:box-shadow .2s ease}
+.ob-tap44{position:relative}
+.ob-tap44::after{content:'';position:absolute;inset:-13px}
+.header-bar.scrolled{box-shadow:0 4px 16px rgba(0,0,0,.12)}
 #theme-toggle{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:999px;
   width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
 #theme-toggle:hover{border-color:var(--accent-bright);color:var(--accent)}
@@ -151,7 +194,7 @@ h1#hero-headline{display:block;line-height:1.15}
 @media(prefers-reduced-motion:reduce){.chalk-headline-svg path,.chalk-headline-svg path.chalk-circle-path{animation:none;stroke-dashoffset:0;fill-opacity:1}}
 
 .ss-cta-btn{transition:background .2s ease,transform .15s ease,box-shadow .2s ease}
-.ss-cta-btn:hover{background:var(--accent-solid-hover);transform:translateY(-1px);box-shadow:0 8px 20px rgba(31,110,70,.28)}
+.ss-cta-btn:hover{background:var(--chip-bg);transform:translateY(-1px);box-shadow:0 4px 10px rgba(31,110,70,.15)}
 .ss-cta-btn:active{transform:scale(.97)}
 
 .class-card{box-shadow:var(--card-shadow-sm);
@@ -192,10 +235,10 @@ h1#hero-headline{display:block;line-height:1.15}
 .search-dd-empty{padding:9px 12px;font-size:13px;color:var(--text-muted)}
 
 #category-pills{max-width:640px;margin:16px auto 0;display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
-.cat-pill{background:var(--chip-bg);color:var(--chip-text);border:1px solid var(--border);border-radius:999px;
+.cat-pill{background:transparent;color:var(--text);border:1.5px solid var(--accent-bright);border-radius:20px;
   padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;
   transition:transform .15s ease,border-color .15s ease,background .15s ease,color .15s ease}
-.cat-pill:hover{border-color:var(--accent-bright);transform:translateY(-1px)}
+.cat-pill:hover{background:var(--chip-bg);transform:translateY(-1px)}
 .cat-pill:active{transform:scale(.96)}
 .cat-pill.active{background:var(--accent-solid);color:#fff;border-color:var(--accent-solid)}
 
@@ -238,14 +281,13 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
     <a href="/about" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Who Are We</a>
     <a href="/request" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Request a Guide</a>
     <a href="/dashboard" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Dashboard</a>
-    <a href="/onboarding" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Get Started</a>
     <a href="/settings" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Settings</a>
     <button id="theme-toggle" onclick="ssToggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode">
       <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
     </button>
     <div id="ss-account-area" style="position:relative;"></div>
-    <a href="/geometry" class="ss-cta-btn" style="background:var(--accent-solid);color:#fff;padding:8px 18px;border-radius:999px;text-decoration:none;white-space:nowrap;">Start with Geometry →</a>
+    <a href="/geometry" class="ss-cta-btn" style="background:var(--bg-card);color:var(--accent);border:2px solid var(--accent-solid);padding:6px 16px;border-radius:20px;text-decoration:none;white-space:nowrap;">Start with Geometry →</a>
   </div>
   <div id="ss-mobile-menu" role="menu" aria-label="Main" style="display:none;position:absolute;top:100%;left:16px;margin-top:8px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;box-shadow:0 12px 32px -12px rgba(0,0,0,.35);padding:8px;min-width:200px;z-index:60;flex-direction:column;">
     <a role="menuitem" href="#classes-section" onclick="ssCloseMobileMenu()" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Browse Subjects</a>
@@ -253,7 +295,6 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
     <a role="menuitem" href="/about" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Who Are We</a>
     <a role="menuitem" href="/request" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Request a Guide</a>
     <a role="menuitem" href="/dashboard" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Dashboard</a>
-    <a role="menuitem" href="/onboarding" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Get Started</a>
     <a role="menuitem" href="/settings" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Settings</a>
     <a role="menuitem" href="/geometry" style="color:var(--accent-solid);text-decoration:none;font-weight:700;font-size:15px;padding:10px 12px;border-radius:8px;">Start with Geometry →</a>
   </div>
@@ -410,13 +451,14 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
     Interactive quizzes, flashcards, and practice exams for real classes —
     not generic summaries. Pick a class and start.
   </p>
-  <div class="ss-hero-anim" style="animation-delay:.16s;max-width:480px;margin:0 auto;position:relative;">
+  <div class="ss-hero-anim" style="animation-delay:.16s;max-width:480px;margin:0 auto;position:relative;z-index:5;">
     <span style="position:absolute;left:16px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--text-muted);"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
     <input id="class-search" type="text" aria-label="Search for your class" placeholder="Search for your class..." autocomplete="off"
       role="combobox" aria-expanded="false" aria-controls="search-dropdown" aria-autocomplete="list"
-      oninput="filterClasses(this.value);ssUpdateSearchDropdown(this.value)"
+      oninput="filterClasses(this.value);ssUpdateSearchDropdown(this.value);ssUpdateSearchClearBtn()"
       onkeydown="if(event.key==='Escape')ssCloseSearchDropdown()"
-      style="width:100%;box-sizing:border-box;background:var(--bg-card);border:2px solid var(--border);border-radius:14px;padding:14px 18px 14px 44px;color:var(--text);font-size:15px;font-family:inherit;outline:none;"/>
+      style="width:100%;box-sizing:border-box;background:var(--bg-card);border:2px solid var(--border);border-radius:14px;padding:14px 40px 14px 44px;color:var(--text);font-size:15px;font-family:inherit;outline:none;"/>
+    <button id="class-search-clear" type="button" aria-label="Clear search" onclick="ssClearClassSearch()" style="display:none;position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:20px;line-height:1;padding:4px;">×</button>
     <div id="search-dropdown" role="listbox" aria-label="Matching subjects"></div>
   </div>
   <div id="no-match-msg" style="display:none;max-width:480px;margin:12px auto 0;font-size:13px;color:var(--text-muted);">No classes match your search yet — try a different name.</div>
@@ -447,7 +489,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
     <div style="border-top:1px solid var(--border);padding-top:14px;">
       <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:4px;">Today's focus</div>
       <div style="font-weight:700;font-size:14px;color:var(--text);margin-bottom:12px;"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--status-red);margin-right:7px;vertical-align:1px;"></span>Circle Geometry — you're weakest here</div>
-      <a href="/geometry" style="display:inline-block;background:var(--accent-solid);color:#fff;padding:8px 16px;border-radius:999px;text-decoration:none;font-size:13px;font-weight:700;">Start Studying →</a>
+      <a href="/geometry" style="display:inline-block;background:var(--bg-card);color:var(--accent);border:2px solid var(--accent-solid);padding:6px 14px;border-radius:20px;text-decoration:none;font-size:13px;font-weight:700;">Start Studying →</a>
     </div>
   </div>
   </div>
@@ -787,6 +829,11 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
         <div style="font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;">AP World History</div>
         <div style="font-size:14px;color:var(--text-muted);">8 units · 320 practice questions · interactive exam</div>
       </a>
+<a href="/ap-human-geography" class="class-card" data-subject-key="ap-human-geography" data-name="AP Human Geography" style="text-decoration:none;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;display:block;">
+        <div style="color:#0e7490;margin-bottom:10px;"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+        <div style="font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;">AP Human Geography</div>
+        <div style="font-size:14px;color:var(--text-muted);">7 units · 35 practice questions · interactive exam</div>
+      </a>
         </div>
       <div class="class-group" data-group="Test Prep">
         <h3 class="class-group-h">Test Prep</h3>
@@ -854,7 +901,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
     </div>
 
     <div style="display:flex;align-items:center;gap:12px;margin-top:18px;">
-      <button id="spc-save-btn" class="ss-cta-btn" style="background:var(--accent-solid);color:#fff;border:none;padding:10px 20px;border-radius:999px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">Save this plan</button>
+      <button id="spc-save-btn" class="ss-cta-btn" style="background:var(--bg-card);color:var(--accent);border:2px solid var(--accent-solid);padding:8px 18px;border-radius:20px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">Save this plan</button>
       <span id="spc-save-status" style="font-size:13px;color:var(--text-muted);"></span>
     </div>
     </div>
@@ -865,9 +912,20 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
   <a href="/privacy" style="color:var(--text-muted);font-size:13px;text-decoration:none;margin-right:14px;">Privacy</a>
   <a href="/terms" style="color:var(--text-muted);font-size:13px;text-decoration:none;margin-right:14px;">Terms</a>
   <a href="/parents-bill-of-rights" style="color:var(--text-muted);font-size:13px;text-decoration:none;margin-right:14px;">Parents' Bill of Rights</a>
+  <a href="#" onclick="ssOpenCookiePreferences();return false;" style="color:var(--text-muted);font-size:13px;text-decoration:none;margin-right:14px;">Cookie preferences</a>
   <a href="#" class="ss-mail-link" data-u="support" data-d="precisstudy.com" style="color:var(--text-muted);font-size:13px;text-decoration:none;">
     Questions or feedback? <span class="ss-mail-addr"></span>
   </a>
+</div>
+
+<div id="ss-cookie-banner" style="display:none;position:fixed;left:16px;right:16px;bottom:16px;z-index:9999;max-width:560px;margin:0 auto;background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:18px 20px;box-shadow:0 12px 32px rgba(0,0,0,.25);gap:14px;flex-wrap:wrap;align-items:center;">
+  <p style="margin:0 0 12px;font-size:13.5px;color:var(--text);flex:1 1 100%;">
+    This site shows ads (Google AdSense) to help cover hosting costs, which use cookies to measure and personalize ads. You can accept or decline — the study guides, quizzes, and flashcards work the same either way. See our <a href="/privacy" style="color:var(--accent);font-weight:700;text-decoration:none;">Privacy Policy</a> for details.
+  </p>
+  <div style="display:flex;gap:10px;">
+    <button type="button" onclick="ssCookieConsentAccept()" style="padding:7px 16px;border-radius:20px;border:2px solid var(--accent-solid);background:var(--bg-card);color:var(--accent);font-weight:700;font-size:13.5px;cursor:pointer;">Accept</button>
+    <button type="button" onclick="ssCookieConsentReject()" style="padding:7px 16px;border-radius:20px;border:1.5px solid var(--border);background:transparent;color:var(--text);font-weight:700;font-size:13.5px;cursor:pointer;">Reject non-essential</button>
+  </div>
 </div>
 
 <script>
@@ -996,12 +1054,25 @@ function ssUpdateSearchDropdown(q) {
   var matches = [];
   cards.forEach(function(c) {
     var name = c.getAttribute('data-name') || '';
-    if (name.toLowerCase().indexOf(q) !== -1) matches.push({ name: name, href: c.getAttribute('href') });
+    var lower = name.toLowerCase();
+    var idx = lower.indexOf(q);
+    if (idx === -1) return;
+    // Rank a match at the start of the name, or right after a space (a whole
+    // word), above one buried mid-word -- otherwise incidental hits like
+    // "Geography" containing "ap" outrank actual "AP ..." classes just by
+    // DOM position, and the slice(0, N) cap below can drop real matches.
+    var wordStart = idx === 0 || lower[idx - 1] === ' ';
+    matches.push({ name: name, href: c.getAttribute('href'), idx: idx, wordStart: wordStart });
+  });
+  matches.sort(function(a, b) {
+    if (a.wordStart !== b.wordStart) return a.wordStart ? -1 : 1;
+    if (a.idx !== b.idx) return a.idx - b.idx;
+    return a.name.localeCompare(b.name);
   });
   if (!matches.length) {
     dd.innerHTML = '<div class="search-dd-empty">No subjects found</div>';
   } else {
-    dd.innerHTML = matches.slice(0, 8).map(function(m) {
+    dd.innerHTML = matches.slice(0, 12).map(function(m) {
       return '<a class="search-dd-row" role="option" href="' + ssEscapeHtml(m.href) + '">' + ssEscapeHtml(m.name) + '</a>';
     }).join('');
   }
@@ -1013,6 +1084,20 @@ function ssCloseSearchDropdown() {
   var input = document.getElementById('class-search');
   if (dd) { dd.classList.remove('show'); dd.innerHTML = ''; }
   if (input) input.setAttribute('aria-expanded', 'false');
+}
+function ssUpdateSearchClearBtn() {
+  var input = document.getElementById('class-search');
+  var btn = document.getElementById('class-search-clear');
+  if (btn) btn.style.display = (input && input.value) ? 'block' : 'none';
+}
+function ssClearClassSearch() {
+  var input = document.getElementById('class-search');
+  if (!input) return;
+  input.value = '';
+  filterClasses('');
+  ssCloseSearchDropdown();
+  ssUpdateSearchClearBtn();
+  input.focus();
 }
 document.addEventListener('click', function(e) {
   var dd = document.getElementById('search-dropdown');
@@ -1340,6 +1425,93 @@ if ('IntersectionObserver' in window) {
   }, true);
 })();
 </script>
+<div id="ob-widget" style="display:none;position:fixed;right:20px;bottom:96px;z-index:9990;font-family:inherit;">
+  <div id="ob-widget-backdrop" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:9989;"></div>
+  <div id="ob-widget-pill" style="position:relative;z-index:9991;display:flex;align-items:center;gap:6px;background:#3a2f0f;border:2px solid #e0a83f;border-radius:999px;padding:9px 8px 9px 14px;box-shadow:0 0 0 3px rgba(224,168,63,.18),0 8px 24px rgba(0,0,0,.35);">
+    <button id="ob-widget-open-btn" type="button" style="display:flex;align-items:center;gap:9px;background:none;border:none;color:#f5c84c;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit;padding:0;">
+      <span style="font-size:16px;">🎯</span>
+      <span style="display:flex;flex-direction:column;align-items:flex-start;gap:4px;">
+        <span id="ob-widget-label" style="line-height:1;">Get Started (0/5)</span>
+        <span style="width:78px;height:5px;border-radius:99px;background:rgba(245,200,76,.22);overflow:hidden;">
+          <span id="ob-widget-bar" style="display:block;height:100%;width:0%;background:#f5c84c;border-radius:99px;transition:width .3s ease;"></span>
+        </span>
+      </span>
+    </button>
+    <button id="ob-widget-pill-dismiss" type="button" title="Dismiss" aria-label="Dismiss setup reminder" style="background:rgba(0,0,0,.28);border:none;color:#f5c84c;cursor:pointer;font-size:14px;line-height:1;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">×</button>
+  </div>
+  <div id="ob-widget-panel" style="display:none;position:absolute;right:0;bottom:calc(100% + 10px);width:280px;background:var(--bg-card);border:2px solid var(--border);border-radius:16px;box-shadow:0 16px 40px rgba(0,0,0,.3);padding:16px;z-index:9992;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+      <div style="font-weight:800;font-size:14px;color:var(--text);">Getting started</div>
+      <button id="ob-widget-dismiss" class="ob-tap44" title="Dismiss" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:16px;line-height:1;">×</button>
+    </div>
+    <ul id="ob-widget-list" style="list-style:none;margin:0 0 12px;padding:0;display:flex;flex-direction:column;gap:7px;font-size:13px;color:var(--text);"></ul>
+    <a href="/onboarding" style="display:block;text-align:center;background:var(--accent-solid);color:#fff;padding:9px;border-radius:10px;text-decoration:none;font-weight:700;font-size:13px;">Continue setup →</a>
+  </div>
+</div>
+<script>
+(function(){
+  var STEPS=[
+    {k:'settings',label:'Rank your classes'},
+    {k:'dashboard',label:'Build your schedule'},
+    {k:'google',label:'Connect Google Classroom'},
+    {k:'diagnostic',label:'Try a diagnostic'},
+    {k:'theme',label:'Try dark mode'}
+  ];
+  var KEY='ps-onboarding-v1', DISMISS_KEY='ps-onboarding-widget-dismissed';
+  var welcome = new URLSearchParams(location.search).get('welcome')==='1';
+  var dismissed=false; try{ dismissed = localStorage.getItem(DISMISS_KEY)==='1'; }catch(e){}
+  var state={}; try{ state=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){}
+  var done = STEPS.filter(function(s){ return !!state[s.k]; }).length;
+
+  if(dismissed || done===STEPS.length){ return; }
+
+  var widget=document.getElementById('ob-widget');
+  var openBtn=document.getElementById('ob-widget-open-btn');
+  var panel=document.getElementById('ob-widget-panel');
+  var backdrop=document.getElementById('ob-widget-backdrop');
+  var list=document.getElementById('ob-widget-list');
+  document.getElementById('ob-widget-label').textContent='Get Started ('+done+'/'+STEPS.length+')';
+  document.getElementById('ob-widget-bar').style.width = Math.round(done/STEPS.length*100)+'%';
+  var firstIncomplete = STEPS.filter(function(s){ return !state[s.k]; })[0];
+  if(firstIncomplete) openBtn.title = 'Step '+(STEPS.indexOf(firstIncomplete)+1)+': '+firstIncomplete.label;
+  list.innerHTML = STEPS.map(function(s){
+    var isDone=!!state[s.k];
+    return '<li style="display:flex;align-items:center;gap:8px;'+(isDone?'opacity:.55;text-decoration:line-through;':'')+'">'
+      + (isDone ? '✅' : '⬜') + ' ' + s.label + '</li>';
+  }).join('');
+  widget.style.display='block';
+
+  function setExpanded(open){
+    panel.style.display = open ? 'block' : 'none';
+    backdrop.style.display = open ? 'block' : 'none';
+  }
+  openBtn.addEventListener('click', function(){ setExpanded(panel.style.display!=='block'); });
+  backdrop.addEventListener('click', function(){ setExpanded(false); });
+  function dismissForGood(ev){
+    ev.stopPropagation();
+    try{ localStorage.setItem(DISMISS_KEY,'1'); }catch(e){}
+    widget.style.display='none';
+  }
+  document.getElementById('ob-widget-dismiss').addEventListener('click', dismissForGood);
+  document.getElementById('ob-widget-pill-dismiss').addEventListener('click', dismissForGood);
+  document.addEventListener('click', function(ev){
+    if(!widget.contains(ev.target)) setExpanded(false);
+  });
+  // First login (redirected here with ?welcome=1) -> auto-open, replacing
+  // the old "Get Started" nav link as the entry point into /onboarding.
+  if(welcome) setExpanded(true);
+})();
+</script>
 <script type="module">import "/shared/chalk-cursor.js";</script>
+<script>
+(function(){
+  var header = document.querySelector('.header-bar');
+  if (!header) return;
+  function onScroll(){ header.classList.toggle('scrolled', window.scrollY > 4); }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+</script>
+<script src="/shared/command-palette.js" defer></script><script src="/shared/high-contrast.js" defer></script>
 </body>
 </html>

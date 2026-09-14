@@ -336,6 +336,17 @@ export const apWorldUnits = [
 ];
 
 /** @type {Unit[]} */
+export const apHumanGeographyUnits = [
+  { id: 1, name: "Thinking Geographically" },
+  { id: 2, name: "Population & Migration" },
+  { id: 3, name: "Cultural Patterns & Processes" },
+  { id: 4, name: "Political Patterns & Processes" },
+  { id: 5, name: "Agriculture & Rural Land Use" },
+  { id: 6, name: "Cities & Urban Land Use" },
+  { id: 7, name: "Industrialization & Economic Development" }
+];
+
+/** @type {Unit[]} */
 export const artHistoryUnits = [
   { id: 1, name: "Art Vocabulary & Analysis" },
   { id: 2, name: "Ancient & Classical Art" },

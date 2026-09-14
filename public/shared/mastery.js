@@ -65,6 +65,25 @@ export function recommendNext(mastery, unitIds, unitNames) {
 }
 
 /**
+ * Like recommendNext, but returns up to n assessed units ranked weakest
+ * first instead of collapsing to a single next action -- for a "top weak
+ * areas" breakdown rather than a one-line recommendation.
+ * @param {Record<string, MasteryRecord>} mastery
+ * @param {number[]} unitIds
+ * @param {Record<number, string>} unitNames
+ * @param {number} [n]
+ * @returns {{ unitId: number; unitName: string; pct: number }[]}
+ */
+export function topWeakUnits(mastery, unitIds, unitNames, n = 3) {
+  return unitIds
+    .map(id => ({ id, record: mastery[String(id)] }))
+    .filter(u => u.record && u.record.total >= 2)
+    .map(u => ({ unitId: u.id, unitName: unitNames[u.id], pct: Math.round(((u.record?.correct ?? 0) / (u.record?.total || 1)) * 100) }))
+    .sort((a, b) => a.pct - b.pct)
+    .slice(0, n);
+}
+
+/**
  * @param {Record<string, MasteryRecord>} mastery
  * @param {number[]} unitIds
  * @param {Record<number, string>} unitNames

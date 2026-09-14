@@ -1,7 +1,7 @@
 import { SELF } from "cloudflare:test";
 import { describe, it, expect } from "vitest";
-import { handleGoogleStart, handleGoogleCallback, handleGithubStart, handleGithubCallback, handleVerify, handleVerifyConfirm } from "../src/auth-routes.js";
-import { createMagicLinkToken } from "../src/auth.js";
+import { handleGoogleStart, handleGoogleCallback, handleGithubStart, handleGithubCallback, handleVerify, handleVerifyConfirm, handleDeleteAccount } from "../src/auth-routes.js";
+import { createMagicLinkToken, issueSessionCookie, getSessionVersion } from "../src/auth.js";
 
 describe("/auth/me", () => {
   it("reports guest when there is no session cookie", async () => {
@@ -31,6 +31,63 @@ describe("/auth/logout", () => {
   it("rejects GET", async () => {
     const res = await SELF.fetch("https://precisstudy.com/auth/logout");
     expect(res.status).toBe(405);
+  });
+});
+
+describe("/auth/delete-account", () => {
+  function kvStub() {
+    const m = new Map();
+    return {
+      _m: m,
+      get: (k) => Promise.resolve(m.has(k) ? m.get(k) : null),
+      put: (k, v) => { m.set(k, v); return Promise.resolve(); },
+      delete: (k) => { m.delete(k); return Promise.resolve(); },
+      list: () => Promise.resolve({ keys: [], list_complete: true })
+    };
+  }
+
+  async function signedInEnv(email) {
+    const env = { SESSION_SECRET: "s", PROGRESS: kvStub() };
+    env.PROGRESS._m.set("progress:" + email, JSON.stringify({ updatedAt: null, streak: { current: 3, longest: 3 } }));
+    env.PROGRESS._m.set("login:" + email, JSON.stringify({ provider: "email", firstSeen: "x", lastSeen: "x" }));
+    const cookie = await issueSessionCookie(env, { email, name: email, provider: "email" });
+    return { env, cookie };
+  }
+
+  it("requires a session", async () => {
+    const res = await handleDeleteAccount(new Request("https://precisstudy.com/auth/delete-account", { method: "POST" }), { SESSION_SECRET: "s", PROGRESS: kvStub() });
+    expect(res.status).toBe(401);
+  });
+
+  it("deletes the progress and login KV records, invalidates the session, and clears the cookie", async () => {
+    const email = "learner@example.com";
+    const { env, cookie } = await signedInEnv(email);
+    const res = await handleDeleteAccount(new Request("https://precisstudy.com/auth/delete-account", {
+      method: "POST",
+      headers: { Cookie: cookie.split(";")[0] }
+    }), env);
+
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true });
+    expect(res.headers.get("Set-Cookie")).toContain("Max-Age=0");
+    expect(env.PROGRESS._m.has("progress:" + email)).toBe(false);
+    expect(env.PROGRESS._m.has("login:" + email)).toBe(false);
+    expect(await getSessionVersion(env.PROGRESS, email)).toBe(1);
+  });
+
+  it("a session cookie issued before deletion no longer authenticates afterward", async () => {
+    const email = "learner2@example.com";
+    const { env, cookie } = await signedInEnv(email);
+    await handleDeleteAccount(new Request("https://precisstudy.com/auth/delete-account", {
+      method: "POST",
+      headers: { Cookie: cookie.split(";")[0] }
+    }), env);
+
+    const res = await handleDeleteAccount(new Request("https://precisstudy.com/auth/delete-account", {
+      method: "POST",
+      headers: { Cookie: cookie.split(";")[0] }
+    }), env);
+    expect(res.status).toBe(401);
   });
 });
 

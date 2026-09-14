@@ -95,6 +95,10 @@
     <button class="btn" onclick="filterFC()" id="filter-btn" style="font-size:18px">Show: All</button>
   </div>
   <div id="fc-progress" style="text-align:center;font-size:18px;color:var(--ink-dim,#857f72);margin-top:6px"></div>
+  <div style="text-align:center;margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+    <button class="btn" type="button" onclick="exportFlashcards()" style="font-size:13px;padding:6px 14px">⇩ Export to Anki / Quizlet (.txt)</button>
+    <button class="btn" type="button" onclick="printFlashcardSheet()" style="font-size:13px;padding:6px 14px">🖨️ Print Study Sheet</button>
+  </div>
 __FC_ARCHIVE__</div></div>
 <div id="view-quiz" class="view" role="tabpanel" aria-labelledby="tab-quiz" tabindex="0">
   <div id="quiz-gate" class="auth-gate" style="display:none">
@@ -109,6 +113,7 @@ __FC_ARCHIVE__</div></div>
     <div class="ss-login-box" style="margin-top:8px"></div>
   </div>
   <button class="diag-btn" id="diag-start-btn" onclick="startDiagnostic()"><svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><span id="diag-start-btn-label">Start Diagnostic — 2 questions per unit, finds your weak spots</span></button>
+  <button type="button" class="diag-skip-btn" id="diag-skip-btn" onclick="justStartUnit1()">New to this course? Skip the diagnostic — just start with Unit 1 →</button>
   <div class="q-bar">
     <select id="q-sel" aria-label="Choose a question set" onchange="loadQ()"></select>
     <button class="btn" type="button" onclick="quizShuffle()" style="font-size:14px;padding:7px 14px">⇄ Shuffle</button>
@@ -119,6 +124,7 @@ __FC_ARCHIVE__</div></div>
       <button class="chip diff-chip" type="button" data-diff="hard" onclick="setDifficultyFilter('hard')">Hard</button>
     </div>
     <button class="btn mistake-log-btn" type="button" onclick="openMistakeLog()">Mistake Log<span class="mistake-log-count" id="mistake-log-count" style="display:none">0</span></button>
+    <button class="btn" type="button" onclick="printWorksheet()" style="font-size:14px;padding:7px 14px">🖨️ Print Worksheet</button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>

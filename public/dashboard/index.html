@@ -7,6 +7,8 @@
 <meta name="robots" content="noindex"/>
 <link rel="icon" type="image/png" href="/favicon.png"/>
 <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="manifest" href="/manifest.json"/>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){});});}</script>
 <link rel="preload" href="/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="stylesheet" href="/fonts/nunito.css"/>
 <script>
@@ -24,6 +26,8 @@
   --text:#233a31; --text-muted:#5a6f63; --nav-text:#3d5347;
   --accent:#1f6e46; --accent-bright:#268a58; --accent-hover:#175a39; --accent-solid:#1f6e46; --accent-solid-hover:#175a39;
   --status-none:#a3b3a8; --status-green:#1f8a5f; --status-amber:#7a5810; --status-red:#a83f2e;
+  --status-badge-text:#fff;
+  --done-badge-bg:#166345;
   --card-shadow:0 1px 3px rgba(35,58,49,.06),0 24px 48px -28px rgba(35,58,49,.20);
   --hero-glow:radial-gradient(ellipse at center, rgba(31,110,70,.14), rgba(31,110,70,0) 70%);
 }
@@ -33,9 +37,15 @@
   --text:#f2f5ee; --text-muted:#b7c9bc; --nav-text:#eef2ea;
   --accent:#4fbf85; --accent-bright:#63d199; --accent-hover:#3fa873; --accent-solid:#237750; --accent-solid-hover:#1a6644;
   --status-none:#6f8377; --status-green:#3ecf8e; --status-amber:#e0c260; --status-red:#e08a70;
+  --status-badge-text:#1a1204;
+  --done-badge-bg:#3ecf8e;
   --card-shadow:0 1px 3px rgba(0,0,0,.32),0 24px 48px -28px rgba(0,0,0,.5);
   --hero-glow:radial-gradient(ellipse at center, rgba(79,191,133,.12), rgba(79,191,133,0) 70%);
 }
+.header-bar{position:sticky !important;top:0;z-index:100;transition:box-shadow .2s ease}
+.ob-tap44{position:relative}
+.ob-tap44::after{content:'';position:absolute;inset:-13px}
+.header-bar.scrolled{box-shadow:0 4px 16px rgba(0,0,0,.12)}
 #theme-toggle{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:999px;
   width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
 #theme-toggle:hover{border-color:var(--accent-bright);color:var(--accent)}
@@ -86,7 +96,33 @@ body{transition:background .2s ease,color .2s ease}
 
 .ss-card{background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:32px;
   box-shadow:var(--card-shadow);min-width:0}
+.ss-density-btn.active{background:var(--accent-bright);border-color:var(--accent-bright);color:#fff}
+.ss-density-btn:hover{border-color:var(--accent-bright)}
+#dash-subjects.density-compact > .ss-card{padding:16px}
+#dash-subjects.density-spacious > .ss-card{padding:40px}
 #sb-blocks-list,#sb-subjects,#sb-result{min-width:0}
+/* Printable progress report (printProgressReport() builds #ss-print-container
+   on demand and calls window.print()) -- same pattern as the guide pages'
+   worksheet/flashcard-sheet export, kept out of screen styles entirely so it
+   never flashes visible before the print dialog opens. */
+#ss-print-container{display:none}
+#ss-print-container h1{font-family:inherit;font-size:22px;margin:0 0 2px;color:#000}
+#ss-print-container h2{font-family:inherit;font-size:15px;margin:20px 0 8px;border-bottom:1px solid #999;padding-bottom:4px;color:#000}
+#ss-print-container .ss-print-meta{font-size:12.5px;color:#444;margin-bottom:4px}
+#ss-print-container table{width:100%;border-collapse:collapse;margin:6px 0}
+#ss-print-container th,#ss-print-container td{border:1px solid #999;padding:6px 10px;text-align:left;font-size:13px;color:#000}
+#ss-print-container .ss-print-badges{font-size:13px;color:#000}
+@media print{
+  body.ss-printing > *:not(#ss-print-container){display:none!important}
+  body.ss-printing #ss-print-container{display:block!important;padding:24px;max-width:800px;margin:0 auto;color:#000}
+}
+.sb-preset-btn{background:var(--bg);border:2px solid var(--border);border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:700;color:var(--text);cursor:pointer;font-family:inherit}
+.sb-preset-btn:hover{border-color:var(--accent-bright);color:var(--accent)}
+.sb-grid-hd{font-size:10.5px;font-weight:700;color:var(--text-muted);text-align:center;padding:2px 0;}
+.sb-grid-time{font-size:10px;color:var(--text-muted);text-align:right;padding-right:4px;white-space:nowrap;align-self:center;}
+.sb-grid-cell{height:16px;border-radius:3px;background:var(--bg);border:1px solid var(--border);cursor:pointer;touch-action:none;}
+.sb-grid-cell:hover{border-color:var(--accent-bright);}
+.sb-grid-cell.sb-grid-filled{background:var(--accent-bright);border-color:var(--accent-bright);}
 @media(max-width:640px){.ss-card{padding:20px}}
 
 .sb-block-day-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;min-width:0}
@@ -95,6 +131,13 @@ body{transition:background .2s ease,color .2s ease}
   border-radius:999px;background:var(--bg);font-size:12.5px;color:var(--text-body);white-space:nowrap}
 .sb-block-chip button{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:13px;padding:0;line-height:1}
 .sb-block-chip button:hover{color:var(--accent)}
+.sb-cat{border:2px solid var(--border);border-radius:12px;margin-bottom:8px;overflow:hidden}
+.sb-cat>summary{cursor:pointer;list-style:none;padding:10px 12px;font-weight:700;font-size:13.5px;color:var(--text);display:flex;align-items:center;gap:8px;background:var(--bg-card)}
+.sb-cat>summary::-webkit-details-marker{display:none}
+.sb-cat>summary .sb-cat-chevron{transition:transform .18s ease;color:var(--text-muted);flex-shrink:0;margin-left:auto}
+.sb-cat[open]>summary .sb-cat-chevron{transform:rotate(90deg)}
+.sb-cat-count{font-weight:600;color:var(--text-muted);font-size:12px}
+.sb-cat-body{padding:8px 10px 10px;display:flex;flex-direction:column;gap:6px}
 .sb-subject-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:9px 12px;border:2px solid var(--border);
   border-radius:12px;margin-bottom:8px;background:var(--bg)}
 .sb-subject-row label{display:flex;align-items:center;gap:8px;flex:1;min-width:120px;font-size:14px;font-weight:700;color:var(--text);cursor:pointer}
@@ -113,6 +156,9 @@ body{transition:background .2s ease,color .2s ease}
 .sb-block-unit{font-size:12.5px;opacity:.9;margin-top:2px}
 .sb-block-empty{border:2px dashed var(--border);border-radius:12px;padding:12px 14px;color:var(--text-muted);
   font-size:12.5px;text-align:center;display:flex;align-items:center;justify-content:center;min-height:64px}
+.sb-conflict-note{font-size:11.5px;font-weight:700;color:var(--status-amber);background:color-mix(in srgb, var(--status-amber) 14%, transparent);
+  border-radius:8px;padding:5px 9px;text-align:center}
+.sb-buffer-note{font-size:11px;color:var(--text-muted);text-align:center;margin-top:-4px}
 
 .skel-bar{border-radius:6px;background:linear-gradient(90deg,var(--border) 25%,var(--bg) 50%,var(--border) 75%);
   background-size:200% 100%;animation:skelShimmer 1.4s ease-in-out infinite}
@@ -161,6 +207,8 @@ body{transition:background .2s ease,color .2s ease}
       Your Dashboard
     </h1>
     <div id="dash-streak" style="display:none;margin-top:14px;"></div>
+    <div id="dash-level" style="display:none;margin-top:14px;"></div>
+    <div id="dash-badges" style="display:none;margin-top:14px;flex-wrap:wrap;gap:8px;justify-content:center;"></div>
   </div>
 </div>
 
@@ -177,38 +225,86 @@ body{transition:background .2s ease,color .2s ease}
 
     <div id="dash-resume" style="display:none;"></div>
 
+    <div class="ss-card" id="dash-analytics-card" style="display:none;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
+        <div style="font-weight:800;font-size:19px;color:var(--text);">📊 Your Progress</div>
+        <button type="button" id="dash-print-report-btn" style="background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);font-size:12.5px;font-weight:700;padding:6px 14px;cursor:pointer;">🖨️ Print Progress Report</button>
+      </div>
+      <div id="dash-analytics-summary" style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:14px;"></div>
+      <div id="dash-analytics-table"></div>
+    </div>
+
+    <div class="ss-card" id="dash-heatmap-card" style="display:none;">
+      <div style="font-weight:800;font-size:19px;color:var(--text);margin-bottom:4px;">🔥 Study Activity</div>
+      <p style="font-size:13px;color:var(--text-muted);margin:0 0 14px;">Questions answered per day, most recent 14 weeks.</p>
+      <div id="dash-heatmap-body"></div>
+    </div>
+
+    <div class="ss-card" id="dash-forecast-card" style="display:none;">
+      <div style="font-weight:800;font-size:19px;color:var(--text);margin-bottom:4px;">🎯 Forecasted Scores</div>
+      <p style="font-size:13px;color:var(--text-muted);margin:0 0 14px;">A rough estimate from your current quiz accuracy — not an official predictor, and it'll move as you keep practicing.</p>
+      <div id="dash-forecast-body" style="display:grid;gap:10px;"></div>
+    </div>
+
     <div class="ss-card" id="dash-assignments-card">
       <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px;">
         <div style="font-weight:800;font-size:19px;color:var(--text);"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Upcoming Assignments</div>
         <a href="/settings" style="font-size:12.5px;color:var(--text-muted);text-decoration:none;font-weight:700;">Manage →</a>
       </div>
-      <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 14px;">Your Google Classroom coursework and calendar due-dates, in one place.</p>
+      <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 8px;">Your Google Classroom coursework and calendar due-dates, in one place.</p>
+      <div id="dash-assignments-sync" style="display:none;align-items:center;gap:8px;margin-bottom:10px;">
+        <span id="dash-assignments-sync-label" style="font-size:12px;color:var(--text-muted);"></span>
+        <button id="dash-assignments-refresh-btn" title="Refresh now" aria-label="Refresh assignments now" style="background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);cursor:pointer;font-size:12px;padding:3px 10px;display:flex;align-items:center;gap:5px;">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          Refresh
+        </button>
+      </div>
       <div id="dash-assignments-body"><div class="skel-bar" style="width:100%;height:16px;margin-bottom:8px;"></div><div class="skel-bar" style="width:70%;height:16px;"></div></div>
     </div>
 
     <div class="ss-card">
       <div style="font-weight:800;font-size:19px;color:var(--text);margin-bottom:4px;"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Weekly Study Schedule</div>
-      <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 18px;">Tell us when you're free and what you want to study — we'll build a color-coded weekly plan. Click any block to jump straight into that study guide.</p>
+      <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 10px;">Tell us when you're free and what you want to study — we'll build a color-coded weekly plan. Click any block to jump straight into that study guide.</p>
+
+      <details id="sb-tutorial" style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin-bottom:18px;">
+        <summary style="cursor:pointer;font-size:13px;font-weight:700;color:var(--accent-solid, var(--accent));list-style:none;">❔ How this works (3 steps)</summary>
+        <ol style="margin:10px 0 2px;padding-left:20px;font-size:13px;color:var(--text-muted);line-height:1.6;">
+          <li><b style="color:var(--text)">Paint your free time.</b> Click or drag across the grid below for each day you can study — a day can have more than one window.</li>
+          <li><b style="color:var(--text)">Pick your subjects.</b> Check off the classes you want scheduled, grouped by type below. If you check more than one, use the ↑↓ arrows to rank them — higher priority gets more of the free days.</li>
+          <li><b style="color:var(--text)">Build it.</b> Click "Build my schedule" — each colored block links straight to that subject's next study unit.</li>
+        </ol>
+      </details>
 
       <div style="margin-bottom:16px;">
-        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;">When are you free to study? <span style="font-weight:500;color:var(--text-muted);">Add a block for each free window — a day can have more than one, so you can fit in multiple subjects.</span></div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:end;margin-bottom:10px;">
-          <label style="font-size:12px;font-weight:700;color:var(--text-muted);">Day<br/>
-            <select id="sb-block-day" style="padding:8px 10px;border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);background:var(--bg-card);margin-top:4px;"></select>
-          </label>
-          <label style="font-size:12px;font-weight:700;color:var(--text-muted);">From<br/>
-            <input id="sb-block-start" type="time" value="15:00" style="padding:8px 10px;border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);background:var(--bg-card);margin-top:4px;"/>
-          </label>
-          <label style="font-size:12px;font-weight:700;color:var(--text-muted);">Until<br/>
-            <input id="sb-block-end" type="time" value="16:00" style="padding:8px 10px;border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);background:var(--bg-card);margin-top:4px;"/>
-          </label>
-          <button id="sb-block-add-btn" type="button" style="background:var(--bg);border:2px solid var(--border);border-radius:10px;padding:9px 16px;font-size:13.5px;font-weight:700;color:var(--text);cursor:pointer;">+ Add block</button>
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;">1. When are you free to study? <span style="font-weight:500;color:var(--text-muted);">Click or drag across the grid to paint free hours — a day can have more than one window.</span></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+          <button class="sb-preset-btn" type="button" data-preset="light">☀️ Light (15 min/day, weekdays)</button>
+          <button class="sb-preset-btn" type="button" data-preset="crunch">🔥 Exam Crunch (1 hr/day, every day)</button>
         </div>
+        <div id="sb-grid-scroll" style="overflow-x:auto;margin-bottom:10px;">
+          <div id="sb-grid" style="display:inline-grid;grid-template-columns:44px repeat(7,minmax(34px,1fr));gap:2px;user-select:none;"></div>
+        </div>
+        <button id="sb-grid-clear-btn" type="button" style="background:none;border:none;color:var(--text-muted);font-size:12.5px;font-weight:700;cursor:pointer;padding:0 0 10px;text-decoration:underline;">Clear all free time</button>
+        <details id="sb-manual-details" style="margin-bottom:10px;">
+          <summary style="font-size:12.5px;font-weight:700;color:var(--text-muted);cursor:pointer;">or add a specific time block →</summary>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:end;margin-top:10px;">
+            <label style="font-size:12px;font-weight:700;color:var(--text-muted);">Day<br/>
+              <select id="sb-block-day" style="padding:8px 10px;border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);background:var(--bg-card);margin-top:4px;"></select>
+            </label>
+            <label style="font-size:12px;font-weight:700;color:var(--text-muted);">From<br/>
+              <input id="sb-block-start" type="time" value="15:00" style="padding:8px 10px;border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);background:var(--bg-card);margin-top:4px;"/>
+            </label>
+            <label style="font-size:12px;font-weight:700;color:var(--text-muted);">Until<br/>
+              <input id="sb-block-end" type="time" value="16:00" style="padding:8px 10px;border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);background:var(--bg-card);margin-top:4px;"/>
+            </label>
+            <button id="sb-block-add-btn" type="button" style="background:var(--bg);border:2px solid var(--border);border-radius:10px;padding:9px 16px;font-size:13.5px;font-weight:700;color:var(--text);cursor:pointer;">+ Add block</button>
+          </div>
+        </details>
         <div id="sb-blocks-list" style="display:flex;flex-direction:column;gap:6px;"></div>
       </div>
 
       <div style="margin-bottom:16px;">
-        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;">Which subjects? (use ↑↓ to set priority — higher priority gets more days)</div>
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;">2. Which subjects? <span style="font-weight:500;color:var(--text-muted);">Grouped by type, like Settings. Use ↑↓ to set priority — higher priority gets more days.</span></div>
         <div id="sb-subjects"></div>
       </div>
 
@@ -218,7 +314,7 @@ body{transition:background .2s ease,color .2s ease}
       <div id="sb-result" style="margin-top:20px;"></div>
       <div id="sb-notify-prompt" style="display:none;margin-top:14px;background:var(--accent-soft, var(--surface));border:1px solid var(--border);border-radius:12px;padding:14px 16px;">
         <div style="font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:2px;">🔔 Want a reminder right when each block starts?</div>
-        <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:10px;">We'll send a notification naming the subject the moment a scheduled block begins.</div>
+        <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:10px;">We'll send a notification naming the subject 10 minutes before each scheduled block starts.</div>
         <button id="sb-notify-yes-btn" type="button" style="background:var(--accent-solid);color:#fff;border:none;padding:8px 16px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;margin-right:8px;">Enable notifications</button>
         <button id="sb-notify-no-btn" type="button" style="background:none;border:1px solid var(--border);color:var(--text-muted);padding:8px 16px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;">No thanks</button>
         <div id="sb-notify-status" style="font-size:12px;color:var(--text-muted);margin-top:8px;"></div>
@@ -228,9 +324,17 @@ body{transition:background .2s ease,color .2s ease}
     <p id="dash-classes-note" style="max-width:840px;margin:0 auto 14px;font-size:13.5px;color:var(--text-muted);text-align:center;"></p>
     <div id="dash-subject-filter-wrap" style="display:none;position:relative;margin-bottom:2px;">
       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);pointer-events:none;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input id="dash-subject-filter" type="text" placeholder="Filter your classes…" aria-label="Filter your classes" class="ss-filter-input"/>
+      <input id="dash-subject-filter" type="text" placeholder="Filter your classes…" aria-label="Filter your classes" class="ss-filter-input" style="padding-right:36px;"/>
+      <button id="dash-subject-filter-clear" type="button" aria-label="Clear filter" style="display:none;position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:18px;line-height:1;padding:4px;">×</button>
+    </div>
+    <div id="dash-density-row" style="display:flex;align-items:center;gap:8px;margin:0 0 12px;flex-wrap:wrap;" role="group" aria-label="Card density">
+      <span style="font-size:12.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;">Density</span>
+      <button type="button" class="ss-density-btn" data-density="compact" style="background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);font-size:12.5px;font-weight:700;padding:5px 12px;cursor:pointer;">Compact</button>
+      <button type="button" class="ss-density-btn" data-density="comfortable" style="background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);font-size:12.5px;font-weight:700;padding:5px 12px;cursor:pointer;">Comfortable</button>
+      <button type="button" class="ss-density-btn" data-density="spacious" style="background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);font-size:12.5px;font-weight:700;padding:5px 12px;cursor:pointer;">Spacious</button>
     </div>
     <div id="dash-subjects" style="display:grid;gap:20px;"></div>
+    <div id="dash-unassessed" style="display:grid;gap:10px;margin-top:4px;"></div>
   </div>
 </div>
 
@@ -325,8 +429,27 @@ document.addEventListener('click', function(e){
 </script>
 
 <script type="module">
-import { computeReadiness, recommendNext, buildSchedule } from '/shared/mastery.js';
-import { geometryUnits, chemistryUnits, algebra1Units, algebra2Units, aplangUnits, globalHistoryUnits, apbiologyUnits, apushUnits, physicsUnits, biologyUnits, precalcUnits, usGovernmentUnits, actPrepUnits, anatomyUnits, apChemistryUnits, apCsaUnits, apEuroUnits, apMacroUnits, apMicroUnits, apPhysicsUnits, apPsychUnits, apStatsUnits, apUsgovUnits, apWorldUnits, artHistoryUnits, astronomyUnits, computerScienceUnits, creativeWritingUnits, earthScienceUnits, economicsUnits, english10Units, english9Units, environmentalScienceUnits, french1Units, geographyUnits, german1Units, healthUnits, journalismUnits, musicTheoryUnits, psychologyUnits, satMathUnits, satReadingUnits, sociologyUnits, spanish1Units, spanish2Units, spanish3Units, speechDebateUnits, statisticsUnits, studySkillsUnits, worldHistoryUnits, calculusUnits, calcAbUnits, calcBcUnits, usHistoryUnits } from '/shared/unit-titles.js';
+import { computeReadiness, recommendNext, topWeakUnits, buildSchedule } from '/shared/mastery.js';
+import { geometryUnits, chemistryUnits, algebra1Units, algebra2Units, aplangUnits, globalHistoryUnits, apbiologyUnits, apushUnits, physicsUnits, biologyUnits, precalcUnits, usGovernmentUnits, actPrepUnits, anatomyUnits, apChemistryUnits, apCsaUnits, apEuroUnits, apMacroUnits, apMicroUnits, apPhysicsUnits, apPsychUnits, apStatsUnits, apUsgovUnits, apWorldUnits, apHumanGeographyUnits, artHistoryUnits, astronomyUnits, computerScienceUnits, creativeWritingUnits, earthScienceUnits, economicsUnits, english10Units, english9Units, environmentalScienceUnits, french1Units, geographyUnits, german1Units, healthUnits, journalismUnits, musicTheoryUnits, psychologyUnits, satMathUnits, satReadingUnits, sociologyUnits, spanish1Units, spanish2Units, spanish3Units, speechDebateUnits, statisticsUnits, studySkillsUnits, worldHistoryUnits, calculusUnits, calcAbUnits, calcBcUnits, usHistoryUnits } from '/shared/unit-titles.js';
+
+// Category grouping for the "unassessed classes" accordion below -- same
+// taxonomy used on the homepage and in Settings, so a class always lands in
+// the category a student already recognizes from elsewhere on the site.
+const SUBJECT_CATEGORY = {
+  geometry: 'math', algebra1: 'math', algebra2: 'math', precalc: 'math', statistics: 'math', calculus: 'math',
+  aplang: 'ap', apbiology: 'ap', apush: 'ap', 'ap-chemistry': 'ap', 'ap-csa': 'ap', 'ap-euro': 'ap', 'ap-macro': 'ap',
+  'ap-micro': 'ap', 'ap-physics': 'ap', 'ap-psych': 'ap', 'ap-stats': 'ap', 'ap-usgov': 'ap', 'ap-world': 'ap',
+  'ap-human-geography': 'ap', 'calc-ab': 'ap', 'calc-bc': 'ap',
+  chemistry: 'science', physics: 'science', biology: 'science', anatomy: 'science', astronomy: 'science', 'earth-science': 'science', 'environmental-science': 'science',
+  globalhistory: 'humanities', 'us-history': 'humanities', 'art-history': 'humanities', economics: 'humanities', geography: 'humanities',
+  psychology: 'humanities', sociology: 'humanities', 'us-government': 'humanities', 'world-history': 'humanities',
+  'creative-writing': 'english', 'english-10': 'english', 'english-9': 'english', journalism: 'english', 'speech-debate': 'english',
+  'french-1': 'languages', 'german-1': 'languages', 'spanish-1': 'languages', 'spanish-2': 'languages', 'spanish-3': 'languages',
+  'computer-science': 'electives', health: 'electives', 'music-theory': 'electives', 'study-skills': 'electives',
+  'act-prep': 'testprep', 'sat-math': 'testprep', 'sat-reading': 'testprep'
+};
+const CATEGORY_LABELS = { math: 'Math', science: 'Science', humanities: 'History', english: 'English', languages: 'Languages', electives: 'Electives & Skills', ap: 'AP Courses', testprep: 'Test Prep' };
+const CATEGORY_ORDER = ['math', 'science', 'humanities', 'english', 'languages', 'electives', 'ap', 'testprep'];
 
 const SUBJECTS_CONFIG = [
   { key: 'geometry', label: 'Geometry', href: '/geometry', units: geometryUnits },
@@ -353,6 +476,7 @@ const SUBJECTS_CONFIG = [
   { key: 'ap-stats', label: 'AP Statistics', href: '/ap-stats', units: apStatsUnits },
   { key: 'ap-usgov', label: 'AP US Government', href: '/ap-usgov', units: apUsgovUnits },
   { key: 'ap-world', label: 'AP World History', href: '/ap-world', units: apWorldUnits },
+  { key: 'ap-human-geography', label: 'AP Human Geography', href: '/ap-human-geography', units: apHumanGeographyUnits },
   { key: 'art-history', label: 'Art History', href: '/art-history', units: artHistoryUnits },
   { key: 'astronomy', label: 'Astronomy', href: '/astronomy', units: astronomyUnits },
   { key: 'computer-science', label: 'Computer Science', href: '/computer-science', units: computerScienceUnits },
@@ -415,7 +539,13 @@ function renderSubject(subjectKey, label, href, subjectData, unitIds, unitNames)
   if (rec.type === 'diagnostic') {
     recHtml = '<a href="' + href + '" class="ss-cta-btn" style="display:inline-block;background:var(--accent-solid);color:#fff;padding:8px 16px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:700;">Take the diagnostic →</a>';
   } else if (rec.type === 'practice') {
-    recHtml = '<p style="margin:0 0 10px;font-size:14px;color:var(--text-muted);">You\'re weakest here: <b style="color:var(--text);">' + rec.unitName + '</b> (' + rec.pct + '%)</p>'
+    const weakUnits = topWeakUnits(subjectData.mastery || {}, unitIds, unitNames, 3);
+    const weakListHtml = weakUnits.length > 1
+      ? '<ul style="margin:0 0 10px;padding-left:18px;font-size:13px;color:var(--text-muted);">' + weakUnits.map(u =>
+          '<li>' + u.unitName + ' — <b style="color:' + statusColor(u.pct) + ';">' + u.pct + '%</b></li>'
+        ).join('') + '</ul>'
+      : '<p style="margin:0 0 10px;font-size:14px;color:var(--text-muted);">You\'re weakest here: <b style="color:var(--text);">' + rec.unitName + '</b> (' + rec.pct + '%)</p>';
+    recHtml = weakListHtml
       + '<a href="' + href + '?practice=' + rec.unitId + '" class="ss-cta-btn" style="display:inline-block;background:var(--accent-solid);color:#fff;padding:8px 16px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:700;">Practice ' + rec.unitName + ' →</a>';
   } else {
     recHtml = '<p style="margin:0;font-size:14px;color:var(--text-muted);">Every assessed topic is scoring well — try the practice exam or review flashcards.</p>';
@@ -478,22 +608,25 @@ function renderSubject(subjectKey, label, href, subjectData, unitIds, unitNames)
   }
 }
 
+// Same key -> hex map as the SUBJECTS swatches in /settings, so a subject's
+// color is identical everywhere it appears on the site.
 const SUBJECT_COLORS = {
-  geometry: '#d9a441',
-  chemistry: '#0f7a70',
-  algebra1: '#2563a8',
-  algebra2: '#1c7a4a',
-  aplang: '#8b2942',
-  globalhistory: '#b5541f',
-  apbiology: '#2e7d4f',
-  apush: '#1e4d8b',
-  'us-history': '#8a5a2b',
-  physics: '#7a3ba8',
-  biology: '#2e7d4f',
-  precalc: '#0f6e73',
-  calculus: '#0e7490',
-  'calc-ab': '#4338ca',
-  'calc-bc': '#7c3aed'
+  geometry: '#d9a441', chemistry: '#0f7a70', algebra1: '#2563a8', algebra2: '#1c7a4a',
+  aplang: '#8b2942', globalhistory: '#b5541f', apbiology: '#2e7d4f', apush: '#1e4d8b',
+  'us-history': '#8a5a2b', physics: '#7a3ba8', biology: '#2e7d4f', precalc: '#0f6e73',
+  'act-prep': '#b91c1c', anatomy: '#be123c', 'ap-chemistry': '#0369a1', 'ap-csa': '#1e40af',
+  'ap-euro': '#166534', 'ap-macro': '#065f46', 'ap-micro': '#9a3412', 'ap-physics': '#1d4ed8',
+  'ap-psych': '#9333ea', 'ap-stats': '#c2410c', 'ap-usgov': '#1e3a8a', 'ap-world': '#a16207',
+  'ap-human-geography': '#0e7490', 'art-history': '#9f1239', astronomy: '#4338ca',
+  'computer-science': '#4338ca', 'creative-writing': '#db2777', 'earth-science': '#0e7490',
+  economics: '#7c3aed', 'english-10': '#b45309', 'english-9': '#be185d',
+  'environmental-science': '#15803d', 'french-1': '#2563eb', geography: '#059669',
+  'german-1': '#334155', health: '#dc2626', journalism: '#0f766e', 'music-theory': '#b45309',
+  psychology: '#7c3aed', 'sat-math': '#0369a1', 'sat-reading': '#7c2d12', sociology: '#0891b2',
+  'spanish-1': '#c2410c', 'spanish-2': '#9a3412', 'spanish-3': '#ea580c',
+  'speech-debate': '#7e22ce', statistics: '#d97706', 'study-skills': '#4d7c0f',
+  'us-government': '#23744f', 'world-history': '#8b5cf6', calculus: '#0e7490',
+  'calc-ab': '#4338ca', 'calc-bc': '#7c3aed'
 };
 const SB_DAYS = [
   { key: 'mon', label: 'Mon' }, { key: 'tue', label: 'Tue' }, { key: 'wed', label: 'Wed' },
@@ -502,6 +635,121 @@ const SB_DAYS = [
 let sbFreeBlocks = []; // [{id, day, start:'HH:MM', end:'HH:MM'}]
 let sbSelectedSubjects = []; // [{key, unitMode:'auto'|'<unitId>'}], order = priority (index 0 = highest)
 let sbBlob = null;
+// Populated by loadDashAssignments() -- reused by sbBuildSchedule() to flag
+// a scheduled study day that coincides with something due. Classroom only
+// gives due DATES (not times), so "conflict" here means day-of-week overlap
+// with an upcoming due date, not a real time clash.
+let sbAssignmentsCache = [];
+
+// ----- Weekly free-time grid: click/drag paints hour cells, which are the
+// primary way to build sbFreeBlocks -- the dropdown add-block form (below,
+// under "or add a specific time block") stays available for typing an exact
+// time, but every grid interaction recomputes sbFreeBlocks in full from the
+// painted cells, coalescing contiguous same-day hours into blocks. -----
+const SB_GRID_HOURS = []; // 6am .. 10pm (last cell covers 10pm-11pm)
+for (let h = 6; h <= 22; h++) SB_GRID_HOURS.push(h);
+let sbGridCells = new Set(); // "<day>-<hour>"
+let sbGridPaintMode = null; // true = painting on, false = painting off, null = not dragging
+
+function sbPad2(n) { return String(n).padStart(2, '0'); }
+
+function sbHourLabel(h) {
+  const ampm = h >= 12 ? 'p' : 'a';
+  const h12 = h % 12 === 0 ? 12 : h % 12;
+  return h12 + ampm;
+}
+
+function sbSeedGridFromBlocks() {
+  sbGridCells = new Set();
+  sbFreeBlocks.forEach(function (b) {
+    const startMin = sbTimeToMinutes(b.start), endMin = sbTimeToMinutes(b.end);
+    if (startMin === null || endMin === null) return;
+    SB_GRID_HOURS.forEach(function (h) {
+      // Mark this hour filled if the saved block overlaps it at all, so
+      // blocks entered via the manual form (possibly not hour-aligned)
+      // still show up as painted cells.
+      if (startMin < (h + 1) * 60 && endMin > h * 60) sbGridCells.add(b.day + '-' + h);
+    });
+  });
+}
+
+function sbCellsToBlocks() {
+  const blocks = [];
+  SB_DAYS.forEach(function (d) {
+    let runStart = null;
+    SB_GRID_HOURS.forEach(function (h, i) {
+      const has = sbGridCells.has(d.key + '-' + h);
+      if (has && runStart === null) runStart = h;
+      const nextH = SB_GRID_HOURS[i + 1];
+      const contiguous = has && nextH !== undefined && nextH === h + 1 && sbGridCells.has(d.key + '-' + nextH);
+      if (has && !contiguous) {
+        blocks.push({ id: d.key + '-' + runStart + '-' + (h + 1), day: d.key, start: sbPad2(runStart) + ':00', end: sbPad2(h + 1) + ':00' });
+        runStart = null;
+      } else if (!has) {
+        runStart = null;
+      }
+    });
+  });
+  return blocks;
+}
+
+function sbApplyGridToBlocks() {
+  sbFreeBlocks = sbCellsToBlocks();
+  sbRenderBlocks();
+}
+
+function sbRenderGrid() {
+  const grid = document.getElementById('sb-grid');
+  if (!grid) return;
+  let html = '<div></div>' + SB_DAYS.map(function (d) { return '<div class="sb-grid-hd">' + d.label + '</div>'; }).join('');
+  SB_GRID_HOURS.forEach(function (h) {
+    html += '<div class="sb-grid-time">' + sbHourLabel(h) + '</div>';
+    SB_DAYS.forEach(function (d) {
+      const key = d.key + '-' + h;
+      const filled = sbGridCells.has(key) ? ' sb-grid-filled' : '';
+      html += '<div class="sb-grid-cell' + filled + '" data-cell="' + key + '" role="button" tabindex="0" aria-label="' + d.label + ' ' + sbHourLabel(h) + '"></div>';
+    });
+  });
+  grid.innerHTML = html;
+
+  function setCell(el, on) {
+    const key = el.dataset.cell;
+    if (on) sbGridCells.add(key); else sbGridCells.delete(key);
+    el.classList.toggle('sb-grid-filled', on);
+  }
+
+  grid.querySelectorAll('.sb-grid-cell').forEach(function (cell) {
+    cell.addEventListener('mousedown', function (e) {
+      e.preventDefault();
+      sbGridPaintMode = !cell.classList.contains('sb-grid-filled');
+      setCell(cell, sbGridPaintMode);
+    });
+    cell.addEventListener('mouseenter', function () {
+      if (sbGridPaintMode !== null) setCell(cell, sbGridPaintMode);
+    });
+    cell.addEventListener('touchstart', function (e) {
+      e.preventDefault();
+      sbGridPaintMode = !cell.classList.contains('sb-grid-filled');
+      setCell(cell, sbGridPaintMode);
+    }, { passive: false });
+    cell.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setCell(cell, !cell.classList.contains('sb-grid-filled')); sbApplyGridToBlocks(); }
+    });
+  });
+  grid.addEventListener('touchmove', function (e) {
+    if (sbGridPaintMode === null) return;
+    const touch = e.touches[0];
+    const el = document.elementFromPoint(touch.clientX, touch.clientY);
+    if (el && el.classList && el.classList.contains('sb-grid-cell')) setCell(el, sbGridPaintMode);
+  }, { passive: true });
+
+  document.addEventListener('mouseup', function () {
+    if (sbGridPaintMode !== null) { sbGridPaintMode = null; sbApplyGridToBlocks(); }
+  });
+  document.addEventListener('touchend', function () {
+    if (sbGridPaintMode !== null) { sbGridPaintMode = null; sbApplyGridToBlocks(); }
+  });
+}
 
 function sbPopulateDaySelect() {
   const sel = document.getElementById('sb-block-day');
@@ -535,11 +783,49 @@ function sbAddBlock() {
   statusEl.textContent = '';
   sbFreeBlocks.push({ id: Date.now() + '-' + Math.random().toString(36).slice(2, 7), day: day, start: startEl.value, end: endEl.value });
   sbRenderBlocks();
+  sbSeedGridFromBlocks();
+  sbRenderGrid();
+}
+
+// Quick-start presets: replace the current free-time grid with a common
+// pattern instead of making a student paint 5-7 blocks by hand. "Light"
+// targets a sustainable daily habit; "Exam Crunch" front-loads more time
+// for a short push before a test.
+const SB_PRESETS = {
+  light: { days: ['mon', 'tue', 'wed', 'thu', 'fri'], start: '16:00', end: '16:15' },
+  crunch: { days: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'], start: '17:00', end: '18:00' }
+};
+
+function sbApplyPreset(name) {
+  const preset = SB_PRESETS[name];
+  if (!preset) return;
+  sbFreeBlocks = preset.days.map(function (day) {
+    return { id: 'preset-' + name + '-' + day, day: day, start: preset.start, end: preset.end };
+  });
+  sbRenderBlocks();
+  sbSeedGridFromBlocks();
+  sbRenderGrid();
+  const statusEl = document.getElementById('sb-status');
+  if (statusEl) statusEl.textContent = 'Preset applied — feel free to adjust any day before building your schedule.';
+}
+
+// Queues every not-yet-assessed subject's diagnostic back-to-back instead of
+// making the student bounce back to the dashboard after each one: the queue
+// is read by ssDiagBatchRenderContinue() in the guide template's logic.js,
+// which offers a one-click "Next subject" button once each diagnostic ends.
+function sbStartDiagBatch(subjects) {
+  if (!subjects || !subjects.length) return;
+  const queue = subjects.map(function (s) { return { href: s.href, label: s.label }; });
+  const first = queue.shift();
+  try { sessionStorage.setItem('ssDiagBatchQueue', JSON.stringify(queue)); } catch (e) { /* ignore */ }
+  location.href = first.href + (first.href.indexOf('?') === -1 ? '?' : '&') + 'diagnostic=1';
 }
 
 function sbRemoveBlock(id) {
   sbFreeBlocks = sbFreeBlocks.filter(function (b) { return b.id !== id; });
   sbRenderBlocks();
+  sbSeedGridFromBlocks();
+  sbRenderGrid();
 }
 
 function sbRenderBlocks() {
@@ -568,24 +854,48 @@ function sbRenderBlocks() {
 function sbRenderSubjects() {
   const wrap = document.getElementById('sb-subjects');
   if (!wrap) return;
-  let html = '';
+
+  // Grouped by the same category taxonomy as Settings' class list, in the
+  // same order, so subjects are easy to scan instead of one flat 50-item list.
+  const byCat = {};
   SUBJECTS_FOR_SCHEDULE.forEach(function (s) {
-    const idx = sbSelectedSubjects.findIndex(function (x) { return x.key === s.key; });
-    const sel = idx === -1 ? null : sbSelectedSubjects[idx];
-    html += '<div class="sb-subject-row"><label>'
-      + '<input type="checkbox" data-subj="' + s.key + '"' + (sel ? ' checked' : '') + '/>'
-      + '<span class="sb-swatch" style="background:' + SUBJECT_COLORS[s.key] + '"></span>' + s.label + '</label>';
-    if (sel) {
-      html += '<select class="sb-unit-sel" data-subj-unit="' + s.key + '">'
-        + '<option value="auto"' + (sel.unitMode === 'auto' ? ' selected' : '') + '>Auto (weakest first)</option>'
-        + s.units.map(function (u) {
-            return '<option value="' + u.id + '"' + (sel.unitMode === String(u.id) ? ' selected' : '') + '>' + ssEscapeHtml(u.name) + '</option>';
-          }).join('')
-        + '</select>'
-        + '<button class="sb-prio-btn" data-prio-up="' + s.key + '"' + (idx <= 0 ? ' disabled' : '') + '>↑</button>'
-        + '<button class="sb-prio-btn" data-prio-down="' + s.key + '"' + (idx >= sbSelectedSubjects.length - 1 ? ' disabled' : '') + '>↓</button>';
-    }
-    html += '</div>';
+    const cat = SUBJECT_CATEGORY[s.key] || 'electives';
+    (byCat[cat] = byCat[cat] || []).push(s);
+  });
+
+  let html = '';
+  CATEGORY_ORDER.forEach(function (catKey) {
+    const subjects = byCat[catKey];
+    if (!subjects || !subjects.length) return;
+    const openCount = subjects.filter(function (s) {
+      return sbSelectedSubjects.some(function (x) { return x.key === s.key; });
+    }).length;
+    html += '<details class="sb-cat"' + (openCount ? ' open' : '') + '>'
+      + '<summary><span>' + CATEGORY_LABELS[catKey] + '</span>'
+      + '<span class="sb-cat-count">' + subjects.length + '</span>'
+      + '<svg class="sb-cat-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>'
+      + '</summary>'
+      + '<div class="sb-cat-body">';
+    subjects.forEach(function (s) {
+      const idx = sbSelectedSubjects.findIndex(function (x) { return x.key === s.key; });
+      const sel = idx === -1 ? null : sbSelectedSubjects[idx];
+      html += '<div class="sb-subject-row"><label>'
+        + '<input type="checkbox" data-subj="' + s.key + '"' + (sel ? ' checked' : '') + '/>'
+        + '<span class="sb-swatch" style="background:' + SUBJECT_COLORS[s.key] + '"></span>' + s.label + '</label>';
+      if (sel) {
+        const subjLabelEsc = ssEscapeHtml(s.label);
+        html += '<select class="sb-unit-sel" data-subj-unit="' + s.key + '" aria-label="Unit to study for ' + subjLabelEsc + '">'
+          + '<option value="auto"' + (sel.unitMode === 'auto' ? ' selected' : '') + '>Auto (weakest first)</option>'
+          + s.units.map(function (u) {
+              return '<option value="' + u.id + '"' + (sel.unitMode === String(u.id) ? ' selected' : '') + '>' + ssEscapeHtml(u.name) + '</option>';
+            }).join('')
+          + '</select>'
+          + '<button class="sb-prio-btn" data-prio-up="' + s.key + '" aria-label="Move ' + subjLabelEsc + ' up in priority"' + (idx <= 0 ? ' disabled' : '') + '>↑</button>'
+          + '<button class="sb-prio-btn" data-prio-down="' + s.key + '" aria-label="Move ' + subjLabelEsc + ' down in priority"' + (idx >= sbSelectedSubjects.length - 1 ? ' disabled' : '') + '>↓</button>';
+      }
+      html += '</div>';
+    });
+    html += '</div></details>';
   });
   wrap.innerHTML = html;
 
@@ -645,6 +955,24 @@ function sbWeightedRoundRobin(items, dayCount) {
   return result;
 }
 
+// Classroom due dates are calendar dates, not day-of-week -- map each
+// upcoming (next 7 days, not yet done/submitted) due date to the weekday it
+// falls on so sbBuildSchedule() can flag a recurring weekly slot that lands
+// on a day something's due.
+function sbUpcomingDueDayKeys() {
+  const DOW_TO_KEY = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+  const now = new Date();
+  const in7 = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+  const keys = new Set();
+  (sbAssignmentsCache || []).forEach(function (item) {
+    if (!item.dueAt || item.state === 'done' || item.state === 'submitted') return;
+    const d = new Date(item.dueAt);
+    if (isNaN(d.getTime()) || d < now || d > in7) return;
+    keys.add(DOW_TO_KEY[d.getDay()]);
+  });
+  return keys;
+}
+
 function sbBuildSchedule() {
   const statusEl = document.getElementById('sb-status');
   const resultEl = document.getElementById('sb-result');
@@ -684,22 +1012,35 @@ function sbBuildSchedule() {
     const href = unitId ? cfg.href + '?practice=' + unitId : cfg.href;
     const timeLabel = sbFormatTime(sbTimeToMinutes(block.start)) + '–' + sbFormatTime(sbTimeToMinutes(block.end));
     (blocksByDay[block.day] = blocksByDay[block.day] || []).push({
-      subjectLabel: cfg.label, color: SUBJECT_COLORS[subj.key], unitLabel: unitLabel, href: href, timeLabel: timeLabel
+      subjectLabel: cfg.label, color: SUBJECT_COLORS[subj.key], unitLabel: unitLabel, href: href, timeLabel: timeLabel,
+      start: block.start, end: block.end
     });
     resolvedBlocks.push({ day: block.day, start: block.start, end: block.end, subjectKey: subj.key, subjectLabel: cfg.label });
   });
+
+  const dueDayKeys = sbUpcomingDueDayKeys();
 
   resultEl.innerHTML = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;">'
     + SB_DAYS.map(function (d) {
         const blocks = blocksByDay[d.key];
         if (!blocks || !blocks.length) return '<div class="sb-block-empty">' + d.label + '<br/>Not scheduled</div>';
+        const conflictNote = dueDayKeys.has(d.key)
+          ? '<div class="sb-conflict-note">⚠️ Something\'s due this day</div>' : '';
         return '<div style="display:flex;flex-direction:column;gap:8px;min-width:0;">'
-          + blocks.map(function (block) {
+          + conflictNote
+          + blocks.map(function (block, i) {
+              // Back-to-back blocks (this one's end lines up with the next
+              // one's start) get a short break noted between them instead of
+              // running straight into the next subject with zero breathing
+              // room -- purely visual, doesn't shorten either block.
+              const next = blocks[i + 1];
+              const backToBack = next && next.start === block.end;
               return '<a class="sb-block" href="' + block.href + '" style="background:' + block.color + '">'
                 + '<div class="sb-block-day">' + d.label + ' · ' + block.timeLabel + '</div>'
                 + '<div class="sb-block-subject">' + ssEscapeHtml(block.subjectLabel) + '</div>'
                 + '<div class="sb-block-unit">' + ssEscapeHtml(block.unitLabel) + '</div>'
-                + '</a>';
+                + '</a>'
+                + (backToBack ? '<div class="sb-buffer-note">↓ 5 min break</div>' : '');
             }).join('')
           + '</div>';
       }).join('')
@@ -737,15 +1078,25 @@ async function sbGetPushSubscription() {
 
 async function sbPersistSchedule(blocks, notifyEnabled) {
   if (!SS_SESSION) return;
+  const statusEl = document.getElementById('sb-status');
   let timezone = null;
   try { timezone = Intl.DateTimeFormat().resolvedOptions().timeZone; } catch (e) { /* ignore */ }
   try {
-    await fetch('/api/schedule', {
+    const res = await fetch('/api/schedule', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ blocks: blocks, notifyEnabled: !!notifyEnabled, timezone: timezone })
     });
-  } catch (e) { /* offline - the schedule still works locally, just won't drive server-side reminders yet */ }
+    // A non-2xx here (expired session, server error) previously looked
+    // identical to success -- the schedule still renders from local state,
+    // so nothing else would ever surface that it silently failed to sync.
+    if (statusEl) statusEl.textContent = res.ok ? 'Synced ✓' : "Couldn't sync to your account — saved on this device only";
+    if (statusEl && res.ok) setTimeout(function () { if (statusEl.textContent === 'Synced ✓') statusEl.textContent = ''; }, 2500);
+  } catch (e) {
+    // offline - the schedule still works locally, just won't drive
+    // server-side reminders until the next successful sync
+    if (statusEl) statusEl.textContent = "Offline — saved on this device only";
+  }
 }
 
 async function sbSyncScheduleAndMaybeAskNotify(blocks) {
@@ -865,9 +1216,25 @@ function dashFormatDueDate(dueAt) {
   return 'Due ' + d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
 }
 
-async function loadDashAssignments() {
+function dashFormatSyncAge(fetchedAt) {
+  if (!fetchedAt) return '';
+  const ms = Date.now() - Date.parse(fetchedAt);
+  if (!Number.isFinite(ms) || ms < 0) return '';
+  const mins = Math.round(ms / 60000);
+  if (mins < 1) return 'Last synced just now';
+  if (mins < 60) return 'Last synced ' + mins + ' min' + (mins === 1 ? '' : 's') + ' ago';
+  const hours = Math.round(mins / 60);
+  if (hours < 24) return 'Last synced ' + hours + ' hour' + (hours === 1 ? '' : 's') + ' ago';
+  const days = Math.round(hours / 24);
+  return 'Last synced ' + days + ' day' + (days === 1 ? '' : 's') + ' ago';
+}
+
+async function loadDashAssignments(forceRefresh) {
   const body = document.getElementById('dash-assignments-body');
+  const syncRow = document.getElementById('dash-assignments-sync');
+  const syncLabel = document.getElementById('dash-assignments-sync-label');
   if (!body) return;
+  if (syncRow) syncRow.style.display = 'none';
 
   let settings;
   try {
@@ -888,12 +1255,18 @@ async function loadDashAssignments() {
 
   let data;
   try {
-    const ares = await fetch('/api/assignments');
+    const ares = await fetch('/api/assignments' + (forceRefresh ? '?refresh=1' : ''));
     if (!ares.ok) throw new Error('bad status ' + ares.status);
     data = await ares.json();
+    sbAssignmentsCache = data.items || [];
   } catch (e) {
     body.innerHTML = '<p style="margin:0;font-size:13.5px;color:var(--text-muted);">Couldn\'t load your assignments right now.</p>';
     return;
+  }
+
+  if (syncRow && syncLabel && data.fetchedAt) {
+    syncLabel.textContent = dashFormatSyncAge(data.fetchedAt);
+    syncRow.style.display = 'flex';
   }
 
   const items = (data.items || []).slice().sort(function (a, b) {
@@ -909,15 +1282,32 @@ async function loadDashAssignments() {
   }
 
   body.innerHTML = '<div style="display:flex;flex-direction:column;gap:2px;">' + items.map(function (item) {
+    const isDone = item.state === 'done' || item.state === 'submitted';
     const titleHtml = ssEscapeHtml(item.title || 'Untitled');
     const courseHtml = item.courseName ? ssEscapeHtml(item.courseName) + ' · ' : '';
-    const dueLabel = ssEscapeHtml(dashFormatDueDate(item.dueAt));
+    const dueLabel = dashFormatDueDate(item.dueAt);
+    // Only the genuinely time-pressured states (overdue/today/tomorrow) get
+    // a colored pill -- badging every far-future due date too would just be
+    // visual noise with nothing urgent to signal. An already-submitted
+    // assignment never gets an urgency badge even if its due date is past --
+    // Classroom already knows it's handled, so a red "Overdue" pill there
+    // would be a false alarm, not a real one.
+    const urgentColors = { 'Overdue': 'var(--status-red)', 'Due today': 'var(--status-red)', 'Due tomorrow': 'var(--status-amber)' };
+    const badgeColor = isDone ? null : urgentColors[dueLabel];
+    const dueHtml = isDone
+      ? '<span style="display:inline-block;background:var(--done-badge-bg);color:var(--status-badge-text);font-weight:700;font-size:11px;padding:2px 8px;border-radius:999px;margin-left:4px;">✓ ' + (item.state === 'done' ? 'Graded' : 'Submitted') + '</span>'
+      : (badgeColor
+        ? '<span style="display:inline-block;background:' + badgeColor + ';color:var(--status-badge-text);font-weight:700;font-size:11px;padding:2px 8px;border-radius:999px;margin-left:4px;">' + ssEscapeHtml(dueLabel) + '</span>'
+        : ssEscapeHtml(dueLabel));
+    const titleStyle = 'font-size:14px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'
+      + (isDone ? 'opacity:.6;text-decoration:line-through;' : '');
     const inner = '<div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:9px 0;border-top:1px solid var(--border);">'
-      + '<div style="min-width:0;"><div style="font-size:14px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + titleHtml + '</div>'
-      + '<div style="font-size:12.5px;color:var(--text-muted);">' + courseHtml + dueLabel + '</div></div>'
+      + '<div style="min-width:0;"><div style="' + titleStyle + '">' + titleHtml + '</div>'
+      + '<div style="font-size:12.5px;color:var(--text-muted);">' + courseHtml + dueHtml + '</div></div>'
       + '</div>';
-    return item.link
-      ? '<a href="' + ssEscapeHtml(item.link) + '" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">' + inner + '</a>'
+    const safeLink = /^https:\/\//i.test(item.link || '') ? item.link : null;
+    return safeLink
+      ? '<a href="' + ssEscapeHtml(safeLink) + '" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;">' + inner + '</a>'
       : inner;
   }).join('') + '</div>';
 }
@@ -966,6 +1356,13 @@ async function loadDashboard() {
     const body = document.getElementById('dash-assignments-body');
     if (body) body.innerHTML = '<p style="margin:0;font-size:13.5px;color:var(--text-muted);">Couldn\'t load your assignments right now.</p>';
   });
+  const refreshBtn = document.getElementById('dash-assignments-refresh-btn');
+  if (refreshBtn) refreshBtn.addEventListener('click', function () {
+    refreshBtn.disabled = true;
+    const label = document.getElementById('dash-assignments-sync-label');
+    if (label) label.textContent = 'Refreshing…';
+    loadDashAssignments(true).finally(function () { refreshBtn.disabled = false; });
+  });
 
   let blob;
   let syncFailed = false;
@@ -995,6 +1392,318 @@ async function loadDashboard() {
   let dashShowAll = enrolledSet.size === 0;
   window.dashShowAllClasses = function(){ dashShowAll = true; renderDashSubjects(); };
 
+  // Badges are derived entirely from data already in `blob` -- no new
+  // storage, no new API routes. Computed over every subject with saved
+  // progress (SUBJECTS_CONFIG), not just the enrolled/visible subset, so a
+  // badge earned before a student edited their class list still counts.
+  // XP/leveling: layers on top of the same badge/mastery data (computeBadges,
+  // Object.values(subj.mastery)) rather than tracking anything new server-side
+  // -- consistent with how badges themselves are purely derived, no new
+  // storage or API routes. Levels use a rising curve (each level needs more
+  // XP than the last) so early levels come quickly and later ones feel earned.
+  function xpForLevel(level) {
+    return Math.round(100 * Math.pow(Math.max(0, level - 1), 1.6));
+  }
+  function levelFromXP(xp) {
+    let level = 1;
+    while (xpForLevel(level + 1) <= xp) level++;
+    return level;
+  }
+  function computeXP(blob) {
+    let totalCorrect = 0, totalCardsKnown = 0, totalExamplesDone = 0;
+    SUBJECTS_CONFIG.forEach(function (s) {
+      const subj = blob[s.key];
+      if (!subj) return;
+      Object.values(subj.mastery || {}).forEach(function (rec) { totalCorrect += rec.correct || 0; });
+      totalCardsKnown += (subj.cardsKnown || []).length;
+      totalExamplesDone += Object.keys(subj.examples || {}).length;
+    });
+    const streakBonus = (blob.streak && blob.streak.current) || 0;
+    const badgesUnlocked = computeBadges(blob).filter(function (b) { return b.unlocked; }).length;
+    return {
+      xp: totalCorrect * 10 + totalCardsKnown * 2 + totalExamplesDone * 5 + streakBonus * 5 + badgesUnlocked * 50,
+      totalCorrect: totalCorrect, totalCardsKnown: totalCardsKnown, totalExamplesDone: totalExamplesDone, badgesUnlocked: badgesUnlocked
+    };
+  }
+  function renderDashLevel(blob) {
+    const el = document.getElementById('dash-level');
+    const stats = computeXP(blob);
+    if (!stats.xp) { el.style.display = 'none'; return; }
+    const level = levelFromXP(stats.xp);
+    const floor = xpForLevel(level), ceil = xpForLevel(level + 1);
+    const pct = ceil > floor ? Math.round((stats.xp - floor) / (ceil - floor) * 100) : 100;
+    el.style.display = 'block';
+    el.innerHTML = '<div style="display:inline-flex;flex-direction:column;align-items:center;gap:6px;min-width:220px;">'
+      + '<div style="display:flex;align-items:center;gap:8px;">'
+      + '<span style="font-weight:800;font-size:15px;color:var(--text);">⭐ Level ' + level + '</span>'
+      + '<span style="font-size:12.5px;color:var(--text-muted);">' + stats.xp + ' XP</span>'
+      + '</div>'
+      + '<div style="width:220px;height:8px;border-radius:999px;background:var(--border);overflow:hidden;">'
+      + '<div style="width:' + pct + '%;height:100%;background:var(--accent-solid, var(--accent));border-radius:999px;"></div>'
+      + '</div>'
+      + '<span style="font-size:11px;color:var(--text-muted);">' + (ceil - stats.xp) + ' XP to Level ' + (level + 1) + '</span>'
+      + '</div>';
+  }
+
+  function computeBadges(blob) {
+    const streak = blob.streak || { current: 0, longest: 0 };
+    let cardsKnownTotal = 0;
+    let completeGuides = 0;
+    let perfectUnits = 0;
+    SUBJECTS_CONFIG.forEach(function (s) {
+      const subj = blob[s.key];
+      if (!subj) return;
+      cardsKnownTotal += (subj.cardsKnown || []).length;
+      const unitIds = s.units.map(function (u) { return u.id; });
+      if (unitIds.length > 0 && unitIds.every(function (id) {
+        const rec = subj.mastery && subj.mastery[String(id)];
+        return rec && rec.total >= 2 && (rec.correct / rec.total) >= 0.8;
+      })) completeGuides++;
+      Object.keys(subj.mastery || {}).forEach(function (unitId) {
+        const rec = subj.mastery[unitId];
+        if (rec.total >= 5 && rec.correct === rec.total) perfectUnits++;
+      });
+    });
+    const enrolledCount = (blob.enrolledSubjects || []).length;
+
+    return [
+      { emoji: '🔥', label: 'Spark', unlocked: streak.longest >= 3, hint: 'Reach a 3-day streak' },
+      { emoji: '🔥', label: 'On Fire', unlocked: streak.longest >= 7, hint: 'Reach a 7-day streak' },
+      { emoji: '🔥', label: 'Unstoppable', unlocked: streak.longest >= 30, hint: 'Reach a 30-day streak' },
+      { emoji: '🔥', label: 'Legend', unlocked: streak.longest >= 100, hint: 'Reach a 100-day streak' },
+      { emoji: '📚', label: 'Getting Started', unlocked: cardsKnownTotal >= 25, hint: 'Mark 25 flashcards as known' },
+      { emoji: '📚', label: 'Scholar', unlocked: cardsKnownTotal >= 100, hint: 'Mark 100 flashcards as known' },
+      { emoji: '📚', label: 'Master', unlocked: cardsKnownTotal >= 500, hint: 'Mark 500 flashcards as known' },
+      { emoji: '🧭', label: 'Explorer', unlocked: enrolledCount >= 3, hint: 'Enroll in 3 or more classes' },
+      { emoji: '🎯', label: 'Planner', unlocked: !!blob.goal, hint: 'Save a study goal' },
+      { emoji: '🎓', label: 'Guide Complete', unlocked: completeGuides >= 1, hint: 'Get every unit in a guide to 80%+ accuracy' },
+      { emoji: '🎓', label: 'Guide Master', unlocked: completeGuides >= 3, hint: 'Fully master 3 guides' },
+      { emoji: '💯', label: 'Perfectionist', unlocked: perfectUnits >= 1, hint: 'Score 100% on a unit (5+ questions answered)' },
+      { emoji: '💯', label: 'Flawless Five', unlocked: perfectUnits >= 5, hint: 'Score 100% on 5 different units' }
+    ];
+  }
+
+  function renderDashBadges(blob) {
+    const el = document.getElementById('dash-badges');
+    const badges = computeBadges(blob);
+    if (!badges.some(function (b) { return b.unlocked; })) return;
+    el.style.display = 'flex';
+    el.innerHTML = badges.map(function (b) {
+      return '<span title="' + ssEscapeHtml(b.unlocked ? b.label : b.label + ' — ' + b.hint) + '" '
+        + 'style="display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:999px;font-size:13px;font-weight:700;'
+        + (b.unlocked
+          ? 'background:var(--chip-bg);color:var(--chip-text);'
+          : 'background:transparent;border:1px dashed var(--border, #444);color:var(--text-muted);opacity:.55;filter:grayscale(1);')
+        + '">' + b.emoji + ' ' + ssEscapeHtml(b.label) + '</span>';
+    }).join('');
+  }
+
+  // Printable progress report for a parent/tutor: builds a throwaway
+  // #ss-print-container with just a clean summary table, hides everything
+  // else via body.ss-printing (see CSS), and calls window.print() -- same
+  // technique as the guide pages' worksheet/flashcard-sheet export, so a
+  // parent gets a PDF via the browser's own "Save as PDF" print target
+  // instead of this needing a PDF-generation dependency.
+  function ssRunPrintJob(title, bodyHtml) {
+    const old = document.getElementById('ss-print-container');
+    if (old) old.remove();
+    const container = document.createElement('div');
+    container.id = 'ss-print-container';
+    container.innerHTML = '<h1>' + title + '</h1>' + bodyHtml;
+    document.body.appendChild(container);
+    document.body.classList.add('ss-printing');
+    function cleanup() {
+      document.body.classList.remove('ss-printing');
+      container.remove();
+      window.removeEventListener('afterprint', cleanup);
+    }
+    window.addEventListener('afterprint', cleanup);
+    setTimeout(function () { window.print(); }, 50);
+  }
+  function printProgressReport(blob) {
+    const studentName = (SS_SESSION && SS_SESSION.name) || 'Student';
+    const dateStr = new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+
+    const rows = SUBJECTS_CONFIG.map(function (s) {
+      const subj = blob[s.key];
+      if (!subj) return null;
+      const unitIds = s.units.map(function (u) { return u.id; });
+      const readiness = computeReadiness(subj.mastery || {}, unitIds);
+      if (readiness.pct === null) return null;
+      return { label: s.label, pct: readiness.pct, assessed: readiness.assessedCount, total: readiness.totalCount };
+    }).filter(Boolean).sort(function (a, b) { return b.pct - a.pct; });
+
+    const table = !rows.length ? '<p>No graded classes yet.</p>'
+      : '<table><thead><tr><th>Class</th><th>Accuracy</th><th>Units assessed</th></tr></thead><tbody>'
+        + rows.map(function (r) { return '<tr><td>' + ssEscapeHtml(r.label) + '</td><td>' + r.pct + '%</td><td>' + r.assessed + ' / ' + r.total + '</td></tr>'; }).join('')
+        + '</tbody></table>';
+
+    const streak = blob.streak || { current: 0, longest: 0 };
+    const xpStats = computeXP(blob);
+    const level = levelFromXP(xpStats.xp);
+    const badgesUnlocked = computeBadges(blob).filter(function (b) { return b.unlocked; });
+    const badgesHtml = badgesUnlocked.length
+      ? '<p class="ss-print-badges">' + badgesUnlocked.map(function (b) { return b.emoji + ' ' + ssEscapeHtml(b.label); }).join(' &nbsp;·&nbsp; ') + '</p>'
+      : '<p class="ss-print-badges">No badges unlocked yet.</p>';
+
+    const body = '<div class="ss-print-meta">' + ssEscapeHtml(studentName) + ' &nbsp;·&nbsp; ' + dateStr + '</div>'
+      + '<h2>Summary</h2>'
+      + '<p>Level ' + level + ' (' + xpStats.xp + ' XP) &nbsp;·&nbsp; ' + streak.current + '-day streak (best ' + streak.longest + ') &nbsp;·&nbsp; ' + xpStats.totalCardsKnown + ' flashcards known</p>'
+      + '<h2>Accuracy by Class</h2>' + table
+      + '<h2>Badges Earned</h2>' + badgesHtml;
+
+    ssRunPrintJob('PrecisStudy Progress Report', body);
+  }
+
+  // Forecasted AP/SAT/ACT scores: a rough, disclosed-as-rough mapping from
+  // current quiz accuracy (readiness.pct, the same number already shown on
+  // every subject card) onto each exam's real scale. Deliberately simple,
+  // coarse bands -- these are estimates, not a psychometric model, and the
+  // UI says so.
+  function forecastScore(subjectKey, pct) {
+    if (subjectKey === 'sat-math' || subjectKey === 'sat-reading') {
+      const score = Math.round((200 + (pct / 100) * 600) / 10) * 10;
+      return { value: score, scale: '200–800' };
+    }
+    if (subjectKey === 'act-prep') {
+      return { value: Math.max(1, Math.round(1 + (pct / 100) * 35)), scale: '1–36' };
+    }
+    // AP 1-5 scale: coarse bands roughly matching published AP score
+    // distributions (a 5 needs consistently strong accuracy, not just 80%+).
+    let apScore;
+    if (pct >= 90) apScore = 5;
+    else if (pct >= 75) apScore = 4;
+    else if (pct >= 60) apScore = 3;
+    else if (pct >= 40) apScore = 2;
+    else apScore = 1;
+    return { value: apScore, scale: '1–5' };
+  }
+  function renderDashForecasts(blob) {
+    const el = document.getElementById('dash-forecast-body');
+    const card = document.getElementById('dash-forecast-card');
+    const rows = SUBJECTS_CONFIG
+      .filter(function (s) { const cat = SUBJECT_CATEGORY[s.key]; return cat === 'ap' || cat === 'testprep'; })
+      .map(function (s) {
+        const subj = blob[s.key];
+        if (!subj) return null;
+        const unitIds = s.units.map(function (u) { return u.id; });
+        const readiness = computeReadiness(subj.mastery || {}, unitIds);
+        if (readiness.pct === null) return null;
+        return { label: s.label, href: s.href, pct: readiness.pct, forecast: forecastScore(s.key, readiness.pct) };
+      })
+      .filter(Boolean)
+      .sort(function (a, b) { return b.pct - a.pct; });
+
+    if (!rows.length) { card.style.display = 'none'; return; }
+    card.style.display = 'block';
+    el.innerHTML = rows.map(function (r) {
+      return '<a href="' + r.href + '" style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border:1px solid var(--border);border-radius:12px;text-decoration:none;color:var(--text);">'
+        + '<span style="font-weight:700;font-size:14px;">' + ssEscapeHtml(r.label) + '<span style="font-weight:500;color:var(--text-muted);font-size:12.5px;"> · ' + r.pct + '% accuracy</span></span>'
+        + '<span style="font-weight:800;font-size:16px;color:var(--accent-solid, var(--accent));">' + r.forecast.value + '<span style="font-weight:600;color:var(--text-muted);font-size:11.5px;"> / ' + r.forecast.scale + '</span></span>'
+        + '</a>';
+    }).join('');
+  }
+
+  // GitHub-style activity heatmap, built from blob.history (see
+  // recordDailySnapshots() server-side) -- each entry carries a *cumulative*
+  // totalAnswered, so a day's real activity is the delta from the day
+  // before. History only started recording recently, so most of the grid
+  // will read as empty for a while; that's expected, not a bug.
+  function renderDashHeatmap(blob) {
+    const el = document.getElementById('dash-heatmap-body');
+    const card = document.getElementById('dash-heatmap-card');
+    const history = Array.isArray(blob.history) ? blob.history.slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; }) : [];
+    if (!history.length) { card.style.display = 'none'; return; }
+    card.style.display = 'block';
+
+    const deltaByDate = {};
+    history.forEach(function (entry, i) {
+      const prev = i > 0 ? (history[i - 1].totalAnswered || 0) : null;
+      deltaByDate[entry.date] = prev === null ? 0 : Math.max(0, (entry.totalAnswered || 0) - prev);
+    });
+
+    const WEEKS = 14;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    // Start on the Sunday of the week 13 weeks ago, so the grid always ends
+    // on the current week's column regardless of what day today is.
+    const start = new Date(today);
+    start.setDate(start.getDate() - start.getDay() - (WEEKS - 1) * 7);
+
+    function bucket(n) {
+      if (!n) return 0;
+      if (n < 5) return 1;
+      if (n < 15) return 2;
+      if (n < 30) return 3;
+      return 4;
+    }
+    const BUCKET_BG = [
+      'var(--border)',
+      'color-mix(in srgb, var(--accent-bright, var(--accent)) 30%, transparent)',
+      'color-mix(in srgb, var(--accent-bright, var(--accent)) 55%, transparent)',
+      'color-mix(in srgb, var(--accent-bright, var(--accent)) 80%, transparent)',
+      'var(--accent-solid, var(--accent-bright, var(--accent)))'
+    ];
+
+    let cells = '';
+    for (let d = new Date(start); d <= today; d.setDate(d.getDate() + 1)) {
+      const dateStr = d.toISOString().slice(0, 10);
+      const n = deltaByDate[dateStr] || 0;
+      const bg = BUCKET_BG[bucket(n)];
+      const label = n ? (n + ' question' + (n === 1 ? '' : 's') + ' on ' + dateStr) : ('No activity on ' + dateStr);
+      cells += '<div title="' + ssEscapeHtml(label) + '" style="width:12px;height:12px;border-radius:3px;background:' + bg + ';"></div>';
+    }
+
+    el.innerHTML = '<div style="display:grid;grid-template-rows:repeat(7,12px);grid-auto-flow:column;gap:3px;overflow-x:auto;padding-bottom:4px;">' + cells + '</div>'
+      + '<div style="display:flex;align-items:center;gap:5px;margin-top:8px;font-size:11px;color:var(--text-muted);">'
+      + '<span>Less</span>'
+      + BUCKET_BG.map(function (bg) { return '<span style="width:11px;height:11px;border-radius:3px;background:' + bg + ';display:inline-block;"></span>'; }).join('')
+      + '<span>More</span></div>';
+  }
+
+  function renderDashAnalytics(blob) {
+    const card = document.getElementById('dash-analytics-card');
+    const rows = [];
+    let totalCorrect = 0, totalAnswered = 0, totalCardsKnown = 0;
+    SUBJECTS_CONFIG.forEach(function (s) {
+      const subj = blob[s.key];
+      if (!subj) return;
+      const masteryVals = Object.values(subj.mastery || {});
+      const answered = masteryVals.reduce(function (sum, r) { return sum + r.total; }, 0);
+      if (answered === 0 && (subj.cardsKnown || []).length === 0) return;
+      const correct = masteryVals.reduce(function (sum, r) { return sum + r.correct; }, 0);
+      const pct = answered > 0 ? Math.round((correct / answered) * 100) : null;
+      totalCorrect += correct;
+      totalAnswered += answered;
+      totalCardsKnown += (subj.cardsKnown || []).length;
+      rows.push({ label: s.label, pct, answered, cardsKnown: (subj.cardsKnown || []).length });
+    });
+    if (!rows.length) { card.style.display = 'none'; return; }
+    card.style.display = 'block';
+
+    const overallPct = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : null;
+    document.getElementById('dash-analytics-summary').innerHTML = [
+      { n: totalAnswered, l: 'questions answered' },
+      { n: overallPct === null ? '—' : overallPct + '%', l: 'overall accuracy' },
+      { n: totalCardsKnown, l: 'cards mastered' }
+    ].map(function (stat) {
+      return '<div><div style="font-size:24px;font-weight:800;color:var(--text);">' + stat.n + '</div>'
+        + '<div style="font-size:12.5px;color:var(--text-muted);">' + stat.l + '</div></div>';
+    }).join('');
+
+    rows.sort(function (a, b) { return (a.pct === null ? 101 : a.pct) - (b.pct === null ? 101 : b.pct); });
+    document.getElementById('dash-analytics-table').innerHTML = rows.map(function (r) {
+      const pctLabel = r.pct === null ? 'not assessed yet' : r.pct + '% accuracy';
+      const barColor = r.pct === null ? 'var(--border, #444)' : r.pct >= 80 ? '#3fae6a' : r.pct >= 50 ? '#d9a441' : '#c25454';
+      return '<div style="display:flex;align-items:center;gap:10px;padding:6px 0;font-size:13.5px;">'
+        + '<div style="width:150px;flex-shrink:0;color:var(--text);">' + ssEscapeHtml(r.label) + '</div>'
+        + '<div style="flex:1;height:8px;border-radius:999px;background:var(--border, #333);overflow:hidden;">'
+        + '<div style="height:100%;border-radius:999px;background:' + barColor + ';width:' + (r.pct === null ? 0 : r.pct) + '%;"></div></div>'
+        + '<div style="width:110px;flex-shrink:0;text-align:right;color:var(--text-muted);">' + pctLabel + '</div>'
+        + '</div>';
+    }).join('');
+  }
+
   function renderDashSubjects() {
     const list = dashShowAll ? SUBJECTS_CONFIG : SUBJECTS_CONFIG.filter(s => enrolledSet.has(s.key));
     if (enrolledSet.size === 0) {
@@ -1009,15 +1718,34 @@ async function loadDashboard() {
     const filterWrap = document.getElementById('dash-subject-filter-wrap');
     const filterInput = document.getElementById('dash-subject-filter');
     filterWrap.style.display = list.length > 8 ? 'block' : 'none';
+    const filterClearBtn = document.getElementById('dash-subject-filter-clear');
+    if (filterClearBtn) filterClearBtn.style.display = (filterInput && filterInput.value) ? 'block' : 'none';
     const filterTerm = (filterInput && filterInput.value || '').trim().toLowerCase();
     const visibleList = filterTerm ? list.filter(s => s.label.toLowerCase().includes(filterTerm)) : list;
 
     const subjectsEl = document.getElementById('dash-subjects');
+    const unassessedEl = document.getElementById('dash-unassessed');
     subjectsEl.innerHTML = '';
+    unassessedEl.innerHTML = '';
     if (filterTerm && !visibleList.length) {
       subjectsEl.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--text-muted);font-size:14px;">No classes match "' + ssEscapeHtml(filterInput.value.trim()) + '".</p>';
+      return;
     }
+
+    // Split into "has at least one assessed unit" (gets a full stat card, as
+    // before) vs. fully unassessed (grouped into collapsed category
+    // accordions below) -- with dozens of classes enrolled, rendering every
+    // untouched class as a full card was the single most-repeated complaint:
+    // a wall of identical "take the diagnostic" cards to scroll past.
+    const assessed = [];
+    const unassessed = [];
     visibleList.forEach(s => {
+      const unitIds = s.units.map(u => u.id);
+      const readiness = computeReadiness((blob[s.key] || {}).mastery || {}, unitIds);
+      (readiness.pct === null ? unassessed : assessed).push(s);
+    });
+
+    assessed.forEach(s => {
       const card = document.createElement('div');
       card.id = 'dash-subject-' + s.key;
       card.className = 'ss-card';
@@ -1039,9 +1767,68 @@ async function loadDashboard() {
       s.units.forEach(u => { unitNames[u.id] = u.name; });
       renderSubject(s.key, s.label, s.href, blob[s.key] || {}, unitIds, unitNames);
     });
+
+    if (unassessed.length) {
+      const byCategory = {};
+      unassessed.forEach(s => {
+        const cat = SUBJECT_CATEGORY[s.key] || 'electives';
+        (byCategory[cat] = byCategory[cat] || []).push(s);
+      });
+      const heading = document.createElement('div');
+      heading.style.cssText = 'display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin:8px 0 -2px;';
+      const headingLabel = document.createElement('span');
+      headingLabel.style.cssText = 'font-weight:800;font-size:14px;color:var(--text-muted);';
+      headingLabel.textContent = 'Not yet assessed (' + unassessed.length + ')';
+      heading.appendChild(headingLabel);
+      if (unassessed.length > 1) {
+        const batchBtn = document.createElement('button');
+        batchBtn.type = 'button';
+        batchBtn.style.cssText = 'background:none;border:1px solid var(--border);border-radius:999px;color:var(--accent-solid, var(--accent));font-weight:700;font-size:12.5px;padding:6px 14px;cursor:pointer;';
+        batchBtn.textContent = 'Start diagnostics for all ' + unassessed.length + ' →';
+        batchBtn.addEventListener('click', function () { sbStartDiagBatch(unassessed); });
+        heading.appendChild(batchBtn);
+      }
+      unassessedEl.appendChild(heading);
+
+      CATEGORY_ORDER.filter(cat => byCategory[cat]).forEach(cat => {
+        const group = byCategory[cat];
+        const details = document.createElement('details');
+        details.className = 'ss-card';
+        details.style.cssText = 'padding:0;overflow:hidden;';
+        const summary = document.createElement('summary');
+        summary.style.cssText = 'cursor:pointer;padding:14px 18px;font-weight:700;font-size:14.5px;color:var(--text);list-style:none;display:flex;justify-content:space-between;align-items:center;';
+        summary.innerHTML = '<span>' + ssEscapeHtml(CATEGORY_LABELS[cat] || cat) + '</span>'
+          + '<span style="color:var(--text-muted);font-weight:600;font-size:13px;">' + group.length + '</span>';
+        details.appendChild(summary);
+        const body = document.createElement('div');
+        body.style.cssText = 'border-top:1px solid var(--border);padding:6px 8px;';
+        group.forEach(s => {
+          const row = document.createElement('a');
+          row.href = s.href;
+          row.style.cssText = 'display:flex;justify-content:space-between;align-items:center;padding:9px 10px;border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;font-weight:600;';
+          row.onmouseenter = () => { row.style.background = 'var(--bg)'; };
+          row.onmouseleave = () => { row.style.background = 'transparent'; };
+          // 2 questions per unit in the diagnostic (see homepage "Diagnose"
+          // copy) at roughly 30s each -- a real estimate from real unit
+          // counts, not a fixed marketing number every subject shares.
+          const estMin = Math.max(2, Math.round(s.units.length));
+          row.innerHTML = '<span>' + ssEscapeHtml(s.label) + '</span>'
+            + '<span style="color:var(--accent-solid, var(--accent));font-weight:700;font-size:12.5px;">Take diagnostic (~' + estMin + ' min) →</span>';
+          body.appendChild(row);
+        });
+        details.appendChild(body);
+        unassessedEl.appendChild(details);
+      });
+    }
   }
   renderDashSubjects();
   if (filterInputEl) filterInputEl.addEventListener('input', renderDashSubjects);
+  const filterClearBtnEl = document.getElementById('dash-subject-filter-clear');
+  if (filterClearBtnEl) filterClearBtnEl.addEventListener('click', () => {
+    if (filterInputEl) filterInputEl.value = '';
+    renderDashSubjects();
+    if (filterInputEl) filterInputEl.focus();
+  });
   renderResumeBanner(SUBJECTS_FOR_SCHEDULE);
 
   const goalEl = document.getElementById('dash-goal');
@@ -1058,20 +1845,150 @@ async function loadDashboard() {
       + (blob.streak.longest > blob.streak.current ? '<span style="font-weight:600;opacity:.7;font-size:13px;margin-left:2px;">· best ' + blob.streak.longest + '</span>' : '')
       + '</span>';
   }
+  renderDashLevel(blob);
+  renderDashBadges(blob);
+  renderDashAnalytics(blob);
+  renderDashHeatmap(blob);
+  renderDashForecasts(blob);
+  const printReportBtn = document.getElementById('dash-print-report-btn');
+  if (printReportBtn) printReportBtn.addEventListener('click', function () { printProgressReport(blob); });
 
   sbBlob = blob;
   const hadSavedConfig = sbRestoreSavedConfig();
   sbPopulateDaySelect();
   sbRenderBlocks();
   sbRenderSubjects();
+  sbSeedGridFromBlocks();
+  sbRenderGrid();
   const sbBuildBtn = document.getElementById('sb-build-btn');
   const sbAddBlockBtn = document.getElementById('sb-block-add-btn');
+  const sbGridClearBtn = document.getElementById('sb-grid-clear-btn');
   if (sbAddBlockBtn) sbAddBlockBtn.addEventListener('click', sbAddBlock);
   if (sbBuildBtn) sbBuildBtn.addEventListener('click', sbBuildSchedule);
+  if (sbGridClearBtn) sbGridClearBtn.addEventListener('click', function () {
+    sbGridCells = new Set();
+    sbRenderGrid();
+    sbApplyGridToBlocks();
+  });
+  document.querySelectorAll('.sb-preset-btn[data-preset]').forEach(function (btn) {
+    btn.addEventListener('click', function () { sbApplyPreset(btn.dataset.preset); });
+  });
   if (hadSavedConfig && sbFreeBlocks.length && sbSelectedSubjects.length) sbBuildSchedule();
 }
 
 loadDashboard();
+
+// Same 'ss-density' localStorage key as /settings, so a preference set on
+// either page carries over to the other. Grid gap is set via JS (not CSS)
+// since #dash-subjects carries an inline style attribute that a class
+// selector alone can't override without !important.
+(function () {
+  const KEY = 'ss-density';
+  const grid = document.getElementById('dash-subjects');
+  const btns = document.querySelectorAll('#dash-density-row .ss-density-btn');
+  if (!grid || !btns.length) return;
+  const GAPS = { compact: '10px', comfortable: '20px', spacious: '28px' };
+  function apply(mode) {
+    grid.classList.remove('density-compact', 'density-comfortable', 'density-spacious');
+    grid.classList.add('density-' + mode);
+    grid.style.gap = GAPS[mode] || GAPS.comfortable;
+    btns.forEach(function (b) { b.classList.toggle('active', b.dataset.density === mode); });
+  }
+  let saved; try { saved = localStorage.getItem(KEY); } catch (e) { /* ignore */ }
+  apply(saved === 'compact' || saved === 'spacious' ? saved : 'comfortable');
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      const mode = b.dataset.density;
+      apply(mode);
+      try { localStorage.setItem(KEY, mode); } catch (e) { /* ignore */ }
+    });
+  });
+})();
 </script>
+<div id="ob-widget" style="display:none;position:fixed;right:20px;bottom:20px;z-index:9990;font-family:inherit;">
+  <div id="ob-widget-backdrop" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:9989;"></div>
+  <div id="ob-widget-pill" style="position:relative;z-index:9991;display:flex;align-items:center;gap:6px;background:#3a2f0f;border:2px solid #e0a83f;border-radius:999px;padding:9px 8px 9px 14px;box-shadow:0 0 0 3px rgba(224,168,63,.18),0 8px 24px rgba(0,0,0,.35);">
+    <button id="ob-widget-open-btn" type="button" style="display:flex;align-items:center;gap:9px;background:none;border:none;color:#f5c84c;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit;padding:0;">
+      <span style="font-size:16px;">🎯</span>
+      <span style="display:flex;flex-direction:column;align-items:flex-start;gap:4px;">
+        <span id="ob-widget-label" style="line-height:1;">Get Started (0/5)</span>
+        <span style="width:78px;height:5px;border-radius:99px;background:rgba(245,200,76,.22);overflow:hidden;">
+          <span id="ob-widget-bar" style="display:block;height:100%;width:0%;background:#f5c84c;border-radius:99px;transition:width .3s ease;"></span>
+        </span>
+      </span>
+    </button>
+    <button id="ob-widget-pill-dismiss" type="button" title="Dismiss" aria-label="Dismiss setup reminder" style="background:rgba(0,0,0,.28);border:none;color:#f5c84c;cursor:pointer;font-size:14px;line-height:1;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">×</button>
+  </div>
+  <div id="ob-widget-panel" style="display:none;position:absolute;right:0;bottom:calc(100% + 10px);width:280px;background:var(--bg-card);border:2px solid var(--border);border-radius:16px;box-shadow:0 16px 40px rgba(0,0,0,.3);padding:16px;z-index:9992;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+      <div style="font-weight:800;font-size:14px;color:var(--text);">Getting started</div>
+      <button id="ob-widget-dismiss" class="ob-tap44" title="Dismiss" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:16px;line-height:1;">×</button>
+    </div>
+    <ul id="ob-widget-list" style="list-style:none;margin:0 0 12px;padding:0;display:flex;flex-direction:column;gap:7px;font-size:13px;color:var(--text);"></ul>
+    <a href="/onboarding" style="display:block;text-align:center;background:var(--accent-solid);color:#fff;padding:9px;border-radius:10px;text-decoration:none;font-weight:700;font-size:13px;">Continue setup →</a>
+  </div>
+</div>
+<script>
+(function(){
+  var STEPS=[
+    {k:'settings',label:'Rank your classes'},
+    {k:'dashboard',label:'Build your schedule'},
+    {k:'google',label:'Connect Google Classroom'},
+    {k:'diagnostic',label:'Try a diagnostic'},
+    {k:'theme',label:'Try dark mode'}
+  ];
+  var KEY='ps-onboarding-v1', DISMISS_KEY='ps-onboarding-widget-dismissed';
+  var welcome = new URLSearchParams(location.search).get('welcome')==='1';
+  var dismissed=false; try{ dismissed = localStorage.getItem(DISMISS_KEY)==='1'; }catch(e){}
+  var state={}; try{ state=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){}
+  var done = STEPS.filter(function(s){ return !!state[s.k]; }).length;
+
+  if(dismissed || done===STEPS.length){ return; }
+
+  var widget=document.getElementById('ob-widget');
+  var openBtn=document.getElementById('ob-widget-open-btn');
+  var panel=document.getElementById('ob-widget-panel');
+  var backdrop=document.getElementById('ob-widget-backdrop');
+  var list=document.getElementById('ob-widget-list');
+  document.getElementById('ob-widget-label').textContent='Get Started ('+done+'/'+STEPS.length+')';
+  document.getElementById('ob-widget-bar').style.width = Math.round(done/STEPS.length*100)+'%';
+  var firstIncomplete = STEPS.filter(function(s){ return !state[s.k]; })[0];
+  if(firstIncomplete) openBtn.title = 'Step '+(STEPS.indexOf(firstIncomplete)+1)+': '+firstIncomplete.label;
+  list.innerHTML = STEPS.map(function(s){
+    var isDone=!!state[s.k];
+    return '<li style="display:flex;align-items:center;gap:8px;'+(isDone?'opacity:.55;text-decoration:line-through;':'')+'">'
+      + (isDone ? '✅' : '⬜') + ' ' + s.label + '</li>';
+  }).join('');
+  widget.style.display='block';
+
+  function setExpanded(open){
+    panel.style.display = open ? 'block' : 'none';
+    backdrop.style.display = open ? 'block' : 'none';
+  }
+  openBtn.addEventListener('click', function(){ setExpanded(panel.style.display!=='block'); });
+  backdrop.addEventListener('click', function(){ setExpanded(false); });
+  function dismissForGood(ev){
+    ev.stopPropagation();
+    try{ localStorage.setItem(DISMISS_KEY,'1'); }catch(e){}
+    widget.style.display='none';
+  }
+  document.getElementById('ob-widget-dismiss').addEventListener('click', dismissForGood);
+  document.getElementById('ob-widget-pill-dismiss').addEventListener('click', dismissForGood);
+  document.addEventListener('click', function(ev){
+    if(!widget.contains(ev.target)) setExpanded(false);
+  });
+  if(welcome) setExpanded(true);
+})();
+</script>
+<script>
+(function(){
+  var header = document.querySelector('.header-bar');
+  if (!header) return;
+  function onScroll(){ header.classList.toggle('scrolled', window.scrollY > 4); }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+</script>
+<script src="/shared/command-palette.js" defer></script><script src="/shared/high-contrast.js" defer></script>
 </body>
 </html>

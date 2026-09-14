@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { computeUnitStatus, computeReadiness, recommendNext, buildSchedule } from "../public/shared/mastery.js";
+import { computeUnitStatus, computeReadiness, recommendNext, topWeakUnits, buildSchedule } from "../public/shared/mastery.js";
 
 describe("computeUnitStatus", () => {
   it("is not-assessed with no record", () => {
@@ -62,6 +62,35 @@ describe("recommendNext", () => {
       2: { correct: 5, total: 5 }   // 100%
     };
     expect(recommendNext(mastery, [1, 2], unitNames)).toEqual({ type: "review" });
+  });
+});
+
+describe("topWeakUnits", () => {
+  const unitNames = { 1: "Foundations", 2: "Circle Geometry", 3: "Transformations", 4: "Proofs" };
+
+  it("ranks assessed units weakest-first, capped at n", () => {
+    const mastery = {
+      1: { correct: 4, total: 5 },  // 80%
+      2: { correct: 1, total: 4 },  // 25%
+      3: { correct: 3, total: 5 },  // 60%
+      4: { correct: 2, total: 5 }   // 40%
+    };
+    expect(topWeakUnits(mastery, [1, 2, 3, 4], unitNames, 3)).toEqual([
+      { unitId: 2, unitName: "Circle Geometry", pct: 25 },
+      { unitId: 4, unitName: "Proofs", pct: 40 },
+      { unitId: 3, unitName: "Transformations", pct: 60 }
+    ]);
+  });
+
+  it("excludes not-yet-assessed units (total < 2)", () => {
+    const mastery = { 1: { correct: 1, total: 1 }, 2: { correct: 1, total: 4 } };
+    expect(topWeakUnits(mastery, [1, 2], unitNames)).toEqual([
+      { unitId: 2, unitName: "Circle Geometry", pct: 25 }
+    ]);
+  });
+
+  it("returns an empty array when nothing is assessed", () => {
+    expect(topWeakUnits({}, [1, 2, 3], unitNames)).toEqual([]);
   });
 });
 

@@ -1,7 +1,7 @@
 import { SELF } from "cloudflare:test";
 import { describe, it, expect } from "vitest";
 import { signSession, SESSION_COOKIE } from "../src/auth.js";
-import { handleGetProgress, handlePostProgress, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak } from "../src/progress-routes.js";
+import { handleGetProgress, handlePostProgress, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak, recordDailySnapshots, handlePostShareGenerate, handlePostShareRevoke, handleGetShare } from "../src/progress-routes.js";
 
 const SECRET = "test-session-secret";
 
@@ -13,6 +13,15 @@ function fakeKV(initial) {
     },
     async put(key, value) {
       store.set(key, value);
+    },
+    async delete(key) {
+      store.delete(key);
+    },
+    async list({ prefix, cursor } = {}) {
+      const keys = [...store.keys()]
+        .filter(k => !prefix || k.startsWith(prefix))
+        .map(name => ({ name }));
+      return { keys, list_complete: true, cursor: undefined };
     },
     _store: store
   };
@@ -58,6 +67,7 @@ describe("handleGetProgress", () => {
       "ap-chemistry": { mastery: {}, examples: {}, cardsKnown: [] },
       "ap-csa": { mastery: {}, examples: {}, cardsKnown: [] },
       "ap-euro": { mastery: {}, examples: {}, cardsKnown: [] },
+      "ap-human-geography": { mastery: {}, examples: {}, cardsKnown: [] },
       "ap-macro": { mastery: {}, examples: {}, cardsKnown: [] },
       "ap-micro": { mastery: {}, examples: {}, cardsKnown: [] },
       "ap-physics": { mastery: {}, examples: {}, cardsKnown: [] },
@@ -124,6 +134,7 @@ describe("handleGetProgress", () => {
       "ap-chemistry": { mastery: {}, examples: {}, cardsKnown: [] },
       "ap-csa": { mastery: {}, examples: {}, cardsKnown: [] },
       "ap-euro": { mastery: {}, examples: {}, cardsKnown: [] },
+      "ap-human-geography": { mastery: {}, examples: {}, cardsKnown: [] },
       "ap-macro": { mastery: {}, examples: {}, cardsKnown: [] },
       "ap-micro": { mastery: {}, examples: {}, cardsKnown: [] },
       "ap-physics": { mastery: {}, examples: {}, cardsKnown: [] },
@@ -523,5 +534,144 @@ describe("handlePostStreak", () => {
     const saved = JSON.parse(kv._store.get("progress:student@example.com"));
     expect(saved.geometry).toEqual(existing.geometry);
     expect(saved.streak).toEqual({ current: 1, longest: 1, lastActiveDate: "2026-08-15", timezone: null });
+  });
+});
+
+describe("recordDailySnapshots", () => {
+  const today = new Date().toISOString().slice(0, 10);
+
+  it("records today's readiness for an assessed subject", async () => {
+    const kv = fakeKV({
+      "progress:student@example.com": JSON.stringify({
+        geometry: { mastery: { "1": { correct: 1, total: 2 }, "2": { correct: 2, total: 2 } }, examples: {}, cardsKnown: [] }
+      })
+    });
+
+    const result = await recordDailySnapshots({ PROGRESS: kv });
+
+    expect(result).toEqual({ checked: 1, recorded: 1 });
+    const saved = JSON.parse(kv._store.get("progress:student@example.com"));
+    expect(saved.history).toEqual([{ date: today, subjects: { geometry: 75 }, totalAnswered: 4 }]);
+  });
+
+  it("skips a subject with nothing assessed yet, and a student with no subjects assessed at all", async () => {
+    const kv = fakeKV({
+      "progress:untouched@example.com": JSON.stringify({
+        geometry: { mastery: { "1": { correct: 1, total: 1 } }, examples: {}, cardsKnown: [] } // total:1 - below the assessed threshold
+      })
+    });
+
+    const result = await recordDailySnapshots({ PROGRESS: kv });
+
+    expect(result).toEqual({ checked: 1, recorded: 0 });
+    const saved = JSON.parse(kv._store.get("progress:untouched@example.com"));
+    expect(saved.history).toBeUndefined();
+  });
+
+  it("does not double-record a student already snapshotted today", async () => {
+    const kv = fakeKV({
+      "progress:student@example.com": JSON.stringify({
+        geometry: { mastery: { "1": { correct: 2, total: 2 } }, examples: {}, cardsKnown: [] },
+        history: [{ date: today, subjects: { geometry: 40 } }]
+      })
+    });
+
+    const result = await recordDailySnapshots({ PROGRESS: kv });
+
+    expect(result).toEqual({ checked: 1, recorded: 0 });
+    const saved = JSON.parse(kv._store.get("progress:student@example.com"));
+    expect(saved.history).toEqual([{ date: today, subjects: { geometry: 40 } }]);
+  });
+
+  it("caps history at 60 entries, dropping the oldest", async () => {
+    const oldHistory = Array.from({ length: 60 }, (_, i) => ({ date: `2025-01-${String(i + 1).padStart(2, "0")}`, subjects: { geometry: i } }));
+    const kv = fakeKV({
+      "progress:student@example.com": JSON.stringify({
+        geometry: { mastery: { "1": { correct: 1, total: 2 } }, examples: {}, cardsKnown: [] },
+        history: oldHistory
+      })
+    });
+
+    await recordDailySnapshots({ PROGRESS: kv });
+
+    const saved = JSON.parse(kv._store.get("progress:student@example.com"));
+    expect(saved.history.length).toBe(60);
+    expect(saved.history[saved.history.length - 1]).toEqual({ date: today, subjects: { geometry: 50 }, totalAnswered: 2 });
+    expect(saved.history[0].date).toBe("2025-01-02"); // oldest (01-01) was dropped to make room
+  });
+
+  it("returns zeroed counts when KV isn't configured", async () => {
+    const result = await recordDailySnapshots({});
+    expect(result).toEqual({ checked: 0, recorded: 0 });
+  });
+});
+
+describe("share link", () => {
+  it("generate 401s with no session, and requires sign-in like every other progress route", async () => {
+    const res = await handlePostShareGenerate(req("https://example.com/api/share/generate", null, "POST"), { SESSION_SECRET: SECRET, PROGRESS: fakeKV() });
+    expect(res.status).toBe(401);
+  });
+
+  it("generates a token, stores the reverse KV mapping, and a public request resolves it without auth", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV({
+      "progress:student@example.com": JSON.stringify({
+        geometry: { mastery: { "1": { correct: 4, total: 5 } }, examples: {}, cardsKnown: [] },
+        streak: { current: 3, longest: 10 }
+      })
+    });
+    const genRes = await handlePostShareGenerate(req("https://example.com/api/share/generate", cookie, "POST"), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(genRes.status).toBe(200);
+    const { token } = await genRes.json();
+    expect(typeof token).toBe("string");
+    expect(kv._store.get("share:" + token)).toBe("student@example.com");
+
+    const publicRes = await handleGetShare(req("https://example.com/api/share?t=" + token), { PROGRESS: kv });
+    expect(publicRes.status).toBe(200);
+    const data = await publicRes.json();
+    expect(data.streak).toEqual({ current: 3, longest: 10 });
+    expect(data.subjects).toEqual([{ key: "geometry", pct: 80, assessedUnits: 1 }]);
+    // never leaks the owning email in the public response
+    expect(JSON.stringify(data)).not.toContain("student@example.com");
+  });
+
+  it("regenerating invalidates the old token", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV({ "progress:student@example.com": JSON.stringify({}) });
+    const first = await (await handlePostShareGenerate(req("https://example.com/api/share/generate", cookie, "POST"), { SESSION_SECRET: SECRET, PROGRESS: kv })).json();
+    const second = await (await handlePostShareGenerate(req("https://example.com/api/share/generate", cookie, "POST"), { SESSION_SECRET: SECRET, PROGRESS: kv })).json();
+    expect(first.token).not.toBe(second.token);
+    expect(kv._store.get("share:" + first.token)).toBeUndefined();
+
+    const oldRes = await handleGetShare(req("https://example.com/api/share?t=" + first.token), { PROGRESS: kv });
+    expect(oldRes.status).toBe(404);
+    const newRes = await handleGetShare(req("https://example.com/api/share?t=" + second.token), { PROGRESS: kv });
+    expect(newRes.status).toBe(200);
+  });
+
+  it("revoking deletes the reverse mapping and the link stops resolving", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV({ "progress:student@example.com": JSON.stringify({}) });
+    const { token } = await (await handlePostShareGenerate(req("https://example.com/api/share/generate", cookie, "POST"), { SESSION_SECRET: SECRET, PROGRESS: kv })).json();
+
+    const revokeRes = await handlePostShareRevoke(req("https://example.com/api/share/revoke", cookie, "POST"), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(revokeRes.status).toBe(200);
+    expect(kv._store.get("share:" + token)).toBeUndefined();
+
+    const afterRes = await handleGetShare(req("https://example.com/api/share?t=" + token), { PROGRESS: kv });
+    expect(afterRes.status).toBe(404);
+  });
+
+  it("rejects a malformed or missing token", async () => {
+    const kv = fakeKV();
+    const missing = await handleGetShare(req("https://example.com/api/share"), { PROGRESS: kv });
+    expect(missing.status).toBe(400);
+    const malformed = await handleGetShare(req("https://example.com/api/share?t=" + encodeURIComponent("not valid!")), { PROGRESS: kv });
+    expect(malformed.status).toBe(400);
+  });
+
+  it("rejects an unknown token", async () => {
+    const res = await handleGetShare(req("https://example.com/api/share?t=doesnotexist1234567890"), { PROGRESS: fakeKV() });
+    expect(res.status).toBe(404);
   });
 });

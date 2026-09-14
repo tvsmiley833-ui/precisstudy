@@ -419,10 +419,16 @@ export async function sendScheduledBlockReminders(env: Env): Promise<{ checked: 
         continue; // stale/invalid timezone saved before validation was added - skip rather than crash
       }
 
+      // Fires once per block, 10-15 minutes before it starts (the 5-minute
+      // window matches this job's own */5 * * * * cadence, same trick the
+      // old "just started" version used at offset 0 -- shifted 10 minutes
+      // earlier here so the student gets a heads-up instead of a
+      // just-missed-it ping).
       const dueBlocks = blocks.filter(b => {
         if (b.day !== local.day) return false;
         const startMin = timeToMinutes(b.start);
-        return startMin >= local.minutes && startMin < local.minutes + 5;
+        const minutesUntilStart = startMin - local.minutes;
+        return minutesUntilStart >= 10 && minutesUntilStart < 15;
       });
       if (!dueBlocks.length) continue;
 
@@ -430,8 +436,8 @@ export async function sendScheduledBlockReminders(env: Env): Promise<{ checked: 
       for (const block of dueBlocks) {
         const message = {
           data: JSON.stringify({
-            title: `Time to study ${block.subjectLabel}! 📚`,
-            body: `Your ${block.start}–${block.end} study block just started.`,
+            title: `${block.subjectLabel} starts in 10 minutes ⏰`,
+            body: `Your ${block.start}–${block.end} study block is coming up.`,
             url: "/dashboard"
           }),
           options: { ttl: 900 }

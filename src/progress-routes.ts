@@ -1,6 +1,6 @@
 import { getSession } from "./auth.js";
 
-const SUBJECTS = ["geometry", "chemistry", "algebra1", "algebra2", "aplang", "globalhistory", "apbiology", "apush", "physics", "biology", "precalc", "act-prep", "anatomy", "ap-chemistry", "ap-csa", "ap-euro", "ap-macro", "ap-micro", "ap-physics", "ap-psych", "ap-stats", "ap-usgov", "ap-world", "art-history", "astronomy", "computer-science", "creative-writing", "earth-science", "economics", "english-10", "english-9", "environmental-science", "french-1", "geography", "german-1", "health", "journalism", "music-theory", "psychology", "sat-math", "sat-reading", "sociology", "spanish-1", "spanish-2", "spanish-3", "speech-debate", "statistics", "study-skills", "us-government", "world-history", "calculus", "calc-ab", "calc-bc", "us-history"];
+const SUBJECTS = ["geometry", "chemistry", "algebra1", "algebra2", "aplang", "globalhistory", "apbiology", "apush", "physics", "biology", "precalc", "act-prep", "anatomy", "ap-chemistry", "ap-csa", "ap-euro", "ap-human-geography", "ap-macro", "ap-micro", "ap-physics", "ap-psych", "ap-stats", "ap-usgov", "ap-world", "art-history", "astronomy", "computer-science", "creative-writing", "earth-science", "economics", "english-10", "english-9", "environmental-science", "french-1", "geography", "german-1", "health", "journalism", "music-theory", "psychology", "sat-math", "sat-reading", "sociology", "spanish-1", "spanish-2", "spanish-3", "speech-debate", "statistics", "study-skills", "us-government", "world-history", "calculus", "calc-ab", "calc-bc", "us-history"];
 
 function json(body: unknown, status?: number): Response {
   return new Response(JSON.stringify(body), {
@@ -25,6 +25,18 @@ type ProgressBlob = {
   pushSubscriptions: PushSubscriptionRecord[];
   schedule: ScheduleData | null;
   streak: StreakData | null;
+  // Opt-in public read-only link (Settings' "Share your progress"). Null
+  // until a student generates one; regenerating replaces it (see
+  // handlePostShareGenerate) so an old link stops working. The reverse
+  // "share:<token>" -> email KV entry is what actually resolves a public
+  // request -- this field just lets Settings know a link already exists.
+  shareToken?: string | null;
+  // One entry per calendar day a snapshot was actually worth taking (a
+  // student with nothing assessed yet gets no entry, rather than padding
+  // history with all-empty days) -- feeds the accuracy trend sparklines,
+  // which need real day-over-day history to plot. Capped in
+  // recordDailySnapshots() so this can't grow unbounded.
+  history?: { date: string; subjects: Record<string, number>; totalAnswered?: number }[];
 } & Record<string, SubjectProgress>;
 
 interface PushSubscriptionRecord {
@@ -113,6 +125,74 @@ async function loadBlob(env: Env, email: string): Promise<ProgressBlob> {
   }
 }
 
+// Mirrors computeReadiness() in public/shared/mastery.js (same total>=2
+// threshold, same average-of-assessed-units formula) -- reimplemented here
+// rather than imported since that module is written for the browser and
+// this runs in the Worker.
+function readinessPct(mastery: SubjectProgress["mastery"] | undefined): number | null {
+  if (!mastery) return null;
+  const assessed = Object.values(mastery).filter(r => r && r.total >= 2);
+  if (!assessed.length) return null;
+  const sum = assessed.reduce((s, r) => s + (r.correct / r.total) * 100, 0);
+  return Math.round(sum / assessed.length);
+}
+
+const MAX_HISTORY_DAYS = 60;
+
+// Cron-triggered (see worker.ts's daily "0 22 * * *" branch): appends one
+// snapshot per student per day of each assessed subject's current readiness
+// -- the accuracy trend sparklines feature needs this real history to exist
+// before it can plot anything, so this starts collecting it now even though
+// no UI reads `history` yet. Skips a student entirely once today's snapshot
+// is already recorded, and skips a subject with nothing assessed rather
+// than recording a meaningless 0.
+export async function recordDailySnapshots(env: Env): Promise<{ checked: number; recorded: number }> {
+  if (!env.PROGRESS) return { checked: 0, recorded: 0 };
+  const today = new Date().toISOString().slice(0, 10);
+
+  let cursor: string | undefined;
+  let checked = 0;
+  let recorded = 0;
+
+  do {
+    const list = await env.PROGRESS.list({ prefix: "progress:", cursor });
+    for (const key of list.keys) {
+      checked++;
+      const raw = await env.PROGRESS.get(key.name);
+      if (!raw) continue;
+      let blob: ProgressBlob;
+      try {
+        blob = JSON.parse(raw);
+      } catch (e) {
+        continue;
+      }
+
+      const history = Array.isArray(blob.history) ? blob.history : [];
+      if (history.length && history[history.length - 1]?.date === today) continue;
+
+      const subjects: Record<string, number> = {};
+      let totalAnswered = 0;
+      for (const subject of SUBJECTS) {
+        const mastery = blob[subject]?.mastery;
+        const pct = readinessPct(mastery);
+        if (pct !== null) subjects[subject] = pct;
+        if (mastery) totalAnswered += Object.values(mastery).reduce((s, r) => s + (r?.total || 0), 0);
+      }
+      if (!Object.keys(subjects).length) continue;
+
+      history.push({ date: today, subjects, totalAnswered });
+      while (history.length > MAX_HISTORY_DAYS) history.shift();
+      blob.history = history;
+
+      await env.PROGRESS.put(key.name, JSON.stringify(blob));
+      recorded++;
+    }
+    cursor = list.list_complete ? undefined : list.cursor;
+  } while (cursor);
+
+  return { checked, recorded };
+}
+
 export async function handleGetProgress(request: Request, env: Env): Promise<Response> {
   const session = await getSession(request, env);
   if (!session) return json({ error: "Sign in required" }, 401);
@@ -148,6 +228,101 @@ export async function handlePostProgress(request: Request, env: Env): Promise<Re
 
   await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
   return json({ ok: true });
+}
+
+// "Reset all progress" (Settings) -- wipes mastery/examples/cardsKnown for
+// every subject, same as if the student had never touched any guide, but
+// deliberately leaves goal/schedule/streak/enrolledSubjects alone: this is a
+// study-progress reset, not account deletion (see handleDeleteAccount for
+// that).
+export async function handlePostProgressReset(request: Request, env: Env): Promise<Response> {
+  const session = await getSession(request, env);
+  if (!session) return json({ error: "Sign in required" }, 401);
+  if (!env.PROGRESS) return json({ error: "Progress sync isn't configured yet" }, 503);
+
+  const blob = await loadBlob(env, session.email);
+  for (const subject of SUBJECTS) blob[subject] = emptySubject();
+  blob.updatedAt = new Date().toISOString();
+
+  await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  return json({ ok: true });
+}
+
+// Base64url, not hex -- same entropy in a shorter, URL-safe string. 18 random
+// bytes (144 bits) is comfortably unguessable for a link that's only ever
+// meant to be shared deliberately, not brute-forced.
+function randomToken(): string {
+  const bytes = new Uint8Array(18);
+  crypto.getRandomValues(bytes);
+  let binary = "";
+  for (const b of bytes) binary += String.fromCharCode(b);
+  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+
+// Settings' "Share your progress": generates a new opt-in public link,
+// replacing (and invalidating) any previous one. Only ever a POST from the
+// owning student's own session -- the resulting token is what a parent/tutor
+// then uses, unauthenticated, via handleGetShare.
+export async function handlePostShareGenerate(request: Request, env: Env): Promise<Response> {
+  const session = await getSession(request, env);
+  if (!session) return json({ error: "Sign in required" }, 401);
+  if (!env.PROGRESS) return json({ error: "Progress sync isn't configured yet" }, 503);
+
+  const blob = await loadBlob(env, session.email);
+  const oldToken = blob.shareToken;
+  const token = randomToken();
+  blob.shareToken = token;
+  await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  await env.PROGRESS.put("share:" + token, session.email);
+  if (oldToken) await env.PROGRESS.delete("share:" + oldToken);
+  return json({ token });
+}
+
+export async function handlePostShareRevoke(request: Request, env: Env): Promise<Response> {
+  const session = await getSession(request, env);
+  if (!session) return json({ error: "Sign in required" }, 401);
+  if (!env.PROGRESS) return json({ error: "Progress sync isn't configured yet" }, 503);
+
+  const blob = await loadBlob(env, session.email);
+  const token = blob.shareToken;
+  blob.shareToken = null;
+  await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  if (token) await env.PROGRESS.delete("share:" + token);
+  return json({ ok: true });
+}
+
+// Public, unauthenticated -- a parent/tutor opens this with just the token
+// from the link, no account needed. Deliberately returns only the same
+// rollups already shown on the (authenticated) dashboard -- never the
+// student's email, push subscriptions, schedule, or raw per-question
+// mastery records.
+export async function handleGetShare(request: Request, env: Env): Promise<Response> {
+  if (!env.PROGRESS) return json({ error: "Not configured" }, 503);
+  const url = new URL(request.url);
+  const token = url.searchParams.get("t") || "";
+  if (!/^[A-Za-z0-9_-]{10,40}$/.test(token)) return json({ error: "Invalid link" }, 400);
+
+  const email = await env.PROGRESS.get("share:" + token);
+  if (!email) return json({ error: "This share link is invalid or has been revoked" }, 404);
+
+  const blob = await loadBlob(env, email);
+  if (blob.shareToken !== token) return json({ error: "This share link is invalid or has been revoked" }, 404);
+
+  const subjects: { key: string; pct: number; assessedUnits: number }[] = [];
+  for (const key of SUBJECTS) {
+    const subj = blob[key];
+    if (!subj) continue;
+    const assessed = Object.values(subj.mastery || {}).filter(r => r && r.total >= 2);
+    if (!assessed.length) continue;
+    const sum = assessed.reduce((s, r) => s + (r.correct / r.total) * 100, 0);
+    subjects.push({ key, pct: Math.round(sum / assessed.length), assessedUnits: assessed.length });
+  }
+  subjects.sort((a, b) => b.pct - a.pct);
+
+  return json({
+    streak: blob.streak ? { current: blob.streak.current, longest: blob.streak.longest } : null,
+    subjects
+  });
 }
 
 export async function handlePostEnrolledSubjects(request: Request, env: Env): Promise<Response> {

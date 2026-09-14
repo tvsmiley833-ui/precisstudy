@@ -11,6 +11,11 @@ const require = createRequire(import.meta.url);
 const { heroPattern, bodyPattern } = require("./hero-patterns.cjs");
 import { fileURLToPath } from "node:url";
 
+// Matches SS_TTS_SPEAKER_ICON in scripts/guide-template/logic.js -- inlined
+// literally here since buildUnitsStatic() emits plain HTML at build time,
+// not JS that could reference that constant.
+const TTS_SPEAKER_ICON_SVG = '<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const T = (name) => readFileSync(join(ROOT, "scripts/guide-template", name), "utf8");
 const templateHead = T("head.html");
@@ -66,6 +71,7 @@ function buildUnitsStatic(units, diagrams) {
     const hd = `<div class="unit-hd" tabindex="0" role="button" aria-expanded="false">` +
       `<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts · ~${estMins} min</span></span>` +
       `<span class="unit-progress" id="unit-progress-${u.id}" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span>` +
+      `<button type="button" class="unit-tts-btn" data-unit="${u.id}" aria-label="Read this unit aloud" onclick="event.stopPropagation();ssReadUnitAloud(${u.id})">${TTS_SPEAKER_ICON_SVG}</button>` +
       `<span class="chevron">▾</span></div>`;
     return `<div class="unit" data-id="${u.id}">${hd}<div class="unit-body">${body}</div></div>`;
   }).join("");
@@ -211,7 +217,7 @@ function buildJsonLd(config, description) {
 
 export function generateGuide(config) {
   const { slug, title, accentColor, units, quiz, flashcards,
-          examParts, masteryKey, officialReferenceUrl, officialReferenceLabel } = config;
+          examParts, masteryKey, officialReferenceUrl, officialReferenceLabel, officialReferenceContent } = config;
   const worked = Array.isArray(config.workedExamples) ? config.workedExamples : [];
   const hardQ = Array.isArray(config.hardQuiz) ? config.hardQuiz : [];
 
@@ -382,7 +388,11 @@ export function generateGuide(config) {
   // A hyperlink to the testing organization's own hosted PDF carries no
   // copyright risk (unlike reproducing the document itself, which their
   // terms prohibit) and always shows their current, correct version.
-  html += `const OFFICIAL_REFERENCE=${js(officialReferenceUrl ? { url: officialReferenceUrl, label: officialReferenceLabel || "Official Reference Sheet" } : null)};\n`;
+  html += `const OFFICIAL_REFERENCE=${js((officialReferenceUrl || officialReferenceContent) ? {
+    url: officialReferenceUrl,
+    content: officialReferenceContent,
+    label: officialReferenceLabel || "Official Reference Sheet"
+  } : null)};\n`;
   // logic.js's buildExam() injects this into a <style> tag on first render;
   // it must be defined before logic.js runs.
   html += `const EXAM_CSS=${js(templateExamCss)};\n`;
@@ -399,7 +409,7 @@ export function generateGuide(config) {
     .replaceAll("CHEM_TOTAL_Q", "SS_TOTAL_Q")
     .replaceAll("CHEM_UNITS", "SS_UNIT_COUNT")
     .replaceAll("/apush", `/${slug}`);
-  html += `\n</script></body></html>`;
+  html += `\n</script><script src="/shared/command-palette.js" defer></script><script src="/shared/high-contrast.js" defer></script></body></html>`;
 
   return html;
 }
