@@ -3,9 +3,14 @@ import { getGoogleToken, deleteGoogleToken } from "./google-token.js";
 export interface GoogleSettings {
   calendarIds: string[];
   schoolworkOnly: boolean;
+  // Opt-in: pushes the student's PrecisStudy study schedule to
+  // calendarIds[0] as recurring events (see google-calendar-push.ts).
+  // Off by default -- writing to someone's calendar is more invasive than
+  // reading it.
+  pushScheduleToCalendar: boolean;
 }
 
-export const DEFAULT_SETTINGS: GoogleSettings = { calendarIds: ["primary"], schoolworkOnly: true };
+export const DEFAULT_SETTINGS: GoogleSettings = { calendarIds: ["primary"], schoolworkOnly: true, pushScheduleToCalendar: false };
 
 export interface Assignment {
   id: string;

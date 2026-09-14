@@ -263,6 +263,9 @@ html{scroll-behavior:smooth}
         <label style="display:flex;gap:8px;align-items:center;font-size:14px;color:var(--text);margin-bottom:12px;">
           <input type="checkbox" id="google-schoolwork-only"> Only show schoolwork on my list
         </label>
+        <label style="display:flex;gap:8px;align-items:center;font-size:14px;color:var(--text);margin-bottom:12px;">
+          <input type="checkbox" id="google-push-schedule"> Add my study schedule to this calendar
+        </label>
         <div style="font-size:13px;color:var(--text-muted);margin-bottom:6px;">Calendars to include:</div>
         <div id="google-calendar-list" style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px;"></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
@@ -1017,6 +1020,7 @@ function ssToggleTheme(){
 
     qs('google-email').textContent = settings.googleEmail || '';
     qs('google-schoolwork-only').checked = settings.schoolworkOnly !== false;
+    qs('google-push-schedule').checked = settings.pushScheduleToCalendar === true;
 
     var chosen = new Set(settings.calendarIds || ['primary']);
     var list = qs('google-calendar-list');
@@ -1052,7 +1056,7 @@ function ssToggleTheme(){
         var res = await fetch('/api/google/settings', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ calendarIds: ids, schoolworkOnly: qs('google-schoolwork-only').checked })
+          body: JSON.stringify({ calendarIds: ids, schoolworkOnly: qs('google-schoolwork-only').checked, pushScheduleToCalendar: qs('google-push-schedule').checked })
         });
         status.textContent = res.ok ? 'Saved.' : 'Could not save.';
       } catch(err){ status.textContent = 'Could not save.'; }

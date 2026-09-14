@@ -20,7 +20,7 @@ export function googleSettingsKey(email: string): string {
   return "gsettings:" + email;
 }
 
-async function loadSettings(env: { PROGRESS: KVNamespace }, email: string): Promise<GoogleSettings> {
+export async function loadGoogleSettings(env: { PROGRESS: KVNamespace }, email: string): Promise<GoogleSettings> {
   const raw = await env.PROGRESS.get(googleSettingsKey(email));
   if (!raw) return { ...DEFAULT_SETTINGS };
   try {
@@ -30,7 +30,8 @@ async function loadSettings(env: { PROGRESS: KVNamespace }, email: string): Prom
       : DEFAULT_SETTINGS.calendarIds;
     return {
       calendarIds: calendarIds.length ? calendarIds : [...DEFAULT_SETTINGS.calendarIds],
-      schoolworkOnly: parsed?.schoolworkOnly !== false
+      schoolworkOnly: parsed?.schoolworkOnly !== false,
+      pushScheduleToCalendar: parsed?.pushScheduleToCalendar === true
     };
   } catch (e) {
     return { ...DEFAULT_SETTINGS };
@@ -57,7 +58,7 @@ export async function handleAssignments(request: Request, env: Env): Promise<Res
     }
   }
 
-  const settings = await loadSettings(env, session.email);
+  const settings = await loadGoogleSettings(env, session.email);
   const feed = await syncGoogleAssignments(env, session.email, settings);
   return json(feed);
 }
@@ -124,7 +125,7 @@ export async function handleGoogleDisconnect(request: Request, env: Env): Promis
 export async function handleGoogleSettingsGet(request: Request, env: Env): Promise<Response> {
   const session = await getSession(request, env);
   if (!session) return json({ error: "Sign in required" }, 401);
-  const settings = await loadSettings(env, session.email);
+  const settings = await loadGoogleSettings(env, session.email);
   const token = await getGoogleToken(env, session.email);
   return json({ ...settings, googleEmail: token?.googleEmail ?? null, connected: !!token });
 }
@@ -151,8 +152,11 @@ export async function handleGoogleSettingsPost(request: Request, env: Env): Prom
   if (typeof body?.schoolworkOnly !== "boolean") {
     return json({ error: "schoolworkOnly must be a boolean" }, 400);
   }
+  if (body?.pushScheduleToCalendar !== undefined && typeof body.pushScheduleToCalendar !== "boolean") {
+    return json({ error: "pushScheduleToCalendar must be a boolean" }, 400);
+  }
 
-  const value: GoogleSettings = { calendarIds, schoolworkOnly: body.schoolworkOnly };
+  const value: GoogleSettings = { calendarIds, schoolworkOnly: body.schoolworkOnly, pushScheduleToCalendar: body.pushScheduleToCalendar === true };
   await env.PROGRESS.put(googleSettingsKey(session.email), JSON.stringify(value));
   await env.PROGRESS.delete(googleCacheKey(session.email));
   return json(value);

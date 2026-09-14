@@ -1,5 +1,7 @@
 import { getSession } from "./auth.js";
 import { randomToken } from "./random-token.js";
+import { loadGoogleSettings } from "./google-routes.js";
+import { pushScheduleToGoogleCalendar } from "./google-calendar-push.js";
 
 const SUBJECTS = ["geometry", "chemistry", "algebra1", "algebra2", "aplang", "globalhistory", "apbiology", "apush", "physics", "biology", "precalc", "act-prep", "anatomy", "ap-chemistry", "ap-csa", "ap-euro", "ap-human-geography", "ap-macro", "ap-micro", "ap-physics", "ap-psych", "ap-stats", "ap-usgov", "ap-world", "art-history", "astronomy", "computer-science", "creative-writing", "earth-science", "economics", "english-10", "english-9", "environmental-science", "french-1", "geography", "german-1", "health", "journalism", "music-theory", "psychology", "sat-math", "sat-reading", "sociology", "spanish-1", "spanish-2", "spanish-3", "speech-debate", "statistics", "study-skills", "us-government", "world-history", "calculus", "calc-ab", "calc-bc", "us-history"];
 
@@ -57,6 +59,9 @@ interface ScheduleData {
   timezone: string | null;
   notifyEnabled: boolean;
   savedAt: string;
+  // Opt-in Google Calendar push (see google-calendar-push.ts). Key:
+  // `${day}|${start}|${subjectKey}` -> the Calendar event id for that block.
+  googleEventIds?: Record<string, string>;
 }
 
 interface ScheduleBlock {
@@ -377,11 +382,30 @@ export async function handlePostSchedule(request: Request, env: Env): Promise<Re
 
   const blob = await loadBlob(env, session.email);
   const validTimezone = timezone && isValidTimezone(timezone) ? timezone : null;
+  const previousGoogleEventIds = blob.schedule?.googleEventIds || {};
+
+  let googleEventIds: Record<string, string> | undefined = previousGoogleEventIds;
+  // Pushing needs a timezone to anchor event times against -- without one
+  // there's nothing meaningful to schedule, so leave any existing Calendar
+  // events exactly as they were (don't push, don't clear).
+  if (env.GOOGLE_CLIENT_ID && validTimezone) {
+    try {
+      const settings = await loadGoogleSettings(env, session.email);
+      if (settings.pushScheduleToCalendar) {
+        googleEventIds = await pushScheduleToGoogleCalendar(env, session.email, blocks, validTimezone, previousGoogleEventIds, settings.calendarIds[0] || "primary");
+      }
+    } catch (e) {
+      // Calendar push is best-effort and must never block saving the
+      // schedule inside PrecisStudy itself.
+    }
+  }
+
   blob.schedule = {
     blocks,
     timezone: validTimezone,
     notifyEnabled,
-    savedAt: new Date().toISOString()
+    savedAt: new Date().toISOString(),
+    ...(Object.keys(googleEventIds || {}).length ? { googleEventIds } : {})
   };
   blob.updatedAt = new Date().toISOString();
 

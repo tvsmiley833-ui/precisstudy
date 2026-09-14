@@ -11,7 +11,8 @@ export const CONNECT_SCOPES = [
   "https://www.googleapis.com/auth/classroom.courses.readonly",
   "https://www.googleapis.com/auth/classroom.coursework.me.readonly",
   "https://www.googleapis.com/auth/classroom.student-submissions.me.readonly",
-  "https://www.googleapis.com/auth/calendar.readonly"
+  "https://www.googleapis.com/auth/calendar.readonly",
+  "https://www.googleapis.com/auth/calendar.events"
 ];
 
 export const CONNECT_REDIRECT_URI = SITE_ORIGIN + "/auth/google/connect/callback";

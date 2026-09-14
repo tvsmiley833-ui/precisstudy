@@ -120,7 +120,7 @@ describe("/api/google/settings", () => {
     const e = env();
     const c = await cookie("s@e.edu");
     const res = await handleGoogleSettingsGet(get("https://precisstudy.com/api/google/settings", c), e);
-    expect(await res.json()).toEqual({ calendarIds: ["primary"], schoolworkOnly: true, googleEmail: null, connected: false });
+    expect(await res.json()).toEqual({ calendarIds: ["primary"], schoolworkOnly: true, pushScheduleToCalendar: false, googleEmail: null, connected: false });
   });
 
   it("GET returns the actual connected Google account email and connected:true, not the sign-in email", async () => {
@@ -138,8 +138,24 @@ describe("/api/google/settings", () => {
     const c = await cookie("s@e.edu");
     const res = await handleGoogleSettingsPost(post("https://precisstudy.com/api/google/settings", c, { calendarIds: ["primary", "a@group.calendar.google.com"], schoolworkOnly: false }), e);
     expect(res.status).toBe(200);
-    expect(await res.json()).toEqual({ calendarIds: ["primary", "a@group.calendar.google.com"], schoolworkOnly: false });
-    expect(JSON.parse(e.PROGRESS._store.get(googleSettingsKey("s@e.edu")))).toEqual({ calendarIds: ["primary", "a@group.calendar.google.com"], schoolworkOnly: false });
+    expect(await res.json()).toEqual({ calendarIds: ["primary", "a@group.calendar.google.com"], schoolworkOnly: false, pushScheduleToCalendar: false });
+    expect(JSON.parse(e.PROGRESS._store.get(googleSettingsKey("s@e.edu")))).toEqual({ calendarIds: ["primary", "a@group.calendar.google.com"], schoolworkOnly: false, pushScheduleToCalendar: false });
+  });
+
+  it("POST accepts pushScheduleToCalendar:true and stores it", async () => {
+    const e = env();
+    const c = await cookie("s@e.edu");
+    const res = await handleGoogleSettingsPost(post("https://precisstudy.com/api/google/settings", c, { calendarIds: ["primary"], schoolworkOnly: true, pushScheduleToCalendar: true }), e);
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(data.pushScheduleToCalendar).toBe(true);
+  });
+
+  it("POST rejects a non-boolean pushScheduleToCalendar", async () => {
+    const e = env();
+    const c = await cookie("s@e.edu");
+    const res = await handleGoogleSettingsPost(post("https://precisstudy.com/api/google/settings", c, { calendarIds: ["primary"], schoolworkOnly: true, pushScheduleToCalendar: "yes" }), e);
+    expect(res.status).toBe(400);
   });
 
   it("POST rejects a non-array calendarIds / oversized list / long id / non-boolean flag with 400", async () => {

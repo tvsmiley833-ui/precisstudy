@@ -1,7 +1,9 @@
 import { SELF } from "cloudflare:test";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import { signSession, SESSION_COOKIE } from "../src/auth.js";
 import { handleGetProgress, handlePostProgress, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak, handlePostNotificationPrefs, recordDailySnapshots, handlePostShareGenerate, handlePostShareRevoke, handleGetShare } from "../src/progress-routes.js";
+import { putGoogleToken } from "../src/google-token.js";
+import { googleSettingsKey } from "../src/google-routes.js";
 
 const SECRET = "test-session-secret";
 
@@ -357,6 +359,43 @@ describe("handlePostSchedule", () => {
     const blocks = Array.from({ length: 51 }, () => validBlock);
     const res = await handlePostSchedule(req("https://example.com/api/schedule", cookie, "POST", { blocks }), { SESSION_SECRET: SECRET, PROGRESS: kv });
     expect(res.status).toBe(400);
+  });
+
+  describe("Google Calendar push", () => {
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
+    it("never touches the network when pushScheduleToCalendar is off (the default) -- regression coverage", async () => {
+      const cookie = await sessionCookieFor("student@example.com");
+      const kv = fakeKV();
+      const fetchSpy = vi.spyOn(globalThis, "fetch");
+      const res = await handlePostSchedule(req("https://example.com/api/schedule", cookie, "POST", { blocks: [validBlock], notifyEnabled: true, timezone: "America/New_York" }), { SESSION_SECRET: SECRET, PROGRESS: kv, GOOGLE_CLIENT_ID: "cid", GOOGLE_CLIENT_SECRET: "csecret" });
+      expect(res.status).toBe(200);
+      expect(fetchSpy).not.toHaveBeenCalled();
+    });
+
+    it("pushes to Calendar and persists googleEventIds when pushScheduleToCalendar is on and Google is connected", async () => {
+      const email = "student@example.com";
+      const cookie = await sessionCookieFor(email);
+      const kv = fakeKV({ [googleSettingsKey(email)]: JSON.stringify({ calendarIds: ["primary"], schoolworkOnly: true, pushScheduleToCalendar: true }) });
+      const envObj = { SESSION_SECRET: SECRET, PROGRESS: kv, GOOGLE_CLIENT_ID: "cid", GOOGLE_CLIENT_SECRET: "csecret" };
+      await putGoogleToken(envObj, email, { refreshToken: "1//rt", googleEmail: email, scopes: [], connectedAt: "x" });
+
+      vi.spyOn(globalThis, "fetch").mockImplementation(async (url, opts) => {
+        if (String(url).includes("oauth2.googleapis.com/token")) return new Response(JSON.stringify({ access_token: "at-1" }), { status: 200 });
+        if (String(url).includes("/events") && opts?.method === "POST") return new Response(JSON.stringify({ id: "evt-created" }), { status: 200 });
+        throw new Error("unexpected fetch: " + url);
+      });
+
+      const res = await handlePostSchedule(req("https://example.com/api/schedule", cookie, "POST", { blocks: [validBlock], notifyEnabled: false, timezone: "America/New_York" }), envObj);
+      expect(res.status).toBe(200);
+      const data = await res.json();
+      expect(data.schedule.googleEventIds).toEqual({ "mon|15:00|geometry": "evt-created" });
+
+      const saved = JSON.parse(kv._store.get("progress:" + email));
+      expect(saved.schedule.googleEventIds).toEqual({ "mon|15:00|geometry": "evt-created" });
+    });
   });
 });
 
