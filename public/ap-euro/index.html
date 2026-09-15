@@ -2243,7 +2243,11 @@ function cbotHideTyping(){
   const el=document.getElementById('cbot-typing-indicator');
   if(el)el.remove();
 }
-function cbotAddMsg(role,text,jumpFn,jumpLabel){
+// historyText lets the transcript sent to the model differ from what the
+// student sees -- e.g. ssExplainWrongAnswer shows "Why is 'X' wrong?" but
+// the model needs the full question/choice/correct-answer context to
+// actually answer that, not just the four-word display bubble.
+function cbotAddMsg(role,text,jumpFn,jumpLabel,historyText){
   if(role==='bot')cbotHideTyping();
   const wrap=document.getElementById('cbot-msgs');
   const div=document.createElement('div');
@@ -2258,7 +2262,7 @@ function cbotAddMsg(role,text,jumpFn,jumpLabel){
   }
   wrap.appendChild(div);
   wrap.scrollTop=wrap.scrollHeight;
-  cbotHistory.push({role:role==='user'?'user':'assistant',content:text});
+  cbotHistory.push({role:role==='user'?'user':'assistant',content:historyText!==undefined?historyText:text});
 }
 
 async function cbotCallApi(cfg,query){
@@ -2361,7 +2365,7 @@ function cbotAskAndOpen(query,displayQuery){
   const panel=document.getElementById('cbot-panel');
   if(panel&&!panel.classList.contains('open'))cbotToggle();
   if(typeof toolkitClose==='function')toolkitClose();
-  cbotAddMsg('user',displayQuery||query);
+  cbotAddMsg('user',displayQuery||query,undefined,undefined,query);
   cbotAsk(query);
 }
 
