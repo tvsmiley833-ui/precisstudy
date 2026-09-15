@@ -60,13 +60,20 @@ input[type=text]{width:100%;padding:10px 12px;border-radius:10px;border:1px soli
 .flip-card .label{position:absolute;top:16px;left:20px;font-size:11px;font-weight:800;letter-spacing:.05em;color:var(--text-muted);text-transform:uppercase;}
 .study-nav{display:flex;justify-content:space-between;align-items:center;gap:12px;}
 .study-progress{font-size:13px;color:var(--text-muted);}
+.rate-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.rate-row button{padding:10px 6px;font-size:13px;}
+#fc-rate-again{border-color:var(--status-red);color:var(--status-red);}
+#fc-rate-again:hover{background:var(--status-red);color:#fff;}
+#fc-rate-easy{border-color:var(--accent-bright);color:var(--accent-bright);}
+#fc-rate-easy:hover{background:var(--accent-bright);color:#fff;}
+.caught-up{text-align:center;padding:24px;color:var(--text-muted);font-size:14px;}
 </style>
 </head>
 <body>
 <div class="wrap">
   <a href="/dashboard" class="hd">📔 PrecisStudy</a>
   <h1>My Flashcards</h1>
-  <p class="sub">Paste your notes, get an AI-generated deck, study it whenever.</p>
+  <p class="sub">Paste your notes, get an AI-generated deck, study with spaced repetition — cards you know well come back less often.</p>
 
   <div id="fc-gate" class="card" style="display:none;">
     <p style="margin:0 0 12px;">Sign in to generate and save flashcard decks.</p>
@@ -105,12 +112,19 @@ input[type=text]{width:100%;padding:10px 12px;border-radius:10px;border:1px soli
 
     <div id="fc-study-view" style="display:none;">
       <button id="fc-study-back-btn" style="margin-bottom:16px;">← Back to decks</button>
-      <div class="flip-card" id="fc-flip-card" role="button" tabindex="0" aria-label="Flashcard — activate to flip between front and back" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();this.click();}"><span class="label" id="fc-flip-label">Front</span><span id="fc-flip-text"></span></div>
-      <div class="study-nav">
-        <button id="fc-prev-btn">Previous</button>
-        <span class="study-progress" id="fc-study-progress"></span>
-        <button id="fc-next-btn">Next</button>
+      <div id="fc-study-active">
+        <div class="flip-card" id="fc-flip-card" role="button" tabindex="0" aria-label="Flashcard — activate to flip between front and back" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();this.click();}"><span class="label" id="fc-flip-label">Front</span><span id="fc-flip-text"></span></div>
+        <div class="study-nav" style="margin-bottom:14px;">
+          <span class="study-progress" id="fc-study-progress"></span>
+        </div>
+        <div class="rate-row" id="fc-rate-row" style="display:none;">
+          <button id="fc-rate-again" type="button">Again</button>
+          <button id="fc-rate-hard" type="button">Hard</button>
+          <button id="fc-rate-good" type="button">Good</button>
+          <button id="fc-rate-easy" type="button">Easy</button>
+        </div>
       </div>
+      <div id="fc-caught-up" class="card caught-up" style="display:none;"></div>
     </div>
 
   </div>
@@ -121,8 +135,11 @@ function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'
 var FC_BLOB = null;
 var FC_PREVIEW_CARDS = [];
 var FC_STUDY_DECK = null;
-var FC_STUDY_INDEX = 0;
+var FC_STUDY_QUEUE = []; // indices into FC_STUDY_DECK.cards that are due today
 var FC_STUDY_FLIPPED = false;
+
+function todayStr(){ return new Date().toISOString().slice(0, 10); }
+function isDue(card){ return !card.due || card.due <= todayStr(); }
 
 function showView(id){
   ['fc-list-view', 'fc-generate-view', 'fc-study-view'].forEach(function(v){
@@ -256,33 +273,55 @@ function startStudy(id){
   var deck = decks.find(function(d){ return d.id === id; });
   if (!deck) return;
   FC_STUDY_DECK = deck;
-  FC_STUDY_INDEX = 0;
+  FC_STUDY_QUEUE = deck.cards.map(function(c, i){ return i; }).filter(function(i){ return isDue(deck.cards[i]); });
   FC_STUDY_FLIPPED = false;
   renderStudyCard();
   showView('fc-study-view');
 }
 
 function renderStudyCard(){
-  var card = FC_STUDY_DECK.cards[FC_STUDY_INDEX];
+  var active = document.getElementById('fc-study-active');
+  var caughtUp = document.getElementById('fc-caught-up');
+  if (!FC_STUDY_QUEUE.length) {
+    active.style.display = 'none';
+    caughtUp.style.display = 'block';
+    var nextDue = FC_STUDY_DECK.cards.map(function(c){ return c.due; }).filter(Boolean).sort()[0];
+    caughtUp.textContent = nextDue ? ('All caught up — next card due ' + nextDue + '.') : 'All caught up!';
+    return;
+  }
+  active.style.display = 'block';
+  caughtUp.style.display = 'none';
+  var card = FC_STUDY_DECK.cards[FC_STUDY_QUEUE[0]];
   document.getElementById('fc-flip-label').textContent = FC_STUDY_FLIPPED ? 'Back' : 'Front';
   document.getElementById('fc-flip-text').textContent = FC_STUDY_FLIPPED ? card.back : card.front;
-  document.getElementById('fc-study-progress').textContent = (FC_STUDY_INDEX + 1) + ' / ' + FC_STUDY_DECK.cards.length;
+  document.getElementById('fc-study-progress').textContent = FC_STUDY_QUEUE.length + ' card' + (FC_STUDY_QUEUE.length === 1 ? '' : 's') + ' due';
+  document.getElementById('fc-rate-row').style.display = FC_STUDY_FLIPPED ? 'grid' : 'none';
 }
 
 document.getElementById('fc-flip-card').addEventListener('click', function(){
   FC_STUDY_FLIPPED = !FC_STUDY_FLIPPED;
   renderStudyCard();
 });
-document.getElementById('fc-next-btn').addEventListener('click', function(){
-  FC_STUDY_INDEX = (FC_STUDY_INDEX + 1) % FC_STUDY_DECK.cards.length;
+
+async function rateCurrentCard(rating){
+  if (!FC_STUDY_QUEUE.length) return;
+  var cardIndex = FC_STUDY_QUEUE[0];
+  try{
+    await fetch('/api/flashcards/review', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ deckId: FC_STUDY_DECK.id, cardIndex: cardIndex, rating: rating })
+    });
+  }catch(e){ /* move on regardless -- next visit will re-derive from saved state */ }
+  FC_STUDY_QUEUE.shift();
   FC_STUDY_FLIPPED = false;
   renderStudyCard();
-});
-document.getElementById('fc-prev-btn').addEventListener('click', function(){
-  FC_STUDY_INDEX = (FC_STUDY_INDEX - 1 + FC_STUDY_DECK.cards.length) % FC_STUDY_DECK.cards.length;
-  FC_STUDY_FLIPPED = false;
-  renderStudyCard();
-});
+}
+document.getElementById('fc-rate-again').addEventListener('click', function(){ rateCurrentCard('again'); });
+document.getElementById('fc-rate-hard').addEventListener('click', function(){ rateCurrentCard('hard'); });
+document.getElementById('fc-rate-good').addEventListener('click', function(){ rateCurrentCard('good'); });
+document.getElementById('fc-rate-easy').addEventListener('click', function(){ rateCurrentCard('easy'); });
+
 document.getElementById('fc-study-back-btn').addEventListener('click', function(){ showView('fc-list-view'); });
 
 (async function init(){

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { signSession, SESSION_COOKIE } from "../src/auth.js";
-import { handleGenerateFlashcards, handleSaveFlashcards, handleDeleteFlashcards } from "../src/flashcards-routes.js";
+import { handleGenerateFlashcards, handleSaveFlashcards, handleDeleteFlashcards, handleReviewFlashcard, sm2 } from "../src/flashcards-routes.js";
 
 const SECRET = "test-session-secret";
 
@@ -173,5 +173,92 @@ describe("handleDeleteFlashcards", () => {
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify({ customDecks: [] }) });
     const res = await handleDeleteFlashcards(req("https://example.com/api/flashcards/delete", cookie, "POST", { id: "doesnotexist" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
     expect(res.status).toBe(200);
+  });
+});
+
+describe("sm2", () => {
+  it("a brand-new card (no prior state) rated 'again' resets to a 1-day interval", () => {
+    const r = sm2({}, "again");
+    expect(r.reps).toBe(0);
+    expect(r.interval).toBe(1);
+    expect(r.ease).toBe(2.5);
+  });
+
+  it("'again' resets an already-progressing card back to reps 0, interval 1, ease unchanged", () => {
+    const r = sm2({ ease: 2.6, interval: 12, reps: 3 }, "again");
+    expect(r).toMatchObject({ reps: 0, interval: 1, ease: 2.6 });
+  });
+
+  it("'good' progression: rep 0 -> 1 day, rep 1 -> 6 days, rep 2+ -> interval*ease", () => {
+    const first = sm2({}, "good");
+    expect(first).toMatchObject({ reps: 1, interval: 1 });
+    const second = sm2({ ease: 2.5, interval: first.interval, reps: first.reps }, "good");
+    expect(second).toMatchObject({ reps: 2, interval: 6 });
+    const third = sm2({ ease: 2.5, interval: second.interval, reps: second.reps }, "good");
+    expect(third).toMatchObject({ reps: 3, interval: 15 }); // round(6 * 2.5)
+  });
+
+  it("'hard' shrinks growth (interval*1.2) and lowers ease, floored at 1.3", () => {
+    const r = sm2({ ease: 1.35, interval: 10, reps: 2 }, "hard");
+    expect(r.interval).toBe(12); // round(10*1.2)
+    expect(r.ease).toBe(1.3); // 1.35 - 0.15 = 1.2, floored to 1.3
+  });
+
+  it("'easy' raises ease and adds a 1.3x bonus on top of the normal progression", () => {
+    const r = sm2({ ease: 2.5, interval: 6, reps: 2 }, "easy");
+    expect(r.ease).toBe(2.65);
+    expect(r.interval).toBe(20); // round(round(6*2.5) * 1.3) = round(15*1.3) = 20
+  });
+
+  it("due date is always today + interval days (UTC), regardless of rating", () => {
+    const r = sm2({}, "good");
+    const expected = new Date();
+    expected.setUTCDate(expected.getUTCDate() + r.interval);
+    expect(r.due).toBe(expected.toISOString().slice(0, 10));
+  });
+});
+
+describe("handleReviewFlashcard", () => {
+  it("401s with no session", async () => {
+    const res = await handleReviewFlashcard(req("https://example.com/api/flashcards/review", null, "POST", { deckId: "d1", cardIndex: 0, rating: "good" }), { SESSION_SECRET: SECRET, PROGRESS: fakeKV() });
+    expect(res.status).toBe(401);
+  });
+
+  it("rejects an invalid rating", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const res = await handleReviewFlashcard(req("https://example.com/api/flashcards/review", cookie, "POST", { deckId: "d1", cardIndex: 0, rating: "terrible" }), { SESSION_SECRET: SECRET, PROGRESS: fakeKV() });
+    expect(res.status).toBe(400);
+  });
+
+  it("404s for an unknown deck or an out-of-range card index", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV({
+      "progress:student@example.com": JSON.stringify({ customDecks: [{ id: "d1", name: "Deck", cards: [{ front: "Q", back: "A" }], createdAt: "2026-01-01T00:00:00.000Z" }] })
+    });
+    const missingDeck = await handleReviewFlashcard(req("https://example.com/api/flashcards/review", cookie, "POST", { deckId: "nope", cardIndex: 0, rating: "good" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(missingDeck.status).toBe(404);
+    const missingCard = await handleReviewFlashcard(req("https://example.com/api/flashcards/review", cookie, "POST", { deckId: "d1", cardIndex: 5, rating: "good" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(missingCard.status).toBe(404);
+  });
+
+  it("updates only the rated card's SRS fields, leaving sibling cards untouched", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV({
+      "progress:student@example.com": JSON.stringify({
+        customDecks: [{
+          id: "d1", name: "Deck", createdAt: "2026-01-01T00:00:00.000Z",
+          cards: [{ front: "Q1", back: "A1" }, { front: "Q2", back: "A2" }]
+        }]
+      })
+    });
+    const res = await handleReviewFlashcard(req("https://example.com/api/flashcards/review", cookie, "POST", { deckId: "d1", cardIndex: 0, rating: "good" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(data.card.interval).toBe(1);
+
+    const saved = JSON.parse(kv._store.get("progress:student@example.com"));
+    expect(saved.customDecks[0].cards[0].reps).toBe(1);
+    expect(saved.customDecks[0].cards[0].interval).toBe(1);
+    expect(saved.customDecks[0].cards[1]).toEqual({ front: "Q2", back: "A2" }); // untouched
   });
 });

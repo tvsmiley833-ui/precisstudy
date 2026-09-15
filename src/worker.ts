@@ -16,7 +16,7 @@ import {
 import { handleRequestGuideSubmit } from "./guide-requests.js";
 import { handleAdminMe, handleAdminListGuideRequests, handleAdminDeleteGuideRequest, handleAdminStats, handleAdminGetGuideRequestFile } from "./admin-routes.js";
 import { handleGetProgress, handlePostProgress, handlePostProgressReset, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak, handlePostNotificationPrefs, recordDailySnapshots, handlePostShareGenerate, handlePostShareRevoke, handleGetShare } from "./progress-routes.js";
-import { handleGenerateFlashcards, handleSaveFlashcards, handleDeleteFlashcards } from "./flashcards-routes.js";
+import { handleGenerateFlashcards, handleSaveFlashcards, handleDeleteFlashcards, handleReviewFlashcard } from "./flashcards-routes.js";
 import { handlePushSubscribe, handlePushUnsubscribe, handlePushTest, sendDailyReminders, sendScheduledBlockReminders, sendStreakReminders } from "./push-routes.js";
 import { handleGoogleConnectStart, handleGoogleConnectCallback } from "./google-connect.js";
 import {
@@ -255,6 +255,11 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
 
   if (url.pathname === "/api/flashcards/delete") {
     if (request.method === "POST") return handleDeleteFlashcards(request, env);
+    return json({ error: "Method not allowed" }, 405);
+  }
+
+  if (url.pathname === "/api/flashcards/review") {
+    if (request.method === "POST") return handleReviewFlashcard(request, env);
     return json({ error: "Method not allowed" }, 405);
   }
 

@@ -11,6 +11,52 @@ function json(body: unknown, status?: number): Response {
 interface Flashcard {
   front: string;
   back: string;
+  ease?: number;
+  interval?: number;
+  reps?: number;
+  due?: string;
+}
+
+const SM2_MIN_EASE = 1.3;
+const SM2_DEFAULT_EASE = 2.5;
+
+function todayPlus(days: number): string {
+  const d = new Date();
+  d.setUTCDate(d.getUTCDate() + days);
+  return d.toISOString().slice(0, 10);
+}
+
+// Standard SM-2, with the original 0-5 quality scale collapsed to the
+// 4-button Again/Hard/Good/Easy rating most students recognize from Anki.
+// Cards with no prior SRS state (undefined ease/interval/reps) start from
+// the algorithm's own defaults, so an old deck saved before this feature
+// shipped behaves exactly like a brand-new deck the first time it's rated.
+export function sm2(card: Pick<Flashcard, "ease" | "interval" | "reps">, rating: "again" | "hard" | "good" | "easy"): { ease: number; interval: number; reps: number; due: string } {
+  const ease = card.ease ?? SM2_DEFAULT_EASE;
+  const reps = card.reps ?? 0;
+  const interval = card.interval ?? 0;
+
+  if (rating === "again") {
+    return { ease, reps: 0, interval: 1, due: todayPlus(1) };
+  }
+
+  if (rating === "hard") {
+    const nextInterval = Math.max(1, Math.round(interval * 1.2));
+    const nextEase = Math.max(SM2_MIN_EASE, ease - 0.15);
+    return { ease: nextEase, reps: reps + 1, interval: nextInterval, due: todayPlus(nextInterval) };
+  }
+
+  // good or easy: same rep-based progression, "easy" adds a bonus multiplier
+  // and nudges ease up instead of leaving it unchanged.
+  let nextInterval: number;
+  if (reps === 0) nextInterval = 1;
+  else if (reps === 1) nextInterval = 6;
+  else nextInterval = Math.round(interval * ease);
+
+  const nextEase = rating === "easy" ? ease + 0.15 : ease;
+  if (rating === "easy") nextInterval = Math.round(nextInterval * 1.3);
+
+  return { ease: nextEase, reps: reps + 1, interval: nextInterval, due: todayPlus(nextInterval) };
 }
 
 interface FlashcardDeck {
@@ -171,4 +217,42 @@ export async function handleDeleteFlashcards(request: Request, env: Env): Promis
 
   await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
   return json({ ok: true });
+}
+
+const SM2_RATINGS = new Set(["again", "hard", "good", "easy"]);
+
+export async function handleReviewFlashcard(request: Request, env: Env): Promise<Response> {
+  const session = await getSession(request, env);
+  if (!session) return json({ error: "Sign in required" }, 401);
+  if (!env.PROGRESS) return json({ error: "Progress sync isn't configured yet" }, 503);
+
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch (e) {
+    return json({ error: "Invalid JSON body" }, 400);
+  }
+  const rec = body && typeof body === "object" ? (body as Record<string, unknown>) : {};
+  const deckId = rec.deckId;
+  const cardIndex = rec.cardIndex;
+  const rating = rec.rating;
+  if (typeof deckId !== "string" || !deckId) return json({ error: "Missing deckId" }, 400);
+  if (typeof cardIndex !== "number" || !Number.isInteger(cardIndex) || cardIndex < 0) return json({ error: "Invalid cardIndex" }, 400);
+  if (typeof rating !== "string" || !SM2_RATINGS.has(rating)) return json({ error: "rating must be one of again/hard/good/easy" }, 400);
+
+  const blob = await loadBlob(env, session.email);
+  const decks = Array.isArray(blob.customDecks) ? blob.customDecks : [];
+  const deck = decks.find(d => d.id === deckId);
+  if (!deck) return json({ error: "Deck not found" }, 404);
+  const card = deck.cards[cardIndex];
+  if (!card) return json({ error: "Card not found" }, 404);
+
+  const result = sm2(card, rating as "again" | "hard" | "good" | "easy");
+  card.ease = result.ease;
+  card.interval = result.interval;
+  card.reps = result.reps;
+  card.due = result.due;
+
+  await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  return json({ ok: true, card: { due: result.due, interval: result.interval } });
 }
