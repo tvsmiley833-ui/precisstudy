@@ -189,6 +189,28 @@ body{transition:background .2s ease,color .2s ease}
 .ss-resume-card{background:var(--bg-card);border:2px solid var(--accent-bright);border-radius:18px;padding:18px 24px;
   box-shadow:var(--card-shadow);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
+
+/* ---- dashboard sidebar (class filters, density) ---- */
+.dash-layout{display:flex;gap:24px;align-items:flex-start}
+.dash-sidebar{width:220px;flex-shrink:0}
+.dash-sidebar-inner{position:sticky;top:20px;display:flex;flex-direction:column;gap:14px}
+.dash-main{flex:1;min-width:0;display:grid;gap:20px}
+.dash-sidebar-toggle{display:none}
+@media(max-width:640px){
+  .dash-layout{flex-direction:column;gap:0}
+  .dash-sidebar{width:100%}
+  .dash-sidebar-inner{position:static}
+  .dash-sidebar-toggle{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;
+    box-sizing:border-box;background:var(--bg-card);border:2px solid var(--border);border-radius:12px;
+    padding:11px 16px;font-family:inherit;font-size:13.5px;font-weight:700;color:var(--text);cursor:pointer;margin-bottom:14px}
+  .dash-sidebar-toggle:hover{border-color:var(--accent-bright)}
+  .dash-sidebar-toggle svg{transition:transform .18s ease}
+  .dash-sidebar-toggle[aria-expanded="true"] svg{transform:rotate(180deg)}
+  .dash-sidebar-panel.dash-collapsed{display:none}
+  .dash-sidebar-panel:not(.dash-collapsed){animation:dashSidebarIn .16s ease}
+}
+@keyframes dashSidebarIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.dash-sidebar-panel:not(.dash-collapsed){animation:none}}
 </style>
 </head>
 <body style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);">
@@ -236,7 +258,30 @@ body{transition:background .2s ease,color .2s ease}
 </div>
 
 <div id="dash-content" style="display:none;padding:0 32px 64px;">
-  <div style="max-width:840px;margin:0 auto;display:grid;gap:20px;">
+  <div class="dash-layout" style="max-width:1040px;margin:0 auto;">
+   <aside class="dash-sidebar" aria-label="Class filters and display options">
+    <div class="dash-sidebar-inner">
+     <button type="button" id="dash-sidebar-toggle" class="dash-sidebar-toggle" aria-expanded="false" aria-controls="dash-sidebar-panel">
+       <span id="dash-sidebar-toggle-label">Show class filters</span>
+       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+     </button>
+     <div id="dash-sidebar-panel" class="dash-sidebar-panel dash-collapsed">
+      <p id="dash-classes-note" style="margin:0 0 14px;font-size:13.5px;color:var(--text-muted);"></p>
+      <div id="dash-subject-filter-wrap" style="display:none;position:relative;margin-bottom:14px;">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);pointer-events:none;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="dash-subject-filter" type="text" placeholder="Filter your classes…" aria-label="Filter your classes" class="ss-filter-input" style="padding-right:36px;"/>
+        <button id="dash-subject-filter-clear" type="button" aria-label="Clear filter" style="display:none;position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:18px;line-height:1;padding:4px;">×</button>
+      </div>
+      <div id="dash-density-row" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;" role="group" aria-label="Card density">
+        <span style="font-size:12.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;width:100%;">Density</span>
+        <button type="button" class="ss-density-btn" data-density="compact" style="background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);font-size:12.5px;font-weight:700;padding:5px 12px;cursor:pointer;">Compact</button>
+        <button type="button" class="ss-density-btn" data-density="comfortable" style="background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);font-size:12.5px;font-weight:700;padding:5px 12px;cursor:pointer;">Comfortable</button>
+        <button type="button" class="ss-density-btn" data-density="spacious" style="background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);font-size:12.5px;font-weight:700;padding:5px 12px;cursor:pointer;">Spacious</button>
+      </div>
+     </div>
+    </div>
+   </aside>
+   <div class="dash-main">
     <div id="dash-goal" style="display:none;font-size:14px;color:var(--text-muted);text-align:center;"></div>
 
     <div id="dash-focus" style="display:none;"></div>
@@ -341,21 +386,10 @@ body{transition:background .2s ease,color .2s ease}
       </div>
     </div>
 
-    <p id="dash-classes-note" style="max-width:840px;margin:0 auto 14px;font-size:13.5px;color:var(--text-muted);text-align:center;"></p>
-    <div id="dash-subject-filter-wrap" style="display:none;position:relative;margin-bottom:2px;">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);pointer-events:none;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input id="dash-subject-filter" type="text" placeholder="Filter your classes…" aria-label="Filter your classes" class="ss-filter-input" style="padding-right:36px;"/>
-      <button id="dash-subject-filter-clear" type="button" aria-label="Clear filter" style="display:none;position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:18px;line-height:1;padding:4px;">×</button>
-    </div>
-    <div id="dash-density-row" style="display:flex;align-items:center;gap:8px;margin:0 0 12px;flex-wrap:wrap;" role="group" aria-label="Card density">
-      <span style="font-size:12.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;">Density</span>
-      <button type="button" class="ss-density-btn" data-density="compact" style="background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);font-size:12.5px;font-weight:700;padding:5px 12px;cursor:pointer;">Compact</button>
-      <button type="button" class="ss-density-btn" data-density="comfortable" style="background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);font-size:12.5px;font-weight:700;padding:5px 12px;cursor:pointer;">Comfortable</button>
-      <button type="button" class="ss-density-btn" data-density="spacious" style="background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);font-size:12.5px;font-weight:700;padding:5px 12px;cursor:pointer;">Spacious</button>
-    </div>
     <div id="dash-subjects" style="display:grid;gap:20px;"></div>
     <div id="dash-unassessed" style="display:grid;gap:10px;margin-top:4px;"></div>
-  </div>
+   </div><!-- /dash-main -->
+  </div><!-- /dash-layout -->
 </div>
 
 <div role="contentinfo" style="border-top:1px solid var(--border);padding:24px 32px;text-align:center;">
@@ -2081,6 +2115,19 @@ loadDashboard();
   function onScroll(){ header.classList.toggle('scrolled', window.scrollY > 4); }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
+})();
+</script>
+<script>
+(function(){
+  var toggle = document.getElementById('dash-sidebar-toggle');
+  var panel = document.getElementById('dash-sidebar-panel');
+  var label = document.getElementById('dash-sidebar-toggle-label');
+  if(!toggle || !panel) return;
+  toggle.addEventListener('click', function(){
+    var collapsed = panel.classList.toggle('dash-collapsed');
+    toggle.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+    if(label) label.textContent = collapsed ? 'Show class filters' : 'Hide class filters';
+  });
 })();
 </script>
 <script src="/shared/command-palette.js" defer></script><script src="/shared/high-contrast.js" defer></script><script src="/shared/error-monitor.js" defer></script>

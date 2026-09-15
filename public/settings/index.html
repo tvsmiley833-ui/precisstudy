@@ -170,6 +170,25 @@ html{scroll-behavior:smooth}
    needs its own label (the card itself already has a top-level heading) ---- */
 .ss-subhead{font-size:12.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px}
 
+/* ---- settings tabs ---- */
+.ss-tabs-layout{display:flex;gap:28px;align-items:flex-start}
+.ss-tablist{display:flex;flex-direction:column;gap:4px;width:200px;flex-shrink:0;position:sticky;top:90px}
+.ss-tab{background:none;border:none;border-radius:12px;color:var(--text-muted);font-family:inherit;font-size:14.5px;
+  font-weight:700;text-align:left;padding:12px 14px;cursor:pointer;position:relative;transition:background .15s ease,color .15s ease}
+.ss-tab:hover{background:var(--bg);color:var(--text)}
+.ss-tab[aria-selected="true"]{background:var(--bg-card);color:var(--accent);box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.ss-tab[aria-selected="true"]::before{content:'';position:absolute;left:0;top:8px;bottom:8px;width:4px;border-radius:4px;background:var(--accent-bright)}
+.ss-tabpanels{flex:1;min-width:0}
+.ss-tabpanels [role="tabpanel"] > .ss-card{margin-top:20px}
+.ss-tabpanels [role="tabpanel"] > .ss-card:first-child{margin-top:0}
+@media(max-width:820px){
+  .ss-tabs-layout{flex-direction:column;gap:0}
+  .ss-tablist{position:static;width:100%;flex-direction:row;overflow-x:auto;-webkit-overflow-scrolling:touch;
+    gap:6px;padding-bottom:6px;margin-bottom:20px;border-bottom:1px solid var(--border)}
+  .ss-tab{white-space:nowrap;flex-shrink:0;padding:10px 14px}
+  .ss-tab[aria-selected="true"]::before{left:8px;right:8px;top:auto;bottom:0;height:3px;width:auto}
+}
+
 /* ---- save toast ---- */
 #ss-toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,120%);background:var(--accent-solid);color:#fff;
   font-weight:700;font-size:14px;padding:12px 22px;border-radius:999px;box-shadow:0 12px 32px rgba(0,0,0,.22);
@@ -220,6 +239,16 @@ html{scroll-behavior:smooth}
   </div>
 
   <div id="settings-content" style="display:none;">
+   <div class="ss-tabs-layout">
+    <div class="ss-tablist" role="tablist" aria-label="Settings categories" id="settings-tablist">
+      <button type="button" class="ss-tab" role="tab" id="tab-account" aria-controls="panel-account" aria-selected="true" data-tab="account">Account</button>
+      <button type="button" class="ss-tab" role="tab" id="tab-study" aria-controls="panel-study" aria-selected="false" tabindex="-1" data-tab="study">Study Preferences</button>
+      <button type="button" class="ss-tab" role="tab" id="tab-notifications" aria-controls="panel-notifications" aria-selected="false" tabindex="-1" data-tab="notifications">Notifications</button>
+      <button type="button" class="ss-tab" role="tab" id="tab-appearance" aria-controls="panel-appearance" aria-selected="false" tabindex="-1" data-tab="appearance">Appearance</button>
+      <button type="button" class="ss-tab" role="tab" id="tab-data" aria-controls="panel-data" aria-selected="false" tabindex="-1" data-tab="data">Data Management</button>
+    </div>
+    <div class="ss-tabpanels">
+    <div id="panel-study" role="tabpanel" aria-labelledby="tab-study" data-panel="study" hidden>
     <div class="ss-card">
       <div style="font-weight:800;font-size:17px;color:var(--text);margin-bottom:4px;">Your classes</div>
       <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">
@@ -241,8 +270,10 @@ html{scroll-behavior:smooth}
       <button id="settings-save-btn" style="margin-top:6px;">Save</button>
       <div id="settings-status"></div>
     </div>
+    </div><!-- /panel-study -->
 
-    <div class="ss-card" style="margin-top:20px;">
+    <div id="panel-appearance" role="tabpanel" aria-labelledby="tab-appearance" data-panel="appearance" hidden>
+    <div class="ss-card">
       <div style="font-weight:800;font-size:17px;color:var(--text);margin-bottom:4px;">Accessibility</div>
       <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">
         Increases text and border contrast across the whole site (also available as the "AA" button in the header).
@@ -251,8 +282,10 @@ html{scroll-behavior:smooth}
         <input type="checkbox" id="settings-high-contrast"> High contrast mode
       </label>
     </div>
+    </div><!-- /panel-appearance -->
 
-    <div class="ss-card" style="margin-top:20px;">
+    <div id="panel-notifications" role="tabpanel" aria-labelledby="tab-notifications" data-panel="notifications" hidden>
+    <div class="ss-card">
       <div style="font-weight:800;font-size:17px;color:var(--text);margin-bottom:4px;">Notifications</div>
       <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">
         Get a daily reminder to keep your study streak going.
@@ -276,8 +309,10 @@ html{scroll-behavior:smooth}
         <div id="notif-prefs-status" style="font-size:13px;color:var(--text-muted);margin-top:8px;"></div>
       </div>
     </div>
+    </div><!-- /panel-notifications -->
 
-    <div class="ss-card" id="google-card" style="margin-top:20px;">
+    <div id="panel-account" role="tabpanel" aria-labelledby="tab-account" data-panel="account">
+    <div class="ss-card" id="google-card">
       <div style="font-weight:800;font-size:17px;color:var(--text);margin-bottom:4px;">Connected accounts</div>
       <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">
         Connect Google to pull your Classroom assignments and calendar due-dates into one list.
@@ -333,6 +368,26 @@ html{scroll-behavior:smooth}
     </div>
 
     <div class="ss-card" style="margin-top:20px;">
+      <div style="font-weight:800;font-size:17px;color:var(--text);margin-bottom:4px;">Sign out of all devices</div>
+      <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">
+        Signs out every browser currently signed in to your account, including this one — useful if you signed in on a shared or lost device.
+      </p>
+      <button id="sign-out-everywhere-btn" style="width:auto;padding:10px 20px;">Sign out everywhere</button>
+      <div id="sign-out-everywhere-status" style="margin-top:10px;font-size:13px;color:var(--text-muted);"></div>
+    </div>
+
+    <div class="ss-card" style="margin-top:20px;border-color:#b3362c;">
+      <div style="font-weight:800;font-size:17px;color:var(--text);margin-bottom:4px;">Delete account</div>
+      <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">
+        Permanently deletes your saved progress, streak, classes, and connected accounts. This can't be undone.
+      </p>
+      <button id="delete-account-btn" style="width:auto;padding:10px 20px;background:#b3362c;color:#fff;">Delete my account</button>
+      <div id="delete-account-status" style="margin-top:10px;font-size:13px;color:var(--text-muted);"></div>
+    </div>
+    </div><!-- /panel-account -->
+
+    <div id="panel-data" role="tabpanel" aria-labelledby="tab-data" data-panel="data" hidden>
+    <div class="ss-card">
       <div style="font-weight:800;font-size:17px;color:var(--text);margin-bottom:4px;">Export your data</div>
       <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">
         Download everything PrecisStudy has saved for your account — mastery, streak, classes, schedule, and goals — as a single JSON file.
@@ -404,23 +459,9 @@ html{scroll-behavior:smooth}
       <div id="reset-progress-status" style="margin-top:10px;font-size:13px;color:var(--text-muted);"></div>
     </div>
 
-    <div class="ss-card" style="margin-top:20px;">
-      <div style="font-weight:800;font-size:17px;color:var(--text);margin-bottom:4px;">Sign out of all devices</div>
-      <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">
-        Signs out every browser currently signed in to your account, including this one — useful if you signed in on a shared or lost device.
-      </p>
-      <button id="sign-out-everywhere-btn" style="width:auto;padding:10px 20px;">Sign out everywhere</button>
-      <div id="sign-out-everywhere-status" style="margin-top:10px;font-size:13px;color:var(--text-muted);"></div>
-    </div>
-
-    <div class="ss-card" style="margin-top:20px;border-color:#b3362c;">
-      <div style="font-weight:800;font-size:17px;color:var(--text);margin-bottom:4px;">Delete account</div>
-      <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">
-        Permanently deletes your saved progress, streak, classes, and connected accounts. This can't be undone.
-      </p>
-      <button id="delete-account-btn" style="width:auto;padding:10px 20px;background:#b3362c;color:#fff;">Delete my account</button>
-      <div id="delete-account-status" style="margin-top:10px;font-size:13px;color:var(--text-muted);"></div>
-    </div>
+    </div><!-- /panel-data -->
+    </div><!-- /ss-tabpanels -->
+   </div><!-- /ss-tabs-layout -->
   </div>
 </div>
 
@@ -1471,6 +1512,62 @@ function ssToggleTheme(){
       try{ localStorage.setItem(KEY,mode); }catch(e){}
     });
   });
+})();
+</script>
+<script>
+(function(){
+  var TABS = ['account','study','notifications','appearance','data'];
+  var tablist = document.getElementById('settings-tablist');
+  if(!tablist) return;
+
+  function activate(tabKey, opts){
+    opts = opts || {};
+    if(TABS.indexOf(tabKey) === -1) tabKey = 'account';
+    TABS.forEach(function(key){
+      var tabBtn = document.getElementById('tab-' + key);
+      var panel = document.getElementById('panel-' + key);
+      var isActive = key === tabKey;
+      if(tabBtn){
+        tabBtn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        tabBtn.tabIndex = isActive ? 0 : -1;
+      }
+      if(panel) panel.hidden = !isActive;
+    });
+    if(!opts.skipHash){
+      try{ history.replaceState(null, '', '#' + tabKey); }catch(e){}
+    }
+  }
+
+  tablist.addEventListener('click', function(ev){
+    var btn = ev.target.closest('.ss-tab');
+    if(!btn) return;
+    activate(btn.dataset.tab);
+    btn.focus();
+  });
+
+  tablist.addEventListener('keydown', function(ev){
+    if(ev.key !== 'ArrowRight' && ev.key !== 'ArrowLeft') return;
+    var current = TABS.indexOf(document.activeElement && document.activeElement.dataset && document.activeElement.dataset.tab);
+    if(current === -1) return;
+    ev.preventDefault();
+    var next = ev.key === 'ArrowRight' ? (current + 1) % TABS.length : (current - 1 + TABS.length) % TABS.length;
+    var nextBtn = document.getElementById('tab-' + TABS[next]);
+    activate(TABS[next]);
+    if(nextBtn) nextBtn.focus();
+  });
+
+  // Determine initial tab: explicit hash wins; otherwise a Google OAuth
+  // callback (?google=...) or Canvas card should land on Account, and a
+  // fresh-signup welcome banner (?welcome=1) should land on Study Preferences
+  // so the new user sees the class picker right away. Default: Account.
+  var initial = 'account';
+  var hashTab = (location.hash || '').replace('#', '');
+  if(TABS.indexOf(hashTab) !== -1){
+    initial = hashTab;
+  } else if(new URLSearchParams(location.search).get('welcome') === '1'){
+    initial = 'study';
+  }
+  activate(initial, {skipHash: hashTab ? false : true});
 })();
 </script>
 <script src="/shared/command-palette.js" defer></script><script src="/shared/high-contrast.js" defer></script><script src="/shared/error-monitor.js" defer></script>
