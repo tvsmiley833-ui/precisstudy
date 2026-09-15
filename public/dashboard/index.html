@@ -39,7 +39,7 @@
   --status-none:#9bab91; --status-green:#3ecf8e; --status-amber:#e0c260; --status-red:#e08a70;
   --status-badge-text:#1a1204;
   --done-badge-bg:#3ecf8e;
-  --card-shadow:0 1px 3px rgba(0,0,0,.32),0 24px 48px -28px rgba(0,0,0,.5);
+  --card-shadow:0 1px 3px rgba(0,0,0,.45),0 28px 56px -26px rgba(0,0,0,.62);
   --hero-glow:radial-gradient(ellipse at center, rgba(79,191,133,.12), rgba(79,191,133,0) 70%);
 }
 .header-bar{position:sticky !important;top:0;z-index:100;transition:box-shadow .2s ease}
@@ -98,9 +98,23 @@ body{transition:background .2s ease,color .2s ease}
   box-shadow:var(--card-shadow);min-width:0}
 .ss-density-btn.active{background:var(--accent-bright);border-color:var(--accent-bright);color:#fff}
 .ss-density-btn:hover{border-color:var(--accent-bright)}
-#dash-subjects.density-compact > .ss-card{padding:16px}
+#dash-subjects.density-compact > .ss-card{padding:18px}
 #dash-subjects.density-spacious > .ss-card{padding:40px}
 #sb-blocks-list,#sb-subjects,#sb-result{min-width:0}
+/* Fluid subject-card grid: reflows by content width instead of wrapping at
+   awkward fixed breakpoints -- a single column at narrow/mobile widths is
+   the natural (1-column) result of auto-fit, not a special case. */
+#dash-subjects{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+/* Distinct tint per card "type" so sections read as visually separate
+   against the page background rather than blending together, on top of
+   the shared --card-shadow depth every .ss-card already gets. */
+#dash-assignments-card{background:color-mix(in srgb, var(--accent) 5%, var(--bg-card))}
+.ss-focus-banner{background:color-mix(in srgb, var(--status-amber) 14%, var(--bg-card));
+  border:2px solid var(--status-amber);border-radius:18px;padding:20px 24px;box-shadow:var(--card-shadow);
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.ss-focus-banner .ss-focus-label{font-size:12.5px;font-weight:800;color:var(--status-amber);text-transform:uppercase;letter-spacing:.05em}
+.ss-focus-banner .ss-focus-title{font-size:18px;font-weight:800;color:var(--text);margin-top:2px}
+.ss-focus-banner .ss-focus-sub{font-size:13.5px;color:var(--text-muted);margin-top:2px}
 /* Printable progress report (printProgressReport() builds #ss-print-container
    on demand and calls window.print()) -- same pattern as the guide pages'
    worksheet/flashcard-sheet export, kept out of screen styles entirely so it
@@ -123,7 +137,7 @@ body{transition:background .2s ease,color .2s ease}
 .sb-grid-cell{height:16px;border-radius:3px;background:var(--bg);border:1px solid var(--border);cursor:pointer;touch-action:none;}
 .sb-grid-cell:hover{border-color:var(--accent-bright);}
 .sb-grid-cell.sb-grid-filled{background:var(--accent-bright);border-color:var(--accent-bright);}
-@media(max-width:640px){.ss-card{padding:20px}}
+@media(max-width:640px){.ss-card{padding:24px}.ss-focus-banner{padding:16px 18px}}
 
 .sb-block-day-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;min-width:0}
 .sb-block-day-label{font-weight:800;color:var(--text);min-width:34px;flex-shrink:0}
@@ -224,6 +238,8 @@ body{transition:background .2s ease,color .2s ease}
 <div id="dash-content" style="display:none;padding:0 32px 64px;">
   <div style="max-width:840px;margin:0 auto;display:grid;gap:20px;">
     <div id="dash-goal" style="display:none;font-size:14px;color:var(--text-muted);text-align:center;"></div>
+
+    <div id="dash-focus" style="display:none;"></div>
 
     <div id="dash-resume" style="display:none;"></div>
 
@@ -1355,6 +1371,44 @@ async function loadDashAssignments(forceRefresh) {
 // it only knows about visits that started from this dashboard, on this
 // device/browser -- a visit made directly from a bookmark, or from another
 // device, won't update it. Hidden entirely for first-time users.
+// Pulled out of the per-subject cards into its own full-width banner --
+// scans every assessed subject for its single weakest unit and surfaces the
+// overall weakest one site-wide, so "what should I study today" has one
+// obvious answer instead of being buried inside whichever subject card the
+// student happens to scroll to.
+function renderFocusBanner(assessedSubjects, blob) {
+  const el = document.getElementById('dash-focus');
+  if (!el) return;
+
+  let worst = null; // { label, href, unitName, pct }
+  assessedSubjects.forEach(function (s) {
+    const unitIds = s.units.map(u => u.id);
+    const unitNames = {};
+    s.units.forEach(u => { unitNames[u.id] = u.name; });
+    const mastery = (blob[s.key] || {}).mastery || {};
+    const weak = topWeakUnits(mastery, unitIds, unitNames, 1);
+    if (!weak.length) return;
+    const top = weak[0];
+    if (!worst || (top.pct !== null && (worst.pct === null || top.pct < worst.pct))) {
+      worst = { label: s.label, href: s.href, unitId: top.unitId, unitName: top.unitName, pct: top.pct };
+    }
+  });
+
+  if (!worst || worst.pct === null || worst.pct >= 80) {
+    el.style.display = 'none';
+    el.innerHTML = '';
+    return;
+  }
+
+  el.style.display = 'block';
+  el.innerHTML = '<div class="ss-focus-banner">'
+    + '<div><div class="ss-focus-label">🎯 Today\'s Focus</div>'
+    + '<div class="ss-focus-title">' + ssEscapeHtml(worst.unitName) + '</div>'
+    + '<div class="ss-focus-sub">' + ssEscapeHtml(worst.label) + ' — your weakest assessed topic at ' + worst.pct + '%</div></div>'
+    + '<a href="' + ssEscapeHtml(worst.href) + '?practice=' + ssEscapeHtml(worst.unitId) + '" class="ss-cta-btn" style="background:var(--accent-solid);color:#fff;padding:10px 22px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:700;white-space:nowrap;">Practice now →</a>'
+    + '</div>';
+}
+
 function renderResumeBanner(availableSubjects) {
   const el = document.getElementById('dash-resume');
   if (!el) return;
@@ -1782,6 +1836,8 @@ async function loadDashboard() {
       const readiness = computeReadiness((blob[s.key] || {}).mastery || {}, unitIds);
       (readiness.pct === null ? unassessed : assessed).push(s);
     });
+
+    renderFocusBanner(assessed, blob);
 
     assessed.forEach(s => {
       const card = document.createElement('div');

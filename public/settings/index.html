@@ -76,6 +76,7 @@ html{scroll-behavior:smooth}
 
 .ss-card{background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;
   box-shadow:var(--card-shadow)}
+@media(max-width:640px){.ss-card{padding:22px}}
 
 .ss-cta-btn{transition:background .2s ease,transform .15s ease,box-shadow .2s ease}
 .ss-cta-btn:hover{background:var(--accent-solid-hover);transform:translateY(-1px);box-shadow:0 8px 20px rgba(31,110,70,.28)}
@@ -150,6 +151,24 @@ html{scroll-behavior:smooth}
   font-size:14.5px;font-family:inherit;cursor:pointer;white-space:nowrap;transition:background .2s ease}
 #ss-unsaved-save:hover{background:var(--accent-solid-hover)}
 #ss-unsaved-save:disabled{opacity:.6;cursor:default}
+
+/* ---- bigger touch targets for standalone toggles/checkboxes outside
+   .class-row (which already has its own 20x20 accent-colored box) ---- */
+.ss-toggle-row{display:flex;gap:10px;align-items:center;font-size:14px;color:var(--text);
+  padding:10px 4px;margin:0 -4px;border-radius:10px;cursor:pointer;transition:background .15s ease}
+.ss-toggle-row:hover{background:var(--bg)}
+.ss-toggle-row input[type="checkbox"]{width:19px;height:19px;accent-color:var(--accent-bright);flex-shrink:0;cursor:pointer}
+
+/* ---- two-column field grid for genuinely related setting pairs ---- */
+.ss-field-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:520px){.ss-field-grid{grid-template-columns:1fr}}
+.ss-field-grid label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:4px}
+.ss-field-grid input{width:100%;box-sizing:border-box;padding:11px 12px;border:1px solid var(--border);border-radius:10px;
+  background:var(--bg);color:var(--text);font-size:14px}
+
+/* ---- section subheading used inside a card when a sub-group of controls
+   needs its own label (the card itself already has a top-level heading) ---- */
+.ss-subhead{font-size:12.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px}
 
 /* ---- save toast ---- */
 #ss-toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,120%);background:var(--accent-solid);color:#fff;
@@ -228,7 +247,7 @@ html{scroll-behavior:smooth}
       <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">
         Increases text and border contrast across the whole site (also available as the "AA" button in the header).
       </p>
-      <label style="display:flex;gap:8px;align-items:center;font-size:14px;color:var(--text);">
+      <label class="ss-toggle-row">
         <input type="checkbox" id="settings-high-contrast"> High contrast mode
       </label>
     </div>
@@ -243,17 +262,18 @@ html{scroll-behavior:smooth}
         <button id="push-test-btn" class="ss-oauth-btn" style="width:auto;padding:10px 20px;margin-bottom:0;display:none;">Send test notification</button>
       </div>
       <div id="push-status" style="margin-top:12px;font-size:13px;color:var(--text-muted);"></div>
-      <div id="notif-prefs" style="display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--border);flex-direction:column;gap:10px;">
-        <label style="display:flex;gap:8px;align-items:center;font-size:14px;color:var(--text);">
+      <div id="notif-prefs" style="display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--border);flex-direction:column;gap:2px;">
+        <p class="ss-subhead">Reminder types</p>
+        <label class="ss-toggle-row">
           <input type="checkbox" id="notif-pref-daily" checked> Daily study reminder
         </label>
-        <label style="display:flex;gap:8px;align-items:center;font-size:14px;color:var(--text);">
+        <label class="ss-toggle-row">
           <input type="checkbox" id="notif-pref-streak" checked> Streak reminder (8pm, if you haven't studied yet)
         </label>
-        <label style="display:flex;gap:8px;align-items:center;font-size:14px;color:var(--text);">
+        <label class="ss-toggle-row">
           <input type="checkbox" id="notif-pref-blocks" checked> Study-block reminders (10 min before a scheduled block)
         </label>
-        <div id="notif-prefs-status" style="font-size:13px;color:var(--text-muted);"></div>
+        <div id="notif-prefs-status" style="font-size:13px;color:var(--text-muted);margin-top:8px;"></div>
       </div>
     </div>
 
@@ -269,11 +289,11 @@ html{scroll-behavior:smooth}
       </div>
 
       <div id="google-connected" style="display:none;">
-        <p style="font-size:13px;color:var(--text-muted);margin:0 0 12px;">Connected as <b id="google-email"></b></p>
-        <label style="display:flex;gap:8px;align-items:center;font-size:14px;color:var(--text);margin-bottom:12px;">
+        <p style="font-size:13px;color:var(--text-muted);margin:0 0 8px;">Connected as <b id="google-email"></b></p>
+        <label class="ss-toggle-row">
           <input type="checkbox" id="google-schoolwork-only"> Only show schoolwork on my list
         </label>
-        <label style="display:flex;gap:8px;align-items:center;font-size:14px;color:var(--text);margin-bottom:12px;">
+        <label class="ss-toggle-row" style="margin-bottom:8px;">
           <input type="checkbox" id="google-push-schedule"> Add my study schedule to this calendar
         </label>
         <div style="font-size:13px;color:var(--text-muted);margin-bottom:6px;">Calendars to include:</div>
@@ -292,10 +312,16 @@ html{scroll-behavior:smooth}
         Connect Canvas to pull your assignments into the same list as Google Classroom.
       </p>
       <div id="canvas-disconnected">
-        <label style="display:block;font-size:13px;color:var(--text-muted);margin-bottom:4px;">Canvas domain</label>
-        <input type="text" id="canvas-domain" placeholder="yourschool.instructure.com" style="width:100%;box-sizing:border-box;padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font-size:13px;margin-bottom:10px;"/>
-        <label style="display:block;font-size:13px;color:var(--text-muted);margin-bottom:4px;">Access token</label>
-        <input type="password" id="canvas-token" placeholder="Canvas access token" style="width:100%;box-sizing:border-box;padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font-size:13px;margin-bottom:10px;"/>
+        <div class="ss-field-grid" style="margin-bottom:10px;">
+          <div>
+            <label for="canvas-domain">Canvas domain</label>
+            <input type="text" id="canvas-domain" placeholder="yourschool.instructure.com"/>
+          </div>
+          <div>
+            <label for="canvas-token">Access token</label>
+            <input type="password" id="canvas-token" placeholder="Canvas access token"/>
+          </div>
+        </div>
         <button id="canvas-connect-btn" style="width:auto;padding:10px 20px;">Connect</button>
         <p style="font-size:12.5px;color:var(--text-muted);margin:10px 0 0;">Generate a token from Canvas: Account → Settings → "+ New Access Token".</p>
       </div>
