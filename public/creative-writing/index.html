@@ -2646,9 +2646,11 @@ function shortcutsModalInit(){
     '<div class="shortcuts-modal-body">'+rows.map(function(r){return '<div class="shortcuts-modal-row"><span>'+r[1]+'</span><kbd>'+r[0]+'</kbd></div>';}).join('')+'</div></div>';
   document.body.appendChild(panel);
 }
+var shortcutsModalReturnFocus=null;
 function shortcutsModalOpen(){
   var panel=document.getElementById('shortcuts-modal');
   if(!panel)return;
+  shortcutsModalReturnFocus=document.activeElement;
   panel.classList.add('open');
   panel.setAttribute('aria-hidden','false');
   var closeBtn=panel.querySelector('.shortcuts-modal-close');
@@ -2661,6 +2663,11 @@ function shortcutsModalClose(){
   panel.classList.remove('open');
   panel.setAttribute('aria-hidden','true');
   document.removeEventListener('keydown',shortcutsModalKeydown);
+  // "?" can open this from anywhere on the page, unlike the toolkit panels
+  // which always open from the same FAB -- restore whatever actually had
+  // focus, not a fixed element.
+  if(shortcutsModalReturnFocus&&document.body.contains(shortcutsModalReturnFocus))shortcutsModalReturnFocus.focus();
+  shortcutsModalReturnFocus=null;
 }
 function shortcutsModalToggle(){
   var panel=document.getElementById('shortcuts-modal');
@@ -2706,6 +2713,10 @@ function referencePanelClose(){
   panel.classList.remove('open');
   panel.setAttribute('aria-hidden','true');
   document.removeEventListener('keydown',referencePanelKeydown);
+  // Same toolkit-FAB return target as qrefDrawerClose()/desmosToggle() --
+  // this panel is only ever opened from that FAB's menu.
+  var fab=document.getElementById('toolkit-fab');
+  if(fab)fab.focus();
 }
 function referencePanelToggle(){
   var panel=document.getElementById('reference-panel');
