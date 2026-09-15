@@ -72,6 +72,59 @@ async function rewriteViewMeta(res: Response, view: string): Promise<Response> {
     .on('meta[property="og:description"]', { element(el) { el.setAttribute("content", description); } })
     .transform(res);
 }
+
+// The shared JS every page loads via a plain <script src="/shared/x.js">
+// tag -- same list as `ls public/shared/*.js`. Kept as an explicit list
+// (not read from disk at request time) so a typo here fails loudly in
+// review rather than silently caching-forever a file nobody versioned.
+const SHARED_JS_FILES = new Set(["celebrate.js", "chalk-cursor.js", "command-palette.js", "high-contrast.js", "mastery.js", "unit-titles.js"]);
+
+// Per-isolate cache: hashing 6 small files is cheap, but there's no reason
+// to redo it every request when the isolate will serve many requests
+// before Cloudflare recycles it, and a fresh deploy always gets a fresh
+// isolate (so this can't serve a version map for code that no longer
+// exists).
+let sharedAssetVersions: Map<string, string> | null = null;
+
+async function getSharedAssetVersions(env: Env): Promise<Map<string, string>> {
+  if (sharedAssetVersions) return sharedAssetVersions;
+  const versions = new Map<string, string>();
+  await Promise.all([...SHARED_JS_FILES].map(async file => {
+    try {
+      const res = await env.ASSETS.fetch(new Request(`https://precisstudy.com/shared/${file}`));
+      if (!res.ok) return;
+      const digest = await crypto.subtle.digest("SHA-256", await res.arrayBuffer());
+      const hex = [...new Uint8Array(digest)].map(b => b.toString(16).padStart(2, "0")).join("").slice(0, 10);
+      versions.set(file, hex);
+    } catch (e) { /* leave that one file unversioned -- it still loads, just without long-lived caching */ }
+  }));
+  sharedAssetVersions = versions;
+  return versions;
+}
+
+// Rewrites every <script src="/shared/x.js"> on the page to
+// /shared/x.js?v=<hash-of-actual-current-bytes>, so the browser (and the
+// long Cache-Control set for /shared/ requests carrying that query string,
+// below) can cache it for a year without ever serving a stale copy after
+// the next deploy -- a content change produces a different URL instead of
+// invalidating the old one.
+async function injectAssetVersions(res: Response, env: Env): Promise<Response> {
+  if (!res.headers.get("Content-Type")?.includes("text/html")) return res;
+  const versions = await getSharedAssetVersions(env);
+  if (!versions.size) return res;
+  return new HTMLRewriter()
+    .on('script[src^="/shared/"]', {
+      element(el) {
+        const src = el.getAttribute("src");
+        if (!src) return;
+        const file = src.slice("/shared/".length).split("?")[0];
+        const v = file && versions.get(file);
+        if (v) el.setAttribute("src", `/shared/${file}?v=${v}`);
+      }
+    })
+    .transform(res);
+}
+
 const SUBJECT_VIEW_RE = /^\/([a-z0-9-]+)\/([a-z0-9-]+)\/?$/;
 
 const AUTH_ROUTES: Record<string, Record<string, (request: Request, env: Env) => Promise<Response>>> = {
@@ -404,9 +457,24 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
       const assetUrl = new URL(request.url);
       assetUrl.pathname = `/${subject}/`;
       const res = await env.ASSETS.fetch(new Request(assetUrl, request));
-      return rewriteViewMeta(res, view);
+      return injectAssetVersions(await rewriteViewMeta(res, view), env);
     }
   }
 
-  return env.ASSETS.fetch(request);
+  // A request for one of the shared JS files WITH the ?v=<hash> query
+  // string this Worker itself injects (see injectAssetVersions) is safe to
+  // cache for a year: the hash is the actual file's content, so a future
+  // edit produces a different URL instead of invalidating this one. A bare
+  // /shared/x.js request (no ?v=, e.g. someone's old bookmark or a stale
+  // cached page from before this shipped) keeps the platform default so it
+  // can't go stale indefinitely.
+  if (url.pathname.startsWith("/shared/") && SHARED_JS_FILES.has(url.pathname.slice("/shared/".length))) {
+    const res = await env.ASSETS.fetch(request);
+    if (!url.searchParams.has("v")) return res;
+    const headers = new Headers(res.headers);
+    headers.set("Cache-Control", "public, max-age=31536000, immutable");
+    return new Response(res.body, { status: res.status, headers });
+  }
+
+  return injectAssetVersions(await env.ASSETS.fetch(request), env);
 }

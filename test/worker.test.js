@@ -258,3 +258,37 @@ describe("Google connect + assignments routing", () => {
     expect(res.status).toBe(405);
   });
 });
+
+describe("shared JS cache-busting", () => {
+  it("rewrites every /shared/*.js script tag on a page to include a content hash", async () => {
+    const res = await SELF.fetch("https://precisstudy.com/dashboard");
+    const html = await res.text();
+    const srcs = [...html.matchAll(/<script src="(\/shared\/[^"]+)"/g)].map(m => m[1]);
+    expect(srcs.length).toBeGreaterThan(0);
+    for (const src of srcs) expect(src).toMatch(/^\/shared\/[a-z-]+\.js\?v=[0-9a-f]{10}$/);
+  });
+
+  it("a /shared/*.js request carrying the injected ?v= hash gets a year-long, immutable Cache-Control", async () => {
+    const page = await SELF.fetch("https://precisstudy.com/dashboard");
+    const html = await page.text();
+    const versionedSrc = /<script src="(\/shared\/command-palette\.js\?v=[0-9a-f]{10})"/.exec(html)[1];
+
+    const res = await SELF.fetch("https://precisstudy.com" + versionedSrc);
+    expect(res.status).toBe(200);
+    expect(res.headers.get("Cache-Control")).toBe("public, max-age=31536000, immutable");
+  });
+
+  it("a bare /shared/*.js request with no ?v= keeps the platform default, not the long-lived cache", async () => {
+    const res = await SELF.fetch("https://precisstudy.com/shared/mastery.js");
+    expect(res.status).toBe(200);
+    expect(res.headers.get("Cache-Control")).not.toBe("public, max-age=31536000, immutable");
+  });
+
+  it("the hash tracks real file content -- two different shared files get different hashes", async () => {
+    const page = await SELF.fetch("https://precisstudy.com/dashboard");
+    const html = await page.text();
+    const hashes = new Set([...html.matchAll(/\/shared\/[a-z-]+\.js\?v=([0-9a-f]{10})/g)].map(m => m[1]));
+    const fileCount = new Set([...html.matchAll(/\/shared\/([a-z-]+\.js)\?v=/g)].map(m => m[1])).size;
+    expect(hashes.size).toBe(fileCount);
+  });
+});
