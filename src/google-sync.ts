@@ -14,7 +14,7 @@ export const DEFAULT_SETTINGS: GoogleSettings = { calendarIds: ["primary"], scho
 
 export interface Assignment {
   id: string;
-  source: "classroom" | "calendar" | "canvas";
+  source: "classroom" | "calendar" | "canvas" | "syllabus";
   title: string;
   courseName: string | null;
   dueAt: string | null; // ISO 8601

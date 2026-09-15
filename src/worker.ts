@@ -19,6 +19,7 @@ import { handleAdminMe, handleAdminListGuideRequests, handleAdminDeleteGuideRequ
 import { handleGetProgress, handlePostProgress, handlePostProgressReset, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak, handlePostNotificationPrefs, recordDailySnapshots, handlePostShareGenerate, handlePostShareRevoke, handleGetShare, handlePostCalendarGenerate, handlePostCalendarRevoke, handleGetCalendarFeed, handlePostInviteGenerate } from "./progress-routes.js";
 import { handleGenerateFlashcards, handleSaveFlashcards, handleDeleteFlashcards, handleReviewFlashcard } from "./flashcards-routes.js";
 import { handleSyllabusParse } from "./syllabus-routes.js";
+import { handleSaveSyllabusDates } from "./syllabus-dates.js";
 import { handlePushSubscribe, handlePushUnsubscribe, handlePushTest, sendDailyReminders, sendScheduledBlockReminders, sendStreakReminders } from "./push-routes.js";
 import { handleGoogleConnectStart, handleGoogleConnectCallback } from "./google-connect.js";
 import {
@@ -442,6 +443,11 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
 
   if (url.pathname === "/api/syllabus/parse") {
     if (request.method === "POST") return handleSyllabusParse(request, env);
+    return json({ error: "Method not allowed" }, 405);
+  }
+
+  if (url.pathname === "/api/syllabus/dates") {
+    if (request.method === "POST") return handleSaveSyllabusDates(request, env);
     return json({ error: "Method not allowed" }, 405);
   }
 

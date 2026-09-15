@@ -7,6 +7,7 @@ import {
 import { putGoogleToken, googleTokenKey } from "../src/google-token.js";
 import { googleCacheKey } from "../src/google-sync.js";
 import { putCanvasToken } from "../src/canvas-token.js";
+import { syllabusDatesKey } from "../src/syllabus-dates.js";
 
 const SECRET = "test-session-secret";
 
@@ -96,6 +97,43 @@ describe("/api/assignments", () => {
     const titles = feed.items.map(i => i.title).sort();
     expect(titles).toEqual(["Canvas Essay", "Google Cached"]);
     expect(feed.items.find(i => i.title === "Canvas Essay").source).toBe("canvas");
+  });
+
+  it("merges syllabus-sourced key dates into the feed, independent of Google/Canvas connection state", async () => {
+    const e = env();
+    const c = await cookie("s@e.edu");
+    // No Google token, no Canvas token -- the student never connected either.
+    e.PROGRESS._store.set(syllabusDatesKey("s@e.edu"), JSON.stringify({
+      items: [{ subject: "apush", subjectLabel: "APUSH", date: "2026-10-15", title: "Midterm exam" }]
+    }));
+    const res = await handleAssignments(get("https://precisstudy.com/api/assignments", c), e);
+    const feed = await res.json();
+    expect(feed.connected).toBe(false);
+    expect(feed.items).toHaveLength(1);
+    const item = feed.items[0];
+    expect(item.source).toBe("syllabus");
+    expect(item.title).toBe("Midterm exam");
+    expect(item.courseName).toBe("APUSH");
+    expect(item.dueAt).toBe("2026-10-15T23:59:00");
+    expect(item.allDay).toBe(true);
+    expect(item.link).toBe("/apush");
+    expect(item.state).toBe("none");
+  });
+
+  it("merges syllabus dates alongside a warm Google/Canvas cache too", async () => {
+    const e = env();
+    const c = await cookie("s@e.edu");
+    await putGoogleToken(e, "s@e.edu", { refreshToken: "1//rt", googleEmail: "s@e.edu", scopes: [], connectedAt: "x" });
+    const entry = { items: [{ id: "classroom:c:w", source: "classroom", title: "Cached", courseName: null, dueAt: null, allDay: true, link: null, state: "todo" }], fetchedAt: new Date().toISOString() };
+    e.PROGRESS._store.set(googleCacheKey("s@e.edu"), JSON.stringify(entry));
+    e.PROGRESS._store.set(syllabusDatesKey("s@e.edu"), JSON.stringify({
+      items: [{ subject: "geometry", subjectLabel: "Geometry", date: "2026-11-01", title: "Final" }]
+    }));
+    globalThis.fetch = async () => { throw new Error("must not fetch on a warm cache"); };
+    const res = await handleAssignments(get("https://precisstudy.com/api/assignments", c), e);
+    const feed = await res.json();
+    const titles = feed.items.map(i => i.title).sort();
+    expect(titles).toEqual(["Cached", "Final"]);
   });
 });
 

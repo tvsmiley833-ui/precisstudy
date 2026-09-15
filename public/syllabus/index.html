@@ -157,7 +157,11 @@ label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-m
         <div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:4px;">Key dates</div>
         <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 8px;">Exams, due dates, and anything else your syllabus called out.</p>
         <div id="syl-dates"></div>
-        <button class="ss-btn" id="syl-ics-btn" onclick="sylDownloadIcs()" style="margin-top:14px;">⇩ Download as calendar file (.ics)</button>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
+          <button class="ss-btn" id="syl-ics-btn" onclick="sylDownloadIcs()">⇩ Download as calendar file (.ics)</button>
+          <button class="ss-btn ss-btn-solid" id="syl-dates-save-btn" onclick="sylSaveDates()">＋ Add to Upcoming Assignments</button>
+        </div>
+        <div id="syl-dates-save-status" style="margin-top:10px;font-size:13.5px;color:var(--text-muted);"></div>
       </div>
 
       <div class="ss-card" id="syl-order-card" style="display:none;">
@@ -538,6 +542,38 @@ async function sylSaveUnitOrder(){
       status.textContent = 'Saved ✓ — your study guide will use this order next time you open it.';
     } else {
       var d = await saveRes.json().catch(function(){ return {}; });
+      status.textContent = d.error || "Couldn't save — try again.";
+    }
+  } catch (e) {
+    status.textContent = "Couldn't reach the server — check your connection and try again.";
+  }
+  btn.disabled = false;
+}
+
+async function sylSaveDates(){
+  var btn = document.getElementById('syl-dates-save-btn');
+  var status = document.getElementById('syl-dates-save-status');
+  var isoRe = /^\d{4}-\d{2}-\d{2}$/;
+  var usableCount = sylLastKeyDates.filter(function(d){ return isoRe.test(d.date); }).length;
+  if (!usableCount) { status.textContent = "None of these dates have a full year, so they can't be added to your dashboard — copy them manually."; return; }
+
+  var subjectKey = document.getElementById('syl-subject').value;
+  var subjectLabel = (SYL_SUBJECTS.find(function(s){ return s.key === subjectKey; }) || {}).label || subjectKey;
+
+  btn.disabled = true;
+  status.textContent = 'Saving…';
+  try {
+    var res = await fetch('/api/syllabus/dates', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ subject: subjectKey, subjectLabel: subjectLabel, keyDates: sylLastKeyDates })
+    });
+    var d = await res.json().catch(function(){ return {}; });
+    if (res.ok) {
+      status.textContent = d.saved < d.submitted
+        ? 'Saved ' + d.saved + ' of ' + d.submitted + ' dates — the others didn\'t have a specific year. See them on your dashboard.'
+        : 'Saved ' + d.saved + ' date' + (d.saved === 1 ? '' : 's') + ' ✓ — see them on your dashboard.';
+    } else {
       status.textContent = d.error || "Couldn't save — try again.";
     }
   } catch (e) {
