@@ -83,6 +83,13 @@
       <div class="face back"><div class="lbl">Definition</div><div class="def" id="fc-def"></div></div>
     </div>
   </div>
+  <div class="fc-type-row" id="fc-type-row" style="display:none">
+    <div class="lbl" style="font-family:'Space Grotesk';font-size:16.5px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-dim)">Definition</div>
+    <div class="fc-type-def" id="fc-type-def"></div>
+    <input id="fc-type-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Type the term…" aria-label="Type the term for this definition" onkeydown="if(event.key==='Enter'){event.preventDefault();checkTypedAnswer();}">
+    <button class="btn" type="button" onclick="checkTypedAnswer()">Check</button>
+    <div class="fc-type-feedback" id="fc-type-feedback" role="status"></div>
+  </div>
   <div class="hint">Click or press Enter to flip · Rate yourself to track weak cards</div>
   <div class="fc-nav" style="flex-wrap:wrap;gap:8px">
     <button class="btn" onclick="fcNav(-1)">← Prev</button>
@@ -93,6 +100,7 @@
     <button class="btn" onclick="rateFC('known')" style="border-color:rgba(127,201,143,0.45);color:rgba(127,201,143,0.85);background:rgba(127,201,143,0.14)">✓ Know it</button>
     <button class="btn" onclick="rateFC('learning')" style="border-color:rgba(224,122,130,0.45);color:rgba(224,122,130,0.85);background:rgba(224,122,130,0.14)">✗ Still learning</button>
     <button class="btn" onclick="filterFC()" id="filter-btn" style="font-size:18px">Show: All</button>
+    <button class="btn" onclick="toggleFcMode()" id="fc-mode-btn" style="font-size:18px">✎ Type it</button>
   </div>
   <div id="fc-progress" style="text-align:center;font-size:18px;color:var(--ink-dim,#857f72);margin-top:6px"></div>
   <div style="text-align:center;margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">

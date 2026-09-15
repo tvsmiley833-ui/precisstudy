@@ -406,8 +406,111 @@ function hydrateGuide(){
 if(document.getElementById('units').children.length===0){buildGuide();}else{hydrateGuide();}
 ssTypeset(document.getElementById('units'));
 
+// AI concept-breakdown highlighting: selecting any text inside the guide
+// content surfaces a floating "Break this down" button that hands the
+// exact selection to the existing AI helper (cbotAskAndOpen -- same
+// call already used by the "explain why this wrong answer is wrong"
+// button), so this needs no new backend endpoint or prompt plumbing.
+(function(){
+  const root=document.getElementById('units');
+  if(!root)return;
+  let btn=null,hideTimer=null;
+  function hideBtn(){if(btn){btn.remove();btn=null;}}
+  function placeBtn(){
+    clearTimeout(hideTimer);
+    const sel=window.getSelection();
+    const text=sel&&sel.toString().trim();
+    if(!text||text.length<3||text.length>400||!sel.rangeCount){hideBtn();return;}
+    const anchor=sel.anchorNode;
+    if(!anchor||!root.contains(anchor)){hideBtn();return;}
+    const rect=sel.getRangeAt(0).getBoundingClientRect();
+    if(!rect||(!rect.width&&!rect.height)){hideBtn();return;}
+    hideBtn();
+    btn=document.createElement('button');
+    btn.type='button';
+    btn.className='ss-concept-btn';
+    btn.textContent='🤖 Break this down';
+    btn.style.left=Math.max(8,rect.left+window.scrollX+rect.width/2)+'px';
+    btn.style.top=Math.max(8,rect.top+window.scrollY-40)+'px';
+    btn.onmousedown=function(e){e.preventDefault();};
+    btn.onclick=function(){
+      const q='Break down this concept in simple, plain-English terms, with a short example if it helps: "'+text+'"';
+      const display='Break down: "'+(text.length>60?text.slice(0,60)+'…':text)+'"';
+      cbotAskAndOpen(q,display);
+      hideBtn();
+      sel.removeAllRanges();
+    };
+    document.body.appendChild(btn);
+  }
+  document.addEventListener('selectionchange',function(){
+    clearTimeout(hideTimer);
+    hideTimer=setTimeout(placeBtn,150);
+  });
+  window.addEventListener('scroll',hideBtn,{passive:true});
+  document.addEventListener('mousedown',function(e){if(btn&&e.target!==btn)hideBtn();});
+})();
+
+// Plain iterative Levenshtein (edit distance) -- O(m*n) on short
+// term-length strings, cheap enough to run per keystroke-triggered check.
+// Normalized to a 0-1 similarity ratio so the match threshold is
+// length-independent (a 1-char typo in a 20-char term shouldn't fail the
+// same threshold as a 1-char typo in a 4-char term).
+function ssLevenshtein(a,b){
+  const m=a.length,n=b.length;
+  if(!m)return n;if(!n)return m;
+  let prev=Array.from({length:n+1},(_,j)=>j);
+  for(let i=1;i<=m;i++){
+    const cur=[i];
+    for(let j=1;j<=n;j++){
+      const cost=a[i-1]===b[j-1]?0:1;
+      cur[j]=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+cost);
+    }
+    prev=cur;
+  }
+  return prev[n];
+}
+const FUZZY_THRESHOLD=0.82;
+function ssFuzzyMatch(typed,correct){
+  const a=String(typed).toLowerCase().trim().replace(/\s+/g,' ');
+  const b=String(correct).toLowerCase().trim().replace(/\s+/g,' ');
+  if(!a)return{match:false,exact:false,ratio:0};
+  if(a===b)return{match:true,exact:true,ratio:1};
+  const dist=ssLevenshtein(a,b);
+  const ratio=1-dist/Math.max(a.length,b.length,1);
+  return{match:ratio>=FUZZY_THRESHOLD,exact:false,ratio};
+}
+
 // FLASHCARDS
-let fcDeck=[],fcIdx=0,fcFilterMode='all';
+let fcDeck=[],fcIdx=0,fcFilterMode='all',fcMode='flip';
+function toggleFcMode(){
+  fcMode=fcMode==='flip'?'type':'flip';
+  const btn=document.getElementById('fc-mode-btn');
+  if(btn)btn.textContent=fcMode==='type'?'🔄 Flip mode':'✎ Type it';
+  showFC();
+}
+function checkTypedAnswer(){
+  const deck=getActiveDeck();
+  const input=document.getElementById('fc-type-input');
+  const fb=document.getElementById('fc-type-feedback');
+  if(!deck.length||!input||input.disabled)return;
+  const card=deck[fcIdx];
+  const {match,exact}=ssFuzzyMatch(input.value,card.t);
+  input.disabled=true;
+  if(!CHEM_MASTERY){setTimeout(()=>fcNav(1),400);return;}
+  if(match){
+    CHEM_MASTERY.markCardKnown(card.t);
+    fb.className='fc-type-feedback correct';
+    fb.textContent=exact?'✓ Correct!':'✓ Close enough — "'+card.t+'"';
+    if(window.__ssCelebrateCorrect)window.__ssCelebrateCorrect(input);
+  }else{
+    CHEM_MASTERY.unmarkCardKnown(card.t);
+    fb.className='fc-type-feedback wrong';
+    fb.textContent='✗ It was: "'+card.t+'"';
+    if(window.__ssResetCombo)window.__ssResetCombo();
+  }
+  renderUnitProgress(card.u);
+  setTimeout(()=>fcNav(1),match?900:1700);
+}
 function buildFCSel(){
   const sel=document.getElementById('fc-sel');
   sel.innerHTML='<option value="0">All Units ('+FLASHCARDS.length+' cards)</option>';
@@ -430,6 +533,11 @@ function getActiveDeck(){
 }
 function showFC(){
   const deck=getActiveDeck();
+  const scene=document.getElementById('scene');
+  const typeRow=document.getElementById('fc-type-row');
+  const isType=fcMode==='type';
+  if(scene)scene.style.display=isType?'none':'';
+  if(typeRow)typeRow.style.display=isType?'':'none';
   if(!deck.length){document.getElementById('fc-term').textContent='No cards';document.getElementById('fc-def').textContent='Rate some cards first';document.getElementById('fc-count').textContent='0 / 0';document.getElementById('fc-progress').textContent='';return;}
   if(fcIdx>=deck.length)fcIdx=0;
   const card=deck[fcIdx];
@@ -440,7 +548,14 @@ function showFC(){
   const learningCount=fcDeck.length-knownCount;
   document.getElementById('fc-count').textContent=(fcIdx+1)+' / '+deck.length;
   document.getElementById('fc-progress').textContent=`✓ ${knownCount} known  ·  ✗ ${learningCount} still learning`;
-  document.getElementById('scene').classList.remove('flipped');
+  if(scene)scene.classList.remove('flipped');
+  if(isType&&typeRow){
+    document.getElementById('fc-type-def').textContent=card.d;
+    const input=document.getElementById('fc-type-input');
+    const fb=document.getElementById('fc-type-feedback');
+    if(input){input.value='';input.disabled=false;setTimeout(()=>input.focus(),0);}
+    if(fb){fb.textContent='';fb.className='fc-type-feedback';}
+  }
 }
 function flip(){document.getElementById('scene').classList.toggle('flipped');}
 function fcNav(d){const deck=getActiveDeck();if(!deck.length)return;fcIdx=(fcIdx+d+deck.length)%deck.length;showFC();}
@@ -771,10 +886,19 @@ function diagSetActive(active){
   if(btn)btn.disabled=active;
   if(lbl)lbl.textContent=active?'Diagnostic in progress…':'Start Diagnostic — 2 questions per unit, finds your weak spots';
 }
+// Adaptive routing: after the initial 2-per-unit pass, units still under
+// the 80% mastery bar get a follow-up round drawn from THAT unit's
+// untested questions (see diagAskedIds) -- routing more practice toward
+// exactly where the live results say it's needed, instead of a single
+// fixed sample. Capped at MAX_DIAG_ROUNDS total rounds so a student who
+// stays weak everywhere isn't stuck in an unbounded loop.
+const MAX_DIAG_ROUNDS=3, DIAG_ROUND_QS_PER_UNIT=3;
+let diagRound=0, diagAskedIds=null;
 function startDiagnostic(){
   switchTab('quiz');
   /* already mid-diagnostic (not yet finished) — re-focus it instead of wiping progress and restarting */
   if(diagMode&&qPool&&qPool.length&&qIdx<qPool.length){showQ();return;}
+  diagRound=1;diagAskedIds=new Set();
   const perUnit={};
   QUIZ.forEach(q=>{(perUnit[q.u]=perUnit[q.u]||[]).push(q);});
   let pool=[];
@@ -782,6 +906,7 @@ function startDiagnostic(){
     const qs=(perUnit[u.id]||[]).slice().sort(()=>Math.random()-.5);
     pool=pool.concat(qs.slice(0,2));
   });
+  pool.forEach(q=>diagAskedIds.add(qId(q)));
   pool=pool.sort(()=>Math.random()-.5);
   qPool=pool;qIdx=0;score=0;requeueCounts=new WeakMap();diagMode=true;
   diagSetActive(true);
@@ -790,13 +915,12 @@ function startDiagnostic(){
   const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
   showQ();
 }
+// Returns true if it routed the student into another adaptive round
+// (qPool/qIdx already reassigned, showQ() already called for the new
+// round's first question) -- the caller (showQ) must bail out without
+// rendering its own terminal scoreboard when this returns true.
 function showDiagSummary(){
-  diagMode=false;
-  diagSetActive(false);
-  const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
-  const summary=document.getElementById('diag-summary');
-  if(!summary||!CHEM_MASTERY){return;}
-  const mastery=CHEM_MASTERY.getSnapshot().mastery||{};
+  const mastery=CHEM_MASTERY?CHEM_MASTERY.getSnapshot().mastery||{}:{};
   const rows=UNITS.map(u=>{
     const rec=mastery[u.id];
     if(!rec||rec.total<1)return null;
@@ -804,24 +928,55 @@ function showDiagSummary(){
     return {id:u.id,name:u.name,pct};
   }).filter(Boolean);
   const weak=rows.filter(r=>r.pct<80).sort((a,b)=>a.pct-b.pct);
+
+  if(weak.length&&diagRound<MAX_DIAG_ROUNDS){
+    const perUnit={};
+    QUIZ.forEach(q=>{(perUnit[q.u]=perUnit[q.u]||[]).push(q);});
+    let extra=[];
+    weak.forEach(w=>{
+      const remaining=(perUnit[w.id]||[]).filter(q=>!diagAskedIds.has(qId(q)));
+      const pick=remaining.sort(()=>Math.random()-.5).slice(0,DIAG_ROUND_QS_PER_UNIT);
+      pick.forEach(q=>diagAskedIds.add(qId(q)));
+      extra=extra.concat(pick);
+    });
+    if(extra.length){
+      diagRound++;
+      extra=extra.sort(()=>Math.random()-.5);
+      qPool=extra;qIdx=0;score=0;requeueCounts=new WeakMap();
+      const banner=document.getElementById('diag-banner');
+      const units=weak.map(w=>'Unit '+w.id).join(', ');
+      if(banner){banner.style.display='block';banner.textContent='Adaptive round '+diagRound+' — '+extra.length+' more questions routed to your weak units ('+units+').';}
+      showQ();
+      return true;
+    }
+  }
+
+  diagMode=false;
+  diagSetActive(false);
+  const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
+  const summary=document.getElementById('diag-summary');
+  if(!summary||!CHEM_MASTERY){return false;}
   if(!weak.length){
     summary.innerHTML='<div class="result" style="padding:16px"><div class="sub" style="color:var(--success)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:5px"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Every unit you were tested on scored 80%+! Try the practice exam next.</div></div>'+(SS_SESSION?'':'<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:14.5px;color:var(--ink-muted)">Sign in to save these results and unlock the full question bank.<div class="ss-login-box" style="margin-top:8px"></div></div>');
     if(!SS_SESSION)ssRenderLoginBoxes();
     ssDiagBatchRenderContinue();
-    return;
+    return false;
   }
+  const roundNote=diagRound>1?`<div style="font-size:13px;color:var(--ink-muted);margin-bottom:10px">After ${diagRound} rounds of adaptive practice, still below 80%:</div>`:'';
   summary.innerHTML='<div style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;margin-top:14px">'
     +'<div style="font-weight:700;color:var(--ink);margin-bottom:10px"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:5px"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Weak units from this diagnostic</div>'
+    +roundNote
     +weak.map(r=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:14.5px">
       <span style="color:var(--ink)">Unit ${r.id}: ${r.name}</span><span style="color:var(--danger);font-weight:700">${r.pct}%</span></div>`).join('')
     +'</div>'+(SS_SESSION?'':'<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:14.5px;color:var(--ink-muted)">Sign in to save these results and unlock the full question bank.<div class="ss-login-box" style="margin-top:8px"></div></div>');
   if(!SS_SESSION)ssRenderLoginBoxes();
   ssDiagBatchRenderContinue();
+  return false;
 }
 function showQ(){
   const qb=document.getElementById('qbox');
   if(qIdx>=qPool.length){
-    if(diagMode)showDiagSummary();
+    if(diagMode&&showDiagSummary())return;
     const elapsedSec=qSessionStart?Math.max(1,Math.round((Date.now()-qSessionStart)/1000)):null;
     const elapsedStr=elapsedSec!=null?(elapsedSec>=60?Math.floor(elapsedSec/60)+'m '+(elapsedSec%60)+'s':elapsedSec+'s'):null;
     const xpEarned=score*10; // same 10-XP-per-correct-answer the dashboard's computeXP() awards -- not a separate estimate

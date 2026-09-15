@@ -289,6 +289,21 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .face .def{font-size:21px;color:var(--ink-muted);line-height:1.65}
 .hint{text-align:center;font-size:18.8px;color:var(--ink-dim);margin-bottom:16px}
 .fc-nav{display:flex;gap:10px;justify-content:center}
+.fc-type-row{border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);
+  box-shadow:var(--shadow-sm);padding:28px;margin-bottom:14px;min-height:220px;box-sizing:border-box;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px}
+.fc-type-def{font-size:21px;color:var(--ink-muted);line-height:1.65}
+.fc-type-row input{width:100%;max-width:340px;padding:11px 16px;border:1px solid var(--border-strong);
+  border-radius:var(--radius-sm);background:var(--surface-2);color:var(--ink);font-size:18px;font-family:inherit;text-align:center}
+.fc-type-row input:focus{outline:2px solid var(--accent);outline-offset:1px}
+.fc-type-row input:disabled{opacity:.7}
+.fc-type-feedback{font-size:15.5px;font-weight:700;min-height:1.3em}
+.fc-type-feedback.correct{color:var(--success)}
+.fc-type-feedback.wrong{color:var(--danger)}
+.ss-concept-btn{position:absolute;transform:translate(-50%,0);z-index:60;background:var(--ink);color:var(--surface);
+  border:none;border-radius:999px;padding:8px 14px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;
+  box-shadow:0 6px 18px rgba(0,0,0,.22);white-space:nowrap}
+.ss-concept-btn:hover{opacity:.92}
 .btn{padding:10px 22px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--ink);
   cursor:pointer;font-size:21px;font-weight:600;transition:all .15s ease;box-shadow:var(--shadow-sm)}
 .btn:hover{background:var(--surface-hover);border-color:var(--border-strong);transform:scale(1.02)}
@@ -903,6 +918,13 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
       <div class="face back"><div class="lbl">Definition</div><div class="def" id="fc-def"></div></div>
     </div>
   </div>
+  <div class="fc-type-row" id="fc-type-row" style="display:none">
+    <div class="lbl" style="font-family:'Space Grotesk';font-size:16.5px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-dim)">Definition</div>
+    <div class="fc-type-def" id="fc-type-def"></div>
+    <input id="fc-type-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Type the term…" aria-label="Type the term for this definition" onkeydown="if(event.key==='Enter'){event.preventDefault();checkTypedAnswer();}">
+    <button class="btn" type="button" onclick="checkTypedAnswer()">Check</button>
+    <div class="fc-type-feedback" id="fc-type-feedback" role="status"></div>
+  </div>
   <div class="hint">Click or press Enter to flip · Rate yourself to track weak cards</div>
   <div class="fc-nav" style="flex-wrap:wrap;gap:8px">
     <button class="btn" onclick="fcNav(-1)">← Prev</button>
@@ -913,6 +935,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
     <button class="btn" onclick="rateFC('known')" style="border-color:rgba(127,201,143,0.45);color:rgba(127,201,143,0.85);background:rgba(127,201,143,0.14)">✓ Know it</button>
     <button class="btn" onclick="rateFC('learning')" style="border-color:rgba(224,122,130,0.45);color:rgba(224,122,130,0.85);background:rgba(224,122,130,0.14)">✗ Still learning</button>
     <button class="btn" onclick="filterFC()" id="filter-btn" style="font-size:18px">Show: All</button>
+    <button class="btn" onclick="toggleFcMode()" id="fc-mode-btn" style="font-size:18px">✎ Type it</button>
   </div>
   <div id="fc-progress" style="text-align:center;font-size:18px;color:var(--ink-dim,#857f72);margin-top:6px"></div>
   <div style="text-align:center;margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
@@ -1502,8 +1525,111 @@ function hydrateGuide(){
 if(document.getElementById('units').children.length===0){buildGuide();}else{hydrateGuide();}
 ssTypeset(document.getElementById('units'));
 
+// AI concept-breakdown highlighting: selecting any text inside the guide
+// content surfaces a floating "Break this down" button that hands the
+// exact selection to the existing AI helper (cbotAskAndOpen -- same
+// call already used by the "explain why this wrong answer is wrong"
+// button), so this needs no new backend endpoint or prompt plumbing.
+(function(){
+  const root=document.getElementById('units');
+  if(!root)return;
+  let btn=null,hideTimer=null;
+  function hideBtn(){if(btn){btn.remove();btn=null;}}
+  function placeBtn(){
+    clearTimeout(hideTimer);
+    const sel=window.getSelection();
+    const text=sel&&sel.toString().trim();
+    if(!text||text.length<3||text.length>400||!sel.rangeCount){hideBtn();return;}
+    const anchor=sel.anchorNode;
+    if(!anchor||!root.contains(anchor)){hideBtn();return;}
+    const rect=sel.getRangeAt(0).getBoundingClientRect();
+    if(!rect||(!rect.width&&!rect.height)){hideBtn();return;}
+    hideBtn();
+    btn=document.createElement('button');
+    btn.type='button';
+    btn.className='ss-concept-btn';
+    btn.textContent='🤖 Break this down';
+    btn.style.left=Math.max(8,rect.left+window.scrollX+rect.width/2)+'px';
+    btn.style.top=Math.max(8,rect.top+window.scrollY-40)+'px';
+    btn.onmousedown=function(e){e.preventDefault();};
+    btn.onclick=function(){
+      const q='Break down this concept in simple, plain-English terms, with a short example if it helps: "'+text+'"';
+      const display='Break down: "'+(text.length>60?text.slice(0,60)+'…':text)+'"';
+      cbotAskAndOpen(q,display);
+      hideBtn();
+      sel.removeAllRanges();
+    };
+    document.body.appendChild(btn);
+  }
+  document.addEventListener('selectionchange',function(){
+    clearTimeout(hideTimer);
+    hideTimer=setTimeout(placeBtn,150);
+  });
+  window.addEventListener('scroll',hideBtn,{passive:true});
+  document.addEventListener('mousedown',function(e){if(btn&&e.target!==btn)hideBtn();});
+})();
+
+// Plain iterative Levenshtein (edit distance) -- O(m*n) on short
+// term-length strings, cheap enough to run per keystroke-triggered check.
+// Normalized to a 0-1 similarity ratio so the match threshold is
+// length-independent (a 1-char typo in a 20-char term shouldn't fail the
+// same threshold as a 1-char typo in a 4-char term).
+function ssLevenshtein(a,b){
+  const m=a.length,n=b.length;
+  if(!m)return n;if(!n)return m;
+  let prev=Array.from({length:n+1},(_,j)=>j);
+  for(let i=1;i<=m;i++){
+    const cur=[i];
+    for(let j=1;j<=n;j++){
+      const cost=a[i-1]===b[j-1]?0:1;
+      cur[j]=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+cost);
+    }
+    prev=cur;
+  }
+  return prev[n];
+}
+const FUZZY_THRESHOLD=0.82;
+function ssFuzzyMatch(typed,correct){
+  const a=String(typed).toLowerCase().trim().replace(/\s+/g,' ');
+  const b=String(correct).toLowerCase().trim().replace(/\s+/g,' ');
+  if(!a)return{match:false,exact:false,ratio:0};
+  if(a===b)return{match:true,exact:true,ratio:1};
+  const dist=ssLevenshtein(a,b);
+  const ratio=1-dist/Math.max(a.length,b.length,1);
+  return{match:ratio>=FUZZY_THRESHOLD,exact:false,ratio};
+}
+
 // FLASHCARDS
-let fcDeck=[],fcIdx=0,fcFilterMode='all';
+let fcDeck=[],fcIdx=0,fcFilterMode='all',fcMode='flip';
+function toggleFcMode(){
+  fcMode=fcMode==='flip'?'type':'flip';
+  const btn=document.getElementById('fc-mode-btn');
+  if(btn)btn.textContent=fcMode==='type'?'🔄 Flip mode':'✎ Type it';
+  showFC();
+}
+function checkTypedAnswer(){
+  const deck=getActiveDeck();
+  const input=document.getElementById('fc-type-input');
+  const fb=document.getElementById('fc-type-feedback');
+  if(!deck.length||!input||input.disabled)return;
+  const card=deck[fcIdx];
+  const {match,exact}=ssFuzzyMatch(input.value,card.t);
+  input.disabled=true;
+  if(!SS_MASTERY){setTimeout(()=>fcNav(1),400);return;}
+  if(match){
+    SS_MASTERY.markCardKnown(card.t);
+    fb.className='fc-type-feedback correct';
+    fb.textContent=exact?'✓ Correct!':'✓ Close enough — "'+card.t+'"';
+    if(window.__ssCelebrateCorrect)window.__ssCelebrateCorrect(input);
+  }else{
+    SS_MASTERY.unmarkCardKnown(card.t);
+    fb.className='fc-type-feedback wrong';
+    fb.textContent='✗ It was: "'+card.t+'"';
+    if(window.__ssResetCombo)window.__ssResetCombo();
+  }
+  renderUnitProgress(card.u);
+  setTimeout(()=>fcNav(1),match?900:1700);
+}
 function buildFCSel(){
   const sel=document.getElementById('fc-sel');
   sel.innerHTML='<option value="0">All Units ('+FLASHCARDS.length+' cards)</option>';
@@ -1526,6 +1652,11 @@ function getActiveDeck(){
 }
 function showFC(){
   const deck=getActiveDeck();
+  const scene=document.getElementById('scene');
+  const typeRow=document.getElementById('fc-type-row');
+  const isType=fcMode==='type';
+  if(scene)scene.style.display=isType?'none':'';
+  if(typeRow)typeRow.style.display=isType?'':'none';
   if(!deck.length){document.getElementById('fc-term').textContent='No cards';document.getElementById('fc-def').textContent='Rate some cards first';document.getElementById('fc-count').textContent='0 / 0';document.getElementById('fc-progress').textContent='';return;}
   if(fcIdx>=deck.length)fcIdx=0;
   const card=deck[fcIdx];
@@ -1536,7 +1667,14 @@ function showFC(){
   const learningCount=fcDeck.length-knownCount;
   document.getElementById('fc-count').textContent=(fcIdx+1)+' / '+deck.length;
   document.getElementById('fc-progress').textContent=`✓ ${knownCount} known  ·  ✗ ${learningCount} still learning`;
-  document.getElementById('scene').classList.remove('flipped');
+  if(scene)scene.classList.remove('flipped');
+  if(isType&&typeRow){
+    document.getElementById('fc-type-def').textContent=card.d;
+    const input=document.getElementById('fc-type-input');
+    const fb=document.getElementById('fc-type-feedback');
+    if(input){input.value='';input.disabled=false;setTimeout(()=>input.focus(),0);}
+    if(fb){fb.textContent='';fb.className='fc-type-feedback';}
+  }
 }
 function flip(){document.getElementById('scene').classList.toggle('flipped');}
 function fcNav(d){const deck=getActiveDeck();if(!deck.length)return;fcIdx=(fcIdx+d+deck.length)%deck.length;showFC();}
@@ -1867,10 +2005,19 @@ function diagSetActive(active){
   if(btn)btn.disabled=active;
   if(lbl)lbl.textContent=active?'Diagnostic in progress…':'Start Diagnostic — 2 questions per unit, finds your weak spots';
 }
+// Adaptive routing: after the initial 2-per-unit pass, units still under
+// the 80% mastery bar get a follow-up round drawn from THAT unit's
+// untested questions (see diagAskedIds) -- routing more practice toward
+// exactly where the live results say it's needed, instead of a single
+// fixed sample. Capped at MAX_DIAG_ROUNDS total rounds so a student who
+// stays weak everywhere isn't stuck in an unbounded loop.
+const MAX_DIAG_ROUNDS=3, DIAG_ROUND_QS_PER_UNIT=3;
+let diagRound=0, diagAskedIds=null;
 function startDiagnostic(){
   switchTab('quiz');
   /* already mid-diagnostic (not yet finished) — re-focus it instead of wiping progress and restarting */
   if(diagMode&&qPool&&qPool.length&&qIdx<qPool.length){showQ();return;}
+  diagRound=1;diagAskedIds=new Set();
   const perUnit={};
   QUIZ.forEach(q=>{(perUnit[q.u]=perUnit[q.u]||[]).push(q);});
   let pool=[];
@@ -1878,6 +2025,7 @@ function startDiagnostic(){
     const qs=(perUnit[u.id]||[]).slice().sort(()=>Math.random()-.5);
     pool=pool.concat(qs.slice(0,2));
   });
+  pool.forEach(q=>diagAskedIds.add(qId(q)));
   pool=pool.sort(()=>Math.random()-.5);
   qPool=pool;qIdx=0;score=0;requeueCounts=new WeakMap();diagMode=true;
   diagSetActive(true);
@@ -1886,13 +2034,12 @@ function startDiagnostic(){
   const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
   showQ();
 }
+// Returns true if it routed the student into another adaptive round
+// (qPool/qIdx already reassigned, showQ() already called for the new
+// round's first question) -- the caller (showQ) must bail out without
+// rendering its own terminal scoreboard when this returns true.
 function showDiagSummary(){
-  diagMode=false;
-  diagSetActive(false);
-  const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
-  const summary=document.getElementById('diag-summary');
-  if(!summary||!SS_MASTERY){return;}
-  const mastery=SS_MASTERY.getSnapshot().mastery||{};
+  const mastery=SS_MASTERY?SS_MASTERY.getSnapshot().mastery||{}:{};
   const rows=UNITS.map(u=>{
     const rec=mastery[u.id];
     if(!rec||rec.total<1)return null;
@@ -1900,24 +2047,55 @@ function showDiagSummary(){
     return {id:u.id,name:u.name,pct};
   }).filter(Boolean);
   const weak=rows.filter(r=>r.pct<80).sort((a,b)=>a.pct-b.pct);
+
+  if(weak.length&&diagRound<MAX_DIAG_ROUNDS){
+    const perUnit={};
+    QUIZ.forEach(q=>{(perUnit[q.u]=perUnit[q.u]||[]).push(q);});
+    let extra=[];
+    weak.forEach(w=>{
+      const remaining=(perUnit[w.id]||[]).filter(q=>!diagAskedIds.has(qId(q)));
+      const pick=remaining.sort(()=>Math.random()-.5).slice(0,DIAG_ROUND_QS_PER_UNIT);
+      pick.forEach(q=>diagAskedIds.add(qId(q)));
+      extra=extra.concat(pick);
+    });
+    if(extra.length){
+      diagRound++;
+      extra=extra.sort(()=>Math.random()-.5);
+      qPool=extra;qIdx=0;score=0;requeueCounts=new WeakMap();
+      const banner=document.getElementById('diag-banner');
+      const units=weak.map(w=>'Unit '+w.id).join(', ');
+      if(banner){banner.style.display='block';banner.textContent='Adaptive round '+diagRound+' — '+extra.length+' more questions routed to your weak units ('+units+').';}
+      showQ();
+      return true;
+    }
+  }
+
+  diagMode=false;
+  diagSetActive(false);
+  const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
+  const summary=document.getElementById('diag-summary');
+  if(!summary||!SS_MASTERY){return false;}
   if(!weak.length){
     summary.innerHTML='<div class="result" style="padding:16px"><div class="sub" style="color:var(--success)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:5px"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Every unit you were tested on scored 80%+! Try the practice exam next.</div></div>'+(SS_SESSION?'':'<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:14.5px;color:var(--ink-muted)">Sign in to save these results and unlock the full question bank.<div class="ss-login-box" style="margin-top:8px"></div></div>');
     if(!SS_SESSION)ssRenderLoginBoxes();
     ssDiagBatchRenderContinue();
-    return;
+    return false;
   }
+  const roundNote=diagRound>1?`<div style="font-size:13px;color:var(--ink-muted);margin-bottom:10px">After ${diagRound} rounds of adaptive practice, still below 80%:</div>`:'';
   summary.innerHTML='<div style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;margin-top:14px">'
     +'<div style="font-weight:700;color:var(--ink);margin-bottom:10px"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:5px"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Weak units from this diagnostic</div>'
+    +roundNote
     +weak.map(r=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:14.5px">
       <span style="color:var(--ink)">Unit ${r.id}: ${r.name}</span><span style="color:var(--danger);font-weight:700">${r.pct}%</span></div>`).join('')
     +'</div>'+(SS_SESSION?'':'<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:14.5px;color:var(--ink-muted)">Sign in to save these results and unlock the full question bank.<div class="ss-login-box" style="margin-top:8px"></div></div>');
   if(!SS_SESSION)ssRenderLoginBoxes();
   ssDiagBatchRenderContinue();
+  return false;
 }
 function showQ(){
   const qb=document.getElementById('qbox');
   if(qIdx>=qPool.length){
-    if(diagMode)showDiagSummary();
+    if(diagMode&&showDiagSummary())return;
     const elapsedSec=qSessionStart?Math.max(1,Math.round((Date.now()-qSessionStart)/1000)):null;
     const elapsedStr=elapsedSec!=null?(elapsedSec>=60?Math.floor(elapsedSec/60)+'m '+(elapsedSec%60)+'s':elapsedSec+'s'):null;
     const xpEarned=score*10; // same 10-XP-per-correct-answer the dashboard's computeXP() awards -- not a separate estimate
