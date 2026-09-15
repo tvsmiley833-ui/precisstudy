@@ -207,6 +207,7 @@ body{transition:background .2s ease,color .2s ease}
     <h1 class="ss-hero-anim" style="animation-delay:0s;font-size:36px;font-weight:800;color:var(--text);margin:0;letter-spacing:-0.02em;">
       Your Dashboard
     </h1>
+    <div id="dash-greeting" style="margin-top:8px;font-size:15px;color:var(--text-muted);"></div>
     <div id="dash-streak" style="display:none;margin-top:14px;"></div>
     <div id="dash-level" style="display:none;margin-top:14px;"></div>
     <div id="dash-badges" style="display:none;margin-top:14px;flex-wrap:wrap;gap:8px;justify-content:center;"></div>
@@ -1191,6 +1192,30 @@ function localFallback() {
   return blob;
 }
 
+// Time-of-day + first-name + streak-status greeting under the dashboard
+// heading. First name only (not the full session name, which may be a
+// full "First Last" from the OAuth provider) to keep it a greeting, not a
+// formal address. Streak status only speaks up when it's actually at risk
+// (today not yet active) or notably long -- otherwise it stays quiet
+// rather than repeating what the streak badge below already shows.
+function renderDashGreeting(session, blob) {
+  const el = document.getElementById('dash-greeting');
+  if (!el) return;
+  const hour = new Date().getHours();
+  const timeGreeting = hour < 5 ? 'Burning the midnight oil' : hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : hour < 21 ? 'Good evening' : 'Good evening';
+  const firstName = (session && session.name || '').trim().split(/\s+/)[0];
+  let text = firstName ? `${timeGreeting}, ${firstName}.` : `${timeGreeting}.`;
+
+  const streak = blob && blob.streak;
+  if (streak && streak.current > 0) {
+    const today = streak.timezone ? new Intl.DateTimeFormat('en-CA', { timeZone: streak.timezone }).format(new Date()) : null;
+    const activeToday = today && streak.lastActiveDate === today;
+    if (!activeToday) text += ` Your ${streak.current}-day streak is waiting on you today.`;
+    else if (streak.current >= 7) text += ` ${streak.current} days strong — keep it up.`;
+  }
+  el.textContent = text;
+}
+
 function renderSkeletons() {
   const subjectsEl = document.getElementById('dash-subjects');
   subjectsEl.innerHTML = SUBJECTS_CONFIG.map(function(){
@@ -1386,6 +1411,8 @@ async function loadDashboard() {
   // Same "enrolled classes" preference Settings writes and the homepage
   // reads (blob.enrolledSubjects, from /api/progress) -- keeps the
   // dashboard in sync with Settings instead of always listing every guide.
+  renderDashGreeting(session, blob);
+
   const enrolledSet = new Set(blob.enrolledSubjects || []);
   SUBJECTS_FOR_SCHEDULE = enrolledSet.size === 0 ? SUBJECTS_CONFIG : SUBJECTS_CONFIG.filter(s => enrolledSet.has(s.key));
   const noteEl = document.getElementById('dash-classes-note');

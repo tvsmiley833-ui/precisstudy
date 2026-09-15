@@ -762,8 +762,9 @@ function loadQ(){
   else src=QUIZ.concat(HQ).filter(q=>q.u===+raw);
   if(difficultyFilter!=='all')src=src.filter(q=>q.d===difficultyFilter);
   qPool=src.sort(()=>Math.random()-.5);
-  qIdx=0;score=0;requeueCounts=new WeakMap();showQ();
+  qIdx=0;score=0;requeueCounts=new WeakMap();qSessionStart=Date.now();showQ();
 }
+let qSessionStart=null;
 function diagSetActive(active){
   const vq=document.getElementById('view-quiz');if(vq)vq.classList.toggle('diag-mode',active);
   const btn=document.getElementById('diag-start-btn');const lbl=document.getElementById('diag-start-btn-label');
@@ -821,8 +822,14 @@ function showQ(){
   const qb=document.getElementById('qbox');
   if(qIdx>=qPool.length){
     if(diagMode)showDiagSummary();
-    qb.innerHTML=`<div class="result"><div class="big">${score}/${qPool.length}</div><div class="sub">${Math.round(score/qPool.length*100)}% — ${score/qPool.length>=.85?'Excellent work':score/qPool.length>=.65?'Solid — review the misses':'Keep reviewing this unit'}</div><button class="btn" onclick="loadQ()">Try Again</button></div>`;return;}
+    const elapsedSec=qSessionStart?Math.max(1,Math.round((Date.now()-qSessionStart)/1000)):null;
+    const elapsedStr=elapsedSec!=null?(elapsedSec>=60?Math.floor(elapsedSec/60)+'m '+(elapsedSec%60)+'s':elapsedSec+'s'):null;
+    const xpEarned=score*10; // same 10-XP-per-correct-answer the dashboard's computeXP() awards -- not a separate estimate
+    qb.innerHTML=`<div class="result"><div class="big">${score}/${qPool.length}</div><div class="sub">${Math.round(score/qPool.length*100)}% — ${score/qPool.length>=.85?'Excellent work':score/qPool.length>=.65?'Solid — review the misses':'Keep reviewing this unit'}</div>`+
+      `<div class="q-session-stats">${xpEarned?`<span>+${xpEarned} XP</span>`:''}${elapsedStr?`<span>${elapsedStr}</span>`:''}</div>`+
+      `<button class="btn" onclick="loadQ()">Try Again</button></div>`;return;}
   const q=qPool[qIdx];
+  qHintTier=0;
   ssShuffleOptions(q);
   document.getElementById('q-prog').textContent=`Q ${qIdx+1}/${qPool.length}`;
   document.getElementById('q-sc').textContent=`Score: ${score}`;
@@ -835,8 +842,8 @@ function showQ(){
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
     (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
-    `<button class="q-hint-btn" id="q-hint-btn" onclick="toggleQHint()">💡 Hint</button>`+
-    `<div class="q-hint-box" id="q-hint-box">Hint: this is from Unit ${q.u}: ${unitNameFor(q.u)}</div>`+
+    `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">💡 Hint (1/3)</button>`+
+    `<div class="q-hint-box" id="q-hint-box"></div>`+
     `<div class="q-opts">`;
   q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">`+
     `<svg class="q-opt-icon icon-correct" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`+
@@ -857,9 +864,36 @@ function toggleQBookmark(){
   btn.innerHTML=on?'<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>'
     :'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
 }
-function toggleQHint(){
+// Three progressively stronger hints per question, each a click away
+// rather than shown all at once -- a student who just wants a nudge (which
+// unit this is from) shouldn't have to see the near-answer tier 3 gives.
+// Tier 2 eliminates one wrong, unselected option (classic 50/50) without
+// removing it from the DOM, so option indices (and ansQ(i)) stay valid.
+let qHintTier=0;
+function revealNextHintTier(){
+  const q=qPool[qIdx];
   const box=document.getElementById('q-hint-box');
-  if(box)box.classList.toggle('show');
+  const btn=document.getElementById('q-hint-btn');
+  if(!q||!box||!btn||qHintTier>=3)return;
+  qHintTier++;
+  box.classList.add('show');
+  if(qHintTier===1){
+    box.textContent='Hint: this is from Unit '+q.u+': '+unitNameFor(q.u);
+  }else if(qHintTier===2){
+    const opts=Array.from(document.querySelectorAll('.q-opt'));
+    const eliminable=opts.map((el,i)=>i).filter(i=>i!==q.a&&!opts[i].disabled);
+    if(eliminable.length){
+      const cut=eliminable[Math.floor(Math.random()*eliminable.length)];
+      opts[cut].disabled=true;
+      opts[cut].classList.add('q-opt-eliminated');
+    }
+    box.textContent='Hint: one wrong answer has been ruled out.';
+  }else{
+    const preview=(q.e||'').split(/(?<=[.!?])\s/)[0]||q.e||'';
+    box.textContent='Hint: '+preview;
+  }
+  btn.textContent=qHintTier>=3?'💡 No more hints':`💡 Hint (${qHintTier+1}/3)`;
+  if(qHintTier>=3)btn.disabled=true;
 }
 let guessFlag=false, guessedQs=[], guessedRight=0;
 function markGuess(){
@@ -1345,6 +1379,21 @@ function ssToggleTheme(){
     try { localStorage.setItem('ss-theme', 'dark'); } catch (e) {}
   }
 }
+
+// Hides the hero (breadcrumb, title, tab bar, toolbar) so the current
+// panel's content fills the viewport -- session-only, not persisted, since
+// it's a per-reading-session choice, not a standing preference like theme.
+function ssToggleFocusMode(){
+  var on = document.documentElement.classList.toggle('ss-focus-mode');
+  var btn = document.getElementById('focus-toggle');
+  if (btn) btn.setAttribute('aria-pressed', String(on));
+  if (on) document.getElementById('focus-exit-btn').focus();
+  else if (btn) btn.focus();
+}
+document.addEventListener('keydown', function(e){
+  if (e.key !== 'Escape') return;
+  if (document.documentElement.classList.contains('ss-focus-mode')) ssToggleFocusMode();
+});
 
 /* ===== PrecisStudy auth ===== */
 let SS_SESSION;
