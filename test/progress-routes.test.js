@@ -1,7 +1,7 @@
 import { SELF } from "cloudflare:test";
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { signSession, SESSION_COOKIE } from "../src/auth.js";
-import { handleGetProgress, handlePostProgress, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak, handlePostNotificationPrefs, recordDailySnapshots, handlePostShareGenerate, handlePostShareRevoke, handleGetShare, handlePostCalendarGenerate, handlePostCalendarRevoke, handleGetCalendarFeed } from "../src/progress-routes.js";
+import { handleGetProgress, handlePostProgress, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak, handlePostNotificationPrefs, recordDailySnapshots, handlePostShareGenerate, handlePostShareRevoke, handleGetShare, handlePostCalendarGenerate, handlePostCalendarRevoke, handleGetCalendarFeed, handlePostInviteGenerate, creditInviteIfAny } from "../src/progress-routes.js";
 import { putGoogleToken } from "../src/google-token.js";
 import { googleSettingsKey } from "../src/google-routes.js";
 
@@ -812,6 +812,45 @@ describe("calendar feed", () => {
     const body = await res.text();
     expect(body).toContain("BEGIN:VCALENDAR");
     expect(body).not.toContain("BEGIN:VEVENT");
+  });
+});
+
+describe("classmate invite links", () => {
+  it("401s with no session", async () => {
+    const res = await handlePostInviteGenerate(req("https://example.com/api/invite/generate", null, "POST"), { SESSION_SECRET: SECRET, PROGRESS: fakeKV() });
+    expect(res.status).toBe(401);
+  });
+
+  it("generates a token, stores the reverse KV mapping, and starts invitesAccepted at 0", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV({ "progress:student@example.com": JSON.stringify({}) });
+    const res = await handlePostInviteGenerate(req("https://example.com/api/invite/generate", cookie, "POST"), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(typeof data.token).toBe("string");
+    expect(data.invitesAccepted).toBe(0);
+    expect(kv._store.get("invite:" + data.token)).toBe("student@example.com");
+  });
+
+  it("is idempotent -- a second call returns the same token", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV({ "progress:student@example.com": JSON.stringify({}) });
+    const first = await (await handlePostInviteGenerate(req("https://example.com/api/invite/generate", cookie, "POST"), { SESSION_SECRET: SECRET, PROGRESS: kv })).json();
+    const second = await (await handlePostInviteGenerate(req("https://example.com/api/invite/generate", cookie, "POST"), { SESSION_SECRET: SECRET, PROGRESS: kv })).json();
+    expect(first.token).toBe(second.token);
+  });
+
+  it("creditInviteIfAny is a no-op with no ss_ref cookie", async () => {
+    const kv = fakeKV();
+    await creditInviteIfAny({ PROGRESS: kv }, req("https://example.com/"), "newstudent@example.com");
+    expect(kv._store.size).toBe(0);
+  });
+
+  it("creditInviteIfAny is a no-op for an unknown token", async () => {
+    const kv = fakeKV();
+    const r = new Request("https://example.com/", { headers: { Cookie: "ss_ref=doesnotexist1234567890" } });
+    await creditInviteIfAny({ PROGRESS: kv }, r, "newstudent@example.com");
+    expect(kv._store.size).toBe(0);
   });
 });
 

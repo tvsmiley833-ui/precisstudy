@@ -2,6 +2,7 @@ import { getSession } from "./auth.js";
 import { randomToken } from "./random-token.js";
 import { loadGoogleSettings } from "./google-routes.js";
 import { pushScheduleToGoogleCalendar } from "./google-calendar-push.js";
+import { consumeRef } from "./auth-state.js";
 
 const SUBJECTS = ["geometry", "chemistry", "algebra1", "algebra2", "aplang", "globalhistory", "apbiology", "apush", "physics", "biology", "precalc", "act-prep", "anatomy", "ap-chemistry", "ap-csa", "ap-euro", "ap-human-geography", "ap-macro", "ap-micro", "ap-physics", "ap-psych", "ap-stats", "ap-usgov", "ap-world", "art-history", "astronomy", "computer-science", "creative-writing", "earth-science", "economics", "english-10", "english-9", "environmental-science", "french-1", "geography", "german-1", "health", "journalism", "music-theory", "psychology", "sat-math", "sat-reading", "sociology", "spanish-1", "spanish-2", "spanish-3", "speech-debate", "statistics", "study-skills", "us-government", "world-history", "calculus", "calc-ab", "calc-bc", "us-history"];
 
@@ -41,6 +42,14 @@ type ProgressBlob = {
   // working. Reverse "cal:<token>" -> email KV entry resolves a public,
   // unauthenticated .ics request (see handleGetCalendarFeed).
   calendarToken?: string | null;
+  // Opt-in personal invite link (Settings' "Invite classmates"). Same
+  // generate/reverse-KV shape as shareToken/calendarToken, except it's never
+  // revoked -- an old link going dead would just look broken to whoever's
+  // holding it, with no privacy upside the way revoking a progress-share or
+  // calendar link has. invitesAccepted only ever increments, from
+  // creditInviteIfAny() at a brand-new account's first sign-in.
+  inviteToken?: string | null;
+  invitesAccepted?: number;
   // One entry per calendar day a snapshot was actually worth taking (a
   // student with nothing assessed yet gets no entry, rather than padding
   // history with all-empty days) -- feeds the accuracy trend sparklines,
@@ -446,6 +455,45 @@ export async function handleGetCalendarFeed(request: Request, env: Env): Promise
       "Cache-Control": "private, max-age=3600"
     }
   });
+}
+
+// Settings' "Invite classmates": returns the student's existing invite token
+// if they already have one, otherwise mints one -- idempotent, unlike the
+// share/calendar generators, since regenerating would silently break a link
+// a classmate might already have saved with no real upside.
+export async function handlePostInviteGenerate(request: Request, env: Env): Promise<Response> {
+  const session = await getSession(request, env);
+  if (!session) return json({ error: "Sign in required" }, 401);
+  if (!env.PROGRESS) return json({ error: "Progress sync isn't configured yet" }, 503);
+
+  const blob = await loadBlob(env, session.email);
+  if (blob.inviteToken) return json({ token: blob.inviteToken, invitesAccepted: blob.invitesAccepted || 0 });
+
+  const token = randomToken();
+  blob.inviteToken = token;
+  await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  await env.PROGRESS.put("invite:" + token, session.email);
+  return json({ token, invitesAccepted: 0 });
+}
+
+// Called from auth-routes.ts right after a brand-new account's first
+// sign-in (see recordLogin's isNewUser) -- resolves the ss_ref cookie an
+// invite link set when the visitor first landed, credits the inviting
+// student, and is a total no-op if there's no cookie, the token doesn't
+// resolve, or someone would otherwise be credited for referring themselves.
+// Best-effort: never throws, so a lookup hiccup can't break sign-in.
+export async function creditInviteIfAny(env: Env, request: Request, newUserEmail: string): Promise<void> {
+  try {
+    if (!env.PROGRESS) return;
+    const token = consumeRef(request);
+    if (!token) return;
+    const inviterEmail = await env.PROGRESS.get("invite:" + token);
+    if (!inviterEmail || inviterEmail.toLowerCase() === newUserEmail.toLowerCase()) return;
+    const blob = await loadBlob(env, inviterEmail);
+    if (blob.inviteToken !== token) return;
+    blob.invitesAccepted = (blob.invitesAccepted || 0) + 1;
+    await env.PROGRESS.put("progress:" + inviterEmail, JSON.stringify(blob));
+  } catch (e) { /* ignore -- sign-in must not fail because of this */ }
 }
 
 export async function handlePostEnrolledSubjects(request: Request, env: Env): Promise<Response> {

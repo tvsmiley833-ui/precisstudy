@@ -352,6 +352,24 @@ html{scroll-behavior:smooth}
     </div>
 
     <div class="ss-card" style="margin-top:20px;">
+      <div style="font-weight:800;font-size:17px;color:var(--text);margin-bottom:4px;">Invite classmates</div>
+      <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">
+        Get a personal link to share with classmates — free for them too, always.
+      </p>
+      <div id="ss-invite-off">
+        <button id="ss-invite-generate-btn" style="width:auto;padding:10px 20px;">Get my invite link</button>
+      </div>
+      <div id="ss-invite-on" style="display:none;">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+          <input id="ss-invite-link" type="text" readonly style="flex:1;min-width:220px;padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font-size:13px;"/>
+          <button id="ss-invite-copy-btn" style="width:auto;padding:9px 16px;">Copy</button>
+        </div>
+        <p id="ss-invite-count" style="margin:12px 0 0;font-size:13px;color:var(--text-muted);"></p>
+      </div>
+      <div id="ss-invite-status" style="margin-top:10px;font-size:13px;color:var(--text-muted);"></div>
+    </div>
+
+    <div class="ss-card" style="margin-top:20px;">
       <div style="font-weight:800;font-size:17px;color:var(--text);margin-bottom:4px;">Reset all progress</div>
       <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">
         Wipes your mastery, quiz history, and flashcard ratings for every class back to 0% — a clean slate to start over. Your account, enrolled classes, schedule, and streak are kept.
@@ -629,6 +647,55 @@ async function ssCalendarRevoke(){
 async function ssCalendarCopy(){
   var input = document.getElementById('ss-cal-link');
   var status = document.getElementById('ss-cal-status');
+  try{
+    await navigator.clipboard.writeText(input.value);
+    status.textContent = 'Copied ✓';
+  }catch(e){
+    input.select();
+    status.textContent = 'Select the link above and copy it manually.';
+  }
+}
+function ssRenderInviteState(token, invitesAccepted){
+  var off = document.getElementById('ss-invite-off');
+  var on = document.getElementById('ss-invite-on');
+  var input = document.getElementById('ss-invite-link');
+  var count = document.getElementById('ss-invite-count');
+  if(token){
+    off.style.display = 'none';
+    on.style.display = 'block';
+    input.value = location.origin + '/?ref=' + encodeURIComponent(token);
+    var n = invitesAccepted || 0;
+    count.textContent = n === 1 ? '1 classmate has joined using your link.' : n + ' classmates have joined using your link.';
+  }else{
+    off.style.display = 'block';
+    on.style.display = 'none';
+    input.value = '';
+  }
+}
+async function ssInviteGenerate(){
+  var btn = document.getElementById('ss-invite-generate-btn');
+  var status = document.getElementById('ss-invite-status');
+  btn.disabled = true;
+  status.textContent = 'Creating link…';
+  try{
+    var res = await fetch('/api/invite/generate', {method:'POST'});
+    var data = await res.json().catch(function(){ return {}; });
+    if(!res.ok){
+      status.textContent = data.error || "Couldn't create an invite link — try again.";
+      btn.disabled = false;
+      return;
+    }
+    ssRenderInviteState(data.token, data.invitesAccepted);
+    status.textContent = '';
+    btn.disabled = false;
+  }catch(e){
+    status.textContent = "Couldn't create an invite link — check your connection and try again.";
+    btn.disabled = false;
+  }
+}
+async function ssInviteCopy(){
+  var input = document.getElementById('ss-invite-link');
+  var status = document.getElementById('ss-invite-status');
   try{
     await navigator.clipboard.writeText(input.value);
     status.textContent = 'Copied ✓';
@@ -1060,6 +1127,7 @@ async function initSettings(){
     renderClassList(blob.enrolledSubjects || []);
     ssRenderShareState(blob.shareToken || null);
     ssRenderCalendarState(blob.calendarToken || null);
+    ssRenderInviteState(blob.inviteToken || null, blob.invitesAccepted || 0);
     SS_NOTIF_PREFS = blob.notificationPrefs || {};
   }catch(e){
     renderClassList([]);
@@ -1074,6 +1142,8 @@ async function initSettings(){
   document.getElementById('ss-cal-generate-btn').addEventListener('click', ssCalendarGenerate);
   document.getElementById('ss-cal-copy-btn').addEventListener('click', ssCalendarCopy);
   document.getElementById('ss-cal-revoke-btn').addEventListener('click', ssCalendarRevoke);
+  document.getElementById('ss-invite-generate-btn').addEventListener('click', ssInviteGenerate);
+  document.getElementById('ss-invite-copy-btn').addEventListener('click', ssInviteCopy);
   document.getElementById('reset-progress-btn').addEventListener('click', ssResetAllProgress);
   document.getElementById('delete-account-btn').addEventListener('click', ssDeleteAccount);
   document.getElementById('sign-out-everywhere-btn').addEventListener('click', ssSignOutEverywhere);

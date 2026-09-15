@@ -16,7 +16,7 @@ import {
 import { handleRequestGuideSubmit } from "./guide-requests.js";
 import { handleFeedbackSubmit } from "./feedback.js";
 import { handleAdminMe, handleAdminListGuideRequests, handleAdminDeleteGuideRequest, handleAdminUpdateGuideRequestStatus, handleAdminStats, handleAdminGetGuideRequestFile, handleAdminListFeedback, handleAdminDeleteFeedback, handleAdminUpdateFeedbackStatus } from "./admin-routes.js";
-import { handleGetProgress, handlePostProgress, handlePostProgressReset, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak, handlePostNotificationPrefs, recordDailySnapshots, handlePostShareGenerate, handlePostShareRevoke, handleGetShare, handlePostCalendarGenerate, handlePostCalendarRevoke, handleGetCalendarFeed } from "./progress-routes.js";
+import { handleGetProgress, handlePostProgress, handlePostProgressReset, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak, handlePostNotificationPrefs, recordDailySnapshots, handlePostShareGenerate, handlePostShareRevoke, handleGetShare, handlePostCalendarGenerate, handlePostCalendarRevoke, handleGetCalendarFeed, handlePostInviteGenerate } from "./progress-routes.js";
 import { handleGenerateFlashcards, handleSaveFlashcards, handleDeleteFlashcards, handleReviewFlashcard } from "./flashcards-routes.js";
 import { handlePushSubscribe, handlePushUnsubscribe, handlePushTest, sendDailyReminders, sendScheduledBlockReminders, sendStreakReminders } from "./push-routes.js";
 import { handleGoogleConnectStart, handleGoogleConnectCallback } from "./google-connect.js";
@@ -25,6 +25,7 @@ import {
   handleGoogleSettingsGet, handleGoogleSettingsPost
 } from "./google-routes.js";
 import { handleCanvasConnect, handleCanvasDisconnect, handleCanvasStatus } from "./canvas-routes.js";
+import { refCookie } from "./auth-state.js";
 
 const SUBJECT_PATHS = new Set(["geometry", "chemistry", "algebra1", "algebra2", "ap-lang", "global-history", "ap-biology", "apush", "physics", "biology", "precalc", "us-government", "spanish-1", "spanish-2", "earth-science", "economics", "english-9", "english-10", "world-history", "geography", "health", "psychology", "sociology", "statistics", "computer-science", "art-history", "music-theory", "spanish-3", "french-1", "german-1", "environmental-science", "anatomy", "astronomy", "creative-writing", "journalism", "speech-debate", "ap-chemistry", "ap-physics", "ap-stats", "ap-csa", "ap-psych", "ap-world", "ap-euro", "ap-usgov", "ap-macro", "ap-micro", "ap-human-geography", "sat-math", "sat-reading", "act-prep", "study-skills", "calculus", "calc-ab", "calc-bc", "us-history"]);
 const SUBJECT_VIEW_SEGMENTS = new Set(["flashcards", "quiz", "examples", "exam", "reference", "memory"]);
@@ -207,6 +208,23 @@ function withSecurityHeaders(response: Response): Response {
   return res;
 }
 
+// A classmate's invite link is a plain ?ref=<token> query param on any page
+// (e.g. precisstudy.com/?ref=abc123) -- remembered in a cookie here the
+// moment it's seen so it survives however many pages the visitor browses
+// before (if ever) they sign up; see creditInviteIfAny in progress-routes.ts
+// for where it's actually redeemed. Same token shape as the share/calendar
+// links (randomToken()'s alphabet, 10-40 chars).
+const REF_TOKEN_RE = /^[A-Za-z0-9_-]{10,40}$/;
+
+function withRefCookie(response: Response, request: Request): Response {
+  if (request.method !== "GET") return response;
+  const ref = new URL(request.url).searchParams.get("ref");
+  if (!ref || !REF_TOKEN_RE.test(ref)) return response;
+  const res = new Response(response.body, response);
+  res.headers.append("Set-Cookie", refCookie(ref));
+  return res;
+}
+
 interface Fetcher {
   fetch(request: Request): Promise<Response>;
 }
@@ -214,7 +232,7 @@ interface Fetcher {
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     try {
-      return withSecurityHeaders(await handleFetch(request, env));
+      return withRefCookie(withSecurityHeaders(await handleFetch(request, env)), request);
     } catch (e) {
       // An unhandled rejection here would otherwise surface as Cloudflare's
       // bare 500 with none of SECURITY_HEADERS applied.
@@ -383,6 +401,11 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
 
   if (url.pathname === "/api/calendar.ics") {
     if (request.method === "GET") return handleGetCalendarFeed(request, env);
+    return json({ error: "Method not allowed" }, 405);
+  }
+
+  if (url.pathname === "/api/invite/generate") {
+    if (request.method === "POST") return handlePostInviteGenerate(request, env);
     return json({ error: "Method not allowed" }, 405);
   }
 

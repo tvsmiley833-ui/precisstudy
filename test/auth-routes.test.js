@@ -308,6 +308,43 @@ describe("/auth/verify — GET confirms, POST signs in (login-CSRF guard)", () =
     expect(env.MAGIC_LINKS._m.has(token)).toBe(false); // consumed
   });
 
+  it("credits the inviting classmate when a new account signs in with an ss_ref cookie set", async () => {
+    const progress = kvStub();
+    await progress.put("progress:inviter@example.com", JSON.stringify({ inviteToken: "invitetoken1234567890" }));
+    await progress.put("invite:invitetoken1234567890", "inviter@example.com");
+    const env = { ...baseEnv(), PROGRESS: progress };
+
+    const token = await createMagicLinkToken(env, "newstudent@example.com");
+    const res = await handleVerifyConfirm(new Request("https://precisstudy.com/auth/verify", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded", Cookie: "ss_ref=invitetoken1234567890" },
+      body: new URLSearchParams({ token })
+    }), env);
+    expect(res.status).toBe(302);
+    expect(res.headers.get("Location")).toBe("https://precisstudy.com/settings?welcome=1");
+    expect(res.headers.get("Set-Cookie") || "").toContain("ss_ref=;");
+
+    const inviter = JSON.parse(await progress.get("progress:inviter@example.com"));
+    expect(inviter.invitesAccepted).toBe(1);
+  });
+
+  it("does not credit a self-referral", async () => {
+    const progress = kvStub();
+    await progress.put("progress:newstudent@example.com", JSON.stringify({ inviteToken: "selftoken1234567890a" }));
+    await progress.put("invite:selftoken1234567890a", "newstudent@example.com");
+    const env = { ...baseEnv(), PROGRESS: progress };
+
+    const token = await createMagicLinkToken(env, "newstudent@example.com");
+    await handleVerifyConfirm(new Request("https://precisstudy.com/auth/verify", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded", Cookie: "ss_ref=selftoken1234567890a" },
+      body: new URLSearchParams({ token })
+    }), env);
+
+    const self = JSON.parse(await progress.get("progress:newstudent@example.com"));
+    expect(self.invitesAccepted || 0).toBe(0);
+  });
+
   it("bogus token -> auth_error=expired on both GET and POST, no session", async () => {
     const env = baseEnv();
     const g = await handleVerify(new Request("https://precisstudy.com/auth/verify?token=nope"), env);

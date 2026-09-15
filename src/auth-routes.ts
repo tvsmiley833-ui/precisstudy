@@ -15,8 +15,9 @@ import {
 import { deleteGoogleToken } from "./google-token.js";
 import {
   SITE_ORIGIN, STATE_TTL, stateCookie, clearStateCookie,
-  makeState, checkState, safeNext, nextCookie, clearNextCookie, consumeNext
+  makeState, checkState, safeNext, nextCookie, clearNextCookie, consumeNext, clearRefCookie
 } from "./auth-state.js";
+import { creditInviteIfAny } from "./progress-routes.js";
 
 type ExtraHeaders = Record<string, string | string[]>;
 
@@ -135,8 +136,9 @@ export async function handleGoogleCallback(request: Request, env: Env): Promise<
     provider: "google"
   });
   const isNewUser = await recordLogin(env, profile.email, "google");
+  if (isNewUser) await creditInviteIfAny(env, request, profile.email);
   const dest = isNewUser ? "/settings?welcome=1" : (consumeNext(request) || "/");
-  return redirect(SITE_ORIGIN + dest, { "Set-Cookie": [cookie, clearStateCookie(), clearNextCookie()] });
+  return redirect(SITE_ORIGIN + dest, { "Set-Cookie": [cookie, clearStateCookie(), clearNextCookie(), clearRefCookie()] });
 }
 
 // ===== GitHub =====
@@ -209,8 +211,9 @@ export async function handleGithubCallback(request: Request, env: Env): Promise<
     provider: "github"
   });
   const isNewUser = await recordLogin(env, email, "github");
+  if (isNewUser) await creditInviteIfAny(env, request, email);
   const dest = isNewUser ? "/settings?welcome=1" : (consumeNext(request) || "/");
-  return redirect(SITE_ORIGIN + dest, { "Set-Cookie": [cookie, clearStateCookie(), clearNextCookie()] });
+  return redirect(SITE_ORIGIN + dest, { "Set-Cookie": [cookie, clearStateCookie(), clearNextCookie(), clearRefCookie()] });
 }
 
 // ===== Email magic link =====
@@ -310,8 +313,9 @@ export async function handleVerifyConfirm(request: Request, env: Env): Promise<R
 
   const cookie = await issueSessionCookie(env, { email, name: email, provider: "email" });
   const isNewUser = await recordLogin(env, email, "email");
+  if (isNewUser) await creditInviteIfAny(env, request, email);
   const dest = isNewUser ? "/settings?welcome=1" : (consumeNext(request) || "/");
-  return redirect(SITE_ORIGIN + dest, { "Set-Cookie": [cookie, clearNextCookie()] });
+  return redirect(SITE_ORIGIN + dest, { "Set-Cookie": [cookie, clearNextCookie(), clearRefCookie()] });
 }
 
 // ===== Session status / logout =====
