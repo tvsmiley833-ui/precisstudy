@@ -146,7 +146,10 @@ label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-m
       <div id="lb-group-yes" style="display:none;">
         <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 10px;">Share this code with classmates so they can join:</p>
         <div class="lb-code-box" id="lb-group-code"></div>
-        <button class="ss-btn" onclick="lbLeaveGroup()" style="margin-top:12px;font-size:12.5px;padding:6px 14px;">Leave group</button>
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+          <a class="ss-btn ss-btn-solid" href="/study-group" style="text-decoration:none;font-size:12.5px;padding:6px 14px;">Open Study Group Hub</a>
+          <button class="ss-btn" onclick="lbLeaveGroup()" style="font-size:12.5px;padding:6px 14px;">Leave group</button>
+        </div>
       </div>
       <div id="lb-group-status" style="margin-top:10px;font-size:12.5px;color:var(--text-muted);"></div>
     </div>
