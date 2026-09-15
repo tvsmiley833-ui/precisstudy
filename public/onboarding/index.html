@@ -65,7 +65,7 @@ h1{font-size:25px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;color:
 .step:not(.interactive):hover{background:var(--accent-soft)}
 .step.done .box{background:var(--green);border-color:var(--green)}
 .step.done .box svg{display:block}
-.step.done h3{text-decoration:line-through;text-decoration-thickness:2px;opacity:.75}
+.step.done h2{text-decoration:line-through;text-decoration-thickness:2px;opacity:.75}
 .step.done .go{visibility:hidden}
 .box{width:27px;height:27px;border-radius:9px;border:2.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;background:var(--surface)}
 .box svg{display:none;width:14px;height:14px;stroke:var(--bg);stroke-width:3.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
@@ -74,7 +74,7 @@ h1{font-size:25px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;color:
 [data-theme="dark"] .num,[data-theme="dark"] .step.done .box{color:#14302a}
 [data-theme="dark"] .box svg{stroke:#14302a}
 .step-body{flex:1;min-width:0}
-.step-body h3{font-size:16.5px;font-weight:750;margin-bottom:3px;color:var(--text)}
+.step-body h2{font-size:16.5px;font-weight:750;margin-bottom:3px;color:var(--text)}
 .step-body p{font-size:13.5px;color:var(--text-muted);line-height:1.5;margin-bottom:10px}
 .go{margin-top:2px;display:inline-flex;align-items:center;gap:5px;color:var(--accent);font-size:13px;font-weight:700;text-decoration:none;background:none;border:none;padding:0;cursor:pointer;font-family:inherit}
 .go:hover{text-decoration:underline}
@@ -137,7 +137,7 @@ h1{font-size:25px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;color:
     <div class="step interactive" data-step="settings">
       <div class="num">1</div><div class="box"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
       <div class="step-body">
-        <h3>Rank your classes</h3>
+        <h2>Rank your classes</h2>
         <p>Drag these into the order you want to focus on first — this is exactly what "priority" means in your study plan.</p>
         <div class="priority-row" id="priority-row"></div>
         <button class="go" data-href="/settings">Pick your real classes in Settings →</button>
@@ -147,7 +147,7 @@ h1{font-size:25px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;color:
     <div class="step interactive" data-step="dashboard">
       <div class="num">2</div><div class="box"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
       <div class="step-body">
-        <h3>See your week snap into place</h3>
+        <h2>See your week snap into place</h2>
         <p>Watch how PrecisStudy turns free time into a study plan automatically.</p>
         <button class="magic-btn" id="magic-fill-btn">✨ Build my fake week instantly</button>
         <div class="mini-grid" id="mini-grid"></div>
@@ -158,7 +158,7 @@ h1{font-size:25px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;color:
     <div class="step" data-step="google">
       <div class="num">3</div><div class="box"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
       <div class="step-body">
-        <h3>Connect Google Classroom</h3>
+        <h2>Connect Google Classroom</h2>
         <p>Pull your Classroom coursework and calendar due-dates right into your dashboard, alongside your study plan.</p>
         <a class="go" id="google-connect-link" href="/auth/google/connect/start?next=/onboarding">Connect Google Classroom →</a>
       </div>
@@ -167,7 +167,7 @@ h1{font-size:25px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;color:
     <div class="step interactive" data-step="diagnostic">
       <div class="num">4</div><div class="box"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
       <div class="step-body">
-        <h3>Try a diagnostic question</h3>
+        <h2>Try a diagnostic question</h2>
         <p>This is exactly how PrecisStudy finds your weak spots — one quick question, see how it feels.</p>
         <div class="mini-q">
           <p>Which of these is a factor of 12?</p>
@@ -186,7 +186,7 @@ h1{font-size:25px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;color:
     <div class="step interactive" data-step="theme">
       <div class="num">5</div><div class="box"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
       <div class="step-body">
-        <h3>Try dark mode</h3>
+        <h2>Try dark mode</h2>
         <p>Late-night cramming? Toggle light/dark anytime with the moon button — try it right there ↗</p>
         <button class="go" id="try-theme">Toggle now →</button>
       </div>

@@ -211,11 +211,11 @@ function searchGuide(){
   if(_hl)_hl.textContent=matches.length+' result'+(matches.length===1?'':'s')+' for '+q;
   const jump=m=>m.type==='concept'?`jumpToUnit(${m.unit})`:m.type==='flashcard'?`jumpToFlashcardUnit(${m.unit})`:`jumpToQuizUnit(${m.unit})`;
   sr.innerHTML='<div style="font-size:13px;color:var(--ink-muted);margin-bottom:6px">'+matches.length+' result(s)</div>'+
-    matches.slice(0,12).map(m=>`<div onclick="${jump(m)}" style="padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:5px;cursor:pointer;">
+    matches.slice(0,12).map(m=>`<button type="button" onclick="${jump(m)}" style="display:block;width:100%;text-align:left;font-family:inherit;padding:8px 12px;background:var(--surface);color:inherit;border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:5px;cursor:pointer;">
       <span style="font-size:12px;font-weight:700;color:var(--ink-muted);text-transform:uppercase">${SEARCH_BADGE[m.type]} · Unit ${m.unit}: ${m.unitName}</span>
       <div style="font-size:14px;font-weight:700;color:var(--ink);margin:2px 0">${m.concept}</div>
       <div style="font-size:13px;color:var(--ink-dim)">${m.preview}…</div>
-    </div>`).join('');
+    </button>`).join('');
 }
 function clearSearch(){document.getElementById('search-box').value='';searchGuide();}
 document.addEventListener('keydown',function(e){

@@ -625,6 +625,34 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 .shortcuts-modal-row kbd{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink);background:var(--surface-2);
   border:1px solid var(--border);border-radius:6px;padding:3px 8px}
 
+/* ---- official reference sheet modal (self-contained formula reference,
+   e.g. the Digital SAT's on-screen Math Reference — inline content instead
+   of linking out to a PDF). Same fixed-panel + Escape-to-close pattern as
+   .shortcuts-modal, just wider to fit a grid of formulas. ---- */
+.reference-panel{position:fixed;inset:0;z-index:230;display:none;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.45);padding:20px}
+.reference-panel.open{display:flex}
+.reference-panel-card{width:min(680px,100%);max-height:min(600px,calc(100dvh - 40px));overflow-y:auto;
+  background:var(--surface);border:1px solid var(--border-strong);border-radius:var(--radius);box-shadow:var(--shadow-lg)}
+.reference-panel-hd{padding:14px 18px;border-bottom:1px solid var(--border);background:var(--surface-2);
+  display:flex;align-items:flex-start;gap:8px}
+.reference-panel-hd-text{flex:1}
+.reference-panel-hd b{font-family:'Space Grotesk';font-size:19px;color:var(--ink);display:block}
+.reference-panel-hd small{font-size:12.5px;color:var(--ink-muted)}
+.reference-panel-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:4px 8px;border-radius:6px;flex-shrink:0}
+.reference-panel-close:hover{color:var(--ink);background:var(--surface-hover)}
+.reference-panel-body{padding:18px}
+.ref-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:18px 12px;margin-bottom:18px}
+.ref-item{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px}
+.ref-item svg{color:var(--ink);flex-shrink:0}
+.ref-item .ref-eq{font-size:13px;color:var(--ink);line-height:1.5}
+.ref-facts{border-top:1px solid var(--border);padding-top:14px;display:flex;flex-direction:column;gap:8px}
+.ref-facts p{margin:0;font-size:13.5px;color:var(--ink-muted)}
+.ref-conv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:6px 18px;margin-bottom:18px;font-size:13px;color:var(--ink)}
+.ref-section-label{font-family:'Space Grotesk';font-size:13px;font-weight:700;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.04em;margin:0 0 8px}
+.reference-panel-pdf-link{margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
+.reference-panel-pdf-link a{font-size:13px;font-weight:600;color:var(--accent)}
+
 /* ---- printable flashcard sheet / worksheet (printFlashcardSheet(),
    printWorksheet() in logic.js build #ss-print-container on demand and
    call window.print(); this hides the rest of the page for that one job
@@ -1339,6 +1367,12 @@ const PART_C=[{"n":66,"q":"State, in terms of valence electrons, why bromine and
 const EXAM_META={"title":"Chemistry — Full Practice Exam","subtitle":"Part A (30 pts) · Part B–1 (20 pts) · Part B–2 (11 pts) · Part C (20 pts)","parts":{"PART_A":{"title":"Part A — Multiple Choice","points":30,"minutes":null},"PART_B1":{"title":"Part B–1 — Multiple Choice","points":20,"minutes":null},"PART_B2":{"title":"Part B–2 — Short Answer","points":11,"minutes":null},"PART_C":{"title":"Part C — Extended Response","points":20,"minutes":null}}};
 const OFFICIAL_REFERENCE=null;
 const EXAM_CSS=".ex-header{background:var(--ink);color:var(--surface);padding:20px 22px;border-radius:var(--radius);margin-bottom:22px}\n.ex-header h2{font-family:'Space Grotesk';font-size:28.5px;font-weight:700;margin-bottom:4px}\n.ex-header p{font-family:'Inter';font-size:19.5px;color:var(--surface);opacity:.65}\n.ex-part{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--surface)}\n.ex-part-hd{background:var(--surface-2);padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}\n.ex-part-hd:hover{background:var(--surface-hover)}\n.ex-part-hd h3{font-size:21px;font-weight:700;color:var(--ink)}\n.ex-part-hd span{font-family:'Inter';font-size:18px;color:var(--ink-dim)}\n.ex-part-hd-meta{display:flex;align-items:center;gap:14px;flex:none}\n.ex-timer{font-family:'Space Grotesk';font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink-dim)}\n.ex-timer.ex-timer-up{color:var(--danger)}\n.ex-part-body{display:none;padding:20px}\n.ex-part.open .ex-part-body{display:block}\n.ex-q{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}\n.ex-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}\n.ex-qnum{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}\n.ex-qtext{font-size:21.8px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:13px}\n.ex-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}\n.ex-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface);text-align:left;transition:all .12s}\n.ex-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}\n.ex-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}\n.ex-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}\n.ex-exp{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface-2);padding:11px 14px;border-radius:var(--radius-sm);margin-top:9px;display:none;line-height:1.6}\n.ex-exp.show{display:block}\n.ex-sa{padding:13px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter';font-size:20.2px;color:var(--amber-ink);line-height:1.6;margin-top:9px}\n.ex-sa strong{display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:var(--amber)}\n.ex-score{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px;display:none}\n.ex-score strong{font-family:'Space Grotesk';color:var(--success);font-size:22.5px}\n.ex-score span{font-family:'Inter';color:var(--success);font-size:19.5px}\n.ex-reset{padding:10px 20px;border:1px solid var(--border);border-radius:999px;background:var(--surface);cursor:pointer;font-family:'Space Grotesk';font-weight:600;font-size:19.5px;margin-top:10px;transition:all .15s}\n.ex-reset:hover{background:var(--surface-hover);border-color:var(--border-strong)}\n";
+// Some subjects' quiz content was authored with the correct answer always
+// (or almost always) listed first -- shuffles q.o once per question instance
+// (guarded by q._shuffled so repeats/requeues of the same question keep a
+// stable order) and remaps q.a to match, so every caller that already
+// compares against q.a (ansQ, ansExam, the mistake log, printWorksheet's
+// answer key) keeps working unchanged.
 function ssShuffleOptions(q){
   if(!q||!q.o||q.o.length<2||q._shuffled)return;
   const orig=q.o.slice();
@@ -1546,11 +1580,11 @@ function searchGuide(){
   if(_hl)_hl.textContent=matches.length+' result'+(matches.length===1?'':'s')+' for '+q;
   const jump=m=>m.type==='concept'?`jumpToUnit(${m.unit})`:m.type==='flashcard'?`jumpToFlashcardUnit(${m.unit})`:`jumpToQuizUnit(${m.unit})`;
   sr.innerHTML='<div style="font-size:13px;color:var(--ink-muted);margin-bottom:6px">'+matches.length+' result(s)</div>'+
-    matches.slice(0,12).map(m=>`<div onclick="${jump(m)}" style="padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:5px;cursor:pointer;">
+    matches.slice(0,12).map(m=>`<button type="button" onclick="${jump(m)}" style="display:block;width:100%;text-align:left;font-family:inherit;padding:8px 12px;background:var(--surface);color:inherit;border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:5px;cursor:pointer;">
       <span style="font-size:12px;font-weight:700;color:var(--ink-muted);text-transform:uppercase">${SEARCH_BADGE[m.type]} · Unit ${m.unit}: ${m.unitName}</span>
       <div style="font-size:14px;font-weight:700;color:var(--ink);margin:2px 0">${m.concept}</div>
       <div style="font-size:13px;color:var(--ink-dim)">${m.preview}…</div>
-    </div>`).join('');
+    </button>`).join('');
 }
 function clearSearch(){document.getElementById('search-box').value='';searchGuide();}
 document.addEventListener('keydown',function(e){
@@ -1614,9 +1648,9 @@ function jumpToUnit(id){
 // total>=2 before computeReadiness treats a unit as assessed), so the
 // subject shows up as a real 0% card instead of hiding in that accordion.
 function justStartUnit1(){
-  if(CHEM_MASTERY&&UNITS.length){
-    CHEM_MASTERY.recordAnswer(UNITS[0].id,false);
-    CHEM_MASTERY.recordAnswer(UNITS[0].id,false);
+  if(SS_MASTERY&&UNITS.length){
+    SS_MASTERY.recordAnswer(UNITS[0].id,false);
+    SS_MASTERY.recordAnswer(UNITS[0].id,false);
     renderUnitProgress(UNITS[0].id);
   }
   jumpToUnit(UNITS[0].id);
@@ -2839,7 +2873,12 @@ function toolkitInit(){
     item('Calculator','<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M8 6V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1"/><path d="M3 12h18"/><path d="M10 12v2M14 12v2"/></svg>',desmosToggle);
   }
   if(typeof OFFICIAL_REFERENCE!=='undefined'&&OFFICIAL_REFERENCE){
-    item(OFFICIAL_REFERENCE.label,'<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M9 15h6M9 11h2"/></svg>',function(){window.open(OFFICIAL_REFERENCE.url,'_blank','noopener');});
+    var refSvg='<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M9 15h6M9 11h2"/></svg>';
+    // .content is a self-contained formula sheet rendered in-page (e.g. the
+    // Digital SAT's on-screen Math Reference) -- .url is for a genuinely
+    // external, authoritative document (a state exam's official PDF) that
+    // this site shouldn't be reproducing or risk going stale on.
+    item(OFFICIAL_REFERENCE.label,refSvg,OFFICIAL_REFERENCE.content?referencePanelToggle:function(){window.open(OFFICIAL_REFERENCE.url,'_blank','noopener');});
   }
 
   fab.onclick=toolkitToggle;
@@ -2856,6 +2895,7 @@ function toolkitCloseAllPanels(){
   var desmos=document.getElementById('desmos-panel');
   if(desmos){desmos.classList.remove('open');desmos.setAttribute('aria-hidden','true');}
   shortcutsModalClose();
+  referencePanelClose();
 }
 function toolkitToggle(){
   var menu=document.getElementById('toolkit-menu');
@@ -2930,6 +2970,51 @@ function shortcutsModalToggle(){
   if(panel&&panel.classList.contains('open'))shortcutsModalClose();else shortcutsModalOpen();
 }
 function shortcutsModalKeydown(e){if(e.key==='Escape')shortcutsModalClose();}
+
+/* ----- official reference sheet, e.g. the Digital SAT's on-screen Math
+   Reference -- rendered inline from OFFICIAL_REFERENCE.content instead of
+   linking out to a PDF (see toolkitInit()). Only built when a guide
+   actually configures reference content, same lazy-init pattern as the
+   AI helper and shortcuts panels. ----- */
+function referencePanelInit(){
+  if(document.getElementById('reference-panel'))return;
+  if(typeof OFFICIAL_REFERENCE==='undefined'||!OFFICIAL_REFERENCE||!OFFICIAL_REFERENCE.content)return;
+  var panel=document.createElement('div');
+  panel.id='reference-panel';
+  panel.className='reference-panel';
+  panel.setAttribute('role','dialog');
+  panel.setAttribute('aria-modal','true');
+  panel.setAttribute('aria-label',OFFICIAL_REFERENCE.label);
+  panel.setAttribute('aria-hidden','true');
+  var pdfLink=OFFICIAL_REFERENCE.url?'<div class="reference-panel-pdf-link"><a href="'+OFFICIAL_REFERENCE.url+'" target="_blank" rel="noopener">View the full official PDF ↗</a></div>':'';
+  panel.innerHTML='<div class="reference-panel-card"><div class="reference-panel-hd">'+
+    '<div class="reference-panel-hd-text"><b>'+OFFICIAL_REFERENCE.label+'</b><small>Available anytime while you work.</small></div>'+
+    '<button type="button" class="reference-panel-close" onclick="referencePanelClose()" aria-label="Close reference sheet">✕</button></div>'+
+    '<div class="reference-panel-body">'+OFFICIAL_REFERENCE.content+pdfLink+'</div></div>';
+  document.body.appendChild(panel);
+}
+function referencePanelOpen(){
+  referencePanelInit();
+  var panel=document.getElementById('reference-panel');
+  if(!panel)return;
+  panel.classList.add('open');
+  panel.setAttribute('aria-hidden','false');
+  var closeBtn=panel.querySelector('.reference-panel-close');
+  if(closeBtn)closeBtn.focus();
+  document.addEventListener('keydown',referencePanelKeydown);
+}
+function referencePanelClose(){
+  var panel=document.getElementById('reference-panel');
+  if(!panel||!panel.classList.contains('open'))return;
+  panel.classList.remove('open');
+  panel.setAttribute('aria-hidden','true');
+  document.removeEventListener('keydown',referencePanelKeydown);
+}
+function referencePanelToggle(){
+  var panel=document.getElementById('reference-panel');
+  if(panel&&panel.classList.contains('open'))referencePanelClose();else referencePanelOpen();
+}
+function referencePanelKeydown(e){if(e.key==='Escape')referencePanelClose();}
 
 desmosInit();
 cbotPanelInit();
@@ -3010,5 +3095,5 @@ function ssDiagBatchRenderContinue(){
   var initialTab=tabFromUrl();
   if(initialTab!=='guide') activate(initialTab);
 })();
-</script>
-<script src="/shared/command-palette.js" defer></script><script src="/shared/high-contrast.js" defer></script></body></html>
+
+</script><script src="/shared/command-palette.js" defer></script><script src="/shared/high-contrast.js" defer></script></body></html>
