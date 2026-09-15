@@ -434,20 +434,25 @@ var SYL_UNIT_EXPORTS = {
 
 var sylMatchedUnitOrder = null; // [{id, name}] in matched order, once computed
 
+var SYL_STOPWORDS = {and:1,the:1,of:1,to:1,a:1,an:1,in:1,on:1,for:1,with:1,unit:1};
 function sylNormalizeWords(s){
-  return String(s || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(Boolean);
+  return String(s || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(function(w){ return w && !SYL_STOPWORDS[w]; });
 }
 
 // Simple case-insensitive word-overlap score between a syllabus topic phrase
-// and a unit's name -- no library, no LLM round trip. Counts shared words
-// (with a small bonus for exact substring containment) rather than doing
-// anything more elaborate.
+// and a unit's name -- no library, no LLM round trip. Real syllabus topics
+// are usually much wordier than a short unit name ("Genetics and Heredity
+// (Mendelian genetics, Punnett squares)" vs "Genetics & Heredity"), so this
+// is an overlap coefficient (shared / shorter phrase's word count) rather
+// than shared / longer phrase's word count -- dividing by the longer side
+// unfairly tanks the score for exactly the wordy-topic-vs-terse-unit case
+// this function exists to handle.
 function sylTopicScore(topicWords, unitWords){
   if (!topicWords.length || !unitWords.length) return 0;
   var unitSet = {};
   unitWords.forEach(function(w){ unitSet[w] = true; });
   var shared = topicWords.filter(function(w){ return unitSet[w]; }).length;
-  return shared / Math.max(topicWords.length, unitWords.length);
+  return shared / Math.min(topicWords.length, unitWords.length);
 }
 
 async function sylMaybeRenderUnitOrder(){
