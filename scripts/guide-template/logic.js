@@ -907,6 +907,27 @@ function ansQ(i){
   if(wasGuess){
     expEl.innerHTML=(i===q.a?'<b class="guess-flag">Lucky guess — added back for more practice.</b><br>':'<b class="guess-flag">Marked as a guess.</b><br>')+expEl.innerHTML;
   }
+  // The static q.e explanation only ever covers why the correct answer is
+  // right, not why the specific wrong choice a student picked is wrong --
+  // that's a different explanation for every possible wrong option, not
+  // worth pre-writing/storing for every question. Ask the AI helper
+  // on-demand instead, scoped to exactly the choice this student made.
+  const oldExplainBtn=document.getElementById('q-explain-wrong-btn');
+  if(oldExplainBtn)oldExplainBtn.remove();
+  if(i!==q.a){
+    const explainBtn=document.createElement('button');
+    explainBtn.type='button';
+    explainBtn.id='q-explain-wrong-btn';
+    explainBtn.className='q-explain-wrong-btn';
+    explainBtn.textContent='🤖 Explain why "'+q.o[i]+'" is wrong';
+    explainBtn.onclick=function(){
+      var prompt='For this question: "'+q.q+'" -- why is the answer "'+q.o[i]+'" wrong? The correct answer is "'+q.o[q.a]+'". Keep it short and specific to that wrong choice, not a general re-explanation of the correct answer.';
+      var display='Why is "'+q.o[i]+'" wrong?';
+      cbotAskAndOpen(prompt,display);
+    };
+    expEl.appendChild(document.createElement('br'));
+    expEl.appendChild(explainBtn);
+  }
   document.getElementById('q-next').style.display='inline-block';
   document.getElementById('q-sc').textContent=`Score: ${score}`;
   var _hl=document.getElementById('hero-live');
@@ -1213,15 +1234,13 @@ async function cbotCallProxy(){
   return data.reply;
 }
 
-async function cbotSend(e){
-  e.preventDefault();
-  const input=document.getElementById('cbot-input');
-  const query=input.value.trim();
-  if(!query)return false;
-  cbotAddMsg('user',query);
-  input.value='';
+// Shared by the free-text input (cbotSend) and any programmatic prompt
+// (e.g. ssExplainWrongAnswer's "why is this wrong?") -- both need the exact
+// same search-then-AI-then-fallback flow, just with the query coming from
+// a different place.
+async function cbotAsk(query){
   const sendBtn=document.querySelector('#cbot-form button[type="submit"]');
-  sendBtn.disabled=true;
+  if(sendBtn)sendBtn.disabled=true;
   cbotShowTyping();
 
   const results=cbotSearch(query);
@@ -1256,8 +1275,28 @@ async function cbotSend(e){
   }else{
     cbotAddMsg('bot',noKeyFallbackText);
   }
-  sendBtn.disabled=false;
+  if(sendBtn)sendBtn.disabled=false;
+}
+async function cbotSend(e){
+  e.preventDefault();
+  const input=document.getElementById('cbot-input');
+  const query=input.value.trim();
+  if(!query)return false;
+  cbotAddMsg('user',query);
+  input.value='';
+  await cbotAsk(query);
   return false;
+}
+// Opens the AI helper panel (if not already open) and asks it a
+// programmatic question -- used by ssExplainWrongAnswer(). displayQuery is
+// what shows in the chat transcript (short, human-readable); if omitted,
+// the full query is shown as-is.
+function cbotAskAndOpen(query,displayQuery){
+  const panel=document.getElementById('cbot-panel');
+  if(panel&&!panel.classList.contains('open'))cbotToggle();
+  if(typeof toolkitClose==='function')toolkitClose();
+  cbotAddMsg('user',displayQuery||query);
+  cbotAsk(query);
 }
 
 /* study session timer in the nav */
