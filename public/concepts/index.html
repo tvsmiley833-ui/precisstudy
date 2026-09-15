@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Concept Dependency Map — PrecisStudy</title>
+<meta name="description" content="See how each unit builds on the last, and which units to shore up before moving on."/>
+<meta name="robots" content="noindex"/>
+<link rel="icon" type="image/png" href="/favicon.png"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="preload" href="/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin/>
+<link rel="stylesheet" href="/fonts/nunito.css"/>
+<script>
+(function(){
+  try {
+    var saved = localStorage.getItem('ss-theme');
+    if (saved !== 'light') document.documentElement.setAttribute('data-theme', 'dark');
+  } catch (e) {}
+})();
+</script>
+<style>
+:root{
+  --bg:#eef1ea; --bg-card:#fff; --bg-header:#ffffff;
+  --border:#c8d2c5;
+  --text:#233a31; --text-body:#33493d; --text-muted:#5a6f63; --nav-text:#3d5347;
+  --accent:#1f6e46; --accent-bright:#268a58; --accent-hover:#175a39; --accent-solid:#1f6e46; --accent-solid-hover:#175a39;
+  --status-none:#5f7669; --status-green:#1a7d54; --status-amber:#7a5810; --status-red:#a83f2e;
+  --card-shadow:0 1px 3px rgba(35,58,49,.06),0 24px 48px -28px rgba(35,58,49,.20);
+}
+[data-theme="dark"]{
+  --bg:#14302a; --bg-card:#1b3d33; --bg-header:#12291f;
+  --border:#2f5346;
+  --text:#f2f5ee; --text-body:#dbe6dd; --text-muted:#b7c9bc; --nav-text:#eef2ea;
+  --accent:#4fbf85; --accent-bright:#63d199; --accent-hover:#3fa873; --accent-solid:#237750; --accent-solid-hover:#1a6644;
+  --status-none:#9bab91; --status-green:#3ecf8e; --status-amber:#e0c260; --status-red:#e08a70;
+  --card-shadow:0 1px 3px rgba(0,0,0,.32),0 24px 48px -28px rgba(0,0,0,.5);
+}
+#theme-toggle{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:999px;
+  width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+#theme-toggle:hover{border-color:var(--accent-bright);color:var(--accent)}
+#theme-toggle svg{width:17px;height:17px}
+#theme-toggle .icon-sun{display:none}
+[data-theme="dark"] #theme-toggle .icon-moon{display:none}
+[data-theme="dark"] #theme-toggle .icon-sun{display:block}
+[data-theme="dark"] .ss-logo-light{display:none!important}
+[data-theme="dark"] .ss-logo-dark{display:inline!important}
+
+.ss-oauth-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;box-sizing:border-box;
+  padding:10px 14px;border-radius:12px;border:2px solid var(--border);background:var(--bg-card);color:var(--text);
+  font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none;margin-bottom:9px;transition:all .15s}
+.ss-oauth-btn:hover{border-color:var(--accent-bright);background:var(--bg)}
+@media(max-width:640px){.header-bar{padding:14px 16px} .nav-links{gap:10px} .nav-hide-sm{display:none}}
+
+html{scroll-behavior:smooth}
+.ss-card{background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;box-shadow:var(--card-shadow)}
+.ss-btn{padding:10px 20px;border-radius:999px;border:1px solid var(--border);background:var(--bg-card);color:var(--text);
+  font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:all .15s}
+.ss-btn:hover{border-color:var(--accent-bright);color:var(--accent)}
+.ss-btn-solid{background:var(--accent-solid);border-color:var(--accent-solid);color:#fff}
+.ss-btn-solid:hover{background:var(--accent-solid-hover);border-color:var(--accent-solid-hover);color:#fff}
+select{width:100%;box-sizing:border-box;padding:10px 14px;border:1px solid var(--border);
+  border-radius:10px;background:var(--bg);color:var(--text);font-family:inherit;font-size:15px}
+label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-muted);margin-bottom:6px}
+:focus-visible{outline:2px solid var(--accent-bright);outline-offset:2px;border-radius:6px}
+
+.cm-chain{display:flex;flex-direction:column;gap:0;}
+.cm-node-wrap{display:flex;flex-direction:column;align-items:stretch;}
+.cm-arrow{display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:20px;padding:2px 0;}
+.cm-node{display:block;text-decoration:none;border-radius:14px;border:2px solid var(--border);background:var(--bg-card);
+  padding:14px 18px;position:relative;transition:transform .12s ease,box-shadow .12s ease;}
+.cm-node:hover{transform:translateY(-1px);box-shadow:var(--card-shadow);}
+.cm-node-title{font-weight:800;font-size:15.5px;color:var(--text);}
+.cm-node-sub{font-size:12.5px;color:var(--text-muted);margin-top:3px;}
+.cm-dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:8px;flex-shrink:0;vertical-align:middle;}
+.cm-badge{display:inline-block;font-size:11px;font-weight:800;padding:2px 9px;border-radius:999px;margin-top:8px;}
+.cm-badge-blocked{background:color-mix(in srgb, var(--status-red) 16%, transparent);color:var(--status-red);}
+.cm-legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:var(--text-muted);margin-bottom:20px;}
+.cm-legend span{display:inline-flex;align-items:center;}
+</style>
+</head>
+<body style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);">
+
+<div role="banner" class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:var(--bg-header);border-bottom:1px solid var(--border);">
+  <a href="/" style="font-weight:800;font-size:22px;color:var(--nav-text);display:flex;align-items:center;gap:8px;text-decoration:none;">
+    <span style="display:inline-block;width:28px;height:28px;position:relative;flex-shrink:0;"><img src="/logo-icon.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;" class="ss-logo-light"/><img src="/logo-icon-dark.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;display:none;" class="ss-logo-dark"/></span>PrecisStudy
+  </a>
+  <div role="navigation" aria-label="Main" class="nav-links" style="display:flex;gap:16px;font-weight:600;font-size:15px;color:var(--nav-text);align-items:center;">
+    <a href="/dashboard" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Dashboard</a>
+    <a href="/settings" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Settings</a>
+    <button id="theme-toggle" onclick="ssToggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <a href="/geometry" class="ss-btn ss-btn-solid" style="text-decoration:none;">Back to Site</a>
+  </div>
+</div>
+
+<div style="max-width:720px;margin:0 auto;padding:48px 24px 80px;">
+  <h1 style="font-size:28px;font-weight:800;color:var(--text);margin:0 0 6px;">Concept Dependency Map</h1>
+  <p style="font-size:15px;color:var(--text-muted);margin:0 0 28px;">Units within a class build on each other in order. This shows where you stand on each one, and flags units you should shore up before moving ahead.</p>
+
+  <div id="cm-gate" style="display:none;">
+    <div class="ss-card" style="text-align:center;">
+      <p id="cm-gate-msg" style="font-size:16px;color:var(--text);margin:0 0 16px;"></p>
+      <div id="cm-login-box" style="max-width:280px;margin:0 auto;"></div>
+    </div>
+  </div>
+
+  <div id="cm-content" style="display:none;">
+    <div class="ss-card" style="margin-bottom:24px;">
+      <label class="ss-label" for="cm-subject">Which class?</label>
+      <select id="cm-subject"></select>
+    </div>
+
+    <div id="cm-legend" class="cm-legend">
+      <span><span class="cm-dot" style="background:var(--status-green);"></span>On track (80%+)</span>
+      <span><span class="cm-dot" style="background:var(--status-amber);"></span>Needs review (50-79%)</span>
+      <span><span class="cm-dot" style="background:var(--status-red);"></span>Weak (below 50%)</span>
+      <span><span class="cm-dot" style="background:var(--status-none);"></span>Not assessed yet</span>
+    </div>
+
+    <div id="cm-status" style="font-size:13.5px;color:var(--text-muted);margin-bottom:16px;"></div>
+    <div id="cm-chain" class="cm-chain"></div>
+  </div>
+</div>
+
+<script type="module">
+import { computeUnitStatus } from '/shared/mastery.js';
+import {
+  geometryUnits, chemistryUnits, algebra1Units, algebra2Units, aplangUnits, globalHistoryUnits, apbiologyUnits,
+  apushUnits, physicsUnits, biologyUnits, precalcUnits, usGovernmentUnits, actPrepUnits, anatomyUnits,
+  apChemistryUnits, apCsaUnits, apEuroUnits, apMacroUnits, apMicroUnits, apPhysicsUnits, apPsychUnits,
+  apStatsUnits, apUsgovUnits, apWorldUnits, apHumanGeographyUnits, artHistoryUnits, astronomyUnits,
+  computerScienceUnits, creativeWritingUnits, earthScienceUnits, economicsUnits, english10Units, english9Units,
+  environmentalScienceUnits, french1Units, geographyUnits, german1Units, healthUnits, journalismUnits,
+  musicTheoryUnits, psychologyUnits, satMathUnits, satReadingUnits, sociologyUnits, spanish1Units, spanish2Units,
+  spanish3Units, speechDebateUnits, statisticsUnits, studySkillsUnits, worldHistoryUnits, calculusUnits,
+  calcAbUnits, calcBcUnits, usHistoryUnits
+} from '/shared/unit-titles.js';
+
+function ssEscapeHtml(s){
+  var div = document.createElement('div');
+  div.textContent = String(s == null ? '' : s);
+  return div.innerHTML;
+}
+function ssToggleTheme(){
+  var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  if (isDark) {
+    document.documentElement.removeAttribute('data-theme');
+    try { localStorage.setItem('ss-theme', 'light'); } catch (e) {}
+  } else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    try { localStorage.setItem('ss-theme', 'dark'); } catch (e) {}
+  }
+}
+window.ssToggleTheme = ssToggleTheme;
+
+// Same {key, label, href, units} shape as SUBJECTS_CONFIG in the dashboard --
+// keeps this page's subject list and quiz deep-links (?practice=<unitId>)
+// consistent with the rest of the site.
+var CM_SUBJECTS = [
+  { key: 'geometry', label: 'Geometry', href: '/geometry', units: geometryUnits },
+  { key: 'chemistry', label: 'Chemistry', href: '/chemistry', units: chemistryUnits },
+  { key: 'algebra1', label: 'Algebra I', href: '/algebra1', units: algebra1Units },
+  { key: 'algebra2', label: 'Algebra II', href: '/algebra2', units: algebra2Units },
+  { key: 'aplang', label: 'AP English Lang & Comp', href: '/ap-lang', units: aplangUnits },
+  { key: 'globalhistory', label: 'Global History', href: '/global-history', units: globalHistoryUnits },
+  { key: 'apbiology', label: 'AP Biology', href: '/ap-biology', units: apbiologyUnits },
+  { key: 'apush', label: 'APUSH', href: '/apush', units: apushUnits },
+  { key: 'us-history', label: 'US History', href: '/us-history', units: usHistoryUnits },
+  { key: 'physics', label: 'Physics', href: '/physics', units: physicsUnits },
+  { key: 'biology', label: 'Biology', href: '/biology', units: biologyUnits },
+  { key: 'precalc', label: 'PreCalculus', href: '/precalc', units: precalcUnits },
+  { key: 'act-prep', label: 'ACT Prep', href: '/act-prep', units: actPrepUnits },
+  { key: 'anatomy', label: 'Anatomy & Physiology', href: '/anatomy', units: anatomyUnits },
+  { key: 'ap-chemistry', label: 'AP Chemistry', href: '/ap-chemistry', units: apChemistryUnits },
+  { key: 'ap-csa', label: 'AP Computer Science A', href: '/ap-csa', units: apCsaUnits },
+  { key: 'ap-euro', label: 'AP European History', href: '/ap-euro', units: apEuroUnits },
+  { key: 'ap-macro', label: 'AP Macroeconomics', href: '/ap-macro', units: apMacroUnits },
+  { key: 'ap-micro', label: 'AP Microeconomics', href: '/ap-micro', units: apMicroUnits },
+  { key: 'ap-physics', label: 'AP Physics 1', href: '/ap-physics', units: apPhysicsUnits },
+  { key: 'ap-psych', label: 'AP Psychology', href: '/ap-psych', units: apPsychUnits },
+  { key: 'ap-stats', label: 'AP Statistics', href: '/ap-stats', units: apStatsUnits },
+  { key: 'ap-usgov', label: 'AP US Government', href: '/ap-usgov', units: apUsgovUnits },
+  { key: 'ap-world', label: 'AP World History', href: '/ap-world', units: apWorldUnits },
+  { key: 'ap-human-geography', label: 'AP Human Geography', href: '/ap-human-geography', units: apHumanGeographyUnits },
+  { key: 'art-history', label: 'Art History', href: '/art-history', units: artHistoryUnits },
+  { key: 'astronomy', label: 'Astronomy', href: '/astronomy', units: astronomyUnits },
+  { key: 'computer-science', label: 'Computer Science', href: '/computer-science', units: computerScienceUnits },
+  { key: 'creative-writing', label: 'Creative Writing', href: '/creative-writing', units: creativeWritingUnits },
+  { key: 'earth-science', label: 'Earth Science', href: '/earth-science', units: earthScienceUnits },
+  { key: 'economics', label: 'Economics', href: '/economics', units: economicsUnits },
+  { key: 'english-10', label: 'English 10', href: '/english-10', units: english10Units },
+  { key: 'english-9', label: 'English 9', href: '/english-9', units: english9Units },
+  { key: 'environmental-science', label: 'Environmental Science', href: '/environmental-science', units: environmentalScienceUnits },
+  { key: 'french-1', label: 'French 1', href: '/french-1', units: french1Units },
+  { key: 'geography', label: 'Geography', href: '/geography', units: geographyUnits },
+  { key: 'german-1', label: 'German 1', href: '/german-1', units: german1Units },
+  { key: 'health', label: 'Health', href: '/health', units: healthUnits },
+  { key: 'journalism', label: 'Journalism', href: '/journalism', units: journalismUnits },
+  { key: 'music-theory', label: 'Music Theory', href: '/music-theory', units: musicTheoryUnits },
+  { key: 'psychology', label: 'Psychology', href: '/psychology', units: psychologyUnits },
+  { key: 'sat-math', label: 'SAT Math Prep', href: '/sat-math', units: satMathUnits },
+  { key: 'sat-reading', label: 'SAT Reading & Writing', href: '/sat-reading', units: satReadingUnits },
+  { key: 'sociology', label: 'Sociology', href: '/sociology', units: sociologyUnits },
+  { key: 'spanish-1', label: 'Spanish 1', href: '/spanish-1', units: spanish1Units },
+  { key: 'spanish-2', label: 'Spanish 2', href: '/spanish-2', units: spanish2Units },
+  { key: 'spanish-3', label: 'Spanish 3', href: '/spanish-3', units: spanish3Units },
+  { key: 'speech-debate', label: 'Speech & Debate', href: '/speech-debate', units: speechDebateUnits },
+  { key: 'statistics', label: 'Statistics', href: '/statistics', units: statisticsUnits },
+  { key: 'study-skills', label: 'Study Skills', href: '/study-skills', units: studySkillsUnits },
+  { key: 'us-government', label: 'US Government', href: '/us-government', units: usGovernmentUnits },
+  { key: 'world-history', label: 'World History', href: '/world-history', units: worldHistoryUnits },
+  { key: 'calculus', label: 'Calculus', href: '/calculus', units: calculusUnits },
+  { key: 'calc-ab', label: 'AP Calculus AB', href: '/calc-ab', units: calcAbUnits },
+  { key: 'calc-bc', label: 'AP Calculus BC', href: '/calc-bc', units: calcBcUnits }
+];
+
+var STATUS_COLOR = {
+  'not-assessed': 'var(--status-none)',
+  'green': 'var(--status-green)',
+  'amber': 'var(--status-amber)',
+  'red': 'var(--status-red)'
+};
+var STATUS_LABEL = {
+  'not-assessed': 'Not assessed',
+  'green': 'On track',
+  'amber': 'Needs review',
+  'red': 'Weak'
+};
+
+var cmBlob = {};
+
+function cmPopulateSubjects(){
+  var sel = document.getElementById('cm-subject');
+  sel.innerHTML = CM_SUBJECTS.map(function(s){ return '<option value="'+s.key+'">'+ssEscapeHtml(s.label)+'</option>'; }).join('');
+  var params = new URLSearchParams(location.search);
+  var initial = params.get('subject');
+  if (initial && CM_SUBJECTS.some(function(s){ return s.key === initial; })) sel.value = initial;
+  sel.addEventListener('change', cmRender);
+}
+
+function cmRender(){
+  var key = document.getElementById('cm-subject').value;
+  var subject = CM_SUBJECTS.find(function(s){ return s.key === key; });
+  var chainEl = document.getElementById('cm-chain');
+  var statusEl = document.getElementById('cm-status');
+  if (!subject) { chainEl.innerHTML = ''; return; }
+
+  var url = new URL(location.href);
+  url.searchParams.set('subject', key);
+  history.replaceState(null, '', url);
+
+  var subjectData = cmBlob[key] || {};
+  var mastery = subjectData.mastery || {};
+
+  if (!subject.units.length) {
+    chainEl.innerHTML = '<p style="color:var(--text-muted);font-size:14px;">Unit data isn\'t available for this subject yet.</p>';
+    statusEl.textContent = '';
+    return;
+  }
+
+  // Units are already stored in natural sequential order per subject, so
+  // the chain is just that order: unit N is treated as a prerequisite for
+  // unit N+1 (chronological/skill build-up within a class).
+  var statuses = subject.units.map(function(u){
+    return computeUnitStatus(mastery[String(u.id)]);
+  });
+
+  var assessedCount = statuses.filter(function(s){ return s !== 'not-assessed'; }).length;
+  statusEl.textContent = assessedCount + ' of ' + subject.units.length + ' units assessed';
+
+  var html = subject.units.map(function(u, i){
+    var status = statuses[i];
+    var color = STATUS_COLOR[status];
+    // Blocked = an earlier unit in the chain is red or not-assessed, and this
+    // unit itself hasn't been attempted yet -- the "shore this up first" signal.
+    var priorTrouble = false;
+    for (var j = 0; j < i; j++) {
+      if (statuses[j] === 'red' || statuses[j] === 'not-assessed') { priorTrouble = true; break; }
+    }
+    var blocked = priorTrouble && status === 'not-assessed';
+
+    var badge = blocked
+      ? '<span class="cm-badge cm-badge-blocked">⚠ Shore up earlier units first</span>'
+      : '';
+
+    var node = '<a class="cm-node" href="' + subject.href + '?practice=' + u.id + '" style="border-color:' + color + ';">'
+      + '<div class="cm-node-title"><span class="cm-dot" style="background:' + color + ';"></span>Unit ' + u.id + ': ' + ssEscapeHtml(u.name) + '</div>'
+      + '<div class="cm-node-sub">' + STATUS_LABEL[status] + '</div>'
+      + badge
+      + '</a>';
+
+    var arrow = i < subject.units.length - 1 ? '<div class="cm-arrow">↓</div>' : '';
+    return '<div class="cm-node-wrap">' + node + '</div>' + arrow;
+  }).join('');
+
+  chainEl.innerHTML = html;
+}
+
+function cmLoginBoxHtml(){
+  return '<a class="ss-oauth-btn" href="/auth/google/start?next=' + encodeURIComponent(location.pathname + location.search) + '">Continue with Google</a>'
+    + '<a class="ss-oauth-btn" href="/auth/github/start?next=' + encodeURIComponent(location.pathname + location.search) + '">Continue with GitHub</a>';
+}
+
+async function cmInit(){
+  cmPopulateSubjects();
+  var gate = document.getElementById('cm-gate');
+  var gateMsg = document.getElementById('cm-gate-msg');
+  var content = document.getElementById('cm-content');
+  var me;
+  try {
+    var res = await fetch('/auth/me');
+    me = await res.json();
+  } catch (e) {
+    me = { loggedIn: false };
+  }
+  if (!me.loggedIn) {
+    gate.style.display = 'block';
+    gateMsg.textContent = 'Sign in to see your concept dependency map.';
+    document.getElementById('cm-login-box').innerHTML = cmLoginBoxHtml();
+    return;
+  }
+
+  try {
+    var progRes = await fetch('/api/progress');
+    cmBlob = progRes.ok ? await progRes.json() : {};
+  } catch (e) {
+    cmBlob = {};
+  }
+
+  content.style.display = 'block';
+  cmRender();
+}
+cmInit();
+</script>
+<script src="/shared/command-palette.js" defer></script><script src="/shared/high-contrast.js" defer></script>
+</body>
+</html>
