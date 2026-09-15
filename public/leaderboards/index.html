@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Weekly Leaderboards — PrecisStudy</title>
+<meta name="description" content="Opt-in, anonymous weekly leaderboards for XP, questions answered, and active days -- compete globally, by subject, or in a private study group."/>
+<meta name="robots" content="noindex"/>
+<link rel="icon" type="image/png" href="/favicon.png"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="preload" href="/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin/>
+<link rel="stylesheet" href="/fonts/nunito.css"/>
+<script>
+(function(){
+  try {
+    var saved = localStorage.getItem('ss-theme');
+    if (saved !== 'light') document.documentElement.setAttribute('data-theme', 'dark');
+  } catch (e) {}
+})();
+</script>
+<style>
+:root{
+  --bg:#eef1ea; --bg-card:#fff; --bg-header:#ffffff;
+  --border:#c8d2c5;
+  --text:#233a31; --text-body:#33493d; --text-muted:#5a6f63; --nav-text:#3d5347;
+  --accent:#1f6e46; --accent-bright:#268a58; --accent-hover:#175a39; --accent-solid:#1f6e46; --accent-solid-hover:#175a39;
+  --chip-bg:#dde8df; --chip-text:#175a39;
+  --danger:#b23a3a; --danger-soft:#fbeaea;
+  --card-shadow:0 1px 3px rgba(35,58,49,.06),0 24px 48px -28px rgba(35,58,49,.20);
+}
+[data-theme="dark"]{
+  --bg:#14302a; --bg-card:#1b3d33; --bg-header:#12291f;
+  --border:#2f5346;
+  --text:#f2f5ee; --text-body:#dbe6dd; --text-muted:#b7c9bc; --nav-text:#eef2ea;
+  --accent:#4fbf85; --accent-bright:#63d199; --accent-hover:#3fa873; --accent-solid:#237750; --accent-solid-hover:#1a6644;
+  --chip-bg:#22362c; --chip-text:#63d199;
+  --danger:#f16565; --danger-soft:rgba(241,101,101,.14);
+  --card-shadow:0 1px 3px rgba(0,0,0,.32),0 24px 48px -28px rgba(0,0,0,.5);
+}
+#theme-toggle{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:999px;
+  width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+#theme-toggle:hover{border-color:var(--accent-bright);color:var(--accent)}
+#theme-toggle svg{width:17px;height:17px}
+#theme-toggle .icon-sun{display:none}
+[data-theme="dark"] #theme-toggle .icon-moon{display:none}
+[data-theme="dark"] #theme-toggle .icon-sun{display:block}
+[data-theme="dark"] .ss-logo-light{display:none!important}
+[data-theme="dark"] .ss-logo-dark{display:inline!important}
+
+.ss-oauth-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;box-sizing:border-box;
+  padding:10px 14px;border-radius:12px;border:2px solid var(--border);background:var(--bg-card);color:var(--text);
+  font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none;margin-bottom:9px;transition:all .15s}
+.ss-oauth-btn:hover{border-color:var(--accent-bright);background:var(--bg)}
+@media(max-width:640px){.header-bar{padding:14px 16px} .nav-links{gap:10px} .nav-hide-sm{display:none}}
+
+html{scroll-behavior:smooth}
+.ss-card{background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;box-shadow:var(--card-shadow)}
+.ss-btn{padding:10px 20px;border-radius:999px;border:1px solid var(--border);background:var(--bg-card);color:var(--text);
+  font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:all .15s}
+.ss-btn:hover{border-color:var(--accent-bright);color:var(--accent)}
+.ss-btn:disabled{opacity:.55;cursor:default}
+.ss-btn-solid{background:var(--accent-solid);border-color:var(--accent-solid);color:#fff}
+.ss-btn-solid:hover{background:var(--accent-solid-hover);border-color:var(--accent-solid-hover);color:#fff}
+select,input[type=text]{width:100%;box-sizing:border-box;padding:10px 14px;border:1px solid var(--border);
+  border-radius:10px;background:var(--bg);color:var(--text);font-family:inherit;font-size:15px}
+label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-muted);margin-bottom:6px}
+.ss-field{margin-bottom:18px}
+.ss-tab-toggle{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.ss-tab-toggle button{flex:1;min-width:90px;padding:9px 12px;border-radius:10px;border:1px solid var(--border);background:var(--bg);
+  color:var(--text-muted);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.ss-tab-toggle button.on{background:var(--accent-solid);border-color:var(--accent-solid);color:#fff}
+:focus-visible{outline:2px solid var(--accent-bright);outline-offset:2px;border-radius:6px}
+.lb-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14.5px}
+.lb-row:last-child{border-bottom:none}
+.lb-rank{font-weight:800;color:var(--accent);min-width:28px;text-align:right}
+.lb-handle{flex:1;color:var(--text);font-weight:600}
+.lb-value{font-weight:800;color:var(--text)}
+.lb-row.lb-self{background:var(--chip-bg);border-radius:10px;padding-left:8px;padding-right:8px}
+.lb-code-box{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px dashed var(--border);border-radius:10px;
+  padding:10px 14px;font-family:monospace;font-size:18px;font-weight:800;letter-spacing:2px;color:var(--accent);width:fit-content}
+</style>
+</head>
+<body style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);">
+
+<div role="banner" class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:var(--bg-header);border-bottom:1px solid var(--border);">
+  <a href="/" style="font-weight:800;font-size:22px;color:var(--nav-text);display:flex;align-items:center;gap:8px;text-decoration:none;">
+    <span style="display:inline-block;width:28px;height:28px;position:relative;flex-shrink:0;"><img src="/logo-icon.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;" class="ss-logo-light"/><img src="/logo-icon-dark.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;display:none;" class="ss-logo-dark"/></span>PrecisStudy
+  </a>
+  <div role="navigation" aria-label="Main" class="nav-links" style="display:flex;gap:16px;font-weight:600;font-size:15px;color:var(--nav-text);align-items:center;">
+    <a href="/dashboard" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Dashboard</a>
+    <a href="/settings" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Settings</a>
+    <button id="theme-toggle" onclick="ssToggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <a href="/geometry" class="ss-btn ss-btn-solid" style="text-decoration:none;">Back to Site</a>
+  </div>
+</div>
+
+<div style="max-width:640px;margin:0 auto;padding:48px 24px 80px;">
+  <h1 style="font-size:28px;font-weight:800;color:var(--text);margin:0 0 6px;">Weekly Leaderboards</h1>
+  <p style="font-size:15px;color:var(--text-muted);margin:0 0 28px;">See how your week stacks up -- anonymously. Opt in to get a random handle and appear on the boards below.</p>
+
+  <div id="lb-gate" style="display:none;">
+    <div class="ss-card" style="text-align:center;">
+      <p id="lb-gate-msg" style="font-size:16px;color:var(--text);margin:0 0 16px;"></p>
+      <div id="lb-login-box" style="max-width:280px;margin:0 auto;"></div>
+    </div>
+  </div>
+
+  <div id="lb-optin-card" class="ss-card" style="display:none;margin-bottom:24px;">
+    <div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:8px;">Private and anonymous by default</div>
+    <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 8px;">Opting in assigns you a random handle like "Quick Fox 42" -- your real name and email are never shown. You can set a custom nickname instead, or opt out any time.</p>
+    <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 16px;">Boards reset every Monday (00:00 UTC) and track three things: XP earned this week, questions answered this week, and how many days this week you were active.</p>
+    <button class="ss-btn ss-btn-solid" id="lb-optin-btn" onclick="lbOptIn()">Opt in to leaderboards</button>
+    <div id="lb-optin-status" style="margin-top:10px;font-size:13.5px;color:var(--text-muted);"></div>
+  </div>
+
+  <div id="lb-content" style="display:none;">
+    <div class="ss-card" style="margin-bottom:24px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+        <div style="font-weight:800;font-size:15px;color:var(--text);">You're opted in as <span id="lb-my-name" style="color:var(--accent);"></span></div>
+        <button class="ss-btn" id="lb-optout-btn" onclick="lbOptOut()" style="font-size:12.5px;padding:6px 14px;">Opt out</button>
+      </div>
+      <div class="ss-field" style="margin-bottom:0;">
+        <label class="ss-label" for="lb-nickname">Custom nickname (optional -- shown instead of your handle)</label>
+        <div style="display:flex;gap:8px;">
+          <input id="lb-nickname" type="text" maxlength="24" placeholder="Leave blank to use your handle"/>
+          <button class="ss-btn" onclick="lbSaveNickname()">Save</button>
+          <button class="ss-btn" onclick="lbClearNickname()">Clear</button>
+        </div>
+        <div id="lb-nickname-status" style="margin-top:8px;font-size:12.5px;color:var(--text-muted);"></div>
+      </div>
+    </div>
+
+    <div class="ss-card" style="margin-bottom:24px;">
+      <div style="font-weight:800;font-size:15px;color:var(--text);margin-bottom:10px;">My Group</div>
+      <div id="lb-group-none">
+        <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 12px;">Join a small group of classmates with a shareable code, or create your own.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="ss-btn ss-btn-solid" onclick="lbCreateGroup()">Create a group</button>
+          <input id="lb-join-code" type="text" placeholder="Enter a code" style="max-width:160px;text-transform:uppercase;"/>
+          <button class="ss-btn" onclick="lbJoinGroup()">Join</button>
+        </div>
+      </div>
+      <div id="lb-group-yes" style="display:none;">
+        <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 10px;">Share this code with classmates so they can join:</p>
+        <div class="lb-code-box" id="lb-group-code"></div>
+        <button class="ss-btn" onclick="lbLeaveGroup()" style="margin-top:12px;font-size:12.5px;padding:6px 14px;">Leave group</button>
+      </div>
+      <div id="lb-group-status" style="margin-top:10px;font-size:12.5px;color:var(--text-muted);"></div>
+    </div>
+
+    <div class="ss-card">
+      <div class="ss-tab-toggle" id="lb-scope-toggle">
+        <button type="button" data-scope="global" class="on" onclick="lbSetScope('global')">Global</button>
+        <button type="button" data-scope="subject" onclick="lbSetScope('subject')">Subject</button>
+        <button type="button" data-scope="group" onclick="lbSetScope('group')">My Group</button>
+      </div>
+      <div class="ss-field" id="lb-subject-field" style="display:none;">
+        <select id="lb-subject-select" onchange="lbLoadBoard()"></select>
+      </div>
+      <div class="ss-tab-toggle" id="lb-metric-toggle">
+        <button type="button" data-metric="xp" class="on" onclick="lbSetMetric('xp')">XP this week</button>
+        <button type="button" data-metric="questions" onclick="lbSetMetric('questions')">Questions this week</button>
+        <button type="button" data-metric="activedays" onclick="lbSetMetric('activedays')">Active days this week</button>
+      </div>
+      <div id="lb-board"></div>
+      <div id="lb-board-status" style="margin-top:10px;font-size:13.5px;color:var(--text-muted);"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function ssEscapeHtml(s){
+  var div = document.createElement('div');
+  div.textContent = String(s == null ? '' : s);
+  return div.innerHTML;
+}
+function ssToggleTheme(){
+  var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  if (isDark) {
+    document.documentElement.removeAttribute('data-theme');
+    try { localStorage.setItem('ss-theme', 'light'); } catch (e) {}
+  } else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    try { localStorage.setItem('ss-theme', 'dark'); } catch (e) {}
+  }
+}
+
+// Same {key, label} pairs as SUBJECTS in src/progress-routes.ts (see
+// public/syllabus/index.html's SYL_SUBJECTS for the canonical precedent).
+var LB_SUBJECTS = [
+  {key:'geometry',label:'Geometry'},{key:'chemistry',label:'Chemistry'},{key:'algebra1',label:'Algebra I'},
+  {key:'algebra2',label:'Algebra II'},{key:'aplang',label:'AP English Lang & Comp'},{key:'globalhistory',label:'Global History'},
+  {key:'apbiology',label:'AP Biology'},{key:'apush',label:'APUSH'},{key:'us-history',label:'US History'},
+  {key:'physics',label:'Physics'},{key:'biology',label:'Biology'},{key:'precalc',label:'PreCalculus'},
+  {key:'act-prep',label:'ACT Prep'},{key:'anatomy',label:'Anatomy & Physiology'},{key:'ap-chemistry',label:'AP Chemistry'},
+  {key:'ap-csa',label:'AP Computer Science A'},{key:'ap-euro',label:'AP European History'},{key:'ap-macro',label:'AP Macroeconomics'},
+  {key:'ap-micro',label:'AP Microeconomics'},{key:'ap-physics',label:'AP Physics 1'},{key:'ap-psych',label:'AP Psychology'},
+  {key:'ap-stats',label:'AP Statistics'},{key:'ap-usgov',label:'AP US Government'},{key:'ap-world',label:'AP World History'},
+  {key:'ap-human-geography',label:'AP Human Geography'},{key:'art-history',label:'Art History'},{key:'astronomy',label:'Astronomy'},
+  {key:'computer-science',label:'Computer Science'},{key:'creative-writing',label:'Creative Writing'},{key:'earth-science',label:'Earth Science'},
+  {key:'economics',label:'Economics'},{key:'english-10',label:'English 10'},{key:'english-9',label:'English 9'},
+  {key:'environmental-science',label:'Environmental Science'},{key:'french-1',label:'French 1'},{key:'geography',label:'Geography'},
+  {key:'german-1',label:'German 1'},{key:'health',label:'Health'},{key:'journalism',label:'Journalism'},
+  {key:'music-theory',label:'Music Theory'},{key:'psychology',label:'Psychology'},{key:'sat-math',label:'SAT Math Prep'},
+  {key:'sat-reading',label:'SAT Reading & Writing'},{key:'sociology',label:'Sociology'},{key:'spanish-1',label:'Spanish 1'},
+  {key:'spanish-2',label:'Spanish 2'},{key:'spanish-3',label:'Spanish 3'},{key:'speech-debate',label:'Speech & Debate'},
+  {key:'statistics',label:'Statistics'},{key:'study-skills',label:'Study Skills'},{key:'us-government',label:'US Government'},
+  {key:'world-history',label:'World History'},{key:'calculus',label:'Calculus'},{key:'calc-ab',label:'AP Calculus AB'},
+  {key:'calc-bc',label:'AP Calculus BC'}
+];
+
+var lbScope = 'global';
+var lbMetric = 'xp';
+var lbSelf = { optedIn: false };
+
+function lbPopulateSubjects(){
+  var sel = document.getElementById('lb-subject-select');
+  sel.innerHTML = LB_SUBJECTS.map(function(s){ return '<option value="'+s.key+'">'+ssEscapeHtml(s.label)+'</option>'; }).join('');
+}
+
+function lbSetScope(scope){
+  lbScope = scope;
+  document.querySelectorAll('#lb-scope-toggle button').forEach(function(b){ b.classList.toggle('on', b.dataset.scope === scope); });
+  document.getElementById('lb-subject-field').style.display = scope === 'subject' ? '' : 'none';
+  lbLoadBoard();
+}
+function lbSetMetric(metric){
+  lbMetric = metric;
+  document.querySelectorAll('#lb-metric-toggle button').forEach(function(b){ b.classList.toggle('on', b.dataset.metric === metric); });
+  lbLoadBoard();
+}
+
+function lbMetricLabel(){
+  return lbMetric === 'xp' ? 'XP' : lbMetric === 'questions' ? 'questions' : 'active days';
+}
+
+async function lbLoadBoard(){
+  var boardEl = document.getElementById('lb-board');
+  var statusEl = document.getElementById('lb-board-status');
+  statusEl.textContent = 'Loading...';
+  boardEl.innerHTML = '';
+  try {
+    var qs = 'scope=' + encodeURIComponent(lbScope) + '&metric=' + encodeURIComponent(lbMetric);
+    if (lbScope === 'subject') qs += '&subject=' + encodeURIComponent(document.getElementById('lb-subject-select').value);
+    var res = await fetch('/api/leaderboard?' + qs);
+    var data = await res.json();
+    if (!res.ok) {
+      statusEl.textContent = data.error || 'Could not load this board.';
+      return;
+    }
+    lbSelf = data.self || { optedIn: false };
+    if (!data.board.length) {
+      statusEl.textContent = 'No one has ' + lbMetricLabel() + ' on this board yet this week.';
+      return;
+    }
+    statusEl.textContent = '';
+    var myName = (lbSelf.nickname && lbSelf.nickname.trim()) || lbSelf.handle;
+    boardEl.innerHTML = data.board.map(function(r){
+      var isSelf = myName && r.handle === myName;
+      return '<div class="lb-row' + (isSelf ? ' lb-self' : '') + '">'
+        + '<span class="lb-rank">#' + r.rank + '</span>'
+        + '<span class="lb-handle">' + ssEscapeHtml(r.handle) + (isSelf ? ' (you)' : '') + '</span>'
+        + '<span class="lb-value">' + r.value + '</span>'
+        + '</div>';
+    }).join('');
+  } catch (e) {
+    statusEl.textContent = 'Something went wrong loading this board.';
+  }
+}
+
+async function lbOptIn(){
+  var status = document.getElementById('lb-optin-status');
+  status.textContent = 'Opting in...';
+  try {
+    var res = await fetch('/api/leaderboard/opt-in', { method: 'POST' });
+    var data = await res.json();
+    if (!res.ok) { status.textContent = data.error || 'Could not opt in.'; return; }
+    lbShowOptedIn(data.leaderboard);
+  } catch (e) {
+    status.textContent = 'Something went wrong.';
+  }
+}
+
+async function lbOptOut(){
+  if (!confirm('Opt out of leaderboards? You will stop appearing on any board (existing cached boards may still show you until the next daily refresh).')) return;
+  try {
+    await fetch('/api/leaderboard/opt-out', { method: 'POST' });
+  } catch (e) {}
+  document.getElementById('lb-content').style.display = 'none';
+  document.getElementById('lb-optin-card').style.display = 'block';
+}
+
+async function lbSaveNickname(){
+  var val = document.getElementById('lb-nickname').value;
+  var status = document.getElementById('lb-nickname-status');
+  status.textContent = 'Saving...';
+  try {
+    var res = await fetch('/api/leaderboard/nickname', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ nickname: val }) });
+    var data = await res.json();
+    if (!res.ok) { status.textContent = data.error || 'Could not save.'; return; }
+    status.textContent = 'Saved.';
+    lbRenderMyName(data.leaderboard);
+    lbLoadBoard();
+  } catch (e) {
+    status.textContent = 'Something went wrong.';
+  }
+}
+function lbClearNickname(){
+  document.getElementById('lb-nickname').value = '';
+  lbSaveNickname();
+}
+
+function lbRenderMyName(lb){
+  document.getElementById('lb-my-name').textContent = (lb.nickname && lb.nickname.trim()) || lb.handle;
+  document.getElementById('lb-nickname').value = lb.nickname || '';
+}
+
+async function lbCreateGroup(){
+  var status = document.getElementById('lb-group-status');
+  status.textContent = 'Creating...';
+  try {
+    var res = await fetch('/api/leaderboard/group/create', { method: 'POST' });
+    var data = await res.json();
+    if (!res.ok) { status.textContent = data.error || 'Could not create group.'; return; }
+    status.textContent = '';
+    lbShowGroup(data.groupCode);
+  } catch (e) {
+    status.textContent = 'Something went wrong.';
+  }
+}
+async function lbJoinGroup(){
+  var code = document.getElementById('lb-join-code').value.trim().toUpperCase();
+  var status = document.getElementById('lb-group-status');
+  if (!code) { status.textContent = 'Enter a code first.'; return; }
+  status.textContent = 'Joining...';
+  try {
+    var res = await fetch('/api/leaderboard/group/join', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ code: code }) });
+    var data = await res.json();
+    if (!res.ok) { status.textContent = data.error || 'Could not join group.'; return; }
+    status.textContent = '';
+    lbShowGroup(data.groupCode);
+  } catch (e) {
+    status.textContent = 'Something went wrong.';
+  }
+}
+async function lbLeaveGroup(){
+  try {
+    await fetch('/api/leaderboard/group/leave', { method: 'POST' });
+  } catch (e) {}
+  document.getElementById('lb-group-yes').style.display = 'none';
+  document.getElementById('lb-group-none').style.display = 'block';
+  if (lbScope === 'group') lbSetScope('global');
+}
+function lbShowGroup(code){
+  document.getElementById('lb-group-none').style.display = 'none';
+  document.getElementById('lb-group-yes').style.display = 'block';
+  document.getElementById('lb-group-code').textContent = code;
+}
+
+function lbShowOptedIn(lb){
+  document.getElementById('lb-optin-card').style.display = 'none';
+  document.getElementById('lb-content').style.display = 'block';
+  lbRenderMyName(lb);
+  if (lb.groupCode) lbShowGroup(lb.groupCode);
+  lbLoadBoard();
+}
+
+function lbLoginBoxHtml(){
+  return '<a class="ss-oauth-btn" href="/auth/google/start?next=' + encodeURIComponent(location.pathname) + '">Continue with Google</a>'
+    + '<a class="ss-oauth-btn" href="/auth/github/start?next=' + encodeURIComponent(location.pathname) + '">Continue with GitHub</a>';
+}
+
+async function lbInit(){
+  lbPopulateSubjects();
+  var gate = document.getElementById('lb-gate');
+  var gateMsg = document.getElementById('lb-gate-msg');
+  var me;
+  try {
+    var res = await fetch('/auth/me');
+    me = await res.json();
+  } catch (e) {
+    me = { loggedIn: false };
+  }
+  if (!me.loggedIn) {
+    gate.style.display = 'block';
+    gateMsg.textContent = 'Sign in to opt in to leaderboards.';
+    document.getElementById('lb-login-box').innerHTML = lbLoginBoxHtml();
+    return;
+  }
+
+  try {
+    var lbRes = await fetch('/api/leaderboard?scope=global&metric=xp');
+    var data = await lbRes.json();
+    if (data.self && data.self.optedIn) {
+      lbShowOptedIn(data.self);
+      return;
+    }
+  } catch (e) {}
+  document.getElementById('lb-optin-card').style.display = 'block';
+}
+lbInit();
+</script>
+<script src="/shared/command-palette.js" defer></script><script src="/shared/high-contrast.js" defer></script><script src="/shared/error-monitor.js" defer></script>
+</body>
+</html>

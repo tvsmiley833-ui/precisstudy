@@ -520,7 +520,7 @@ describe("handlePostStreak", () => {
     const res = await handlePostStreak(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-15" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
     expect(res.status).toBe(200);
     const data = await res.json();
-    expect(data.streak).toEqual({ current: 1, longest: 1, lastActiveDate: "2026-08-15", timezone: null });
+    expect(data.streak).toEqual({ current: 1, longest: 1, lastActiveDate: "2026-08-15", timezone: null, recentActiveDates: ["2026-08-15"] });
     expect(data.changed).toBe(true);
   });
 
@@ -529,7 +529,7 @@ describe("handlePostStreak", () => {
     const kv = fakeKV();
     const res = await handlePostStreak(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-15", timezone: "America/New_York" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
     const data = await res.json();
-    expect(data.streak).toEqual({ current: 1, longest: 1, lastActiveDate: "2026-08-15", timezone: "America/New_York" });
+    expect(data.streak).toEqual({ current: 1, longest: 1, lastActiveDate: "2026-08-15", timezone: "America/New_York", recentActiveDates: ["2026-08-15"] });
   });
 
   it("ignores an invalid timezone rather than erroring, falling back to null", async () => {
@@ -578,7 +578,7 @@ describe("handlePostStreak", () => {
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify(existing) });
     const res = await handlePostStreak(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-16" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
     const data = await res.json();
-    expect(data.streak).toEqual({ current: 4, longest: 5, lastActiveDate: "2026-08-16", timezone: null });
+    expect(data.streak).toEqual({ current: 4, longest: 5, lastActiveDate: "2026-08-16", timezone: null, recentActiveDates: ["2026-08-16"] });
   });
 
   it("raises longest when current exceeds the prior record", async () => {
@@ -587,7 +587,7 @@ describe("handlePostStreak", () => {
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify(existing) });
     const res = await handlePostStreak(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-16" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
     const data = await res.json();
-    expect(data.streak).toEqual({ current: 6, longest: 6, lastActiveDate: "2026-08-16", timezone: null });
+    expect(data.streak).toEqual({ current: 6, longest: 6, lastActiveDate: "2026-08-16", timezone: null, recentActiveDates: ["2026-08-16"] });
   });
 
   it("resets the streak to 1 after a gap of 2+ days", async () => {
@@ -596,7 +596,7 @@ describe("handlePostStreak", () => {
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify(existing) });
     const res = await handlePostStreak(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-15" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
     const data = await res.json();
-    expect(data.streak).toEqual({ current: 1, longest: 8, lastActiveDate: "2026-08-15", timezone: null });
+    expect(data.streak).toEqual({ current: 1, longest: 8, lastActiveDate: "2026-08-15", timezone: null, recentActiveDates: ["2026-08-15"] });
   });
 
   it("ignores a localDate older than what's on record instead of corrupting the streak", async () => {
@@ -621,7 +621,7 @@ describe("handlePostStreak", () => {
     await handlePostStreak(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-15" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
     const saved = JSON.parse(kv._store.get("progress:student@example.com"));
     expect(saved.geometry).toEqual(existing.geometry);
-    expect(saved.streak).toEqual({ current: 1, longest: 1, lastActiveDate: "2026-08-15", timezone: null });
+    expect(saved.streak).toEqual({ current: 1, longest: 1, lastActiveDate: "2026-08-15", timezone: null, recentActiveDates: ["2026-08-15"] });
   });
 });
 
@@ -639,7 +639,7 @@ describe("recordDailySnapshots", () => {
 
     expect(result).toEqual({ checked: 1, recorded: 1 });
     const saved = JSON.parse(kv._store.get("progress:student@example.com"));
-    expect(saved.history).toEqual([{ date: today, subjects: { geometry: 75 }, totalAnswered: 4 }]);
+    expect(saved.history).toEqual([{ date: today, subjects: { geometry: 75 }, totalAnswered: 4, xp: 30 }]);
   });
 
   it("skips a subject with nothing assessed yet, and a student with no subjects assessed at all", async () => {
@@ -684,7 +684,7 @@ describe("recordDailySnapshots", () => {
 
     const saved = JSON.parse(kv._store.get("progress:student@example.com"));
     expect(saved.history.length).toBe(60);
-    expect(saved.history[saved.history.length - 1]).toEqual({ date: today, subjects: { geometry: 50 }, totalAnswered: 2 });
+    expect(saved.history[saved.history.length - 1]).toEqual({ date: today, subjects: { geometry: 50 }, totalAnswered: 2, xp: 10 });
     expect(saved.history[0].date).toBe("2025-01-02"); // oldest (01-01) was dropped to make room
   });
 

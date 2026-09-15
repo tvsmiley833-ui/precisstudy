@@ -14,6 +14,7 @@
     { l: 'Request a Guide', h: '/request' },
     { l: 'Upload Syllabus', h: '/syllabus' },
     { l: 'Concept Dependency Map', h: '/concepts' },
+    { l: 'Weekly Leaderboards', h: '/leaderboards' },
     { l: 'Changelog', h: '/changelog' },
     { l: 'Geometry', h: '/geometry' }, { l: 'Chemistry', h: '/chemistry' }, { l: 'Algebra I', h: '/algebra1' },
     { l: 'Algebra II', h: '/algebra2' }, { l: 'AP English Lang & Comp', h: '/ap-lang' }, { l: 'Global History', h: '/global-history' },

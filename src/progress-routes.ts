@@ -4,7 +4,7 @@ import { loadGoogleSettings } from "./google-routes.js";
 import { pushScheduleToGoogleCalendar } from "./google-calendar-push.js";
 import { consumeRef } from "./auth-state.js";
 
-const SUBJECTS = ["geometry", "chemistry", "algebra1", "algebra2", "aplang", "globalhistory", "apbiology", "apush", "physics", "biology", "precalc", "act-prep", "anatomy", "ap-chemistry", "ap-csa", "ap-euro", "ap-human-geography", "ap-macro", "ap-micro", "ap-physics", "ap-psych", "ap-stats", "ap-usgov", "ap-world", "art-history", "astronomy", "computer-science", "creative-writing", "earth-science", "economics", "english-10", "english-9", "environmental-science", "french-1", "geography", "german-1", "health", "journalism", "music-theory", "psychology", "sat-math", "sat-reading", "sociology", "spanish-1", "spanish-2", "spanish-3", "speech-debate", "statistics", "study-skills", "us-government", "world-history", "calculus", "calc-ab", "calc-bc", "us-history"];
+export const SUBJECTS = ["geometry", "chemistry", "algebra1", "algebra2", "aplang", "globalhistory", "apbiology", "apush", "physics", "biology", "precalc", "act-prep", "anatomy", "ap-chemistry", "ap-csa", "ap-euro", "ap-human-geography", "ap-macro", "ap-micro", "ap-physics", "ap-psych", "ap-stats", "ap-usgov", "ap-world", "art-history", "astronomy", "computer-science", "creative-writing", "earth-science", "economics", "english-10", "english-9", "environmental-science", "french-1", "geography", "german-1", "health", "journalism", "music-theory", "psychology", "sat-math", "sat-reading", "sociology", "spanish-1", "spanish-2", "spanish-3", "speech-debate", "statistics", "study-skills", "us-government", "world-history", "calculus", "calc-ab", "calc-bc", "us-history"];
 
 function json(body: unknown, status?: number): Response {
   return new Response(JSON.stringify(body), {
@@ -28,7 +28,7 @@ interface SubjectProgress {
 // Per-subject progress lives under subject-name keys alongside the fixed
 // metadata keys below, so the blob is an intersection: known metadata typed
 // precisely, arbitrary subject keys typed as SubjectProgress.
-type ProgressBlob = {
+export type ProgressBlob = {
   goal: { days: number; minutesPerDay: number; savedAt: string } | null;
   updatedAt: string | null;
   enrolledSubjects: string[];
@@ -61,7 +61,12 @@ type ProgressBlob = {
   // history with all-empty days) -- feeds the accuracy trend sparklines,
   // which need real day-over-day history to plot. Capped in
   // recordDailySnapshots() so this can't grow unbounded.
-  history?: { date: string; subjects: Record<string, number>; totalAnswered?: number }[];
+  // `xp` is the lifetime XP total as of that day (server-side port of
+  // computeXP in public/dashboard/index.html -- see recordDailySnapshots),
+  // added alongside the existing readiness/totalAnswered fields so Weekly
+  // Leaderboards can diff today's value against ~7 entries ago to get "XP
+  // earned this week" without a separate weekly counter.
+  history?: { date: string; subjects: Record<string, number>; totalAnswered?: number; xp?: number }[];
   // Per-notification-type opt-out (Settings). A missing key means "on" --
   // see notificationAllowed() in push-routes.ts, which reads this same field.
   notificationPrefs?: { daily?: boolean; streak?: boolean; blocks?: boolean } | null;
@@ -69,6 +74,15 @@ type ProgressBlob = {
   // the per-guide FLASHCARDS arrays baked into guide pages at generate time.
   // Capped at MAX_CUSTOM_DECKS, oldest evicted first.
   customDecks?: { id: string; name: string; cards: { front: string; back: string }[]; createdAt: string }[];
+  // Weekly Leaderboards opt-in (see leaderboard-routes.ts). Absent/optedIn:false
+  // means this student never appears in or contributes to any leaderboard
+  // computation -- enforced at read time in leaderboard-routes.ts, not just
+  // by omission here. handle is assigned once, on first opt-in, and stays
+  // stable across weeks; nickname (if set) displays instead of handle.
+  // groupCode mirrors the reciprocal-membership lbgroup:<code> KV entry --
+  // null/absent means "not in a group". A student belongs to at most one
+  // group at a time.
+  leaderboard?: { optedIn: boolean; handle: string; nickname?: string | null; groupCode?: string | null } | null;
 } & Record<string, SubjectProgress>;
 
 interface PushSubscriptionRecord {
@@ -99,7 +113,16 @@ interface StreakData {
   longest: number;
   lastActiveDate: string | null;
   timezone: string | null;
+  // Rolling set of the last ~14 distinct localDates touchStreak() recorded
+  // (see handlePostStreak) -- unlike `current`, which resets to 1 on any gap,
+  // this lets the Weekly Leaderboards "Active days this week" metric count
+  // how many of the last 7 calendar days were active without disturbing the
+  // consecutive-day streak logic other features (dashboard streak display,
+  // sendStreakReminders) already depend on.
+  recentActiveDates?: string[];
 }
+
+const MAX_RECENT_ACTIVE_DATES = 14;
 
 function emptySubject(): SubjectProgress {
   return { mastery: {}, examples: {}, cardsKnown: [] };
@@ -166,7 +189,7 @@ function isValidBlock(b: unknown): b is ScheduleBlock {
   );
 }
 
-async function loadBlob(env: Env, email: string): Promise<ProgressBlob> {
+export async function loadBlob(env: Env, email: string): Promise<ProgressBlob> {
   if (!env.PROGRESS) return emptyBlob();
   const raw = await env.PROGRESS.get("progress:" + email);
   if (!raw) return emptyBlob();
@@ -188,6 +211,45 @@ function readinessPct(mastery: SubjectProgress["mastery"] | undefined): number |
   if (!assessed.length) return null;
   const sum = assessed.reduce((s, r) => s + (r.correct / r.total) * 100, 0);
   return Math.round(sum / assessed.length);
+}
+
+// Server-side port of computeXP/computeBadges in public/dashboard/index.html,
+// so the daily snapshot (and therefore any leaderboard built on top of it)
+// agrees with the number the dashboard shows. One deliberate simplification:
+// the "Guide Complete"/"Guide Master" badges (all units in a subject at 80%+)
+// need each subject's full unit-id catalog, which is baked into the static
+// guide pages (SUBJECTS_CONFIG) and not available in this Worker -- so this
+// omits just those two badges' +50 XP each from the total. Every other badge
+// (streaks, cards known, perfect units, explorer, planner) is computed
+// identically since it only needs data already in the blob.
+function computeServerXP(blob: ProgressBlob): number {
+  let totalCorrect = 0, totalCardsKnown = 0, totalExamplesDone = 0, perfectUnits = 0;
+  for (const subject of SUBJECTS) {
+    const subj = blob[subject];
+    if (!subj) continue;
+    for (const rec of Object.values(subj.mastery || {})) {
+      totalCorrect += rec?.correct || 0;
+      if (rec && rec.total >= 5 && rec.correct === rec.total) perfectUnits++;
+    }
+    totalCardsKnown += (subj.cardsKnown || []).length;
+    totalExamplesDone += Object.keys(subj.examples || {}).length;
+  }
+  const longest = blob.streak?.longest || 0;
+  const enrolledCount = (blob.enrolledSubjects || []).length;
+  let badgesUnlocked = 0;
+  if (longest >= 3) badgesUnlocked++;
+  if (longest >= 7) badgesUnlocked++;
+  if (longest >= 30) badgesUnlocked++;
+  if (longest >= 100) badgesUnlocked++;
+  if (totalCardsKnown >= 25) badgesUnlocked++;
+  if (totalCardsKnown >= 100) badgesUnlocked++;
+  if (totalCardsKnown >= 500) badgesUnlocked++;
+  if (enrolledCount >= 3) badgesUnlocked++;
+  if (blob.goal) badgesUnlocked++;
+  if (perfectUnits >= 1) badgesUnlocked++;
+  if (perfectUnits >= 5) badgesUnlocked++;
+  const streakBonus = blob.streak?.current || 0;
+  return totalCorrect * 10 + totalCardsKnown * 2 + totalExamplesDone * 5 + streakBonus * 5 + badgesUnlocked * 50;
 }
 
 const MAX_HISTORY_DAYS = 60;
@@ -233,7 +295,8 @@ export async function recordDailySnapshots(env: Env): Promise<{ checked: number;
       }
       if (!Object.keys(subjects).length) continue;
 
-      history.push({ date: today, subjects, totalAnswered });
+      const xp = computeServerXP(blob);
+      history.push({ date: today, subjects, totalAnswered, xp });
       while (history.length > MAX_HISTORY_DAYS) history.shift();
       blob.history = history;
 
@@ -656,7 +719,10 @@ export async function handlePostStreak(request: Request, env: Env): Promise<Resp
     return json({ ok: true, streak: prev, changed: false });
   }
   const current = gap === 1 ? prev.current + 1 : 1;
-  const streak = { current, longest: Math.max(prev.longest, current), lastActiveDate: localDate, timezone: timezone || prev.timezone || null };
+  const recentActiveDates = [...new Set([...(prev.recentActiveDates || []), localDate])]
+    .sort()
+    .slice(-MAX_RECENT_ACTIVE_DATES);
+  const streak = { current, longest: Math.max(prev.longest, current), lastActiveDate: localDate, timezone: timezone || prev.timezone || null, recentActiveDates };
 
   blob.streak = streak;
   blob.updatedAt = new Date().toISOString();
