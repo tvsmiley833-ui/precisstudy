@@ -743,12 +743,16 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   import { createMastery } from '/shared/mastery.js';
   import { celebrateCorrect, resetCombo } from '/shared/celebrate.js';
   import { applyStoredUnitOrder, refreshUnitOrder } from '/shared/unit-order.js';
+  import { enterLockdown, exitLockdown, getLockdownSummary } from '/shared/exam-lockdown.js';
   import '/shared/chalk-cursor.js';
   window.__ssCreateMastery = createMastery;
   window.__ssCelebrateCorrect = celebrateCorrect;
   window.__ssResetCombo = resetCombo;
   window.__ssApplyUnitOrder = applyStoredUnitOrder;
   window.__ssRefreshUnitOrder = refreshUnitOrder;
+  window.__ssEnterLockdown = enterLockdown;
+  window.__ssExitLockdown = exitLockdown;
+  window.__ssGetLockdownSummary = getLockdownSummary;
   window.dispatchEvent(new Event('ss-mastery-ready'));
 </script>
 <body>
@@ -1105,7 +1109,7 @@ const PART_B2=[];
 const PART_C=[];
 const EXAM_META={"title":"SAT Math — Full Practice Exam","subtitle":"Module 1 (14 pts) · Module 2 (13 pts)","parts":{"PART_A":{"title":"Module 1","points":14,"minutes":35},"PART_B1":{"title":"Module 2","points":13,"minutes":35},"PART_B2":{"title":"Part B–2 — Short Answer","points":0,"minutes":null},"PART_C":{"title":"Part C — Extended Response","points":0,"minutes":null}}};
 const OFFICIAL_REFERENCE={"content":"<div class=\"ref-grid\"><div class=\"ref-item\"><svg width=\"56\" height=\"56\" viewBox=\"0 0 56 56\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><circle cx=\"28\" cy=\"28\" r=\"20\"/><circle cx=\"28\" cy=\"28\" r=\"1.4\" fill=\"currentColor\" stroke=\"none\"/><line x1=\"28\" y1=\"28\" x2=\"42\" y2=\"28\"/><text x=\"33\" y=\"25\" font-size=\"9\" fill=\"currentColor\" stroke=\"none\">r</text></svg><div class=\"ref-eq\">A = &pi;r&sup2;<br>C = 2&pi;r</div></div><div class=\"ref-item\"><svg width=\"56\" height=\"56\" viewBox=\"0 0 56 56\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><rect x=\"9\" y=\"18\" width=\"38\" height=\"20\"/><text x=\"48\" y=\"31\" font-size=\"9\" fill=\"currentColor\" stroke=\"none\">w</text><text x=\"25\" y=\"14\" font-size=\"9\" fill=\"currentColor\" stroke=\"none\">&#8467;</text></svg><div class=\"ref-eq\">A = &#8467;w</div></div><div class=\"ref-item\"><svg width=\"56\" height=\"56\" viewBox=\"0 0 56 56\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><polygon points=\"28,10 48,42 8,42\"/><line x1=\"28\" y1=\"10\" x2=\"28\" y2=\"42\"/><text x=\"30\" y=\"26\" font-size=\"9\" fill=\"currentColor\" stroke=\"none\">h</text><text x=\"14\" y=\"48\" font-size=\"9\" fill=\"currentColor\" stroke=\"none\">b</text></svg><div class=\"ref-eq\">A = &frac12;bh</div></div><div class=\"ref-item\"><svg width=\"56\" height=\"56\" viewBox=\"0 0 56 56\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><polygon points=\"10,42 46,42 46,14\"/><text x=\"24\" y=\"50\" font-size=\"9\" fill=\"currentColor\" stroke=\"none\">a</text><text x=\"49\" y=\"30\" font-size=\"9\" fill=\"currentColor\" stroke=\"none\">b</text><text x=\"22\" y=\"25\" font-size=\"9\" fill=\"currentColor\" stroke=\"none\">c</text></svg><div class=\"ref-eq\">c&sup2; = a&sup2; + b&sup2;</div></div><div class=\"ref-item\"><svg width=\"64\" height=\"56\" viewBox=\"0 0 64 56\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><polygon points=\"6,42 58,42 58,20\"/><text x=\"14\" y=\"38\" font-size=\"8\" fill=\"currentColor\" stroke=\"none\">30&deg;</text><text x=\"48\" y=\"38\" font-size=\"8\" fill=\"currentColor\" stroke=\"none\">60&deg;</text><text x=\"28\" y=\"50\" font-size=\"8\" fill=\"currentColor\" stroke=\"none\">x&radic;3</text><text x=\"60\" y=\"32\" font-size=\"8\" fill=\"currentColor\" stroke=\"none\">x</text><text x=\"28\" y=\"16\" font-size=\"8\" fill=\"currentColor\" stroke=\"none\">2x</text></svg><div class=\"ref-eq\">Special Right<br>Triangles</div></div><div class=\"ref-item\"><svg width=\"64\" height=\"56\" viewBox=\"0 0 64 56\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><polygon points=\"10,42 46,42 46,6\"/><text x=\"14\" y=\"38\" font-size=\"8\" fill=\"currentColor\" stroke=\"none\">45&deg;</text><text x=\"38\" y=\"18\" font-size=\"8\" fill=\"currentColor\" stroke=\"none\">45&deg;</text><text x=\"48\" y=\"26\" font-size=\"8\" fill=\"currentColor\" stroke=\"none\">s</text><text x=\"22\" y=\"50\" font-size=\"8\" fill=\"currentColor\" stroke=\"none\">s</text><text x=\"20\" y=\"22\" font-size=\"8\" fill=\"currentColor\" stroke=\"none\">s&radic;2</text></svg></div><div class=\"ref-item\"><svg width=\"56\" height=\"56\" viewBox=\"0 0 56 56\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><path d=\"M8 20 L28 8 L48 20 L48 40 L28 52 L8 40 Z\"/><line x1=\"8\" y1=\"20\" x2=\"28\" y2=\"32\"/><line x1=\"48\" y1=\"20\" x2=\"28\" y2=\"32\"/><line x1=\"28\" y1=\"32\" x2=\"28\" y2=\"52\"/></svg><div class=\"ref-eq\">V = &#8467;wh</div></div><div class=\"ref-item\"><svg width=\"56\" height=\"56\" viewBox=\"0 0 56 56\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><ellipse cx=\"28\" cy=\"12\" rx=\"18\" ry=\"6\"/><line x1=\"10\" y1=\"12\" x2=\"10\" y2=\"42\"/><line x1=\"46\" y1=\"12\" x2=\"46\" y2=\"42\"/><path d=\"M10 42 A18 6 0 0 0 46 42\"/></svg><div class=\"ref-eq\">V = &pi;r&sup2;h</div></div><div class=\"ref-item\"><svg width=\"56\" height=\"56\" viewBox=\"0 0 56 56\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><circle cx=\"28\" cy=\"28\" r=\"20\"/><ellipse cx=\"28\" cy=\"28\" rx=\"20\" ry=\"7\"/></svg><div class=\"ref-eq\">V = 4/3&pi;r&sup3;</div></div><div class=\"ref-item\"><svg width=\"56\" height=\"56\" viewBox=\"0 0 56 56\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><ellipse cx=\"28\" cy=\"42\" rx=\"18\" ry=\"6\"/><line x1=\"28\" y1=\"8\" x2=\"10\" y2=\"42\"/><line x1=\"28\" y1=\"8\" x2=\"46\" y2=\"42\"/></svg><div class=\"ref-eq\">V = &frac13;&pi;r&sup2;h</div></div><div class=\"ref-item\"><svg width=\"56\" height=\"56\" viewBox=\"0 0 56 56\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"><polygon points=\"8,40 48,40 34,10\"/><line x1=\"28\" y1=\"40\" x2=\"34\" y2=\"10\"/></svg><div class=\"ref-eq\">V = &frac13;&#8467;wh</div></div></div><div class=\"ref-facts\"><p>The number of degrees of arc in a circle is 360.</p><p>The number of radians of arc in a circle is 2&pi;.</p><p>The sum of the measures in degrees of the angles of a triangle is 180.</p></div>","label":"Math Reference"};
-const EXAM_CSS=".ex-header{background:var(--ink);color:var(--surface);padding:20px 22px;border-radius:var(--radius);margin-bottom:22px}\n.ex-header h2{font-family:'Space Grotesk';font-size:28.5px;font-weight:700;margin-bottom:4px}\n.ex-header p{font-family:'Inter';font-size:19.5px;color:var(--surface);opacity:.65}\n.ex-part{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--surface)}\n.ex-part-hd{background:var(--surface-2);padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}\n.ex-part-hd:hover{background:var(--surface-hover)}\n.ex-part-hd h3{font-size:21px;font-weight:700;color:var(--ink)}\n.ex-part-hd span{font-family:'Inter';font-size:18px;color:var(--ink-dim)}\n.ex-part-hd-meta{display:flex;align-items:center;gap:14px;flex:none}\n.ex-timer{font-family:'Space Grotesk';font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink-dim)}\n.ex-timer.ex-timer-up{color:var(--danger)}\n.ex-part-body{display:none;padding:20px}\n.ex-part.open .ex-part-body{display:block}\n.ex-q{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}\n.ex-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}\n.ex-qnum{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}\n.ex-qtext{font-size:21.8px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:13px}\n.ex-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}\n.ex-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface);text-align:left;transition:all .12s}\n.ex-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}\n.ex-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}\n.ex-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}\n.ex-exp{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface-2);padding:11px 14px;border-radius:var(--radius-sm);margin-top:9px;display:none;line-height:1.6}\n.ex-exp.show{display:block}\n.ex-sa{padding:13px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter';font-size:20.2px;color:var(--amber-ink);line-height:1.6;margin-top:9px}\n.ex-sa strong{display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:var(--amber)}\n.ex-score{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px;display:none}\n.ex-score strong{font-family:'Space Grotesk';color:var(--success);font-size:22.5px}\n.ex-score span{font-family:'Inter';color:var(--success);font-size:19.5px}\n.ex-reset{padding:10px 20px;border:1px solid var(--border);border-radius:999px;background:var(--surface);cursor:pointer;font-family:'Space Grotesk';font-weight:600;font-size:19.5px;margin-top:10px;transition:all .15s}\n.ex-reset:hover{background:var(--surface-hover);border-color:var(--border-strong)}\n";
+const EXAM_CSS=".ex-header{background:var(--ink);color:var(--surface);padding:20px 22px;border-radius:var(--radius);margin-bottom:22px}\n.ex-header h2{font-family:'Space Grotesk';font-size:28.5px;font-weight:700;margin-bottom:4px}\n.ex-header p{font-family:'Inter';font-size:19.5px;color:var(--surface);opacity:.65}\n.ex-part{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;background:var(--surface)}\n.ex-part-hd{background:var(--surface-2);padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}\n.ex-part-hd:hover{background:var(--surface-hover)}\n.ex-part-hd h3{font-size:21px;font-weight:700;color:var(--ink)}\n.ex-part-hd span{font-family:'Inter';font-size:18px;color:var(--ink-dim)}\n.ex-part-hd-meta{display:flex;align-items:center;gap:14px;flex:none}\n.ex-timer{font-family:'Space Grotesk';font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink-dim)}\n.ex-timer.ex-timer-up{color:var(--danger)}\n.ex-part-body{display:none;padding:20px}\n.ex-part.open .ex-part-body{display:block}\n.ex-q{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border)}\n.ex-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}\n.ex-qnum{font-family:'Space Grotesk';font-size:16.5px;font-weight:700;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}\n.ex-qtext{font-size:21.8px;font-weight:600;color:var(--ink);line-height:1.6;margin-bottom:13px}\n.ex-opts{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}\n.ex-opt{padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface);text-align:left;transition:all .12s}\n.ex-opt:hover:not(:disabled){background:var(--accent-soft);color:var(--ink);border-color:var(--accent)}\n.ex-opt.correct{background:var(--success-soft);color:var(--success);border-color:var(--success-border);font-weight:600}\n.ex-opt.wrong{background:var(--danger-soft);color:var(--danger);border-color:var(--danger-border)}\n.ex-exp{font-family:'Inter';font-size:20.2px;color:var(--ink-muted);background:var(--surface-2);padding:11px 14px;border-radius:var(--radius-sm);margin-top:9px;display:none;line-height:1.6}\n.ex-exp.show{display:block}\n.ex-sa{padding:13px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-family:'Inter';font-size:20.2px;color:var(--amber-ink);line-height:1.6;margin-top:9px}\n.ex-sa strong{display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;color:var(--amber)}\n.ex-score{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px;display:none}\n.ex-score strong{font-family:'Space Grotesk';color:var(--success);font-size:22.5px}\n.ex-score span{font-family:'Inter';color:var(--success);font-size:19.5px}\n.ex-reset{padding:10px 20px;border:1px solid var(--border);border-radius:999px;background:var(--surface);cursor:pointer;font-family:'Space Grotesk';font-weight:600;font-size:19.5px;margin-top:10px;transition:all .15s}\n.ex-reset:hover{background:var(--surface-hover);border-color:var(--border-strong)}\n.ex-lockdown-bar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 18px;margin-bottom:16px}\n.ex-lockdown-start-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap}\n.ex-lockdown-label{font-family:'Inter';font-size:16px;color:var(--ink-dim);display:flex;align-items:center;gap:8px;max-width:520px}\n.ex-lockdown-end-btn{margin-left:auto}\n.ex-lockdown-warn{background:var(--danger-soft);color:var(--danger);border:1px solid var(--danger-border);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:16px;font-family:'Inter';font-size:15px}\n.ex-lockdown-summary{background:var(--success-soft);border:1px solid var(--success-border);border-radius:var(--radius-sm);padding:15px 18px;margin-bottom:18px}\n.ex-lockdown-summary strong{display:block;font-family:'Space Grotesk';color:var(--success);font-size:18px;margin-bottom:4px}\n.ex-lockdown-summary span{font-family:'Inter';color:var(--success);font-size:15px}\n";
 // Some subjects' quiz content was authored with the correct answer always
 // (or almost always) listed first -- shuffles q.o once per question instance
 // (guarded by q._shuffled so repeats/requeues of the same question keep a
@@ -1139,6 +1143,15 @@ v.innerHTML=`
   <h2>${EXAM_META.title}</h2>
   <p>${EXAM_META.subtitle}</p>
 </div>
+<div class="ex-lockdown-bar" id="ex-lockdown-bar">
+  <div class="ex-lockdown-start-row" id="ex-lockdown-start-row">
+    <label class="ex-lockdown-label"><input type="checkbox" id="ex-lockdown-toggle"> Exam-condition mode (fullscreen + tracks time away from the exam — for your eyes only; nothing is recorded or sent anywhere)</label>
+    <button type="button" class="btn" onclick="ssStartExamLockdown()">Start Exam</button>
+  </div>
+  <button type="button" class="btn ex-lockdown-end-btn" id="ex-lockdown-end-btn" style="display:none" onclick="ssEndExamLockdown()">End Exam &amp; Show Focus Summary</button>
+</div>
+<div class="ex-lockdown-warn" id="ex-lockdown-warn" style="display:none" role="status" aria-live="polite"></div>
+<div class="ex-lockdown-summary" id="ex-lockdown-summary" style="display:none"></div>
 <div id="ex-score-box" class="ex-score"></div>
 ${buildPartMC('A',PART_A)}
 ${buildPartMC('B1',PART_B1)}
@@ -1147,6 +1160,47 @@ ${buildPartFR('C',PART_C)}
 `;
 // open Part A by default
 togglePart('A');
+}
+
+// Exam-condition lockdown mode: purely opt-in UX layered on top of the
+// existing exam feature above. See public/shared/exam-lockdown.js for what
+// is (and, importantly, is NOT) tracked -- no video/audio/camera/microphone,
+// nothing recorded, nothing ever sent to a server. `ssLockdownActive` only
+// gates whether ssEndExamLockdown() has anything to tear down; a student who
+// never checks the box can still take the exam exactly as before.
+var ssLockdownActive=false;
+function ssLockdownWarn(){
+  var box=document.getElementById('ex-lockdown-warn');
+  if(!box)return;
+  box.textContent='You left the exam — this will show in your summary at the end.';
+  box.style.display='block';
+  clearTimeout(ssLockdownWarn._t);
+  ssLockdownWarn._t=setTimeout(function(){box.style.display='none';},4000);
+}
+function ssStartExamLockdown(){
+  var cb=document.getElementById('ex-lockdown-toggle');
+  var wantLockdown=!!(cb&&cb.checked);
+  ssLockdownActive=wantLockdown;
+  if(wantLockdown&&window.__ssEnterLockdown)window.__ssEnterLockdown(ssLockdownWarn);
+  var startRow=document.getElementById('ex-lockdown-start-row');
+  var endBtn=document.getElementById('ex-lockdown-end-btn');
+  if(startRow)startRow.style.display='none';
+  if(endBtn)endBtn.style.display=wantLockdown?'':'none';
+}
+function ssEndExamLockdown(){
+  var summary={exitCount:0,totalTimeAwayMs:0};
+  if(ssLockdownActive&&window.__ssExitLockdown)summary=window.__ssExitLockdown();
+  ssLockdownActive=false;
+  var out=document.getElementById('ex-lockdown-summary');
+  if(out){
+    var secs=Math.round((summary.totalTimeAwayMs||0)/1000);
+    out.style.display='block';
+    out.innerHTML='<strong>Focus Summary</strong><span>You left the exam view '+(summary.exitCount||0)+' time'+(summary.exitCount===1?'':'s')+', totaling '+secs+' second'+(secs===1?'':'s')+'.</span>';
+  }
+  var endBtn=document.getElementById('ex-lockdown-end-btn');
+  if(endBtn)endBtn.style.display='none';
+  var warn=document.getElementById('ex-lockdown-warn');
+  if(warn)warn.style.display='none';
 }
 
 function examPartMeta(id){return (EXAM_META&&EXAM_META.parts&&EXAM_META.parts['PART_'+id])||{};}

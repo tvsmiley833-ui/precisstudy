@@ -31,6 +31,15 @@ v.innerHTML=`
   <h2>${EXAM_META.title}</h2>
   <p>${EXAM_META.subtitle}</p>
 </div>
+<div class="ex-lockdown-bar" id="ex-lockdown-bar">
+  <div class="ex-lockdown-start-row" id="ex-lockdown-start-row">
+    <label class="ex-lockdown-label"><input type="checkbox" id="ex-lockdown-toggle"> Exam-condition mode (fullscreen + tracks time away from the exam — for your eyes only; nothing is recorded or sent anywhere)</label>
+    <button type="button" class="btn" onclick="ssStartExamLockdown()">Start Exam</button>
+  </div>
+  <button type="button" class="btn ex-lockdown-end-btn" id="ex-lockdown-end-btn" style="display:none" onclick="ssEndExamLockdown()">End Exam &amp; Show Focus Summary</button>
+</div>
+<div class="ex-lockdown-warn" id="ex-lockdown-warn" style="display:none" role="status" aria-live="polite"></div>
+<div class="ex-lockdown-summary" id="ex-lockdown-summary" style="display:none"></div>
 <div id="ex-score-box" class="ex-score"></div>
 ${buildPartMC('A',PART_A)}
 ${buildPartMC('B1',PART_B1)}
@@ -39,6 +48,47 @@ ${buildPartFR('C',PART_C)}
 `;
 // open Part A by default
 togglePart('A');
+}
+
+// Exam-condition lockdown mode: purely opt-in UX layered on top of the
+// existing exam feature above. See public/shared/exam-lockdown.js for what
+// is (and, importantly, is NOT) tracked -- no video/audio/camera/microphone,
+// nothing recorded, nothing ever sent to a server. `ssLockdownActive` only
+// gates whether ssEndExamLockdown() has anything to tear down; a student who
+// never checks the box can still take the exam exactly as before.
+var ssLockdownActive=false;
+function ssLockdownWarn(){
+  var box=document.getElementById('ex-lockdown-warn');
+  if(!box)return;
+  box.textContent='You left the exam — this will show in your summary at the end.';
+  box.style.display='block';
+  clearTimeout(ssLockdownWarn._t);
+  ssLockdownWarn._t=setTimeout(function(){box.style.display='none';},4000);
+}
+function ssStartExamLockdown(){
+  var cb=document.getElementById('ex-lockdown-toggle');
+  var wantLockdown=!!(cb&&cb.checked);
+  ssLockdownActive=wantLockdown;
+  if(wantLockdown&&window.__ssEnterLockdown)window.__ssEnterLockdown(ssLockdownWarn);
+  var startRow=document.getElementById('ex-lockdown-start-row');
+  var endBtn=document.getElementById('ex-lockdown-end-btn');
+  if(startRow)startRow.style.display='none';
+  if(endBtn)endBtn.style.display=wantLockdown?'':'none';
+}
+function ssEndExamLockdown(){
+  var summary={exitCount:0,totalTimeAwayMs:0};
+  if(ssLockdownActive&&window.__ssExitLockdown)summary=window.__ssExitLockdown();
+  ssLockdownActive=false;
+  var out=document.getElementById('ex-lockdown-summary');
+  if(out){
+    var secs=Math.round((summary.totalTimeAwayMs||0)/1000);
+    out.style.display='block';
+    out.innerHTML='<strong>Focus Summary</strong><span>You left the exam view '+(summary.exitCount||0)+' time'+(summary.exitCount===1?'':'s')+', totaling '+secs+' second'+(secs===1?'':'s')+'.</span>';
+  }
+  var endBtn=document.getElementById('ex-lockdown-end-btn');
+  if(endBtn)endBtn.style.display='none';
+  var warn=document.getElementById('ex-lockdown-warn');
+  if(warn)warn.style.display='none';
 }
 
 function examPartMeta(id){return (EXAM_META&&EXAM_META.parts&&EXAM_META.parts['PART_'+id])||{};}
