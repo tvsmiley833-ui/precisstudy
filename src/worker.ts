@@ -78,7 +78,7 @@ async function rewriteViewMeta(res: Response, view: string): Promise<Response> {
 // tag -- same list as `ls public/shared/*.js`. Kept as an explicit list
 // (not read from disk at request time) so a typo here fails loudly in
 // review rather than silently caching-forever a file nobody versioned.
-const SHARED_JS_FILES = new Set(["celebrate.js", "chalk-cursor.js", "command-palette.js", "feedback-widget.js", "high-contrast.js", "mastery.js", "unit-titles.js"]);
+const SHARED_JS_FILES = new Set(["celebrate.js", "chalk-cursor.js", "command-palette.js", "feedback-widget.js", "high-contrast.js", "mastery.js", "mission-banner.js", "unit-titles.js"]);
 
 // Per-isolate cache: hashing 6 small files is cheap, but there's no reason
 // to redo it every request when the isolate will serve many requests
@@ -126,19 +126,24 @@ async function injectAssetVersions(res: Response, env: Env): Promise<Response> {
     .transform(res);
 }
 
-// Loads the feedback widget (a small floating button + modal, see
-// public/shared/feedback-widget.js) on every real page via one appended
-// <script> tag, rather than hand-editing the ~65 static HTML files and the
-// guide-template generator the way command-palette.js was rolled out --
-// this Worker already rewrites every HTML response (see injectAssetVersions
-// below), so adding the tag here keeps it to one place that can't drift.
-// Skipped on /admin: that page is the feedback queue's own consumer, not a
-// place visitors need to leave feedback from.
-async function injectFeedbackWidget(res: Response, pathname: string): Promise<Response> {
+// Loads small site-wide widgets (a floating feedback button + modal, and the
+// open-access mission banner -- see public/shared/feedback-widget.js and
+// mission-banner.js) on every real page via two appended <script> tags,
+// rather than hand-editing the ~65 static HTML files and the guide-template
+// generator the way command-palette.js was rolled out -- this Worker already
+// rewrites every HTML response (see injectAssetVersions below), so adding
+// the tags here keeps it to one place that can't drift. Skipped on /admin:
+// that's an internal tool, not a place visitors need either widget.
+async function injectSiteWidgets(res: Response, pathname: string): Promise<Response> {
   if (pathname.startsWith("/admin")) return res;
   if (!res.headers.get("Content-Type")?.includes("text/html")) return res;
   return new HTMLRewriter()
-    .on("body", { element(el) { el.append('<script src="/shared/feedback-widget.js" defer></script>', { html: true }); } })
+    .on("body", {
+      element(el) {
+        el.append('<script src="/shared/feedback-widget.js" defer></script>', { html: true });
+        el.prepend('<script src="/shared/mission-banner.js" defer></script>', { html: true });
+      }
+    })
     .transform(res);
 }
 
@@ -501,7 +506,7 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
       const assetUrl = new URL(request.url);
       assetUrl.pathname = `/${subject}/`;
       const res = await env.ASSETS.fetch(new Request(assetUrl, request));
-      return injectAssetVersions(await injectFeedbackWidget(await rewriteViewMeta(res, view), url.pathname), env);
+      return injectAssetVersions(await injectSiteWidgets(await rewriteViewMeta(res, view), url.pathname), env);
     }
   }
 
@@ -520,5 +525,5 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
     return new Response(res.body, { status: res.status, headers });
   }
 
-  return injectAssetVersions(await injectFeedbackWidget(await env.ASSETS.fetch(request), url.pathname), env);
+  return injectAssetVersions(await injectSiteWidgets(await env.ASSETS.fetch(request), url.pathname), env);
 }
