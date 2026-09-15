@@ -77,6 +77,43 @@ export async function handleAdminDeleteGuideRequest(request: Request, env: Env):
   return json({ ok: true });
 }
 
+const REQUEST_STATUSES = new Set(["new", "planned", "in-progress", "done"]);
+
+// Turns the flat request list into an actual production queue an admin can
+// triage (vs. the only prior option, delete, which is one-way and loses
+// the record). "new" is the implicit default for any request stored before
+// this shipped -- see handleAdminListGuideRequests's response, which the
+// admin UI treats a missing status field the same as "new".
+export async function handleAdminUpdateGuideRequestStatus(request: Request, env: Env): Promise<Response> {
+  const gate = await requireAdmin(request, env);
+  if (!gate.ok) return gate.res!;
+  if (!env.GUIDE_REQUESTS) return json({ error: "Requests aren't configured yet" }, 503);
+
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch (e) {
+    return json({ error: "Invalid JSON body" }, 400);
+  }
+  const rec = body && typeof body === "object" ? (body as Record<string, unknown>) : {};
+  const key = rec.key;
+  const status = rec.status;
+  if (typeof key !== "string" || !key.startsWith("req:")) return json({ error: "Invalid key" }, 400);
+  if (typeof status !== "string" || !REQUEST_STATUSES.has(status)) return json({ error: "status must be one of new/planned/in-progress/done" }, 400);
+
+  const raw = await env.GUIDE_REQUESTS.get(key);
+  if (!raw) return json({ error: "Request not found" }, 404);
+  let data: Record<string, unknown>;
+  try {
+    data = JSON.parse(raw);
+  } catch (e) {
+    return json({ error: "Stored request is corrupted" }, 500);
+  }
+  data.status = status;
+  await env.GUIDE_REQUESTS.put(key, JSON.stringify(data));
+  return json({ ok: true, status });
+}
+
 export async function handleAdminStats(request: Request, env: Env): Promise<Response> {
   const gate = await requireAdmin(request, env);
   if (!gate.ok) return gate.res!;

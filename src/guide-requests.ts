@@ -159,8 +159,30 @@ export async function handleRequestGuideSubmit(request: Request, env: Env): Prom
     notes,
     email: emailRaw,
     files,
+    status: "new",
     submittedAt: new Date().toISOString()
   }));
 
+  // Best-effort: the request is already saved and visible in the admin
+  // panel regardless, so a notification failure (EMAIL not configured,
+  // provider hiccup) shouldn't turn a successful submission into an error
+  // for the student.
+  try {
+    await notifyAdminsOfNewRequest(env, className, notes);
+  } catch (e) { /* ignore */ }
+
   return json({ ok: true });
+}
+
+async function notifyAdminsOfNewRequest(env: Env, className: string, notes: string): Promise<void> {
+  if (!env.EMAIL || !env.ADMIN_EMAILS) return;
+  const admins = env.ADMIN_EMAILS.split(",").map(e => e.trim()).filter(Boolean);
+  if (!admins.length) return;
+  const text = `New guide request: ${className}\n\n${notes || "(no notes)"}\n\nReview at https://precisstudy.com/admin`;
+  await Promise.all(admins.map(to => env.EMAIL.send({
+    to,
+    from: "login@precisstudy.com",
+    subject: `New guide request: ${className}`,
+    text
+  }).catch(() => {})));
 }

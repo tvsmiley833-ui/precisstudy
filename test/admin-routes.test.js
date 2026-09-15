@@ -1,7 +1,7 @@
 import { SELF } from "cloudflare:test";
 import { describe, it, expect } from "vitest";
 import { signSession, SESSION_COOKIE } from "../src/auth.js";
-import { handleAdminMe, handleAdminListGuideRequests, handleAdminDeleteGuideRequest, handleAdminStats } from "../src/admin-routes.js";
+import { handleAdminMe, handleAdminListGuideRequests, handleAdminDeleteGuideRequest, handleAdminUpdateGuideRequestStatus, handleAdminStats } from "../src/admin-routes.js";
 
 const SECRET = "test-session-secret";
 
@@ -30,10 +30,11 @@ async function sessionCookieFor(email) {
   return `${SESSION_COOKIE}=${token}`;
 }
 
-function req(url, cookie, method) {
+function req(url, cookie, method, body) {
   const headers = {};
   if (cookie) headers.Cookie = cookie;
-  return new Request(url, { method: method || "GET", headers });
+  if (body !== undefined) headers["Content-Type"] = "application/json";
+  return new Request(url, { method: method || "GET", headers, body: body !== undefined ? JSON.stringify(body) : undefined });
 }
 
 describe("/api/admin/me", () => {
@@ -151,6 +152,47 @@ describe("handleAdminDeleteGuideRequest", () => {
     );
     expect(res.status).toBe(200);
     expect(kv._store.has("req:1:aaa")).toBe(false);
+  });
+});
+
+describe("handleAdminUpdateGuideRequestStatus", () => {
+  it("403s for a non-admin", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const res = await handleAdminUpdateGuideRequestStatus(
+      req("https://example.com/api/admin/guide-requests", cookie, "PATCH", { key: "req:1:aaa", status: "planned" }),
+      { SESSION_SECRET: SECRET, ADMIN_EMAILS: "admin@example.com" }
+    );
+    expect(res.status).toBe(403);
+  });
+
+  it("rejects an invalid status value", async () => {
+    const cookie = await sessionCookieFor("admin@example.com");
+    const res = await handleAdminUpdateGuideRequestStatus(
+      req("https://example.com/api/admin/guide-requests", cookie, "PATCH", { key: "req:1:aaa", status: "done-ish" }),
+      { SESSION_SECRET: SECRET, ADMIN_EMAILS: "admin@example.com", GUIDE_REQUESTS: fakeKV() }
+    );
+    expect(res.status).toBe(400);
+  });
+
+  it("404s for an unknown request key", async () => {
+    const cookie = await sessionCookieFor("admin@example.com");
+    const res = await handleAdminUpdateGuideRequestStatus(
+      req("https://example.com/api/admin/guide-requests", cookie, "PATCH", { key: "req:doesnotexist", status: "planned" }),
+      { SESSION_SECRET: SECRET, ADMIN_EMAILS: "admin@example.com", GUIDE_REQUESTS: fakeKV() }
+    );
+    expect(res.status).toBe(404);
+  });
+
+  it("updates the status field, leaving the rest of the record intact", async () => {
+    const kv = fakeKV({ "req:1:aaa": JSON.stringify({ className: "AP Biology", notes: "please", status: "new", submittedAt: "2026-01-01T00:00:00.000Z" }) });
+    const cookie = await sessionCookieFor("admin@example.com");
+    const res = await handleAdminUpdateGuideRequestStatus(
+      req("https://example.com/api/admin/guide-requests", cookie, "PATCH", { key: "req:1:aaa", status: "in-progress" }),
+      { SESSION_SECRET: SECRET, ADMIN_EMAILS: "admin@example.com", GUIDE_REQUESTS: kv }
+    );
+    expect(res.status).toBe(200);
+    const saved = JSON.parse(kv._store.get("req:1:aaa"));
+    expect(saved).toEqual({ className: "AP Biology", notes: "please", status: "in-progress", submittedAt: "2026-01-01T00:00:00.000Z" });
   });
 });
 

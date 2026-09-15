@@ -86,6 +86,11 @@ html{scroll-behavior:smooth}
 .req-delete{background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);padding:6px 14px;
   font-size:12.5px;cursor:pointer;font-family:inherit;transition:all .15s}
 .req-delete:hover{color:#fff;background:var(--accent);border-color:var(--accent)}
+.req-status{border:1px solid var(--border);border-radius:999px;padding:5px 10px;font-size:12.5px;font-weight:700;
+  font-family:inherit;background:var(--bg-card);color:var(--text);cursor:pointer}
+.req-status[data-status="planned"]{border-color:var(--accent);color:var(--accent)}
+.req-status[data-status="in-progress"]{border-color:#c99a2e;color:#c99a2e}
+.req-status[data-status="done"]{border-color:var(--accent-bright);background:var(--accent-bright);color:#fff}
 .req-files{margin-top:10px;display:flex;flex-direction:column;gap:6px}
 .req-file{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--accent);font-weight:700;
   text-decoration:none;width:fit-content}
@@ -226,12 +231,20 @@ function renderRequests(requests){
     return;
   }
   empty.style.display = 'none';
+  var STATUSES = ['new', 'planned', 'in-progress', 'done'];
   list.innerHTML = requests.map(function(r){
+    var status = r.status || 'new';
+    var statusOpts = STATUSES.map(function(s){
+      return '<option value="' + s + '"' + (s === status ? ' selected' : '') + '>' + s + '</option>';
+    }).join('');
     return '<div class="req-row" data-key="' + ssEscapeHtml(r.key) + '">'
       + '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">'
       + '<div><div class="req-class">' + ssEscapeHtml(r.className) + '</div>'
       + '<div class="req-meta">' + formatDate(r.submittedAt) + '</div></div>'
+      + '<div style="display:flex;gap:8px;align-items:center;">'
+      + '<select class="req-status" data-status="' + status + '" aria-label="Status for ' + ssEscapeHtml(r.className) + '" onchange="updateRequestStatus(\'' + encodeURIComponent(r.key) + '\', this)">' + statusOpts + '</select>'
       + '<button class="req-delete" onclick="deleteRequest(\'' + encodeURIComponent(r.key) + '\')">Delete</button>'
+      + '</div>'
       + '</div>'
       + (r.notes ? '<div class="req-notes">' + ssEscapeHtml(r.notes) + '</div>' : '')
       + (r.email ? '<div class="req-email">' + ssEscapeHtml(r.email) + '</div>' : '')
@@ -273,6 +286,27 @@ async function loadRequests(){
   if(!res.ok) throw new Error('Failed to load requests');
   var data = await res.json();
   renderRequests(data.requests || []);
+}
+
+async function updateRequestStatus(encodedKey, selectEl){
+  var prevStatus = selectEl.getAttribute('data-status');
+  var nextStatus = selectEl.value;
+  selectEl.disabled = true;
+  try{
+    var res = await fetch('/api/admin/guide-requests', {
+      method: 'PATCH',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ key: decodeURIComponent(encodedKey), status: nextStatus })
+    });
+    if(res.ok){
+      selectEl.setAttribute('data-status', nextStatus);
+    }else{
+      selectEl.value = prevStatus;
+    }
+  }catch(e){
+    selectEl.value = prevStatus;
+  }
+  selectEl.disabled = false;
 }
 
 async function deleteRequest(encodedKey){
