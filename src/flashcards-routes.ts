@@ -1,5 +1,6 @@
 import { getSession } from "./auth.js";
 import { randomToken } from "./random-token.js";
+import { ALLOWED_UPLOAD_TYPES, matchesDeclaredType } from "./file-validation.js";
 
 function json(body: unknown, status?: number): Response {
   return new Response(JSON.stringify(body), {
@@ -127,20 +128,65 @@ function sanitizeCards(raw: unknown): Flashcard[] {
   return cards;
 }
 
-export async function handleGenerateFlashcards(request: Request, env: Env): Promise<Response> {
-  const session = await getSession(request, env);
-  if (!session) return json({ error: "Sign in required" }, 401);
-  if (!env.AI) return json({ error: "Server not configured — Workers AI binding is missing" }, 500);
+const MAX_UPLOAD_SIZE = 8 * 1024 * 1024; // 8MB -- one document, not the multi-file allowance guide-requests.ts has
+
+// Extracts study-note text from either a pasted-text JSON body (unchanged
+// behavior) or an uploaded document (multipart/form-data, field "file").
+// PDFs/DOCs/images go through Workers AI's toMarkdown() -- same AI binding
+// already used for generation, no new dependency or third-party service --
+// text/plain is read directly since there's nothing to convert.
+async function extractNotesFromRequest(request: Request, env: Env): Promise<{ notes?: string; error?: string; status?: number }> {
+  const contentType = request.headers.get("Content-Type") || "";
+
+  if (contentType.includes("multipart/form-data")) {
+    let form: FormData;
+    try {
+      form = await request.formData();
+    } catch (e) {
+      return { error: "Invalid form submission", status: 400 };
+    }
+    const file = form.get("file");
+    if (!file || typeof file === "string" || !("arrayBuffer" in file) || file.size === 0) {
+      return { error: "Attach a file, or paste your notes instead", status: 400 };
+    }
+    if (file.size > MAX_UPLOAD_SIZE) return { error: "That file is too large (max 8MB)", status: 400 };
+    if (file.type && !ALLOWED_UPLOAD_TYPES.has(file.type)) return { error: "Unsupported file type — PDF, DOC, DOCX, TXT, PNG, JPG, or WEBP only", status: 400 };
+
+    const buf = await file.arrayBuffer();
+    if (file.type && !matchesDeclaredType(buf, file.type)) return { error: "That file's content doesn't match its declared type", status: 400 };
+
+    if (file.type === "text/plain") {
+      return { notes: new TextDecoder().decode(buf) };
+    }
+    try {
+      const result = await env.AI.toMarkdown({ name: file.name || "upload", blob: new Blob([buf], { type: file.type }) });
+      if (result.format === "error") return { error: "Couldn't read that file — try a different one, or paste the text instead", status: 502 };
+      return { notes: result.data };
+    } catch (e) {
+      return { error: "Couldn't read that file — try a different one, or paste the text instead", status: 502 };
+    }
+  }
 
   let body: unknown;
   try {
     body = await request.json();
   } catch (e) {
-    return json({ error: "Invalid JSON body" }, 400);
+    return { error: "Invalid JSON body", status: 400 };
   }
   const text = body && typeof body === "object" && "text" in body ? (body as Record<string, unknown>).text : undefined;
-  if (typeof text !== "string" || !text.trim()) return json({ error: "Paste some notes to generate flashcards from" }, 400);
-  const notes = text.trim().slice(0, MAX_TEXT_CHARS);
+  if (typeof text !== "string" || !text.trim()) return { error: "Paste some notes to generate flashcards from", status: 400 };
+  return { notes: text };
+}
+
+export async function handleGenerateFlashcards(request: Request, env: Env): Promise<Response> {
+  const session = await getSession(request, env);
+  if (!session) return json({ error: "Sign in required" }, 401);
+  if (!env.AI) return json({ error: "Server not configured — Workers AI binding is missing" }, 500);
+
+  const extracted = await extractNotesFromRequest(request, env);
+  if (extracted.error) return json({ error: extracted.error }, extracted.status || 400);
+  if (!extracted.notes || !extracted.notes.trim()) return json({ error: "Couldn't find any readable text in that file" }, 400);
+  const notes = extracted.notes.trim().slice(0, MAX_TEXT_CHARS);
 
   let result: { response?: string; result?: string };
   try {

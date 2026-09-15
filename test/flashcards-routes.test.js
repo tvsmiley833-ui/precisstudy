@@ -17,11 +17,15 @@ function fakeKV(initial) {
   };
 }
 
-function fakeAI(response) {
+function fakeAI(response, toMarkdownResult) {
   return {
     async run(model, opts) {
       if (typeof response === "function") return response(model, opts);
       return response;
+    },
+    async toMarkdown(file) {
+      if (typeof toMarkdownResult === "function") return toMarkdownResult(file);
+      return toMarkdownResult;
     }
   };
 }
@@ -98,6 +102,72 @@ describe("handleGenerateFlashcards", () => {
     const cookie = await sessionCookieFor("student@example.com");
     const res = await handleGenerateFlashcards(req("https://example.com/api/flashcards/generate", cookie, "POST", { text: "notes" }), { SESSION_SECRET: SECRET, AI: { run: async () => { throw new Error("boom"); } } });
     expect(res.status).toBe(502);
+  });
+});
+
+describe("handleGenerateFlashcards with an uploaded file", () => {
+  function formReq(cookie, fields) {
+    const form = new FormData();
+    for (const [k, v] of Object.entries(fields)) form.set(k, v);
+    const headers = {};
+    if (cookie) headers.Cookie = cookie;
+    return new Request("https://example.com/api/flashcards/generate", { method: "POST", headers, body: form });
+  }
+
+  it("401s with no session", async () => {
+    const file = new File(["hello"], "notes.txt", { type: "text/plain" });
+    const res = await handleGenerateFlashcards(formReq(null, { file }), { SESSION_SECRET: SECRET, AI: fakeAI({ response: "[]" }) });
+    expect(res.status).toBe(401);
+  });
+
+  it("reads a text/plain upload directly, no toMarkdown call needed", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const file = new File(["Photosynthesis converts light into energy."], "notes.txt", { type: "text/plain" });
+    const modelOutput = JSON.stringify([{ front: "Q", back: "A" }]);
+    let toMarkdownCalled = false;
+    const ai = fakeAI({ response: modelOutput }, () => { toMarkdownCalled = true; return { format: "markdown", data: "" }; });
+    const res = await handleGenerateFlashcards(formReq(cookie, { file }), { SESSION_SECRET: SECRET, AI: ai });
+    expect(res.status).toBe(200);
+    expect(toMarkdownCalled).toBe(false);
+  });
+
+  it("converts a PDF upload via env.AI.toMarkdown() before generating", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const pdfBytes = new Uint8Array([0x25, 0x50, 0x44, 0x46, 0x2d, 0x31, 0x2e, 0x34]); // %PDF-1.4
+    const file = new File([pdfBytes], "notes.pdf", { type: "application/pdf" });
+    const modelOutput = JSON.stringify([{ front: "Q", back: "A" }]);
+    const ai = fakeAI({ response: modelOutput }, { format: "markdown", data: "Extracted PDF text about mitosis." });
+    const res = await handleGenerateFlashcards(formReq(cookie, { file }), { SESSION_SECRET: SECRET, AI: ai });
+    expect(res.status).toBe(200);
+  });
+
+  it("rejects a file whose content doesn't match its declared type", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const file = new File(["not actually a pdf"], "fake.pdf", { type: "application/pdf" });
+    const res = await handleGenerateFlashcards(formReq(cookie, { file }), { SESSION_SECRET: SECRET, AI: fakeAI({ response: "[]" }) });
+    expect(res.status).toBe(400);
+  });
+
+  it("rejects an unsupported file type", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const file = new File(["#!/bin/sh"], "script.sh", { type: "application/x-sh" });
+    const res = await handleGenerateFlashcards(formReq(cookie, { file }), { SESSION_SECRET: SECRET, AI: fakeAI({ response: "[]" }) });
+    expect(res.status).toBe(400);
+  });
+
+  it("502s when toMarkdown reports a conversion error", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const pdfBytes = new Uint8Array([0x25, 0x50, 0x44, 0x46]);
+    const file = new File([pdfBytes], "notes.pdf", { type: "application/pdf" });
+    const ai = fakeAI({ response: "[]" }, { format: "error", error: "corrupt file" });
+    const res = await handleGenerateFlashcards(formReq(cookie, { file }), { SESSION_SECRET: SECRET, AI: ai });
+    expect(res.status).toBe(502);
+  });
+
+  it("400s with no file attached", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const res = await handleGenerateFlashcards(formReq(cookie, {}), { SESSION_SECRET: SECRET, AI: fakeAI({ response: "[]" }) });
+    expect(res.status).toBe(400);
   });
 });
 

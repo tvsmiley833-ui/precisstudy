@@ -1,4 +1,5 @@
 import { isValidEmail, checkRateLimit, getClientIp } from "./auth.js";
+import { ALLOWED_UPLOAD_TYPES as ALLOWED_TYPES, matchesDeclaredType } from "./file-validation.js";
 
 const SUBMIT_RATE_LIMIT_MAX = 5;
 const SUBMIT_RATE_LIMIT_WINDOW = 60 * 60; // 1 hour
@@ -16,53 +17,12 @@ const MAX_FILES = 3;
 const MAX_FILE_SIZE = 6 * 1024 * 1024; // 6MB per file
 const MAX_TOTAL_SIZE = 15 * 1024 * 1024; // 15MB per request
 const MAX_FILENAME_LEN = 200;
-const ALLOWED_TYPES = new Set([
-  "application/pdf",
-  "image/png",
-  "image/jpeg",
-  "image/webp",
-  "text/plain",
-  "application/msword",
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-]);
 
 function validateFields(className: string, notes: string, emailRaw: string): string | null {
   if (!className) return "Tell us which class or subject you need";
   if (className.length > MAX_CLASS_LEN) return "That class name is too long";
   if (emailRaw && !isValidEmail(emailRaw)) return "Enter a valid email address, or leave it blank";
   return null;
-}
-
-// The client-reported Content-Type is just a form field the browser sends
-// alongside the file -- nothing stops a malicious upload from claiming
-// image/png while actually containing HTML/script content. Checking the
-// real file signature closes that gap. text/plain has no reliable magic
-// bytes, so it's allowed through unchecked (it's served as an attachment
-// download, never executed).
-const MAGIC_BYTES: Record<string, Array<(buf: ArrayBuffer) => boolean>> = {
-  "application/pdf": [buf => bytesStartWith(buf, [0x25, 0x50, 0x44, 0x46])], // %PDF
-  "image/png": [buf => bytesStartWith(buf, [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])],
-  "image/jpeg": [buf => bytesStartWith(buf, [0xff, 0xd8, 0xff])],
-  "image/webp": [buf => bytesStartWith(buf, [0x52, 0x49, 0x46, 0x46]) && bytesStartWithAt(buf, 8, [0x57, 0x45, 0x42, 0x50])], // RIFF....WEBP
-  "application/msword": [buf => bytesStartWith(buf, [0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1])], // OLE compound file
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [buf => bytesStartWith(buf, [0x50, 0x4b, 0x03, 0x04])] // zip/OOXML
-};
-
-function bytesStartWith(buf: ArrayBuffer, sig: number[]): boolean {
-  const view = new Uint8Array(buf, 0, Math.min(sig.length, buf.byteLength));
-  return sig.every((b, i) => view[i] === b);
-}
-
-function bytesStartWithAt(buf: ArrayBuffer, offset: number, sig: number[]): boolean {
-  if (buf.byteLength < offset + sig.length) return false;
-  const view = new Uint8Array(buf, offset, sig.length);
-  return sig.every((b, i) => view[i] === b);
-}
-
-function matchesDeclaredType(buf: ArrayBuffer, type: string): boolean {
-  const checks = MAGIC_BYTES[type];
-  if (!checks) return true; // text/plain or anything without a defined signature
-  return checks.some(check => check(buf));
 }
 
 interface FileEntry {

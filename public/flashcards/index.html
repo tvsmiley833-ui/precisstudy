@@ -34,7 +34,16 @@
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:'Nunito','Segoe UI',system-ui,sans-serif;padding:40px 20px;}
 .wrap{max-width:640px;margin:0 auto;}
-.hd{display:flex;align-items:center;gap:8px;font-weight:800;font-size:18px;margin-bottom:28px;text-decoration:none;color:var(--text);}
+.hd-wrap{position:relative;margin-bottom:28px;display:inline-block;}
+.hd{display:flex;align-items:center;gap:8px;font-weight:800;font-size:18px;text-decoration:none;color:var(--text);
+  background:none;border:none;cursor:pointer;font-family:inherit;padding:0;}
+.hd-chevron{transition:transform .15s ease;}
+.hd[aria-expanded="true"] .hd-chevron{transform:rotate(180deg);}
+.hd-menu{position:absolute;top:calc(100% + 8px);left:0;background:var(--bg-card);border:2px solid var(--border);border-radius:14px;
+  padding:6px;min-width:170px;box-shadow:0 8px 24px rgba(0,0,0,.15);z-index:50;display:none;}
+.hd-menu.open{display:block;}
+.hd-menu a{display:block;padding:9px 12px;border-radius:9px;color:var(--text);text-decoration:none;font-size:14px;font-weight:700;}
+.hd-menu a:hover{background:var(--bg);}
 h1{font-size:22px;margin:0 0 4px;}
 .sub{font-size:14px;color:var(--text-muted);margin:0 0 24px;}
 .card{background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:24px;margin-bottom:16px;}
@@ -71,7 +80,17 @@ input[type=text]{width:100%;padding:10px 12px;border-radius:10px;border:1px soli
 </head>
 <body>
 <div class="wrap">
-  <a href="/dashboard" class="hd">📔 PrecisStudy</a>
+  <div class="hd-wrap">
+    <button type="button" id="hd-menu-btn" class="hd" aria-haspopup="true" aria-expanded="false" aria-controls="hd-menu">
+      📔 PrecisStudy
+      <svg class="hd-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="hd-menu" id="hd-menu" role="menu">
+      <a href="/" role="menuitem">Home</a>
+      <a href="/dashboard" role="menuitem">Dashboard</a>
+      <a href="/settings" role="menuitem">Settings</a>
+    </div>
+  </div>
   <h1>My Flashcards</h1>
   <p class="sub">Paste your notes, get an AI-generated deck, study with spaced repetition — cards you know well come back less often.</p>
 
@@ -92,6 +111,12 @@ input[type=text]{width:100%;padding:10px 12px;border-radius:10px;border:1px soli
     <div id="fc-generate-view" class="card" style="display:none;">
       <label for="fc-notes" style="display:block;font-size:13px;color:var(--text-muted);margin-bottom:8px;">Paste class notes, a handout, or anything you want turned into flashcards.</label>
       <textarea id="fc-notes" placeholder="Paste your notes here…" maxlength="6000"></textarea>
+      <div style="display:flex;align-items:center;gap:10px;margin:12px 0;color:var(--text-muted);font-size:13px;">
+        <div style="flex:1;height:1px;background:var(--border);"></div>or<div style="flex:1;height:1px;background:var(--border);"></div>
+      </div>
+      <label for="fc-file" style="display:block;font-size:13px;color:var(--text-muted);margin-bottom:8px;">Upload a document instead — PDF, Word, TXT, or a photo of your notes</label>
+      <input type="file" id="fc-file" accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg,.webp"/>
+      <div id="fc-file-name" style="font-size:13px;color:var(--text-muted);margin-top:6px;"></div>
       <div style="display:flex;gap:10px;margin-top:12px;">
         <button class="primary" id="fc-generate-btn">Generate</button>
         <button id="fc-generate-cancel-btn">Cancel</button>
@@ -131,6 +156,26 @@ input[type=text]{width:100%;padding:10px 12px;border-radius:10px;border:1px soli
 </div>
 <script>
 function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+
+(function(){
+  var btn = document.getElementById('hd-menu-btn');
+  var menu = document.getElementById('hd-menu');
+  function close(){
+    menu.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+  }
+  btn.addEventListener('click', function(e){
+    e.stopPropagation();
+    var open = menu.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(open));
+  });
+  document.addEventListener('click', function(e){
+    if (!menu.contains(e.target) && e.target !== btn) close();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && menu.classList.contains('open')) { close(); btn.focus(); }
+  });
+})();
 
 var FC_BLOB = null;
 var FC_PREVIEW_CARDS = [];
@@ -186,6 +231,8 @@ async function deleteDeck(id){
 
 document.getElementById('fc-new-btn').addEventListener('click', function(){
   document.getElementById('fc-notes').value = '';
+  document.getElementById('fc-file').value = '';
+  document.getElementById('fc-file-name').textContent = '';
   document.getElementById('fc-generate-status').textContent = '';
   document.getElementById('fc-preview').style.display = 'none';
   FC_PREVIEW_CARDS = [];
@@ -193,16 +240,29 @@ document.getElementById('fc-new-btn').addEventListener('click', function(){
 });
 document.getElementById('fc-generate-cancel-btn').addEventListener('click', function(){ showView('fc-list-view'); });
 
+document.getElementById('fc-file').addEventListener('change', function(){
+  var f = this.files[0];
+  document.getElementById('fc-file-name').textContent = f ? ('Selected: ' + f.name) : '';
+});
+
 document.getElementById('fc-generate-btn').addEventListener('click', async function(){
   var notes = document.getElementById('fc-notes').value.trim();
+  var file = document.getElementById('fc-file').files[0];
   var status = document.getElementById('fc-generate-status');
   var btn = document.getElementById('fc-generate-btn');
-  if (!notes) { status.textContent = 'Paste some notes first.'; return; }
+  if (!notes && !file) { status.textContent = 'Paste some notes or upload a file first.'; return; }
   btn.disabled = true;
-  status.textContent = 'Generating flashcards…';
+  status.textContent = file ? ('Reading ' + file.name + '…') : 'Generating flashcards…';
   document.getElementById('fc-preview').style.display = 'none';
   try{
-    var res = await fetch('/api/flashcards/generate', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ text: notes }) });
+    var res;
+    if (file) {
+      var form = new FormData();
+      form.set('file', file);
+      res = await fetch('/api/flashcards/generate', { method: 'POST', body: form });
+    } else {
+      res = await fetch('/api/flashcards/generate', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ text: notes }) });
+    }
     var data = await res.json();
     if(!res.ok){
       status.textContent = data.error || "Couldn't generate flashcards — try again.";
@@ -211,7 +271,7 @@ document.getElementById('fc-generate-btn').addEventListener('click', async funct
     }
     FC_PREVIEW_CARDS = data.cards;
     renderPreview();
-    document.getElementById('fc-deck-name').value = notes.slice(0, 60).split('\n')[0] || 'My Flashcards';
+    document.getElementById('fc-deck-name').value = (file ? file.name.replace(/\.[^.]+$/, '') : notes.slice(0, 60).split('\n')[0]) || 'My Flashcards';
     document.getElementById('fc-preview').style.display = 'block';
     status.textContent = data.cards.length + ' cards generated — review below, then save.';
   }catch(e){
