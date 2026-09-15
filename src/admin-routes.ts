@@ -148,6 +148,78 @@ export async function handleAdminStats(request: Request, env: Env): Promise<Resp
   return json(stats);
 }
 
+const FEEDBACK_STATUSES = new Set(["new", "read", "resolved"]);
+
+export async function handleAdminListFeedback(request: Request, env: Env): Promise<Response> {
+  const gate = await requireAdmin(request, env);
+  if (!gate.ok) return gate.res!;
+  if (!env.FEEDBACK) return json({ error: "Feedback isn't configured yet" }, 503);
+
+  let cursor: string | undefined;
+  const items: Array<Record<string, unknown> | null> = [];
+
+  do {
+    const list = await env.FEEDBACK.list({ prefix: "fb:", cursor });
+    for (const k of list.keys) {
+      const raw = await env.FEEDBACK.get(k.name);
+      if (!raw) { items.push(null); continue; }
+      try {
+        const data = JSON.parse(raw);
+        items.push(Object.assign({ key: k.name }, data));
+      } catch (e) {
+        items.push(null);
+      }
+    }
+    cursor = list.list_complete ? undefined : list.cursor;
+  } while (cursor);
+
+  const feedback = items.filter(Boolean).sort((a, b) => (String(a!.submittedAt) < String(b!.submittedAt) ? 1 : -1));
+  return json({ feedback });
+}
+
+export async function handleAdminDeleteFeedback(request: Request, env: Env): Promise<Response> {
+  const gate = await requireAdmin(request, env);
+  if (!gate.ok) return gate.res!;
+  if (!env.FEEDBACK) return json({ error: "Feedback isn't configured yet" }, 503);
+
+  const url = new URL(request.url);
+  const key = url.searchParams.get("key");
+  if (!key || !key.startsWith("fb:")) return json({ error: "Invalid key" }, 400);
+
+  await env.FEEDBACK.delete(key);
+  return json({ ok: true });
+}
+
+export async function handleAdminUpdateFeedbackStatus(request: Request, env: Env): Promise<Response> {
+  const gate = await requireAdmin(request, env);
+  if (!gate.ok) return gate.res!;
+  if (!env.FEEDBACK) return json({ error: "Feedback isn't configured yet" }, 503);
+
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch (e) {
+    return json({ error: "Invalid JSON body" }, 400);
+  }
+  const rec = body && typeof body === "object" ? (body as Record<string, unknown>) : {};
+  const key = rec.key;
+  const status = rec.status;
+  if (typeof key !== "string" || !key.startsWith("fb:")) return json({ error: "Invalid key" }, 400);
+  if (typeof status !== "string" || !FEEDBACK_STATUSES.has(status)) return json({ error: "status must be one of new/read/resolved" }, 400);
+
+  const raw = await env.FEEDBACK.get(key);
+  if (!raw) return json({ error: "Feedback not found" }, 404);
+  let data: Record<string, unknown>;
+  try {
+    data = JSON.parse(raw);
+  } catch (e) {
+    return json({ error: "Stored feedback is corrupted" }, 500);
+  }
+  data.status = status;
+  await env.FEEDBACK.put(key, JSON.stringify(data));
+  return json({ ok: true, status });
+}
+
 export async function handleAdminGetGuideRequestFile(request: Request, env: Env): Promise<Response> {
   const gate = await requireAdmin(request, env);
   if (!gate.ok) return gate.res!;

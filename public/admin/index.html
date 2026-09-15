@@ -96,6 +96,15 @@ html{scroll-behavior:smooth}
   text-decoration:none;width:fit-content}
 .req-file:hover{text-decoration:underline}
 
+.fb-row{border:2px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:12px;background:var(--bg);
+  transition:border-color .2s ease,box-shadow .2s ease}
+.fb-row:hover{border-color:var(--accent-bright);box-shadow:0 8px 20px rgba(31,110,70,.08)}
+.fb-cat{display:inline-block;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;
+  color:var(--accent);background:var(--chip-bg);padding:3px 10px;border-radius:999px;margin-right:8px}
+.fb-message{font-size:14px;color:var(--text-body);margin-top:10px;line-height:1.5;white-space:pre-wrap}
+.fb-status[data-status="read"]{border-color:var(--accent);color:var(--accent)}
+.fb-status[data-status="resolved"]{border-color:var(--accent-bright);background:var(--accent-bright);color:#fff}
+
 .stat-card{background:var(--bg);border:2px solid var(--border);border-radius:14px;padding:16px 18px;}
 .stat-num{font-size:26px;font-weight:800;color:var(--text);line-height:1.1;}
 .stat-label{font-size:12.5px;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:0.04em;margin-top:4px;}
@@ -137,6 +146,12 @@ html{scroll-behavior:smooth}
     <p id="stats-note" style="font-size:12.5px;color:var(--text-muted);margin:-18px 0 28px;display:none;"></p>
 
     <div style="font-weight:700;font-size:14px;color:var(--accent);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:14px;">
+      Feedback <span id="fb-count"></span>
+    </div>
+    <div id="fb-list"></div>
+    <div id="fb-empty" style="display:none;color:var(--text-muted);font-size:14px;margin-bottom:28px;">No feedback yet.</div>
+
+    <div style="font-weight:700;font-size:14px;color:var(--accent);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:14px;margin-top:28px;">
       Guide Requests <span id="req-count"></span>
     </div>
     <div id="req-list"></div>
@@ -256,6 +271,79 @@ function renderRequests(requests){
   }).join('');
 }
 
+var FB_CAT_LABELS = { bug: "Bug", idea: "Idea", praise: "Praise", other: "Other" };
+
+function renderFeedback(feedback){
+  var list = document.getElementById('fb-list');
+  var empty = document.getElementById('fb-empty');
+  var count = document.getElementById('fb-count');
+  count.textContent = '(' + feedback.length + ')';
+  if(!feedback.length){
+    list.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+  var STATUSES = ['new', 'read', 'resolved'];
+  list.innerHTML = feedback.map(function(f){
+    var status = f.status || 'new';
+    var statusOpts = STATUSES.map(function(s){
+      return '<option value="' + s + '"' + (s === status ? ' selected' : '') + '>' + s + '</option>';
+    }).join('');
+    return '<div class="fb-row" data-key="' + ssEscapeHtml(f.key) + '">'
+      + '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">'
+      + '<div><span class="fb-cat">' + ssEscapeHtml(FB_CAT_LABELS[f.category] || 'Other') + '</span>'
+      + '<span class="req-meta">' + formatDate(f.submittedAt) + (f.page ? ' · ' + ssEscapeHtml(f.page) : '') + '</span></div>'
+      + '<div style="display:flex;gap:8px;align-items:center;">'
+      + '<select class="req-status fb-status" data-status="' + status + '" aria-label="Status" onchange="updateFeedbackStatus(\'' + encodeURIComponent(f.key) + '\', this)">' + statusOpts + '</select>'
+      + '<button class="req-delete" onclick="deleteFeedback(\'' + encodeURIComponent(f.key) + '\')">Delete</button>'
+      + '</div>'
+      + '</div>'
+      + '<div class="fb-message">' + ssEscapeHtml(f.message) + '</div>'
+      + (f.email ? '<div class="req-email">' + ssEscapeHtml(f.email) + '</div>' : '')
+      + '</div>';
+  }).join('');
+}
+
+async function loadFeedback(){
+  var res = await fetch('/api/admin/feedback');
+  if(!res.ok) throw new Error('Failed to load feedback');
+  var data = await res.json();
+  renderFeedback(data.feedback || []);
+}
+
+async function updateFeedbackStatus(encodedKey, selectEl){
+  var prevStatus = selectEl.getAttribute('data-status');
+  var nextStatus = selectEl.value;
+  selectEl.disabled = true;
+  try{
+    var res = await fetch('/api/admin/feedback', {
+      method: 'PATCH',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ key: decodeURIComponent(encodedKey), status: nextStatus })
+    });
+    if(res.ok){
+      selectEl.setAttribute('data-status', nextStatus);
+    }else{
+      selectEl.value = prevStatus;
+    }
+  }catch(e){
+    selectEl.value = prevStatus;
+  }
+  selectEl.disabled = false;
+}
+
+async function deleteFeedback(encodedKey){
+  var row = document.querySelector('.fb-row[data-key="' + decodeURIComponent(encodedKey) + '"]');
+  if(row) row.style.opacity = '0.5';
+  try{
+    await fetch('/api/admin/feedback?key=' + encodedKey, { method: 'DELETE' });
+    await loadFeedback();
+  }catch(e){
+    if(row) row.style.opacity = '1';
+  }
+}
+
 function renderStats(stats){
   var grid = document.getElementById('stats-grid');
   var note = document.getElementById('stats-note');
@@ -354,6 +442,14 @@ async function initDashboard(){
     await loadStats();
   }catch(e){
     document.getElementById('stats-grid').innerHTML = '';
+  }
+  try{
+    await loadFeedback();
+  }catch(e){
+    document.getElementById('fb-list').innerHTML = '';
+    var fbEmpty = document.getElementById('fb-empty');
+    fbEmpty.textContent = "Couldn't load feedback — try refreshing.";
+    fbEmpty.style.display = 'block';
   }
   try{
     await loadRequests();

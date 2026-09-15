@@ -8,6 +8,7 @@ interface Env {
   MAGIC_LINKS: KVNamespace;
   GUIDE_REQUESTS: KVNamespace;
   PROGRESS: KVNamespace;
+  FEEDBACK: KVNamespace;
   EMAIL: SendEmail;
   SESSION_SECRET: string;
   GOOGLE_CLIENT_ID: string;

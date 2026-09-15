@@ -14,7 +14,8 @@ import {
   handleDeleteAccount
 } from "./auth-routes.js";
 import { handleRequestGuideSubmit } from "./guide-requests.js";
-import { handleAdminMe, handleAdminListGuideRequests, handleAdminDeleteGuideRequest, handleAdminUpdateGuideRequestStatus, handleAdminStats, handleAdminGetGuideRequestFile } from "./admin-routes.js";
+import { handleFeedbackSubmit } from "./feedback.js";
+import { handleAdminMe, handleAdminListGuideRequests, handleAdminDeleteGuideRequest, handleAdminUpdateGuideRequestStatus, handleAdminStats, handleAdminGetGuideRequestFile, handleAdminListFeedback, handleAdminDeleteFeedback, handleAdminUpdateFeedbackStatus } from "./admin-routes.js";
 import { handleGetProgress, handlePostProgress, handlePostProgressReset, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak, handlePostNotificationPrefs, recordDailySnapshots, handlePostShareGenerate, handlePostShareRevoke, handleGetShare } from "./progress-routes.js";
 import { handleGenerateFlashcards, handleSaveFlashcards, handleDeleteFlashcards, handleReviewFlashcard } from "./flashcards-routes.js";
 import { handlePushSubscribe, handlePushUnsubscribe, handlePushTest, sendDailyReminders, sendScheduledBlockReminders, sendStreakReminders } from "./push-routes.js";
@@ -77,7 +78,7 @@ async function rewriteViewMeta(res: Response, view: string): Promise<Response> {
 // tag -- same list as `ls public/shared/*.js`. Kept as an explicit list
 // (not read from disk at request time) so a typo here fails loudly in
 // review rather than silently caching-forever a file nobody versioned.
-const SHARED_JS_FILES = new Set(["celebrate.js", "chalk-cursor.js", "command-palette.js", "high-contrast.js", "mastery.js", "unit-titles.js"]);
+const SHARED_JS_FILES = new Set(["celebrate.js", "chalk-cursor.js", "command-palette.js", "feedback-widget.js", "high-contrast.js", "mastery.js", "unit-titles.js"]);
 
 // Per-isolate cache: hashing 6 small files is cheap, but there's no reason
 // to redo it every request when the isolate will serve many requests
@@ -122,6 +123,22 @@ async function injectAssetVersions(res: Response, env: Env): Promise<Response> {
         if (v) el.setAttribute("src", `/shared/${file}?v=${v}`);
       }
     })
+    .transform(res);
+}
+
+// Loads the feedback widget (a small floating button + modal, see
+// public/shared/feedback-widget.js) on every real page via one appended
+// <script> tag, rather than hand-editing the ~65 static HTML files and the
+// guide-template generator the way command-palette.js was rolled out --
+// this Worker already rewrites every HTML response (see injectAssetVersions
+// below), so adding the tag here keeps it to one place that can't drift.
+// Skipped on /admin: that page is the feedback queue's own consumer, not a
+// place visitors need to leave feedback from.
+async function injectFeedbackWidget(res: Response, pathname: string): Promise<Response> {
+  if (pathname.startsWith("/admin")) return res;
+  if (!res.headers.get("Content-Type")?.includes("text/html")) return res;
+  return new HTMLRewriter()
+    .on("body", { element(el) { el.append('<script src="/shared/feedback-widget.js" defer></script>', { html: true }); } })
     .transform(res);
 }
 
@@ -286,6 +303,18 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
 
   if (url.pathname === "/api/request-guide") {
     if (request.method === "POST") return handleRequestGuideSubmit(request, env);
+    return json({ error: "Method not allowed" }, 405);
+  }
+
+  if (url.pathname === "/api/feedback") {
+    if (request.method === "POST") return handleFeedbackSubmit(request, env);
+    return json({ error: "Method not allowed" }, 405);
+  }
+
+  if (url.pathname === "/api/admin/feedback") {
+    if (request.method === "GET") return handleAdminListFeedback(request, env);
+    if (request.method === "DELETE") return handleAdminDeleteFeedback(request, env);
+    if (request.method === "PATCH") return handleAdminUpdateFeedbackStatus(request, env);
     return json({ error: "Method not allowed" }, 405);
   }
 
@@ -457,7 +486,7 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
       const assetUrl = new URL(request.url);
       assetUrl.pathname = `/${subject}/`;
       const res = await env.ASSETS.fetch(new Request(assetUrl, request));
-      return injectAssetVersions(await rewriteViewMeta(res, view), env);
+      return injectAssetVersions(await injectFeedbackWidget(await rewriteViewMeta(res, view), url.pathname), env);
     }
   }
 
@@ -476,5 +505,5 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
     return new Response(res.body, { status: res.status, headers });
   }
 
-  return injectAssetVersions(await env.ASSETS.fetch(request), env);
+  return injectAssetVersions(await injectFeedbackWidget(await env.ASSETS.fetch(request), url.pathname), env);
 }
