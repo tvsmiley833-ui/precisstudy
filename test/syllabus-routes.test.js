@@ -88,9 +88,40 @@ describe("handleSyllabusParse", () => {
 
   it("502s when nothing usable comes back", async () => {
     const cookie = await sessionCookieFor("student@example.com");
-    const modelOutput = JSON.stringify({ meetings: [], keyDates: [] });
+    const modelOutput = JSON.stringify({ meetings: [], keyDates: [], topics: [] });
     const res = await handleSyllabusParse(req("https://example.com/api/syllabus/parse", cookie, "POST", { text: "not a syllabus" }), { SESSION_SECRET: SECRET, AI: fakeAI({ response: modelOutput }) });
     expect(res.status).toBe(502);
+  });
+
+  it("parses an ordered topics list", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const modelOutput = JSON.stringify({
+      meetings: [],
+      keyDates: [],
+      topics: ["Cell structure and function", "Genetics and heredity", "Evolution and natural selection"]
+    });
+    const res = await handleSyllabusParse(req("https://example.com/api/syllabus/parse", cookie, "POST", { text: "Unit 1: Cells. Unit 2: Genetics. Unit 3: Evolution." }), { SESSION_SECRET: SECRET, AI: fakeAI({ response: modelOutput }) });
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(data.topics).toEqual(["Cell structure and function", "Genetics and heredity", "Evolution and natural selection"]);
+  });
+
+  it("drops non-string topics and caps at 40", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const manyTopics = Array.from({ length: 45 }, (_, i) => `Topic ${i}`);
+    const modelOutput = JSON.stringify({ meetings: [], keyDates: [], topics: [...manyTopics, 42, null, ""] });
+    const res = await handleSyllabusParse(req("https://example.com/api/syllabus/parse", cookie, "POST", { text: "notes" }), { SESSION_SECRET: SECRET, AI: fakeAI({ response: modelOutput }) });
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(data.topics.length).toBe(40);
+    expect(data.topics[0]).toBe("Topic 0");
+  });
+
+  it("200s with only topics found (meetings and keyDates both empty)", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const modelOutput = JSON.stringify({ meetings: [], keyDates: [], topics: ["Intro to the course"] });
+    const res = await handleSyllabusParse(req("https://example.com/api/syllabus/parse", cookie, "POST", { text: "notes" }), { SESSION_SECRET: SECRET, AI: fakeAI({ response: modelOutput }) });
+    expect(res.status).toBe(200);
   });
 
   it("502s on unparsable AI output", async () => {

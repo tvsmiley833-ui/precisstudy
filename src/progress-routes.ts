@@ -17,6 +17,12 @@ interface SubjectProgress {
   mastery: Record<string, { correct: number; total: number }>;
   examples: Record<string, boolean>;
   cardsKnown: string[];
+  // Personalized unit ordering learned from a syllabus upload (/syllabus) --
+  // the ordered list of unit ids this student's class covers them in.
+  // Optional/absent for anyone who hasn't uploaded a syllabus for this
+  // subject; unit-order.js (run on the actual study guide page) reorders
+  // UNITS to match this on the next load.
+  unitOrder?: number[];
 }
 
 // Per-subject progress lives under subject-name keys alongside the fixed
@@ -97,6 +103,24 @@ interface StreakData {
 
 function emptySubject(): SubjectProgress {
   return { mastery: {}, examples: {}, cardsKnown: [] };
+}
+
+const MAX_UNIT_ORDER = 100;
+
+// Defensive parsing like the rest of this file's POST handlers: strip
+// anything malformed rather than rejecting the whole request.
+function sanitizeUnitOrder(raw: unknown): number[] | undefined {
+  if (!Array.isArray(raw)) return undefined;
+  const seen = new Set<number>();
+  const out: number[] = [];
+  for (const item of raw) {
+    const n = typeof item === "number" ? item : Number(item);
+    if (!Number.isInteger(n) || n <= 0 || seen.has(n)) continue;
+    seen.add(n);
+    out.push(n);
+    if (out.length >= MAX_UNIT_ORDER) break;
+  }
+  return out;
 }
 
 function emptyBlob(): ProgressBlob {
@@ -250,9 +274,17 @@ export async function handlePostProgress(request: Request, env: Env): Promise<Re
   const mastery = typeof rec.mastery === "object" && rec.mastery !== null ? rec.mastery : {};
   const examples = typeof rec.examples === "object" && rec.examples !== null ? rec.examples : {};
   const cardsKnown = Array.isArray(rec.cardsKnown) ? rec.cardsKnown : [];
-
   const blob = await loadBlob(env, session.email);
-  blob[subject] = { mastery: mastery as SubjectProgress["mastery"], examples: examples as SubjectProgress["examples"], cardsKnown: cardsKnown.filter(c => typeof c === "string") as string[] };
+  // unitOrder isn't part of mastery.js's regular autosync payload (it only
+  // ever sends mastery/examples/cardsKnown), so a POST that omits it should
+  // preserve whatever was already saved rather than wiping it out.
+  const unitOrder = "unitOrder" in rec ? sanitizeUnitOrder(rec.unitOrder) : blob[subject]?.unitOrder;
+  blob[subject] = {
+    mastery: mastery as SubjectProgress["mastery"],
+    examples: examples as SubjectProgress["examples"],
+    cardsKnown: cardsKnown.filter(c => typeof c === "string") as string[],
+    ...(unitOrder && unitOrder.length ? { unitOrder } : {})
+  };
   blob.updatedAt = new Date().toISOString();
 
   await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));

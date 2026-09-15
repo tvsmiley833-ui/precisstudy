@@ -73,6 +73,15 @@ label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-m
 .meet-row:last-child,.date-row:last-child{border-bottom:none}
 .date-badge{font-weight:700;color:var(--accent);min-width:90px}
 :focus-visible{outline:2px solid var(--accent-bright);outline-offset:2px;border-radius:6px}
+.ss-visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.ss-dropzone{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  border:2px dashed var(--border);border-radius:14px;padding:28px 16px;cursor:pointer;color:var(--text-muted);
+  background:var(--bg);transition:all .15s;box-sizing:border-box;width:100%}
+.ss-dropzone:hover{border-color:var(--accent-bright);color:var(--accent)}
+.ss-dropzone.drag-over{border-color:var(--accent-bright);background:var(--chip-bg);color:var(--accent)}
+.order-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:14.5px}
+.order-row:last-child{border-bottom:none}
+.order-num{font-weight:800;color:var(--accent);min-width:24px}
 </style>
 </head>
 <body style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);">
@@ -107,7 +116,7 @@ label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-m
     <div class="ss-card" style="margin-bottom:24px;">
       <div class="ss-field">
         <label class="ss-label" for="syl-subject">Which class is this for?</label>
-        <select id="syl-subject"></select>
+        <select id="syl-subject" onchange="sylMaybeRenderUnitOrder()"></select>
       </div>
 
       <div class="ss-tab-toggle">
@@ -116,7 +125,16 @@ label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-m
       </div>
 
       <div id="syl-file-row" class="ss-field">
-        <input id="syl-file" type="file" accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg,.webp"/>
+        <label id="syl-dropzone" class="ss-dropzone" for="syl-file" tabindex="0" role="button" aria-describedby="syl-dropzone-hint">
+          <input id="syl-file" type="file" accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg,.webp" class="ss-visually-hidden"/>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="30" height="30" aria-hidden="true"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+          <div id="syl-dropzone-text" style="font-weight:700;font-size:14.5px;margin-top:8px;">Drag a file here, or click to choose</div>
+          <div id="syl-dropzone-hint" style="font-size:12.5px;color:var(--text-muted);margin-top:2px;">PDF, DOC, DOCX, TXT, PNG, JPG, or WEBP</div>
+          <div id="syl-dropzone-file" style="display:none;margin-top:10px;font-size:13.5px;font-weight:700;color:var(--accent);align-items:center;gap:8px;justify-content:center;">
+            <span id="syl-dropzone-filename"></span>
+            <button type="button" id="syl-dropzone-clear" class="ss-btn" style="padding:4px 12px;font-size:12.5px;" aria-label="Remove selected file">Remove</button>
+          </div>
+        </label>
       </div>
       <div id="syl-paste-row" class="ss-field" style="display:none;">
         <textarea id="syl-paste" rows="8" placeholder="Paste your syllabus text here…"></textarea>
@@ -140,6 +158,14 @@ label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-m
         <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 8px;">Exams, due dates, and anything else your syllabus called out.</p>
         <div id="syl-dates"></div>
         <button class="ss-btn" id="syl-ics-btn" onclick="sylDownloadIcs()" style="margin-top:14px;">⇩ Download as calendar file (.ics)</button>
+      </div>
+
+      <div class="ss-card" id="syl-order-card" style="display:none;">
+        <div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:4px;">Your class covers units in this order</div>
+        <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 8px;">Based on your syllabus, this is the order your class covers this study guide's units. Save it to reorder the guide to match.</p>
+        <div id="syl-order-list"></div>
+        <button class="ss-btn ss-btn-solid" id="syl-save-order-btn" onclick="sylSaveUnitOrder()" style="margin-top:14px;">Save this order</button>
+        <div id="syl-order-status" style="margin-top:10px;font-size:13.5px;color:var(--text-muted);"></div>
       </div>
     </div>
   </div>
@@ -203,8 +229,65 @@ function sylSetMode(mode){
   document.getElementById('syl-paste-row').style.display = mode === 'paste' ? '' : 'none';
 }
 
+function sylUpdateDropzoneFile(){
+  var input = document.getElementById('syl-file');
+  var file = input.files[0];
+  var textEl = document.getElementById('syl-dropzone-text');
+  var fileRow = document.getElementById('syl-dropzone-file');
+  var nameEl = document.getElementById('syl-dropzone-filename');
+  if (file) {
+    textEl.style.display = 'none';
+    document.getElementById('syl-dropzone-hint').style.display = 'none';
+    fileRow.style.display = 'flex';
+    nameEl.textContent = file.name;
+  } else {
+    textEl.style.display = '';
+    document.getElementById('syl-dropzone-hint').style.display = '';
+    fileRow.style.display = 'none';
+    nameEl.textContent = '';
+  }
+}
+
+function sylInitDropzone(){
+  var zone = document.getElementById('syl-dropzone');
+  var input = document.getElementById('syl-file');
+  var clearBtn = document.getElementById('syl-dropzone-clear');
+
+  input.addEventListener('change', sylUpdateDropzoneFile);
+
+  clearBtn.addEventListener('click', function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    input.value = '';
+    sylUpdateDropzoneFile();
+  });
+
+  ['dragenter', 'dragover'].forEach(function(evt){
+    zone.addEventListener(evt, function(e){
+      e.preventDefault();
+      zone.classList.add('drag-over');
+    });
+  });
+  ['dragleave', 'dragend'].forEach(function(evt){
+    zone.addEventListener(evt, function(e){
+      e.preventDefault();
+      zone.classList.remove('drag-over');
+    });
+  });
+  zone.addEventListener('drop', function(e){
+    e.preventDefault();
+    zone.classList.remove('drag-over');
+    var files = e.dataTransfer && e.dataTransfer.files;
+    if (files && files.length) {
+      input.files = files;
+      sylUpdateDropzoneFile();
+    }
+  });
+}
+
 var sylLastMeetings = [];
 var sylLastKeyDates = [];
+var sylLastTopics = [];
 
 async function sylParse(){
   var btn = document.getElementById('syl-submit-btn');
@@ -240,7 +323,9 @@ async function sylParse(){
     }
     sylLastMeetings = data.meetings || [];
     sylLastKeyDates = data.keyDates || [];
+    sylLastTopics = data.topics || [];
     sylRenderResults();
+    sylMaybeRenderUnitOrder();
     status.textContent = 'Done — review below before saving.';
   } catch (e) {
     status.textContent = "Couldn't reach the server — check your connection and try again.";
@@ -324,6 +409,138 @@ async function sylSaveSchedule(){
   btn.disabled = false;
 }
 
+// Key (as used by SYL_SUBJECTS / /api/progress) -> the export name it has in
+// /shared/unit-titles.js. Read directly off the big import statement in
+// public/dashboard/index.html rather than derived algorithmically, since a
+// few keys are irregular (ap-biology -> apbiology export, ap-lang -> aplang,
+// global-history -> globalhistory).
+var SYL_UNIT_EXPORTS = {
+  geometry:'geometryUnits', chemistry:'chemistryUnits', algebra1:'algebra1Units', algebra2:'algebra2Units',
+  aplang:'aplangUnits', globalhistory:'globalHistoryUnits', apbiology:'apbiologyUnits', apush:'apushUnits',
+  'us-history':'usHistoryUnits', physics:'physicsUnits', biology:'biologyUnits', precalc:'precalcUnits',
+  'act-prep':'actPrepUnits', anatomy:'anatomyUnits', 'ap-chemistry':'apChemistryUnits', 'ap-csa':'apCsaUnits',
+  'ap-euro':'apEuroUnits', 'ap-macro':'apMacroUnits', 'ap-micro':'apMicroUnits', 'ap-physics':'apPhysicsUnits',
+  'ap-psych':'apPsychUnits', 'ap-stats':'apStatsUnits', 'ap-usgov':'apUsgovUnits', 'ap-world':'apWorldUnits',
+  'ap-human-geography':'apHumanGeographyUnits', 'art-history':'artHistoryUnits', astronomy:'astronomyUnits',
+  'computer-science':'computerScienceUnits', 'creative-writing':'creativeWritingUnits', 'earth-science':'earthScienceUnits',
+  economics:'economicsUnits', 'english-10':'english10Units', 'english-9':'english9Units',
+  'environmental-science':'environmentalScienceUnits', 'french-1':'french1Units', geography:'geographyUnits',
+  'german-1':'german1Units', health:'healthUnits', journalism:'journalismUnits', 'music-theory':'musicTheoryUnits',
+  psychology:'psychologyUnits', 'sat-math':'satMathUnits', 'sat-reading':'satReadingUnits', sociology:'sociologyUnits',
+  'spanish-1':'spanish1Units', 'spanish-2':'spanish2Units', 'spanish-3':'spanish3Units', 'speech-debate':'speechDebateUnits',
+  statistics:'statisticsUnits', 'study-skills':'studySkillsUnits', 'us-government':'usGovernmentUnits',
+  'world-history':'worldHistoryUnits', calculus:'calculusUnits', 'calc-ab':'calcAbUnits', 'calc-bc':'calcBcUnits'
+};
+
+var sylMatchedUnitOrder = null; // [{id, name}] in matched order, once computed
+
+function sylNormalizeWords(s){
+  return String(s || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(Boolean);
+}
+
+// Simple case-insensitive word-overlap score between a syllabus topic phrase
+// and a unit's name -- no library, no LLM round trip. Counts shared words
+// (with a small bonus for exact substring containment) rather than doing
+// anything more elaborate.
+function sylTopicScore(topicWords, unitWords){
+  if (!topicWords.length || !unitWords.length) return 0;
+  var unitSet = {};
+  unitWords.forEach(function(w){ unitSet[w] = true; });
+  var shared = topicWords.filter(function(w){ return unitSet[w]; }).length;
+  return shared / Math.max(topicWords.length, unitWords.length);
+}
+
+async function sylMaybeRenderUnitOrder(){
+  var card = document.getElementById('syl-order-card');
+  card.style.display = 'none';
+  sylMatchedUnitOrder = null;
+  if (!sylLastTopics.length) return;
+
+  var subjectKey = document.getElementById('syl-subject').value;
+  var exportName = SYL_UNIT_EXPORTS[subjectKey];
+  if (!exportName) return;
+
+  var mod;
+  try {
+    mod = await import('/shared/unit-titles.js');
+  } catch (e) {
+    return;
+  }
+  var units = mod[exportName];
+  if (!Array.isArray(units) || !units.length) return;
+
+  var unitWordCache = units.map(function(u){ return { unit: u, words: sylNormalizeWords(u.name) }; });
+  var matchedIds = [];
+  var matchedById = {};
+  var MIN_SCORE = 0.34;
+
+  sylLastTopics.forEach(function(topic){
+    var topicWords = sylNormalizeWords(topic);
+    var best = null;
+    var bestScore = 0;
+    unitWordCache.forEach(function(entry){
+      var score = sylTopicScore(topicWords, entry.words);
+      if (score > bestScore) { bestScore = score; best = entry.unit; }
+    });
+    if (best && bestScore >= MIN_SCORE && !matchedById[best.id]) {
+      matchedById[best.id] = true;
+      matchedIds.push(best.id);
+    }
+  });
+
+  if (!matchedIds.length) return; // nothing matched with reasonable confidence
+
+  units.forEach(function(u){
+    if (!matchedById[u.id]) matchedIds.push(u.id);
+  });
+
+  var idToUnit = {};
+  units.forEach(function(u){ idToUnit[u.id] = u; });
+  sylMatchedUnitOrder = matchedIds.map(function(id){ return idToUnit[id]; }).filter(Boolean);
+
+  var listEl = document.getElementById('syl-order-list');
+  listEl.innerHTML = sylMatchedUnitOrder.map(function(u, i){
+    return '<div class="order-row"><span class="order-num">'+(i+1)+'.</span><span>'+ssEscapeHtml(u.name)+'</span></div>';
+  }).join('');
+  card.style.display = '';
+}
+
+async function sylSaveUnitOrder(){
+  var btn = document.getElementById('syl-save-order-btn');
+  var status = document.getElementById('syl-order-status');
+  var subjectKey = document.getElementById('syl-subject').value;
+  if (!sylMatchedUnitOrder || !sylMatchedUnitOrder.length) return;
+
+  btn.disabled = true;
+  status.textContent = 'Saving…';
+  try {
+    var progRes = await fetch('/api/progress');
+    var blob = progRes.ok ? await progRes.json() : {};
+    var existing = (blob[subjectKey]) || { mastery: {}, examples: {}, cardsKnown: [] };
+
+    var saveRes = await fetch('/api/progress', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        subject: subjectKey,
+        mastery: existing.mastery || {},
+        examples: existing.examples || {},
+        cardsKnown: existing.cardsKnown || [],
+        unitOrder: sylMatchedUnitOrder.map(function(u){ return u.id; })
+      })
+    });
+    if (saveRes.ok) {
+      status.textContent = 'Saved ✓ — your study guide will use this order next time you open it.';
+    } else {
+      var d = await saveRes.json().catch(function(){ return {}; });
+      status.textContent = d.error || "Couldn't save — try again.";
+    }
+  } catch (e) {
+    status.textContent = "Couldn't reach the server — check your connection and try again.";
+  }
+  btn.disabled = false;
+}
+
 function sylIcsDate(d){ return d.replace(/-/g, ''); }
 function sylIcsNextDay(d){
   var parts = d.split('-').map(Number);
@@ -358,6 +575,7 @@ function sylLoginBoxHtml(){
 
 async function sylInit(){
   sylPopulateSubjects();
+  sylInitDropzone();
   var gate = document.getElementById('syl-gate');
   var gateMsg = document.getElementById('syl-gate-msg');
   var content = document.getElementById('syl-content');

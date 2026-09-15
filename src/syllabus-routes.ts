@@ -25,16 +25,18 @@ const MAX_MEETINGS = 10;
 const MAX_KEY_DATES = 30;
 const MAX_TITLE_CHARS = 120;
 const MAX_DATE_CHARS = 40;
+const MAX_TOPICS = 40;
+const MAX_TOPIC_CHARS = 80;
 
 const MAX_TEXT_CHARS = 6000;
 const MAX_UPLOAD_SIZE = 8 * 1024 * 1024; // 8MB, same allowance as the flashcards uploader
 
 const MODEL = "@cf/meta/llama-3.1-8b-instruct-fp8";
 
-const SYSTEM_PROMPT = `You read a class syllabus and extract two things: its recurring weekly meeting times, and any key one-off dates (exams, project due dates, breaks, unit deadlines).
+const SYSTEM_PROMPT = `You read a class syllabus and extract three things: its recurring weekly meeting times, any key one-off dates (exams, project due dates, breaks, unit deadlines), and the ordered list of topics/units the course schedule or outline says it covers.
 
 Respond with ONLY a JSON object, no other text, no markdown code fences, matching this exact shape:
-{"meetings":[{"day":"mon","start":"09:00","end":"09:50"}],"keyDates":[{"date":"2026-10-15","title":"Midterm exam"}]}
+{"meetings":[{"day":"mon","start":"09:00","end":"09:50"}],"keyDates":[{"date":"2026-10-15","title":"Midterm exam"}],"topics":["Cell structure and function","Genetics and heredity"]}
 
 Rules:
 - "day" must be one of: mon, tue, wed, thu, fri, sat, sun (lowercase, one per meeting -- a class that meets Mon/Wed/Fri gets three separate entries).
@@ -42,7 +44,8 @@ Rules:
 - "meetings" can be an empty array if the syllabus states no fixed meeting schedule.
 - "date" is "YYYY-MM-DD" if a full date (with year) is stated or clearly inferable from context; otherwise use whatever the syllabus actually says (e.g. "Oct 15", "Week 6") rather than inventing a year.
 - "title" is a short label for what happens on that date, under 15 words.
-- Include at most 10 meetings and 30 key dates. If the document isn't a syllabus or has no usable schedule info, return {"meetings":[],"keyDates":[]}.`;
+- "topics" is an ordered list of short phrases (3-8 words each) naming what the course covers, in the exact order a week-by-week or unit-by-unit schedule/outline section of the syllabus lists them. Only pull these from an actual course schedule/table of contents/unit list -- if the syllabus has no such outline, return an empty array rather than inventing topics from vague hints.
+- Include at most 10 meetings, 30 key dates, and 40 topics. If the document isn't a syllabus or has no usable schedule info, return {"meetings":[],"keyDates":[],"topics":[]}.`;
 
 function extractJsonObject(text: string): string {
   const start = text.indexOf("{");
@@ -81,6 +84,19 @@ function sanitizeKeyDates(raw: unknown): SyllabusKeyDate[] {
     if (!d || !t) continue;
     out.push({ date: d, title: t });
     if (out.length >= MAX_KEY_DATES) break;
+  }
+  return out;
+}
+
+function sanitizeTopics(raw: unknown): string[] {
+  if (!Array.isArray(raw)) return [];
+  const out: string[] = [];
+  for (const item of raw) {
+    if (typeof item !== "string") continue;
+    const t = item.trim().slice(0, MAX_TOPIC_CHARS);
+    if (!t) continue;
+    out.push(t);
+    if (out.length >= MAX_TOPICS) break;
   }
   return out;
 }
@@ -166,9 +182,10 @@ export async function handleSyllabusParse(request: Request, env: Env): Promise<R
   const rec = parsed && typeof parsed === "object" ? (parsed as Record<string, unknown>) : {};
   const meetings = sanitizeMeetings(rec.meetings);
   const keyDates = sanitizeKeyDates(rec.keyDates);
-  if (!meetings.length && !keyDates.length) {
+  const topics = sanitizeTopics(rec.topics);
+  if (!meetings.length && !keyDates.length && !topics.length) {
     return json({ error: "Couldn't find a class schedule or key dates in that document." }, 502);
   }
 
-  return json({ meetings, keyDates });
+  return json({ meetings, keyDates, topics });
 }

@@ -1,9 +1,12 @@
 <script type="module">
   import { createMastery } from '/shared/mastery.js';
   import { celebrateCorrect, resetCombo } from '/shared/celebrate.js';
+  import { applyStoredUnitOrder, refreshUnitOrder } from '/shared/unit-order.js';
   import '/shared/chalk-cursor.js';
   window.__ssCreateMastery = createMastery;
   window.__ssCelebrateCorrect = celebrateCorrect;
   window.__ssResetCombo = resetCombo;
+  window.__ssApplyUnitOrder = applyStoredUnitOrder;
+  window.__ssRefreshUnitOrder = refreshUnitOrder;
   window.dispatchEvent(new Event('ss-mastery-ready'));
 </script>

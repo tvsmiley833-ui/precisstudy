@@ -239,6 +239,53 @@ describe("handlePostProgress", () => {
     expect(saved.geometry.mastery).toEqual({ "1": { correct: 2, total: 2 } });
     expect(saved.chemistry).toEqual({ mastery: {}, examples: {}, cardsKnown: [] });
   });
+
+  it("saves a valid unitOrder", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV();
+    const body = { subject: "geometry", mastery: {}, examples: {}, cardsKnown: [], unitOrder: [3, 1, 2] };
+    const res = await handlePostProgress(req("https://example.com/api/progress", cookie, "POST", body), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(res.status).toBe(200);
+    const saved = JSON.parse(kv._store.get("progress:student@example.com"));
+    expect(saved.geometry.unitOrder).toEqual([3, 1, 2]);
+  });
+
+  it("dedupes and strips malformed entries from unitOrder, capping at 100", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV();
+    const manyIds = Array.from({ length: 120 }, (_, i) => i + 1);
+    const body = { subject: "geometry", mastery: {}, examples: {}, cardsKnown: [], unitOrder: [1, 1, -2, 0, "not a number", 2, ...manyIds] };
+    const res = await handlePostProgress(req("https://example.com/api/progress", cookie, "POST", body), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(res.status).toBe(200);
+    const saved = JSON.parse(kv._store.get("progress:student@example.com"));
+    expect(saved.geometry.unitOrder.length).toBe(100);
+    expect(saved.geometry.unitOrder[0]).toBe(1);
+    expect(saved.geometry.unitOrder[1]).toBe(2);
+    expect(new Set(saved.geometry.unitOrder).size).toBe(100);
+  });
+
+  it("preserves an existing unitOrder when a save omits the field", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const existing = { geometry: { mastery: {}, examples: {}, cardsKnown: [], unitOrder: [5, 6, 7] } };
+    const kv = fakeKV({ "progress:student@example.com": JSON.stringify(existing) });
+    const body = { subject: "geometry", mastery: { "1": { correct: 1, total: 2 } }, examples: {}, cardsKnown: [] };
+    const res = await handlePostProgress(req("https://example.com/api/progress", cookie, "POST", body), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(res.status).toBe(200);
+    const saved = JSON.parse(kv._store.get("progress:student@example.com"));
+    expect(saved.geometry.unitOrder).toEqual([5, 6, 7]);
+    expect(saved.geometry.mastery).toEqual({ "1": { correct: 1, total: 2 } });
+  });
+
+  it("clears unitOrder when explicitly saved as an empty array", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const existing = { geometry: { mastery: {}, examples: {}, cardsKnown: [], unitOrder: [5, 6, 7] } };
+    const kv = fakeKV({ "progress:student@example.com": JSON.stringify(existing) });
+    const body = { subject: "geometry", mastery: {}, examples: {}, cardsKnown: [], unitOrder: [] };
+    const res = await handlePostProgress(req("https://example.com/api/progress", cookie, "POST", body), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(res.status).toBe(200);
+    const saved = JSON.parse(kv._store.get("progress:student@example.com"));
+    expect(saved.geometry.unitOrder).toBeUndefined();
+  });
 });
 
 describe("handlePostEnrolledSubjects", () => {
