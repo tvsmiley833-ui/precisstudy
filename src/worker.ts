@@ -27,6 +27,51 @@ import { handleCanvasConnect, handleCanvasDisconnect, handleCanvasStatus } from 
 
 const SUBJECT_PATHS = new Set(["geometry", "chemistry", "algebra1", "algebra2", "ap-lang", "global-history", "ap-biology", "apush", "physics", "biology", "precalc", "us-government", "spanish-1", "spanish-2", "earth-science", "economics", "english-9", "english-10", "world-history", "geography", "health", "psychology", "sociology", "statistics", "computer-science", "art-history", "music-theory", "spanish-3", "french-1", "german-1", "environmental-science", "anatomy", "astronomy", "creative-writing", "journalism", "speech-debate", "ap-chemistry", "ap-physics", "ap-stats", "ap-csa", "ap-psych", "ap-world", "ap-euro", "ap-usgov", "ap-macro", "ap-micro", "ap-human-geography", "sat-math", "sat-reading", "act-prep", "study-skills", "calculus", "calc-ab", "calc-bc", "us-history"]);
 const SUBJECT_VIEW_SEGMENTS = new Set(["flashcards", "quiz", "examples", "exam", "reference", "memory"]);
+
+// {title suffix, description template} per view segment. %SUBJECT%/%QUIZ%/
+// %CARDS% are substituted from the base page's own real title/description
+// (parsed by rewriteViewMeta) -- never invented copy, just a more specific
+// framing of counts already on the page.
+const VIEW_META: Record<string, { title: string; description: string }> = {
+  flashcards: { title: "Flashcards", description: "Study %SUBJECT% with %CARDS% free flashcards — flip through every term and definition. No sign-up." },
+  quiz: { title: "Practice Quiz", description: "Practice %SUBJECT% with %QUIZ% free quiz questions covering every unit, with instant feedback. No sign-up." },
+  exam: { title: "Practice Exam", description: "Take a full %SUBJECT% practice exam with real timing, built from %QUIZ% real questions. Free, no sign-up." },
+  examples: { title: "Worked Examples", description: "Step-by-step worked examples for %SUBJECT%, covering every unit. Free, no sign-up." },
+  reference: { title: "Quick Reference", description: "%SUBJECT% quick-reference formulas, terms, and definitions in one place. Free, no sign-up." },
+  memory: { title: "Memory Tricks", description: "Mnemonics and memory tricks for %SUBJECT%, organized by unit. Free, no sign-up." }
+};
+
+// Rewrites <title> and the meta description for a subject sub-view (e.g.
+// /geometry/quiz) using HTMLRewriter (native Workers runtime, no
+// dependency) -- derives %SUBJECT%/%QUIZ%/%CARDS% from the base page's own
+// already-real <title>/description (read once via a plain regex pass, far
+// simpler than driving HTMLRewriter just to extract three strings) rather
+// than a second data source, so this can't drift out of sync with what
+// generate-guide.mjs baked in.
+async function rewriteViewMeta(res: Response, view: string): Promise<Response> {
+  const meta = VIEW_META[view];
+  if (!meta || !res.headers.get("Content-Type")?.includes("text/html")) return res;
+
+  const html = await res.clone().text();
+  const titleText = /<title>([^<]*)<\/title>/.exec(html)?.[1] || "";
+  const subject = /^(.+?) Study Guide/.exec(titleText)?.[1] || view;
+  const descContent = /<meta name="description" content="([^"]*)"/.exec(html)?.[1] || "";
+  const quizCount = /(\d+)\s+questions/.exec(descContent)?.[1] || "hundreds of";
+  const cardsCount = /(\d+)\s+flashcards/.exec(descContent)?.[1] || "dozens of";
+
+  const title = `${subject} ${meta.title} — PrecisStudy`;
+  const description = meta.description
+    .replace(/%SUBJECT%/g, subject)
+    .replace(/%QUIZ%/g, quizCount)
+    .replace(/%CARDS%/g, cardsCount);
+
+  return new HTMLRewriter()
+    .on("title", { element(el) { el.setInnerContent(title); } })
+    .on('meta[name="description"]', { element(el) { el.setAttribute("content", description); } })
+    .on('meta[property="og:title"]', { element(el) { el.setAttribute("content", title); } })
+    .on('meta[property="og:description"]', { element(el) { el.setAttribute("content", description); } })
+    .transform(res);
+}
 const SUBJECT_VIEW_RE = /^\/([a-z0-9-]+)\/([a-z0-9-]+)\/?$/;
 
 const AUTH_ROUTES: Record<string, Record<string, (request: Request, env: Env) => Promise<Response>>> = {
@@ -163,9 +208,14 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
   // way a checked-in sitemap.xml did (it listed 17 of 50+ pages).
   if (url.pathname === "/sitemap.xml") {
     const staticPages = ["/", "/about/", "/request/", "/privacy/", "/terms/", "/parents-bill-of-rights/"];
+    const sortedSubjects = [...SUBJECT_PATHS].sort();
     const locs = [
       ...staticPages,
-      ...[...SUBJECT_PATHS].sort().map(s => `/${s}/`)
+      ...sortedSubjects.map(s => `/${s}/`),
+      // Real, distinct, bookmarkable/shareable URLs (see the routing comment
+      // above) -- listing them lets these get crawled and indexed with their
+      // own rewritten title/description instead of staying undiscoverable.
+      ...sortedSubjects.flatMap(s => [...SUBJECT_VIEW_SEGMENTS].sort().map(v => `/${s}/${v}`))
     ];
     const body = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`
       + locs.map(p => `  <url><loc>https://precisstudy.com${p}</loc></url>`).join("\n")
@@ -341,6 +391,11 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
   // subject bundle -- the client reads the URL on load to activate the right tab, and
   // keeps the URL in sync as the student switches tabs, so each view is bookmarkable,
   // shareable, and survives back/forward and refresh instead of resetting to the guide.
+  // The <title>/description are rewritten per view (see rewriteViewMeta) so a search
+  // result or a link shared for e.g. /geometry/flashcards accurately describes what's
+  // there -- the underlying page (and everything the crawler indexes as content) is
+  // still the same single-page guide, so this is metadata accuracy for real,
+  // independently-linkable URLs, not a claim that these are separately-ranking pages.
   const subjectMatch = SUBJECT_VIEW_RE.exec(url.pathname);
   if (subjectMatch) {
     const subject = subjectMatch[1];
@@ -348,7 +403,8 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
     if (subject && view && SUBJECT_PATHS.has(subject) && SUBJECT_VIEW_SEGMENTS.has(view)) {
       const assetUrl = new URL(request.url);
       assetUrl.pathname = `/${subject}/`;
-      return env.ASSETS.fetch(new Request(assetUrl, request));
+      const res = await env.ASSETS.fetch(new Request(assetUrl, request));
+      return rewriteViewMeta(res, view);
     }
   }
 

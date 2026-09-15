@@ -58,16 +58,28 @@ describe("per-view subject routing", () => {
   const subjects = ["geometry", "chemistry", "algebra1", "algebra2", "ap-lang", "global-history"];
   const views = ["flashcards", "quiz", "examples", "exam", "reference", "memory"];
 
+  // <title>, meta description, and og:title/og:description are the only
+  // parts allowed to differ per view (see rewriteViewMeta in worker.ts) --
+  // strip just those before comparing so this still catches any other
+  // unintended drift between a view URL and the base page.
+  function stripRewrittenMeta(html) {
+    return html
+      .replace(/<title>[^<]*<\/title>/, "<title></title>")
+      .replace(/<meta name="description" content="[^"]*"\s*\/>/, "")
+      .replace(/<meta property="og:title" content="[^"]*"\s*\/>/, "")
+      .replace(/<meta property="og:description" content="[^"]*"\s*\/>/, "");
+  }
+
   for (const subject of subjects) {
-    it(`serves the ${subject} bundle for every real view URL, identical to the base page`, async () => {
+    it(`serves the ${subject} bundle for every real view URL, identical to the base page apart from the rewritten meta tags`, async () => {
       const baseRes = await SELF.fetch(`https://precisstudy.com/${subject}/`);
       expect(baseRes.status).toBe(200);
-      const baseBody = await baseRes.text();
+      const baseBody = stripRewrittenMeta(await baseRes.text());
 
       for (const view of views) {
         const res = await SELF.fetch(`https://precisstudy.com/${subject}/${view}`);
         expect(res.status).toBe(200);
-        const body = await res.text();
+        const body = stripRewrittenMeta(await res.text());
         expect(body).toBe(baseBody);
       }
     });
@@ -172,6 +184,45 @@ describe("/sitemap.xml", () => {
     expect(body).toContain("<loc>https://precisstudy.com/calculus/</loc>");
     expect(body).toContain("<loc>https://precisstudy.com/us-history/</loc>");
     expect(body).toContain("<loc>https://precisstudy.com/</loc>");
+  });
+
+  it("includes the real per-view sub-URLs (flashcards, quiz, etc.) for every subject", async () => {
+    const res = await SELF.fetch("https://precisstudy.com/sitemap.xml");
+    const body = await res.text();
+    expect(body).toContain("<loc>https://precisstudy.com/geometry/flashcards</loc>");
+    expect(body).toContain("<loc>https://precisstudy.com/geometry/quiz</loc>");
+    expect(body).toContain("<loc>https://precisstudy.com/geometry/exam</loc>");
+  });
+});
+
+describe("subject sub-view <title>/description rewriting", () => {
+  it("rewrites the flashcards view with a distinct title and description derived from the base page's real counts", async () => {
+    const base = await SELF.fetch("https://precisstudy.com/geometry/");
+    const baseHtml = await base.text();
+    const baseTitle = /<title>([^<]*)<\/title>/.exec(baseHtml)[1];
+
+    const res = await SELF.fetch("https://precisstudy.com/geometry/flashcards");
+    expect(res.status).toBe(200);
+    const html = await res.text();
+    const title = /<title>([^<]*)<\/title>/.exec(html)[1];
+    const description = /<meta name="description" content="([^"]*)"/.exec(html)[1];
+
+    expect(title).not.toBe(baseTitle);
+    expect(title).toBe("Geometry Flashcards — PrecisStudy");
+    expect(description).toMatch(/^Study Geometry with \d+ free flashcards/);
+  });
+
+  it("rewrites the quiz view distinctly from the flashcards view for the same subject", async () => {
+    const res = await SELF.fetch("https://precisstudy.com/geometry/quiz");
+    const html = await res.text();
+    const title = /<title>([^<]*)<\/title>/.exec(html)[1];
+    expect(title).toBe("Geometry Practice Quiz — PrecisStudy");
+  });
+
+  it("leaves the base guide page's own title/description untouched", async () => {
+    const res = await SELF.fetch("https://precisstudy.com/geometry/");
+    const html = await res.text();
+    expect(html).toContain("<title>Geometry Study Guide — PrecisStudy</title>");
   });
 });
 
