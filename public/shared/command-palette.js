@@ -12,6 +12,8 @@
     { l: 'Settings', h: '/settings' },
     { l: 'Browse Subjects', h: '/#classes-section' },
     { l: 'Request a Guide', h: '/request' },
+    { l: 'Upload Syllabus', h: '/syllabus' },
+    { l: 'Changelog', h: '/changelog' },
     { l: 'Geometry', h: '/geometry' }, { l: 'Chemistry', h: '/chemistry' }, { l: 'Algebra I', h: '/algebra1' },
     { l: 'Algebra II', h: '/algebra2' }, { l: 'AP English Lang & Comp', h: '/ap-lang' }, { l: 'Global History', h: '/global-history' },
     { l: 'AP Biology', h: '/ap-biology' }, { l: 'APUSH', h: '/apush' }, { l: 'US History', h: '/us-history' },
