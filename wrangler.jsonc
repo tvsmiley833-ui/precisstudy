@@ -40,6 +40,7 @@
     "crons": ["0 22 * * *", "*/5 * * * *"]
   },
   "ratelimits": [
-    { "name": "CHAT_RATE_LIMIT", "namespace_id": "1001", "simple": { "limit": 20, "period": 60 } }
+    { "name": "CHAT_RATE_LIMIT", "namespace_id": "1001", "simple": { "limit": 20, "period": 60 } },
+    { "name": "CLIENT_LOG_RATE_LIMIT", "namespace_id": "1002", "simple": { "limit": 30, "period": 60 } }
   ]
 }

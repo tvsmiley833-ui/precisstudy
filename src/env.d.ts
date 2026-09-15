@@ -20,4 +20,5 @@ interface Env {
   VAPID_PRIVATE_KEY: string;
   VAPID_SUBJECT: string;
   CHAT_RATE_LIMIT: RateLimit;
+  CLIENT_LOG_RATE_LIMIT: RateLimit;
 }

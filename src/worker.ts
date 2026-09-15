@@ -15,6 +15,7 @@ import {
 } from "./auth-routes.js";
 import { handleRequestGuideSubmit } from "./guide-requests.js";
 import { handleFeedbackSubmit } from "./feedback.js";
+import { handleClientLogPost } from "./client-log-routes.js";
 import { handleAdminMe, handleAdminListGuideRequests, handleAdminDeleteGuideRequest, handleAdminUpdateGuideRequestStatus, handleAdminStats, handleAdminGetGuideRequestFile, handleAdminListFeedback, handleAdminDeleteFeedback, handleAdminUpdateFeedbackStatus } from "./admin-routes.js";
 import { handleGetProgress, handlePostProgress, handlePostProgressReset, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak, handlePostNotificationPrefs, recordDailySnapshots, handlePostShareGenerate, handlePostShareRevoke, handleGetShare, handlePostCalendarGenerate, handlePostCalendarRevoke, handleGetCalendarFeed, handlePostInviteGenerate } from "./progress-routes.js";
 import { handleGenerateFlashcards, handleSaveFlashcards, handleDeleteFlashcards, handleReviewFlashcard } from "./flashcards-routes.js";
@@ -81,7 +82,7 @@ async function rewriteViewMeta(res: Response, view: string): Promise<Response> {
 // tag -- same list as `ls public/shared/*.js`. Kept as an explicit list
 // (not read from disk at request time) so a typo here fails loudly in
 // review rather than silently caching-forever a file nobody versioned.
-const SHARED_JS_FILES = new Set(["celebrate.js", "chalk-cursor.js", "command-palette.js", "feedback-widget.js", "high-contrast.js", "mastery.js", "mission-banner.js", "unit-titles.js", "unit-order.js"]);
+const SHARED_JS_FILES = new Set(["celebrate.js", "chalk-cursor.js", "command-palette.js", "error-monitor.js", "feedback-widget.js", "high-contrast.js", "mastery.js", "mission-banner.js", "unit-titles.js", "unit-order.js"]);
 
 // Per-isolate cache: hashing 6 small files is cheap, but there's no reason
 // to redo it every request when the isolate will serve many requests
@@ -333,6 +334,11 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
 
   if (url.pathname === "/api/feedback") {
     if (request.method === "POST") return handleFeedbackSubmit(request, env);
+    return json({ error: "Method not allowed" }, 405);
+  }
+
+  if (url.pathname === "/api/client-log") {
+    if (request.method === "POST") return handleClientLogPost(request, env);
     return json({ error: "Method not allowed" }, 405);
   }
 

@@ -16,3 +16,15 @@ export function logError(context: string, err: unknown, extra?: Record<string, u
     ts: new Date().toISOString(),
   }));
 }
+
+// Structured, single-line JSON info logging -- same shape/venue as logError
+// (Workers Logs), but for non-error events (e.g. Core Web Vitals reports)
+// where routing them through console.error would mislabel them as errors.
+export function logInfo(context: string, extra?: Record<string, unknown>): void {
+  console.log(JSON.stringify({
+    level: "info",
+    context,
+    ...extra,
+    ts: new Date().toISOString(),
+  }));
+}
