@@ -34,6 +34,13 @@ type ProgressBlob = {
   // "share:<token>" -> email KV entry is what actually resolves a public
   // request -- this field just lets Settings know a link already exists.
   shareToken?: string | null;
+  // Opt-in read-only calendar feed (Settings' "Subscribe to your schedule")
+  // that lets a student add their weekly study blocks to Apple/Google/
+  // Outlook calendar as a subscribed .ics URL. Same shape as shareToken:
+  // null until generated, regenerating replaces it so an old URL stops
+  // working. Reverse "cal:<token>" -> email KV entry resolves a public,
+  // unauthenticated .ics request (see handleGetCalendarFeed).
+  calendarToken?: string | null;
   // One entry per calendar day a snapshot was actually worth taking (a
   // student with nothing assessed yet gets no entry, rather than padding
   // history with all-empty days) -- feeds the accuracy trend sparklines,
@@ -324,6 +331,120 @@ export async function handleGetShare(request: Request, env: Env): Promise<Respon
   return json({
     streak: blob.streak ? { current: blob.streak.current, longest: blob.streak.longest } : null,
     subjects
+  });
+}
+
+// Settings' "Subscribe to your schedule": generates a new opt-in public .ics
+// feed URL, replacing (and invalidating) any previous one -- same
+// generate/revoke/resolve shape as the share-link trio above.
+export async function handlePostCalendarGenerate(request: Request, env: Env): Promise<Response> {
+  const session = await getSession(request, env);
+  if (!session) return json({ error: "Sign in required" }, 401);
+  if (!env.PROGRESS) return json({ error: "Progress sync isn't configured yet" }, 503);
+
+  const blob = await loadBlob(env, session.email);
+  const oldToken = blob.calendarToken;
+  const token = randomToken();
+  blob.calendarToken = token;
+  await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  await env.PROGRESS.put("cal:" + token, session.email);
+  if (oldToken) await env.PROGRESS.delete("cal:" + oldToken);
+  return json({ token });
+}
+
+export async function handlePostCalendarRevoke(request: Request, env: Env): Promise<Response> {
+  const session = await getSession(request, env);
+  if (!session) return json({ error: "Sign in required" }, 401);
+  if (!env.PROGRESS) return json({ error: "Progress sync isn't configured yet" }, 503);
+
+  const blob = await loadBlob(env, session.email);
+  const token = blob.calendarToken;
+  blob.calendarToken = null;
+  await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  if (token) await env.PROGRESS.delete("cal:" + token);
+  return json({ ok: true });
+}
+
+// One fixed, arbitrary Monday-anchored week (2024-01-01 was a Monday) used
+// as the RRULE anchor date for every block -- a weekly RRULE recurs forever
+// off DTSTART's weekday regardless of how far in the past DTSTART itself is,
+// so the exact anchor date never matters, only which day of the week it
+// lands on. Avoids ever computing "today in the student's timezone".
+const ICS_ANCHOR_DATE: Record<string, string> = {
+  mon: "20240101", tue: "20240102", wed: "20240103", thu: "20240104",
+  fri: "20240105", sat: "20240106", sun: "20240107"
+};
+const ICS_BYDAY: Record<string, string> = {
+  mon: "MO", tue: "TU", wed: "WE", thu: "TH", fri: "FR", sat: "SA", sun: "SU"
+};
+
+function icsEscape(s: string): string {
+  return s.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
+}
+
+function icsTimestampUTC(d: Date): string {
+  return d.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+}
+
+// Public, unauthenticated -- any calendar app (Apple/Google/Outlook) can
+// subscribe to this URL with just the token, no account or cookie, the same
+// way it works for any other iCal subscription feed. Never includes
+// anything beyond the schedule's own subject labels and times.
+export async function handleGetCalendarFeed(request: Request, env: Env): Promise<Response> {
+  if (!env.PROGRESS) return json({ error: "Not configured" }, 503);
+  const url = new URL(request.url);
+  const token = url.searchParams.get("t") || "";
+  if (!/^[A-Za-z0-9_-]{10,40}$/.test(token)) return json({ error: "Invalid link" }, 400);
+
+  const email = await env.PROGRESS.get("cal:" + token);
+  if (!email) return json({ error: "This calendar link is invalid or has been revoked" }, 404);
+
+  const blob = await loadBlob(env, email);
+  if (blob.calendarToken !== token) return json({ error: "This calendar link is invalid or has been revoked" }, 404);
+
+  const tzid = blob.schedule?.timezone && isValidTimezone(blob.schedule.timezone) ? blob.schedule.timezone : "Etc/UTC";
+  const blocks = blob.schedule?.blocks || [];
+  const now = icsTimestampUTC(new Date());
+
+  const events = blocks.map(b => {
+    const anchor = ICS_ANCHOR_DATE[b.day];
+    const byday = ICS_BYDAY[b.day];
+    if (!anchor || !byday) return "";
+    const start = b.start.replace(":", "") + "00";
+    const end = b.end.replace(":", "") + "00";
+    const uid = `${b.day}-${b.start}-${b.subjectKey}-${token}@precisstudy.com`;
+    return [
+      "BEGIN:VEVENT",
+      `UID:${uid}`,
+      `DTSTAMP:${now}`,
+      `DTSTART;TZID=${tzid}:${anchor}T${start}`,
+      `DTEND;TZID=${tzid}:${anchor}T${end}`,
+      `RRULE:FREQ=WEEKLY;BYDAY=${byday}`,
+      `SUMMARY:${icsEscape(b.subjectLabel)} study block`,
+      "END:VEVENT"
+    ].join("\r\n");
+  }).filter(Boolean);
+
+  const ics = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//PrecisStudy//Study Schedule//EN",
+    "CALSCALE:GREGORIAN",
+    "METHOD:PUBLISH",
+    "X-WR-CALNAME:PrecisStudy Study Schedule",
+    "REFRESH-INTERVAL;VALUE=DURATION:PT12H",
+    "X-PUBLISHED-TTL:PT12H",
+    ...events,
+    "END:VCALENDAR"
+  ].join("\r\n") + "\r\n";
+
+  return new Response(ics, {
+    status: 200,
+    headers: {
+      "Content-Type": "text/calendar; charset=utf-8",
+      "Content-Disposition": 'inline; filename="precisstudy-schedule.ics"',
+      "Cache-Control": "private, max-age=3600"
+    }
   });
 }
 

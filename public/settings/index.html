@@ -334,6 +334,24 @@ html{scroll-behavior:smooth}
     </div>
 
     <div class="ss-card" style="margin-top:20px;">
+      <div style="font-weight:800;font-size:17px;color:var(--text);margin-bottom:4px;">Subscribe to your schedule</div>
+      <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">
+        Get a calendar feed URL for your weekly study blocks — add it to Apple Calendar, Google Calendar, or Outlook as a subscription and it updates itself whenever you edit your schedule. Off by default; revoke it anytime.
+      </p>
+      <div id="ss-cal-off">
+        <button id="ss-cal-generate-btn" style="width:auto;padding:10px 20px;">Create calendar link</button>
+      </div>
+      <div id="ss-cal-on" style="display:none;">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+          <input id="ss-cal-link" type="text" readonly style="flex:1;min-width:220px;padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font-size:13px;"/>
+          <button id="ss-cal-copy-btn" style="width:auto;padding:9px 16px;">Copy</button>
+          <button id="ss-cal-revoke-btn" style="width:auto;padding:9px 16px;background:none;border:1px solid var(--border);color:var(--text-muted);">Revoke</button>
+        </div>
+      </div>
+      <div id="ss-cal-status" style="margin-top:10px;font-size:13px;color:var(--text-muted);"></div>
+    </div>
+
+    <div class="ss-card" style="margin-top:20px;">
       <div style="font-weight:800;font-size:17px;color:var(--text);margin-bottom:4px;">Reset all progress</div>
       <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">
         Wipes your mastery, quiz history, and flashcard ratings for every class back to 0% — a clean slate to start over. Your account, enrolled classes, schedule, and streak are kept.
@@ -550,6 +568,73 @@ async function ssShareRevoke(){
   }catch(e){
     status.textContent = "Couldn't revoke your link — check your connection and try again.";
     btn.disabled = false;
+  }
+}
+function ssRenderCalendarState(token){
+  var off = document.getElementById('ss-cal-off');
+  var on = document.getElementById('ss-cal-on');
+  var input = document.getElementById('ss-cal-link');
+  if(token){
+    off.style.display = 'none';
+    on.style.display = 'block';
+    input.value = location.origin + '/api/calendar.ics?t=' + encodeURIComponent(token);
+  }else{
+    off.style.display = 'block';
+    on.style.display = 'none';
+    input.value = '';
+  }
+}
+async function ssCalendarGenerate(){
+  var btn = document.getElementById('ss-cal-generate-btn');
+  var status = document.getElementById('ss-cal-status');
+  btn.disabled = true;
+  status.textContent = 'Creating link…';
+  try{
+    var res = await fetch('/api/calendar/generate', {method:'POST'});
+    var data = await res.json().catch(function(){ return {}; });
+    if(!res.ok){
+      status.textContent = data.error || "Couldn't create a calendar link — try again.";
+      btn.disabled = false;
+      return;
+    }
+    ssRenderCalendarState(data.token);
+    status.textContent = 'Link created — subscribe to it from your calendar app.';
+    btn.disabled = false;
+  }catch(e){
+    status.textContent = "Couldn't create a calendar link — check your connection and try again.";
+    btn.disabled = false;
+  }
+}
+async function ssCalendarRevoke(){
+  if(!confirm('Revoke your calendar link? Any calendar app subscribed to it will stop getting updates.')) return;
+  var btn = document.getElementById('ss-cal-revoke-btn');
+  var status = document.getElementById('ss-cal-status');
+  btn.disabled = true;
+  status.textContent = 'Revoking…';
+  try{
+    var res = await fetch('/api/calendar/revoke', {method:'POST'});
+    if(!res.ok){
+      status.textContent = "Couldn't revoke your link — try again.";
+      btn.disabled = false;
+      return;
+    }
+    ssRenderCalendarState(null);
+    status.textContent = 'Link revoked.';
+    btn.disabled = false;
+  }catch(e){
+    status.textContent = "Couldn't revoke your link — check your connection and try again.";
+    btn.disabled = false;
+  }
+}
+async function ssCalendarCopy(){
+  var input = document.getElementById('ss-cal-link');
+  var status = document.getElementById('ss-cal-status');
+  try{
+    await navigator.clipboard.writeText(input.value);
+    status.textContent = 'Copied ✓';
+  }catch(e){
+    input.select();
+    status.textContent = 'Select the link above and copy it manually.';
   }
 }
 async function ssShareCopy(){
@@ -974,6 +1059,7 @@ async function initSettings(){
     var blob = res.ok ? await res.json() : {};
     renderClassList(blob.enrolledSubjects || []);
     ssRenderShareState(blob.shareToken || null);
+    ssRenderCalendarState(blob.calendarToken || null);
     SS_NOTIF_PREFS = blob.notificationPrefs || {};
   }catch(e){
     renderClassList([]);
@@ -985,6 +1071,9 @@ async function initSettings(){
   document.getElementById('ss-share-generate-btn').addEventListener('click', ssShareGenerate);
   document.getElementById('ss-share-copy-btn').addEventListener('click', ssShareCopy);
   document.getElementById('ss-share-revoke-btn').addEventListener('click', ssShareRevoke);
+  document.getElementById('ss-cal-generate-btn').addEventListener('click', ssCalendarGenerate);
+  document.getElementById('ss-cal-copy-btn').addEventListener('click', ssCalendarCopy);
+  document.getElementById('ss-cal-revoke-btn').addEventListener('click', ssCalendarRevoke);
   document.getElementById('reset-progress-btn').addEventListener('click', ssResetAllProgress);
   document.getElementById('delete-account-btn').addEventListener('click', ssDeleteAccount);
   document.getElementById('sign-out-everywhere-btn').addEventListener('click', ssSignOutEverywhere);

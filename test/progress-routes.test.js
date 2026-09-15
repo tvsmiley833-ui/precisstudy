@@ -1,7 +1,7 @@
 import { SELF } from "cloudflare:test";
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { signSession, SESSION_COOKIE } from "../src/auth.js";
-import { handleGetProgress, handlePostProgress, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak, handlePostNotificationPrefs, recordDailySnapshots, handlePostShareGenerate, handlePostShareRevoke, handleGetShare } from "../src/progress-routes.js";
+import { handleGetProgress, handlePostProgress, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak, handlePostNotificationPrefs, recordDailySnapshots, handlePostShareGenerate, handlePostShareRevoke, handleGetShare, handlePostCalendarGenerate, handlePostCalendarRevoke, handleGetCalendarFeed } from "../src/progress-routes.js";
 import { putGoogleToken } from "../src/google-token.js";
 import { googleSettingsKey } from "../src/google-routes.js";
 
@@ -714,6 +714,104 @@ describe("share link", () => {
   it("rejects an unknown token", async () => {
     const res = await handleGetShare(req("https://example.com/api/share?t=doesnotexist1234567890"), { PROGRESS: fakeKV() });
     expect(res.status).toBe(404);
+  });
+});
+
+describe("calendar feed", () => {
+  const validBlock = { day: "mon", start: "09:00", end: "10:00", subjectKey: "geometry", subjectLabel: "Geometry" };
+
+  it("generate 401s with no session, and requires sign-in like every other progress route", async () => {
+    const res = await handlePostCalendarGenerate(req("https://example.com/api/calendar/generate", null, "POST"), { SESSION_SECRET: SECRET, PROGRESS: fakeKV() });
+    expect(res.status).toBe(401);
+  });
+
+  it("generates a token, stores the reverse KV mapping, and a public .ics request resolves it without auth", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV({
+      "progress:student@example.com": JSON.stringify({
+        schedule: { blocks: [validBlock], timezone: "America/New_York", notifyEnabled: false, savedAt: new Date().toISOString() }
+      })
+    });
+    const genRes = await handlePostCalendarGenerate(req("https://example.com/api/calendar/generate", cookie, "POST"), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(genRes.status).toBe(200);
+    const { token } = await genRes.json();
+    expect(typeof token).toBe("string");
+    expect(kv._store.get("cal:" + token)).toBe("student@example.com");
+
+    const publicRes = await handleGetCalendarFeed(req("https://example.com/api/calendar.ics?t=" + token), { PROGRESS: kv });
+    expect(publicRes.status).toBe(200);
+    expect(publicRes.headers.get("Content-Type")).toContain("text/calendar");
+    const body = await publicRes.text();
+    expect(body).toContain("BEGIN:VCALENDAR");
+    expect(body).toContain("RRULE:FREQ=WEEKLY;BYDAY=MO");
+    expect(body).toContain("DTSTART;TZID=America/New_York:20240101T090000");
+    expect(body).toContain("SUMMARY:Geometry study block");
+    // never leaks the owning email in the public feed
+    expect(body).not.toContain("student@example.com");
+  });
+
+  it("falls back to Etc/UTC when no timezone is saved", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV({
+      "progress:student@example.com": JSON.stringify({
+        schedule: { blocks: [validBlock], timezone: null, notifyEnabled: false, savedAt: new Date().toISOString() }
+      })
+    });
+    const { token } = await (await handlePostCalendarGenerate(req("https://example.com/api/calendar/generate", cookie, "POST"), { SESSION_SECRET: SECRET, PROGRESS: kv })).json();
+    const res = await handleGetCalendarFeed(req("https://example.com/api/calendar.ics?t=" + token), { PROGRESS: kv });
+    const body = await res.text();
+    expect(body).toContain("DTSTART;TZID=Etc/UTC:20240101T090000");
+  });
+
+  it("regenerating invalidates the old token", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV({ "progress:student@example.com": JSON.stringify({}) });
+    const first = await (await handlePostCalendarGenerate(req("https://example.com/api/calendar/generate", cookie, "POST"), { SESSION_SECRET: SECRET, PROGRESS: kv })).json();
+    const second = await (await handlePostCalendarGenerate(req("https://example.com/api/calendar/generate", cookie, "POST"), { SESSION_SECRET: SECRET, PROGRESS: kv })).json();
+    expect(first.token).not.toBe(second.token);
+    expect(kv._store.get("cal:" + first.token)).toBeUndefined();
+
+    const oldRes = await handleGetCalendarFeed(req("https://example.com/api/calendar.ics?t=" + first.token), { PROGRESS: kv });
+    expect(oldRes.status).toBe(404);
+    const newRes = await handleGetCalendarFeed(req("https://example.com/api/calendar.ics?t=" + second.token), { PROGRESS: kv });
+    expect(newRes.status).toBe(200);
+  });
+
+  it("revoking deletes the reverse mapping and the link stops resolving", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV({ "progress:student@example.com": JSON.stringify({}) });
+    const { token } = await (await handlePostCalendarGenerate(req("https://example.com/api/calendar/generate", cookie, "POST"), { SESSION_SECRET: SECRET, PROGRESS: kv })).json();
+
+    const revokeRes = await handlePostCalendarRevoke(req("https://example.com/api/calendar/revoke", cookie, "POST"), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(revokeRes.status).toBe(200);
+    expect(kv._store.get("cal:" + token)).toBeUndefined();
+
+    const afterRes = await handleGetCalendarFeed(req("https://example.com/api/calendar.ics?t=" + token), { PROGRESS: kv });
+    expect(afterRes.status).toBe(404);
+  });
+
+  it("rejects a malformed or missing token", async () => {
+    const kv = fakeKV();
+    const missing = await handleGetCalendarFeed(req("https://example.com/api/calendar.ics"), { PROGRESS: kv });
+    expect(missing.status).toBe(400);
+    const malformed = await handleGetCalendarFeed(req("https://example.com/api/calendar.ics?t=" + encodeURIComponent("not valid!")), { PROGRESS: kv });
+    expect(malformed.status).toBe(400);
+  });
+
+  it("rejects an unknown token", async () => {
+    const res = await handleGetCalendarFeed(req("https://example.com/api/calendar.ics?t=doesnotexist1234567890"), { PROGRESS: fakeKV() });
+    expect(res.status).toBe(404);
+  });
+
+  it("emits a valid, event-free calendar when the schedule has no blocks", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV({ "progress:student@example.com": JSON.stringify({ schedule: { blocks: [], timezone: null, notifyEnabled: false, savedAt: new Date().toISOString() } }) });
+    const { token } = await (await handlePostCalendarGenerate(req("https://example.com/api/calendar/generate", cookie, "POST"), { SESSION_SECRET: SECRET, PROGRESS: kv })).json();
+    const res = await handleGetCalendarFeed(req("https://example.com/api/calendar.ics?t=" + token), { PROGRESS: kv });
+    expect(res.status).toBe(200);
+    const body = await res.text();
+    expect(body).toContain("BEGIN:VCALENDAR");
+    expect(body).not.toContain("BEGIN:VEVENT");
   });
 });
 
