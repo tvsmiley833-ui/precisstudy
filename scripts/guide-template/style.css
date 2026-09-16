@@ -497,13 +497,13 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
    at bottom-left) that pops open a small speed-dial menu of the individual
    tools below, instead of each tool having its own separate floating
    button. ---- */
-.toolkit-fab{position:fixed;bottom:22px;right:22px;width:56px;height:56px;border-radius:50%;
+.toolkit-fab{position:fixed;bottom:90px;right:22px;width:56px;height:56px;border-radius:50%;
   background:var(--accent);color:#fff;border:none;cursor:pointer;
   box-shadow:0 8px 24px -6px rgba(15,122,112,.4);z-index:220;display:flex;align-items:center;justify-content:center;
   transition:transform .15s ease}
 .toolkit-fab:hover{transform:scale(1.06)}
 .toolkit-fab[aria-expanded="true"]{transform:rotate(15deg)}
-.toolkit-menu{position:fixed;bottom:88px;right:22px;z-index:219;display:flex;flex-direction:column;gap:8px;
+.toolkit-menu{position:fixed;bottom:156px;right:22px;z-index:219;display:flex;flex-direction:column;gap:8px;
   align-items:flex-end;opacity:0;visibility:hidden;transform:translateY(8px);pointer-events:none;
   transition:opacity .18s ease,transform .18s ease,visibility 0s linear .18s}
 .toolkit-menu.open{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto;
@@ -514,8 +514,8 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 .toolkit-item:hover{border-color:var(--accent);color:var(--accent-ink)}
 .toolkit-item svg{flex-shrink:0}
 @media(max-width:600px){
-  .toolkit-fab{right:16px;bottom:16px}
-  .toolkit-menu{right:16px;bottom:80px}
+  .toolkit-fab{right:16px;bottom:82px}
+  .toolkit-menu{right:16px;bottom:148px}
 }
 
 .qref-drawer{position:fixed;top:0;right:0;height:100dvh;width:min(420px,100vw);background:var(--surface);
