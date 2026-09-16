@@ -1233,6 +1233,10 @@ return `<div class="ex-part" id="ex-part-${id}">
    persisted to localStorage either. Not a proctored test: hitting zero just
    shows "Time's up" and stops, it never auto-submits or locks the part. */
 var examTimers={};
+// Per-part running score and per-question answered flags, both keyed by
+// part id -- read/written by ansExam(). In-memory only, same as the timers.
+var examScores={};
+var examAnswered={};
 // Per-unit exam correctness, keyed by unit id — populated only for guides
 // whose exam questions carry a `u` field (see examRecordUnit()/ansExam()).
 // In-memory only, matching the fact that exam progress is never persisted.
