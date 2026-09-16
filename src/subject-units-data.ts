@@ -48,18 +48,18 @@ export const SUBJECT_UNIT_NAMES: Record<string, Record<string, string>> = {
     "11": "Functions: Notation, Domain/Range & Transformations"
   },
   "algebra2": {
-    "1": "Polynomial Functions & Operations",
-    "2": "Rational Expressions & Equations",
-    "3": "Radicals & Rational Exponents",
-    "4": "Exponential & Logarithmic Functions",
-    "5": "Sequences & Series",
-    "6": "Trigonometric Functions & the Unit Circle",
-    "7": "Trigonometric Graphs & Identities",
-    "8": "Complex Numbers & Quadratics Revisited",
-    "9": "Function Operations, Inverses & Transformations",
-    "10": "Statistics: Sampling & Inference",
-    "11": "Probability",
-    "12": "Real Number Subsets & Inequalities"
+    "1": "Real Number Subsets & Inequalities",
+    "2": "Polynomial Functions & Operations",
+    "3": "Rational Expressions & Equations",
+    "4": "Radicals & Rational Exponents",
+    "5": "Exponential & Logarithmic Functions",
+    "6": "Sequences & Series",
+    "7": "Trigonometric Functions & the Unit Circle",
+    "8": "Trigonometric Graphs & Identities",
+    "9": "Complex Numbers & Quadratics Revisited",
+    "10": "Function Operations, Inverses & Transformations",
+    "11": "Statistics: Sampling & Inference",
+    "12": "Probability"
   },
   "aplang": {
     "1": "The Rhetorical Situation",
