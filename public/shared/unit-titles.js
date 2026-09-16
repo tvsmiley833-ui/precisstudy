@@ -47,7 +47,10 @@ export const algebra2Units = [
   { id: 8, name: "Complex Numbers & Quadratics Revisited" },
   { id: 9, name: "Function Operations, Inverses & Transformations" },
   { id: 10, name: "Statistics: Sampling & Inference" },
-  { id: 11, name: "Probability" }
+  { id: 11, name: "Probability" },
+  { id: 12, name: "Subsets of Real Numbers" },
+  { id: 13, name: "Linear Inequalities & Set-Builder and Interval Notation" },
+  { id: 14, name: "Compound Inequalities" }
 ];
 
 /** @type {Unit[]} */
