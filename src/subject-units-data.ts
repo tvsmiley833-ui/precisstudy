@@ -59,9 +59,7 @@ export const SUBJECT_UNIT_NAMES: Record<string, Record<string, string>> = {
     "9": "Function Operations, Inverses & Transformations",
     "10": "Statistics: Sampling & Inference",
     "11": "Probability",
-    "12": "Subsets of Real Numbers",
-    "13": "Linear Inequalities & Set-Builder and Interval Notation",
-    "14": "Compound Inequalities"
+    "12": "Real Number Subsets & Inequalities"
   },
   "aplang": {
     "1": "The Rhetorical Situation",
