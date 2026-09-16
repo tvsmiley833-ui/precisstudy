@@ -17,6 +17,7 @@
     { l: 'Weekly Leaderboards', h: '/leaderboards' },
     { l: 'Study Group Hub', h: '/study-group' },
     { l: 'Peer Challenge', h: '/challenge' },
+    { l: 'Educator Resource Hub', h: '/educators' },
     { l: 'Changelog', h: '/changelog' },
     { l: 'Geometry', h: '/geometry' }, { l: 'Chemistry', h: '/chemistry' }, { l: 'Algebra I', h: '/algebra1' },
     { l: 'Algebra II', h: '/algebra2' }, { l: 'AP English Lang & Comp', h: '/ap-lang' }, { l: 'Global History', h: '/global-history' },

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Educator Resource Hub — PrecisStudy</title>
+<meta name="description" content="Create a class code, share it with students, and view your class's roster and weak-spots aggregate. Plus a printable index of every subject's reference sheets and practice exams."/>
+<meta name="robots" content="noindex"/>
+<link rel="icon" type="image/png" href="/favicon.png"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="preload" href="/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin/>
+<link rel="stylesheet" href="/fonts/nunito.css"/>
+<script>
+(function(){
+  try {
+    var saved = localStorage.getItem('ss-theme');
+    if (saved !== 'light') document.documentElement.setAttribute('data-theme', 'dark');
+  } catch (e) {}
+})();
+</script>
+<style>
+:root{
+  --bg:#eef1ea; --bg-card:#fff; --bg-header:#ffffff;
+  --border:#c8d2c5;
+  --text:#233a31; --text-body:#33493d; --text-muted:#5a6f63; --nav-text:#3d5347;
+  --accent:#1f6e46; --accent-bright:#268a58; --accent-hover:#175a39; --accent-solid:#1f6e46; --accent-solid-hover:#175a39;
+  --chip-bg:#dde8df; --chip-text:#175a39;
+  --danger:#b23a3a; --danger-soft:#fbeaea;
+  --card-shadow:0 1px 3px rgba(35,58,49,.06),0 24px 48px -28px rgba(35,58,49,.20);
+}
+[data-theme="dark"]{
+  --bg:#14302a; --bg-card:#1b3d33; --bg-header:#12291f;
+  --border:#2f5346;
+  --text:#f2f5ee; --text-body:#dbe6dd; --text-muted:#b7c9bc; --nav-text:#eef2ea;
+  --accent:#4fbf85; --accent-bright:#63d199; --accent-hover:#3fa873; --accent-solid:#237750; --accent-solid-hover:#1a6644;
+  --chip-bg:#22362c; --chip-text:#63d199;
+  --danger:#f16565; --danger-soft:rgba(241,101,101,.14);
+  --card-shadow:0 1px 3px rgba(0,0,0,.32),0 24px 48px -28px rgba(0,0,0,.5);
+}
+#theme-toggle{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:999px;
+  width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+#theme-toggle:hover{border-color:var(--accent-bright);color:var(--accent)}
+#theme-toggle svg{width:17px;height:17px}
+#theme-toggle .icon-sun{display:none}
+[data-theme="dark"] #theme-toggle .icon-moon{display:none}
+[data-theme="dark"] #theme-toggle .icon-sun{display:block}
+[data-theme="dark"] .ss-logo-light{display:none!important}
+[data-theme="dark"] .ss-logo-dark{display:inline!important}
+
+.ss-oauth-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;box-sizing:border-box;
+  padding:10px 14px;border-radius:12px;border:2px solid var(--border);background:var(--bg-card);color:var(--text);
+  font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none;margin-bottom:9px;transition:all .15s}
+.ss-oauth-btn:hover{border-color:var(--accent-bright);background:var(--bg)}
+@media(max-width:640px){.header-bar{padding:14px 16px} .nav-links{gap:10px} .nav-hide-sm{display:none}}
+
+html{scroll-behavior:smooth}
+.ss-card{background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;box-shadow:var(--card-shadow)}
+.ss-btn{padding:10px 20px;border-radius:999px;border:1px solid var(--border);background:var(--bg-card);color:var(--text);
+  font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:all .15s}
+.ss-btn:hover{border-color:var(--accent-bright);color:var(--accent)}
+.ss-btn:disabled{opacity:.55;cursor:default}
+.ss-btn-solid{background:var(--accent-solid);border-color:var(--accent-solid);color:#fff}
+.ss-btn-solid:hover{background:var(--accent-solid-hover);border-color:var(--accent-solid-hover);color:#fff}
+select,input[type=text]{width:100%;box-sizing:border-box;padding:10px 14px;border:1px solid var(--border);
+  border-radius:10px;background:var(--bg);color:var(--text);font-family:inherit;font-size:15px}
+label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-muted);margin-bottom:6px}
+.ss-field{margin-bottom:18px}
+:focus-visible{outline:2px solid var(--accent-bright);outline-offset:2px;border-radius:6px}
+.sg-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14.5px}
+.sg-row:last-child{border-bottom:none}
+.sg-handle{flex:1;color:var(--text);font-weight:600}
+.sg-stat{font-size:12.5px;color:var(--text-muted);min-width:64px;text-align:right}
+.sg-row.sg-self{background:var(--chip-bg);border-radius:10px;padding-left:8px;padding-right:8px}
+.sg-code-box{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px dashed var(--border);border-radius:10px;
+  padding:10px 14px;font-family:monospace;font-size:18px;font-weight:800;letter-spacing:2px;color:var(--accent);width:fit-content}
+.sg-weak-row{display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14.5px}
+.sg-weak-row:last-child{border-bottom:none}
+.sg-weak-count{font-weight:800;color:var(--accent);white-space:nowrap}
+.sg-weak-label{color:var(--text);font-weight:600}
+.sg-weak-subject{color:var(--text-muted);font-size:12.5px}
+.ed-step{display:flex;gap:12px;margin-bottom:14px}
+.ed-step:last-child{margin-bottom:0}
+.ed-step-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--chip-bg);color:var(--chip-text);
+  font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
+.ed-step-text{font-size:14px;color:var(--text-body);line-height:1.5}
+.ed-res-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);font-size:14px}
+.ed-res-row:last-child{border-bottom:none}
+.ed-res-name{color:var(--text);font-weight:600}
+.ed-res-links a{color:var(--accent);font-weight:700;text-decoration:none;font-size:13px;margin-left:14px;white-space:nowrap}
+.ed-res-links a:hover{text-decoration:underline}
+.ed-res-search{margin-bottom:14px}
+@media print{
+  #ed-print-only{display:block!important}
+  body.ed-printing > *:not(#ed-print-only){display:none!important}
+  body.ed-printing #ed-print-only{padding:24px;max-width:800px;margin:0 auto;color:#000}
+  #ed-print-only table{width:100%;border-collapse:collapse;margin:8px 0 20px}
+  #ed-print-only th,#ed-print-only td{border:1px solid #999;padding:6px 10px;text-align:left;font-size:13px}
+}
+#ed-print-only{display:none}
+</style>
+</head>
+<body style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);">
+
+<div role="banner" class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:var(--bg-header);border-bottom:1px solid var(--border);">
+  <a href="/" style="font-weight:800;font-size:22px;color:var(--nav-text);display:flex;align-items:center;gap:8px;text-decoration:none;">
+    <span style="display:inline-block;width:28px;height:28px;position:relative;flex-shrink:0;"><img src="/logo-icon.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;" class="ss-logo-light"/><img src="/logo-icon-dark.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;display:none;" class="ss-logo-dark"/></span>PrecisStudy
+  </a>
+  <div role="navigation" aria-label="Main" class="nav-links" style="display:flex;gap:16px;font-weight:600;font-size:15px;color:var(--nav-text);align-items:center;">
+    <a href="/dashboard" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Dashboard</a>
+    <a href="/leaderboards" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Leaderboards</a>
+    <button id="theme-toggle" onclick="ssToggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <a href="/geometry" class="ss-btn ss-btn-solid" style="text-decoration:none;">Back to Site</a>
+  </div>
+</div>
+
+<div style="max-width:720px;margin:0 auto;padding:48px 24px 80px;">
+  <h1 style="font-size:28px;font-weight:800;color:var(--text);margin:0 0 6px;">Educator Resource Hub</h1>
+  <p style="font-size:15px;color:var(--text-muted);margin:0 0 28px;">A class code, a roster, and a printable index of every subject's reference sheets and practice exams -- built on the same Study Group tools students already use.</p>
+
+  <div class="ss-card" style="margin-bottom:24px;">
+    <div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:14px;">How it works</div>
+    <div class="ed-step">
+      <span class="ed-step-num">1</span>
+      <span class="ed-step-text">Create a class code below (this reuses PrecisStudy's existing group-create flow -- a class code <em>is</em> a Study Group code). There's no separate "teacher account" -- anyone can create one and it's yours to manage.</span>
+    </div>
+    <div class="ed-step">
+      <span class="ed-step-num">2</span>
+      <span class="ed-step-text">Share the code with your class. Students join at <a href="/study-group" style="color:var(--accent);font-weight:700;">/study-group</a> or <a href="/leaderboards" style="color:var(--accent);font-weight:700;">/leaderboards</a> -- they only need to opt in and enter the code. Only an anonymous handle is ever shown, never a real name or email.</span>
+    </div>
+    <div class="ed-step">
+      <span class="ed-step-num">3</span>
+      <span class="ed-step-text">Come back here (or to <a href="/study-group" style="color:var(--accent);font-weight:700;">/study-group</a>) to see the roster and the group's weak-spots aggregate -- which units your class is collectively struggling with most, without seeing any one student's individual answers.</span>
+    </div>
+  </div>
+
+  <div id="ed-gate" style="display:none;">
+    <div class="ss-card" style="text-align:center;">
+      <p id="ed-gate-msg" style="font-size:16px;color:var(--text);margin:0 0 16px;"></p>
+      <div id="ed-login-box" style="max-width:280px;margin:0 auto;"></div>
+    </div>
+  </div>
+
+  <div id="ed-optin-card" class="ss-card" style="display:none;margin-bottom:24px;">
+    <div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:8px;">Opt in to create a class code</div>
+    <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 16px;">Creating a class code uses the same opt-in as leaderboards and study groups (it just assigns you an anonymous handle -- you don't need to have answered any practice questions yourself). Opt in on the Leaderboards page, then come back here.</p>
+    <a class="ss-btn ss-btn-solid" href="/leaderboards" style="text-decoration:none;">Go to Leaderboards to opt in</a>
+  </div>
+
+  <div id="ed-nogroup-card" class="ss-card" style="display:none;margin-bottom:24px;">
+    <div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:8px;">Create your class code</div>
+    <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 12px;">This creates a new Study Group -- share the code it gives you with your class.</p>
+    <button class="ss-btn ss-btn-solid" onclick="edCreateGroup()" id="ed-create-btn">Create a class code</button>
+    <div id="ed-create-status" style="margin-top:10px;font-size:13px;color:var(--text-muted);"></div>
+  </div>
+
+  <div id="ed-content" style="display:none;">
+    <div class="ss-card" style="margin-bottom:24px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+        <div style="font-weight:800;font-size:15px;color:var(--text);">Class code: <span class="sg-code-box" id="ed-group-code" style="display:inline-flex;vertical-align:middle;"></span></div>
+      </div>
+      <div class="ss-field" style="margin-bottom:0;">
+        <label class="ss-label" for="ed-group-name">Class name (optional -- shown to every student)</label>
+        <div style="display:flex;gap:8px;">
+          <input id="ed-group-name" type="text" maxlength="40" placeholder="e.g. Ms. Rivera's 3rd period"/>
+          <button class="ss-btn" onclick="edSaveName()">Save</button>
+        </div>
+        <div id="ed-name-status" style="margin-top:8px;font-size:12.5px;color:var(--text-muted);"></div>
+      </div>
+    </div>
+
+    <div class="ss-card" style="margin-bottom:24px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
+        <div style="font-weight:800;font-size:15px;color:var(--text);">Class roster -- this week</div>
+        <button class="ss-btn" onclick="edExportCsv()" id="ed-csv-btn">Download CSV</button>
+      </div>
+      <div style="display:flex;gap:12px;padding:0 0 8px;font-size:11.5px;color:var(--text-muted);font-weight:700;text-transform:uppercase;">
+        <span style="flex:1;">Student</span><span style="min-width:64px;text-align:right;">XP</span><span style="min-width:64px;text-align:right;">Questions</span><span style="min-width:64px;text-align:right;">Active days</span>
+      </div>
+      <div id="ed-roster"></div>
+      <div id="ed-roster-status" style="margin-top:10px;font-size:13.5px;color:var(--text-muted);"></div>
+    </div>
+
+    <div class="ss-card" style="margin-bottom:24px;">
+      <div style="font-weight:800;font-size:15px;color:var(--text);margin-bottom:4px;">Class weak spots</div>
+      <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 10px;">Which units students are individually weakest on, ranked by how many students share it. No individual student's mastery data is ever shown.</p>
+      <div id="ed-weakspots"></div>
+      <div id="ed-weakspots-status" style="margin-top:10px;font-size:13.5px;color:var(--text-muted);"></div>
+    </div>
+
+    <div class="ss-card" style="margin-bottom:24px;">
+      <div style="font-weight:800;font-size:15px;color:var(--text);margin-bottom:8px;">Printable class summary</div>
+      <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 14px;">A clean, print-friendly page with the roster and weak-spots table above -- for printing or saving as a PDF.</p>
+      <button class="ss-btn ss-btn-solid" onclick="edPrintSummary()">Print / Save as PDF</button>
+    </div>
+  </div>
+
+  <div class="ss-card" style="margin-bottom:24px;">
+    <div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:4px;">Printable resource index</div>
+    <p style="font-size:13px;color:var(--text-muted);margin:0 0 14px;">Every subject's Quick Reference sheet and Practice Exam -- both are already print-friendly (they use the same print stylesheet as every other guide page). No new content, just direct links.</p>
+    <input id="ed-res-search" class="ed-res-search" type="text" placeholder="Filter subjects..." oninput="edFilterResources()"/>
+    <div id="ed-res-list"></div>
+  </div>
+</div>
+
+<!-- Printable class summary, built from data already fetched above; hidden except in print mode (see @media print rules). -->
+<div id="ed-print-only">
+  <h1 style="font-family:'Nunito',sans-serif;font-size:20px;margin:0 0 2px;" id="ed-print-title">Class Summary</h1>
+  <p id="ed-print-code" style="font-size:13px;color:#333;margin:0 0 18px;"></p>
+  <h2 style="font-size:15px;margin:0 0 6px;">Roster -- this week</h2>
+  <table><thead><tr><th>Student</th><th>XP</th><th>Questions</th><th>Active days</th></tr></thead><tbody id="ed-print-roster"></tbody></table>
+  <h2 style="font-size:15px;margin:0 0 6px;">Weak spots</h2>
+  <table><thead><tr><th>Members affected</th><th>Subject</th><th>Unit</th></tr></thead><tbody id="ed-print-weakspots"></tbody></table>
+</div>
+
+<script>
+function ssEscapeHtml(s){
+  var div = document.createElement('div');
+  div.textContent = String(s == null ? '' : s);
+  return div.innerHTML;
+}
+function ssToggleTheme(){
+  var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  if (isDark) {
+    document.documentElement.removeAttribute('data-theme');
+    try { localStorage.setItem('ss-theme', 'light'); } catch (e) {}
+  } else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    try { localStorage.setItem('ss-theme', 'dark'); } catch (e) {}
+  }
+}
+
+function edLoginBoxHtml(){
+  return '<a class="ss-oauth-btn" href="/auth/google/start?next=' + encodeURIComponent(location.pathname) + '">Continue with Google</a>'
+    + '<a class="ss-oauth-btn" href="/auth/github/start?next=' + encodeURIComponent(location.pathname) + '">Continue with GitHub</a>';
+}
+
+var ED_DATA = null; // last successful /api/study-group response, reused by CSV export & print view
+
+async function edCreateGroup(){
+  var btn = document.getElementById('ed-create-btn');
+  var status = document.getElementById('ed-create-status');
+  btn.disabled = true;
+  status.textContent = 'Creating...';
+  try {
+    var res = await fetch('/api/leaderboard/group/create', { method: 'POST' });
+    var data = await res.json();
+    if (!res.ok) { status.textContent = data.error || 'Could not create a class code.'; btn.disabled = false; return; }
+    status.textContent = '';
+    edInit();
+  } catch (e) {
+    status.textContent = 'Something went wrong.';
+    btn.disabled = false;
+  }
+}
+
+async function edSaveName(){
+  var val = document.getElementById('ed-group-name').value;
+  var status = document.getElementById('ed-name-status');
+  status.textContent = 'Saving...';
+  try {
+    var res = await fetch('/api/leaderboard/group/name', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ name: val }) });
+    var data = await res.json();
+    if (!res.ok) { status.textContent = data.error || 'Could not save.'; return; }
+    status.textContent = 'Saved.';
+  } catch (e) {
+    status.textContent = 'Something went wrong.';
+  }
+}
+
+function edRenderRoster(roster, myHandle){
+  var el = document.getElementById('ed-roster');
+  var status = document.getElementById('ed-roster-status');
+  if (!roster.length) {
+    status.textContent = '0 opted-in students yet -- share the class code above to get started.';
+    el.innerHTML = '';
+    return;
+  }
+  status.textContent = '';
+  roster.sort(function(a, b){ return b.xp - a.xp; });
+  el.innerHTML = roster.map(function(m){
+    var isSelf = myHandle && m.handle === myHandle;
+    return '<div class="sg-row' + (isSelf ? ' sg-self' : '') + '">'
+      + '<span class="sg-handle">' + ssEscapeHtml(m.handle) + (isSelf ? ' (you)' : '') + '</span>'
+      + '<span class="sg-stat">' + m.xp + '</span>'
+      + '<span class="sg-stat">' + m.questions + '</span>'
+      + '<span class="sg-stat">' + m.activeDaysThisWeek + '</span>'
+      + '</div>';
+  }).join('');
+}
+
+function edRenderWeakSpots(weakSpots, memberCount){
+  var el = document.getElementById('ed-weakspots');
+  var status = document.getElementById('ed-weakspots-status');
+  if (!weakSpots.length) {
+    status.textContent = 'Not enough assessed data yet to surface a class weak spot.';
+    el.innerHTML = '';
+    return;
+  }
+  status.textContent = '';
+  el.innerHTML = weakSpots.slice(0, 5).map(function(w){
+    return '<div class="sg-weak-row">'
+      + '<span class="sg-weak-count">' + w.memberCount + ' of ' + memberCount + '</span>'
+      + '<span><span class="sg-weak-label">' + ssEscapeHtml(w.subjectLabel) + ' — ' + ssEscapeHtml(w.unitName) + '</span></span>'
+      + '</div>';
+  }).join('');
+}
+
+// CSV export: same trigger technique as ssExportMyData() in public/settings/index.html
+// (Blob + object URL + a synthetic <a download> click) -- no new server endpoint,
+// built entirely from the /api/study-group response already on the page.
+function edCsvField(v){
+  var s = String(v == null ? '' : v);
+  if (/[",\n]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+  return s;
+}
+function edExportCsv(){
+  if (!ED_DATA) return;
+  var lines = [];
+  lines.push('Class code,' + edCsvField(ED_DATA.groupCode));
+  lines.push('Class name,' + edCsvField(ED_DATA.name || ''));
+  lines.push('');
+  lines.push('Roster (this week)');
+  lines.push(['Student', 'XP', 'Questions', 'Active days'].join(','));
+  ED_DATA.roster.forEach(function(m){
+    lines.push([edCsvField(m.handle), m.xp, m.questions, m.activeDaysThisWeek].join(','));
+  });
+  lines.push('');
+  lines.push('Weak spots');
+  lines.push(['Members affected', 'Of', 'Subject', 'Unit'].join(','));
+  ED_DATA.weakSpots.forEach(function(w){
+    lines.push([w.memberCount, ED_DATA.memberCount, edCsvField(w.subjectLabel), edCsvField(w.unitName)].join(','));
+  });
+
+  var blob = new Blob([lines.join('\n')], { type: 'text/csv' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'precisstudy-class-' + ED_DATA.groupCode + '-' + new Date().toISOString().slice(0, 10) + '.csv';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+// Printable summary: fills the hidden #ed-print-only block from ED_DATA, then
+// triggers window.print() -- @media print rules hide everything else while
+// body.ed-printing is set (same pattern as ss-print-container in
+// scripts/guide-template/style.css, adapted for this standalone page).
+function edPrintSummary(){
+  if (!ED_DATA) return;
+  document.getElementById('ed-print-title').textContent = ED_DATA.name ? (ED_DATA.name + ' -- Class Summary') : 'Class Summary';
+  document.getElementById('ed-print-code').textContent = 'Class code: ' + ED_DATA.groupCode + ' · ' + new Date().toLocaleDateString();
+  document.getElementById('ed-print-roster').innerHTML = ED_DATA.roster.length
+    ? ED_DATA.roster.map(function(m){ return '<tr><td>' + ssEscapeHtml(m.handle) + '</td><td>' + m.xp + '</td><td>' + m.questions + '</td><td>' + m.activeDaysThisWeek + '</td></tr>'; }).join('')
+    : '<tr><td colspan="4">No opted-in students yet.</td></tr>';
+  document.getElementById('ed-print-weakspots').innerHTML = ED_DATA.weakSpots.length
+    ? ED_DATA.weakSpots.map(function(w){ return '<tr><td>' + w.memberCount + ' of ' + ED_DATA.memberCount + '</td><td>' + ssEscapeHtml(w.subjectLabel) + '</td><td>' + ssEscapeHtml(w.unitName) + '</td></tr>'; }).join('')
+    : '<tr><td colspan="3">Not enough data yet.</td></tr>';
+
+  document.body.classList.add('ed-printing');
+  window.print();
+  setTimeout(function(){ document.body.classList.remove('ed-printing'); }, 300);
+}
+
+// -- Printable resource index: subject name -> its existing Quick Reference
+// and Practice Exam URLs (per SUBJECT_VIEW_SEGMENTS/VIEW_META routing in
+// src/worker.ts). Curated links only -- no new content or per-subject data.
+var ED_SUBJECTS = [
+  {h:"/act-prep",n:"ACT Prep"},{h:"/algebra1",n:"Algebra I"},{h:"/algebra2",n:"Algebra II"},
+  {h:"/anatomy",n:"Anatomy & Physiology"},{h:"/ap-biology",n:"AP Biology"},{h:"/ap-chemistry",n:"AP Chemistry"},
+  {h:"/ap-csa",n:"AP Computer Science A"},{h:"/ap-euro",n:"AP European History"},{h:"/ap-human-geography",n:"AP Human Geography"},
+  {h:"/ap-lang",n:"AP English Language and Composition"},{h:"/ap-macro",n:"AP Macroeconomics"},{h:"/ap-micro",n:"AP Microeconomics"},
+  {h:"/ap-physics",n:"AP Physics 1"},{h:"/ap-psych",n:"AP Psychology"},{h:"/ap-stats",n:"AP Statistics"},
+  {h:"/ap-usgov",n:"AP US Government"},{h:"/ap-world",n:"AP World History"},{h:"/apush",n:"APUSH"},
+  {h:"/art-history",n:"Art History"},{h:"/astronomy",n:"Astronomy"},{h:"/biology",n:"Biology"},
+  {h:"/calc-ab",n:"AP Calculus AB"},{h:"/calc-bc",n:"AP Calculus BC"},{h:"/calculus",n:"Calculus"},
+  {h:"/chemistry",n:"Chemistry"},{h:"/computer-science",n:"Computer Science"},{h:"/creative-writing",n:"Creative Writing"},
+  {h:"/earth-science",n:"Earth Science"},{h:"/economics",n:"Economics"},{h:"/english-10",n:"English 10"},
+  {h:"/english-9",n:"English 9"},{h:"/environmental-science",n:"Environmental Science"},{h:"/french-1",n:"French 1"},
+  {h:"/geography",n:"Geography"},{h:"/geometry",n:"Geometry"},{h:"/german-1",n:"German 1"},
+  {h:"/global-history",n:"Global History"},{h:"/health",n:"Health"},{h:"/journalism",n:"Journalism"},
+  {h:"/music-theory",n:"Music Theory"},{h:"/physics",n:"Physics"},{h:"/precalc",n:"PreCalculus"},
+  {h:"/psychology",n:"Psychology"},{h:"/sat-math",n:"SAT Math Prep"},{h:"/sat-reading",n:"SAT Reading & Writing"},
+  {h:"/sociology",n:"Sociology"},{h:"/spanish-1",n:"Spanish 1"},{h:"/spanish-2",n:"Spanish 2"},
+  {h:"/spanish-3",n:"Spanish 3"},{h:"/speech-debate",n:"Speech & Debate"},{h:"/statistics",n:"Statistics"},
+  {h:"/study-skills",n:"Study Skills"},{h:"/us-government",n:"US Government"},{h:"/us-history",n:"US History"},
+  {h:"/world-history",n:"World History"}
+];
+ED_SUBJECTS.sort(function(a, b){ return a.n.localeCompare(b.n); });
+
+function edRenderResources(filter){
+  var q = (filter || '').trim().toLowerCase();
+  var list = q ? ED_SUBJECTS.filter(function(s){ return s.n.toLowerCase().indexOf(q) !== -1; }) : ED_SUBJECTS;
+  var el = document.getElementById('ed-res-list');
+  if (!list.length) { el.innerHTML = '<p style="font-size:13.5px;color:var(--text-muted);">No subjects match.</p>'; return; }
+  el.innerHTML = list.map(function(s){
+    return '<div class="ed-res-row">'
+      + '<span class="ed-res-name">' + ssEscapeHtml(s.n) + '</span>'
+      + '<span class="ed-res-links"><a href="' + s.h + '/reference" target="_blank" rel="noopener">Reference</a><a href="' + s.h + '/exam" target="_blank" rel="noopener">Practice Exam</a></span>'
+      + '</div>';
+  }).join('');
+}
+function edFilterResources(){
+  edRenderResources(document.getElementById('ed-res-search').value);
+}
+edRenderResources('');
+
+async function edInit(){
+  var gate = document.getElementById('ed-gate');
+  var gateMsg = document.getElementById('ed-gate-msg');
+  ['ed-optin-card','ed-nogroup-card','ed-content','ed-gate'].forEach(function(id){ document.getElementById(id).style.display = 'none'; });
+  var me;
+  try {
+    var res = await fetch('/auth/me');
+    me = await res.json();
+  } catch (e) {
+    me = { loggedIn: false };
+  }
+  if (!me.loggedIn) {
+    gate.style.display = 'block';
+    gateMsg.textContent = 'Sign in to create or view your class.';
+    document.getElementById('ed-login-box').innerHTML = edLoginBoxHtml();
+    return;
+  }
+
+  try {
+    var sgRes = await fetch('/api/study-group');
+    var data = await sgRes.json();
+    if (sgRes.status === 401) {
+      document.getElementById('ed-optin-card').style.display = 'block';
+      return;
+    }
+    if (sgRes.status === 400) {
+      document.getElementById('ed-nogroup-card').style.display = 'block';
+      return;
+    }
+    if (!sgRes.ok) {
+      gate.style.display = 'block';
+      gateMsg.textContent = data.error || 'Could not load your class.';
+      return;
+    }
+
+    ED_DATA = data;
+    document.getElementById('ed-content').style.display = 'block';
+    document.getElementById('ed-group-code').textContent = data.groupCode;
+    document.getElementById('ed-group-name').value = data.name || '';
+
+    var lbRes = await fetch('/api/leaderboard?scope=global&metric=xp');
+    var lbData = await lbRes.json();
+    var myHandle = lbData.self && ((lbData.self.nickname && lbData.self.nickname.trim()) || lbData.self.handle);
+
+    edRenderRoster(data.roster, myHandle);
+    edRenderWeakSpots(data.weakSpots, data.memberCount);
+  } catch (e) {
+    gate.style.display = 'block';
+    gateMsg.textContent = 'Something went wrong loading your class.';
+  }
+}
+edInit();
+</script>
+<script src="/shared/command-palette.js" defer></script><script src="/shared/high-contrast.js" defer></script><script src="/shared/error-monitor.js" defer></script>
+</body>
+</html>
