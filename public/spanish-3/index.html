@@ -931,6 +931,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
     </div>
     <button class="btn mistake-log-btn" type="button" onclick="openMistakeLog()">Mistake Log<span class="mistake-log-count" id="mistake-log-count" style="display:none">0</span></button>
     <button class="btn" type="button" onclick="printWorksheet()" style="font-size:14px;padding:7px 14px">🖨️ Print Worksheet</button>
+    <button class="btn" type="button" id="challenge-friend-btn" onclick="challengeFromQuiz()">⚔️ Challenge a Friend</button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -1843,6 +1844,7 @@ function markExample(id){
 }
 
 var SS_MASTERY = null;
+var SS_SUBJECT_KEY='spanish-3';
 window.__ssMasteryInstances = window.__ssMasteryInstances || [];
 function ssStartChemMastery(){
   SS_MASTERY = window.__ssCreateMastery('spanish-3', UNITS.map(function(u){return u.id;}), UNITS.reduce(function(acc,u){acc[u.id]=u.name;return acc;},{}));
@@ -2122,7 +2124,7 @@ function showDiagSummary(){
 function showQ(){
   const qb=document.getElementById('qbox');
   if(qIdx>=qPool.length){
-    if(diagMode&&showDiagSummary())return;
+    if(diagMode&&showDiagSummary())return;if(ssChallengeCode){ssFinishChallenge();return;}
     const elapsedSec=qSessionStart?Math.max(1,Math.round((Date.now()-qSessionStart)/1000)):null;
     const elapsedStr=elapsedSec!=null?(elapsedSec>=60?Math.floor(elapsedSec/60)+'m '+(elapsedSec%60)+'s':elapsedSec+'s'):null;
     const xpEarned=score*10; // same 10-XP-per-correct-answer the dashboard's computeXP() awards -- not a separate estimate
@@ -3077,6 +3079,117 @@ shortcutsModalInit();
   if(new URLSearchParams(location.search).get('diagnostic')!=='1') return;
   await ssQuizTabClick();
   startDiagnostic();
+})();
+/* ===== Peer Challenge: create/claim from inside this subject's Quiz tab =====
+   Mirrors public/challenge/index.html's API calls and result-comparison
+   logic, but sources questions straight from this page's own QUIZ array
+   instead of re-fetching the page over the network. */
+function ssEscHtml(s){var d=document.createElement('div');d.textContent=s==null?'':String(s);return d.innerHTML;}
+var ssChallengeCode=null;
+async function challengeFromQuiz(){
+  if(SS_SESSION===undefined) await ssCheckSession();
+  if(!SS_SESSION){
+    alert('Sign in to challenge a friend -- use the sign-in options in the Quiz tab.');
+    return;
+  }
+  var pool=(qPool||[]).filter(function(q){return QUIZ.indexOf(q)!==-1;});
+  if(pool.length<5){
+    alert('Load a bigger question set first (try "All Units", or a unit with at least 5 questions) to start a challenge.');
+    return;
+  }
+  var shuffled=pool.slice();
+  for(var i=shuffled.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=shuffled[i];shuffled[i]=shuffled[j];shuffled[j]=t;}
+  var picked=shuffled.slice(0,Math.min(8,shuffled.length));
+  var questionNumbers=picked.map(function(q){return QUIZ.indexOf(q);});
+  var btn=document.getElementById('challenge-friend-btn');
+  if(btn)btn.disabled=true;
+  try{
+    var res=await fetch('/api/challenge/create',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({subjectKey:SS_SUBJECT_KEY,questionNumbers:questionNumbers})
+    });
+    var data=await res.json();
+    if(!res.ok){alert(data.error||'Could not create a challenge right now.');return;}
+    var link=location.origin+location.pathname+'?challenge='+data.code;
+    prompt('Challenge created! Copy this link to share with a friend:',link);
+  }catch(e){
+    alert('Something went wrong creating the challenge.');
+  }finally{
+    if(btn)btn.disabled=false;
+  }
+}
+function ssRenderChallengeResult(data){
+  var qb=document.getElementById('qbox');
+  var mine=data.role==='creator'?data.creatorResult:data.opponentResult;
+  var theirs=data.role==='creator'?data.opponentResult:data.creatorResult;
+  var myName=data.role==='creator'?data.creatorHandle:(data.opponentHandle||'You');
+  var theirName=data.role==='creator'?(data.opponentHandle||'Opponent'):data.creatorHandle;
+  if(!mine){qb.innerHTML='<div class="result"><div class="sub">Result submitted.</div></div>';return;}
+  if(!theirs){
+    qb.innerHTML='<div class="result"><div class="big">'+mine.correct+'/'+mine.total+'</div>'
+      +'<div class="sub">Waiting for '+ssEscHtml(theirName)+' to finish -- check back later and refresh.</div>'
+      +'<button class="btn" onclick="loadQ()">Back to Quiz</button></div>';
+    return;
+  }
+  var myPct=mine.total?Math.round(mine.correct/mine.total*100):0;
+  var theirPct=theirs.total?Math.round(theirs.correct/theirs.total*100):0;
+  var verdict=myPct>theirPct?'You won!':myPct<theirPct?'They won this one.':"It's a tie!";
+  qb.innerHTML='<div class="result"><div class="big">'+verdict+'</div>'
+    +'<div class="sub">'+ssEscHtml(myName)+': '+mine.correct+'/'+mine.total+' ('+myPct+'%) vs '+ssEscHtml(theirName)+': '+theirs.correct+'/'+theirs.total+' ('+theirPct+'%)</div>'
+    +'<button class="btn" onclick="loadQ()">Back to Quiz</button></div>';
+}
+async function ssFinishChallenge(){
+  var qb=document.getElementById('qbox');
+  qb.innerHTML='<div class="result"><div class="sub">Submitting your result...</div></div>';
+  try{
+    var res=await fetch('/api/challenge/'+ssChallengeCode+'/submit',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({correct:score,total:qPool.length})
+    });
+    var data=await res.json();
+    if(!res.ok){qb.innerHTML='<div class="result"><div class="sub">'+ssEscHtml(data.error||'Could not submit your result.')+'</div></div>';return;}
+    var infoRes=await fetch('/api/challenge/'+ssChallengeCode);
+    var info=await infoRes.json();
+    if(!infoRes.ok){qb.innerHTML='<div class="result"><div class="sub">Result submitted, but could not load the comparison.</div></div>';return;}
+    ssRenderChallengeResult(info);
+  }catch(e){
+    qb.innerHTML='<div class="result"><div class="sub">Something went wrong submitting your result.</div></div>';
+  }
+}
+/* ----- claim a shared challenge link, e.g. /spanish-3?challenge=ABC123 ----- */
+(async function ssChallengeClaimMode(){
+  var code=new URLSearchParams(location.search).get('challenge');
+  if(!code) return;
+  code=code.toUpperCase();
+  await ssQuizTabClick();
+  if(!SS_SESSION) return;
+  var qb=document.getElementById('qbox');
+  try{
+    var res=await fetch('/api/challenge/'+code);
+    var data=await res.json();
+    if(!res.ok){alert(data.error||'That challenge code was not found.');return;}
+    if(data.subjectKey!==SS_SUBJECT_KEY){
+      if(confirm('This challenge is for a different subject. Open the Peer Challenge page instead?'))location.href='/challenge?challenge='+code;
+      return;
+    }
+    if(data.role==='none'){
+      var claimRes=await fetch('/api/challenge/'+code+'/claim',{method:'POST'});
+      var claimData=await claimRes.json();
+      if(!claimRes.ok){alert(claimData.error||'Could not join this challenge.');return;}
+      data.questionNumbers=claimData.questionNumbers;
+      data.role='opponent';
+    }
+    ssChallengeCode=code;
+    var myResult=data.role==='creator'?data.creatorResult:data.opponentResult;
+    if(myResult){ssRenderChallengeResult(data);return;}
+    var qns=data.questionNumbers||[];
+    var qs=qns.map(function(n){return QUIZ[n];}).filter(Boolean);
+    if(!qs.length){if(qb)qb.innerHTML='<div class="result"><div class="sub">Could not load this challenge\'s questions.</div></div>';return;}
+    qPool=qs;qIdx=0;score=0;requeueCounts=new WeakMap();qSessionStart=Date.now();
+    showQ();
+  }catch(e){
+    if(qb)qb.innerHTML='<div class="result"><div class="sub">Something went wrong loading this challenge.</div></div>';
+  }
 })();
 function ssDiagBatchPeekQueue(){
   var queue=[];

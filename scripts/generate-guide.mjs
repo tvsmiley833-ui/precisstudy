@@ -404,6 +404,7 @@ export function generateGuide(config) {
   html += templateLogic
     .replaceAll("APUSH", esc(title))
     .replaceAll("__ssCreateMastery('apush'", `__ssCreateMastery('${mKey}'`)
+    .replaceAll("SS_SUBJECT_KEY='apush'", `SS_SUBJECT_KEY='${mKey}'`)
     .replaceAll("'apush'", `'${slug}'`)
     .replaceAll("CHEM_MASTERY", "SS_MASTERY")
     .replaceAll("CHEM_TOTAL_Q", "SS_TOTAL_Q")
