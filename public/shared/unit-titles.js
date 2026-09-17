@@ -141,13 +141,15 @@ export const apushUnits = [
 export const physicsUnits = [
   { id: 1, name: "Kinematics" },
   { id: 2, name: "Newton's Laws & Dynamics" },
-  { id: 3, name: "Momentum & Energy" },
-  { id: 4, name: "Circular Motion & Gravitation" },
-  { id: 5, name: "Waves & Sound" },
+  { id: 3, name: "Circular Motion & Gravitation" },
+  { id: 4, name: "Rotational Motion & Torque" },
+  { id: 5, name: "Momentum & Energy" },
   { id: 6, name: "Electricity" },
   { id: 7, name: "Magnetism & Electromagnetism" },
-  { id: 8, name: "Optics" },
-  { id: 9, name: "Modern Physics" }
+  { id: 8, name: "Simple Harmonic Motion" },
+  { id: 9, name: "Waves & Sound" },
+  { id: 10, name: "Optics" },
+  { id: 11, name: "Modern Physics" }
 ];
 
 /** @type {Unit[]} */
@@ -280,12 +282,15 @@ export const apMicroUnits = [
 export const apPhysicsUnits = [
   { id: 1, name: "Kinematics" },
   { id: 2, name: "Dynamics & Newton's Laws" },
-  { id: 3, name: "Energy & Work" },
-  { id: 4, name: "Momentum" },
-  { id: 5, name: "Circular Motion & Gravity" },
-  { id: 6, name: "Rotational Motion" },
-  { id: 7, name: "Waves & Sound" },
-  { id: 8, name: "Electrostatics & Circuits" }
+  { id: 3, name: "Circular Motion & Gravity" },
+  { id: 4, name: "Rotational Motion" },
+  { id: 5, name: "Momentum" },
+  { id: 6, name: "Energy & Work" },
+  { id: 7, name: "Electrostatics & Circuits" },
+  { id: 8, name: "Magnetism" },
+  { id: 9, name: "Waves & Sound" },
+  { id: 10, name: "Optics" },
+  { id: 11, name: "Modern Physics" }
 ];
 
 /** @type {Unit[]} */

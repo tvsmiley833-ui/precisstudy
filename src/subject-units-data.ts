@@ -123,13 +123,15 @@ export const SUBJECT_UNIT_NAMES: Record<string, Record<string, string>> = {
   "physics": {
     "1": "Kinematics",
     "2": "Newton's Laws & Dynamics",
-    "3": "Momentum & Energy",
-    "4": "Circular Motion & Gravitation",
-    "5": "Waves & Sound",
+    "3": "Circular Motion & Gravitation",
+    "4": "Rotational Motion & Torque",
+    "5": "Momentum & Energy",
     "6": "Electricity",
     "7": "Magnetism & Electromagnetism",
-    "8": "Optics",
-    "9": "Modern Physics"
+    "8": "Simple Harmonic Motion",
+    "9": "Waves & Sound",
+    "10": "Optics",
+    "11": "Modern Physics"
   },
   "biology": {
     "1": "Characteristics of Life & the Scientific Method",
@@ -225,12 +227,15 @@ export const SUBJECT_UNIT_NAMES: Record<string, Record<string, string>> = {
   "ap-physics": {
     "1": "Kinematics",
     "2": "Dynamics & Newton's Laws",
-    "3": "Energy & Work",
-    "4": "Momentum",
-    "5": "Circular Motion & Gravity",
-    "6": "Rotational Motion",
-    "7": "Waves & Sound",
-    "8": "Electrostatics & Circuits"
+    "3": "Circular Motion & Gravity",
+    "4": "Rotational Motion",
+    "5": "Momentum",
+    "6": "Energy & Work",
+    "7": "Electrostatics & Circuits",
+    "8": "Magnetism",
+    "9": "Waves & Sound",
+    "10": "Optics",
+    "11": "Modern Physics"
   },
   "ap-psych": {
     "1": "History & Research Methods",
