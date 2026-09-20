@@ -404,6 +404,25 @@ export async function handlePostShareRevoke(request: Request, env: Env): Promise
   return json({ ok: true });
 }
 
+// The exact public rollup the share page shows (and the link-preview tags
+// summarise) -- one place so the two can never expose different fields.
+export function summarizeShare(blob: ProgressBlob) {
+  const subjects: { key: string; pct: number; assessedUnits: number }[] = [];
+  for (const key of SUBJECTS) {
+    const subj = blob[key];
+    if (!subj) continue;
+    const assessed = Object.values(subj.mastery || {}).filter(r => r && r.total >= 2);
+    if (!assessed.length) continue;
+    const sum = assessed.reduce((s, r) => s + (r.correct / r.total) * 100, 0);
+    subjects.push({ key, pct: Math.round(sum / assessed.length), assessedUnits: assessed.length });
+  }
+  subjects.sort((a, b) => b.pct - a.pct);
+  return {
+    streak: blob.streak ? { current: blob.streak.current, longest: blob.streak.longest } : null,
+    subjects
+  };
+}
+
 // Public, unauthenticated -- a parent/tutor opens this with just the token
 // from the link, no account needed. Deliberately returns only the same
 // rollups already shown on the (authenticated) dashboard -- never the
@@ -421,21 +440,7 @@ export async function handleGetShare(request: Request, env: Env): Promise<Respon
   const blob = await loadBlob(env, email);
   if (blob.shareToken !== token) return json({ error: "This share link is invalid or has been revoked" }, 404);
 
-  const subjects: { key: string; pct: number; assessedUnits: number }[] = [];
-  for (const key of SUBJECTS) {
-    const subj = blob[key];
-    if (!subj) continue;
-    const assessed = Object.values(subj.mastery || {}).filter(r => r && r.total >= 2);
-    if (!assessed.length) continue;
-    const sum = assessed.reduce((s, r) => s + (r.correct / r.total) * 100, 0);
-    subjects.push({ key, pct: Math.round(sum / assessed.length), assessedUnits: assessed.length });
-  }
-  subjects.sort((a, b) => b.pct - a.pct);
-
-  return json({
-    streak: blob.streak ? { current: blob.streak.current, longest: blob.streak.longest } : null,
-    subjects
-  });
+  return json(summarizeShare(blob));
 }
 
 // Settings' "Subscribe to your schedule": generates a new opt-in public .ics

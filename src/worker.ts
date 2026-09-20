@@ -29,6 +29,7 @@ import {
 } from "./google-routes.js";
 import { handleCanvasConnect, handleCanvasDisconnect, handleCanvasStatus } from "./canvas-routes.js";
 import { refCookie } from "./auth-state.js";
+import { withLinkPreview } from "./link-previews.js";
 import { handlePostOptIn, handlePostOptOut, handlePostNickname, handlePostGroupCreate, handlePostGroupJoin, handlePostGroupLeave, handleGetLeaderboard, computeLeaderboards } from "./leaderboard-routes.js";
 import { handlePostGroupName, handleGetStudyGroup } from "./study-group-routes.js";
 import { handlePostChallengeCreate, handlePostChallengeClaim, handlePostChallengeSubmit, handleGetChallenge, handleGetChallenges } from "./challenge-routes.js";
@@ -631,7 +632,7 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
       const assetUrl = new URL(request.url);
       assetUrl.pathname = `/${subject}/`;
       const res = await env.ASSETS.fetch(new Request(assetUrl, request));
-      return injectAssetVersions(await injectSiteWidgets(await rewriteViewMeta(res, view), url.pathname), env);
+      return injectAssetVersions(await injectSiteWidgets(await withLinkPreview(await rewriteViewMeta(res, view), request, env), url.pathname), env);
     }
   }
 
@@ -650,5 +651,5 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
     return new Response(res.body, { status: res.status, headers });
   }
 
-  return injectAssetVersions(await injectSiteWidgets(await env.ASSETS.fetch(request), url.pathname), env);
+  return injectAssetVersions(await injectSiteWidgets(await withLinkPreview(await env.ASSETS.fetch(request), request, env), url.pathname), env);
 }
