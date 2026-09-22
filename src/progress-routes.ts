@@ -83,7 +83,47 @@ export type ProgressBlob = {
   // null/absent means "not in a group". A student belongs to at most one
   // group at a time.
   leaderboard?: { optedIn: boolean; handle: string; nickname?: string | null; groupCode?: string | null } | null;
+  // Daily/weekly Quests (see quest-routes.ts) -- additive, own independent XP
+  // total (never reads/writes computeServerXP or the dashboard's XP). Absent
+  // entirely for anyone who hasn't opened /quest yet -- generated fresh on
+  // first GET /api/quest, same "blob.streak == null" degrade-gracefully
+  // pattern used elsewhere in this file.
+  quest?: QuestState | null;
 } & Record<string, SubjectProgress>;
+
+export interface QuestInstance {
+  key: string;
+  target: number;
+  progress: number;
+  claimed: boolean;
+}
+
+export interface QuestState {
+  xp: number;
+  daily: {
+    date: string; // local date (YYYY-MM-DD), student's own clock -- matches touchStreak's convention
+    quests: QuestInstance[];
+    swapsUsed: number;
+    bonusClaimed: boolean;
+    // Snapshot of measurable totals as of daily generation, so "today's"
+    // progress can be a simple delta against current totals without any new
+    // per-event tracking. masteredUnits is capped (see quest-routes.ts).
+    baseline: { totalAnswered: number; cardsKnown: number; masteredUnits: string[] };
+  };
+  weekly: {
+    weekStart: string; // Monday, UTC (mondayUTC()) -- matches leaderboard reset convention
+    quests: QuestInstance[];
+    swapsUsed: number;
+  };
+  boss: {
+    weekStart: string;
+    subject: string;
+    unitId: string;
+    unitName: string;
+    baselineTotal: number;
+    defeated: boolean;
+  } | null;
+}
 
 interface PushSubscriptionRecord {
   endpoint: string;

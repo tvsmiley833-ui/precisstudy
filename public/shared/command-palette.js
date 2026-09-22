@@ -14,6 +14,7 @@
     { l: 'Request a Guide', h: '/request' },
     { l: 'Upload Syllabus', h: '/syllabus' },
     { l: 'Concept Dependency Map', h: '/concepts' },
+    { l: 'Quests', h: '/quest' },
     { l: 'Weekly Leaderboards', h: '/leaderboards' },
     { l: 'Study Group Hub', h: '/study-group' },
     { l: 'Peer Challenge', h: '/challenge' },

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Quests — PrecisStudy</title>
+<meta name="description" content="Daily and weekly study quests, a weekly boss tied to your weakest unit, and levels -- a game layer over your real study progress."/>
+<meta name="robots" content="noindex"/>
+<link rel="icon" type="image/png" href="/favicon.png"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="preload" href="/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin/>
+<link rel="stylesheet" href="/fonts/nunito.css"/>
+<script>
+(function(){
+  try {
+    var saved = localStorage.getItem('ss-theme');
+    if (saved !== 'light') document.documentElement.setAttribute('data-theme', 'dark');
+  } catch (e) {}
+})();
+</script>
+<style>
+:root{
+  --bg:#eef1ea; --bg-card:#fff; --bg-header:#ffffff;
+  --border:#c8d2c5;
+  --text:#233a31; --text-body:#33493d; --text-muted:#5a6f63; --nav-text:#3d5347;
+  --accent:#1f6e46; --accent-bright:#268a58; --accent-hover:#175a39; --accent-solid:#1f6e46; --accent-solid-hover:#175a39;
+  --chip-bg:#dde8df; --chip-text:#175a39;
+  --danger:#b23a3a; --danger-soft:#fbeaea;
+  --card-shadow:0 1px 3px rgba(35,58,49,.06),0 24px 48px -28px rgba(35,58,49,.20);
+}
+[data-theme="dark"]{
+  --bg:#14302a; --bg-card:#1b3d33; --bg-header:#12291f;
+  --border:#2f5346;
+  --text:#f2f5ee; --text-body:#dbe6dd; --text-muted:#b7c9bc; --nav-text:#eef2ea;
+  --accent:#4fbf85; --accent-bright:#63d199; --accent-hover:#3fa873; --accent-solid:#237750; --accent-solid-hover:#1a6644;
+  --chip-bg:#22362c; --chip-text:#63d199;
+  --danger:#f16565; --danger-soft:rgba(241,101,101,.14);
+  --card-shadow:0 1px 3px rgba(0,0,0,.32),0 24px 48px -28px rgba(0,0,0,.5);
+}
+#theme-toggle{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:999px;
+  width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+#theme-toggle:hover{border-color:var(--accent-bright);color:var(--accent)}
+#theme-toggle svg{width:17px;height:17px}
+#theme-toggle .icon-sun{display:none}
+[data-theme="dark"] #theme-toggle .icon-moon{display:none}
+[data-theme="dark"] #theme-toggle .icon-sun{display:block}
+[data-theme="dark"] .ss-logo-light{display:none!important}
+[data-theme="dark"] .ss-logo-dark{display:inline!important}
+
+.ss-oauth-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;box-sizing:border-box;
+  padding:10px 14px;border-radius:12px;border:2px solid var(--border);background:var(--bg-card);color:var(--text);
+  font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none;margin-bottom:9px;transition:all .15s}
+.ss-oauth-btn:hover{border-color:var(--accent-bright);background:var(--bg)}
+@media(max-width:640px){.header-bar{padding:14px 16px} .nav-links{gap:10px} .nav-hide-sm{display:none}}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+.ss-card{background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:22px;box-shadow:var(--card-shadow)}
+.ss-btn{padding:9px 18px;border-radius:999px;border:1px solid var(--border);background:var(--bg-card);color:var(--text);
+  font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:all .15s}
+.ss-btn:hover{border-color:var(--accent-bright);color:var(--accent)}
+.ss-btn:disabled{opacity:.5;cursor:default}
+.ss-btn-solid{background:var(--accent-solid);border-color:var(--accent-solid);color:#fff}
+.ss-btn-solid:hover{background:var(--accent-solid-hover);border-color:var(--accent-solid-hover);color:#fff}
+.ss-btn-solid:disabled{background:var(--accent-solid);opacity:.4}
+:focus-visible{outline:2px solid var(--accent-bright);outline-offset:2px;border-radius:6px}
+
+.qs-section-title{font-weight:800;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin:0 0 4px}
+.qs-section-sub{font-size:13px;color:var(--text-muted);margin:0 0 14px}
+.qs-quest{border:2px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px;background:var(--bg)}
+.qs-quest:last-child{margin-bottom:0}
+.qs-quest.qs-recommended{border-color:var(--accent-bright);box-shadow:0 0 0 1px var(--accent-bright) inset}
+.qs-quest-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.qs-quest-label{font-weight:700;font-size:14.5px;color:var(--text)}
+.qs-quest-meta{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.qs-xp-chip{font-size:12px;font-weight:800;color:var(--chip-text);background:var(--chip-bg);border-radius:999px;padding:3px 9px;white-space:nowrap}
+.qs-swap-btn{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:8px;width:30px;height:30px;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-size:15px}
+.qs-swap-btn:hover:not(:disabled){border-color:var(--accent-bright);color:var(--accent)}
+.qs-swap-btn:disabled{opacity:.35;cursor:default}
+.qs-bar-row{display:flex;align-items:center;gap:10px}
+.qs-bar-track{flex:1;height:7px;border-radius:99px;background:var(--border);overflow:hidden}
+.qs-bar-fill{display:block;height:100%;background:var(--accent-bright);border-radius:99px;transition:width .35s cubic-bezier(.2,.8,.2,1)}
+.qs-bar-fill.qs-done{background:var(--accent)}
+.qs-progress-text{font-size:12.5px;color:var(--text-muted);white-space:nowrap;min-width:52px;text-align:right}
+.qs-claim-btn{margin-top:10px;width:100%}
+.qs-bonus{margin-top:6px;border:2px dashed var(--accent-bright);border-radius:14px;padding:12px 16px;text-align:center}
+.qs-bonus-text{font-size:13px;color:var(--text-muted);margin-bottom:8px}
+.qs-header-card{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.qs-level-badge{width:56px;height:56px;border-radius:50%;background:var(--accent-solid);color:#fff;display:flex;
+  align-items:center;justify-content:center;font-weight:800;font-size:20px;flex-shrink:0}
+.qs-header-info{flex:1;min-width:180px}
+.qs-header-title{font-weight:800;font-size:16px;color:var(--text)}
+.qs-header-sub{font-size:12.5px;color:var(--text-muted);margin-top:2px}
+.qs-boss-card{text-align:center}
+.qs-boss-icon{font-size:34px;line-height:1;margin-bottom:8px}
+.qs-boss-name{font-weight:800;font-size:17px;color:var(--text);margin-bottom:4px}
+.qs-boss-sub{font-size:13px;color:var(--text-muted)}
+.qs-boss-defeated{color:var(--accent);font-weight:800}
+.qs-skel{background:var(--border);border-radius:6px;display:inline-block;opacity:.6}
+.ss-tip-btn{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:50%;width:16px;height:16px;
+  font-size:10px;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0;margin-left:4px;vertical-align:middle}
+</style>
+</head>
+<body style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);">
+
+<div role="banner" class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:var(--bg-header);border-bottom:1px solid var(--border);">
+  <a href="/" style="font-weight:800;font-size:22px;color:var(--nav-text);display:flex;align-items:center;gap:8px;text-decoration:none;">
+    <span style="display:inline-block;width:28px;height:28px;position:relative;flex-shrink:0;"><img src="/logo-icon.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;" class="ss-logo-light"/><img src="/logo-icon-dark.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;display:none;" class="ss-logo-dark"/></span>PrecisStudy
+  </a>
+  <div role="navigation" aria-label="Main" class="nav-links" style="display:flex;gap:16px;font-weight:600;font-size:15px;color:var(--nav-text);align-items:center;">
+    <a href="/dashboard" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Dashboard</a>
+    <a href="/settings" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Settings</a>
+    <button id="theme-toggle" onclick="ssToggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <a href="/geometry" class="ss-btn ss-btn-solid" style="text-decoration:none;">Back to Site</a>
+  </div>
+</div>
+
+<div style="max-width:640px;margin:0 auto;padding:48px 24px 80px;">
+  <h1 style="font-size:28px;font-weight:800;color:var(--text);margin:0 0 6px;">Quests</h1>
+  <p style="font-size:15px;color:var(--text-muted);margin:0 0 28px;">Daily and weekly goals built from your real study activity, plus a weekly boss fight against your weakest unit.</p>
+
+  <div id="qs-gate" style="display:none;">
+    <div class="ss-card" style="text-align:center;">
+      <p id="qs-gate-msg" style="font-size:16px;color:var(--text);margin:0 0 16px;"></p>
+      <div id="qs-login-box" style="max-width:280px;margin:0 auto;"></div>
+    </div>
+  </div>
+
+  <div id="qs-skeleton">
+    <div class="ss-card" style="margin-bottom:20px;">
+      <div class="qs-header-card">
+        <span class="qs-skel" style="width:56px;height:56px;border-radius:50%;"></span>
+        <div style="flex:1;">
+          <span class="qs-skel" style="width:120px;height:14px;display:block;margin-bottom:8px;"></span>
+          <span class="qs-skel" style="width:180px;height:10px;display:block;"></span>
+        </div>
+      </div>
+    </div>
+    <div class="ss-card" style="margin-bottom:20px;">
+      <span class="qs-skel" style="width:100%;height:60px;"></span>
+    </div>
+    <div class="ss-card">
+      <span class="qs-skel" style="width:100%;height:140px;"></span>
+    </div>
+  </div>
+
+  <div id="qs-content" style="display:none;">
+    <div class="ss-card" style="margin-bottom:20px;">
+      <div class="qs-header-card">
+        <div class="qs-level-badge" id="qs-level-badge">1</div>
+        <div class="qs-header-info">
+          <div class="qs-header-title">Level <span id="qs-level-num"></span> <span id="qs-level-title"></span></div>
+          <div class="qs-header-sub"><span id="qs-xp-into"></span> / <span id="qs-xp-for-next"></span> XP to next level<button type="button" class="ss-tip-btn" data-tip-tap data-tip="Quest XP is its own total, separate from your dashboard XP and badges">?</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ss-card" id="qs-boss-card" style="margin-bottom:20px;">
+      <div class="qs-section-title">This week's boss</div>
+      <div id="qs-boss-body"></div>
+    </div>
+
+    <div class="ss-card" style="margin-bottom:20px;">
+      <div class="qs-section-title">Daily quests</div>
+      <p class="qs-section-sub" id="qs-daily-sub"></p>
+      <div id="qs-daily-list"></div>
+      <div id="qs-daily-bonus"></div>
+    </div>
+
+    <div class="ss-card">
+      <div class="qs-section-title">This week</div>
+      <p class="qs-section-sub" id="qs-weekly-sub">Weekly quests reset Monday. You can swap one this week.</p>
+      <div id="qs-weekly-list"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function ssToggleTheme(){
+  var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  if (isDark) {
+    document.documentElement.removeAttribute('data-theme');
+    try { localStorage.setItem('ss-theme', 'light'); } catch (e) {}
+  } else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    try { localStorage.setItem('ss-theme', 'dark'); } catch (e) {}
+  }
+}
+function ssEscapeHtml(s){
+  var div = document.createElement('div');
+  div.textContent = String(s == null ? '' : s);
+  return div.innerHTML;
+}
+function qsLoginBoxHtml(){
+  return '<a class="ss-oauth-btn" href="/auth/google/start?next=' + encodeURIComponent(location.pathname) + '">Continue with Google</a>'
+    + '<a class="ss-oauth-btn" href="/auth/github/start?next=' + encodeURIComponent(location.pathname) + '">Continue with GitHub</a>';
+}
+
+function qsLocalDate(){
+  var d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function qsRun(applyFn, requestFn, revertFn){
+  if (window.ssOptimistic) return window.ssOptimistic(applyFn, requestFn, revertFn);
+  try { applyFn(); } catch (e) { return Promise.resolve({ok:false,error:e}); }
+  return Promise.resolve(requestFn()).then(function(v){return {ok:true,value:v};}, function(e){ try{revertFn(e);}catch(_){}; return {ok:false,error:e};});
+}
+function qsFetch(url, init){
+  if (window.ssOptimistic && window.ssOptimistic.fetch) return window.ssOptimistic.fetch(url, init);
+  return fetch(url, init).then(function(r){ return r.json().then(function(b){ if(!r.ok) throw new Error((b&&b.error)||'Request failed'); return b; }); });
+}
+
+var qsState = null;
+
+function qsQuestUrl(path){
+  return path + (path.indexOf('?') === -1 ? '?' : '&') + 'localDate=' + encodeURIComponent(qsLocalDate());
+}
+
+async function qsLoad(){
+  try {
+    var data = await qsFetch(qsQuestUrl('/api/quest'));
+    qsState = data.quest;
+    qsRender();
+  } catch (e) {
+    document.getElementById('qs-skeleton').innerHTML = '<div class="ss-card"><p style="color:var(--text-muted);font-size:14px;margin:0;">Could not load quests. Try refreshing.</p></div>';
+  }
+}
+
+function qsLevelSuffix(level){
+  if (level >= 20) return 'Scholar';
+  if (level >= 10) return 'Adept';
+  if (level >= 5) return 'Apprentice';
+  return 'Novice';
+}
+
+// Hick's law: highlight whichever active, unclaimed quest is closest to
+// completion (or already complete and awaiting claim) as the one thing to
+// do next, rather than presenting all 5 quests with equal visual weight.
+function qsRecommendedKey(){
+  var candidates = [];
+  qsState.daily.quests.forEach(function(q){ if(!q.claimed) candidates.push({scope:'daily', q:q}); });
+  qsState.weekly.quests.forEach(function(q){ if(!q.claimed) candidates.push({scope:'weekly', q:q}); });
+  candidates.sort(function(a,b){
+    var ra = a.q.progress/a.q.target, rb = b.q.progress/b.q.target;
+    return rb - ra;
+  });
+  return candidates.length ? candidates[0].scope + ':' + candidates[0].q.key : null;
+}
+
+function qsBar(progress, target){
+  var pct = Math.max(0, Math.min(100, Math.round(progress/target*100)));
+  var done = progress >= target;
+  return '<div class="qs-bar-row"><div class="qs-bar-track"><span class="qs-bar-fill' + (done?' qs-done':'') + '" style="width:' + pct + '%;"></span></div>'
+    + '<span class="qs-progress-text">' + Math.min(progress,target) + ' / ' + target + '</span></div>';
+}
+
+function qsQuestCard(scope, q, recommended, swapsUsed){
+  var done = q.progress >= q.target;
+  var isRec = ('' + scope + ':' + q.key) === recommended;
+  var swapDisabled = swapsUsed >= 1 || q.claimed;
+  return '<div class="qs-quest' + (isRec ? ' qs-recommended' : '') + '" data-scope="' + scope + '" data-key="' + q.key + '">'
+    + '<div class="qs-quest-top">'
+    + '<span class="qs-quest-label">' + ssEscapeHtml(q.label) + '</span>'
+    + '<span class="qs-quest-meta">'
+    + '<span class="qs-xp-chip">+' + q.xp + ' XP</span>'
+    + '<button type="button" class="qs-swap-btn" title="Swap this quest" aria-label="Swap this quest" onclick="qsSwap(\'' + scope + '\',\'' + q.key + '\')" ' + (swapDisabled ? 'disabled' : '') + '>&#8635;</button>'
+    + '</span></div>'
+    + qsBar(q.progress, q.target)
+    + (q.claimed
+        ? '<button class="ss-btn qs-claim-btn" disabled>Claimed</button>'
+        : (done ? '<button class="ss-btn ss-btn-solid qs-claim-btn" onclick="qsClaim(\'' + scope + '\',\'' + q.key + '\')">Claim +' + q.xp + ' XP</button>' : ''))
+    + '</div>';
+}
+
+function qsRender(){
+  document.getElementById('qs-skeleton').style.display = 'none';
+  document.getElementById('qs-content').style.display = 'block';
+
+  var lvl = qsState.level;
+  document.getElementById('qs-level-badge').textContent = lvl.level;
+  document.getElementById('qs-level-num').textContent = lvl.level;
+  document.getElementById('qs-level-title').textContent = qsLevelSuffix(lvl.level);
+  document.getElementById('qs-xp-into').textContent = lvl.xpIntoLevel;
+  document.getElementById('qs-xp-for-next').textContent = lvl.xpForNext;
+
+  var recommended = qsRecommendedKey();
+
+  var boss = qsState.boss;
+  var bossBody = document.getElementById('qs-boss-body');
+  if (!boss) {
+    bossBody.innerHTML = '<p style="font-size:14px;color:var(--text-muted);margin:0;">Study something to summon this week\'s boss.</p>';
+  } else if (boss.defeated) {
+    bossBody.innerHTML = '<div class="qs-boss-name qs-boss-defeated">' + ssEscapeHtml(boss.subjectLabel) + ' &ndash; ' + ssEscapeHtml(boss.unitName) + ' defeated</div>'
+      + '<div class="qs-boss-sub">Stays defeated for the rest of this week.</div>';
+  } else {
+    bossBody.innerHTML = '<div class="qs-boss-name">' + ssEscapeHtml(boss.subjectLabel) + ' &ndash; ' + ssEscapeHtml(boss.unitName) + '</div>'
+      + '<div class="qs-boss-sub">Score 80%+ on a fresh assessment of this unit to defeat it.</div>';
+  }
+
+  var dailyDone = qsState.daily.quests.filter(function(q){return q.claimed;}).length;
+  document.getElementById('qs-daily-sub').textContent = (3 - dailyDone) + ' to go';
+  document.getElementById('qs-daily-list').innerHTML = qsState.daily.quests.map(function(q){
+    return qsQuestCard('daily', q, recommended, qsState.daily.swapsUsed);
+  }).join('');
+
+  var bonusEl = document.getElementById('qs-daily-bonus');
+  var allClaimed = qsState.daily.quests.length === 3 && qsState.daily.quests.every(function(q){return q.claimed;});
+  if (qsState.daily.bonusClaimed) {
+    bonusEl.innerHTML = '<div class="qs-bonus"><div class="qs-bonus-text">All-three bonus claimed.</div></div>';
+  } else if (allClaimed) {
+    bonusEl.innerHTML = '<div class="qs-bonus"><div class="qs-bonus-text">Finish all three for a +30 XP bonus.</div>'
+      + '<button class="ss-btn ss-btn-solid" onclick="qsClaimBonus()">Claim +30 XP bonus</button></div>';
+  } else {
+    bonusEl.innerHTML = '<div class="qs-bonus"><div class="qs-bonus-text">Finish all three for a +30 XP bonus. Tap &#8635; to swap one quest today.</div></div>';
+  }
+
+  document.getElementById('qs-weekly-list').innerHTML = qsState.weekly.quests.map(function(q){
+    return qsQuestCard('weekly', q, recommended, qsState.weekly.swapsUsed);
+  }).join('');
+}
+
+async function qsSwap(scope, key){
+  if (!confirm('Swap this quest for a different one? You only get one swap ' + (scope==='daily'?'per day':'per week') + '.')) return;
+  try {
+    var data = await qsFetch('/api/quest/swap', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ scope: scope, key: key, localDate: qsLocalDate() }) });
+    qsState = data.quest;
+    qsRender();
+  } catch (e) {
+    alert((e && e.message) || 'Could not swap that quest.');
+  }
+}
+
+async function qsClaim(scope, key){
+  var card = document.querySelector('.qs-quest[data-scope="' + scope + '"][data-key="' + key + '"]');
+  var result = await qsRun(
+    function(){ /* optimistic: disable the button immediately */ var btn = card && card.querySelector('.qs-claim-btn'); if (btn) { btn.disabled = true; btn.textContent = 'Claiming...'; } },
+    function(){ return qsFetch('/api/quest/claim', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ scope: scope, key: key, localDate: qsLocalDate() }) }); },
+    function(){ qsRender(); }
+  );
+  if (!result.ok) { alert((result.error && result.error.message) || 'Could not claim that quest.'); return; }
+  qsState = result.value.quest;
+  qsRender();
+  if (window.celebrateCorrect && card) window.celebrateCorrect(card);
+}
+
+async function qsClaimBonus(){
+  var result = await qsRun(
+    function(){},
+    function(){ return qsFetch('/api/quest/claim', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ scope: 'daily', key: 'bonus', localDate: qsLocalDate() }) }); },
+    function(){ qsRender(); }
+  );
+  if (!result.ok) { alert((result.error && result.error.message) || 'Could not claim the bonus.'); return; }
+  qsState = result.value.quest;
+  qsRender();
+  if (window.celebrateCorrect) window.celebrateCorrect(document.getElementById('qs-daily-bonus'));
+}
+
+async function qsInit(){
+  var gate = document.getElementById('qs-gate');
+  var gateMsg = document.getElementById('qs-gate-msg');
+  var me;
+  try {
+    var res = await fetch('/auth/me');
+    me = await res.json();
+  } catch (e) {
+    me = { loggedIn: false };
+  }
+  if (!me.loggedIn) {
+    document.getElementById('qs-skeleton').style.display = 'none';
+    gate.style.display = 'block';
+    gateMsg.textContent = 'Sign in to see your quests.';
+    document.getElementById('qs-login-box').innerHTML = qsLoginBoxHtml();
+    return;
+  }
+  qsLoad();
+}
+qsInit();
+</script>
+<script type="module">
+import { celebrateCorrect } from "/shared/celebrate.js";
+window.celebrateCorrect = celebrateCorrect;
+</script>
+<script src="/shared/command-palette.js" defer></script><script src="/shared/high-contrast.js" defer></script><script src="/shared/error-monitor.js" defer></script>
+</body>
+</html>
