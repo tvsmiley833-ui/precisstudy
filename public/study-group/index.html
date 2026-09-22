@@ -138,7 +138,7 @@ label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-m
     <div class="ss-card" style="margin-bottom:24px;">
       <div style="font-weight:800;font-size:15px;color:var(--text);margin-bottom:10px;">Roster -- this week</div>
       <div style="display:flex;gap:12px;padding:0 0 8px;font-size:11.5px;color:var(--text-muted);font-weight:700;text-transform:uppercase;">
-        <span style="flex:1;">Member</span><span style="min-width:64px;text-align:right;">XP</span><span style="min-width:64px;text-align:right;">Questions</span><span style="min-width:64px;text-align:right;">Active days</span>
+        <span style="flex:1;">Member</span><span style="min-width:64px;text-align:right;">XP<button type="button" class="ss-tip-btn" data-tip-tap data-tip="Experience points earned this week">?</button></span><span style="min-width:64px;text-align:right;">Questions</span><span style="min-width:64px;text-align:right;">Active days<button type="button" class="ss-tip-btn" data-tip-tap data-tip="Days this week the member answered at least one question">?</button></span>
       </div>
       <div id="sg-roster"></div>
       <div id="sg-roster-status" style="margin-top:10px;font-size:13.5px;color:var(--text-muted);"></div>
@@ -179,18 +179,24 @@ function sgLoginBoxHtml(){
     + '<a class="ss-oauth-btn" href="/auth/github/start?next=' + encodeURIComponent(location.pathname) + '">Continue with GitHub</a>';
 }
 
+var ssSgNameBusy = false;
 async function sgSaveName(){
-  var val = document.getElementById('sg-group-name').value;
+  if (ssSgNameBusy) return;
+  ssSgNameBusy = true;
+  var input = document.getElementById('sg-group-name');
+  var prevVal = input.defaultValue;
+  var val = input.value;
   var status = document.getElementById('sg-name-status');
-  status.textContent = 'Saving...';
-  try {
-    var res = await fetch('/api/leaderboard/group/name', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ name: val }) });
-    var data = await res.json();
-    if (!res.ok) { status.textContent = data.error || 'Could not save.'; return; }
-    status.textContent = 'Saved.';
-  } catch (e) {
-    status.textContent = 'Something went wrong.';
-  }
+  status.setAttribute('aria-live', 'polite');
+  status.textContent = '';
+  var run = window.ssOptimistic || function(a,r){ a(); return Promise.resolve(r()).then(function(v){return {ok:true,value:v};}, function(e){return {ok:false,error:e};}); };
+  var result = await run(
+    function(){ input.defaultValue = val; },
+    function(){ return (window.ssOptimistic ? window.ssOptimistic.fetch : function(u,i){return fetch(u,i).then(function(r){return r.json();});})('/api/leaderboard/group/name', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ name: val }) }); },
+    function(){ input.value = prevVal; input.defaultValue = prevVal; }
+  );
+  ssSgNameBusy = false;
+  status.textContent = result.ok ? 'Saved.' : ((result.error && result.error.message) || 'Could not save.');
 }
 
 function sgRenderRoster(roster, myHandle){
@@ -268,6 +274,8 @@ async function sgInit(){
     document.getElementById('sg-content').style.display = 'block';
     document.getElementById('sg-group-code').textContent = data.groupCode;
     document.getElementById('sg-group-name').value = data.name || '';
+    var ssSkelRow = '<div class="sg-row" aria-hidden="true" style="opacity:.5"><span class="sg-handle" style="display:inline-block;width:8em;height:1em;background:var(--border);border-radius:4px"></span><span class="sg-stat" style="display:inline-block;width:2.5em;height:1em;background:var(--border);border-radius:4px"></span><span class="sg-stat" style="display:inline-block;width:2.5em;height:1em;background:var(--border);border-radius:4px"></span><span class="sg-stat" style="display:inline-block;width:2.5em;height:1em;background:var(--border);border-radius:4px"></span></div>';
+    document.getElementById('sg-roster').innerHTML = ssSkelRow + ssSkelRow;
 
     var lbRes = await fetch('/api/leaderboard?scope=global&metric=xp');
     var lbData = await lbRes.json();

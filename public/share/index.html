@@ -92,7 +92,7 @@ function pctColor(pct){ if(pct>=80) return 'var(--accent-bright)'; if(pct>=50) r
           return '<div class="row"><span>' + esc(label) + '</span><span class="pct" style="color:' + pctColor(s.pct) + '">' + s.pct + '%</span></div>';
         }).join('')
       : '<p class="empty">No graded classes yet.</p>';
-    card.innerHTML = '<h1>Study Progress</h1><p class="sub">Accuracy across assessed classes.</p>' + streakHtml + rowsHtml;
+    card.innerHTML = '<h1>Study Progress</h1><p class="sub">Accuracy across assessed classes. <button type="button" class="ss-tip-btn" data-tip-tap data-tip="Green is 80%+ accuracy, yellow is 50-79%, red is below 50%">?</button></p>' + streakHtml + rowsHtml;
   } catch (e) {
     card.innerHTML = '<h1>Couldn\'t load this</h1><p class="sub">Check your connection and try again.</p>';
   }

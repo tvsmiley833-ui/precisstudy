@@ -240,11 +240,19 @@ function lbMetricLabel(){
   return lbMetric === 'xp' ? 'XP' : lbMetric === 'questions' ? 'questions' : 'active days';
 }
 
+function ssLbSkeletonRow(){
+  return '<div class="lb-row" aria-hidden="true" style="opacity:.5">'
+    + '<span class="lb-rank" style="display:inline-block;width:1.5em;height:1em;background:var(--border);border-radius:4px"></span>'
+    + '<span class="lb-handle" style="display:inline-block;width:8em;height:1em;background:var(--border);border-radius:4px"></span>'
+    + '<span class="lb-value" style="display:inline-block;width:3em;height:1em;background:var(--border);border-radius:4px"></span>'
+    + '</div>';
+}
+
 async function lbLoadBoard(){
   var boardEl = document.getElementById('lb-board');
   var statusEl = document.getElementById('lb-board-status');
-  statusEl.textContent = 'Loading...';
-  boardEl.innerHTML = '';
+  statusEl.textContent = '';
+  boardEl.innerHTML = ssLbSkeletonRow() + ssLbSkeletonRow() + ssLbSkeletonRow();
   try {
     var qs = 'scope=' + encodeURIComponent(lbScope) + '&metric=' + encodeURIComponent(lbMetric);
     if (lbScope === 'subject') qs += '&subject=' + encodeURIComponent(document.getElementById('lb-subject-select').value);
@@ -289,27 +297,41 @@ async function lbOptIn(){
 
 async function lbOptOut(){
   if (!confirm('Opt out of leaderboards? You will stop appearing on any board (existing cached boards may still show you until the next daily refresh).')) return;
-  try {
-    await fetch('/api/leaderboard/opt-out', { method: 'POST' });
-  } catch (e) {}
-  document.getElementById('lb-content').style.display = 'none';
-  document.getElementById('lb-optin-card').style.display = 'block';
+  var content = document.getElementById('lb-content');
+  var optinCard = document.getElementById('lb-optin-card');
+  var run = window.ssOptimistic || function(a,r){ a(); return Promise.resolve(r()).then(function(v){return {ok:true,value:v};}, function(e){return {ok:false,error:e};}); };
+  var result = await run(
+    function(){ content.style.display = 'none'; optinCard.style.display = 'block'; },
+    function(){ return (window.ssOptimistic ? window.ssOptimistic.fetch : function(u,i){return fetch(u,i).then(function(r){if(!r.ok) throw new Error('failed'); return r;});})('/api/leaderboard/opt-out', { method: 'POST' }); },
+    function(){ content.style.display = 'block'; optinCard.style.display = 'none'; }
+  );
+  if (!result.ok) {
+    var status = document.getElementById('lb-optin-status');
+    if (status) status.textContent = 'Could not opt out. Try again.';
+  }
 }
 
+var ssLbNicknameBusy = false;
 async function lbSaveNickname(){
+  if (ssLbNicknameBusy) return;
+  ssLbNicknameBusy = true;
   var val = document.getElementById('lb-nickname').value;
   var status = document.getElementById('lb-nickname-status');
-  status.textContent = 'Saving...';
-  try {
-    var res = await fetch('/api/leaderboard/nickname', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ nickname: val }) });
-    var data = await res.json();
-    if (!res.ok) { status.textContent = data.error || 'Could not save.'; return; }
-    status.textContent = 'Saved.';
-    lbRenderMyName(data.leaderboard);
-    lbLoadBoard();
-  } catch (e) {
-    status.textContent = 'Something went wrong.';
-  }
+  var nameEl = document.getElementById('lb-my-name');
+  var prevName = nameEl.textContent;
+  status.textContent = '';
+  status.setAttribute('aria-live', 'polite');
+  var run = window.ssOptimistic || function(a,r){ a(); return Promise.resolve(r()).then(function(v){return {ok:true,value:v};}, function(e){return {ok:false,error:e};}); };
+  var result = await run(
+    function(){ nameEl.textContent = val || prevName; },
+    function(){ return (window.ssOptimistic ? window.ssOptimistic.fetch : function(u,i){return fetch(u,i).then(function(r){return r.json();});})('/api/leaderboard/nickname', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ nickname: val }) }); },
+    function(){ nameEl.textContent = prevName; }
+  );
+  ssLbNicknameBusy = false;
+  if (!result.ok) { status.textContent = (result.error && result.error.message) || 'Could not save.'; return; }
+  status.textContent = 'Saved.';
+  lbRenderMyName(result.value.leaderboard);
+  lbLoadBoard();
 }
 function lbClearNickname(){
   document.getElementById('lb-nickname').value = '';

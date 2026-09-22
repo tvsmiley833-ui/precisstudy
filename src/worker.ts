@@ -86,7 +86,7 @@ async function rewriteViewMeta(res: Response, view: string): Promise<Response> {
 // tag -- same list as `ls public/shared/*.js`. Kept as an explicit list
 // (not read from disk at request time) so a typo here fails loudly in
 // review rather than silently caching-forever a file nobody versioned.
-const SHARED_JS_FILES = new Set(["celebrate.js", "chalk-cursor.js", "command-palette.js", "error-monitor.js", "feedback-widget.js", "high-contrast.js", "mastery.js", "mission-banner.js", "unit-titles.js", "unit-order.js"]);
+const SHARED_JS_FILES = new Set(["celebrate.js", "chalk-cursor.js", "command-palette.js", "error-monitor.js", "feedback-widget.js", "high-contrast.js", "mastery.js", "mission-banner.js", "optimistic.js", "tooltips.js", "unit-titles.js", "unit-order.js"]);
 
 // Per-isolate cache: hashing 6 small files is cheap, but there's no reason
 // to redo it every request when the isolate will serve many requests
@@ -149,6 +149,8 @@ async function injectSiteWidgets(res: Response, pathname: string): Promise<Respo
     .on("body", {
       element(el) {
         el.append('<script src="/shared/feedback-widget.js" defer></script>', { html: true });
+        el.append('<script src="/shared/tooltips.js" type="module"></script>', { html: true });
+        el.append('<script src="/shared/optimistic.js" type="module"></script>', { html: true });
         el.prepend('<script src="/shared/mission-banner.js" defer></script>', { html: true });
       }
     })

@@ -1080,23 +1080,24 @@ var SS_NOTIF_PREFS = {};
 
 async function ssSaveNotifPref(kind, checked){
   var status = document.getElementById('notif-prefs-status');
-  status.textContent = 'Saving…';
-  try{
-    var body = {}; body[kind] = checked;
-    var res = await fetch('/api/notification-prefs', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(body)
-    });
-    if(res.ok){
-      SS_NOTIF_PREFS[kind] = checked;
-      status.textContent = 'Saved ✓';
-    }else{
-      status.textContent = "Couldn't save — try again.";
-    }
-  }catch(e){
-    status.textContent = "Couldn't save — check your connection and try again.";
-  }
+  status.setAttribute('aria-live', 'polite');
+  status.textContent = '';
+  var checkbox = document.getElementById('notif-pref-' + kind);
+  var prevChecked = !checked;
+  var run = window.ssOptimistic || function(a,r){ a(); return Promise.resolve(r()).then(function(v){return {ok:true,value:v};}, function(e){return {ok:false,error:e};}); };
+  var result = await run(
+    function(){ SS_NOTIF_PREFS[kind] = checked; },
+    function(){
+      var body = {}; body[kind] = checked;
+      return (window.ssOptimistic ? window.ssOptimistic.fetch : function(u,i){return fetch(u,i).then(function(r){if(!r.ok) throw new Error('failed'); return r;});})('/api/notification-prefs', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(body)
+      });
+    },
+    function(){ SS_NOTIF_PREFS[kind] = prevChecked; if(checkbox) checkbox.checked = prevChecked; }
+  );
+  status.textContent = result.ok ? 'Saved' : "Couldn't save — try again.";
 }
 
 async function pushEnable(){

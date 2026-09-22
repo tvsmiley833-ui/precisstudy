@@ -259,6 +259,27 @@ describe("Google connect + assignments routing", () => {
   });
 });
 
+describe("site-wide tooltips + optimistic UI injection", () => {
+  it("injects a versioned tooltips.js module script tag on an ordinary page", async () => {
+    const res = await SELF.fetch("https://precisstudy.com/dashboard");
+    const html = await res.text();
+    expect(html).toMatch(/<script src="\/shared\/tooltips\.js\?v=[0-9a-f]{10}" type="module">/);
+  });
+
+  it("injects a versioned optimistic.js module script tag on an ordinary page", async () => {
+    const res = await SELF.fetch("https://precisstudy.com/dashboard");
+    const html = await res.text();
+    expect(html).toMatch(/<script src="\/shared\/optimistic\.js\?v=[0-9a-f]{10}" type="module">/);
+  });
+
+  it("does not inject tooltips.js/optimistic.js on /admin pages", async () => {
+    const res = await SELF.fetch("https://precisstudy.com/admin");
+    const html = await res.text();
+    expect(html).not.toContain("/shared/tooltips.js");
+    expect(html).not.toContain("/shared/optimistic.js");
+  });
+});
+
 describe("shared JS cache-busting", () => {
   it("rewrites every /shared/*.js script tag on a page to include a content hash", async () => {
     const res = await SELF.fetch("https://precisstudy.com/dashboard");

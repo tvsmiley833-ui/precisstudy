@@ -416,8 +416,17 @@ async function chClaim(code){
   }
 }
 
+function ssChSkeletonRow(){
+  return '<div class="ch-list-row" aria-hidden="true" style="opacity:.5">'
+    + '<span style="display:inline-block;width:10em;height:1em;background:var(--border);border-radius:4px"></span>'
+    + '<span class="ch-badge" style="display:inline-block;width:5em;height:1em;background:var(--border);border-radius:4px"></span>'
+    + '<span style="display:inline-block;width:3.5em;height:1.6em;background:var(--border);border-radius:4px"></span>'
+    + '</div>';
+}
+
 async function chLoadMyChallenges(){
   var el = document.getElementById('ch-my-list');
+  el.innerHTML = ssChSkeletonRow();
   try {
     var res = await fetch('/api/challenges');
     var data = await res.json();
