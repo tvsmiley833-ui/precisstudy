@@ -1279,7 +1279,7 @@ function renderDashGreeting(session, blob) {
   // so they don't get bounced back in on every dashboard visit.
   const enrolledCount = (blob && blob.enrolledSubjects || []).length;
   let obDone = false;
-  try { obDone = localStorage.getItem('ob-step') === '4' || localStorage.getItem('ob-done') === '1'; } catch (e) {}
+  try { obDone = localStorage.getItem('ob-step-v2') === '4' || localStorage.getItem('ob-done-v2') === '1'; } catch (e) {}
   if (!enrolledCount && !obDone) {
     location.replace('/onboarding');
     return;

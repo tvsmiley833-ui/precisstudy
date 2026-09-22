@@ -19,7 +19,7 @@
   // palette's "redo setup" entry). This runs before anything renders, so a
   // returning student sees no flash of the wizard on the way to /dashboard.
   try {
-    if (localStorage.getItem('ob-done') === '1' && location.search.indexOf('tour=1') === -1) {
+    if (localStorage.getItem('ob-done-v2') === '1' && location.search.indexOf('tour=1') === -1) {
       location.replace('/dashboard');
       return;
     }
@@ -95,6 +95,8 @@ a{color:var(--accent)}
 .ob-subject-row:last-child{border-bottom:none}
 .ob-subject-row label{display:flex;align-items:center;gap:10px;flex:1;cursor:pointer;font-size:14.5px;font-weight:600}
 .ob-subject-row input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
+.ob-row-icon{width:22px;height:22px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.ob-row-icon svg{width:22px;height:22px}
 .ob-count-chip{font-size:12.5px;font-weight:700;color:var(--chip-text);background:var(--chip-bg);border-radius:999px;padding:3px 10px}
 
 .ob-pref-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--border)}
@@ -120,6 +122,9 @@ a{color:var(--accent)}
 .ob-tour-item:last-child{border-bottom:none}
 .ob-tour-text strong{display:block;font-size:14.5px;font-weight:700}
 .ob-tour-text span{display:block;font-size:13px;color:var(--text-muted);margin-top:3px;line-height:1.4}
+.ob-tour-icon{width:24px;height:24px;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.ob-tour-icon svg{width:24px;height:24px}
+.ob-tour-item-body{display:flex;align-items:flex-start;gap:10px;flex:1}
 .ob-tour-seen{font-size:11.5px;font-weight:700;color:var(--accent);margin-top:4px;display:inline-block}
 .ob-visit-btn{flex-shrink:0;text-decoration:none;padding:8px 14px;border-radius:999px;border:1px solid var(--border);background:var(--bg-card);color:var(--text);font-weight:700;font-size:13px;white-space:nowrap}
 .ob-visit-btn:hover{border-color:var(--accent-bright)}
@@ -131,10 +136,14 @@ a{color:var(--accent)}
 .ob-toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 18px;border-radius:10px;font-size:13.5px;font-weight:700;z-index:9999;opacity:0;pointer-events:none;transition:opacity .2s}
 .ob-toast.show{opacity:1}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.ob-points{font-size:13px;font-weight:700;color:var(--accent);white-space:nowrap}
+@keyframes obStepIn{from{opacity:0;transform:scale(.98)}to{opacity:1;transform:scale(1)}}
+.ob-step:not([hidden]){animation:obStepIn .28s cubic-bezier(.2,.8,.2,1)}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
-<a href="/dashboard" class="skip-link">Skip setup and go to dashboard</a>
+<a href="/dashboard" class="skip-link" onclick="obSkip(event)">Skip setup and go to dashboard</a>
 
 <div role="banner" class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:var(--bg-header);border-bottom:1px solid var(--border);">
   <a href="/" style="font-weight:800;font-size:22px;color:var(--nav-text);display:flex;align-items:center;gap:8px;text-decoration:none;">
@@ -163,9 +172,12 @@ a{color:var(--accent)}
       <div class="ob-progress-step" data-i="3"></div>
       <div class="ob-progress-step" data-i="4"></div>
     </div>
-    <div style="display:flex;justify-content:space-between;align-items:center;">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
       <div class="ob-progress-label" id="ob-step-label">Step 1 of 4</div>
-      <a href="/dashboard" class="ob-skip">Skip setup</a>
+      <div style="display:flex;align-items:center;gap:14px;">
+        <span class="ob-points" id="ob-points">0 Setup Points</span>
+        <a href="/dashboard" class="ob-skip" onclick="obSkip(event)">Skip setup</a>
+      </div>
     </div>
 
     <div aria-live="polite" class="sr-only" id="ob-announce"></div>
@@ -226,7 +238,7 @@ a{color:var(--accent)}
       <div class="ob-actions">
         <button type="button" class="ss-btn" onclick="obGoStep(2)">Back</button>
         <div class="ob-actions-right">
-          <button type="button" class="ss-btn ss-btn-solid" onclick="obGoStep(4)">Continue</button>
+          <button type="button" class="ss-btn ss-btn-solid" onclick="obAwardPoints(25, 'Tour complete'); obGoStep(4)">Continue</button>
         </div>
       </div>
     </div>
@@ -370,10 +382,26 @@ var TOUR = [
   ]}
 ];
 
-var OB_STATE = { enrolled: [], firstSubject: null, notificationPrefs: { daily: true, streak: true, blocks: true }, goalSaved: false, subjectsSaved: false };
+var OB_STATE = { enrolled: [], firstSubject: null, notificationPrefs: { daily: true, streak: true, blocks: true }, goalSaved: false, subjectsSaved: false, points: 0 };
+var OB_GET_ICON = null;
 
 function obAnnounce(text){
   document.getElementById('ob-announce').textContent = text;
+}
+
+// Light, cosmetic "Setup Points" for this one-time wizard -- separate from
+// (and never conflated with) the real, persistent Quest XP system at /quest.
+function obAwardPoints(n, label){
+  OB_STATE.points += n;
+  var readout = document.getElementById('ob-points');
+  if (readout) readout.textContent = OB_STATE.points + ' Setup Points';
+  obToast('+' + n + ' Setup Points' + (label ? ' · ' + label : ''));
+}
+
+function obSkip(event){
+  if (event) event.preventDefault();
+  try { localStorage.setItem('ob-done-v2', '1'); } catch(e){}
+  location.href = '/dashboard';
 }
 
 function obGoStep(n){
@@ -389,9 +417,9 @@ function obGoStep(n){
   document.getElementById('ob-step-label').textContent = 'Step ' + n + ' of 4';
   var titleEl = document.getElementById('ob-step-' + n).querySelector('.ob-title');
   obAnnounce('Step ' + n + ' of 4: ' + (titleEl ? titleEl.textContent : ''));
-  try { localStorage.setItem('ob-step', String(n)); } catch(e){}
+  try { localStorage.setItem('ob-step-v2', String(n)); } catch(e){}
   if (n === 3) obRenderTour();
-  if (n === 4) { obRenderFinish(); try { localStorage.setItem('ob-done', '1'); } catch(e){} }
+  if (n === 4) { obRenderFinish(); try { localStorage.setItem('ob-done-v2', '1'); } catch(e){} }
   window.scrollTo(0, 0);
 }
 
@@ -404,9 +432,11 @@ function obRenderSubjects(){
     if (!subjects.length) return '';
     var openCount = subjects.filter(function(s){ return enrolledSet.has(s.key); }).length;
     var rows = subjects.map(function(s){
+      var icon = OB_GET_ICON ? OB_GET_ICON(s.key) : null;
+      var iconHtml = icon ? '<span class="ob-row-icon" style="color:' + icon.color + '">' + icon.svg + '</span>' : '<span class="ob-row-icon"></span>';
       return '<div class="ob-subject-row"><label><input type="checkbox" data-subject="' + s.key + '"'
         + (enrolledSet.has(s.key) ? ' checked' : '') + ' onchange="obToggleSubject(this)"/>'
-        + '<span>' + ssEscapeHtml(s.label) + '</span></label></div>';
+        + iconHtml + '<span>' + ssEscapeHtml(s.label) + '</span></label></div>';
     }).join('');
     return '<div class="ob-cat"><div class="ob-cat-label">' + ssEscapeHtml(cat.label)
       + (openCount ? ' <span class="ob-count-chip">' + openCount + ' selected</span>' : '') + '</div>' + rows + '</div>';
@@ -434,6 +464,7 @@ async function obSaveSubjectsAndNext(){
     OB_STATE.subjectsSaved = true;
     OB_STATE.firstSubject = SUBJECTS.find(function(s){ return OB_STATE.enrolled.indexOf(s.key) !== -1; }) || null;
     status.textContent = '';
+    obAwardPoints(25, 'Classes picked');
     obGoStep(2);
   } catch (e) {
     status.textContent = "Couldn't save -- try again.";
@@ -465,13 +496,14 @@ async function obSavePrefsAndNext(){
       OB_STATE.goalMinutes = minutesPerDay;
     }
     status.textContent = '';
+    obAwardPoints(25, 'Preferences set');
     obGoStep(3);
   } catch (e) {
     status.textContent = "Couldn't save -- try again.";
   }
 }
 
-function obSeenKey(){ return 'ob-tour-seen'; }
+function obSeenKey(){ return 'ob-tour-seen-v2'; }
 function obGetSeen(){
   try { return JSON.parse(localStorage.getItem(obSeenKey()) || '[]'); } catch (e) { return []; }
 }
@@ -488,14 +520,17 @@ function obRenderTour(){
       var href = item.href;
       var label = item.label;
       var desc = item.desc;
+      var subjectKey = null;
       if (item.dynamic) {
-        if (firstSubject) { href = '/' + firstSubject.key; label = firstSubject.label + ' Study Guide'; }
-        else { href = '/geometry'; label = 'A subject study guide (example: Geometry)'; }
+        if (firstSubject) { href = '/' + firstSubject.key; label = firstSubject.label + ' Study Guide'; subjectKey = firstSubject.key; }
+        else { href = '/geometry'; label = 'A subject study guide (example: Geometry)'; subjectKey = 'geometry'; }
       }
       var isSeen = seen.indexOf(href) !== -1;
-      return '<div class="ob-tour-item"><div class="ob-tour-text"><strong>' + ssEscapeHtml(label) + '</strong>'
+      var icon = subjectKey && OB_GET_ICON ? OB_GET_ICON(subjectKey) : null;
+      var iconHtml = icon ? '<span class="ob-tour-icon" style="color:' + icon.color + '">' + icon.svg + '</span>' : '';
+      return '<div class="ob-tour-item"><div class="ob-tour-item-body">' + iconHtml + '<div class="ob-tour-text"><strong>' + ssEscapeHtml(label) + '</strong>'
         + '<span>' + ssEscapeHtml(desc) + '</span>'
-        + (isSeen ? '<span class="ob-tour-seen">Visited</span>' : '') + '</div>'
+        + (isSeen ? '<span class="ob-tour-seen">Visited</span>' : '') + '</div></div>'
         + '<a class="ob-visit-btn" href="' + href + '" target="_blank" rel="noopener" onclick="obMarkSeen(\'' + href + '\')">Visit</a></div>';
     }).join('');
     return '<div class="ob-tour-group"><div class="ob-tour-group-label">' + ssEscapeHtml(group.group) + '</div>' + items + '</div>';
@@ -516,11 +551,16 @@ function obRenderFinish(){
   }
   var seenCount = obGetSeen().length;
   items.push('<div class="ob-finish-item"><span>Tour pages visited</span><span>' + seenCount + '</span></div>');
+  items.push('<div class="ob-finish-item"><span>Setup Points earned</span><span>' + OB_STATE.points + '</span></div>');
   document.getElementById('ob-finish-summary').innerHTML = items.join('');
   if (window.celebrateCorrect) window.celebrateCorrect(document.getElementById('ob-finish-summary'));
 }
 
 async function obInit(){
+  try {
+    var iconMod = await import('/shared/subject-icons.js');
+    OB_GET_ICON = iconMod.getSubjectIcon;
+  } catch (e) { /* icons are decorative -- fall back to no icon */ }
   var gate = document.getElementById('ob-gate');
   var app = document.getElementById('ob-app');
   var me;
@@ -556,7 +596,7 @@ async function obInit(){
 
   obRenderSubjects();
   var resumeStep = 1;
-  try { resumeStep = Number(localStorage.getItem('ob-step')) || 1; } catch(e){}
+  try { resumeStep = Number(localStorage.getItem('ob-step-v2')) || 1; } catch(e){}
   obGoStep(resumeStep >= 1 && resumeStep <= 4 ? resumeStep : 1);
 }
 obInit();
