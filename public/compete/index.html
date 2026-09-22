@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Compete — PrecisStudy</title>
+<meta name="description" content="Quests, weekly leaderboards, your study group hub, and peer challenges -- all the ways to compete and connect with other students, in one place."/>
+<meta name="robots" content="noindex"/>
+<link rel="icon" type="image/png" href="/favicon.png"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="preload" href="/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin/>
+<link rel="stylesheet" href="/fonts/nunito.css"/>
+<script>
+(function(){
+  try {
+    var saved = localStorage.getItem('ss-theme');
+    if (saved !== 'light') document.documentElement.setAttribute('data-theme', 'dark');
+  } catch (e) {}
+})();
+</script>
+<style>
+:root{
+  --bg:#eef1ea; --bg-card:#fff; --bg-header:#ffffff;
+  --border:#c8d2c5;
+  --text:#233a31; --text-body:#33493d; --text-muted:#5a6f63; --nav-text:#3d5347;
+  --accent:#1f6e46; --accent-bright:#268a58; --accent-hover:#175a39; --accent-solid:#1f6e46; --accent-solid-hover:#175a39;
+  --chip-bg:#dde8df; --chip-text:#175a39;
+  --danger:#b23a3a; --danger-soft:#fbeaea;
+  --card-shadow:0 1px 3px rgba(35,58,49,.06),0 24px 48px -28px rgba(35,58,49,.20);
+}
+[data-theme="dark"]{
+  --bg:#14302a; --bg-card:#1b3d33; --bg-header:#12291f;
+  --border:#2f5346;
+  --text:#f2f5ee; --text-body:#dbe6dd; --text-muted:#b7c9bc; --nav-text:#eef2ea;
+  --accent:#4fbf85; --accent-bright:#63d199; --accent-hover:#3fa873; --accent-solid:#237750; --accent-solid-hover:#1a6644;
+  --chip-bg:#22362c; --chip-text:#63d199;
+  --danger:#f16565; --danger-soft:rgba(241,101,101,.14);
+  --card-shadow:0 1px 3px rgba(0,0,0,.32),0 24px 48px -28px rgba(0,0,0,.5);
+}
+#theme-toggle{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:999px;
+  width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+#theme-toggle:hover{border-color:var(--accent-bright);color:var(--accent)}
+#theme-toggle svg{width:17px;height:17px}
+#theme-toggle .icon-sun{display:none}
+[data-theme="dark"] #theme-toggle .icon-moon{display:none}
+[data-theme="dark"] #theme-toggle .icon-sun{display:block}
+[data-theme="dark"] .ss-logo-light{display:none!important}
+[data-theme="dark"] .ss-logo-dark{display:inline!important}
+
+.ss-oauth-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;box-sizing:border-box;
+  padding:10px 14px;border-radius:12px;border:2px solid var(--border);background:var(--bg-card);color:var(--text);
+  font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none;margin-bottom:9px;transition:all .15s}
+.ss-oauth-btn:hover{border-color:var(--accent-bright);background:var(--bg)}
+@media(max-width:640px){.header-bar{padding:14px 16px} .nav-links{gap:10px} .nav-hide-sm{display:none}}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+.ss-card{background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;box-shadow:var(--card-shadow)}
+.ss-btn{padding:10px 20px;border-radius:999px;border:1px solid var(--border);background:var(--bg-card);color:var(--text);
+  font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:all .15s}
+.ss-btn:hover{border-color:var(--accent-bright);color:var(--accent)}
+.ss-btn:disabled{opacity:.55;cursor:default}
+.ss-btn-solid{background:var(--accent-solid);border-color:var(--accent-solid);color:#fff}
+.ss-btn-solid:hover{background:var(--accent-solid-hover);border-color:var(--accent-solid-hover);color:#fff}
+.ss-btn-solid:disabled{background:var(--accent-solid);opacity:.4}
+select,input[type=text]{width:100%;box-sizing:border-box;padding:10px 14px;border:1px solid var(--border);
+  border-radius:10px;background:var(--bg);color:var(--text);font-family:inherit;font-size:15px}
+label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-muted);margin-bottom:6px}
+.ss-field{margin-bottom:18px}
+.ss-tab-toggle{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.ss-tab-toggle button{flex:1;min-width:90px;padding:9px 12px;border-radius:10px;border:1px solid var(--border);background:var(--bg);
+  color:var(--text-muted);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.ss-tab-toggle button.on{background:var(--accent-solid);border-color:var(--accent-solid);color:#fff}
+.ss-tip-btn{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:50%;width:16px;height:16px;
+  font-size:10px;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0;margin-left:4px;vertical-align:middle}
+:focus-visible{outline:2px solid var(--accent-bright);outline-offset:2px;border-radius:6px}
+
+/* Compete-page tab bar, switching between the four sections below. */
+.cp-tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;border-bottom:1px solid var(--border);padding-bottom:14px}
+.cp-tab-btn{padding:9px 18px;border-radius:999px;border:1px solid var(--border);background:var(--bg-card);color:var(--text-muted);
+  font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:all .15s}
+.cp-tab-btn:hover{border-color:var(--accent-bright);color:var(--accent)}
+.cp-tab-btn.on{background:var(--accent-solid);border-color:var(--accent-solid);color:#fff}
+.cp-panel{display:none}
+.cp-panel.on{display:block}
+.cp-link-btn{background:none;border:none;padding:0;font:inherit;color:var(--accent);font-weight:700;cursor:pointer;text-decoration:none}
+.cp-link-btn:hover{text-decoration:underline}
+
+/* Quests */
+.qs-section-title{font-weight:800;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin:0 0 4px}
+.qs-section-sub{font-size:13px;color:var(--text-muted);margin:0 0 14px}
+.qs-quest{border:2px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px;background:var(--bg)}
+.qs-quest:last-child{margin-bottom:0}
+.qs-quest.qs-recommended{border-color:var(--accent-bright);box-shadow:0 0 0 1px var(--accent-bright) inset}
+.qs-quest-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.qs-quest-label{font-weight:700;font-size:14.5px;color:var(--text)}
+.qs-quest-meta{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.qs-xp-chip{font-size:12px;font-weight:800;color:var(--chip-text);background:var(--chip-bg);border-radius:999px;padding:3px 9px;white-space:nowrap}
+.qs-swap-btn{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:8px;width:30px;height:30px;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-size:15px}
+.qs-swap-btn:hover:not(:disabled){border-color:var(--accent-bright);color:var(--accent)}
+.qs-swap-btn:disabled{opacity:.35;cursor:default}
+.qs-bar-row{display:flex;align-items:center;gap:10px}
+.qs-bar-track{flex:1;height:7px;border-radius:99px;background:var(--border);overflow:hidden}
+.qs-bar-fill{display:block;height:100%;background:var(--accent-bright);border-radius:99px;transition:width .35s cubic-bezier(.2,.8,.2,1)}
+.qs-bar-fill.qs-done{background:var(--accent)}
+.qs-progress-text{font-size:12.5px;color:var(--text-muted);white-space:nowrap;min-width:52px;text-align:right}
+.qs-claim-btn{margin-top:10px;width:100%}
+.qs-bonus{margin-top:6px;border:2px dashed var(--accent-bright);border-radius:14px;padding:12px 16px;text-align:center}
+.qs-bonus-text{font-size:13px;color:var(--text-muted);margin-bottom:8px}
+.qs-header-card{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.qs-level-badge{width:56px;height:56px;border-radius:50%;background:var(--accent-solid);color:#fff;display:flex;
+  align-items:center;justify-content:center;font-weight:800;font-size:20px;flex-shrink:0}
+.qs-header-info{flex:1;min-width:180px}
+.qs-header-title{font-weight:800;font-size:16px;color:var(--text)}
+.qs-header-sub{font-size:12.5px;color:var(--text-muted);margin-top:2px}
+.qs-boss-card{text-align:center}
+.qs-boss-icon{font-size:34px;line-height:1;margin-bottom:8px}
+.qs-boss-name{font-weight:800;font-size:17px;color:var(--text);margin-bottom:4px}
+.qs-boss-sub{font-size:13px;color:var(--text-muted)}
+.qs-boss-defeated{color:var(--accent);font-weight:800}
+.qs-skel{background:var(--border);border-radius:6px;display:inline-block;opacity:.6}
+
+/* Leaderboards */
+.lb-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14.5px}
+.lb-row:last-child{border-bottom:none}
+.lb-rank{font-weight:800;color:var(--accent);min-width:28px;text-align:right}
+.lb-handle{flex:1;color:var(--text);font-weight:600}
+.lb-value{font-weight:800;color:var(--text)}
+.lb-row.lb-self{background:var(--chip-bg);border-radius:10px;padding-left:8px;padding-right:8px}
+.lb-code-box{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px dashed var(--border);border-radius:10px;
+  padding:10px 14px;font-family:monospace;font-size:18px;font-weight:800;letter-spacing:2px;color:var(--accent);width:fit-content}
+
+/* Study Group */
+.sg-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14.5px}
+.sg-row:last-child{border-bottom:none}
+.sg-handle{flex:1;color:var(--text);font-weight:600}
+.sg-stat{font-size:12.5px;color:var(--text-muted);min-width:64px;text-align:right}
+.sg-row.sg-self{background:var(--chip-bg);border-radius:10px;padding-left:8px;padding-right:8px}
+.sg-code-box{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px dashed var(--border);border-radius:10px;
+  padding:10px 14px;font-family:monospace;font-size:18px;font-weight:800;letter-spacing:2px;color:var(--accent);width:fit-content}
+.sg-weak-row{display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14.5px}
+.sg-weak-row:last-child{border-bottom:none}
+.sg-weak-count{font-weight:800;color:var(--accent);white-space:nowrap}
+.sg-weak-label{color:var(--text);font-weight:600}
+.sg-weak-subject{color:var(--text-muted);font-size:12.5px}
+
+/* Peer Challenge */
+.ch-code-box{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px dashed var(--border);border-radius:10px;
+  padding:10px 14px;font-family:monospace;font-size:18px;font-weight:800;letter-spacing:2px;color:var(--accent);width:fit-content}
+.ch-vs{display:flex;align-items:center;justify-content:space-around;gap:16px;text-align:center;margin:18px 0;flex-wrap:wrap}
+.ch-vs-side{flex:1;min-width:120px}
+.ch-vs-name{font-weight:800;font-size:14.5px;color:var(--text);margin-bottom:6px;word-break:break-word}
+.ch-vs-score{font-size:32px;font-weight:800;color:var(--accent)}
+.ch-vs-pct{font-size:12.5px;color:var(--text-muted)}
+.ch-vs-mid{font-weight:800;color:var(--text-muted);font-size:14px}
+.ch-q{margin-bottom:16px}
+.ch-q-text{font-weight:700;font-size:15px;color:var(--text);margin-bottom:10px}
+.ch-opt{display:block;width:100%;text-align:left;padding:10px 14px;border-radius:10px;border:1px solid var(--border);
+  background:var(--bg);color:var(--text);font-family:inherit;font-size:14.5px;cursor:pointer;margin-bottom:8px}
+.ch-opt:hover{border-color:var(--accent-bright)}
+.ch-opt.picked{border-color:var(--accent);background:var(--chip-bg)}
+.ch-list-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px}
+.ch-list-row:last-child{border-bottom:none}
+.ch-badge{font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--chip-text)}
+</style>
+</head>
+<body style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);">
+
+<div role="banner" class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:var(--bg-header);border-bottom:1px solid var(--border);">
+  <a href="/" style="font-weight:800;font-size:22px;color:var(--nav-text);display:flex;align-items:center;gap:8px;text-decoration:none;">
+    <span style="display:inline-block;width:28px;height:28px;position:relative;flex-shrink:0;"><img src="/logo-icon.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;" class="ss-logo-light"/><img src="/logo-icon-dark.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;display:none;" class="ss-logo-dark"/></span>PrecisStudy
+  </a>
+  <div role="navigation" aria-label="Main" class="nav-links" style="display:flex;gap:16px;font-weight:600;font-size:15px;color:var(--nav-text);align-items:center;">
+    <a href="/dashboard" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Dashboard</a>
+    <a href="/settings" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Settings</a>
+    <button id="theme-toggle" onclick="ssToggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <a href="/geometry" class="ss-btn ss-btn-solid" style="text-decoration:none;">Back to Site</a>
+  </div>
+</div>
+
+<div style="max-width:640px;margin:0 auto;padding:48px 24px 80px;">
+  <h1 style="font-size:28px;font-weight:800;color:var(--text);margin:0 0 6px;">Compete</h1>
+  <p style="font-size:15px;color:var(--text-muted);margin:0 0 24px;">Quests, weekly leaderboards, your study group, and peer challenges -- all the ways to compete and connect with other students.</p>
+
+  <div class="cp-tabs" role="tablist" aria-label="Compete section">
+    <button type="button" class="cp-tab-btn" data-tab="quests" onclick="cpSwitchTab('quests')" role="tab">🔥 Quests</button>
+    <button type="button" class="cp-tab-btn" data-tab="leaderboards" onclick="cpSwitchTab('leaderboards')" role="tab">🏆 Leaderboards</button>
+    <button type="button" class="cp-tab-btn" data-tab="study-group" onclick="cpSwitchTab('study-group')" role="tab">👥 Study Group</button>
+    <button type="button" class="cp-tab-btn" data-tab="challenge" onclick="cpSwitchTab('challenge')" role="tab">⚔️ Challenge</button>
+  </div>
+
+  <!-- ===================== Quests ===================== -->
+  <div class="cp-panel" id="cp-panel-quests" role="tabpanel">
+    <div id="qs-gate" style="display:none;">
+      <div class="ss-card" style="text-align:center;">
+        <p id="qs-gate-msg" style="font-size:16px;color:var(--text);margin:0 0 16px;"></p>
+        <div id="qs-login-box" style="max-width:280px;margin:0 auto;"></div>
+      </div>
+    </div>
+
+    <div id="qs-skeleton">
+      <div class="ss-card" style="margin-bottom:20px;">
+        <div class="qs-header-card">
+          <span class="qs-skel" style="width:56px;height:56px;border-radius:50%;"></span>
+          <div style="flex:1;">
+            <span class="qs-skel" style="width:120px;height:14px;display:block;margin-bottom:8px;"></span>
+            <span class="qs-skel" style="width:180px;height:10px;display:block;"></span>
+          </div>
+        </div>
+      </div>
+      <div class="ss-card" style="margin-bottom:20px;">
+        <span class="qs-skel" style="width:100%;height:60px;"></span>
+      </div>
+      <div class="ss-card">
+        <span class="qs-skel" style="width:100%;height:140px;"></span>
+      </div>
+    </div>
+
+    <div id="qs-content" style="display:none;">
+      <div class="ss-card" style="margin-bottom:20px;">
+        <div class="qs-header-card">
+          <div class="qs-level-badge" id="qs-level-badge">1</div>
+          <div class="qs-header-info">
+            <div class="qs-header-title">Level <span id="qs-level-num"></span> <span id="qs-level-title"></span></div>
+            <div class="qs-header-sub"><span id="qs-xp-into"></span> / <span id="qs-xp-for-next"></span> XP to next level<button type="button" class="ss-tip-btn" data-tip-tap data-tip="Quest XP is its own total, separate from your dashboard XP and badges">?</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ss-card" id="qs-boss-card" style="margin-bottom:20px;">
+        <div class="qs-section-title">This week's boss</div>
+        <div id="qs-boss-body"></div>
+      </div>
+
+      <div class="ss-card" style="margin-bottom:20px;">
+        <div class="qs-section-title">Daily quests</div>
+        <p class="qs-section-sub" id="qs-daily-sub"></p>
+        <div id="qs-daily-list"></div>
+        <div id="qs-daily-bonus"></div>
+      </div>
+
+      <div class="ss-card">
+        <div class="qs-section-title">This week</div>
+        <p class="qs-section-sub" id="qs-weekly-sub">Weekly quests reset Monday. You can swap one this week.</p>
+        <div id="qs-weekly-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== Leaderboards ===================== -->
+  <div class="cp-panel" id="cp-panel-leaderboards" role="tabpanel">
+    <div id="lb-gate" style="display:none;">
+      <div class="ss-card" style="text-align:center;">
+        <p id="lb-gate-msg" style="font-size:16px;color:var(--text);margin:0 0 16px;"></p>
+        <div id="lb-login-box" style="max-width:280px;margin:0 auto;"></div>
+      </div>
+    </div>
+
+    <div id="lb-optin-card" class="ss-card" style="display:none;margin-bottom:24px;">
+      <div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:8px;">Private and anonymous by default</div>
+      <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 8px;">Opting in assigns you a random handle like "Quick Fox 42" -- your real name and email are never shown. You can set a custom nickname instead, or opt out any time.</p>
+      <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 16px;">Boards reset every Monday (00:00 UTC) and track three things: XP earned this week, questions answered this week, and how many days this week you were active.</p>
+      <button class="ss-btn ss-btn-solid" id="lb-optin-btn" onclick="lbOptIn()">Opt in to leaderboards</button>
+      <div id="lb-optin-status" style="margin-top:10px;font-size:13.5px;color:var(--text-muted);"></div>
+    </div>
+
+    <div id="lb-content" style="display:none;">
+      <div class="ss-card" style="margin-bottom:24px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+          <div style="font-weight:800;font-size:15px;color:var(--text);">You're opted in as <span id="lb-my-name" style="color:var(--accent);"></span></div>
+          <button class="ss-btn" id="lb-optout-btn" onclick="lbOptOut()" style="font-size:12.5px;padding:6px 14px;">Opt out</button>
+        </div>
+        <div class="ss-field" style="margin-bottom:0;">
+          <label class="ss-label" for="lb-nickname">Custom nickname (optional -- shown instead of your handle)</label>
+          <div style="display:flex;gap:8px;">
+            <input id="lb-nickname" type="text" maxlength="24" placeholder="Leave blank to use your handle"/>
+            <button class="ss-btn" onclick="lbSaveNickname()">Save</button>
+            <button class="ss-btn" onclick="lbClearNickname()">Clear</button>
+          </div>
+          <div id="lb-nickname-status" style="margin-top:8px;font-size:12.5px;color:var(--text-muted);"></div>
+        </div>
+      </div>
+
+      <div class="ss-card" style="margin-bottom:24px;">
+        <div style="font-weight:800;font-size:15px;color:var(--text);margin-bottom:10px;">My Group</div>
+        <div id="lb-group-none">
+          <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 12px;">Join a small group of classmates with a shareable code, or create your own.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="ss-btn ss-btn-solid" onclick="lbCreateGroup()">Create a group</button>
+            <input id="lb-join-code" type="text" placeholder="Enter a code" style="max-width:160px;text-transform:uppercase;"/>
+            <button class="ss-btn" onclick="lbJoinGroup()">Join</button>
+          </div>
+        </div>
+        <div id="lb-group-yes" style="display:none;">
+          <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 10px;">Share this code with classmates so they can join:</p>
+          <div class="lb-code-box" id="lb-group-code"></div>
+          <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+            <button type="button" class="ss-btn ss-btn-solid cp-link-btn" onclick="cpSwitchTab('study-group')" style="text-decoration:none;font-size:12.5px;padding:6px 14px;color:#fff;">Open Study Group Hub</button>
+            <button class="ss-btn" onclick="lbLeaveGroup()" style="font-size:12.5px;padding:6px 14px;">Leave group</button>
+          </div>
+        </div>
+        <div id="lb-group-status" style="margin-top:10px;font-size:12.5px;color:var(--text-muted);"></div>
+      </div>
+
+      <div class="ss-card">
+        <div class="ss-tab-toggle" id="lb-scope-toggle">
+          <button type="button" data-scope="global" class="on" onclick="lbSetScope('global')">Global</button>
+          <button type="button" data-scope="subject" onclick="lbSetScope('subject')">Subject</button>
+          <button type="button" data-scope="group" onclick="lbSetScope('group')">My Group</button>
+        </div>
+        <div class="ss-field" id="lb-subject-field" style="display:none;">
+          <select id="lb-subject-select" onchange="lbLoadBoard()"></select>
+        </div>
+        <div class="ss-tab-toggle" id="lb-metric-toggle">
+          <button type="button" data-metric="xp" class="on" onclick="lbSetMetric('xp')">XP this week</button>
+          <button type="button" data-metric="questions" onclick="lbSetMetric('questions')">Questions this week</button>
+          <button type="button" data-metric="activedays" onclick="lbSetMetric('activedays')">Active days this week</button>
+        </div>
+        <div id="lb-board"></div>
+        <div id="lb-board-status" style="margin-top:10px;font-size:13.5px;color:var(--text-muted);"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== Study Group ===================== -->
+  <div class="cp-panel" id="cp-panel-study-group" role="tabpanel">
+    <div id="sg-gate" style="display:none;">
+      <div class="ss-card" style="text-align:center;">
+        <p id="sg-gate-msg" style="font-size:16px;color:var(--text);margin:0 0 16px;"></p>
+        <div id="sg-login-box" style="max-width:280px;margin:0 auto;"></div>
+      </div>
+    </div>
+
+    <div id="sg-optin-card" class="ss-card" style="display:none;margin-bottom:24px;">
+      <div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:8px;">Study groups use the same anonymous handle as leaderboards</div>
+      <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 16px;">A study group is inherently about being visible to a small circle by handle -- your real name and email are never shown. Opt in on the Leaderboards tab to get started, then come back here.</p>
+      <button type="button" class="ss-btn ss-btn-solid cp-link-btn" onclick="cpSwitchTab('leaderboards')" style="text-decoration:none;color:#fff;">Go to Leaderboards to opt in</button>
+    </div>
+
+    <div id="sg-nogroup-card" class="ss-card" style="display:none;margin-bottom:24px;">
+      <div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:8px;">You're not in a group yet</div>
+      <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 12px;">Join a small group of classmates with a shareable code, or create your own. Group creation and joining live on the Leaderboards tab -- come back here afterward for the fuller hub view.</p>
+      <button type="button" class="ss-btn ss-btn-solid cp-link-btn" onclick="cpSwitchTab('leaderboards')" style="text-decoration:none;color:#fff;">Create or join a group</button>
+    </div>
+
+    <div id="sg-content" style="display:none;">
+      <div class="ss-card" style="margin-bottom:24px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+          <div style="font-weight:800;font-size:15px;color:var(--text);">Group code: <span class="sg-code-box" id="sg-group-code" style="display:inline-flex;vertical-align:middle;"></span></div>
+        </div>
+        <div class="ss-field" style="margin-bottom:0;">
+          <label class="ss-label" for="sg-group-name">Group name (optional -- shown to every member)</label>
+          <div style="display:flex;gap:8px;">
+            <input id="sg-group-name" type="text" maxlength="40" placeholder="e.g. Ms. Rivera's 3rd period"/>
+            <button class="ss-btn" onclick="sgSaveName()">Save</button>
+          </div>
+          <div id="sg-name-status" style="margin-top:8px;font-size:12.5px;color:var(--text-muted);"></div>
+        </div>
+      </div>
+
+      <div class="ss-card" style="margin-bottom:24px;">
+        <div style="font-weight:800;font-size:15px;color:var(--text);margin-bottom:10px;">Roster -- this week</div>
+        <div style="display:flex;gap:12px;padding:0 0 8px;font-size:11.5px;color:var(--text-muted);font-weight:700;text-transform:uppercase;">
+          <span style="flex:1;">Member</span><span style="min-width:64px;text-align:right;">XP<button type="button" class="ss-tip-btn" data-tip-tap data-tip="Experience points earned this week">?</button></span><span style="min-width:64px;text-align:right;">Questions</span><span style="min-width:64px;text-align:right;">Active days<button type="button" class="ss-tip-btn" data-tip-tap data-tip="Days this week the member answered at least one question">?</button></span>
+        </div>
+        <div id="sg-roster"></div>
+        <div id="sg-roster-status" style="margin-top:10px;font-size:13.5px;color:var(--text-muted);"></div>
+      </div>
+
+      <div class="ss-card" style="margin-bottom:24px;">
+        <div style="font-weight:800;font-size:15px;color:var(--text);margin-bottom:4px;">Group weak spots</div>
+        <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 10px;">Which units members are individually weakest on, ranked by how many members share it. Individual mastery data is never shown -- only this rolled-up signal.</p>
+        <div id="sg-weakspots"></div>
+        <div id="sg-weakspots-status" style="margin-top:10px;font-size:13.5px;color:var(--text-muted);"></div>
+      </div>
+
+      <div class="ss-card">
+        <button type="button" class="ss-btn cp-link-btn" onclick="cpSwitchTab('leaderboards')" style="text-decoration:none;display:inline-block;">View group leaderboard &amp; manage membership</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== Peer Challenge ===================== -->
+  <div class="cp-panel" id="cp-panel-challenge" role="tabpanel">
+    <div id="ch-gate" style="display:none;">
+      <div class="ss-card" style="text-align:center;">
+        <p id="ch-gate-msg" style="font-size:16px;color:var(--text);margin:0 0 16px;">Sign in to create or take a challenge.</p>
+        <div id="ch-login-box" style="max-width:280px;margin:0 auto;"></div>
+      </div>
+    </div>
+
+    <div id="ch-app" style="display:none;">
+      <!-- Existing / shared challenge -->
+      <div id="ch-view-info" class="ss-card" style="display:none;margin-bottom:24px;">
+        <div id="ch-info-body"></div>
+      </div>
+
+      <!-- Quiz-taking view -->
+      <div id="ch-view-quiz" class="ss-card" style="display:none;margin-bottom:24px;">
+        <div id="ch-quiz-body"></div>
+      </div>
+
+      <!-- Result comparison -->
+      <div id="ch-view-result" class="ss-card" style="display:none;margin-bottom:24px;">
+        <div id="ch-result-body"></div>
+      </div>
+
+      <!-- Create flow -->
+      <div id="ch-view-create" class="ss-card" style="margin-bottom:24px;">
+        <div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:12px;">Start a new challenge</div>
+        <div class="ss-field">
+          <label class="ss-label" for="ch-subject-select">Subject</label>
+          <select id="ch-subject-select"></select>
+        </div>
+        <div class="ss-field">
+          <label class="ss-label" for="ch-count-select">Number of questions</label>
+          <select id="ch-count-select">
+            <option value="8">8 questions</option>
+            <option value="10" selected>10 questions</option>
+          </select>
+        </div>
+        <button class="ss-btn ss-btn-solid" id="ch-create-btn" onclick="chCreate()">Create challenge</button>
+        <div id="ch-create-status" style="margin-top:10px;font-size:13.5px;color:var(--text-muted);"></div>
+      </div>
+
+      <!-- My challenges -->
+      <div class="ss-card">
+        <div style="font-weight:800;font-size:15px;color:var(--text);margin-bottom:10px;">My challenges</div>
+        <div id="ch-my-list"><span style="font-size:13.5px;color:var(--text-muted);">Loading...</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function ssToggleTheme(){
+  var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  if (isDark) {
+    document.documentElement.removeAttribute('data-theme');
+    try { localStorage.setItem('ss-theme', 'light'); } catch (e) {}
+  } else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    try { localStorage.setItem('ss-theme', 'dark'); } catch (e) {}
+  }
+}
+function ssEscapeHtml(s){
+  var div = document.createElement('div');
+  div.textContent = String(s == null ? '' : s);
+  return div.innerHTML;
+}
+
+/* ===================== Quests ===================== */
+function qsLoginBoxHtml(){
+  return '<a class="ss-oauth-btn" href="/auth/google/start?next=' + encodeURIComponent('/compete/?tab=quests') + '">Continue with Google</a>'
+    + '<a class="ss-oauth-btn" href="/auth/github/start?next=' + encodeURIComponent('/compete/?tab=quests') + '">Continue with GitHub</a>';
+}
+function qsLocalDate(){
+  var d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function qsRun(applyFn, requestFn, revertFn){
+  if (window.ssOptimistic) return window.ssOptimistic(applyFn, requestFn, revertFn);
+  try { applyFn(); } catch (e) { return Promise.resolve({ok:false,error:e}); }
+  return Promise.resolve(requestFn()).then(function(v){return {ok:true,value:v};}, function(e){ try{revertFn(e);}catch(_){}; return {ok:false,error:e};});
+}
+function qsFetch(url, init){
+  if (window.ssOptimistic && window.ssOptimistic.fetch) return window.ssOptimistic.fetch(url, init);
+  return fetch(url, init).then(function(r){ return r.json().then(function(b){ if(!r.ok) throw new Error((b&&b.error)||'Request failed'); return b; }); });
+}
+
+var qsState = null;
+
+function qsQuestUrl(path){
+  return path + (path.indexOf('?') === -1 ? '?' : '&') + 'localDate=' + encodeURIComponent(qsLocalDate());
+}
+
+async function qsLoad(){
+  try {
+    var data = await qsFetch(qsQuestUrl('/api/quest'));
+    qsState = data.quest;
+    qsRender();
+  } catch (e) {
+    document.getElementById('qs-skeleton').innerHTML = '<div class="ss-card"><p style="color:var(--text-muted);font-size:14px;margin:0;">Could not load quests. Try refreshing.</p></div>';
+  }
+}
+
+function qsLevelSuffix(level){
+  if (level >= 20) return 'Scholar';
+  if (level >= 10) return 'Adept';
+  if (level >= 5) return 'Apprentice';
+  return 'Novice';
+}
+
+// Hick's law: highlight whichever active, unclaimed quest is closest to
+// completion (or already complete and awaiting claim) as the one thing to
+// do next, rather than presenting all 5 quests with equal visual weight.
+function qsRecommendedKey(){
+  var candidates = [];
+  qsState.daily.quests.forEach(function(q){ if(!q.claimed) candidates.push({scope:'daily', q:q}); });
+  qsState.weekly.quests.forEach(function(q){ if(!q.claimed) candidates.push({scope:'weekly', q:q}); });
+  candidates.sort(function(a,b){
+    var ra = a.q.progress/a.q.target, rb = b.q.progress/b.q.target;
+    return rb - ra;
+  });
+  return candidates.length ? candidates[0].scope + ':' + candidates[0].q.key : null;
+}
+
+function qsBar(progress, target){
+  var pct = Math.max(0, Math.min(100, Math.round(progress/target*100)));
+  var done = progress >= target;
+  return '<div class="qs-bar-row"><div class="qs-bar-track"><span class="qs-bar-fill' + (done?' qs-done':'') + '" style="width:' + pct + '%;"></span></div>'
+    + '<span class="qs-progress-text">' + Math.min(progress,target) + ' / ' + target + '</span></div>';
+}
+
+function qsQuestCard(scope, q, recommended, swapsUsed){
+  var done = q.progress >= q.target;
+  var isRec = ('' + scope + ':' + q.key) === recommended;
+  var swapDisabled = swapsUsed >= 1 || q.claimed;
+  return '<div class="qs-quest' + (isRec ? ' qs-recommended' : '') + '" data-scope="' + scope + '" data-key="' + q.key + '">'
+    + '<div class="qs-quest-top">'
+    + '<span class="qs-quest-label">' + ssEscapeHtml(q.label) + '</span>'
+    + '<span class="qs-quest-meta">'
+    + '<span class="qs-xp-chip">+' + q.xp + ' XP</span>'
+    + '<button type="button" class="qs-swap-btn" title="Swap this quest" aria-label="Swap this quest" onclick="qsSwap(\'' + scope + '\',\'' + q.key + '\')" ' + (swapDisabled ? 'disabled' : '') + '>&#8635;</button>'
+    + '</span></div>'
+    + qsBar(q.progress, q.target)
+    + (q.claimed
+        ? '<button class="ss-btn qs-claim-btn" disabled>Claimed</button>'
+        : (done ? '<button class="ss-btn ss-btn-solid qs-claim-btn" onclick="qsClaim(\'' + scope + '\',\'' + q.key + '\')">Claim +' + q.xp + ' XP</button>' : ''))
+    + '</div>';
+}
+
+function qsRender(){
+  document.getElementById('qs-skeleton').style.display = 'none';
+  document.getElementById('qs-content').style.display = 'block';
+
+  var lvl = qsState.level;
+  document.getElementById('qs-level-badge').textContent = lvl.level;
+  document.getElementById('qs-level-num').textContent = lvl.level;
+  document.getElementById('qs-level-title').textContent = qsLevelSuffix(lvl.level);
+  document.getElementById('qs-xp-into').textContent = lvl.xpIntoLevel;
+  document.getElementById('qs-xp-for-next').textContent = lvl.xpForNext;
+
+  var recommended = qsRecommendedKey();
+
+  var boss = qsState.boss;
+  var bossBody = document.getElementById('qs-boss-body');
+  if (!boss) {
+    bossBody.innerHTML = '<p style="font-size:14px;color:var(--text-muted);margin:0;">Study something to summon this week\'s boss.</p>';
+  } else if (boss.defeated) {
+    bossBody.innerHTML = '<div class="qs-boss-name qs-boss-defeated">' + ssEscapeHtml(boss.subjectLabel) + ' &ndash; ' + ssEscapeHtml(boss.unitName) + ' defeated</div>'
+      + '<div class="qs-boss-sub">Stays defeated for the rest of this week.</div>';
+  } else {
+    bossBody.innerHTML = '<div class="qs-boss-name">' + ssEscapeHtml(boss.subjectLabel) + ' &ndash; ' + ssEscapeHtml(boss.unitName) + '</div>'
+      + '<div class="qs-boss-sub">Score 80%+ on a fresh assessment of this unit to defeat it.</div>';
+  }
+
+  var dailyDone = qsState.daily.quests.filter(function(q){return q.claimed;}).length;
+  document.getElementById('qs-daily-sub').textContent = (3 - dailyDone) + ' to go';
+  document.getElementById('qs-daily-list').innerHTML = qsState.daily.quests.map(function(q){
+    return qsQuestCard('daily', q, recommended, qsState.daily.swapsUsed);
+  }).join('');
+
+  var bonusEl = document.getElementById('qs-daily-bonus');
+  var allClaimed = qsState.daily.quests.length === 3 && qsState.daily.quests.every(function(q){return q.claimed;});
+  if (qsState.daily.bonusClaimed) {
+    bonusEl.innerHTML = '<div class="qs-bonus"><div class="qs-bonus-text">All-three bonus claimed.</div></div>';
+  } else if (allClaimed) {
+    bonusEl.innerHTML = '<div class="qs-bonus"><div class="qs-bonus-text">Finish all three for a +30 XP bonus.</div>'
+      + '<button class="ss-btn ss-btn-solid" onclick="qsClaimBonus()">Claim +30 XP bonus</button></div>';
+  } else {
+    bonusEl.innerHTML = '<div class="qs-bonus"><div class="qs-bonus-text">Finish all three for a +30 XP bonus. Tap &#8635; to swap one quest today.</div></div>';
+  }
+
+  document.getElementById('qs-weekly-list').innerHTML = qsState.weekly.quests.map(function(q){
+    return qsQuestCard('weekly', q, recommended, qsState.weekly.swapsUsed);
+  }).join('');
+}
+
+async function qsSwap(scope, key){
+  if (!confirm('Swap this quest for a different one? You only get one swap ' + (scope==='daily'?'per day':'per week') + '.')) return;
+  try {
+    var data = await qsFetch('/api/quest/swap', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ scope: scope, key: key, localDate: qsLocalDate() }) });
+    qsState = data.quest;
+    qsRender();
+  } catch (e) {
+    alert((e && e.message) || 'Could not swap that quest.');
+  }
+}
+
+async function qsClaim(scope, key){
+  var card = document.querySelector('.qs-quest[data-scope="' + scope + '"][data-key="' + key + '"]');
+  var result = await qsRun(
+    function(){ /* optimistic: disable the button immediately */ var btn = card && card.querySelector('.qs-claim-btn'); if (btn) { btn.disabled = true; btn.textContent = 'Claiming...'; } },
+    function(){ return qsFetch('/api/quest/claim', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ scope: scope, key: key, localDate: qsLocalDate() }) }); },
+    function(){ qsRender(); }
+  );
+  if (!result.ok) { alert((result.error && result.error.message) || 'Could not claim that quest.'); return; }
+  qsState = result.value.quest;
+  qsRender();
+  if (window.celebrateCorrect && card) window.celebrateCorrect(card);
+}
+
+async function qsClaimBonus(){
+  var result = await qsRun(
+    function(){},
+    function(){ return qsFetch('/api/quest/claim', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ scope: 'daily', key: 'bonus', localDate: qsLocalDate() }) }); },
+    function(){ qsRender(); }
+  );
+  if (!result.ok) { alert((result.error && result.error.message) || 'Could not claim the bonus.'); return; }
+  qsState = result.value.quest;
+  qsRender();
+  if (window.celebrateCorrect) window.celebrateCorrect(document.getElementById('qs-daily-bonus'));
+}
+
+async function qsInit(){
+  var gate = document.getElementById('qs-gate');
+  var gateMsg = document.getElementById('qs-gate-msg');
+  var me;
+  try {
+    var res = await fetch('/auth/me');
+    me = await res.json();
+  } catch (e) {
+    me = { loggedIn: false };
+  }
+  if (!me.loggedIn) {
+    document.getElementById('qs-skeleton').style.display = 'none';
+    gate.style.display = 'block';
+    gateMsg.textContent = 'Sign in to see your quests.';
+    document.getElementById('qs-login-box').innerHTML = qsLoginBoxHtml();
+    return;
+  }
+  qsLoad();
+}
+
+/* ===================== Leaderboards ===================== */
+// Same {key, label} pairs as SUBJECTS in src/progress-routes.ts.
+var LB_SUBJECTS = [
+  {key:'geometry',label:'Geometry'},{key:'chemistry',label:'Chemistry'},{key:'algebra1',label:'Algebra I'},
+  {key:'algebra2',label:'Algebra II'},{key:'aplang',label:'AP English Lang & Comp'},{key:'globalhistory',label:'Global History'},
+  {key:'apbiology',label:'AP Biology'},{key:'apush',label:'APUSH'},{key:'us-history',label:'US History'},
+  {key:'physics',label:'Physics'},{key:'biology',label:'Biology'},{key:'precalc',label:'PreCalculus'},
+  {key:'act-prep',label:'ACT Prep'},{key:'anatomy',label:'Anatomy & Physiology'},{key:'ap-chemistry',label:'AP Chemistry'},
+  {key:'ap-csa',label:'AP Computer Science A'},{key:'ap-euro',label:'AP European History'},{key:'ap-macro',label:'AP Macroeconomics'},
+  {key:'ap-micro',label:'AP Microeconomics'},{key:'ap-physics',label:'AP Physics 1'},{key:'ap-psych',label:'AP Psychology'},
+  {key:'ap-stats',label:'AP Statistics'},{key:'ap-usgov',label:'AP US Government'},{key:'ap-world',label:'AP World History'},
+  {key:'ap-human-geography',label:'AP Human Geography'},{key:'art-history',label:'Art History'},{key:'astronomy',label:'Astronomy'},
+  {key:'computer-science',label:'Computer Science'},{key:'creative-writing',label:'Creative Writing'},{key:'earth-science',label:'Earth Science'},
+  {key:'economics',label:'Economics'},{key:'english-10',label:'English 10'},{key:'english-9',label:'English 9'},
+  {key:'environmental-science',label:'Environmental Science'},{key:'french-1',label:'French 1'},{key:'geography',label:'Geography'},
+  {key:'german-1',label:'German 1'},{key:'health',label:'Health'},{key:'journalism',label:'Journalism'},
+  {key:'music-theory',label:'Music Theory'},{key:'psychology',label:'Psychology'},{key:'sat-math',label:'SAT Math Prep'},
+  {key:'sat-reading',label:'SAT Reading & Writing'},{key:'sociology',label:'Sociology'},{key:'spanish-1',label:'Spanish 1'},
+  {key:'spanish-2',label:'Spanish 2'},{key:'spanish-3',label:'Spanish 3'},{key:'speech-debate',label:'Speech & Debate'},
+  {key:'statistics',label:'Statistics'},{key:'study-skills',label:'Study Skills'},{key:'us-government',label:'US Government'},
+  {key:'world-history',label:'World History'},{key:'calculus',label:'Calculus'},{key:'calc-ab',label:'AP Calculus AB'},
+  {key:'calc-bc',label:'AP Calculus BC'}
+];
+
+var lbScope = 'global';
+var lbMetric = 'xp';
+var lbSelf = { optedIn: false };
+
+function lbPopulateSubjects(){
+  var sel = document.getElementById('lb-subject-select');
+  sel.innerHTML = LB_SUBJECTS.map(function(s){ return '<option value="'+s.key+'">'+ssEscapeHtml(s.label)+'</option>'; }).join('');
+}
+
+function lbSetScope(scope){
+  lbScope = scope;
+  document.querySelectorAll('#lb-scope-toggle button').forEach(function(b){ b.classList.toggle('on', b.dataset.scope === scope); });
+  document.getElementById('lb-subject-field').style.display = scope === 'subject' ? '' : 'none';
+  lbLoadBoard();
+}
+function lbSetMetric(metric){
+  lbMetric = metric;
+  document.querySelectorAll('#lb-metric-toggle button').forEach(function(b){ b.classList.toggle('on', b.dataset.metric === metric); });
+  lbLoadBoard();
+}
+
+function lbMetricLabel(){
+  return lbMetric === 'xp' ? 'XP' : lbMetric === 'questions' ? 'questions' : 'active days';
+}
+
+function ssLbSkeletonRow(){
+  return '<div class="lb-row" aria-hidden="true" style="opacity:.5">'
+    + '<span class="lb-rank" style="display:inline-block;width:1.5em;height:1em;background:var(--border);border-radius:4px"></span>'
+    + '<span class="lb-handle" style="display:inline-block;width:8em;height:1em;background:var(--border);border-radius:4px"></span>'
+    + '<span class="lb-value" style="display:inline-block;width:3em;height:1em;background:var(--border);border-radius:4px"></span>'
+    + '</div>';
+}
+
+async function lbLoadBoard(){
+  var boardEl = document.getElementById('lb-board');
+  var statusEl = document.getElementById('lb-board-status');
+  statusEl.textContent = '';
+  boardEl.innerHTML = ssLbSkeletonRow() + ssLbSkeletonRow() + ssLbSkeletonRow();
+  try {
+    var qs = 'scope=' + encodeURIComponent(lbScope) + '&metric=' + encodeURIComponent(lbMetric);
+    if (lbScope === 'subject') qs += '&subject=' + encodeURIComponent(document.getElementById('lb-subject-select').value);
+    var res = await fetch('/api/leaderboard?' + qs);
+    var data = await res.json();
+    if (!res.ok) {
+      statusEl.textContent = data.error || 'Could not load this board.';
+      return;
+    }
+    lbSelf = data.self || { optedIn: false };
+    if (!data.board.length) {
+      statusEl.textContent = 'No one has ' + lbMetricLabel() + ' on this board yet this week.';
+      return;
+    }
+    statusEl.textContent = '';
+    var myName = (lbSelf.nickname && lbSelf.nickname.trim()) || lbSelf.handle;
+    boardEl.innerHTML = data.board.map(function(r){
+      var isSelf = myName && r.handle === myName;
+      return '<div class="lb-row' + (isSelf ? ' lb-self' : '') + '">'
+        + '<span class="lb-rank">#' + r.rank + '</span>'
+        + '<span class="lb-handle">' + ssEscapeHtml(r.handle) + (isSelf ? ' (you)' : '') + '</span>'
+        + '<span class="lb-value">' + r.value + '</span>'
+        + '</div>';
+    }).join('');
+  } catch (e) {
+    statusEl.textContent = 'Something went wrong loading this board.';
+  }
+}
+
+async function lbOptIn(){
+  var status = document.getElementById('lb-optin-status');
+  status.textContent = 'Opting in...';
+  try {
+    var res = await fetch('/api/leaderboard/opt-in', { method: 'POST' });
+    var data = await res.json();
+    if (!res.ok) { status.textContent = data.error || 'Could not opt in.'; return; }
+    lbShowOptedIn(data.leaderboard);
+  } catch (e) {
+    status.textContent = 'Something went wrong.';
+  }
+}
+
+async function lbOptOut(){
+  if (!confirm('Opt out of leaderboards? You will stop appearing on any board (existing cached boards may still show you until the next daily refresh).')) return;
+  var content = document.getElementById('lb-content');
+  var optinCard = document.getElementById('lb-optin-card');
+  var run = window.ssOptimistic || function(a,r){ a(); return Promise.resolve(r()).then(function(v){return {ok:true,value:v};}, function(e){return {ok:false,error:e};}); };
+  var result = await run(
+    function(){ content.style.display = 'none'; optinCard.style.display = 'block'; },
+    function(){ return (window.ssOptimistic ? window.ssOptimistic.fetch : function(u,i){return fetch(u,i).then(function(r){if(!r.ok) throw new Error('failed'); return r;});})('/api/leaderboard/opt-out', { method: 'POST' }); },
+    function(){ content.style.display = 'block'; optinCard.style.display = 'none'; }
+  );
+  if (!result.ok) {
+    var status = document.getElementById('lb-optin-status');
+    if (status) status.textContent = 'Could not opt out. Try again.';
+  }
+}
+
+var ssLbNicknameBusy = false;
+async function lbSaveNickname(){
+  if (ssLbNicknameBusy) return;
+  ssLbNicknameBusy = true;
+  var val = document.getElementById('lb-nickname').value;
+  var status = document.getElementById('lb-nickname-status');
+  var nameEl = document.getElementById('lb-my-name');
+  var prevName = nameEl.textContent;
+  status.textContent = '';
+  status.setAttribute('aria-live', 'polite');
+  var run = window.ssOptimistic || function(a,r){ a(); return Promise.resolve(r()).then(function(v){return {ok:true,value:v};}, function(e){return {ok:false,error:e};}); };
+  var result = await run(
+    function(){ nameEl.textContent = val || prevName; },
+    function(){ return (window.ssOptimistic ? window.ssOptimistic.fetch : function(u,i){return fetch(u,i).then(function(r){return r.json();});})('/api/leaderboard/nickname', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ nickname: val }) }); },
+    function(){ nameEl.textContent = prevName; }
+  );
+  ssLbNicknameBusy = false;
+  if (!result.ok) { status.textContent = (result.error && result.error.message) || 'Could not save.'; return; }
+  status.textContent = 'Saved.';
+  lbRenderMyName(result.value.leaderboard);
+  lbLoadBoard();
+}
+function lbClearNickname(){
+  document.getElementById('lb-nickname').value = '';
+  lbSaveNickname();
+}
+
+function lbRenderMyName(lb){
+  document.getElementById('lb-my-name').textContent = (lb.nickname && lb.nickname.trim()) || lb.handle;
+  document.getElementById('lb-nickname').value = lb.nickname || '';
+}
+
+async function lbCreateGroup(){
+  var status = document.getElementById('lb-group-status');
+  status.textContent = 'Creating...';
+  try {
+    var res = await fetch('/api/leaderboard/group/create', { method: 'POST' });
+    var data = await res.json();
+    if (!res.ok) { status.textContent = data.error || 'Could not create group.'; return; }
+    status.textContent = '';
+    lbShowGroup(data.groupCode);
+  } catch (e) {
+    status.textContent = 'Something went wrong.';
+  }
+}
+async function lbJoinGroup(){
+  var code = document.getElementById('lb-join-code').value.trim().toUpperCase();
+  var status = document.getElementById('lb-group-status');
+  if (!code) { status.textContent = 'Enter a code first.'; return; }
+  status.textContent = 'Joining...';
+  try {
+    var res = await fetch('/api/leaderboard/group/join', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ code: code }) });
+    var data = await res.json();
+    if (!res.ok) { status.textContent = data.error || 'Could not join group.'; return; }
+    status.textContent = '';
+    lbShowGroup(data.groupCode);
+  } catch (e) {
+    status.textContent = 'Something went wrong.';
+  }
+}
+async function lbLeaveGroup(){
+  try {
+    await fetch('/api/leaderboard/group/leave', { method: 'POST' });
+  } catch (e) {}
+  document.getElementById('lb-group-yes').style.display = 'none';
+  document.getElementById('lb-group-none').style.display = 'block';
+  if (lbScope === 'group') lbSetScope('global');
+}
+function lbShowGroup(code){
+  document.getElementById('lb-group-none').style.display = 'none';
+  document.getElementById('lb-group-yes').style.display = 'block';
+  document.getElementById('lb-group-code').textContent = code;
+}
+
+function lbShowOptedIn(lb){
+  document.getElementById('lb-optin-card').style.display = 'none';
+  document.getElementById('lb-content').style.display = 'block';
+  lbRenderMyName(lb);
+  if (lb.groupCode) lbShowGroup(lb.groupCode);
+  lbLoadBoard();
+}
+
+function lbLoginBoxHtml(){
+  return '<a class="ss-oauth-btn" href="/auth/google/start?next=' + encodeURIComponent('/compete/?tab=leaderboards') + '">Continue with Google</a>'
+    + '<a class="ss-oauth-btn" href="/auth/github/start?next=' + encodeURIComponent('/compete/?tab=leaderboards') + '">Continue with GitHub</a>';
+}
+
+async function lbInit(){
+  lbPopulateSubjects();
+  var gate = document.getElementById('lb-gate');
+  var gateMsg = document.getElementById('lb-gate-msg');
+  var me;
+  try {
+    var res = await fetch('/auth/me');
+    me = await res.json();
+  } catch (e) {
+    me = { loggedIn: false };
+  }
+  if (!me.loggedIn) {
+    gate.style.display = 'block';
+    gateMsg.textContent = 'Sign in to opt in to leaderboards.';
+    document.getElementById('lb-login-box').innerHTML = lbLoginBoxHtml();
+    return;
+  }
+
+  try {
+    var lbRes = await fetch('/api/leaderboard?scope=global&metric=xp');
+    var data = await lbRes.json();
+    if (data.self && data.self.optedIn) {
+      lbShowOptedIn(data.self);
+      return;
+    }
+  } catch (e) {}
+  document.getElementById('lb-optin-card').style.display = 'block';
+}
+
+/* ===================== Study Group ===================== */
+function sgLoginBoxHtml(){
+  return '<a class="ss-oauth-btn" href="/auth/google/start?next=' + encodeURIComponent('/compete/?tab=study-group') + '">Continue with Google</a>'
+    + '<a class="ss-oauth-btn" href="/auth/github/start?next=' + encodeURIComponent('/compete/?tab=study-group') + '">Continue with GitHub</a>';
+}
+
+var ssSgNameBusy = false;
+async function sgSaveName(){
+  if (ssSgNameBusy) return;
+  ssSgNameBusy = true;
+  var input = document.getElementById('sg-group-name');
+  var prevVal = input.defaultValue;
+  var val = input.value;
+  var status = document.getElementById('sg-name-status');
+  status.setAttribute('aria-live', 'polite');
+  status.textContent = '';
+  var run = window.ssOptimistic || function(a,r){ a(); return Promise.resolve(r()).then(function(v){return {ok:true,value:v};}, function(e){return {ok:false,error:e};}); };
+  var result = await run(
+    function(){ input.defaultValue = val; },
+    function(){ return (window.ssOptimistic ? window.ssOptimistic.fetch : function(u,i){return fetch(u,i).then(function(r){return r.json();});})('/api/leaderboard/group/name', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ name: val }) }); },
+    function(){ input.value = prevVal; input.defaultValue = prevVal; }
+  );
+  ssSgNameBusy = false;
+  status.textContent = result.ok ? 'Saved.' : ((result.error && result.error.message) || 'Could not save.');
+}
+
+function sgRenderRoster(roster, myHandle){
+  var el = document.getElementById('sg-roster');
+  var status = document.getElementById('sg-roster-status');
+  if (!roster.length) {
+    status.textContent = 'No opted-in members yet this week.';
+    el.innerHTML = '';
+    return;
+  }
+  status.textContent = '';
+  roster.sort(function(a, b){ return b.xp - a.xp; });
+  el.innerHTML = roster.map(function(m){
+    var isSelf = myHandle && m.handle === myHandle;
+    return '<div class="sg-row' + (isSelf ? ' sg-self' : '') + '">'
+      + '<span class="sg-handle">' + ssEscapeHtml(m.handle) + (isSelf ? ' (you)' : '') + '</span>'
+      + '<span class="sg-stat">' + m.xp + '</span>'
+      + '<span class="sg-stat">' + m.questions + '</span>'
+      + '<span class="sg-stat">' + m.activeDaysThisWeek + '</span>'
+      + '</div>';
+  }).join('');
+}
+
+function sgRenderWeakSpots(weakSpots, memberCount){
+  var el = document.getElementById('sg-weakspots');
+  var status = document.getElementById('sg-weakspots-status');
+  if (!weakSpots.length) {
+    status.textContent = 'Not enough assessed data yet to surface a group weak spot.';
+    el.innerHTML = '';
+    return;
+  }
+  status.textContent = '';
+  el.innerHTML = weakSpots.slice(0, 5).map(function(w){
+    return '<div class="sg-weak-row">'
+      + '<span class="sg-weak-count">' + w.memberCount + ' of ' + memberCount + '</span>'
+      + '<span><span class="sg-weak-label">' + ssEscapeHtml(w.subjectLabel) + ' — ' + ssEscapeHtml(w.unitName) + '</span></span>'
+      + '</div>';
+  }).join('');
+}
+
+async function sgInit(){
+  var gate = document.getElementById('sg-gate');
+  var gateMsg = document.getElementById('sg-gate-msg');
+  var me;
+  try {
+    var res = await fetch('/auth/me');
+    me = await res.json();
+  } catch (e) {
+    me = { loggedIn: false };
+  }
+  if (!me.loggedIn) {
+    gate.style.display = 'block';
+    gateMsg.textContent = 'Sign in to view your study group.';
+    document.getElementById('sg-login-box').innerHTML = sgLoginBoxHtml();
+    return;
+  }
+
+  try {
+    var sgRes = await fetch('/api/study-group');
+    var data = await sgRes.json();
+    if (sgRes.status === 401) {
+      document.getElementById('sg-optin-card').style.display = 'block';
+      return;
+    }
+    if (sgRes.status === 400) {
+      document.getElementById('sg-nogroup-card').style.display = 'block';
+      return;
+    }
+    if (!sgRes.ok) {
+      gate.style.display = 'block';
+      gateMsg.textContent = data.error || 'Could not load your study group.';
+      return;
+    }
+
+    document.getElementById('sg-content').style.display = 'block';
+    document.getElementById('sg-group-code').textContent = data.groupCode;
+    document.getElementById('sg-group-name').value = data.name || '';
+    var ssSkelRow = '<div class="sg-row" aria-hidden="true" style="opacity:.5"><span class="sg-handle" style="display:inline-block;width:8em;height:1em;background:var(--border);border-radius:4px"></span><span class="sg-stat" style="display:inline-block;width:2.5em;height:1em;background:var(--border);border-radius:4px"></span><span class="sg-stat" style="display:inline-block;width:2.5em;height:1em;background:var(--border);border-radius:4px"></span><span class="sg-stat" style="display:inline-block;width:2.5em;height:1em;background:var(--border);border-radius:4px"></span></div>';
+    document.getElementById('sg-roster').innerHTML = ssSkelRow + ssSkelRow;
+
+    var lbRes = await fetch('/api/leaderboard?scope=global&metric=xp');
+    var lbData = await lbRes.json();
+    var myHandle = lbData.self && ((lbData.self.nickname && lbData.self.nickname.trim()) || lbData.self.handle);
+
+    sgRenderRoster(data.roster, myHandle);
+    sgRenderWeakSpots(data.weakSpots, data.memberCount);
+  } catch (e) {
+    gate.style.display = 'block';
+    gateMsg.textContent = 'Something went wrong loading your study group.';
+  }
+}
+
+/* ===================== Peer Challenge ===================== */
+// Same {key, label} pairs as LB_SUBJECTS above.
+var CH_SUBJECTS = LB_SUBJECTS;
+function chSubjectLabel(key){
+  var s = CH_SUBJECTS.filter(function(x){ return x.key === key; })[0];
+  return s ? s.label : key;
+}
+
+var chCode = null;       // code from ?challenge= in the URL, if any
+var chQuiz = null;       // the real QUIZ array fetched from the subject page
+var chQuestions = [];    // the subset of QUIZ this challenge uses
+var chAnswers = [];      // student's picks, parallel to chQuestions
+
+// Fetches a subject's live guide page and pulls its embedded QUIZ array out
+// of the raw HTML -- the same "read embedded data out of a subject page's
+// raw HTML with a plain scan" approach worker.ts's rewriteViewMeta() already
+// uses for title/description. Quiz content itself never lives on the server;
+// this always reads it live from the real, currently-published subject page.
+async function chFetchQuiz(subjectKey){
+  var res = await fetch('/' + subjectKey + '/');
+  var html = await res.text();
+  var m = /const QUIZ *= *(\[.*?\]);\s*(?:const|var|let|\n)/.exec(html) || /const QUIZ *= *(\[.*\]);/.exec(html);
+  if (!m) throw new Error('Could not find quiz questions for this subject.');
+  return JSON.parse(m[1]);
+}
+
+function chPopulateSubjects(){
+  var sel = document.getElementById('ch-subject-select');
+  sel.innerHTML = CH_SUBJECTS.map(function(s){ return '<option value="'+s.key+'">'+ssEscapeHtml(s.label)+'</option>'; }).join('');
+}
+
+async function chCreate(){
+  var status = document.getElementById('ch-create-status');
+  var btn = document.getElementById('ch-create-btn');
+  var subjectKey = document.getElementById('ch-subject-select').value;
+  var count = parseInt(document.getElementById('ch-count-select').value, 10);
+  btn.disabled = true;
+  status.textContent = 'Loading questions...';
+  try {
+    var quiz = await chFetchQuiz(subjectKey);
+    if (!quiz.length) throw new Error('This subject has no quiz questions yet.');
+    var indexes = quiz.map(function(_, i){ return i; });
+    for (var i = indexes.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = indexes[i]; indexes[i] = indexes[j]; indexes[j] = t;
+    }
+    var picked = indexes.slice(0, Math.min(count, quiz.length));
+
+    status.textContent = 'Creating challenge...';
+    var res = await fetch('/api/challenge/create', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ subjectKey: subjectKey, questionNumbers: picked })
+    });
+    var data = await res.json();
+    if (!res.ok) { status.textContent = data.error || 'Could not create challenge.'; btn.disabled = false; return; }
+
+    var link = location.origin + '/compete/?tab=challenge&challenge=' + data.code;
+    status.innerHTML = 'Share this with a friend:<br><br>'
+      + '<div class="ch-code-box">' + ssEscapeHtml(data.code) + '</div>'
+      + '<p style="font-size:13px;color:var(--text-muted);margin:10px 0 0;word-break:break-all;">' + ssEscapeHtml(link) + '</p>';
+    btn.disabled = false;
+    chLoadMyChallenges();
+  } catch (e) {
+    status.textContent = e.message || 'Something went wrong.';
+    btn.disabled = false;
+  }
+}
+
+function chScorePct(r){ return r.total ? Math.round((r.correct / r.total) * 100) : 0; }
+
+function chRenderResult(data, myRole){
+  var el = document.getElementById('ch-result-body');
+  document.getElementById('ch-view-result').style.display = 'block';
+  var mine = myRole === 'creator' ? data.creatorResult : data.opponentResult;
+  var theirs = myRole === 'creator' ? data.opponentResult : data.creatorResult;
+  var myName = myRole === 'creator' ? data.creatorHandle : (data.opponentHandle || 'Opponent');
+  var theirName = myRole === 'creator' ? (data.opponentHandle || 'Opponent') : data.creatorHandle;
+
+  if (!data.opponentHandle) {
+    el.innerHTML = '<div style="font-weight:800;font-size:15px;">Waiting for an opponent to claim this challenge.</div>'
+      + '<p style="font-size:13.5px;color:var(--text-muted);">Share the code above with a friend.</p>';
+    return;
+  }
+  if (!mine) {
+    el.innerHTML = '<div style="font-weight:800;font-size:15px;">Take the quiz above to see your head-to-head result.</div>';
+    return;
+  }
+  if (!theirs) {
+    el.innerHTML = '<div style="font-weight:800;font-size:15px;">You scored ' + mine.correct + '/' + mine.total + '.</div>'
+      + '<p style="font-size:13.5px;color:var(--text-muted);">Waiting for ' + ssEscapeHtml(theirName) + ' to finish. Check back later -- refresh this page.</p>';
+    return;
+  }
+  var myPct = chScorePct(mine), theirPct = chScorePct(theirs);
+  var verdict = myPct > theirPct ? 'You won!' : myPct < theirPct ? 'They won this one.' : "It's a tie!";
+  el.innerHTML = '<div style="font-weight:800;font-size:16px;margin-bottom:6px;">' + verdict + '</div>'
+    + '<div class="ch-vs">'
+    + '<div class="ch-vs-side"><div class="ch-vs-name">' + ssEscapeHtml(myName) + ' (you)</div><div class="ch-vs-score">' + mine.correct + '/' + mine.total + '</div><div class="ch-vs-pct">' + myPct + '%</div></div>'
+    + '<div class="ch-vs-mid">vs</div>'
+    + '<div class="ch-vs-side"><div class="ch-vs-name">' + ssEscapeHtml(theirName) + '</div><div class="ch-vs-score">' + theirs.correct + '/' + theirs.total + '</div><div class="ch-vs-pct">' + theirPct + '%</div></div>'
+    + '</div>';
+}
+
+function chRenderQuizQuestion(idx){
+  var body = document.getElementById('ch-quiz-body');
+  var q = chQuestions[idx];
+  var total = chQuestions.length;
+  var optsHtml = q.o.map(function(opt, i){
+    var picked = chAnswers[idx] === i;
+    return '<button type="button" class="ch-opt' + (picked ? ' picked' : '') + '" onclick="chPick(' + idx + ',' + i + ')">' + ssEscapeHtml(opt) + '</button>';
+  }).join('');
+  var isLast = idx === total - 1;
+  body.innerHTML = '<div style="font-size:12.5px;font-weight:700;color:var(--text-muted);margin-bottom:8px;">Question ' + (idx+1) + ' of ' + total + '</div>'
+    + '<div class="ch-q"><div class="ch-q-text">' + ssEscapeHtml(q.q) + '</div>' + optsHtml + '</div>'
+    + '<div style="display:flex;gap:8px;">'
+    + (idx > 0 ? '<button class="ss-btn" onclick="chRenderQuizQuestion(' + (idx-1) + ')">Back</button>' : '')
+    + (isLast
+        ? '<button class="ss-btn ss-btn-solid" onclick="chFinishQuiz()">Submit</button>'
+        : '<button class="ss-btn ss-btn-solid" onclick="chRenderQuizQuestion(' + (idx+1) + ')">Next</button>')
+    + '</div>';
+}
+function chPick(qIdx, optIdx){
+  chAnswers[qIdx] = optIdx;
+  chRenderQuizQuestion(qIdx);
+}
+
+async function chFinishQuiz(){
+  var correct = 0;
+  for (var i = 0; i < chQuestions.length; i++) {
+    if (chAnswers[i] === chQuestions[i].a) correct++;
+  }
+  document.getElementById('ch-quiz-body').innerHTML = '<div style="font-weight:800;">Submitting your result...</div>';
+  try {
+    var res = await fetch('/api/challenge/' + chCode + '/submit', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ correct: correct, total: chQuestions.length })
+    });
+    var data = await res.json();
+    document.getElementById('ch-view-quiz').style.display = 'none';
+    if (!res.ok) {
+      document.getElementById('ch-view-info').style.display = 'block';
+      document.getElementById('ch-info-body').innerHTML = '<p style="color:var(--danger);">' + ssEscapeHtml(data.error || 'Could not submit your result.') + '</p>';
+      return;
+    }
+    chLoadChallenge(chCode);
+  } catch (e) {
+    document.getElementById('ch-quiz-body').innerHTML = '<div style="color:var(--danger);">Something went wrong submitting your result.</div>';
+  }
+}
+
+async function chStartQuiz(subjectKey, questionNumbers){
+  document.getElementById('ch-view-quiz').style.display = 'block';
+  document.getElementById('ch-quiz-body').innerHTML = 'Loading questions...';
+  try {
+    var quiz = await chFetchQuiz(subjectKey);
+    chQuestions = questionNumbers.map(function(n){ return quiz[n]; }).filter(Boolean);
+    if (!chQuestions.length) throw new Error('Could not load this challenge\'s questions.');
+    chAnswers = [];
+    chRenderQuizQuestion(0);
+  } catch (e) {
+    document.getElementById('ch-quiz-body').innerHTML = '<div style="color:var(--danger);">' + ssEscapeHtml(e.message || 'Something went wrong loading questions.') + '</div>';
+  }
+}
+
+async function chLoadChallenge(code){
+  chCode = code;
+  document.getElementById('ch-view-create').style.display = 'none';
+  document.getElementById('ch-view-info').style.display = 'block';
+  document.getElementById('ch-info-body').innerHTML = 'Loading challenge...';
+  try {
+    var res = await fetch('/api/challenge/' + code);
+    var data = await res.json();
+    if (!res.ok) {
+      document.getElementById('ch-info-body').innerHTML = '<p style="color:var(--danger);">' + ssEscapeHtml(data.error || 'Challenge not found.') + '</p>';
+      return;
+    }
+
+    var subjectLabel = chSubjectLabel(data.subjectKey);
+    var info = '<div style="font-weight:800;font-size:16px;margin-bottom:6px;">' + ssEscapeHtml(subjectLabel) + ' challenge</div>'
+      + '<p style="font-size:13.5px;color:var(--text-muted);margin:0 0 14px;">From <strong>' + ssEscapeHtml(data.creatorHandle) + '</strong> -- ' + data.questionCount + ' questions.</p>';
+
+    if (data.role === 'none') {
+      info += '<button class="ss-btn ss-btn-solid" onclick="chClaim(\'' + code + '\')">Accept challenge</button>';
+      document.getElementById('ch-info-body').innerHTML = info;
+      return;
+    }
+
+    document.getElementById('ch-info-body').innerHTML = info;
+
+    var myResult = data.role === 'creator' ? data.creatorResult : data.opponentResult;
+    if (!myResult && data.claimed) {
+      await chStartQuiz(data.subjectKey, data.questionNumbers);
+    } else if (!myResult && !data.claimed) {
+      // Creator waiting for someone to claim -- nothing to take yet.
+    } else {
+      document.getElementById('ch-view-quiz').style.display = 'none';
+    }
+    chRenderResult(data, data.role);
+  } catch (e) {
+    document.getElementById('ch-info-body').innerHTML = '<p style="color:var(--danger);">Something went wrong loading this challenge.</p>';
+  }
+}
+
+async function chClaim(code){
+  document.getElementById('ch-info-body').innerHTML = 'Joining...';
+  try {
+    var res = await fetch('/api/challenge/' + code + '/claim', { method: 'POST' });
+    var data = await res.json();
+    if (!res.ok) {
+      document.getElementById('ch-info-body').innerHTML = '<p style="color:var(--danger);">' + ssEscapeHtml(data.error || 'Could not join this challenge.') + '</p>';
+      return;
+    }
+    chLoadChallenge(code);
+  } catch (e) {
+    document.getElementById('ch-info-body').innerHTML = '<p style="color:var(--danger);">Something went wrong.</p>';
+  }
+}
+
+function ssChSkeletonRow(){
+  return '<div class="ch-list-row" aria-hidden="true" style="opacity:.5">'
+    + '<span style="display:inline-block;width:10em;height:1em;background:var(--border);border-radius:4px"></span>'
+    + '<span class="ch-badge" style="display:inline-block;width:5em;height:1em;background:var(--border);border-radius:4px"></span>'
+    + '<span style="display:inline-block;width:3.5em;height:1.6em;background:var(--border);border-radius:4px"></span>'
+    + '</div>';
+}
+
+async function chLoadMyChallenges(){
+  var el = document.getElementById('ch-my-list');
+  el.innerHTML = ssChSkeletonRow();
+  try {
+    var res = await fetch('/api/challenges');
+    var data = await res.json();
+    if (!res.ok || !data.challenges.length) {
+      el.innerHTML = '<span style="font-size:13.5px;color:var(--text-muted);">No challenges yet -- create one above.</span>';
+      return;
+    }
+    el.innerHTML = data.challenges.map(function(c){
+      var status = c.done ? 'Finished' : c.claimed ? 'In progress' : 'Waiting for opponent';
+      return '<div class="ch-list-row">'
+        + '<span>' + ssEscapeHtml(chSubjectLabel(c.subjectKey)) + ' <span style="color:var(--text-muted);">(' + c.role + ')</span></span>'
+        + '<span class="ch-badge">' + status + '</span>'
+        + '<a class="ss-btn" style="font-size:12px;padding:5px 12px;text-decoration:none;" href="/compete/?tab=challenge&challenge=' + c.code + '">Open</a>'
+        + '</div>';
+    }).join('');
+  } catch (e) {
+    el.innerHTML = '<span style="font-size:13.5px;color:var(--text-muted);">Could not load your challenges.</span>';
+  }
+}
+
+function chLoginBoxHtml(){
+  return '<a class="ss-oauth-btn" href="/auth/google/start?next=' + encodeURIComponent(location.pathname + location.search) + '">Continue with Google</a>'
+    + '<a class="ss-oauth-btn" href="/auth/github/start?next=' + encodeURIComponent(location.pathname + location.search) + '">Continue with GitHub</a>';
+}
+
+async function chInit(){
+  chPopulateSubjects();
+  var gate = document.getElementById('ch-gate');
+  var me;
+  try {
+    var res = await fetch('/auth/me');
+    me = await res.json();
+  } catch (e) {
+    me = { loggedIn: false };
+  }
+  if (!me.loggedIn) {
+    gate.style.display = 'block';
+    document.getElementById('ch-login-box').innerHTML = chLoginBoxHtml();
+    return;
+  }
+  document.getElementById('ch-app').style.display = 'block';
+  chLoadMyChallenges();
+
+  var params = new URLSearchParams(location.search);
+  var code = params.get('challenge');
+  if (code) chLoadChallenge(code.toUpperCase());
+}
+
+/* ===================== Tab controller ===================== */
+var CP_TABS = ['quests', 'leaderboards', 'study-group', 'challenge'];
+var CP_INIT = { quests: qsInit, leaderboards: lbInit, 'study-group': sgInit, challenge: chInit };
+var cpInitialized = {};
+
+function cpSwitchTab(tab){
+  if (CP_TABS.indexOf(tab) === -1) tab = 'quests';
+  document.querySelectorAll('.cp-tab-btn').forEach(function(b){ b.classList.toggle('on', b.dataset.tab === tab); });
+  document.querySelectorAll('.cp-panel').forEach(function(p){ p.classList.toggle('on', p.id === 'cp-panel-' + tab); });
+  var params = new URLSearchParams(location.search);
+  params.set('tab', tab);
+  history.replaceState(null, '', location.pathname + '?' + params.toString());
+  if (!cpInitialized[tab]) {
+    cpInitialized[tab] = true;
+    CP_INIT[tab]();
+  }
+}
+
+(function cpBoot(){
+  var params = new URLSearchParams(location.search);
+  var initial = params.get('tab');
+  if (CP_TABS.indexOf(initial) === -1) initial = 'quests';
+  cpSwitchTab(initial);
+})();
+</script>
+<script type="module">
+import { celebrateCorrect } from "/shared/celebrate.js";
+window.celebrateCorrect = celebrateCorrect;
+</script>
+<script src="/shared/command-palette.js" defer></script><script src="/shared/high-contrast.js" defer></script><script src="/shared/error-monitor.js" defer></script>
+</body>
+</html>

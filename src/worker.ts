@@ -315,6 +315,36 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
     });
   }
 
+  // Quests, Leaderboards, Study Group and Peer Challenge used to be four
+  // separate top-level pages; they're now tabs on one /compete/ page so the
+  // site has one nav entry instead of four. Old links/bookmarks still work
+  // via a permanent redirect that maps each old path to its tab and carries
+  // over any query string. /challenge is deliberately NOT in this map: it
+  // keeps its own minimal page (public/challenge/index.html) so a shared
+  // challenge link still gets a real, code-specific Open Graph preview from
+  // withLinkPreview() -- link-unfurl crawlers don't run the JS redirect and
+  // would otherwise only ever see a generic "/compete/" preview.
+  const COMPETE_TAB_BY_OLD_PATH: Record<string, string> = {
+    "/quest": "quests",
+    "/leaderboards": "leaderboards",
+    "/study-group": "study-group"
+  };
+  {
+    const seg = url.pathname.replace(/\/+$/, "");
+    const tab = COMPETE_TAB_BY_OLD_PATH[seg];
+    if (tab && (request.method === "GET" || request.method === "HEAD")) {
+      const params = new URLSearchParams(url.search);
+      params.set("tab", tab);
+      return new Response(null, {
+        status: 301,
+        headers: {
+          Location: "https://precisstudy.com/compete/?" + params.toString(),
+          "Cache-Control": "public, max-age=86400"
+        }
+      });
+    }
+  }
+
   // Generated from SUBJECT_PATHS so it can never drift from the live routes the
   // way a checked-in sitemap.xml did (it listed 17 of 50+ pages).
   if (url.pathname === "/sitemap.xml") {
