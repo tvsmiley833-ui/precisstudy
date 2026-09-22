@@ -1294,6 +1294,22 @@ async function ssLoadClassReadiness(){
       card.insertBefore(badge, card.children[3] || null);
     });
     ssApplyEnrolledFilter(blob.enrolledSubjects);
+
+    // A signed-in student who has never picked any classes hasn't really
+    // been onboarded yet -- send them to the setup wizard instead of the
+    // public marketing homepage. Anonymous visitors (the common case for
+    // search traffic) never reach this branch at all, since ssCheckSession
+    // already returned early above for them -- this can't affect SEO or the
+    // no-signup browsing path. The ob-done flag is an escape hatch for a
+    // student who deliberately finished the wizard without picking any
+    // classes, so they don't get bounced back in on every homepage visit.
+    var enrolled = blob.enrolledSubjects;
+    var alreadyOnboarded = false;
+    try { alreadyOnboarded = localStorage.getItem('ob-done') === '1'; } catch(e){}
+    if ((!enrolled || !enrolled.length) && !alreadyOnboarded) {
+      location.replace('/onboarding');
+      return;
+    }
   }catch(e){ /* ignore, homepage still works without this */ }
 }
 

@@ -1272,17 +1272,17 @@ function renderDashGreeting(session, blob) {
   }
   el.textContent = text;
 
-  // A single unobtrusive way back into the onboarding wizard for anyone who
-  // skipped it -- shown only until they've saved at least one class, never
-  // as a nagging floating widget.
+  // A signed-in student who has never saved any classes hasn't really been
+  // onboarded yet -- send them straight to the setup wizard instead of
+  // showing them an empty dashboard. The ob-done flag is an escape hatch for
+  // someone who deliberately finished the wizard without picking classes,
+  // so they don't get bounced back in on every dashboard visit.
   const enrolledCount = (blob && blob.enrolledSubjects || []).length;
   let obDone = false;
   try { obDone = localStorage.getItem('ob-step') === '4' || localStorage.getItem('ob-done') === '1'; } catch (e) {}
   if (!enrolledCount && !obDone) {
-    const link = document.createElement('div');
-    link.style.cssText = 'margin-top:6px;font-size:14px;';
-    link.innerHTML = '<a href="/onboarding" style="color:var(--accent);font-weight:700;">Finish setting up your account</a>';
-    el.after(link);
+    location.replace('/onboarding');
+    return;
   }
 }
 
