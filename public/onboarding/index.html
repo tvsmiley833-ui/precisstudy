@@ -12,6 +12,18 @@
 <link rel="stylesheet" href="/fonts/nunito.css"/>
 <script>
 (function(){
+  // App launches (PWA start_url) always point here first, like the reference
+  // app this mirrors. A student who already finished the wizard shouldn't
+  // see it again on every open -- bounce straight to the dashboard unless
+  // they explicitly asked to revisit it (?tour=1, e.g. from the command
+  // palette's "redo setup" entry). This runs before anything renders, so a
+  // returning student sees no flash of the wizard on the way to /dashboard.
+  try {
+    if (localStorage.getItem('ob-done') === '1' && location.search.indexOf('tour=1') === -1) {
+      location.replace('/dashboard');
+      return;
+    }
+  } catch (e) { /* localStorage unavailable -- fall through and show the wizard */ }
   try {
     var saved = localStorage.getItem('ss-theme');
     if (saved !== 'light') document.documentElement.setAttribute('data-theme', 'dark');
