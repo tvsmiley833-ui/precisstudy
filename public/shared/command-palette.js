@@ -10,6 +10,7 @@
   var DESTINATIONS = [
     { l: 'Dashboard', h: '/dashboard' },
     { l: 'Settings', h: '/settings' },
+    { l: 'Account Setup', h: '/onboarding' },
     { l: 'Browse Subjects', h: '/#classes-section' },
     { l: 'Request a Guide', h: '/request' },
     { l: 'Upload Syllabus', h: '/syllabus' },

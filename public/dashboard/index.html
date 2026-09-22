@@ -1271,6 +1271,19 @@ function renderDashGreeting(session, blob) {
     else if (streak.current >= 7) text += ` ${streak.current} days strong — keep it up.`;
   }
   el.textContent = text;
+
+  // A single unobtrusive way back into the onboarding wizard for anyone who
+  // skipped it -- shown only until they've saved at least one class, never
+  // as a nagging floating widget.
+  const enrolledCount = (blob && blob.enrolledSubjects || []).length;
+  let obDone = false;
+  try { obDone = localStorage.getItem('ob-step') === '4' || localStorage.getItem('ob-done') === '1'; } catch (e) {}
+  if (!enrolledCount && !obDone) {
+    const link = document.createElement('div');
+    link.style.cssText = 'margin-top:6px;font-size:14px;';
+    link.innerHTML = '<a href="/onboarding" style="color:var(--accent);font-weight:700;">Finish setting up your account</a>';
+    el.after(link);
+  }
 }
 
 function renderSkeletons() {

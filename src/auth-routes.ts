@@ -137,7 +137,7 @@ export async function handleGoogleCallback(request: Request, env: Env): Promise<
   });
   const isNewUser = await recordLogin(env, profile.email, "google");
   if (isNewUser) await creditInviteIfAny(env, request, profile.email);
-  const dest = isNewUser ? "/settings?welcome=1" : (consumeNext(request) || "/");
+  const dest = isNewUser ? "/onboarding" : (consumeNext(request) || "/");
   return redirect(SITE_ORIGIN + dest, { "Set-Cookie": [cookie, clearStateCookie(), clearNextCookie(), clearRefCookie()] });
 }
 
@@ -212,7 +212,7 @@ export async function handleGithubCallback(request: Request, env: Env): Promise<
   });
   const isNewUser = await recordLogin(env, email, "github");
   if (isNewUser) await creditInviteIfAny(env, request, email);
-  const dest = isNewUser ? "/settings?welcome=1" : (consumeNext(request) || "/");
+  const dest = isNewUser ? "/onboarding" : (consumeNext(request) || "/");
   return redirect(SITE_ORIGIN + dest, { "Set-Cookie": [cookie, clearStateCookie(), clearNextCookie(), clearRefCookie()] });
 }
 
@@ -314,7 +314,7 @@ export async function handleVerifyConfirm(request: Request, env: Env): Promise<R
   const cookie = await issueSessionCookie(env, { email, name: email, provider: "email" });
   const isNewUser = await recordLogin(env, email, "email");
   if (isNewUser) await creditInviteIfAny(env, request, email);
-  const dest = isNewUser ? "/settings?welcome=1" : (consumeNext(request) || "/");
+  const dest = isNewUser ? "/onboarding" : (consumeNext(request) || "/");
   return redirect(SITE_ORIGIN + dest, { "Set-Cookie": [cookie, clearNextCookie(), clearRefCookie()] });
 }
 

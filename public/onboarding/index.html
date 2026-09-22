@@ -1,23 +1,558 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="refresh" content="0; url=/quest">
-<title>Getting Started — PrecisStudy</title>
-<!-- The old 5-step "Get Started" checklist has been replaced by the Quest
-     system (see /quest). This page is kept as a redirect, not deleted,
-     since older bookmarks/links may still point at /onboarding. -->
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Set up your account — PrecisStudy</title>
+<meta name="description" content="A one-time setup wizard: pick your classes, set study preferences, and take a short tour of PrecisStudy."/>
+<meta name="robots" content="noindex"/>
+<link rel="icon" type="image/png" href="/favicon.png"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="preload" href="/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin/>
+<link rel="stylesheet" href="/fonts/nunito.css"/>
+<script>
+(function(){
+  try {
+    var saved = localStorage.getItem('ss-theme');
+    if (saved !== 'light') document.documentElement.setAttribute('data-theme', 'dark');
+  } catch (e) {}
+})();
+</script>
 <style>
-:root{--bg:#eef1ea;--text:#14302a;--accent:#23744f}
-[data-theme="dark"]{--bg:#14302a;--text:#eef5f0;--accent:#5ec493}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
-a{color:var(--accent);font-weight:700}
+:root{
+  --bg:#eef1ea; --bg-card:#fff; --bg-header:#ffffff;
+  --border:#c8d2c5;
+  --text:#233a31; --text-body:#33493d; --text-muted:#5a6f63; --nav-text:#3d5347;
+  --accent:#1f6e46; --accent-bright:#268a58; --accent-hover:#175a39; --accent-solid:#1f6e46; --accent-solid-hover:#175a39;
+  --chip-bg:#dde8df; --chip-text:#175a39;
+  --danger:#b23a3a; --danger-soft:#fbeaea;
+  --card-shadow:0 1px 3px rgba(35,58,49,.06),0 24px 48px -28px rgba(35,58,49,.20);
+}
+[data-theme="dark"]{
+  --bg:#14302a; --bg-card:#1b3d33; --bg-header:#12291f;
+  --border:#2f5346;
+  --text:#f2f5ee; --text-body:#dbe6dd; --text-muted:#b7c9bc; --nav-text:#eef2ea;
+  --accent:#4fbf85; --accent-bright:#63d199; --accent-hover:#3fa873; --accent-solid:#237750; --accent-solid-hover:#1a6644;
+  --chip-bg:#22362c; --chip-text:#63d199;
+  --danger:#f16565; --danger-soft:rgba(241,101,101,.14);
+  --card-shadow:0 1px 3px rgba(0,0,0,.32),0 24px 48px -28px rgba(0,0,0,.5);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text)}
+a{color:var(--accent)}
+.skip-link{position:absolute;left:-9999px;top:auto}
+.skip-link:focus{position:fixed;left:16px;top:16px;z-index:10000;background:var(--bg-card);border:2px solid var(--accent);color:var(--text);padding:8px 14px;border-radius:8px;font-weight:700}
+:focus-visible{outline:3px solid var(--accent-bright);outline-offset:2px}
+#theme-toggle{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:999px;
+  width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+#theme-toggle:hover{border-color:var(--accent-bright);color:var(--accent)}
+#theme-toggle svg{width:17px;height:17px}
+#theme-toggle .icon-sun{display:none}
+[data-theme="dark"] #theme-toggle .icon-moon{display:none}
+[data-theme="dark"] #theme-toggle .icon-sun{display:block}
+[data-theme="dark"] .ss-logo-light{display:none!important}
+[data-theme="dark"] .ss-logo-dark{display:inline!important}
+.ss-oauth-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;box-sizing:border-box;
+  padding:10px 14px;border-radius:12px;border:2px solid var(--border);background:var(--bg-card);color:var(--text);
+  font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none;margin-bottom:9px;transition:all .15s}
+.ss-oauth-btn:hover{border-color:var(--accent-bright);background:var(--bg)}
+.ss-card{background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:22px;box-shadow:var(--card-shadow)}
+.ss-btn{padding:9px 18px;border-radius:999px;border:1px solid var(--border);background:var(--bg-card);color:var(--text);
+  font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:all .15s}
+.ss-btn:hover{border-color:var(--accent-bright)}
+.ss-btn:disabled{opacity:.5;cursor:not-allowed}
+.ss-btn-solid{background:var(--accent-solid);color:#fff;border-color:var(--accent-solid)}
+.ss-btn-solid:hover{background:var(--accent-solid-hover);border-color:var(--accent-solid-hover)}
+@media(max-width:640px){.header-bar{padding:14px 16px} .nav-links{gap:10px} .nav-hide-sm{display:none}}
+
+.ob-wrap{max-width:680px;margin:0 auto;padding:40px 24px 90px}
+.ob-progress{display:flex;align-items:center;gap:8px;margin-bottom:22px}
+.ob-progress-step{flex:1;height:6px;border-radius:999px;background:var(--border)}
+.ob-progress-step.done,.ob-progress-step.current{background:var(--accent)}
+.ob-progress-label{font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:10px}
+.ob-skip{font-size:13px;color:var(--text-muted);text-decoration:underline}
+.ob-title{font-size:26px;font-weight:800;margin:4px 0 8px}
+.ob-sub{font-size:15px;color:var(--text-muted);margin:0 0 22px;line-height:1.5}
+.ob-actions{display:flex;justify-content:space-between;align-items:center;margin-top:24px;gap:12px;flex-wrap:wrap}
+.ob-actions-right{display:flex;gap:10px}
+
+.ob-cat{margin-bottom:18px}
+.ob-cat-label{font-size:13px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.03em;margin:0 0 8px}
+.ob-subject-row{display:flex;align-items:center;gap:10px;padding:9px 6px;border-radius:10px;border-bottom:1px solid var(--border)}
+.ob-subject-row:last-child{border-bottom:none}
+.ob-subject-row label{display:flex;align-items:center;gap:10px;flex:1;cursor:pointer;font-size:14.5px;font-weight:600}
+.ob-subject-row input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
+.ob-count-chip{font-size:12.5px;font-weight:700;color:var(--chip-text);background:var(--chip-bg);border-radius:999px;padding:3px 10px}
+
+.ob-pref-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--border)}
+.ob-pref-row:last-child{border-bottom:none}
+.ob-pref-text strong{display:block;font-size:14.5px;font-weight:700}
+.ob-pref-text span{display:block;font-size:13px;color:var(--text-muted);margin-top:2px}
+.ob-switch{position:relative;display:inline-block;width:42px;height:24px;flex-shrink:0}
+.ob-switch input{opacity:0;width:0;height:0}
+.ob-switch .ob-slider{position:absolute;inset:0;background:var(--border);border-radius:999px;cursor:pointer;transition:.15s}
+.ob-switch .ob-slider:before{content:"";position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.15s}
+.ob-switch input:checked + .ob-slider{background:var(--accent)}
+.ob-switch input:checked + .ob-slider:before{transform:translateX(18px)}
+.ob-switch input:focus-visible + .ob-slider{outline:3px solid var(--accent-bright);outline-offset:2px}
+
+.ob-goal-row{display:flex;gap:12px;margin-top:6px}
+.ob-goal-field{flex:1}
+.ob-goal-field label{display:block;font-size:12.5px;font-weight:700;color:var(--text-muted);margin-bottom:4px}
+.ob-goal-field input{width:100%;padding:9px 10px;border-radius:10px;border:2px solid var(--border);background:var(--bg-card);color:var(--text);font-family:inherit;font-size:14px}
+
+.ob-tour-group{margin-bottom:20px}
+.ob-tour-group-label{font-size:13px;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:.03em;margin:0 0 8px}
+.ob-tour-item{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid var(--border)}
+.ob-tour-item:last-child{border-bottom:none}
+.ob-tour-text strong{display:block;font-size:14.5px;font-weight:700}
+.ob-tour-text span{display:block;font-size:13px;color:var(--text-muted);margin-top:3px;line-height:1.4}
+.ob-tour-seen{font-size:11.5px;font-weight:700;color:var(--accent);margin-top:4px;display:inline-block}
+.ob-visit-btn{flex-shrink:0;text-decoration:none;padding:8px 14px;border-radius:999px;border:1px solid var(--border);background:var(--bg-card);color:var(--text);font-weight:700;font-size:13px;white-space:nowrap}
+.ob-visit-btn:hover{border-color:var(--accent-bright)}
+
+.ob-finish-summary{margin:0 0 22px}
+.ob-finish-item{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px}
+.ob-finish-item:last-child{border-bottom:none}
+.ob-finish-item span:last-child{color:var(--text-muted)}
+.ob-toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 18px;border-radius:10px;font-size:13.5px;font-weight:700;z-index:9999;opacity:0;pointer-events:none;transition:opacity .2s}
+.ob-toast.show{opacity:1}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 </style>
 </head>
 <body>
-<p>Taking you to <a href="/quest">Quests</a>&hellip;</p>
-<script>location.replace('/quest');</script>
+<a href="/dashboard" class="skip-link">Skip setup and go to dashboard</a>
+
+<div role="banner" class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:var(--bg-header);border-bottom:1px solid var(--border);">
+  <a href="/" style="font-weight:800;font-size:22px;color:var(--nav-text);display:flex;align-items:center;gap:8px;text-decoration:none;">
+    <span style="display:inline-block;width:28px;height:28px;position:relative;flex-shrink:0;"><img src="/logo-icon.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;" class="ss-logo-light"/><img src="/logo-icon-dark.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;display:none;" class="ss-logo-dark"/></span>PrecisStudy
+  </a>
+  <div role="navigation" aria-label="Main" class="nav-links" style="display:flex;gap:16px;font-weight:600;font-size:15px;color:var(--nav-text);align-items:center;">
+    <button id="theme-toggle" onclick="obToggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+  </div>
+</div>
+
+<main class="ob-wrap">
+  <div id="ob-gate" style="display:none;">
+    <div class="ss-card" style="text-align:center;">
+      <p id="ob-gate-msg" style="font-size:16px;color:var(--text);margin:0 0 16px;">Sign in to set up your account.</p>
+      <div id="ob-login-box" style="max-width:280px;margin:0 auto;"></div>
+    </div>
+  </div>
+
+  <div id="ob-app" style="display:none;">
+    <div class="ob-progress" role="progressbar" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1" id="ob-progressbar" aria-label="Setup progress">
+      <div class="ob-progress-step" data-i="1"></div>
+      <div class="ob-progress-step" data-i="2"></div>
+      <div class="ob-progress-step" data-i="3"></div>
+      <div class="ob-progress-step" data-i="4"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div class="ob-progress-label" id="ob-step-label">Step 1 of 4</div>
+      <a href="/dashboard" class="ob-skip">Skip setup</a>
+    </div>
+
+    <div aria-live="polite" class="sr-only" id="ob-announce"></div>
+
+    <div id="ob-step-1" class="ob-step" hidden>
+      <h1 class="ob-title">Welcome to PrecisStudy</h1>
+      <p class="ob-sub">Pick the classes you're taking. This decides which study guides show up on your dashboard -- you can add or remove classes any time from Settings.</p>
+      <div class="ss-card" id="ob-subject-list"></div>
+      <div class="ob-actions">
+        <span id="ob-step1-status" style="font-size:13px;color:var(--text-muted);"></span>
+        <div class="ob-actions-right">
+          <button type="button" class="ss-btn ss-btn-solid" onclick="obSaveSubjectsAndNext()">Continue</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="ob-step-2" class="ob-step" hidden>
+      <h1 class="ob-title">Study preferences</h1>
+      <p class="ob-sub">Set how PrecisStudy should notify you and which theme to use. Everything here can be changed later in Settings.</p>
+      <div class="ss-card">
+        <div class="ob-pref-row">
+          <div class="ob-pref-text"><strong>Daily reminder</strong><span>A nudge if you haven't studied yet today.</span></div>
+          <label class="ob-switch"><input type="checkbox" id="ob-pref-daily" checked/><span class="ob-slider"></span></label>
+        </div>
+        <div class="ob-pref-row">
+          <div class="ob-pref-text"><strong>Streak alerts</strong><span>A warning before your study streak breaks.</span></div>
+          <label class="ob-switch"><input type="checkbox" id="ob-pref-streak" checked/><span class="ob-slider"></span></label>
+        </div>
+        <div class="ob-pref-row">
+          <div class="ob-pref-text"><strong>Scheduled block reminders</strong><span>A reminder shortly before a study block on your weekly schedule.</span></div>
+          <label class="ob-switch"><input type="checkbox" id="ob-pref-blocks" checked/><span class="ob-slider"></span></label>
+        </div>
+        <div class="ob-pref-row">
+          <div class="ob-pref-text"><strong>Dark mode</strong><span>Switch the whole site's color theme.</span></div>
+          <label class="ob-switch"><input type="checkbox" id="ob-pref-dark"/><span class="ob-slider"></span></label>
+        </div>
+      </div>
+      <div class="ss-card" style="margin-top:16px;">
+        <div class="ob-pref-text" style="margin-bottom:8px;"><strong>Study goal (optional)</strong><span>How many days until your exam, and how many minutes a day you plan to study.</span></div>
+        <div class="ob-goal-row">
+          <div class="ob-goal-field"><label for="ob-goal-days">Days until exam</label><input type="number" id="ob-goal-days" min="1" max="365" placeholder="e.g. 30"/></div>
+          <div class="ob-goal-field"><label for="ob-goal-minutes">Minutes per day</label><input type="number" id="ob-goal-minutes" min="1" max="480" placeholder="e.g. 30"/></div>
+        </div>
+      </div>
+      <div class="ob-actions">
+        <button type="button" class="ss-btn" onclick="obGoStep(1)">Back</button>
+        <div class="ob-actions-right">
+          <span id="ob-step2-status" style="font-size:13px;color:var(--text-muted);align-self:center;"></span>
+          <button type="button" class="ss-btn ss-btn-solid" onclick="obSavePrefsAndNext()">Continue</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="ob-step-3" class="ob-step" hidden>
+      <h1 class="ob-title">Tour of PrecisStudy</h1>
+      <p class="ob-sub">A quick look at what's here. Click "Visit" to open a feature in a new tab -- you don't need to visit everything now.</p>
+      <div id="ob-tour-list"></div>
+      <div class="ob-actions">
+        <button type="button" class="ss-btn" onclick="obGoStep(2)">Back</button>
+        <div class="ob-actions-right">
+          <button type="button" class="ss-btn ss-btn-solid" onclick="obGoStep(4)">Continue</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="ob-step-4" class="ob-step" hidden>
+      <h1 class="ob-title">You're all set</h1>
+      <p class="ob-sub">Here's what got set up. You can change any of it from Settings whenever you want.</p>
+      <div class="ss-card ob-finish-summary" id="ob-finish-summary"></div>
+      <div class="ss-card" style="text-align:center;">
+        <a href="/dashboard" class="ss-btn ss-btn-solid" style="text-decoration:none;display:inline-block;font-size:16px;padding:12px 28px;">Go to your dashboard</a>
+        <div style="margin-top:14px;"><a href="/quest" style="font-size:14px;">Keep going with today's quests &rarr;</a></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="ob-toast" id="ob-toast" role="status" aria-live="polite"></div>
+
+<script>
+function obToggleTheme(){
+  var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  if (isDark) {
+    document.documentElement.removeAttribute('data-theme');
+    try { localStorage.setItem('ss-theme', 'light'); } catch (e) {}
+  } else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    try { localStorage.setItem('ss-theme', 'dark'); } catch (e) {}
+  }
+  var darkToggle = document.getElementById('ob-pref-dark');
+  if (darkToggle) darkToggle.checked = document.documentElement.getAttribute('data-theme') === 'dark';
+}
+function ssEscapeHtml(s){
+  var div = document.createElement('div');
+  div.textContent = String(s == null ? '' : s);
+  return div.innerHTML;
+}
+function obLoginBoxHtml(){
+  return '<a class="ss-oauth-btn" href="/auth/google/start?next=' + encodeURIComponent(location.pathname) + '">Continue with Google</a>'
+    + '<a class="ss-oauth-btn" href="/auth/github/start?next=' + encodeURIComponent(location.pathname) + '">Continue with GitHub</a>';
+}
+function obToast(msg){
+  var t = document.getElementById('ob-toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2200);
+}
+function obFetch(url, init){
+  if (window.ssOptimistic && window.ssOptimistic.fetch) return window.ssOptimistic.fetch(url, init);
+  return fetch(url, init).then(function(r){ return r.json().then(function(b){ if(!r.ok) throw new Error((b&&b.error)||'Request failed'); return b; }); });
+}
+
+// Same subject list and category grouping as /settings (kept in sync by
+// hand -- see the onboarding build report for why this isn't a shared
+// module yet).
+var SUBJECTS = [
+  { key: 'geometry', cat: 'math', label: 'Geometry' },
+  { key: 'chemistry', cat: 'science', label: 'Chemistry' },
+  { key: 'algebra1', cat: 'math', label: 'Algebra I' },
+  { key: 'algebra2', cat: 'math', label: 'Algebra II' },
+  { key: 'aplang', cat: 'ap', label: 'AP English Lang & Comp' },
+  { key: 'globalhistory', cat: 'humanities', label: 'Global History' },
+  { key: 'apbiology', cat: 'ap', label: 'AP Biology' },
+  { key: 'apush', cat: 'ap', label: 'APUSH' },
+  { key: 'us-history', cat: 'humanities', label: 'US History' },
+  { key: 'physics', cat: 'science', label: 'Physics' },
+  { key: 'biology', cat: 'science', label: 'Biology' },
+  { key: 'precalc', cat: 'math', label: 'PreCalculus' },
+  { key: 'act-prep', cat: 'testprep', label: 'ACT Prep' },
+  { key: 'anatomy', cat: 'science', label: 'Anatomy & Physiology' },
+  { key: 'ap-chemistry', cat: 'ap', label: 'AP Chemistry' },
+  { key: 'ap-csa', cat: 'ap', label: 'AP Computer Science A' },
+  { key: 'ap-euro', cat: 'ap', label: 'AP European History' },
+  { key: 'ap-macro', cat: 'ap', label: 'AP Macroeconomics' },
+  { key: 'ap-micro', cat: 'ap', label: 'AP Microeconomics' },
+  { key: 'ap-physics', cat: 'ap', label: 'AP Physics 1' },
+  { key: 'ap-psych', cat: 'ap', label: 'AP Psychology' },
+  { key: 'ap-stats', cat: 'ap', label: 'AP Statistics' },
+  { key: 'ap-usgov', cat: 'ap', label: 'AP US Government' },
+  { key: 'ap-world', cat: 'ap', label: 'AP World History' },
+  { key: 'ap-human-geography', cat: 'ap', label: 'AP Human Geography' },
+  { key: 'art-history', cat: 'humanities', label: 'Art History' },
+  { key: 'astronomy', cat: 'science', label: 'Astronomy' },
+  { key: 'computer-science', cat: 'electives', label: 'Computer Science' },
+  { key: 'creative-writing', cat: 'english', label: 'Creative Writing' },
+  { key: 'earth-science', cat: 'science', label: 'Earth Science' },
+  { key: 'economics', cat: 'humanities', label: 'Economics' },
+  { key: 'english-10', cat: 'english', label: 'English 10' },
+  { key: 'english-9', cat: 'english', label: 'English 9' },
+  { key: 'environmental-science', cat: 'science', label: 'Environmental Science' },
+  { key: 'french-1', cat: 'languages', label: 'French 1' },
+  { key: 'geography', cat: 'humanities', label: 'Geography' },
+  { key: 'german-1', cat: 'languages', label: 'German 1' },
+  { key: 'health', cat: 'electives', label: 'Health' },
+  { key: 'journalism', cat: 'english', label: 'Journalism' },
+  { key: 'music-theory', cat: 'electives', label: 'Music Theory' },
+  { key: 'psychology', cat: 'humanities', label: 'Psychology' },
+  { key: 'sat-math', cat: 'testprep', label: 'SAT Math Prep' },
+  { key: 'sat-reading', cat: 'testprep', label: 'SAT Reading & Writing' },
+  { key: 'sociology', cat: 'humanities', label: 'Sociology' },
+  { key: 'spanish-1', cat: 'languages', label: 'Spanish 1' },
+  { key: 'spanish-2', cat: 'languages', label: 'Spanish 2' },
+  { key: 'spanish-3', cat: 'languages', label: 'Spanish 3' },
+  { key: 'speech-debate', cat: 'english', label: 'Speech & Debate' },
+  { key: 'statistics', cat: 'math', label: 'Statistics' },
+  { key: 'study-skills', cat: 'electives', label: 'Study Skills' },
+  { key: 'us-government', cat: 'humanities', label: 'US Government' },
+  { key: 'world-history', cat: 'humanities', label: 'World History' },
+  { key: 'calculus', cat: 'math', label: 'Calculus' },
+  { key: 'calc-ab', cat: 'ap', label: 'AP Calculus AB' },
+  { key: 'calc-bc', cat: 'ap', label: 'AP Calculus BC' }
+];
+var SUBJECT_CATEGORIES = [
+  { key: 'math', label: 'Mathematics' },
+  { key: 'science', label: 'Science' },
+  { key: 'humanities', label: 'Humanities & Social Studies' },
+  { key: 'english', label: 'English & Writing' },
+  { key: 'languages', label: 'World Languages' },
+  { key: 'ap', label: 'AP Courses' },
+  { key: 'testprep', label: 'Test Prep' },
+  { key: 'electives', label: 'Electives & Skills' }
+];
+
+var TOUR = [
+  { group: 'Every day', items: [
+    { label: 'Dashboard', href: '/dashboard', desc: 'Your readiness overview across classes, a weekly schedule builder, and a "today\'s focus" banner pointing at your weakest topic.' },
+    { label: 'Quest', href: '/quest', desc: 'Daily and weekly quests plus a weekly boss fight against your weakest unit -- a game layer on top of your real study activity.' }
+  ]},
+  { group: 'Studying a class', items: [
+    { label: '', href: '', desc: 'Each class has its own Study Guide, Flashcards, a Quiz (with a diagnostic and a hard mode), a Practice Exam (with an exam-condition lockdown mode), a Quick Reference sheet, and Memory Tricks.', dynamic: true },
+    { label: 'Syllabus Uploader', href: '/syllabus', desc: 'Upload your class syllabus to auto-fill your schedule and put your units in the order your teacher covers them.' },
+    { label: 'Concept Dependency Map', href: '/concepts', desc: 'See which concepts build on which, so you know what to shore up before moving on.' }
+  ]},
+  { group: 'With other students', items: [
+    { label: 'Weekly Leaderboards', href: '/leaderboards', desc: 'An opt-in weekly ranking of study activity among students who choose to join.' },
+    { label: 'Study Group Hub', href: '/study-group', desc: 'Opt-in shared spaces for a class or group to coordinate studying together.' },
+    { label: 'Peer Challenge', href: '/challenge', desc: 'Send a friend a head-to-head quiz challenge on a unit.' }
+  ]},
+  { group: 'Account', items: [
+    { label: 'Settings', href: '/settings', desc: 'The tabbed Account, Study Preferences, Notifications, Appearance, and Data Management page.' },
+    { label: 'Educator Resource Hub', href: '/educators', desc: 'Relevant if you are a teacher -- classroom-facing resources, not part of the student experience.' }
+  ]}
+];
+
+var OB_STATE = { enrolled: [], firstSubject: null, notificationPrefs: { daily: true, streak: true, blocks: true }, goalSaved: false, subjectsSaved: false };
+
+function obAnnounce(text){
+  document.getElementById('ob-announce').textContent = text;
+}
+
+function obGoStep(n){
+  for (var i = 1; i <= 4; i++) {
+    document.getElementById('ob-step-' + i).hidden = (i !== n);
+  }
+  document.querySelectorAll('.ob-progress-step').forEach(function(el){
+    var i = Number(el.getAttribute('data-i'));
+    el.classList.toggle('done', i < n);
+    el.classList.toggle('current', i === n);
+  });
+  document.getElementById('ob-progressbar').setAttribute('aria-valuenow', String(n));
+  document.getElementById('ob-step-label').textContent = 'Step ' + n + ' of 4';
+  var titleEl = document.getElementById('ob-step-' + n).querySelector('.ob-title');
+  obAnnounce('Step ' + n + ' of 4: ' + (titleEl ? titleEl.textContent : ''));
+  try { localStorage.setItem('ob-step', String(n)); } catch(e){}
+  if (n === 3) obRenderTour();
+  if (n === 4) { obRenderFinish(); try { localStorage.setItem('ob-done', '1'); } catch(e){} }
+  window.scrollTo(0, 0);
+}
+
+function obRenderSubjects(){
+  var enrolledSet = new Set(OB_STATE.enrolled);
+  var byCat = {};
+  SUBJECTS.forEach(function(s){ (byCat[s.cat] = byCat[s.cat] || []).push(s); });
+  var html = SUBJECT_CATEGORIES.map(function(cat){
+    var subjects = byCat[cat.key] || [];
+    if (!subjects.length) return '';
+    var openCount = subjects.filter(function(s){ return enrolledSet.has(s.key); }).length;
+    var rows = subjects.map(function(s){
+      return '<div class="ob-subject-row"><label><input type="checkbox" data-subject="' + s.key + '"'
+        + (enrolledSet.has(s.key) ? ' checked' : '') + ' onchange="obToggleSubject(this)"/>'
+        + '<span>' + ssEscapeHtml(s.label) + '</span></label></div>';
+    }).join('');
+    return '<div class="ob-cat"><div class="ob-cat-label">' + ssEscapeHtml(cat.label)
+      + (openCount ? ' <span class="ob-count-chip">' + openCount + ' selected</span>' : '') + '</div>' + rows + '</div>';
+  }).join('');
+  document.getElementById('ob-subject-list').innerHTML = html;
+}
+
+function obToggleSubject(cb){
+  var key = cb.getAttribute('data-subject');
+  var idx = OB_STATE.enrolled.indexOf(key);
+  if (cb.checked && idx === -1) OB_STATE.enrolled.push(key);
+  if (!cb.checked && idx !== -1) OB_STATE.enrolled.splice(idx, 1);
+  obRenderSubjects();
+}
+
+async function obSaveSubjectsAndNext(){
+  var status = document.getElementById('ob-step1-status');
+  status.textContent = 'Saving...';
+  try {
+    await obFetch('/api/enrolled-subjects', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ subjects: OB_STATE.enrolled })
+    });
+    OB_STATE.subjectsSaved = true;
+    OB_STATE.firstSubject = SUBJECTS.find(function(s){ return OB_STATE.enrolled.indexOf(s.key) !== -1; }) || null;
+    status.textContent = '';
+    obGoStep(2);
+  } catch (e) {
+    status.textContent = "Couldn't save -- try again.";
+  }
+}
+
+async function obSavePrefsAndNext(){
+  var status = document.getElementById('ob-step2-status');
+  status.textContent = 'Saving...';
+  var prefs = {
+    daily: document.getElementById('ob-pref-daily').checked,
+    streak: document.getElementById('ob-pref-streak').checked,
+    blocks: document.getElementById('ob-pref-blocks').checked
+  };
+  var days = Number(document.getElementById('ob-goal-days').value);
+  var minutesPerDay = Number(document.getElementById('ob-goal-minutes').value);
+  try {
+    await obFetch('/api/notification-prefs', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(prefs)
+    });
+    OB_STATE.notificationPrefs = prefs;
+    if (days > 0 && minutesPerDay > 0) {
+      await obFetch('/api/goal', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ days: days, minutesPerDay: minutesPerDay })
+      });
+      OB_STATE.goalSaved = true;
+      OB_STATE.goalDays = days;
+      OB_STATE.goalMinutes = minutesPerDay;
+    }
+    status.textContent = '';
+    obGoStep(3);
+  } catch (e) {
+    status.textContent = "Couldn't save -- try again.";
+  }
+}
+
+function obSeenKey(){ return 'ob-tour-seen'; }
+function obGetSeen(){
+  try { return JSON.parse(localStorage.getItem(obSeenKey()) || '[]'); } catch (e) { return []; }
+}
+function obMarkSeen(href){
+  var seen = obGetSeen();
+  if (seen.indexOf(href) === -1) { seen.push(href); try { localStorage.setItem(obSeenKey(), JSON.stringify(seen)); } catch(e){} }
+}
+
+function obRenderTour(){
+  var seen = obGetSeen();
+  var firstSubject = OB_STATE.firstSubject;
+  var html = TOUR.map(function(group){
+    var items = group.items.map(function(item){
+      var href = item.href;
+      var label = item.label;
+      var desc = item.desc;
+      if (item.dynamic) {
+        if (firstSubject) { href = '/' + firstSubject.key; label = firstSubject.label + ' Study Guide'; }
+        else { href = '/geometry'; label = 'A subject study guide (example: Geometry)'; }
+      }
+      var isSeen = seen.indexOf(href) !== -1;
+      return '<div class="ob-tour-item"><div class="ob-tour-text"><strong>' + ssEscapeHtml(label) + '</strong>'
+        + '<span>' + ssEscapeHtml(desc) + '</span>'
+        + (isSeen ? '<span class="ob-tour-seen">Visited</span>' : '') + '</div>'
+        + '<a class="ob-visit-btn" href="' + href + '" target="_blank" rel="noopener" onclick="obMarkSeen(\'' + href + '\')">Visit</a></div>';
+    }).join('');
+    return '<div class="ob-tour-group"><div class="ob-tour-group-label">' + ssEscapeHtml(group.group) + '</div>' + items + '</div>';
+  }).join('');
+  document.getElementById('ob-tour-list').innerHTML = html;
+}
+
+function obRenderFinish(){
+  var count = OB_STATE.enrolled.length;
+  var items = [];
+  items.push('<div class="ob-finish-item"><span>Classes selected</span><span>' + (count ? count + (count===1?' class':' classes') : 'None yet') + '</span></div>');
+  var onCount = ['daily','streak','blocks'].filter(function(k){ return OB_STATE.notificationPrefs[k]; }).length;
+  items.push('<div class="ob-finish-item"><span>Notification preferences</span><span>' + onCount + ' of 3 turned on</span></div>');
+  var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  items.push('<div class="ob-finish-item"><span>Theme</span><span>' + (isDark ? 'Dark' : 'Light') + '</span></div>');
+  if (OB_STATE.goalSaved) {
+    items.push('<div class="ob-finish-item"><span>Study goal</span><span>' + OB_STATE.goalMinutes + ' min/day for ' + OB_STATE.goalDays + ' days</span></div>');
+  }
+  var seenCount = obGetSeen().length;
+  items.push('<div class="ob-finish-item"><span>Tour pages visited</span><span>' + seenCount + '</span></div>');
+  document.getElementById('ob-finish-summary').innerHTML = items.join('');
+  if (window.celebrateCorrect) window.celebrateCorrect(document.getElementById('ob-finish-summary'));
+}
+
+async function obInit(){
+  var gate = document.getElementById('ob-gate');
+  var app = document.getElementById('ob-app');
+  var me;
+  try { var res = await fetch('/auth/me'); me = await res.json(); } catch (e) { me = { loggedIn: false }; }
+  if (!me.loggedIn) {
+    gate.style.display = 'block';
+    document.getElementById('ob-login-box').innerHTML = obLoginBoxHtml();
+    return;
+  }
+  app.style.display = 'block';
+  document.getElementById('ob-pref-dark').checked = document.documentElement.getAttribute('data-theme') === 'dark';
+  document.getElementById('ob-pref-dark').addEventListener('change', obToggleTheme);
+
+  try {
+    var progRes = await fetch('/api/progress');
+    if (progRes.ok) {
+      var blob = await progRes.json();
+      OB_STATE.enrolled = Array.isArray(blob.enrolledSubjects) ? blob.enrolledSubjects.slice() : [];
+      var prefs = blob.notificationPrefs || {};
+      OB_STATE.notificationPrefs = {
+        daily: prefs.daily !== false, streak: prefs.streak !== false, blocks: prefs.blocks !== false
+      };
+      document.getElementById('ob-pref-daily').checked = OB_STATE.notificationPrefs.daily;
+      document.getElementById('ob-pref-streak').checked = OB_STATE.notificationPrefs.streak;
+      document.getElementById('ob-pref-blocks').checked = OB_STATE.notificationPrefs.blocks;
+      if (blob.goal) {
+        document.getElementById('ob-goal-days').value = blob.goal.days;
+        document.getElementById('ob-goal-minutes').value = blob.goal.minutesPerDay;
+      }
+      OB_STATE.firstSubject = SUBJECTS.find(function(s){ return OB_STATE.enrolled.indexOf(s.key) !== -1; }) || null;
+    }
+  } catch (e) { /* fall through with defaults */ }
+
+  obRenderSubjects();
+  var resumeStep = 1;
+  try { resumeStep = Number(localStorage.getItem('ob-step')) || 1; } catch(e){}
+  obGoStep(resumeStep >= 1 && resumeStep <= 4 ? resumeStep : 1);
+}
+obInit();
+</script>
+<script type="module">
+import { celebrateCorrect } from "/shared/celebrate.js";
+window.celebrateCorrect = celebrateCorrect;
+</script>
+<script src="/shared/command-palette.js" defer></script><script src="/shared/high-contrast.js" defer></script><script src="/shared/error-monitor.js" defer></script>
 </body>
 </html>

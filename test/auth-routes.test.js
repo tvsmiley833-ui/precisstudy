@@ -321,7 +321,7 @@ describe("/auth/verify — GET confirms, POST signs in (login-CSRF guard)", () =
       body: new URLSearchParams({ token })
     }), env);
     expect(res.status).toBe(302);
-    expect(res.headers.get("Location")).toBe("https://precisstudy.com/settings?welcome=1");
+    expect(res.headers.get("Location")).toBe("https://precisstudy.com/onboarding");
     expect(res.headers.get("Set-Cookie") || "").toContain("ss_ref=;");
 
     const inviter = JSON.parse(await progress.get("progress:inviter@example.com"));
