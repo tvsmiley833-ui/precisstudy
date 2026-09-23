@@ -487,7 +487,7 @@ input[type=range].spc-slider::-moz-range-progress{background:var(--accent);heigh
 
 /* The AI Study Helper is opened from the toolkit menu (no separate FAB of
    its own — see .toolkit-fab/.toolkit-menu above). */
-#cbot-panel{position:fixed;bottom:88px;right:22px;width:min(360px,calc(100vw - 32px));
+#cbot-panel{position:fixed;top:100px;left:64px;width:min(360px,calc(100vw - 32px));
   height:min(520px,calc(100dvh - 120px));background:var(--surface);border:1px solid var(--border-strong);
   border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:200;
   display:none;flex-direction:column;overflow:hidden}
@@ -604,10 +604,9 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
   .toolkit-menu{right:16px;bottom:148px}
 }
 
-.qref-drawer{position:fixed;top:0;right:0;height:100dvh;width:min(420px,100vw);background:var(--surface);
-  border-left:1px solid var(--border-strong);box-shadow:var(--shadow-lg);z-index:210;display:flex;flex-direction:column;
-  transform:translateX(100%);opacity:0;visibility:hidden;transition:transform .25s ease,opacity .25s ease,visibility 0s linear .25s}
-.qref-drawer.open{transform:translateX(0);opacity:1;visibility:visible;transition:transform .25s ease,opacity .25s ease}
+.qref-drawer{position:fixed;top:70px;left:24px;height:min(560px,calc(100dvh - 120px));width:min(420px,calc(100vw - 32px));background:var(--surface);
+  border:1px solid var(--border-strong);border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:210;display:none;flex-direction:column}
+.qref-drawer.open{display:flex}
 .qref-drawer-hd{display:flex;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--surface-2);flex-shrink:0}
 .qref-drawer-hd b{font-family:'Space Grotesk';font-size:20px;color:var(--ink);flex:1}
 .qref-drawer-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:6px 8px;border-radius:6px}
@@ -615,14 +614,14 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 .qref-drawer-body{flex:1;overflow-y:auto;padding:16px}
 .qref-drawer-body .qr-section:not(:last-child){margin-bottom:20px}
 @media(max-width:600px){
-  .qref-drawer{width:100vw}
+  .qref-drawer{width:calc(100vw - 16px);left:8px}
 }
 
 /* ---- optional Desmos graphing calculator (see DESMOS_API_KEY in logic.js).
    Markup is only ever created by JS when a key is configured, so this CSS
    has no visible effect until then. Opened from the toolkit menu, so it
    anchors under the single toolkit FAB (bottom:22/right:22). ---- */
-.desmos-panel{position:fixed;bottom:88px;right:22px;width:min(380px,calc(100vw - 32px));
+.desmos-panel{position:fixed;top:130px;left:104px;width:min(380px,calc(100vw - 32px));
   height:min(420px,calc(100dvh - 160px));background:var(--surface);border:1px solid var(--border-strong);
   border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:225;display:none;flex-direction:column;overflow:hidden}
 .desmos-panel.open{display:flex}
@@ -632,7 +631,11 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 .desmos-panel-close:hover{color:var(--ink);background:var(--surface-hover)}
 .desmos-calc{flex:1;width:100%;height:100%}
 @media(max-width:600px){
-  .desmos-panel{right:12px;bottom:144px}
+  .desmos-panel{left:12px;top:100px}
+}
+@media(max-width:480px){
+  #cbot-panel,.reference-panel{left:8px}
+  .reference-panel{top:100px}
 }
 
 /* ---- keyboard-shortcuts reference modal, opened with "?" (see
@@ -659,19 +662,19 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
    e.g. the Digital SAT's on-screen Math Reference — inline content instead
    of linking out to a PDF). Same fixed-panel + Escape-to-close pattern as
    .shortcuts-modal, just wider to fit a grid of formulas. ---- */
-.reference-panel{position:fixed;inset:0;z-index:230;display:none;align-items:center;justify-content:center;
-  background:rgba(0,0,0,.45);padding:20px}
+.reference-panel{position:fixed;top:160px;left:144px;z-index:230;display:none;flex-direction:column;
+  width:min(680px,calc(100vw - 32px));max-height:min(600px,calc(100dvh - 40px));
+  background:var(--surface);border:1px solid var(--border-strong);border-radius:var(--radius);box-shadow:var(--shadow-lg);overflow:hidden}
 .reference-panel.open{display:flex}
-.reference-panel-card{width:min(680px,100%);max-height:min(600px,calc(100dvh - 40px));overflow-y:auto;
-  background:var(--surface);border:1px solid var(--border-strong);border-radius:var(--radius);box-shadow:var(--shadow-lg)}
+.reference-panel-card{display:flex;flex-direction:column;min-height:0;flex:1}
 .reference-panel-hd{padding:14px 18px;border-bottom:1px solid var(--border);background:var(--surface-2);
-  display:flex;align-items:flex-start;gap:8px}
+  display:flex;align-items:flex-start;gap:8px;flex-shrink:0}
 .reference-panel-hd-text{flex:1}
 .reference-panel-hd b{font-family:'Space Grotesk';font-size:19px;color:var(--ink);display:block}
 .reference-panel-hd small{font-size:12.5px;color:var(--ink-muted)}
 .reference-panel-close{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;padding:4px 8px;border-radius:6px;flex-shrink:0}
 .reference-panel-close:hover{color:var(--ink);background:var(--surface-hover)}
-.reference-panel-body{padding:18px}
+.reference-panel-body{padding:18px;overflow-y:auto;flex:1;min-height:0}
 .ref-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:18px 12px;margin-bottom:18px}
 .ref-item{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px}
 .ref-item svg{color:var(--ink);flex-shrink:0}
@@ -1062,7 +1065,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <button type="button" class="back-to-top" id="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
   <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
 </button>
-<div id="qref-drawer" class="qref-drawer" role="dialog" aria-modal="true" aria-label="Quick Reference" aria-hidden="true">
+<div id="qref-drawer" class="qref-drawer" role="dialog" aria-modal="false" aria-label="Quick Reference" aria-hidden="true">
   <div class="qref-drawer-hd">
     <b>Quick Reference</b>
     <button type="button" class="qref-drawer-close" onclick="qrefDrawerToggle()" aria-label="Close quick reference">✕</button>
@@ -2448,9 +2451,11 @@ function cbotSearch(query){
 }
 
 function cbotToggle(){
-  document.getElementById('cbot-panel').classList.toggle('open');
-  if(document.getElementById('cbot-panel').classList.contains('open')&&!cbotHistory.length){
-    cbotAddMsg('bot',"Hi! Ask me about any term or concept from the guide — like \"activation energy\" or \"limiting reagent\" — and I'll pull up the explanation. No setup needed.");
+  var panel=document.getElementById('cbot-panel');
+  var opening=panel.classList.toggle('open');
+  if(opening){
+    ssBringToFront(panel);
+    if(!cbotHistory.length)cbotAddMsg('bot',"Hi! Ask me about any term or concept from the guide — like \"activation energy\" or \"limiting reagent\" — and I'll pull up the explanation. No setup needed.");
   }
 }
 function cbotToggleSettings(){document.getElementById('cbot-settings').classList.toggle('open');}
@@ -2758,6 +2763,7 @@ function qrefDrawerOpen(){
   }
   panel.classList.add('open');
   panel.setAttribute('aria-hidden','false');
+  ssBringToFront(panel);
   var fab=document.getElementById('qref-drawer-fab');
   if(fab)fab.setAttribute('aria-expanded','true');
   var closeBtn=panel.querySelector('.qref-drawer-close');
@@ -2794,7 +2800,7 @@ function desmosInit(){
   panel.id='desmos-panel';
   panel.className='desmos-panel';
   panel.setAttribute('role','dialog');
-  panel.setAttribute('aria-modal','true');
+  panel.setAttribute('aria-modal','false');
   panel.setAttribute('aria-label','Graphing calculator');
   panel.setAttribute('aria-hidden','true');
   panel.innerHTML='<div class="desmos-panel-hd"><b>Graphing Calculator</b>'+
@@ -2802,6 +2808,7 @@ function desmosInit(){
     '<div class="desmos-calc" id="desmos-calc"></div>';
   document.body.appendChild(panel);
   panel.querySelector('.desmos-panel-close').onclick=desmosToggle;
+  ssMakeDraggable(panel,'.desmos-panel-hd');
 }
 function desmosToggle(){
   var panel=document.getElementById('desmos-panel');
@@ -2812,6 +2819,7 @@ function desmosToggle(){
   var fab=document.getElementById('desmos-fab');
   if(fab)fab.setAttribute('aria-expanded',opening?'true':'false');
   if(opening){
+    ssBringToFront(panel);
     document.addEventListener('keydown',desmosKeydown);
     if(!desmosScriptLoaded)desmosLoadScript();
   }else{
@@ -2855,12 +2863,66 @@ function cbotPanelInit(){
       '<button type="submit" aria-label="Send">➤</button>'+
     '</form>';
   document.body.appendChild(panel);
+  ssMakeDraggable(panel,'.cbot-hd');
 }
 
 /* Consolidated "toolkit" FAB: one floating button that pops open a small
    speed-dial menu of the individual tools (Quick Reference, AI Study
    Helper, and — only when configured — the Desmos calculator), instead of
    each tool having its own separate floating button. */
+/* ---- Draggable toolkit windows: every panel opened from the toolkit menu
+   (Quick Reference, AI Study Helper, Calculator, Official Reference) can be
+   open at the same time as the others and moved anywhere on screen by its
+   header, like a floating desktop window. Dragging or clicking a panel
+   raises it above the others via a shared, ever-increasing z-index. ---- */
+var ssTopZ=300;
+function ssBringToFront(panel){panel.style.zIndex=String(++ssTopZ);}
+function ssMakeDraggable(panel,handleSelector){
+  if(!panel||panel._ssDraggable)return;
+  var handle=typeof handleSelector==='string'?panel.querySelector(handleSelector):handleSelector;
+  if(!handle)return;
+  panel._ssDraggable=true;
+  handle.style.cursor='move';
+  handle.style.touchAction='none';
+  var dragging=false,startX=0,startY=0,startLeft=0,startTop=0;
+  function pointOf(e){return e.touches&&e.touches.length?e.touches[0]:e;}
+  function down(e){
+    if(e.target.closest('button,a,input,select,textarea'))return;
+    ssBringToFront(panel);
+    dragging=true;
+    var pt=pointOf(e);
+    startX=pt.clientX;startY=pt.clientY;
+    var rect=panel.getBoundingClientRect();
+    startLeft=rect.left;startTop=rect.top;
+    panel.style.left=startLeft+'px';
+    panel.style.top=startTop+'px';
+    panel.style.right='auto';
+    panel.style.bottom='auto';
+    document.body.style.userSelect='none';
+    if(e.cancelable)e.preventDefault();
+  }
+  function move(e){
+    if(!dragging)return;
+    var pt=pointOf(e);
+    var newLeft=startLeft+(pt.clientX-startX);
+    var newTop=startTop+(pt.clientY-startY);
+    newLeft=Math.max(8-panel.offsetWidth+40,Math.min(newLeft,window.innerWidth-40));
+    newTop=Math.max(0,Math.min(newTop,window.innerHeight-40));
+    panel.style.left=newLeft+'px';
+    panel.style.top=newTop+'px';
+    if(e.cancelable)e.preventDefault();
+  }
+  function up(){dragging=false;document.body.style.userSelect='';}
+  handle.addEventListener('mousedown',down);
+  document.addEventListener('mousemove',move);
+  document.addEventListener('mouseup',up);
+  handle.addEventListener('touchstart',down,{passive:false});
+  document.addEventListener('touchmove',move,{passive:false});
+  document.addEventListener('touchend',up);
+  panel.addEventListener('mousedown',function(){ssBringToFront(panel);});
+  panel.addEventListener('touchstart',function(){ssBringToFront(panel);},{passive:true});
+}
+
 function toolkitInit(){
   var fab=document.createElement('button');
   fab.type='button';
@@ -2882,7 +2944,7 @@ function toolkitInit(){
     b.className='toolkit-item';
     b.setAttribute('role','menuitem');
     b.innerHTML=svg+'<span>'+label+'</span>';
-    b.onclick=function(){ toolkitClose(); toolkitCloseAllPanels(); onClick(); };
+    b.onclick=function(){ toolkitClose(); onClick(); };
     menu.appendChild(b);
   }
 
@@ -2903,18 +2965,6 @@ function toolkitInit(){
   fab.onclick=toolkitToggle;
   document.body.appendChild(menu);
   document.body.appendChild(fab);
-}
-/* The AI helper and calculator panels share the same anchor point (docked
-   under the single toolkit FAB) so only one may be open at a time — force
-   the others closed before the requested one's own toggle runs. */
-function toolkitCloseAllPanels(){
-  qrefDrawerClose();
-  var cbot=document.getElementById('cbot-panel');
-  if(cbot)cbot.classList.remove('open');
-  var desmos=document.getElementById('desmos-panel');
-  if(desmos){desmos.classList.remove('open');desmos.setAttribute('aria-hidden','true');}
-  shortcutsModalClose();
-  referencePanelClose();
 }
 function toolkitToggle(){
   var menu=document.getElementById('toolkit-menu');
@@ -3009,7 +3059,7 @@ function referencePanelInit(){
   panel.id='reference-panel';
   panel.className='reference-panel';
   panel.setAttribute('role','dialog');
-  panel.setAttribute('aria-modal','true');
+  panel.setAttribute('aria-modal','false');
   panel.setAttribute('aria-label',OFFICIAL_REFERENCE.label);
   panel.setAttribute('aria-hidden','true');
   var pdfLink=OFFICIAL_REFERENCE.url?'<div class="reference-panel-pdf-link"><a href="'+OFFICIAL_REFERENCE.url+'" target="_blank" rel="noopener">View the full official PDF ↗</a></div>':'';
@@ -3018,6 +3068,7 @@ function referencePanelInit(){
     '<button type="button" class="reference-panel-close" onclick="referencePanelClose()" aria-label="Close reference sheet">✕</button></div>'+
     '<div class="reference-panel-body">'+OFFICIAL_REFERENCE.content+pdfLink+'</div></div>';
   document.body.appendChild(panel);
+  ssMakeDraggable(panel,'.reference-panel-hd');
 }
 function referencePanelOpen(){
   referencePanelInit();
@@ -3025,6 +3076,7 @@ function referencePanelOpen(){
   if(!panel)return;
   panel.classList.add('open');
   panel.setAttribute('aria-hidden','false');
+  ssBringToFront(panel);
   var closeBtn=panel.querySelector('.reference-panel-close');
   if(closeBtn)closeBtn.focus();
   document.addEventListener('keydown',referencePanelKeydown);
@@ -3050,6 +3102,7 @@ desmosInit();
 cbotPanelInit();
 toolkitInit();
 shortcutsModalInit();
+ssMakeDraggable(document.getElementById('qref-drawer'),'.qref-drawer-hd');
 
 /* ----- unit-filtered practice, e.g. /chemistry?practice=3 (from the dashboard's "study this next") ----- */
 (async function ssPracticeMode(){

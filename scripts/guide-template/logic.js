@@ -1364,9 +1364,11 @@ function cbotSearch(query){
 }
 
 function cbotToggle(){
-  document.getElementById('cbot-panel').classList.toggle('open');
-  if(document.getElementById('cbot-panel').classList.contains('open')&&!cbotHistory.length){
-    cbotAddMsg('bot',"Hi! Ask me about any term or concept from the guide — like \"activation energy\" or \"limiting reagent\" — and I'll pull up the explanation. No setup needed.");
+  var panel=document.getElementById('cbot-panel');
+  var opening=panel.classList.toggle('open');
+  if(opening){
+    ssBringToFront(panel);
+    if(!cbotHistory.length)cbotAddMsg('bot',"Hi! Ask me about any term or concept from the guide — like \"activation energy\" or \"limiting reagent\" — and I'll pull up the explanation. No setup needed.");
   }
 }
 function cbotToggleSettings(){document.getElementById('cbot-settings').classList.toggle('open');}
@@ -1674,6 +1676,7 @@ function qrefDrawerOpen(){
   }
   panel.classList.add('open');
   panel.setAttribute('aria-hidden','false');
+  ssBringToFront(panel);
   var fab=document.getElementById('qref-drawer-fab');
   if(fab)fab.setAttribute('aria-expanded','true');
   var closeBtn=panel.querySelector('.qref-drawer-close');
@@ -1710,7 +1713,7 @@ function desmosInit(){
   panel.id='desmos-panel';
   panel.className='desmos-panel';
   panel.setAttribute('role','dialog');
-  panel.setAttribute('aria-modal','true');
+  panel.setAttribute('aria-modal','false');
   panel.setAttribute('aria-label','Graphing calculator');
   panel.setAttribute('aria-hidden','true');
   panel.innerHTML='<div class="desmos-panel-hd"><b>Graphing Calculator</b>'+
@@ -1718,6 +1721,7 @@ function desmosInit(){
     '<div class="desmos-calc" id="desmos-calc"></div>';
   document.body.appendChild(panel);
   panel.querySelector('.desmos-panel-close').onclick=desmosToggle;
+  ssMakeDraggable(panel,'.desmos-panel-hd');
 }
 function desmosToggle(){
   var panel=document.getElementById('desmos-panel');
@@ -1728,6 +1732,7 @@ function desmosToggle(){
   var fab=document.getElementById('desmos-fab');
   if(fab)fab.setAttribute('aria-expanded',opening?'true':'false');
   if(opening){
+    ssBringToFront(panel);
     document.addEventListener('keydown',desmosKeydown);
     if(!desmosScriptLoaded)desmosLoadScript();
   }else{
@@ -1771,12 +1776,66 @@ function cbotPanelInit(){
       '<button type="submit" aria-label="Send">➤</button>'+
     '</form>';
   document.body.appendChild(panel);
+  ssMakeDraggable(panel,'.cbot-hd');
 }
 
 /* Consolidated "toolkit" FAB: one floating button that pops open a small
    speed-dial menu of the individual tools (Quick Reference, AI Study
    Helper, and — only when configured — the Desmos calculator), instead of
    each tool having its own separate floating button. */
+/* ---- Draggable toolkit windows: every panel opened from the toolkit menu
+   (Quick Reference, AI Study Helper, Calculator, Official Reference) can be
+   open at the same time as the others and moved anywhere on screen by its
+   header, like a floating desktop window. Dragging or clicking a panel
+   raises it above the others via a shared, ever-increasing z-index. ---- */
+var ssTopZ=300;
+function ssBringToFront(panel){panel.style.zIndex=String(++ssTopZ);}
+function ssMakeDraggable(panel,handleSelector){
+  if(!panel||panel._ssDraggable)return;
+  var handle=typeof handleSelector==='string'?panel.querySelector(handleSelector):handleSelector;
+  if(!handle)return;
+  panel._ssDraggable=true;
+  handle.style.cursor='move';
+  handle.style.touchAction='none';
+  var dragging=false,startX=0,startY=0,startLeft=0,startTop=0;
+  function pointOf(e){return e.touches&&e.touches.length?e.touches[0]:e;}
+  function down(e){
+    if(e.target.closest('button,a,input,select,textarea'))return;
+    ssBringToFront(panel);
+    dragging=true;
+    var pt=pointOf(e);
+    startX=pt.clientX;startY=pt.clientY;
+    var rect=panel.getBoundingClientRect();
+    startLeft=rect.left;startTop=rect.top;
+    panel.style.left=startLeft+'px';
+    panel.style.top=startTop+'px';
+    panel.style.right='auto';
+    panel.style.bottom='auto';
+    document.body.style.userSelect='none';
+    if(e.cancelable)e.preventDefault();
+  }
+  function move(e){
+    if(!dragging)return;
+    var pt=pointOf(e);
+    var newLeft=startLeft+(pt.clientX-startX);
+    var newTop=startTop+(pt.clientY-startY);
+    newLeft=Math.max(8-panel.offsetWidth+40,Math.min(newLeft,window.innerWidth-40));
+    newTop=Math.max(0,Math.min(newTop,window.innerHeight-40));
+    panel.style.left=newLeft+'px';
+    panel.style.top=newTop+'px';
+    if(e.cancelable)e.preventDefault();
+  }
+  function up(){dragging=false;document.body.style.userSelect='';}
+  handle.addEventListener('mousedown',down);
+  document.addEventListener('mousemove',move);
+  document.addEventListener('mouseup',up);
+  handle.addEventListener('touchstart',down,{passive:false});
+  document.addEventListener('touchmove',move,{passive:false});
+  document.addEventListener('touchend',up);
+  panel.addEventListener('mousedown',function(){ssBringToFront(panel);});
+  panel.addEventListener('touchstart',function(){ssBringToFront(panel);},{passive:true});
+}
+
 function toolkitInit(){
   var fab=document.createElement('button');
   fab.type='button';
@@ -1798,7 +1857,7 @@ function toolkitInit(){
     b.className='toolkit-item';
     b.setAttribute('role','menuitem');
     b.innerHTML=svg+'<span>'+label+'</span>';
-    b.onclick=function(){ toolkitClose(); toolkitCloseAllPanels(); onClick(); };
+    b.onclick=function(){ toolkitClose(); onClick(); };
     menu.appendChild(b);
   }
 
@@ -1819,18 +1878,6 @@ function toolkitInit(){
   fab.onclick=toolkitToggle;
   document.body.appendChild(menu);
   document.body.appendChild(fab);
-}
-/* The AI helper and calculator panels share the same anchor point (docked
-   under the single toolkit FAB) so only one may be open at a time — force
-   the others closed before the requested one's own toggle runs. */
-function toolkitCloseAllPanels(){
-  qrefDrawerClose();
-  var cbot=document.getElementById('cbot-panel');
-  if(cbot)cbot.classList.remove('open');
-  var desmos=document.getElementById('desmos-panel');
-  if(desmos){desmos.classList.remove('open');desmos.setAttribute('aria-hidden','true');}
-  shortcutsModalClose();
-  referencePanelClose();
 }
 function toolkitToggle(){
   var menu=document.getElementById('toolkit-menu');
@@ -1925,7 +1972,7 @@ function referencePanelInit(){
   panel.id='reference-panel';
   panel.className='reference-panel';
   panel.setAttribute('role','dialog');
-  panel.setAttribute('aria-modal','true');
+  panel.setAttribute('aria-modal','false');
   panel.setAttribute('aria-label',OFFICIAL_REFERENCE.label);
   panel.setAttribute('aria-hidden','true');
   var pdfLink=OFFICIAL_REFERENCE.url?'<div class="reference-panel-pdf-link"><a href="'+OFFICIAL_REFERENCE.url+'" target="_blank" rel="noopener">View the full official PDF ↗</a></div>':'';
@@ -1934,6 +1981,7 @@ function referencePanelInit(){
     '<button type="button" class="reference-panel-close" onclick="referencePanelClose()" aria-label="Close reference sheet">✕</button></div>'+
     '<div class="reference-panel-body">'+OFFICIAL_REFERENCE.content+pdfLink+'</div></div>';
   document.body.appendChild(panel);
+  ssMakeDraggable(panel,'.reference-panel-hd');
 }
 function referencePanelOpen(){
   referencePanelInit();
@@ -1941,6 +1989,7 @@ function referencePanelOpen(){
   if(!panel)return;
   panel.classList.add('open');
   panel.setAttribute('aria-hidden','false');
+  ssBringToFront(panel);
   var closeBtn=panel.querySelector('.reference-panel-close');
   if(closeBtn)closeBtn.focus();
   document.addEventListener('keydown',referencePanelKeydown);
@@ -1966,6 +2015,7 @@ desmosInit();
 cbotPanelInit();
 toolkitInit();
 shortcutsModalInit();
+ssMakeDraggable(document.getElementById('qref-drawer'),'.qref-drawer-hd');
 
 /* ----- unit-filtered practice, e.g. /chemistry?practice=3 (from the dashboard's "study this next") ----- */
 (async function ssPracticeMode(){
