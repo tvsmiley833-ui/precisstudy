@@ -184,17 +184,22 @@ const AUTH_ROUTES: Record<string, Record<string, (request: Request, env: Env) =>
 // stops a large class of injection payloads even though inline execution
 // of the page's own script/style is allowed. Third-party origins the site
 // actually loads: Google AdSense (script + ad iframes), Cloudflare's own
-// Web Analytics beacon (auto-injected by the zone), and the optional Desmos
+// Web Analytics beacon (auto-injected by the zone), the optional Desmos
 // graphing calculator embed (guide-template toolkit menu; inert unless
-// DESMOS_API_KEY is configured in scripts/guide-template/logic.js). Fonts
-// are self-hosted (public/fonts/), so no fonts.googleapis.com / fonts.gstatic.com needed.
+// DESMOS_API_KEY is configured in scripts/guide-template/logic.js), and
+// MathJax (guide pages load tex-mml-chtml.js from jsDelivr to render every
+// $...$ formula in their study-guide/quiz content -- without it in
+// script-src the browser silently blocks the script and every formula on
+// every guide page shows as raw, unrendered LaTeX source instead of math).
+// Fonts are self-hosted (public/fonts/), so no fonts.googleapis.com /
+// fonts.gstatic.com needed.
 const CSP = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google https://static.cloudflareinsights.com https://www.desmos.com",
+  "script-src 'self' 'unsafe-inline' https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google https://static.cloudflareinsights.com https://www.desmos.com https://cdn.jsdelivr.net",
   "style-src 'self' 'unsafe-inline'",
-  "font-src 'self'",
+  "font-src 'self' https://cdn.jsdelivr.net",
   "img-src 'self' data: https:",
-  "connect-src 'self' https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google https://cloudflareinsights.com https://www.desmos.com",
+  "connect-src 'self' https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google https://cloudflareinsights.com https://www.desmos.com https://cdn.jsdelivr.net",
   "frame-src https://*.doubleclick.net https://*.googlesyndication.com https://*.google.com https://*.adtrafficquality.google",
   "object-src 'none'",
   "base-uri 'self'",
