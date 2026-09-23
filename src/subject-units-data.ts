@@ -121,17 +121,18 @@ export const SUBJECT_UNIT_NAMES: Record<string, Record<string, string>> = {
     "11": "Modern America (1980-Present)"
   },
   "physics": {
-    "1": "Kinematics",
-    "2": "Newton's Laws & Dynamics",
-    "3": "Circular Motion & Gravitation",
-    "4": "Rotational Motion & Torque",
-    "5": "Momentum & Energy",
-    "6": "Electricity",
-    "7": "Magnetism & Electromagnetism",
-    "8": "Simple Harmonic Motion",
-    "9": "Waves & Sound",
-    "10": "Optics",
-    "11": "Modern Physics"
+    "1": "Measurement, Vectors & Motion Basics",
+    "2": "Kinematics",
+    "3": "Newton's Laws & Dynamics",
+    "4": "Circular Motion & Gravitation",
+    "5": "Rotational Motion & Torque",
+    "6": "Momentum & Energy",
+    "7": "Electricity",
+    "8": "Magnetism & Electromagnetism",
+    "9": "Simple Harmonic Motion",
+    "10": "Waves & Sound",
+    "11": "Optics",
+    "12": "Modern Physics"
   },
   "biology": {
     "1": "Characteristics of Life & the Scientific Method",
