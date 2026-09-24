@@ -423,9 +423,7 @@ function buildGuide(){
     const hd=document.createElement('div');hd.className='unit-hd';
     const estMins=Math.max(5,Math.round(u.concepts.length*3+(u.traps?u.traps.length:0)*2+(u.fms?u.fms.length:0)*2));
     hd.innerHTML=`<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts · ~${estMins} min</span></span><span class="unit-progress" id="unit-progress-${u.id}" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span><button type="button" class="unit-tts-btn" data-unit="${u.id}" aria-label="Read this unit aloud" onclick="event.stopPropagation();ssReadUnitAloud(${u.id})">${SS_TTS_SPEAKER_ICON}</button><span class="chevron">▾</span>`;
-    hd.tabIndex=0;hd.setAttribute('role','button');hd.setAttribute('aria-expanded','false');
-    hd.onclick=()=>{const isOpen=div.classList.toggle('open');hd.setAttribute('aria-expanded',isOpen?'true':'false');};
-    hd.onkeydown=(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();hd.click();}};
+    ssWireUnitHeader(div,hd);
     const body=document.createElement('div');body.className='unit-body';
     u.concepts.forEach(c=>{
       const cd=document.createElement('div');cd.className='concept';
@@ -440,6 +438,17 @@ function buildGuide(){
     div.appendChild(hd);div.appendChild(body);ul.appendChild(div);
   });
 }
+// Unit header wiring. The whole row toggles on click, but only the title is
+// the keyboard/screen-reader button: the row also holds the read-aloud
+// button, and a button can't contain another control (WCAG 4.1.2).
+function ssWireUnitHeader(div,hd){
+  const title=hd.querySelector('.unit-title')||hd;
+  hd.removeAttribute('role');hd.removeAttribute('tabindex');hd.removeAttribute('aria-expanded');
+  title.setAttribute('role','button');title.tabIndex=0;
+  title.setAttribute('aria-expanded',div.classList.contains('open')?'true':'false');
+  hd.onclick=()=>{const isOpen=div.classList.toggle('open');title.setAttribute('aria-expanded',isOpen?'true':'false');};
+  title.onkeydown=(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();hd.click();}};
+}
 function hydrateGuide(){
   const fr=document.getElementById('filter-row');
   const chips=Array.from(fr.children);
@@ -451,9 +460,7 @@ function hydrateGuide(){
     filterTags[u.id]=chip;
   });
   document.querySelectorAll('.unit').forEach(div=>{
-    const hd=div.querySelector('.unit-hd');
-    hd.onclick=()=>{const isOpen=div.classList.toggle('open');hd.setAttribute('aria-expanded',isOpen?'true':'false');};
-    hd.onkeydown=(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();hd.click();}};
+    ssWireUnitHeader(div,div.querySelector('.unit-hd'));
   });
 }
 (function(){

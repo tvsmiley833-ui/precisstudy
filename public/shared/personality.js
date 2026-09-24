@@ -218,7 +218,7 @@ function continueButton() {
   btn.onclick = () => {
     if (!unit.classList.contains("open")) /** @type {HTMLElement | null} */ (unit.querySelector(".unit-hd"))?.click();
     unit.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
-    /** @type {HTMLElement | null} */ (unit.querySelector(".unit-hd"))?.focus?.();
+    /** @type {HTMLElement | null} */ (unit.querySelector(".unit-title"))?.focus?.();
   };
   units.before(btn);
 }

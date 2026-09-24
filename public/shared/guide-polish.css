@@ -230,7 +230,7 @@ html:root:not([data-theme="dark"]) {
   --border-strong: #b7c4b3 !important;
   --ink: #1b2a24 !important;
   --ink-muted: #45564d !important;
-  --ink-dim: #6b7b72 !important;
+  --ink-dim: #56665d !important; /* ≥ 5.3:1 on every light surface */
 }
 html:root:not([data-theme="dark"]) body { background: var(--bg) !important; }
 
@@ -239,6 +239,8 @@ html:root:not([data-theme="dark"]) body { background: var(--bg) !important; }
    Chemistry, ...) and a solid-fill .btn in that color. The subject already
    has its own chalk strip in the header; controls use the brand green so
    every guide reads as one product. Light values keep >= 4.5:1 on white. */
+/* Solid fills behind white text (mission banner, filled buttons): 5.3:1. */
+html:root { --accent-solid: #1f7a4d !important; }
 html:root:not([data-theme="dark"]) {
   --accent: #1f7a4d !important;
   --accent-ink: #155c39 !important;
@@ -421,3 +423,4 @@ html body .ss-textbook {
 }
 html body .ss-textbook b { color: var(--ink); }
 html body .ss-textbook a { display: inline-block; margin-top: 6px; color: var(--accent); font-weight: 700; }
+html body #units .unit-title:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
