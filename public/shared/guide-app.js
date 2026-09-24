@@ -1217,6 +1217,24 @@ function ansQ(i){
     expEl.appendChild(document.createElement('br'));
     expEl.appendChild(explainBtn);
   }
+  // Inline "report this question": lands in the same feedback queue admins
+  // already review, tagged with enough context to find the item.
+  const oldRep=document.getElementById('q-report');
+  if(oldRep)oldRep.remove();
+  const rep=document.createElement('button');
+  rep.type='button';rep.id='q-report';rep.className='q-report';
+  rep.textContent='Report a problem with this question';
+  rep.onclick=function(){
+    var why=prompt('What looks wrong with this question? (wrong answer, typo, unclear...)');
+    if(why===null)return;
+    rep.disabled=true;rep.textContent='Sending\u2026';
+    fetch('/api/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      category:'bug',page:location.pathname,
+      message:('[Question report] '+SS_GUIDE.slug+' unit '+q.u+'\nQ: '+q.q+'\nKeyed answer: '+q.o[q.a]+'\nNote: '+(why||'(none)')).slice(0,1990)
+    })}).then(function(r){rep.textContent=r.ok?'Thanks \u2014 reported for review':'Could not send \u2014 try again';rep.disabled=r.ok;})
+      .catch(function(){rep.textContent='Could not send \u2014 try again';rep.disabled=false;});
+  };
+  expEl.appendChild(rep);
   document.getElementById('q-next').style.display='inline-block';
   document.getElementById('q-sc').textContent=`Score: ${score}`;
   var _hl=document.getElementById('hero-live');
