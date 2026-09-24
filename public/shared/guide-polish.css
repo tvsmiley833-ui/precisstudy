@@ -1,0 +1,235 @@
+/* Shared visual layer for every subject guide (public/<slug>/index.html).
+   Loaded after each page's inline <style>, so it unifies the look across all
+   guides from one file: brand-green hero instead of a different gradient per
+   subject, one heading face, underline tabs, and unit rows whose meta,
+   progress and read-aloud controls line up in fixed columns. The subject's
+   --accent still tints small details (active tab, progress, links). */
+
+@font-face {
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-weight: 500 700;
+  font-display: swap;
+  src: url('/fonts/fraunces-latin.woff2') format('woff2');
+}
+
+:root {
+  --brand-bg: #14302a;
+  --brand-bg-deep: #0e231e;
+  --brand-ink: #eef2ea;
+  --brand-muted: rgba(238, 242, 234, .7);
+  --brand-line: rgba(238, 242, 234, .14);
+  --brand-green: #4fbf85;
+}
+
+/* ---------- Hero: one brand look, compact ---------- */
+html:root body .hero.hero {
+  background:
+    radial-gradient(120% 140% at 100% 0%, color-mix(in oklab, var(--accent, #4fbf85) 22%, transparent) 0%, transparent 55%),
+    linear-gradient(180deg, var(--brand-bg) 0%, var(--brand-bg-deep) 100%) !important;
+  padding: 28px 24px 0 !important;
+  border-bottom: 1px solid var(--brand-line);
+}
+html:root body .hero.hero::before,
+html:root body .hero.hero::after { display: none !important; }
+html body .hero-inner { max-width: 880px; margin: 0 auto; }
+
+html:root body .hero.hero .breadcrumb { font-size: 13px; opacity: .75; margin-bottom: 14px; }
+html:root body .hero.hero .breadcrumb a { color: var(--brand-muted); }
+
+html:root body .hero.hero .kicker {
+  font-size: 12px !important;
+  letter-spacing: .14em;
+  color: var(--brand-green) !important;
+  margin-bottom: 6px !important;
+}
+html:root body .hero.hero .kicker-logo { display: none; }
+
+html:root body .hero.hero h1 {
+  font-family: 'Fraunces', Georgia, serif !important;
+  font-weight: 600 !important;
+  font-size: clamp(30px, 4vw, 42px) !important;
+  letter-spacing: -.015em !important;
+  line-height: 1.1 !important;
+  color: var(--brand-ink) !important;
+  margin-bottom: 8px !important;
+}
+html:root body .hero.hero h1 .grad {
+  background: none !important;
+  -webkit-text-fill-color: var(--brand-green);
+  color: var(--brand-green) !important;
+}
+html:root body .hero.hero .subtitle {
+  font-size: 15px !important;
+  line-height: 1.5 !important;
+  color: var(--brand-muted) !important;
+  margin-bottom: 18px !important;
+}
+
+/* ---------- Tabs: underline tab bar instead of pill buttons ---------- */
+html:root body .hero.hero .nav {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+html:root body .hero.hero .nav::-webkit-scrollbar { display: none; }
+html:root body .hero.hero .tab-btn {
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 2px solid transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: var(--brand-muted) !important;
+  font: 600 15px/1 'Inter', system-ui, sans-serif !important;
+  padding: 12px 12px 14px !important;
+  white-space: nowrap;
+  transform: none !important;
+}
+html:root body .hero.hero .tab-btn:hover { color: var(--brand-ink) !important; background: transparent !important; }
+html:root body .hero.hero .tab-btn.active {
+  color: var(--brand-ink) !important;
+  border-bottom-color: var(--brand-green) !important;
+  background: transparent !important;
+}
+html:root body .hero.hero .tab-btn:focus-visible { outline: 2px solid var(--brand-green); outline-offset: -2px; border-radius: 6px !important; }
+html:root body .hero.hero #theme-toggle,
+html:root body .hero.hero #focus-toggle {
+  margin-left: auto;
+  margin-bottom: 6px;
+  width: 36px !important;
+  height: 36px !important;
+  background: transparent !important;
+  border: 1px solid var(--brand-line) !important;
+  color: var(--brand-muted) !important;
+}
+html:root body .hero.hero #focus-toggle { margin-left: 6px; }
+html:root body .hero.hero .nav { flex-wrap: nowrap !important; }
+html:root body .hero.hero .tablist { display: flex !important; gap: 4px; flex-wrap: nowrap; }
+
+/* Study timer: an inline control at the end of the tab bar, not a floating overlay */
+html:root body .hero.hero #sg-timer {
+  position: static !important;
+  display: flex !important;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 6px 8px !important;
+  padding: 0 !important;
+  background: none !important;
+  border: 0 !important;
+  white-space: nowrap;
+}
+html:root body .hero.hero #sg-timer .sgt-label { display: none; }
+html:root body .hero.hero #sgt-time { font: 600 13px/1 'IBM Plex Mono', monospace; color: var(--brand-muted); }
+html:root body .hero.hero .sgt-b { width: 28px; height: 28px; border-color: var(--brand-line) !important; color: var(--brand-muted) !important; }
+
+/* ---------- Unit rows: fixed columns, calmer type ---------- */
+html body #units .unit { border-radius: 14px; }
+html body #units .unit-hd {
+  display: grid !important;
+  grid-template-columns: 1fr auto auto 20px;
+  align-items: center;
+  column-gap: 14px;
+  padding: 16px 18px !important;
+}
+html body #units .unit-title {
+  font-family: 'Fraunces', Georgia, serif !important;
+  font-size: 19px !important;
+  font-weight: 600 !important;
+  line-height: 1.3;
+  min-width: 0;
+}
+html body #units .unit-meta {
+  display: block;
+  margin: 3px 0 0 !important;
+  font-family: 'Inter', system-ui, sans-serif !important;
+  font-size: 13px !important;
+}
+html body #units .unit-progress { margin: 0 !important; min-width: 60px; justify-content: flex-end; }
+html body #units .unit-progress-track { width: 44px; height: 4px; }
+html body #units .unit-progress-label { font-size: 11.5px; }
+html body #units .unit-tts-btn { grid-column: 3; }
+html body #units .chevron {
+  display: inline-block !important;
+  grid-column: 4;
+  font-size: 14px !important;
+  color: var(--ink-dim) !important;
+}
+html body #units .unit.open .chevron { color: var(--accent) !important; }
+
+/* The unit list already sits right below the chips; one compact select is enough. */
+html body .filter-row-wrap .filter-row { display: none !important; }
+html body .filter-row-wrap .mobile-only-select {
+  display: block !important;
+  max-width: 260px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink);
+  font: 500 14px 'Inter', system-ui, sans-serif;
+}
+
+@media (max-width: 640px) {
+  html:root body .hero.hero { padding: 20px 16px 0 !important; }
+  html body #units .unit-hd { grid-template-columns: 1fr auto 20px; }
+  html body #units .unit-tts-btn { display: none !important; }
+  html body #units .chevron { grid-column: 3; }
+  html body #units .unit-title { font-size: 17px !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:root body .hero.hero * { animation: none !important; opacity: 1 !important; }
+}
+
+/* The study-plan card used to tuck under the tall hero; with the compact hero
+   that overlap covered the tabs. Give it normal flow spacing and a quieter look. */
+html body .page > .spc-card {
+  margin-top: 20px !important;
+  box-shadow: none !important;
+  border-radius: 12px;
+}
+
+/* ---------- Dark theme: brand green-black instead of a per-subject navy ---------- */
+html:root[data-theme="dark"] {
+  --bg: #0e1c18 !important;
+  --surface: #14281f !important;
+  --surface-2: #19322a !important;
+  --surface-hover: #1d3a30 !important;
+  --border: #25443a !important;
+  --border-strong: #33584b !important;
+  --ink: #eef2ea !important;
+  --ink-muted: #b9c6bd !important;
+  --ink-dim: #8a9a90 !important;
+}
+html:root[data-theme="dark"] body { background: var(--bg) !important; }
+
+/* Plan card and toolkit button: neutral surfaces with a brand-green accent,
+   not a purple wash that competes with the content. */
+html body .page > .spc-card {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+}
+html body .toolkit-fab {
+  background: var(--brand-green) !important;
+  color: #0e231e !important;
+  box-shadow: 0 6px 20px rgb(0 0 0 / .35) !important;
+}
+
+/* ---------- Light theme: the homepage's warm off-white, not a per-subject tint ---------- */
+html:root:not([data-theme="dark"]) {
+  --bg: #eef1ea !important;
+  --surface: #ffffff !important;
+  --surface-2: #f5f7f2 !important;
+  --surface-hover: #eef3ec !important;
+  --border: #d3dbd0 !important;
+  --border-strong: #b7c4b3 !important;
+  --ink: #1b2a24 !important;
+  --ink-muted: #45564d !important;
+  --ink-dim: #6b7b72 !important;
+}
+html:root:not([data-theme="dark"]) body { background: var(--bg) !important; }

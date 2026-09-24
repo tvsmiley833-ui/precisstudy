@@ -84,10 +84,11 @@ async function rewriteViewMeta(res: Response, view: string): Promise<Response> {
 }
 
 // The shared JS every page loads via a plain <script src="/shared/x.js">
-// tag -- same list as `ls public/shared/*.js`. Kept as an explicit list
+// tag -- same list as `ls public/shared/*.js` -- plus the guides' shared
+// stylesheet (<link href="/shared/guide-polish.css">). Kept as an explicit list
 // (not read from disk at request time) so a typo here fails loudly in
 // review rather than silently caching-forever a file nobody versioned.
-const SHARED_JS_FILES = new Set(["celebrate.js", "chalk-cursor.js", "command-palette.js", "error-monitor.js", "feedback-widget.js", "high-contrast.js", "mastery.js", "mission-banner.js", "optimistic.js", "tooltips.js", "unit-titles.js", "unit-order.js"]);
+const SHARED_JS_FILES = new Set(["celebrate.js", "chalk-cursor.js", "command-palette.js", "error-monitor.js", "feedback-widget.js", "high-contrast.js", "mastery.js", "mission-banner.js", "optimistic.js", "tooltips.js", "unit-titles.js", "unit-order.js", "guide-polish.css"]);
 
 // Per-isolate cache: hashing 6 small files is cheap, but there's no reason
 // to redo it every request when the isolate will serve many requests
@@ -130,6 +131,15 @@ async function injectAssetVersions(res: Response, env: Env): Promise<Response> {
         const file = src.slice("/shared/".length).split("?")[0];
         const v = file && versions.get(file);
         if (v) el.setAttribute("src", `/shared/${file}?v=${v}`);
+      }
+    })
+    .on('link[rel="stylesheet"][href^="/shared/"]', {
+      element(el) {
+        const href = el.getAttribute("href");
+        if (!href) return;
+        const file = href.slice("/shared/".length).split("?")[0];
+        const v = file && versions.get(file);
+        if (v) el.setAttribute("href", `/shared/${file}?v=${v}`);
       }
     })
     .transform(res);
