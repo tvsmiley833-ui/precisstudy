@@ -321,7 +321,9 @@ export function generateGuide(config) {
 
   // Data + logic. Exam parts required by schema but may be empty arrays.
   html += `\n<script>\n`;
-  html += `const UNITS=${js(units)};\n`;
+  // Reorder units to the student's syllabus order (see public/shared/unit-order.js).
+  const unitOrderKey = masteryKey || slug;
+  html += `const UNITS=${js(units)};window.__ssApplyUnitOrder&&window.__ssApplyUnitOrder('${unitOrderKey}',UNITS);window.__ssRefreshUnitOrder&&window.__ssRefreshUnitOrder('${unitOrderKey}');\n`;
   // buildGuide() references this for optional per-unit SVG diagrams; guides
   // without diagrams get the empty object the hand-authored pages use.
   html += `const DIAGRAMS=${js(config.diagrams || {})};\n`;
