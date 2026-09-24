@@ -326,6 +326,16 @@ const TEXTBOOKS = {
   "global-history": ["World History Volume 1, to 1500", "https://openstax.org/details/books/world-history-volume-1"],
 };
 
+// Official College Board course pages (exam format, released free-response
+// questions); only slugs confirmed in apstudents.collegeboard.org search results.
+const AP = "https://apstudents.collegeboard.org/courses/";
+/** @type {Record<string, string>} */
+const AP_PAGES = {
+  "ap-biology": AP + "ap-biology", "calc-ab": AP + "ap-calculus-ab", "ap-psych": AP + "ap-psychology",
+  apush: AP + "ap-united-states-history", "ap-world": AP + "ap-world-history-modern",
+  "ap-macro": AP + "ap-macroeconomics", "ap-micro": AP + "ap-microeconomics",
+};
+
 function textbookCard() {
   const book = TEXTBOOKS[SLUG];
   if (!book || !units || document.querySelector(".ss-textbook")) return;
@@ -334,6 +344,13 @@ function textbookCard() {
   card.innerHTML = `<b>Want more depth?</b> <span>The free, peer-reviewed OpenStax textbook <i></i> covers this course. Read it online or download the PDF.</span> <a target="_blank" rel="noopener">Open the free textbook ↗</a>`;
   /** @type {HTMLElement} */ (card.querySelector("i")).textContent = book[0];
   /** @type {HTMLAnchorElement} */ (card.querySelector("a")).href = book[1];
+  const ap = AP_PAGES[SLUG];
+  if (ap) {
+    const a = document.createElement("a");
+    a.href = ap; a.target = "_blank"; a.rel = "noopener";
+    a.textContent = "Official AP course page: exam format and past free-response questions ↗";
+    card.append(document.createElement("br"), a);
+  }
   units.after(card);
 }
 
