@@ -747,7 +747,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   import { celebrateCorrect, resetCombo } from '/shared/celebrate.js';
   import { applyStoredUnitOrder, refreshUnitOrder } from '/shared/unit-order.js';
   import { enterLockdown, exitLockdown, getLockdownSummary } from '/shared/exam-lockdown.js';
-  import '/shared/chalk-cursor.js';
   window.__ssCreateMastery = createMastery;
   window.__ssCelebrateCorrect = celebrateCorrect;
   window.__ssResetCombo = resetCombo;
@@ -803,7 +802,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <div class="page" id="main-content" role="main" tabindex="-1">
 <div class="spc-card collapsed" id="spc-card">
   <button type="button" class="spc-summary" id="spc-summary" aria-expanded="false" aria-controls="spc-body">
-    <span>📊 See what your study plan could look like — tap to expand</span>
+    <span>See what your study plan could look like — tap to expand</span>
     <span class="spc-chevron" aria-hidden="true">▾</span>
   </button>
   <div class="spc-body" id="spc-body">
@@ -951,7 +950,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <div id="fc-progress" style="text-align:center;font-size:18px;color:var(--ink-dim,#857f72);margin-top:6px"></div>
   <div style="text-align:center;margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
     <button class="btn" type="button" onclick="exportFlashcards()" style="font-size:13px;padding:6px 14px">⇩ Export to Anki / Quizlet (.txt)</button>
-    <button class="btn" type="button" onclick="printFlashcardSheet()" style="font-size:13px;padding:6px 14px">🖨️ Print Study Sheet</button>
+    <button class="btn" type="button" onclick="printFlashcardSheet()" style="font-size:13px;padding:6px 14px">Print Study Sheet</button>
   </div>
 <details class="practice-archive"><summary>Browse all 72 flashcards as a list</summary><div class="fc-archive-body"><h4>Unit 1: Characteristics of Life &amp; the Scientific Method</h4><dl class="fc-archive-list"><dt>Homeostasis</dt><dd>Maintaining a stable internal environment despite changes in the external environment. A defining characteristic of all living things.</dd><dt>Metabolism</dt><dd>The sum of all chemical reactions in an organism, including building up (synthesis) and breaking down (breakdown) molecules for energy.</dd><dt>Hypothesis</dt><dd>A testable, falsifiable proposed explanation for an observation, often written as an if/then statement.</dd><dt>Independent variable</dt><dd>The factor the experimenter deliberately changes/manipulates in an experiment.</dd><dt>Dependent variable</dt><dd>The factor that is measured/observed and may change as a result of the independent variable.</dd><dt>Control group</dt><dd>The group that does NOT receive the experimental treatment; used as a baseline for comparison.</dd><dt>Theory (scientific)</dt><dd>A well-substantiated explanation supported by a large body of evidence from many experiments — not a mere guess.</dd><dt>Levels of organization</dt><dd>Cell → tissue → organ → organ system → organism → population → community → ecosystem → biosphere.</dd><dt>Quantitative vs. qualitative data</dt><dd>Quantitative: numerical, measured data. Qualitative: descriptive, non-numerical observations.</dd></dl><h4>Unit 2: Chemistry of Life</h4><dl class="fc-archive-list"><dt>Polar molecule (water)</dt><dd>A molecule with an uneven charge distribution; water's O end is slightly negative and H ends are slightly positive, allowing hydrogen bonding.</dd><dt>Cohesion</dt><dd>Water molecules sticking to each other via hydrogen bonds; produces surface tension.</dd><dt>Adhesion</dt><dd>Water molecules sticking to other polar surfaces; helps water rise through plant stems (capillary action).</dd><dt>Monosaccharide</dt><dd>A single sugar unit (e.g., glucose, fructose) — the monomer/building block of carbohydrates.</dd><dt>Lipid</dt><dd>Nonpolar organic macromolecule (fat/oil/wax) made mostly of C and H; stores long-term energy and forms cell membranes.</dd><dt>Protein</dt><dd>Organic macromolecule made of amino acid monomers folded into a specific shape; functions include enzymes, structure, and transport.</dd><dt>Enzyme</dt><dd>A biological catalyst (usually a protein) that speeds up a specific reaction by lowering activation energy without being consumed.</dd><dt>Nucleic acid</dt><dd>Organic macromolecule (DNA or RNA) made of nucleotide monomers; stores and transmits genetic information.</dd><dt>Dehydration synthesis</dt><dd>Joining monomers into a polymer by removing a water molecule at each new bond.</dd><dt>Hydrolysis</dt><dd>Breaking a polymer into monomers by adding a water molecule to break each bond (basis of digestion).</dd></dl><h4>Unit 3: Cell Biology</h4><dl class="fc-archive-list"><dt>Cell theory</dt><dd>All living things are made of cells; the cell is the basic unit of structure/function; all cells come from pre-existing cells.</dd><dt>Prokaryotic cell</dt><dd>A cell with no nucleus and no membrane-bound organelles; DNA is a free circular loop (e.g., bacteria).</dd><dt>Eukaryotic cell</dt><dd>A cell with a true, membrane-bound nucleus and membrane-bound organelles (e.g., plant, animal, fungal, protist cells).</dd><dt>Mitochondrion</dt><dd>Organelle that is the site of cellular respiration, converting food energy into ATP. 'Powerhouse of the cell.'</dd><dt>Chloroplast</dt><dd>Organelle found only in plant/algae cells; site of photosynthesis; contains the pigment chlorophyll.</dd><dt>Selectively permeable membrane</dt><dd>A membrane (phospholipid bilayer) that allows some substances to cross but not others, controlling what enters/exits the cell.</dd><dt>Diffusion</dt><dd>Net movement of particles from high to low concentration; passive, requires no energy.</dd><dt>Active transport</dt><dd>Movement of substances against the concentration gradient (low to high); requires ATP energy.</dd><dt>Mitosis</dt><dd>Cell division producing two genetically identical daughter cells, used for growth and repair. Phases: prophase, metaphase, anaphase, telophase.</dd></dl><h4>Unit 4: Energy in Cells</h4><dl class="fc-archive-list"><dt>ATP</dt><dd>Adenosine triphosphate — the cell's usable energy currency; releases energy when its outer phosphate bond is broken, forming ADP.</dd><dt>Autotroph</dt><dd>An organism that makes its own food from inorganic sources, usually via photosynthesis (e.g., plants, algae).</dd><dt>Heterotroph</dt><dd>An organism that cannot make its own food and must consume other organisms for energy (e.g., animals, fungi).</dd><dt>Photosynthesis</dt><dd>6CO₂ + 6H₂O + light energy → C₆H₁₂O₆ + 6O₂. Occurs in the chloroplast; converts light energy into chemical energy.</dd><dt>Chlorophyll</dt><dd>The green pigment in chloroplasts that absorbs light energy (mainly red/blue) for photosynthesis; reflects green light.</dd><dt>Cellular respiration</dt><dd>C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + ATP. Releases stored chemical energy from glucose as usable ATP.</dd><dt>Aerobic respiration</dt><dd>Respiration that requires oxygen; occurs in mitochondria; produces much more ATP than fermentation.</dd><dt>Fermentation</dt><dd>Anaerobic (no oxygen) breakdown of glucose that produces much less ATP than aerobic respiration (e.g., lactic acid or alcoholic fermentation).</dd></dl><h4>Unit 5: Genetics &amp; Heredity</h4><dl class="fc-archive-list"><dt>DNA double helix</dt><dd>Two strands of nucleotides twisted together; bases pair A-T and G-C via hydrogen bonds.</dd><dt>Gene</dt><dd>A specific segment of DNA on a chromosome that codes for a particular protein/trait.</dd><dt>Allele</dt><dd>One specific version of a gene (e.g., a purple-flower allele vs. a white-flower allele).</dd><dt>Dominant allele</dt><dd>An allele whose trait is expressed whenever present; represented with a capital letter.</dd><dt>Recessive allele</dt><dd>An allele whose trait is masked unless two copies are present; represented with a lowercase letter.</dd><dt>Genotype vs. phenotype</dt><dd>Genotype: the actual allele combination (e.g., Bb). Phenotype: the observable physical trait (e.g., brown eyes).</dd><dt>Homozygous vs. heterozygous</dt><dd>Homozygous: two identical alleles (BB or bb). Heterozygous: two different alleles (Bb).</dd><dt>Punnett square</dt><dd>A diagram used to predict the probable genotype/phenotype ratios of offspring from a genetic cross.</dd><dt>Meiosis</dt><dd>Cell division that produces four genetically varied haploid gametes (sperm/egg) from one diploid parent cell.</dd></dl><h4>Unit 6: Evolution</h4><dl class="fc-archive-list"><dt>Natural selection</dt><dd>The mechanism of evolution: individuals with favorable inherited traits survive and reproduce more successfully, passing those traits on.</dd><dt>Homologous structures</dt><dd>Body parts with similar underlying structure but different functions, inherited from a common ancestor (e.g., human arm, whale flipper).</dd><dt>Analogous structures</dt><dd>Structures with similar function but different structure/origin, from convergent (not shared) evolution (e.g., bird wing, insect wing).</dd><dt>Vestigial structure</dt><dd>A reduced structure with little/no current function, inherited from an ancestor for whom it was functional (e.g., human appendix).</dd><dt>Adaptation</dt><dd>An inherited trait that increases an organism's chance of survival and successful reproduction in its environment.</dd><dt>Fitness (biological)</dt><dd>An organism's relative ability to survive AND reproduce successfully in its environment, passing genes to offspring.</dd><dt>Geographic isolation</dt><dd>A physical barrier separates a population into groups that can no longer interbreed, often leading to speciation.</dd><dt>Speciation</dt><dd>The evolutionary process by which reproductively isolated populations become distinct, separate species over time.</dd><dt>Fossil record</dt><dd>Evidence for evolution showing a gradual change in life forms across successive rock layers over time.</dd></dl><h4>Unit 7: Ecology</h4><dl class="fc-archive-list"><dt>Biotic factor</dt><dd>A living component of an ecosystem (e.g., organisms, plants, bacteria).</dd><dt>Abiotic factor</dt><dd>A non-living component of an ecosystem (e.g., sunlight, temperature, water, soil pH).</dd><dt>Niche</dt><dd>An organism's functional role in its ecosystem — what it eats, where it lives, and how it interacts with others.</dd><dt>Producer</dt><dd>An autotroph that makes its own food via photosynthesis; forms the base of every food chain.</dd><dt>Decomposer</dt><dd>An organism (e.g., fungi, bacteria) that breaks down dead matter/waste, recycling nutrients back into the ecosystem.</dd><dt>Food web</dt><dd>A diagram showing the many interconnected, overlapping food chains within a real ecosystem.</dd><dt>Energy pyramid / 10% rule</dt><dd>Only about 10% of energy at one trophic level transfers to the next level up; ~90% is lost mostly as heat.</dd><dt>Carrying capacity</dt><dd>The maximum population size an ecosystem's resources can sustainably support long-term.</dd><dt>Limiting factor</dt><dd>Any biotic or abiotic factor (food, water, disease, space) that restricts population growth.</dd></dl><h4>Unit 8: Human Body Systems</h4><dl class="fc-archive-list"><dt>Negative feedback</dt><dd>A regulatory response that reverses a change to restore a normal set point (e.g., sweating to cool down). The most common feedback type.</dd><dt>Positive feedback</dt><dd>A regulatory response that amplifies a change rather than reversing it (e.g., contractions intensifying during childbirth).</dd><dt>Alveoli</dt><dd>Tiny air sacs in the lungs where gas exchange occurs: O₂ diffuses into blood, CO₂ diffuses out to be exhaled.</dd><dt>Hemoglobin</dt><dd>A protein in red blood cells that binds to and carries oxygen throughout the bloodstream.</dd><dt>Villi</dt><dd>Finger-like projections lining the small intestine that increase surface area for nutrient absorption.</dd><dt>Neuron</dt><dd>A nerve cell that transmits electrical impulses; communicates with other neurons across a synapse using neurotransmitters.</dd><dt>Antibody</dt><dd>An immune system protein that specifically targets and marks a pathogen for destruction.</dd><dt>Kidney</dt><dd>Excretory organ that filters nitrogenous waste (urea) and excess water/salts from the blood, producing urine.</dd><dt>Hormone</dt><dd>A chemical messenger released by an endocrine gland into the blood that regulates body processes over time (e.g., insulin).</dd></dl></div></details></div></div>
 <div id="view-quiz" class="view" role="tabpanel" aria-labelledby="tab-quiz" tabindex="0">
@@ -978,8 +977,8 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
       <button class="chip diff-chip" type="button" data-diff="hard" onclick="setDifficultyFilter('hard')">Hard</button>
     </div>
     <button class="btn mistake-log-btn" type="button" onclick="openMistakeLog()">Mistake Log<span class="mistake-log-count" id="mistake-log-count" style="display:none">0</span></button>
-    <button class="btn" type="button" onclick="printWorksheet()" style="font-size:14px;padding:7px 14px">🖨️ Print Worksheet</button>
-    <button class="btn" type="button" id="challenge-friend-btn" onclick="challengeFromQuiz()">⚔️ Challenge a Friend</button>
+    <button class="btn" type="button" onclick="printWorksheet()" style="font-size:14px;padding:7px 14px">Print Worksheet</button>
+    <button class="btn" type="button" id="challenge-friend-btn" onclick="challengeFromQuiz()">Challenge a Friend</button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -1366,7 +1365,7 @@ function ssTypeset(el){
 }
 
 // GUIDE
-const SEARCH_BADGE={concept:'📖 Notes',flashcard:'📇 Flashcard',quiz:'❓ Quiz'};
+const SEARCH_BADGE={concept:'Notes',flashcard:'Flashcard',quiz:'Quiz'};
 function searchGuide(){
   const q=(document.getElementById('search-box').value||'').toLowerCase().trim();
   const sr=document.getElementById('search-results');
@@ -1614,7 +1613,7 @@ ssTypeset(document.getElementById('units'));
     btn=document.createElement('button');
     btn.type='button';
     btn.className='ss-concept-btn';
-    btn.textContent='🤖 Break this down';
+    btn.textContent='Break this down';
     btn.style.left=Math.max(8,rect.left+window.scrollX+rect.width/2)+'px';
     btn.style.top=Math.max(8,rect.top+window.scrollY-40)+'px';
     btn.onmousedown=function(e){e.preventDefault();};
@@ -1670,7 +1669,7 @@ let fcDeck=[],fcIdx=0,fcFilterMode='all',fcMode='flip';
 function toggleFcMode(){
   fcMode=fcMode==='flip'?'type':'flip';
   const btn=document.getElementById('fc-mode-btn');
-  if(btn)btn.textContent=fcMode==='type'?'🔄 Flip mode':'✎ Type it';
+  if(btn)btn.textContent=fcMode==='type'?'Flip mode':'✎ Type it';
   showFC();
 }
 function checkTypedAnswer(){
@@ -2183,7 +2182,7 @@ function showQ(){
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
     (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
-    `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">💡 Hint (1/3)</button>`+
+    `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">Hint (1/3)</button>`+
     `<div class="q-hint-box" id="q-hint-box"></div>`+
     `<div class="q-opts">`;
   q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">`+
@@ -2233,7 +2232,7 @@ function revealNextHintTier(){
     const preview=(q.e||'').split(/(?<=[.!?])\s/)[0]||q.e||'';
     box.textContent='Hint: '+preview;
   }
-  btn.textContent=qHintTier>=3?'💡 No more hints':`💡 Hint (${qHintTier+1}/3)`;
+  btn.textContent=qHintTier>=3?'No more hints':`Hint (${qHintTier+1}/3)`;
   if(qHintTier>=3)btn.disabled=true;
 }
 let guessFlag=false, guessedQs=[], guessedRight=0;
@@ -2294,7 +2293,7 @@ function ansQ(i){
     explainBtn.type='button';
     explainBtn.id='q-explain-wrong-btn';
     explainBtn.className='q-explain-wrong-btn';
-    explainBtn.textContent='🤖 Explain why "'+q.o[i]+'" is wrong';
+    explainBtn.textContent='Explain why "'+q.o[i]+'" is wrong';
     explainBtn.onclick=function(){
       var prompt='For this question: "'+q.q+'" -- why is the answer "'+q.o[i]+'" wrong? The correct answer is "'+q.o[q.a]+'". Keep it short and specific to that wrong choice, not a general re-explanation of the correct answer.';
       var display='Why is "'+q.o[i]+'" wrong?';

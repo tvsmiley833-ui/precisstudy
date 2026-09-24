@@ -747,7 +747,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   import { celebrateCorrect, resetCombo } from '/shared/celebrate.js';
   import { applyStoredUnitOrder, refreshUnitOrder } from '/shared/unit-order.js';
   import { enterLockdown, exitLockdown, getLockdownSummary } from '/shared/exam-lockdown.js';
-  import '/shared/chalk-cursor.js';
   window.__ssCreateMastery = createMastery;
   window.__ssCelebrateCorrect = celebrateCorrect;
   window.__ssResetCombo = resetCombo;
@@ -803,7 +802,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <div class="page" id="main-content" role="main" tabindex="-1">
 <div class="spc-card collapsed" id="spc-card">
   <button type="button" class="spc-summary" id="spc-summary" aria-expanded="false" aria-controls="spc-body">
-    <span>📊 See what your study plan could look like — tap to expand</span>
+    <span>See what your study plan could look like — tap to expand</span>
     <span class="spc-chevron" aria-hidden="true">▾</span>
   </button>
   <div class="spc-body" id="spc-body">
@@ -907,7 +906,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <div id="fc-progress" style="text-align:center;font-size:18px;color:var(--ink-dim,#857f72);margin-top:6px"></div>
   <div style="text-align:center;margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
     <button class="btn" type="button" onclick="exportFlashcards()" style="font-size:13px;padding:6px 14px">⇩ Export to Anki / Quizlet (.txt)</button>
-    <button class="btn" type="button" onclick="printFlashcardSheet()" style="font-size:13px;padding:6px 14px">🖨️ Print Study Sheet</button>
+    <button class="btn" type="button" onclick="printFlashcardSheet()" style="font-size:13px;padding:6px 14px">Print Study Sheet</button>
   </div>
 <details class="practice-archive"><summary>Browse all 80 flashcards as a list</summary><div class="fc-archive-body"><h4>Unit 1: Public Speaking Foundations</h4><dl class="fc-archive-list"><dt>Unit 1 core term</dt><dd>The definition your teacher will test.</dd><dt>Unit 1 key process</dt><dd>Steps in order — practice writing them out.</dd><dt>Unit 1 trap</dt><dd>The mistake most students make here.</dd><dt>Unit 1 connection</dt><dd>How it links to the next unit.</dd><dt>Unit 1 exam lens</dt><dd>The way tests ask about this topic.</dd><dt>Unit 1 fact 0</dt><dd>A tested fact from Public Speaking Foundations.</dd><dt>Unit 1 fact 1</dt><dd>A tested fact from Public Speaking Foundations.</dd><dt>Unit 1 fact 2</dt><dd>A tested fact from Public Speaking Foundations.</dd><dt>Unit 1 fact 3</dt><dd>A tested fact from Public Speaking Foundations.</dd><dt>Unit 1 fact 4</dt><dd>A tested fact from Public Speaking Foundations.</dd></dl><h4>Unit 2: Speech Organization</h4><dl class="fc-archive-list"><dt>Unit 2 core term</dt><dd>The definition your teacher will test.</dd><dt>Unit 2 key process</dt><dd>Steps in order — practice writing them out.</dd><dt>Unit 2 trap</dt><dd>The mistake most students make here.</dd><dt>Unit 2 connection</dt><dd>How it links to the next unit.</dd><dt>Unit 2 exam lens</dt><dd>The way tests ask about this topic.</dd><dt>Unit 2 fact 0</dt><dd>A tested fact from Speech Organization.</dd><dt>Unit 2 fact 1</dt><dd>A tested fact from Speech Organization.</dd><dt>Unit 2 fact 2</dt><dd>A tested fact from Speech Organization.</dd><dt>Unit 2 fact 3</dt><dd>A tested fact from Speech Organization.</dd><dt>Unit 2 fact 4</dt><dd>A tested fact from Speech Organization.</dd></dl><h4>Unit 3: Delivery &amp; Body Language</h4><dl class="fc-archive-list"><dt>Unit 3 core term</dt><dd>The definition your teacher will test.</dd><dt>Unit 3 key process</dt><dd>Steps in order — practice writing them out.</dd><dt>Unit 3 trap</dt><dd>The mistake most students make here.</dd><dt>Unit 3 connection</dt><dd>How it links to the next unit.</dd><dt>Unit 3 exam lens</dt><dd>The way tests ask about this topic.</dd><dt>Unit 3 fact 0</dt><dd>A tested fact from Delivery &amp; Body Language.</dd><dt>Unit 3 fact 1</dt><dd>A tested fact from Delivery &amp; Body Language.</dd><dt>Unit 3 fact 2</dt><dd>A tested fact from Delivery &amp; Body Language.</dd><dt>Unit 3 fact 3</dt><dd>A tested fact from Delivery &amp; Body Language.</dd><dt>Unit 3 fact 4</dt><dd>A tested fact from Delivery &amp; Body Language.</dd></dl><h4>Unit 4: Argument Construction</h4><dl class="fc-archive-list"><dt>Unit 4 core term</dt><dd>The definition your teacher will test.</dd><dt>Unit 4 key process</dt><dd>Steps in order — practice writing them out.</dd><dt>Unit 4 trap</dt><dd>The mistake most students make here.</dd><dt>Unit 4 connection</dt><dd>How it links to the next unit.</dd><dt>Unit 4 exam lens</dt><dd>The way tests ask about this topic.</dd><dt>Unit 4 fact 0</dt><dd>A tested fact from Argument Construction.</dd><dt>Unit 4 fact 1</dt><dd>A tested fact from Argument Construction.</dd><dt>Unit 4 fact 2</dt><dd>A tested fact from Argument Construction.</dd><dt>Unit 4 fact 3</dt><dd>A tested fact from Argument Construction.</dd><dt>Unit 4 fact 4</dt><dd>A tested fact from Argument Construction.</dd></dl><h4>Unit 5: Evidence &amp; Research</h4><dl class="fc-archive-list"><dt>Unit 5 core term</dt><dd>The definition your teacher will test.</dd><dt>Unit 5 key process</dt><dd>Steps in order — practice writing them out.</dd><dt>Unit 5 trap</dt><dd>The mistake most students make here.</dd><dt>Unit 5 connection</dt><dd>How it links to the next unit.</dd><dt>Unit 5 exam lens</dt><dd>The way tests ask about this topic.</dd><dt>Unit 5 fact 0</dt><dd>A tested fact from Evidence &amp; Research.</dd><dt>Unit 5 fact 1</dt><dd>A tested fact from Evidence &amp; Research.</dd><dt>Unit 5 fact 2</dt><dd>A tested fact from Evidence &amp; Research.</dd><dt>Unit 5 fact 3</dt><dd>A tested fact from Evidence &amp; Research.</dd><dt>Unit 5 fact 4</dt><dd>A tested fact from Evidence &amp; Research.</dd></dl><h4>Unit 6: Resolution Analysis</h4><dl class="fc-archive-list"><dt>Unit 6 core term</dt><dd>The definition your teacher will test.</dd><dt>Unit 6 key process</dt><dd>Steps in order — practice writing them out.</dd><dt>Unit 6 trap</dt><dd>The mistake most students make here.</dd><dt>Unit 6 connection</dt><dd>How it links to the next unit.</dd><dt>Unit 6 exam lens</dt><dd>The way tests ask about this topic.</dd><dt>Unit 6 fact 0</dt><dd>A tested fact from Resolution Analysis.</dd><dt>Unit 6 fact 1</dt><dd>A tested fact from Resolution Analysis.</dd><dt>Unit 6 fact 2</dt><dd>A tested fact from Resolution Analysis.</dd><dt>Unit 6 fact 3</dt><dd>A tested fact from Resolution Analysis.</dd><dt>Unit 6 fact 4</dt><dd>A tested fact from Resolution Analysis.</dd></dl><h4>Unit 7: Refutation &amp; Crossfire</h4><dl class="fc-archive-list"><dt>Unit 7 core term</dt><dd>The definition your teacher will test.</dd><dt>Unit 7 key process</dt><dd>Steps in order — practice writing them out.</dd><dt>Unit 7 trap</dt><dd>The mistake most students make here.</dd><dt>Unit 7 connection</dt><dd>How it links to the next unit.</dd><dt>Unit 7 exam lens</dt><dd>The way tests ask about this topic.</dd><dt>Unit 7 fact 0</dt><dd>A tested fact from Refutation &amp; Crossfire.</dd><dt>Unit 7 fact 1</dt><dd>A tested fact from Refutation &amp; Crossfire.</dd><dt>Unit 7 fact 2</dt><dd>A tested fact from Refutation &amp; Crossfire.</dd><dt>Unit 7 fact 3</dt><dd>A tested fact from Refutation &amp; Crossfire.</dd><dt>Unit 7 fact 4</dt><dd>A tested fact from Refutation &amp; Crossfire.</dd></dl><h4>Unit 8: Event Formats (CX, LD, PF)</h4><dl class="fc-archive-list"><dt>Unit 8 core term</dt><dd>The definition your teacher will test.</dd><dt>Unit 8 key process</dt><dd>Steps in order — practice writing them out.</dd><dt>Unit 8 trap</dt><dd>The mistake most students make here.</dd><dt>Unit 8 connection</dt><dd>How it links to the next unit.</dd><dt>Unit 8 exam lens</dt><dd>The way tests ask about this topic.</dd><dt>Unit 8 fact 0</dt><dd>A tested fact from Event Formats (CX, LD, PF).</dd><dt>Unit 8 fact 1</dt><dd>A tested fact from Event Formats (CX, LD, PF).</dd><dt>Unit 8 fact 2</dt><dd>A tested fact from Event Formats (CX, LD, PF).</dd><dt>Unit 8 fact 3</dt><dd>A tested fact from Event Formats (CX, LD, PF).</dd><dt>Unit 8 fact 4</dt><dd>A tested fact from Event Formats (CX, LD, PF).</dd></dl></div></details></div></div>
 <div id="view-quiz" class="view" role="tabpanel" aria-labelledby="tab-quiz" tabindex="0">
@@ -934,8 +933,8 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
       <button class="chip diff-chip" type="button" data-diff="hard" onclick="setDifficultyFilter('hard')">Hard</button>
     </div>
     <button class="btn mistake-log-btn" type="button" onclick="openMistakeLog()">Mistake Log<span class="mistake-log-count" id="mistake-log-count" style="display:none">0</span></button>
-    <button class="btn" type="button" onclick="printWorksheet()" style="font-size:14px;padding:7px 14px">🖨️ Print Worksheet</button>
-    <button class="btn" type="button" id="challenge-friend-btn" onclick="challengeFromQuiz()">⚔️ Challenge a Friend</button>
+    <button class="btn" type="button" onclick="printWorksheet()" style="font-size:14px;padding:7px 14px">Print Worksheet</button>
+    <button class="btn" type="button" id="challenge-friend-btn" onclick="challengeFromQuiz()">Challenge a Friend</button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -1332,7 +1331,7 @@ function ssTypeset(el){
 }
 
 // GUIDE
-const SEARCH_BADGE={concept:'📖 Notes',flashcard:'📇 Flashcard',quiz:'❓ Quiz'};
+const SEARCH_BADGE={concept:'Notes',flashcard:'Flashcard',quiz:'Quiz'};
 function searchGuide(){
   const q=(document.getElementById('search-box').value||'').toLowerCase().trim();
   const sr=document.getElementById('search-results');
@@ -1580,7 +1579,7 @@ ssTypeset(document.getElementById('units'));
     btn=document.createElement('button');
     btn.type='button';
     btn.className='ss-concept-btn';
-    btn.textContent='🤖 Break this down';
+    btn.textContent='Break this down';
     btn.style.left=Math.max(8,rect.left+window.scrollX+rect.width/2)+'px';
     btn.style.top=Math.max(8,rect.top+window.scrollY-40)+'px';
     btn.onmousedown=function(e){e.preventDefault();};
@@ -1636,7 +1635,7 @@ let fcDeck=[],fcIdx=0,fcFilterMode='all',fcMode='flip';
 function toggleFcMode(){
   fcMode=fcMode==='flip'?'type':'flip';
   const btn=document.getElementById('fc-mode-btn');
-  if(btn)btn.textContent=fcMode==='type'?'🔄 Flip mode':'✎ Type it';
+  if(btn)btn.textContent=fcMode==='type'?'Flip mode':'✎ Type it';
   showFC();
 }
 function checkTypedAnswer(){
@@ -2149,7 +2148,7 @@ function showQ(){
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
     (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
-    `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">💡 Hint (1/3)</button>`+
+    `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">Hint (1/3)</button>`+
     `<div class="q-hint-box" id="q-hint-box"></div>`+
     `<div class="q-opts">`;
   q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">`+
@@ -2199,7 +2198,7 @@ function revealNextHintTier(){
     const preview=(q.e||'').split(/(?<=[.!?])\s/)[0]||q.e||'';
     box.textContent='Hint: '+preview;
   }
-  btn.textContent=qHintTier>=3?'💡 No more hints':`💡 Hint (${qHintTier+1}/3)`;
+  btn.textContent=qHintTier>=3?'No more hints':`Hint (${qHintTier+1}/3)`;
   if(qHintTier>=3)btn.disabled=true;
 }
 let guessFlag=false, guessedQs=[], guessedRight=0;
@@ -2260,7 +2259,7 @@ function ansQ(i){
     explainBtn.type='button';
     explainBtn.id='q-explain-wrong-btn';
     explainBtn.className='q-explain-wrong-btn';
-    explainBtn.textContent='🤖 Explain why "'+q.o[i]+'" is wrong';
+    explainBtn.textContent='Explain why "'+q.o[i]+'" is wrong';
     explainBtn.onclick=function(){
       var prompt='For this question: "'+q.q+'" -- why is the answer "'+q.o[i]+'" wrong? The correct answer is "'+q.o[q.a]+'". Keep it short and specific to that wrong choice, not a general re-explanation of the correct answer.';
       var display='Why is "'+q.o[i]+'" wrong?';

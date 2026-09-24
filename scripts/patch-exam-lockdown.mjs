@@ -23,7 +23,6 @@ const MARKER = "ssStartExamLockdown"; // presence => already patched (logic.js p
 
 // ---- sub-patch 1: module-wiring.html block ----
 const OLD_WIRING = `  import { applyStoredUnitOrder, refreshUnitOrder } from '/shared/unit-order.js';
-  import '/shared/chalk-cursor.js';
   window.__ssCreateMastery = createMastery;
   window.__ssCelebrateCorrect = celebrateCorrect;
   window.__ssResetCombo = resetCombo;
@@ -31,7 +30,6 @@ const OLD_WIRING = `  import { applyStoredUnitOrder, refreshUnitOrder } from '/s
   window.__ssRefreshUnitOrder = refreshUnitOrder;`;
 const NEW_WIRING = `  import { applyStoredUnitOrder, refreshUnitOrder } from '/shared/unit-order.js';
   import { enterLockdown, exitLockdown, getLockdownSummary } from '/shared/exam-lockdown.js';
-  import '/shared/chalk-cursor.js';
   window.__ssCreateMastery = createMastery;
   window.__ssCelebrateCorrect = celebrateCorrect;
   window.__ssResetCombo = resetCombo;

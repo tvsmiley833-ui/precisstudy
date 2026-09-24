@@ -235,7 +235,7 @@ function ssTypeset(el){
 }
 
 // GUIDE
-const SEARCH_BADGE={concept:'📖 Notes',flashcard:'📇 Flashcard',quiz:'❓ Quiz'};
+const SEARCH_BADGE={concept:'Notes',flashcard:'Flashcard',quiz:'Quiz'};
 function searchGuide(){
   const q=(document.getElementById('search-box').value||'').toLowerCase().trim();
   const sr=document.getElementById('search-results');
@@ -483,7 +483,7 @@ ssTypeset(document.getElementById('units'));
     btn=document.createElement('button');
     btn.type='button';
     btn.className='ss-concept-btn';
-    btn.textContent='🤖 Break this down';
+    btn.textContent='Break this down';
     btn.style.left=Math.max(8,rect.left+window.scrollX+rect.width/2)+'px';
     btn.style.top=Math.max(8,rect.top+window.scrollY-40)+'px';
     btn.onmousedown=function(e){e.preventDefault();};
@@ -539,7 +539,7 @@ let fcDeck=[],fcIdx=0,fcFilterMode='all',fcMode='flip';
 function toggleFcMode(){
   fcMode=fcMode==='flip'?'type':'flip';
   const btn=document.getElementById('fc-mode-btn');
-  if(btn)btn.textContent=fcMode==='type'?'🔄 Flip mode':'✎ Type it';
+  if(btn)btn.textContent=fcMode==='type'?'Flip mode':'✎ Type it';
   showFC();
 }
 function checkTypedAnswer(){
@@ -1053,7 +1053,7 @@ function showQ(){
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
     (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
-    `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">💡 Hint (1/3)</button>`+
+    `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">Hint (1/3)</button>`+
     `<div class="q-hint-box" id="q-hint-box"></div>`+
     `<div class="q-opts">`;
   q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">`+
@@ -1103,7 +1103,7 @@ function revealNextHintTier(){
     const preview=(q.e||'').split(/(?<=[.!?])\s/)[0]||q.e||'';
     box.textContent='Hint: '+preview;
   }
-  btn.textContent=qHintTier>=3?'💡 No more hints':`💡 Hint (${qHintTier+1}/3)`;
+  btn.textContent=qHintTier>=3?'No more hints':`Hint (${qHintTier+1}/3)`;
   if(qHintTier>=3)btn.disabled=true;
 }
 let guessFlag=false, guessedQs=[], guessedRight=0;
@@ -1164,7 +1164,7 @@ function ansQ(i){
     explainBtn.type='button';
     explainBtn.id='q-explain-wrong-btn';
     explainBtn.className='q-explain-wrong-btn';
-    explainBtn.textContent='🤖 Explain why "'+q.o[i]+'" is wrong';
+    explainBtn.textContent='Explain why "'+q.o[i]+'" is wrong';
     explainBtn.onclick=function(){
       var prompt='For this question: "'+q.q+'" -- why is the answer "'+q.o[i]+'" wrong? The correct answer is "'+q.o[q.a]+'". Keep it short and specific to that wrong choice, not a general re-explanation of the correct answer.';
       var display='Why is "'+q.o[i]+'" wrong?';

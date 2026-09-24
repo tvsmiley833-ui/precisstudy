@@ -747,7 +747,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   import { celebrateCorrect, resetCombo } from '/shared/celebrate.js';
   import { applyStoredUnitOrder, refreshUnitOrder } from '/shared/unit-order.js';
   import { enterLockdown, exitLockdown, getLockdownSummary } from '/shared/exam-lockdown.js';
-  import '/shared/chalk-cursor.js';
   window.__ssCreateMastery = createMastery;
   window.__ssCelebrateCorrect = celebrateCorrect;
   window.__ssResetCombo = resetCombo;
@@ -803,7 +802,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <div class="page" id="main-content" role="main" tabindex="-1">
 <div class="spc-card collapsed" id="spc-card">
   <button type="button" class="spc-summary" id="spc-summary" aria-expanded="false" aria-controls="spc-body">
-    <span>📊 See what your study plan could look like — tap to expand</span>
+    <span>See what your study plan could look like — tap to expand</span>
     <span class="spc-chevron" aria-hidden="true">▾</span>
   </button>
   <div class="spc-body" id="spc-body">
@@ -907,7 +906,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <div id="fc-progress" style="text-align:center;font-size:18px;color:var(--ink-dim,#857f72);margin-top:6px"></div>
   <div style="text-align:center;margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
     <button class="btn" type="button" onclick="exportFlashcards()" style="font-size:13px;padding:6px 14px">⇩ Export to Anki / Quizlet (.txt)</button>
-    <button class="btn" type="button" onclick="printFlashcardSheet()" style="font-size:13px;padding:6px 14px">🖨️ Print Study Sheet</button>
+    <button class="btn" type="button" onclick="printFlashcardSheet()" style="font-size:13px;padding:6px 14px">Print Study Sheet</button>
   </div>
 <details class="practice-archive"><summary>Browse all 80 flashcards as a list</summary><div class="fc-archive-body"><h4>Unit 1: Elements of Story</h4><dl class="fc-archive-list"><dt>Climax</dt><dd>The turning point where the protagonist's fate tips — not the ending.</dd><dt>Third-person limited</dt><dd>Narrator locked to ONE character's inner life.</dd><dt>STEAL</dt><dd>Speech, Thoughts, Effects, Actions, Looks — indirect characterization checklist.</dd><dt>Dynamic character</dt><dd>One who changes fundamentally by the end.</dd><dt>Exposition</dt><dd>Opening status quo: characters, setting, the world about to break.</dd><dt>Unreliable narrator</dt><dd>First-person voice whose account readers distrust — irony engine.</dd><dt>Antagonist</dt><dd>Whatever blocks the protagonist — person, society, nature, or self.</dd><dt>Flat vs round</dt><dd>One-trait vs complex characters capable of surprising us.</dd><dt>Exposition</dt><dd>Opening status quo: who, where, and what's about to break.</dd><dt>Conflict engines</dt><dd>Person vs person / self / society / nature-fate.</dd><dt>Review card 1</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 9</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 17</dt><dd>Spaced repetition strengthens memory.</dd></dl><h4>Unit 2: Figurative Language &amp; Literary Devices</h4><dl class="fc-archive-list"><dt>Metaphor vs simile</dt><dd>Metaphor asserts identity (Time is a thief); simile uses like/as.</dd><dt>Dramatic irony</dt><dd>Audience knows what the character doesn't.</dd><dt>Assonance</dt><dd>Repeated vowel sounds inside nearby words.</dd><dt>Personification</dt><dd>Human traits given to non-human things: the wind whispered.</dd><dt>Hyperbole</dt><dd>Deliberate exaggeration for effect, not literal claim.</dd><dt>Allusion</dt><dd>Brief reference to myth, scripture, history, or other literature.</dd><dt>Situational vs verbal irony</dt><dd>Outcome contradicts expectation / speaker means opposite of words.</dd><dt>Extended metaphor</dt><dd>Comparison sustained across lines or an entire work.</dd><dt>Consonance</dt><dd>Repeated consonant sounds nearby: pitter-patter.</dd><dt>Review card 2</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 10</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 18</dt><dd>Spaced repetition strengthens memory.</dd></dl><h4>Unit 3: Symbolism, Theme &amp; Motif</h4><dl class="fc-archive-list"><dt>Theme</dt><dd>A complete-sentence argument about life — not a one-word topic.</dd><dt>Motif</dt><dd>Recurring image/idea whose repetition builds meaning.</dd><dt>Pattern → pivot → payoff</dt><dd>Evidence trio: recurrence, turning choice, ending consequence.</dd><dt>Symbol</dt><dd>Concrete object carrying abstract meaning within THIS text's context.</dd><dt>Circular ending</dt><dd>Final image repeats an earlier one, changed by experience.</dd><dt>Seasonal code</dt><dd>Spring birth · summer peak · autumn decline · winter death.</dd><dt>Circular ending</dt><dd>Final image repeats an earlier one, transformed.</dd><dt>Review card 3</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 11</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 19</dt><dd>Spaced repetition strengthens memory.</dd></dl><h4>Unit 4: Poetry Essentials</h4><dl class="fc-archive-list"><dt>Iambic pentameter</dt><dd>Five unstressed-STRESSED feet per line: da-DUM × 5.</dd><dt>Shakespearean sonnet</dt><dd>14 lines, ABAB CDCD EFEF GG; volta often in final couplet.</dd><dt>Volta</dt><dd>The poem's turn in thought or argument.</dd><dt>Slant rhyme</dt><dd>Near-rhyme pairing close but imperfect sounds (worm/form).</dd><dt>Caesura</dt><dd>Deliberate pause inside a line, often marked by punctuation.</dd><dt>Refrain</dt><dd>Repeated line(s) like a chorus; villanelles are built on it.</dd><dt>Slant rhyme</dt><dd>Near-rhyme: worm/form — imperfect vowel match.</dd><dt>Refrain</dt><dd>Recurring line like a chorus; villanelle built on it.</dd><dt>Review card 4</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 12</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 20</dt><dd>Spaced repetition strengthens memory.</dd></dl><h4>Unit 5: The Epic &amp; The Odyssey</h4><dl class="fc-archive-list"><dt>In medias res</dt><dd>Beginning in the middle of the action.</dd><dt>Xenia</dt><dd>Sacred guest-host hospitality law in Greek epic.</dd><dt>Kleos / Nostos</dt><dd>Glory-fame through deeds / the homecoming song.</dd><dt>Epic simile</dt><dd>Extended comparison running several elevated lines.</dd><dt>'Nobody' trick</dt><dd>Odysseus blinds Polyphemus via name-riddle — then hubris undoes it.</dd><dt>Telemachy</dt><dd>The Odyssey's opening four books following Telemachus, not Odysseus.</dd><dt>Review card 5</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 13</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 21</dt><dd>Spaced repetition strengthens memory.</dd></dl><h4>Unit 6: Rhetoric &amp; Persuasion</h4><dl class="fc-archive-list"><dt>Ethos · Pathos · Logos</dt><dd>Credibility · emotion · logic — Aristotle's three appeals.</dd><dt>Anaphora</dt><dd>Repeated phrase openings building rhetorical momentum.</dd><dt>Warrant</dt><dd>The unstated link connecting evidence to claim.</dd><dt>Rhetorical question</dt><dd>Plants your conclusion as the audience's own thought.</dd><dt>Tricolon</dt><dd>Three-part list with rhythmic completeness.</dd><dt>Loaded language</dt><dd>Diction smuggling judgment: reform vs gut, freedom fighter vs insurgent.</dd><dt>Review card 6</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 14</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 22</dt><dd>Spaced repetition strengthens memory.</dd></dl><h4>Unit 7: Grammar &amp; Mechanics Essentials</h4><dl class="fc-archive-list"><dt>Comma splice fix</dt><dd>Period, semicolon, or comma+fanboy between two independents.</dd><dt>its vs it's</dt><dd>Possessive has no apostrophe; it's always means 'it is.'</dd><dt>Agreement with intervening phrases</dt><dd>Verb agrees with head noun: The box of nails IS heavy.</dd><dt>Fanboys</dt><dd>For, And, Nor, But, Or, Yet, So — compound-sentence joiners after a comma.</dd><dt>Fewer vs less</dt><dd>Fewer for countables (calories), less for amounts (sugar).</dd><dt>Review card 7</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 15</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 23</dt><dd>Spaced repetition strengthens memory.</dd></dl><h4>Unit 8: Writing: Thesis, Evidence &amp; Paragraph Craft</h4><dl class="fc-archive-list"><dt>Thesis test</dt><dd>If nobody could disagree, it's a fact — not a thesis.</dd><dt>PEEL</dt><dd>Point, Evidence, Explanation, Link — explanation runs longest.</dd><dt>Embedding quotes</dt><dd>Context + signal verb + integration + analysis; never naked quotes.</dd><dt>Funnel intro</dt><dd>Broad-but-relevant hook narrowing to the thesis.</dd><dt>Signal verbs</dt><dd>argues, suggests, admits, observes — varied quote introducers.</dd><dt>Review card 8</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 16</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 24</dt><dd>Spaced repetition strengthens memory.</dd></dl></div></details></div></div>
 <div id="view-quiz" class="view" role="tabpanel" aria-labelledby="tab-quiz" tabindex="0">
@@ -934,8 +933,8 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
       <button class="chip diff-chip" type="button" data-diff="hard" onclick="setDifficultyFilter('hard')">Hard</button>
     </div>
     <button class="btn mistake-log-btn" type="button" onclick="openMistakeLog()">Mistake Log<span class="mistake-log-count" id="mistake-log-count" style="display:none">0</span></button>
-    <button class="btn" type="button" onclick="printWorksheet()" style="font-size:14px;padding:7px 14px">🖨️ Print Worksheet</button>
-    <button class="btn" type="button" id="challenge-friend-btn" onclick="challengeFromQuiz()">⚔️ Challenge a Friend</button>
+    <button class="btn" type="button" onclick="printWorksheet()" style="font-size:14px;padding:7px 14px">Print Worksheet</button>
+    <button class="btn" type="button" id="challenge-friend-btn" onclick="challengeFromQuiz()">Challenge a Friend</button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -1324,7 +1323,7 @@ function ssTypeset(el){
 }
 
 // GUIDE
-const SEARCH_BADGE={concept:'📖 Notes',flashcard:'📇 Flashcard',quiz:'❓ Quiz'};
+const SEARCH_BADGE={concept:'Notes',flashcard:'Flashcard',quiz:'Quiz'};
 function searchGuide(){
   const q=(document.getElementById('search-box').value||'').toLowerCase().trim();
   const sr=document.getElementById('search-results');
@@ -1572,7 +1571,7 @@ ssTypeset(document.getElementById('units'));
     btn=document.createElement('button');
     btn.type='button';
     btn.className='ss-concept-btn';
-    btn.textContent='🤖 Break this down';
+    btn.textContent='Break this down';
     btn.style.left=Math.max(8,rect.left+window.scrollX+rect.width/2)+'px';
     btn.style.top=Math.max(8,rect.top+window.scrollY-40)+'px';
     btn.onmousedown=function(e){e.preventDefault();};
@@ -1628,7 +1627,7 @@ let fcDeck=[],fcIdx=0,fcFilterMode='all',fcMode='flip';
 function toggleFcMode(){
   fcMode=fcMode==='flip'?'type':'flip';
   const btn=document.getElementById('fc-mode-btn');
-  if(btn)btn.textContent=fcMode==='type'?'🔄 Flip mode':'✎ Type it';
+  if(btn)btn.textContent=fcMode==='type'?'Flip mode':'✎ Type it';
   showFC();
 }
 function checkTypedAnswer(){
@@ -2141,7 +2140,7 @@ function showQ(){
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
     (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
-    `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">💡 Hint (1/3)</button>`+
+    `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">Hint (1/3)</button>`+
     `<div class="q-hint-box" id="q-hint-box"></div>`+
     `<div class="q-opts">`;
   q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">`+
@@ -2191,7 +2190,7 @@ function revealNextHintTier(){
     const preview=(q.e||'').split(/(?<=[.!?])\s/)[0]||q.e||'';
     box.textContent='Hint: '+preview;
   }
-  btn.textContent=qHintTier>=3?'💡 No more hints':`💡 Hint (${qHintTier+1}/3)`;
+  btn.textContent=qHintTier>=3?'No more hints':`Hint (${qHintTier+1}/3)`;
   if(qHintTier>=3)btn.disabled=true;
 }
 let guessFlag=false, guessedQs=[], guessedRight=0;
@@ -2252,7 +2251,7 @@ function ansQ(i){
     explainBtn.type='button';
     explainBtn.id='q-explain-wrong-btn';
     explainBtn.className='q-explain-wrong-btn';
-    explainBtn.textContent='🤖 Explain why "'+q.o[i]+'" is wrong';
+    explainBtn.textContent='Explain why "'+q.o[i]+'" is wrong';
     explainBtn.onclick=function(){
       var prompt='For this question: "'+q.q+'" -- why is the answer "'+q.o[i]+'" wrong? The correct answer is "'+q.o[q.a]+'". Keep it short and specific to that wrong choice, not a general re-explanation of the correct answer.';
       var display='Why is "'+q.o[i]+'" wrong?';

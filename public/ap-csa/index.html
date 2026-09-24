@@ -747,7 +747,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   import { celebrateCorrect, resetCombo } from '/shared/celebrate.js';
   import { applyStoredUnitOrder, refreshUnitOrder } from '/shared/unit-order.js';
   import { enterLockdown, exitLockdown, getLockdownSummary } from '/shared/exam-lockdown.js';
-  import '/shared/chalk-cursor.js';
   window.__ssCreateMastery = createMastery;
   window.__ssCelebrateCorrect = celebrateCorrect;
   window.__ssResetCombo = resetCombo;
@@ -803,7 +802,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <div class="page" id="main-content" role="main" tabindex="-1">
 <div class="spc-card collapsed" id="spc-card">
   <button type="button" class="spc-summary" id="spc-summary" aria-expanded="false" aria-controls="spc-body">
-    <span>📊 See what your study plan could look like — tap to expand</span>
+    <span>See what your study plan could look like — tap to expand</span>
     <span class="spc-chevron" aria-hidden="true">▾</span>
   </button>
   <div class="spc-body" id="spc-body">
@@ -907,7 +906,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <div id="fc-progress" style="text-align:center;font-size:18px;color:var(--ink-dim,#857f72);margin-top:6px"></div>
   <div style="text-align:center;margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
     <button class="btn" type="button" onclick="exportFlashcards()" style="font-size:13px;padding:6px 14px">⇩ Export to Anki / Quizlet (.txt)</button>
-    <button class="btn" type="button" onclick="printFlashcardSheet()" style="font-size:13px;padding:6px 14px">🖨️ Print Study Sheet</button>
+    <button class="btn" type="button" onclick="printFlashcardSheet()" style="font-size:13px;padding:6px 14px">Print Study Sheet</button>
   </div>
 <details class="practice-archive"><summary>Browse all 80 flashcards as a list</summary><div class="fc-archive-body"><h4>Unit 1: Java Basics &amp; Primitive Types</h4><dl class="fc-archive-list"><dt>int</dt><dd>A primitive type storing a 32-bit signed whole number, e.g. int x = 5;</dd><dt>double</dt><dd>A primitive type storing a double-precision decimal number, e.g. double pi = 3.14;</dd><dt>Integer division</dt><dd>Division between two ints truncates the decimal part: 7 / 2 evaluates to 3.</dd><dt>Casting</dt><dd>Explicitly converting one type to another, e.g. (int) 4.9 truncates to 4.</dd><dt>String concatenation</dt><dd>Joining strings (or a string and another type) with the + operator, e.g. &quot;a&quot; + 1 gives &quot;a1&quot;.</dd><dt>.equals()</dt><dd>The correct method for comparing the content of two String or object references for equality.</dd><dt>==  (primitives vs objects)</dt><dd>For primitives, == compares values; for objects, == compares whether two references point to the same object.</dd><dt>Math.random()</dt><dd>A static method returning a random double in the range [0.0, 1.0).</dd><dt>Modulus (%)</dt><dd>Returns the remainder of integer division, e.g. 7 % 2 is 1.</dd><dt>javac / java</dt><dd>javac compiles .java source into .class bytecode; java runs that bytecode on the JVM.</dd></dl><h4>Unit 2: Objects &amp; Classes</h4><dl class="fc-archive-list"><dt>Class</dt><dd>A blueprint defining the instance variables and methods that its objects will have.</dd><dt>Object</dt><dd>A specific instance of a class, created with the new keyword.</dd><dt>Constructor</dt><dd>A special method matching the class name, with no return type, used to initialize a new object.</dd><dt>this</dt><dd>A keyword referring to the current object, often used to resolve naming conflicts with parameters.</dd><dt>Accessor (getter)</dt><dd>A public method that returns the value of a private instance variable, e.g. getAge().</dd><dt>Mutator (setter)</dt><dd>A public method that changes the value of a private instance variable, e.g. setAge(int a).</dd><dt>Encapsulation</dt><dd>Keeping fields private and controlling access to them through public methods.</dd><dt>Method overloading</dt><dd>Defining multiple methods with the same name but different parameter lists in one class.</dd><dt>Aliasing</dt><dd>When two reference variables point to the same object, so changes through one are visible through the other.</dd><dt>NullPointerException</dt><dd>A runtime error thrown when calling a method or accessing a field on a reference that is null.</dd></dl><h4>Unit 3: Boolean Logic &amp; Ifs</h4><dl class="fc-archive-list"><dt>&amp;&amp; (logical AND)</dt><dd>True only when both operands are true; short-circuits if the left operand is false.</dd><dt>|| (logical OR)</dt><dd>True if at least one operand is true; short-circuits if the left operand is true.</dd><dt>Short-circuit evaluation</dt><dd>The right operand of &amp;&amp; or || is skipped when the left operand already determines the result.</dd><dt>De Morgan's Laws</dt><dd>!(A &amp;&amp; B) equals (!A || !B), and !(A || B) equals (!A &amp;&amp; !B).</dd><dt>Ternary operator</dt><dd>A compact conditional expression: condition ? valueIfTrue : valueIfFalse.</dd><dt>compareTo()</dt><dd>A method returning negative, zero, or positive to indicate the relative order of two Comparable values.</dd><dt>if / else if / else</dt><dd>A conditional chain where only the first branch with a true condition executes.</dd><dt>Dangling else</dt><dd>An ambiguity risk when braces are omitted, causing an else to bind to an unintended if.</dd><dt>Boolean expression</dt><dd>Any expression that evaluates to true or false; required inside if, while, and for's condition clause.</dd><dt>Truth table</dt><dd>A table listing every combination of boolean inputs and the resulting output of an expression.</dd></dl><h4>Unit 4: Iteration Loops</h4><dl class="fc-archive-list"><dt>while loop</dt><dd>A loop that checks its condition before each iteration; may run zero times.</dd><dt>do-while loop</dt><dd>A loop that checks its condition after each iteration, guaranteeing at least one execution.</dd><dt>for loop</dt><dd>A loop combining initialization, condition, and update in one header, ideal for a known iteration count.</dd><dt>break</dt><dd>A statement that immediately exits the nearest enclosing loop or switch statement.</dd><dt>continue</dt><dd>A statement that skips the rest of the current iteration and proceeds to the loop's next check/update.</dd><dt>Off-by-one error</dt><dd>A bug where a loop runs one time too many or too few, often from using &lt;= instead of &lt;.</dd><dt>Accumulator pattern</dt><dd>A loop pattern that builds up a result (sum, count, product) across iterations using a variable initialized before the loop.</dd><dt>Infinite loop</dt><dd>A loop whose condition never becomes false, typically because the control variable is never updated.</dd><dt>Nested loop</dt><dd>A loop placed inside the body of another loop, commonly used for 2D traversal.</dd><dt>Loop invariant</dt><dd>A condition that remains true before and after each iteration of a loop, useful for reasoning about correctness.</dd></dl><h4>Unit 5: Arrays</h4><dl class="fc-archive-list"><dt>Array</dt><dd>A fixed-size, ordered collection of elements of the same type, indexed from 0.</dd><dt>arr.length</dt><dd>A field (not a method) giving the number of elements in an array.</dd><dt>ArrayIndexOutOfBoundsException</dt><dd>A runtime error thrown when accessing an index outside 0 to arr.length - 1.</dd><dt>Enhanced for loop (for-each)</dt><dd>A loop that iterates over each element's value without exposing its index, e.g. for (int x : arr).</dd><dt>Linear search</dt><dd>An algorithm checking each element in order until a match is found or the array ends; O(n) time.</dd><dt>Binary search</dt><dd>An algorithm that repeatedly halves a sorted array's search range to find a target in O(log n) time.</dd><dt>Selection sort</dt><dd>A sorting algorithm that repeatedly finds the minimum of the unsorted portion and swaps it into place.</dd><dt>Insertion sort</dt><dd>A sorting algorithm that builds a sorted portion by shifting each new element into its correct position.</dd><dt>Arrays.toString()</dt><dd>A utility method that converts an array into a readable String like [1, 2, 3].</dd><dt>Pass-by-reference (arrays)</dt><dd>Passing an array to a method passes its reference, so the method can permanently modify the original array's contents.</dd></dl><h4>Unit 6: ArrayLists &amp; References</h4><dl class="fc-archive-list"><dt>ArrayList</dt><dd>A resizable, generic collection class from java.util that grows and shrinks dynamically.</dd><dt>list.size()</dt><dd>A method (with parentheses) returning the current number of elements in an ArrayList.</dd><dt>list.add(index, val)</dt><dd>Inserts val at the given index, shifting subsequent elements to the right.</dd><dt>list.remove(int)</dt><dd>Removes the element AT the given index (not the element equal to that value).</dd><dt>ConcurrentModificationException</dt><dd>An error thrown when modifying an ArrayList (add/remove) while iterating over it with a for-each loop.</dd><dt>Backward iteration</dt><dd>Looping from the last index to 0 when removing elements, to avoid skipping elements as indices shift.</dd><dt>Autoboxing</dt><dd>Java's automatic conversion between a primitive (like int) and its wrapper class (like Integer) as needed.</dd><dt>ArrayList&lt;Integer&gt;</dt><dd>An ArrayList that stores Integer objects, since generic collections cannot hold primitive types directly.</dd><dt>list.contains()</dt><dd>Returns true if the ArrayList holds an element equal to the given value, false otherwise.</dd><dt>Reference aliasing (ArrayList)</dt><dd>Assigning one ArrayList variable to another copies the reference, so both variables point to the same list.</dd></dl><h4>Unit 7: 2D Arrays &amp; Inheritance</h4><dl class="fc-archive-list"><dt>2D array</dt><dd>An array of arrays, accessed as arr[row][col], commonly visualized as a grid.</dd><dt>Jagged array</dt><dd>A 2D array whose rows can have different lengths, since each row is a separate array object.</dd><dt>extends</dt><dd>The keyword a subclass uses to inherit fields and methods from a superclass.</dd><dt>super()</dt><dd>A call to the superclass's constructor; must be the first statement in a subclass constructor.</dd><dt>Method overriding</dt><dd>Redefining an inherited method in a subclass using the exact same method signature.</dd><dt>Polymorphism</dt><dd>A superclass reference can hold a subclass object, and overridden methods run based on the object's actual runtime type.</dd><dt>instanceof</dt><dd>An operator that checks whether an object is an instance of a given class at runtime.</dd><dt>Abstract class</dt><dd>A class that cannot be instantiated directly and may declare abstract methods that subclasses must implement.</dd><dt>Interface</dt><dd>A contract of method signatures that an implementing class must define, using the implements keyword.</dd><dt>Dynamic (runtime) binding</dt><dd>The mechanism by which Java decides which overridden method to call based on the object's actual type, not the reference's declared type.</dd></dl><h4>Unit 8: Recursion &amp; Algorithms</h4><dl class="fc-archive-list"><dt>Recursion</dt><dd>A technique where a method calls itself to solve smaller instances of the same problem.</dd><dt>Base case</dt><dd>The condition in a recursive method that stops further recursive calls and returns directly.</dd><dt>Recursive case</dt><dd>The part of a recursive method that calls itself again on a smaller version of the problem.</dd><dt>StackOverflowError</dt><dd>A runtime error caused by recursion that never reaches its base case, exhausting the call stack.</dd><dt>Call stack</dt><dd>The stack of active method calls, each waiting for the call below it to return before it can finish.</dd><dt>Recursive binary search</dt><dd>A version of binary search that recurses into the left or right half of a sorted array instead of looping.</dd><dt>Merge sort</dt><dd>A recursive divide-and-conquer sorting algorithm that splits, sorts, and merges halves in O(n log n) time.</dd><dt>Big-O notation</dt><dd>A way of describing an algorithm's worst-case growth rate as input size increases, e.g. O(n), O(log n), $O(n^2)$.</dd><dt>O(log n)</dt><dd>Logarithmic time complexity, characteristic of algorithms like binary search that repeatedly halve the problem size.</dd><dt>$O(n^2)$</dt><dd>Quadratic time complexity, characteristic of algorithms like selection sort and insertion sort.</dd></dl></div></details></div></div>
 <div id="view-quiz" class="view" role="tabpanel" aria-labelledby="tab-quiz" tabindex="0">
@@ -934,8 +933,8 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
       <button class="chip diff-chip" type="button" data-diff="hard" onclick="setDifficultyFilter('hard')">Hard</button>
     </div>
     <button class="btn mistake-log-btn" type="button" onclick="openMistakeLog()">Mistake Log<span class="mistake-log-count" id="mistake-log-count" style="display:none">0</span></button>
-    <button class="btn" type="button" onclick="printWorksheet()" style="font-size:14px;padding:7px 14px">🖨️ Print Worksheet</button>
-    <button class="btn" type="button" id="challenge-friend-btn" onclick="challengeFromQuiz()">⚔️ Challenge a Friend</button>
+    <button class="btn" type="button" onclick="printWorksheet()" style="font-size:14px;padding:7px 14px">Print Worksheet</button>
+    <button class="btn" type="button" id="challenge-friend-btn" onclick="challengeFromQuiz()">Challenge a Friend</button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -1356,7 +1355,7 @@ function ssTypeset(el){
 }
 
 // GUIDE
-const SEARCH_BADGE={concept:'📖 Notes',flashcard:'📇 Flashcard',quiz:'❓ Quiz'};
+const SEARCH_BADGE={concept:'Notes',flashcard:'Flashcard',quiz:'Quiz'};
 function searchGuide(){
   const q=(document.getElementById('search-box').value||'').toLowerCase().trim();
   const sr=document.getElementById('search-results');
@@ -1604,7 +1603,7 @@ ssTypeset(document.getElementById('units'));
     btn=document.createElement('button');
     btn.type='button';
     btn.className='ss-concept-btn';
-    btn.textContent='🤖 Break this down';
+    btn.textContent='Break this down';
     btn.style.left=Math.max(8,rect.left+window.scrollX+rect.width/2)+'px';
     btn.style.top=Math.max(8,rect.top+window.scrollY-40)+'px';
     btn.onmousedown=function(e){e.preventDefault();};
@@ -1660,7 +1659,7 @@ let fcDeck=[],fcIdx=0,fcFilterMode='all',fcMode='flip';
 function toggleFcMode(){
   fcMode=fcMode==='flip'?'type':'flip';
   const btn=document.getElementById('fc-mode-btn');
-  if(btn)btn.textContent=fcMode==='type'?'🔄 Flip mode':'✎ Type it';
+  if(btn)btn.textContent=fcMode==='type'?'Flip mode':'✎ Type it';
   showFC();
 }
 function checkTypedAnswer(){
@@ -2173,7 +2172,7 @@ function showQ(){
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
     (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
-    `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">💡 Hint (1/3)</button>`+
+    `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">Hint (1/3)</button>`+
     `<div class="q-hint-box" id="q-hint-box"></div>`+
     `<div class="q-opts">`;
   q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">`+
@@ -2223,7 +2222,7 @@ function revealNextHintTier(){
     const preview=(q.e||'').split(/(?<=[.!?])\s/)[0]||q.e||'';
     box.textContent='Hint: '+preview;
   }
-  btn.textContent=qHintTier>=3?'💡 No more hints':`💡 Hint (${qHintTier+1}/3)`;
+  btn.textContent=qHintTier>=3?'No more hints':`Hint (${qHintTier+1}/3)`;
   if(qHintTier>=3)btn.disabled=true;
 }
 let guessFlag=false, guessedQs=[], guessedRight=0;
@@ -2284,7 +2283,7 @@ function ansQ(i){
     explainBtn.type='button';
     explainBtn.id='q-explain-wrong-btn';
     explainBtn.className='q-explain-wrong-btn';
-    explainBtn.textContent='🤖 Explain why "'+q.o[i]+'" is wrong';
+    explainBtn.textContent='Explain why "'+q.o[i]+'" is wrong';
     explainBtn.onclick=function(){
       var prompt='For this question: "'+q.q+'" -- why is the answer "'+q.o[i]+'" wrong? The correct answer is "'+q.o[q.a]+'". Keep it short and specific to that wrong choice, not a general re-explanation of the correct answer.';
       var display='Why is "'+q.o[i]+'" wrong?';

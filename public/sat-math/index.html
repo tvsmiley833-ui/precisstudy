@@ -747,7 +747,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   import { celebrateCorrect, resetCombo } from '/shared/celebrate.js';
   import { applyStoredUnitOrder, refreshUnitOrder } from '/shared/unit-order.js';
   import { enterLockdown, exitLockdown, getLockdownSummary } from '/shared/exam-lockdown.js';
-  import '/shared/chalk-cursor.js';
   window.__ssCreateMastery = createMastery;
   window.__ssCelebrateCorrect = celebrateCorrect;
   window.__ssResetCombo = resetCombo;
@@ -803,7 +802,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <div class="page" id="main-content" role="main" tabindex="-1">
 <div class="spc-card collapsed" id="spc-card">
   <button type="button" class="spc-summary" id="spc-summary" aria-expanded="false" aria-controls="spc-body">
-    <span>📊 See what your study plan could look like — tap to expand</span>
+    <span>See what your study plan could look like — tap to expand</span>
     <span class="spc-chevron" aria-hidden="true">▾</span>
   </button>
   <div class="spc-body" id="spc-body">
@@ -907,7 +906,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <div id="fc-progress" style="text-align:center;font-size:18px;color:var(--ink-dim,#857f72);margin-top:6px"></div>
   <div style="text-align:center;margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
     <button class="btn" type="button" onclick="exportFlashcards()" style="font-size:13px;padding:6px 14px">⇩ Export to Anki / Quizlet (.txt)</button>
-    <button class="btn" type="button" onclick="printFlashcardSheet()" style="font-size:13px;padding:6px 14px">🖨️ Print Study Sheet</button>
+    <button class="btn" type="button" onclick="printFlashcardSheet()" style="font-size:13px;padding:6px 14px">Print Study Sheet</button>
   </div>
 <details class="practice-archive"><summary>Browse all 80 flashcards as a list</summary><div class="fc-archive-body"><h4>Unit 1: Heart of Algebra</h4><dl class="fc-archive-list"><dt>Slope-Intercept Form</dt><dd>y = mx + b, where m is the slope and b is the y-intercept.</dd><dt>Slope Formula</dt><dd>m = (y2-y1)/(x2-x1), the rise over run between two points.</dd><dt>System of Equations</dt><dd>A set of equations solved together; solution is where all are simultaneously true.</dd><dt>No Solution (system)</dt><dd>Occurs when two linear equations have the same slope but different y-intercepts (parallel lines).</dd><dt>Infinite Solutions (system)</dt><dd>Occurs when two equations represent the exact same line.</dd><dt>Point-Slope Form</dt><dd>y - y1 = m(x - x1), used when given one point and the slope.</dd><dt>Compound Inequality</dt><dd>An inequality with two bounds, e.g., -3 &lt; 2x+1 &lt; 7, solved across all three parts at once.</dd><dt>Absolute Value Equation</dt><dd>|x-a|=b means x is b units from a, giving two cases: x=a+b or x=a-b.</dd><dt>Break-Even Point</dt><dd>Where two cost/revenue expressions are equal — set them equal and solve.</dd><dt>Literal Equation</dt><dd>An equation with multiple variables solved for one variable in terms of the others.</dd></dl><h4>Unit 2: Problem Solving &amp; Data</h4><dl class="fc-archive-list"><dt>Percent Change Formula</dt><dd>(New Value − Original Value) / Original Value × 100%.</dd><dt>Unit Rate</dt><dd>A ratio expressed per one unit, like dollars per item or miles per hour.</dd><dt>Mean</dt><dd>The sum of all values divided by the number of values; sensitive to outliers.</dd><dt>Median</dt><dd>The middle value of a data set sorted in order; resistant to outliers.</dd><dt>Standard Deviation</dt><dd>A measure of how spread out data values are from the mean.</dd><dt>Conditional Relative Frequency</dt><dd>A cell value in a two-way table divided by its row or column total.</dd><dt>Line of Best Fit</dt><dd>A line that models the overall linear trend of scatterplot data, used for predictions.</dd><dt>Independent Events (Probability)</dt><dd>Events where P(A and B) = P(A) × P(B).</dd><dt>Average Speed (round trip)</dt><dd>Total distance divided by total time — NOT the simple average of two speeds.</dd><dt>Scale Factor</dt><dd>The ratio used to enlarge or reduce a figure's dimensions proportionally.</dd></dl><h4>Unit 3: Passport to Advanced Math</h4><dl class="fc-archive-list"><dt>Quadratic Formula</dt><dd>x = (-b ± √(b²-4ac)) / 2a, solves any equation of the form ax²+bx+c=0.</dd><dt>Discriminant</dt><dd>b²-4ac; determines the number of real solutions to a quadratic (positive=2, zero=1, negative=0).</dd><dt>Difference of Squares</dt><dd>a² - b² = (a+b)(a-b).</dd><dt>Perfect Square Trinomial</dt><dd>a² ± 2ab + b² = (a ± b)².</dd><dt>Exponential Growth Model</dt><dd>y = a(1+r)^t, where a is the initial value and r is the growth rate.</dd><dt>Exponential Decay Model</dt><dd>y = a(1-r)^t, where a is the initial value and r is the decay rate.</dd><dt>Function Notation f(x)</dt><dd>Describes the output of a function f when the input is x.</dd><dt>Vertex of a Parabola</dt><dd>The maximum or minimum point of a quadratic graph, at x = -b/2a.</dd><dt>Zero Product Property</dt><dd>If (x-p)(x-q)=0, then x=p or x=q.</dd><dt>Composite Function</dt><dd>f(g(x)) means evaluate g first, then use that result as the input to f.</dd></dl><h4>Unit 4: Geometry Essentials</h4><dl class="fc-archive-list"><dt>Pythagorean Theorem</dt><dd>a² + b² = c², where c is the hypotenuse of a right triangle.</dd><dt>Circle Area Formula</dt><dd>A = πr², where r is the radius.</dd><dt>Circle Circumference Formula</dt><dd>C = 2πr, where r is the radius.</dd><dt>Equation of a Circle</dt><dd>(x-h)² + (y-k)² = r², with center (h,k) and radius r.</dd><dt>Volume of a Cylinder</dt><dd>V = πr²h, where r is the radius and h is the height.</dd><dt>Volume of a Sphere</dt><dd>V = (4/3)πr³.</dd><dt>Similar Triangles</dt><dd>Triangles with equal corresponding angles and proportional corresponding sides.</dd><dt>Vertical Angles</dt><dd>A pair of opposite angles formed by intersecting lines; always equal.</dd><dt>Sector Area</dt><dd>(central angle/360°) × πr², the area of a 'pizza slice' of a circle.</dd><dt>Triangle Angle Sum Theorem</dt><dd>The three interior angles of any triangle sum to 180°.</dd></dl><h4>Unit 5: Trigonometry Basics</h4><dl class="fc-archive-list"><dt>SOH-CAH-TOA</dt><dd>sin=opposite/hypotenuse, cos=adjacent/hypotenuse, tan=opposite/adjacent.</dd><dt>30-60-90 Triangle Ratio</dt><dd>Side lengths in ratio 1 : √3 : 2 (short leg : long leg : hypotenuse).</dd><dt>45-45-90 Triangle Ratio</dt><dd>Side lengths in ratio 1 : 1 : √2 (leg : leg : hypotenuse).</dd><dt>Pythagorean Identity</dt><dd>sin²θ + cos²θ = 1 for any angle θ.</dd><dt>Complementary Angle Identity</dt><dd>sin(θ) = cos(90° - θ).</dd><dt>Unit Circle Point</dt><dd>A point at angle θ on the unit circle has coordinates (cos θ, sin θ).</dd><dt>Radian Conversion</dt><dd>Multiply degrees by π/180 to convert to radians.</dd><dt>Inverse Trig Function</dt><dd>sin⁻¹, cos⁻¹, tan⁻¹ find the angle that produces a given ratio.</dd><dt>Hypotenuse</dt><dd>The side opposite the right angle; always the longest side of a right triangle.</dd><dt>Angle of Elevation</dt><dd>The angle measured upward from horizontal to a line of sight.</dd></dl><h4>Unit 6: Calculator Strategies</h4><dl class="fc-archive-list"><dt>Backsolving</dt><dd>Plugging in answer choices to a problem instead of solving algebraically.</dd><dt>1-Var Stats</dt><dd>A calculator function that computes mean, standard deviation, and more from a data list.</dd><dt>Graphing Calculator Intersect Feature</dt><dd>Finds where two graphed equations cross, solving a system visually.</dd><dt>Estimation Check</dt><dd>Rounding numbers to sanity-check a calculator's exact output before trusting it.</dd><dt>Table Feature</dt><dd>Generates x/y value pairs for a function, useful for testing multiple inputs quickly.</dd><dt>LinReg (Linear Regression)</dt><dd>A calculator tool that finds the line of best fit for a data set.</dd><dt>Order of Operations (Calculator Entry)</dt><dd>Use extra parentheses to group full numerators/denominators when typing fractions.</dd><dt>Standard Deviation (σx)</dt><dd>Calculator output measuring the spread of a data set from its mean.</dd><dt>Answer Elimination</dt><dd>Ruling out choices that are clearly the wrong sign or order of magnitude before computing.</dd><dt>Regression Correlation (r)</dt><dd>A calculator statistic showing how well a line fits scatterplot data, from -1 to 1.</dd></dl><h4>Unit 7: No-Calculator Tactics</h4><dl class="fc-archive-list"><dt>Mental Math Decomposition</dt><dd>Breaking a number into friendlier parts, e.g., 98×6 = (100-2)×6.</dd><dt>Greatest Common Factor (GCF)</dt><dd>The largest factor shared by all terms, pulled out first when factoring.</dd><dt>√2 Approximation</dt><dd>√2 ≈ 1.41, useful for quick no-calculator estimates.</dd><dt>√3 Approximation</dt><dd>√3 ≈ 1.73, useful for quick no-calculator estimates.</dd><dt>π Approximation</dt><dd>π ≈ 3.14, used for no-calculator circle estimates.</dd><dt>Reciprocal</dt><dd>The reciprocal of a/b is b/a; dividing by a fraction means multiplying by its reciprocal.</dd><dt>Cross-Multiplication</dt><dd>For a/b vs c/d, compare ad vs bc to determine which fraction is larger without a calculator.</dd><dt>Common Fraction-Percent Pairs</dt><dd>1/2=50%, 1/4=25%, 1/5=20%, 1/8=12.5%, 3/4=75%.</dd><dt>Difference of Squares Shortcut</dt><dd>x² - n² factors instantly as (x-n)(x+n).</dd><dt>Substitution Shortcut</dt><dd>Replacing a repeated expression with a single variable to simplify complex algebra fast.</dd></dl><h4>Unit 8: Timing &amp; Pacing Drills</h4><dl class="fc-archive-list"><dt>Digital SAT Math Structure</dt><dd>2 modules of 22 questions each, 35 minutes per module.</dd><dt>Average Pace</dt><dd>About 1.6 minutes per question on the Digital SAT Math section.</dd><dt>Mark-and-Move</dt><dd>Flagging a hard question to return to later instead of stalling on it.</dd><dt>Adaptive Testing</dt><dd>Module 2's difficulty is set based on how well you performed on Module 1.</dd><dt>No Guessing Penalty</dt><dd>There is no point deduction for a wrong answer, so never leave a question blank.</dd><dt>Checkpoint Pacing</dt><dd>Checking your time every 5-6 questions rather than constantly watching the clock.</dd><dt>Expected Value of Guessing</dt><dd>Even a random guess has positive expected value when there's no penalty for wrong answers.</dd><dt>Question Order Flexibility</dt><dd>You may answer questions in any order within a module — use it to bank easy points first.</dd><dt>Time Budget per Question</dt><dd>Roughly 90 seconds is a reasonable cutoff before marking a question and moving on.</dd><dt>Final-Minutes Rule</dt><dd>Fill in a guess for every remaining blank as time runs out — something beats nothing.</dd></dl></div></details></div></div>
 <div id="view-quiz" class="view" role="tabpanel" aria-labelledby="tab-quiz" tabindex="0">
@@ -934,8 +933,8 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
       <button class="chip diff-chip" type="button" data-diff="hard" onclick="setDifficultyFilter('hard')">Hard</button>
     </div>
     <button class="btn mistake-log-btn" type="button" onclick="openMistakeLog()">Mistake Log<span class="mistake-log-count" id="mistake-log-count" style="display:none">0</span></button>
-    <button class="btn" type="button" onclick="printWorksheet()" style="font-size:14px;padding:7px 14px">🖨️ Print Worksheet</button>
-    <button class="btn" type="button" id="challenge-friend-btn" onclick="challengeFromQuiz()">⚔️ Challenge a Friend</button>
+    <button class="btn" type="button" onclick="printWorksheet()" style="font-size:14px;padding:7px 14px">Print Worksheet</button>
+    <button class="btn" type="button" id="challenge-friend-btn" onclick="challengeFromQuiz()">Challenge a Friend</button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -1352,7 +1351,7 @@ function ssTypeset(el){
 }
 
 // GUIDE
-const SEARCH_BADGE={concept:'📖 Notes',flashcard:'📇 Flashcard',quiz:'❓ Quiz'};
+const SEARCH_BADGE={concept:'Notes',flashcard:'Flashcard',quiz:'Quiz'};
 function searchGuide(){
   const q=(document.getElementById('search-box').value||'').toLowerCase().trim();
   const sr=document.getElementById('search-results');
@@ -1600,7 +1599,7 @@ ssTypeset(document.getElementById('units'));
     btn=document.createElement('button');
     btn.type='button';
     btn.className='ss-concept-btn';
-    btn.textContent='🤖 Break this down';
+    btn.textContent='Break this down';
     btn.style.left=Math.max(8,rect.left+window.scrollX+rect.width/2)+'px';
     btn.style.top=Math.max(8,rect.top+window.scrollY-40)+'px';
     btn.onmousedown=function(e){e.preventDefault();};
@@ -1656,7 +1655,7 @@ let fcDeck=[],fcIdx=0,fcFilterMode='all',fcMode='flip';
 function toggleFcMode(){
   fcMode=fcMode==='flip'?'type':'flip';
   const btn=document.getElementById('fc-mode-btn');
-  if(btn)btn.textContent=fcMode==='type'?'🔄 Flip mode':'✎ Type it';
+  if(btn)btn.textContent=fcMode==='type'?'Flip mode':'✎ Type it';
   showFC();
 }
 function checkTypedAnswer(){
@@ -2169,7 +2168,7 @@ function showQ(){
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
     (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
-    `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">💡 Hint (1/3)</button>`+
+    `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">Hint (1/3)</button>`+
     `<div class="q-hint-box" id="q-hint-box"></div>`+
     `<div class="q-opts">`;
   q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">`+
@@ -2219,7 +2218,7 @@ function revealNextHintTier(){
     const preview=(q.e||'').split(/(?<=[.!?])\s/)[0]||q.e||'';
     box.textContent='Hint: '+preview;
   }
-  btn.textContent=qHintTier>=3?'💡 No more hints':`💡 Hint (${qHintTier+1}/3)`;
+  btn.textContent=qHintTier>=3?'No more hints':`Hint (${qHintTier+1}/3)`;
   if(qHintTier>=3)btn.disabled=true;
 }
 let guessFlag=false, guessedQs=[], guessedRight=0;
@@ -2280,7 +2279,7 @@ function ansQ(i){
     explainBtn.type='button';
     explainBtn.id='q-explain-wrong-btn';
     explainBtn.className='q-explain-wrong-btn';
-    explainBtn.textContent='🤖 Explain why "'+q.o[i]+'" is wrong';
+    explainBtn.textContent='Explain why "'+q.o[i]+'" is wrong';
     explainBtn.onclick=function(){
       var prompt='For this question: "'+q.q+'" -- why is the answer "'+q.o[i]+'" wrong? The correct answer is "'+q.o[q.a]+'". Keep it short and specific to that wrong choice, not a general re-explanation of the correct answer.';
       var display='Why is "'+q.o[i]+'" wrong?';

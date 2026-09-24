@@ -1,0 +1,18 @@
+/* Self-hosted latin subsets for the homepage: Nunito (variable 400-800) for
+   body text, Fraunces (variable 500-700) for the hero headline. Renamed from
+   home.css because /fonts/* is served immutable -- bump the name to bust. */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('/fonts/nunito-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-weight: 500 700;
+  font-display: swap;
+  src: url('/fonts/fraunces-latin.woff2') format('woff2');
+}

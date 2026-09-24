@@ -747,7 +747,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   import { celebrateCorrect, resetCombo } from '/shared/celebrate.js';
   import { applyStoredUnitOrder, refreshUnitOrder } from '/shared/unit-order.js';
   import { enterLockdown, exitLockdown, getLockdownSummary } from '/shared/exam-lockdown.js';
-  import '/shared/chalk-cursor.js';
   window.__ssCreateMastery = createMastery;
   window.__ssCelebrateCorrect = celebrateCorrect;
   window.__ssResetCombo = resetCombo;
@@ -803,7 +802,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <div class="page" id="main-content" role="main" tabindex="-1">
 <div class="spc-card collapsed" id="spc-card">
   <button type="button" class="spc-summary" id="spc-summary" aria-expanded="false" aria-controls="spc-body">
-    <span>📊 See what your study plan could look like — tap to expand</span>
+    <span>See what your study plan could look like — tap to expand</span>
     <span class="spc-chevron" aria-hidden="true">▾</span>
   </button>
   <div class="spc-body" id="spc-body">
@@ -907,7 +906,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <div id="fc-progress" style="text-align:center;font-size:18px;color:var(--ink-dim,#857f72);margin-top:6px"></div>
   <div style="text-align:center;margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
     <button class="btn" type="button" onclick="exportFlashcards()" style="font-size:13px;padding:6px 14px">⇩ Export to Anki / Quizlet (.txt)</button>
-    <button class="btn" type="button" onclick="printFlashcardSheet()" style="font-size:13px;padding:6px 14px">🖨️ Print Study Sheet</button>
+    <button class="btn" type="button" onclick="printFlashcardSheet()" style="font-size:13px;padding:6px 14px">Print Study Sheet</button>
   </div>
 <details class="practice-archive"><summary>Browse all 80 flashcards as a list</summary><div class="fc-archive-body"><h4>Unit 1: Scarcity &amp; Opportunity Cost</h4><dl class="fc-archive-list"><dt>TINSTAAFL</dt><dd>There Is No Such Thing As A Free Lunch — everything has an opportunity cost.</dd><dt>PPF zones</dt><dd>On curve = efficient · inside = underutilized · outside = unattainable today.</dd><dt>Four factors of production</dt><dd>Land, labor, capital, entrepreneurship.</dd><dt>Three economic questions</dt><dd>WHAT to produce, HOW, and FOR WHOM — every system answers these.</dd><dt>Scarcity</dt><dd>Unlimited wants, limited resources — the permanent condition.</dd><dt>Trade-off vs opportunity cost</dt><dd>Broad giving-up vs value of the single next-best forgone.</dd><dt>Three economic questions</dt><dd>WHAT to produce, HOW, and FOR WHOM.</dd><dt>Mixed economy</dt><dd>Real nations blend market + command elements.</dd><dt>Review card 1</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 9</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 17</dt><dd>Spaced repetition strengthens memory.</dd></dl><h4>Unit 2: Supply &amp; Demand</h4><dl class="fc-archive-list"><dt>Substitutes vs complements</dt><dd>Coke-Pepsi move together; gas-SUVs move opposite.</dd><dt>Ceiling below EQ</dt><dd>Price ceiling under equilibrium → shortage (rent control).</dd><dt>Floor above EQ</dt><dd>Price floor over equilibrium → surplus (min-wage debate).</dd><dt>Demand shifters mnemonic</dt><dd>Income, Tastes, Related prices, Expectations, Buyers (#) — ITR.EB.</dd><dt>Substitutes vs complements</dt><dd>Coke-Pepsi move together; gas-SUVs move opposite.</dd><dt>Normal vs inferior good</dt><dd>Income ↑ demand ↑ (normal); income ↑ demand ↓ (inferior).</dd><dt>Inferior goods example</dt><dd>Instant noodles: income rises, demand falls.</dd><dt>Supply shifter example</dt><dd>Technology cuts costs → supply shifts right.</dd><dt>Review card 2</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 10</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 18</dt><dd>Spaced repetition strengthens memory.</dd></dl><h4>Unit 3: Market Structures</h4><dl class="fc-archive-list"><dt>Price taker vs maker</dt><dd>Perfect competition takes prices; monopoly makes them.</dd><dt>Monopolistic competition</dt><dd>Many firms + differentiation + easy entry (restaurants).</dd><dt>Oligopoly interdependence</dt><dd>Few firms: each move triggers rivals' responses (game-theory land).</dd><dt>Barriers to entry</dt><dd>Legal/natural/structural walls keeping competitors out.</dd><dt>Adverse selection</dt><dd>Information asymmetry: lemons drive out quality markets.</dd><dt>Oligopoly interdependence</dt><dd>Few firms: each move triggers rivals' responses.</dd><dt>Review card 3</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 11</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 19</dt><dd>Spaced repetition strengthens memory.</dd></dl><h4>Unit 4: Business Organizations &amp; Labor</h4><dl class="fc-archive-list"><dt>Limited liability</dt><dd>Corporate owners risk only their investment — not personal assets.</dd><dt>Derived demand</dt><dd>Labor demand flows from demand for what labor makes.</dd><dt>Double taxation</dt><dd>Corporate profits taxed, then dividends taxed again — C-corp drawback.</dd><dt>Limited liability</dt><dd>Corporate owners risk only their investment.</dd><dt>Derived demand</dt><dd>Labor demand flows from demand for what labor makes.</dd><dt>Double taxation</dt><dd>Corporate profits taxed, then dividends taxed again.</dd><dt>Human capital</dt><dd>Skills/training investments raising productivity.</dd><dt>Review card 4</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 12</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 20</dt><dd>Spaced repetition strengthens memory.</dd></dl><h4>Unit 5: Money, Banking &amp; the Fed</h4><dl class="fc-archive-list"><dt>Three functions of money</dt><dd>Medium of exchange · unit of account · store of value.</dd><dt>Fed buys bonds →</dt><dd>Money supply expands (expansionary OMO).</dd><dt>Money multiplier ≈ 1/reserve ratio</dt><dd>10% reserves → up to 10x deposit expansion through lending.</dd><dt>Three functions of money</dt><dd>Medium of exchange · unit of account · store of value.</dd><dt>Fed buys bonds →</dt><dd>Money supply expands (expansionary OMO).</dd><dt>Money multiplier ≈ 1/reserve ratio</dt><dd>10% reserves → up to 10x deposit expansion.</dd><dt>Hyperinflation lesson</dt><dd>Money loses store-of-value function when supply explodes.</dd><dt>Review card 5</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 13</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 21</dt><dd>Spaced repetition strengthens memory.</dd></dl><h4>Unit 6: Personal Finance</h4><dl class="fc-archive-list"><dt>Rule of 72</dt><dd>Years to double ≈ 72 ÷ annual % return.</dd><dt>Utilization rule</dt><dd>Keep credit utilization under ~30% to protect score.</dd><dt>Good debt vs bad debt</dt><dd>Buys appreciating/earning assets vs funds consumption.</dd><dt>Rule of 72</dt><dd>Years to double ≈ 72 ÷ annual % return.</dd><dt>APR trap</dt><dd>Minimum payments service interest; principal barely shrinks.</dd><dt>Index funds</dt><dd>Automated diversification at low cost.</dd><dt>Review card 6</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 14</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 22</dt><dd>Spaced repetition strengthens memory.</dd></dl><h4>Unit 7: Government &amp; the Economy</h4><dl class="fc-archive-list"><dt>Progressive vs regressive</dt><dd>Rate rises with income (fed income tax) vs larger share from poor (sales tax).</dd><dt>Expansionary fiscal</dt><dd>G ↑ / T ↓ to fight recession — deficits grow.</dd><dt>Multiplier effect</dt><dd>Initial spending ripples: income → spending → income again.</dd><dt>Progressive vs regressive</dt><dd>Rate rises with income vs larger share from poor.</dd><dt>Expansionary fiscal</dt><dd>G↑ / T↓ to fight recession — deficits grow.</dd><dt>Multiplier effect</dt><dd>Initial spending ripples: income → spending → income again.</dd><dt>Review card 7</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 15</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 23</dt><dd>Spaced repetition strengthens memory.</dd></dl><h4>Unit 8: International Trade &amp; Globalization</h4><dl class="fc-archive-list"><dt>Comparative advantage</dt><dd>Lowest opportunity-cost producer specializes and trades.</dd><dt>Tariff effect</dt><dd>Import tax raises prices; protects producers; hurts consumers more.</dd><dt>Trade deficit ≠ losing</dt><dd>Imports &gt; exports offset by capital inflows; not a scoreboard.</dd><dt>Comparative advantage</dt><dd>Lowest opportunity-cost producer specializes and trades.</dd><dt>Tariff effect</dt><dd>Import tax raises prices; consumers hurt most.</dd><dt>Trade deficit ≠ losing</dt><dd>Imports &gt; exports offset by capital inflows.</dd><dt>Specialization gains</dt><dd>Comparative-advantage trade grows everyone's pie.</dd><dt>Value-chain climbing</dt><dd>Developing economies move from assembly to design/brands.</dd><dt>Review card 8</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 16</dt><dd>Spaced repetition strengthens memory.</dd><dt>Review card 24</dt><dd>Spaced repetition strengthens memory.</dd></dl></div></details></div></div>
 <div id="view-quiz" class="view" role="tabpanel" aria-labelledby="tab-quiz" tabindex="0">
@@ -934,8 +933,8 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
       <button class="chip diff-chip" type="button" data-diff="hard" onclick="setDifficultyFilter('hard')">Hard</button>
     </div>
     <button class="btn mistake-log-btn" type="button" onclick="openMistakeLog()">Mistake Log<span class="mistake-log-count" id="mistake-log-count" style="display:none">0</span></button>
-    <button class="btn" type="button" onclick="printWorksheet()" style="font-size:14px;padding:7px 14px">🖨️ Print Worksheet</button>
-    <button class="btn" type="button" id="challenge-friend-btn" onclick="challengeFromQuiz()">⚔️ Challenge a Friend</button>
+    <button class="btn" type="button" onclick="printWorksheet()" style="font-size:14px;padding:7px 14px">Print Worksheet</button>
+    <button class="btn" type="button" id="challenge-friend-btn" onclick="challengeFromQuiz()">Challenge a Friend</button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -1324,7 +1323,7 @@ function ssTypeset(el){
 }
 
 // GUIDE
-const SEARCH_BADGE={concept:'📖 Notes',flashcard:'📇 Flashcard',quiz:'❓ Quiz'};
+const SEARCH_BADGE={concept:'Notes',flashcard:'Flashcard',quiz:'Quiz'};
 function searchGuide(){
   const q=(document.getElementById('search-box').value||'').toLowerCase().trim();
   const sr=document.getElementById('search-results');
@@ -1572,7 +1571,7 @@ ssTypeset(document.getElementById('units'));
     btn=document.createElement('button');
     btn.type='button';
     btn.className='ss-concept-btn';
-    btn.textContent='🤖 Break this down';
+    btn.textContent='Break this down';
     btn.style.left=Math.max(8,rect.left+window.scrollX+rect.width/2)+'px';
     btn.style.top=Math.max(8,rect.top+window.scrollY-40)+'px';
     btn.onmousedown=function(e){e.preventDefault();};
@@ -1628,7 +1627,7 @@ let fcDeck=[],fcIdx=0,fcFilterMode='all',fcMode='flip';
 function toggleFcMode(){
   fcMode=fcMode==='flip'?'type':'flip';
   const btn=document.getElementById('fc-mode-btn');
-  if(btn)btn.textContent=fcMode==='type'?'🔄 Flip mode':'✎ Type it';
+  if(btn)btn.textContent=fcMode==='type'?'Flip mode':'✎ Type it';
   showFC();
 }
 function checkTypedAnswer(){
@@ -2141,7 +2140,7 @@ function showQ(){
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
     (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
-    `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">💡 Hint (1/3)</button>`+
+    `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">Hint (1/3)</button>`+
     `<div class="q-hint-box" id="q-hint-box"></div>`+
     `<div class="q-opts">`;
   q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">`+
@@ -2191,7 +2190,7 @@ function revealNextHintTier(){
     const preview=(q.e||'').split(/(?<=[.!?])\s/)[0]||q.e||'';
     box.textContent='Hint: '+preview;
   }
-  btn.textContent=qHintTier>=3?'💡 No more hints':`💡 Hint (${qHintTier+1}/3)`;
+  btn.textContent=qHintTier>=3?'No more hints':`Hint (${qHintTier+1}/3)`;
   if(qHintTier>=3)btn.disabled=true;
 }
 let guessFlag=false, guessedQs=[], guessedRight=0;
@@ -2252,7 +2251,7 @@ function ansQ(i){
     explainBtn.type='button';
     explainBtn.id='q-explain-wrong-btn';
     explainBtn.className='q-explain-wrong-btn';
-    explainBtn.textContent='🤖 Explain why "'+q.o[i]+'" is wrong';
+    explainBtn.textContent='Explain why "'+q.o[i]+'" is wrong';
     explainBtn.onclick=function(){
       var prompt='For this question: "'+q.q+'" -- why is the answer "'+q.o[i]+'" wrong? The correct answer is "'+q.o[q.a]+'". Keep it short and specific to that wrong choice, not a general re-explanation of the correct answer.';
       var display='Why is "'+q.o[i]+'" wrong?';

@@ -747,7 +747,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   import { celebrateCorrect, resetCombo } from '/shared/celebrate.js';
   import { applyStoredUnitOrder, refreshUnitOrder } from '/shared/unit-order.js';
   import { enterLockdown, exitLockdown, getLockdownSummary } from '/shared/exam-lockdown.js';
-  import '/shared/chalk-cursor.js';
   window.__ssCreateMastery = createMastery;
   window.__ssCelebrateCorrect = celebrateCorrect;
   window.__ssResetCombo = resetCombo;
@@ -803,7 +802,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <div class="page" id="main-content" role="main" tabindex="-1">
 <div class="spc-card collapsed" id="spc-card">
   <button type="button" class="spc-summary" id="spc-summary" aria-expanded="false" aria-controls="spc-body">
-    <span>📊 See what your study plan could look like — tap to expand</span>
+    <span>See what your study plan could look like — tap to expand</span>
     <span class="spc-chevron" aria-hidden="true">▾</span>
   </button>
   <div class="spc-body" id="spc-body">
@@ -907,7 +906,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <div id="fc-progress" style="text-align:center;font-size:18px;color:var(--ink-dim,#857f72);margin-top:6px"></div>
   <div style="text-align:center;margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
     <button class="btn" type="button" onclick="exportFlashcards()" style="font-size:13px;padding:6px 14px">⇩ Export to Anki / Quizlet (.txt)</button>
-    <button class="btn" type="button" onclick="printFlashcardSheet()" style="font-size:13px;padding:6px 14px">🖨️ Print Study Sheet</button>
+    <button class="btn" type="button" onclick="printFlashcardSheet()" style="font-size:13px;padding:6px 14px">Print Study Sheet</button>
   </div>
 <details class="practice-archive"><summary>Browse all 80 flashcards as a list</summary><div class="fc-archive-body"><h4>Unit 1: Greetings &amp; Introductions</h4><dl class="fc-archive-list"><dt>Buenos días</dt><dd>Good morning — used until roughly noon.</dd><dt>¿Cómo te llamas?</dt><dd>What's your name? (informal) — answers with Me llamo…</dd><dt>Mucho gusto</dt><dd>Nice to meet you.</dd><dt>Hasta mañana</dt><dd>See you tomorrow — hasta = until.</dd><dt>Ser (yo/tú)</dt><dd>soy, eres — to be for identity, origin, traits.</dd><dt>Usted</dt><dd>Formal 'you' — takes third-person verb forms (usted habla).</dd><dt>Tengo … años</dt><dd>I'm … years old — age uses tener, never ser.</dd><dt>Ser vs estar core</dt><dd>DOCTOR traits vs PLACE conditions.</dd><dt>Tú vs usted</dt><dd>Informal friend vs formal respect.</dd><dt>Greetings clock</dt><dd>buenos días tardes noches.</dd></dl><h4>Unit 2: Numbers, Dates &amp; Time</h4><dl class="fc-archive-list"><dt>Veintiuno / treinta y uno</dt><dd>21 fuses into one word; 31+ needs y between tens and units.</dd><dt>El primero de mayo</dt><dd>May 1st — primero only for the first of the month.</dd><dt>Son las dos y media</dt><dd>It's 2:30 — media = half past; time uses ser.</dd><dt>Menos cuarto</dt><dd>Quarter TO the next hour: las cinco menos cuarto = 4:45.</dd><dt>¿Qué día es hoy?</dt><dd>What day is today? (vs ¿Cuál es la fecha? for the date)</dd><dt>De la mañana / tarde / noche</dt><dd>AM / afternoon / PM markers after telling time.</dd><dt>Gustar logic</dt><dd>'Is pleasing to' — me gusta(n).</dd><dt>Definite articles</dt><dd>el/la/los/las match gender+number.</dd><dt>Me llamo…</dt><dd>My name is — from llamarse.</dd></dl><h4>Unit 3: Family &amp; Descriptions</h4><dl class="fc-archive-list"><dt>Los abuelos</dt><dd>Grandparents (abuelo + abuela, or mixed set).</dd><dt>Mi / mis · tu / tus · su / sus</dt><dd>Possessives agreeing in number with the thing owned.</dd><dt>Nuestro/a/os/as</dt><dd>Our — the only possessive that agrees in gender too.</dd><dt>Tener … años</dt><dd>To be … years old: Mi hermana tiene doce años.</dd><dt>Simpático/a</dt><dd>Nice, pleasant — the default compliment adjective.</dd><dt>Tener hambre / sed / miedo</dt><dd>To be hungry / thirsty / afraid — tener expressions.</dd><dt>El/la primo/a</dt><dd>Cousin — final -o masculine, -a feminine; primos = mixed set.</dd><dt>¿De quién es…?</dt><dd>Whose is it? — answers with Es de + person.</dd><dt>Possessives</dt><dd>mi/tu/su/nuestro agree with thing owned.</dd><dt>Adjective agreement</dt><dd>alto/alta/altos/altas copy the noun.</dd><dt>Tener expressions</dt><dd>tener hambre sed años.</dd></dl><h4>Unit 4: School &amp; -AR Verbs</h4><dl class="fc-archive-list"><dt>-AR endings</dt><dd>o, as, a, amos, áis, an — hablar pattern for hundreds of verbs.</dd><dt>La mochila</dt><dd>Backpack — school-supply staple word.</dd><dt>Necesito + infinitive</dt><dd>I need TO…: Necesito estudiar. Second verb stays whole.</dd><dt>Siempre / a veces / nunca</dt><dd>Always / sometimes / never — frequency adverbs.</dd><dt>Escuchar vs mirar</dt><dd>Listen(to) vs watch/look(at): escuchar música, mirar la tele.</dd><dt>Terminar / tomar / trabajar</dt><dd>Finish / take-have / work — three everyday -AR verbs.</dd><dt>Pasar / preparar</dt><dd>To pass/spend time · to prepare — two workhorse -AR verbs.</dd><dt>La biblioteca</dt><dd>Library — cognate-friendly study place.</dd><dt>Tengo que + infinitive</dt><dd>I have TO…: Tengo que trabajar hoy.</dd><dt>Ir+a+infinitive</dt><dd>Voy a comer = going to eat.</dd><dt>Question words</dt><dd>qué quién cómo cuándo dónde por qué.</dd><dt>Colors agreement</dt><dd>rojo roja rojos rojas follow noun.</dd></dl><h4>Unit 5: Food &amp; -ER/-IR Verbs</h4><dl class="fc-archive-list"><dt>-ER endings</dt><dd>o, es, e, emos, éis, en — comer: como, comes, come…</dd><dt>-IR nosotros/vosotros</dt><dd>-imos / -ís: vivimos, vivís — the only -ER/-IR difference.</dd><dt>El pescado</dt><dd>Fish as FOOD (el pez is alive in water).</dd><dt>Con / sin</dt><dd>With / without — un café con leche, sin azúcar.</dd><dt>La cuenta, por favor</dt><dd>The check, please — end-of-meal essential.</dd><dt>Compartir</dt><dd>To share (-IR): compartir el almuerzo con amigos.</dd><dt>El pollo</dt><dd>Chicken (food) — pollo asado, sopa de pollo.</dd><dt>Food phrases</dt><dd>tener hambre = to be hungry.</dd><dt>Meal words</dt><dd>desayuno almuerzo cena.</dd></dl><h4>Unit 6: Gustar &amp; Likes</h4><dl class="fc-archive-list"><dt>Me gusta(n) + noun</dt><dd>I like it/them — gustar matches the THING's number.</dd><dt>Gusta + infinitive</dt><dd>Liking activities always singular gusta: Me gusta nadar.</dd><dt>Encantar</dt><dd>To love something — stronger than gustar, same grammar.</dd><dt>No me gusta nada</dt><dd>I don't like it at all — nada intensifies the negative.</dd><dt>A Juan le gusta…</dt><dd>Clarifier for ambiguous le: A Juan (le) likes…</dd><dt>Me interesa(n)</dt><dd>It interests me — gustar-family verb for topics.</dd><dt>-IR endings</dt><dd>-o -es -e -imos -en.</dd><dt>Places vocab</dt><dd>biblioteca parque cine tienda escuela.</dd><dt>-IR nosotros form</dt><dd>-imos differs from -ER -emos.</dd></dl><h4>Unit 7: Stem-Changers &amp; Clothing</h4><dl class="fc-archive-list"><dt>Stem-changer rule</dt><dd>Stressed vowel swaps in all forms EXCEPT nosotros/vosotros (boot).</dd><dt>Pensar / querer / preferir</dt><dd>e→ie family: pienso, quiero, prefiero.</dd><dt>Poder / dormir / almorzar</dt><dd>o→ue family: puedo, duermo, almuerzo.</dd><dt>Jugar → juego</dt><dd>The lone u→ue verb — to play (sports/games).</dd><dt>¿Cuánto cuesta(n)?</dt><dd>How much does/do it cost? — agrees with the item.</dd><dt>Llevar</dt><dd>To wear OR to carry: Llevo una camisa azul.</dd><dt>Stem-change boot</dt><dd>e→ie o→ue except nosotros.</dd><dt>Clothes verbs</dt><dd>llevar wear · probarse try on.</dd><dt>Pensar que</dt><dd>pensar que = think that (no subjunctive).</dd></dl><h4>Unit 8: House &amp; Ser vs Estar</h4><dl class="fc-archive-list"><dt>Estar (yo)</dt><dd>estoy — irregular yo; rest regular: estás, está…</dd><dt>Location → estar</dt><dd>Where things sit uses estar: La mesa está cerca.</dd><dt>Ser for events' venues</dt><dd>La fiesta ES en mi casa — event location breaks the estar rule.</dd><dt>Estoy estudiando</dt><dd>estar + -ando/-iendo = happening right now.</dd><dt>Del / al</dt><dd>de+el and a+el contractions — the only two in Spanish.</dd><dt>La planta baja</dt><dd>Ground floor — one floor below el primer piso.</dd><dt>Encima de / al lado de</dt><dd>On top of / next to — core location prepositions.</dd><dt>O→UE examples</dt><dd>poder→puedo dormir→duermo.</dd><dt>Weather phrases</dt><dd>hace calor está lloviendo hay niebla.</dd><dt>Hace + time</dt><dd>hace dos años = two years ago.</dd><dt>¿Cómo se dice…?</dt><dd>How do you say…? — asking for translations.</dd></dl></div></details></div></div>
 <div id="view-quiz" class="view" role="tabpanel" aria-labelledby="tab-quiz" tabindex="0">
@@ -934,8 +933,8 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
       <button class="chip diff-chip" type="button" data-diff="hard" onclick="setDifficultyFilter('hard')">Hard</button>
     </div>
     <button class="btn mistake-log-btn" type="button" onclick="openMistakeLog()">Mistake Log<span class="mistake-log-count" id="mistake-log-count" style="display:none">0</span></button>
-    <button class="btn" type="button" onclick="printWorksheet()" style="font-size:14px;padding:7px 14px">🖨️ Print Worksheet</button>
-    <button class="btn" type="button" id="challenge-friend-btn" onclick="challengeFromQuiz()">⚔️ Challenge a Friend</button>
+    <button class="btn" type="button" onclick="printWorksheet()" style="font-size:14px;padding:7px 14px">Print Worksheet</button>
+    <button class="btn" type="button" id="challenge-friend-btn" onclick="challengeFromQuiz()">Challenge a Friend</button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -1327,7 +1326,7 @@ function ssTypeset(el){
 }
 
 // GUIDE
-const SEARCH_BADGE={concept:'📖 Notes',flashcard:'📇 Flashcard',quiz:'❓ Quiz'};
+const SEARCH_BADGE={concept:'Notes',flashcard:'Flashcard',quiz:'Quiz'};
 function searchGuide(){
   const q=(document.getElementById('search-box').value||'').toLowerCase().trim();
   const sr=document.getElementById('search-results');
@@ -1575,7 +1574,7 @@ ssTypeset(document.getElementById('units'));
     btn=document.createElement('button');
     btn.type='button';
     btn.className='ss-concept-btn';
-    btn.textContent='🤖 Break this down';
+    btn.textContent='Break this down';
     btn.style.left=Math.max(8,rect.left+window.scrollX+rect.width/2)+'px';
     btn.style.top=Math.max(8,rect.top+window.scrollY-40)+'px';
     btn.onmousedown=function(e){e.preventDefault();};
@@ -1631,7 +1630,7 @@ let fcDeck=[],fcIdx=0,fcFilterMode='all',fcMode='flip';
 function toggleFcMode(){
   fcMode=fcMode==='flip'?'type':'flip';
   const btn=document.getElementById('fc-mode-btn');
-  if(btn)btn.textContent=fcMode==='type'?'🔄 Flip mode':'✎ Type it';
+  if(btn)btn.textContent=fcMode==='type'?'Flip mode':'✎ Type it';
   showFC();
 }
 function checkTypedAnswer(){
@@ -2144,7 +2143,7 @@ function showQ(){
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
     (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
-    `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">💡 Hint (1/3)</button>`+
+    `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">Hint (1/3)</button>`+
     `<div class="q-hint-box" id="q-hint-box"></div>`+
     `<div class="q-opts">`;
   q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">`+
@@ -2194,7 +2193,7 @@ function revealNextHintTier(){
     const preview=(q.e||'').split(/(?<=[.!?])\s/)[0]||q.e||'';
     box.textContent='Hint: '+preview;
   }
-  btn.textContent=qHintTier>=3?'💡 No more hints':`💡 Hint (${qHintTier+1}/3)`;
+  btn.textContent=qHintTier>=3?'No more hints':`Hint (${qHintTier+1}/3)`;
   if(qHintTier>=3)btn.disabled=true;
 }
 let guessFlag=false, guessedQs=[], guessedRight=0;
@@ -2255,7 +2254,7 @@ function ansQ(i){
     explainBtn.type='button';
     explainBtn.id='q-explain-wrong-btn';
     explainBtn.className='q-explain-wrong-btn';
-    explainBtn.textContent='🤖 Explain why "'+q.o[i]+'" is wrong';
+    explainBtn.textContent='Explain why "'+q.o[i]+'" is wrong';
     explainBtn.onclick=function(){
       var prompt='For this question: "'+q.q+'" -- why is the answer "'+q.o[i]+'" wrong? The correct answer is "'+q.o[q.a]+'". Keep it short and specific to that wrong choice, not a general re-explanation of the correct answer.';
       var display='Why is "'+q.o[i]+'" wrong?';

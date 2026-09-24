@@ -747,7 +747,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   import { celebrateCorrect, resetCombo } from '/shared/celebrate.js';
   import { applyStoredUnitOrder, refreshUnitOrder } from '/shared/unit-order.js';
   import { enterLockdown, exitLockdown, getLockdownSummary } from '/shared/exam-lockdown.js';
-  import '/shared/chalk-cursor.js';
   window.__ssCreateMastery = createMastery;
   window.__ssCelebrateCorrect = celebrateCorrect;
   window.__ssResetCombo = resetCombo;
@@ -803,7 +802,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <div class="page" id="main-content" role="main" tabindex="-1">
 <div class="spc-card collapsed" id="spc-card">
   <button type="button" class="spc-summary" id="spc-summary" aria-expanded="false" aria-controls="spc-body">
-    <span>📊 See what your study plan could look like — tap to expand</span>
+    <span>See what your study plan could look like — tap to expand</span>
     <span class="spc-chevron" aria-hidden="true">▾</span>
   </button>
   <div class="spc-body" id="spc-body">
@@ -907,7 +906,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <div id="fc-progress" style="text-align:center;font-size:18px;color:var(--ink-dim,#857f72);margin-top:6px"></div>
   <div style="text-align:center;margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
     <button class="btn" type="button" onclick="exportFlashcards()" style="font-size:13px;padding:6px 14px">⇩ Export to Anki / Quizlet (.txt)</button>
-    <button class="btn" type="button" onclick="printFlashcardSheet()" style="font-size:13px;padding:6px 14px">🖨️ Print Study Sheet</button>
+    <button class="btn" type="button" onclick="printFlashcardSheet()" style="font-size:13px;padding:6px 14px">Print Study Sheet</button>
   </div>
 <details class="practice-archive"><summary>Browse all 58 flashcards as a list</summary><div class="fc-archive-body"><h4>Unit 1: Foundations of American Democracy</h4><dl class="fc-archive-list"><dt>Popular sovereignty</dt><dd>Government's legitimacy comes from the consent of the governed — power resides in the people.</dd><dt>Social contract</dt><dd>People surrender some liberty to government in exchange for protection of natural rights (Locke, Hobbes).</dd><dt>Articles of Confederation</dt><dd>First U.S. constitution (1781–89): weak Congress, no tax/executive/judiciary power; replaced after Shays' Rebellion.</dd><dt>Great Compromise</dt><dd>Bicameral Congress: House apportioned by population, Senate with two members per state.</dd><dt>Three-Fifths Compromise</dt><dd>Enslaved persons counted as 3/5 of a person for representation and direct taxation.</dd><dt>Federalist No. 10</dt><dd>Madison: large republic dilutes factions so no single interest dominates.</dd><dt>Federalist No. 51</dt><dd>Madison: checks and balances — 'ambition must be made to counteract ambition.'</dd></dl><h4>Unit 2: The Constitution: Principles &amp; Structure</h4><dl class="fc-archive-list"><dt>Separation of powers</dt><dd>Division of authority among legislative, executive, and judicial branches.</dd><dt>Checks and balances</dt><dd>Each branch can limit the others (veto, override, confirmation, impeachment, judicial review).</dd><dt>Judicial review</dt><dd>Courts' power to strike unconstitutional laws/actions — established in Marbury v. Madison (1803).</dd><dt>Federalism</dt><dd>Power divided between national and state governments, each supreme in its sphere.</dd><dt>Enumerated powers</dt><dd>Powers expressly granted to Congress in Article I, Section 8 (tax, commerce, war, etc.).</dd><dt>Reserved powers</dt><dd>10th Amendment: powers not delegated to the U.S. nor denied to states belong to states/people.</dd><dt>Necessary and Proper Clause</dt><dd>Elastic Clause letting Congress pass laws to execute enumerated powers (McCulloch).</dd><dt>Selective incorporation</dt><dd>14th Amendment due process applying Bill of Rights guarantees to states, case by case.</dd></dl><h4>Unit 3: Congress</h4><dl class="fc-archive-list"><dt>Bicameral legislature</dt><dd>Two-chamber Congress: House (435, 2-year terms) and Senate (100, 6-year staggered terms).</dd><dt>Cloture</dt><dd>Senate procedure ending filibuster; requires 60 votes.</dd><dt>Filibuster</dt><dd>Extended Senate debate delaying/blocking a vote; only possible in the Senate.</dd><dt>Gerrymandering</dt><dd>Drawing district lines to favor a party or incumbent; racial gerrymanders are unconstitutional.</dd><dt>Incumbency advantage</dt><dd>Name recognition, casework, fundraising edges giving sitting members ~90%+ reelection odds.</dd><dt>Impeachment</dt><dd>House majority charges an official; Senate two-thirds convicts and removes.</dd><dt>Rules Committee</dt><dd>House committee setting debate terms — time, amendments — for most bills.</dd></dl><h4>Unit 4: The Presidency</h4><dl class="fc-archive-list"><dt>Commander in chief</dt><dd>President heads the military — but only Congress declares war.</dd><dt>Executive order</dt><dd>Presidential directive to agencies carrying force of law; reversible by courts/Congress/successors.</dd><dt>Executive agreement</dt><dd>International pact made by the president without Senate ratification.</dd><dt>Signing statement</dt><dd>President's commentary upon signing a bill, sometimes signaling enforcement interpretation.</dd><dt>Bully pulpit</dt><dd>Theodore Roosevelt's term for the presidency's platform to sway public opinion.</dd><dt>War Powers Resolution (1973)</dt><dd>Notify Congress within 48h of hostilities; withdraw within 60 days without authorization.</dd><dt>Take Care Clause</dt><dd>Article II duty to faithfully execute the laws.</dd></dl><h4>Unit 5: The Judiciary</h4><dl class="fc-archive-list"><dt>Original jurisdiction</dt><dd>Court's power to hear a case first (SCOTUS: states, ambassadors — rarely used).</dd><dt>Appellate jurisdiction</dt><dd>Power to review lower-court decisions for legal error.</dd><dt>Certiorari</dt><dd>Order accepting a case for review; granted by the Rule of Four.</dd><dt>Stare decisis</dt><dd>'Let the decision stand' — courts adhere to precedent for stability.</dd><dt>Majority opinion</dt><dd>Binding rationale of the justices in the majority; sets precedent.</dd><dt>Amicus curiae brief</dt><dd>'Friend of the court' filing by non-parties offering expertise/perspective.</dd><dt>Judicial activism vs. restraint</dt><dd>Debate over whether courts should overturn policy boldly or defer to elected branches.</dd></dl><h4>Unit 6: Civil Liberties &amp; Civil Rights</h4><dl class="fc-archive-list"><dt>Establishment Clause</dt><dd>First Amendment bar on government establishing/endorsing religion.</dd><dt>Free Exercise Clause</dt><dd>Protection for religious practice against government burden.</dd><dt>Prior restraint</dt><dd>Government blocking publication in advance — presumptively unconstitutional (Pentagon Papers).</dd><dt>Exclusionary rule</dt><dd>Mapp v. Ohio: evidence from illegal searches inadmissible at trial.</dd><dt>Miranda v. Arizona</dt><dd>Custodial interrogation requires warning of silence/counsel rights.</dd><dt>Strict scrutiny</dt><dd>Highest review tier (race, fundamental rights): compelling interest + narrow tailoring.</dd><dt>Equal Protection Clause</dt><dd>14th Amendment mandate that states treat similarly situated people alike.</dd><dt>Right to privacy</dt><dd>Unenumerated liberty (Griswold line) covering contraception, marriage, intimacy; abortion returned to states by Dobbs.</dd></dl><h4>Unit 7: Political Participation: Elections &amp; Media</h4><dl class="fc-archive-list"><dt>Electoral College</dt><dd>538 electors; 270 to win; most states winner-take-all — can diverge from popular vote.</dd><dt>Swing (battleground) states</dt><dd>Competitive states deciding close elections; focus of campaigns.</dd><dt>Duverger's law</dt><dd>Plurality-rule elections structurally favor two-party systems.</dd><dt>Realignment</dt><dd>Durable shift in party coalitions after critical elections (1932 New Deal). </dd><dt>Super PAC</dt><dd>Post-Citizens United committee raising unlimited money for independent expenditures only.</dd><dt>Issue network</dt><dd>Loose, fluid alliance of experts, groups, and officials around a policy issue (vs. iron triangle).</dd><dt>Gatekeeping</dt><dd>Media's power to choose which events become news.</dd></dl><h4>Unit 8: The Bureaucracy &amp; Policy Making</h4><dl class="fc-archive-list"><dt>Bureaucracy</dt><dd>Departments/agencies implementing law; staffed mostly by merit-hired civil servants.</dd><dt>Notice-and-comment rulemaking</dt><dd>APA process: publish proposed rule, take comments, issue final binding regulation.</dd><dt>Discretionary authority</dt><dd>Agency power to choose how to execute vague statutory mandates.</dd><dt>Iron triangle</dt><dd>Tight agency-committee-interest-group axis dominating one policy area.</dd><dt>Pendleton Act (1883)</dt><dd>Created merit-based civil service, ending much patronage hiring.</dd><dt>Congressional Review Act</dt><dd>Lets Congress void recently finalized agency rules by joint resolution.</dd><dt>FOIA</dt><dd>Guarantees public access to federal agency records with narrow exemptions.</dd></dl></div></details></div></div>
 <div id="view-quiz" class="view" role="tabpanel" aria-labelledby="tab-quiz" tabindex="0">
@@ -934,8 +933,8 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
       <button class="chip diff-chip" type="button" data-diff="hard" onclick="setDifficultyFilter('hard')">Hard</button>
     </div>
     <button class="btn mistake-log-btn" type="button" onclick="openMistakeLog()">Mistake Log<span class="mistake-log-count" id="mistake-log-count" style="display:none">0</span></button>
-    <button class="btn" type="button" onclick="printWorksheet()" style="font-size:14px;padding:7px 14px">🖨️ Print Worksheet</button>
-    <button class="btn" type="button" id="challenge-friend-btn" onclick="challengeFromQuiz()">⚔️ Challenge a Friend</button>
+    <button class="btn" type="button" onclick="printWorksheet()" style="font-size:14px;padding:7px 14px">Print Worksheet</button>
+    <button class="btn" type="button" id="challenge-friend-btn" onclick="challengeFromQuiz()">Challenge a Friend</button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -1326,7 +1325,7 @@ function ssTypeset(el){
 }
 
 // GUIDE
-const SEARCH_BADGE={concept:'📖 Notes',flashcard:'📇 Flashcard',quiz:'❓ Quiz'};
+const SEARCH_BADGE={concept:'Notes',flashcard:'Flashcard',quiz:'Quiz'};
 function searchGuide(){
   const q=(document.getElementById('search-box').value||'').toLowerCase().trim();
   const sr=document.getElementById('search-results');
@@ -1574,7 +1573,7 @@ ssTypeset(document.getElementById('units'));
     btn=document.createElement('button');
     btn.type='button';
     btn.className='ss-concept-btn';
-    btn.textContent='🤖 Break this down';
+    btn.textContent='Break this down';
     btn.style.left=Math.max(8,rect.left+window.scrollX+rect.width/2)+'px';
     btn.style.top=Math.max(8,rect.top+window.scrollY-40)+'px';
     btn.onmousedown=function(e){e.preventDefault();};
@@ -1630,7 +1629,7 @@ let fcDeck=[],fcIdx=0,fcFilterMode='all',fcMode='flip';
 function toggleFcMode(){
   fcMode=fcMode==='flip'?'type':'flip';
   const btn=document.getElementById('fc-mode-btn');
-  if(btn)btn.textContent=fcMode==='type'?'🔄 Flip mode':'✎ Type it';
+  if(btn)btn.textContent=fcMode==='type'?'Flip mode':'✎ Type it';
   showFC();
 }
 function checkTypedAnswer(){
@@ -2143,7 +2142,7 @@ function showQ(){
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
     (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
-    `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">💡 Hint (1/3)</button>`+
+    `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">Hint (1/3)</button>`+
     `<div class="q-hint-box" id="q-hint-box"></div>`+
     `<div class="q-opts">`;
   q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">`+
@@ -2193,7 +2192,7 @@ function revealNextHintTier(){
     const preview=(q.e||'').split(/(?<=[.!?])\s/)[0]||q.e||'';
     box.textContent='Hint: '+preview;
   }
-  btn.textContent=qHintTier>=3?'💡 No more hints':`💡 Hint (${qHintTier+1}/3)`;
+  btn.textContent=qHintTier>=3?'No more hints':`Hint (${qHintTier+1}/3)`;
   if(qHintTier>=3)btn.disabled=true;
 }
 let guessFlag=false, guessedQs=[], guessedRight=0;
@@ -2254,7 +2253,7 @@ function ansQ(i){
     explainBtn.type='button';
     explainBtn.id='q-explain-wrong-btn';
     explainBtn.className='q-explain-wrong-btn';
-    explainBtn.textContent='🤖 Explain why "'+q.o[i]+'" is wrong';
+    explainBtn.textContent='Explain why "'+q.o[i]+'" is wrong';
     explainBtn.onclick=function(){
       var prompt='For this question: "'+q.q+'" -- why is the answer "'+q.o[i]+'" wrong? The correct answer is "'+q.o[q.a]+'". Keep it short and specific to that wrong choice, not a general re-explanation of the correct answer.';
       var display='Why is "'+q.o[i]+'" wrong?';

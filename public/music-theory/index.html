@@ -747,7 +747,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   import { celebrateCorrect, resetCombo } from '/shared/celebrate.js';
   import { applyStoredUnitOrder, refreshUnitOrder } from '/shared/unit-order.js';
   import { enterLockdown, exitLockdown, getLockdownSummary } from '/shared/exam-lockdown.js';
-  import '/shared/chalk-cursor.js';
   window.__ssCreateMastery = createMastery;
   window.__ssCelebrateCorrect = celebrateCorrect;
   window.__ssResetCombo = resetCombo;
@@ -803,7 +802,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <div class="page" id="main-content" role="main" tabindex="-1">
 <div class="spc-card collapsed" id="spc-card">
   <button type="button" class="spc-summary" id="spc-summary" aria-expanded="false" aria-controls="spc-body">
-    <span>📊 See what your study plan could look like — tap to expand</span>
+    <span>See what your study plan could look like — tap to expand</span>
     <span class="spc-chevron" aria-hidden="true">▾</span>
   </button>
   <div class="spc-body" id="spc-body">
@@ -907,7 +906,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <div id="fc-progress" style="text-align:center;font-size:18px;color:var(--ink-dim,#857f72);margin-top:6px"></div>
   <div style="text-align:center;margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
     <button class="btn" type="button" onclick="exportFlashcards()" style="font-size:13px;padding:6px 14px">⇩ Export to Anki / Quizlet (.txt)</button>
-    <button class="btn" type="button" onclick="printFlashcardSheet()" style="font-size:13px;padding:6px 14px">🖨️ Print Study Sheet</button>
+    <button class="btn" type="button" onclick="printFlashcardSheet()" style="font-size:13px;padding:6px 14px">Print Study Sheet</button>
   </div>
 <details class="practice-archive"><summary>Browse all 80 flashcards as a list</summary><div class="fc-archive-body"><h4>Unit 1: Notes, Staff &amp; Clefs</h4><dl class="fc-archive-list"><dt>Staff</dt><dd>Five horizontal lines and four spaces on which music notation is written; pitch is determined by a note's position combined with the clef.</dd><dt>Treble Clef (G Clef)</dt><dd>A clef that circles the second line from the bottom, fixing it as G4; used for higher-pitched instruments and voices.</dd><dt>Bass Clef (F Clef)</dt><dd>A clef whose two dots surround the fourth line from the bottom, fixing it as F3; used for lower-pitched instruments and voices.</dd><dt>Ledger Lines</dt><dd>Short extra lines added above or below the staff to notate pitches that fall outside its five-line range.</dd><dt>Middle C</dt><dd>The C nearest the middle of the piano keyboard (C4); sits on the first ledger line below the treble staff and above the bass staff.</dd><dt>Grand Staff</dt><dd>A treble staff and a bass staff joined by a brace, used for piano and other wide-range instruments.</dd><dt>Sharp (#)</dt><dd>An accidental that raises a pitch by one half step.</dd><dt>Flat (b)</dt><dd>An accidental that lowers a pitch by one half step.</dd><dt>Natural Sign</dt><dd>An accidental that cancels a previous sharp or flat, returning a note to its unaltered pitch.</dd><dt>Enharmonic Equivalent</dt><dd>Two different note names that represent the same sounding pitch, such as C# and Db.</dd></dl><h4>Unit 2: Rhythm &amp; Meter</h4><dl class="fc-archive-list"><dt>Whole Note</dt><dd>A note lasting 4 beats in 4/4 time; the longest common note value, shown as a hollow oval with no stem.</dd><dt>Time Signature</dt><dd>Two numbers at the start of a piece; the top shows beats per measure, the bottom shows which note value equals one beat.</dd><dt>Simple Meter</dt><dd>A meter in which each beat divides naturally into two equal parts, e.g., 2/4, 3/4, 4/4.</dd><dt>Compound Meter</dt><dd>A meter in which each beat is a dotted note that divides naturally into three equal parts, e.g., 6/8, 9/8, 12/8.</dd><dt>Measure (Bar)</dt><dd>The space between two barlines containing the number of beats specified by the time signature.</dd><dt>Tie</dt><dd>A curved line connecting two notes of the SAME pitch, combining their durations into one continuous sound.</dd><dt>Dotted Note</dt><dd>A note followed by a dot that adds half of the note's original value to its duration.</dd><dt>Tempo</dt><dd>The speed of the beat, indicated by Italian terms (e.g., Allegro) or an exact metronome marking (BPM).</dd><dt>Syncopation</dt><dd>Rhythmic emphasis placed on normally weak beats or off-beats, working against the expected pulse.</dd><dt>Fermata</dt><dd>A symbol instructing the performer to hold a note or rest longer than its written value.</dd></dl><h4>Unit 3: Scales &amp; Keys</h4><dl class="fc-archive-list"><dt>Major Scale</dt><dd>A seven-note scale built with the pattern whole-whole-half-whole-whole-whole-half (W-W-H-W-W-W-H).</dd><dt>Natural Minor Scale</dt><dd>A seven-note scale built with the pattern whole-half-whole-whole-half-whole-whole (W-H-W-W-H-W-W).</dd><dt>Harmonic Minor Scale</dt><dd>Natural minor with the 7th scale degree raised a half step, creating a strong leading tone.</dd><dt>Melodic Minor Scale</dt><dd>Natural minor with the 6th and 7th degrees raised a half step ascending, but returning to natural minor descending.</dd><dt>Key Signature</dt><dd>A set of sharps or flats placed at the start of every staff line, showing which notes are consistently altered throughout a piece.</dd><dt>Circle of Fifths</dt><dd>A diagram arranging the 12 major keys so each clockwise step adds one sharp (or removes one flat), moving up a perfect 5th.</dd><dt>Relative Minor</dt><dd>The minor key that shares the exact same key signature as a given major key, starting on scale degree 6.</dd><dt>Parallel Key</dt><dd>A key that shares the same tonic note as another key but has a different key signature (e.g., C major and C minor).</dd><dt>Tonic</dt><dd>Scale degree 1; the 'home' pitch and most stable note of a key.</dd><dt>Leading Tone</dt><dd>Scale degree 7 in major (and harmonic minor); sits a half step below the tonic and pulls strongly to resolve upward to it.</dd></dl><h4>Unit 4: Intervals</h4><dl class="fc-archive-list"><dt>Interval</dt><dd>The distance between two pitches, described by a number (letter names spanned) and a quality (exact size).</dd><dt>Perfect Interval</dt><dd>An interval quality (unison, 4th, 5th, octave) considered highly stable and consonant; cannot be called major or minor.</dd><dt>Major Interval</dt><dd>A 2nd, 3rd, 6th, or 7th of the larger of its two possible sizes (one half step larger than the minor version).</dd><dt>Minor Interval</dt><dd>A 2nd, 3rd, 6th, or 7th one half step smaller than its major counterpart.</dd><dt>Augmented Interval</dt><dd>A perfect or major interval raised by one additional half step.</dd><dt>Diminished Interval</dt><dd>A perfect or minor interval lowered by one additional half step.</dd><dt>Interval Inversion</dt><dd>Moving the lower note of an interval up an octave (or vice versa); inverted numbers always sum to 9.</dd><dt>Tritone</dt><dd>The interval spanning 6 half steps (augmented 4th / diminished 5th); the most dissonant common interval, splitting the octave evenly.</dd><dt>Consonance</dt><dd>An interval quality that sounds stable and restful, such as perfect intervals and major/minor 3rds and 6ths.</dd><dt>Compound Interval</dt><dd>An interval larger than one octave, such as a 9th (octave + 2nd) or an 11th (octave + 4th).</dd></dl><h4>Unit 5: Chords &amp; Harmony</h4><dl class="fc-archive-list"><dt>Triad</dt><dd>A three-note chord built by stacking two thirds on top of a root note.</dd><dt>Major Triad</dt><dd>A triad built from a major 3rd with a minor 3rd stacked on top (root-3rd-5th).</dd><dt>Minor Triad</dt><dd>A triad built from a minor 3rd with a major 3rd stacked on top.</dd><dt>Diminished Triad</dt><dd>A triad built from two stacked minor 3rds; sounds tense and unstable.</dd><dt>Augmented Triad</dt><dd>A triad built from two stacked major 3rds; sounds tense and unresolved.</dd><dt>Seventh Chord</dt><dd>A four-note chord formed by adding a 7th above the root of a triad, such as a dominant 7th or major 7th chord.</dd><dt>Chord Inversion</dt><dd>A rearrangement of a chord's notes so a tone other than the root is in the bass (lowest voice).</dd><dt>Roman Numeral Analysis</dt><dd>A system labeling chords by scale-degree root and quality within a key (uppercase = major, lowercase = minor, ° = diminished).</dd><dt>Authentic Cadence</dt><dd>A V-I (or V7-I) chord progression that provides the strongest, most conclusive resolution in tonal music.</dd><dt>Half Cadence</dt><dd>A phrase ending on the V chord, sounding unfinished and needing further resolution.</dd></dl><h4>Unit 6: Song Form &amp; Structure</h4><dl class="fc-archive-list"><dt>Strophic Form</dt><dd>A song structure that repeats the same music for every verse, with new lyrics each time.</dd><dt>Verse-Chorus Form</dt><dd>A song structure alternating verses (new lyrics, same music) with a chorus (same music and lyrics each time).</dd><dt>AABA Form</dt><dd>A 32-bar form of four 8-bar sections: two matching A sections, a contrasting B (bridge), then a final A.</dd><dt>Binary Form</dt><dd>A two-part musical structure (AB) where the second section contrasts with or develops the first.</dd><dt>Ternary Form</dt><dd>A three-part musical structure (ABA) where the third section repeats or closely resembles the first.</dd><dt>Rondo Form</dt><dd>A form that alternates a recurring main theme (A) with contrasting episodes, e.g., ABACA.</dd><dt>Sonata Form</dt><dd>A large instrumental form with three main parts: exposition, development, and recapitulation.</dd><dt>Bridge</dt><dd>A contrasting section, usually appearing once, that provides a break before returning to familiar material.</dd><dt>Phrase</dt><dd>A musical sentence, often 4 or 8 bars long, that ends with a cadence.</dd><dt>Motif (Motive)</dt><dd>A short, recognizable musical idea that can be repeated or developed throughout a piece.</dd></dl><h4>Unit 7: Ear Training Basics</h4><dl class="fc-archive-list"><dt>Solfège</dt><dd>A system assigning syllables (Do, Re, Mi, Fa, Sol, La, Ti) to scale degrees to train pitch recognition by function.</dd><dt>Movable Do</dt><dd>A solfège system in which 'Do' always represents the tonic of the current key, regardless of its letter name.</dd><dt>Audiation</dt><dd>The ability to hear and understand music internally in the mind, even without the sound physically present.</dd><dt>Call and Response</dt><dd>A musical technique where one phrase (the call) is directly answered by another (the response).</dd><dt>Perfect 5th (reference)</dt><dd>A commonly memorized interval sound, recognized by the opening two notes of 'Twinkle, Twinkle, Little Star.'</dd><dt>Major 2nd (reference)</dt><dd>A commonly memorized interval sound, recognized by the opening two notes of 'Happy Birthday.'</dd><dt>Aural Skills</dt><dd>The practical listening abilities used to identify pitches, intervals, chords, and rhythms by ear.</dd><dt>Sight-Singing</dt><dd>The skill of reading music notation and singing it accurately without first hearing it played.</dd><dt>Rhythmic Dictation</dt><dd>The exercise of listening to a rhythm and writing down its correct notation.</dd><dt>Subdivision</dt><dd>Mentally dividing each beat into smaller equal parts to place rhythms accurately in time.</dd></dl><h4>Unit 8: Analysis &amp; Composition Starter</h4><dl class="fc-archive-list"><dt>Passing Tone</dt><dd>A nonharmonic tone that connects two chord tones a third apart by step, approached and left in the same direction.</dd><dt>Neighbor Tone</dt><dd>A nonharmonic tone that steps away from a chord tone and back to the same chord tone.</dd><dt>Suspension</dt><dd>A nonharmonic tone held over from the previous chord that becomes dissonant, then resolves down by step.</dd><dt>Appoggiatura</dt><dd>A nonharmonic tone approached by leap and resolved by step, often landing accented on a strong beat.</dd><dt>Parallel Fifths/Octaves</dt><dd>Two voices moving in the same direction by the same perfect interval; traditionally avoided in four-part harmony.</dd><dt>Contrary Motion</dt><dd>Two musical voices moving in opposite directions, producing smooth and independent-sounding voice leading.</dd><dt>Monophonic Texture</dt><dd>A musical texture consisting of a single melodic line with no accompaniment or harmony.</dd><dt>Homophonic Texture</dt><dd>A musical texture with one melody supported by chordal accompaniment.</dd><dt>Polyphonic Texture</dt><dd>A musical texture with two or more independent melodic lines happening simultaneously.</dd><dt>Sequence</dt><dd>The repetition of a musical pattern at a new, higher or lower pitch level, preserving the same intervallic shape.</dd></dl></div></details></div></div>
 <div id="view-quiz" class="view" role="tabpanel" aria-labelledby="tab-quiz" tabindex="0">
@@ -934,8 +933,8 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
       <button class="chip diff-chip" type="button" data-diff="hard" onclick="setDifficultyFilter('hard')">Hard</button>
     </div>
     <button class="btn mistake-log-btn" type="button" onclick="openMistakeLog()">Mistake Log<span class="mistake-log-count" id="mistake-log-count" style="display:none">0</span></button>
-    <button class="btn" type="button" onclick="printWorksheet()" style="font-size:14px;padding:7px 14px">🖨️ Print Worksheet</button>
-    <button class="btn" type="button" id="challenge-friend-btn" onclick="challengeFromQuiz()">⚔️ Challenge a Friend</button>
+    <button class="btn" type="button" onclick="printWorksheet()" style="font-size:14px;padding:7px 14px">Print Worksheet</button>
+    <button class="btn" type="button" id="challenge-friend-btn" onclick="challengeFromQuiz()">Challenge a Friend</button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -1348,7 +1347,7 @@ function ssTypeset(el){
 }
 
 // GUIDE
-const SEARCH_BADGE={concept:'📖 Notes',flashcard:'📇 Flashcard',quiz:'❓ Quiz'};
+const SEARCH_BADGE={concept:'Notes',flashcard:'Flashcard',quiz:'Quiz'};
 function searchGuide(){
   const q=(document.getElementById('search-box').value||'').toLowerCase().trim();
   const sr=document.getElementById('search-results');
@@ -1596,7 +1595,7 @@ ssTypeset(document.getElementById('units'));
     btn=document.createElement('button');
     btn.type='button';
     btn.className='ss-concept-btn';
-    btn.textContent='🤖 Break this down';
+    btn.textContent='Break this down';
     btn.style.left=Math.max(8,rect.left+window.scrollX+rect.width/2)+'px';
     btn.style.top=Math.max(8,rect.top+window.scrollY-40)+'px';
     btn.onmousedown=function(e){e.preventDefault();};
@@ -1652,7 +1651,7 @@ let fcDeck=[],fcIdx=0,fcFilterMode='all',fcMode='flip';
 function toggleFcMode(){
   fcMode=fcMode==='flip'?'type':'flip';
   const btn=document.getElementById('fc-mode-btn');
-  if(btn)btn.textContent=fcMode==='type'?'🔄 Flip mode':'✎ Type it';
+  if(btn)btn.textContent=fcMode==='type'?'Flip mode':'✎ Type it';
   showFC();
 }
 function checkTypedAnswer(){
@@ -2165,7 +2164,7 @@ function showQ(){
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
     (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
-    `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">💡 Hint (1/3)</button>`+
+    `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">Hint (1/3)</button>`+
     `<div class="q-hint-box" id="q-hint-box"></div>`+
     `<div class="q-opts">`;
   q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">`+
@@ -2215,7 +2214,7 @@ function revealNextHintTier(){
     const preview=(q.e||'').split(/(?<=[.!?])\s/)[0]||q.e||'';
     box.textContent='Hint: '+preview;
   }
-  btn.textContent=qHintTier>=3?'💡 No more hints':`💡 Hint (${qHintTier+1}/3)`;
+  btn.textContent=qHintTier>=3?'No more hints':`Hint (${qHintTier+1}/3)`;
   if(qHintTier>=3)btn.disabled=true;
 }
 let guessFlag=false, guessedQs=[], guessedRight=0;
@@ -2276,7 +2275,7 @@ function ansQ(i){
     explainBtn.type='button';
     explainBtn.id='q-explain-wrong-btn';
     explainBtn.className='q-explain-wrong-btn';
-    explainBtn.textContent='🤖 Explain why "'+q.o[i]+'" is wrong';
+    explainBtn.textContent='Explain why "'+q.o[i]+'" is wrong';
     explainBtn.onclick=function(){
       var prompt='For this question: "'+q.q+'" -- why is the answer "'+q.o[i]+'" wrong? The correct answer is "'+q.o[q.a]+'". Keep it short and specific to that wrong choice, not a general re-explanation of the correct answer.';
       var display='Why is "'+q.o[i]+'" wrong?';

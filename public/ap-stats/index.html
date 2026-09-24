@@ -747,7 +747,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   import { celebrateCorrect, resetCombo } from '/shared/celebrate.js';
   import { applyStoredUnitOrder, refreshUnitOrder } from '/shared/unit-order.js';
   import { enterLockdown, exitLockdown, getLockdownSummary } from '/shared/exam-lockdown.js';
-  import '/shared/chalk-cursor.js';
   window.__ssCreateMastery = createMastery;
   window.__ssCelebrateCorrect = celebrateCorrect;
   window.__ssResetCombo = resetCombo;
@@ -803,7 +802,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <div class="page" id="main-content" role="main" tabindex="-1">
 <div class="spc-card collapsed" id="spc-card">
   <button type="button" class="spc-summary" id="spc-summary" aria-expanded="false" aria-controls="spc-body">
-    <span>📊 See what your study plan could look like — tap to expand</span>
+    <span>See what your study plan could look like — tap to expand</span>
     <span class="spc-chevron" aria-hidden="true">▾</span>
   </button>
   <div class="spc-body" id="spc-body">
@@ -907,7 +906,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <div id="fc-progress" style="text-align:center;font-size:18px;color:var(--ink-dim,#857f72);margin-top:6px"></div>
   <div style="text-align:center;margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
     <button class="btn" type="button" onclick="exportFlashcards()" style="font-size:13px;padding:6px 14px">⇩ Export to Anki / Quizlet (.txt)</button>
-    <button class="btn" type="button" onclick="printFlashcardSheet()" style="font-size:13px;padding:6px 14px">🖨️ Print Study Sheet</button>
+    <button class="btn" type="button" onclick="printFlashcardSheet()" style="font-size:13px;padding:6px 14px">Print Study Sheet</button>
   </div>
 <details class="practice-archive"><summary>Browse all 80 flashcards as a list</summary><div class="fc-archive-body"><h4>Unit 1: Exploring Data</h4><dl class="fc-archive-list"><dt>Mean</dt><dd>The arithmetic average, x̄ = (Σx)/n; sensitive to outliers and skew.</dd><dt>Median</dt><dd>The middle value of ordered data; resistant to outliers and skew.</dd><dt>Standard Deviation</dt><dd>A measure of typical distance from the mean; s = √[Σ(x−x̄)²/(n−1)].</dd><dt>IQR (Interquartile Range)</dt><dd>Q3 − Q1; the spread of the middle 50% of the data, resistant to outliers.</dd><dt>Outlier (1.5×IQR rule)</dt><dd>A value below Q1 − 1.5(IQR) or above Q3 + 1.5(IQR).</dd><dt>Five-Number Summary</dt><dd>Minimum, Q1, Median, Q3, Maximum — used to construct a boxplot.</dd><dt>z-score</dt><dd>z = (x − μ)/σ; the number of standard deviations a value is from the mean.</dd><dt>Resistant Measure</dt><dd>A statistic (median, IQR) that is not strongly affected by outliers or skew.</dd><dt>Skewed Right</dt><dd>Distribution with a long right tail; mean &gt; median.</dd><dt>Skewed Left</dt><dd>Distribution with a long left tail; mean &lt; median.</dd></dl><h4>Unit 2: Modeling Distributions</h4><dl class="fc-archive-list"><dt>Density Curve</dt><dd>A smooth curve modeling a distribution's shape; total area underneath = 1.</dd><dt>Normal Distribution</dt><dd>A symmetric, bell-shaped distribution denoted N(μ, σ), fully described by its mean and SD.</dd><dt>Empirical (68-95-99.7) Rule</dt><dd>In a Normal distribution, about 68% of data fall within 1 SD, 95% within 2 SD, and 99.7% within 3 SD of the mean.</dd><dt>Standard Normal Distribution</dt><dd>The Normal distribution N(0, 1), used after standardizing with z-scores.</dd><dt>z-score formula</dt><dd>z = (x − μ)/σ; converts a value to standard deviation units from the mean.</dd><dt>normalcdf</dt><dd>Calculator function that finds the proportion/probability of area between two values in a Normal distribution.</dd><dt>invNorm</dt><dd>Calculator function that finds the value corresponding to a given percentile/cumulative proportion.</dd><dt>Normal Probability Plot</dt><dd>A graph used to assess Normality; a roughly linear plot suggests the data are approximately Normal.</dd><dt>Inflection Point</dt><dd>The point(s) on a Normal curve, at μ ± σ, where curvature changes.</dd><dt>Percentile</dt><dd>The percentage of data at or below a given value in a distribution.</dd></dl><h4>Unit 3: Describing Bivariate Data</h4><dl class="fc-archive-list"><dt>Correlation (r)</dt><dd>A number from -1 to 1 measuring the strength and direction of a LINEAR relationship between two quantitative variables.</dd><dt>Least-Squares Regression Line</dt><dd>The line ŷ = a + bx that minimizes the sum of squared residuals; passes through (x̄, ȳ).</dd><dt>Slope (b)</dt><dd>b = r(sy/sx); the predicted change in y for each one-unit increase in x.</dd><dt>Residual</dt><dd>residual = y − ŷ, the difference between an observed and predicted value.</dd><dt>Coefficient of Determination (r²)</dt><dd>The proportion of variation in y explained by the linear relationship with x.</dd><dt>Residual Plot</dt><dd>A scatterplot of residuals vs. x used to check whether a linear model fits well (random scatter = good fit).</dd><dt>Influential Point</dt><dd>A point, often with an extreme x-value, whose removal substantially changes the regression line.</dd><dt>Extrapolation</dt><dd>Using a regression line to predict y for x-values far outside the range of observed data; unreliable.</dd><dt>Lurking Variable</dt><dd>An unmeasured variable that influences both the explanatory and response variables, creating a misleading association.</dd><dt>Correlation ≠ Causation</dt><dd>A strong correlation between variables does not prove that one causes the other.</dd></dl><h4>Unit 4: Designing Studies</h4><dl class="fc-archive-list"><dt>Simple Random Sample (SRS)</dt><dd>A sample where every group of n individuals has an equal chance of being selected.</dd><dt>Stratified Random Sample</dt><dd>Population divided into homogeneous strata; an SRS is taken from each stratum.</dd><dt>Cluster Sample</dt><dd>Population divided into heterogeneous clusters; entire clusters are randomly selected and studied.</dd><dt>Voluntary Response Bias</dt><dd>Bias that occurs when a sample consists only of individuals who choose to respond, often overrepresenting strong opinions.</dd><dt>Nonresponse Bias</dt><dd>Bias that occurs when individuals selected for a sample fail to respond and differ systematically from those who do.</dd><dt>Confounding Variable</dt><dd>A variable whose effect on the response cannot be separated from the effect of the explanatory variable.</dd><dt>Random Assignment</dt><dd>Using chance to assign experimental subjects to treatment groups; enables causal conclusions.</dd><dt>Placebo Effect</dt><dd>A response to treatment caused merely by receiving some treatment, not the treatment's active ingredient.</dd><dt>Double-Blind Experiment</dt><dd>An experiment in which neither subjects nor those measuring outcomes know which treatment was assigned.</dd><dt>Blocking</dt><dd>Grouping experimental units with similar characteristics before randomly assigning treatments within each group.</dd></dl><h4>Unit 5: Probability &amp; Simulation</h4><dl class="fc-archive-list"><dt>Complement Rule</dt><dd>P(not A) = 1 − P(A).</dd><dt>Addition Rule (General)</dt><dd>P(A or B) = P(A) + P(B) − P(A and B).</dd><dt>Mutually Exclusive (Disjoint) Events</dt><dd>Events that cannot both occur; P(A and B) = 0.</dd><dt>Independent Events</dt><dd>Events where the occurrence of one does not change the probability of the other: P(A|B) = P(A).</dd><dt>Conditional Probability</dt><dd>P(A|B) = P(A and B)/P(B); the probability of A given that B has occurred.</dd><dt>General Multiplication Rule</dt><dd>P(A and B) = P(A) × P(B|A); simplifies to P(A)×P(B) when independent.</dd><dt>Law of Large Numbers</dt><dd>As the number of trials increases, the observed relative frequency approaches the true probability.</dd><dt>Simulation</dt><dd>Using random numbers to imitate chance behavior and estimate a probability through repeated trials.</dd><dt>Tree Diagram</dt><dd>A diagram showing sequential probabilities; multiply along branches, add across separate paths.</dd><dt>Two-Way Table</dt><dd>A table organizing counts by two categorical variables, useful for finding joint, marginal, and conditional probabilities.</dd></dl><h4>Unit 6: Random Variables</h4><dl class="fc-archive-list"><dt>Discrete Random Variable</dt><dd>A variable that takes a countable set of numeric values, each occurring with a specific probability.</dd><dt>Valid Probability Distribution</dt><dd>Every P(x) ≥ 0 and the sum of all P(x) equals 1.</dd><dt>Expected Value E(X)</dt><dd>μX = Σ x·P(x), the probability-weighted long-run average of a random variable.</dd><dt>Variance of a Random Variable</dt><dd>σ²X = Σ (x−μX)²·P(x); measures average squared deviation from the mean.</dd><dt>Linear Transformation Rules</dt><dd>E(a+bX) = a+b·E(X); Var(a+bX) = b²·Var(X). Adding a constant shifts the mean but never changes the variance.</dd><dt>Combining Independent Random Variables</dt><dd>μ(X±Y) = μX±μY always; σ²(X±Y) = σ²X+σ²Y only if X and Y are independent.</dd><dt>Binomial Setting (BINS)</dt><dd>Binary outcomes, Independent trials, fixed Number of trials n, Same probability p of success each trial.</dd><dt>Binomial Probability Formula</dt><dd>P(X=k) = C(n,k)·p^k·(1−p)^(n−k); mean np, SD √(np(1−p)).</dd><dt>Geometric Setting (BITS)</dt><dd>Binary outcomes, Independent trials, constant probability p, trials continue until first Success.</dd><dt>Geometric Probability Formula</dt><dd>P(X=k) = (1−p)^(k−1)·p for k=1,2,3,…; mean 1/p, SD √((1−p)/p²).</dd></dl><h4>Unit 7: Sampling Distributions</h4><dl class="fc-archive-list"><dt>Sampling Distribution</dt><dd>The distribution of a statistic's values across all possible samples of a given size from a population.</dd><dt>Statistic vs. Parameter</dt><dd>A statistic describes a sample and varies from sample to sample; a parameter describes a population and is a fixed (usually unknown) number.</dd><dt>Unbiased Estimator</dt><dd>An estimator whose sampling distribution has a mean equal to the true value of the parameter it estimates.</dd><dt>Mean and SD of p̂</dt><dd>μp̂ = p; σp̂ = √(p(1−p)/n).</dd><dt>Mean and SD of x̄</dt><dd>μx̄ = μ; σx̄ = σ/√n.</dd><dt>Central Limit Theorem</dt><dd>As n increases, the sampling distribution of x̄ becomes approximately Normal, regardless of the population's shape (rule of thumb n≥30).</dd><dt>Large Counts Condition</dt><dd>np≥10 and n(1−p)≥10; ensures the sampling distribution of p̂ is approximately Normal.</dd><dt>10% Condition</dt><dd>Sample size n should be less than 10% of the population size to treat observations as approximately independent.</dd><dt>Standard Error</dt><dd>An estimate of a statistic's standard deviation using sample data when the true population parameter is unknown (e.g., s/√n).</dd><dt>Effect of Increasing n</dt><dd>Larger n decreases the variability (standard deviation) of a sampling distribution but does not affect bias.</dd></dl><h4>Unit 8: Inference: Confidence &amp; Tests</h4><dl class="fc-archive-list"><dt>Confidence Interval</dt><dd>statistic ± (critical value)×(standard error); estimates a population parameter with a stated level of confidence in the method.</dd><dt>Confidence Level (interpretation)</dt><dd>The long-run proportion of intervals, built the same way from repeated random samples, that would capture the true parameter.</dd><dt>Margin of Error</dt><dd>(critical value)×(standard error); the ± amount added/subtracted from the statistic to build the interval.</dd><dt>Null Hypothesis (H0)</dt><dd>The claim of 'no effect' or 'no difference' that is assumed true unless the sample data provide convincing evidence against it.</dd><dt>P-value</dt><dd>The probability of obtaining a test statistic at least as extreme as the one observed, assuming H0 is true.</dd><dt>Type I Error</dt><dd>Rejecting a true null hypothesis; occurs with probability α (the significance level).</dd><dt>Type II Error</dt><dd>Failing to reject a false null hypothesis; occurs with probability β.</dd><dt>Power of a Test</dt><dd>1−β; the probability of correctly rejecting a false null hypothesis (detecting a real effect).</dd><dt>One-Sample t-Test Statistic</dt><dd>t = (x̄ − μ0)/(s/√n), with degrees of freedom n−1.</dd><dt>Chi-Square Test Statistic</dt><dd>χ² = Σ(observed − expected)²/expected; used with categorical count data.</dd></dl></div></details></div></div>
 <div id="view-quiz" class="view" role="tabpanel" aria-labelledby="tab-quiz" tabindex="0">
@@ -934,8 +933,8 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
       <button class="chip diff-chip" type="button" data-diff="hard" onclick="setDifficultyFilter('hard')">Hard</button>
     </div>
     <button class="btn mistake-log-btn" type="button" onclick="openMistakeLog()">Mistake Log<span class="mistake-log-count" id="mistake-log-count" style="display:none">0</span></button>
-    <button class="btn" type="button" onclick="printWorksheet()" style="font-size:14px;padding:7px 14px">🖨️ Print Worksheet</button>
-    <button class="btn" type="button" id="challenge-friend-btn" onclick="challengeFromQuiz()">⚔️ Challenge a Friend</button>
+    <button class="btn" type="button" onclick="printWorksheet()" style="font-size:14px;padding:7px 14px">Print Worksheet</button>
+    <button class="btn" type="button" id="challenge-friend-btn" onclick="challengeFromQuiz()">Challenge a Friend</button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -1353,7 +1352,7 @@ function ssTypeset(el){
 }
 
 // GUIDE
-const SEARCH_BADGE={concept:'📖 Notes',flashcard:'📇 Flashcard',quiz:'❓ Quiz'};
+const SEARCH_BADGE={concept:'Notes',flashcard:'Flashcard',quiz:'Quiz'};
 function searchGuide(){
   const q=(document.getElementById('search-box').value||'').toLowerCase().trim();
   const sr=document.getElementById('search-results');
@@ -1601,7 +1600,7 @@ ssTypeset(document.getElementById('units'));
     btn=document.createElement('button');
     btn.type='button';
     btn.className='ss-concept-btn';
-    btn.textContent='🤖 Break this down';
+    btn.textContent='Break this down';
     btn.style.left=Math.max(8,rect.left+window.scrollX+rect.width/2)+'px';
     btn.style.top=Math.max(8,rect.top+window.scrollY-40)+'px';
     btn.onmousedown=function(e){e.preventDefault();};
@@ -1657,7 +1656,7 @@ let fcDeck=[],fcIdx=0,fcFilterMode='all',fcMode='flip';
 function toggleFcMode(){
   fcMode=fcMode==='flip'?'type':'flip';
   const btn=document.getElementById('fc-mode-btn');
-  if(btn)btn.textContent=fcMode==='type'?'🔄 Flip mode':'✎ Type it';
+  if(btn)btn.textContent=fcMode==='type'?'Flip mode':'✎ Type it';
   showFC();
 }
 function checkTypedAnswer(){
@@ -2170,7 +2169,7 @@ function showQ(){
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
     (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
-    `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">💡 Hint (1/3)</button>`+
+    `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">Hint (1/3)</button>`+
     `<div class="q-hint-box" id="q-hint-box"></div>`+
     `<div class="q-opts">`;
   q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">`+
@@ -2220,7 +2219,7 @@ function revealNextHintTier(){
     const preview=(q.e||'').split(/(?<=[.!?])\s/)[0]||q.e||'';
     box.textContent='Hint: '+preview;
   }
-  btn.textContent=qHintTier>=3?'💡 No more hints':`💡 Hint (${qHintTier+1}/3)`;
+  btn.textContent=qHintTier>=3?'No more hints':`Hint (${qHintTier+1}/3)`;
   if(qHintTier>=3)btn.disabled=true;
 }
 let guessFlag=false, guessedQs=[], guessedRight=0;
@@ -2281,7 +2280,7 @@ function ansQ(i){
     explainBtn.type='button';
     explainBtn.id='q-explain-wrong-btn';
     explainBtn.className='q-explain-wrong-btn';
-    explainBtn.textContent='🤖 Explain why "'+q.o[i]+'" is wrong';
+    explainBtn.textContent='Explain why "'+q.o[i]+'" is wrong';
     explainBtn.onclick=function(){
       var prompt='For this question: "'+q.q+'" -- why is the answer "'+q.o[i]+'" wrong? The correct answer is "'+q.o[q.a]+'". Keep it short and specific to that wrong choice, not a general re-explanation of the correct answer.';
       var display='Why is "'+q.o[i]+'" wrong?';

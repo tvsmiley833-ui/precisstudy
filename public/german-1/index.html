@@ -747,7 +747,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   import { celebrateCorrect, resetCombo } from '/shared/celebrate.js';
   import { applyStoredUnitOrder, refreshUnitOrder } from '/shared/unit-order.js';
   import { enterLockdown, exitLockdown, getLockdownSummary } from '/shared/exam-lockdown.js';
-  import '/shared/chalk-cursor.js';
   window.__ssCreateMastery = createMastery;
   window.__ssCelebrateCorrect = celebrateCorrect;
   window.__ssResetCombo = resetCombo;
@@ -803,7 +802,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <div class="page" id="main-content" role="main" tabindex="-1">
 <div class="spc-card collapsed" id="spc-card">
   <button type="button" class="spc-summary" id="spc-summary" aria-expanded="false" aria-controls="spc-body">
-    <span>📊 See what your study plan could look like — tap to expand</span>
+    <span>See what your study plan could look like — tap to expand</span>
     <span class="spc-chevron" aria-hidden="true">▾</span>
   </button>
   <div class="spc-body" id="spc-body">
@@ -907,7 +906,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <div id="fc-progress" style="text-align:center;font-size:18px;color:var(--ink-dim,#857f72);margin-top:6px"></div>
   <div style="text-align:center;margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
     <button class="btn" type="button" onclick="exportFlashcards()" style="font-size:13px;padding:6px 14px">⇩ Export to Anki / Quizlet (.txt)</button>
-    <button class="btn" type="button" onclick="printFlashcardSheet()" style="font-size:13px;padding:6px 14px">🖨️ Print Study Sheet</button>
+    <button class="btn" type="button" onclick="printFlashcardSheet()" style="font-size:13px;padding:6px 14px">Print Study Sheet</button>
   </div>
 <details class="practice-archive"><summary>Browse all 80 flashcards as a list</summary><div class="fc-archive-body"><h4>Unit 1: Greetings &amp; Pronunciation</h4><dl class="fc-archive-list"><dt>Hallo</dt><dd>hello (informal)</dd><dt>Guten Morgen</dt><dd>good morning</dd><dt>Guten Tag</dt><dd>good day / hello</dd><dt>Guten Abend</dt><dd>good evening</dd><dt>Gute Nacht</dt><dd>good night</dd><dt>Auf Wiedersehen</dt><dd>goodbye (formal)</dd><dt>Tschüss</dt><dd>bye (informal)</dd><dt>Wie geht es Ihnen?</dt><dd>How are you? (formal)</dd><dt>Danke</dt><dd>thank you</dd><dt>Bitte</dt><dd>please / you're welcome</dd></dl><h4>Unit 2: Articles &amp; Cases Intro</h4><dl class="fc-archive-list"><dt>der Mann</dt><dd>the man</dd><dt>die Frau</dt><dd>the woman</dd><dt>das Kind</dt><dd>the child</dd><dt>der Tisch</dt><dd>the table</dd><dt>die Tür</dt><dd>the door</dd><dt>das Buch</dt><dd>the book</dd><dt>der Hund</dt><dd>the dog</dd><dt>die Katze</dt><dd>the cat</dd><dt>das Auto</dt><dd>the car</dd><dt>der Stuhl</dt><dd>the chair</dd></dl><h4>Unit 3: Regular Verbs</h4><dl class="fc-archive-list"><dt>machen</dt><dd>to do / make</dd><dt>spielen</dt><dd>to play</dd><dt>lernen</dt><dd>to learn</dd><dt>wohnen</dt><dd>to live (reside)</dd><dt>arbeiten</dt><dd>to work</dd><dt>sagen</dt><dd>to say</dd><dt>fragen</dt><dd>to ask</dd><dt>kaufen</dt><dd>to buy</dd><dt>kochen</dt><dd>to cook</dd><dt>hören</dt><dd>to hear / listen</dd></dl><h4>Unit 4: Sein &amp; Haben</h4><dl class="fc-archive-list"><dt>sein</dt><dd>to be</dd><dt>haben</dt><dd>to have</dd><dt>ich bin</dt><dd>I am</dd><dt>du bist</dt><dd>you are (informal)</dd><dt>er ist</dt><dd>he is</dd><dt>ich habe</dt><dd>I have</dd><dt>du hast</dt><dd>you have (informal)</dd><dt>sie hat</dt><dd>she has</dd><dt>Hunger haben</dt><dd>to be hungry (lit. to have hunger)</dd><dt>Angst haben</dt><dd>to be afraid (lit. to have fear)</dd></dl><h4>Unit 5: Word Order Basics</h4><dl class="fc-archive-list"><dt>wer</dt><dd>who</dd><dt>was</dt><dd>what</dd><dt>wo</dt><dd>where</dd><dt>wann</dt><dd>when</dd><dt>warum</dt><dd>why</dd><dt>wie</dt><dd>how</dd><dt>weil</dt><dd>because</dd><dt>dass</dt><dd>that</dd><dt>aber</dt><dd>but</dd><dt>oder</dt><dd>or</dd></dl><h4>Unit 6: Family &amp; Descriptions</h4><dl class="fc-archive-list"><dt>die Familie</dt><dd>the family</dd><dt>der Vater</dt><dd>the father</dd><dt>die Mutter</dt><dd>the mother</dd><dt>der Bruder</dt><dd>the brother</dd><dt>die Schwester</dt><dd>the sister</dd><dt>die Eltern</dt><dd>the parents</dd><dt>der Großvater</dt><dd>the grandfather</dd><dt>die Großmutter</dt><dd>the grandmother</dd><dt>groß</dt><dd>tall / big</dd><dt>freundlich</dt><dd>friendly</dd></dl><h4>Unit 7: Food &amp; Shopping</h4><dl class="fc-archive-list"><dt>das Brot</dt><dd>the bread</dd><dt>die Milch</dt><dd>the milk</dd><dt>der Käse</dt><dd>the cheese</dd><dt>das Wasser</dt><dd>the water</dd><dt>der Apfel</dt><dd>the apple</dd><dt>das Gemüse</dt><dd>the vegetables</dd><dt>der Supermarkt</dt><dd>the supermarket</dd><dt>die Kasse</dt><dd>the checkout / register</dd><dt>teuer</dt><dd>expensive</dd><dt>billig</dt><dd>cheap</dd></dl><h4>Unit 8: Daily Routine &amp; Time</h4><dl class="fc-archive-list"><dt>aufstehen</dt><dd>to get up</dd><dt>frühstücken</dt><dd>to eat breakfast</dd><dt>sich anziehen</dt><dd>to get dressed</dd><dt>schlafen gehen</dt><dd>to go to sleep</dd><dt>die Uhr</dt><dd>the clock / o'clock</dd><dt>Wie spät ist es?</dt><dd>What time is it?</dd><dt>der Montag</dt><dd>Monday</dd><dt>der Freitag</dt><dd>Friday</dd><dt>das Wochenende</dt><dd>the weekend</dd><dt>zuerst</dt><dd>first (of all)</dd></dl></div></details></div></div>
 <div id="view-quiz" class="view" role="tabpanel" aria-labelledby="tab-quiz" tabindex="0">
@@ -934,8 +933,8 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
       <button class="chip diff-chip" type="button" data-diff="hard" onclick="setDifficultyFilter('hard')">Hard</button>
     </div>
     <button class="btn mistake-log-btn" type="button" onclick="openMistakeLog()">Mistake Log<span class="mistake-log-count" id="mistake-log-count" style="display:none">0</span></button>
-    <button class="btn" type="button" onclick="printWorksheet()" style="font-size:14px;padding:7px 14px">🖨️ Print Worksheet</button>
-    <button class="btn" type="button" id="challenge-friend-btn" onclick="challengeFromQuiz()">⚔️ Challenge a Friend</button>
+    <button class="btn" type="button" onclick="printWorksheet()" style="font-size:14px;padding:7px 14px">Print Worksheet</button>
+    <button class="btn" type="button" id="challenge-friend-btn" onclick="challengeFromQuiz()">Challenge a Friend</button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -1356,7 +1355,7 @@ function ssTypeset(el){
 }
 
 // GUIDE
-const SEARCH_BADGE={concept:'📖 Notes',flashcard:'📇 Flashcard',quiz:'❓ Quiz'};
+const SEARCH_BADGE={concept:'Notes',flashcard:'Flashcard',quiz:'Quiz'};
 function searchGuide(){
   const q=(document.getElementById('search-box').value||'').toLowerCase().trim();
   const sr=document.getElementById('search-results');
@@ -1604,7 +1603,7 @@ ssTypeset(document.getElementById('units'));
     btn=document.createElement('button');
     btn.type='button';
     btn.className='ss-concept-btn';
-    btn.textContent='🤖 Break this down';
+    btn.textContent='Break this down';
     btn.style.left=Math.max(8,rect.left+window.scrollX+rect.width/2)+'px';
     btn.style.top=Math.max(8,rect.top+window.scrollY-40)+'px';
     btn.onmousedown=function(e){e.preventDefault();};
@@ -1660,7 +1659,7 @@ let fcDeck=[],fcIdx=0,fcFilterMode='all',fcMode='flip';
 function toggleFcMode(){
   fcMode=fcMode==='flip'?'type':'flip';
   const btn=document.getElementById('fc-mode-btn');
-  if(btn)btn.textContent=fcMode==='type'?'🔄 Flip mode':'✎ Type it';
+  if(btn)btn.textContent=fcMode==='type'?'Flip mode':'✎ Type it';
   showFC();
 }
 function checkTypedAnswer(){
@@ -2173,7 +2172,7 @@ function showQ(){
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
     (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
-    `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">💡 Hint (1/3)</button>`+
+    `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">Hint (1/3)</button>`+
     `<div class="q-hint-box" id="q-hint-box"></div>`+
     `<div class="q-opts">`;
   q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">`+
@@ -2223,7 +2222,7 @@ function revealNextHintTier(){
     const preview=(q.e||'').split(/(?<=[.!?])\s/)[0]||q.e||'';
     box.textContent='Hint: '+preview;
   }
-  btn.textContent=qHintTier>=3?'💡 No more hints':`💡 Hint (${qHintTier+1}/3)`;
+  btn.textContent=qHintTier>=3?'No more hints':`Hint (${qHintTier+1}/3)`;
   if(qHintTier>=3)btn.disabled=true;
 }
 let guessFlag=false, guessedQs=[], guessedRight=0;
@@ -2284,7 +2283,7 @@ function ansQ(i){
     explainBtn.type='button';
     explainBtn.id='q-explain-wrong-btn';
     explainBtn.className='q-explain-wrong-btn';
-    explainBtn.textContent='🤖 Explain why "'+q.o[i]+'" is wrong';
+    explainBtn.textContent='Explain why "'+q.o[i]+'" is wrong';
     explainBtn.onclick=function(){
       var prompt='For this question: "'+q.q+'" -- why is the answer "'+q.o[i]+'" wrong? The correct answer is "'+q.o[q.a]+'". Keep it short and specific to that wrong choice, not a general re-explanation of the correct answer.';
       var display='Why is "'+q.o[i]+'" wrong?';

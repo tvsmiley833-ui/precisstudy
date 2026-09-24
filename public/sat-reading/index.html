@@ -747,7 +747,6 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   import { celebrateCorrect, resetCombo } from '/shared/celebrate.js';
   import { applyStoredUnitOrder, refreshUnitOrder } from '/shared/unit-order.js';
   import { enterLockdown, exitLockdown, getLockdownSummary } from '/shared/exam-lockdown.js';
-  import '/shared/chalk-cursor.js';
   window.__ssCreateMastery = createMastery;
   window.__ssCelebrateCorrect = celebrateCorrect;
   window.__ssResetCombo = resetCombo;
@@ -803,7 +802,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <div class="page" id="main-content" role="main" tabindex="-1">
 <div class="spc-card collapsed" id="spc-card">
   <button type="button" class="spc-summary" id="spc-summary" aria-expanded="false" aria-controls="spc-body">
-    <span>📊 See what your study plan could look like — tap to expand</span>
+    <span>See what your study plan could look like — tap to expand</span>
     <span class="spc-chevron" aria-hidden="true">▾</span>
   </button>
   <div class="spc-body" id="spc-body">
@@ -907,7 +906,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <div id="fc-progress" style="text-align:center;font-size:18px;color:var(--ink-dim,#857f72);margin-top:6px"></div>
   <div style="text-align:center;margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
     <button class="btn" type="button" onclick="exportFlashcards()" style="font-size:13px;padding:6px 14px">⇩ Export to Anki / Quizlet (.txt)</button>
-    <button class="btn" type="button" onclick="printFlashcardSheet()" style="font-size:13px;padding:6px 14px">🖨️ Print Study Sheet</button>
+    <button class="btn" type="button" onclick="printFlashcardSheet()" style="font-size:13px;padding:6px 14px">Print Study Sheet</button>
   </div>
 <details class="practice-archive"><summary>Browse all 80 flashcards as a list</summary><div class="fc-archive-body"><h4>Unit 1: Information &amp; Ideas</h4><dl class="fc-archive-list"><dt>Central Idea</dt><dd>The single controlling point a passage as a whole makes; must be supported by every part of the passage, not just one detail.</dd><dt>Main Purpose</dt><dd>Why the author wrote the passage (to inform, argue, describe, compare) — tested by the verb in answer choices.</dd><dt>Supporting Detail</dt><dd>A specific fact or example explicitly stated in the passage that backs up the central idea.</dd><dt>Inference</dt><dd>A logical conclusion implied but not directly stated by the text; must be provable from the passage alone.</dd><dt>Author's Perspective</dt><dd>The author's own attitude or viewpoint toward the subject, shown through word choice and framing.</dd><dt>Paraphrase</dt><dd>A restatement of a sentence's meaning in different words that preserves its original logical relationships.</dd><dt>Extreme Language Trap</dt><dd>A wrong-answer pattern using words like 'always,' 'never,' or 'proves' when the passage is actually tentative or qualified.</dd><dt>Scope Error</dt><dd>An answer choice that is too broad or too narrow relative to what the passage actually claims.</dd><dt>Qualifying Language</dt><dd>Hedging words like 'may,' 'suggests,' or 'some' that limit how strong a claim in the passage really is.</dd><dt>Topic vs. Main Idea</dt><dd>The topic is what a passage is about in general; the main idea is the specific point it makes about that topic.</dd></dl><h4>Unit 2: Command of Evidence</h4><dl class="fc-archive-list"><dt>Command of Evidence</dt><dd>Skill of identifying which quotation, detail, or data point best supports a specific claim or answer.</dd><dt>Best Evidence</dt><dd>The textual support that most directly and specifically proves the claim in question, not just a related fact.</dd><dt>Quantitative Evidence</dt><dd>Data from a table, graph, or chart used to support or challenge a claim made in the passage.</dd><dt>Strengthen a Claim</dt><dd>To provide a fact that makes the claim more likely to be true, often by ruling out an alternative explanation.</dd><dt>Weaken a Claim</dt><dd>To provide a fact that introduces doubt, an exception, or an alternative explanation for the claim.</dd><dt>Correlation vs. Causation</dt><dd>Two variables changing together (correlation) does not by itself prove one causes the other (causation).</dd><dt>Irrelevant Evidence Trap</dt><dd>A true, on-topic fact that doesn't actually address or prove the specific claim being tested.</dd><dt>Direction of Data</dt><dd>Whether a data trend is increasing, decreasing, or stable — must match the direction claimed in the text.</dd><dt>Sample Size Issue</dt><dd>A data-reasoning trap where a claim about a large group is 'proven' using data from too small or narrow a sample.</dd><dt>Reversed Logic Trap</dt><dd>An answer choice that supports the opposite of what the question actually asks for.</dd></dl><h4>Unit 3: Words in Context</h4><dl class="fc-archive-list"><dt>Words in Context</dt><dd>Question type asking for the meaning of a word/phrase as used in a specific sentence, or the best word to fill a blank.</dd><dt>Cover-and-Predict</dt><dd>Strategy of covering answer choices and predicting your own word for the blank before comparing to options.</dd><dt>Connotation</dt><dd>The emotional or attitudinal association of a word (positive, negative, neutral) beyond its literal definition.</dd><dt>Context Clue</dt><dd>A word or phrase nearby in the sentence that reveals the meaning of the blank or targeted word.</dd><dt>Contrast Transition</dt><dd>Words like 'however,' 'yet,' 'although' that signal the blank should mean the opposite of a nearby idea.</dd><dt>Continuation Transition</dt><dd>Words like 'moreover,' 'similarly,' 'furthermore' that signal the blank should reinforce a nearby idea.</dd><dt>Multiple-Meaning Word</dt><dd>A word with more than one definition (e.g., 'sound,' 'novel') where context determines which meaning applies.</dd><dt>Register</dt><dd>The level of formality (academic, casual, technical) a word choice must match to fit the passage.</dd><dt>Precision Trap</dt><dd>A wrong choice that is a near-synonym but has the wrong degree of intensity for the sentence's context.</dd><dt>Tone Word</dt><dd>A word whose primary function is signaling the writer's or speaker's attitude, e.g., 'skeptical' or 'admiring.'</dd></dl><h4>Unit 4: Expression of Ideas</h4><dl class="fc-archive-list"><dt>Rhetorical Synthesis</dt><dd>Using given bullet-point notes to construct the sentence that best fulfills a specific stated rhetorical goal.</dd><dt>Transition Word</dt><dd>A word or phrase showing the logical relationship (contrast, cause, addition) between two ideas or sentences.</dd><dt>Concision</dt><dd>Writing that expresses an idea in the fewest necessary words without losing meaning or grammatical correctness.</dd><dt>Redundancy</dt><dd>Unnecessary repetition of an idea already stated, e.g., 'return back' or 'each individual person.'</dd><dt>Sentence Purpose</dt><dd>The specific function (e.g., 'to illustrate a contrast') a question asks a sentence to serve — the basis for add/delete questions.</dd><dt>Subordinating Conjunction</dt><dd>A word like 'although,' 'because,' or 'while' that joins a dependent clause to an independent clause.</dd><dt>Coordinating Conjunction (FANBOYS)</dt><dd>For, And, Nor, But, Or, Yet, So — joins two independent, equally weighted clauses.</dd><dt>Misplaced Modifier</dt><dd>A descriptive phrase positioned so it appears to modify the wrong word in the sentence.</dd><dt>Cause-Effect Transition</dt><dd>Words like 'therefore,' 'thus,' or 'consequently' signaling one idea results from another.</dd><dt>Off-Goal Trap</dt><dd>An answer that is factually accurate but doesn't accomplish the specific goal stated in the question.</dd></dl><h4>Unit 5: Standard English Conventions</h4><dl class="fc-archive-list"><dt>Subject-Verb Agreement</dt><dd>The rule that a verb must match its true subject in number, ignoring intervening prepositional phrases.</dd><dt>Comma Splice</dt><dd>An error joining two independent clauses with only a comma, e.g., 'It rained, we left.'</dd><dt>Run-On Sentence</dt><dd>Two independent clauses joined with no punctuation or conjunction at all.</dd><dt>Fragment</dt><dd>A group of words missing a subject or verb, or a subordinate clause standing alone, that cannot stand as a complete sentence.</dd><dt>Essential (Restrictive) Clause</dt><dd>A 'that' clause defining which specific noun is meant; takes no surrounding commas.</dd><dt>Nonessential (Nonrestrictive) Clause</dt><dd>A 'which' clause adding extra, non-defining information; set off by commas.</dd><dt>Parallel Structure</dt><dd>The rule that items in a list, comparison, or joined by a conjunction must share the same grammatical form.</dd><dt>Pronoun-Antecedent Agreement</dt><dd>A pronoun must match its antecedent in number and gender, and refer unambiguously to one noun.</dd><dt>Subject vs. Object Pronoun Case</dt><dd>Subject pronouns (I, he, they, who) act as the subject; object pronouns (me, him, them, whom) act as the object.</dd><dt>Colon Rule</dt><dd>A colon must follow a complete independent clause and introduces a list, explanation, or elaboration.</dd></dl><h4>Unit 6: Science Passages</h4><dl class="fc-archive-list"><dt>Hypothesis</dt><dd>A researcher's testable prediction about an outcome, distinct from the actual findings of a study.</dd><dt>Independent Variable</dt><dd>The factor a researcher deliberately manipulates in an experiment.</dd><dt>Dependent Variable</dt><dd>The outcome or measurement that changes in response to the independent variable.</dd><dt>Control Group</dt><dd>A comparison group that does not receive the treatment, used to isolate the effect of the independent variable.</dd><dt>Correlational Study</dt><dd>Research observing a relationship between variables without manipulating them, which cannot establish causation alone.</dd><dt>Confounding Variable</dt><dd>An unaccounted-for factor that offers an alternative explanation for an observed result.</dd><dt>Statistical Significance</dt><dd>A technical term meaning a result is unlikely to be due to random chance, distinct from everyday 'important.'</dd><dt>Findings vs. Interpretation</dt><dd>Findings are what a study observed; interpretation is the researcher's explanation of why it happened.</dd><dt>Mechanism</dt><dd>The explanation for HOW or WHY an observed scientific effect occurs, often signaled by 'because' or 'due to.'</dd><dt>Outlier</dt><dd>A data point that doesn't fit the overall trend, often the focus of an 'except' or exception-based question.</dd></dl><h4>Unit 7: History/Social Studies Passages</h4><dl class="fc-archive-list"><dt>Primary Source</dt><dd>A firsthand historical document or account written by someone present at or involved in the events described.</dd><dt>Secondary Source</dt><dd>A modern or later analysis/commentary about a primary source or historical event.</dd><dt>Concession</dt><dd>An author's acknowledgment of a valid opposing point, often introduced with 'while it is true that...'</dd><dt>Counterargument</dt><dd>An opposing viewpoint an author raises, typically in order to refute or qualify it.</dd><dt>Loaded Language</dt><dd>Word choice carrying strong positive or negative connotation that reveals bias, e.g., 'regime' vs. 'government.'</dd><dt>Author's Stance</dt><dd>An author's overall position or attitude toward the subject, inferable from framing and word choice.</dd><dt>Paired Passages</dt><dd>Two related passages presenting different perspectives on the same topic, compared for agreement/disagreement.</dd><dt>Rhetorical Question</dt><dd>A question posed for persuasive effect, not to elicit an actual answer.</dd><dt>Shared Premise</dt><dd>A point of agreement between two passages that otherwise reach different conclusions.</dd><dt>Historical Context Clue</dt><dd>Dates, named events, or institutions in a passage that reveal the stakes of an argument without needing outside knowledge.</dd></dl><h4>Unit 8: Pacing &amp; Strategy</h4><dl class="fc-archive-list"><dt>Module 1 &amp; 2 (Digital SAT)</dt><dd>The Reading &amp; Writing section's two 27-question, 32-minute modules; Module 2's difficulty adapts based on Module 1 performance.</dd><dt>Adaptive Testing</dt><dd>A test format where performance on an earlier section/module determines the difficulty of a later one.</dd><dt>Pacing Target</dt><dd>Roughly 60-75 seconds per question on average across a 27-question, 32-minute module.</dd><dt>Flag for Review</dt><dd>Digital SAT tool marking a question to revisit later within the same module before submitting.</dd><dt>No Guessing Penalty</dt><dd>The digital SAT does not subtract points for wrong answers, so every question should get a guess.</dd><dt>Process of Elimination</dt><dd>Systematically ruling out unsupported, extreme, or off-topic choices rather than searching for a 'perfect' answer directly.</dd><dt>Question Triage</dt><dd>Deciding quickly which questions to answer immediately, flag, or guess-and-move-on based on difficulty and time.</dd><dt>Reading Fatigue</dt><dd>Declining focus/accuracy over a long module of dense, unrelated passages; managed by mental resets between questions.</dd><dt>Review Page</dt><dd>The digital SAT's end-of-module screen showing which questions are answered, unanswered, or flagged.</dd><dt>Time Checkpoint</dt><dd>A self-imposed pacing check (e.g., at question 7, 14, 20) to confirm you're on schedule within a module.</dd></dl></div></details></div></div>
 <div id="view-quiz" class="view" role="tabpanel" aria-labelledby="tab-quiz" tabindex="0">
@@ -934,8 +933,8 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
       <button class="chip diff-chip" type="button" data-diff="hard" onclick="setDifficultyFilter('hard')">Hard</button>
     </div>
     <button class="btn mistake-log-btn" type="button" onclick="openMistakeLog()">Mistake Log<span class="mistake-log-count" id="mistake-log-count" style="display:none">0</span></button>
-    <button class="btn" type="button" onclick="printWorksheet()" style="font-size:14px;padding:7px 14px">🖨️ Print Worksheet</button>
-    <button class="btn" type="button" id="challenge-friend-btn" onclick="challengeFromQuiz()">⚔️ Challenge a Friend</button>
+    <button class="btn" type="button" onclick="printWorksheet()" style="font-size:14px;padding:7px 14px">Print Worksheet</button>
+    <button class="btn" type="button" id="challenge-friend-btn" onclick="challengeFromQuiz()">Challenge a Friend</button>
     <span class="q-prog" id="q-prog"></span>
     <span class="q-sc" id="q-sc" aria-live="polite"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
@@ -1350,7 +1349,7 @@ function ssTypeset(el){
 }
 
 // GUIDE
-const SEARCH_BADGE={concept:'📖 Notes',flashcard:'📇 Flashcard',quiz:'❓ Quiz'};
+const SEARCH_BADGE={concept:'Notes',flashcard:'Flashcard',quiz:'Quiz'};
 function searchGuide(){
   const q=(document.getElementById('search-box').value||'').toLowerCase().trim();
   const sr=document.getElementById('search-results');
@@ -1598,7 +1597,7 @@ ssTypeset(document.getElementById('units'));
     btn=document.createElement('button');
     btn.type='button';
     btn.className='ss-concept-btn';
-    btn.textContent='🤖 Break this down';
+    btn.textContent='Break this down';
     btn.style.left=Math.max(8,rect.left+window.scrollX+rect.width/2)+'px';
     btn.style.top=Math.max(8,rect.top+window.scrollY-40)+'px';
     btn.onmousedown=function(e){e.preventDefault();};
@@ -1654,7 +1653,7 @@ let fcDeck=[],fcIdx=0,fcFilterMode='all',fcMode='flip';
 function toggleFcMode(){
   fcMode=fcMode==='flip'?'type':'flip';
   const btn=document.getElementById('fc-mode-btn');
-  if(btn)btn.textContent=fcMode==='type'?'🔄 Flip mode':'✎ Type it';
+  if(btn)btn.textContent=fcMode==='type'?'Flip mode':'✎ Type it';
   showFC();
 }
 function checkTypedAnswer(){
@@ -2167,7 +2166,7 @@ function showQ(){
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
     (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
-    `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">💡 Hint (1/3)</button>`+
+    `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">Hint (1/3)</button>`+
     `<div class="q-hint-box" id="q-hint-box"></div>`+
     `<div class="q-opts">`;
   q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">`+
@@ -2217,7 +2216,7 @@ function revealNextHintTier(){
     const preview=(q.e||'').split(/(?<=[.!?])\s/)[0]||q.e||'';
     box.textContent='Hint: '+preview;
   }
-  btn.textContent=qHintTier>=3?'💡 No more hints':`💡 Hint (${qHintTier+1}/3)`;
+  btn.textContent=qHintTier>=3?'No more hints':`Hint (${qHintTier+1}/3)`;
   if(qHintTier>=3)btn.disabled=true;
 }
 let guessFlag=false, guessedQs=[], guessedRight=0;
@@ -2278,7 +2277,7 @@ function ansQ(i){
     explainBtn.type='button';
     explainBtn.id='q-explain-wrong-btn';
     explainBtn.className='q-explain-wrong-btn';
-    explainBtn.textContent='🤖 Explain why "'+q.o[i]+'" is wrong';
+    explainBtn.textContent='Explain why "'+q.o[i]+'" is wrong';
     explainBtn.onclick=function(){
       var prompt='For this question: "'+q.q+'" -- why is the answer "'+q.o[i]+'" wrong? The correct answer is "'+q.o[q.a]+'". Keep it short and specific to that wrong choice, not a general re-explanation of the correct answer.';
       var display='Why is "'+q.o[i]+'" wrong?';
