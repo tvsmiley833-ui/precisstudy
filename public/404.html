@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="robots" content="noindex"/>
+<title>Page not found — PrecisStudy</title>
+<link rel="icon" href="/favicon.png"/>
+<link rel="stylesheet" href="/fonts/home-v2.css"/>
+<script>
+/* same theme choice as the rest of the site, before first paint */
+try{var t=localStorage.getItem('ss-theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}
+</script>
+<style>
+:root{--bg:#eef1ea;--card:#fff;--text:#1b2a24;--muted:#45564d;--accent:#1f6e46;--line:#d3dbd0}
+[data-theme="dark"]{--bg:#14302a;--card:#1b3d33;--text:#eef2ea;--muted:#b9c6bd;--accent:#4fbf85;--line:#2f5346}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:var(--bg);color:var(--text);font-family:'Nunito',system-ui,sans-serif;text-align:center}
+main{max-width:460px}
+.code{font-family:'Fraunces',Georgia,serif;font-size:15px;letter-spacing:.2em;color:var(--accent);margin:8px 0 0}
+h1{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:clamp(30px,6vw,44px);line-height:1.1;margin:6px 0 10px}
+p{color:var(--muted);font-size:17px;line-height:1.5;margin:0 0 22px}
+.actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+a.btn{padding:10px 20px;border-radius:999px;font-weight:700;text-decoration:none;border:1.5px solid var(--line);color:var(--text)}
+a.btn.solid{background:var(--accent);border-color:var(--accent);color:#fff}
+[data-theme="dark"] a.btn.solid{color:#0e231e}
+#owl{display:flex;justify-content:center}
+</style>
+</head>
+<body>
+<main>
+  <div id="owl" aria-hidden="true"></div>
+  <div class="code">404</div>
+  <h1>This page skipped class.</h1>
+  <p>Sage checked the map and couldn't find it. It may have moved, or the link has a typo.</p>
+  <div class="actions">
+    <a class="btn solid" href="/#classes-section">Find your class</a>
+    <a class="btn" href="/">Go home</a>
+  </div>
+</main>
+<script type="module">
+import { owlSvg, OWL_CSS } from "/shared/owl.js";
+const st = document.createElement("style"); st.textContent = OWL_CSS; document.head.appendChild(st);
+// Sage holding an unfolded map.
+const map = `<svg viewBox="0 0 90 60" width="96" height="64" aria-hidden="true" style="margin:0 0 30px -30px;transform:rotate(-8deg)">
+  <path d="M4 8l26-6 30 6 26-6v50l-26 6-30-6-26 6z" fill="#f3ead2" stroke="#b8905a" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M30 2v50M60 8v50" stroke="#b8905a" stroke-width="1.5"/>
+  <path d="M12 40c10-4 14-18 26-14s14 10 30 2" fill="none" stroke="#1f6e46" stroke-width="2" stroke-dasharray="3 3"/>
+  <path d="M66 22l6 6M72 22l-6 6" stroke="#c2413a" stroke-width="2.5" stroke-linecap="round"/>
+</svg>`;
+document.getElementById("owl").innerHTML = `<div style="display:flex;align-items:flex-end">${owlSvg({ mood: "think", size: 130 })}${map}</div>`;
+document.querySelector("#owl .sage").classList.add("sage-bob");
+</script>
+</body>
+</html>

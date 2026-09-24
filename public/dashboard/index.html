@@ -234,7 +234,7 @@ body{transition:background .2s ease,color .2s ease}
       <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
     </button>
     <div id="ss-account-area" style="position:relative;"></div>
-    <a href="/geometry" class="ss-cta-btn" style="background:var(--accent-solid);color:#fff;padding:8px 18px;border-radius:999px;text-decoration:none;white-space:nowrap;">Start with Geometry →</a>
+    <a href="/#classes-section" class="ss-cta-btn" style="background:var(--accent-solid);color:#fff;padding:8px 18px;border-radius:999px;text-decoration:none;white-space:nowrap;">Pick your class →</a>
   </div>
 </div>
 
@@ -246,6 +246,7 @@ body{transition:background .2s ease,color .2s ease}
     <div id="dash-greeting" style="margin-top:8px;font-size:15px;color:var(--text-muted);"></div>
     <div id="dash-streak" style="display:none;margin-top:14px;"></div>
     <div id="dash-level" style="display:none;margin-top:14px;"></div>
+    <div id="dash-sage"></div>
     <div id="dash-badges" style="display:none;margin-top:18px;flex-wrap:wrap;gap:10px;justify-content:center;"></div>
   </div>
 </div>
@@ -1991,6 +1992,16 @@ async function loadDashboard() {
       + '</span>';
   }
   renderDashLevel(blob);
+  // Hand the data Sage's dashboard card needs (streak, per-class readiness) to /shared/sage-dashboard.js.
+  window.__ssDashData = {
+    blob: blob,
+    readiness: Object.fromEntries(SUBJECTS_CONFIG.map(function (s) {
+      const subj = blob[s.key];
+      const r = subj ? computeReadiness(subj.mastery || {}, s.units.map(function (u) { return u.id; })) : null;
+      return [s.key, r ? r.pct : null];
+    }))
+  };
+  window.dispatchEvent(new Event('ss-dash-ready'));
   renderDashBadges(blob);
   renderDashAnalytics(blob);
   renderDashHeatmap(blob);
@@ -2073,5 +2084,6 @@ loadDashboard();
 })();
 </script>
 <script src="/shared/command-palette.js" defer></script><script src="/shared/high-contrast.js" defer></script><script src="/shared/error-monitor.js" defer></script>
+<script type="module" src="/shared/sage-dashboard.js"></script>
 </body>
 </html>

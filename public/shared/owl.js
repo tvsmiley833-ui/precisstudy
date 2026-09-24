@@ -3,7 +3,8 @@
 // themes with the brand (deep green body, mint belly, cream eyes, amber beak)
 // and needs no image request. Moods: "idle" (open eyes, blinks), "happy"
 // (smiling closed eyes), "cheer" (wings up), "think" (eyes glance up).
-// `cap: true` adds the graduation cap earned at the end of setup.
+// `cap: true` adds the graduation cap earned at the end of setup; `acc` picks
+// another earnable accessory (goggles, beret, glasses, explorer, pencil, headphones).
 
 const C = {
   body: "#2f8f5c",
@@ -21,6 +22,11 @@ const C = {
 
 /** @param {string} mood */
 function eyes(mood) {
+  if (mood === "sleepy") {
+    return `<path d="M42 60h16M70 60h16" stroke="${C.eye}" stroke-width="4" stroke-linecap="round"/>
+      <text x="100" y="30" font-size="14" font-weight="700" fill="${C.face}" font-family="Kalam,cursive">z</text>
+      <text x="110" y="16" font-size="10" font-weight="700" fill="${C.face}" font-family="Kalam,cursive">z</text>`;
+  }
   if (mood === "happy" || mood === "cheer") {
     return `<path d="M42 58q8-9 16 0" fill="none" stroke="${C.eye}" stroke-width="4" stroke-linecap="round"/>
       <path d="M70 58q8-9 16 0" fill="none" stroke="${C.eye}" stroke-width="4" stroke-linecap="round"/>`;
@@ -52,8 +58,41 @@ function cap() {
     </g>`;
 }
 
+// Earnable accessories (see ACCESSORIES for how each is unlocked).
+/** @param {string} acc */
+function accessory(acc) {
+  switch (acc) {
+    case "goggles": return `<g><path d="M28 44q36-10 72 0" fill="none" stroke="#e0a54a" stroke-width="4"/>
+      <circle cx="50" cy="40" r="9" fill="#bfe9f5" stroke="#0e231e" stroke-width="2.5"/><circle cx="78" cy="40" r="9" fill="#bfe9f5" stroke="#0e231e" stroke-width="2.5"/>
+      <path d="M59 40h10" stroke="#0e231e" stroke-width="2.5"/></g>`;
+    case "beret": return `<g><path d="M30 34q30-26 70-4q-4 10-36 10t-34-6z" fill="#c2413a"/><circle cx="66" cy="16" r="3" fill="#c2413a"/></g>`;
+    case "glasses": return `<g fill="none" stroke="#0e231e" stroke-width="3"><circle cx="50" cy="58" r="13"/><circle cx="78" cy="58" r="13"/><path d="M63 57h2M37 55l-8-3M91 55l8-3"/></g>`;
+    case "explorer": return `<g><path d="M20 36q44-14 88 0q-10 6-44 6t-44-6z" fill="#b8905a"/><path d="M40 34q2-20 24-22q22 2 24 22z" fill="#d9b178"/><path d="M40 30h48" stroke="#8a5a2b" stroke-width="4"/></g>`;
+    case "pencil": return `<g transform="rotate(-35 100 30)"><rect x="88" y="26" width="34" height="7" rx="1.5" fill="#e0a54a"/><path d="M122 26l8 3.5-8 3.5z" fill="#f3d9b1"/><path d="M127 28.5l3 1-3 1z" fill="#0e231e"/><rect x="84" y="26" width="5" height="7" fill="#f2a58e"/></g>`;
+    case "headphones": return `<g><path d="M26 62q0-46 38-46t38 46" fill="none" stroke="#e0a54a" stroke-width="5"/><rect x="18" y="56" width="12" height="20" rx="5" fill="#0e231e"/><rect x="98" y="56" width="12" height="20" rx="5" fill="#0e231e"/></g>`;
+    default: return "";
+  }
+}
+
+/** Unlock rules, shared by the dashboard closet. `groups` are guide/subject keys. */
+export const ACCESSORIES = [
+  { id: "cap", label: "Graduation cap", how: "Finish setup with Sage" },
+  { id: "pencil", label: "Pencil", how: "Reach 80% in a math class", groups: ["geometry", "algebra1", "algebra2", "precalc", "calculus", "calc-ab", "calc-bc", "statistics", "ap-stats", "sat-math", "act-prep"] },
+  { id: "goggles", label: "Lab goggles", how: "Reach 80% in a science class", groups: ["chemistry", "ap-chemistry", "biology", "apbiology", "ap-biology", "physics", "ap-physics", "earth-science", "environmental-science", "anatomy", "astronomy"] },
+  { id: "explorer", label: "Explorer hat", how: "Reach 80% in a history class", groups: ["globalhistory", "global-history", "apush", "us-history", "world-history", "ap-world", "ap-euro", "us-government", "ap-usgov", "geography", "ap-human-geography", "art-history"] },
+  { id: "glasses", label: "Reading glasses", how: "Reach 80% in an English class", groups: ["english-9", "english-10", "aplang", "ap-lang", "creative-writing", "journalism", "sat-reading", "speech-debate"] },
+  { id: "beret", label: "Beret", how: "Reach 80% in a language class", groups: ["spanish-1", "spanish-2", "spanish-3", "french-1", "german-1"] },
+  { id: "headphones", label: "Headphones", how: "Reach 80% in Music Theory", groups: ["music-theory"] },
+];
+
+/** The accessory the student chose in their dashboard closet (or none). */
+export function wornAccessory() {
+  try { return localStorage.getItem("sage-acc") || ""; } catch (e) { return ""; }
+}
+
 /**
- * @param {{ mood?: "idle"|"happy"|"cheer"|"think", cap?: boolean, size?: number, label?: string }} [opts]
+ * @param {{ mood?: "idle"|"happy"|"cheer"|"think"|"sleepy", cap?: boolean, acc?: string, size?: number, label?: string }} [opts]
+ * `acc` defaults to the accessory the student is wearing; pass "" for none.
  * @returns {string} an <svg> string
  */
 export function owlSvg(opts = {}) {
@@ -71,7 +110,7 @@ export function owlSvg(opts = {}) {
   <ellipse cx="38" cy="72" rx="5" ry="3" fill="${C.blush}" opacity=".55"/><ellipse cx="90" cy="72" rx="5" ry="3" fill="${C.blush}" opacity=".55"/>
   <path d="M59 68h10l-5 9z" fill="${C.beak}" stroke="#c98a30" stroke-width="1" stroke-linejoin="round"/>
   <path d="M50 128l-4 7M54 128v8M58 128l4 7M70 128l-4 7M74 128v8M78 128l4 7" stroke="${C.feet}" stroke-width="3" stroke-linecap="round"/>
-  ${opts.cap ? cap() : ""}
+  ${(() => { const a = opts.acc === undefined ? wornAccessory() : opts.acc; return opts.cap || a === "cap" ? cap() : accessory(a); })()}
 </svg>`;
 }
 

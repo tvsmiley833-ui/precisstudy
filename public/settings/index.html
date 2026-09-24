@@ -281,6 +281,12 @@ html{scroll-behavior:smooth}
       <label class="ss-toggle-row">
         <input type="checkbox" id="settings-high-contrast"> High contrast mode
       </label>
+      <p style="font-size:14px;color:var(--text-muted);margin:16px 0 10px;">
+        A soft chalk tap when you get a quiz question right. Off by default.
+      </p>
+      <label class="ss-toggle-row">
+        <input type="checkbox" id="settings-sound"> Sound effects
+      </label>
     </div>
     </div><!-- /panel-appearance -->
 
@@ -1222,6 +1228,7 @@ async function initSettings(){
   document.getElementById('canvas-disconnect-btn').addEventListener('click', ssCanvasDisconnect);
   await ssRefreshCanvasStatus();
   ssInitHighContrastToggle();
+  ssInitSoundToggle();
   await pushRefreshUI();
 }
 
@@ -1235,6 +1242,15 @@ function ssInitHighContrastToggle(){
   checkbox.checked = window.ssIsHighContrast ? window.ssIsHighContrast() : false;
   checkbox.addEventListener('change', function(){
     if(window.ssSetHighContrast) window.ssSetHighContrast(checkbox.checked);
+  });
+}
+
+// Read by /shared/celebrate.js on every correct answer.
+function ssInitSoundToggle(){
+  var checkbox = document.getElementById('settings-sound');
+  try { checkbox.checked = localStorage.getItem('ss-sound') === 'on'; } catch (e) {}
+  checkbox.addEventListener('change', function(){
+    try { localStorage.setItem('ss-sound', checkbox.checked ? 'on' : 'off'); } catch (e) {}
   });
 }
 

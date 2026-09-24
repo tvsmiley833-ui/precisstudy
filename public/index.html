@@ -261,6 +261,11 @@ body{position:relative}
 .chalkboard text{fill:currentColor;font-family:'Kalam','Segoe Print','Bradley Hand',cursive;font-weight:700}
 .chalkboard path{fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 body > *:not(.chalkboard):not(script):not(style){position:relative;z-index:1}
+.chalk-u{position:relative;display:inline-block}
+.chalk-u svg{position:absolute;left:-2%;bottom:-.12em;width:104%;height:.32em;overflow:visible}
+.chalk-u path{fill:none;stroke:var(--accent);stroke-width:4;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:chalkUnderline .9s .5s cubic-bezier(.3,.7,.3,1) forwards}
+@keyframes chalkUnderline{to{stroke-dashoffset:0}}
+@media(prefers-reduced-motion:reduce){.chalk-u path{animation:none;stroke-dashoffset:0}}
 .ss-menu-icon{display:none;margin-left:2px;opacity:.8}
 @media(max-width:640px){.ss-menu-icon{display:inline-block}}
 .ss-cookie{position:fixed;left:12px;right:12px;bottom:12px;z-index:9999;max-width:640px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
@@ -323,6 +328,18 @@ body > *:not(.chalkboard):not(script):not(style){position:relative;z-index:1}
       <path d="M0 0 V80 H100 M10 10 C40 60 70 70 95 72 M10 72 C40 60 70 30 95 8" transform="translate(700 200) rotate(0) scale(1)"/>
       <text x="705" y="210" font-size="12" transform="rotate(0 705 210)">S</text>
       <text x="705" y="290" font-size="12" transform="rotate(0 705 290)">D</text>
+      <g class="chalk-ic" transform="translate(170 180) rotate(-8 29.0 29.0) scale(0.90625)"><path d="M32 8c-11 0-19 8-19 18 0 7 4 11 7 15 2 3 3 5 3 8h18c0-3 1-5 3-8 3-4 7-8 7-15 0-10-8-18-19-18zM24 53h16M25 58h14M27 31c2-4 8-4 10 0M29 49V36M35 49V36M6 20l4 2M58 20l-4 2M32 1v3M14 5l3 4M50 5l-3 4" vector-effect="non-scaling-stroke"/></g>
+      <g class="chalk-ic" transform="translate(840 380) rotate(10 26.0 26.0) scale(0.8125)"><path d="M26 6a18 18 0 1 0 0.1 0zM39 39l17 17M44 44l-4 4M52 52l-4 4M18 16c3-3 7-4 10-3" vector-effect="non-scaling-stroke"/></g>
+      <g class="chalk-ic" transform="translate(400 470) rotate(-20 25.0 25.0) scale(0.78125)"><path d="M14 44a8 8 0 1 0 0.1 0zM26 54a8 8 0 1 0 0.1 0zM20 44L58 8M30 50L60 22M34 34l-6-8" vector-effect="non-scaling-stroke"/></g>
+      <g class="chalk-ic" transform="translate(600 560) rotate(6 25.0 25.0) scale(0.78125)"><path d="M32 18c-6-4-18-4-22 8-3 10 2 24 10 30 4 3 8 2 12 0 4 2 8 3 12 0 8-6 13-20 10-30-4-12-16-12-22-8zM32 18c0-6 2-10 6-12M34 12c4-4 10-4 12-2-2 4-8 6-12 2M18 30c1-4 3-6 6-7" vector-effect="non-scaling-stroke"/></g>
+      <g class="chalk-ic" transform="translate(60 380) rotate(-10 29.0 29.0) scale(0.90625)"><path d="M4 30L60 8 44 56 30 38zM60 8L30 38M30 38l-4 16 10-10M12 32l16 4" vector-effect="non-scaling-stroke"/></g>
+      <g class="chalk-ic" transform="translate(330 250) rotate(14 30.0 30.0) scale(0.9375)"><path d="M4 24h56v14H4zM10 24v6M16 24v4M22 24v6M28 24v4M34 24v6M40 24v4M46 24v6M52 24v4" vector-effect="non-scaling-stroke"/></g>
+      <g class="chalk-ic" transform="translate(930 590) rotate(0 26.0 26.0) scale(0.8125)"><path d="M14 50L46 18l8 8-32 32-11 3zM42 22l8 8M14 50l8 8M11 61l3-11M46 18l4-4c2-2 5-2 7 0l1 1c2 2 2 5 0 7l-4 4" vector-effect="non-scaling-stroke"/></g>
+      <g class="chalk-ic" transform="translate(260 650) rotate(-6 22.0 22.0) scale(0.6875)"><path d="M12 40L36 16l18 18-24 24H18zM24 28l18 18M18 58h36" vector-effect="non-scaling-stroke"/></g>
+      <g class="chalk-ic" transform="translate(500 210) rotate(12 25.0 25.0) scale(0.78125)"><path d="M32 4c10 8 12 22 8 36H24c-4-14-2-28 8-36zM32 20m-4 0a4 4 0 1 0 8 0a4 4 0 1 0-8 0M24 40l-8 10 10-2M40 40l8 10-10-2M28 48l4 10 4-10" vector-effect="non-scaling-stroke"/></g>
+      <g class="chalk-ic" transform="translate(760 280) rotate(-4 24.0 24.0) scale(0.75)"><path d="M30 10c-8-4-18 2-18 10-6 2-8 10-4 16-2 8 4 14 12 14 2 6 10 6 12 0V10zM34 10c8-4 18 2 18 10 6 2 8 10 4 16 2 8-4 14-12 14-2 6-10 6-12 0M20 24c4 0 6 2 6 6M44 24c-4 0-6 2-6 6" vector-effect="non-scaling-stroke"/></g>
+      <g class="chalk-ic" transform="translate(20 440) rotate(8 20.0 20.0) scale(0.625)"><path d="M24 6h16M27 6v16L12 52c-2 5 1 8 6 8h28c5 0 8-3 6-8L37 22V6M18 44h28M22 50l4-4M30 52l6-6M38 50l4-4" vector-effect="non-scaling-stroke"/></g>
+      <g class="chalk-ic" transform="translate(950 40) rotate(0 22.0 22.0) scale(0.6875)"><path d="M32 34m-24 0a24 24 0 1 0 48 0a24 24 0 1 0-48 0M32 18v16l10 8M24 4h16" vector-effect="non-scaling-stroke"/></g>
       </g>
     </pattern>
   </defs>
@@ -427,7 +444,7 @@ body > *:not(.chalkboard):not(script):not(style){position:relative;z-index:1}
 
 <div role="main" class="ss-hero" id="main-content" style="text-align:center;padding:64px 32px 48px;">
   <div class="ss-hero-inner">
-  <h1 id="hero-headline" class="ss-hero-title">Study guides that <em>actually</em> get you ready.</h1>
+  <h1 id="hero-headline" class="ss-hero-title">Study guides that <em class="chalk-u">actually<svg aria-hidden="true" viewBox="0 0 200 20" preserveAspectRatio="none"><path pathLength="1" d="M4 14 C50 6 120 4 196 10 M20 17 C80 12 140 12 186 15"/></svg></em> get you ready.</h1>
   <p class="ss-hero-anim" style="animation-delay:.08s;font-size:18px;color:var(--text-muted);max-width:560px;margin:0 auto 28px;line-height:1.5;">
     Interactive quizzes, flashcards, and practice exams for real classes —
     not generic summaries. Pick a class and start.
