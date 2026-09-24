@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Compete — PrecisStudy</title>
-<meta name="description" content="Quests, weekly leaderboards, your study group hub, and peer challenges -- all the ways to compete and connect with other students, in one place."/>
+<meta name="description" content="Quests, weekly leaderboards, your study group hub, and peer challenges — all the ways to compete and connect with other students, in one place."/>
 <meta name="robots" content="noindex"/>
 <link rel="icon" type="image/png" href="/favicon.png"/>
 <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
@@ -185,7 +185,7 @@ label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-m
 
 <div style="max-width:640px;margin:0 auto;padding:48px 24px 80px;">
   <h1 style="font-size:28px;font-weight:800;color:var(--text);margin:0 0 6px;">Compete</h1>
-  <p style="font-size:15px;color:var(--text-muted);margin:0 0 24px;">Quests, weekly leaderboards, your study group, and peer challenges -- all the ways to compete and connect with other students.</p>
+  <p style="font-size:15px;color:var(--text-muted);margin:0 0 24px;">Quests, weekly leaderboards, your study group, and peer challenges — all the ways to compete and connect with other students.</p>
 
   <div class="cp-tabs" role="tablist" aria-label="Compete section">
     <button type="button" class="cp-tab-btn" data-tab="quests" onclick="cpSwitchTab('quests')" role="tab">🔥 Quests</button>
@@ -263,7 +263,7 @@ label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-m
 
     <div id="lb-optin-card" class="ss-card" style="display:none;margin-bottom:24px;">
       <div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:8px;">Private and anonymous by default</div>
-      <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 8px;">Opting in assigns you a random handle like "Quick Fox 42" -- your real name and email are never shown. You can set a custom nickname instead, or opt out any time.</p>
+      <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 8px;">Opting in assigns you a random handle like "Quick Fox 42" — your real name and email are never shown. You can set a custom nickname instead, or opt out any time.</p>
       <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 16px;">Boards reset every Monday (00:00 UTC) and track three things: XP earned this week, questions answered this week, and how many days this week you were active.</p>
       <button class="ss-btn ss-btn-solid" id="lb-optin-btn" onclick="lbOptIn()">Opt in to leaderboards</button>
       <div id="lb-optin-status" style="margin-top:10px;font-size:13.5px;color:var(--text-muted);"></div>
@@ -276,7 +276,7 @@ label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-m
           <button class="ss-btn" id="lb-optout-btn" onclick="lbOptOut()" style="font-size:12.5px;padding:6px 14px;">Opt out</button>
         </div>
         <div class="ss-field" style="margin-bottom:0;">
-          <label class="ss-label" for="lb-nickname">Custom nickname (optional -- shown instead of your handle)</label>
+          <label class="ss-label" for="lb-nickname">Custom nickname (optional — shown instead of your handle)</label>
           <div style="display:flex;gap:8px;">
             <input id="lb-nickname" type="text" maxlength="24" placeholder="Leave blank to use your handle"/>
             <button class="ss-btn" onclick="lbSaveNickname()">Save</button>
@@ -338,13 +338,13 @@ label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-m
 
     <div id="sg-optin-card" class="ss-card" style="display:none;margin-bottom:24px;">
       <div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:8px;">Study groups use the same anonymous handle as leaderboards</div>
-      <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 16px;">A study group is inherently about being visible to a small circle by handle -- your real name and email are never shown. Opt in on the Leaderboards tab to get started, then come back here.</p>
+      <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 16px;">A study group is inherently about being visible to a small circle by handle — your real name and email are never shown. Opt in on the Leaderboards tab to get started, then come back here.</p>
       <button type="button" class="ss-btn ss-btn-solid cp-link-btn" onclick="cpSwitchTab('leaderboards')" style="text-decoration:none;color:#fff;">Go to Leaderboards to opt in</button>
     </div>
 
     <div id="sg-nogroup-card" class="ss-card" style="display:none;margin-bottom:24px;">
       <div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:8px;">You're not in a group yet</div>
-      <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 12px;">Join a small group of classmates with a shareable code, or create your own. Group creation and joining live on the Leaderboards tab -- come back here afterward for the fuller hub view.</p>
+      <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 12px;">Join a small group of classmates with a shareable code, or create your own. Group creation and joining live on the Leaderboards tab — come back here afterward for the fuller hub view.</p>
       <button type="button" class="ss-btn ss-btn-solid cp-link-btn" onclick="cpSwitchTab('leaderboards')" style="text-decoration:none;color:#fff;">Create or join a group</button>
     </div>
 
@@ -354,7 +354,7 @@ label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-m
           <div style="font-weight:800;font-size:15px;color:var(--text);">Group code: <span class="sg-code-box" id="sg-group-code" style="display:inline-flex;vertical-align:middle;"></span></div>
         </div>
         <div class="ss-field" style="margin-bottom:0;">
-          <label class="ss-label" for="sg-group-name">Group name (optional -- shown to every member)</label>
+          <label class="ss-label" for="sg-group-name">Group name (optional — shown to every member)</label>
           <div style="display:flex;gap:8px;">
             <input id="sg-group-name" type="text" maxlength="40" placeholder="e.g. Ms. Rivera's 3rd period"/>
             <button class="ss-btn" onclick="sgSaveName()">Save</button>
@@ -364,7 +364,7 @@ label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-m
       </div>
 
       <div class="ss-card" style="margin-bottom:24px;">
-        <div style="font-weight:800;font-size:15px;color:var(--text);margin-bottom:10px;">Roster -- this week</div>
+        <div style="font-weight:800;font-size:15px;color:var(--text);margin-bottom:10px;">Roster — this week</div>
         <div style="display:flex;gap:12px;padding:0 0 8px;font-size:11.5px;color:var(--text-muted);font-weight:700;text-transform:uppercase;">
           <span style="flex:1;">Member</span><span style="min-width:64px;text-align:right;">XP<button type="button" class="ss-tip-btn" data-tip-tap data-tip="Experience points earned this week">?</button></span><span style="min-width:64px;text-align:right;">Questions</span><span style="min-width:64px;text-align:right;">Active days<button type="button" class="ss-tip-btn" data-tip-tap data-tip="Days this week the member answered at least one question">?</button></span>
         </div>
@@ -374,7 +374,7 @@ label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-m
 
       <div class="ss-card" style="margin-bottom:24px;">
         <div style="font-weight:800;font-size:15px;color:var(--text);margin-bottom:4px;">Group weak spots</div>
-        <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 10px;">Which units members are individually weakest on, ranked by how many members share it. Individual mastery data is never shown -- only this rolled-up signal.</p>
+        <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 10px;">Which units members are individually weakest on, ranked by how many members share it. Individual mastery data is never shown — only this rolled-up signal.</p>
         <div id="sg-weakspots"></div>
         <div id="sg-weakspots-status" style="margin-top:10px;font-size:13.5px;color:var(--text-muted);"></div>
       </div>
