@@ -33,12 +33,14 @@ function eyes(mood) {
     return `<path d="M42 58q8-9 16 0" fill="none" stroke="${C.eye}" stroke-width="4" stroke-linecap="round"/>
       <path d="M70 58q8-9 16 0" fill="none" stroke="${C.eye}" stroke-width="4" stroke-linecap="round"/>`;
   }
+  // Thinking: eyes glance up and to the side, with small chalk thought bubbles.
+  const bubbles = mood === "think" ? `<g fill="none" stroke="${C.chalk}" stroke-width="2"><circle cx="104" cy="30" r="3"/><circle cx="113" cy="19" r="4.5"/><circle cx="123" cy="5" r="6"/></g>` : "";
   const dy = mood === "think" ? -4 : 0;
   const dx = mood === "think" ? 3 : 0;
   return `<g class="sage-eyes">
       <circle cx="${50 + dx}" cy="${58 + dy}" r="7" fill="${C.eye}"/><circle cx="${52.5 + dx}" cy="${55.5 + dy}" r="2.2" fill="#fff"/>
       <circle cx="${78 + dx}" cy="${58 + dy}" r="7" fill="${C.eye}"/><circle cx="${80.5 + dx}" cy="${55.5 + dy}" r="2.2" fill="#fff"/>
-    </g>`;
+    </g>${bubbles}`;
 }
 
 /** @param {string} mood */
@@ -53,8 +55,8 @@ function wings(mood) {
 
 function cap() {
   return `<g>
-      <path d="M40 24l24-10 24 10-24 10z" fill="${C.cap}"/>
-      <path d="M50 28v8c0 3 6 6 14 6s14-3 14-6v-8l-14 6z" fill="${C.cap}"/>
+      <path d="M50 28v8c0 3 6 6 14 6s14-3 14-6v-8l-14 6z" fill="${C.cap}" stroke="${C.chalk}" stroke-width="1.8"/>
+      <path d="M40 24l24-10 24 10-24 10z" fill="${C.cap}" stroke="${C.chalk}" stroke-width="1.8"/>
       <path d="M88 24v14" stroke="${C.tassel}" stroke-width="2.5" stroke-linecap="round"/>
       <circle cx="88" cy="40" r="3" fill="${C.tassel}"/>
     </g>`;
