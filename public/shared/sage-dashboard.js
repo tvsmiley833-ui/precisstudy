@@ -27,9 +27,29 @@ function render() {
   const atRisk = !!(streak && streak.current > 0 && today && streak.lastActiveDate !== today);
   const noClasses = !(blob.enrolledSubjects || []).length;
 
-  let mood = "happy", line = "Good to see you! Pick up where you left off, or try a quick quiz.";
+  const labels = data.labels || {};
+  /** @type {[string, number][]} */
+  const studied = Object.entries(readiness).filter(([, pct]) => typeof pct === "number");
+  // The closest locked accessory: the one whose best class is nearest 80%.
+  let next = null;
+  for (const a of ACCESSORIES) {
+    if (unlocked(a) || !a.groups) continue;
+    for (const [k, pct] of studied) if (a.groups.includes(k) && (!next || pct > next.pct)) next = { acc: a, key: k, pct };
+  }
+
+  let mood = "happy", line = "Good to see you! Pick up where you left off, or try a quick quiz.", link = "";
   if (atRisk) { mood = "sleepy"; line = `Your ${streak.current}-day streak is getting sleepy. One quick quiz wakes it up!`; }
-  else if (noClasses) { mood = "think"; line = "Nothing picked yet. Choose your classes and I'll keep track of them for you."; }
+  else if (noClasses && studied.length) {
+    mood = "think";
+    const names = studied.map(([k]) => labels[k] || k).slice(0, 2).join(" and ");
+    line = `You've been studying ${names}. Add your classes so I can plan your week around them.`;
+    link = ' <a href="/settings">Add classes →</a>';
+  }
+  else if (noClasses) { mood = "think"; line = "Nothing picked yet. Choose your classes and I'll keep track of them for you."; link = ' <a href="/settings">Pick classes →</a>'; }
+  else if (next) {
+    mood = "cheer";
+    line = `${labels[next.key] || next.key} is ${next.pct}% ready. ${UNLOCK_PCT - next.pct} more points unlocks my ${next.acc.label.toLowerCase()}!`;
+  }
 
   let worn = wornAccessory();
   const wornDef = ACCESSORIES.find((a) => a.id === worn);
@@ -45,7 +65,7 @@ function render() {
   mount.innerHTML = `<div class="sage-dash">
     <div class="sage-dash-owl">${owlSvg({ mood: /** @type {any} */ (mood), acc: worn, size: 84 })}</div>
     <div class="sage-dash-body">
-      <p class="sage-dash-line"><b>Sage</b>${esc(line)}${noClasses && !atRisk ? ' <a href="/settings">Pick classes →</a>' : ""}</p>
+      <p class="sage-dash-line"><b>Sage</b>${esc(line)}${link}</p>
       <details class="sage-closet"><summary>Sage's closet · ${ACCESSORIES.filter(unlocked).length}/${ACCESSORIES.length} unlocked</summary>
         <div class="sage-closet-grid">${closet}</div>
         <p class="sage-closet-note">Reach ${UNLOCK_PCT}% in a class to unlock its accessory. Sage wears your pick everywhere on the site.</p>

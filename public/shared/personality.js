@@ -6,6 +6,10 @@
 //   - a thinking Sage on the quiz hint button
 //   - a "Sharpening pencils…" Sage while the quiz box is empty
 //   - a "Did you know?" chalk card at the end of every unit
+//   - a Continue button back to the last unit opened, and a unit path
+//   - a streak / XP pill in the header for signed-in students
+//   - Sage beside the "why" card after each quiz answer
+//   - a loading state and swipe gestures on flashcards
 import { owlSvg, OWL_CSS } from "/shared/owl.js";
 import { chalkIcon } from "/shared/chalk-icons.js";
 
@@ -22,6 +26,11 @@ function init() {
   funFacts();
   watchMastery();
   watchQuiz();
+  continueButton();
+  unitPath();
+  statsPill();
+  flashcardPolish();
+  textbookCard();
 }
 
 // ---------------------------------------------------------------- chalk strip
@@ -165,6 +174,11 @@ function watchQuiz() {
     if (hint && !hint.querySelector(".sage-mini")) {
       hint.insertAdjacentHTML("afterbegin", `<span class="sage-mini" aria-hidden="true">${owlSvg({ mood: "think", size: 20, acc: "", label: "" })}</span>`);
     }
+    const why = qbox.querySelector(".q-why-hd");
+    if (why && !why.querySelector(".sage")) {
+      const right = !!why.closest(".q-why-right");
+      why.insertAdjacentHTML("afterbegin", owlSvg({ mood: right ? "cheer" : "think", size: 40, acc: "", label: "" }));
+    }
     if (!qbox.childElementCount && qbox.offsetParent !== null) {
       qbox.innerHTML = `<div class="sage-loading">${owlSvg({ mood: "think", size: 64 })}<p>Sharpening pencils…</p></div>`;
     }
@@ -172,6 +186,172 @@ function watchQuiz() {
   new MutationObserver(decorate).observe(qbox, { childList: true, subtree: true });
   document.addEventListener("click", () => setTimeout(decorate, 50));
   decorate();
+}
+
+// ---------------------------------------------------------------- continue + unit path
+const LAST_UNIT_KEY = "ss-last-unit:" + SLUG;
+
+/** @returns {HTMLElement[]} */
+const unitEls = () => units ? /** @type {HTMLElement[]} */ ([...units.querySelectorAll(":scope > .unit")]) : [];
+
+/** @param {HTMLElement} unit */
+const unitName = (unit) => (unit.querySelector(".unit-title")?.firstChild?.textContent || "").trim();
+
+function continueButton() {
+  if (!units) return;
+  // Remember whichever unit the student opens.
+  units.addEventListener("click", (e) => {
+    const hd = /** @type {HTMLElement} */ (e.target).closest?.(".unit-hd");
+    const unit = hd?.closest(".unit");
+    if (!unit || !unit.classList.contains("open")) return;
+    try { localStorage.setItem(LAST_UNIT_KEY, String(unitEls().indexOf(/** @type {HTMLElement} */ (unit)))); } catch (err) {}
+  });
+  let idx = -1;
+  try { idx = Number(localStorage.getItem(LAST_UNIT_KEY) ?? -1); } catch (err) {}
+  const unit = unitEls()[idx];
+  if (!unit) return;
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "ss-continue";
+  btn.innerHTML = `<span>Continue where you left off</span><b></b><span aria-hidden="true">→</span>`;
+  /** @type {HTMLElement} */ (btn.querySelector("b")).textContent = unitName(unit);
+  btn.onclick = () => {
+    if (!unit.classList.contains("open")) /** @type {HTMLElement | null} */ (unit.querySelector(".unit-hd"))?.click();
+    unit.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+    /** @type {HTMLElement | null} */ (unit.querySelector(".unit-title"))?.focus?.();
+  };
+  units.before(btn);
+}
+
+// Numbered markers down the left of the unit list, filled as units are
+// mastered (80%+, same threshold as the dashboard).
+function unitPath() {
+  if (!units) return;
+  const unitsEl = units;
+  unitsEl.classList.add("ss-path");
+  const paint = () => unitEls().forEach((unit, i) => {
+    unit.style.setProperty("--n", `"${i + 1}"`);
+    const pct = parseInt(unit.querySelector(".unit-progress-label")?.textContent || "", 10);
+    unit.dataset.path = pct >= 80 ? "done" : pct > 0 ? "started" : "new";
+  });
+  paint();
+  new MutationObserver(paint).observe(unitsEl, { subtree: true, characterData: true, childList: true });
+}
+
+// ---------------------------------------------------------------- streak / XP pill
+async function statsPill() {
+  const inner = hero?.querySelector(".hero-inner");
+  if (!inner) return;
+  const w = /** @type {Window & { __ssMe?: Promise<any> }} */ (window);
+  w.__ssMe = w.__ssMe || fetch("/auth/me").then(r => (r.ok ? r.json() : null)).catch(() => null);
+  const me = await w.__ssMe;
+  if (!me || !me.loggedIn) return;
+  // /api/quest writes on every GET, so fetch it once per browser session.
+  /** @type {{ streak: number, xp: number, level: number } | null} */
+  let stats = null;
+  try { stats = JSON.parse(sessionStorage.getItem("ss-stats") || "null"); } catch (e) {}
+  if (!stats) {
+    try {
+      const [p, q] = await Promise.all([fetch("/api/progress").then(r => r.json()), fetch("/api/quest").then(r => r.json())]);
+      stats = { streak: p?.streak?.current || 0, xp: q?.quest?.xp || 0, level: q?.quest?.level?.level || 1 };
+      try { sessionStorage.setItem("ss-stats", JSON.stringify(stats)); } catch (e) {}
+    } catch (e) { return; }
+  }
+  const pill = document.createElement("a");
+  pill.href = "/dashboard/";
+  pill.className = "ss-stats-pill";
+  pill.setAttribute("aria-label", `${stats.streak}-day streak, level ${stats.level}, ${stats.xp} XP. Open dashboard`);
+  pill.innerHTML = `<span aria-hidden="true">🔥 ${stats.streak}</span><span aria-hidden="true">Lv ${stats.level} · ${stats.xp.toLocaleString()} XP</span>`;
+  inner.appendChild(pill);
+}
+
+// ---------------------------------------------------------------- flashcards
+function flashcardPolish() {
+  const scene = document.getElementById("scene");
+  const term = document.getElementById("fc-term");
+  if (!scene || !term) return;
+  // Loading state until the first card is filled in.
+  const setLoading = () => scene.classList.toggle("ss-loading", !term.textContent?.trim());
+  setLoading();
+  new MutationObserver(setLoading).observe(term, { childList: true, characterData: true, subtree: true });
+  // Swipe left/right for next/previous. A tap still flips (the page's click
+  // handler); a swipe swallows the click that follows it.
+  const g = /** @type {any} */ (window);
+  let x0 = 0, y0 = 0, swiped = false;
+  scene.addEventListener("touchstart", (e) => { const t = e.touches[0]; if (!t) return; x0 = t.clientX; y0 = t.clientY; swiped = false; }, { passive: true });
+  scene.addEventListener("touchend", (e) => {
+    const t = e.changedTouches[0];
+    if (!t) return;
+    const dx = t.clientX - x0, dy = t.clientY - y0;
+    if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy) * 1.5 || typeof g.fcNav !== "function") return;
+    swiped = true;
+    g.fcNav(dx < 0 ? 1 : -1);
+  }, { passive: true });
+  scene.addEventListener("click", (e) => { if (swiped) { e.stopImmediatePropagation(); e.preventDefault(); swiped = false; } }, true);
+}
+
+// ---------------------------------------------------------------- free textbook
+// Free, peer-reviewed OpenStax textbooks matching each course (every URL was
+// confirmed against openstax.org search results, 2026-09).
+const OS = "https://openstax.org/books/";
+/** @type {Record<string, [string, string]>} */
+const TEXTBOOKS = {
+  physics: ["Physics (high school)", OS + "physics/pages/preface"],
+  "ap-physics": ["College Physics 2e", OS + "college-physics-2e/pages/1-introduction-to-science-and-the-realm-of-physics-physical-quantities-and-units"],
+  biology: ["Biology 2e", OS + "biology-2e/pages/preface"],
+  "ap-biology": ["Biology for AP® Courses", OS + "biology-ap-courses/pages/preface"],
+  anatomy: ["Anatomy and Physiology 2e", OS + "anatomy-and-physiology-2e/pages/preface"],
+  chemistry: ["Chemistry 2e", "https://openstax.org/details/books/chemistry-2e"],
+  "ap-chemistry": ["Chemistry 2e", "https://openstax.org/details/books/chemistry-2e"],
+  astronomy: ["Astronomy 2e", OS + "astronomy-2e/pages/preface"],
+  algebra2: ["Algebra and Trigonometry 2e", OS + "algebra-and-trigonometry-2e/pages/index"],
+  precalc: ["Precalculus 2e", OS + "precalculus-2e/pages/preface"],
+  calculus: ["Calculus Volume 1", OS + "calculus-volume-1/pages/preface"],
+  "calc-ab": ["Calculus Volume 1", OS + "calculus-volume-1/pages/preface"],
+  "calc-bc": ["Calculus Volume 2", OS + "calculus-volume-2/pages/preface"],
+  statistics: ["Introductory Statistics 2e", OS + "introductory-statistics-2e/pages/preface"],
+  "ap-stats": ["Introductory Statistics 2e", OS + "introductory-statistics-2e/pages/preface"],
+  psychology: ["Psychology 2e", OS + "psychology-2e/pages/preface"],
+  "ap-psych": ["Psychology 2e", OS + "psychology-2e/pages/preface"],
+  sociology: ["Introduction to Sociology", "https://openstax.org/details/books/introduction-sociology/"],
+  economics: ["Principles of Economics 2e", OS + "principles-economics-2e/pages/preface"],
+  "ap-micro": ["Principles of Microeconomics for AP® Courses 2e", OS + "principles-microeconomics-ap-courses-2e/pages/preface"],
+  "ap-macro": ["Principles of Macroeconomics for AP® Courses", OS + "principles-macroeconomics-ap-courses/pages/1-introduction"],
+  "us-history": ["U.S. History", "https://openstax.org/details/books/us-history"],
+  apush: ["U.S. History", "https://openstax.org/details/books/us-history"],
+  "us-government": ["American Government 4e", "https://openstax.org/details/books/american-government-4e"],
+  "ap-usgov": ["American Government 4e", "https://openstax.org/details/books/american-government-4e"],
+  "world-history": ["World History Volume 1, to 1500", "https://openstax.org/details/books/world-history-volume-1"],
+  "ap-world": ["World History Volume 1, to 1500", "https://openstax.org/details/books/world-history-volume-1"],
+  "global-history": ["World History Volume 1, to 1500", "https://openstax.org/details/books/world-history-volume-1"],
+};
+
+// Official College Board course pages (exam format, released free-response
+// questions); only slugs confirmed in apstudents.collegeboard.org search results.
+const AP = "https://apstudents.collegeboard.org/courses/";
+/** @type {Record<string, string>} */
+const AP_PAGES = {
+  "ap-biology": AP + "ap-biology", "calc-ab": AP + "ap-calculus-ab", "ap-psych": AP + "ap-psychology",
+  apush: AP + "ap-united-states-history", "ap-world": AP + "ap-world-history-modern",
+  "ap-macro": AP + "ap-macroeconomics", "ap-micro": AP + "ap-microeconomics",
+};
+
+function textbookCard() {
+  const book = TEXTBOOKS[SLUG];
+  if (!book || !units || document.querySelector(".ss-textbook")) return;
+  const card = document.createElement("aside");
+  card.className = "ss-textbook";
+  card.innerHTML = `<b>Want more depth?</b> <span>The free, peer-reviewed OpenStax textbook <i></i> covers this course. Read it online or download the PDF.</span> <a target="_blank" rel="noopener">Open the free textbook ↗</a>`;
+  /** @type {HTMLElement} */ (card.querySelector("i")).textContent = book[0];
+  /** @type {HTMLAnchorElement} */ (card.querySelector("a")).href = book[1];
+  const ap = AP_PAGES[SLUG];
+  if (ap) {
+    const a = document.createElement("a");
+    a.href = ap; a.target = "_blank"; a.rel = "noopener";
+    a.textContent = "Official AP course page: exam format and past free-response questions ↗";
+    card.append(document.createElement("br"), a);
+  }
+  units.after(card);
 }
 
 // ---------------------------------------------------------------- toast

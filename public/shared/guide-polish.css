@@ -188,7 +188,7 @@ html body .filter-row-wrap .mobile-only-select {
 
 /* The study-plan card used to tuck under the tall hero; with the compact hero
    that overlap covered the tabs. Give it normal flow spacing and a quieter look. */
-html body .page > .spc-card {
+html body #spc-card {
   margin-top: 20px !important;
   box-shadow: none !important;
   border-radius: 12px;
@@ -210,7 +210,7 @@ html:root[data-theme="dark"] body { background: var(--bg) !important; }
 
 /* Plan card and toolkit button: neutral surfaces with a brand-green accent,
    not a purple wash that competes with the content. */
-html body .page > .spc-card {
+html body #spc-card {
   background: var(--surface) !important;
   border: 1px solid var(--border) !important;
 }
@@ -230,6 +230,200 @@ html:root:not([data-theme="dark"]) {
   --border-strong: #b7c4b3 !important;
   --ink: #1b2a24 !important;
   --ink-muted: #45564d !important;
-  --ink-dim: #6b7b72 !important;
+  --ink-dim: #56665d !important; /* ≥ 5.3:1 on every light surface */
 }
 html:root:not([data-theme="dark"]) body { background: var(--bg) !important; }
+
+/* ---------- One brand accent on every guide ----------
+   Each page still sets a per-subject --accent (purple on Physics, blue on
+   Chemistry, ...) and a solid-fill .btn in that color. The subject already
+   has its own chalk strip in the header; controls use the brand green so
+   every guide reads as one product. Light values keep >= 4.5:1 on white. */
+/* Solid fills behind white text (mission banner, filled buttons): 5.3:1. */
+html:root { --accent-solid: #1f7a4d !important; }
+html:root:not([data-theme="dark"]) {
+  --accent: #1f7a4d !important;
+  --accent-ink: #155c39 !important;
+  --accent-soft: #e3f3ea !important;
+  --accent-border: #a9d8bd !important;
+}
+html:root[data-theme="dark"] {
+  --accent: #4fbf85 !important;
+  --accent-ink: #a6e3c3 !important;
+  --accent-soft: rgb(79 191 133 / .14) !important;
+  --accent-border: rgb(79 191 133 / .4) !important;
+}
+
+/* Buttons: outlined and one size. The page base is 21px, which blew up any
+   button without an inline size (Mistake Log, Challenge a Friend). Solid
+   fill is reserved for the selected chip. */
+html body .page .btn {
+  background: transparent !important;
+  border: 1px solid var(--border-strong) !important;
+  color: var(--ink) !important;
+  font-size: 14px !important;
+  font-weight: 600;
+  padding: 7px 14px !important;
+  box-shadow: none !important;
+}
+html body .page .btn:hover { background: var(--surface-hover) !important; border-color: var(--accent) !important; transform: none; }
+html body .page .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+html body .page .chip.on {
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: var(--bg) !important;
+}
+html body .diag-btn {
+  background: var(--accent-soft) !important;
+  border: 1px solid var(--accent-border) !important;
+  color: var(--ink) !important;
+}
+
+/* ---------- Toolkit button: labeled pill, not a mystery circle ---------- */
+html body .toolkit-fab {
+  width: auto !important;
+  height: 48px !important;
+  padding: 0 18px 0 14px !important;
+  border-radius: 999px !important;
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  font: 700 14.5px 'Inter', system-ui, sans-serif;
+}
+html body .toolkit-fab[aria-expanded="true"] { transform: none !important; }
+
+/* ---------- "Why" card after a quiz answer ---------- */
+html body #q-exp.q-why {
+  border: 1px solid var(--border) !important;
+  border-left: 4px solid #d98a3a !important;
+  border-radius: 12px !important;
+  background: var(--surface-2) !important;
+}
+html body #q-exp.q-why.q-why-right { border-left-color: var(--accent) !important; }
+html body .q-why-hd {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  margin-bottom: 8px;
+  font-size: 15.5px;
+  color: var(--ink);
+}
+html body .q-why-hd .sage { flex-shrink: 0; }
+html body .q-why-hd p { margin: 0; flex: 1; min-width: 0; line-height: 1.45; }
+
+/* ---------- Continue where you left off ---------- */
+html body .ss-continue {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin: 0 0 14px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 1px solid var(--accent-border);
+  background: var(--accent-soft);
+  color: var(--ink);
+  font: 500 15px 'Inter', system-ui, sans-serif;
+  text-align: left;
+  cursor: pointer;
+}
+html body .ss-continue b { flex: 1; min-width: 0; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+html body .ss-continue:hover { border-color: var(--accent); }
+html body .ss-continue:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- Unit path: numbered markers joined by a line ---------- */
+html body #units.ss-path { position: relative; padding-left: 44px; }
+html body #units.ss-path::before {
+  content: "";
+  position: absolute;
+  left: 15px; top: 24px; bottom: 24px;
+  width: 2px;
+  background: var(--border);
+}
+html body #units.ss-path > .unit { position: relative; overflow: visible; }
+html body #units.ss-path > .unit::before {
+  content: var(--n);
+  position: absolute;
+  left: -44px; top: 22px;
+  width: 32px; height: 32px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  border: 2px solid var(--border-strong);
+  background: var(--bg);
+  color: var(--ink-muted);
+  font: 700 13px 'Inter', system-ui, sans-serif;
+}
+html body #units.ss-path > .unit[data-path="started"]::before { border-color: var(--accent); color: var(--accent); }
+html body #units.ss-path > .unit[data-path="done"]::before { border-color: var(--accent); background: var(--accent); color: var(--bg); }
+@media (max-width: 640px) {
+  html body #units.ss-path { padding-left: 34px; }
+  html body #units.ss-path::before { left: 11px; }
+  html body #units.ss-path > .unit::before { left: -34px; width: 24px; height: 24px; font-size: 11px; top: 18px; }
+}
+
+/* ---------- Streak / XP pill (signed-in only) ---------- */
+html:root body .hero.hero .ss-stats-pill {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--brand-line);
+  color: var(--brand-ink);
+  font: 600 13px 'Inter', system-ui, sans-serif;
+  white-space: nowrap;
+  text-decoration: none;
+}
+html:root body .hero.hero .ss-stats-pill:hover { border-color: var(--brand-green); }
+
+/* ---------- Flashcard loading state ---------- */
+html body #scene.ss-loading .front .term::after {
+  content: "Loading cards…";
+  color: var(--ink-dim);
+  font-size: 16px;
+}
+html body #scene { touch-action: pan-y; }
+
+@media (max-width: 640px) {
+  /* Icon-only toolkit button on phones so it doesn't cover content; the
+     aria-label still names it. */
+  html body .toolkit-fab { width: 48px !important; padding: 0 !important; justify-content: center; }
+  html body .toolkit-fab .toolkit-fab-label { display: none; }
+}
+html body .page .btn { white-space: nowrap; }
+/* The Know it / Still learning row has inline display:flex without wrap. */
+html body #view-cards .fc-nav + div { flex-wrap: wrap; }
+
+/* Seven tabs don't fit beside the theme/focus/timer controls; let the tab
+   list scroll sideways instead of pushing the controls out of the bar. */
+html:root body .hero.hero .tablist {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+html:root body .hero.hero .tablist::-webkit-scrollbar { display: none; }
+html:root body .hero.hero .tablist .tab-btn { flex-shrink: 0; }
+html:root body .hero.hero .nav > :not(.tablist) { flex-shrink: 0; }
+
+/* ---------- Free textbook card (end of the Study Guide tab) ---------- */
+html body .ss-textbook {
+  margin: 20px 0 0;
+  padding: 16px 18px;
+  border-radius: 12px;
+  border: 1px dashed var(--border-strong);
+  background: var(--surface);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-muted);
+}
+html body .ss-textbook b { color: var(--ink); }
+html body .ss-textbook a { display: inline-block; margin-top: 6px; color: var(--accent); font-weight: 700; }
+html body #units .unit-title:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
+html body .q-review { margin: 12px 0 14px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; font-size: 14.5px; color: var(--ink-muted); }
+.q-report{display:block;margin-top:.6rem;background:none;border:0;padding:.25rem 0;min-height:24px;color:var(--ink-dim);font:inherit;font-size:.85rem;text-decoration:underline;cursor:pointer}
+.q-report:disabled{text-decoration:none;cursor:default}

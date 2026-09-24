@@ -31,6 +31,8 @@ interface SubjectProgress {
 export type ProgressBlob = {
   goal: { days: number; minutesPerDay: number; savedAt: string } | null;
   updatedAt: string | null;
+  // One-time data migrations already applied (see migratePhysicsUnits).
+  migrations?: string[];
   enrolledSubjects: string[];
   pushSubscriptions: PushSubscriptionRecord[];
   schedule: ScheduleData | null;
@@ -231,6 +233,37 @@ function isValidBlock(b: unknown): b is ScheduleBlock {
   );
 }
 
+// Physics gained a new Unit 1 on 2026-09-23 (commit 83e3975, pushed 21:10
+// UTC), so every old unit N became N+1. Progress saved before then is keyed
+// by the old numbers; shift it once. Blobs last written after the cutoff may
+// already mix both numberings, so they are only flagged, never shifted.
+const PHYSICS_SHIFT_MIGRATION = "physics-units-v2";
+const PHYSICS_SHIFT_CUTOFF = "2026-09-23T21:10:00.000Z";
+
+export function shiftUnitKeys<T>(record: Record<string, T>): Record<string, T> {
+  const out: Record<string, T> = {};
+  for (const [k, v] of Object.entries(record)) {
+    const n = Number(k);
+    out[Number.isInteger(n) && n > 0 ? String(n + 1) : k] = v;
+  }
+  return out;
+}
+
+// Returns true when the blob changed and should be written back.
+export function migratePhysicsUnits(blob: ProgressBlob): boolean {
+  const done = Array.isArray(blob.migrations) ? blob.migrations : [];
+  if (done.includes(PHYSICS_SHIFT_MIGRATION)) return false;
+  const physics = blob.physics;
+  const hasData = !!physics && (Object.keys(physics.mastery || {}).length > 0 || !!physics.unitOrder?.length);
+  if (!hasData) return false;
+  if (blob.updatedAt && blob.updatedAt < PHYSICS_SHIFT_CUTOFF) {
+    physics.mastery = shiftUnitKeys(physics.mastery || {});
+    if (physics.unitOrder) physics.unitOrder = physics.unitOrder.map(id => id + 1);
+  }
+  blob.migrations = [...done, PHYSICS_SHIFT_MIGRATION];
+  return true;
+}
+
 export async function loadBlob(env: Env, email: string): Promise<ProgressBlob> {
   if (!env.PROGRESS) return emptyBlob();
   const raw = await env.PROGRESS.get("progress:" + email);
@@ -357,6 +390,7 @@ export async function handleGetProgress(request: Request, env: Env): Promise<Res
   if (!env.PROGRESS) return json({ error: "Progress sync isn't configured yet" }, 503);
 
   const blob = await loadBlob(env, session.email);
+  if (migratePhysicsUnits(blob)) await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
   return json(blob);
 }
 
@@ -380,6 +414,9 @@ export async function handlePostProgress(request: Request, env: Env): Promise<Re
   const examples = typeof rec.examples === "object" && rec.examples !== null ? rec.examples : {};
   const cardsKnown = Array.isArray(rec.cardsKnown) ? rec.cardsKnown : [];
   const blob = await loadBlob(env, session.email);
+  // Mark old physics data migrated before this save stamps a fresh updatedAt
+  // (which would otherwise make it look post-cutoff and skip the shift).
+  migratePhysicsUnits(blob);
   // unitOrder isn't part of mastery.js's regular autosync payload (it only
   // ever sends mastery/examples/cardsKnown), so a POST that omits it should
   // preserve whatever was already saved rather than wiping it out.

@@ -88,7 +88,7 @@ async function rewriteViewMeta(res: Response, view: string): Promise<Response> {
 // stylesheet (<link href="/shared/guide-polish.css">). Kept as an explicit list
 // (not read from disk at request time) so a typo here fails loudly in
 // review rather than silently caching-forever a file nobody versioned.
-const SHARED_JS_FILES = new Set(["celebrate.js", "command-palette.js", "error-monitor.js", "feedback-widget.js", "high-contrast.js", "mastery.js", "mission-banner.js", "optimistic.js", "tooltips.js", "unit-titles.js", "unit-order.js", "personality.js", "guide-polish.css"]);
+const SHARED_JS_FILES = new Set(["celebrate.js", "command-palette.js", "error-monitor.js", "feedback-widget.js", "guide-app.js", "high-contrast.js", "mastery.js", "mission-banner.js", "optimistic.js", "tooltips.js", "unit-titles.js", "unit-order.js", "personality.js", "guide-polish.css"]);
 
 // Per-isolate cache: hashing 6 small files is cheap, but there's no reason
 // to redo it every request when the isolate will serve many requests
@@ -197,7 +197,7 @@ const AUTH_ROUTES: Record<string, Record<string, (request: Request, env: Env) =>
 // actually loads: Google AdSense (script + ad iframes), Cloudflare's own
 // Web Analytics beacon (auto-injected by the zone), the optional Desmos
 // graphing calculator embed (guide-template toolkit menu; inert unless
-// DESMOS_API_KEY is configured in scripts/guide-template/logic.js), and
+// DESMOS_API_KEY is configured in public/shared/guide-app.js), and
 // MathJax (guide pages load tex-mml-chtml.js from jsDelivr to render every
 // $...$ formula in their study-guide/quiz content -- without it in
 // script-src the browser silently blocks the script and every formula on
@@ -312,9 +312,12 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
   // URL per page; non-idempotent methods fall through (the client always
   // calls /api and /auth on precisstudy.com already, and /auth self-bounces).
   // Google's file-based site verification does not follow redirects, so any
-  // /google*.html token keeps serving on every host.
+  // /google*.html token keeps serving on every host. localhost is exempt so
+  // `wrangler dev` serves the local build; Cloudflare only routes the public
+  // hostnames above to this Worker, so production never sees it.
   if (
     url.hostname !== "precisstudy.com" &&
+    url.hostname !== "localhost" &&
     (request.method === "GET" || request.method === "HEAD") &&
     !(url.pathname.startsWith("/google") && url.pathname.endsWith(".html"))
   ) {

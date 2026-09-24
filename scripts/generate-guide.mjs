@@ -11,7 +11,7 @@ const require = createRequire(import.meta.url);
 const { heroPattern, bodyPattern } = require("./hero-patterns.cjs");
 import { fileURLToPath } from "node:url";
 
-// Matches SS_TTS_SPEAKER_ICON in scripts/guide-template/logic.js -- inlined
+// Matches SS_TTS_SPEAKER_ICON in public/shared/guide-app.js -- inlined
 // literally here since buildUnitsStatic() emits plain HTML at build time,
 // not JS that could reference that constant.
 const TTS_SPEAKER_ICON_SVG = '<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
@@ -24,7 +24,6 @@ const templateWiring = T("module-wiring.html");
 const templateHero = T("hero.html");
 const templateViews = T("page-views.template.html");
 const templateExamCss = T("exam.css");
-const templateLogic = T("logic.js");
 
 const esc = (s) => String(s)
   .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
@@ -77,7 +76,7 @@ function buildUnitsStatic(units, diagrams) {
   }).join("");
 }
 
-// Static server-rendered Worked Examples accordion. Mirrors logic.js's
+// Static server-rendered Worked Examples accordion. Mirrors guide-app.js's
 // buildExamples() DOM 1:1 (classes, data-id = `${unitId}-${index}`) so the
 // shipped page carries the real worked-solution prose for crawlers; the
 // runtime builder just re-renders over it. Steps are intentionally NOT
@@ -322,14 +321,16 @@ export function generateGuide(config) {
 
   // Data + logic. Exam parts required by schema but may be empty arrays.
   html += `\n<script>\n`;
-  html += `const UNITS=${js(units)};\n`;
+  // Reorder units to the student's syllabus order (see public/shared/unit-order.js).
+  const unitOrderKey = masteryKey || slug;
+  html += `const UNITS=${js(units)};window.__ssApplyUnitOrder&&window.__ssApplyUnitOrder('${unitOrderKey}',UNITS);window.__ssRefreshUnitOrder&&window.__ssRefreshUnitOrder('${unitOrderKey}');\n`;
   // buildGuide() references this for optional per-unit SVG diagrams; guides
   // without diagrams get the empty object the hand-authored pages use.
   html += `const DIAGRAMS=${js(config.diagrams || {})};\n`;
   html += `const FLASHCARDS=${js(flashcards)};\n`;
   html += `const QUIZ=${js(quiz)};\n`;
   // Worked Examples + Hard Mode banks. Always emitted (empty arrays when the
-  // guide has neither) so logic.js's buildExamples()/buildQSel() can reference
+  // guide has neither) so guide-app.js's buildExamples()/buildQSel() can reference
   // them unconditionally.
   html += `const WORKED=${js(worked)};\n`;
   html += `const HARD_Q=${js(hardQ)};\n`;
@@ -393,23 +394,18 @@ export function generateGuide(config) {
     content: officialReferenceContent,
     label: officialReferenceLabel || "Official Reference Sheet"
   } : null)};\n`;
-  // logic.js's buildExam() injects this into a <style> tag on first render;
-  // it must be defined before logic.js runs.
+  // guide-app.js's buildExam() injects this into a <style> tag on first render;
+  // it must be defined before guide-app.js runs.
   html += `const EXAM_CSS=${js(templateExamCss)};\n`;
   // Some legacy pages key saved progress under a slug-without-dashes id
   // (ap-lang -> aplang, global-history -> globalhistory, ap-biology ->
   // apbiology). Preserve that exact key so migrated pages keep existing
   // student progress; everything else stays slug-based.
   const mKey = masteryKey || slug;
-  html += templateLogic
-    .replaceAll("APUSH", esc(title))
-    .replaceAll("__ssCreateMastery('apush'", `__ssCreateMastery('${mKey}'`)
-    .replaceAll("SS_SUBJECT_KEY='apush'", `SS_SUBJECT_KEY='${mKey}'`)
-    .replaceAll("'apush'", `'${slug}'`)
-    .replaceAll("CHEM_MASTERY", "SS_MASTERY")
-    .replaceAll("CHEM_TOTAL_Q", "SS_TOTAL_Q")
-    .replaceAll("CHEM_UNITS", "SS_UNIT_COUNT")
-    .replaceAll("/apush", `/${slug}`);
+  // The app logic itself is public/shared/guide-app.js, shared by every
+  // guide; it reads the subject from SS_GUIDE.
+  html += `const SS_GUIDE=${js({ slug, key: mKey, title }).replace(/</g, "\\u003c")};\n`;
+  html += `</script><script src="/shared/guide-app.js">`;
   html += `\n</script><script src="/shared/command-palette.js" defer></script><script src="/shared/high-contrast.js" defer></script></body></html>`;
 
   return html;

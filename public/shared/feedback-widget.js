@@ -18,7 +18,7 @@
   style.textContent =
     '#fbw-btn{position:fixed;right:20px;bottom:20px;z-index:9998;display:flex;align-items:center;gap:8px;' +
     'padding:11px 16px;border-radius:999px;border:none;cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:700;' +
-    'background:var(--accent-solid, var(--accent, #33529e));color:#fff;box-shadow:0 8px 20px rgba(0,0,0,.22);' +
+    'background:var(--accent-solid, #1f7a4d);color:#fff;box-shadow:0 8px 20px rgba(0,0,0,.22);' +
     'transition:transform .15s ease}' +
     '#fbw-btn:hover{transform:translateY(-1px)}' +
     '#fbw-btn svg{width:16px;height:16px;flex-shrink:0}' +
@@ -34,7 +34,7 @@
     '#fbw-cats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}' +
     '.fbw-cat{border:1px solid var(--border, #ccc);background:transparent;color:var(--text, var(--ink, #111));' +
     'border-radius:999px;padding:6px 12px;font-size:12.5px;font-family:inherit;cursor:pointer}' +
-    '.fbw-cat.active{background:var(--accent-solid, var(--accent, #33529e));border-color:transparent;color:#fff}' +
+    '.fbw-cat.active{background:var(--accent-solid, #1f7a4d);border-color:transparent;color:#fff}' +
     '#fbw-message{width:100%;box-sizing:border-box;min-height:90px;resize:vertical;padding:10px 12px;' +
     'border-radius:10px;border:1px solid var(--border, #ccc);background:transparent;color:var(--text, var(--ink, #111));' +
     'font-family:inherit;font-size:14px;margin-bottom:10px}' +
@@ -44,7 +44,7 @@
     '#fbw-actions{display:flex;justify-content:flex-end;gap:8px}' +
     '#fbw-cancel{background:none;border:none;color:var(--text-muted, var(--ink-muted, #777));' +
     'font-family:inherit;font-size:13.5px;cursor:pointer;padding:9px 12px}' +
-    '#fbw-submit{background:var(--accent-solid, var(--accent, #33529e));color:#fff;border:none;' +
+    '#fbw-submit{background:var(--accent-solid, #1f7a4d);color:#fff;border:none;' +
     'border-radius:999px;padding:9px 18px;font-family:inherit;font-size:13.5px;font-weight:700;cursor:pointer}' +
     '#fbw-submit:disabled{opacity:.6;cursor:default}' +
     '#fbw-status{font-size:12.5px;margin-top:10px;min-height:16px;color:var(--text-muted, var(--ink-muted, #777))}' +

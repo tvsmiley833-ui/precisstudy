@@ -1,3 +1,10 @@
+// Shared study-guide app logic, loaded by every public/<slug>/index.html
+// after its inline data script, which defines UNITS, QUIZ, FLASHCARDS,
+// WORKED, HARD_Q, the exam parts, EXAM_META, EXAM_CSS and
+// SS_GUIDE = { slug, key, title } (key is the saved-progress id; a few
+// legacy guides use a slug without dashes, e.g. ap-lang -> aplang).
+// Classic (non-module) script on purpose: the page's inline handlers call
+// these functions as globals.
 // Some subjects' quiz content was authored with the correct answer always
 // (or almost always) listed first -- shuffles q.o once per question instance
 // (guarded by q._shuffled so repeats/requeues of the same question keep a
@@ -16,7 +23,7 @@ function ssShuffleOptions(q){
   if(typeof q.a==='number')q.a=order.indexOf(q.a);
   q._shuffled=true;
 }
-function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');var idx=-1;tabs.forEach((b,i)=>{if(b.id==='tab-'+id)idx=i;});if(idx!==-1){tabs.forEach((b,i)=>{var on=i===idx;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;});var _hl=document.getElementById('hero-live');if(_hl)_hl.textContent=tabs[idx].textContent.trim()+' tab';}if(id==='examples'&&!examplesBuilt)buildExamples();if(id==='exam'&&!examBuilt)buildExam();var spc=document.getElementById('spc-card');if(spc)spc.style.display=(id==='guide')?'':'none';}
+function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');var idx=-1;tabs.forEach((b,i)=>{if(b.id==='tab-'+id)idx=i;});if(idx!==-1){tabs.forEach((b,i)=>{var on=i===idx;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;});var _hl=document.getElementById('hero-live');if(_hl)_hl.textContent=tabs[idx].textContent.trim()+' tab';}if(id==='examples'&&!examplesBuilt)buildExamples();if(id==='exam'&&!examBuilt)buildExam();}
 let examBuilt=false;
 var examplesBuilt=false, ex2map={}, ex2shown={};
 
@@ -333,9 +340,9 @@ function jumpToUnit(id){
 // total>=2 before computeReadiness treats a unit as assessed), so the
 // subject shows up as a real 0% card instead of hiding in that accordion.
 function justStartUnit1(){
-  if(CHEM_MASTERY&&UNITS.length){
-    CHEM_MASTERY.recordAnswer(UNITS[0].id,false);
-    CHEM_MASTERY.recordAnswer(UNITS[0].id,false);
+  if(SS_MASTERY&&UNITS.length){
+    SS_MASTERY.recordAnswer(UNITS[0].id,false);
+    SS_MASTERY.recordAnswer(UNITS[0].id,false);
     renderUnitProgress(UNITS[0].id);
   }
   jumpToUnit(UNITS[0].id);
@@ -416,9 +423,7 @@ function buildGuide(){
     const hd=document.createElement('div');hd.className='unit-hd';
     const estMins=Math.max(5,Math.round(u.concepts.length*3+(u.traps?u.traps.length:0)*2+(u.fms?u.fms.length:0)*2));
     hd.innerHTML=`<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts · ~${estMins} min</span></span><span class="unit-progress" id="unit-progress-${u.id}" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span><button type="button" class="unit-tts-btn" data-unit="${u.id}" aria-label="Read this unit aloud" onclick="event.stopPropagation();ssReadUnitAloud(${u.id})">${SS_TTS_SPEAKER_ICON}</button><span class="chevron">▾</span>`;
-    hd.tabIndex=0;hd.setAttribute('role','button');hd.setAttribute('aria-expanded','false');
-    hd.onclick=()=>{const isOpen=div.classList.toggle('open');hd.setAttribute('aria-expanded',isOpen?'true':'false');};
-    hd.onkeydown=(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();hd.click();}};
+    ssWireUnitHeader(div,hd);
     const body=document.createElement('div');body.className='unit-body';
     u.concepts.forEach(c=>{
       const cd=document.createElement('div');cd.className='concept';
@@ -433,6 +438,17 @@ function buildGuide(){
     div.appendChild(hd);div.appendChild(body);ul.appendChild(div);
   });
 }
+// Unit header wiring. The whole row toggles on click, but only the title is
+// the keyboard/screen-reader button: the row also holds the read-aloud
+// button, and a button can't contain another control (WCAG 4.1.2).
+function ssWireUnitHeader(div,hd){
+  const title=hd.querySelector('.unit-title')||hd;
+  hd.removeAttribute('role');hd.removeAttribute('tabindex');hd.removeAttribute('aria-expanded');
+  title.setAttribute('role','button');title.tabIndex=0;
+  title.setAttribute('aria-expanded',div.classList.contains('open')?'true':'false');
+  hd.onclick=()=>{const isOpen=div.classList.toggle('open');title.setAttribute('aria-expanded',isOpen?'true':'false');};
+  title.onkeydown=(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();hd.click();}};
+}
 function hydrateGuide(){
   const fr=document.getElementById('filter-row');
   const chips=Array.from(fr.children);
@@ -444,9 +460,7 @@ function hydrateGuide(){
     filterTags[u.id]=chip;
   });
   document.querySelectorAll('.unit').forEach(div=>{
-    const hd=div.querySelector('.unit-hd');
-    hd.onclick=()=>{const isOpen=div.classList.toggle('open');hd.setAttribute('aria-expanded',isOpen?'true':'false');};
-    hd.onkeydown=(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();hd.click();}};
+    ssWireUnitHeader(div,div.querySelector('.unit-hd'));
   });
 }
 (function(){
@@ -550,14 +564,14 @@ function checkTypedAnswer(){
   const card=deck[fcIdx];
   const {match,exact}=ssFuzzyMatch(input.value,card.t);
   input.disabled=true;
-  if(!CHEM_MASTERY){setTimeout(()=>fcNav(1),400);return;}
+  if(!SS_MASTERY){setTimeout(()=>fcNav(1),400);return;}
   if(match){
-    CHEM_MASTERY.markCardKnown(card.t);
+    SS_MASTERY.markCardKnown(card.t);
     fb.className='fc-type-feedback correct';
     fb.textContent=exact?'✓ Correct!':'✓ Close enough — "'+card.t+'"';
     if(window.__ssCelebrateCorrect)window.__ssCelebrateCorrect(input);
   }else{
-    CHEM_MASTERY.unmarkCardKnown(card.t);
+    SS_MASTERY.unmarkCardKnown(card.t);
     fb.className='fc-type-feedback wrong';
     fb.textContent='✗ It was: "'+card.t+'"';
     if(window.__ssResetCombo)window.__ssResetCombo();
@@ -578,7 +592,7 @@ function loadFC(){
   fcDeck=v===0?[...FLASHCARDS]:FLASHCARDS.filter(f=>f.u===v);
   fcIdx=0;showFC();
 }
-function fcKnownSet(){return new Set((CHEM_MASTERY&&CHEM_MASTERY.getSnapshot().cardsKnown)||[]);}
+function fcKnownSet(){return new Set((SS_MASTERY&&SS_MASTERY.getSnapshot().cardsKnown)||[]);}
 function getActiveDeck(){
   const known=fcKnownSet();
   if(fcFilterMode==='learning')return fcDeck.filter(c=>!known.has(c.t));
@@ -618,13 +632,13 @@ function fcShuffle(){const deck=getActiveDeck();for(let i=deck.length-1;i>0;i--)
 // line) via their "Import" flow, so one export format covers both --
 // avoids maintaining two export paths for one underlying need. The
 // 'apush' literal here is replaced with the real subject slug by
-// generate-guide.mjs's existing substitution, same as CHEM_MASTERY's key.
+// generate-guide.mjs's existing substitution, same as SS_MASTERY's key.
 function exportFlashcards(){
   const rows=FLASHCARDS.map(f=>f.t.replace(/\t/g,' ')+'\t'+f.d.replace(/\t/g,' ').replace(/\n/g,' '));
   const blob=new Blob([rows.join('\n')],{type:'text/plain;charset=utf-8'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
-  a.href=url;a.download='apush'+'-flashcards.txt';
+  a.href=url;a.download=SS_GUIDE.slug+'-flashcards.txt';
   document.body.appendChild(a);a.click();a.remove();
   URL.revokeObjectURL(url);
 }
@@ -684,10 +698,10 @@ function printWorksheet(){
 }
 function rateFC(rating){
   const deck=getActiveDeck();
-  if(!deck.length||!CHEM_MASTERY)return;
+  if(!deck.length||!SS_MASTERY)return;
   const card=deck[fcIdx];
-  if(rating==='known')CHEM_MASTERY.markCardKnown(card.t);
-  else CHEM_MASTERY.unmarkCardKnown(card.t);
+  if(rating==='known')SS_MASTERY.markCardKnown(card.t);
+  else SS_MASTERY.unmarkCardKnown(card.t);
   renderUnitProgress(card.u);
   fcNav(1);
 }
@@ -711,7 +725,7 @@ function buildExamples(){
   const v=document.getElementById('view-examples');
   if(!v||typeof WORKED==='undefined'||!WORKED.length)return;
   let h='<div class="ex2-intro">Try each problem on your own first — then reveal the solution one step at a time. Mark “Got it” to track your progress.</div>';
-  const doneMap=(CHEM_MASTERY&&CHEM_MASTERY.getSnapshot().examples)||{};
+  const doneMap=(SS_MASTERY&&SS_MASTERY.getSnapshot().examples)||{};
   UNITS.forEach(u=>{
     const list=WORKED.filter(w=>w.u===u.id);if(!list.length)return;
     h+=`<div class="ex2-unit"><h3 class="ex2-h">Unit ${u.id}: ${u.name}</h3>`;
@@ -746,24 +760,24 @@ function revealStep(id){
 }
 function revealAll(id){const w=ex2map[id];while((ex2shown[id]||0)<w.steps.length)revealStep(id);}
 function markExample(id){
-  if(CHEM_MASTERY)CHEM_MASTERY.markExampleDone(id);
+  if(SS_MASTERY)SS_MASTERY.markExampleDone(id);
   const card=document.querySelector('.ex2-card[data-id="'+id+'"]');if(card)card.classList.add('done');
 }
 
-var CHEM_MASTERY = null;
-var SS_SUBJECT_KEY='apush';
+var SS_MASTERY = null;
+var SS_SUBJECT_KEY=SS_GUIDE.key;
 window.__ssMasteryInstances = window.__ssMasteryInstances || [];
 function ssStartChemMastery(){
-  CHEM_MASTERY = window.__ssCreateMastery('apush', UNITS.map(function(u){return u.id;}), UNITS.reduce(function(acc,u){acc[u.id]=u.name;return acc;},{}));
-  window.__ssMasteryInstances.push(CHEM_MASTERY);
-  CHEM_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} try{ if(examplesBuilt) buildExamples(); }catch(e){} try{ ssOverallProgressUpdate(); }catch(e){} try{ renderAllUnitProgress(); }catch(e){} });
+  SS_MASTERY = window.__ssCreateMastery(SS_GUIDE.key, UNITS.map(function(u){return u.id;}), UNITS.reduce(function(acc,u){acc[u.id]=u.name;return acc;},{}));
+  window.__ssMasteryInstances.push(SS_MASTERY);
+  SS_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} try{ if(examplesBuilt) buildExamples(); }catch(e){} try{ ssOverallProgressUpdate(); }catch(e){} try{ renderAllUnitProgress(); }catch(e){} });
 }
 if (window.__ssCreateMastery) { ssStartChemMastery(); }
 else { window.addEventListener('ss-mastery-ready', ssStartChemMastery, { once: true }); }
 
 /* bookmarked question ids, kept separate from server-synced mastery state
    (this is purely a local toggle-and-persist affordance, no filter UI yet) */
-var Q_BOOKMARK_KEY='ssBookmarks_'+'apush';
+var Q_BOOKMARK_KEY='ssBookmarks_'+SS_GUIDE.slug;
 function qBookmarkSet(){
   try{return new Set(JSON.parse(localStorage.getItem(Q_BOOKMARK_KEY)||'[]'));}catch(e){return new Set();}
 }
@@ -780,7 +794,7 @@ function qId(q){return q.u+'|'+q.q;}
    A question moves in when answered wrong and out the moment it's answered
    correctly again (from anywhere: normal quiz, diagnostic, hard mode, or the
    log's own review pass). */
-var MISTAKE_LOG_KEY='ssMistakes_'+'apush';
+var MISTAKE_LOG_KEY='ssMistakes_'+SS_GUIDE.slug;
 function mistakeLogMap(){
   try{return JSON.parse(localStorage.getItem(MISTAKE_LOG_KEY)||'{}');}catch(e){return {};}
 }
@@ -861,7 +875,7 @@ function unitWeightedPct(unitId){
     var knownCount=cards.filter(function(c){return known.has(c.t);}).length;
     parts.push({weight:0.4,pct:(knownCount/cards.length)*100});
   }
-  var mastery=CHEM_MASTERY?(CHEM_MASTERY.getSnapshot().mastery||{}):{};
+  var mastery=SS_MASTERY?(SS_MASTERY.getSnapshot().mastery||{}):{};
   var qrec=mastery[String(unitId)];
   if(qrec&&qrec.total>0)parts.push({weight:0.4,pct:(qrec.correct/qrec.total)*100});
   var erec=examUnitStats[unitId];
@@ -894,8 +908,8 @@ function ssOverallProgressUpdate(){
   var total=(typeof QUIZ!=='undefined'?QUIZ.length:0);
   if(!total){fill.parentElement.parentElement.style.display='none';return;}
   var answered=0;
-  if(CHEM_MASTERY){
-    var mastery=CHEM_MASTERY.getSnapshot().mastery||{};
+  if(SS_MASTERY){
+    var mastery=SS_MASTERY.getSnapshot().mastery||{};
     Object.keys(mastery).forEach(function(k){answered+=mastery[k].total||0;});
   }
   var pct=Math.max(0,Math.min(100,Math.round((answered/total)*100)));
@@ -908,7 +922,7 @@ function ssHardQ(){return (typeof HARD_Q!=='undefined'&&Array.isArray(HARD_Q))?H
 function buildQSel(){
   const sel=document.getElementById('q-sel');
   const HQ=ssHardQ();
-  sel.innerHTML='<option value="0">All Units ('+(QUIZ.length+HQ.length)+' questions)</option>';
+  sel.innerHTML='<option value="quick">⚡ Quick 10: mixed, weighted to your weak units</option><option value="0">All Units ('+(QUIZ.length+HQ.length)+' questions)</option>';
   UNITS.forEach(u=>{const n=QUIZ.filter(q=>q.u===u.id).length+HQ.filter(q=>q.u===u.id).length;if(n)sel.innerHTML+=`<option value="${u.id}">Unit ${u.id}: ${u.name} (${n} Qs)</option>`;});
   if(HQ.length)sel.innerHTML+='<option value="hard">Hard Mode Only ('+HQ.length+' Qs)</option>';
   loadQ();
@@ -927,14 +941,32 @@ function loadQ(){
   const raw=document.getElementById('q-sel').value;
   const HQ=ssHardQ();
   let src;
-  if(raw==='hard')src=HQ.slice();
+  if(raw==='quick')src=ssQuickTen(QUIZ.concat(HQ));
+  else if(raw==='hard')src=HQ.slice();
   else if(+raw===0)src=QUIZ.concat(HQ);
   else src=QUIZ.concat(HQ).filter(q=>q.u===+raw);
   if(difficultyFilter!=='all')src=src.filter(q=>q.d===difficultyFilter);
-  qPool=src.sort(()=>Math.random()-.5);
-  qIdx=0;score=0;requeueCounts=new WeakMap();qSessionStart=Date.now();showQ();
+  qPool=raw==='quick'?src:src.sort(()=>Math.random()-.5);
+  qIdx=0;score=0;qStreak=0;qBestStreak=0;qMissedUnits=new Set();requeueCounts=new WeakMap();qSessionStart=Date.now();showQ();
+}
+let qStreak=0,qBestStreak=0,qMissedUnits=new Set();
+// Ten questions, drawn without replacement with each unit weighted by how
+// much it needs work: unassessed units count as 50%, mastered units (80%+)
+// still appear occasionally.
+function ssQuickTen(all){
+  const m=(SS_MASTERY&&SS_MASTERY.getSnapshot().mastery)||{};
+  const weight=function(u){const r=m[String(u)];const pct=r&&r.total>=2?r.correct/r.total*100:50;return 1+Math.max(0,100-pct)/20;};
+  const pool=all.filter(function(q){return difficultyFilter==='all'||q.d===difficultyFilter;}).map(function(q){return {q:q,w:weight(q.u)};});
+  const out=[];
+  while(out.length<10&&pool.length){
+    let t=pool.reduce(function(a,x){return a+x.w;},0)*Math.random(),i=0;
+    while(i<pool.length-1&&(t-=pool[i].w)>0)i++;
+    out.push(pool.splice(i,1)[0].q);
+  }
+  return out;
 }
 let qSessionStart=null;
+function ssPracticeUnit(u){const sel=document.getElementById('q-sel');sel.value=String(u);loadQ();}
 function diagSetActive(active){
   const vq=document.getElementById('view-quiz');if(vq)vq.classList.toggle('diag-mode',active);
   const btn=document.getElementById('diag-start-btn');const lbl=document.getElementById('diag-start-btn-label');
@@ -975,7 +1007,7 @@ function startDiagnostic(){
 // round's first question) -- the caller (showQ) must bail out without
 // rendering its own terminal scoreboard when this returns true.
 function showDiagSummary(){
-  const mastery=CHEM_MASTERY?CHEM_MASTERY.getSnapshot().mastery||{}:{};
+  const mastery=SS_MASTERY?SS_MASTERY.getSnapshot().mastery||{}:{};
   const rows=UNITS.map(u=>{
     const rec=mastery[u.id];
     if(!rec||rec.total<1)return null;
@@ -1010,7 +1042,7 @@ function showDiagSummary(){
   diagSetActive(false);
   const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
   const summary=document.getElementById('diag-summary');
-  if(!summary||!CHEM_MASTERY){return false;}
+  if(!summary||!SS_MASTERY){return false;}
   if(!weak.length){
     summary.innerHTML='<div class="result" style="padding:16px"><div class="sub" style="color:var(--success)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:5px"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Every unit you were tested on scored 80%+! Try the practice exam next.</div></div>'+(SS_SESSION?'':'<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:14.5px;color:var(--ink-muted)">Sign in to save these results and unlock the full question bank.<div class="ss-login-box" style="margin-top:8px"></div></div>');
     if(!SS_SESSION)ssRenderLoginBoxes();
@@ -1036,9 +1068,10 @@ function showQ(){
     const elapsedSec=qSessionStart?Math.max(1,Math.round((Date.now()-qSessionStart)/1000)):null;
     const elapsedStr=elapsedSec!=null?(elapsedSec>=60?Math.floor(elapsedSec/60)+'m '+(elapsedSec%60)+'s':elapsedSec+'s'):null;
     const xpEarned=score*10; // same 10-XP-per-correct-answer the dashboard's computeXP() awards -- not a separate estimate
-    qb.innerHTML=`<div class="result"><div class="big">${score}/${qPool.length}</div><div class="sub">${Math.round(score/qPool.length*100)}% — ${score/qPool.length>=.85?'Excellent work':score/qPool.length>=.65?'Solid — review the misses':'Keep reviewing this unit'}</div>`+
-      `<div class="q-session-stats">${xpEarned?`<span>+${xpEarned} XP</span>`:''}${elapsedStr?`<span>${elapsedStr}</span>`:''}</div>`+
-      `<button class="btn" onclick="loadQ()">Try Again</button></div>`;return;}
+    qb.innerHTML=`<div class="result"><div class="big">${score}/${qPool.length}</div><div class="sub">${Math.round(score/qPool.length*100)}% — ${score/qPool.length>=.85?'Excellent work':score/qPool.length>=.65?'Solid — review the misses':(document.getElementById('q-sel').value==='quick'?'Good practice — the units below need another look':'Keep reviewing this unit')}</div>`+
+      `<div class="q-session-stats">${xpEarned?`<span>+${xpEarned} XP</span>`:''}${qBestStreak>1?`<span>Best streak ${qBestStreak}</span>`:''}${elapsedStr?`<span>${elapsedStr}</span>`:''}</div>`+
+      (qMissedUnits.size?`<div class="q-review">Review next: ${Array.from(qMissedUnits).map(function(u){const x=UNITS.find(function(y){return y.id===u;});return x?'<button type="button" class="chip" onclick="ssPracticeUnit('+u+')">Unit '+u+': '+x.name+'</button>':'';}).join(' ')}</div>`:'')+
+      `<button class="btn" onclick="loadQ()">${document.getElementById('q-sel').value==='quick'?'Another Quick 10':'Try Again'}</button></div>`;return;}
   const q=qPool[qIdx];
   qHintTier=0;
   ssShuffleOptions(q);
@@ -1120,6 +1153,7 @@ function ansQ(i){
     if(idx===q.a)btn.classList.add('correct');
     else if(idx===i&&i!==q.a)btn.classList.add('wrong');
   });
+  if(i===q.a){qStreak++;qBestStreak=Math.max(qBestStreak,qStreak);}else{qStreak=0;qMissedUnits.add(q.u);}
   if(i===q.a){
     score++;
     if(window.__ssCelebrateCorrect){
@@ -1143,12 +1177,22 @@ function ansQ(i){
       qPool.splice(Math.min(qIdx+REQUEUE_DELAY,qPool.length),0,q);
     }
   }
-  if(CHEM_MASTERY)CHEM_MASTERY.recordAnswer(q.u,i===q.a);
+  if(SS_MASTERY)SS_MASTERY.recordAnswer(q.u,i===q.a);
   if(i===q.a)mistakeLogRemove(q);else mistakeLogAdd(q);
   ssOverallProgressUpdate();
   renderUnitProgress(q.u);
   const expEl=document.getElementById('q-exp');
-  expEl.classList.add('show');
+  expEl.classList.add('show','q-why');
+  expEl.classList.toggle('q-why-right',i===q.a);
+  // "Why" card: say plainly whether they got it and what the answer is,
+  // then the explanation. personality.js adds Sage beside the heading.
+  if(!expEl.querySelector('.q-why-hd')){
+    const hd=document.createElement('div');
+    hd.className='q-why-hd';
+    hd.innerHTML=i===q.a?'<p><b>Correct!</b> Here\u2019s why:</p>':'<p><b>Not quite.</b> The answer is <b></b>. Here\u2019s why:</p>';
+    if(i!==q.a)hd.querySelectorAll('b')[1].innerHTML=q.o[q.a]; // same trusted markup the option buttons render
+    expEl.prepend(hd);
+  }
   if(wasGuess){
     expEl.innerHTML=(i===q.a?'<b class="guess-flag">Lucky guess — added back for more practice.</b><br>':'<b class="guess-flag">Marked as a guess.</b><br>')+expEl.innerHTML;
   }
@@ -1173,6 +1217,24 @@ function ansQ(i){
     expEl.appendChild(document.createElement('br'));
     expEl.appendChild(explainBtn);
   }
+  // Inline "report this question": lands in the same feedback queue admins
+  // already review, tagged with enough context to find the item.
+  const oldRep=document.getElementById('q-report');
+  if(oldRep)oldRep.remove();
+  const rep=document.createElement('button');
+  rep.type='button';rep.id='q-report';rep.className='q-report';
+  rep.textContent='Report a problem with this question';
+  rep.onclick=function(){
+    var why=prompt('What looks wrong with this question? (wrong answer, typo, unclear...)');
+    if(why===null)return;
+    rep.disabled=true;rep.textContent='Sending\u2026';
+    fetch('/api/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      category:'bug',page:location.pathname,
+      message:('[Question report] '+SS_GUIDE.slug+' unit '+q.u+'\nQ: '+q.q+'\nKeyed answer: '+q.o[q.a]+'\nNote: '+(why||'(none)')).slice(0,1990)
+    })}).then(function(r){rep.textContent=r.ok?'Thanks \u2014 reported for review':'Could not send \u2014 try again';rep.disabled=r.ok;})
+      .catch(function(){rep.textContent='Could not send \u2014 try again';rep.disabled=false;});
+  };
+  expEl.appendChild(rep);
   document.getElementById('q-next').style.display='inline-block';
   document.getElementById('q-sc').textContent=`Score: ${score}`;
   var _hl=document.getElementById('hero-live');
@@ -1222,7 +1284,7 @@ updateMistakeLogBadge();
 })();
 
 (function(){
-  var CHEM_TOTAL_Q=QUIZ.length, CHEM_UNITS=UNITS.length, MIN_PER_Q=1.5;
+  var SS_TOTAL_Q=QUIZ.length, SS_UNIT_COUNT=UNITS.length, MIN_PER_Q=1.5;
   var daysEl=document.getElementById('spc-days');
   var minsEl=document.getElementById('spc-mins');
   if(!daysEl||!minsEl)return;
@@ -1243,9 +1305,9 @@ updateMistakeLogBadge();
     if(minsNum)minsNum.value=mins;
     setFill(daysEl);setFill(minsEl);
     var totalMinutes=days*mins;
-    var questions=Math.min(CHEM_TOTAL_Q,Math.round(totalMinutes/MIN_PER_Q));
-    var pct=Math.min(100,Math.round((questions/CHEM_TOTAL_Q)*100));
-    var units=Math.min(CHEM_UNITS,Math.max(1,Math.round((pct/100)*CHEM_UNITS)));
+    var questions=Math.min(SS_TOTAL_Q,Math.round(totalMinutes/MIN_PER_Q));
+    var pct=Math.min(100,Math.round((questions/SS_TOTAL_Q)*100));
+    var units=Math.min(SS_UNIT_COUNT,Math.max(1,Math.round((pct/100)*SS_UNIT_COUNT)));
     document.getElementById('spc-questions').textContent=questions.toLocaleString();
     document.getElementById('spc-units').textContent=units;
     document.getElementById('spc-pct').textContent=pct+'%';
@@ -1447,7 +1509,7 @@ function cbotAddMsg(role,text,jumpFn,jumpLabel,historyText){
 }
 
 async function cbotCallApi(cfg,query){
-  const sys="You are a concise, friendly tutor helping a student study APUSH. Keep answers short (2-5 sentences), accurate, and focused on the question asked.";
+  const sys="You are a concise, friendly tutor helping a student study "+SS_GUIDE.title+". Keep answers short (2-5 sentences), accurate, and focused on the question asked.";
   const messages=[{role:'system',content:sys}].concat(cbotHistory.slice(-8));
   const res=await fetch(cfg.url.replace(/\/$/,'')+'/chat/completions',{
     method:'POST',
@@ -1469,12 +1531,32 @@ if(CBOT_PUBLISHED){
   if(sBtn)sBtn.style.display='none';
 }
 
-async function cbotCallProxy(){
+// What Sage should know about where the student is: the tab, the unit or
+// quiz question on screen, and the guide passages that match their question
+// (so answers come from this course's notes, not just the model's memory).
+function cbotContext(query){
+  const strip=function(h){const d=document.createElement('div');d.innerHTML=String(h||'');return (d.textContent||'').replace(/\s+/g,' ').trim();};
+  const ctx={notes:[]};
+  const tab=document.querySelector('.tab-btn.active');if(tab)ctx.tab=tab.textContent.trim();
+  const quizOn=document.getElementById('view-quiz')&&document.getElementById('view-quiz').classList.contains('active');
+  const q=quizOn&&typeof qPool!=='undefined'&&qPool[qIdx];
+  if(q){
+    ctx.question=strip(q.q)+(q.o?' Options: '+q.o.map(strip).join(' | '):'');
+    const u=UNITS.find(function(x){return x.id===q.u;});if(u)ctx.unit='Unit '+u.id+': '+u.name;
+  }else{
+    const open=document.querySelector('#units > .unit.open .unit-title');
+    if(open&&open.firstChild)ctx.unit=open.firstChild.textContent.trim();
+  }
+  try{ctx.notes=cbotSearch(query).map(function(r){return (r.entry.label+': '+strip(r.entry.text)).slice(0,600);}).filter(function(n,i,a){return a.indexOf(n)===i;}).slice(0,3);}catch(e){}
+  return ctx;
+}
+
+async function cbotCallProxy(query){
   const history=cbotHistory.slice(-9).map(m=>({role:m.role,content:m.content}));
   const res=await fetch('/api/chat',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({history:history})
+    body:JSON.stringify({history:history,context:cbotContext(query)})
   });
   if(!res.ok){
     let detail='';
@@ -1500,7 +1582,7 @@ async function cbotAsk(query){
 
   if(CBOT_PUBLISHED){
     try{
-      const reply=await cbotCallProxy();
+      const reply=await cbotCallProxy(query);
       const top=results.length?results[0].entry:null;
       cbotAddMsg('bot',reply||"I didn't get a usable reply — try rephrasing?",top&&top.jump,top?'Jump to this in the guide →':undefined);
     }catch(err){
@@ -1627,9 +1709,10 @@ function ssRenderLoginBoxes(){
 
 async function ssCheckSession(){
   try{
-    const res = await fetch('/auth/me');
-    const data = await res.json();
-    SS_SESSION = data.loggedIn ? data : false;
+    // Shared with mastery.js/unit-order.js so the page asks only once.
+    window.__ssMe = window.__ssMe || fetch('/auth/me').then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; });
+    const data = await window.__ssMe;
+    SS_SESSION = data && data.loggedIn ? data : false;
   }catch(e){
     SS_SESSION = false;
   }
@@ -1844,7 +1927,7 @@ function toolkitInit(){
   fab.setAttribute('aria-label','Open study toolkit');
   fab.setAttribute('aria-expanded','false');
   fab.title='Study toolkit';
-  fab.innerHTML='<svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M8 6V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1"/><path d="M3 12h18"/><path d="M10 12v2M14 12v2"/></svg>';
+  fab.innerHTML='<svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M8 6V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1"/><path d="M3 12h18"/><path d="M10 12v2M14 12v2"/></svg><span class="toolkit-fab-label">Tools</span>';
 
   var menu=document.createElement('div');
   menu.id='toolkit-menu';
@@ -2014,6 +2097,12 @@ function referencePanelKeydown(e){if(e.key==='Escape')referencePanelClose();}
 desmosInit();
 cbotPanelInit();
 toolkitInit();
+// The study-plan preview is about quizzing, so it lives at the top of the
+// Quiz tab rather than above every tab.
+(function(){
+  var spc=document.getElementById('spc-card'),quiz=document.getElementById('quiz-real');
+  if(spc&&quiz)quiz.prepend(spc);
+})();
 shortcutsModalInit();
 ssMakeDraggable(document.getElementById('qref-drawer'),'.qref-drawer-hd');
 
@@ -2178,7 +2267,7 @@ function ssDiagBatchRenderContinue(){
    logic above; the wrapper just keeps the URL in sync and reads it back on load and
    on back/forward navigation. Quiz still always goes through the sign-in gate. ----- */
 (function(){
-  var SS_BASE='/apush';
+  var SS_BASE='/'+SS_GUIDE.slug;
   var TAB_TO_SEG={guide:'',cards:'flashcards',quiz:'quiz',examples:'examples',exam:'exam',qref:'reference',memory:'memory'};
   var SEG_TO_TAB={flashcards:'cards',quiz:'quiz',examples:'examples',exam:'exam',reference:'qref',memory:'memory'};
   var TAB_TITLES={cards:'Flashcards',quiz:'Quiz',examples:'Worked Examples',exam:'Practice Exam',qref:'Quick Reference',memory:'Memory Tricks'};

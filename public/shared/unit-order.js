@@ -49,6 +49,19 @@ export function applyStoredUnitOrder(subjectKey, UNITS) {
 }
 
 /**
+ * Session lookup shared by every script on the page through one cached
+ * promise (window.__ssMe), so signed-out visitors never hit /api/progress
+ * and see 401s. Inlined per module rather than imported: shared modules are
+ * served without cache-busting, so a new import can meet a stale file.
+ * @returns {Promise<boolean>}
+ */
+function isSignedIn() {
+  const w = /** @type {Window & { __ssMe?: Promise<any> }} */ (window);
+  w.__ssMe = w.__ssMe || fetch("/auth/me").then(r => (r.ok ? r.json() : null)).catch(() => null);
+  return w.__ssMe.then(d => !!(d && d.loggedIn));
+}
+
+/**
  * Fetches the student's saved unitOrder for this subject from the server
  * and caches it to localStorage for the next page load. Deliberately
  * eventually-consistent (like mastery.js's own sync) - never blocks or
@@ -56,6 +69,7 @@ export function applyStoredUnitOrder(subjectKey, UNITS) {
  * @param {string} subjectKey
  */
 export async function refreshUnitOrder(subjectKey) {
+  if (!(await isSignedIn())) return;
   try {
     const res = await fetch("/api/progress");
     if (!res.ok) return;

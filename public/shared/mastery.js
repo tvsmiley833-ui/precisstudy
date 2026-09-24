@@ -144,6 +144,56 @@ export function buildSchedule(mastery, unitIds, unitNames, days, minutesPerDay) 
   return { allMastered: false, days: schedule };
 }
 
+/**
+ * Moves numeric unit keys up by one (Physics gained a new Unit 1).
+ * @template T
+ * @param {Record<string, T>} record
+ * @returns {Record<string, T>}
+ */
+export function shiftUnitKeys(record) {
+  /** @type {Record<string, T>} */
+  const out = {};
+  for (const [k, v] of Object.entries(record)) {
+    const n = Number(k);
+    out[Number.isInteger(n) && n > 0 ? String(n + 1) : k] = v;
+  }
+  return out;
+}
+
+const PHYSICS_SHIFT_FLAG = "ssMigrated_physics-units-v2";
+
+/**
+ * One-time shift of locally saved Physics progress (signed-out students;
+ * signed-in ones are migrated server-side and overwrite this on merge).
+ * Local data has no timestamp, so a "12" key -- a unit that only exists in
+ * the new numbering -- is the one sign it is already new-style.
+ * @param {MasteryState} state
+ * @returns {boolean} true if the state changed
+ */
+export function migrateLocalPhysics(state) {
+  try {
+    if (localStorage.getItem(PHYSICS_SHIFT_FLAG)) return false;
+    localStorage.setItem(PHYSICS_SHIFT_FLAG, "1");
+  } catch (e) { return false; }
+  const keys = Object.keys(state.mastery);
+  if (!keys.length || keys.includes("12")) return false;
+  state.mastery = shiftUnitKeys(state.mastery);
+  return true;
+}
+
+/**
+ * Session lookup shared by every script on the page through one cached
+ * promise (window.__ssMe), so signed-out visitors never hit /api/progress
+ * and see 401s. Inlined per module rather than imported: shared modules are
+ * served without cache-busting, so a new import can meet a stale file.
+ * @returns {Promise<boolean>}
+ */
+function isSignedIn() {
+  const w = /** @type {Window & { __ssMe?: Promise<any> }} */ (window);
+  w.__ssMe = w.__ssMe || fetch("/auth/me").then(r => (r.ok ? r.json() : null)).catch(() => null);
+  return w.__ssMe.then(d => !!(d && d.loggedIn));
+}
+
 const SYNC_DEBOUNCE_MS = 10000;
 
 const STREAK_TOUCHED_KEY = "ssStreakTouchedLocalDate";
@@ -156,6 +206,7 @@ function todayLocalDate() {
 // Records that the student did something today, at most once per local day
 // (studying any subject counts, so this is deliberately not subject-scoped).
 async function touchStreak() {
+  if (!(await isSignedIn())) return;
   const today = todayLocalDate();
   try {
     if (localStorage.getItem(STREAK_TOUCHED_KEY) === today) return;
@@ -220,7 +271,7 @@ export function createMastery(subject, unitIds, unitNames) {
   async function pushToServer() {
     syncTimer = null;
     if (!dirty) return;
-    if (/** @type {{ __ssSignedIn?: boolean }} */ (window).__ssSignedIn === false) { dirty = false; return; } // known signed-out (e.g. anonymous diagnostic) - don't spam 401s
+    if (!(await isSignedIn())) { dirty = false; return; } // signed out - local progress only, don't spam 401s
     try {
       const res = await fetch("/api/progress", {
         method: "POST",
@@ -242,6 +293,7 @@ export function createMastery(subject, unitIds, unitNames) {
   }
 
   async function mergeFromServer() {
+    if (!(await isSignedIn())) return;
     try {
       const res = await fetch("/api/progress");
       if (!res.ok) return;
@@ -257,6 +309,7 @@ export function createMastery(subject, unitIds, unitNames) {
   return {
     async init() {
       load();
+      if (subject === "physics" && migrateLocalPhysics(state)) saveLocal();
       await mergeFromServer();
     },
     recordAnswer(unitId, correct) {

@@ -134,7 +134,7 @@ body{transition:background .2s ease,color .2s ease}
 .sb-preset-btn:hover{border-color:var(--accent-bright);color:var(--accent)}
 .sb-grid-hd{font-size:10.5px;font-weight:700;color:var(--text-muted);text-align:center;padding:2px 0;}
 .sb-grid-time{font-size:10px;color:var(--text-muted);text-align:right;padding-right:4px;white-space:nowrap;align-self:center;}
-.sb-grid-cell{height:16px;border-radius:3px;background:var(--bg);border:1px solid var(--border);cursor:pointer;touch-action:none;}
+.sb-grid-cell{height:24px;border-radius:3px;background:var(--bg);border:1px solid var(--border);cursor:pointer;touch-action:none;}
 .sb-grid-cell:hover{border-color:var(--accent-bright);}
 .sb-grid-cell.sb-grid-filled{background:var(--accent-bright);border-color:var(--accent-bright);}
 @media(max-width:640px){.ss-card{padding:24px}.ss-focus-banner{padding:16px 18px}}
@@ -217,6 +217,7 @@ body{transition:background .2s ease,color .2s ease}
 <a href="#main-content" class="ss-skip-link" style="position:absolute;left:-9999px;top:0;z-index:100;background:var(--accent-solid);color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;text-decoration:none;">Skip to main content</a>
 
 
+<style>/* Header: one line per link; drop the marketing links first when space runs out. */.nav-links a,#ss-account-area button,#ss-account-area a{white-space:nowrap}@media(max-width:1360px){.nav-links a[href="/about"],.nav-links a[href="/#how-it-works"]{display:none}}</style>
 <div role="banner" class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:var(--bg-header);border-bottom:1px solid var(--border);">
   <a href="/" style="font-weight:800;font-size:22px;color:var(--nav-text);display:flex;align-items:center;gap:8px;text-decoration:none;">
     <span style="display:inline-block;width:28px;height:28px;position:relative;flex-shrink:0;"><img src="/logo-icon.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;" class="ss-logo-light"/><img src="/logo-icon-dark.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;display:none;" class="ss-logo-dark"/></span>PrecisStudy
@@ -331,7 +332,7 @@ body{transition:background .2s ease,color .2s ease}
       <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 10px;">Tell us when you're free and what you want to study — we'll build a color-coded weekly plan. Click any block to jump straight into that study guide.</p>
 
       <details id="sb-tutorial" style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin-bottom:18px;">
-        <summary style="cursor:pointer;font-size:13px;font-weight:700;color:var(--accent-solid, var(--accent));list-style:none;">❔ How this works (3 steps)</summary>
+        <summary style="cursor:pointer;font-size:13px;font-weight:700;color:var(--accent);list-style:none;">❔ How this works (3 steps)</summary>
         <ol style="margin:10px 0 2px;padding-left:20px;font-size:13px;color:var(--text-muted);line-height:1.6;">
           <li><b style="color:var(--text)">Paint your free time.</b> Click or drag across the grid below for each day you can study — a day can have more than one window.</li>
           <li><b style="color:var(--text)">Pick your subjects.</b> Check off the classes you want scheduled, grouped by type below. If you check more than one, use the ↑↓ arrows to rank them — higher priority gets more of the free days.</li>
@@ -618,7 +619,8 @@ function renderSubject(subjectKey, label, href, subjectData, unitIds, unitNames)
 
   el.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;">'
     + '<div style="font-weight:800;font-size:18px;color:var(--text);">' + label + '</div>'
-    + '<div style="font-weight:800;font-size:28px;color:' + statusColor(readiness.pct) + ';">' + scoreText + '</div>'
+    + '<div style="text-align:right;"><div style="font-weight:800;font-size:28px;line-height:1;color:' + statusColor(readiness.pct) + ';">' + scoreText + '</div>'
+    + (readiness.pct === null ? '' : '<div style="font-size:12px;color:var(--text-muted);margin-top:2px;" title="Average score across the units you\'ve been assessed on">exam readiness</div>') + '</div>'
     + '</div>'
     + '<p style="margin:0 0 16px;font-size:13px;color:var(--text-muted);">' + caveat + '</p>'
     + '<div style="border-top:1px solid var(--border);padding-top:14px;">' + recHtml + '</div>'
@@ -1743,7 +1745,7 @@ async function loadDashboard() {
     el.innerHTML = rows.map(function (r) {
       return '<a href="' + r.href + '" style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border:1px solid var(--border);border-radius:12px;text-decoration:none;color:var(--text);">'
         + '<span style="font-weight:700;font-size:14px;">' + ssEscapeHtml(r.label) + '<span style="font-weight:500;color:var(--text-muted);font-size:12.5px;"> · ' + r.pct + '% accuracy</span></span>'
-        + '<span style="font-weight:800;font-size:16px;color:var(--accent-solid, var(--accent));">' + r.forecast.value + '<span style="font-weight:600;color:var(--text-muted);font-size:11.5px;"> / ' + r.forecast.scale + '</span></span>'
+        + '<span style="font-weight:800;font-size:16px;color:var(--accent);">' + r.forecast.value + '<span style="font-weight:600;color:var(--text-muted);font-size:11.5px;"> / ' + r.forecast.scale + '</span></span>'
         + '</a>';
     }).join('');
   }
@@ -1851,11 +1853,11 @@ async function loadDashboard() {
   function renderDashSubjects() {
     const list = dashShowAll ? SUBJECTS_CONFIG : SUBJECTS_CONFIG.filter(s => enrolledSet.has(s.key));
     if (enrolledSet.size === 0) {
-      noteEl.innerHTML = '<a href="/settings" style="color:var(--accent-solid, var(--accent));font-weight:700;text-decoration:none;">📚 Tell us which classes you\'re taking →</a>';
+      noteEl.innerHTML = '<a href="/settings" style="color:var(--accent);font-weight:700;text-decoration:none;">📚 Tell us which classes you\'re taking →</a>';
     } else if (dashShowAll) {
       noteEl.innerHTML = 'Showing all classes · <a href="/settings" style="color:var(--text-muted);text-decoration:none;">edit your classes</a>';
     } else {
-      noteEl.innerHTML = 'Showing your classes — <a href="#" onclick="dashShowAllClasses();return false;" style="color:var(--accent-solid, var(--accent));font-weight:700;text-decoration:none;">show all</a>'
+      noteEl.innerHTML = 'Showing your classes — <a href="#" onclick="dashShowAllClasses();return false;" style="color:var(--accent);font-weight:700;text-decoration:none;">show all</a>'
         + ' · <a href="/settings" style="color:var(--text-muted);text-decoration:none;">edit</a>';
     }
 
@@ -1929,7 +1931,7 @@ async function loadDashboard() {
       if (unassessed.length > 1) {
         const batchBtn = document.createElement('button');
         batchBtn.type = 'button';
-        batchBtn.style.cssText = 'background:none;border:1px solid var(--border);border-radius:999px;color:var(--accent-solid, var(--accent));font-weight:700;font-size:12.5px;padding:6px 14px;cursor:pointer;';
+        batchBtn.style.cssText = 'background:none;border:1px solid var(--border);border-radius:999px;color:var(--accent);font-weight:700;font-size:12.5px;padding:6px 14px;cursor:pointer;';
         batchBtn.textContent = 'Start diagnostics for all ' + unassessed.length + ' →';
         batchBtn.addEventListener('click', function () { sbStartDiagBatch(unassessed); });
         heading.appendChild(batchBtn);
@@ -1959,7 +1961,7 @@ async function loadDashboard() {
           // counts, not a fixed marketing number every subject shares.
           const estMin = Math.max(2, Math.round(s.units.length));
           row.innerHTML = '<span>' + ssEscapeHtml(s.label) + '</span>'
-            + '<span style="color:var(--accent-solid, var(--accent));font-weight:700;font-size:12.5px;">Take diagnostic (~' + estMin + ' min) →</span>';
+            + '<span style="color:var(--accent);font-weight:700;font-size:12.5px;">Take diagnostic (~' + estMin + ' min) →</span>';
           body.appendChild(row);
         });
         details.appendChild(body);
@@ -1995,6 +1997,7 @@ async function loadDashboard() {
   // Hand the data Sage's dashboard card needs (streak, per-class readiness) to /shared/sage-dashboard.js.
   window.__ssDashData = {
     blob: blob,
+    labels: Object.fromEntries(SUBJECTS_CONFIG.map(function (s) { return [s.key, s.label]; })),
     readiness: Object.fromEntries(SUBJECTS_CONFIG.map(function (s) {
       const subj = blob[s.key];
       const r = subj ? computeReadiness(subj.mastery || {}, s.units.map(function (u) { return u.id; })) : null;

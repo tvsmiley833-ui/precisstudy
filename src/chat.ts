@@ -62,6 +62,45 @@ export const SUBJECTS = Object.assign(Object.create(null), {
 
 export const DEFAULT_SUBJECT = "geometry";
 
+// How Sage tutors, appended to every subject's base prompt.
+const TUTOR_RULES = [
+  "You are Sage, the owl study buddy on PrecisStudy. Speak to a high-school student.",
+  "Explain the reasoning, not just the answer. A short example or analogy helps.",
+  "When the student is working on a practice question, guide them with a hint or the key idea first instead of only stating the answer.",
+  "If you are not sure of a fact, date, formula or quotation, say so. Never invent sources.",
+  "Stay on schoolwork. Politely decline requests that are unrelated, unsafe, or ask you to write graded work for them to hand in.",
+  "Prefer the guide notes provided below when they are relevant, since they match this course."
+].join(" ");
+
+const MAX_CONTEXT = { tab: 30, unit: 160, question: 700, note: 600, notes: 3 };
+
+// Page context sent by the guide (current tab, open unit, quiz question and
+// the guide passages its local search matched). It comes from the client,
+// so it is length-capped and stripped of control characters; it can only
+// shape the requesting student's own answer.
+export function sanitizeContext(raw: unknown): { tab?: string; unit?: string; question?: string; notes: string[] } {
+  const clean = (v: unknown, max: number) =>
+    // eslint-disable-next-line no-control-regex
+    typeof v === "string" ? v.replace(/[\u0000-\u001f\u007f]+/g, " ").trim().slice(0, max) || undefined : undefined;
+  const rec = raw && typeof raw === "object" ? (raw as Record<string, unknown>) : {};
+  const notes = Array.isArray(rec.notes)
+    ? rec.notes.map(n => clean(n, MAX_CONTEXT.note)).filter((n): n is string => !!n).slice(0, MAX_CONTEXT.notes)
+    : [];
+  return { tab: clean(rec.tab, MAX_CONTEXT.tab), unit: clean(rec.unit, MAX_CONTEXT.unit), question: clean(rec.question, MAX_CONTEXT.question), notes };
+}
+
+export function buildSystemPrompt(subject: string, context: ReturnType<typeof sanitizeContext>): string {
+  const parts = [SUBJECTS[subject as keyof typeof SUBJECTS], TUTOR_RULES];
+  const where = [
+    context.tab && `The student is on the ${context.tab} tab.`,
+    context.unit && `Unit in view: ${context.unit}.`,
+    context.question && `Practice question on screen: ${context.question}`
+  ].filter(Boolean);
+  if (where.length) parts.push(where.join(" "));
+  if (context.notes.length) parts.push("Guide notes:\n- " + context.notes.join("\n- "));
+  return parts.join("\n\n");
+}
+
 const MAX_INPUT_CHARS = 2000;
 const MAX_HISTORY = 9;
 
@@ -156,7 +195,8 @@ export async function handleChatPost(request: Request, env: { AI: Ai; CHAT_RATE_
   if (!env.AI) return json({ error: "Server not configured — Workers AI binding is missing" }, 500, cors);
 
   const subject = subjectFromReferer(request.headers.get("Referer"));
-  const systemPrompt = SUBJECTS[subject as keyof typeof SUBJECTS];
+  const context = sanitizeContext(body && typeof body === "object" && "context" in body ? (body as Record<string, unknown>).context : undefined);
+  const systemPrompt = buildSystemPrompt(subject, context);
 
   let result: { response?: string; result?: string };
   try {

@@ -7,7 +7,7 @@
 //   - nothing about the student's behavior is ever sent to a server
 //   - all counts live only in memory for the current exam session and are
 //     discarded on exitLockdown()/refresh, same as the exam's own timers
-//     and scores (see the comment above `examTimers` in guide-template/logic.js)
+//     and scores (see the comment above `examTimers` in shared/guide-app.js)
 //
 // It detects (1) leaving the tab/window (Page Visibility API), (2) the
 // window losing focus, and (3) exiting fullscreen -- and shows the student a
