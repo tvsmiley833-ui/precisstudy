@@ -32,6 +32,12 @@
 <link rel="preload" href="/fonts/spacegrotesk-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="stylesheet" href="/fonts/fonts.css"/>
-<script>window.MathJax={tex:{inlineMath:[['$','$']],displayMath:[['$$','$$']]}};</script>
+<script>window.MathJax={tex:{inlineMath:[['$','$']],displayMath:[['$$','$$']]},startup:{pageReady:function(){
+/* A '$' that starts a plain amount ("$50 per month plus $3") is money, not
+   math: wrap it in MathJax's ignore class so the pair isn't typeset. */
+function cuts(s){var c=[],inM=false,money=/^\d[\d,]*(\.\d+)?([kKMB](?![A-Za-z]))?(?=$|[\s,.;:)!?\/%–—-])/;for(var i=0;i<s.length;i++){if(s[i]!=='$'||s[i-1]==='\\')continue;if(s[i+1]==='$'){i++;continue}var r=s.slice(i+1),m=!inM&&money.exec(r);if(m){var j=s.indexOf('$',i+1),g=j>-1?s.slice(i+1,j):'';if(!(j>-1&&/[\^_\\{}=<>≤≥×÷π√±·\/Ͱ-Ͽ]/.test(g)&&!/[A-Za-z]{3,}\s+[A-Za-z]{3,}/.test(g)&&!money.test(s.slice(j+1)))){c.push(i);continue}}inM=!inM}return c}
+function money(root){if(!root||!root.nodeType)return;var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT),n,todo=[];while(n=w.nextNode())if(n.nodeValue.indexOf('$')>-1&&!n.parentNode.closest('.tex2jax_ignore,script,style'))todo.push(n);todo.forEach(function(t){var s=t.nodeValue,c=cuts(s);if(!c.length)return;var f=document.createDocumentFragment(),p=0;c.forEach(function(i){f.appendChild(document.createTextNode(s.slice(p,i)));var sp=document.createElement('span');sp.className='tex2jax_ignore';sp.textContent='$';f.appendChild(sp);p=i+1});f.appendChild(document.createTextNode(s.slice(p)));t.parentNode.replaceChild(f,t)})}
+window.ssMoneyCuts=cuts;money(document.body);
+return MathJax.startup.defaultPageReady().then(function(){var t=MathJax.typesetPromise;MathJax.typesetPromise=function(e){(e||[document.body]).forEach(money);return t(e)}})}}};</script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
 __JSONLD__
