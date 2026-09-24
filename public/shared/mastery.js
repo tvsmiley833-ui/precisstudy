@@ -181,6 +181,19 @@ export function migrateLocalPhysics(state) {
   return true;
 }
 
+/**
+ * Session lookup shared by every script on the page through one cached
+ * promise (window.__ssMe), so signed-out visitors never hit /api/progress
+ * and see 401s. Inlined per module rather than imported: shared modules are
+ * served without cache-busting, so a new import can meet a stale file.
+ * @returns {Promise<boolean>}
+ */
+function isSignedIn() {
+  const w = /** @type {Window & { __ssMe?: Promise<any> }} */ (window);
+  w.__ssMe = w.__ssMe || fetch("/auth/me").then(r => (r.ok ? r.json() : null)).catch(() => null);
+  return w.__ssMe.then(d => !!(d && d.loggedIn));
+}
+
 const SYNC_DEBOUNCE_MS = 10000;
 
 const STREAK_TOUCHED_KEY = "ssStreakTouchedLocalDate";
@@ -193,6 +206,7 @@ function todayLocalDate() {
 // Records that the student did something today, at most once per local day
 // (studying any subject counts, so this is deliberately not subject-scoped).
 async function touchStreak() {
+  if (!(await isSignedIn())) return;
   const today = todayLocalDate();
   try {
     if (localStorage.getItem(STREAK_TOUCHED_KEY) === today) return;
@@ -257,7 +271,7 @@ export function createMastery(subject, unitIds, unitNames) {
   async function pushToServer() {
     syncTimer = null;
     if (!dirty) return;
-    if (/** @type {{ __ssSignedIn?: boolean }} */ (window).__ssSignedIn === false) { dirty = false; return; } // known signed-out (e.g. anonymous diagnostic) - don't spam 401s
+    if (!(await isSignedIn())) { dirty = false; return; } // signed out - local progress only, don't spam 401s
     try {
       const res = await fetch("/api/progress", {
         method: "POST",
@@ -279,6 +293,7 @@ export function createMastery(subject, unitIds, unitNames) {
   }
 
   async function mergeFromServer() {
+    if (!(await isSignedIn())) return;
     try {
       const res = await fetch("/api/progress");
       if (!res.ok) return;

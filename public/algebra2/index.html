@@ -2767,9 +2767,10 @@ function ssRenderLoginBoxes(){
 
 async function ssCheckSession(){
   try{
-    const res = await fetch('/auth/me');
-    const data = await res.json();
-    SS_SESSION = data.loggedIn ? data : false;
+    // Shared with mastery.js/unit-order.js so the page asks only once.
+    window.__ssMe = window.__ssMe || fetch('/auth/me').then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; });
+    const data = await window.__ssMe;
+    SS_SESSION = data && data.loggedIn ? data : false;
   }catch(e){
     SS_SESSION = false;
   }
