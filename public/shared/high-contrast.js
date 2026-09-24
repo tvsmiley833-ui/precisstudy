@@ -1,4 +1,4 @@
-// Site-wide high-contrast mode, loaded on every page (homepage, dashboard,
+// Site-wide high-contrast mode (and the pure-black AMOLED dark theme), loaded on every page (homepage, dashboard,
 // settings, all subject guides) via one
 // <script src="/shared/high-contrast.js" defer> tag -- same rollout pattern
 // as command-palette.js. Overrides the CSS custom properties both page
@@ -41,8 +41,30 @@
     '--accent-ink:#6cb6ff!important;--accent-soft:#000!important;' +
     '--status-badge-text:#000!important;--done-badge-bg:#00ff00!important' +
     '}' +
-    '[data-contrast="high"] *{box-shadow:none!important;text-shadow:none!important}';
+    '[data-contrast="high"] *{box-shadow:none!important;text-shadow:none!important}' +
+    // Pure black (AMOLED) dark mode: true-black page, near-black cards, so
+    // OLED pixels switch off. Only takes effect while dark mode is on.
+    'html:root[data-amoled="on"][data-theme="dark"]{' +
+    '--bg:#000!important;--bg-header:#000!important;--bg-card:#0b0b0b!important;' +
+    '--surface:#0b0b0b!important;--surface-2:#121212!important;--surface-hover:#181818!important;' +
+    '--border:#262626!important;--border-strong:#333!important;--card-shadow:none!important' +
+    '}' +
+    'html:root[data-amoled="on"][data-theme="dark"] body{background:#000!important}';
   document.head.appendChild(style);
+
+  var AMOLED_KEY = 'ss-amoled';
+  function applyAmoled(on) {
+    if (on) document.documentElement.setAttribute('data-amoled', 'on');
+    else document.documentElement.removeAttribute('data-amoled');
+  }
+  var amoled;
+  try { amoled = localStorage.getItem(AMOLED_KEY) === 'on'; } catch (e) { amoled = false; }
+  applyAmoled(amoled);
+  window.ssIsAmoled = function () { return document.documentElement.getAttribute('data-amoled') === 'on'; };
+  window.ssSetAmoled = function (on) {
+    applyAmoled(on);
+    try { localStorage.setItem(AMOLED_KEY, on ? 'on' : 'off'); } catch (e) { /* ignore */ }
+  };
 
   function apply(on) {
     if (on) document.documentElement.setAttribute('data-contrast', 'high');

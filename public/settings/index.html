@@ -288,10 +288,16 @@ html{scroll-behavior:smooth}
     <div class="ss-card">
       <div style="font-weight:800;font-size:17px;color:var(--text);margin-bottom:4px;">Accessibility</div>
       <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">
-        Increases text and border contrast across the whole site (also available as the "AA" button in the header).
+        Increases text and border contrast across the whole site.
       </p>
       <label class="ss-toggle-row">
         <input type="checkbox" id="settings-high-contrast"> High contrast mode
+      </label>
+      <p style="font-size:14px;color:var(--text-muted);margin:16px 0 10px;">
+        In dark mode, use a true-black background. Easier on the eyes at night and saves battery on OLED phones.
+      </p>
+      <label class="ss-toggle-row">
+        <input type="checkbox" id="settings-amoled"> Pure black dark mode
       </label>
       <p style="font-size:14px;color:var(--text-muted);margin:16px 0 10px;">
         A soft chalk tap when you get a quiz question right. Off by default.
@@ -1240,6 +1246,7 @@ async function initSettings(){
   document.getElementById('canvas-disconnect-btn').addEventListener('click', ssCanvasDisconnect);
   await ssRefreshCanvasStatus();
   ssInitHighContrastToggle();
+  ssInitAmoledToggle();
   ssInitSoundToggle();
   await pushRefreshUI();
 }
@@ -1254,6 +1261,15 @@ function ssInitHighContrastToggle(){
   checkbox.checked = window.ssIsHighContrast ? window.ssIsHighContrast() : false;
   checkbox.addEventListener('change', function(){
     if(window.ssSetHighContrast) window.ssSetHighContrast(checkbox.checked);
+  });
+}
+
+// Same pattern as the high-contrast toggle: high-contrast.js owns the key.
+function ssInitAmoledToggle(){
+  var checkbox = document.getElementById('settings-amoled');
+  checkbox.checked = window.ssIsAmoled ? window.ssIsAmoled() : false;
+  checkbox.addEventListener('change', function(){
+    if(window.ssSetAmoled) window.ssSetAmoled(checkbox.checked);
   });
 }
 
