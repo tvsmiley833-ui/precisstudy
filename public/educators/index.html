@@ -119,21 +119,21 @@ label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-m
 
 <div style="max-width:720px;margin:0 auto;padding:48px 24px 80px;">
   <h1 style="font-size:28px;font-weight:800;color:var(--text);margin:0 0 6px;">Educator Resource Hub</h1>
-  <p style="font-size:15px;color:var(--text-muted);margin:0 0 28px;">A class code, a roster, and a printable index of every subject's reference sheets and practice exams -- built on the same Study Group tools students already use.</p>
+  <p style="font-size:15px;color:var(--text-muted);margin:0 0 28px;">Give your class a code, see which units they're struggling with as a group, and print reference sheets and practice exams for any of 55 subjects. Free, with no separate teacher account.</p>
 
   <div class="ss-card" style="margin-bottom:24px;">
     <div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:14px;">How it works</div>
     <div class="ed-step">
       <span class="ed-step-num">1</span>
-      <span class="ed-step-text">Create a class code below (this reuses PrecisStudy's existing group-create flow -- a class code <em>is</em> a Study Group code). There's no separate "teacher account" -- anyone can create one and it's yours to manage.</span>
+      <span class="ed-step-text">Sign in and create a class code below. Any signed-in account can create one, and you manage it from here.</span>
     </div>
     <div class="ed-step">
       <span class="ed-step-num">2</span>
-      <span class="ed-step-text">Share the code with your class. Students join at <a href="/compete/?tab=study-group" style="color:var(--accent);font-weight:700;">Compete &rarr; Study Group</a> -- they only need to opt in and enter the code. Only an anonymous handle is ever shown, never a real name or email.</span>
+      <span class="ed-step-text">Share the code with your class. Students join at <a href="/compete/?tab=study-group" style="color:var(--accent);font-weight:700;">Compete &rarr; Study Group</a> by opting in and entering the code. The roster shows anonymous handles only, never names or emails.</span>
     </div>
     <div class="ed-step">
       <span class="ed-step-num">3</span>
-      <span class="ed-step-text">Come back here (or to <a href="/compete/?tab=study-group" style="color:var(--accent);font-weight:700;">Compete &rarr; Study Group</a>) to see the roster and the group's weak-spots aggregate -- which units your class is collectively struggling with most, without seeing any one student's individual answers.</span>
+      <span class="ed-step-text">Check back here for the roster and your class's weak spots: the units the class as a whole is missing most. You never see an individual student's answers.</span>
     </div>
   </div>
 
@@ -146,13 +146,13 @@ label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-m
 
   <div id="ed-optin-card" class="ss-card" style="display:none;margin-bottom:24px;">
     <div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:8px;">Opt in to create a class code</div>
-    <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 16px;">Creating a class code uses the same opt-in as leaderboards and study groups (it just assigns you an anonymous handle -- you don't need to have answered any practice questions yourself). Opt in on the Leaderboards tab, then come back here.</p>
+    <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 16px;">Creating a class code uses the same opt-in as leaderboards and study groups (it gives you an anonymous handle; you don't need to have answered any questions yourself). Opt in on the Leaderboards tab, then come back here.</p>
     <a class="ss-btn ss-btn-solid" href="/compete/?tab=leaderboards" style="text-decoration:none;">Go to Leaderboards to opt in</a>
   </div>
 
   <div id="ed-nogroup-card" class="ss-card" style="display:none;margin-bottom:24px;">
     <div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:8px;">Create your class code</div>
-    <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 12px;">This creates a new Study Group -- share the code it gives you with your class.</p>
+    <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 12px;">This creates a new Study Group. Share the code it gives you with your class.</p>
     <button class="ss-btn ss-btn-solid" onclick="edCreateGroup()" id="ed-create-btn">Create a class code</button>
     <div id="ed-create-status" style="margin-top:10px;font-size:13px;color:var(--text-muted);"></div>
   </div>
@@ -163,7 +163,7 @@ label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-m
         <div style="font-weight:800;font-size:15px;color:var(--text);">Class code: <span class="sg-code-box" id="ed-group-code" style="display:inline-flex;vertical-align:middle;"></span></div>
       </div>
       <div class="ss-field" style="margin-bottom:0;">
-        <label class="ss-label" for="ed-group-name">Class name (optional -- shown to every student)</label>
+        <label class="ss-label" for="ed-group-name">Class name (optional, shown to every student)</label>
         <div style="display:flex;gap:8px;">
           <input id="ed-group-name" type="text" maxlength="40" placeholder="e.g. Ms. Rivera's 3rd period"/>
           <button class="ss-btn" onclick="edSaveName()">Save</button>
@@ -174,7 +174,7 @@ label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-m
 
     <div class="ss-card" style="margin-bottom:24px;">
       <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
-        <div style="font-weight:800;font-size:15px;color:var(--text);">Class roster -- this week</div>
+        <div style="font-weight:800;font-size:15px;color:var(--text);">Class roster: this week</div>
         <button class="ss-btn" onclick="edExportCsv()" id="ed-csv-btn">Download CSV</button>
       </div>
       <div style="display:flex;gap:12px;padding:0 0 8px;font-size:11.5px;color:var(--text-muted);font-weight:700;text-transform:uppercase;">
@@ -193,14 +193,14 @@ label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-m
 
     <div class="ss-card" style="margin-bottom:24px;">
       <div style="font-weight:800;font-size:15px;color:var(--text);margin-bottom:8px;">Printable class summary</div>
-      <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 14px;">A clean, print-friendly page with the roster and weak-spots table above -- for printing or saving as a PDF.</p>
+      <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 14px;">A clean, print-friendly page with the roster and weak-spots table above, for printing or saving as a PDF.</p>
       <button class="ss-btn ss-btn-solid" onclick="edPrintSummary()">Print / Save as PDF</button>
     </div>
   </div>
 
   <div class="ss-card" style="margin-bottom:24px;">
     <div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:4px;">Printable resource index</div>
-    <p style="font-size:13px;color:var(--text-muted);margin:0 0 14px;">Every subject's Quick Reference sheet and Practice Exam -- both are already print-friendly (they use the same print stylesheet as every other guide page). No new content, just direct links.</p>
+    <p style="font-size:13px;color:var(--text-muted);margin:0 0 14px;">The Quick Reference sheet and Practice Exam for every subject. Both print cleanly from the browser.</p>
     <input id="ed-res-search" class="ed-res-search" type="text" placeholder="Filter subjects..." oninput="edFilterResources()"/>
     <div id="ed-res-list"></div>
   </div>
@@ -210,7 +210,7 @@ label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-m
 <div id="ed-print-only">
   <h1 style="font-family:'Nunito',sans-serif;font-size:20px;margin:0 0 2px;" id="ed-print-title">Class Summary</h1>
   <p id="ed-print-code" style="font-size:13px;color:#333;margin:0 0 18px;"></p>
-  <h2 style="font-size:15px;margin:0 0 6px;">Roster -- this week</h2>
+  <h2 style="font-size:15px;margin:0 0 6px;">Roster: this week</h2>
   <table><thead><tr><th>Student</th><th>XP</th><th>Questions</th><th>Active days</th></tr></thead><tbody id="ed-print-roster"></tbody></table>
   <h2 style="font-size:15px;margin:0 0 6px;">Weak spots</h2>
   <table><thead><tr><th>Members affected</th><th>Subject</th><th>Unit</th></tr></thead><tbody id="ed-print-weakspots"></tbody></table>
@@ -275,7 +275,7 @@ function edRenderRoster(roster, myHandle){
   var el = document.getElementById('ed-roster');
   var status = document.getElementById('ed-roster-status');
   if (!roster.length) {
-    status.textContent = '0 opted-in students yet -- share the class code above to get started.';
+    status.textContent = 'No students have joined yet. Share the class code above to get started.';
     el.innerHTML = '';
     return;
   }
@@ -352,7 +352,7 @@ function edExportCsv(){
 // scripts/guide-template/style.css, adapted for this standalone page).
 function edPrintSummary(){
   if (!ED_DATA) return;
-  document.getElementById('ed-print-title').textContent = ED_DATA.name ? (ED_DATA.name + ' -- Class Summary') : 'Class Summary';
+  document.getElementById('ed-print-title').textContent = ED_DATA.name ? (ED_DATA.name + ' — Class Summary') : 'Class Summary';
   document.getElementById('ed-print-code').textContent = 'Class code: ' + ED_DATA.groupCode + ' · ' + new Date().toLocaleDateString();
   document.getElementById('ed-print-roster').innerHTML = ED_DATA.roster.length
     ? ED_DATA.roster.map(function(m){ return '<tr><td>' + ssEscapeHtml(m.handle) + '</td><td>' + m.xp + '</td><td>' + m.questions + '</td><td>' + m.activeDaysThisWeek + '</td></tr>'; }).join('')
