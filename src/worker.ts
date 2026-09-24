@@ -312,9 +312,12 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
   // URL per page; non-idempotent methods fall through (the client always
   // calls /api and /auth on precisstudy.com already, and /auth self-bounces).
   // Google's file-based site verification does not follow redirects, so any
-  // /google*.html token keeps serving on every host.
+  // /google*.html token keeps serving on every host. localhost is exempt so
+  // `wrangler dev` serves the local build; Cloudflare only routes the public
+  // hostnames above to this Worker, so production never sees it.
   if (
     url.hostname !== "precisstudy.com" &&
+    url.hostname !== "localhost" &&
     (request.method === "GET" || request.method === "HEAD") &&
     !(url.pathname.startsWith("/google") && url.pathname.endsWith(".html"))
   ) {
