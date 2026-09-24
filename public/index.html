@@ -177,6 +177,8 @@ body{transition:background .2s ease,color .2s ease}
 
 .class-card{box-shadow:var(--card-shadow-sm);
   transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s ease,border-color .25s ease}
+.preview-h{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:clamp(26px,3vw,34px);color:var(--text);margin:0 0 6px;text-align:center}.preview-sub{color:var(--text-muted);text-align:center;max-width:560px;margin:0 auto 24px;line-height:1.5}.preview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;align-items:start}.preview-grid figure{margin:0}.preview-grid img{display:block;width:100%;height:auto;border-radius:16px;border:1px solid var(--border);box-shadow:0 18px 40px rgb(0 0 0 / .25)}.preview-grid figcaption{margin-top:10px;text-align:center;font-weight:600;font-size:14px;color:var(--text-muted)}
+@media (max-width:640px){#category-pills{flex-wrap:nowrap!important;overflow-x:auto;justify-content:flex-start!important;scrollbar-width:none;padding:0 16px 4px;margin-inline:-16px;-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent)}#category-pills::-webkit-scrollbar{display:none}#category-pills .cat-pill{flex:none}}
 .class-card:not(.class-card-soon):hover{transform:translateY(-4px);box-shadow:0 16px 32px rgba(31,110,70,.14);border-color:var(--accent-bright)}
 .class-card:not(.class-card-soon):active{transform:translateY(-4px) scale(.98)}
 .ss-readiness{display:none;align-items:center;gap:8px;margin-top:12px;font-size:13px;font-weight:700;color:var(--text)}
@@ -927,6 +929,17 @@ body > :where(:not(.chalkboard):not(script):not(style)){position:relative;z-inde
         <img src="/images/preview-flashcards.webp" width="852" height="440" loading="lazy" decoding="async" alt="A Physics flashcard flipped to its definition, with buttons to rate it Know it or Still learning.">
         <figcaption>Flashcards track what you know, so review time goes to the cards you don't.</figcaption>
       </figure>
+    </div>
+  </div>
+</section>
+
+<section class="ss-reveal preview-sec" aria-labelledby="preview-h" style="padding:8px 32px 32px;">
+  <div style="max-width:1120px;margin:0 auto;">
+    <h2 id="preview-h" class="preview-h">See it in action</h2>
+    <p class="preview-sub">Real screens from the Physics guide: every answer explains why, and flashcards track what you still need to learn.</p>
+    <div class="preview-grid">
+      <figure><img src="/img/preview-quiz.webp" width="760" height="860" loading="lazy" decoding="async" alt="A physics quiz question about average speed, with the chosen wrong answer marked, the correct answer highlighted, and Sage the owl explaining why."><figcaption>Quiz with explanations</figcaption></figure>
+      <figure><img src="/img/preview-cards.webp" width="760" height="560" loading="lazy" decoding="async" alt="A flipped physics flashcard defining order of magnitude, with Know it and Still learning buttons."><figcaption>Flashcards that track what you know</figcaption></figure>
     </div>
   </div>
 </section>
