@@ -922,7 +922,7 @@ function ssHardQ(){return (typeof HARD_Q!=='undefined'&&Array.isArray(HARD_Q))?H
 function buildQSel(){
   const sel=document.getElementById('q-sel');
   const HQ=ssHardQ();
-  sel.innerHTML='<option value="0">All Units ('+(QUIZ.length+HQ.length)+' questions)</option>';
+  sel.innerHTML='<option value="quick">⚡ Quick 10: mixed, weighted to your weak units</option><option value="0">All Units ('+(QUIZ.length+HQ.length)+' questions)</option>';
   UNITS.forEach(u=>{const n=QUIZ.filter(q=>q.u===u.id).length+HQ.filter(q=>q.u===u.id).length;if(n)sel.innerHTML+=`<option value="${u.id}">Unit ${u.id}: ${u.name} (${n} Qs)</option>`;});
   if(HQ.length)sel.innerHTML+='<option value="hard">Hard Mode Only ('+HQ.length+' Qs)</option>';
   loadQ();
@@ -941,14 +941,32 @@ function loadQ(){
   const raw=document.getElementById('q-sel').value;
   const HQ=ssHardQ();
   let src;
-  if(raw==='hard')src=HQ.slice();
+  if(raw==='quick')src=ssQuickTen(QUIZ.concat(HQ));
+  else if(raw==='hard')src=HQ.slice();
   else if(+raw===0)src=QUIZ.concat(HQ);
   else src=QUIZ.concat(HQ).filter(q=>q.u===+raw);
   if(difficultyFilter!=='all')src=src.filter(q=>q.d===difficultyFilter);
-  qPool=src.sort(()=>Math.random()-.5);
-  qIdx=0;score=0;requeueCounts=new WeakMap();qSessionStart=Date.now();showQ();
+  qPool=raw==='quick'?src:src.sort(()=>Math.random()-.5);
+  qIdx=0;score=0;qStreak=0;qBestStreak=0;qMissedUnits=new Set();requeueCounts=new WeakMap();qSessionStart=Date.now();showQ();
+}
+let qStreak=0,qBestStreak=0,qMissedUnits=new Set();
+// Ten questions, drawn without replacement with each unit weighted by how
+// much it needs work: unassessed units count as 50%, mastered units (80%+)
+// still appear occasionally.
+function ssQuickTen(all){
+  const m=(SS_MASTERY&&SS_MASTERY.getSnapshot().mastery)||{};
+  const weight=function(u){const r=m[String(u)];const pct=r&&r.total>=2?r.correct/r.total*100:50;return 1+Math.max(0,100-pct)/20;};
+  const pool=all.filter(function(q){return difficultyFilter==='all'||q.d===difficultyFilter;}).map(function(q){return {q:q,w:weight(q.u)};});
+  const out=[];
+  while(out.length<10&&pool.length){
+    let t=pool.reduce(function(a,x){return a+x.w;},0)*Math.random(),i=0;
+    while(i<pool.length-1&&(t-=pool[i].w)>0)i++;
+    out.push(pool.splice(i,1)[0].q);
+  }
+  return out;
 }
 let qSessionStart=null;
+function ssPracticeUnit(u){const sel=document.getElementById('q-sel');sel.value=String(u);loadQ();}
 function diagSetActive(active){
   const vq=document.getElementById('view-quiz');if(vq)vq.classList.toggle('diag-mode',active);
   const btn=document.getElementById('diag-start-btn');const lbl=document.getElementById('diag-start-btn-label');
@@ -1050,9 +1068,10 @@ function showQ(){
     const elapsedSec=qSessionStart?Math.max(1,Math.round((Date.now()-qSessionStart)/1000)):null;
     const elapsedStr=elapsedSec!=null?(elapsedSec>=60?Math.floor(elapsedSec/60)+'m '+(elapsedSec%60)+'s':elapsedSec+'s'):null;
     const xpEarned=score*10; // same 10-XP-per-correct-answer the dashboard's computeXP() awards -- not a separate estimate
-    qb.innerHTML=`<div class="result"><div class="big">${score}/${qPool.length}</div><div class="sub">${Math.round(score/qPool.length*100)}% — ${score/qPool.length>=.85?'Excellent work':score/qPool.length>=.65?'Solid — review the misses':'Keep reviewing this unit'}</div>`+
-      `<div class="q-session-stats">${xpEarned?`<span>+${xpEarned} XP</span>`:''}${elapsedStr?`<span>${elapsedStr}</span>`:''}</div>`+
-      `<button class="btn" onclick="loadQ()">Try Again</button></div>`;return;}
+    qb.innerHTML=`<div class="result"><div class="big">${score}/${qPool.length}</div><div class="sub">${Math.round(score/qPool.length*100)}% — ${score/qPool.length>=.85?'Excellent work':score/qPool.length>=.65?'Solid — review the misses':(document.getElementById('q-sel').value==='quick'?'Good practice — the units below need another look':'Keep reviewing this unit')}</div>`+
+      `<div class="q-session-stats">${xpEarned?`<span>+${xpEarned} XP</span>`:''}${qBestStreak>1?`<span>Best streak ${qBestStreak}</span>`:''}${elapsedStr?`<span>${elapsedStr}</span>`:''}</div>`+
+      (qMissedUnits.size?`<div class="q-review">Review next: ${Array.from(qMissedUnits).map(function(u){const x=UNITS.find(function(y){return y.id===u;});return x?'<button type="button" class="chip" onclick="ssPracticeUnit('+u+')">Unit '+u+': '+x.name+'</button>':'';}).join(' ')}</div>`:'')+
+      `<button class="btn" onclick="loadQ()">${document.getElementById('q-sel').value==='quick'?'Another Quick 10':'Try Again'}</button></div>`;return;}
   const q=qPool[qIdx];
   qHintTier=0;
   ssShuffleOptions(q);
@@ -1134,6 +1153,7 @@ function ansQ(i){
     if(idx===q.a)btn.classList.add('correct');
     else if(idx===i&&i!==q.a)btn.classList.add('wrong');
   });
+  if(i===q.a){qStreak++;qBestStreak=Math.max(qBestStreak,qStreak);}else{qStreak=0;qMissedUnits.add(q.u);}
   if(i===q.a){
     score++;
     if(window.__ssCelebrateCorrect){
