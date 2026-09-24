@@ -109,12 +109,20 @@ body{transition:background .2s ease,color .2s ease}
    against the page background rather than blending together, on top of
    the shared --card-shadow depth every .ss-card already gets. */
 #dash-assignments-card{background:color-mix(in srgb, var(--accent) 5%, var(--bg-card))}
-.ss-focus-banner{background:color-mix(in srgb, var(--status-amber) 14%, var(--bg-card));
-  border:2px solid var(--status-amber);border-radius:18px;padding:20px 24px;box-shadow:var(--card-shadow);
-  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.ss-focus-banner .ss-focus-label{font-size:12.5px;font-weight:800;color:var(--status-amber);text-transform:uppercase;letter-spacing:.05em}
-.ss-focus-banner .ss-focus-title{font-size:18px;font-weight:800;color:var(--text);margin-top:2px}
-.ss-focus-banner .ss-focus-sub{font-size:13.5px;color:var(--text-muted);margin-top:2px}
+.today-plan{padding:20px 22px}
+.today-plan .tp-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.today-plan .tp-label{font-size:12.5px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.06em}
+.today-plan .tp-head{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:24px;margin:2px 0 0;color:var(--text)}
+.today-plan .tp-set{font-weight:700;font-size:14px;color:var(--accent);text-decoration:none}
+.today-plan .tp-progress{display:flex;align-items:center;gap:12px;margin:14px 0 4px;font-size:13.5px;color:var(--text-muted);font-weight:600}
+.today-plan .tp-bar{flex:1;height:8px;border-radius:99px;background:var(--border);overflow:hidden}
+.today-plan .tp-bar span{display:block;height:100%;background:var(--accent);border-radius:inherit}
+.today-plan .tp-tasks{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:10px}
+.today-plan .tp-tasks a{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border:1px solid var(--border);border-radius:14px;text-decoration:none;color:var(--text);background:var(--bg)}
+.today-plan .tp-tasks a:hover,.today-plan .tp-tasks a:focus-visible{border-color:var(--accent)}
+.today-plan .tp-tasks b{display:block;font-size:15.5px}
+.today-plan .tp-tasks small{display:block;margin-top:2px;font-size:13px;color:var(--text-muted)}
+.today-plan .tp-tasks svg{flex-shrink:0;color:var(--accent)}
 /* Printable progress report (printProgressReport() builds #ss-print-container
    on demand and calls window.print()) -- same pattern as the guide pages'
    worksheet/flashcard-sheet export, kept out of screen styles entirely so it
@@ -137,7 +145,7 @@ body{transition:background .2s ease,color .2s ease}
 .sb-grid-cell{height:24px;border-radius:3px;background:var(--bg);border:1px solid var(--border);cursor:pointer;touch-action:none;}
 .sb-grid-cell:hover{border-color:var(--accent-bright);}
 .sb-grid-cell.sb-grid-filled{background:var(--accent-bright);border-color:var(--accent-bright);}
-@media(max-width:640px){.ss-card{padding:24px}.ss-focus-banner{padding:16px 18px}}
+@media(max-width:640px){.ss-card{padding:24px}}
 
 .sb-block-day-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;min-width:0}
 .sb-block-day-label{font-weight:800;color:var(--text);min-width:34px;flex-shrink:0}
@@ -257,6 +265,7 @@ body{transition:background .2s ease,color .2s ease}
     <div id="dash-streak" style="display:none;margin-top:14px;"></div>
     <div id="dash-level" style="display:none;margin-top:14px;"></div>
     <div id="dash-sage"></div>
+    <div id="dash-focus" style="display:none;max-width:720px;margin:18px auto 0;text-align:left;"></div>
     <div id="dash-badges" style="display:none;margin-top:18px;flex-wrap:wrap;gap:10px;justify-content:center;"></div>
   </div>
 </div>
@@ -293,9 +302,6 @@ body{transition:background .2s ease,color .2s ease}
     </div>
    </aside>
    <div class="dash-main">
-    <div id="dash-goal" style="display:none;font-size:14px;color:var(--text-muted);text-align:center;"></div>
-
-    <div id="dash-focus" style="display:none;"></div>
 
     <div id="dash-resume" style="display:none;"></div>
 
@@ -309,13 +315,13 @@ body{transition:background .2s ease,color .2s ease}
     </div>
 
     <div class="ss-card" id="dash-heatmap-card" style="display:none;">
-      <div style="font-weight:800;font-size:19px;color:var(--text);margin-bottom:4px;">🔥 Study Activity</div>
+      <div style="font-weight:800;font-size:19px;color:var(--text);margin-bottom:4px;">Study Activity</div>
       <p style="font-size:13px;color:var(--text-muted);margin:0 0 14px;">Questions answered per day, most recent 14 weeks.</p>
       <div id="dash-heatmap-body"></div>
     </div>
 
     <div class="ss-card" id="dash-forecast-card" style="display:none;">
-      <div style="font-weight:800;font-size:19px;color:var(--text);margin-bottom:4px;">🎯 Forecasted Scores</div>
+      <div style="font-weight:800;font-size:19px;color:var(--text);margin-bottom:4px;">Forecasted Scores</div>
       <p style="font-size:13px;color:var(--text-muted);margin:0 0 14px;">A rough estimate from your current quiz accuracy — not an official predictor, and it'll move as you keep practicing.</p>
       <div id="dash-forecast-body" style="display:grid;gap:10px;"></div>
     </div>
@@ -353,7 +359,7 @@ body{transition:background .2s ease,color .2s ease}
         <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;">1. When are you free to study? <span style="font-weight:500;color:var(--text-muted);">Click or drag across the grid to paint free hours — a day can have more than one window.</span></div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
           <button class="sb-preset-btn" type="button" data-preset="light">☀️ Light (15 min/day, weekdays)</button>
-          <button class="sb-preset-btn" type="button" data-preset="crunch">🔥 Exam Crunch (1 hr/day, every day)</button>
+          <button class="sb-preset-btn" type="button" data-preset="crunch">Exam Crunch (1 hr/day, every day)</button>
         </div>
         <div id="sb-grid-scroll" style="overflow-x:auto;margin-bottom:10px;">
           <div id="sb-grid" style="display:inline-grid;grid-template-columns:44px repeat(7,minmax(34px,1fr));gap:2px;user-select:none;"></div>
@@ -1434,42 +1440,62 @@ async function loadDashAssignments(forceRefresh) {
 // it only knows about visits that started from this dashboard, on this
 // device/browser -- a visit made directly from a bookmark, or from another
 // device, won't update it. Hidden entirely for first-time users.
-// Pulled out of the per-subject cards into its own full-width banner --
-// scans every assessed subject for its single weakest unit and surfaces the
-// overall weakest one site-wide, so "what should I study today" has one
-// obvious answer instead of being buried inside whichever subject card the
-// student happens to scroll to.
-function renderFocusBanner(assessedSubjects, blob) {
+// "Today's plan": turns the goal saved in onboarding (test in N days,
+// M minutes a day) into today's concrete work -- practice questions on the
+// student's weakest assessed unit plus a flashcard review -- with a live
+// countdown and a progress bar for questions answered today. Without a
+// saved goal it still names the weakest unit (the old focus banner).
+function renderTodayPlan(subjects, blob) {
   const el = document.getElementById('dash-focus');
   if (!el) return;
-
-  let worst = null; // { label, href, unitName, pct }
-  assessedSubjects.forEach(function (s) {
-    const unitIds = s.units.map(u => u.id);
+  let worst = null; // weakest assessed unit across the student's classes
+  subjects.forEach(function (s) {
     const unitNames = {};
     s.units.forEach(u => { unitNames[u.id] = u.name; });
-    const mastery = (blob[s.key] || {}).mastery || {};
-    const weak = topWeakUnits(mastery, unitIds, unitNames, 1);
-    if (!weak.length) return;
-    const top = weak[0];
-    if (!worst || (top.pct !== null && (worst.pct === null || top.pct < worst.pct))) {
-      worst = { label: s.label, href: s.href, unitId: top.unitId, unitName: top.unitName, pct: top.pct };
-    }
+    const weak = topWeakUnits((blob[s.key] || {}).mastery || {}, s.units.map(u => u.id), unitNames, 1);
+    if (weak.length && (!worst || weak[0].pct < worst.pct)) worst = Object.assign({ subject: s }, weak[0]);
   });
+  const goal = blob.goal && blob.goal.days && blob.goal.minutesPerDay ? blob.goal : null;
+  if (!goal && (!worst || worst.pct >= 80)) { el.style.display = 'none'; el.innerHTML = ''; return; }
 
-  if (!worst || worst.pct === null || worst.pct >= 80) {
-    el.style.display = 'none';
-    el.innerHTML = '';
-    return;
+  const MIN_PER_Q = 1.5, CARDS_PER_MIN = 3;
+  let head = '', tasks = [], progress = '';
+  if (goal) {
+    const saved = goal.savedAt ? new Date(goal.savedAt) : new Date();
+    const elapsed = Math.floor((Date.now() - saved.getTime()) / 86400000);
+    const left = Math.max(0, goal.days - elapsed);
+    head = left === 0 ? 'Test day — you\'ve got this.' : (left === 1 ? 'Test tomorrow' : 'Test in ' + left + ' days');
+    const qTarget = Math.max(5, Math.round((goal.minutesPerDay * 0.7) / MIN_PER_Q));
+    const cardTarget = Math.max(5, Math.round(goal.minutesPerDay * 0.3 * CARDS_PER_MIN));
+    // Answered today = current total minus the last daily snapshot taken before today.
+    const today = new Date().toISOString().slice(0, 10);
+    const hist = (blob.history || []).filter(h => h.date < today);
+    let total = 0;
+    SUBJECTS_CONFIG.forEach(s => Object.values(((blob[s.key] || {}).mastery) || {}).forEach(r => { total += r.total || 0; }));
+    const base = hist.length ? (hist[hist.length - 1].totalAnswered || 0) : null;
+    if (base !== null) {
+      const done = Math.max(0, total - base), pct = Math.min(100, Math.round(done / qTarget * 100));
+      progress = '<div class="tp-progress"><div class="tp-bar" role="progressbar" aria-valuemin="0" aria-valuemax="' + qTarget + '" aria-valuenow="' + Math.min(done, qTarget) + '" aria-label="Questions answered today"><span style="width:' + pct + '%"></span></div>'
+        + '<span>' + Math.min(done, qTarget) + ' / ' + qTarget + ' questions today' + (done >= qTarget ? ' — done!' : '') + '</span></div>';
+    }
+    const practiceSubj = worst ? worst.subject : subjects[0];
+    tasks.push(worst && worst.pct < 80
+      ? { href: worst.subject.href + '?practice=' + worst.unitId, title: 'Practice ' + qTarget + ' questions', sub: worst.unitName + ' · ' + worst.subject.label + ' · ' + worst.pct + '% so far' }
+      : { href: practiceSubj.href + '/quiz', title: 'Practice ' + qTarget + ' questions', sub: practiceSubj.label + ' · mixed units' });
+    tasks.push({ href: practiceSubj.href + '/flashcards', title: 'Review ' + cardTarget + ' flashcards', sub: practiceSubj.label });
+  } else {
+    head = 'Today\'s focus';
+    tasks.push({ href: worst.subject.href + '?practice=' + worst.unitId, title: worst.unitName, sub: worst.subject.label + ' — your weakest topic at ' + worst.pct + '%' });
   }
-
+  const ICON = '<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
   el.style.display = 'block';
-  el.innerHTML = '<div class="ss-focus-banner">'
-    + '<div><div class="ss-focus-label">🎯 Today\'s Focus</div>'
-    + '<div class="ss-focus-title">' + ssEscapeHtml(worst.unitName) + '</div>'
-    + '<div class="ss-focus-sub">' + ssEscapeHtml(worst.label) + ' — your weakest assessed topic at ' + worst.pct + '%</div></div>'
-    + '<a href="' + ssEscapeHtml(worst.href) + '?practice=' + ssEscapeHtml(worst.unitId) + '" class="ss-cta-btn" style="background:var(--accent-solid);color:#fff;padding:10px 22px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:700;white-space:nowrap;">Practice now →</a>'
-    + '</div>';
+  el.innerHTML = '<section class="ss-card today-plan" aria-labelledby="tp-h">'
+    + '<div class="tp-top"><div><div class="tp-label">Today\'s plan' + (goal ? ' · ' + goal.minutesPerDay + ' min' : '') + '</div>'
+    + '<h2 id="tp-h" class="tp-head">' + ssEscapeHtml(head) + '</h2></div>'
+    + (goal ? '' : '<a class="tp-set" href="/onboarding">Set a test date</a>') + '</div>'
+    + progress
+    + '<ol class="tp-tasks">' + tasks.map(t => '<li><a href="' + ssEscapeHtml(t.href) + '"><span><b>' + ssEscapeHtml(t.title) + '</b><small>' + ssEscapeHtml(t.sub) + '</small></span>' + ICON + '</a></li>').join('') + '</ol>'
+    + '</section>';
 }
 
 function renderResumeBanner(availableSubjects) {
@@ -1900,7 +1926,6 @@ async function loadDashboard() {
       (readiness.pct === null ? unassessed : assessed).push(s);
     });
 
-    renderFocusBanner(assessed, blob);
 
     assessed.forEach(s => {
       const card = document.createElement('div');
@@ -1988,17 +2013,13 @@ async function loadDashboard() {
   });
   renderResumeBanner(SUBJECTS_FOR_SCHEDULE);
 
-  const goalEl = document.getElementById('dash-goal');
-  if (blob.goal && blob.goal.days && blob.goal.minutesPerDay) {
-    goalEl.style.display = 'block';
-    goalEl.textContent = 'Your saved goal: ' + blob.goal.days + ' days · ' + blob.goal.minutesPerDay + ' min/day';
-  }
+  renderTodayPlan(SUBJECTS_FOR_SCHEDULE, blob);
 
   const streakEl = document.getElementById('dash-streak');
   if (blob.streak && blob.streak.current > 0) {
     streakEl.style.display = 'inline-flex';
     streakEl.innerHTML = '<span style="display:inline-flex;align-items:center;gap:7px;background:var(--chip-bg);color:var(--chip-text);font-weight:800;font-size:15px;padding:9px 18px;border-radius:999px;">'
-      + '🔥 ' + blob.streak.current + '-day streak'
+      + '<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#f2a93b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c1 3 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-5 1-9Z"/></svg>' + blob.streak.current + '-day streak'
       + (blob.streak.longest > blob.streak.current ? '<span style="font-weight:600;opacity:.7;font-size:13px;margin-left:2px;">· best ' + blob.streak.longest + '</span>' : '')
       + '</span>';
   }
