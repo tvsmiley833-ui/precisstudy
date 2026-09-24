@@ -20,3 +20,20 @@ test("homepage class-card counts match each guide's real data", () => {
     assert.fail("homepage counts out of date — run `node scripts/sync-home-counts.mjs`\n" + e.stdout);
   }
 });
+
+// Generator scaffold text must never ship as study content (see the
+// content-quality skill's "scaffold check").
+test("no guide contains generator placeholder text", async () => {
+  const { readdirSync, readFileSync } = await import("node:fs");
+  const tells = [
+    /Which best describes a central idea of/, /must know cold/, /Unit \d+ core term/,
+    /The definition your teacher will test/, /The essential framework of/,
+    /It provides foundational concepts later units build on/, /Practice exam question \d+/,
+  ];
+  const bad = [];
+  for (const f of readdirSync("guides").filter(f => f.endsWith(".json"))) {
+    const text = readFileSync(`guides/${f}`, "utf8");
+    for (const re of tells) if (re.test(text)) bad.push(`${f}: ${re}`);
+  }
+  assert.deepEqual(bad, []);
+});
