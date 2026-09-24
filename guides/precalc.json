@@ -15,7 +15,7 @@
       "f(x) is read 'f of x' — NOT f times x",
       "To evaluate f(3), substitute 3 for every x in the rule: $f(x)=2x²−1$ → $f(3)=2(9)−1=17$",
       "Vertical Line Test: a graph represents a function iff every vertical line crosses it at most once",
-      "Composite functions: ($f∘g)(x)=f(g(x$)) — evaluate the INSIDE function first",
+      "Composite functions: $(f∘g)(x)=f(g(x))$ — evaluate the INSIDE function first",
       "Example: $f(x)=x+2, g(x)=x². (f∘g)(3)=f(9)=11. (g∘f)(3)=g(5)=25$ — order matters!",
       "Difference quotient: [f(x+h)−f(x)]/h, the building block for average rate of change and derivatives"
      ]
@@ -24,8 +24,8 @@
      "l": "Domain and range",
      "intro": "Domain $=$ all valid x-inputs; range $=$ all resulting y-outputs. Restrictions come from division by zero, even roots of negatives, and logs of non-positives.",
      "b": [
-      "Rational functions: exclude x-values that make the denominator 0 (e.g., $f(x)=1/(x−3$): domain is x≠3)",
-      "Even-root functions: the radicand must be ≥0 (e.g., $f(x)=√(x−4$): domain is x≥4)",
+      "Rational functions: exclude x-values that make the denominator 0 (e.g., $f(x)=1/(x−3)$: domain is x≠3)",
+      "Even-root functions: the radicand must be ≥0 (e.g., $f(x)=√(x−4)$: domain is x≥4)",
       "Polynomial functions: domain is always all real numbers (−∞,∞)",
       "Range is found from the graph's minimum/maximum behavior (e.g., $y=x²$ has range y≥0)",
       "Interval notation: use parentheses for excluded endpoints, brackets for included endpoints",
@@ -48,8 +48,8 @@
      "l": "Even and odd functions",
      "intro": "Symmetry tests reveal structure that simplifies graphing and algebra (useful later for trig identities and integration).",
      "b": [
-      "Even function: $f(−x)=f(x$) for all x — graph is symmetric about the y-axis (e.g., $f(x)=x², f(x)=cos$ x)",
-      "Odd function: $f(−x)=−f(x$) for all x — graph has 180° rotational symmetry about the origin (e.g., $f(x)=x³, f(x)=sin$ x)",
+      "Even function: $f(−x)=f(x)$ for all x — graph is symmetric about the y-axis (e.g., $f(x)=x², f(x)=cos$ x)",
+      "Odd function: $f(−x)=−f(x)$ for all x — graph has 180° rotational symmetry about the origin (e.g., $f(x)=x³, f(x)=sin$ x)",
       "To test algebraically: plug −x into f(x), simplify, and compare to f(x) and −f(x)",
       "A function can be neither even nor odd (most functions), but cannot be both unless $f(x)=0$ for all x",
       "Sum of two even functions is even; sum of two odd functions is odd; product of two odd functions is even"
@@ -59,8 +59,8 @@
      "l": "Piecewise functions",
      "intro": "A piecewise function uses different formulas over different intervals of the domain. Evaluate by first identifying which interval the input falls into.",
      "b": [
-      "Notation: $f(x)={rule₁$ if x<a; rule₂ if x≥a} — check the given x against each interval's boundary",
-      "Example: $f(x)={x+3$ if x<2; x² if x≥2}. $f(2)=2²=4$ (use second rule since 2≥2); $f(−1)=−1+3=2$",
+      "Notation: f(x)={rule₁ if x<a; rule₂ if x≥a} — check the given x against each interval's boundary",
+      "Example: f(x)={x+3 if x<2; x² if x≥2}. $f(2)=2²=4$ (use second rule since 2≥2); $f(−1)=−1+3=2$",
       "Graph each piece only over its stated domain; use open circles for excluded endpoints, closed circles for included",
       "Step functions (e.g., the greatest integer/floor function ⌊x⌋) are a special piecewise case with constant horizontal segments",
       "Continuity at a breakpoint requires the two pieces to meet at the same y-value there"
@@ -74,9 +74,9 @@
     "In a piecewise function, always check boundary inequalities (< vs ≤) carefully — using the wrong piece gives the wrong value."
    ],
    "fms": [
-    "($f∘g)(x)=f(g(x$))",
+    "$(f∘g)(x)=f(g(x))$",
     "Difference quotient: [f(x+h)−f(x)]/h",
-    "$f(−x)=f(x$) even; $f(−x)=−f(x$) odd"
+    "$f(−x)=f(x)$ even; $f(−x)=−f(x)$ odd"
    ]
   },
   {
@@ -104,7 +104,7 @@
       "Multiplicity 2 (even): graph TOUCHES the x-axis and turns back (bounces)",
       "Multiplicity 3 (odd, ≥3): graph crosses but flattens (inflects) at that zero",
       "Example: $f(x)=x³−4x =$ x(x−2)(x+2) → zeros at $x=0,2,−2$, each multiplicity 1, all crossings",
-      "Difference of squares: $a²−b²=(a−b)(a+b$); sum/difference of cubes: $a³±b³=(a±b)(a²∓ab+b²$)"
+      "Difference of squares: $a²−b²=(a−b)(a+b)$; sum/difference of cubes: $a³±b³=(a±b)(a²∓ab+b²)$"
      ]
     },
     {
@@ -121,13 +121,13 @@
     },
     {
      "l": "Rational functions & asymptotes",
-     "intro": "A rational function is a ratio of two polynomials, $f(x)=p(x)/q(x$). Its graph is shaped by vertical, horizontal, and sometimes slant asymptotes.",
+     "intro": "A rational function is a ratio of two polynomials, $f(x)=p(x)/q(x)$. Its graph is shaped by vertical, horizontal, and sometimes slant asymptotes.",
      "b": [
       "Vertical asymptote: at x-values where the denominator $=$ 0 AND the numerator ≠ 0 there (a hole occurs if both are 0 after cancelling common factors)",
-      "Horizontal asymptote (compare degrees of numerator n and denominator m): if n<m, $y=0$; if $n=m, y=(ratio$ of leading coefficients); if n>m, no horizontal asymptote",
+      "Horizontal asymptote (compare degrees of numerator n and denominator m): if n<m, $y=0$; if $n=m, y=$(ratio of leading coefficients); if n>m, no horizontal asymptote",
       "Slant (oblique) asymptote exists when $n=m+1$ exactly one degree higher — found via polynomial long division, ignoring the remainder",
-      "Example: $f(x)=(x²−1)/(x−1$) simplifies to x+1 with a HOLE at $x=1$ (not a vertical asymptote) since (x−1) cancels",
-      "Example: $f(x)=(3x²+1)/(x²−4$) has horizontal asymptote $y=3$ (equal degrees, ratio of leading coefficients 3/1) and vertical asymptotes at $x=±2$"
+      "Example: $f(x)=(x²−1)/(x−1)$ simplifies to x+1 with a HOLE at $x=1$ (not a vertical asymptote) since (x−1) cancels",
+      "Example: $f(x)=(3x²+1)/(x²−4)$ has horizontal asymptote $y=3$ (equal degrees, ratio of leading coefficients 3/1) and vertical asymptotes at $x=±2$"
      ]
     },
     {
@@ -150,7 +150,7 @@
    "fms": [
     "Rational Root candidates $=$ ±(factors of constant)/(factors of leading coeff)",
     "HA rules: $n<m→y=0; n=m→y=leading$ ratio; n>m→none",
-    "$a³±b³=(a±b)(a²∓ab+b²$)"
+    "$a³±b³=(a±b)(a²∓ab+b²)$"
    ]
   },
   {
@@ -161,12 +161,12 @@
      "l": "Exponential growth and decay",
      "intro": "Exponential functions model quantities that grow or shrink by a constant PERCENT rate over equal time intervals: $A(t)=A₀(1+r)^t$ (growth) or $A(t)=A₀(1−r)^t$ (decay).",
      "b": [
-      "A₀ $=$ initial amount, r $=$ rate as a decimal, t $=$ number of time periods, $b=(1+r$) or (1−r) is the growth/decay factor",
+      "A₀ $=$ initial amount, r $=$ rate as a decimal, t $=$ number of time periods, $b=(1+r)$ or (1−r) is the growth/decay factor",
       "If b>1 the function models growth; if 0<b<1 it models decay",
       "Example: population growing 5%/year from 2000: $A(t)=2000(1.05)^t$ → after 10 years $A(10)=2000(1.05)¹⁰≈3257.8$",
-      "Continuous growth/decay uses $A(t)=A₀e^(rt$) where e≈2.71828 (r>0 growth, r<0 decay)",
-      "Half-life problems: $A(t)=A₀(1/2)^(t/h$) where h is the half-life",
-      "Compound interest: $A=P(1+r/n)^(nt$); continuously compounded: $A=Pe^(rt$)"
+      "Continuous growth/decay uses $A(t)=A₀e^(rt)$ where e≈2.71828 (r>0 growth, r<0 decay)",
+      "Half-life problems: $A(t)=A₀(1/2)^(t/h)$ where h is the half-life",
+      "Compound interest: $A=P(1+r/n)^(nt)$; continuously compounded: $A=Pe^(rt)$"
      ]
     },
     {
@@ -174,7 +174,7 @@
      "intro": "These rules let you simplify and manipulate expressions with the same base before solving exponential equations.",
      "b": [
       "Product rule: $bᵐ·bⁿ=bᵐ⁺ⁿ$ | Quotient rule: $bᵐ/bⁿ=bᵐ⁻ⁿ$",
-      "Power rule: ($bᵐ)ⁿ=bᵐⁿ$ | Power of a product: ($ab)ⁿ=aⁿbⁿ$",
+      "Power rule: $(bᵐ)ⁿ=bᵐⁿ$ | Power of a product: $(ab)ⁿ=aⁿbⁿ$",
       "Zero exponent: $b⁰=1$ (b≠0) | Negative exponent: $b⁻ⁿ=1/bⁿ$",
       "Rational (fractional) exponent: $b^(m/n)=ⁿ√(bᵐ)=(ⁿ√b)ᵐ$",
       "Example: $8^(2/3)=(³√8)²=2²=4$",
@@ -186,48 +186,48 @@
      "intro": "A logarithm is the inverse operation of exponentiation: $log_b(x)=y$ means $bʸ=x$. Logs answer 'to what power must b be raised to get x?'",
      "b": [
       "$log_b(x)=y$ ⟺ $bʸ=x$ (b>0, b≠1, x>0)",
-      "Product rule: $log_b(MN)=log_b(M)+log_b(N$)",
-      "Quotient rule: $log_b(M/N)=log_b(M)−log_b(N$)",
-      "Power rule: $log_b(Mᵏ)=k·log_b(M$)",
-      "$log_b(1)=0$ always (since $b⁰=1); log_b(b)=1$ always (since $b¹=b$)",
-      "Change of base formula: $log_b(x)=ln(x)/ln(b)=log(x)/log(b$) — needed for bases other than 10 or e on a calculator"
+      "Product rule: $log_b(MN)=log_b(M)+log_b(N)$",
+      "Quotient rule: $log_b(M/N)=log_b(M)−log_b(N)$",
+      "Power rule: $log_b(Mᵏ)=k·log_b(M)$",
+      "$log_b(1)=0$ always (since $b⁰=1$); $log_b(b)=1$ always (since $b¹=b$)",
+      "Change of base formula: $log_b(x)=ln(x)/ln(b)=log(x)/log(b)$ — needed for bases other than 10 or e on a calculator"
      ]
     },
     {
      "l": "Solving exponential & logarithmic equations",
      "intro": "Use inverse operations — take logs to bring down exponents, or exponentiate to remove logs — and always check for extraneous solutions in log equations.",
      "b": [
-      "To solve $bˣ=k$ (unlike bases): take ln or log of both sides → $x=ln(k)/ln(b$)",
+      "To solve $bˣ=k$ (unlike bases): take ln or log of both sides → $x=ln(k)/ln(b)$",
       "Example: $5^x=40$ → $x=ln(40)/ln(5)≈2.292$",
       "To solve $log_b(x)=k$: rewrite in exponential form $x=bᵏ$",
       "Example: $log₂(x)=5$ → $x=2⁵=32$",
-      "When both sides are logs with the same base: $log_b(A)=log_b(B$) ⟹ $A=B$ (then check domain — argument must stay positive)",
+      "When both sides are logs with the same base: $log_b(A)=log_b(B)$ ⟹ $A=B$ (then check domain — argument must stay positive)",
       "Extraneous solutions: after solving a log equation, reject any solution that makes an argument of a log ≤0 in the ORIGINAL equation"
      ]
     },
     {
      "l": "Natural log and e",
-     "intro": "The natural logarithm $ln(x)=log_e(x$) uses base e≈2.71828..., the base for continuous growth/decay and calculus.",
+     "intro": "The natural logarithm $ln(x)=log_e(x)$ uses base e≈2.71828..., the base for continuous growth/decay and calculus.",
      "b": [
       "ln(x) and eˣ are inverse functions: $ln(eˣ)=x$ and $e^(ln x)=x$",
       "$ln(1)=0, ln(e)=1$",
-      "Solve $eˣ=k$ by taking ln of both sides: $x=ln(k$)",
+      "Solve $eˣ=k$ by taking ln of both sides: $x=ln(k)$",
       "Solve $ln(x)=k$ by exponentiating: $x=eᵏ$",
-      "Continuous compounding/growth: $A=Pe^(rt$) — appears in population models, radioactive decay, and continuously compounded interest",
-      "Example: solve $e^(2x)=15$ → $2x=ln(15$) → $x=ln(15)/2≈1.354$"
+      "Continuous compounding/growth: $A=Pe^(rt)$ — appears in population models, radioactive decay, and continuously compounded interest",
+      "Example: solve $e^(2x)=15$ → $2x=ln(15)$ → $x=ln(15)/2≈1.354$"
      ]
     }
    ],
    "traps": [
     "log(A+B) is NOT log(A)+log(B) — there is no log rule for sums/differences inside a single log.",
-    "$log_b(x$) is only defined for x>0 — always check the domain restriction before finalizing a log-equation solution.",
+    "$log_b(x)$ is only defined for x>0 — always check the domain restriction before finalizing a log-equation solution.",
     "(1+r) is used for growth, (1−r) for decay — mixing up the sign of r gives the wrong model entirely.",
     "Change of base requires dividing (ln x)/(ln b), not (ln b)/(ln x) — order matters."
    ],
    "fms": [
     "$log_b(x)=y$ ⟺ $bʸ=x$",
-    "Change of base: $log_b(x)=ln(x)/ln(b$)",
-    "$A=Pe^(rt); A=P(1+r/n)^(nt$)"
+    "Change of base: $log_b(x)=ln(x)/ln(b)$",
+    "$A=Pe^(rt); A=P(1+r/n)^(nt)$"
    ]
   },
   {
@@ -252,9 +252,9 @@
       "Conversion: radians $=$ degrees × ($π/180$) | degrees $=$ radians × ($180/π$)",
       "$180°=π$ rad, $90°=π/2$ rad, $60°=π/3$ rad, $45°=π/4$ rad, $30°=π/6$ rad",
       "Example: convert 150° to radians: $150×(π/180)=5π/6$",
-      "Example: convert $7π/4$ rad to degrees: ($7π/4)×(180/π)=315°$",
-      "Arc length formula: $s=rθ (θ$ MUST be in radians)",
-      "Angular/linear speed problems use $s=rθ$ and $v=s/t$ or $ω=θ/t (ω$ in rad/time)"
+      "Example: convert $7π/4$ rad to degrees: $(7π/4)×(180/π)=315°$",
+      "Arc length formula: $s=rθ$ (θ MUST be in radians)",
+      "Angular/linear speed problems use $s=rθ$ and $v=s/t$ or $ω=θ/t$ (ω in rad/time)"
      ]
     },
     {
@@ -286,7 +286,7 @@
      "intro": "Exact values for 0°,30°,45°,60°,90° (and their radian equivalents) must be memorized — they recur constantly in identities and equations.",
      "b": [
       "0°(0): $sin=0, cos=1, tan=0$",
-      "$30°(π/6): sin=1/2, cos=√3/2, tan=√3/3 (=1/√3$)",
+      "$30°(π/6): sin=1/2, cos=√3/2, tan=√3/3 (=1/√3)$",
       "$45°(π/4): sin=√2/2, cos=√2/2, tan=1$",
       "$60°(π/3): sin=√3/2, cos=1/2, tan=√3$",
       "$90°(π/2): sin=1, cos=0, tan=undefined$",
@@ -301,7 +301,7 @@
     "Period of tan x is $π$, not $2π$ like sine and cosine — don't apply the sine/cosine period formula to tangent."
    ],
    "fms": [
-    "$s=rθ (θ$ in radians)",
+    "$s=rθ$ (θ in radians)",
     "Period: sin/cos $= 2π/|B|$; tan $= π/|B|$",
     "tan $θ =$ sin $θ/cos θ$"
    ]
@@ -318,7 +318,7 @@
       "Divide by $cos²θ: 1+tan²θ=sec²θ$",
       "Divide by $sin²θ: 1+cot²θ=csc²θ$",
       "Rearranged forms are useful for simplifying: $sin²θ=1−cos²θ, cos²θ=1−sin²θ$",
-      "Example: simplify $sin²θ/(1−cos θ$) using $1−cos²θ=(1−\\cosθ)(1+\\cosθ): sin²θ/(1−\\cosθ)=(1−\\cosθ)(1+\\cosθ)/(1−\\cosθ)=1+\\cosθ$"
+      "Example: simplify $sin²θ/(1−cos θ)$ using $1−cos²θ=(1−\\cosθ)(1+\\cosθ): sin²θ/(1−\\cosθ)=(1−\\cosθ)(1+\\cosθ)/(1−\\cosθ)=1+\\cosθ$"
      ]
     },
     {
@@ -327,7 +327,7 @@
      "b": [
       "$\\sin(A±B)=sin$ A cos B ± cos A sin B",
       "$\\cos(A±B)=cos$ A cos B ∓ sin A sin B (note the sign FLIPS for cosine)",
-      "$\\tan(A±B)=(tan$ A ± tan B)/(1 ∓ tan A tan B)",
+      "$\\tan(A±B)=(tan A ± tan B)$/(1 ∓ tan A tan B)",
       "Example: find $\\cos(75°)=\\cos(45°+30°)=cos45°cos30°−sin45°sin30°=(√2/2)(√3/2)−(√2/2)(1/2)=(√6−√2)/4$",
       "Cofunction identities follow from these: $\\sin(90°−θ)=cos θ, \\cos(90°−θ)=sin θ$"
      ]
@@ -338,7 +338,7 @@
      "b": [
       "$\\sin(2θ)=2$ sin $θ$ cos $θ$",
       "$\\cos(2θ)=cos²θ−sin²θ = 2cos²θ−1 = 1−2sin²θ$ (three equivalent forms — pick based on what's given)",
-      "$\\tan(2θ)=2tanθ/(1−tan²θ$)",
+      "$\\tan(2θ)=2tanθ/(1−tan²θ)$",
       "Example: if $\\sinθ=3/5$ and $θ$ in QI ($\\cosθ=4/5$), then $\\sin(2θ)=2(3/5)(4/5)=24/25$",
       "Half-angle formulas (derived from double-angle, less common but related): $\\sin(θ/2)=±√[(1−\\cosθ)/2], \\cos(θ/2)=±√[(1+\\cosθ)/2]$"
      ]
@@ -348,16 +348,16 @@
      "intro": "Solve for $θ$ using algebra and identities, then use the unit circle/reference angles to find ALL solutions in the given interval, remembering periodicity.",
      "b": [
       "Isolate the trig function first, then find the reference angle from its exact value",
-      "Find every solution in $[0,2π$) or [0°,360°) by applying the correct quadrant signs (ASTC), then add multiples of the period for a general solution ($+2πk$ or +360°k)",
-      "Example: solve $2sinθ−1=0$ on $[0,2π): \\sinθ=1/2$ → reference angle $π/6$ → sine positive in QI,QII → $θ=π/6, 5π/6$",
-      "For quadratics in a trig function (e.g., $2sin²θ−\\sinθ−1=0$), factor like a normal quadratic: ($2sinθ+1)(\\sinθ−1)=0$ → $\\sinθ=−1/2$ or $\\sinθ=1$",
+      "Find every solution in [$0,2π$) or [0°,360°) by applying the correct quadrant signs (ASTC), then add multiples of the period for a general solution ($+2πk$ or +360°k)",
+      "Example: solve $2sinθ−1=0$ on $[0,2π)$: $\\sinθ=1/2$ → reference angle $π/6$ → sine positive in QI,QII → $θ=π/6, 5π/6$",
+      "For quadratics in a trig function (e.g., $2sin²θ−\\sinθ−1=0$), factor like a normal quadratic: $(2sinθ+1)(\\sinθ−1)=0$ → $\\sinθ=−1/2$ or $\\sinθ=1$",
       "When an equation has multiple trig functions, use identities (Pythagorean, double-angle) to rewrite everything in terms of ONE function before solving"
      ]
     }
    ],
    "traps": [
     "cos(A+B) ≠ cos A + cos B — you must use the full sum formula, not distribute like multiplication.",
-    "There are THREE equivalent forms of $\\cos(2θ$) — pick the one matching the given information (e.g., use $1−2sin²θ$ if only $\\sinθ$ is known).",
+    "There are THREE equivalent forms of $\\cos(2θ)$ — pick the one matching the given information (e.g., use $1−2sin²θ$ if only $\\sinθ$ is known).",
     "When solving trig equations over an interval, forgetting to check BOTH quadrants where a function is positive/negative loses half the solutions.",
     "$sin²θ+cos²θ=1$ is an identity (true for ALL $θ$) — don't confuse it with an equation to 'solve for $θ$'."
    ],
@@ -388,7 +388,7 @@
      "b": [
       "Use when given: SAS (two sides and the included angle) or SSS (three sides, no angles)",
       "Solving for a side (SAS): $c²=a²+b²−2ab·cos$ C, then take the square root",
-      "Solving for an angle (SSS): rearrange to cos $C=(a²+b²−c²)/(2ab$), then take cos⁻¹",
+      "Solving for an angle (SSS): rearrange to cos $C=(a²+b²−c²)/(2ab)$, then take cos⁻¹",
       "Example (SAS): $a=8, b=10, C=50°$ → $c²=64+100−2(8)(10)cos50°≈61.13$ → c≈7.82",
       "Example (SSS): $a=5,b=7,c=10$ → $cosC=(25+49−100)/(2·5·7)=−26/70≈−0.371$ → C≈111.8°",
       "If cos C comes out negative, the angle C is obtuse (>90°) — this is a normal, valid result"
@@ -485,7 +485,7 @@
      "intro": "Cramer's Rule solves a system of linear equations using determinants, without row-reducing.",
      "b": [
       "For $ax+by=e, cx+dy=f: x=Dx/D, y=Dy/D$, where D is the coefficient matrix's determinant",
-      "$D=det([[a,b],[c,d]]); Dx=det([[e,b],[f,d]]$) (replace the x-column with constants); $Dy=det([[a,e],[c,f]]$) (replace the y-column)",
+      "$D=det([[a,b],[c,d]]); Dx=det([[e,b],[f,d]])$ (replace the x-column with constants); $Dy=det([[a,e],[c,f]])$ (replace the y-column)",
       "Example: $2x+y=5, x−3y=−8$ → $D=2(−3)−1(1)=−7; Dx=5(−3)−1(−8)=−7; Dy=2(−8)−5(1)=−21$ → $x=1, y=3$",
       "If $D=0$, Cramer's Rule fails — the system either has no solution or infinitely many (cannot be determined by Cramer's Rule alone)"
      ]
@@ -515,14 +515,14 @@
       "d $=$ common difference $=$ aₙ − aₙ₋₁ (any term minus the one before it)",
       "Example: 5,9,13,17,... has $a₁=5, d=4$ → $a₁₀=5+9(4)=41$",
       "Recursive form: $aₙ=aₙ₋₁+d$, with a₁ given",
-      "To find d given two non-consecutive terms: $d=(aₙ−aₘ)/(n−m$)"
+      "To find d given two non-consecutive terms: $d=(aₙ−aₘ)/(n−m)$"
      ]
     },
     {
      "l": "Geometric sequences",
      "intro": "A geometric sequence has a CONSTANT ratio r between consecutive terms.",
      "b": [
-      "Explicit (nth term) formula: $aₙ=a₁·r^(n−1$)",
+      "Explicit (nth term) formula: $aₙ=a₁·r^(n−1)$",
       "r $=$ common ratio $=$ aₙ/aₙ₋₁ (any term divided by the one before it)",
       "Example: 3,6,12,24,... has $a₁=3, r=2$ → $a₈=3·2⁷=384$",
       "If |r|<1, terms shrink toward 0 (e.g., 8,4,2,1,0.5,...); if |r|>1, terms grow without bound",
@@ -533,10 +533,10 @@
      "l": "Series and sigma notation",
      "intro": "A series is the SUM of a sequence's terms. Sigma notation $Σ$ compactly represents these sums.",
      "b": [
-      "Sigma notation: $Σ(from k=1$ to n) f(k) means add f(1)+f(2)+...+f(n)",
+      "Sigma notation: $Σ(from k=1 to n)$ f(k) means add f(1)+f(2)+...+f(n)",
       "Arithmetic series sum: $Sₙ=n(a₁+aₙ)/2 =$ n[2a₁+(n−1)d]/2",
-      "Finite geometric series sum: $Sₙ=a₁(1−rⁿ)/(1−r$), for r≠1",
-      "Infinite geometric series sum (converges only if |r|<1): $S=a₁/(1−r$)",
+      "Finite geometric series sum: $Sₙ=a₁(1−rⁿ)/(1−r)$, for r≠1",
+      "Infinite geometric series sum (converges only if |r|<1): $S=a₁/(1−r)$",
       "Example: find S for 1+1/2+1/4+1/8+...: $a₁=1, r=1/2$ → $S=1/(1−1/2)=2$",
       "Example: sum of first 20 terms of 4,7,10,...: $a₁=4, d=3, a₂₀=4+19(3)=61$ → $S₂₀=20(4+61)/2=650$"
      ]
@@ -545,12 +545,12 @@
      "l": "Parabolas",
      "intro": "A conic section formed by slicing a cone parallel to its side; the set of points equidistant from a focus and a directrix.",
      "b": [
-      "Vertex form (vertex at origin), opens up/down: $x²=4py (p=distance$ from vertex to focus, and to directrix)",
+      "Vertex form (vertex at origin), opens up/down: $x²=4py$ (p=distance from vertex to focus, and to directrix)",
       "Opens left/right: $y²=4px$",
       "If p>0: opens up (or right); if p<0: opens down (or left)",
       "Focus is INSIDE the curve at distance |p| from vertex; directrix is a line OUTSIDE at distance |p| on the opposite side",
       "Example: $x²=8y$ → $4p=8$ → $p=2$ → focus at (0,2), directrix $y=−2$",
-      "General vertex-form parabola (vertex (h,k)): ($x−h)²=4p(y−k$) or ($y−k)²=4p(x−h$)"
+      "General vertex-form parabola (vertex (h,k)): $(x−h)²=4p(y−k)$ or $(y−k)²=4p(x−h)$"
      ]
     },
     {
@@ -573,8 +573,8 @@
     "In $x²=4py$, the coefficient of the squared term is 4p, not p — solve for p by dividing by 4, don't forget that step."
    ],
    "fms": [
-    "$aₙ=a₁+(n−1)d$ ; $aₙ=a₁r^(n−1$)",
-    "$Sₙ=a₁(1−rⁿ)/(1−r$) ; $S∞=a₁/(1−r$), |r|<1",
+    "$aₙ=a₁+(n−1)d$ ; $aₙ=a₁r^(n−1)$",
+    "$Sₙ=a₁(1−rⁿ)/(1−r)$ ; $S∞=a₁/(1−r)$, |r|<1",
     "Ellipse: $c²=a²−b²$ ; Hyperbola: $c²=a²+b²$"
    ]
   },
@@ -587,7 +587,7 @@
      "intro": "lim(x→a) $f(x)=L$ means f(x) gets arbitrarily close to L as x gets arbitrarily close to a (from both sides), regardless of the actual value f(a) (which may not even exist).",
      "b": [
       "A limit describes the function's BEHAVIOR NEAR a point, not necessarily the value AT that point",
-      "Two-sided limit exists only if the left-hand limit and right-hand limit are EQUAL: $lim(x→a⁻)f(x)=lim(x→a⁺)f(x$)",
+      "Two-sided limit exists only if the left-hand limit and right-hand limit are EQUAL: $lim(x→a⁻)f(x)=lim(x→a⁺)f(x)$",
       "Notation: lim(x→a⁻) means approaching from the left (values less than a); lim(x→a⁺) means approaching from the right",
       "A limit can exist at a point even if the function is undefined there (e.g., a hole in the graph)",
       "A limit fails to exist if the function jumps (left/right limits differ), oscillates infinitely, or increases/decreases without bound near a"
@@ -600,7 +600,7 @@
       "Graphically: trace the curve from both sides toward $x=a$ and see what y-value it approaches (ignore any open/closed dot exactly at $x=a$)",
       "Numerically: build a table of x-values very close to a (e.g., a−0.1, a−0.01, a+0.01, a+0.1) and see what f(x) approaches",
       "Example: lim(x→2) (x²−4)/(x−2) — direct substitution gives 0/0 (indeterminate), but the table shows values approaching 4",
-      "Algebraically confirm: ($x²−4)/(x−2)=(x−2)(x+2)/(x−2)=x+2$ (for x≠2) → limit as x→2 is $2+2=4$",
+      "Algebraically confirm: $(x²−4)/(x−2)=(x−2)(x+2)/(x−2)=x+2$ (for x≠2) → limit as x→2 is $2+2=4$",
       "Direct substitution works to evaluate a limit whenever the function is continuous at that point (most polynomials, and rational functions where the denominator isn't 0)"
      ]
     },
@@ -619,10 +619,10 @@
      "l": "Introduction to derivatives as slope of the tangent line",
      "intro": "The derivative f'(a) is the instantaneous rate of change of f at $x=a$ — the slope of the line TANGENT to the curve at that single point, defined as a limit of average rates of change (secant slopes) as the interval shrinks to zero.",
      "b": [
-      "Definition: $f'(a)=lim(h→0$) [f(a+h)−f(a)]/h — the limit of the difference quotient as h→0",
+      "Definition: $f'(a)=lim(h→0)$ [f(a+h)−f(a)]/h — the limit of the difference quotient as h→0",
       "This is the limiting slope of secant lines through (a,f(a)) and (a+h,f(a+h)) as h shrinks toward 0",
       "Geometrically: the tangent line touches the curve at exactly one point (locally) and matches its instantaneous direction there",
-      "Example: for $f(x)=x², f'(a)=lim(h→0$) [(a+h)²−a²]/h $=$ lim(h→0) [2ah+h²]/h $= lim(h→0)(2a+h)=2a$ — so the slope of the tangent to $y=x²$ at any point a is 2a",
+      "Example: for $f(x)=x², f'(a)=lim(h→0)$ [(a+h)²−a²]/h $=$ lim(h→0) [2ah+h²]/h $= lim(h→0)(2a+h)=2a$ — so the slope of the tangent to $y=x²$ at any point a is 2a",
       "This 'slope of the tangent line' interpretation is the geometric heart of every derivative computed in calculus"
      ]
     }
@@ -635,8 +635,8 @@
    ],
    "fms": [
     "Avg rate of change $=$ [f(b)−f(a)]/(b−a)",
-    "$f'(a)=lim(h→0$) [f(a+h)−f(a)]/h",
-    "Limit exists iff $lim(x→a⁻)f(x)=lim(x→a⁺)f(x$)"
+    "$f'(a)=lim(h→0)$ [f(a+h)−f(a)]/h",
+    "Limit exists iff $lim(x→a⁻)f(x)=lim(x→a⁺)f(x)$"
    ]
   }
  ],
@@ -1070,7 +1070,7 @@
     "7"
    ],
    "a": 0,
-   "e": "($f∘g)(3)=f(g(3))=f(9)=9+2=11$."
+   "e": "$(f∘g)(3)=f(g(3))=f(9)=9+2=11$."
   },
   {
    "u": 1,
@@ -1082,7 +1082,7 @@
     "7"
    ],
    "a": 1,
-   "e": "($g∘f)(3)=g(f(3))=g(5)=25$. Composition order matters — this differs from (f∘g)(3)."
+   "e": "$(g∘f)(3)=g(f(3))=g(5)=25$. Composition order matters — this differs from (f∘g)(3)."
   },
   {
    "u": 1,
@@ -1134,7 +1134,7 @@
   },
   {
    "u": 1,
-   "q": "The graph of $y=f(x+4$) is obtained from $y=f(x$) by shifting:",
+   "q": "The graph of $y=f(x+4)$ is obtained from $y=f(x)$ by shifting:",
    "o": [
     "Right 4 units",
     "Left 4 units",
@@ -1166,7 +1166,7 @@
     "$f(x)=sin$ x"
    ],
    "a": 1,
-   "e": "$f(−x)=(−x)²+3=x²+3=f(x$), so it's even. It's symmetric about the y-axis."
+   "e": "$f(−x)=(−x)²+3=x²+3=f(x)$, so it's even. It's symmetric about the y-axis."
   },
   {
    "u": 1,
@@ -1178,11 +1178,11 @@
     "$f(x)=|x|$"
    ],
    "a": 2,
-   "e": "$f(−x)=(−x)³−(−x)=−x³+x=−(x³−x)=−f(x$), so it's odd."
+   "e": "$f(−x)=(−x)³−(−x)=−x³+x=−(x³−x)=−f(x)$, so it's odd."
   },
   {
    "u": 1,
-   "q": "Given $f(x)={2x+1$ if x<3; x²−2 if x≥3}, find f(3).",
+   "q": "Given f(x)={2x+1 if x<3; x²−2 if x≥3}, find f(3).",
    "o": [
     "7",
     "6",
@@ -1194,7 +1194,7 @@
   },
   {
    "u": 1,
-   "q": "Given $f(x)={2x+1$ if x<3; x²−2 if x≥3}, find f(1).",
+   "q": "Given f(x)={2x+1 if x<3; x²−2 if x≥3}, find f(1).",
    "o": [
     "3",
     "−1",
@@ -1230,12 +1230,12 @@
   },
   {
    "u": 1,
-   "q": "Which transformation reflects $y=f(x$) over the x-axis?",
+   "q": "Which transformation reflects $y=f(x)$ over the x-axis?",
    "o": [
-    "$y=f(−x$)",
-    "$y=−f(x$)",
+    "$y=f(−x)$",
+    "$y=−f(x)$",
     "$y=f(x)−1$",
-    "$y=1/f(x$)"
+    "$y=1/f(x)$"
    ],
    "a": 1,
    "e": "−f(x) negates every output (y-value), flipping the graph over the x-axis. f(−x) reflects over the y-axis instead."
@@ -1274,11 +1274,11 @@
     "$x=−5$, −1"
    ],
    "a": 0,
-   "e": "Factor: ($x−5)(x+1)=0$ → $x=5$ or $x=−1$."
+   "e": "Factor: $(x−5)(x+1)=0$ → $x=5$ or $x=−1$."
   },
   {
    "u": 2,
-   "q": "For $f(x)=(x−2)²(x+3$), what is the behavior at $x=2?$",
+   "q": "For $f(x)=(x−2)²(x+3)$, what is the behavior at $x=2?$",
    "o": [
     "Crosses the x-axis",
     "Bounces off (touches) the x-axis",
@@ -1350,7 +1350,7 @@
   },
   {
    "u": 2,
-   "q": "For $f(x)=(x²+3x)/(x²−9$), where is there a HOLE (not an asymptote)?",
+   "q": "For $f(x)=(x²+3x)/(x²−9)$, where is there a HOLE (not an asymptote)?",
    "o": [
     "$x=3$",
     "$x=−3$",
@@ -1362,7 +1362,7 @@
   },
   {
    "u": 2,
-   "q": "Does $f(x)=(x²+1)/(x−2$) have a horizontal or slant asymptote?",
+   "q": "Does $f(x)=(x²+1)/(x−2)$ have a horizontal or slant asymptote?",
    "o": [
     "Horizontal asymptote $y=0$",
     "Slant asymptote (numerator degree exactly 1 more)",
@@ -1374,7 +1374,7 @@
   },
   {
    "u": 2,
-   "q": "Solve ($x−3)/(x+2)=0$.",
+   "q": "Solve $(x−3)/(x+2)=0$.",
    "o": [
     "$x=3$",
     "$x=−2$",
@@ -1386,7 +1386,7 @@
   },
   {
    "u": 2,
-   "q": "Solve $3/(x−1)=6/(x+2$) for x.",
+   "q": "Solve $3/(x−1)=6/(x+2)$ for x.",
    "o": [
     "$x=4$",
     "$x=−4$",
@@ -1394,7 +1394,7 @@
     "$x=2$"
    ],
    "a": 0,
-   "e": "Cross-multiply: $3(x+2)=6(x−1$) → $3x+6=6x−6$ → $12=3x$ → $x=4$. Check: neither denominator is 0."
+   "e": "Cross-multiply: $3(x+2)=6(x−1)$ → $3x+6=6x−6$ → $12=3x$ → $x=4$. Check: neither denominator is 0."
   },
   {
    "u": 2,
@@ -1406,7 +1406,7 @@
     "(x−2)³"
    ],
    "a": 0,
-   "e": "Difference of cubes: $a³−b³=(a−b)(a²+ab+b²$), with $a=x,b=2$: (x−2)(x²+2x+4)."
+   "e": "Difference of cubes: $a³−b³=(a−b)(a²+ab+b²)$, with $a=x,b=2$: (x−2)(x²+2x+4)."
   },
   {
    "u": 2,
@@ -1446,7 +1446,7 @@
   },
   {
    "u": 3,
-   "q": "Simplify: $8^(2/3$).",
+   "q": "Simplify: $8^(2/3)$.",
    "o": [
     "4",
     "16",
@@ -1478,7 +1478,7 @@
     "3⁹"
    ],
    "a": 1,
-   "e": "Power rule: ($bᵐ)ⁿ=bᵐⁿ$ → $3^(2·3)=3⁶$."
+   "e": "Power rule: $(bᵐ)ⁿ=bᵐⁿ$ → $3^(2·3)=3⁶$."
   },
   {
    "u": 3,
@@ -1506,15 +1506,15 @@
   },
   {
    "u": 3,
-   "q": "Simplify $log_b(x³y$) using log properties.",
+   "q": "Simplify $log_b(x³y)$ using log properties.",
    "o": [
-    "$3log_b(x)+log_b(y$)",
-    "$log_b(3x)+log_b(y$)",
-    "$3log_b(x)·log_b(y$)",
-    "$log_b(x)+3log_b(y$)"
+    "$3log_b(x)+log_b(y)$",
+    "$log_b(3x)+log_b(y)$",
+    "$3log_b(x)·log_b(y)$",
+    "$log_b(x)+3log_b(y)$"
    ],
    "a": 0,
-   "e": "Product rule then power rule: $log_b(x³y)=log_b(x³)+log_b(y)=3log_b(x)+log_b(y$)."
+   "e": "Product rule then power rule: $log_b(x³y)=log_b(x³)+log_b(y)=3log_b(x)+log_b(y)$."
   },
   {
    "u": 3,
@@ -1526,7 +1526,7 @@
     "1"
    ],
    "a": 0,
-   "e": "$log₅(125)=3$ (since $5³=125); log₅(5)=1. 3−1=2$. Also equals $log₅(125/5)=log₅(25)=2$."
+   "e": "$log₅(125)=3$ (since $5³=125$); $log₅(5)=1$. $3−1=2$. Also equals $log₅(125/5)=log₅(25)=2$."
   },
   {
    "u": 3,
@@ -1604,17 +1604,17 @@
    "u": 3,
    "q": "$1000 is invested at 4% annual interest compounded continuously. Which formula gives the balance after t years?",
    "o": [
-    "$A=1000e^(0.04t$)",
+    "$A=1000e^(0.04t)$",
     "$A=1000(1.04)^t$",
     "$A=1000+0.04t$",
     "$A=1000(0.04)^t$"
    ],
    "a": 0,
-   "e": "Continuous compounding uses $A=Pe^(rt$), with $P=1000, r=0.04$."
+   "e": "Continuous compounding uses $A=Pe^(rt)$, with $P=1000, r=0.04$."
   },
   {
    "u": 3,
-   "q": "A radioactive isotope has a half-life of 10 years. Using $A(t)=A₀(1/2)^(t/10$), what fraction remains after 30 years?",
+   "q": "A radioactive isotope has a half-life of 10 years. Using $A(t)=A₀(1/2)^(t/10)$, what fraction remains after 30 years?",
    "o": [
     "1/8",
     "1/2",
@@ -1646,7 +1646,7 @@
     "350°"
    ],
    "a": 0,
-   "e": "($7π/4)×(180/π)=7(180)/4=315°$."
+   "e": "$(7π/4)×(180/π)=7(180)/4=315°$."
   },
   {
    "u": 4,
@@ -1814,7 +1814,7 @@
     "(0,1)"
    ],
    "a": 0,
-   "e": "At 180°, the terminal point is ($cos180°,sin180°)=(−1,0$)."
+   "e": "At 180°, the terminal point is $(cos180°,sin180°)=(−1,0)$."
   },
   {
    "u": 5,
@@ -1866,7 +1866,7 @@
   },
   {
    "u": 5,
-   "q": "If $\\sinθ=3/5$ and $\\cosθ=4/5 (θ$ in QI), find $\\sin(2θ$).",
+   "q": "If $\\sinθ=3/5$ and $\\cosθ=4/5$ (θ in QI), find $\\sin(2θ)$.",
    "o": [
     "24/25",
     "7/25",
@@ -1878,7 +1878,7 @@
   },
   {
    "u": 5,
-   "q": "If $\\cosθ=4/5$ and $θ$ in QI, find $\\cos(2θ$) using $\\cos(2θ)=2cos²θ−1$.",
+   "q": "If $\\cosθ=4/5$ and $θ$ in QI, find $\\cos(2θ)$ using $\\cos(2θ)=2cos²θ−1$.",
    "o": [
     "7/25",
     "24/25",
@@ -1890,7 +1890,7 @@
   },
   {
    "u": 5,
-   "q": "Solve $2sinθ−1=0$ for $θ$ in $[0,2π$).",
+   "q": "Solve $2sinθ−1=0$ for $θ$ in [$0,2π$).",
    "o": [
     "$π/6, 5π/6$",
     "$π/6, 7π/6$",
@@ -1902,7 +1902,7 @@
   },
   {
    "u": 5,
-   "q": "Solve $2cosθ+√3=0$ for $θ$ in $[0,2π$).",
+   "q": "Solve $2cosθ+√3=0$ for $θ$ in [$0,2π$).",
    "o": [
     "$5π/6, 7π/6$",
     "$π/6, 11π/6$",
@@ -1914,7 +1914,7 @@
   },
   {
    "u": 5,
-   "q": "Solve $2sin²θ−\\sinθ−1=0$ for $θ$ in $[0,2π$). (Factor: ($2sinθ+1)(\\sinθ−1)=0$)",
+   "q": "Solve $2sin²θ−\\sinθ−1=0$ for $θ$ in [$0,2π$). (Factor: $(2sinθ+1)(\\sinθ−1)=0$)",
    "o": [
     "$π/2, 7π/6, 11π/6$",
     "$π/2$ only",
@@ -1926,7 +1926,7 @@
   },
   {
    "u": 5,
-   "q": "Simplify ($1−cos²θ)/\\sinθ$.",
+   "q": "Simplify $(1−cos²θ)/\\sinθ$.",
    "o": [
     "$\\sinθ$",
     "$\\cosθ$",
@@ -1946,7 +1946,7 @@
     "(tanA+tanB)/(1+tanAtanB)"
    ],
    "a": 0,
-   "e": "$\\tan(A+B)=(tanA+tanB)/(1−tanAtanB$)."
+   "e": "$\\tan(A+B)=(tanA+tanB)/(1−tanAtanB)$."
   },
   {
    "u": 5,
@@ -1974,7 +1974,7 @@
   },
   {
    "u": 5,
-   "q": "Solve $\\cos(2θ)=\\cosθ$ for $θ$ in $[0,2π$) using $\\cos(2θ)=2cos²θ−1: 2cos²θ−\\cosθ−1=0$.",
+   "q": "Solve $\\cos(2θ)=\\cosθ$ for $θ$ in [$0,2π$) using $\\cos(2θ)=2cos²θ−1: 2cos²θ−\\cosθ−1=0$.",
    "o": [
     "0, $2π/3, 4π/3$",
     "0, $π/3$",
@@ -1982,7 +1982,7 @@
     "$π/2, 3π/2$"
    ],
    "a": 0,
-   "e": "Factor ($2cosθ+1)(\\cosθ−1)=0$ → $\\cosθ=1 (θ=0$) or $\\cosθ=−1/2 (θ=2π/3, 4π/3$)."
+   "e": "Factor $(2cosθ+1)(\\cosθ−1)=0$ → $\\cosθ=1 (θ=0)$ or $\\cosθ=−1/2 (θ=2π/3, 4π/3)$."
   },
   {
    "u": 5,
@@ -2058,7 +2058,7 @@
   },
   {
    "u": 6,
-   "q": "Use Heron's formula to find the area of a triangle with sides $a=5, b=6, c=7 (s=9$).",
+   "q": "Use Heron's formula to find the area of a triangle with sides $a=5, b=6, c=7 (s=9)$.",
    "o": [
     "≈14.70",
     "≈17.5",
@@ -2334,7 +2334,7 @@
   },
   {
    "u": 7,
-   "q": "Using the system $2x+y=5, x−3y=−8 (D=−7$), find x using Cramer's Rule, where $Dx=det([[5,1],[−8,−3]]$).",
+   "q": "Using the system $2x+y=5, x−3y=−8 (D=−7)$, find x using Cramer's Rule, where $Dx=det([[5,1],[−8,−3]])$.",
    "o": [
     "1",
     "−1",
@@ -2486,7 +2486,7 @@
     "(0,8)"
    ],
    "a": 0,
-   "e": "$x²=4py$ → $4p=8$ → $p=2$. Vertex at origin, opens up, focus at ($0,p)=(0,2$)."
+   "e": "$x²=4py$ → $4p=8$ → $p=2$. Vertex at origin, opens up, focus at $(0,p)=(0,2)$."
   },
   {
    "u": 8,
@@ -2538,7 +2538,7 @@
   },
   {
    "u": 8,
-   "q": "Evaluate $Σ(k=1$ to 5) (2k+1).",
+   "q": "Evaluate $Σ(k=1 to 5)$ (2k+1).",
    "o": [
     "35",
     "30",
@@ -2594,7 +2594,7 @@
     "9"
    ],
    "a": 0,
-   "e": "Factor: ($x−3)(x+3)/(x−3)=x+3$ for x≠3. As x→3, this approaches $3+3=6$."
+   "e": "Factor: $(x−3)(x+3)/(x−3)=x+3$ for x≠3. As x→3, this approaches $3+3=6$."
   },
   {
    "u": 9,
@@ -2714,7 +2714,7 @@
     "It always equals 0"
    ],
    "a": 0,
-   "e": "If f is continuous at a, then $lim(x→a)f(x)=f(a$), so plugging in a directly gives the limit."
+   "e": "If f is continuous at a, then $lim(x→a)f(x)=f(a)$, so plugging in a directly gives the limit."
   },
   {
    "u": 9,
@@ -2754,7 +2754,7 @@
   },
   {
    "u": 9,
-   "q": "Given $f(x)=(x²−1)/(x−1$) for x≠1, what is lim(x→1) f(x)?",
+   "q": "Given $f(x)=(x²−1)/(x−1)$ for x≠1, what is lim(x→1) f(x)?",
    "o": [
     "2",
     "0",
@@ -2762,7 +2762,7 @@
     "Undefined"
    ],
    "a": 0,
-   "e": "Factor: ($x−1)(x+1)/(x−1)=x+1$ for x≠1. As x→1, this approaches $1+1=2$ (even though f(1) itself is undefined — a hole)."
+   "e": "Factor: $(x−1)(x+1)/(x−1)=x+1$ for x≠1. As x→1, this approaches $1+1=2$ (even though f(1) itself is undefined — a hole)."
   },
   {
    "u": 9,

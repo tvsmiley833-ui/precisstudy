@@ -37,7 +37,7 @@
      "b": [
       "Range $=$ max − min",
       "IQR $=$ Q3 − Q1 (spread of the middle 50%), resistant to outliers",
-      "Variance: s² $= Σ(x$ − $x̄)²/(n$ − 1); Standard deviation s $=$ √(variance)",
+      "Variance: s² $= Σ(x − x̄)²/(n − 1)$; Standard deviation s $=$ √(variance)",
       "SD measures the typical distance of a value from the mean",
       "Standard deviation is not resistant — outliers inflate it",
       "Use IQR with median (skewed data); use SD with mean (roughly symmetric data)"
@@ -58,7 +58,7 @@
      "l": "z-Scores and Standardization",
      "intro": "A z-score converts a raw value into the number of standard deviations it lies from the mean, letting you compare values from different distributions.",
      "b": [
-      "z $=$ (x − $μ$) / $σ$ (or (x − $x̄)/s$ for sample data)",
+      "z $=$ (x − $μ$) / $σ$ (or $(x − x̄)/s$ for sample data)",
       "Positive z: value is above the mean; negative z: value is below the mean",
       "Standardizing does not change the shape of a distribution",
       "z-scores allow comparison of values measured on different scales (e.g., test scores from different exams)",
@@ -80,7 +80,7 @@
    "keyFacts": [
     "$x̄ = (Σx)/n$ ; s $= √[Σ(x−x̄)²/(n−1)]$",
     "IQR $=$ Q3 − Q1; outliers lie beyond Q1 − 1.5·IQR or Q3 + 1.5·IQR",
-    "z $=$ (x − $μ)/σ$",
+    "z $=$ $(x − μ)/σ$",
     "Mean is pulled toward the tail in skewed data; median resists skew"
    ],
    "traps": [
@@ -109,7 +109,7 @@
      "l": "The Normal Distribution",
      "intro": "The Normal distribution is a symmetric, bell-shaped density curve fully described by its mean $μ$ and standard deviation $σ$, following the Empirical (68-95-99.7) Rule.",
      "b": [
-      "Notation: $N(μ, σ$)",
+      "Notation: $N(μ, σ)$",
       "68% of values fall within 1 SD of the mean ($μ$ ± $σ$)",
       "95% of values fall within 2 SD of the mean ($μ$ ± $2σ$)",
       "99.7% of values fall within 3 SD of the mean ($μ$ ± $3σ$)",
@@ -119,9 +119,9 @@
     },
     {
      "l": "Standardizing and z-Scores",
-     "intro": "Any Normal distribution can be converted to the standard Normal distribution N(0,1) by standardizing values with z $=$ (x − $μ)/σ$.",
+     "intro": "Any Normal distribution can be converted to the standard Normal distribution N(0,1) by standardizing values with z $=$ $(x − μ)/σ$.",
      "b": [
-      "z $=$ (x − $μ)/σ$ converts x to a standard score",
+      "z $=$ $(x − μ)/σ$ converts x to a standard score",
       "Standard Normal distribution: N(0, 1)",
       "Use a z-table or calculator (normalcdf) to find proportions/probabilities",
       "invNorm is used to find a value given a percentile/proportion",
@@ -153,7 +153,7 @@
    ],
    "keyFacts": [
     "Empirical Rule: 68% within $±1σ$, 95% within $±2σ$, 99.7% within $±3σ$ of $μ$",
-    "z $=$ (x − $μ)/σ$ ; x $= μ$ + $zσ$",
+    "z $=$ $(x − μ)/σ$ ; x $= μ$ + $zσ$",
     "Total area under any density curve $=$ 1",
     "Standard Normal: N(0,1)"
    ],
@@ -447,7 +447,7 @@
      "l": "Variance and Standard Deviation of a Random Variable",
      "intro": "Variance measures the average squared deviation of a random variable from its mean, quantifying spread; standard deviation is its square root, back in the original units.",
      "b": [
-      "$σ²X =$ Var(X) $= Σ$ (x − $μX)²·P(x); σX =$ √ Var(X)",
+      "$σ²X =$ Var(X) $= Σ$ $(x − μX)²·P(x); σX =$ √ Var(X)",
       "For a linear transformation: Var(a + bX) $=$ b²·Var(X); adding a constant a never changes spread",
       "If X and Y are INDEPENDENT: Var(X + Y) $=$ Var(X) + Var(Y) and Var(X − Y) $=$ Var(X) + Var(Y) — variances always add for independent RVs, even when subtracting",
       "Standard deviations do NOT add or subtract directly; you must add variances first, then take the square root",
@@ -470,7 +470,7 @@
      "intro": "A binomial random variable counts the number of successes in a fixed number of independent trials, each with the same two possible outcomes and the same probability of success.",
      "b": [
       "BINS conditions: Binary outcomes, Independent trials, fixed Number of trials n, Same probability p of success on each trial",
-      "P(X $=$ k) $= C(n,k)·p^k·(1−p)^(n−k$), where C(n,k) $=$ n!/(k!(n−k)!)",
+      "P(X $=$ k) $= C(n,k)·p^k·(1−p)^(n−k)$, where C(n,k) $=$ n!/(k!(n−k)!)",
       "Mean: $μX =$ np; Standard deviation: $σX =$ √(np(1−p))",
       "10% condition: sampling without replacement from a finite population is approximately independent (binomial-like) only if the sample is less than 10% of the population",
       "Large Counts condition (np ≥ 10 and n(1−p) ≥ 10) allows a Normal approximation to the binomial distribution"
@@ -491,7 +491,7 @@
    "keyFacts": [
     "E(X) $= Σ$ x·P(x); Var(X) $= Σ (x−μ)²·P(x); σX =$ √Var(X)",
     "Linear transform: E(a+bX) $=$ a+b·E(X); Var(a+bX) $=$ b²·Var(X)",
-    "Binomial: $μ =$ np, $σ =$ √(np(1−p)); $P(X=k) = C(n,k)p^k(1−p)^(n−k$)",
+    "Binomial: $μ =$ np, $σ =$ √(np(1−p)); $P(X=k) = C(n,k)p^k(1−p)^(n−k)$",
     "Geometric: $μ =$ 1/p, $σ =$ √((1−p)/p²); $P(X=k) = (1−p)^(k−1)p$"
    ],
    "traps": [
@@ -531,7 +531,7 @@
      "l": "Sampling Distribution of a Sample Mean",
      "intro": "When repeatedly sampling from a population with mean $μ$ and standard deviation $σ$, the sample mean $x̄$ has its own sampling distribution with predictable mean and standard deviation.",
      "b": [
-      "Mean: $μx̄ = μ (x̄$ is an unbiased estimator of $μ$) — true for any sample size",
+      "Mean: $μx̄ = μ$ (x̄ is an unbiased estimator of $μ$) — true for any sample size",
       "Standard deviation (standard error): $σx̄ = σ/√n$, requires the 10% condition when sampling without replacement",
       "If the population itself is Normally distributed, x̄ is exactly Normally distributed for any n",
       "If the population is NOT Normal, x̄'s distribution becomes approximately Normal as n grows large (Central Limit Theorem)",
@@ -553,7 +553,7 @@
      "l": "Standard Error and the Effect of Sample Size",
      "intro": "Standard error is the estimated standard deviation of a sampling distribution when the population parameter is unknown; it shrinks as sample size grows, following an inverse square-root relationship.",
      "b": [
-      "Standard error of $p̂: SE(p̂) = √(p̂(1−p̂)/n$), using the sample proportion since p is unknown",
+      "Standard error of $p̂: SE(p̂) = √(p̂(1−p̂)/n)$, using the sample proportion since p is unknown",
       "Standard error of $x̄: SE(x̄) =$ s/√n, using the sample standard deviation s since $σ$ is unknown",
       "To cut the standard error in half, you must QUADRUPLE the sample size (since $σ/√n$ involves a square root)",
       "Larger samples give more precise (less variable) estimates, but do not remove bias caused by poor sampling methods",
@@ -626,8 +626,8 @@
      "l": "t-Tests, Chi-Square Tests, and Choosing a Procedure",
      "intro": "Different inference procedures fit different data types: t-tests compare means, chi-square tests analyze categorical count data, and each has its own test statistic and distribution.",
      "b": [
-      "One-sample t-test statistic: t $= (x̄$ − $μ0)/(s/√n$), with df $=$ n−1",
-      "Two-sample t-test statistic (independent samples): t $= (x̄1$ − $x̄2)/√(s1²/n1$ + s2²/n2), for comparing two population means",
+      "One-sample t-test statistic: t $= (x̄ − μ0)/(s/√n)$, with df $=$ n−1",
+      "Two-sample t-test statistic (independent samples): t $= (x̄1 − x̄2)/√(s1²/n1 + s2²/n2)$, for comparing two population means",
       "Chi-square test statistic: $χ² = Σ$ (observed − expected)²/expected, used for goodness-of-fit, homogeneity, or independence tests with categorical data",
       "Chi-square goodness-of-fit compares one categorical variable to a hypothesized distribution; chi-square test for independence/association examines two categorical variables in a two-way table",
       "Choose a proportion procedure (z) for categorical data summarized as counts/percentages; choose a t-procedure for quantitative data summarized as means"
@@ -635,10 +635,10 @@
     }
    ],
    "keyFacts": [
-    "CI form: statistic ± (critical value)×(SE); proportion: $p̂$ ± $z*√(p̂(1−p̂)/n$); mean: $x̄$ ± t*(s/√n), $df=n−1$",
-    "Test statistic: (statistic − hypothesized value)/(standard error); one-sample t: ($x̄−μ0)/(s/√n$)",
+    "CI form: statistic ± (critical value)×(SE); proportion: $p̂$ ± $z*√(p̂(1−p̂)/n)$; mean: $x̄$ ± t*(s/√n), $df=n−1$",
+    "Test statistic: (statistic − hypothesized value)/(standard error); one-sample t: $(x̄−μ0)/(s/√n)$",
     "$χ² = Σ(observed−expected)²/expected$",
-    "P(Type I $error)=α$; P(Type II $error)=β; Power=1−β$"
+    "P(Type I error) $=α$; P(Type II error) $=β$; Power $=1−β$"
    ],
    "traps": [
     "'Fail to reject H0' does NOT mean H0 is proven true — it only means there's insufficient evidence against it",
@@ -870,12 +870,12 @@
    "q": "The variance is defined as:",
    "o": [
     "$Σ(x−x̄)/n$",
-    "$Σ(x−x̄)²/(n−1$)",
-    "$√(Σ(x−x̄)²/n$)",
+    "$Σ(x−x̄)²/(n−1)$",
+    "$√(Σ(x−x̄)²/n)$",
     "$Σx/n$"
    ],
    "a": 1,
-   "e": "Sample variance s² $= Σ(x−x̄)²/(n−1$)."
+   "e": "Sample variance s² $= Σ(x−x̄)²/(n−1)$."
   },
   {
    "u": 1,
@@ -1059,7 +1059,7 @@
   },
   {
    "u": 1,
-   "q": "Which is true about the sum of deviations from the mean, $Σ(x$ − $x̄)?$",
+   "q": "Which is true about the sum of deviations from the mean, $Σ(x − x̄)?$",
    "o": [
     "Always positive",
     "Always negative",
@@ -1523,7 +1523,7 @@
     "Median and IQR"
    ],
    "a": 1,
-   "e": "A Normal distribution $N(μ, σ$) is completely specified by its mean and standard deviation."
+   "e": "A Normal distribution $N(μ, σ)$ is completely specified by its mean and standard deviation."
   },
   {
    "u": 2,
@@ -2615,7 +2615,7 @@
     "Cannot be determined"
    ],
    "a": 1,
-   "e": "If both have positive probability, mutually exclusive events cannot be independent since P(A and $B)=0$ ≠ P(A)P(B)."
+   "e": "If both have positive probability, mutually exclusive events cannot be independent since P$(A and B)=0$ ≠ P(A)P(B)."
   },
   {
    "u": 5,
@@ -2675,7 +2675,7 @@
     "6/10 × 4/9"
    ],
    "a": 1,
-   "e": "Without replacement: P(1st $red)=4/10$, then P(2nd red|1st $red)=3/9$, so P $=$ 4/10 × 3/9."
+   "e": "Without replacement: P$(1st red)=4/10$, then P$(2nd red|1st red)=3/9$, so P $=$ 4/10 × 3/9."
   },
   {
    "u": 5,
@@ -3075,7 +3075,7 @@
   },
   {
    "u": 6,
-   "q": "For the distribution $P(X=0)=0.1, P(X=1)=0.3, P(X=2)=0.4, P(X=3)=0.2 (μ=1.7$), find Var(X).",
+   "q": "For the distribution $P(X=0)=0.1, P(X=1)=0.3, P(X=2)=0.4, P(X=3)=0.2 (μ=1.7)$, find Var(X).",
    "o": [
     "0.61",
     "0.81",
@@ -3123,7 +3123,7 @@
   },
   {
    "u": 6,
-   "q": "Two independent random variables have $μX=20, σX=3$ and $μY=15, σY=4$. Find $μ(X+Y$).",
+   "q": "Two independent random variables have $μX=20, σX=3$ and $μY=15, σY=4$. Find $μ(X+Y)$.",
    "o": [
     "5",
     "35",
@@ -3135,7 +3135,7 @@
   },
   {
    "u": 6,
-   "q": "Two independent random variables have $σX=3$ and $σY=4$. Find $σ(X+Y$).",
+   "q": "Two independent random variables have $σX=3$ and $σY=4$. Find $σ(X+Y)$.",
    "o": [
     "7",
     "5",
@@ -3147,7 +3147,7 @@
   },
   {
    "u": 6,
-   "q": "Two independent random variables have $σX=6$ and $σY=8$. Find $σ(X−Y$).",
+   "q": "Two independent random variables have $σX=6$ and $σY=8$. Find $σ(X−Y)$.",
    "o": [
     "2",
     "14",
@@ -3281,10 +3281,10 @@
    "u": 6,
    "q": "For a binomial random variable, which pair of formulas is correct?",
    "o": [
-    "$μ=np, σ=np(1−p$)",
-    "$μ=np, σ=√(np(1−p$))",
-    "$μ=p/n, σ=√(np(1−p$))",
-    "$μ=1/p, σ=√((1−p)/p²$)"
+    "$μ=np, σ=np(1−p)$",
+    "$μ=np, σ=√(np(1−p))$",
+    "$μ=p/n, σ=√(np(1−p))$",
+    "$μ=1/p, σ=√((1−p)/p²)$"
    ],
    "a": 1,
    "e": "Binomial mean is np and standard deviation is √(np(1−p)); the last option is the geometric formula."
@@ -3323,11 +3323,11 @@
     "Var(X+Y) $=$ Var(X)×Var(Y)"
    ],
    "a": 0,
-   "e": "For independent random variables, variances add for both sums and differences: $Var(X+Y)=Var(X)+Var(Y$)."
+   "e": "For independent random variables, variances add for both sums and differences: $Var(X+Y)=Var(X)+Var(Y)$."
   },
   {
    "u": 6,
-   "q": "A fair coin is flipped 6 times. Let X $=$ number of heads. Find $P(X=6$).",
+   "q": "A fair coin is flipped 6 times. Let X $=$ number of heads. Find $P(X=6)$.",
    "o": [
     "0.0156",
     "0.5",
@@ -3339,7 +3339,7 @@
   },
   {
    "u": 6,
-   "q": "X is binomial with $n=5, p=0.4$. Find $P(X=2$).",
+   "q": "X is binomial with $n=5, p=0.4$. Find $P(X=2)$.",
    "o": [
     "0.346",
     "1.600",
@@ -3411,7 +3411,7 @@
   },
   {
    "u": 6,
-   "q": "An archer independently shoots at a target with probability 0.7 of hitting it each time. Let X $=$ number of shots until (and including) the first hit. Find $P(X=1$).",
+   "q": "An archer independently shoots at a target with probability 0.7 of hitting it each time. Let X $=$ number of shots until (and including) the first hit. Find $P(X=1)$.",
    "o": [
     "0.7",
     "0.3",
@@ -3423,7 +3423,7 @@
   },
   {
    "u": 6,
-   "q": "For the same archer ($p=0.7$), find $P(X=2$), the probability the first hit comes on the second shot.",
+   "q": "For the same archer ($p=0.7$), find $P(X=2)$, the probability the first hit comes on the second shot.",
    "o": [
     "0.21",
     "0.49",
@@ -3479,7 +3479,7 @@
     "Geometric with $p=0.98$"
    ],
    "a": 0,
-   "e": "Fixed number of trials (100), two outcomes, constant p, independent trials → $binomial(n=100, p=0.02$)."
+   "e": "Fixed number of trials (100), two outcomes, constant p, independent trials → $binomial(n=100, p=0.02)$."
   },
   {
    "u": 6,
@@ -3488,7 +3488,7 @@
     "k $=$ 1 (assuming 0<p<1)",
     "k equals the mean 1/p",
     "k is very large",
-    "$P(X=k$) is constant for all k"
+    "$P(X=k)$ is constant for all k"
    ],
    "a": 0,
    "e": "Since $P(X=k)=(1−p)^(k−1)p$ decreases as k increases (for 0<p<1), the probability is highest at $k=1$."
@@ -3707,7 +3707,7 @@
     "p̂/n"
    ],
    "a": 0,
-   "e": "Standard error substitutes the sample proportion $p̂$ for the unknown p: $SE(p̂)=√(p̂(1−p̂)/n$)."
+   "e": "Standard error substitutes the sample proportion $p̂$ for the unknown p: $SE(p̂)=√(p̂(1−p̂)/n)$."
   },
   {
    "u": 7,
@@ -5362,7 +5362,7 @@
      "Price increases by 2% for each square foot"
     ],
     "a": 0,
-    "e": "The slope represents the predicted change in y (price in $1000s) per unit increase in x (100 sq ft), so an increase of 2 means $2,000 more predicted price per additional 100 sq ft."
+    "e": "The slope represents the predicted change in y (price in 1000s) $per unit increase in x (100 sq ft), so an increase of 2 means $2,000 more predicted price per additional 100 sq ft."
    },
    {
     "n": 37,
