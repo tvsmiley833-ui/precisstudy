@@ -141,26 +141,82 @@ a{color:var(--accent)}
 .ob-step:not([hidden]){animation:obStepIn .28s cubic-bezier(.2,.8,.2,1)}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
 
-/* ---- Sage the owl: guide, speech bubble, XP bar ---- */
-.sage-strip{display:flex;align-items:flex-end;gap:14px;margin:0 0 18px}
-.sage-perch{flex-shrink:0;width:96px}
-.sage-bubble{position:relative;flex:1;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:14px 16px;font-size:15px;line-height:1.45;color:var(--text);margin-bottom:26px}
-.sage-bubble::before{content:"";position:absolute;left:-8px;bottom:18px;width:14px;height:14px;background:inherit;border-left:1px solid var(--border);border-bottom:1px solid var(--border);transform:rotate(45deg)}
-.sage-bubble b{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
-.ob-xp{display:flex;align-items:center;gap:10px;min-width:170px}
-.ob-xp-track{display:block;flex:1;height:8px;border-radius:99px;background:var(--border);overflow:hidden}
-.ob-xp-fill{display:block;height:100%;width:0;border-radius:99px;background:var(--accent);transition:width .5s cubic-bezier(.2,.8,.2,1)}
-.ob-xp-num{position:relative;font-size:13px;font-weight:800;color:var(--accent);white-space:nowrap}
-.ob-xp-pop{position:absolute;right:0;top:-18px;font-style:normal;font-size:12px;color:var(--accent);animation:obXpPop 1.1s ease forwards}
-@keyframes obXpPop{0%{opacity:0;transform:translateY(6px)}20%{opacity:1}100%{opacity:0;transform:translateY(-12px)}}
-.ob-ach{display:flex;align-items:center;gap:14px;text-align:left;padding:14px 16px;margin:0 0 14px;border-radius:14px;border:1px solid var(--accent);background:color-mix(in oklab,var(--accent) 10%,var(--bg-card))}
-.ob-ach svg{flex-shrink:0}
-.ob-ach b{display:block;font-size:15px}
-.ob-ach small{color:var(--text-muted);font-size:13px}
-.ob-row-icon{color:var(--accent)}
-.ob-gate-owl{display:flex;justify-content:center;margin-bottom:6px}
-@media (max-width:520px){.sage-perch{width:72px}.sage-bubble{font-size:14px}}
-@media (prefers-reduced-motion:reduce){.ob-xp-fill{transition:none}.ob-xp-pop{animation:none;opacity:0}}
+</style>
+
+<style>
+/* ---- Setup with Sage: one question per screen ---- */
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:500 700;font-display:swap;src:url('/fonts/fraunces-latin.woff2') format('woff2')}
+.ob{max-width:620px;margin:0 auto;padding:18px 20px 120px;min-height:calc(100vh - 70px);display:flex;flex-direction:column}
+.ob-top{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.ob-back{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:transparent;color:var(--text);cursor:pointer;font-size:18px;line-height:1}
+.ob-back[hidden]{display:inline-block;visibility:hidden}
+.ob-bar{flex:1;display:flex;gap:6px}
+.ob-bar i{flex:1;height:6px;border-radius:99px;background:var(--border);overflow:hidden;position:relative}
+.ob-bar i::after{content:"";position:absolute;inset:0;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.ob-bar i.on::after{transform:scaleX(1)}
+.ob-xp{position:relative;font-weight:800;font-size:13px;color:var(--accent);white-space:nowrap;background:color-mix(in oklab,var(--accent) 14%,transparent);padding:5px 10px;border-radius:99px}
+.ob-xp em{position:absolute;right:4px;top:-18px;font-style:normal;animation:obPop 1.1s ease forwards}
+@keyframes obPop{0%{opacity:0;transform:translateY(6px)}20%{opacity:1}100%{opacity:0;transform:translateY(-12px)}}
+.ob-skip{font-size:13px;color:var(--text-muted);text-decoration:underline;white-space:nowrap}
+.ob-screen{flex:1;display:flex;flex-direction:column;animation:obIn .35s cubic-bezier(.2,.8,.2,1)}
+@keyframes obIn{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+.ob-screen.back{animation-name:obInBack}
+@keyframes obInBack{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:none}}
+.ob-sage{display:flex;align-items:flex-end;gap:12px;margin-bottom:18px}
+.ob-sage .owl{flex-shrink:0}
+.ob-bubble{position:relative;flex:1;background:var(--bg-card);border:1px solid var(--border);border-radius:18px;padding:12px 16px;margin-bottom:18px;font-size:15.5px;line-height:1.45;color:var(--text)}
+.ob-bubble::before{content:"";position:absolute;left:-8px;bottom:16px;width:14px;height:14px;background:inherit;border-left:1px solid var(--border);border-bottom:1px solid var(--border);transform:rotate(45deg)}
+.ob-bubble small{display:block;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:2px}
+.ob-h{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:clamp(26px,5vw,34px);line-height:1.12;letter-spacing:-.01em;margin:0 0 6px}
+.ob-sub{color:var(--text-muted);font-size:15px;margin:0 0 18px}
+.ob-hero{text-align:center;align-items:center;justify-content:center}
+.ob-hero .owl{margin:12px 0 6px}
+.ob-hero .ob-h{font-size:clamp(32px,7vw,44px)}
+.ob-perks{display:grid;gap:10px;width:100%;max-width:420px;margin:18px 0 0;text-align:left}
+.ob-perk{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;background:var(--bg-card);border:1px solid var(--border);font-size:14.5px}
+.ob-perk b{display:block}
+.ob-perk span{color:var(--text-muted)}
+.ob-perk svg{flex-shrink:0;color:var(--accent)}
+.ob-search{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:var(--bg-card);color:var(--text);font:inherit;font-size:15px;margin-bottom:10px}
+.ob-chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:10px;scrollbar-width:none}
+.ob-chips::-webkit-scrollbar{display:none}
+.ob-chip{flex-shrink:0;padding:7px 13px;border-radius:99px;border:1px solid var(--border);background:transparent;color:var(--text);font:600 13px inherit;cursor:pointer}
+.ob-chip.on{background:var(--accent-solid,var(--accent));border-color:var(--accent-solid,var(--accent));color:#fff}
+.ob-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.ob-tile{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:14px;border-radius:14px;border:1.5px solid var(--border);background:var(--bg-card);color:var(--text);font:700 14px inherit;text-align:left;cursor:pointer;transition:border-color .15s,transform .15s}
+.ob-tile:hover{transform:translateY(-1px);border-color:var(--accent)}
+.ob-tile .ic{color:var(--accent);width:30px;height:30px}
+.ob-tile .ic svg{width:30px;height:30px}
+.ob-tile[aria-pressed="true"]{border-color:var(--accent);background:color-mix(in oklab,var(--accent) 12%,var(--bg-card))}
+.ob-tile[aria-pressed="true"]::after{content:"✓";position:absolute;top:10px;right:10px;width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:13px}
+.ob-empty{color:var(--text-muted);padding:20px 0;text-align:center}
+.ob-opts{display:grid;gap:10px}
+.ob-opt{display:flex;align-items:center;gap:14px;padding:16px;border-radius:16px;border:1.5px solid var(--border);background:var(--bg-card);color:var(--text);font:inherit;text-align:left;cursor:pointer;transition:border-color .15s,transform .15s}
+.ob-opt:hover{border-color:var(--accent);transform:translateY(-1px)}
+.ob-opt[aria-checked="true"]{border-color:var(--accent);background:color-mix(in oklab,var(--accent) 12%,var(--bg-card))}
+.ob-opt .big{font-family:'Fraunces',Georgia,serif;font-size:22px;font-weight:600;min-width:62px;color:var(--accent)}
+.ob-opt b{display:block;font-size:15.5px}
+.ob-opt span{font-size:13.5px;color:var(--text-muted)}
+.ob-switch{margin-left:auto;width:44px;height:26px;border-radius:99px;background:var(--border);position:relative;flex-shrink:0;transition:background .2s}
+.ob-switch::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .2s}
+.ob-opt[aria-checked="true"] .ob-switch{background:var(--accent)}
+.ob-opt[aria-checked="true"] .ob-switch::after{transform:translateX(18px)}
+.ob-foot{position:fixed;left:0;right:0;bottom:0;padding:14px 20px calc(14px + env(safe-area-inset-bottom));background:linear-gradient(to top,var(--bg) 70%,transparent);z-index:5}
+.ob-foot-in{max-width:620px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.ob-foot-note{font-size:13.5px;color:var(--text-muted)}
+.ob-cta{margin-left:auto;padding:14px 28px;border-radius:99px;border:0;background:var(--accent-solid,var(--accent));color:#fff;font:800 16px inherit;cursor:pointer;box-shadow:0 8px 22px -8px var(--accent-solid,var(--accent))}
+.ob-cta:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+.ob-cta.full{flex:1;margin-left:0}
+.ob-ach{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:16px;border:1px solid var(--accent);background:color-mix(in oklab,var(--accent) 10%,var(--bg-card));margin:10px 0 16px;text-align:left}
+.ob-ach b{display:block}
+.ob-ach small{color:var(--text-muted)}
+.ob-plan{display:grid;gap:8px;width:100%;text-align:left}
+.ob-plan div{display:flex;justify-content:space-between;gap:12px;padding:12px 14px;border-radius:12px;background:var(--bg-card);border:1px solid var(--border);font-size:14.5px}
+.ob-plan div span:first-child{color:var(--text-muted)}
+.ob-plan div span:last-child{font-weight:700;text-align:right}
+.ob-gate{max-width:420px;margin:40px auto;text-align:center}
+.ob-gate .ss-oauth-btn{margin-top:10px}
+@media (prefers-reduced-motion:reduce){.ob-screen{animation:none}.ob-bar i::after{transition:none}.ob-xp em{animation:none;opacity:0}}
 </style>
 </head>
 <body>
@@ -178,148 +234,32 @@ a{color:var(--accent)}
   </div>
 </div>
 
-<main class="ob-wrap">
-  <div id="ob-gate" style="display:none;">
-    <div class="ss-card" style="text-align:center;">
-      <div class="ob-gate-owl" id="ob-gate-owl"></div>
-      <p id="ob-gate-msg" style="font-size:16px;color:var(--text);margin:0 0 16px;">Sign in to set up your account.</p>
-      <div id="ob-login-box" style="max-width:280px;margin:0 auto;"></div>
-    </div>
+<main class="ob" id="ob">
+  <div id="ob-gate" class="ob-gate" hidden>
+    <div id="ob-gate-owl"></div>
+    <h1 class="ob-h">Hi, I'm Sage!</h1>
+    <p class="ob-sub">Sign in and I'll build your study plan in about a minute. You'll earn XP for every step.</p>
+    <div id="ob-login-box"></div>
   </div>
-
-  <div id="ob-app" style="display:none;">
-    <div class="sage-strip">
-      <div class="sage-perch" id="sage-owl" aria-hidden="true"></div>
-      <div class="sage-bubble" id="sage-say" aria-live="polite"></div>
+  <div id="ob-app" hidden>
+    <div class="ob-top">
+      <button type="button" class="ob-back" id="ob-back" aria-label="Back" onclick="obBack()">←</button>
+      <div class="ob-bar" id="ob-bar" role="progressbar" aria-label="Setup progress" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0"><i></i><i></i><i></i><i></i></div>
+      <span class="ob-xp" id="ob-xp">0 XP</span>
+      <a href="/dashboard" class="ob-skip" onclick="obSkip(event)">Skip</a>
     </div>
-    <div class="ob-progress" role="progressbar" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1" id="ob-progressbar" aria-label="Setup progress">
-      <div class="ob-progress-step" data-i="1"></div>
-      <div class="ob-progress-step" data-i="2"></div>
-      <div class="ob-progress-step" data-i="3"></div>
-      <div class="ob-progress-step" data-i="4"></div>
-    </div>
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
-      <div class="ob-progress-label" id="ob-step-label">Step 1 of 4</div>
-      <div style="display:flex;align-items:center;gap:14px;">
-        <span class="ob-xp"><span class="ob-xp-track" role="progressbar" aria-label="Setup XP" aria-valuemin="0" aria-valuemax="75" aria-valuenow="0" id="ob-xp-bar"><span class="ob-xp-fill" id="ob-xp-fill"></span></span><span class="ob-xp-num" id="ob-points">0 XP</span></span>
-        <a href="/dashboard" class="ob-skip" onclick="obSkip(event)">Skip setup</a>
-      </div>
-    </div>
-
-    <div aria-live="polite" class="sr-only" id="ob-announce"></div>
-
-    <div id="ob-step-1" class="ob-step" hidden>
-      <h1 class="ob-title">Welcome to PrecisStudy</h1>
-      <p class="ob-sub">Pick the classes you're taking. This decides which study guides show up on your dashboard -- you can add or remove classes any time from Settings.</p>
-      <div class="ss-card" id="ob-subject-list"></div>
-      <div class="ob-actions">
-        <span id="ob-step1-status" style="font-size:13px;color:var(--text-muted);"></span>
-        <div class="ob-actions-right">
-          <button type="button" class="ss-btn ss-btn-solid" onclick="obSaveSubjectsAndNext()">Continue</button>
-        </div>
-      </div>
-    </div>
-
-    <div id="ob-step-2" class="ob-step" hidden>
-      <h1 class="ob-title">Study preferences</h1>
-      <p class="ob-sub">Set how PrecisStudy should notify you and which theme to use. Everything here can be changed later in Settings.</p>
-      <div class="ss-card">
-        <div class="ob-pref-row">
-          <div class="ob-pref-text"><strong>Daily reminder</strong><span>A nudge if you haven't studied yet today.</span></div>
-          <label class="ob-switch"><input type="checkbox" id="ob-pref-daily" checked/><span class="ob-slider"></span></label>
-        </div>
-        <div class="ob-pref-row">
-          <div class="ob-pref-text"><strong>Streak alerts</strong><span>A warning before your study streak breaks.</span></div>
-          <label class="ob-switch"><input type="checkbox" id="ob-pref-streak" checked/><span class="ob-slider"></span></label>
-        </div>
-        <div class="ob-pref-row">
-          <div class="ob-pref-text"><strong>Scheduled block reminders</strong><span>A reminder shortly before a study block on your weekly schedule.</span></div>
-          <label class="ob-switch"><input type="checkbox" id="ob-pref-blocks" checked/><span class="ob-slider"></span></label>
-        </div>
-        <div class="ob-pref-row">
-          <div class="ob-pref-text"><strong>Dark mode</strong><span>Switch the whole site's color theme.</span></div>
-          <label class="ob-switch"><input type="checkbox" id="ob-pref-dark"/><span class="ob-slider"></span></label>
-        </div>
-      </div>
-      <div class="ss-card" style="margin-top:16px;">
-        <div class="ob-pref-text" style="margin-bottom:8px;"><strong>Study goal (optional)</strong><span>How many days until your exam, and how many minutes a day you plan to study.</span></div>
-        <div class="ob-goal-row">
-          <div class="ob-goal-field"><label for="ob-goal-days">Days until exam</label><input type="number" id="ob-goal-days" min="1" max="365" placeholder="e.g. 30"/></div>
-          <div class="ob-goal-field"><label for="ob-goal-minutes">Minutes per day</label><input type="number" id="ob-goal-minutes" min="1" max="480" placeholder="e.g. 30"/></div>
-        </div>
-      </div>
-      <div class="ob-actions">
-        <button type="button" class="ss-btn" onclick="obGoStep(1)">Back</button>
-        <div class="ob-actions-right">
-          <span id="ob-step2-status" style="font-size:13px;color:var(--text-muted);align-self:center;"></span>
-          <button type="button" class="ss-btn ss-btn-solid" onclick="obSavePrefsAndNext()">Continue</button>
-        </div>
-      </div>
-    </div>
-
-    <div id="ob-step-3" class="ob-step" hidden>
-      <h1 class="ob-title">Tour of PrecisStudy</h1>
-      <p class="ob-sub">A quick look at what's here. Click "Visit" to open a feature in a new tab -- you don't need to visit everything now.</p>
-      <div id="ob-tour-list"></div>
-      <div class="ob-actions">
-        <button type="button" class="ss-btn" onclick="obGoStep(2)">Back</button>
-        <div class="ob-actions-right">
-          <button type="button" class="ss-btn ss-btn-solid" onclick="obAwardPoints(25, 'Tour complete'); obGoStep(4)">Continue</button>
-        </div>
-      </div>
-    </div>
-
-    <div id="ob-step-4" class="ob-step" hidden>
-      <h1 class="ob-title">You're all set</h1>
-      <p class="ob-sub">Here's what got set up. You can change any of it from Settings whenever you want.</p>
-      <div id="ob-ach"></div>
-      <div class="ss-card ob-finish-summary" id="ob-finish-summary"></div>
-      <div class="ss-card" style="text-align:center;">
-        <a href="/dashboard" class="ss-btn ss-btn-solid" style="text-decoration:none;display:inline-block;font-size:16px;padding:12px 28px;">Go to your dashboard</a>
-        <div style="margin-top:14px;"><a href="/compete/?tab=quests" style="font-size:14px;">Keep going with today's quests &rarr;</a></div>
-      </div>
-    </div>
+    <div id="ob-screen" aria-live="polite"></div>
   </div>
 </main>
+<div class="ob-foot" id="ob-foot" hidden><div class="ob-foot-in" id="ob-foot-in"></div></div>
+<script type="module">
+import { owlSvg, OWL_CSS } from "/shared/owl.js";
+import { chalkIcon } from "/shared/chalk-icons.js";
+let getIcon = null;
+try { getIcon = (await import("/shared/subject-icons.js")).getSubjectIcon; } catch (e) { /* icons are decorative */ }
 
-<div class="ob-toast" id="ob-toast" role="status" aria-live="polite"></div>
+const style = document.createElement("style"); style.textContent = OWL_CSS; document.head.appendChild(style);
 
-<script>
-function obToggleTheme(){
-  var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-  if (isDark) {
-    document.documentElement.removeAttribute('data-theme');
-    try { localStorage.setItem('ss-theme', 'light'); } catch (e) {}
-  } else {
-    document.documentElement.setAttribute('data-theme', 'dark');
-    try { localStorage.setItem('ss-theme', 'dark'); } catch (e) {}
-  }
-  var darkToggle = document.getElementById('ob-pref-dark');
-  if (darkToggle) darkToggle.checked = document.documentElement.getAttribute('data-theme') === 'dark';
-}
-function ssEscapeHtml(s){
-  var div = document.createElement('div');
-  div.textContent = String(s == null ? '' : s);
-  return div.innerHTML;
-}
-function obLoginBoxHtml(){
-  return '<a class="ss-oauth-btn" href="/auth/google/start?next=' + encodeURIComponent(location.pathname) + '">Continue with Google</a>'
-    + '<a class="ss-oauth-btn" href="/auth/github/start?next=' + encodeURIComponent(location.pathname) + '">Continue with GitHub</a>';
-}
-function obToast(msg){
-  var t = document.getElementById('ob-toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(function(){ t.classList.remove('show'); }, 2200);
-}
-function obFetch(url, init){
-  if (window.ssOptimistic && window.ssOptimistic.fetch) return window.ssOptimistic.fetch(url, init);
-  return fetch(url, init).then(function(r){ return r.json().then(function(b){ if(!r.ok) throw new Error((b&&b.error)||'Request failed'); return b; }); });
-}
-
-// Same subject list and category grouping as /settings (kept in sync by
-// hand -- see the onboarding build report for why this isn't a shared
-// module yet).
 var SUBJECTS = [
   { key: 'geometry', cat: 'math', label: 'Geometry' },
   { key: 'chemistry', cat: 'science', label: 'Chemistry' },
@@ -388,348 +328,229 @@ var SUBJECT_CATEGORIES = [
   { key: 'electives', label: 'Electives & Skills' }
 ];
 
-var TOUR = [
-  { group: 'Every day', items: [
-    { label: 'Dashboard', href: '/dashboard', desc: 'Your readiness overview across classes, a weekly schedule builder, and a "today\'s focus" banner pointing at your weakest topic.' },
-    { label: 'Quest', href: '/quest', desc: 'Daily and weekly quests plus a weekly boss fight against your weakest unit -- a game layer on top of your real study activity.' }
-  ]},
-  { group: 'Studying a class', items: [
-    { label: '', href: '', desc: 'Each class has its own Study Guide, Flashcards, a Quiz (with a diagnostic and a hard mode), a Practice Exam (with an exam-condition lockdown mode), a Quick Reference sheet, and Memory Tricks.', dynamic: true },
-    { label: 'Syllabus Uploader', href: '/syllabus', desc: 'Upload your class syllabus to auto-fill your schedule and put your units in the order your teacher covers them.' },
-    { label: 'Concept Dependency Map', href: '/concepts', desc: 'See which concepts build on which, so you know what to shore up before moving on.' }
-  ]},
-  { group: 'With other students', items: [
-    { label: 'Weekly Leaderboards', href: '/leaderboards', desc: 'An opt-in weekly ranking of study activity among students who choose to join.' },
-    { label: 'Study Group Hub', href: '/study-group', desc: 'Opt-in shared spaces for a class or group to coordinate studying together.' },
-    { label: 'Peer Challenge', href: '/challenge', desc: 'Send a friend a head-to-head quiz challenge on a unit.' }
-  ]},
-  { group: 'Account', items: [
-    { label: 'Settings', href: '/settings', desc: 'The tabbed Account, Study Preferences, Notifications, Appearance, and Data Management page.' },
-    { label: 'Educator Resource Hub', href: '/educators', desc: 'Relevant if you are a teacher -- classroom-facing resources, not part of the student experience.' }
-  ]}
+// Guide folders that differ from the progress keys.
+const PATHS = { aplang: "ap-lang", globalhistory: "global-history", apbiology: "ap-biology" };
+const STEPS = ["welcome", "classes", "test", "time", "reminders", "done"];
+const XP = { classes: 25, test: 20, time: 20, reminders: 10 };   // 75 total = SETUP_XP on the server
+const TESTS = [
+  { v: 7, big: "1 wk", t: "This week", d: "Let's focus on what matters most." },
+  { v: 14, big: "2 wk", t: "In about two weeks", d: "Plenty of time for steady practice." },
+  { v: 30, big: "1 mo", t: "In about a month", d: "We'll build it up unit by unit." },
+  { v: 90, big: "3 mo+", t: "Later this year", d: "Slow and steady, a little each day." },
+  { v: 0, big: "?", t: "Not sure yet", d: "No problem, I'll keep it flexible." },
 ];
+const TIMES = [
+  { v: 10, t: "Quick", d: "A few flashcards and a question or two" },
+  { v: 20, t: "Regular", d: "A short quiz every day" },
+  { v: 30, t: "Serious", d: "A unit's worth of practice" },
+  { v: 45, t: "Intense", d: "Deep study sessions" },
+];
+const S = { step: 0, dir: 1, enrolled: [], cat: "all", q: "", days: null, minutes: null,
+  prefs: { daily: true, streak: true, blocks: true }, xp: 0, earned: {} };
 
-var OB_STATE = { enrolled: [], firstSubject: null, notificationPrefs: { daily: true, streak: true, blocks: true }, goalSaved: false, subjectsSaved: false, points: 0 };
-var OB_GET_ICON = null;
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const owl = (mood, size, extra = {}) => `<div class="owl">${owlSvg({ mood, size, ...extra })}</div>`;
+const say = (mood, text, size = 72) => `<div class="ob-sage">${owl(mood, size)}<div class="ob-bubble"><small>Sage</small>${text}</div></div>`;
 
-function obAnnounce(text){
-  document.getElementById('ob-announce').textContent = text;
+async function api(url, body) {
+  const init = { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) };
+  if (window.ssOptimistic && window.ssOptimistic.fetch) return window.ssOptimistic.fetch(url, init);
+  const r = await fetch(url, init);
+  const b = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error((b && b.error) || "Request failed");
+  return b;
 }
 
-// Light, cosmetic "Setup Points" for this one-time wizard -- separate from
-// (and never conflated with) the real, persistent Quest XP system at /quest.
-function obAwardPoints(n, label){
-  OB_STATE.points += n;
-  var readout = document.getElementById('ob-points');
-  if (readout) readout.textContent = OB_STATE.points + ' Setup Points';
-  obToast('+' + n + ' Setup Points' + (label ? ' · ' + label : ''));
+function award(step) {
+  if (!XP[step] || S.earned[step]) return;
+  S.earned[step] = true; S.xp += XP[step];
+  $("ob-xp").innerHTML = S.xp + ' XP<em aria-hidden="true">+' + XP[step] + "</em>";
 }
 
-function obSkip(event){
-  if (event) event.preventDefault();
-  try { localStorage.setItem('ob-done-v2', '1'); } catch(e){}
-  location.href = '/dashboard';
-}
+function foot(html) { $("ob-foot").hidden = !html; $("ob-foot-in").innerHTML = html || ""; }
 
-function obGoStep(n){
-  for (var i = 1; i <= 4; i++) {
-    document.getElementById('ob-step-' + i).hidden = (i !== n);
-  }
-  document.querySelectorAll('.ob-progress-step').forEach(function(el){
-    var i = Number(el.getAttribute('data-i'));
-    el.classList.toggle('done', i < n);
-    el.classList.toggle('current', i === n);
-  });
-  document.getElementById('ob-progressbar').setAttribute('aria-valuenow', String(n));
-  document.getElementById('ob-step-label').textContent = 'Step ' + n + ' of 4';
-  var titleEl = document.getElementById('ob-step-' + n).querySelector('.ob-title');
-  obAnnounce('Step ' + n + ' of 4: ' + (titleEl ? titleEl.textContent : ''));
-  try { localStorage.setItem('ob-step-v2', String(n)); } catch(e){}
-  if (n === 3) obRenderTour();
-  if (n === 4) { obRenderFinish(); try { localStorage.setItem('ob-done-v2', '1'); } catch(e){} }
+function go(n, dir = 1) {
+  S.step = Math.max(0, Math.min(STEPS.length - 1, n)); S.dir = dir;
+  try { localStorage.setItem("ob-step-v3", String(S.step)); } catch (e) {}
+  render();
+}
+window.obBack = () => go(S.step - 1, -1);
+window.obSkip = (e) => { if (e) e.preventDefault(); try { localStorage.setItem("ob-done-v2", "1"); } catch (x) {} location.href = "/dashboard"; };
+
+function render() {
+  const name = STEPS[S.step];
+  const bar = $("ob-bar");
+  const done = Math.max(0, Math.min(4, S.step - 1 + (name === "done" ? 1 : 0)));
+  bar.querySelectorAll("i").forEach((el, i) => el.classList.toggle("on", i < done));
+  bar.setAttribute("aria-valuenow", String(done));
+  $("ob-back").hidden = S.step === 0 || name === "done";
+  const scr = $("ob-screen");
+  scr.className = "ob-screen" + (S.dir < 0 ? " back" : "") + (name === "welcome" || name === "done" ? " ob-hero" : "");
+  scr.innerHTML = VIEWS[name]();
+  void scr.offsetWidth;
+  (BIND[name] || (() => {}))();
   window.scrollTo(0, 0);
 }
 
-function obRenderSubjects(){
-  var enrolledSet = new Set(OB_STATE.enrolled);
-  var byCat = {};
-  SUBJECTS.forEach(function(s){ (byCat[s.cat] = byCat[s.cat] || []).push(s); });
-  var html = SUBJECT_CATEGORIES.map(function(cat){
-    var subjects = byCat[cat.key] || [];
-    if (!subjects.length) return '';
-    var openCount = subjects.filter(function(s){ return enrolledSet.has(s.key); }).length;
-    var rows = subjects.map(function(s){
-      var icon = OB_GET_ICON ? OB_GET_ICON(s.key) : null;
-      var iconHtml = icon ? '<span class="ob-row-icon">' + icon.svg + '</span>' : '<span class="ob-row-icon"></span>';
-      return '<div class="ob-subject-row"><label><input type="checkbox" data-subject="' + s.key + '"'
-        + (enrolledSet.has(s.key) ? ' checked' : '') + ' onchange="obToggleSubject(this)"/>'
-        + iconHtml + '<span>' + ssEscapeHtml(s.label) + '</span></label></div>';
-    }).join('');
-    return '<div class="ob-cat"><div class="ob-cat-label">' + ssEscapeHtml(cat.label)
-      + (openCount ? ' <span class="ob-count-chip">' + openCount + ' selected</span>' : '') + '</div>' + rows + '</div>';
-  }).join('');
-  document.getElementById('ob-subject-list').innerHTML = html;
+const PERKS = [
+  ["book", "Guides for your real classes", "Notes, flashcards and quizzes, unit by unit"],
+  ["bars", "A plan that fits your test date", "I'll pace things so you're ready in time"],
+  ["check", "XP, streaks and quests", "Every step, starting right now, earns XP"],
+];
+const icon = (n) => `<svg viewBox="0 0 64 64" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${chalkIcon(n, 0, 0, 64)}</svg>`;
+
+const VIEWS = {
+  welcome: () => {
+    foot(`<button class="ob-cta full" id="ob-next">Let's set you up</button>`);
+    return `${owl("idle", 150)}
+      <h1 class="ob-h">Hi, I'm Sage!</h1>
+      <p class="ob-sub">I'll build your study plan in about a minute.</p>
+      <div class="ob-perks">${PERKS.map(([i, b, s]) => `<div class="ob-perk">${icon(i)}<div><b>${b}</b><span>${s}</span></div></div>`).join("")}</div>`;
+  },
+  classes: () => {
+    const cats = [{ key: "all", label: "All" }].concat(SUBJECT_CATEGORIES);
+    foot(`<span class="ob-foot-note" id="ob-count"></span><button class="ob-cta" id="ob-next">Continue</button>`);
+    return `${say(S.enrolled.length ? "happy" : "idle", S.enrolled.length ? "Nice! Add any others you're taking." : "Which classes are you taking? Tap all that apply.")}
+      <h1 class="ob-h">Your classes</h1>
+      <input class="ob-search" id="ob-q" type="search" placeholder="Search classes…" aria-label="Search classes" value="${esc(S.q)}">
+      <div class="ob-chips" role="group" aria-label="Filter by category">${cats.map((c) => `<button type="button" class="ob-chip${S.cat === c.key ? " on" : ""}" data-cat="${c.key}">${esc(c.label)}</button>`).join("")}</div>
+      <div class="ob-grid" id="ob-grid"></div>`;
+  },
+  test: () => {
+    foot(`<button class="ob-cta" id="ob-next" ${S.days === null ? "disabled" : ""}>Continue</button>`);
+    return `${say("think", "When's your next big test or final?")}
+      <h1 class="ob-h">Your test date</h1>
+      <div class="ob-opts" role="radiogroup" aria-label="Next test">${TESTS.map((o) => `<button type="button" class="ob-opt" role="radio" aria-checked="${S.days === o.v}" data-v="${o.v}"><span class="big">${o.big}</span><span><b>${o.t}</b><span>${o.d}</span></span></button>`).join("")}</div>`;
+  },
+  time: () => {
+    foot(`<button class="ob-cta" id="ob-next" ${S.minutes === null ? "disabled" : ""}>Continue</button>`);
+    return `${say("idle", "How much time can you give me each day? Small and steady beats cramming.")}
+      <h1 class="ob-h">Your daily goal</h1>
+      <div class="ob-opts" role="radiogroup" aria-label="Daily study time">${TIMES.map((o) => `<button type="button" class="ob-opt" role="radio" aria-checked="${S.minutes === o.v}" data-v="${o.v}"><span class="big">${o.v}m</span><span><b>${o.t}</b><span>${o.d}</span></span></button>`).join("")}</div>`;
+  },
+  reminders: () => {
+    foot(`<button class="ob-cta" id="ob-next">Continue</button>`);
+    const row = (k, t, d) => `<button type="button" class="ob-opt" role="switch" aria-checked="${!!S.prefs[k]}" data-k="${k}"><span><b>${t}</b><span>${d}</span></span><span class="ob-switch" aria-hidden="true"></span></button>`;
+    return `${say("happy", "Want me to nudge you? I'll keep it friendly, promise.")}
+      <h1 class="ob-h">Reminders</h1>
+      <div class="ob-opts">${row("daily", "Daily reminder", "A nudge if you haven't studied yet today")}${row("streak", "Streak alert", "A heads-up before your streak breaks")}${row("blocks", "Study-block reminders", "Just before a session on your schedule")}</div>`;
+  },
+  done: () => {
+    const first = SUBJECTS.find((s) => S.enrolled.includes(s.key));
+    const count = S.enrolled.length;
+    const test = TESTS.find((t) => t.v === S.days);
+    foot(first
+      ? `<a class="ob-cta full" style="text-align:center;text-decoration:none" href="/${PATHS[first.key] || first.key}" onclick="obFinish()">Start with ${esc(first.label)}</a>`
+      : `<a class="ob-cta full" style="text-align:center;text-decoration:none" href="/dashboard" onclick="obFinish()">Go to my dashboard</a>`);
+    return `${owl("cheer", 140, { cap: true })}
+      <h1 class="ob-h">You're all set!</h1>
+      <div class="ob-ach" role="status" id="ob-ach">${owlSvg({ mood: "happy", cap: true, size: 44, label: "" })}<span><b>Achievement unlocked: First Flight</b><small id="ob-ach-note">+${S.xp} XP · Sage earned a graduation cap</small></span></div>
+      <div class="ob-plan">
+        <div><span>Classes</span><span>${count ? count + (count === 1 ? " class" : " classes") : "None yet"}</span></div>
+        <div><span>Next test</span><span>${test ? test.t : "Not set"}</span></div>
+        <div><span>Daily goal</span><span>${S.minutes ? S.minutes + " min a day" : "Not set"}</span></div>
+      </div>
+      ${first ? `<p class="ob-sub" style="margin-top:14px"><a href="/dashboard" onclick="obFinish()">Or go to your dashboard</a></p>` : ""}`;
+  },
+};
+
+function renderGrid() {
+  const q = S.q.trim().toLowerCase();
+  const list = SUBJECTS.filter((s) => (S.cat === "all" || s.cat === S.cat) && (!q || s.label.toLowerCase().includes(q)));
+  $("ob-grid").innerHTML = list.length ? list.map((s) => {
+    const ic = getIcon && getIcon(s.key);
+    return `<button type="button" class="ob-tile" data-k="${s.key}" aria-pressed="${S.enrolled.includes(s.key)}"><span class="ic" aria-hidden="true">${ic ? ic.svg : ""}</span>${esc(s.label)}</button>`;
+  }).join("") : `<p class="ob-empty">No classes match "${esc(S.q)}".</p>`;
+  const n = S.enrolled.length;
+  $("ob-count").textContent = n ? n + " selected" : "Pick at least one";
+  $("ob-next").disabled = !n;
 }
 
-function obToggleSubject(cb){
-  var key = cb.getAttribute('data-subject');
-  var idx = OB_STATE.enrolled.indexOf(key);
-  if (cb.checked && idx === -1) OB_STATE.enrolled.push(key);
-  if (!cb.checked && idx !== -1) OB_STATE.enrolled.splice(idx, 1);
-  obRenderSubjects();
-}
+const pick = (sel, onPick) => document.querySelectorAll(sel).forEach((b) => b.addEventListener("click", () => onPick(b)));
+const next = (fn) => $("ob-next") && $("ob-next").addEventListener("click", fn);
 
-async function obSaveSubjectsAndNext(){
-  var status = document.getElementById('ob-step1-status');
-  status.textContent = 'Saving...';
-  try {
-    await obFetch('/api/enrolled-subjects', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ subjects: OB_STATE.enrolled })
+const BIND = {
+  welcome: () => next(() => go(1)),
+  classes: () => {
+    renderGrid();
+    $("ob-q").addEventListener("input", (e) => { S.q = e.target.value; renderGrid(); });
+    pick(".ob-chip", (b) => { S.cat = b.dataset.cat; document.querySelectorAll(".ob-chip").forEach((c) => c.classList.toggle("on", c === b)); renderGrid(); });
+    $("ob-grid").addEventListener("click", (e) => {
+      const t = e.target.closest(".ob-tile"); if (!t) return;
+      const k = t.dataset.k, i = S.enrolled.indexOf(k);
+      if (i === -1) S.enrolled.push(k); else S.enrolled.splice(i, 1);
+      const subj = SUBJECTS.find((s) => s.key === k);
+      const bub = document.querySelector(".ob-bubble");
+      if (bub && i === -1 && subj) bub.innerHTML = "<small>Sage</small>" + (S.enrolled.length >= 5 ? S.enrolled.length + " classes? Ambitious. I like it." : "Ooh, " + esc(subj.label) + "! Good pick.");
+      renderGrid();
     });
-    OB_STATE.subjectsSaved = true;
-    OB_STATE.firstSubject = SUBJECTS.find(function(s){ return OB_STATE.enrolled.indexOf(s.key) !== -1; }) || null;
-    status.textContent = '';
-    obAwardPoints(25, 'Classes picked');
-    obGoStep(2);
-  } catch (e) {
-    status.textContent = "Couldn't save -- try again.";
-  }
-}
-
-async function obSavePrefsAndNext(){
-  var status = document.getElementById('ob-step2-status');
-  status.textContent = 'Saving...';
-  var prefs = {
-    daily: document.getElementById('ob-pref-daily').checked,
-    streak: document.getElementById('ob-pref-streak').checked,
-    blocks: document.getElementById('ob-pref-blocks').checked
-  };
-  var days = Number(document.getElementById('ob-goal-days').value);
-  var minutesPerDay = Number(document.getElementById('ob-goal-minutes').value);
-  try {
-    await obFetch('/api/notification-prefs', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(prefs)
+    next(async () => {
+      const btn = $("ob-next"); btn.disabled = true; btn.textContent = "Saving…";
+      try { await api("/api/enrolled-subjects", { subjects: S.enrolled }); award("classes"); go(2); }
+      catch (e) { btn.disabled = false; btn.textContent = "Try again"; }
     });
-    OB_STATE.notificationPrefs = prefs;
-    if (days > 0 && minutesPerDay > 0) {
-      await obFetch('/api/goal', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ days: days, minutesPerDay: minutesPerDay })
-      });
-      OB_STATE.goalSaved = true;
-      OB_STATE.goalDays = days;
-      OB_STATE.goalMinutes = minutesPerDay;
+  },
+  test: () => {
+    pick(".ob-opt", (b) => { S.days = Number(b.dataset.v); document.querySelectorAll(".ob-opt").forEach((o) => o.setAttribute("aria-checked", String(o === b))); $("ob-next").disabled = false; });
+    next(() => { award("test"); go(3); });
+  },
+  time: () => {
+    pick(".ob-opt", (b) => { S.minutes = Number(b.dataset.v); document.querySelectorAll(".ob-opt").forEach((o) => o.setAttribute("aria-checked", String(o === b))); $("ob-next").disabled = false; });
+    next(async () => {
+      const btn = $("ob-next"); btn.disabled = true; btn.textContent = "Saving…";
+      try {
+        if (S.days > 0 && S.minutes > 0) await api("/api/goal", { days: S.days, minutesPerDay: S.minutes });
+        award("time"); go(4);
+      } catch (e) { btn.disabled = false; btn.textContent = "Try again"; }
+    });
+  },
+  reminders: () => {
+    pick(".ob-opt", (b) => { const k = b.dataset.k; S.prefs[k] = !S.prefs[k]; b.setAttribute("aria-checked", String(S.prefs[k])); });
+    next(async () => {
+      const btn = $("ob-next"); btn.disabled = true; btn.textContent = "Saving…";
+      try { await api("/api/notification-prefs", S.prefs); award("reminders"); go(5); }
+      catch (e) { btn.disabled = false; btn.textContent = "Try again"; }
+    });
+  },
+  done: () => {
+    try { localStorage.setItem("ob-done-v2", "1"); localStorage.removeItem("ob-step-v3"); } catch (e) {}
+    api("/api/quest/claim", { scope: "once", key: "setup" }).then((d) => {
+      if (d && d.xpAwarded) $("ob-ach-note").textContent = "+" + d.xpAwarded + " XP added to your Quest XP · Sage earned a graduation cap";
+    }).catch(() => { /* the reward is a bonus; finishing works without it */ });
+  },
+};
+window.obToggleTheme = () => {
+  const dark = document.documentElement.getAttribute("data-theme") === "dark";
+  if (dark) document.documentElement.removeAttribute("data-theme"); else document.documentElement.setAttribute("data-theme", "dark");
+  try { localStorage.setItem("ss-theme", dark ? "light" : "dark"); } catch (e) {}
+};
+window.obFinish = () => { try { localStorage.setItem("ob-done-v2", "1"); } catch (e) {} };
+
+// ---- start ----
+let me = { loggedIn: false };
+try { me = await (await fetch("/auth/me")).json(); } catch (e) {}
+if (!me.loggedIn) {
+  $("ob-gate").hidden = false;
+  $("ob-gate-owl").innerHTML = owlSvg({ mood: "idle", size: 130 });
+  $("ob-login-box").innerHTML = '<a class="ss-oauth-btn" href="/auth/google/start?next=' + encodeURIComponent(location.pathname) + '">Continue with Google</a>'
+    + '<a class="ss-oauth-btn" href="/auth/github/start?next=' + encodeURIComponent(location.pathname) + '">Continue with GitHub</a>';
+} else {
+  $("ob-app").hidden = false;
+  try {
+    const r = await fetch("/api/progress");
+    if (r.ok) {
+      const blob = await r.json();
+      S.enrolled = Array.isArray(blob.enrolledSubjects) ? blob.enrolledSubjects.slice() : [];
+      const p = blob.notificationPrefs || {};
+      S.prefs = { daily: p.daily !== false, streak: p.streak !== false, blocks: p.blocks !== false };
+      if (blob.goal) { S.days = TESTS.some((t) => t.v === blob.goal.days) ? blob.goal.days : null; S.minutes = TIMES.some((t) => t.v === blob.goal.minutesPerDay) ? blob.goal.minutesPerDay : null; }
     }
-    status.textContent = '';
-    obAwardPoints(25, 'Preferences set');
-    obGoStep(3);
-  } catch (e) {
-    status.textContent = "Couldn't save -- try again.";
-  }
+  } catch (e) { /* defaults */ }
+  let resume = 0;
+  try { resume = Number(localStorage.getItem("ob-step-v3")) || 0; } catch (e) {}
+  go(resume > 0 && resume < STEPS.length - 1 ? resume : 0);
 }
-
-function obSeenKey(){ return 'ob-tour-seen-v2'; }
-function obGetSeen(){
-  try { return JSON.parse(localStorage.getItem(obSeenKey()) || '[]'); } catch (e) { return []; }
-}
-function obMarkSeen(href){
-  var seen = obGetSeen();
-  if (seen.indexOf(href) === -1) { seen.push(href); try { localStorage.setItem(obSeenKey(), JSON.stringify(seen)); } catch(e){} }
-}
-
-function obRenderTour(){
-  var seen = obGetSeen();
-  var firstSubject = OB_STATE.firstSubject;
-  var html = TOUR.map(function(group){
-    var items = group.items.map(function(item){
-      var href = item.href;
-      var label = item.label;
-      var desc = item.desc;
-      var subjectKey = null;
-      if (item.dynamic) {
-        if (firstSubject) { href = '/' + firstSubject.key; label = firstSubject.label + ' Study Guide'; subjectKey = firstSubject.key; }
-        else { href = '/geometry'; label = 'A subject study guide (example: Geometry)'; subjectKey = 'geometry'; }
-      }
-      var isSeen = seen.indexOf(href) !== -1;
-      var icon = subjectKey && OB_GET_ICON ? OB_GET_ICON(subjectKey) : null;
-      var iconHtml = icon ? '<span class="ob-tour-icon" style="color:' + icon.color + '">' + icon.svg + '</span>' : '';
-      return '<div class="ob-tour-item"><div class="ob-tour-item-body">' + iconHtml + '<div class="ob-tour-text"><strong>' + ssEscapeHtml(label) + '</strong>'
-        + '<span>' + ssEscapeHtml(desc) + '</span>'
-        + (isSeen ? '<span class="ob-tour-seen">Visited</span>' : '') + '</div></div>'
-        + '<a class="ob-visit-btn" href="' + href + '" target="_blank" rel="noopener" onclick="obMarkSeen(\'' + href + '\')">Visit</a></div>';
-    }).join('');
-    return '<div class="ob-tour-group"><div class="ob-tour-group-label">' + ssEscapeHtml(group.group) + '</div>' + items + '</div>';
-  }).join('');
-  document.getElementById('ob-tour-list').innerHTML = html;
-}
-
-function obRenderFinish(){
-  var count = OB_STATE.enrolled.length;
-  var items = [];
-  items.push('<div class="ob-finish-item"><span>Classes selected</span><span>' + (count ? count + (count===1?' class':' classes') : 'None yet') + '</span></div>');
-  var onCount = ['daily','streak','blocks'].filter(function(k){ return OB_STATE.notificationPrefs[k]; }).length;
-  items.push('<div class="ob-finish-item"><span>Notification preferences</span><span>' + onCount + ' of 3 turned on</span></div>');
-  var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-  items.push('<div class="ob-finish-item"><span>Theme</span><span>' + (isDark ? 'Dark' : 'Light') + '</span></div>');
-  if (OB_STATE.goalSaved) {
-    items.push('<div class="ob-finish-item"><span>Study goal</span><span>' + OB_STATE.goalMinutes + ' min/day for ' + OB_STATE.goalDays + ' days</span></div>');
-  }
-  var seenCount = obGetSeen().length;
-  items.push('<div class="ob-finish-item"><span>Tour pages visited</span><span>' + seenCount + '</span></div>');
-  items.push('<div class="ob-finish-item"><span>XP earned</span><span>' + OB_STATE.points + '</span></div>');
-  document.getElementById('ob-finish-summary').innerHTML = items.join('');
-  if (window.celebrateCorrect) window.celebrateCorrect(document.getElementById('ob-finish-summary'));
-}
-
-async function obInit(){
-  try {
-    var iconMod = await import('/shared/subject-icons.js');
-    OB_GET_ICON = iconMod.getSubjectIcon;
-  } catch (e) { /* icons are decorative -- fall back to no icon */ }
-  var gate = document.getElementById('ob-gate');
-  var app = document.getElementById('ob-app');
-  var me;
-  try { var res = await fetch('/auth/me'); me = await res.json(); } catch (e) { me = { loggedIn: false }; }
-  if (!me.loggedIn) {
-    gate.style.display = 'block';
-    document.getElementById('ob-login-box').innerHTML = obLoginBoxHtml();
-    return;
-  }
-  app.style.display = 'block';
-  document.getElementById('ob-pref-dark').checked = document.documentElement.getAttribute('data-theme') === 'dark';
-  document.getElementById('ob-pref-dark').addEventListener('change', obToggleTheme);
-
-  try {
-    var progRes = await fetch('/api/progress');
-    if (progRes.ok) {
-      var blob = await progRes.json();
-      OB_STATE.enrolled = Array.isArray(blob.enrolledSubjects) ? blob.enrolledSubjects.slice() : [];
-      var prefs = blob.notificationPrefs || {};
-      OB_STATE.notificationPrefs = {
-        daily: prefs.daily !== false, streak: prefs.streak !== false, blocks: prefs.blocks !== false
-      };
-      document.getElementById('ob-pref-daily').checked = OB_STATE.notificationPrefs.daily;
-      document.getElementById('ob-pref-streak').checked = OB_STATE.notificationPrefs.streak;
-      document.getElementById('ob-pref-blocks').checked = OB_STATE.notificationPrefs.blocks;
-      if (blob.goal) {
-        document.getElementById('ob-goal-days').value = blob.goal.days;
-        document.getElementById('ob-goal-minutes').value = blob.goal.minutesPerDay;
-      }
-      OB_STATE.firstSubject = SUBJECTS.find(function(s){ return OB_STATE.enrolled.indexOf(s.key) !== -1; }) || null;
-    }
-  } catch (e) { /* fall through with defaults */ }
-
-  obRenderSubjects();
-  var resumeStep = 1;
-  try { resumeStep = Number(localStorage.getItem('ob-step-v2')) || 1; } catch(e){}
-  obGoStep(resumeStep >= 1 && resumeStep <= 4 ? resumeStep : 1);
-}
-obInit();
-</script>
-<script type="module">
-// Sage the owl guides the setup. Layered on top of the wizard's own step
-// functions (wrapped, not rewritten) so saving and navigation are unchanged.
-import { owlSvg, OWL_CSS } from "/shared/owl.js";
-
-const style = document.createElement("style");
-style.textContent = OWL_CSS;
-document.head.appendChild(style);
-
-const SETUP_XP_MAX = 75;
-const LINES = {
-  1: "Hi, I'm Sage! Let's get you set up. It takes about a minute, and every step earns XP. First: which classes are you taking?",
-  2: "Nice picks! When's your test, and how long can you study each day? I'll pace your plan around it.",
-  3: "Here's a quick look around. Peek at anything that catches your eye, then keep going.",
-  4: "You did it! That earns you a graduation cap. See you in class.",
-};
-const owlEl = document.getElementById("sage-owl");
-const sayEl = document.getElementById("sage-say");
-
-function draw(mood, cap) {
-  if (!owlEl) return;
-  owlEl.innerHTML = owlSvg({ mood, cap, size: 96 });
-  owlEl.firstElementChild.classList.add("sage-bob");
-}
-function hop() {
-  const svg = owlEl && owlEl.firstElementChild;
-  if (!svg) return;
-  svg.classList.remove("sage-hop"); void svg.getBoundingClientRect(); svg.classList.add("sage-hop");
-}
-function say(text, mood = "idle", cap = false) {
-  if (sayEl) sayEl.innerHTML = "<b>Sage</b>" + ssEscapeHtml(text);
-  draw(mood, cap);
-}
-function currentStep() {
-  for (let i = 1; i <= 4; i++) { const s = document.getElementById("ob-step-" + i); if (s && !s.hidden) return i; }
-  return 1;
-}
-function showStep(n) {
-  say(LINES[n] || LINES[1], n === 4 ? "cheer" : n === 3 ? "think" : "idle", n === 4);
-}
-
-// Gate (signed out): Sage greets before sign-in.
-const gateOwl = document.getElementById("ob-gate-owl");
-if (gateOwl) gateOwl.innerHTML = owlSvg({ mood: "idle", size: 110 });
-const gateMsg = document.getElementById("ob-gate-msg");
-if (gateMsg) gateMsg.textContent = "Hi, I'm Sage! Sign in and I'll set you up in about a minute. You'll earn XP for every step.";
-
-const baseGoStep = window.obGoStep;
-window.obGoStep = function (n) { baseGoStep(n); showStep(n); };
-
-const baseToggle = window.obToggleSubject;
-window.obToggleSubject = function (cb) {
-  baseToggle(cb);
-  const key = cb.getAttribute("data-subject");
-  const subj = (window.SUBJECTS || []).find((s) => s.key === key);
-  const n = OB_STATE.enrolled.length;
-  if (cb.checked && subj) say(n >= 4 ? n + " classes? Ambitious. I like it." : "Ooh, " + subj.label + "! Good pick.", "happy");
-  else if (!n) say(LINES[1]);
-  hop();
-};
-
-window.obAwardPoints = function (n) {
-  OB_STATE.points += n;
-  const pts = Math.min(OB_STATE.points, SETUP_XP_MAX);
-  const num = document.getElementById("ob-points");
-  const fill = document.getElementById("ob-xp-fill");
-  const bar = document.getElementById("ob-xp-bar");
-  if (num) num.innerHTML = pts + " XP<em class=\"ob-xp-pop\">+" + n + "</em>";
-  if (fill) fill.style.width = Math.round(pts / SETUP_XP_MAX * 100) + "%";
-  if (bar) bar.setAttribute("aria-valuenow", String(pts));
-  obAnnounce("+" + n + " XP");
-  hop();
-};
-
-const baseFinish = window.obRenderFinish;
-window.obRenderFinish = async function () {
-  baseFinish();
-  const slot = document.getElementById("ob-ach");
-  if (!slot) return;
-  const card = (note) => '<div class="ob-ach" role="status">' + owlSvg({ mood: "cheer", cap: true, size: 64 }) +
-    "<span><b>Achievement unlocked: First Flight</b><small>" + note + "</small></span></div>";
-  slot.innerHTML = card("Setup complete. Sage earned a graduation cap.");
-  try {
-    const res = await fetch("/api/quest/claim", {
-      method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ scope: "once", key: "setup" }),
-    });
-    const data = await res.json();
-    if (res.ok && data.xpAwarded) slot.innerHTML = card("Setup complete · +" + data.xpAwarded + " XP added to your Quest XP · Sage earned a graduation cap.");
-  } catch (e) { /* the reward is a bonus; the finish screen works without it */ }
-};
-
-// obInit already ran before this module loaded; sync Sage with the step it chose.
-if (!document.getElementById("ob-app").hidden && document.getElementById("ob-app").style.display !== "none") showStep(currentStep());
-else draw("idle");
-new MutationObserver(() => {
-  if (document.getElementById("ob-app").style.display !== "none" && sayEl && !sayEl.textContent) showStep(currentStep());
-}).observe(document.getElementById("ob-app"), { attributes: true, attributeFilter: ["style"] });
-</script>
-<script type="module">
-import { celebrateCorrect } from "/shared/celebrate.js";
-window.celebrateCorrect = celebrateCorrect;
 </script>
 <script src="/shared/command-palette.js" defer></script><script src="/shared/high-contrast.js" defer></script><script src="/shared/error-monitor.js" defer></script>
 </body>

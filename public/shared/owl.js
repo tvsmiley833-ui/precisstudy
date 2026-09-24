@@ -18,7 +18,9 @@ const C = {
   blush: "#f2a58e",
   cap: "#0e231e",
   tassel: "#e0a54a",
+  chalk: "#eef2ea",
 };
+let uid = 0;
 
 /** @param {string} mood */
 function eyes(mood) {
@@ -42,11 +44,11 @@ function eyes(mood) {
 /** @param {string} mood */
 function wings(mood) {
   if (mood === "cheer") {
-    return `<path d="M24 78c-14-6-20-22-14-34 8 6 14 18 18 30z" fill="${C.bodyDark}"/>
-      <path d="M104 78c14-6 20-22 14-34-8 6-14 18-18 30z" fill="${C.bodyDark}"/>`;
+    return `<path d="M24 78c-14-6-20-22-14-34 8 6 14 18 18 30z" fill="${C.bodyDark}" stroke="${C.chalk}" stroke-width="2.2"/>
+      <path d="M104 78c14-6 20-22 14-34-8 6-14 18-18 30z" fill="${C.bodyDark}" stroke="${C.chalk}" stroke-width="2.2"/>`;
   }
-  return `<path d="M22 70c-6 14-4 30 6 40 4-12 6-26 4-40z" fill="${C.bodyDark}"/>
-    <path d="M106 70c6 14 4 30-6 40-4-12-6-26-4-40z" fill="${C.bodyDark}"/>`;
+  return `<path d="M22 70c-6 14-4 30 6 40 4-12 6-26 4-40z" fill="${C.bodyDark}" stroke="${C.chalk}" stroke-width="2.2"/>
+    <path d="M106 70c6 14 4 30-6 40-4-12-6-26-4-40z" fill="${C.bodyDark}" stroke="${C.chalk}" stroke-width="2.2"/>`;
 }
 
 function cap() {
@@ -99,18 +101,25 @@ export function owlSvg(opts = {}) {
   const mood = opts.mood || "idle";
   const size = opts.size || 120;
   const label = opts.label || "Sage the owl";
+  const fid = "sage-chalk-" + (++uid);
+  // Chalkboard look: brand-green fills, a cream chalk outline, chalk hatching
+  // on the belly, all roughened slightly so edges read as drawn in chalk.
   return `<svg class="sage sage-${mood}" viewBox="0 0 128 140" width="${size}" height="${Math.round(size * 140 / 128)}" role="img" aria-label="${label}" xmlns="http://www.w3.org/2000/svg">
+  <defs><filter id="${fid}" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.4"/></filter></defs>
+  <g filter="url(#${fid})" stroke-linecap="round" stroke-linejoin="round">
   ${wings(mood)}
-  <path d="M30 18l16 20-18 4z" fill="${C.body}"/><path d="M98 18l-16 20 18 4z" fill="${C.body}"/>
-  <ellipse cx="64" cy="80" rx="42" ry="50" fill="${C.body}"/>
+  <path d="M30 18l16 20-18 4z" fill="${C.body}" stroke="${C.chalk}" stroke-width="2.4"/><path d="M98 18l-16 20 18 4z" fill="${C.body}" stroke="${C.chalk}" stroke-width="2.4"/>
+  <ellipse cx="64" cy="80" rx="42" ry="50" fill="${C.body}" stroke="${C.chalk}" stroke-width="2.6"/>
   <ellipse cx="64" cy="96" rx="27" ry="31" fill="${C.belly}"/>
-  <path d="M52 92q4 4 8 0M68 92q4 4 8 0M58 104q4 4 8 0M60 116q4 4 8 0" fill="none" stroke="${C.bellyLine}" stroke-width="2" stroke-linecap="round"/>
+  <path d="M46 82l10-8M44 94l18-14M46 106l22-18M52 114l20-16M60 120l14-11" stroke="${C.bellyLine}" stroke-width="1.6" opacity=".7"/>
+  <path d="M52 92q4 4 8 0M68 92q4 4 8 0M58 104q4 4 8 0M60 116q4 4 8 0" fill="none" stroke="${C.bodyDark}" stroke-width="2"/>
   <circle cx="50" cy="58" r="16" fill="${C.face}" stroke="${C.bodyDark}" stroke-width="2"/><circle cx="78" cy="58" r="16" fill="${C.face}" stroke="${C.bodyDark}" stroke-width="2"/>
   ${eyes(mood)}
   <ellipse cx="38" cy="72" rx="5" ry="3" fill="${C.blush}" opacity=".55"/><ellipse cx="90" cy="72" rx="5" ry="3" fill="${C.blush}" opacity=".55"/>
-  <path d="M59 68h10l-5 9z" fill="${C.beak}" stroke="#c98a30" stroke-width="1" stroke-linejoin="round"/>
-  <path d="M50 128l-4 7M54 128v8M58 128l4 7M70 128l-4 7M74 128v8M78 128l4 7" stroke="${C.feet}" stroke-width="3" stroke-linecap="round"/>
+  <path d="M59 68h10l-5 9z" fill="${C.beak}" stroke="#c98a30" stroke-width="1"/>
+  <path d="M50 128l-4 7M54 128v8M58 128l4 7M70 128l-4 7M74 128v8M78 128l4 7" stroke="${C.feet}" stroke-width="3"/>
   ${(() => { const a = opts.acc === undefined ? wornAccessory() : opts.acc; return opts.cap || a === "cap" ? cap() : accessory(a); })()}
+  </g>
 </svg>`;
 }
 
