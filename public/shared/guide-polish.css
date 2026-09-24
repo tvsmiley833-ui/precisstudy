@@ -427,3 +427,18 @@ html body #units .unit-title:focus-visible { outline: 2px solid var(--accent); o
 html body .q-review { margin: 12px 0 14px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; font-size: 14.5px; color: var(--ink-muted); }
 .q-report{display:block;margin-top:.6rem;background:none;border:0;padding:.25rem 0;min-height:24px;color:var(--ink-dim);font:inherit;font-size:.85rem;text-decoration:underline;cursor:pointer}
 .q-report:disabled{text-decoration:none;cursor:default}
+
+/* ---------- Purposeful motion: answer feedback ----------
+   Transform/opacity only, short, and off entirely for reduced-motion users. */
+@media (prefers-reduced-motion: no-preference) {
+  html body .q-opt.correct { animation: ssOptPop .32s ease; }
+  html body .q-opt.wrong { animation: ssOptNudge .32s ease; }
+  html body .q-exp.show { animation: ssViewIn .25s ease both; }
+}
+@keyframes ssViewIn { from { opacity: 0; transform: translateY(6px); } }
+@keyframes ssOptPop { 50% { transform: scale(1.02); } }
+@keyframes ssOptNudge { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+/* The pages' own tab and unit fade-ins ignore reduced motion; switch them off here. */
+@media (prefers-reduced-motion: reduce) {
+  html body .view.active, html body .unit-body, html body .scene .inner { animation: none !important; transition: none !important; }
+}

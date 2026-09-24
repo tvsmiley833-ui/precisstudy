@@ -88,7 +88,7 @@ async function rewriteViewMeta(res: Response, view: string): Promise<Response> {
 // stylesheet (<link href="/shared/guide-polish.css">). Kept as an explicit list
 // (not read from disk at request time) so a typo here fails loudly in
 // review rather than silently caching-forever a file nobody versioned.
-const SHARED_JS_FILES = new Set(["celebrate.js", "command-palette.js", "error-monitor.js", "feedback-widget.js", "guide-app.js", "high-contrast.js", "mastery.js", "mission-banner.js", "optimistic.js", "tooltips.js", "unit-titles.js", "unit-order.js", "personality.js", "guide-polish.css"]);
+const SHARED_JS_FILES = new Set(["celebrate.js", "command-palette.js", "error-monitor.js", "feedback-widget.js", "guide-app.js", "high-contrast.js", "mastery.js", "mission-banner.js", "optimistic.js", "tooltips.js", "unit-titles.js", "unit-order.js", "personality.js", "site-header.js", "guide-polish.css"]);
 
 // Per-isolate cache: hashing 6 small files is cheap, but there's no reason
 // to redo it every request when the isolate will serve many requests
