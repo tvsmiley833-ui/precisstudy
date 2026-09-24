@@ -6,6 +6,10 @@
 //   - a thinking Sage on the quiz hint button
 //   - a "Sharpening pencils…" Sage while the quiz box is empty
 //   - a "Did you know?" chalk card at the end of every unit
+//   - a Continue button back to the last unit opened, and a unit path
+//   - a streak / XP pill in the header for signed-in students
+//   - Sage beside the "why" card after each quiz answer
+//   - a loading state and swipe gestures on flashcards
 import { owlSvg, OWL_CSS } from "/shared/owl.js";
 import { chalkIcon } from "/shared/chalk-icons.js";
 
@@ -22,6 +26,10 @@ function init() {
   funFacts();
   watchMastery();
   watchQuiz();
+  continueButton();
+  unitPath();
+  statsPill();
+  flashcardPolish();
 }
 
 // ---------------------------------------------------------------- chalk strip
@@ -165,6 +173,11 @@ function watchQuiz() {
     if (hint && !hint.querySelector(".sage-mini")) {
       hint.insertAdjacentHTML("afterbegin", `<span class="sage-mini" aria-hidden="true">${owlSvg({ mood: "think", size: 20, acc: "", label: "" })}</span>`);
     }
+    const why = qbox.querySelector(".q-why-hd");
+    if (why && !why.querySelector(".sage")) {
+      const right = !!why.closest(".q-why-right");
+      why.insertAdjacentHTML("afterbegin", owlSvg({ mood: right ? "cheer" : "think", size: 40, acc: "", label: "" }));
+    }
     if (!qbox.childElementCount && qbox.offsetParent !== null) {
       qbox.innerHTML = `<div class="sage-loading">${owlSvg({ mood: "think", size: 64 })}<p>Sharpening pencils…</p></div>`;
     }
@@ -172,6 +185,108 @@ function watchQuiz() {
   new MutationObserver(decorate).observe(qbox, { childList: true, subtree: true });
   document.addEventListener("click", () => setTimeout(decorate, 50));
   decorate();
+}
+
+// ---------------------------------------------------------------- continue + unit path
+const LAST_UNIT_KEY = "ss-last-unit:" + SLUG;
+
+/** @returns {HTMLElement[]} */
+const unitEls = () => units ? /** @type {HTMLElement[]} */ ([...units.querySelectorAll(":scope > .unit")]) : [];
+
+/** @param {HTMLElement} unit */
+const unitName = (unit) => (unit.querySelector(".unit-title")?.firstChild?.textContent || "").trim();
+
+function continueButton() {
+  if (!units) return;
+  // Remember whichever unit the student opens.
+  units.addEventListener("click", (e) => {
+    const hd = /** @type {HTMLElement} */ (e.target).closest?.(".unit-hd");
+    const unit = hd?.closest(".unit");
+    if (!unit || !unit.classList.contains("open")) return;
+    try { localStorage.setItem(LAST_UNIT_KEY, String(unitEls().indexOf(/** @type {HTMLElement} */ (unit)))); } catch (err) {}
+  });
+  let idx = -1;
+  try { idx = Number(localStorage.getItem(LAST_UNIT_KEY) ?? -1); } catch (err) {}
+  const unit = unitEls()[idx];
+  if (!unit) return;
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "ss-continue";
+  btn.innerHTML = `<span>Continue where you left off</span><b></b><span aria-hidden="true">→</span>`;
+  /** @type {HTMLElement} */ (btn.querySelector("b")).textContent = unitName(unit);
+  btn.onclick = () => {
+    if (!unit.classList.contains("open")) /** @type {HTMLElement | null} */ (unit.querySelector(".unit-hd"))?.click();
+    unit.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+    /** @type {HTMLElement | null} */ (unit.querySelector(".unit-hd"))?.focus?.();
+  };
+  units.before(btn);
+}
+
+// Numbered markers down the left of the unit list, filled as units are
+// mastered (80%+, same threshold as the dashboard).
+function unitPath() {
+  if (!units) return;
+  const unitsEl = units;
+  unitsEl.classList.add("ss-path");
+  const paint = () => unitEls().forEach((unit, i) => {
+    unit.style.setProperty("--n", `"${i + 1}"`);
+    const pct = parseInt(unit.querySelector(".unit-progress-label")?.textContent || "", 10);
+    unit.dataset.path = pct >= 80 ? "done" : pct > 0 ? "started" : "new";
+  });
+  paint();
+  new MutationObserver(paint).observe(unitsEl, { subtree: true, characterData: true, childList: true });
+}
+
+// ---------------------------------------------------------------- streak / XP pill
+async function statsPill() {
+  const inner = hero?.querySelector(".hero-inner");
+  if (!inner) return;
+  const w = /** @type {Window & { __ssMe?: Promise<any> }} */ (window);
+  w.__ssMe = w.__ssMe || fetch("/auth/me").then(r => (r.ok ? r.json() : null)).catch(() => null);
+  const me = await w.__ssMe;
+  if (!me || !me.loggedIn) return;
+  // /api/quest writes on every GET, so fetch it once per browser session.
+  /** @type {{ streak: number, xp: number, level: number } | null} */
+  let stats = null;
+  try { stats = JSON.parse(sessionStorage.getItem("ss-stats") || "null"); } catch (e) {}
+  if (!stats) {
+    try {
+      const [p, q] = await Promise.all([fetch("/api/progress").then(r => r.json()), fetch("/api/quest").then(r => r.json())]);
+      stats = { streak: p?.streak?.current || 0, xp: q?.quest?.xp || 0, level: q?.quest?.level?.level || 1 };
+      try { sessionStorage.setItem("ss-stats", JSON.stringify(stats)); } catch (e) {}
+    } catch (e) { return; }
+  }
+  const pill = document.createElement("a");
+  pill.href = "/dashboard/";
+  pill.className = "ss-stats-pill";
+  pill.setAttribute("aria-label", `${stats.streak}-day streak, level ${stats.level}, ${stats.xp} XP. Open dashboard`);
+  pill.innerHTML = `<span aria-hidden="true">🔥 ${stats.streak}</span><span aria-hidden="true">Lv ${stats.level} · ${stats.xp.toLocaleString()} XP</span>`;
+  inner.appendChild(pill);
+}
+
+// ---------------------------------------------------------------- flashcards
+function flashcardPolish() {
+  const scene = document.getElementById("scene");
+  const term = document.getElementById("fc-term");
+  if (!scene || !term) return;
+  // Loading state until the first card is filled in.
+  const setLoading = () => scene.classList.toggle("ss-loading", !term.textContent?.trim());
+  setLoading();
+  new MutationObserver(setLoading).observe(term, { childList: true, characterData: true, subtree: true });
+  // Swipe left/right for next/previous. A tap still flips (the page's click
+  // handler); a swipe swallows the click that follows it.
+  const g = /** @type {any} */ (window);
+  let x0 = 0, y0 = 0, swiped = false;
+  scene.addEventListener("touchstart", (e) => { const t = e.touches[0]; if (!t) return; x0 = t.clientX; y0 = t.clientY; swiped = false; }, { passive: true });
+  scene.addEventListener("touchend", (e) => {
+    const t = e.changedTouches[0];
+    if (!t) return;
+    const dx = t.clientX - x0, dy = t.clientY - y0;
+    if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy) * 1.5 || typeof g.fcNav !== "function") return;
+    swiped = true;
+    g.fcNav(dx < 0 ? 1 : -1);
+  }, { passive: true });
+  scene.addEventListener("click", (e) => { if (swiped) { e.stopImmediatePropagation(); e.preventDefault(); swiped = false; } }, true);
 }
 
 // ---------------------------------------------------------------- toast

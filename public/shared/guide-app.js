@@ -23,7 +23,7 @@ function ssShuffleOptions(q){
   if(typeof q.a==='number')q.a=order.indexOf(q.a);
   q._shuffled=true;
 }
-function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');var idx=-1;tabs.forEach((b,i)=>{if(b.id==='tab-'+id)idx=i;});if(idx!==-1){tabs.forEach((b,i)=>{var on=i===idx;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;});var _hl=document.getElementById('hero-live');if(_hl)_hl.textContent=tabs[idx].textContent.trim()+' tab';}if(id==='examples'&&!examplesBuilt)buildExamples();if(id==='exam'&&!examBuilt)buildExam();var spc=document.getElementById('spc-card');if(spc)spc.style.display=(id==='guide')?'':'none';}
+function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');var idx=-1;tabs.forEach((b,i)=>{if(b.id==='tab-'+id)idx=i;});if(idx!==-1){tabs.forEach((b,i)=>{var on=i===idx;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;});var _hl=document.getElementById('hero-live');if(_hl)_hl.textContent=tabs[idx].textContent.trim()+' tab';}if(id==='examples'&&!examplesBuilt)buildExamples();if(id==='exam'&&!examBuilt)buildExam();}
 let examBuilt=false;
 var examplesBuilt=false, ex2map={}, ex2shown={};
 
@@ -1155,7 +1155,17 @@ function ansQ(i){
   ssOverallProgressUpdate();
   renderUnitProgress(q.u);
   const expEl=document.getElementById('q-exp');
-  expEl.classList.add('show');
+  expEl.classList.add('show','q-why');
+  expEl.classList.toggle('q-why-right',i===q.a);
+  // "Why" card: say plainly whether they got it and what the answer is,
+  // then the explanation. personality.js adds Sage beside the heading.
+  if(!expEl.querySelector('.q-why-hd')){
+    const hd=document.createElement('div');
+    hd.className='q-why-hd';
+    hd.innerHTML=i===q.a?'<p><b>Correct!</b> Here\u2019s why:</p>':'<p><b>Not quite.</b> The answer is <b></b>. Here\u2019s why:</p>';
+    if(i!==q.a)hd.querySelectorAll('b')[1].innerHTML=q.o[q.a]; // same trusted markup the option buttons render
+    expEl.prepend(hd);
+  }
   if(wasGuess){
     expEl.innerHTML=(i===q.a?'<b class="guess-flag">Lucky guess — added back for more practice.</b><br>':'<b class="guess-flag">Marked as a guess.</b><br>')+expEl.innerHTML;
   }
@@ -1852,7 +1862,7 @@ function toolkitInit(){
   fab.setAttribute('aria-label','Open study toolkit');
   fab.setAttribute('aria-expanded','false');
   fab.title='Study toolkit';
-  fab.innerHTML='<svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M8 6V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1"/><path d="M3 12h18"/><path d="M10 12v2M14 12v2"/></svg>';
+  fab.innerHTML='<svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M8 6V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1"/><path d="M3 12h18"/><path d="M10 12v2M14 12v2"/></svg><span class="toolkit-fab-label">Tools</span>';
 
   var menu=document.createElement('div');
   menu.id='toolkit-menu';
@@ -2022,6 +2032,12 @@ function referencePanelKeydown(e){if(e.key==='Escape')referencePanelClose();}
 desmosInit();
 cbotPanelInit();
 toolkitInit();
+// The study-plan preview is about quizzing, so it lives at the top of the
+// Quiz tab rather than above every tab.
+(function(){
+  var spc=document.getElementById('spc-card'),quiz=document.getElementById('quiz-real');
+  if(spc&&quiz)quiz.prepend(spc);
+})();
 shortcutsModalInit();
 ssMakeDraggable(document.getElementById('qref-drawer'),'.qref-drawer-hd');
 
