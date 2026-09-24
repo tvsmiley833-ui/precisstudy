@@ -12,3 +12,11 @@ test("guides/*.json match the data on the live pages", () => {
     assert.fail("stale guide JSON — run `node scripts/sync-guide-json.mjs`\n" + e.stdout);
   }
 });
+
+test("homepage class-card counts match each guide's real data", () => {
+  try {
+    execFileSync(process.execPath, ["scripts/sync-home-counts.mjs", "--check"], { stdio: "pipe" });
+  } catch (e) {
+    assert.fail("homepage counts out of date — run `node scripts/sync-home-counts.mjs`\n" + e.stdout);
+  }
+});

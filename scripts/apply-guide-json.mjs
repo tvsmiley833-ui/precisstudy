@@ -34,7 +34,7 @@ const REGIONS = {
   filterRow: (s) => divAt(s, '<div class="filter-row" id="filter-row"'),
   filterSelect: (s) => span(s, /<select id="filter-select"[\s\S]*?<\/select>/),
   units: (s) => divAt(s, '<div id="units"'),
-  spcIntro: (s) => span(s, /<p class="spc-intro"[^>]*>[\s\S]*?<\/p>|<div class="spc-intro"[^>]*>[\s\S]*?<\/div>/),
+  spcIntro: (s) => span(s, /<p>Based on this guide's real question bank — [^<]*<\/p>/),
   fcArchive: (s) => after(s, 'id="view-cards"', /<details class="practice-archive">[\s\S]*?<\/details>/),
   qbankArchive: (s) => after(s, 'id="view-quiz"', /<details class="practice-archive">[\s\S]*?<\/details>/, 'id="view-exam"'),
   examples: (s) => divAt(s, '<div id="view-examples"'),
