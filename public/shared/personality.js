@@ -30,6 +30,7 @@ function init() {
   unitPath();
   statsPill();
   flashcardPolish();
+  textbookCard();
 }
 
 // ---------------------------------------------------------------- chalk strip
@@ -287,6 +288,53 @@ function flashcardPolish() {
     g.fcNav(dx < 0 ? 1 : -1);
   }, { passive: true });
   scene.addEventListener("click", (e) => { if (swiped) { e.stopImmediatePropagation(); e.preventDefault(); swiped = false; } }, true);
+}
+
+// ---------------------------------------------------------------- free textbook
+// Free, peer-reviewed OpenStax textbooks matching each course (every URL was
+// confirmed against openstax.org search results, 2026-09).
+const OS = "https://openstax.org/books/";
+/** @type {Record<string, [string, string]>} */
+const TEXTBOOKS = {
+  physics: ["Physics (high school)", OS + "physics/pages/preface"],
+  "ap-physics": ["College Physics 2e", OS + "college-physics-2e/pages/1-introduction-to-science-and-the-realm-of-physics-physical-quantities-and-units"],
+  biology: ["Biology 2e", OS + "biology-2e/pages/preface"],
+  "ap-biology": ["Biology for AP® Courses", OS + "biology-ap-courses/pages/preface"],
+  anatomy: ["Anatomy and Physiology 2e", OS + "anatomy-and-physiology-2e/pages/preface"],
+  chemistry: ["Chemistry 2e", "https://openstax.org/details/books/chemistry-2e"],
+  "ap-chemistry": ["Chemistry 2e", "https://openstax.org/details/books/chemistry-2e"],
+  astronomy: ["Astronomy 2e", OS + "astronomy-2e/pages/preface"],
+  algebra2: ["Algebra and Trigonometry 2e", OS + "algebra-and-trigonometry-2e/pages/index"],
+  precalc: ["Precalculus 2e", OS + "precalculus-2e/pages/preface"],
+  calculus: ["Calculus Volume 1", OS + "calculus-volume-1/pages/preface"],
+  "calc-ab": ["Calculus Volume 1", OS + "calculus-volume-1/pages/preface"],
+  "calc-bc": ["Calculus Volume 2", OS + "calculus-volume-2/pages/preface"],
+  statistics: ["Introductory Statistics 2e", OS + "introductory-statistics-2e/pages/preface"],
+  "ap-stats": ["Introductory Statistics 2e", OS + "introductory-statistics-2e/pages/preface"],
+  psychology: ["Psychology 2e", OS + "psychology-2e/pages/preface"],
+  "ap-psych": ["Psychology 2e", OS + "psychology-2e/pages/preface"],
+  sociology: ["Introduction to Sociology", "https://openstax.org/details/books/introduction-sociology/"],
+  economics: ["Principles of Economics 2e", OS + "principles-economics-2e/pages/preface"],
+  "ap-micro": ["Principles of Microeconomics for AP® Courses 2e", OS + "principles-microeconomics-ap-courses-2e/pages/preface"],
+  "ap-macro": ["Principles of Macroeconomics for AP® Courses", OS + "principles-macroeconomics-ap-courses/pages/1-introduction"],
+  "us-history": ["U.S. History", "https://openstax.org/details/books/us-history"],
+  apush: ["U.S. History", "https://openstax.org/details/books/us-history"],
+  "us-government": ["American Government 4e", "https://openstax.org/details/books/american-government-4e"],
+  "ap-usgov": ["American Government 4e", "https://openstax.org/details/books/american-government-4e"],
+  "world-history": ["World History Volume 1, to 1500", "https://openstax.org/details/books/world-history-volume-1"],
+  "ap-world": ["World History Volume 1, to 1500", "https://openstax.org/details/books/world-history-volume-1"],
+  "global-history": ["World History Volume 1, to 1500", "https://openstax.org/details/books/world-history-volume-1"],
+};
+
+function textbookCard() {
+  const book = TEXTBOOKS[SLUG];
+  if (!book || !units || document.querySelector(".ss-textbook")) return;
+  const card = document.createElement("aside");
+  card.className = "ss-textbook";
+  card.innerHTML = `<b>Want more depth?</b> <span>The free, peer-reviewed OpenStax textbook <i></i> covers this course. Read it online or download the PDF.</span> <a target="_blank" rel="noopener">Open the free textbook ↗</a>`;
+  /** @type {HTMLElement} */ (card.querySelector("i")).textContent = book[0];
+  /** @type {HTMLAnchorElement} */ (card.querySelector("a")).href = book[1];
+  units.after(card);
 }
 
 // ---------------------------------------------------------------- toast

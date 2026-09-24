@@ -407,3 +407,17 @@ html:root body .hero.hero .tablist {
 html:root body .hero.hero .tablist::-webkit-scrollbar { display: none; }
 html:root body .hero.hero .tablist .tab-btn { flex-shrink: 0; }
 html:root body .hero.hero .nav > :not(.tablist) { flex-shrink: 0; }
+
+/* ---------- Free textbook card (end of the Study Guide tab) ---------- */
+html body .ss-textbook {
+  margin: 20px 0 0;
+  padding: 16px 18px;
+  border-radius: 12px;
+  border: 1px dashed var(--border-strong);
+  background: var(--surface);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-muted);
+}
+html body .ss-textbook b { color: var(--ink); }
+html body .ss-textbook a { display: inline-block; margin-top: 6px; color: var(--accent); font-weight: 700; }
