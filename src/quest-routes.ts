@@ -43,6 +43,8 @@ export const WEEKLY_POOL: WeeklyQuestDef[] = [
 ];
 
 export const DAILY_BONUS_XP = 30;
+// One-time reward for finishing the onboarding setup (3 steps x 25 XP).
+export const SETUP_XP = 75;
 const MAX_MASTERED_UNITS_SNAPSHOT = 200;
 
 // Deterministic per-student-per-period pick so refreshing the page (or a
@@ -349,7 +351,7 @@ export async function handlePostQuestClaim(request: Request, env: Env): Promise<
     return json({ error: "Invalid JSON body" }, 400);
   }
   const rec = body && typeof body === "object" ? (body as Record<string, unknown>) : {};
-  const scope = rec.scope === "daily" || rec.scope === "weekly" ? rec.scope : undefined;
+  const scope = rec.scope === "daily" || rec.scope === "weekly" || rec.scope === "once" ? rec.scope : undefined;
   const key = typeof rec.key === "string" ? rec.key : undefined;
   if (!scope || !key) return json({ error: "scope and key are required" }, 400);
 
@@ -358,6 +360,18 @@ export async function handlePostQuestClaim(request: Request, env: Env): Promise<
   const monday = mondayUTC(new Date());
   const quest = ensureQuestState(blob, session.email, localDate);
   reconcileProgress(blob, quest, monday, localDate);
+
+  if (scope === "once") {
+    if (key !== "setup") return json({ error: "Unknown one-time reward" }, 404);
+    if (quest.setupClaimed) return json({ ok: true, quest: publicQuestState(quest), alreadyClaimed: true });
+    // Earned by actually finishing setup: at least one class picked.
+    if (!blob.enrolledSubjects || !blob.enrolledSubjects.length) return json({ error: "Pick at least one class first" }, 400);
+    quest.setupClaimed = true;
+    quest.xp += SETUP_XP;
+    blob.quest = quest;
+    await saveBlob(env, session.email, blob);
+    return json({ ok: true, quest: publicQuestState(quest), xpAwarded: SETUP_XP });
+  }
 
   if (key === "bonus" && scope === "daily") {
     if (quest.daily.bonusClaimed) return json({ ok: true, quest: publicQuestState(quest), alreadyClaimed: true });

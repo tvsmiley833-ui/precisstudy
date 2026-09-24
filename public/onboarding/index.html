@@ -140,6 +140,27 @@ a{color:var(--accent)}
 @keyframes obStepIn{from{opacity:0;transform:scale(.98)}to{opacity:1;transform:scale(1)}}
 .ob-step:not([hidden]){animation:obStepIn .28s cubic-bezier(.2,.8,.2,1)}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
+
+/* ---- Sage the owl: guide, speech bubble, XP bar ---- */
+.sage-strip{display:flex;align-items:flex-end;gap:14px;margin:0 0 18px}
+.sage-perch{flex-shrink:0;width:96px}
+.sage-bubble{position:relative;flex:1;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:14px 16px;font-size:15px;line-height:1.45;color:var(--text);margin-bottom:26px}
+.sage-bubble::before{content:"";position:absolute;left:-8px;bottom:18px;width:14px;height:14px;background:inherit;border-left:1px solid var(--border);border-bottom:1px solid var(--border);transform:rotate(45deg)}
+.sage-bubble b{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.ob-xp{display:flex;align-items:center;gap:10px;min-width:170px}
+.ob-xp-track{display:block;flex:1;height:8px;border-radius:99px;background:var(--border);overflow:hidden}
+.ob-xp-fill{display:block;height:100%;width:0;border-radius:99px;background:var(--accent);transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.ob-xp-num{position:relative;font-size:13px;font-weight:800;color:var(--accent);white-space:nowrap}
+.ob-xp-pop{position:absolute;right:0;top:-18px;font-style:normal;font-size:12px;color:var(--accent);animation:obXpPop 1.1s ease forwards}
+@keyframes obXpPop{0%{opacity:0;transform:translateY(6px)}20%{opacity:1}100%{opacity:0;transform:translateY(-12px)}}
+.ob-ach{display:flex;align-items:center;gap:14px;text-align:left;padding:14px 16px;margin:0 0 14px;border-radius:14px;border:1px solid var(--accent);background:color-mix(in oklab,var(--accent) 10%,var(--bg-card))}
+.ob-ach svg{flex-shrink:0}
+.ob-ach b{display:block;font-size:15px}
+.ob-ach small{color:var(--text-muted);font-size:13px}
+.ob-row-icon{color:var(--accent)}
+.ob-gate-owl{display:flex;justify-content:center;margin-bottom:6px}
+@media (max-width:520px){.sage-perch{width:72px}.sage-bubble{font-size:14px}}
+@media (prefers-reduced-motion:reduce){.ob-xp-fill{transition:none}.ob-xp-pop{animation:none;opacity:0}}
 </style>
 </head>
 <body>
@@ -160,12 +181,17 @@ a{color:var(--accent)}
 <main class="ob-wrap">
   <div id="ob-gate" style="display:none;">
     <div class="ss-card" style="text-align:center;">
+      <div class="ob-gate-owl" id="ob-gate-owl"></div>
       <p id="ob-gate-msg" style="font-size:16px;color:var(--text);margin:0 0 16px;">Sign in to set up your account.</p>
       <div id="ob-login-box" style="max-width:280px;margin:0 auto;"></div>
     </div>
   </div>
 
   <div id="ob-app" style="display:none;">
+    <div class="sage-strip">
+      <div class="sage-perch" id="sage-owl" aria-hidden="true"></div>
+      <div class="sage-bubble" id="sage-say" aria-live="polite"></div>
+    </div>
     <div class="ob-progress" role="progressbar" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1" id="ob-progressbar" aria-label="Setup progress">
       <div class="ob-progress-step" data-i="1"></div>
       <div class="ob-progress-step" data-i="2"></div>
@@ -175,7 +201,7 @@ a{color:var(--accent)}
     <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
       <div class="ob-progress-label" id="ob-step-label">Step 1 of 4</div>
       <div style="display:flex;align-items:center;gap:14px;">
-        <span class="ob-points" id="ob-points">0 Setup Points</span>
+        <span class="ob-xp"><span class="ob-xp-track" role="progressbar" aria-label="Setup XP" aria-valuemin="0" aria-valuemax="75" aria-valuenow="0" id="ob-xp-bar"><span class="ob-xp-fill" id="ob-xp-fill"></span></span><span class="ob-xp-num" id="ob-points">0 XP</span></span>
         <a href="/dashboard" class="ob-skip" onclick="obSkip(event)">Skip setup</a>
       </div>
     </div>
@@ -246,6 +272,7 @@ a{color:var(--accent)}
     <div id="ob-step-4" class="ob-step" hidden>
       <h1 class="ob-title">You're all set</h1>
       <p class="ob-sub">Here's what got set up. You can change any of it from Settings whenever you want.</p>
+      <div id="ob-ach"></div>
       <div class="ss-card ob-finish-summary" id="ob-finish-summary"></div>
       <div class="ss-card" style="text-align:center;">
         <a href="/dashboard" class="ss-btn ss-btn-solid" style="text-decoration:none;display:inline-block;font-size:16px;padding:12px 28px;">Go to your dashboard</a>
@@ -433,7 +460,7 @@ function obRenderSubjects(){
     var openCount = subjects.filter(function(s){ return enrolledSet.has(s.key); }).length;
     var rows = subjects.map(function(s){
       var icon = OB_GET_ICON ? OB_GET_ICON(s.key) : null;
-      var iconHtml = icon ? '<span class="ob-row-icon" style="color:' + icon.color + '">' + icon.svg + '</span>' : '<span class="ob-row-icon"></span>';
+      var iconHtml = icon ? '<span class="ob-row-icon">' + icon.svg + '</span>' : '<span class="ob-row-icon"></span>';
       return '<div class="ob-subject-row"><label><input type="checkbox" data-subject="' + s.key + '"'
         + (enrolledSet.has(s.key) ? ' checked' : '') + ' onchange="obToggleSubject(this)"/>'
         + iconHtml + '<span>' + ssEscapeHtml(s.label) + '</span></label></div>';
@@ -551,7 +578,7 @@ function obRenderFinish(){
   }
   var seenCount = obGetSeen().length;
   items.push('<div class="ob-finish-item"><span>Tour pages visited</span><span>' + seenCount + '</span></div>');
-  items.push('<div class="ob-finish-item"><span>Setup Points earned</span><span>' + OB_STATE.points + '</span></div>');
+  items.push('<div class="ob-finish-item"><span>XP earned</span><span>' + OB_STATE.points + '</span></div>');
   document.getElementById('ob-finish-summary').innerHTML = items.join('');
   if (window.celebrateCorrect) window.celebrateCorrect(document.getElementById('ob-finish-summary'));
 }
@@ -600,6 +627,105 @@ async function obInit(){
   obGoStep(resumeStep >= 1 && resumeStep <= 4 ? resumeStep : 1);
 }
 obInit();
+</script>
+<script type="module">
+// Sage the owl guides the setup. Layered on top of the wizard's own step
+// functions (wrapped, not rewritten) so saving and navigation are unchanged.
+import { owlSvg, OWL_CSS } from "/shared/owl.js";
+
+const style = document.createElement("style");
+style.textContent = OWL_CSS;
+document.head.appendChild(style);
+
+const SETUP_XP_MAX = 75;
+const LINES = {
+  1: "Hi, I'm Sage! Let's get you set up. It takes about a minute, and every step earns XP. First: which classes are you taking?",
+  2: "Nice picks! When's your test, and how long can you study each day? I'll pace your plan around it.",
+  3: "Here's a quick look around. Peek at anything that catches your eye, then keep going.",
+  4: "You did it! That earns you a graduation cap. See you in class.",
+};
+const owlEl = document.getElementById("sage-owl");
+const sayEl = document.getElementById("sage-say");
+
+function draw(mood, cap) {
+  if (!owlEl) return;
+  owlEl.innerHTML = owlSvg({ mood, cap, size: 96 });
+  owlEl.firstElementChild.classList.add("sage-bob");
+}
+function hop() {
+  const svg = owlEl && owlEl.firstElementChild;
+  if (!svg) return;
+  svg.classList.remove("sage-hop"); void svg.getBoundingClientRect(); svg.classList.add("sage-hop");
+}
+function say(text, mood = "idle", cap = false) {
+  if (sayEl) sayEl.innerHTML = "<b>Sage</b>" + ssEscapeHtml(text);
+  draw(mood, cap);
+}
+function currentStep() {
+  for (let i = 1; i <= 4; i++) { const s = document.getElementById("ob-step-" + i); if (s && !s.hidden) return i; }
+  return 1;
+}
+function showStep(n) {
+  say(LINES[n] || LINES[1], n === 4 ? "cheer" : n === 3 ? "think" : "idle", n === 4);
+}
+
+// Gate (signed out): Sage greets before sign-in.
+const gateOwl = document.getElementById("ob-gate-owl");
+if (gateOwl) gateOwl.innerHTML = owlSvg({ mood: "idle", size: 110 });
+const gateMsg = document.getElementById("ob-gate-msg");
+if (gateMsg) gateMsg.textContent = "Hi, I'm Sage! Sign in and I'll set you up in about a minute. You'll earn XP for every step.";
+
+const baseGoStep = window.obGoStep;
+window.obGoStep = function (n) { baseGoStep(n); showStep(n); };
+
+const baseToggle = window.obToggleSubject;
+window.obToggleSubject = function (cb) {
+  baseToggle(cb);
+  const key = cb.getAttribute("data-subject");
+  const subj = (window.SUBJECTS || []).find((s) => s.key === key);
+  const n = OB_STATE.enrolled.length;
+  if (cb.checked && subj) say(n >= 4 ? n + " classes? Ambitious. I like it." : "Ooh, " + subj.label + "! Good pick.", "happy");
+  else if (!n) say(LINES[1]);
+  hop();
+};
+
+window.obAwardPoints = function (n) {
+  OB_STATE.points += n;
+  const pts = Math.min(OB_STATE.points, SETUP_XP_MAX);
+  const num = document.getElementById("ob-points");
+  const fill = document.getElementById("ob-xp-fill");
+  const bar = document.getElementById("ob-xp-bar");
+  if (num) num.innerHTML = pts + " XP<em class=\"ob-xp-pop\">+" + n + "</em>";
+  if (fill) fill.style.width = Math.round(pts / SETUP_XP_MAX * 100) + "%";
+  if (bar) bar.setAttribute("aria-valuenow", String(pts));
+  obAnnounce("+" + n + " XP");
+  hop();
+};
+
+const baseFinish = window.obRenderFinish;
+window.obRenderFinish = async function () {
+  baseFinish();
+  const slot = document.getElementById("ob-ach");
+  if (!slot) return;
+  const card = (note) => '<div class="ob-ach" role="status">' + owlSvg({ mood: "cheer", cap: true, size: 64 }) +
+    "<span><b>Achievement unlocked: First Flight</b><small>" + note + "</small></span></div>";
+  slot.innerHTML = card("Setup complete. Sage earned a graduation cap.");
+  try {
+    const res = await fetch("/api/quest/claim", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ scope: "once", key: "setup" }),
+    });
+    const data = await res.json();
+    if (res.ok && data.xpAwarded) slot.innerHTML = card("Setup complete · +" + data.xpAwarded + " XP added to your Quest XP · Sage earned a graduation cap.");
+  } catch (e) { /* the reward is a bonus; the finish screen works without it */ }
+};
+
+// obInit already ran before this module loaded; sync Sage with the step it chose.
+if (!document.getElementById("ob-app").hidden && document.getElementById("ob-app").style.display !== "none") showStep(currentStep());
+else draw("idle");
+new MutationObserver(() => {
+  if (document.getElementById("ob-app").style.display !== "none" && sayEl && !sayEl.textContent) showStep(currentStep());
+}).observe(document.getElementById("ob-app"), { attributes: true, attributeFilter: ["style"] });
 </script>
 <script type="module">
 import { celebrateCorrect } from "/shared/celebrate.js";

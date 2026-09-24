@@ -245,6 +245,35 @@ describe("claim", () => {
   });
 });
 
+describe("setup reward", () => {
+  it("requires a picked class, pays 75 XP once, and rejects unknown one-time keys", async () => {
+    const email = "setup@example.com";
+    const cookie = await sessionCookieFor(email);
+    const kv = fakeKV();
+    await handleGetQuest(req("https://example.com/api/quest", cookie), envWith(kv));
+
+    const early = await handlePostQuestClaim(req("https://example.com/api/quest/claim", cookie, "POST", { scope: "once", key: "setup" }), envWith(kv));
+    expect(early.status).toBe(400);
+
+    const blob = getBlob(kv, email);
+    blob.enrolledSubjects = ["physics"];
+    putBlob(kv, email, blob);
+
+    const res = await handlePostQuestClaim(req("https://example.com/api/quest/claim", cookie, "POST", { scope: "once", key: "setup" }), envWith(kv));
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(data.xpAwarded).toBe(75);
+    expect(data.quest.xp).toBe(75);
+
+    const again = await (await handlePostQuestClaim(req("https://example.com/api/quest/claim", cookie, "POST", { scope: "once", key: "setup" }), envWith(kv))).json();
+    expect(again.alreadyClaimed).toBe(true);
+    expect(again.quest.xp).toBe(75);
+
+    const unknown = await handlePostQuestClaim(req("https://example.com/api/quest/claim", cookie, "POST", { scope: "once", key: "nope" }), envWith(kv));
+    expect(unknown.status).toBe(404);
+  });
+});
+
 describe("boss", () => {
   const monday = mondayUTC(new Date());
   // A pre-week baseline snapshot dated strictly before Monday -- per the

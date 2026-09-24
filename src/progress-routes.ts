@@ -100,6 +100,8 @@ export interface QuestInstance {
 
 export interface QuestState {
   xp: number;
+  // One-time XP for finishing /onboarding (Sage's setup). Absent on older blobs.
+  setupClaimed?: boolean;
   daily: {
     date: string; // local date (YYYY-MM-DD), student's own clock -- matches touchStreak's convention
     quests: QuestInstance[];
