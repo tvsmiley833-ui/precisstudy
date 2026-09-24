@@ -253,6 +253,14 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 .sage-btn{display:inline-block;padding:8px 16px;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;border:1.5px solid var(--border);color:var(--text)}
 .sage-btn-solid{background:var(--accent-solid);border-color:var(--accent-solid);color:#fff}
 @media(max-width:520px){.sage-intro-owl{width:78px}.sage-intro-bubble p{font-size:14px}}
+/* ---- Chalkboard: faint hand-drawn symbols from every subject behind the page ---- */
+@font-face{font-family:'Kalam';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/kalam-700-latin.woff2') format('woff2')}
+body{position:relative}
+.chalkboard{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;color:var(--text);opacity:.075}
+[data-theme="dark"] .chalkboard{opacity:.1}
+.chalkboard text{fill:currentColor;font-family:'Kalam','Segoe Print','Bradley Hand',cursive;font-weight:700}
+.chalkboard path{fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+body > *:not(.chalkboard):not(script):not(style){position:relative;z-index:1}
 .ss-menu-icon{display:none;margin-left:2px;opacity:.8}
 @media(max-width:640px){.ss-menu-icon{display:inline-block}}
 .ss-cookie{position:fixed;left:12px;right:12px;bottom:12px;z-index:9999;max-width:640px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
@@ -265,6 +273,61 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 </style>
 </head>
 <body style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);">
+<svg class="chalkboard" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="chalk-rough" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="1.6"/>
+    </filter>
+    <pattern id="chalk-tile" width="1000" height="760" patternUnits="userSpaceOnUse">
+      <g filter="url(#chalk-rough)">
+      <text x="30" y="60" font-size="26" transform="rotate(-4 30 60)">a² + b² = c²</text>
+      <path d="M0 60 L70 60 L0 0 Z M0 50 h10 v10" transform="translate(40 90) rotate(0) scale(1)"/>
+      <text x="250" y="40" font-size="24" transform="rotate(3 250 40)">y = mx + b</text>
+      <path d="M0 50 H120 M60 0 V100 M10 90 Q60 -40 110 90" transform="translate(250 70) rotate(0) scale(1)"/>
+      <text x="410" y="70" font-size="30" transform="rotate(-2 410 70)">∫ x dx = x²⁄2 + C</text>
+      <text x="700" y="50" font-size="28" transform="rotate(4 700 50)">π ≈ 3.14159</text>
+      <path d="M0 30 Q25 -10 50 30 T100 30 T150 30 T200 30" transform="translate(760 100) rotate(0) scale(1)"/>
+      <text x="900" y="170" font-size="32" transform="rotate(-8 900 170)">√x</text>
+      <text x="560" y="190" font-size="30" transform="rotate(6 560 190)">Σ n</text>
+      <path d="M0 0 m-40 0 a40 40 0 1 0 80 0 a40 40 0 1 0 -80 0 M0 0 L40 0 M0 0 L20 -34" transform="translate(880 300) rotate(0) scale(1)"/>
+      <text x="40" y="700" font-size="22" transform="rotate(-3 40 700)">sin²θ + cos²θ = 1</text>
+      <text x="640" y="730" font-size="22" transform="rotate(2 640 730)">x = (−b ± √(b²−4ac)) ⁄ 2a</text>
+      <text x="360" y="180" font-size="30" transform="rotate(-6 360 180)">E = mc²</text>
+      <text x="120" y="290" font-size="24" transform="rotate(5 120 290)">H₂O</text>
+      <path d="M0 0 m-6 0 a6 6 0 1 0 12 0 a6 6 0 1 0 -12 0 M-40 0 a40 14 0 1 0 80 0 a40 14 0 1 0 -80 0" transform="translate(470 330) rotate(30) scale(1)"/>
+      <path d="M-40 0 a40 14 0 1 0 80 0 a40 14 0 1 0 -80 0" transform="translate(470 330) rotate(-30) scale(1)"/>
+      <path d="M0 0 C30 20 30 40 0 60 C-30 80 -30 100 0 120 M30 0 C0 20 0 40 30 60 C60 80 60 100 30 120 M6 14 H24 M3 45 H27 M6 75 H24 M3 106 H27" transform="translate(610 250) rotate(12) scale(1)"/>
+      <text x="250" y="330" font-size="22" transform="rotate(4 250 330)">F = ma</text>
+      <path d="M0 0 L20 -12 L40 0 L40 24 L20 36 L0 24 Z M6 3 L20 -5 M34 3 L34 21" transform="translate(710 420) rotate(0) scale(1)"/>
+      <path d="M10 0 H30 M14 0 V30 L0 70 H44 L30 30 V0" transform="translate(140 360) rotate(-6) scale(1)"/>
+      <text x="170" y="470" font-size="18" transform="rotate(-4 170 470)">pH = 7</text>
+      <path d="M30 55 C0 30 -5 5 15 0 C25 -3 30 8 30 12 C30 8 35 -3 45 0 C65 5 60 30 30 55 Z M30 12 V-10 M22 -8 L30 -2" transform="translate(330 430) rotate(0) scale(1)"/>
+      <text x="40" y="560" font-size="26" transform="rotate(-5 40 560)">1776</text>
+      <text x="560" y="460" font-size="22" transform="rotate(3 560 460)">1492</text>
+      <path d="M0 20 L40 0 L80 20 Z M5 20 V70 M22 20 V70 M40 20 V70 M58 20 V70 M75 20 V70 M-5 70 H85 M-5 78 H85" transform="translate(820 470) rotate(0) scale(1)"/>
+      <path d="M0 10 Q10 0 20 10 V60 Q10 50 0 60 Z M20 10 H90 M20 60 H90 M90 10 Q100 0 110 10 V60 Q100 50 90 60" transform="translate(230 560) rotate(0) scale(1)"/>
+      <text x="245" y="595" font-size="12" transform="rotate(0 245 595)">We the People</text>
+      <path d="M0 60 C20 40 50 10 80 0 C70 20 40 50 12 64 Z M0 60 L-6 72 M20 40 L40 30" transform="translate(470 560) rotate(0) scale(1)"/>
+      <text x="500" y="650" font-size="20" transform="rotate(-3 500 650)">Once upon a time…</text>
+      <text x="700" y="600" font-size="26" transform="rotate(8 700 600)">¶</text>
+      <path d="M0 10 Q30 0 60 10 V60 Q30 50 0 60 Z M60 10 Q90 0 120 10 V60 Q90 50 60 60 Z" transform="translate(30 610) rotate(0) scale(1)"/>
+      <text x="820" y="640" font-size="22" transform="rotate(-6 820 640)">¡Hola!</text>
+      <text x="360" y="720" font-size="20" transform="rotate(4 360 720)">Bonjour</text>
+      <text x="160" y="740" font-size="18" transform="rotate(-2 160 740)">Guten Tag</text>
+      <text x="560" y="380" font-size="24" transform="rotate(0 560 380)">&lt;/&gt;</text>
+      <text x="640" y="340" font-size="16" transform="rotate(-4 640 340)">if (x) { … }</text>
+      <text x="900" y="740" font-size="16" transform="rotate(0 900 740)">0101</text>
+      <path d="M0 30 V0 L24 -6 V24 M0 30 m-8 0 a8 6 0 1 0 16 0 a8 6 0 1 0 -16 0 M24 24 m-8 0 a8 6 0 1 0 16 0 a8 6 0 1 0 -16 0" transform="translate(960 520) rotate(-10) scale(1)"/>
+      <path d="M0 0 m-34 0 a34 34 0 1 0 68 0 a34 34 0 1 0 -68 0 M-34 0 H34 M0 -34 C18 -16 18 16 0 34 C-18 16 -18 -16 0 -34 M-30 -16 H30 M-30 16 H30" transform="translate(140 520) rotate(15) scale(1)"/>
+      <path d="M0 0 V80 H100 M10 10 C40 60 70 70 95 72 M10 72 C40 60 70 30 95 8" transform="translate(700 200) rotate(0) scale(1)"/>
+      <text x="705" y="210" font-size="12" transform="rotate(0 705 210)">S</text>
+      <text x="705" y="290" font-size="12" transform="rotate(0 705 290)">D</text>
+      </g>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#chalk-tile)"/>
+</svg>
 
 <a href="#main-content" class="ss-skip-link" style="position:absolute;left:-9999px;top:0;z-index:100;background:var(--accent-solid);color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;text-decoration:none;">Skip to main content</a>
 
