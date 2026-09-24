@@ -4,6 +4,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { generateGuide } from "../scripts/generate-guide.mjs";
+import { readFileSync } from "node:fs";
+const APP = readFileSync(new URL("../public/shared/guide-app.js", import.meta.url), "utf8");
 
 const base = () => ({
   slug: "demo",
@@ -42,13 +44,14 @@ test("emits hard-mode questions; switchTab derives index from DOM id", () => {
   });
   assert.ok(html.includes('"hard?"'), "hard question emitted");
   // switchTab must not use a hardcoded positional map (breaks on 6-tab pages)
-  assert.ok(!/idx=\{guide:0,cards:1/.test(html), "no hardcoded tab index map");
-  assert.ok(html.includes("if(b.id==='tab-'+id)idx=i"), "index derived from DOM");
+  assert.ok(!/idx=\{guide:0,cards:1/.test(APP), "no hardcoded tab index map");
+  assert.ok(APP.includes("if(b.id==='tab-'+id)idx=i"), "index derived from DOM (shared guide-app.js)");
+  assert.ok(html.includes('<script src="/shared/guide-app.js">'), "page loads the shared app logic");
 });
 
 test("uses masteryKey when provided, slug otherwise", () => {
-  assert.ok(generateGuide({ ...base(), masteryKey: "aplang" }).includes("__ssCreateMastery('aplang'"));
-  assert.ok(generateGuide(base()).includes("__ssCreateMastery('demo'"));
+  assert.ok(generateGuide({ ...base(), masteryKey: "aplang" }).includes('"key":"aplang"'));
+  assert.ok(generateGuide(base()).includes('"slug":"demo","key":"demo"'));
 });
 
 test("rejects malformed workedExamples / hardQuiz", () => {

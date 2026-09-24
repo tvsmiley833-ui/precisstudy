@@ -1,3 +1,10 @@
+// Shared study-guide app logic, loaded by every public/<slug>/index.html
+// after its inline data script, which defines UNITS, QUIZ, FLASHCARDS,
+// WORKED, HARD_Q, the exam parts, EXAM_META, EXAM_CSS and
+// SS_GUIDE = { slug, key, title } (key is the saved-progress id; a few
+// legacy guides use a slug without dashes, e.g. ap-lang -> aplang).
+// Classic (non-module) script on purpose: the page's inline handlers call
+// these functions as globals.
 // Some subjects' quiz content was authored with the correct answer always
 // (or almost always) listed first -- shuffles q.o once per question instance
 // (guarded by q._shuffled so repeats/requeues of the same question keep a
@@ -333,9 +340,9 @@ function jumpToUnit(id){
 // total>=2 before computeReadiness treats a unit as assessed), so the
 // subject shows up as a real 0% card instead of hiding in that accordion.
 function justStartUnit1(){
-  if(CHEM_MASTERY&&UNITS.length){
-    CHEM_MASTERY.recordAnswer(UNITS[0].id,false);
-    CHEM_MASTERY.recordAnswer(UNITS[0].id,false);
+  if(SS_MASTERY&&UNITS.length){
+    SS_MASTERY.recordAnswer(UNITS[0].id,false);
+    SS_MASTERY.recordAnswer(UNITS[0].id,false);
     renderUnitProgress(UNITS[0].id);
   }
   jumpToUnit(UNITS[0].id);
@@ -550,14 +557,14 @@ function checkTypedAnswer(){
   const card=deck[fcIdx];
   const {match,exact}=ssFuzzyMatch(input.value,card.t);
   input.disabled=true;
-  if(!CHEM_MASTERY){setTimeout(()=>fcNav(1),400);return;}
+  if(!SS_MASTERY){setTimeout(()=>fcNav(1),400);return;}
   if(match){
-    CHEM_MASTERY.markCardKnown(card.t);
+    SS_MASTERY.markCardKnown(card.t);
     fb.className='fc-type-feedback correct';
     fb.textContent=exact?'✓ Correct!':'✓ Close enough — "'+card.t+'"';
     if(window.__ssCelebrateCorrect)window.__ssCelebrateCorrect(input);
   }else{
-    CHEM_MASTERY.unmarkCardKnown(card.t);
+    SS_MASTERY.unmarkCardKnown(card.t);
     fb.className='fc-type-feedback wrong';
     fb.textContent='✗ It was: "'+card.t+'"';
     if(window.__ssResetCombo)window.__ssResetCombo();
@@ -578,7 +585,7 @@ function loadFC(){
   fcDeck=v===0?[...FLASHCARDS]:FLASHCARDS.filter(f=>f.u===v);
   fcIdx=0;showFC();
 }
-function fcKnownSet(){return new Set((CHEM_MASTERY&&CHEM_MASTERY.getSnapshot().cardsKnown)||[]);}
+function fcKnownSet(){return new Set((SS_MASTERY&&SS_MASTERY.getSnapshot().cardsKnown)||[]);}
 function getActiveDeck(){
   const known=fcKnownSet();
   if(fcFilterMode==='learning')return fcDeck.filter(c=>!known.has(c.t));
@@ -618,13 +625,13 @@ function fcShuffle(){const deck=getActiveDeck();for(let i=deck.length-1;i>0;i--)
 // line) via their "Import" flow, so one export format covers both --
 // avoids maintaining two export paths for one underlying need. The
 // 'apush' literal here is replaced with the real subject slug by
-// generate-guide.mjs's existing substitution, same as CHEM_MASTERY's key.
+// generate-guide.mjs's existing substitution, same as SS_MASTERY's key.
 function exportFlashcards(){
   const rows=FLASHCARDS.map(f=>f.t.replace(/\t/g,' ')+'\t'+f.d.replace(/\t/g,' ').replace(/\n/g,' '));
   const blob=new Blob([rows.join('\n')],{type:'text/plain;charset=utf-8'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
-  a.href=url;a.download='apush'+'-flashcards.txt';
+  a.href=url;a.download=SS_GUIDE.slug+'-flashcards.txt';
   document.body.appendChild(a);a.click();a.remove();
   URL.revokeObjectURL(url);
 }
@@ -684,10 +691,10 @@ function printWorksheet(){
 }
 function rateFC(rating){
   const deck=getActiveDeck();
-  if(!deck.length||!CHEM_MASTERY)return;
+  if(!deck.length||!SS_MASTERY)return;
   const card=deck[fcIdx];
-  if(rating==='known')CHEM_MASTERY.markCardKnown(card.t);
-  else CHEM_MASTERY.unmarkCardKnown(card.t);
+  if(rating==='known')SS_MASTERY.markCardKnown(card.t);
+  else SS_MASTERY.unmarkCardKnown(card.t);
   renderUnitProgress(card.u);
   fcNav(1);
 }
@@ -711,7 +718,7 @@ function buildExamples(){
   const v=document.getElementById('view-examples');
   if(!v||typeof WORKED==='undefined'||!WORKED.length)return;
   let h='<div class="ex2-intro">Try each problem on your own first — then reveal the solution one step at a time. Mark “Got it” to track your progress.</div>';
-  const doneMap=(CHEM_MASTERY&&CHEM_MASTERY.getSnapshot().examples)||{};
+  const doneMap=(SS_MASTERY&&SS_MASTERY.getSnapshot().examples)||{};
   UNITS.forEach(u=>{
     const list=WORKED.filter(w=>w.u===u.id);if(!list.length)return;
     h+=`<div class="ex2-unit"><h3 class="ex2-h">Unit ${u.id}: ${u.name}</h3>`;
@@ -746,24 +753,24 @@ function revealStep(id){
 }
 function revealAll(id){const w=ex2map[id];while((ex2shown[id]||0)<w.steps.length)revealStep(id);}
 function markExample(id){
-  if(CHEM_MASTERY)CHEM_MASTERY.markExampleDone(id);
+  if(SS_MASTERY)SS_MASTERY.markExampleDone(id);
   const card=document.querySelector('.ex2-card[data-id="'+id+'"]');if(card)card.classList.add('done');
 }
 
-var CHEM_MASTERY = null;
-var SS_SUBJECT_KEY='apush';
+var SS_MASTERY = null;
+var SS_SUBJECT_KEY=SS_GUIDE.key;
 window.__ssMasteryInstances = window.__ssMasteryInstances || [];
 function ssStartChemMastery(){
-  CHEM_MASTERY = window.__ssCreateMastery('apush', UNITS.map(function(u){return u.id;}), UNITS.reduce(function(acc,u){acc[u.id]=u.name;return acc;},{}));
-  window.__ssMasteryInstances.push(CHEM_MASTERY);
-  CHEM_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} try{ if(examplesBuilt) buildExamples(); }catch(e){} try{ ssOverallProgressUpdate(); }catch(e){} try{ renderAllUnitProgress(); }catch(e){} });
+  SS_MASTERY = window.__ssCreateMastery(SS_GUIDE.key, UNITS.map(function(u){return u.id;}), UNITS.reduce(function(acc,u){acc[u.id]=u.name;return acc;},{}));
+  window.__ssMasteryInstances.push(SS_MASTERY);
+  SS_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} try{ if(examplesBuilt) buildExamples(); }catch(e){} try{ ssOverallProgressUpdate(); }catch(e){} try{ renderAllUnitProgress(); }catch(e){} });
 }
 if (window.__ssCreateMastery) { ssStartChemMastery(); }
 else { window.addEventListener('ss-mastery-ready', ssStartChemMastery, { once: true }); }
 
 /* bookmarked question ids, kept separate from server-synced mastery state
    (this is purely a local toggle-and-persist affordance, no filter UI yet) */
-var Q_BOOKMARK_KEY='ssBookmarks_'+'apush';
+var Q_BOOKMARK_KEY='ssBookmarks_'+SS_GUIDE.slug;
 function qBookmarkSet(){
   try{return new Set(JSON.parse(localStorage.getItem(Q_BOOKMARK_KEY)||'[]'));}catch(e){return new Set();}
 }
@@ -780,7 +787,7 @@ function qId(q){return q.u+'|'+q.q;}
    A question moves in when answered wrong and out the moment it's answered
    correctly again (from anywhere: normal quiz, diagnostic, hard mode, or the
    log's own review pass). */
-var MISTAKE_LOG_KEY='ssMistakes_'+'apush';
+var MISTAKE_LOG_KEY='ssMistakes_'+SS_GUIDE.slug;
 function mistakeLogMap(){
   try{return JSON.parse(localStorage.getItem(MISTAKE_LOG_KEY)||'{}');}catch(e){return {};}
 }
@@ -861,7 +868,7 @@ function unitWeightedPct(unitId){
     var knownCount=cards.filter(function(c){return known.has(c.t);}).length;
     parts.push({weight:0.4,pct:(knownCount/cards.length)*100});
   }
-  var mastery=CHEM_MASTERY?(CHEM_MASTERY.getSnapshot().mastery||{}):{};
+  var mastery=SS_MASTERY?(SS_MASTERY.getSnapshot().mastery||{}):{};
   var qrec=mastery[String(unitId)];
   if(qrec&&qrec.total>0)parts.push({weight:0.4,pct:(qrec.correct/qrec.total)*100});
   var erec=examUnitStats[unitId];
@@ -894,8 +901,8 @@ function ssOverallProgressUpdate(){
   var total=(typeof QUIZ!=='undefined'?QUIZ.length:0);
   if(!total){fill.parentElement.parentElement.style.display='none';return;}
   var answered=0;
-  if(CHEM_MASTERY){
-    var mastery=CHEM_MASTERY.getSnapshot().mastery||{};
+  if(SS_MASTERY){
+    var mastery=SS_MASTERY.getSnapshot().mastery||{};
     Object.keys(mastery).forEach(function(k){answered+=mastery[k].total||0;});
   }
   var pct=Math.max(0,Math.min(100,Math.round((answered/total)*100)));
@@ -975,7 +982,7 @@ function startDiagnostic(){
 // round's first question) -- the caller (showQ) must bail out without
 // rendering its own terminal scoreboard when this returns true.
 function showDiagSummary(){
-  const mastery=CHEM_MASTERY?CHEM_MASTERY.getSnapshot().mastery||{}:{};
+  const mastery=SS_MASTERY?SS_MASTERY.getSnapshot().mastery||{}:{};
   const rows=UNITS.map(u=>{
     const rec=mastery[u.id];
     if(!rec||rec.total<1)return null;
@@ -1010,7 +1017,7 @@ function showDiagSummary(){
   diagSetActive(false);
   const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
   const summary=document.getElementById('diag-summary');
-  if(!summary||!CHEM_MASTERY){return false;}
+  if(!summary||!SS_MASTERY){return false;}
   if(!weak.length){
     summary.innerHTML='<div class="result" style="padding:16px"><div class="sub" style="color:var(--success)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:5px"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Every unit you were tested on scored 80%+! Try the practice exam next.</div></div>'+(SS_SESSION?'':'<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:14.5px;color:var(--ink-muted)">Sign in to save these results and unlock the full question bank.<div class="ss-login-box" style="margin-top:8px"></div></div>');
     if(!SS_SESSION)ssRenderLoginBoxes();
@@ -1143,7 +1150,7 @@ function ansQ(i){
       qPool.splice(Math.min(qIdx+REQUEUE_DELAY,qPool.length),0,q);
     }
   }
-  if(CHEM_MASTERY)CHEM_MASTERY.recordAnswer(q.u,i===q.a);
+  if(SS_MASTERY)SS_MASTERY.recordAnswer(q.u,i===q.a);
   if(i===q.a)mistakeLogRemove(q);else mistakeLogAdd(q);
   ssOverallProgressUpdate();
   renderUnitProgress(q.u);
@@ -1222,7 +1229,7 @@ updateMistakeLogBadge();
 })();
 
 (function(){
-  var CHEM_TOTAL_Q=QUIZ.length, CHEM_UNITS=UNITS.length, MIN_PER_Q=1.5;
+  var SS_TOTAL_Q=QUIZ.length, SS_UNIT_COUNT=UNITS.length, MIN_PER_Q=1.5;
   var daysEl=document.getElementById('spc-days');
   var minsEl=document.getElementById('spc-mins');
   if(!daysEl||!minsEl)return;
@@ -1243,9 +1250,9 @@ updateMistakeLogBadge();
     if(minsNum)minsNum.value=mins;
     setFill(daysEl);setFill(minsEl);
     var totalMinutes=days*mins;
-    var questions=Math.min(CHEM_TOTAL_Q,Math.round(totalMinutes/MIN_PER_Q));
-    var pct=Math.min(100,Math.round((questions/CHEM_TOTAL_Q)*100));
-    var units=Math.min(CHEM_UNITS,Math.max(1,Math.round((pct/100)*CHEM_UNITS)));
+    var questions=Math.min(SS_TOTAL_Q,Math.round(totalMinutes/MIN_PER_Q));
+    var pct=Math.min(100,Math.round((questions/SS_TOTAL_Q)*100));
+    var units=Math.min(SS_UNIT_COUNT,Math.max(1,Math.round((pct/100)*SS_UNIT_COUNT)));
     document.getElementById('spc-questions').textContent=questions.toLocaleString();
     document.getElementById('spc-units').textContent=units;
     document.getElementById('spc-pct').textContent=pct+'%';
@@ -1447,7 +1454,7 @@ function cbotAddMsg(role,text,jumpFn,jumpLabel,historyText){
 }
 
 async function cbotCallApi(cfg,query){
-  const sys="You are a concise, friendly tutor helping a student study APUSH. Keep answers short (2-5 sentences), accurate, and focused on the question asked.";
+  const sys="You are a concise, friendly tutor helping a student study "+SS_GUIDE.title+". Keep answers short (2-5 sentences), accurate, and focused on the question asked.";
   const messages=[{role:'system',content:sys}].concat(cbotHistory.slice(-8));
   const res=await fetch(cfg.url.replace(/\/$/,'')+'/chat/completions',{
     method:'POST',
@@ -2179,7 +2186,7 @@ function ssDiagBatchRenderContinue(){
    logic above; the wrapper just keeps the URL in sync and reads it back on load and
    on back/forward navigation. Quiz still always goes through the sign-in gate. ----- */
 (function(){
-  var SS_BASE='/apush';
+  var SS_BASE='/'+SS_GUIDE.slug;
   var TAB_TO_SEG={guide:'',cards:'flashcards',quiz:'quiz',examples:'examples',exam:'exam',qref:'reference',memory:'memory'};
   var SEG_TO_TAB={flashcards:'cards',quiz:'quiz',examples:'examples',exam:'exam',reference:'qref',memory:'memory'};
   var TAB_TITLES={cards:'Flashcards',quiz:'Quiz',examples:'Worked Examples',exam:'Practice Exam',qref:'Quick Reference',memory:'Memory Tricks'};
