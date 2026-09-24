@@ -1486,12 +1486,32 @@ if(CBOT_PUBLISHED){
   if(sBtn)sBtn.style.display='none';
 }
 
-async function cbotCallProxy(){
+// What Sage should know about where the student is: the tab, the unit or
+// quiz question on screen, and the guide passages that match their question
+// (so answers come from this course's notes, not just the model's memory).
+function cbotContext(query){
+  const strip=function(h){const d=document.createElement('div');d.innerHTML=String(h||'');return (d.textContent||'').replace(/\s+/g,' ').trim();};
+  const ctx={notes:[]};
+  const tab=document.querySelector('.tab-btn.active');if(tab)ctx.tab=tab.textContent.trim();
+  const quizOn=document.getElementById('view-quiz')&&document.getElementById('view-quiz').classList.contains('active');
+  const q=quizOn&&typeof qPool!=='undefined'&&qPool[qIdx];
+  if(q){
+    ctx.question=strip(q.q)+(q.o?' Options: '+q.o.map(strip).join(' | '):'');
+    const u=UNITS.find(function(x){return x.id===q.u;});if(u)ctx.unit='Unit '+u.id+': '+u.name;
+  }else{
+    const open=document.querySelector('#units > .unit.open .unit-title');
+    if(open&&open.firstChild)ctx.unit=open.firstChild.textContent.trim();
+  }
+  try{ctx.notes=cbotSearch(query).map(function(r){return (r.entry.label+': '+strip(r.entry.text)).slice(0,600);}).filter(function(n,i,a){return a.indexOf(n)===i;}).slice(0,3);}catch(e){}
+  return ctx;
+}
+
+async function cbotCallProxy(query){
   const history=cbotHistory.slice(-9).map(m=>({role:m.role,content:m.content}));
   const res=await fetch('/api/chat',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({history:history})
+    body:JSON.stringify({history:history,context:cbotContext(query)})
   });
   if(!res.ok){
     let detail='';
@@ -1517,7 +1537,7 @@ async function cbotAsk(query){
 
   if(CBOT_PUBLISHED){
     try{
-      const reply=await cbotCallProxy();
+      const reply=await cbotCallProxy(query);
       const top=results.length?results[0].entry:null;
       cbotAddMsg('bot',reply||"I didn't get a usable reply — try rephrasing?",top&&top.jump,top?'Jump to this in the guide →':undefined);
     }catch(err){

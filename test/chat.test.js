@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { sanitizeMessages, subjectFromReferer, DEFAULT_SUBJECT } from "../src/chat.js";
+import { sanitizeMessages, subjectFromReferer, DEFAULT_SUBJECT, sanitizeContext, buildSystemPrompt } from "../src/chat.js";
 
 describe("sanitizeMessages", () => {
   it("returns empty array for empty input", () => {
@@ -244,5 +244,36 @@ describe("handleChatOptions", () => {
     }));
     expect(res.status).toBe(204);
     expect(res.headers.get("Access-Control-Allow-Origin")).toBeNull();
+  });
+});
+
+describe("sanitizeContext", () => {
+  it("returns only notes: [] for missing or malformed context", () => {
+    expect(sanitizeContext(undefined)).toEqual({ tab: undefined, unit: undefined, question: undefined, notes: [] });
+    expect(sanitizeContext("nope")).toEqual({ tab: undefined, unit: undefined, question: undefined, notes: [] });
+  });
+
+  it("caps lengths, strips control characters and keeps at most 3 notes", () => {
+    const ctx = sanitizeContext({ tab: "quiz", unit: "Unit 2\u0000: Kinematics", question: "x".repeat(2000), notes: ["a", "b", "c", "d", 5] });
+    expect(ctx.unit).toBe("Unit 2 : Kinematics");
+    expect(ctx.question.length).toBe(700);
+    expect(ctx.notes).toEqual(["a", "b", "c"]);
+  });
+});
+
+describe("buildSystemPrompt", () => {
+  it("adds Sage's tutoring rules to the subject prompt", () => {
+    const p = buildSystemPrompt("physics", sanitizeContext(undefined));
+    expect(p).toContain("helping a student study Physics");
+    expect(p).toContain("You are Sage");
+    expect(p).not.toContain("Guide notes");
+  });
+
+  it("includes the page context and guide notes when given", () => {
+    const p = buildSystemPrompt("physics", sanitizeContext({ tab: "quiz", unit: "Unit 2: Kinematics", question: "A ball is dropped…", notes: ["Free fall: a = 9.8 m/s² downward"] }));
+    expect(p).toContain("The student is on the quiz tab.");
+    expect(p).toContain("Unit in view: Unit 2: Kinematics.");
+    expect(p).toContain("Practice question on screen: A ball is dropped…");
+    expect(p).toContain("- Free fall: a = 9.8 m/s² downward");
   });
 });
