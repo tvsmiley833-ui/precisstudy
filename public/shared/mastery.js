@@ -144,6 +144,43 @@ export function buildSchedule(mastery, unitIds, unitNames, days, minutesPerDay) 
   return { allMastered: false, days: schedule };
 }
 
+/**
+ * Moves numeric unit keys up by one (Physics gained a new Unit 1).
+ * @template T
+ * @param {Record<string, T>} record
+ * @returns {Record<string, T>}
+ */
+export function shiftUnitKeys(record) {
+  /** @type {Record<string, T>} */
+  const out = {};
+  for (const [k, v] of Object.entries(record)) {
+    const n = Number(k);
+    out[Number.isInteger(n) && n > 0 ? String(n + 1) : k] = v;
+  }
+  return out;
+}
+
+const PHYSICS_SHIFT_FLAG = "ssMigrated_physics-units-v2";
+
+/**
+ * One-time shift of locally saved Physics progress (signed-out students;
+ * signed-in ones are migrated server-side and overwrite this on merge).
+ * Local data has no timestamp, so a "12" key -- a unit that only exists in
+ * the new numbering -- is the one sign it is already new-style.
+ * @param {MasteryState} state
+ * @returns {boolean} true if the state changed
+ */
+export function migrateLocalPhysics(state) {
+  try {
+    if (localStorage.getItem(PHYSICS_SHIFT_FLAG)) return false;
+    localStorage.setItem(PHYSICS_SHIFT_FLAG, "1");
+  } catch (e) { return false; }
+  const keys = Object.keys(state.mastery);
+  if (!keys.length || keys.includes("12")) return false;
+  state.mastery = shiftUnitKeys(state.mastery);
+  return true;
+}
+
 const SYNC_DEBOUNCE_MS = 10000;
 
 const STREAK_TOUCHED_KEY = "ssStreakTouchedLocalDate";
@@ -257,6 +294,7 @@ export function createMastery(subject, unitIds, unitNames) {
   return {
     async init() {
       load();
+      if (subject === "physics" && migrateLocalPhysics(state)) saveLocal();
       await mergeFromServer();
     },
     recordAnswer(unitId, correct) {

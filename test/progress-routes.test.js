@@ -936,3 +936,49 @@ describe("handlePostNotificationPrefs", () => {
     expect(res.status).toBe(400);
   });
 });
+
+describe("physics unit-shift migration", () => {
+  const url = "https://example.com/api/progress";
+  function stored(kv) { return JSON.parse(kv._store.get("progress:student@example.com")); }
+
+  it("shifts pre-cutoff physics mastery and unitOrder up by one, once", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV({ "progress:student@example.com": JSON.stringify({
+      updatedAt: "2026-09-22T12:00:00.000Z",
+      physics: { mastery: { "1": { correct: 3, total: 4 }, "11": { correct: 1, total: 2 } }, examples: {}, cardsKnown: ["Torque"], unitOrder: [2, 1] },
+      chemistry: { mastery: { "1": { correct: 2, total: 2 } }, examples: {}, cardsKnown: [] }
+    }) });
+    const env = { SESSION_SECRET: SECRET, PROGRESS: kv };
+    const data = await (await handleGetProgress(req(url, cookie), env)).json();
+    expect(data.physics.mastery).toEqual({ "2": { correct: 3, total: 4 }, "12": { correct: 1, total: 2 } });
+    expect(data.physics.unitOrder).toEqual([3, 2]);
+    expect(data.physics.cardsKnown).toEqual(["Torque"]);
+    expect(data.chemistry.mastery).toEqual({ "1": { correct: 2, total: 2 } });
+    expect(stored(kv).migrations).toEqual(["physics-units-v2"]);
+    const again = await (await handleGetProgress(req(url, cookie), env)).json();
+    expect(again.physics.mastery).toEqual(data.physics.mastery);
+  });
+
+  it("flags but does not shift physics data saved after the cutoff", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV({ "progress:student@example.com": JSON.stringify({
+      updatedAt: "2026-09-23T22:00:00.000Z",
+      physics: { mastery: { "1": { correct: 3, total: 4 } }, examples: {}, cardsKnown: [] }
+    }) });
+    const data = await (await handleGetProgress(req(url, cookie), { SESSION_SECRET: SECRET, PROGRESS: kv })).json();
+    expect(data.physics.mastery).toEqual({ "1": { correct: 3, total: 4 } });
+    expect(stored(kv).migrations).toEqual(["physics-units-v2"]);
+  });
+
+  it("marks old data migrated on a POST so its fresh timestamp can't hide it", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV({ "progress:student@example.com": JSON.stringify({
+      updatedAt: "2026-09-22T12:00:00.000Z",
+      physics: { mastery: { "1": { correct: 1, total: 2 } }, examples: {}, cardsKnown: [] }
+    }) });
+    const env = { SESSION_SECRET: SECRET, PROGRESS: kv };
+    await handlePostProgress(req(url, cookie, "POST", { subject: "chemistry", mastery: {}, examples: {}, cardsKnown: [] }), env);
+    expect(stored(kv).physics.mastery).toEqual({ "2": { correct: 1, total: 2 } });
+    expect(stored(kv).migrations).toEqual(["physics-units-v2"]);
+  });
+});

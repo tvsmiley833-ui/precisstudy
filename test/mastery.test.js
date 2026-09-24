@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { computeUnitStatus, computeReadiness, recommendNext, topWeakUnits, buildSchedule } from "../public/shared/mastery.js";
+import { computeUnitStatus, computeReadiness, recommendNext, topWeakUnits, buildSchedule, migrateLocalPhysics } from "../public/shared/mastery.js";
 
 describe("computeUnitStatus", () => {
   it("is not-assessed with no record", () => {
@@ -135,5 +135,26 @@ describe("buildSchedule", () => {
     expect(result.allMastered).toBe(false);
     expect(result.days).toHaveLength(5);
     expect(result.days[4]).toEqual({ day: 5, type: "exam" });
+  });
+});
+
+describe("migrateLocalPhysics", () => {
+  const mem = new Map();
+  globalThis.localStorage = { getItem: k => (mem.has(k) ? mem.get(k) : null), setItem: (k, v) => mem.set(k, String(v)) };
+
+  it("shifts old-numbered local progress once", () => {
+    mem.clear();
+    const state = { mastery: { "1": { correct: 1, total: 2 }, "11": { correct: 2, total: 2 } }, examples: {}, cardsKnown: [] };
+    expect(migrateLocalPhysics(state)).toBe(true);
+    expect(state.mastery).toEqual({ "2": { correct: 1, total: 2 }, "12": { correct: 2, total: 2 } });
+    expect(migrateLocalPhysics(state)).toBe(false);
+    expect(Object.keys(state.mastery)).toEqual(["2", "12"]);
+  });
+
+  it("leaves new-style progress (has unit 12) alone", () => {
+    mem.clear();
+    const state = { mastery: { "1": { correct: 1, total: 2 }, "12": { correct: 1, total: 2 } }, examples: {}, cardsKnown: [] };
+    expect(migrateLocalPhysics(state)).toBe(false);
+    expect(Object.keys(state.mastery)).toEqual(["1", "12"]);
   });
 });
