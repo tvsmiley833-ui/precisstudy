@@ -395,3 +395,15 @@ html body #scene { touch-action: pan-y; }
 html body .page .btn { white-space: nowrap; }
 /* The Know it / Still learning row has inline display:flex without wrap. */
 html body #view-cards .fc-nav + div { flex-wrap: wrap; }
+
+/* Seven tabs don't fit beside the theme/focus/timer controls; let the tab
+   list scroll sideways instead of pushing the controls out of the bar. */
+html:root body .hero.hero .tablist {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+html:root body .hero.hero .tablist::-webkit-scrollbar { display: none; }
+html:root body .hero.hero .tablist .tab-btn { flex-shrink: 0; }
+html:root body .hero.hero .nav > :not(.tablist) { flex-shrink: 0; }
