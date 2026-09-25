@@ -451,3 +451,13 @@ html body .q-opt svg.vec { display: block; max-width: 100%; height: auto; }
 html body .q-opt:has(svg.vec) { justify-content: flex-start; padding-top: 10px !important; padding-bottom: 10px !important; }
 html body svg.vec text { font: 600 13px/1 'Inter', system-ui, sans-serif; fill: currentColor; }
 html body .qb-opts svg.vec, html body .q-fig svg.vec { color: var(--ink); }
+
+/* Links inside concept notes (e.g. the Watch: video lessons): brand green in
+   both themes instead of the browser's default blue/purple. */
+html body .c-list a, html body .c-text a,
+html body .c-list a:visited, html body .c-text a:visited {
+  color: var(--accent-ink); font-weight: 600;
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px;
+}
+html body .c-list a:hover, html body .c-text a:hover { text-decoration-thickness: 2px; }
+html body .c-list a:focus-visible, html body .c-text a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
