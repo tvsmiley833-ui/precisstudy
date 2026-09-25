@@ -11,6 +11,17 @@
    "name": "Measurement, Vectors & Motion Basics",
    "concepts": [
     {
+     "l": "Math basics for physics",
+     "intro": "Test #1 starts with the math every later problem uses: rearranging formulas, right-triangle trig, and unit conversions.",
+     "b": [
+      "Solve for the unknown with symbols first, then substitute numbers with their units: $d = \\tfrac12at^2$ becomes $t = \\sqrt{2d/a}$.",
+      "Right-triangle trig (SOH-CAH-TOA): $\\sinθ = opp/hyp$, $\\cosθ = adj/hyp$, $\\tanθ = opp/adj$; the Pythagorean theorem gives $c = \\sqrt{a^2 + b^2}$.",
+      "Slope of a straight-line graph = rise ÷ run, with units (m ÷ s = m/s).",
+      "Convert units by multiplying by fractions equal to 1: $72 km/h × (1000 m / 1 km) × (1 h / 3600 s) = 20 m/s$ (divide km/h by 3.6).",
+      "Keep units through every step; if the final unit is wrong, the setup is wrong."
+     ]
+    },
+    {
      "l": "Measurement & SI units",
      "intro": "Physics is built on measurement, and every measurement is a number plus a unit. Drop the unit and the answer is incomplete.",
      "b": [
@@ -39,7 +50,9 @@
       "Move the decimal point until one nonzero digit is left of it; the number of places moved is the exponent (positive for big numbers, negative for small ones).",
       "To add or subtract, first rewrite both terms with the same power of 10, then combine the M values: $4.1×10^{-6} − 0.3×10^{-6} = 3.8×10^{-6}$.",
       "To multiply, multiply the M values and add the exponents; to divide, divide the M values and subtract the exponents. Multiply and divide the units too.",
-      "Order of magnitude is the power of 10 closest to the value: $1284 kg = 1.284×10^3$ kg is order $10^3$, but $8756 kg = 8.756×10^3$ kg is closer to $10^4$."
+      "Order of magnitude is the power of 10 closest to the value: $1284 kg = 1.284×10^3$ kg is order $10^3$, but $8756 kg = 8.756×10^3$ kg is closer to $10^4$.",
+      "Estimate with benchmarks: one building story ≈ 3 m, so a 30-story building ≈ 90 m ≈ $10^2$ m; a football field ≈ 100 m = 1000 dm.",
+      "Small benchmarks: a little finger is about 1 cm = 0.01 m wide; a pencil is about 5 g = $5.0 × 10^{-3}$ kg; an adult is about 70 kg."
      ]
     },
     {
@@ -51,6 +64,17 @@
       "Systematic errors push every reading the same way (fix by calibrating); random errors scatter readings high and low (reduce by averaging many trials).",
       "Significant figures: nonzero digits, zeros between digits, and trailing zeros after a decimal point count; leading zeros do not.",
       "A calculated answer can be no more precise than the least precise measurement used."
+     ]
+    },
+    {
+     "l": "Lab skills: can capacity & distance vs. displacement",
+     "intro": "Labs 1.1 and 1.2 practice measuring carefully and telling a path from a straight-line change in position.",
+     "b": [
+      "Lab 1.1: a can is a cylinder, so its capacity is $V = πr^2h$. Measure the diameter and halve it for r; using the diameter by mistake makes V four times too big.",
+      "$1 cm^3 = 1 mL$, so a can 6.6 cm across and 12.2 cm tall holds about $π(3.3)^2(12.2) ≈ 417 mL$.",
+      "Record every measurement with its unit and the instrument's precision, and compare with the accepted value using percent error.",
+      "Lab 1.2: walking a path, distance is the total length walked; displacement is the straight line from start to finish plus its direction.",
+      "Halfway around a 30 m × 40 m rectangle (to the opposite corner), the distance is 70 m but the displacement is 50 m."
      ]
     },
     {
@@ -74,6 +98,17 @@
       "To subtract, add the negative: $A − B = A + (−B)$, where $−B$ has the same length but points the opposite way.",
       "Multiplying by a positive scalar changes only the length; a negative scalar also reverses the direction.",
       "The resultant of two vectors is largest ($A + B$) at 0° between them, smallest ($|A − B|$) at 180°, and shrinks steadily as the angle grows from 0° to 180°."
+     ]
+    },
+    {
+     "l": "Vector scale drawings & relative velocity",
+     "intro": "Tip-to-tail diagrams are drawn to scale, so the length of each arrow stands for its magnitude.",
+     "b": [
+      "Choose a scale and keep it for every vector: if 15 mm represents 30 m/s, then 1 mm = 2 m/s and 20 m/s is drawn 10 mm long.",
+      "Two vectors A and B combine to anything from $|A − B|$ (opposite directions, 180°) to $A + B$ (same direction, 0°): 3 m and 4 m give 1 m to 7 m, and 5 m at 90°.",
+      "As the angle between two vectors grows from 0° to 180°, their resultant shrinks steadily from the sum to the difference.",
+      "Relative velocity: add velocities as vectors. Walking forward at 4.0 m/s in a bus moving at 2.0 m/s gives 6.0 m/s relative to the street; walking toward the back gives 2.0 m/s the other way.",
+      "Measure the resultant's length and angle on the drawing, then convert back with the scale."
      ]
     },
     {
@@ -156,18 +191,6 @@
      ]
     },
     {
-     "l": "Free fall",
-     "intro": "An object is in free fall when gravity is the only force acting on it, from the moment it is released, whether dropped, thrown up, or thrown down.",
-     "b": [
-      "Aristotle taught that heavier objects fall faster. Galileo showed that, without air resistance, all objects fall with the same acceleration.",
-      "In a vacuum tube a coin and a feather land together; on the Moon, Apollo 15's hammer and feather hit the ground at the same time.",
-      "Near Earth's surface $g ≈ 9.8 m/s^2$, always directed downward; with up as positive, use $a = −g$.",
-      "Dropped from rest: $v_f = gt$, $d = \\tfrac12gt^2$, $v_f^2 = 2gd$.",
-      "Thrown straight up: the velocity decreases by 9.8 m/s every second, is zero at the top, and the acceleration is still $g$ downward the whole time.",
-      "Reaction time from a dropped ruler: $t = \\sqrt{2d/g}$, where d is how far it fell before you caught it (about 0.2 s for most people)."
-     ]
-    },
-    {
      "l": "Dot & cross products (optional)",
      "intro": "Vectors can also be multiplied by each other in two ways, which matter later for work and magnetism.",
      "b": [
@@ -184,18 +207,19 @@
     "Treating distance and displacement as the same thing; a round trip has zero displacement but nonzero distance.",
     "Adding numbers in scientific notation without first matching the powers of 10.",
     "Calling every negative acceleration 'slowing down': an object only slows when its acceleration points opposite to its velocity.",
-    "Saying the acceleration is zero at the top of a vertical toss; the velocity is zero there, but the acceleration is still g downward.",
-    "Assuming heavier objects fall faster; without air resistance every object falls with the same acceleration."
+    "Averaging two speeds for a round trip (60 and 75 km/h → 67.5): average speed is always total distance ÷ total time (300 km ÷ 4.5 h ≈ 67 km/h).",
+    "Using the diameter instead of the radius in $V = πr^2h$."
    ],
    "fms": [
+    "SOH-CAH-TOA: $\\sinθ = opp/hyp$, $\\cosθ = adj/hyp$, $\\tanθ = opp/adj$; km/h ÷ 3.6 = m/s.",
     "$M × 10^n$ with $1 ≤ M < 10$; multiply → add exponents, divide → subtract exponents.",
     "Percent error $= |measured − accepted| / accepted × 100\\%$.",
     "$R = \\sqrt{A^2 + B^2}$ for perpendicular vectors; $|A − B| ≤ R ≤ A + B$ in general.",
     "$A_x = A\\cosθ$, $A_y = A\\sinθ$ (θ from the horizontal).",
     "Average speed $v = d/t$ (scalar); average velocity $\\bar v = Δd/Δt$ (vector).",
     "$a = Δv/Δt$; constant a: $v_f = v_0 + at$, $d = v_0t + \\tfrac12at^2$, $v_f^2 = v_0^2 + 2ad$.",
-    "Free fall from rest: $v = gt$, $d = \\tfrac12gt^2$, $t = \\sqrt{2d/g}$, $g ≈ 9.8 m/s^2$.",
-    "Slope of d–t = velocity; slope of v–t = acceleration; area under v–t = distance."
+    "Slope of d–t = velocity; slope of v–t = acceleration; area under v–t = distance.",
+    "Cylinder (can): $V = πr^2h$; $1 cm^3 = 1 mL$. Resultant of A and B: $|A − B| ≤ R ≤ A + B$."
    ]
   },
   {
@@ -254,7 +278,13 @@
       "At the top of a vertical toss, velocity is zero but acceleration is still g downward.",
       "Time up equals time down for a symmetric path; return speed equals launch speed.",
       "Substitute a = −g (with up positive) into the kinematic equations.",
-      "A dropped object and one thrown horizontally from the same height fall for the same time."
+      "A dropped object and one thrown horizontally from the same height fall for the same time.",
+      "Aristotle taught that heavier objects fall faster. Galileo showed that, without air resistance, all objects fall with the same acceleration.",
+      "In a vacuum tube a coin and a feather land together; on the Moon, Apollo 15's hammer and feather hit the ground at the same time.",
+      "Near Earth's surface $g ≈ 9.8 m/s^2$, always directed downward; with up as positive, use $a = −g$.",
+      "Dropped from rest: $v_f = gt$, $d = \\tfrac12gt^2$, $v_f^2 = 2gd$.",
+      "Thrown straight up: the velocity decreases by 9.8 m/s every second, is zero at the top, and the acceleration is still $g$ downward the whole time.",
+      "Reaction time from a dropped ruler: $t = \\sqrt{2d/g}$, where d is how far it fell before you caught it (about 0.2 s for most people)."
      ]
     },
     {
@@ -273,13 +303,16 @@
     "Using the kinematic equations when acceleration is not constant.",
     "Thinking a projectile at its peak has a = 0 — it is still g downward.",
     "Using the full launch speed as the horizontal speed instead of $v_0 \\cosθ$.",
-    "Switching sign conventions partway through a problem."
+    "Switching sign conventions partway through a problem.",
+    "Saying the acceleration is zero at the top of a vertical toss; the velocity is zero there, but the acceleration is still g downward.",
+    "Assuming heavier objects fall faster; without air resistance every object falls with the same acceleration."
    ],
    "fms": [
     "Same launch height → same fall time, whatever the horizontal speed.",
     "If time is the missing quantity, use $v^2 = v_0^2 + 2aΔx$.",
     "Slope of x–t = velocity; slope of v–t = acceleration; area under v–t = displacement.",
-    "Split the projectile into x and y, solve each, reunite through the shared time t."
+    "Split the projectile into x and y, solve each, reunite through the shared time t.",
+    "Free fall from rest: $v = gt$, $d = \\tfrac12gt^2$, $t = \\sqrt{2d/g}$, $g ≈ 9.8 m/s^2$."
    ]
   },
   {
@@ -1147,13 +1180,38 @@
   },
   {
    "u": 1,
-   "t": "Free fall",
-   "d": "Motion with gravity as the only force. All objects fall with the same acceleration, g ≈ 9.8 m/s² downward (Galileo, not Aristotle)."
+   "t": "Order-of-magnitude benchmarks",
+   "d": "30-story building ≈ 10² m; football field ≈ 100 m; little finger ≈ 0.01 m wide; pencil ≈ 5 × 10⁻³ kg; adult ≈ 70 kg."
   },
   {
    "u": 1,
-   "t": "Reaction time from a dropped ruler",
-   "d": "t = √(2d/g), where d is how far the ruler fell before you caught it."
+   "t": "Vector scale",
+   "d": "A fixed ratio between arrow length and magnitude, e.g. 1 mm = 2 m/s. If 15 mm = 30 m/s, then 20 m/s = 10 mm."
+  },
+  {
+   "u": 1,
+   "t": "Relative velocity",
+   "d": "Velocities add as vectors: 4.0 m/s forward on a 2.0 m/s bus is 6.0 m/s relative to the street; toward the back, 2.0 m/s the other way."
+  },
+  {
+   "u": 1,
+   "t": "Range of a resultant",
+   "d": "For vectors A and B: |A − B| ≤ R ≤ A + B. Largest at 0°, smallest at 180°."
+  },
+  {
+   "u": 1,
+   "t": "Average speed of a round trip",
+   "d": "Total distance ÷ total time, not the average of the two speeds (150 km at 60 km/h and back at 75 km/h ≈ 67 km/h)."
+  },
+  {
+   "u": 1,
+   "t": "SOH-CAH-TOA",
+   "d": "sin θ = opposite/hypotenuse, cos θ = adjacent/hypotenuse, tan θ = opposite/adjacent."
+  },
+  {
+   "u": 1,
+   "t": "Volume of a can (cylinder)",
+   "d": "V = πr²h, using the radius (half the diameter); 1 cm³ = 1 mL."
   },
   {
    "u": 2,
@@ -1529,6 +1587,16 @@
    "u": 2,
    "t": "Time of flight (level ground)",
    "d": "t = 2 v0 sin(theta) / g, which is twice the time to reach maximum height."
+  },
+  {
+   "u": 2,
+   "t": "Free fall",
+   "d": "Motion with gravity as the only force. All objects fall with the same acceleration, g ≈ 9.8 m/s² downward (Galileo, not Aristotle)."
+  },
+  {
+   "u": 2,
+   "t": "Reaction time from a dropped ruler",
+   "d": "t = √(2d/g), where d is how far the ruler fell before you caught it."
   },
   {
    "u": 3,
@@ -2931,18 +2999,6 @@
   },
   {
    "u": 1,
-   "q": "An astronaut drops a hammer from 2.0 m above the Moon's surface, where g = 1.62 m/s². How long does it take to reach the surface?",
-   "o": [
-    "1.6 s",
-    "1.2 s",
-    "2.5 s",
-    "0.62 s"
-   ],
-   "a": 0,
-   "e": "Starting from rest, d = ½gt², so t = √(2d ÷ g) = √(4.0 ÷ 1.62) = √2.47 ≈ 1.6 s."
-  },
-  {
-   "u": 1,
    "q": "Which statement about an object with zero acceleration is true?",
    "o": [
     "The object may be in motion.",
@@ -3219,87 +3275,351 @@
   },
   {
    "u": 1,
-   "q": "A coin and a feather are dropped together inside a tube with the air pumped out. They:",
+   "q": "The height of a 30-story building is approximately:",
    "o": [
-    "hit the bottom at the same time",
-    "fall so the coin lands first",
-    "fall so the feather lands first",
-    "float, because there is no gravity in a vacuum"
+    "10² m",
+    "10¹ m",
+    "10³ m",
+    "10⁰ m"
    ],
    "a": 0,
-   "e": "Without air resistance, gravity gives every object the same acceleration, so they fall together. Gravity still acts in a vacuum."
+   "e": "Each story is about 3 m, so 30 × 3 m ≈ 90 m, which is closest to 10² m."
   },
   {
    "u": 1,
-   "q": "Who taught that heavier objects fall faster, in proportion to their weight?",
+   "q": "The length of a football field is closest to:",
    "o": [
-    "Aristotle",
-    "Galileo",
-    "Newton",
-    "Einstein"
+    "1000 dm",
+    "1000 cm",
+    "1000 km",
+    "1000 mm"
    ],
    "a": 0,
-   "e": "Aristotle held that view. Galileo later showed that, apart from air resistance, all bodies fall with the same acceleration."
+   "e": "A football field is about 100 m. 1000 dm = 100 m; 1000 cm is only 10 m and 1000 mm is 1 m."
   },
   {
    "u": 1,
-   "q": "An object is dropped from rest. Ignoring air resistance (g = 9.8 m/s²), its speed after 2.0 s is about:",
+   "q": "What is the approximate width of a person's little finger?",
+   "o": [
+    "0.01 m",
+    "1 m",
+    "0.1 m",
+    "0.001 m"
+   ],
+   "a": 0,
+   "e": "A little finger is about 1 cm wide, and 1 cm = 0.01 m."
+  },
+  {
+   "u": 1,
+   "q": "What is the approximate mass of a pencil?",
+   "o": [
+    "5.0 × 10⁻³ kg",
+    "5.0 × 10⁻¹ kg",
+    "5.0 × 10⁰ kg",
+    "5.0 × 10¹ kg"
+   ],
+   "a": 0,
+   "e": "A pencil is about 5 g. Since 1000 g = 1 kg, 5 g = 0.005 kg = 5.0 × 10⁻³ kg."
+  },
+  {
+   "u": 1,
+   "q": "Two displacements of 3 m and 4 m are added. What are the largest and smallest possible resultants?",
+   "o": [
+    "7 m and 1 m",
+    "7 m and 5 m",
+    "5 m and 1 m",
+    "12 m and 0 m"
+   ],
+   "a": 0,
+   "e": "Largest when they point the same way (3 + 4 = 7 m); smallest when they point opposite ways (4 − 3 = 1 m). 5 m is the resultant at 90°."
+  },
+  {
+   "u": 1,
+   "q": "As the angle between two displacement vectors increases from 0° to 180°, their resultant:",
+   "o": [
+    "decreases from A + B to |A − B|",
+    "increases from |A − B| to A + B",
+    "stays the same",
+    "increases, then decreases"
+   ],
+   "a": 0,
+   "e": "At 0° the vectors add fully; as they turn apart they cancel more and more, until at 180° only the difference is left."
+  },
+  {
+   "u": 1,
+   "q": "A vector drawn 15 mm long represents a velocity of 30 m/s. How long should a vector representing 20 m/s be?",
+   "o": [
+    "10 mm",
+    "20 mm",
+    "22.5 mm",
+    "7.5 mm"
+   ],
+   "a": 0,
+   "e": "The scale is 15 mm ÷ 30 m/s = 0.5 mm per m/s, so 20 m/s × 0.5 mm = 10 mm."
+  },
+  {
+   "u": 1,
+   "q": "You ride a bus moving at 2.0 m/s and walk toward the front at 4.0 m/s relative to the bus. Your speed relative to the street is:",
+   "o": [
+    "6.0 m/s",
+    "2.0 m/s",
+    "4.0 m/s",
+    "8.0 m/s"
+   ],
+   "a": 0,
+   "e": "Both velocities point the same way, so they add: 2.0 + 4.0 = 6.0 m/s relative to the street."
+  },
+  {
+   "u": 1,
+   "q": "On the same bus (2.0 m/s), you walk toward the back at 4.0 m/s relative to the bus. Your velocity relative to the street is:",
+   "o": [
+    "2.0 m/s, opposite the bus's motion",
+    "6.0 m/s, in the bus's direction",
+    "2.0 m/s, in the bus's direction",
+    "0 m/s"
+   ],
+   "a": 0,
+   "e": "Now the velocities point opposite ways: 4.0 − 2.0 = 2.0 m/s in your walking direction, toward the back."
+  },
+  {
+   "u": 1,
+   "q": "In 1999 Hicham El Guerrouj ran a mile (1609 m) in 3 min 43.13 s. His average speed was about:",
+   "o": [
+    "7.21 m/s",
+    "0.139 m/s",
+    "26.8 m/s",
+    "4.31 m/s"
+   ],
+   "a": 0,
+   "e": "Convert the time to seconds: 3 × 60 + 43.13 = 223.13 s. Then 1609 m ÷ 223.13 s ≈ 7.21 m/s."
+  },
+  {
+   "u": 1,
+   "q": "A motorist drives 150 km in 2.5 h and makes the return trip in 2.0 h. Her average speeds going and returning were:",
+   "o": [
+    "60 km/h and 75 km/h",
+    "75 km/h and 60 km/h",
+    "375 km/h and 300 km/h",
+    "67.5 km/h each way"
+   ],
+   "a": 0,
+   "e": "Going: 150 ÷ 2.5 = 60 km/h. Returning: 150 ÷ 2.0 = 75 km/h."
+  },
+  {
+   "u": 1,
+   "q": "For that whole round trip (150 km each way, 2.5 h and 2.0 h), the average speed is closest to:",
+   "o": [
+    "67 km/h",
+    "68 km/h",
+    "60 km/h",
+    "75 km/h"
+   ],
+   "a": 0,
+   "e": "Total distance ÷ total time = 300 km ÷ 4.5 h ≈ 66.7 km/h. Averaging 60 and 75 (67.5) is wrong because she spent longer at the slower speed."
+  },
+  {
+   "u": 1,
+   "q": "A hiker walks 5.0 km in the first hour and 4.4 km in the second hour. Her average speed for the first two hours is:",
+   "o": [
+    "4.7 km/h",
+    "4.4 km/h",
+    "9.4 km/h",
+    "5.0 km/h"
+   ],
+   "a": 0,
+   "e": "(5.0 + 4.4) km ÷ 2 h = 9.4 ÷ 2 = 4.7 km/h."
+  },
+  {
+   "u": 1,
+   "q": "The same hiker (5.0 km, then 4.4 km) rests during the third hour. Her average speed for the first three hours is:",
+   "o": [
+    "3.1 km/h",
+    "4.7 km/h",
+    "3.5 km/h",
+    "9.4 km/h"
+   ],
+   "a": 0,
+   "e": "Resting still counts as time: 9.4 km ÷ 3 h ≈ 3.1 km/h."
+  },
+  {
+   "u": 1,
+   "q": "She then walks 4.6 km in the fourth hour. Her average speed for the whole 4-hour period is:",
+   "o": [
+    "3.5 km/h",
+    "4.7 km/h",
+    "4.67 km/h",
+    "14 km/h"
+   ],
+   "a": 0,
+   "e": "Total distance = 5.0 + 4.4 + 4.6 = 14.0 km over 4 h = 3.5 km/h. 4.67 km/h leaves out the hour of rest."
+  },
+  {
+   "u": 1,
+   "q": "The resultant of two forces acting on the same point at the same time is greatest when the angle between them is:",
+   "o": [
+    "0°",
+    "45°",
+    "90°",
+    "180°"
+   ],
+   "a": 0,
+   "e": "At 0° the forces point the same way and add fully (A + B)."
+  },
+  {
+   "u": 1,
+   "q": "Two concurrent forces of 2.0 N and 1.5 N act at right angles. The magnitude of their resultant is:",
+   "o": [
+    "2.5 N",
+    "3.5 N",
+    "0.5 N",
+    "3.0 N"
+   ],
+   "a": 0,
+   "e": "√(2.0² + 1.5²) = √(4.00 + 2.25) = √6.25 = 2.5 N."
+  },
+  {
+   "u": 1,
+   "q": "Find the components of a helicopter's velocity of 95 km/h at 35° above the ground.",
+   "o": [
+    "vx ≈ 78 km/h, vy ≈ 54 km/h",
+    "vx ≈ 54 km/h, vy ≈ 78 km/h",
+    "vx = 95 km/h, vy = 0",
+    "vx ≈ 67 km/h, vy ≈ 67 km/h"
+   ],
+   "a": 0,
+   "e": "vx = 95 cos 35° ≈ 95(0.819) ≈ 78 km/h; vy = 95 sin 35° ≈ 95(0.574) ≈ 54 km/h."
+  },
+  {
+   "u": 1,
+   "q": "An aircraft climbs at a steady 200. m/s at 20° above the horizontal. The horizontal and vertical components of its velocity are:",
+   "o": [
+    "188 m/s horizontal, 68 m/s vertical",
+    "68 m/s horizontal, 188 m/s vertical",
+    "200. m/s each",
+    "100. m/s each"
+   ],
+   "a": 0,
+   "e": "vx = 200 cos 20° ≈ 200(0.940) ≈ 188 m/s; vy = 200 sin 20° ≈ 200(0.342) ≈ 68 m/s."
+  },
+  {
+   "u": 1,
+   "q": "A bus travels 23.0 km on a straight road 30° north of east. The east and north components of its displacement are:",
+   "o": [
+    "19.9 km east, 11.5 km north",
+    "11.5 km east, 19.9 km north",
+    "23.0 km east, 0 km north",
+    "16.3 km east, 16.3 km north"
+   ],
+   "a": 0,
+   "e": "East = 23.0 cos 30° ≈ 19.9 km; north = 23.0 sin 30° = 11.5 km."
+  },
+  {
+   "u": 1,
+   "q": "What are the components of a vector of magnitude 1.5 m at 35° from the positive x-axis?",
+   "o": [
+    "x ≈ 1.2 m, y ≈ 0.86 m",
+    "x ≈ 0.86 m, y ≈ 1.2 m",
+    "x = 1.5 m, y = 0",
+    "x ≈ 0.75 m, y ≈ 0.75 m"
+   ],
+   "a": 0,
+   "e": "x = 1.5 cos 35° ≈ 1.23 m; y = 1.5 sin 35° ≈ 0.86 m."
+  },
+  {
+   "u": 1,
+   "q": "A car moves at 50 km/h in a direction 60° north of east (x = east, y = north). Which component of its velocity is larger?",
+   "o": [
+    "y (north): about 43 km/h vs. 25 km/h east",
+    "x (east): about 43 km/h vs. 25 km/h north",
+    "They are equal",
+    "Neither; each component is 50 km/h"
+   ],
+   "a": 0,
+   "e": "vx = 50 cos 60° = 25 km/h; vy = 50 sin 60° ≈ 43 km/h. More than 45° from the x-axis means the y-component wins."
+  },
+  {
+   "u": 1,
+   "q": "A 4 N force points east and a 3 N force points north. Their resultant is:",
+   "o": [
+    "5 N at about 37° north of east",
+    "7 N east",
+    "5 N at about 53° north of east",
+    "1 N east"
+   ],
+   "a": 0,
+   "e": "R = √(4² + 3²) = 5 N; θ = tan⁻¹(3/4) ≈ 37° north of east. 53° measures from north instead."
+  },
+  {
+   "u": 1,
+   "q": "A velocity of 80. m/s is directed 30° above the horizontal. The magnitude of its vertical component is:",
+   "o": [
+    "40. m/s",
+    "69 m/s",
+    "30. m/s",
+    "10. m/s"
+   ],
+   "a": 0,
+   "e": "vy = 80. sin 30° = 80.(0.50) = 40. m/s. 69 m/s is the horizontal component."
+  },
+  {
+   "u": 1,
+   "q": "In Lab 1.1, a can measures 6.6 cm across and 12.2 cm tall. Its capacity is about:",
+   "o": [
+    "417 mL",
+    "1670 mL",
+    "253 mL",
+    "80 mL"
+   ],
+   "a": 0,
+   "e": "V = πr²h with r = 3.3 cm: π(3.3)²(12.2) ≈ 417 cm³ = 417 mL. Using the 6.6 cm diameter as r gives about 1670 mL."
+  },
+  {
+   "u": 1,
+   "q": "A student walks halfway around a 30 m × 40 m rectangular field, from one corner to the opposite corner. Her distance and displacement are:",
+   "o": [
+    "70 m and 50 m",
+    "50 m and 70 m",
+    "70 m and 70 m",
+    "140 m and 0 m"
+   ],
+   "a": 0,
+   "e": "Distance = 30 + 40 = 70 m along the path; displacement = √(30² + 40²) = 50 m, straight across."
+  },
+  {
+   "u": 1,
+   "q": "Solving d = ½at² for t gives:",
+   "o": [
+    "t = √(2d/a)",
+    "t = 2d/a",
+    "t = √(d/2a)",
+    "t = (2d/a)²"
+   ],
+   "a": 0,
+   "e": "Multiply both sides by 2 and divide by a to get t² = 2d/a, then take the square root."
+  },
+  {
+   "u": 1,
+   "q": "In a right triangle, sin θ equals:",
+   "o": [
+    "opposite ÷ hypotenuse",
+    "adjacent ÷ hypotenuse",
+    "opposite ÷ adjacent",
+    "hypotenuse ÷ opposite"
+   ],
+   "a": 0,
+   "e": "SOH: sine = opposite over hypotenuse. CAH gives cosine and TOA gives tangent."
+  },
+  {
+   "u": 1,
+   "q": "A speed of 72 km/h equals:",
    "o": [
     "20 m/s",
-    "9.8 m/s",
-    "4.9 m/s",
-    "39 m/s"
+    "259 m/s",
+    "72 m/s",
+    "2.0 m/s"
    ],
    "a": 0,
-   "e": "v = gt = (9.8)(2.0) = 19.6 ≈ 20 m/s. Each second of free fall adds 9.8 m/s."
-  },
-  {
-   "u": 1,
-   "q": "In a reaction-time test, a ruler falls 0.20 m before a student catches it. The student's reaction time is about (g = 9.8 m/s²):",
-   "o": [
-    "0.20 s",
-    "0.041 s",
-    "0.45 s",
-    "2.0 s"
-   ],
-   "a": 0,
-   "e": "From rest, t = √(2d/g) = √(2 × 0.20 ÷ 9.8) = √0.041 ≈ 0.20 s. 0.041 forgets the square root."
-  },
-  {
-   "u": 1,
-   "q": "A ball is thrown straight up. At the very top of its flight, its velocity and acceleration are:",
-   "o": [
-    "v = 0 and a = 9.8 m/s² downward",
-    "v = 0 and a = 0",
-    "v = 9.8 m/s and a = 0",
-    "v = 0 and a = 9.8 m/s² upward"
-   ],
-   "a": 0,
-   "e": "The ball stops for an instant, but gravity never switches off, so the acceleration is still g downward."
-  },
-  {
-   "u": 1,
-   "q": "A rock is dropped from rest off a 20. m ledge. Ignoring air resistance (g = 9.8 m/s²), it reaches the ground in about:",
-   "o": [
-    "2.0 s",
-    "4.1 s",
-    "1.0 s",
-    "0.49 s"
-   ],
-   "a": 0,
-   "e": "t = √(2d/g) = √(40. ÷ 9.8) = √4.1 ≈ 2.0 s. 4.1 s forgets the square root."
-  },
-  {
-   "u": 1,
-   "q": "A ball is thrown straight up at 15 m/s (g = 9.8 m/s²). How long does it take to reach the top?",
-   "o": [
-    "1.5 s",
-    "3.1 s",
-    "0.65 s",
-    "15 s"
-   ],
-   "a": 0,
-   "e": "At the top v = 0, so 0 = 15 − 9.8t and t = 15 ÷ 9.8 ≈ 1.5 s. 3.1 s is the whole trip up and back down."
+   "e": "72 km/h × 1000 m/km ÷ 3600 s/h = 20 m/s (dividing by 3.6). 259 multiplies by 3.6 instead."
   },
   {
    "u": 2,
@@ -5150,6 +5470,102 @@
    "e": "Distance is the total path length and can never be less than the straight-line displacement magnitude."
   },
   {
+   "u": 2,
+   "q": "An astronaut drops a hammer from 2.0 m above the Moon's surface, where g = 1.62 m/s². How long does it take to reach the surface?",
+   "o": [
+    "1.6 s",
+    "1.2 s",
+    "2.5 s",
+    "0.62 s"
+   ],
+   "a": 0,
+   "e": "Starting from rest, d = ½gt², so t = √(2d ÷ g) = √(4.0 ÷ 1.62) = √2.47 ≈ 1.6 s."
+  },
+  {
+   "u": 2,
+   "q": "A coin and a feather are dropped together inside a tube with the air pumped out. They:",
+   "o": [
+    "hit the bottom at the same time",
+    "fall so the coin lands first",
+    "fall so the feather lands first",
+    "float, because there is no gravity in a vacuum"
+   ],
+   "a": 0,
+   "e": "Without air resistance, gravity gives every object the same acceleration, so they fall together. Gravity still acts in a vacuum."
+  },
+  {
+   "u": 2,
+   "q": "Who taught that heavier objects fall faster, in proportion to their weight?",
+   "o": [
+    "Aristotle",
+    "Galileo",
+    "Newton",
+    "Einstein"
+   ],
+   "a": 0,
+   "e": "Aristotle held that view. Galileo later showed that, apart from air resistance, all bodies fall with the same acceleration."
+  },
+  {
+   "u": 2,
+   "q": "An object is dropped from rest. Ignoring air resistance (g = 9.8 m/s²), its speed after 2.0 s is about:",
+   "o": [
+    "20 m/s",
+    "9.8 m/s",
+    "4.9 m/s",
+    "39 m/s"
+   ],
+   "a": 0,
+   "e": "v = gt = (9.8)(2.0) = 19.6 ≈ 20 m/s. Each second of free fall adds 9.8 m/s."
+  },
+  {
+   "u": 2,
+   "q": "In a reaction-time test, a ruler falls 0.20 m before a student catches it. The student's reaction time is about (g = 9.8 m/s²):",
+   "o": [
+    "0.20 s",
+    "0.041 s",
+    "0.45 s",
+    "2.0 s"
+   ],
+   "a": 0,
+   "e": "From rest, t = √(2d/g) = √(2 × 0.20 ÷ 9.8) = √0.041 ≈ 0.20 s. 0.041 forgets the square root."
+  },
+  {
+   "u": 2,
+   "q": "A ball is thrown straight up. At the very top of its flight, its velocity and acceleration are:",
+   "o": [
+    "v = 0 and a = 9.8 m/s² downward",
+    "v = 0 and a = 0",
+    "v = 9.8 m/s and a = 0",
+    "v = 0 and a = 9.8 m/s² upward"
+   ],
+   "a": 0,
+   "e": "The ball stops for an instant, but gravity never switches off, so the acceleration is still g downward."
+  },
+  {
+   "u": 2,
+   "q": "A rock is dropped from rest off a 20. m ledge. Ignoring air resistance (g = 9.8 m/s²), it reaches the ground in about:",
+   "o": [
+    "2.0 s",
+    "4.1 s",
+    "1.0 s",
+    "0.49 s"
+   ],
+   "a": 0,
+   "e": "t = √(2d/g) = √(40. ÷ 9.8) = √4.1 ≈ 2.0 s. 4.1 s forgets the square root."
+  },
+  {
+   "u": 2,
+   "q": "A ball is thrown straight up at 15 m/s (g = 9.8 m/s²). How long does it take to reach the top?",
+   "o": [
+    "1.5 s",
+    "3.1 s",
+    "0.65 s",
+    "15 s"
+   ],
+   "a": 0,
+   "e": "At the top v = 0, so 0 = 15 − 9.8t and t = 15 ÷ 9.8 ≈ 1.5 s. 3.1 s is the whole trip up and back down."
+  },
+  {
    "u": 3,
    "q": "A 5.0 kg block is pushed with a net force of 20 N. What is its acceleration?",
    "o": [
@@ -5460,6 +5876,30 @@
    ],
    "a": 1,
    "e": "$PE_{gravity} =$ mgh, measured from a chosen reference height."
+  },
+  {
+   "u": 6,
+   "q": "A motorcycle helmet has impact-absorbing foam under a rigid shell. Which design change best reduces impact-force injuries to the rider's head?",
+   "o": [
+    "Increase the foam thickness to increase the time over which the impact force acts",
+    "Decrease the foam thickness to decrease the time over which the impact force acts",
+    "Decrease the foam thickness to increase the head's change in speed",
+    "Increase the foam thickness to decrease the head's change in speed"
+   ],
+   "a": 0,
+   "e": "Impulse: FΔt = mΔv. The crash fixes the head's change in momentum, so stretching the stopping time Δt lowers the average force F. Thicker foam takes longer to compress."
+  },
+  {
+   "u": 6,
+   "q": "From 2000 to 2020 the efficiency of U.S. natural-gas power plants rose from about 30% to about 43%. Which statement is correct?",
+   "o": [
+    "The ratio of energy output to energy input increased",
+    "The energy output became greater than the energy input",
+    "The energy input and output increased by the same proportion",
+    "Less energy was wasted as heat because more fuel was burned"
+   ],
+   "a": 0,
+   "e": "Efficiency = useful energy output ÷ energy input. A higher efficiency means a larger output-to-input ratio; output can never exceed input."
   },
   {
    "u": 4,
@@ -6833,18 +7273,6 @@
   },
   {
    "u": 1,
-   "q": "A ball is thrown straight up at 20. m/s. Ignoring air resistance (g = 9.8 m/s²), its maximum height is closest to:",
-   "o": [
-    "20. m",
-    "41 m",
-    "10. m",
-    "2.0 m"
-   ],
-   "a": 0,
-   "e": "At the top v = 0, so 0 = v_0² − 2gh and h = v_0²/(2g) = 400 ÷ 19.6 ≈ 20. m. 41 m forgets the 2 in 2g."
-  },
-  {
-   "u": 1,
    "q": "A car moving at 25 m/s brakes with a constant deceleration of 5.0 m/s². Its stopping distance is closest to:",
    "o": [
     "63 m",
@@ -6854,18 +7282,6 @@
    ],
    "a": 0,
    "e": "v_f² = v_0² + 2ad with v_f = 0: d = v_0²/(2a) = 625 ÷ 10. = 62.5 ≈ 63 m."
-  },
-  {
-   "u": 1,
-   "q": "You hold a bill so your fingers are at its middle; it must fall 7.8 cm before it slips through. With g = 9.8 m/s² and a typical 0.20 s reaction time, can you catch it?",
-   "o": [
-    "No: it falls through in about 0.13 s",
-    "Yes: it takes about 0.40 s to fall through",
-    "Yes: it takes about 0.20 s, exactly your reaction time",
-    "No: it falls through in about 0.016 s"
-   ],
-   "a": 0,
-   "e": "t = √(2d/g) = √(2 × 0.078 ÷ 9.8) = √0.0159 ≈ 0.13 s, shorter than a 0.20 s reaction time, so the bill is gone before you pinch."
   },
   {
    "u": 1,
@@ -6881,18 +7297,6 @@
   },
   {
    "u": 1,
-   "q": "A stone is thrown straight down from a cliff at 5.0 m/s. Ignoring air resistance (g = 9.8 m/s²), its speed after 3.0 s is closest to:",
-   "o": [
-    "34 m/s",
-    "29 m/s",
-    "44 m/s",
-    "25 m/s"
-   ],
-   "a": 0,
-   "e": "v_f = v_0 + gt = 5.0 + (9.8)(3.0) = 5.0 + 29.4 ≈ 34 m/s. 29 m/s ignores the starting speed."
-  },
-  {
-   "u": 1,
    "q": "On a position–time graph, the curve rises, levels off, falls, levels off again, and then rises. While the curve is falling, the object is:",
    "o": [
     "moving in the negative direction",
@@ -6902,6 +7306,30 @@
    ],
    "a": 0,
    "e": "A falling curve has a negative slope, so the velocity is negative: the object is moving back toward the origin. The level spots are where it stops and turns around."
+  },
+  {
+   "u": 1,
+   "q": "A 5.0 N force and a 7.0 N force act concurrently on a point. Which value could NOT be the magnitude of their resultant?",
+   "o": [
+    "13 N",
+    "2.0 N",
+    "7.0 N",
+    "10. N"
+   ],
+   "a": 0,
+   "e": "The resultant must lie between |7.0 − 5.0| = 2.0 N and 7.0 + 5.0 = 12.0 N. 13 N is outside that range."
+  },
+  {
+   "u": 1,
+   "q": "A velocity vector of 25 m/s has a horizontal component of 20. m/s. Its vertical component is:",
+   "o": [
+    "15 m/s",
+    "5.0 m/s",
+    "45 m/s",
+    "32 m/s"
+   ],
+   "a": 0,
+   "e": "The components are the legs of a right triangle: √(25² − 20.²) = √(625 − 400) = √225 = 15 m/s."
   },
   {
    "u": 2,
@@ -7082,6 +7510,42 @@
    ],
    "a": 1,
    "e": "For equal distances, average speed = 2(30)(60)/(30+60) = 3600/90 = 40 km/h."
+  },
+  {
+   "u": 2,
+   "q": "A ball is thrown straight up at 20. m/s. Ignoring air resistance (g = 9.8 m/s²), its maximum height is closest to:",
+   "o": [
+    "20. m",
+    "41 m",
+    "10. m",
+    "2.0 m"
+   ],
+   "a": 0,
+   "e": "At the top v = 0, so 0 = v_0² − 2gh and h = v_0²/(2g) = 400 ÷ 19.6 ≈ 20. m. 41 m forgets the 2 in 2g."
+  },
+  {
+   "u": 2,
+   "q": "You hold a bill so your fingers are at its middle; it must fall 7.8 cm before it slips through. With g = 9.8 m/s² and a typical 0.20 s reaction time, can you catch it?",
+   "o": [
+    "No: it falls through in about 0.13 s",
+    "Yes: it takes about 0.40 s to fall through",
+    "Yes: it takes about 0.20 s, exactly your reaction time",
+    "No: it falls through in about 0.016 s"
+   ],
+   "a": 0,
+   "e": "t = √(2d/g) = √(2 × 0.078 ÷ 9.8) = √0.0159 ≈ 0.13 s, shorter than a 0.20 s reaction time, so the bill is gone before you pinch."
+  },
+  {
+   "u": 2,
+   "q": "A stone is thrown straight down from a cliff at 5.0 m/s. Ignoring air resistance (g = 9.8 m/s²), its speed after 3.0 s is closest to:",
+   "o": [
+    "34 m/s",
+    "29 m/s",
+    "44 m/s",
+    "25 m/s"
+   ],
+   "a": 0,
+   "e": "v_f = v_0 + gt = 5.0 + (9.8)(3.0) = 5.0 + 29.4 ≈ 34 m/s. 29 m/s ignores the starting speed."
   },
   {
    "u": 3,
