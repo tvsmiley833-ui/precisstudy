@@ -63,3 +63,12 @@ test("output is stable across repeated runs", () => {
   const cfg = { ...base(), workedExamples: [{ u: 1, title: "T", prompt: "P", steps: ["s"], answer: "A" }] };
   assert.equal(generateGuide(cfg), generateGuide(cfg));
 });
+
+test("question-bank archive renders diagram figures and SVG options as markup", () => {
+  const fig = '<svg class="vec" role="img" aria-label="a graph"><line/></svg>';
+  const opt = '<svg class="vec" role="img" aria-label="an arrow"><line/></svg>';
+  const html = generateGuide({ ...base(), qbankArchive: true, quiz: [{ u: 1, q: "Which <b>arrow</b>?", o: [opt, "2 m", "3 m", "4 m"], a: 0, e: "e", fig }] });
+  assert.ok(html.includes(`<figure class="q-fig">${fig}</figure>`), "figure rendered as SVG");
+  assert.ok(html.includes(`<li class="qb-correct">${opt}</li>`), "SVG option rendered as SVG");
+  assert.ok(html.includes("Which &lt;b&gt;arrow&lt;/b&gt;?"), "question text still escaped");
+});

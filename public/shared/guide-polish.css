@@ -442,3 +442,12 @@ html body .q-review { margin: 12px 0 14px; display: flex; flex-wrap: wrap; gap: 
 @media (prefers-reduced-motion: reduce) {
   html body .view.active, html body .unit-body, html body .scene .inner { animation: none !important; transition: none !important; }
 }
+
+/* ---------- Diagram questions: figures and drawn answer choices ----------
+   Figures and SVG options draw with currentColor, so they follow the theme. */
+html body .q-fig { margin: 10px 0 14px; display: flex; justify-content: center; }
+html body .q-fig svg { max-width: 100%; height: auto; color: var(--ink); }
+html body .q-opt svg.vec { display: block; max-width: 100%; height: auto; }
+html body .q-opt:has(svg.vec) { justify-content: flex-start; padding-top: 10px !important; padding-bottom: 10px !important; }
+html body svg.vec text { font: 600 13px/1 'Inter', system-ui, sans-serif; fill: currentColor; }
+html body .qb-opts svg.vec, html body .q-fig svg.vec { color: var(--ink); }

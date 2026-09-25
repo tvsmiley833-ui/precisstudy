@@ -123,8 +123,9 @@ function buildQBankArchive(units, quiz, hardQ) {
     for (const [uid, qs] of groupByUnit(items)) {
       out += `<details class="qb-unit"><summary>Unit ${esc(uid)}: ${esc(nameOf(uid))} (${qs.length})</summary><ol class="qb-list">`;
       for (const q of qs) {
-        out += `<li><p class="qb-q">${esc(q.q)}</p><ul class="qb-opts">`;
-        (q.o || []).forEach((opt, i) => { out += `<li${i === q.a ? ' class="qb-correct"' : ""}>${esc(opt)}</li>`; });
+        // q.fig and SVG options are our own diagram markup (see physics.json), rendered as-is.
+        out += `<li><p class="qb-q">${esc(q.q)}</p>${q.fig ? `<figure class="q-fig">${q.fig}</figure>` : ""}<ul class="qb-opts">`;
+        (q.o || []).forEach((opt, i) => { out += `<li${i === q.a ? ' class="qb-correct"' : ""}>${/^\s*<svg/.test(opt) ? opt : esc(opt)}</li>`; });
         out += `</ul>`;
         if (q.e) out += `<p class="qb-exp">${esc(q.e)}</p>`;
         out += `</li>`;

@@ -11,6 +11,13 @@
 // stable order) and remaps q.a to match, so every caller that already
 // compares against q.a (ansQ, ansExam, the mistake log, printWorksheet's
 // answer key) keeps working unchanged.
+// Options and figures can be inline SVG diagrams (role="img" + aria-label).
+// Anywhere an option is shown or sent as plain text, use its label instead.
+function ssPlain(s){
+  if(typeof s!=='string')return s;
+  if(/^\s*<svg/.test(s)){var m=s.match(/aria-label="([^"]*)"/);if(m)return m[1];}
+  return s.replace(/<[^>]+>/g,'');
+}
 function ssShuffleOptions(q){
   if(!q||!q.o||q.o.length<2||q._shuffled)return;
   const orig=q.o.slice();
@@ -804,7 +811,7 @@ function mistakeLogSave(map){
 }
 function mistakeLogAdd(q){
   const map=mistakeLogMap();
-  map[qId(q)]={u:q.u,q:q.q,o:q.o,a:q.a,e:q.e,d:q.d,topic:q.topic};
+  map[qId(q)]={u:q.u,q:q.q,o:q.o,a:q.a,e:q.e,d:q.d,topic:q.topic,fig:q.fig};
   mistakeLogSave(map);
 }
 function mistakeLogRemove(q){
@@ -1084,6 +1091,7 @@ function showQ(){
   const diffPill=q.d?`<span class="q-diff q-diff-${q.d}">${q.d}</span>`:'';
   let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>${diffPill}`+
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
+    (q.fig?`<figure class="q-fig">${q.fig}</figure>`:'')+
     (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
     `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">Hint (1/3)</button>`+
@@ -1208,10 +1216,10 @@ function ansQ(i){
     explainBtn.type='button';
     explainBtn.id='q-explain-wrong-btn';
     explainBtn.className='q-explain-wrong-btn';
-    explainBtn.textContent='Explain why "'+q.o[i]+'" is wrong';
+    explainBtn.textContent='Explain why "'+ssPlain(q.o[i])+'" is wrong';
     explainBtn.onclick=function(){
-      var prompt='For this question: "'+q.q+'" -- why is the answer "'+q.o[i]+'" wrong? The correct answer is "'+q.o[q.a]+'". Keep it short and specific to that wrong choice, not a general re-explanation of the correct answer.';
-      var display='Why is "'+q.o[i]+'" wrong?';
+      var prompt='For this question: "'+ssPlain(q.q)+(q.fig?' ['+ssPlain(q.fig)+']':'')+'" -- why is the answer "'+ssPlain(q.o[i])+'" wrong? The correct answer is "'+ssPlain(q.o[q.a])+'". Keep it short and specific to that wrong choice, not a general re-explanation of the correct answer.';
+      var display='Why is "'+ssPlain(q.o[i])+'" wrong?';
       cbotAskAndOpen(prompt,display);
     };
     expEl.appendChild(document.createElement('br'));
@@ -1230,7 +1238,7 @@ function ansQ(i){
     rep.disabled=true;rep.textContent='Sending\u2026';
     fetch('/api/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
       category:'bug',page:location.pathname,
-      message:('[Question report] '+SS_GUIDE.slug+' unit '+q.u+'\nQ: '+q.q+'\nKeyed answer: '+q.o[q.a]+'\nNote: '+(why||'(none)')).slice(0,1990)
+      message:('[Question report] '+SS_GUIDE.slug+' unit '+q.u+'\nQ: '+q.q+'\nKeyed answer: '+ssPlain(q.o[q.a])+'\nNote: '+(why||'(none)')).slice(0,1990)
     })}).then(function(r){rep.textContent=r.ok?'Thanks \u2014 reported for review':'Could not send \u2014 try again';rep.disabled=r.ok;})
       .catch(function(){rep.textContent='Could not send \u2014 try again';rep.disabled=false;});
   };
