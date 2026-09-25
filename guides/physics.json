@@ -11,19 +11,8 @@
    "name": "Measurement, Vectors & Motion Basics",
    "concepts": [
     {
-     "l": "Math basics for physics",
-     "intro": "Test #1 starts with the math every later problem uses: rearranging formulas, right-triangle trig, and unit conversions.",
-     "b": [
-      "Solve for the unknown with symbols first, then substitute numbers with their units: $d = \\tfrac12at^2$ becomes $t = \\sqrt{2d/a}$.",
-      "Right-triangle trig (SOH-CAH-TOA): $\\sinθ = opp/hyp$, $\\cosθ = adj/hyp$, $\\tanθ = opp/adj$; the Pythagorean theorem gives $c = \\sqrt{a^2 + b^2}$.",
-      "Slope of a straight-line graph = rise ÷ run, with units (m ÷ s = m/s).",
-      "Convert units by multiplying by fractions equal to 1: $72 km/h × (1000 m / 1 km) × (1 h / 3600 s) = 20 m/s$ (divide km/h by 3.6).",
-      "Keep units through every step; if the final unit is wrong, the setup is wrong."
-     ]
-    },
-    {
      "l": "Measurement & SI units",
-     "intro": "Physics is built on measurement, and every measurement is a number plus a unit. Drop the unit and the answer is incomplete.",
+     "intro": "From NOTES Intro. Physics is built on measurement, and every measurement is a number plus a unit. Drop the unit and the answer is incomplete.",
      "b": [
       "The SI system has seven base units; the three used most in mechanics are the meter (m) for length, the kilogram (kg) for mass, and the second (s) for time.",
       "The other base units are the ampere (A), kelvin (K), mole (mol), and candela (cd).",
@@ -34,7 +23,7 @@
     },
     {
      "l": "SI prefixes & conversions",
-     "intro": "Prefixes scale a unit by powers of 10, which is what makes the metric system a decimal system.",
+     "intro": "From NOTES Intro. Prefixes scale a unit by powers of 10, which is what makes the metric system a decimal system.",
      "b": [
       "tera (T) = $10^{12}$, giga (G) = $10^9$, mega (M) = $10^6$, kilo (k) = $10^3$.",
       "centi (c) = $10^{-2}$, milli (m) = $10^{-3}$, micro (μ) = $10^{-6}$, nano (n) = $10^{-9}$, pico (p) = $10^{-12}$.",
@@ -44,7 +33,7 @@
     },
     {
      "l": "Scientific notation & order of magnitude",
-     "intro": "Scientific notation keeps very large and very small numbers manageable and makes calculations mechanical.",
+     "intro": "From NOTES Intro. Scientific notation keeps very large and very small numbers manageable and makes calculations mechanical.",
      "b": [
       "Write a number as $M × 10^n$ with $1 ≤ M < 10$ and n an integer.",
       "Move the decimal point until one nonzero digit is left of it; the number of places moved is the exponent (positive for big numbers, negative for small ones).",
@@ -56,30 +45,8 @@
      ]
     },
     {
-     "l": "Measurement, precision & error",
-     "intro": "No measurement is exact, so physicists track how precise and how accurate it is.",
-     "b": [
-      "Precision is the smallest decimal place in a measurement; the instrument's scale markings set it, and one estimated digit is read beyond the smallest marked interval.",
-      "Accuracy is closeness to the accepted value. Absolute error = |measured − accepted|; percent error = |measured − accepted| / accepted × 100%.",
-      "Systematic errors push every reading the same way (fix by calibrating); random errors scatter readings high and low (reduce by averaging many trials).",
-      "Significant figures: nonzero digits, zeros between digits, and trailing zeros after a decimal point count; leading zeros do not.",
-      "A calculated answer can be no more precise than the least precise measurement used."
-     ]
-    },
-    {
-     "l": "Lab skills: can capacity & distance vs. displacement",
-     "intro": "Labs 1.1 and 1.2 practice measuring carefully and telling a path from a straight-line change in position.",
-     "b": [
-      "Lab 1.1: a can is a cylinder, so its capacity is $V = πr^2h$. Measure the diameter and halve it for r; using the diameter by mistake makes V four times too big.",
-      "$1 cm^3 = 1 mL$, so a can 6.6 cm across and 12.2 cm tall holds about $π(3.3)^2(12.2) ≈ 417 mL$.",
-      "Record every measurement with its unit and the instrument's precision, and compare with the accepted value using percent error.",
-      "Lab 1.2: walking a path, distance is the total length walked; displacement is the straight line from start to finish plus its direction.",
-      "Halfway around a 30 m × 40 m rectangle (to the opposite corner), the distance is 70 m but the displacement is 50 m."
-     ]
-    },
-    {
      "l": "Scalars vs. vectors",
-     "intro": "Some quantities need only a size; others also need a direction.",
+     "intro": "From NOTES Vectors and Scalars. Some quantities need only a size; others also need a direction.",
      "b": [
       "A scalar has magnitude only: mass, length, time, distance, speed, density, energy, temperature.",
       "A vector has magnitude and direction: displacement, velocity, acceleration, force, momentum, electric and magnetic field strength.",
@@ -90,7 +57,7 @@
     },
     {
      "l": "Adding & subtracting vectors graphically",
-     "intro": "The sum of vectors is called the resultant, and it can be found by drawing.",
+     "intro": "From NOTES Vectors and Scalars. The sum of vectors is called the resultant, and it can be found by drawing.",
      "b": [
       "Head-to-tail: place the second vector's tail at the first one's head; the resultant runs from the first tail to the last head.",
       "Parallelogram: draw both vectors from a common tail and complete the parallelogram; the diagonal from that tail is the resultant.",
@@ -101,19 +68,8 @@
      ]
     },
     {
-     "l": "Vector scale drawings & relative velocity",
-     "intro": "Tip-to-tail diagrams are drawn to scale, so the length of each arrow stands for its magnitude.",
-     "b": [
-      "Choose a scale and keep it for every vector: if 15 mm represents 30 m/s, then 1 mm = 2 m/s and 20 m/s is drawn 10 mm long.",
-      "Two vectors A and B combine to anything from $|A − B|$ (opposite directions, 180°) to $A + B$ (same direction, 0°): 3 m and 4 m give 1 m to 7 m, and 5 m at 90°.",
-      "As the angle between two vectors grows from 0° to 180°, their resultant shrinks steadily from the sum to the difference.",
-      "Relative velocity: add velocities as vectors. Walking forward at 4.0 m/s in a bus moving at 2.0 m/s gives 6.0 m/s relative to the street; walking toward the back gives 2.0 m/s the other way.",
-      "Measure the resultant's length and angle on the drawing, then convert back with the scale."
-     ]
-    },
-    {
      "l": "Perpendicular vectors & the Pythagorean theorem",
-     "intro": "When two vectors are at right angles, the resultant comes straight from a right triangle.",
+     "intro": "From NOTES Vectors and Scalars. When two vectors are at right angles, the resultant comes straight from a right triangle.",
      "b": [
       "Magnitude: $R = \\sqrt{A^2 + B^2}$.",
       "Direction: $\\tanθ = B/A$, where θ is measured from vector A toward B.",
@@ -124,7 +80,7 @@
     },
     {
      "l": "Components of a vector",
-     "intro": "Any vector can be replaced by two perpendicular components, which turns angled problems into simple x and y arithmetic.",
+     "intro": "From NOTES Vectors and Scalars. Any vector can be replaced by two perpendicular components, which turns angled problems into simple x and y arithmetic.",
      "b": [
       "With θ measured from the horizontal: $A_x = A\\cosθ$ and $A_y = A\\sinθ$.",
       "Example: 60. N at 30° above horizontal gives $A_x = 60\\cos30° ≈ 52$ N and $A_y = 60\\sin30° = 30$ N.",
@@ -134,8 +90,28 @@
      ]
     },
     {
+     "l": "Dot & cross products (optional)",
+     "intro": "From NOTES Vectors and Scalars. Vectors can also be multiplied by each other in two ways, which matter later for work and magnetism.",
+     "b": [
+      "Dot product: $A·B = AB\\cosθ$ is a scalar, used for work and power; it is zero for perpendicular vectors.",
+      "Cross product: $A×B$ is a vector with magnitude $AB\\sinθ$, perpendicular to both, found with the right-hand rule; it is zero for parallel vectors.",
+      "Order matters for the cross product: $B×A = −(A×B)$."
+     ]
+    },
+    {
+     "l": "Measurement, precision & error",
+     "intro": "From AMSCO book. No measurement is exact, so physicists track how precise and how accurate it is.",
+     "b": [
+      "Precision is the smallest decimal place in a measurement; the instrument's scale markings set it, and one estimated digit is read beyond the smallest marked interval.",
+      "Accuracy is closeness to the accepted value. Absolute error = |measured − accepted|; percent error = |measured − accepted| / accepted × 100%.",
+      "Systematic errors push every reading the same way (fix by calibrating); random errors scatter readings high and low (reduce by averaging many trials).",
+      "Significant figures: nonzero digits, zeros between digits, and trailing zeros after a decimal point count; leading zeros do not.",
+      "A calculated answer can be no more precise than the least precise measurement used."
+     ]
+    },
+    {
      "l": "Distance & speed",
-     "intro": "These are the scalar ways to describe motion: how far, and how fast.",
+     "intro": "From NOTES Distance and Displacement – Speed and Velocity. These are the scalar ways to describe motion: how far, and how fast.",
      "b": [
       "Distance is the total length of the path traveled; it is a scalar, never negative, measured in meters.",
       "Average speed is total distance divided by total time: $v = d/t$, in m/s. Include any time spent stopped.",
@@ -145,7 +121,7 @@
     },
     {
      "l": "Displacement & velocity",
-     "intro": "These are the vector versions: they track where you ended up relative to where you started.",
+     "intro": "From NOTES Distance and Displacement – Speed and Velocity. These are the vector versions: they track where you ended up relative to where you started.",
      "b": [
       "Displacement is the straight-line distance from start to finish plus the direction, for example 5 m south.",
       "In one dimension displacement is positive or negative depending on direction; it can be zero after a round trip, and its magnitude never exceeds the distance traveled.",
@@ -157,7 +133,7 @@
     },
     {
      "l": "Graphing uniform motion",
-     "intro": "Uniform motion means constant velocity: the same speed in the same direction for the whole time interval.",
+     "intro": "From NOTES Graphing constant motion. Uniform motion means constant velocity: the same speed in the same direction for the whole time interval.",
      "b": [
       "On a velocity–time graph, constant velocity is a horizontal straight line (parallel to the time axis).",
       "On a distance–time (or position–time) graph, constant velocity is a straight sloped line.",
@@ -167,8 +143,41 @@
      ]
     },
     {
+     "l": "Math basics for physics",
+     "intro": "From class schedule (photos). Test #1 starts with the math every later problem uses: rearranging formulas, right-triangle trig, and unit conversions.",
+     "b": [
+      "Solve for the unknown with symbols first, then substitute numbers with their units: $d = \\tfrac12at^2$ becomes $t = \\sqrt{2d/a}$.",
+      "Right-triangle trig (SOH-CAH-TOA): $\\sinθ = opp/hyp$, $\\cosθ = adj/hyp$, $\\tanθ = opp/adj$; the Pythagorean theorem gives $c = \\sqrt{a^2 + b^2}$.",
+      "Slope of a straight-line graph = rise ÷ run, with units (m ÷ s = m/s).",
+      "Convert units by multiplying by fractions equal to 1: $72 km/h × (1000 m / 1 km) × (1 h / 3600 s) = 20 m/s$ (divide km/h by 3.6).",
+      "Keep units through every step; if the final unit is wrong, the setup is wrong."
+     ]
+    },
+    {
+     "l": "Lab skills: can capacity & distance vs. displacement",
+     "intro": "From Labs 1.1 and 1.2 (photos). Labs 1.1 and 1.2 practice measuring carefully and telling a path from a straight-line change in position.",
+     "b": [
+      "Lab 1.1: a can is a cylinder, so its capacity is $V = πr^2h$. Measure the diameter and halve it for r; using the diameter by mistake makes V four times too big.",
+      "$1 cm^3 = 1 mL$, so a can 6.6 cm across and 12.2 cm tall holds about $π(3.3)^2(12.2) ≈ 417 mL$.",
+      "Record every measurement with its unit and the instrument's precision, and compare with the accepted value using percent error.",
+      "Lab 1.2: walking a path, distance is the total length walked; displacement is the straight line from start to finish plus its direction.",
+      "Halfway around a 30 m × 40 m rectangle (to the opposite corner), the distance is 70 m but the displacement is 50 m."
+     ]
+    },
+    {
+     "l": "Vector scale drawings & relative velocity",
+     "intro": "From vector handout (photos). Tip-to-tail diagrams are drawn to scale, so the length of each arrow stands for its magnitude.",
+     "b": [
+      "Choose a scale and keep it for every vector: if 15 mm represents 30 m/s, then 1 mm = 2 m/s and 20 m/s is drawn 10 mm long.",
+      "Two vectors A and B combine to anything from $|A − B|$ (opposite directions, 180°) to $A + B$ (same direction, 0°): 3 m and 4 m give 1 m to 7 m, and 5 m at 90°.",
+      "As the angle between two vectors grows from 0° to 180°, their resultant shrinks steadily from the sum to the difference.",
+      "Relative velocity: add velocities as vectors. Walking forward at 4.0 m/s in a bus moving at 2.0 m/s gives 6.0 m/s relative to the street; walking toward the back gives 2.0 m/s the other way.",
+      "Measure the resultant's length and angle on the drawing, then convert back with the scale."
+     ]
+    },
+    {
      "l": "Acceleration",
-     "intro": "Acceleration is the rate of change of velocity. It is a vector, measured in $m/s^2$.",
+     "intro": "From NOTES Motion with acceleration. Acceleration is the rate of change of velocity. It is a vector, measured in $m/s^2$.",
      "b": [
       "Average acceleration: $a = Δv/Δt = (v_f − v_i)/t$.",
       "Velocity can change in speed, in direction, or both, so a car rounding a curve at constant speed is still accelerating.",
@@ -180,7 +189,7 @@
     },
     {
      "l": "Graphing motion with acceleration",
-     "intro": "When velocity changes, the position–time graph curves, and the velocity–time graph carries the acceleration.",
+     "intro": "From NOTES Graphing motion with acceleration. When velocity changes, the position–time graph curves, and the velocity–time graph carries the acceleration.",
      "b": [
       "Nonuniform motion shows up as a curved line on a d–t graph.",
       "Instantaneous velocity is the slope of the tangent line at one point on the d–t curve; average velocity is the slope of the straight line joining the start and end points.",
@@ -188,15 +197,6 @@
       "The slope of a v–t graph is the acceleration: positive slope means the velocity is increasing, negative slope means it is decreasing, and a flat line means zero acceleration.",
       "The area under a v–t graph is still the distance traveled, even when the line slopes (use triangles and rectangles).",
       "$v = v_0 + at$ has the same form as $y = mx + b$: on a v–t graph the slope is $a$ and the vertical intercept is $v_0$."
-     ]
-    },
-    {
-     "l": "Dot & cross products (optional)",
-     "intro": "Vectors can also be multiplied by each other in two ways, which matter later for work and magnetism.",
-     "b": [
-      "Dot product: $A·B = AB\\cosθ$ is a scalar, used for work and power; it is zero for perpendicular vectors.",
-      "Cross product: $A×B$ is a vector with magnitude $AB\\sinθ$, perpendicular to both, found with the right-hand rule; it is zero for parallel vectors.",
-      "Order matters for the cross product: $B×A = −(A×B)$."
      ]
     }
    ],
