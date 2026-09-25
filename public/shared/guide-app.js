@@ -386,7 +386,8 @@ function ssCollectUnitText(u){
     if(c.intro)parts.push(c.intro);
     if(c.b&&c.b.length)parts.push(c.b.join('. '));
   });
-  return parts.join(' ');
+  // Concept bullets can hold links (e.g. video lessons); read their text, not the markup.
+  return parts.join(' ').replace(/<[^>]+>/g,'');
 }
 function ssUpdateTtsButtons(){
   document.querySelectorAll('.unit-tts-btn').forEach(function(b){
