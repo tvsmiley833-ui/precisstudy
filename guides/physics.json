@@ -121,6 +121,53 @@
      ]
     },
     {
+     "l": "Graphing uniform motion",
+     "intro": "Uniform motion means constant velocity: the same speed in the same direction for the whole time interval.",
+     "b": [
+      "On a velocity–time graph, constant velocity is a horizontal straight line (parallel to the time axis).",
+      "On a distance–time (or position–time) graph, constant velocity is a straight sloped line.",
+      "The slope of a d–t graph is the velocity: its size is the speed and its sign is the direction (positive slope = positive direction, negative slope = negative direction).",
+      "A horizontal line on a d–t graph means the object is not moving.",
+      "The area under a v–t graph is the distance traveled: for constant velocity, $d = vt$ is just the rectangle's area."
+     ]
+    },
+    {
+     "l": "Acceleration",
+     "intro": "Acceleration is the rate of change of velocity. It is a vector, measured in $m/s^2$.",
+     "b": [
+      "Average acceleration: $a = Δv/Δt = (v_f − v_i)/t$.",
+      "Velocity can change in speed, in direction, or both, so a car rounding a curve at constant speed is still accelerating.",
+      "Negative acceleration just points in the negative direction. Deceleration means the acceleration is opposite to the velocity, so the object slows down.",
+      "An object with negative velocity and negative acceleration is speeding up (in the negative direction).",
+      "Zero acceleration means constant velocity; the object may be at rest or moving.",
+      "For constant acceleration only: $v_f = v_0 + at$, $d = v_0t + \\tfrac12at^2$, $v_f^2 = v_0^2 + 2ad$, and $d = \\tfrac12(v_0 + v_f)t$."
+     ]
+    },
+    {
+     "l": "Graphing motion with acceleration",
+     "intro": "When velocity changes, the position–time graph curves, and the velocity–time graph carries the acceleration.",
+     "b": [
+      "Nonuniform motion shows up as a curved line on a d–t graph.",
+      "Instantaneous velocity is the slope of the tangent line at one point on the d–t curve; average velocity is the slope of the straight line joining the start and end points.",
+      "Where the tangent is horizontal (slope zero) the object is momentarily at rest; where the slope changes sign, it has turned around.",
+      "The slope of a v–t graph is the acceleration: positive slope means the velocity is increasing, negative slope means it is decreasing, and a flat line means zero acceleration.",
+      "The area under a v–t graph is still the distance traveled, even when the line slopes (use triangles and rectangles).",
+      "$v = v_0 + at$ has the same form as $y = mx + b$: on a v–t graph the slope is $a$ and the vertical intercept is $v_0$."
+     ]
+    },
+    {
+     "l": "Free fall",
+     "intro": "An object is in free fall when gravity is the only force acting on it, from the moment it is released, whether dropped, thrown up, or thrown down.",
+     "b": [
+      "Aristotle taught that heavier objects fall faster. Galileo showed that, without air resistance, all objects fall with the same acceleration.",
+      "In a vacuum tube a coin and a feather land together; on the Moon, Apollo 15's hammer and feather hit the ground at the same time.",
+      "Near Earth's surface $g ≈ 9.8 m/s^2$, always directed downward; with up as positive, use $a = −g$.",
+      "Dropped from rest: $v_f = gt$, $d = \\tfrac12gt^2$, $v_f^2 = 2gd$.",
+      "Thrown straight up: the velocity decreases by 9.8 m/s every second, is zero at the top, and the acceleration is still $g$ downward the whole time.",
+      "Reaction time from a dropped ruler: $t = \\sqrt{2d/g}$, where d is how far it fell before you caught it (about 0.2 s for most people)."
+     ]
+    },
+    {
      "l": "Dot & cross products (optional)",
      "intro": "Vectors can also be multiplied by each other in two ways, which matter later for work and magnetism.",
      "b": [
@@ -135,14 +182,20 @@
     "Adding vector magnitudes directly (3 N + 4 N = 7 N) when the vectors are not in the same direction.",
     "Using cos for the vertical component or sin for the horizontal when θ is measured from the horizontal.",
     "Treating distance and displacement as the same thing; a round trip has zero displacement but nonzero distance.",
-    "Adding numbers in scientific notation without first matching the powers of 10."
+    "Adding numbers in scientific notation without first matching the powers of 10.",
+    "Calling every negative acceleration 'slowing down': an object only slows when its acceleration points opposite to its velocity.",
+    "Saying the acceleration is zero at the top of a vertical toss; the velocity is zero there, but the acceleration is still g downward.",
+    "Assuming heavier objects fall faster; without air resistance every object falls with the same acceleration."
    ],
    "fms": [
     "$M × 10^n$ with $1 ≤ M < 10$; multiply → add exponents, divide → subtract exponents.",
     "Percent error $= |measured − accepted| / accepted × 100\\%$.",
     "$R = \\sqrt{A^2 + B^2}$ for perpendicular vectors; $|A − B| ≤ R ≤ A + B$ in general.",
     "$A_x = A\\cosθ$, $A_y = A\\sinθ$ (θ from the horizontal).",
-    "Average speed $v = d/t$ (scalar); average velocity $\\bar v = Δd/Δt$ (vector)."
+    "Average speed $v = d/t$ (scalar); average velocity $\\bar v = Δd/Δt$ (vector).",
+    "$a = Δv/Δt$; constant a: $v_f = v_0 + at$, $d = v_0t + \\tfrac12at^2$, $v_f^2 = v_0^2 + 2ad$.",
+    "Free fall from rest: $v = gt$, $d = \\tfrac12gt^2$, $t = \\sqrt{2d/g}$, $g ≈ 9.8 m/s^2$.",
+    "Slope of d–t = velocity; slope of v–t = acceleration; area under v–t = distance."
    ]
   },
   {
@@ -1061,6 +1114,46 @@
    "u": 1,
    "t": "Instantaneous velocity",
    "d": "Speed and direction at a single instant, like a speedometer reading plus a compass heading."
+  },
+  {
+   "u": 1,
+   "t": "Uniform motion",
+   "d": "Motion at constant velocity: the same speed in the same direction. Horizontal line on a v–t graph; straight sloped line on a d–t graph."
+  },
+  {
+   "u": 1,
+   "t": "Slope of a distance–time graph",
+   "d": "The velocity. Its size is the speed; a positive slope means motion in the positive direction, a negative slope the negative direction."
+  },
+  {
+   "u": 1,
+   "t": "Area under a velocity–time graph",
+   "d": "The distance traveled. Split it into rectangles and triangles to compute it."
+  },
+  {
+   "u": 1,
+   "t": "Acceleration",
+   "d": "The rate of change of velocity, a = Δv/Δt, in m/s². A vector: it can come from a change in speed, direction, or both."
+  },
+  {
+   "u": 1,
+   "t": "Deceleration",
+   "d": "Acceleration opposite to the velocity, so the object slows down. Not the same as 'negative acceleration', which only describes direction."
+  },
+  {
+   "u": 1,
+   "t": "Instantaneous vs. average velocity (on a d–t curve)",
+   "d": "Instantaneous: slope of the tangent at one point. Average: slope of the straight line joining the start and end points."
+  },
+  {
+   "u": 1,
+   "t": "Free fall",
+   "d": "Motion with gravity as the only force. All objects fall with the same acceleration, g ≈ 9.8 m/s² downward (Galileo, not Aristotle)."
+  },
+  {
+   "u": 1,
+   "t": "Reaction time from a dropped ruler",
+   "d": "t = √(2d/g), where d is how far the ruler fell before you caught it."
   },
   {
    "u": 2,
@@ -2799,6 +2892,414 @@
    ],
    "a": 1,
    "e": "The horizontal component F cosθ shrinks as θ grows, so a = F cosθ / m decreases."
+  },
+  {
+   "u": 1,
+   "q": "A skater speeds up uniformly from 2.0 m/s to 7.0 m/s over a distance of 12 m. What is the magnitude of her acceleration?",
+   "o": [
+    "1.9 m/s²",
+    "0.42 m/s²",
+    "3.8 m/s²",
+    "2.2 m/s²"
+   ],
+   "a": 0,
+   "e": "No time is given, so use v² = v₀² + 2ad: 7.0² = 2.0² + 2a(12), so 49 = 4 + 24a and a = 45 ÷ 24 ≈ 1.9 m/s²."
+  },
+  {
+   "u": 1,
+   "q": "A wagon's speed increases uniformly from 2.5 m/s to 9.0 m/s in 3.0 s as it rolls down a hill. What is the magnitude of its acceleration?",
+   "o": [
+    "2.2 m/s²",
+    "3.8 m/s²",
+    "6.5 m/s²",
+    "0.46 m/s²"
+   ],
+   "a": 0,
+   "e": "a = Δv ÷ t = (9.0 − 2.5) m/s ÷ 3.0 s = 6.5 ÷ 3.0 ≈ 2.2 m/s². 6.5 m/s² forgets to divide by the time."
+  },
+  {
+   "u": 1,
+   "q": "An object moving at 4.0 m/s accelerates uniformly at 2.0 m/s² in its direction of motion for 5.0 m. What is its final speed?",
+   "o": [
+    "6.0 m/s",
+    "14 m/s",
+    "4.5 m/s",
+    "36 m/s"
+   ],
+   "a": 0,
+   "e": "v² = v₀² + 2ad = 4.0² + 2(2.0)(5.0) = 16 + 20 = 36, so v = √36 = 6.0 m/s. 36 m/s forgets the square root."
+  },
+  {
+   "u": 1,
+   "q": "An astronaut drops a hammer from 2.0 m above the Moon's surface, where g = 1.62 m/s². How long does it take to reach the surface?",
+   "o": [
+    "1.6 s",
+    "1.2 s",
+    "2.5 s",
+    "0.62 s"
+   ],
+   "a": 0,
+   "e": "Starting from rest, d = ½gt², so t = √(2d ÷ g) = √(4.0 ÷ 1.62) = √2.47 ≈ 1.6 s."
+  },
+  {
+   "u": 1,
+   "q": "Which statement about an object with zero acceleration is true?",
+   "o": [
+    "The object may be in motion.",
+    "The object must be at rest.",
+    "The object must be slowing down.",
+    "The object's velocity must be changing."
+   ],
+   "a": 0,
+   "e": "Zero acceleration means the velocity isn't changing, not that it is zero. The object can be at rest or moving at a constant velocity."
+  },
+  {
+   "u": 1,
+   "q": "Acceleration is a vector quantity that represents the time-rate of change in:",
+   "o": [
+    "velocity",
+    "position",
+    "distance",
+    "mass"
+   ],
+   "a": 0,
+   "e": "Acceleration = Δv ÷ Δt. The rate of change of position is velocity, not acceleration."
+  },
+  {
+   "u": 1,
+   "q": "On a velocity–time graph, an object moving with constant velocity appears as:",
+   "o": [
+    "a horizontal straight line",
+    "a straight line sloping upward",
+    "a curve that gets steeper",
+    "a vertical line"
+   ],
+   "a": 0,
+   "e": "Constant velocity means v doesn't change as time passes, so every point sits at the same height: a horizontal line."
+  },
+  {
+   "u": 1,
+   "q": "On a distance–time graph, an object in uniform motion appears as:",
+   "o": [
+    "a straight line with constant slope",
+    "a horizontal line",
+    "a curve that gets steeper",
+    "a parabola opening downward"
+   ],
+   "a": 0,
+   "e": "Equal distances are covered in equal times, so distance grows linearly with time. A horizontal d–t line would mean the object isn't moving."
+  },
+  {
+   "u": 1,
+   "q": "The slope of a distance–time graph represents the object's:",
+   "o": [
+    "velocity",
+    "acceleration",
+    "distance traveled",
+    "mass"
+   ],
+   "a": 0,
+   "e": "Slope = rise/run = Δd/Δt, which is velocity. The slope of a v–t graph is acceleration."
+  },
+  {
+   "u": 1,
+   "q": "A position–time graph is a straight line with a negative slope. The object is:",
+   "o": [
+    "moving at constant speed in the negative direction",
+    "slowing down",
+    "at rest",
+    "speeding up in the positive direction"
+   ],
+   "a": 0,
+   "e": "A straight line means constant velocity; the negative slope means that velocity points in the negative direction."
+  },
+  {
+   "u": 1,
+   "q": "An object moves at a constant 6.0 m/s for 5.0 s. On its v–t graph, the area under the line equals:",
+   "o": [
+    "30 m, the distance traveled",
+    "1.2 m/s², the acceleration",
+    "30 m/s, the final speed",
+    "0 m, because the velocity is constant"
+   ],
+   "a": 0,
+   "e": "The area under a v–t graph is distance: a rectangle 6.0 m/s tall and 5.0 s wide has area 30 m."
+  },
+  {
+   "u": 1,
+   "q": "A distance–time graph is a straight line from 0 m at t = 0 to 40. m at t = 8.0 s. The object's speed is:",
+   "o": [
+    "5.0 m/s",
+    "320 m/s",
+    "0.20 m/s",
+    "40. m/s"
+   ],
+   "a": 0,
+   "e": "Speed = slope = 40. m ÷ 8.0 s = 5.0 m/s. 0.20 m/s divides the wrong way."
+  },
+  {
+   "u": 1,
+   "q": "A car slows uniformly from 20. m/s to 5.0 m/s in 3.0 s. Its acceleration is:",
+   "o": [
+    "−5.0 m/s²",
+    "5.0 m/s²",
+    "−8.3 m/s²",
+    "−15 m/s²"
+   ],
+   "a": 0,
+   "e": "a = (v_f − v_i)/t = (5.0 − 20.)/3.0 = −5.0 m/s². The minus sign shows the acceleration opposes the motion. −15 forgets to divide by time."
+  },
+  {
+   "u": 1,
+   "q": "Deceleration means that an object's acceleration:",
+   "o": [
+    "points opposite to its velocity",
+    "is negative",
+    "is zero",
+    "points the same way as its velocity"
+   ],
+   "a": 0,
+   "e": "Deceleration is slowing down, which happens whenever a and v point in opposite directions. A negative acceleration only slows the object if the velocity is positive."
+  },
+  {
+   "u": 1,
+   "q": "An object has a negative velocity and a negative acceleration. It is:",
+   "o": [
+    "speeding up in the negative direction",
+    "slowing down",
+    "at rest",
+    "moving in the positive direction"
+   ],
+   "a": 0,
+   "e": "Velocity and acceleration point the same way (both negative), so the speed increases, in the negative direction."
+  },
+  {
+   "u": 1,
+   "q": "A car rounds a curve at a constant 15 m/s. Is it accelerating?",
+   "o": [
+    "Yes, because the direction of its velocity is changing",
+    "No, because its speed is constant",
+    "No, because acceleration needs a change in speed",
+    "Only if it also brakes"
+   ],
+   "a": 0,
+   "e": "Velocity is a vector. Changing its direction changes the velocity, and any change in velocity is acceleration."
+  },
+  {
+   "u": 1,
+   "q": "A cart starts from rest and accelerates uniformly at 3.0 m/s² for 6.0 s. Its final speed is:",
+   "o": [
+    "18 m/s",
+    "9.0 m/s",
+    "2.0 m/s",
+    "54 m/s"
+   ],
+   "a": 0,
+   "e": "v_f = v_0 + at = 0 + (3.0)(6.0) = 18 m/s."
+  },
+  {
+   "u": 1,
+   "q": "A car starts from rest and accelerates uniformly at 2.0 m/s² for 5.0 s. How far does it travel?",
+   "o": [
+    "25 m",
+    "10. m",
+    "50. m",
+    "5.0 m"
+   ],
+   "a": 0,
+   "e": "From rest, d = ½at² = ½(2.0)(5.0)² = 25 m. 50 m forgets the ½; 10 m is the final speed's number."
+  },
+  {
+   "u": 1,
+   "q": "Which constant-acceleration equation should you use when the time is not given?",
+   "o": [
+    "v_f² = v_0² + 2ad",
+    "v_f = v_0 + at",
+    "d = v_0t + ½at²",
+    "a = Δv/Δt"
+   ],
+   "a": 0,
+   "e": "v_f² = v_0² + 2ad is the only one of these with no t in it."
+  },
+  {
+   "u": 1,
+   "q": "The SI unit of acceleration is:",
+   "o": [
+    "m/s²",
+    "m/s",
+    "m²/s",
+    "N/s"
+   ],
+   "a": 0,
+   "e": "Acceleration is change in velocity (m/s) per second, so its unit is (m/s)/s = m/s²."
+  },
+  {
+   "u": 1,
+   "q": "A position–time graph that curves (is not a straight line) shows that the object's:",
+   "o": [
+    "velocity is changing",
+    "velocity is constant",
+    "distance is not changing",
+    "acceleration is zero"
+   ],
+   "a": 0,
+   "e": "A curve means the slope, which is the velocity, changes from point to point: nonuniform motion."
+  },
+  {
+   "u": 1,
+   "q": "On a curved position–time graph, the instantaneous velocity at a point is:",
+   "o": [
+    "the slope of the tangent line at that point",
+    "the slope of the line from the start to that point",
+    "the area under the curve up to that point",
+    "the height of the curve at that point"
+   ],
+   "a": 0,
+   "e": "The tangent slope gives the velocity at that instant; the slope of a line joining two points gives the average velocity between them."
+  },
+  {
+   "u": 1,
+   "q": "On a position–time graph, the average velocity for a whole trip is the slope of:",
+   "o": [
+    "the straight line joining the starting and ending points",
+    "the tangent at the starting point",
+    "the steepest part of the curve",
+    "the tangent at the ending point"
+   ],
+   "a": 0,
+   "e": "Average velocity = total displacement ÷ total time, which is the slope of the straight line (secant) between the endpoints."
+  },
+  {
+   "u": 1,
+   "q": "At one point on a position–time curve the tangent line is horizontal. At that instant the object is:",
+   "o": [
+    "momentarily at rest",
+    "moving at its top speed",
+    "accelerating at zero",
+    "moving in the negative direction"
+   ],
+   "a": 0,
+   "e": "A horizontal tangent has zero slope, so the instantaneous velocity is zero: the object has stopped, often just as it turns around."
+  },
+  {
+   "u": 1,
+   "q": "The slope of a velocity–time graph represents:",
+   "o": [
+    "acceleration",
+    "velocity",
+    "distance traveled",
+    "displacement"
+   ],
+   "a": 0,
+   "e": "Slope = Δv/Δt, which is acceleration. The area under a v–t graph is distance."
+  },
+  {
+   "u": 1,
+   "q": "A v–t graph is a straight line from 0 m/s at t = 0 to 12 m/s at t = 4.0 s. The object's acceleration and distance traveled are:",
+   "o": [
+    "3.0 m/s² and 24 m",
+    "3.0 m/s² and 48 m",
+    "48 m/s² and 24 m",
+    "0.33 m/s² and 12 m"
+   ],
+   "a": 0,
+   "e": "Acceleration = slope = 12 ÷ 4.0 = 3.0 m/s². Distance = area of the triangle = ½ × 4.0 s × 12 m/s = 24 m (48 m forgets the ½)."
+  },
+  {
+   "u": 1,
+   "q": "Compared with y = mx + b, the equation v = v_0 + at shows that on a v–t graph:",
+   "o": [
+    "the slope is a and the vertical intercept is v_0",
+    "the slope is v_0 and the intercept is a",
+    "the slope is t and the intercept is v",
+    "the slope is v and the intercept is t"
+   ],
+   "a": 0,
+   "e": "Write it as v = (a)t + v_0: v plays y, t plays x, a is the slope m, and v_0 is the intercept b."
+  },
+  {
+   "u": 1,
+   "q": "A coin and a feather are dropped together inside a tube with the air pumped out. They:",
+   "o": [
+    "hit the bottom at the same time",
+    "fall so the coin lands first",
+    "fall so the feather lands first",
+    "float, because there is no gravity in a vacuum"
+   ],
+   "a": 0,
+   "e": "Without air resistance, gravity gives every object the same acceleration, so they fall together. Gravity still acts in a vacuum."
+  },
+  {
+   "u": 1,
+   "q": "Who taught that heavier objects fall faster, in proportion to their weight?",
+   "o": [
+    "Aristotle",
+    "Galileo",
+    "Newton",
+    "Einstein"
+   ],
+   "a": 0,
+   "e": "Aristotle held that view. Galileo later showed that, apart from air resistance, all bodies fall with the same acceleration."
+  },
+  {
+   "u": 1,
+   "q": "An object is dropped from rest. Ignoring air resistance (g = 9.8 m/s²), its speed after 2.0 s is about:",
+   "o": [
+    "20 m/s",
+    "9.8 m/s",
+    "4.9 m/s",
+    "39 m/s"
+   ],
+   "a": 0,
+   "e": "v = gt = (9.8)(2.0) = 19.6 ≈ 20 m/s. Each second of free fall adds 9.8 m/s."
+  },
+  {
+   "u": 1,
+   "q": "In a reaction-time test, a ruler falls 0.20 m before a student catches it. The student's reaction time is about (g = 9.8 m/s²):",
+   "o": [
+    "0.20 s",
+    "0.041 s",
+    "0.45 s",
+    "2.0 s"
+   ],
+   "a": 0,
+   "e": "From rest, t = √(2d/g) = √(2 × 0.20 ÷ 9.8) = √0.041 ≈ 0.20 s. 0.041 forgets the square root."
+  },
+  {
+   "u": 1,
+   "q": "A ball is thrown straight up. At the very top of its flight, its velocity and acceleration are:",
+   "o": [
+    "v = 0 and a = 9.8 m/s² downward",
+    "v = 0 and a = 0",
+    "v = 9.8 m/s and a = 0",
+    "v = 0 and a = 9.8 m/s² upward"
+   ],
+   "a": 0,
+   "e": "The ball stops for an instant, but gravity never switches off, so the acceleration is still g downward."
+  },
+  {
+   "u": 1,
+   "q": "A rock is dropped from rest off a 20. m ledge. Ignoring air resistance (g = 9.8 m/s²), it reaches the ground in about:",
+   "o": [
+    "2.0 s",
+    "4.1 s",
+    "1.0 s",
+    "0.49 s"
+   ],
+   "a": 0,
+   "e": "t = √(2d/g) = √(40. ÷ 9.8) = √4.1 ≈ 2.0 s. 4.1 s forgets the square root."
+  },
+  {
+   "u": 1,
+   "q": "A ball is thrown straight up at 15 m/s (g = 9.8 m/s²). How long does it take to reach the top?",
+   "o": [
+    "1.5 s",
+    "3.1 s",
+    "0.65 s",
+    "15 s"
+   ],
+   "a": 0,
+   "e": "At the top v = 0, so 0 = 15 − 9.8t and t = 15 ÷ 9.8 ≈ 1.5 s. 3.1 s is the whole trip up and back down."
   },
   {
    "u": 2,
@@ -4649,114 +5150,6 @@
    "e": "Distance is the total path length and can never be less than the straight-line displacement magnitude."
   },
   {
-   "u": 2,
-   "q": "A car travels 90. m due north in 15 s, then turns around and travels 40. m due south in 5.0 s. What is the magnitude of its average velocity over the 20-second interval?",
-   "o": [
-    "2.5 m/s",
-    "6.5 m/s",
-    "3.3 m/s",
-    "5.0 m/s"
-   ],
-   "a": 0,
-   "e": "Average velocity uses displacement, not distance: 90 m north − 40 m south = 50 m north, and 50 m ÷ 20 s = 2.5 m/s. (6.5 m/s is average speed: 130 m ÷ 20 s.)"
-  },
-  {
-   "u": 2,
-   "q": "A skater speeds up uniformly from 2.0 m/s to 7.0 m/s over a distance of 12 m. What is the magnitude of her acceleration?",
-   "o": [
-    "1.9 m/s²",
-    "0.42 m/s²",
-    "3.8 m/s²",
-    "2.2 m/s²"
-   ],
-   "a": 0,
-   "e": "No time is given, so use v² = v₀² + 2ad: 7.0² = 2.0² + 2a(12), so 49 = 4 + 24a and a = 45 ÷ 24 ≈ 1.9 m/s²."
-  },
-  {
-   "u": 2,
-   "q": "In a 4.0 km race, a runner finishes the four kilometers in 5.9, 6.2, 6.3 and 6.0 minutes. What is the runner's average speed for the race?",
-   "o": [
-    "0.16 km/min",
-    "6.1 km/min",
-    "0.62 km/min",
-    "1.6 km/min"
-   ],
-   "a": 0,
-   "e": "Average speed = total distance ÷ total time = 4.0 km ÷ (5.9 + 6.2 + 6.3 + 6.0 = 24.4 min) ≈ 0.16 km/min. 6.1 km/min flips the division (minutes per kilometer)."
-  },
-  {
-   "u": 2,
-   "q": "A wagon's speed increases uniformly from 2.5 m/s to 9.0 m/s in 3.0 s as it rolls down a hill. What is the magnitude of its acceleration?",
-   "o": [
-    "2.2 m/s²",
-    "3.8 m/s²",
-    "6.5 m/s²",
-    "0.46 m/s²"
-   ],
-   "a": 0,
-   "e": "a = Δv ÷ t = (9.0 − 2.5) m/s ÷ 3.0 s = 6.5 ÷ 3.0 ≈ 2.2 m/s². 6.5 m/s² forgets to divide by the time."
-  },
-  {
-   "u": 2,
-   "q": "An object moving at 4.0 m/s accelerates uniformly at 2.0 m/s² in its direction of motion for 5.0 m. What is its final speed?",
-   "o": [
-    "6.0 m/s",
-    "14 m/s",
-    "4.5 m/s",
-    "36 m/s"
-   ],
-   "a": 0,
-   "e": "v² = v₀² + 2ad = 4.0² + 2(2.0)(5.0) = 16 + 20 = 36, so v = √36 = 6.0 m/s. 36 m/s forgets the square root."
-  },
-  {
-   "u": 2,
-   "q": "An astronaut drops a hammer from 2.0 m above the Moon's surface, where g = 1.62 m/s². How long does it take to reach the surface?",
-   "o": [
-    "1.6 s",
-    "1.2 s",
-    "2.5 s",
-    "0.62 s"
-   ],
-   "a": 0,
-   "e": "Starting from rest, d = ½gt², so t = √(2d ÷ g) = √(4.0 ÷ 1.62) = √2.47 ≈ 1.6 s."
-  },
-  {
-   "u": 2,
-   "q": "Which statement about an object with zero acceleration is true?",
-   "o": [
-    "The object may be in motion.",
-    "The object must be at rest.",
-    "The object must be slowing down.",
-    "The object's velocity must be changing."
-   ],
-   "a": 0,
-   "e": "Zero acceleration means the velocity isn't changing, not that it is zero. The object can be at rest or moving at a constant velocity."
-  },
-  {
-   "u": 2,
-   "q": "An object moves a distance of 10 m in 5 s. What is its average speed?",
-   "o": [
-    "2.0 m/s",
-    "0.50 m/s",
-    "50 m/s",
-    "15 m/s"
-   ],
-   "a": 0,
-   "e": "Average speed = distance ÷ time = 10 m ÷ 5 s = 2.0 m/s."
-  },
-  {
-   "u": 2,
-   "q": "Acceleration is a vector quantity that represents the time-rate of change in:",
-   "o": [
-    "velocity",
-    "position",
-    "distance",
-    "mass"
-   ],
-   "a": 0,
-   "e": "Acceleration = Δv ÷ Δt. The rate of change of position is velocity, not acceleration."
-  },
-  {
    "u": 3,
    "q": "A 5.0 kg block is pushed with a net force of 20 N. What is its acceleration?",
    "o": [
@@ -6437,6 +6830,78 @@
    ],
    "a": 3,
    "e": "AB cosθ = 4 × 5 × cos 60° = 20 × 0.5 = 10."
+  },
+  {
+   "u": 1,
+   "q": "A ball is thrown straight up at 20. m/s. Ignoring air resistance (g = 9.8 m/s²), its maximum height is closest to:",
+   "o": [
+    "20. m",
+    "41 m",
+    "10. m",
+    "2.0 m"
+   ],
+   "a": 0,
+   "e": "At the top v = 0, so 0 = v_0² − 2gh and h = v_0²/(2g) = 400 ÷ 19.6 ≈ 20. m. 41 m forgets the 2 in 2g."
+  },
+  {
+   "u": 1,
+   "q": "A car moving at 25 m/s brakes with a constant deceleration of 5.0 m/s². Its stopping distance is closest to:",
+   "o": [
+    "63 m",
+    "125 m",
+    "5.0 m",
+    "31 m"
+   ],
+   "a": 0,
+   "e": "v_f² = v_0² + 2ad with v_f = 0: d = v_0²/(2a) = 625 ÷ 10. = 62.5 ≈ 63 m."
+  },
+  {
+   "u": 1,
+   "q": "You hold a bill so your fingers are at its middle; it must fall 7.8 cm before it slips through. With g = 9.8 m/s² and a typical 0.20 s reaction time, can you catch it?",
+   "o": [
+    "No: it falls through in about 0.13 s",
+    "Yes: it takes about 0.40 s to fall through",
+    "Yes: it takes about 0.20 s, exactly your reaction time",
+    "No: it falls through in about 0.016 s"
+   ],
+   "a": 0,
+   "e": "t = √(2d/g) = √(2 × 0.078 ÷ 9.8) = √0.0159 ≈ 0.13 s, shorter than a 0.20 s reaction time, so the bill is gone before you pinch."
+  },
+  {
+   "u": 1,
+   "q": "A v–t graph shows a car at a steady 10. m/s for 4.0 s, then slowing uniformly to rest over the next 2.0 s. The total distance traveled is:",
+   "o": [
+    "50. m",
+    "40. m",
+    "60. m",
+    "20. m"
+   ],
+   "a": 0,
+   "e": "Area = rectangle (10. × 4.0 = 40. m) + triangle (½ × 2.0 × 10. = 10. m) = 50. m."
+  },
+  {
+   "u": 1,
+   "q": "A stone is thrown straight down from a cliff at 5.0 m/s. Ignoring air resistance (g = 9.8 m/s²), its speed after 3.0 s is closest to:",
+   "o": [
+    "34 m/s",
+    "29 m/s",
+    "44 m/s",
+    "25 m/s"
+   ],
+   "a": 0,
+   "e": "v_f = v_0 + gt = 5.0 + (9.8)(3.0) = 5.0 + 29.4 ≈ 34 m/s. 29 m/s ignores the starting speed."
+  },
+  {
+   "u": 1,
+   "q": "On a position–time graph, the curve rises, levels off, falls, levels off again, and then rises. While the curve is falling, the object is:",
+   "o": [
+    "moving in the negative direction",
+    "at rest",
+    "moving in the positive direction and slowing",
+    "accelerating at a constant positive rate"
+   ],
+   "a": 0,
+   "e": "A falling curve has a negative slope, so the velocity is negative: the object is moving back toward the origin. The level spots are where it stops and turns around."
   },
   {
    "u": 2,
