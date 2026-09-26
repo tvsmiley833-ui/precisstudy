@@ -30,16 +30,16 @@ function eyes(mood) {
       <text x="110" y="16" font-size="10" font-weight="700" fill="${C.face}" font-family="Kalam,cursive">z</text>`;
   }
   if (mood === "happy" || mood === "cheer") {
-    return `<path d="M42 58q8-9 16 0" fill="none" stroke="${C.eye}" stroke-width="4" stroke-linecap="round"/>
-      <path d="M70 58q8-9 16 0" fill="none" stroke="${C.eye}" stroke-width="4" stroke-linecap="round"/>`;
+    return `<path d="M41 58q8-9 16 0" fill="none" stroke="${C.eye}" stroke-width="4" stroke-linecap="round"/>
+      <path d="M71 58q8-9 16 0" fill="none" stroke="${C.eye}" stroke-width="4" stroke-linecap="round"/>`;
   }
   // Thinking: eyes glance up and to the side, with small chalk thought bubbles.
   const bubbles = mood === "think" ? `<g fill="none" stroke="${C.chalk}" stroke-width="2"><circle cx="104" cy="30" r="3"/><circle cx="113" cy="19" r="4.5"/><circle cx="123" cy="5" r="6"/></g>` : "";
   const dy = mood === "think" ? -4 : 0;
   const dx = mood === "think" ? 3 : 0;
   return `<g class="sage-eyes">
-      <circle cx="${50 + dx}" cy="${58 + dy}" r="7" fill="${C.eye}"/><circle cx="${52.5 + dx}" cy="${55.5 + dy}" r="2.2" fill="#fff"/>
-      <circle cx="${78 + dx}" cy="${58 + dy}" r="7" fill="${C.eye}"/><circle cx="${80.5 + dx}" cy="${55.5 + dy}" r="2.2" fill="#fff"/>
+      <circle cx="${49 + dx}" cy="${58 + dy}" r="7.5" fill="${C.eye}"/><circle cx="${51.5 + dx}" cy="${55.5 + dy}" r="2.2" fill="#fff"/>
+      <circle cx="${79 + dx}" cy="${58 + dy}" r="7.5" fill="${C.eye}"/><circle cx="${81.5 + dx}" cy="${55.5 + dy}" r="2.2" fill="#fff"/>
     </g>${bubbles}`;
 }
 
@@ -49,8 +49,8 @@ function wings(mood) {
     return `<path d="M24 78c-14-6-20-22-14-34 8 6 14 18 18 30z" fill="${C.bodyDark}" stroke="${C.chalk}" stroke-width="2.2"/>
       <path d="M104 78c14-6 20-22 14-34-8 6-14 18-18 30z" fill="${C.bodyDark}" stroke="${C.chalk}" stroke-width="2.2"/>`;
   }
-  return `<path d="M22 70c-6 14-4 30 6 40 4-12 6-26 4-40z" fill="${C.bodyDark}" stroke="${C.chalk}" stroke-width="2.2"/>
-    <path d="M106 70c6 14 4 30-6 40-4-12-6-26-4-40z" fill="${C.bodyDark}" stroke="${C.chalk}" stroke-width="2.2"/>`;
+  return `<path d="M26 68C10 82 12 108 32 120c8-14 8-36 4-52z" fill="${C.bodyDark}" stroke="${C.chalk}" stroke-width="2.2"/>
+    <path d="M102 68c16 14 14 40-6 52-8-14-8-36-4-52z" fill="${C.bodyDark}" stroke="${C.chalk}" stroke-width="2.2"/>`;
 }
 
 function cap() {
@@ -109,13 +109,13 @@ export function owlSvg(opts = {}) {
   return `<svg class="sage sage-${mood}" viewBox="0 0 128 140" width="${size}" height="${Math.round(size * 140 / 128)}" role="img" aria-label="${label}" xmlns="http://www.w3.org/2000/svg">
   <defs><filter id="${fid}" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.4"/></filter></defs>
   <g filter="url(#${fid})" stroke-linecap="round" stroke-linejoin="round">
-  ${wings(mood)}
-  <path d="M30 18l16 20-18 4z" fill="${C.body}" stroke="${C.chalk}" stroke-width="2.4"/><path d="M98 18l-16 20 18 4z" fill="${C.body}" stroke="${C.chalk}" stroke-width="2.4"/>
+  <path d="M26 56C24 40 26 24 30 12c10 4 20 12 28 24z" fill="${C.body}" stroke="${C.chalk}" stroke-width="2.4"/><path d="M102 56c2-16 0-32-4-44-10 4-20 12-28 24z" fill="${C.body}" stroke="${C.chalk}" stroke-width="2.4"/>
   <ellipse cx="64" cy="80" rx="42" ry="50" fill="${C.body}" stroke="${C.chalk}" stroke-width="2.6"/>
+  ${wings(mood)}
   <ellipse cx="64" cy="96" rx="27" ry="31" fill="${C.belly}"/>
   <path d="M46 82l10-8M44 94l18-14M46 106l22-18M52 114l20-16M60 120l14-11" stroke="${C.bellyLine}" stroke-width="1.6" opacity=".7"/>
-  <path d="M52 92q4 4 8 0M68 92q4 4 8 0M58 104q4 4 8 0M60 116q4 4 8 0" fill="none" stroke="${C.bodyDark}" stroke-width="2"/>
-  <circle cx="50" cy="58" r="16" fill="${C.face}" stroke="${C.bodyDark}" stroke-width="2"/><circle cx="78" cy="58" r="16" fill="${C.face}" stroke="${C.bodyDark}" stroke-width="2"/>
+  <path d="M52 90q4-5 8 0M68 90q4-5 8 0M58 102q4-5 8 0M60 114q4-5 8 0" fill="none" stroke="${C.bodyDark}" stroke-width="2"/>
+  <circle cx="49" cy="58" r="14.5" fill="${C.face}" stroke="${C.bodyDark}" stroke-width="2"/><circle cx="79" cy="58" r="14.5" fill="${C.face}" stroke="${C.bodyDark}" stroke-width="2"/>
   ${eyes(mood)}
   <ellipse cx="38" cy="72" rx="5" ry="3" fill="${C.blush}" opacity=".55"/><ellipse cx="90" cy="72" rx="5" ry="3" fill="${C.blush}" opacity=".55"/>
   <path d="M59 68h10l-5 9z" fill="${C.beak}" stroke="#c98a30" stroke-width="1"/>
