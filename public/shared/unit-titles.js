@@ -59,7 +59,11 @@ export const aplangUnits = [
   { id: 4, name: "Style: Diction, Syntax & Tone" },
   { id: 5, name: "Claims, Evidence & Commentary" },
   { id: 6, name: "Organization, Structure & Counterargument" },
-  { id: 7, name: "The Synthesis Essay" }
+  { id: 7, name: "The Synthesis Essay" },
+  { id: 8, name: "The Rhetorical Analysis Essay" },
+  { id: 9, name: "The Argument Essay" },
+  { id: 10, name: "Grammar, Conventions & Multiple-Choice Strategy" },
+  { id: 11, name: "Great American Short Stories (Class Unit 1 Exam, Tue 10/6)" }
 ];
 
 /** @type {Unit[]} */

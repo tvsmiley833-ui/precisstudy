@@ -68,7 +68,11 @@ export const SUBJECT_UNIT_NAMES: Record<string, Record<string, string>> = {
     "4": "Style: Diction, Syntax & Tone",
     "5": "Claims, Evidence & Commentary",
     "6": "Organization, Structure & Counterargument",
-    "7": "The Synthesis Essay"
+    "7": "The Synthesis Essay",
+    "8": "The Rhetorical Analysis Essay",
+    "9": "The Argument Essay",
+    "10": "Grammar, Conventions & Multiple-Choice Strategy",
+    "11": "Great American Short Stories (Class Unit 1 Exam, Tue 10/6)"
   },
   "globalhistory": {
     "1": "Early River Valley Civilizations",
