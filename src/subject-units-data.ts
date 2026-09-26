@@ -72,7 +72,7 @@ export const SUBJECT_UNIT_NAMES: Record<string, Record<string, string>> = {
     "8": "The Rhetorical Analysis Essay",
     "9": "The Argument Essay",
     "10": "Grammar, Conventions & Multiple-Choice Strategy",
-    "11": "Great American Short Stories (Class Unit 1 Exam, Tue 10/6)"
+    "11": "GrAmSS"
   },
   "globalhistory": {
     "1": "Early River Valley Civilizations",

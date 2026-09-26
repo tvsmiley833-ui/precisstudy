@@ -63,7 +63,7 @@ export const aplangUnits = [
   { id: 8, name: "The Rhetorical Analysis Essay" },
   { id: 9, name: "The Argument Essay" },
   { id: 10, name: "Grammar, Conventions & Multiple-Choice Strategy" },
-  { id: 11, name: "Great American Short Stories (Class Unit 1 Exam, Tue 10/6)" }
+  { id: 11, name: "GrAmSS" }
 ];
 
 /** @type {Unit[]} */
