@@ -206,9 +206,23 @@ const AUTH_ROUTES: Record<string, Record<string, (request: Request, env: Env) =>
 // fonts.gstatic.com needed.
 const CSP = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google https://static.cloudflareinsights.com https://www.desmos.com https://cdn.jsdelivr.net",
+  // 'unsafe-eval': Desmos's calculator bundle evaluates its own math-parsing
+  // code internally and throws (silently blanking the whole widget) without
+  // it. Low marginal risk here: 'unsafe-inline' below already lets any
+  // injected <script> run directly, which is the more powerful primitive --
+  // eval() adds little an attacker couldn't already do.
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google https://static.cloudflareinsights.com https://www.desmos.com https://cdn.jsdelivr.net",
   "style-src 'self' 'unsafe-inline'",
-  "font-src 'self' https://cdn.jsdelivr.net",
+  // data:: Desmos embeds its icon/math fonts as base64 data: URIs rather
+  // than fetching them from a URL, so font-src needs to allow that scheme
+  // too or every one of those fonts is silently blocked.
+  "font-src 'self' data: https://cdn.jsdelivr.net",
+  // worker-src: Desmos spawns a Web Worker from a blob: URL to do its actual
+  // graph-plotting math off the main thread. With no worker-src directive,
+  // CSP falls back to script-src for worker creation too, which doesn't
+  // allow blob: -- silently blocking every graph render (not just a console
+  // warning; the calculator loads but plots nothing).
+  "worker-src 'self' blob:",
   "img-src 'self' data: https:",
   "connect-src 'self' https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google https://cloudflareinsights.com https://www.desmos.com https://cdn.jsdelivr.net",
   "frame-src https://*.doubleclick.net https://*.googlesyndication.com https://*.google.com https://*.adtrafficquality.google",
