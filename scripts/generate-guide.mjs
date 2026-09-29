@@ -15,6 +15,13 @@ import { fileURLToPath } from "node:url";
 // literally here since buildUnitsStatic() emits plain HTML at build time,
 // not JS that could reference that constant.
 const TTS_SPEAKER_ICON_SVG = '<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+// Matches SS_UNIT_DRAG_ICON / ssUnitDragHandleHtml() in guide-app.js -- the
+// drag-to-reorder handle, inlined here for the same reason as the TTS icon
+// above (this function emits plain HTML at build time, no shared JS to call).
+const UNIT_DRAG_ICON_SVG = '<svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><circle cx="5" cy="3" r="1.3"/><circle cx="11" cy="3" r="1.3"/><circle cx="5" cy="8" r="1.3"/><circle cx="11" cy="8" r="1.3"/><circle cx="5" cy="13" r="1.3"/><circle cx="11" cy="13" r="1.3"/></svg>';
+function unitDragHandleHtml(id) {
+  return `<span class="unit-drag-handle" tabindex="0" role="button" aria-label="Drag to reorder this unit, or press the up/down arrow keys" onclick="event.stopPropagation()" onkeydown="ssUnitDragKeydown(event,${id})">${UNIT_DRAG_ICON_SVG}</span>`;
+}
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const T = (name) => readFileSync(join(ROOT, "scripts/guide-template", name), "utf8");
@@ -50,11 +57,11 @@ function buildQref(units) {
 // attaches click/keydown handlers to it instead of rebuilding.
 function buildUnitsStatic(units, diagrams) {
   return units.map(u => {
-    let body = u.concepts.map(c => {
+    let body = u.concepts.map((c, ci) => {
       let h = `<div class="c-label">${c.l}</div>`;
       if (c.intro) h += `<div class="c-text">${c.intro}</div>`;
       if (c.b && c.b.length) h += `<ul class="c-list">${c.b.map(i => `<li>${i}</li>`).join("")}</ul>`;
-      return `<div class="concept">${h}</div>`;
+      return `<div class="concept" data-idx="${ci}">${h}</div>`;
     }).join("");
     if (u.traps && u.traps.length)
       body += u.traps.map(t => `<div class="trap">${esc(t)}</div>`).join("");
@@ -68,6 +75,7 @@ function buildUnitsStatic(units, diagrams) {
       u.concepts.length * 3 + (u.traps?.length || 0) * 2 + (u.fms?.length || 0) * 2
     ));
     const hd = `<div class="unit-hd" tabindex="0" role="button" aria-expanded="false">` +
+      unitDragHandleHtml(u.id) +
       `<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts · ~${estMins} min</span></span>` +
       `<span class="unit-progress" id="unit-progress-${u.id}" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span>` +
       `<button type="button" class="unit-tts-btn" data-unit="${u.id}" aria-label="Read this unit aloud" onclick="event.stopPropagation();ssReadUnitAloud(${u.id})">${TTS_SPEAKER_ICON_SVG}</button>` +

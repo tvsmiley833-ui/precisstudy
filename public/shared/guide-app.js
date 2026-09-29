@@ -259,11 +259,11 @@ function searchGuide(){
   if(!q){sr.classList.remove('show');sr.style.display='none';if(_hl)_hl.textContent='';return;}
   const matches=[];
   UNITS.forEach(u=>{
-    u.concepts.forEach(c=>{
+    u.concepts.forEach((c,ci)=>{
       const text=(c.l+' '+(c.intro||'')+' '+(c.b||[]).join(' ')).toLowerCase();
-      if(text.includes(q))matches.push({type:'concept',unit:u.id,unitName:u.name,concept:c.l,preview:(c.intro||c.b?.[0]||'').slice(0,120)});
+      if(text.includes(q))matches.push({type:'concept',unit:u.id,unitName:u.name,concept:c.l,preview:(c.intro||c.b?.[0]||'').slice(0,120),conceptIdx:ci});
     });
-    if(u.fms) u.fms.forEach(f=>{if(f.toLowerCase().includes(q))matches.push({type:'concept',unit:u.id,unitName:u.name,concept:'Formula',preview:f});});
+    if(u.fms) u.fms.forEach(f=>{if(f.toLowerCase().includes(q))matches.push({type:'concept',unit:u.id,unitName:u.name,concept:'Formula',preview:f,isFormula:true});});
   });
   const unitName=id=>{const u=UNITS.find(x=>x.id===id);return u?u.name:'Unit '+id;};
   (typeof FLASHCARDS!=='undefined'?FLASHCARDS:[]).forEach(f=>{
@@ -277,7 +277,7 @@ function searchGuide(){
   if(!matches.length){sr.style.display='block';sr.classList.add('show');const qEsc=q.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));sr.innerHTML='<div style="color:var(--ink-muted);font-size:14px;padding:8px">No results for "'+qEsc+'"</div>';if(_hl)_hl.textContent='No results for '+q;return;}
   sr.style.display='block';sr.classList.add('show');
   if(_hl)_hl.textContent=matches.length+' result'+(matches.length===1?'':'s')+' for '+q;
-  const jump=m=>m.type==='concept'?`jumpToUnit(${m.unit})`:m.type==='flashcard'?`jumpToFlashcardUnit(${m.unit})`:`jumpToQuizUnit(${m.unit})`;
+  const jump=m=>m.type==='concept'?`jumpToUnit(${m.unit},${m.conceptIdx!==undefined?m.conceptIdx:'null'},${!!m.isFormula})`:m.type==='flashcard'?`jumpToFlashcardUnit(${m.unit})`:`jumpToQuizUnit(${m.unit})`;
   sr.innerHTML='<div style="font-size:13px;color:var(--ink-muted);margin-bottom:6px">'+matches.length+' result(s)</div>'+
     matches.slice(0,12).map(m=>`<button type="button" onclick="${jump(m)}" style="display:block;width:100%;text-align:left;font-family:inherit;padding:8px 12px;background:var(--surface);color:inherit;border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:5px;cursor:pointer;">
       <span style="font-size:12px;font-weight:700;color:var(--ink-muted);text-transform:uppercase">${SEARCH_BADGE[m.type]} · Unit ${m.unit}: ${m.unitName}</span>
@@ -334,11 +334,29 @@ async function jumpToQuizUnit(id){
   const sel=document.getElementById('q-sel');
   if(sel){sel.value=id;loadQ();}
 }
-function jumpToUnit(id){
+// conceptIdx/isFormula (both optional) let a search result open the unit
+// AND scroll straight to the matched concept or formula block inside it,
+// instead of just landing on the unit header -- see searchGuide()'s jump().
+function jumpToUnit(id,conceptIdx,isFormula){
   clearSearch();
   switchTab('guide');
   const el=document.querySelector(`.unit[data-id="${id}"]`);
-  if(el){el.classList.add('open');el.scrollIntoView({behavior:'smooth',block:'start'});}
+  if(!el)return;
+  const wasClosed=!el.classList.contains('open');
+  el.classList.add('open');
+  const title=el.querySelector('.unit-hd .unit-title');
+  if(title)title.setAttribute('aria-expanded','true');
+  const target=isFormula?el.querySelector('.formula')
+    :(conceptIdx!=null?el.querySelector(`.concept[data-idx="${conceptIdx}"]`):null);
+  if(!target){el.scrollIntoView({behavior:'smooth',block:'start'});return;}
+  // Give the unit-body's own open animation/layout a moment to settle before
+  // measuring scroll position, otherwise scrollIntoView can land short on a
+  // unit that was just expanded (its height was 0 a frame ago).
+  setTimeout(()=>{
+    target.scrollIntoView({behavior:'smooth',block:'center'});
+    target.classList.add('ss-search-hit');
+    setTimeout(()=>target.classList.remove('ss-search-hit'),2200);
+  },wasClosed?60:0);
 }
 // "Just Start" (diag-skip-btn): a student with zero background skips the
 // diagnostic entirely, so the dashboard would otherwise leave this subject
@@ -379,6 +397,114 @@ function ssFilterSelectChange(){
 const SS_TTS_SPEAKER_ICON='<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
 const SS_TTS_STOP_ICON='<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="1"/></svg>';
 let ssTtsUnitId=null;
+
+// ----- Drag-to-reorder units: a per-guide, per-browser custom display
+// order for the Study Guide tab. Purely cosmetic -- quiz/flashcard/search
+// logic all key off the real unit id (UNITS array order), never DOM order,
+// so a custom order can never desync progress, mastery or scoring.
+const SS_UNIT_DRAG_ICON='<svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true"><circle cx="5" cy="3" r="1.3"/><circle cx="11" cy="3" r="1.3"/><circle cx="5" cy="8" r="1.3"/><circle cx="11" cy="8" r="1.3"/><circle cx="5" cy="13" r="1.3"/><circle cx="11" cy="13" r="1.3"/></svg>';
+function ssUnitDragHandleHtml(id){
+  return `<span class="unit-drag-handle" tabindex="0" role="button" aria-label="Drag to reorder this unit, or press the up/down arrow keys" onclick="event.stopPropagation()" onkeydown="ssUnitDragKeydown(event,${id})">${SS_UNIT_DRAG_ICON}</span>`;
+}
+function ssUnitOrderKey(){return 'ss-unit-order-'+SS_GUIDE.slug;}
+function ssLoadUnitOrder(){
+  try{
+    const raw=localStorage.getItem(ssUnitOrderKey());
+    if(!raw)return null;
+    const order=JSON.parse(raw);
+    return Array.isArray(order)?order:null;
+  }catch(e){return null;}
+}
+function ssSaveUnitOrder(order){
+  try{localStorage.setItem(ssUnitOrderKey(),JSON.stringify(order));}catch(e){/* private mode etc -- order just won't persist */}
+}
+function ssCurrentUnitOrder(){
+  const ul=document.getElementById('units');
+  return ul?Array.from(ul.children).map(el=>parseInt(el.dataset.id,10)):[];
+}
+function ssShowUnitOrderReset(){
+  if(document.getElementById('unit-order-reset-btn'))return;
+  const ul=document.getElementById('units');
+  if(!ul||!ul.parentNode)return;
+  const btn=document.createElement('button');
+  btn.type='button';btn.className='unit-order-reset';btn.id='unit-order-reset-btn';
+  btn.textContent='↺ Reset unit order';
+  btn.onclick=()=>{try{localStorage.removeItem(ssUnitOrderKey());}catch(e){}location.reload();};
+  ul.parentNode.insertBefore(btn,ul);
+}
+// Only reorders if the saved id set still exactly matches today's units --
+// guards against a guide gaining/losing units since the order was saved.
+function ssApplySavedUnitOrder(){
+  const order=ssLoadUnitOrder();
+  const ul=document.getElementById('units');
+  if(!order||!ul)return;
+  const byId={};
+  Array.from(ul.children).forEach(el=>{byId[el.dataset.id]=el;});
+  const current=Object.keys(byId).map(Number).sort((a,b)=>a-b);
+  const saved=order.slice().sort((a,b)=>a-b);
+  if(current.length!==saved.length||current.some((v,i)=>v!==saved[i]))return;
+  order.forEach(id=>{const el=byId[id];if(el)ul.appendChild(el);});
+  ssShowUnitOrderReset();
+}
+let ssDragUnitId=null;
+function ssWireUnitDrag(div){
+  const handle=div.querySelector('.unit-drag-handle');
+  if(!handle||handle.dataset.wired)return;
+  handle.dataset.wired='1';
+  handle.setAttribute('draggable','true');
+  handle.addEventListener('dragstart',e=>{
+    ssDragUnitId=div.dataset.id;
+    div.classList.add('ss-dragging');
+    e.dataTransfer.effectAllowed='move';
+    try{e.dataTransfer.setData('text/plain',div.dataset.id);}catch(err){}
+  });
+  handle.addEventListener('dragend',()=>{
+    div.classList.remove('ss-dragging');
+    document.querySelectorAll('.unit.ss-drop-before,.unit.ss-drop-after').forEach(el=>el.classList.remove('ss-drop-before','ss-drop-after'));
+    ssDragUnitId=null;
+  });
+  div.addEventListener('dragover',e=>{
+    if(ssDragUnitId==null||div.dataset.id===ssDragUnitId)return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect='move';
+    const rect=div.getBoundingClientRect();
+    const before=(e.clientY-rect.top)<rect.height/2;
+    div.classList.toggle('ss-drop-before',before);
+    div.classList.toggle('ss-drop-after',!before);
+  });
+  div.addEventListener('dragleave',()=>div.classList.remove('ss-drop-before','ss-drop-after'));
+  div.addEventListener('drop',e=>{
+    e.preventDefault();
+    const before=div.classList.contains('ss-drop-before');
+    div.classList.remove('ss-drop-before','ss-drop-after');
+    if(ssDragUnitId==null||div.dataset.id===ssDragUnitId)return;
+    const dragEl=document.querySelector(`.unit[data-id="${ssDragUnitId}"]`);
+    if(!dragEl)return;
+    const ul=div.parentNode;
+    ul.insertBefore(dragEl,before?div:div.nextSibling);
+    ssSaveUnitOrder(ssCurrentUnitOrder());
+    ssShowUnitOrderReset();
+  });
+}
+// Keyboard equivalent of dragging: swap this unit with its previous/next
+// sibling. Needed because native HTML5 drag-and-drop has no keyboard path.
+function ssUnitDragKeydown(e,id){
+  if(e.key!=='ArrowUp'&&e.key!=='ArrowDown')return;
+  e.preventDefault();
+  const div=document.querySelector(`.unit[data-id="${id}"]`);
+  if(!div)return;
+  const sib=e.key==='ArrowUp'?div.previousElementSibling:div.nextElementSibling;
+  if(!sib||!sib.classList.contains('unit'))return;
+  const ul=div.parentNode;
+  if(e.key==='ArrowUp')ul.insertBefore(div,sib);else ul.insertBefore(sib,div);
+  ssSaveUnitOrder(ssCurrentUnitOrder());
+  ssShowUnitOrderReset();
+  e.target.focus();
+}
+function ssInitUnitReorder(){
+  ssApplySavedUnitOrder();
+  document.querySelectorAll('.unit').forEach(ssWireUnitDrag);
+}
 function ssCollectUnitText(u){
   const parts=['Unit '+u.id+': '+u.name+'.'];
   u.concepts.forEach(function(c){
@@ -430,11 +556,11 @@ function buildGuide(){
     const div=document.createElement('div');div.className='unit';div.dataset.id=u.id;
     const hd=document.createElement('div');hd.className='unit-hd';
     const estMins=Math.max(5,Math.round(u.concepts.length*3+(u.traps?u.traps.length:0)*2+(u.fms?u.fms.length:0)*2));
-    hd.innerHTML=`<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts · ~${estMins} min</span></span><span class="unit-progress" id="unit-progress-${u.id}" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span><button type="button" class="unit-tts-btn" data-unit="${u.id}" aria-label="Read this unit aloud" onclick="event.stopPropagation();ssReadUnitAloud(${u.id})">${SS_TTS_SPEAKER_ICON}</button><span class="chevron">▾</span>`;
+    hd.innerHTML=`${ssUnitDragHandleHtml(u.id)}<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts · ~${estMins} min</span></span><span class="unit-progress" id="unit-progress-${u.id}" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span><button type="button" class="unit-tts-btn" data-unit="${u.id}" aria-label="Read this unit aloud" onclick="event.stopPropagation();ssReadUnitAloud(${u.id})">${SS_TTS_SPEAKER_ICON}</button><span class="chevron">▾</span>`;
     ssWireUnitHeader(div,hd);
     const body=document.createElement('div');body.className='unit-body';
-    u.concepts.forEach(c=>{
-      const cd=document.createElement('div');cd.className='concept';
+    u.concepts.forEach((c,ci)=>{
+      const cd=document.createElement('div');cd.className='concept';cd.dataset.idx=ci;
       let h=`<div class="c-label">${c.l}</div>`;
       if(c.intro)h+=`<div class="c-text">${c.intro}</div>`;
       if(c.b&&c.b.length){h+='<ul class="c-list">';c.b.forEach(item=>h+=`<li>${item}</li>`);h+='</ul>';}
@@ -480,6 +606,7 @@ function hydrateGuide(){
   },{passive:true});
 })();
 if(document.getElementById('units').children.length===0){buildGuide();}else{hydrateGuide();}
+ssInitUnitReorder();
 ssTypeset(document.getElementById('units'));
 
 // AI concept-breakdown highlighting: selecting any text inside the guide
@@ -771,6 +898,15 @@ function markExample(id){
   if(SS_MASTERY)SS_MASTERY.markExampleDone(id);
   const card=document.querySelector('.ex2-card[data-id="'+id+'"]');if(card)card.classList.add('done');
 }
+
+// Stamp "last visited subject" on every guide-page load, not just when the
+// dashboard's own subject cards are clicked (see the matching write in
+// public/dashboard/index.html) -- otherwise a student who lands on a guide
+// directly (search, bookmark, shared link) never gets a homepage resume
+// banner, since ss-last-subject would stay unset for that whole session.
+try{
+  localStorage.setItem('ss-last-subject',JSON.stringify({key:SS_GUIDE.key,label:SS_GUIDE.title,href:'/'+SS_GUIDE.slug+'/',ts:Date.now()}));
+}catch(e){/* private mode etc -- resume banner just won't have anything to show */}
 
 var SS_MASTERY = null;
 var SS_SUBJECT_KEY=SS_GUIDE.key;
