@@ -241,19 +241,34 @@
       "This is the exact technique used to finish the ac-method after rewriting a trinomial's middle term as two terms.",
       "Example: 18x² − 39x − 15 → GCF of 3 first → 3(6x² − 13x − 5) → ac-method/grouping on the trinomial → 3(3x+1)(2x−5)."
      ]
+    },
+    {
+     "l": "Solving literal equations",
+     "intro": "A literal equation has more than one variable, like $V=lwh$ or $A=\\frac{1}{2}bh$. You solve for one variable in terms of the others, using the exact same moves as solving a one-variable equation.",
+     "b": [
+      "Treat every letter except the one you're solving for as if it were just a number — the goal is still to isolate your target variable.",
+      "Undo operations in reverse order (reverse PEMDAS): undo addition/subtraction first, then multiplication/division, then exponents/roots last, just like solving a normal equation.",
+      "$V=lwh$ solved for $h$: divide both sides by $lw$, giving $h=\\frac{V}{lw}$.",
+      "$y=mx+b$ solved for $x$: subtract $b$ from both sides, then divide by $m$, giving $x=\\frac{y-b}{m}$.",
+      "$A=\\frac{1}{2}bh$ solved for $b$: multiply both sides by 2, then divide by $h$, giving $b=\\frac{2A}{h}$.",
+      "If the target variable appears more than once (like solving $ax+bx=c$ for $x$), factor it out first: $x(a+b)=c$, then divide by $(a+b)$.",
+      "If the target variable is in a denominator, multiply both sides by that denominator first to clear the fraction, then isolate the variable normally."
+     ]
     }
    ],
    "traps": [
     "Treating an AND compound inequality like an OR: the solution is where BOTH parts are true (the overlap), not everything either part covers.",
     "Factoring out a negative GCF but forgetting to flip the sign of every remaining term inside the parentheses.",
     "$(a+b)^2 = a^2 + b^2$ is WRONG — it drops the middle term 2ab. The correct expansion is $a^2+2ab+b^2$.",
-    "Trying to factor $ax^2+bx+c$ with $a \\neq 1$ by guessing two numbers that add to b — that shortcut only works when a = 1. Use the ac-method instead."
+    "Trying to factor $ax^2+bx+c$ with $a \\neq 1$ by guessing two numbers that add to b — that shortcut only works when a = 1. Use the ac-method instead.",
+    "When the variable you're solving for appears in more than one term (like $ax+bx=c$), you must factor it out before dividing — you can't divide each term separately by a different thing."
    ],
    "fms": [
     "AND: solve/graph the overlap of both parts · OR: solve/graph the union (∪) of both parts",
     "Always factor out the GCF first, before any other technique",
     "ac-method: find two numbers that multiply to a·c and add to b, then rewrite bx and group",
-    "$(a+b)(a-b)=a^2-b^2$ · $(a\\pm b)^2=a^2\\pm 2ab+b^2$"
+    "$(a+b)(a-b)=a^2-b^2$ · $(a\\pm b)^2=a^2\\pm 2ab+b^2$",
+    "Literal equations: undo in reverse order; if the target variable repeats, factor it out first; if it's in a denominator, clear the fraction first."
    ]
   },
   {
@@ -1572,6 +1587,21 @@
    "u": 12,
    "t": "Expected value",
    "d": "E(X) = sum of (value)(probability). A fair game has E(net gain) = 0."
+  },
+  {
+   "u": 1,
+   "t": "Literal equation",
+   "d": "An equation with more than one variable, like $V=lwh$. You solve for one variable in terms of the rest."
+  },
+  {
+   "u": 1,
+   "t": "Solving $V=lwh$ for $h$",
+   "d": "Divide both sides by $lw$: $h=\\frac{V}{lw}$."
+  },
+  {
+   "u": 1,
+   "t": "Solving a literal equation when the variable repeats",
+   "d": "Factor it out first. To solve $ax+bx=c$ for $x$: $x(a+b)=c$, so $x=\\frac{c}{a+b}$."
   }
  ],
  "quiz": [
@@ -7888,6 +7918,78 @@
    ],
    "a": 0,
    "e": "Group as (6x³+21x²)+(-4x-14) = 3x²(2x+7) - 2(2x+7) = (3x²-2)(2x+7)."
+  },
+  {
+   "u": 1,
+   "q": "What is a literal equation?",
+   "o": [
+    "An equation with more than one variable",
+    "An equation with no solution",
+    "An equation that uses only whole numbers",
+    "An equation written in word form"
+   ],
+   "a": 0,
+   "e": "A literal equation, like $V=lwh$ or $y=mx+b$, has more than one variable. You solve for one variable in terms of the others."
+  },
+  {
+   "u": 1,
+   "q": "Solve $V=lwh$ for $h$.",
+   "o": [
+    "$h=\\frac{V}{lw}$",
+    "$h=V-lw$",
+    "$h=Vlw$",
+    "$h=\\frac{lw}{V}$"
+   ],
+   "a": 0,
+   "e": "Divide both sides by $lw$ to isolate $h$: $h=\\frac{V}{lw}$."
+  },
+  {
+   "u": 1,
+   "q": "Solve $y=mx+b$ for $x$.",
+   "o": [
+    "$x=\\frac{y-b}{m}$",
+    "$x=\\frac{y+b}{m}$",
+    "$x=m(y-b)$",
+    "$x=\\frac{y}{m}-b$"
+   ],
+   "a": 0,
+   "e": "Subtract $b$ from both sides first: $y-b=mx$. Then divide by $m$: $x=\\frac{y-b}{m}$."
+  },
+  {
+   "u": 1,
+   "q": "Solve $A=\\frac{1}{2}bh$ for $b$.",
+   "o": [
+    "$b=\\frac{2A}{h}$",
+    "$b=\\frac{A}{2h}$",
+    "$b=2Ah$",
+    "$b=\\frac{h}{2A}$"
+   ],
+   "a": 0,
+   "e": "Multiply both sides by 2 to get $2A=bh$, then divide by $h$: $b=\\frac{2A}{h}$."
+  },
+  {
+   "u": 1,
+   "q": "When solving a literal equation, what should you do first if the target variable is in a denominator, like solving $\\frac{a}{x}=b$ for $x$?",
+   "o": [
+    "Multiply both sides by $x$ to clear the fraction",
+    "Divide both sides by $a$",
+    "Square both sides",
+    "Add $x$ to both sides"
+   ],
+   "a": 0,
+   "e": "Clear the denominator first by multiplying both sides by $x$, giving $a=bx$, then divide by $b$: $x=\\frac{a}{b}$."
+  },
+  {
+   "u": 1,
+   "q": "To solve $ax+bx=c$ for $x$, what must you do before dividing?",
+   "o": [
+    "Factor $x$ out of the left side",
+    "Divide $a$ and $b$ separately by $c$",
+    "Add $a$ and $b$ to both sides",
+    "Take the square root of both sides"
+   ],
+   "a": 0,
+   "e": "Since $x$ appears in two terms, factor it out first: $x(a+b)=c$. Only then can you divide both sides by $(a+b)$ to get $x=\\frac{c}{a+b}$."
   }
  ],
  "hardQuiz": [
@@ -9978,6 +10080,18 @@
    ],
    "a": 0,
    "e": "4x² − 25y² = (2x−5y)(2x+5y), so if one factor (side) is (2x−5y), the other side is (2x+5y)."
+  },
+  {
+   "u": 1,
+   "q": "Solve $\\frac{1}{f}=\\frac{1}{d_o}+\\frac{1}{d_i}$ for $d_i$ (the thin-lens equation).",
+   "o": [
+    "$d_i=\\frac{fd_o}{d_o-f}$",
+    "$d_i=\\frac{f d_o}{f-d_o}$",
+    "$d_i=f-d_o$",
+    "$d_i=\\frac{d_o}{f}$"
+   ],
+   "a": 0,
+   "e": "Subtract $\\frac{1}{d_o}$ from both sides: $\\frac{1}{d_i}=\\frac{1}{f}-\\frac{1}{d_o}=\\frac{d_o-f}{fd_o}$. Flip both sides (take the reciprocal) to solve for $d_i$: $d_i=\\frac{fd_o}{d_o-f}$."
   }
  ],
  "workedExamples": [
