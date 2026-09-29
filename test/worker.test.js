@@ -186,12 +186,17 @@ describe("/sitemap.xml", () => {
     expect(body).toContain("<loc>https://precisstudy.com/</loc>");
   });
 
-  it("includes the real per-view sub-URLs (flashcards, quiz, etc.) for every subject", async () => {
+  it("excludes the per-view sub-URLs (flashcards, quiz, etc.) -- they canonicalize back to the subject root, so listing them told Google to crawl duplicate-content pages", async () => {
     const res = await SELF.fetch("https://precisstudy.com/sitemap.xml");
     const body = await res.text();
-    expect(body).toContain("<loc>https://precisstudy.com/geometry/flashcards</loc>");
-    expect(body).toContain("<loc>https://precisstudy.com/geometry/quiz</loc>");
-    expect(body).toContain("<loc>https://precisstudy.com/geometry/exam</loc>");
+    expect(body).not.toContain("<loc>https://precisstudy.com/geometry/flashcards</loc>");
+    expect(body).not.toContain("<loc>https://precisstudy.com/geometry/quiz</loc>");
+    expect(body).not.toContain("<loc>https://precisstudy.com/geometry/exam</loc>");
+    // The routes themselves are unaffected -- still live, still real, still shareable.
+    const sub = await SELF.fetch("https://precisstudy.com/geometry/flashcards");
+    expect(sub.status).toBe(200);
+    const canonical = /<link rel="canonical" href="([^"]*)"/.exec(await sub.text())[1];
+    expect(canonical).toBe("https://precisstudy.com/geometry/");
   });
 });
 

@@ -369,13 +369,17 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
   if (url.pathname === "/sitemap.xml") {
     const staticPages = ["/", "/about/", "/changelog/", "/request/", "/privacy/", "/terms/", "/parents-bill-of-rights/"];
     const sortedSubjects = [...SUBJECT_PATHS].sort();
+    // Deliberately NOT included: the /:subject/:view sub-paths (quiz,
+    // flashcards, exam, ...). They serve byte-for-byte the same guide as
+    // /:subject/, just with a rewritten <title>/description for accurate
+    // link-preview unfurls (see the routing comment above) -- their own
+    // <link rel="canonical"> already points back to /:subject/. Listing
+    // known-non-canonical URLs in the sitemap told Google to crawl ~330
+    // duplicate-content pages per cycle, which Search Console reported as
+    // "Discovered - currently not indexed" instead of anything useful.
     const locs = [
       ...staticPages,
-      ...sortedSubjects.map(s => `/${s}/`),
-      // Real, distinct, bookmarkable/shareable URLs (see the routing comment
-      // above) -- listing them lets these get crawled and indexed with their
-      // own rewritten title/description instead of staying undiscoverable.
-      ...sortedSubjects.flatMap(s => [...SUBJECT_VIEW_SEGMENTS].sort().map(v => `/${s}/${v}`))
+      ...sortedSubjects.map(s => `/${s}/`)
     ];
     const body = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`
       + locs.map(p => `  <url><loc>https://precisstudy.com${p}</loc></url>`).join("\n")
