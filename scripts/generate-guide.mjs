@@ -61,6 +61,8 @@ function buildUnitsStatic(units, diagrams) {
       let h = `<div class="c-label">${c.l}</div>`;
       if (c.intro) h += `<div class="c-text">${c.intro}</div>`;
       if (c.b && c.b.length) h += `<ul class="c-list">${c.b.map(i => `<li>${i}</li>`).join("")}</ul>`;
+      // Optional graphs/diagrams that belong to this concept (see physics.json).
+      if (c.figs && c.figs.length) h += c.figs.map(f => `<div class="diagram c-fig"><div class="dlabel">${f.label || "Graph"}</div>${f.svg}<p class="dcap">${f.cap}</p></div>`).join("");
       return `<div class="concept" data-idx="${ci}">${h}</div>`;
     }).join("");
     if (u.traps && u.traps.length)

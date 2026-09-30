@@ -759,6 +759,7 @@ function buildGuide(){
       let h=`<div class="c-label">${c.l}</div>`;
       if(c.intro)h+=`<div class="c-text">${c.intro}</div>`;
       if(c.b&&c.b.length){h+='<ul class="c-list">';c.b.forEach(item=>h+=`<li>${item}</li>`);h+='</ul>';}
+      if(c.figs&&c.figs.length)c.figs.forEach(f=>{h+=`<div class="diagram c-fig"><div class="dlabel">${f.label||'Graph'}</div>${f.svg}<p class="dcap">${f.cap}</p></div>`;});
       cd.innerHTML=h;body.appendChild(cd);
     });
     if(u.traps&&u.traps.length){u.traps.forEach(t=>{const td=document.createElement('div');td.className='trap';td.textContent=t;body.appendChild(td);});}
