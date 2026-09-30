@@ -1511,7 +1511,8 @@ document.querySelectorAll('.class-card[data-subject-key]').forEach(function(card
   if (!header) return;
   function onScroll(){ header.classList.toggle('scrolled', window.scrollY > 4); }
   window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  // Reading scrollY during parse forces a synchronous layout; wait for the first frame.
+  requestAnimationFrame(onScroll);
 })();
 </script>
 <script src="/shared/command-palette.js" defer></script><script src="/shared/high-contrast.js" defer></script><script src="/shared/error-monitor.js" defer></script>
