@@ -541,15 +541,108 @@ function ssInitUnitReorder(){
   ssRenumberUnitTitles();
   document.querySelectorAll('.unit').forEach(ssWireUnitDrag);
 }
-function ssCollectUnitText(u){
-  const parts=['Unit '+u.id+': '+u.name+'.'];
-  u.concepts.forEach(function(c){
-    parts.push(c.l+'.');
-    if(c.intro)parts.push(c.intro);
-    if(c.b&&c.b.length)parts.push(c.b.join('. '));
+// ---- Read aloud: pick the most natural voice, turn math into words, speak in
+// sentence-sized pieces (natural pauses, and Chrome cuts off very long utterances).
+const SS_TTS_MATH_WORDS={sin:'sine',cos:'cosine',tan:'tangent',sec:'secant',csc:'cosecant',cot:'cotangent',log:'log',ln:'natural log',
+  pm:'plus or minus',mp:'minus or plus',neq:'is not equal to',ne:'is not equal to',le:'less than or equal to',leq:'less than or equal to',
+  ge:'greater than or equal to',geq:'greater than or equal to',cdot:'times',times:'times',div:'divided by',pi:'pi',theta:'theta',alpha:'alpha',
+  beta:'beta',Delta:'delta',delta:'delta',sigma:'sigma',mu:'mu',lambda:'lambda',infty:'infinity',approx:'is approximately',to:'to',rightarrow:'goes to',
+  angle:'angle',circ:'degrees',degree:'degrees',ldots:'and so on',dots:'and so on',in:'in',cup:'union',cap:'intersection',sum:'the sum of'};
+function ssMathToSpeech(tex){
+  // Binary minus first (before exponent/fraction rewriting inserts spaces that make it look unary).
+  let t=tex.replace(/([\w})])\s*-\s*(?=[\w\\({])/g,'$1 minus ');
+  for(let n=0;n<6;n++){
+    const before=t;
+    t=t.replace(/\\[td]?frac\s*\{([^{}]*)\}\s*\{([^{}]*)\}/g,' the fraction $1, over $2, ')
+       .replace(/\\sqrt\s*\[([^\]]*)\]\s*\{([^{}]*)\}/g,function(m,n,x){return ' the '+({3:'cube',4:'fourth',5:'fifth'}[n.trim()]||n+'th')+' root of '+x+' ';})
+       .replace(/\\sqrt\s*\{([^{}]*)\}/g,' the square root of $1 ')
+       .replace(/\\bar\s*\{([^{}]*)\}/g,' $1 bar ')
+       .replace(/\\(?:text|mathrm|mathbf|operatorname)\s*\{([^{}]*)\}/g,' $1 ');
+    if(t===before)break;
+  }
+  t=t.replace(/\^\s*\{?\s*2\s*\}?/g,' squared ').replace(/\^\s*\{?\s*3\s*\}?/g,' cubed ')
+     .replace(/\^\s*\{\s*-\s*1\s*\}/g,' inverse ')
+     .replace(/\^\s*\{([^{}]*)\}/g,' to the power of $1 ').replace(/\^\s*(\w)/g,' to the power of $1 ')
+     .replace(/_\s*\{([^{}]*)\}/g,' sub $1 ').replace(/_\s*(\w)/g,' sub $1 ')
+     .replace(/\\(left|right|big|Big|displaystyle)\b/g,' ')
+     .replace(/\\[,;:! ]/g,' ')
+     .replace(/\\([a-zA-Z]+)/g,function(m,w){return ' '+(SS_TTS_MATH_WORDS[w]||w)+' ';})
+     .replace(/[{}]/g,'')
+     .replace(/\s*=\s*/g,' equals ').replace(/\s*\+\s*/g,' plus ')
+     .replace(/(^|[\s(,])-\s*(?=[\w(])/g,'$1negative ')
+     .replace(/\s*>\s*/g,' is greater than ').replace(/\s*<\s*/g,' is less than ')
+     .replace(/\s*\/\s*/g,' over ').replace(/\s*\*\s*/g,' times ');
+  return t.replace(/\s+/g,' ').replace(/\s+([.,;:!?)])/g,'$1').replace(/,+$/,'').trim();
+}
+function ssSpeechClean(raw){
+  let s=String(raw).replace(/<[^>]+>/g,' ');
+  // Math spans: $$...$$ and $...$, but not money like "$50 per month plus $3".
+  s=s.replace(/\$\$([^$]+)\$\$|\$([^$\n]+)\$/g,function(m,a,b){
+    const body=a||b;
+    if(/^\d[\d,]*(\.\d+)?\s/.test(body)&&!/[\\^_=]/.test(body))return m;
+    return ' '+ssMathToSpeech(body)+' ';
   });
-  // Concept bullets can hold links (e.g. video lessons); read their text, not the markup.
-  return parts.join(' ').replace(/<[^>]+>/g,'');
+  s=s.replace(/&amp;|&/g,' and ').replace(/&lt;/g,' less than ').replace(/&gt;/g,' greater than ').replace(/&nbsp;/g,' ')
+     .replace(/(\d)\s*%/g,'$1 percent').replace(/≠/g,' is not equal to ').replace(/≤/g,' less than or equal to ').replace(/≥/g,' greater than or equal to ')
+     .replace(/√/g,' the square root of ').replace(/π/g,' pi ').replace(/[×·]/g,' times ').replace(/÷/g,' divided by ').replace(/±/g,' plus or minus ')
+     .replace(/\be\.g\.,?/gi,'for example,').replace(/\bi\.e\.,?/gi,'that is,').replace(/\bvs\.?(?=\s)/gi,'versus').replace(/\betc\./gi,'and so on.')
+     .replace(/\bp\.\s?(\d)/g,'page $1').replace(/\bpp\.\s?(\d)/g,'pages $1')
+     .replace(/\{\s*([^|{}]+?)\s*\|\s*/g,'the set of $1 such that ').replace(/[{}]/g,'')
+     .replace(/∞/g,' infinity ').replace(/→/g,' is written ').replace(/\s>\s/g,' is greater than ').replace(/\s<\s/g,' is less than ')
+     .replace(/\s[—–]\s|--/g,', ').replace(/~/g,' about ').replace(/[*_`#]/g,' ').replace(/\s+/g,' ').replace(/\s+([.,;:!?])/g,'$1').trim();
+  return s;
+}
+// One utterance per concept title / intro / bullet, split further at sentence ends.
+function ssUnitSpeechSegments(u){
+  const el=document.querySelector('.unit[data-id="'+u.id+'"] .unit-title');
+  const label=el&&el.firstChild&&el.firstChild.nodeType===3?el.firstChild.nodeValue.trim():('Unit '+u.id+': '+u.name);
+  const raw=[label.replace(/:\s*$/,'')+'.'];
+  u.concepts.forEach(function(c){
+    raw.push(c.l+'.');
+    if(c.intro)raw.push(c.intro);
+    (c.b||[]).forEach(function(b){raw.push(b);});
+  });
+  const out=[];
+  raw.forEach(function(r){
+    const t=ssSpeechClean(r);
+    if(!t)return;
+    let cur='';
+    t.split(/(?<=[.!?])\s+/).forEach(function(sent){
+      if(cur&&(cur+' '+sent).length>220){out.push(cur);cur=sent;}else cur=cur?cur+' '+sent:sent;
+    });
+    if(cur)out.push(/[.!?:]$/.test(cur)?cur:cur+'.');
+  });
+  return out;
+}
+const SS_TTS_AVOID=/\b(albert|bad news|bahh|bells|boing|bubbles|cellos|deranged|good news|hysterical|jester|organ|superstar|trinoids|whisper|wobble|zarvox|fred|junior|ralph|kathy|agnes|bruce|vicki|eddy|flo|grandma|grandpa|reed|rocko|sandy|shelley)\b/i;
+function ssPickVoice(){
+  const voices=(window.speechSynthesis.getVoices()||[]).filter(function(v){return /^en(-|_|$)/i.test(v.lang);});
+  if(!voices.length)return null;
+  let best=null,bestScore=-1e9;
+  voices.forEach(function(v){
+    const n=v.name;let sc=0;
+    if(/natural|neural/i.test(n))sc+=120;
+    if(/online/i.test(n))sc+=30;
+    if(/premium|enhanced/i.test(n))sc+=100;
+    if(/google (us|uk) english/i.test(n))sc+=70;
+    if(/\b(samantha|ava|allison|susan|zoe|evan|tom|nicky|serena|daniel|karen|moira|aria|jenny|guy|libby|sonia)\b/i.test(n))sc+=45;
+    if(/compact/i.test(n))sc-=25;
+    if(SS_TTS_AVOID.test(n))sc-=1000;
+    if(/en[-_]US/i.test(v.lang))sc+=8;else if(/en[-_](GB|AU|CA|IE)/i.test(v.lang))sc+=4;
+    if(v.default)sc+=2;
+    if(sc>bestScore){bestScore=sc;best=v;}
+  });
+  return best;
+}
+// Voices load asynchronously (Chrome/Safari), so wait briefly for the list.
+function ssVoicesReady(){
+  return new Promise(function(resolve){
+    const synth=window.speechSynthesis;
+    if(synth.getVoices().length)return resolve();
+    const done=function(){synth.removeEventListener('voiceschanged',done);resolve();};
+    synth.addEventListener('voiceschanged',done);
+    setTimeout(done,900);
+  });
 }
 function ssUpdateTtsButtons(){
   document.querySelectorAll('.unit-tts-btn').forEach(function(b){
@@ -559,20 +652,31 @@ function ssUpdateTtsButtons(){
     b.innerHTML=active?SS_TTS_STOP_ICON:SS_TTS_SPEAKER_ICON;
   });
 }
-function ssReadUnitAloud(unitId){
+let ssTtsToken=0;
+async function ssReadUnitAloud(unitId){
   if(!('speechSynthesis' in window))return;
   const synth=window.speechSynthesis;
   const wasThisUnit=ssTtsUnitId===unitId;
+  const token=++ssTtsToken;
   synth.cancel();
   if(wasThisUnit){ssTtsUnitId=null;ssUpdateTtsButtons();return;}
   const u=UNITS.find(function(x){return x.id===unitId;});
   if(!u)return;
-  const utter=new SpeechSynthesisUtterance(ssCollectUnitText(u));
-  utter.onend=function(){ssTtsUnitId=null;ssUpdateTtsButtons();};
-  utter.onerror=function(){ssTtsUnitId=null;ssUpdateTtsButtons();};
   ssTtsUnitId=unitId;
   ssUpdateTtsButtons();
-  synth.speak(utter);
+  await ssVoicesReady();
+  if(token!==ssTtsToken)return;
+  const voice=ssPickVoice(),segs=ssUnitSpeechSegments(u);
+  if(!segs.length){ssTtsUnitId=null;ssUpdateTtsButtons();return;}
+  const finish=function(){if(token===ssTtsToken){ssTtsUnitId=null;ssUpdateTtsButtons();}};
+  segs.forEach(function(text,i){
+    const ut=new SpeechSynthesisUtterance(text);
+    if(voice){ut.voice=voice;ut.lang=voice.lang;}
+    ut.rate=0.96;ut.pitch=1;
+    if(i===segs.length-1){ut.onend=finish;}
+    ut.onerror=function(e){if(e.error!=='canceled'&&e.error!=='interrupted')finish();};
+    synth.speak(ut);
+  });
 }
 if('speechSynthesis' in window){
   window.addEventListener('beforeunload',function(){window.speechSynthesis.cancel();});
