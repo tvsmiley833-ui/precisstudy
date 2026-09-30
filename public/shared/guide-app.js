@@ -353,7 +353,9 @@ function jumpToUnit(id,conceptIdx,isFormula){
   // measuring scroll position, otherwise scrollIntoView can land short on a
   // unit that was just expanded (its height was 0 a frame ago).
   setTimeout(()=>{
-    target.scrollIntoView({behavior:'smooth',block:'center'});
+    // A block taller than the viewport (e.g. a long line-by-line list) centred
+    // would land mid-list, so align its top instead.
+    target.scrollIntoView({behavior:'smooth',block:target.offsetHeight>innerHeight*.8?'start':'center'});
     target.classList.add('ss-search-hit');
     setTimeout(()=>target.classList.remove('ss-search-hit'),2200);
   },wasClosed?60:0);
@@ -904,9 +906,17 @@ function markExample(id){
 // public/dashboard/index.html) -- otherwise a student who lands on a guide
 // directly (search, bookmark, shared link) never gets a homepage resume
 // banner, since ss-last-subject would stay unset for that whole session.
-try{
-  localStorage.setItem('ss-last-subject',JSON.stringify({key:SS_GUIDE.key,label:SS_GUIDE.title,href:'/'+SS_GUIDE.slug+'/',ts:Date.now()}));
-}catch(e){/* private mode etc -- resume banner just won't have anything to show */}
+// unit/concept/where (the exact block last being read, see the observer at the
+// bottom of this file) are carried over when reopening the same guide so a bare
+// page load doesn't wipe the saved position.
+function ssSaveLast(pos){
+  try{
+    var prev=null;try{prev=JSON.parse(localStorage.getItem('ss-last-subject')||'null');}catch(e){}
+    var keep=pos||(prev&&prev.key===SS_GUIDE.key?{unit:prev.unit,concept:prev.concept,where:prev.where}:{});
+    localStorage.setItem('ss-last-subject',JSON.stringify(Object.assign({key:SS_GUIDE.key,label:SS_GUIDE.title,href:'/'+SS_GUIDE.slug+'/',ts:Date.now()},keep)));
+  }catch(e){/* private mode etc -- resume banner just won't have anything to show */}
+}
+ssSaveLast();
 
 var SS_MASTERY = null;
 var SS_SUBJECT_KEY=SS_GUIDE.key;
@@ -2436,4 +2446,28 @@ function ssDiagBatchRenderContinue(){
   window.addEventListener('popstate',function(){ activate(tabFromUrl()); });
   var initialTab=tabFromUrl();
   if(initialTab!=='guide') activate(initialTab);
+})();
+
+// Resume-at-exact-section: remember the concept crossing the upper-middle band of
+// the viewport, and reopen it when the homepage "Resume" link arrives with
+// #u=<unitId>&c=<conceptIdx> (see ssRenderHeroResume in public/index.html).
+(function(){
+  if(typeof UNITS==='undefined')return;
+  var cur=null,timer=0;
+  function save(){
+    if(!cur)return;
+    var unit=cur.closest('.unit'),id=unit&&unit.getAttribute('data-id'),idx=cur.getAttribute('data-idx');
+    if(id==null||idx==null)return;
+    var u=UNITS.find(function(x){return String(x.id)===id;}),c=u&&u.concepts[+idx];
+    ssSaveLast({unit:id,concept:+idx,where:(u?u.name:'')+(c&&c.l?' › '+c.l:'')});
+  }
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){if(e.isIntersecting)cur=e.target;});
+      clearTimeout(timer);timer=setTimeout(save,800);
+    },{rootMargin:'-20% 0px -60% 0px'});
+    document.querySelectorAll('.unit .concept[data-idx]').forEach(function(c){io.observe(c);});
+  }
+  var m=/^#u=([\w-]+)&c=(\d+)$/.exec(location.hash);
+  if(m)setTimeout(function(){jumpToUnit(m[1],+m[2]);},150);
 })();

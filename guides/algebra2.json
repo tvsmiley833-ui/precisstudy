@@ -243,6 +243,31 @@
      ]
     },
     {
+     "l": "Dividing a polynomial by a monomial",
+     "intro": "When the divisor is a single term, divide every term of the polynomial by it. No long division needed — it's just the exponent rule for quotients applied term by term.",
+     "b": [
+      "Split the fraction: $\\frac{a+b+c}{d}=\\frac{a}{d}+\\frac{b}{d}+\\frac{c}{d}$. Every term gets divided by the monomial.",
+      "Divide the coefficients, then subtract exponents on matching variables: $\\frac{x^m}{x^n}=x^{m-n}$.",
+      "$\\frac{12x^3-8x^2+4x}{4x}=3x^2-2x+1$ — the last term $\\frac{4x}{4x}$ becomes $1$, not $0$.",
+      "With several variables, handle each separately: $\\frac{18a^3b^2-12a^2b^3}{6ab}=3a^2b-2ab^2$.",
+      "Check by multiplying the answer by the monomial — you should get the original polynomial back.",
+      "This only works when the divisor is one term. For a binomial or longer divisor, use long or synthetic division (Unit 2)."
+     ]
+    },
+    {
+     "l": "Factoring cubics: sum/difference of cubes and grouping",
+     "intro": "A cubic factors in one of two ways: with a cube pattern when it is a sum or difference of two perfect cubes, or by grouping when it has four terms.",
+     "b": [
+      "Sum of cubes: $a^3+b^3=(a+b)(a^2-ab+b^2)$. Difference of cubes: $a^3-b^3=(a-b)(a^2+ab+b^2)$.",
+      "Memory aid SOAP: the binomial keeps the **S**ame sign, the trinomial's middle is the **O**pposite sign, and the last term is **A**lways **P**ositive.",
+      "$8x^3-27=(2x)^3-3^3=(2x-3)(4x^2+6x+9)$. Find $a$ and $b$ by taking cube roots, then plug into the pattern.",
+      "The trinomial factor from a cube pattern does not factor further over the real numbers — stop there.",
+      "Four-term cubics: factor by grouping. $x^3+2x^2-9x-18=x^2(x+2)-9(x+2)=(x+2)(x^2-9)=(x+2)(x-3)(x+3)$.",
+      "Always take out a GCF first, then check whether what's left is a cube pattern or a difference of squares.",
+      "To solve a factored cubic equation, set each factor equal to $0$. $x^3-4x^2-x+4=0$ factors to $(x-4)(x-1)(x+1)=0$, so $x=4,\\,1,\\,-1$."
+     ]
+    },
+    {
      "l": "Solving literal equations",
      "intro": "A literal equation has more than one variable, like $V=lwh$ or $A=\\frac{1}{2}bh$. You solve for one variable in terms of the others, using the exact same moves as solving a one-variable equation.",
      "b": [
@@ -261,14 +286,18 @@
     "Factoring out a negative GCF but forgetting to flip the sign of every remaining term inside the parentheses.",
     "$(a+b)^2 = a^2 + b^2$ is WRONG — it drops the middle term 2ab. The correct expansion is $a^2+2ab+b^2$.",
     "Trying to factor $ax^2+bx+c$ with $a \\neq 1$ by guessing two numbers that add to b — that shortcut only works when a = 1. Use the ac-method instead.",
-    "When the variable you're solving for appears in more than one term (like $ax+bx=c$), you must factor it out before dividing — you can't divide each term separately by a different thing."
+    "When the variable you're solving for appears in more than one term (like $ax+bx=c$), you must factor it out before dividing — you can't divide each term separately by a different thing.",
+    "Writing $a^3+b^3=(a+b)^3$. That is wrong: $(a+b)^3$ expands to four terms. Use $(a+b)(a^2-ab+b^2)$, and note the middle term of the trinomial is $-ab$, with no 2.",
+    "When dividing a polynomial by a monomial, dividing only the first term (or turning $\\frac{4x}{4x}$ into $0$ instead of $1$). Every term gets divided."
    ],
    "fms": [
     "AND: solve/graph the overlap of both parts · OR: solve/graph the union (∪) of both parts",
     "Always factor out the GCF first, before any other technique",
     "ac-method: find two numbers that multiply to a·c and add to b, then rewrite bx and group",
     "$(a+b)(a-b)=a^2-b^2$ · $(a\\pm b)^2=a^2\\pm 2ab+b^2$",
-    "Literal equations: undo in reverse order; if the target variable repeats, factor it out first; if it's in a denominator, clear the fraction first."
+    "Literal equations: undo in reverse order; if the target variable repeats, factor it out first; if it's in a denominator, clear the fraction first.",
+    "Sum/difference of cubes: $a^3\\pm b^3=(a\\pm b)(a^2\\mp ab+b^2)$ · SOAP: Same, Opposite, Always Positive.",
+    "Polynomial ÷ monomial: divide each term, subtract exponents — $\\frac{x^m}{x^n}=x^{m-n}$."
    ]
   },
   {
@@ -1602,6 +1631,26 @@
    "u": 1,
    "t": "Solving a literal equation when the variable repeats",
    "d": "Factor it out first. To solve $ax+bx=c$ for $x$: $x(a+b)=c$, so $x=\\frac{c}{a+b}$."
+  },
+  {
+   "u": 1,
+   "t": "Sum of cubes formula",
+   "d": "$a^3+b^3=(a+b)(a^2-ab+b^2)$"
+  },
+  {
+   "u": 1,
+   "t": "Difference of cubes formula",
+   "d": "$a^3-b^3=(a-b)(a^2+ab+b^2)$"
+  },
+  {
+   "u": 1,
+   "t": "Factor $8x^3-27$",
+   "d": "$(2x-3)(4x^2+6x+9)$ — cube roots are $2x$ and $3$."
+  },
+  {
+   "u": 1,
+   "t": "Divide $\\frac{12x^3-8x^2+4x}{4x}$",
+   "d": "Divide every term: $3x^2-2x+1$."
   }
  ],
  "quiz": [
@@ -7990,6 +8039,30 @@
    ],
    "a": 0,
    "e": "Since $x$ appears in two terms, factor it out first: $x(a+b)=c$. Only then can you divide both sides by $(a+b)$ to get $x=\\frac{c}{a+b}$."
+  },
+  {
+   "u": 1,
+   "q": "Factor $x^3+27$.",
+   "o": [
+    "$(x+3)(x^2-3x+9)$",
+    "$(x+3)(x^2+3x+9)$",
+    "$(x+3)^3$",
+    "$(x-3)(x^2+3x+9)$"
+   ],
+   "a": 0,
+   "e": "$x^3+27=x^3+3^3$, a sum of cubes: $(x+3)(x^2-3x+9)$. The trinomial's middle sign is opposite to the binomial's."
+  },
+  {
+   "u": 1,
+   "q": "Simplify $\\frac{15x^4-10x^3+5x^2}{5x^2}$.",
+   "o": [
+    "$3x^2-2x+1$",
+    "$3x^2-2x$",
+    "$3x^6-2x^5+x^4$",
+    "$3x^2-2x+5$"
+   ],
+   "a": 0,
+   "e": "Divide each term by $5x^2$: $3x^2-2x+1$. The last term $\\frac{5x^2}{5x^2}=1$."
   }
  ],
  "hardQuiz": [
@@ -10092,6 +10165,30 @@
    ],
    "a": 0,
    "e": "Subtract $\\frac{1}{d_o}$ from both sides: $\\frac{1}{d_i}=\\frac{1}{f}-\\frac{1}{d_o}=\\frac{d_o-f}{fd_o}$. Flip both sides (take the reciprocal) to solve for $d_i$: $d_i=\\frac{fd_o}{d_o-f}$."
+  },
+  {
+   "u": 1,
+   "q": "Solve $2x^3+x^2-8x-4=0$.",
+   "o": [
+    "$x=-\\frac{1}{2},\\,2,\\,-2$",
+    "$x=\\frac{1}{2},\\,2,\\,-2$",
+    "$x=-2,\\,2$",
+    "$x=-\\frac{1}{2},\\,4$"
+   ],
+   "a": 0,
+   "e": "Group: $x^2(2x+1)-4(2x+1)=(2x+1)(x^2-4)=(2x+1)(x-2)(x+2)$. Setting each factor to $0$ gives $x=-\\frac{1}{2},\\,2,\\,-2$."
+  },
+  {
+   "u": 1,
+   "q": "Simplify $\\frac{18a^3b^2-12a^2b^3+6ab}{6ab}$.",
+   "o": [
+    "$3a^2b-2ab^2+1$",
+    "$3a^2b-2ab^2$",
+    "$3a^2b-2ab^2+6ab$",
+    "$3a^4b^3-2a^3b^4+1$"
+   ],
+   "a": 0,
+   "e": "Divide each term by $6ab$: $\\frac{18a^3b^2}{6ab}=3a^2b$, $\\frac{12a^2b^3}{6ab}=2ab^2$, $\\frac{6ab}{6ab}=1$."
   }
  ],
  "workedExamples": [
