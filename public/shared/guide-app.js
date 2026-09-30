@@ -615,24 +615,33 @@ function ssUnitSpeechSegments(u){
   return out;
 }
 const SS_TTS_AVOID=/\b(albert|bad news|bahh|bells|boing|bubbles|cellos|deranged|good news|hysterical|jester|organ|superstar|trinoids|whisper|wobble|zarvox|fred|junior|ralph|kathy|agnes|bruce|vicki|eddy|flo|grandma|grandpa|reed|rocko|sandy|shelley)\b/i;
+function ssVoiceScore(v){
+  const n=v.name;let sc=0;
+  if(/natural|neural/i.test(n))sc+=120;
+  if(/online/i.test(n))sc+=30;
+  if(/premium|enhanced/i.test(n))sc+=100;
+  if(/google (us|uk) english/i.test(n))sc+=70;
+  if(/\b(samantha|ava|allison|susan|zoe|evan|tom|nicky|serena|daniel|karen|moira|aria|jenny|guy|libby|sonia)\b/i.test(n))sc+=45;
+  if(/compact/i.test(n))sc-=25;
+  if(SS_TTS_AVOID.test(n))sc-=1000;
+  if(/en[-_]US/i.test(v.lang))sc+=8;else if(/en[-_](GB|AU|CA|IE)/i.test(v.lang))sc+=4;
+  if(v.default)sc+=2;
+  return sc;
+}
+function ssEnglishVoices(){
+  return (window.speechSynthesis.getVoices()||[]).filter(function(v){return /^en(-|_|$)/i.test(v.lang);});
+}
+function ssTtsPrefs(){
+  try{return{voice:localStorage.getItem('ss-tts-voice')||'',rate:parseFloat(localStorage.getItem('ss-tts-rate'))||0.96};}
+  catch(e){return{voice:'',rate:0.96};}
+}
+// The student's saved choice if that voice still exists on this device, else the best-scored one.
 function ssPickVoice(){
-  const voices=(window.speechSynthesis.getVoices()||[]).filter(function(v){return /^en(-|_|$)/i.test(v.lang);});
+  const voices=ssEnglishVoices();
   if(!voices.length)return null;
-  let best=null,bestScore=-1e9;
-  voices.forEach(function(v){
-    const n=v.name;let sc=0;
-    if(/natural|neural/i.test(n))sc+=120;
-    if(/online/i.test(n))sc+=30;
-    if(/premium|enhanced/i.test(n))sc+=100;
-    if(/google (us|uk) english/i.test(n))sc+=70;
-    if(/\b(samantha|ava|allison|susan|zoe|evan|tom|nicky|serena|daniel|karen|moira|aria|jenny|guy|libby|sonia)\b/i.test(n))sc+=45;
-    if(/compact/i.test(n))sc-=25;
-    if(SS_TTS_AVOID.test(n))sc-=1000;
-    if(/en[-_]US/i.test(v.lang))sc+=8;else if(/en[-_](GB|AU|CA|IE)/i.test(v.lang))sc+=4;
-    if(v.default)sc+=2;
-    if(sc>bestScore){bestScore=sc;best=v;}
-  });
-  return best;
+  const pref=ssTtsPrefs().voice;
+  if(pref){const chosen=voices.find(function(v){return v.voiceURI===pref;});if(chosen)return chosen;}
+  return voices.slice().sort(function(a,b){return ssVoiceScore(b)-ssVoiceScore(a);})[0];
 }
 // Voices load asynchronously (Chrome/Safari), so wait briefly for the list.
 function ssVoicesReady(){
@@ -652,6 +661,52 @@ function ssUpdateTtsButtons(){
     b.innerHTML=active?SS_TTS_STOP_ICON:SS_TTS_SPEAKER_ICON;
   });
 }
+// ---- Voice picker (Tools menu): choose a voice and speed, preview, reset to automatic.
+async function ssOpenVoiceDialog(){
+  if(!('speechSynthesis' in window))return;
+  await ssVoicesReady();
+  let dlg=document.getElementById('ss-voice-dlg');
+  if(dlg)dlg.remove();
+  const prefs=ssTtsPrefs();
+  const usable=ssEnglishVoices().filter(function(v){return !SS_TTS_AVOID.test(v.name);}).sort(function(a,b){return ssVoiceScore(b)-ssVoiceScore(a);});
+  const auto=usable.length?usable[0]:null;
+  dlg=document.createElement('dialog');
+  dlg.id='ss-voice-dlg';dlg.className='ss-voice-dlg';
+  dlg.setAttribute('aria-labelledby','ss-voice-title');
+  const opts=['<option value="">Automatic'+(auto?' (best match: '+ssEscapeText(auto.name)+')':'')+'</option>'].concat(usable.map(function(v){
+    return '<option value="'+ssEscapeText(v.voiceURI)+'"'+(v.voiceURI===prefs.voice?' selected':'')+'>'+ssEscapeText(v.name)+' — '+ssEscapeText(v.lang)+(v.localService?'':' (online)')+'</option>';
+  }));
+  dlg.innerHTML='<form method="dialog"><h2 id="ss-voice-title">Read-aloud voice</h2>'
+    +(usable.length?'<label for="ss-voice-sel">Voice</label><select id="ss-voice-sel">'+opts.join('')+'</select>'
+      +'<label for="ss-voice-rate">Speed <output id="ss-voice-rate-out">'+prefs.rate.toFixed(2)+'x</output></label>'
+      +'<input type="range" id="ss-voice-rate" min="0.7" max="1.3" step="0.02" value="'+prefs.rate+'">'
+      :'<p>No English voices were found on this device.</p>')
+    +'<p class="ss-voice-tip">Tip: newer devices include higher-quality voices. On a Mac, add an Enhanced or Premium voice in System Settings, Accessibility, Spoken Content. Microsoft Edge has built-in Natural voices.</p>'
+    +'<div class="ss-voice-actions"><button type="button" id="ss-voice-prev">Preview</button><button type="button" id="ss-voice-reset">Reset</button><button value="close" class="primary">Done</button></div></form>';
+  document.body.appendChild(dlg);
+  const sel=dlg.querySelector('#ss-voice-sel'),rate=dlg.querySelector('#ss-voice-rate'),out=dlg.querySelector('#ss-voice-rate-out');
+  const save=function(){try{localStorage.setItem('ss-tts-voice',sel.value);localStorage.setItem('ss-tts-rate',rate.value);}catch(e){/* private mode: choice lasts this page only */}};
+  const preview=function(){
+    const synth=window.speechSynthesis;ssTtsToken++;synth.cancel();ssTtsUnitId=null;ssUpdateTtsButtons();
+    const ut=new SpeechSynthesisUtterance('This is how I will read your study guide. The square root of 16 is 4.');
+    const v=ssPickVoice();if(v){ut.voice=v;ut.lang=v.lang;}
+    ut.rate=ssTtsPrefs().rate;synth.speak(ut);
+  };
+  if(sel){
+    sel.addEventListener('change',function(){save();preview();});
+    rate.addEventListener('input',function(){out.textContent=parseFloat(rate.value).toFixed(2)+'x';});
+    rate.addEventListener('change',function(){save();preview();});
+    dlg.querySelector('#ss-voice-prev').addEventListener('click',preview);
+    dlg.querySelector('#ss-voice-reset').addEventListener('click',function(){
+      sel.value='';rate.value='0.96';out.textContent='0.96x';
+      try{localStorage.removeItem('ss-tts-voice');localStorage.removeItem('ss-tts-rate');}catch(e){}
+      preview();
+    });
+  }
+  dlg.addEventListener('close',function(){window.speechSynthesis.cancel();dlg.remove();});
+  dlg.showModal();
+}
+function ssEscapeText(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');}
 let ssTtsToken=0;
 async function ssReadUnitAloud(unitId){
   if(!('speechSynthesis' in window))return;
@@ -672,7 +727,7 @@ async function ssReadUnitAloud(unitId){
   segs.forEach(function(text,i){
     const ut=new SpeechSynthesisUtterance(text);
     if(voice){ut.voice=voice;ut.lang=voice.lang;}
-    ut.rate=0.96;ut.pitch=1;
+    ut.rate=ssTtsPrefs().rate;ut.pitch=1;
     if(i===segs.length-1){ut.onend=finish;}
     ut.onerror=function(e){if(e.error!=='canceled'&&e.error!=='interrupted')finish();};
     synth.speak(ut);
@@ -2406,6 +2461,7 @@ function toolkitInit(){
 
   item('Quick Reference','<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',qrefDrawerToggle);
   item('AI Study Helper','<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>',cbotToggle);
+  if('speechSynthesis' in window)item('Read-aloud voice',SS_TTS_SPEAKER_ICON,ssOpenVoiceDialog);
   if(DESMOS_API_KEY){
     item('Graphing Calculator','<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 9 13 13 21 5"/><polyline points="15 5 21 5 21 11"/></svg>',desmosToggle);
   }
