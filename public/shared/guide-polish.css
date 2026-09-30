@@ -524,3 +524,12 @@ html[data-dys] body :not(mjx-container):not(mjx-container *):not(#x){
 }
 html[data-dys] body :is(p,li,.concept,.trap,.fm,.dcap,td){line-height:1.8!important}
 html[data-dys] body :is(p,li){max-width:70ch}
+
+/* ---------- Study plan: add-to-calendar row ---------- */
+.spc-cal{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;margin:14px 0 6px}
+.spc-cal label{font-size:14px;font-weight:600}
+.spc-cal input[type="time"]{font:inherit;padding:6px 8px;border:1px solid var(--border-strong,var(--border));border-radius:8px;background:var(--surface,transparent);color:inherit}
+.spc-cal-btn{font:inherit;font-weight:700;font-size:14px;padding:9px 16px;border-radius:999px;border:0;cursor:pointer;background:var(--accent);color:#fff}
+.spc-cal-btn:hover{filter:brightness(1.08)}
+.spc-cal-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.spc-cal-note{flex-basis:100%;font-size:13px;color:var(--ink-muted,inherit);min-height:1em}

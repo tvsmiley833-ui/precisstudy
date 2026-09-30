@@ -1530,6 +1530,72 @@ updateMistakeLogBadge();
     daysEl.value=DAYS_DEFAULT;minsEl.value=MINS_DEFAULT;update();
   });
   update();
+
+  /* ----- "Add to calendar": the plan above as a downloadable .ics (no account needed) ----- */
+  function icsText(t){return String(t).replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\r?\n/g,'\\n');}
+  // RFC 5545 caps lines at 75 octets; continuation lines start with one space.
+  function icsFold(line){
+    var enc=new TextEncoder(),out=[],cur='',n=0;
+    for(var ch of line){
+      var w=enc.encode(ch).length,max=out.length?74:75;
+      if(n+w>max){out.push(cur);cur='';n=0;}
+      cur+=ch;n+=w;
+    }
+    out.push(cur);
+    return out.join('\r\n ');
+  }
+  function p2(n){return (n<10?'0':'')+n;}
+  function ymd(d){return d.getFullYear()+p2(d.getMonth()+1)+p2(d.getDate());}
+  function buildPlanIcs(timeStr){
+    var days=parseInt(daysEl.value,10),mins=parseInt(minsEl.value,10);
+    var perDayQ=Math.round(mins/MIN_PER_Q);
+    var hm=/^(\d{2}):(\d{2})$/.exec(timeStr)||['','16','00'];
+    var now=new Date(),exam=new Date(now.getFullYear(),now.getMonth(),now.getDate()+days);
+    var start=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+    // Today only counts if the reminder time hasn't passed yet.
+    if(now.getHours()*60+now.getMinutes()>=(+hm[1])*60+(+hm[2]))start.setDate(start.getDate()+1);
+    var n=Math.max(1,Math.round((exam-start)/864e5));
+    var covered=Math.min(SS_UNIT_COUNT,Math.max(1,parseInt(document.getElementById('spc-units').textContent,10)||1));
+    var stamp=new Date().toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
+    var end=new Date(2000,0,1,+hm[1],+hm[2]+mins);
+    var endStr=p2(end.getHours())+p2(end.getMinutes())+'00';
+    var title=SS_GUIDE.title,ev=[];
+    for(var i=0;i<n;i++){
+      var d=new Date(start.getFullYear(),start.getMonth(),start.getDate()+i);
+      var lo=Math.floor(i*covered/n),hi=Math.max(lo,Math.floor((i+1)*covered/n)-1);
+      var names=[];for(var u=lo;u<=hi&&u<UNITS.length;u++)names.push('Unit '+UNITS[u].id+': '+UNITS[u].name);
+      var last=i===n-1&&n>1;
+      var what=last?'Final review + mixed quiz':(names.length>1?'Units '+UNITS[lo].id+'\u2013'+UNITS[hi].id:'Unit '+UNITS[lo].id);
+      var desc=(last?'Mixed practice across everything you have covered.':names.join('\n'))+'\n\nGoal: about '+perDayQ+' questions in '+mins+' minutes.\nOpen the guide: '+location.origin+'/'+SS_GUIDE.slug+'/';
+      ev.push(['BEGIN:VEVENT','UID:'+SS_GUIDE.slug+'-plan-'+ymd(d)+'@precisstudy.com','DTSTAMP:'+stamp,
+        'DTSTART:'+ymd(d)+'T'+hm[1]+hm[2]+'00','DTEND:'+ymd(d)+'T'+endStr,
+        'SUMMARY:'+icsText('Study '+title+': '+what),'DESCRIPTION:'+icsText(desc),
+        'BEGIN:VALARM','TRIGGER:-PT10M','ACTION:DISPLAY','DESCRIPTION:'+icsText('Study time: '+title),'END:VALARM','END:VEVENT'].join('\r\n'));
+    }
+    var next=new Date(exam.getFullYear(),exam.getMonth(),exam.getDate()+1);
+    ev.push(['BEGIN:VEVENT','UID:'+SS_GUIDE.slug+'-exam-'+ymd(exam)+'@precisstudy.com','DTSTAMP:'+stamp,
+      'DTSTART;VALUE=DATE:'+ymd(exam),'DTEND;VALUE=DATE:'+ymd(next),'SUMMARY:'+icsText(title+' exam day'),'TRANSP:TRANSPARENT','END:VEVENT'].join('\r\n'));
+    var lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//PrecisStudy//Study Plan//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH','X-WR-CALNAME:'+icsText(title+' study plan')].concat(ev.join('\r\n').split('\r\n'),['END:VCALENDAR']);
+    return lines.map(icsFold).join('\r\n')+'\r\n';
+  }
+  var body=document.getElementById('spc-body');
+  if(body&&resetBtn){
+    var row=document.createElement('div');row.className='spc-cal';
+    row.innerHTML='<label for="spc-cal-time">Daily reminder time</label><input type="time" id="spc-cal-time" value="16:00">'
+      +'<button type="button" class="spc-cal-btn" id="spc-cal-btn">Add plan to calendar (.ics)</button>'
+      +'<span class="spc-cal-note" id="spc-cal-note" role="status" aria-live="polite"></span>';
+    body.insertBefore(row,resetBtn);
+    try{var saved=localStorage.getItem('ss-cal-time');if(saved)document.getElementById('spc-cal-time').value=saved;}catch(e){}
+    document.getElementById('spc-cal-btn').addEventListener('click',function(){
+      var t=document.getElementById('spc-cal-time').value||'16:00';
+      try{localStorage.setItem('ss-cal-time',t);}catch(e){}
+      var url=URL.createObjectURL(new Blob([buildPlanIcs(t)],{type:'text/calendar;charset=utf-8'}));
+      var a=document.createElement('a');a.href=url;a.download=SS_GUIDE.slug+'-study-plan.ics';
+      document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url);},2000);
+      document.getElementById('spc-cal-note').textContent='Downloaded. Open the file to add it to your calendar.';
+    });
+  }
+  window.ssBuildPlanIcs=buildPlanIcs;
 })();
 
 /* ===== study helper chatbot ===== */
