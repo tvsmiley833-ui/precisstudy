@@ -719,6 +719,78 @@ function ssFuzzyMatch(typed,correct){
   return{match:ratio>=FUZZY_THRESHOLD,exact:false,ratio};
 }
 
+// SPACED REPETITION (Leitner boxes, per browser). Each rated card gets a box 1-5;
+// a right answer moves it up and pushes its due date out (1, 3, 7, 14, 30 days),
+// a miss drops it to box 1 and makes it due immediately. Cards never rated have
+// no schedule and stay in "Still learning" until first rated.
+const SRS_DAYS=[0,1,3,7,14,30],SRS_DAY_MS=864e5;
+let ssSrs=null;
+function ssSrsKey(){return 'ss-srs-'+SS_GUIDE.slug;}
+function ssSrsLoad(){
+  if(ssSrs)return ssSrs;
+  try{ssSrs=JSON.parse(localStorage.getItem(ssSrsKey())||'null');}catch(e){ssSrs=null;}
+  if(!ssSrs||typeof ssSrs!=='object')ssSrs={};
+  return ssSrs;
+}
+function ssSrsSave(){try{localStorage.setItem(ssSrsKey(),JSON.stringify(ssSrs));}catch(e){/* private mode: schedule just won't persist */}}
+// Cards marked known before this feature existed get a schedule too, spread
+// over the next few days so the first week isn't one big wave.
+function ssSrsSeed(){
+  if(!SS_MASTERY)return;
+  const srs=ssSrsLoad(),now=Date.now();let n=0,changed=false;
+  SS_MASTERY.getSnapshot().cardsKnown.forEach(function(t){
+    if(srs[t])return;
+    srs[t]=[2,now+((n++%5)+1)*SRS_DAY_MS];changed=true;
+  });
+  if(changed)ssSrsSave();
+}
+function ssSrsRecord(term,known){
+  const srs=ssSrsLoad(),cur=srs[term],now=Date.now();
+  const box=known?Math.min(5,(cur?cur[0]:0)+1):1;
+  srs[term]=[box,known?now+SRS_DAYS[box]*SRS_DAY_MS:now];
+  ssSrsSave();
+  ssSrsRefresh();
+}
+function ssSrsIsDue(term){const r=ssSrsLoad()[term];return !!r&&r[1]<=Date.now();}
+function ssSrsDueCount(){
+  const srs=ssSrsLoad(),now=Date.now();
+  return (typeof FLASHCARDS!=='undefined'?FLASHCARDS:[]).filter(function(c){const r=srs[c.t];return r&&r[1]<=now;}).length;
+}
+function ssSrsNextDue(){
+  const srs=ssSrsLoad(),now=Date.now();let next=Infinity;
+  FLASHCARDS.forEach(function(c){const r=srs[c.t];if(r&&r[1]>now&&r[1]<next)next=r[1];});
+  return next===Infinity?null:next;
+}
+function ssSrsNextLabel(ts){
+  const days=Math.ceil((ts-Date.now())/SRS_DAY_MS);
+  return days<=1?'tomorrow':'in '+days+' days';
+}
+function ssSrsRefresh(){
+  const due=ssSrsDueCount();
+  const chip=document.getElementById('fc-due-chip');
+  if(chip){
+    const next=ssSrsNextDue();
+    chip.className='fc-due-chip'+(due?' has-due':'');
+    chip.textContent=due?due+' card'+(due===1?'':'s')+' due for review — start':(next?'All caught up. Next review '+ssSrsNextLabel(next)+'.':'Rate cards to start your review schedule.');
+    chip.disabled=!due;
+  }
+  const tab=document.getElementById('tab-cards');
+  if(tab){
+    let b=tab.querySelector('.ss-due-badge');
+    if(due){
+      if(!b){b=document.createElement('span');b.className='ss-due-badge';tab.appendChild(b);}
+      b.textContent=due+' due';
+    }else if(b)b.remove();
+  }
+  const fb=document.getElementById('filter-btn');
+  if(fb&&fcFilterMode==='due')fb.textContent='Show: Due ('+due+')';
+}
+function ssSrsStartDue(){
+  fcFilterMode='due';
+  const sel=document.getElementById('fc-sel');if(sel){sel.value='0';fcDeck=[...FLASHCARDS];}
+  fcIdx=0;showFC();
+}
+
 // FLASHCARDS
 let fcDeck=[],fcIdx=0,fcFilterMode='all',fcMode='flip';
 function toggleFcMode(){
@@ -737,12 +809,12 @@ function checkTypedAnswer(){
   input.disabled=true;
   if(!SS_MASTERY){setTimeout(()=>fcNav(1),400);return;}
   if(match){
-    SS_MASTERY.markCardKnown(card.t);
+    SS_MASTERY.markCardKnown(card.t);ssSrsRecord(card.t,true);
     fb.className='fc-type-feedback correct';
     fb.textContent=exact?'✓ Correct!':'✓ Close enough — "'+card.t+'"';
     if(window.__ssCelebrateCorrect)window.__ssCelebrateCorrect(input);
   }else{
-    SS_MASTERY.unmarkCardKnown(card.t);
+    SS_MASTERY.unmarkCardKnown(card.t);ssSrsRecord(card.t,false);
     fb.className='fc-type-feedback wrong';
     fb.textContent='✗ It was: "'+card.t+'"';
     if(window.__ssResetCombo)window.__ssResetCombo();
@@ -768,16 +840,30 @@ function getActiveDeck(){
   const known=fcKnownSet();
   if(fcFilterMode==='learning')return fcDeck.filter(c=>!known.has(c.t));
   if(fcFilterMode==='known')return fcDeck.filter(c=>known.has(c.t));
+  if(fcFilterMode==='due')return fcDeck.filter(c=>ssSrsIsDue(c.t));
   return fcDeck;
 }
+let ssSrsUiReady=false,ssSrsSeeded=false;
+function ssSrsEnsureUi(){
+  if(SS_MASTERY&&!ssSrsSeeded){ssSrsSeeded=true;ssSrsSeed();}
+  if(!ssSrsUiReady){
+    const prog=document.getElementById('fc-progress');
+    if(prog){
+      const b=document.createElement('button');b.type='button';b.id='fc-due-chip';b.onclick=ssSrsStartDue;
+      prog.parentNode.insertBefore(b,prog);ssSrsUiReady=true;
+    }
+  }
+  ssSrsRefresh();
+}
 function showFC(){
+  ssSrsEnsureUi();
   const deck=getActiveDeck();
   const scene=document.getElementById('scene');
   const typeRow=document.getElementById('fc-type-row');
   const isType=fcMode==='type';
   if(scene)scene.style.display=isType?'none':'';
   if(typeRow)typeRow.style.display=isType?'':'none';
-  if(!deck.length){document.getElementById('fc-term').textContent='No cards';document.getElementById('fc-def').textContent='Rate some cards first';document.getElementById('fc-count').textContent='0 / 0';document.getElementById('fc-progress').textContent='';return;}
+  if(!deck.length){document.getElementById('fc-term').textContent='No cards';document.getElementById('fc-def').textContent=fcFilterMode==='due'?'Nothing is due right now':'Rate some cards first';document.getElementById('fc-count').textContent='0 / 0';document.getElementById('fc-progress').textContent='';return;}
   if(fcIdx>=deck.length)fcIdx=0;
   const card=deck[fcIdx];
   document.getElementById('fc-term').textContent=card.t;
@@ -873,12 +959,14 @@ function rateFC(rating){
   const card=deck[fcIdx];
   if(rating==='known')SS_MASTERY.markCardKnown(card.t);
   else SS_MASTERY.unmarkCardKnown(card.t);
+  ssSrsRecord(card.t,rating==='known');
   renderUnitProgress(card.u);
   fcNav(1);
 }
 function filterFC(){
   if(fcFilterMode==='all'){fcFilterMode='learning';document.getElementById('filter-btn').textContent='Show: Still Learning';}
   else if(fcFilterMode==='learning'){fcFilterMode='known';document.getElementById('filter-btn').textContent='Show: Known';}
+  else if(fcFilterMode==='known'){fcFilterMode='due';document.getElementById('filter-btn').textContent='Show: Due ('+ssSrsDueCount()+')';}
   else{fcFilterMode='all';document.getElementById('filter-btn').textContent='Show: All';}
   fcIdx=0;showFC();
 }

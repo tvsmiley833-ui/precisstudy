@@ -533,3 +533,10 @@ html[data-dys] body :is(p,li){max-width:70ch}
 .spc-cal-btn:hover{filter:brightness(1.08)}
 .spc-cal-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .spc-cal-note{flex-basis:100%;font-size:13px;color:var(--ink-muted,inherit);min-height:1em}
+
+/* ---------- Spaced repetition: due chip + tab badge ---------- */
+.fc-due-chip{display:block;margin:12px auto 0;font:inherit;font-size:14px;font-weight:600;padding:8px 16px;border-radius:999px;border:1px solid var(--border-strong,var(--border));background:transparent;color:var(--ink-muted,inherit);cursor:default}
+.fc-due-chip.has-due{cursor:pointer;background:var(--accent);border-color:var(--accent);color:#fff}
+.fc-due-chip.has-due:hover{filter:brightness(1.08)}
+.fc-due-chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.ss-due-badge{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;background:var(--accent);color:#fff;font-size:11px;font-weight:700;vertical-align:middle}
