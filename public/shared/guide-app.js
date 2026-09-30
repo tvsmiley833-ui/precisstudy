@@ -1830,6 +1830,19 @@ function ssToggleTheme(){
   }
 }
 
+// Dyslexia-friendly mode: Atkinson Hyperlegible + looser spacing (guide-polish.css,
+// html[data-dys]). Persisted; the head script applies it before first paint.
+function ssToggleDyslexia(){
+  var on = document.documentElement.toggleAttribute('data-dys');
+  try { localStorage.setItem('ss-dyslexia', on ? '1' : '0'); } catch (e) {}
+  var btn = document.getElementById('dys-toggle');
+  if (btn) btn.setAttribute('aria-pressed', String(on));
+}
+(function(){
+  var btn = document.getElementById('dys-toggle');
+  if (btn) btn.setAttribute('aria-pressed', String(document.documentElement.hasAttribute('data-dys')));
+})();
+
 // Hides the hero (breadcrumb, title, tab bar, toolbar) so the current
 // panel's content fills the viewport -- session-only, not persisted, since
 // it's a per-reading-session choice, not a standing preference like theme.

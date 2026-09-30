@@ -25,6 +25,7 @@
   try {
     var saved = localStorage.getItem('ss-theme');
     if (saved !== 'light') document.documentElement.setAttribute('data-theme', 'dark');
+    if (localStorage.getItem('ss-dyslexia') === '1') document.documentElement.setAttribute('data-dys', '');
   } catch (e) {}
 })();
 </script>

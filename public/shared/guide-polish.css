@@ -98,6 +98,7 @@ html:root body .hero.hero .tab-btn.active {
 }
 html:root body .hero.hero .tab-btn:focus-visible { outline: 2px solid var(--brand-green); outline-offset: -2px; border-radius: 6px !important; }
 html:root body .hero.hero #theme-toggle,
+html:root body .hero.hero #dys-toggle,
 html:root body .hero.hero #focus-toggle {
   margin-left: auto;
   margin-bottom: 6px;
@@ -107,6 +108,7 @@ html:root body .hero.hero #focus-toggle {
   border: 1px solid var(--brand-line) !important;
   color: var(--brand-muted) !important;
 }
+html:root body .hero.hero #dys-toggle,
 html:root body .hero.hero #focus-toggle { margin-left: 6px; }
 html:root body .hero.hero .nav { flex-wrap: nowrap !important; }
 html:root body .hero.hero .tablist { display: flex !important; gap: 4px; flex-wrap: nowrap; }
@@ -504,3 +506,21 @@ html body .unit-order-reset {
   padding: 5px 12px; cursor: pointer;
 }
 html body .unit-order-reset:hover { color: var(--ink); border-color: var(--ink-dim); }
+
+/* ---------- Dyslexia-friendly reading mode (html[data-dys]) ---------- */
+@font-face{font-family:'Atkinson Hyperlegible';font-weight:400;font-display:swap;src:url('/fonts/atkinson-400-latin.woff2') format('woff2')}
+@font-face{font-family:'Atkinson Hyperlegible';font-weight:700;font-display:swap;src:url('/fonts/atkinson-700-latin.woff2') format('woff2')}
+#dys-toggle{display:flex;align-items:center;justify-content:center;cursor:pointer}
+#dys-toggle svg{width:17px;height:17px}
+html:root body .hero.hero #dys-toggle[aria-pressed="true"]{background:var(--brand-green)!important;border-color:var(--brand-green)!important;color:#0e231e!important}
+/* Math (MathJax) keeps its own fonts; everything else switches. */
+/* :not(#x) adds ID-level specificity so this beats the page's #units / .hero rules. */
+html[data-dys] body :not(mjx-container):not(mjx-container *):not(#x){
+  font-family:'Atkinson Hyperlegible',Verdana,sans-serif!important;
+  font-style:normal!important;
+  letter-spacing:.04em!important;
+  word-spacing:.12em!important;
+  text-align:left!important;
+}
+html[data-dys] body :is(p,li,.concept,.trap,.fm,.dcap,td){line-height:1.8!important}
+html[data-dys] body :is(p,li){max-width:70ch}
