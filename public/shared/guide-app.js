@@ -448,6 +448,35 @@ function ssApplySavedUnitOrder(){
   order.forEach(id=>{const el=byId[id];if(el)ul.appendChild(el);});
   ssShowUnitOrderReset();
 }
+// Titles show the unit's current position ("Unit 1" after dragging Unit 11 to the
+// top). Only the visible label changes: data-id, progress, mastery and quiz
+// scoring keep using the real unit id.
+function ssRenumberUnitTitles(){
+  const ul=document.getElementById('units');
+  if(!ul)return;
+  Array.from(ul.children).forEach((el,i)=>{
+    const title=el.querySelector('.unit-title'),t=title&&title.firstChild;
+    if(t&&t.nodeType===3)t.nodeValue=t.nodeValue.replace(/^Unit \d+/,'Unit '+(i+1));
+  });
+}
+// Native drag-and-drop only nudges the page near the edge in some browsers, so
+// scroll it ourselves while a unit is held near the top or bottom of the window.
+let ssDragScrollRaf=0,ssDragY=0;
+function ssDragScrollTick(){
+  const edge=90,max=22;
+  let dy=0;
+  if(ssDragY<edge)dy=-Math.ceil((edge-Math.max(ssDragY,0))/edge*max);
+  else if(ssDragY>innerHeight-edge)dy=Math.ceil((ssDragY-(innerHeight-edge))/edge*max);
+  if(dy)window.scrollBy({top:dy,behavior:'instant'});
+  ssDragScrollRaf=requestAnimationFrame(ssDragScrollTick);
+}
+function ssDragScrollStart(){
+  if(!ssDragScrollRaf)ssDragScrollRaf=requestAnimationFrame(ssDragScrollTick);
+}
+function ssDragScrollStop(){
+  cancelAnimationFrame(ssDragScrollRaf);ssDragScrollRaf=0;
+}
+document.addEventListener('dragover',e=>{if(ssDragUnitId!=null)ssDragY=e.clientY;});
 let ssDragUnitId=null;
 function ssWireUnitDrag(div){
   const handle=div.querySelector('.unit-drag-handle');
@@ -456,6 +485,7 @@ function ssWireUnitDrag(div){
   handle.setAttribute('draggable','true');
   handle.addEventListener('dragstart',e=>{
     ssDragUnitId=div.dataset.id;
+    ssDragScrollStart();
     div.classList.add('ss-dragging');
     e.dataTransfer.effectAllowed='move';
     try{e.dataTransfer.setData('text/plain',div.dataset.id);}catch(err){}
@@ -464,6 +494,7 @@ function ssWireUnitDrag(div){
     div.classList.remove('ss-dragging');
     document.querySelectorAll('.unit.ss-drop-before,.unit.ss-drop-after').forEach(el=>el.classList.remove('ss-drop-before','ss-drop-after'));
     ssDragUnitId=null;
+    ssDragScrollStop();
   });
   div.addEventListener('dragover',e=>{
     if(ssDragUnitId==null||div.dataset.id===ssDragUnitId)return;
@@ -484,6 +515,7 @@ function ssWireUnitDrag(div){
     if(!dragEl)return;
     const ul=div.parentNode;
     ul.insertBefore(dragEl,before?div:div.nextSibling);
+    ssRenumberUnitTitles();
     ssSaveUnitOrder(ssCurrentUnitOrder());
     ssShowUnitOrderReset();
   });
@@ -499,12 +531,14 @@ function ssUnitDragKeydown(e,id){
   if(!sib||!sib.classList.contains('unit'))return;
   const ul=div.parentNode;
   if(e.key==='ArrowUp')ul.insertBefore(div,sib);else ul.insertBefore(sib,div);
+  ssRenumberUnitTitles();
   ssSaveUnitOrder(ssCurrentUnitOrder());
   ssShowUnitOrderReset();
   e.target.focus();
 }
 function ssInitUnitReorder(){
   ssApplySavedUnitOrder();
+  ssRenumberUnitTitles();
   document.querySelectorAll('.unit').forEach(ssWireUnitDrag);
 }
 function ssCollectUnitText(u){

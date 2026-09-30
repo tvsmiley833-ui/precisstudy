@@ -8,8 +8,11 @@
 
 const C = {
   body: "#2f8f5c",
+  bodyLight: "#4fae7b",
+  bodyDeep: "#237549",
   bodyDark: "#1f6e46",
   belly: "#9fdcb8",
+  bellyLight: "#c9efdb",
   bellyLine: "#4fbf85",
   face: "#eef2ea",
   eye: "#0e231e",
@@ -38,9 +41,19 @@ function eyes(mood) {
   const dy = mood === "think" ? -4 : 0;
   const dx = mood === "think" ? 3 : 0;
   return `<g class="sage-eyes">
-      <circle cx="${49 + dx}" cy="${58 + dy}" r="7.5" fill="${C.eye}"/><circle cx="${51.5 + dx}" cy="${55.5 + dy}" r="2.2" fill="#fff"/>
-      <circle cx="${79 + dx}" cy="${58 + dy}" r="7.5" fill="${C.eye}"/><circle cx="${81.5 + dx}" cy="${55.5 + dy}" r="2.2" fill="#fff"/>
+      <circle cx="${49 + dx}" cy="${58 + dy}" r="8.6" fill="${C.eye}"/><circle cx="${52 + dx}" cy="${55 + dy}" r="2.7" fill="#fff"/><circle cx="${46.5 + dx}" cy="${61.5 + dy}" r="1.3" fill="#fff" opacity=".85"/>
+      <circle cx="${79 + dx}" cy="${58 + dy}" r="8.6" fill="${C.eye}"/><circle cx="${82 + dx}" cy="${55 + dy}" r="2.7" fill="#fff"/><circle cx="${76.5 + dx}" cy="${61.5 + dy}" r="1.3" fill="#fff" opacity=".85"/>
     </g>${bubbles}`;
+}
+
+/** Neat rows of scalloped feathers on the belly, clipped to the ellipse width. */
+function bellyFeathers() {
+  let d = "";
+  for (let r = 0, y = 80; y <= 120; r++, y += 9) {
+    const half = 27 * Math.sqrt(Math.max(0, 1 - ((y - 96) / 31) ** 2)) - 4;
+    for (let x = 64 - half + (r % 2 ? 4.5 : 0); x + 9 <= 64 + half; x += 9) d += `M${x.toFixed(1)} ${y}q4.5 5.5 9 0`;
+  }
+  return `<path d="${d}" fill="none" stroke="${C.bellyLine}" stroke-width="1.8" opacity=".9"/>`;
 }
 
 /** @param {string} mood */
@@ -50,7 +63,8 @@ function wings(mood) {
       <path d="M104 78c14-6 20-22 14-34-8 6-14 18-18 30z" fill="${C.bodyDark}" stroke="${C.chalk}" stroke-width="2.2"/>`;
   }
   return `<path d="M26 68C10 82 12 108 32 120c8-14 8-36 4-52z" fill="${C.bodyDark}" stroke="${C.chalk}" stroke-width="2.2"/>
-    <path d="M102 68c16 14 14 40-6 52-8-14-8-36-4-52z" fill="${C.bodyDark}" stroke="${C.chalk}" stroke-width="2.2"/>`;
+    <path d="M102 68c16 14 14 40-6 52-8-14-8-36-4-52z" fill="${C.bodyDark}" stroke="${C.chalk}" stroke-width="2.2"/>
+    <path d="M20 88c0 9 3 17 9 24M26 80c-1 11 2 22 8 32M108 88c0 9-3 17-9 24M102 80c1 11-2 22-8 32" fill="none" stroke="${C.chalk}" stroke-width="1.2" opacity=".45"/>`;
 }
 
 function cap() {
@@ -107,19 +121,26 @@ export function owlSvg(opts = {}) {
   // Chalkboard look: brand-green fills, a cream chalk outline, chalk hatching
   // on the belly, all roughened slightly so edges read as drawn in chalk.
   return `<svg class="sage sage-${mood}" viewBox="0 0 128 140" width="${size}" height="${Math.round(size * 140 / 128)}" role="img" aria-label="${label}" xmlns="http://www.w3.org/2000/svg">
-  <defs><filter id="${fid}" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.4"/></filter></defs>
+  <defs>
+    <radialGradient id="${fid}b" cx=".5" cy=".28" r=".85"><stop offset="0" stop-color="${C.bodyLight}"/><stop offset=".65" stop-color="${C.body}"/><stop offset="1" stop-color="${C.bodyDeep}"/></radialGradient>
+    <linearGradient id="${fid}l" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${C.bellyLight}"/><stop offset="1" stop-color="${C.belly}"/></linearGradient>
+    <filter id="${fid}" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.4"/></filter>
+  </defs>
+  <ellipse cx="64" cy="137" rx="30" ry="3" fill="#000" opacity=".2"/>
   <g filter="url(#${fid})" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M26 56C24 40 26 24 30 12c10 4 20 12 28 24z" fill="${C.body}" stroke="${C.chalk}" stroke-width="2.4"/><path d="M102 56c2-16 0-32-4-44-10 4-20 12-28 24z" fill="${C.body}" stroke="${C.chalk}" stroke-width="2.4"/>
-  <ellipse cx="64" cy="80" rx="42" ry="50" fill="${C.body}" stroke="${C.chalk}" stroke-width="2.6"/>
+  <path d="M26 56C24 40 26 24 30 12c10 4 20 12 28 24z" fill="${C.bodyDark}" stroke="${C.chalk}" stroke-width="2.4"/><path d="M102 56c2-16 0-32-4-44-10 4-20 12-28 24z" fill="${C.bodyDark}" stroke="${C.chalk}" stroke-width="2.4"/>
+  <path d="M31 40C30 31 31 23 33 18c5 3 10 8 14 14z" fill="${C.bodyLight}" opacity=".55"/><path d="M97 40c1-9 0-17-2-22-5 3-10 8-14 14z" fill="${C.bodyLight}" opacity=".55"/>
+  <ellipse cx="64" cy="80" rx="42" ry="50" fill="url(#${fid}b)" stroke="${C.chalk}" stroke-width="2.6"/>
+  <ellipse cx="64" cy="34" rx="22" ry="7" fill="#fff" opacity=".1"/>
   ${wings(mood)}
-  <ellipse cx="64" cy="96" rx="27" ry="31" fill="${C.belly}"/>
-  <path d="M46 82l10-8M44 94l18-14M46 106l22-18M52 114l20-16M60 120l14-11" stroke="${C.bellyLine}" stroke-width="1.6" opacity=".7"/>
-  <path d="M52 90q4-5 8 0M68 90q4-5 8 0M58 102q4-5 8 0M60 114q4-5 8 0" fill="none" stroke="${C.bodyDark}" stroke-width="2"/>
+  <ellipse cx="64" cy="96" rx="27" ry="31" fill="url(#${fid}l)"/>
+  ${bellyFeathers()}
   <circle cx="49" cy="58" r="14.5" fill="${C.face}" stroke="${C.bodyDark}" stroke-width="2"/><circle cx="79" cy="58" r="14.5" fill="${C.face}" stroke="${C.bodyDark}" stroke-width="2"/>
+  <path d="M38 43q11-7 21-1M69 42q10-6 21 1" fill="none" stroke="${C.bodyDark}" stroke-width="2.8"/>
   ${eyes(mood)}
   <ellipse cx="38" cy="72" rx="5" ry="3" fill="${C.blush}" opacity=".55"/><ellipse cx="90" cy="72" rx="5" ry="3" fill="${C.blush}" opacity=".55"/>
-  <path d="M59 68h10l-5 9z" fill="${C.beak}" stroke="#c98a30" stroke-width="1"/>
-  <path d="M50 128l-4 7M54 128v8M58 128l4 7M70 128l-4 7M74 128v8M78 128l4 7" stroke="${C.feet}" stroke-width="3"/>
+  <path d="M57.5 67h13l-6.5 12z" fill="${C.beak}" stroke="#c98a30" stroke-width="1.2"/><path d="M61 69.2h6" stroke="#f6d38d" stroke-width="1.6"/>
+  <path d="M50 128l-4.5 7M54 128v8M58 128l4.5 7M70 128l-4.5 7M74 128v8M78 128l4.5 7" stroke="${C.feet}" stroke-width="3.6"/>
   ${(() => { const a = opts.acc === undefined ? wornAccessory() : opts.acc; return opts.cap || a === "cap" ? cap() : accessory(a); })()}
   </g>
 </svg>`;
