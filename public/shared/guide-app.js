@@ -334,6 +334,18 @@ async function jumpToQuizUnit(id){
   const sel=document.getElementById('q-sel');
   if(sel){sel.value=id;loadQ();}
 }
+// Smooth scrolling unless the student has asked their device for reduced motion (CSS alone can't
+// override an explicit scroll behavior passed from script).
+function ssScrollBehavior(){
+  try{return window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth';}catch(e){return 'smooth';}
+}
+// Same as generate-guide.mjs labelSvg(): a caption-based description for an SVG diagram.
+function ssLabelSvg(svg,cap){
+  if(/^\s*<svg\b[^>]*\brole=/.test(svg))return svg;
+  const text=String(cap||'Diagram').replace(/<[^>]+>/g,' ').replace(/&gt;/g,'>').replace(/&lt;/g,'<').replace(/&amp;/g,'&')
+    .replace(/\s+/g,' ').trim().replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+  return svg.replace(/^(\s*)<svg\b/,function(m,ws){return ws+'<svg role="img" aria-label="'+text+'"';});
+}
 // conceptIdx/isFormula (both optional) let a search result open the unit
 // AND scroll straight to the matched concept or formula block inside it,
 // instead of just landing on the unit header -- see searchGuide()'s jump().
@@ -348,14 +360,14 @@ function jumpToUnit(id,conceptIdx,isFormula){
   if(title)title.setAttribute('aria-expanded','true');
   const target=isFormula?el.querySelector('.formula')
     :(conceptIdx!=null?el.querySelector(`.concept[data-idx="${conceptIdx}"]`):null);
-  if(!target){el.scrollIntoView({behavior:'smooth',block:'start'});return;}
+  if(!target){el.scrollIntoView({behavior:ssScrollBehavior(),block:'start'});return;}
   // Give the unit-body's own open animation/layout a moment to settle before
   // measuring scroll position, otherwise scrollIntoView can land short on a
   // unit that was just expanded (its height was 0 a frame ago).
   setTimeout(()=>{
     // A block taller than the viewport (e.g. a long line-by-line list) centred
     // would land mid-list, so align its top instead.
-    target.scrollIntoView({behavior:'smooth',block:target.offsetHeight>innerHeight*.8?'start':'center'});
+    target.scrollIntoView({behavior:ssScrollBehavior(),block:target.offsetHeight>innerHeight*.8?'start':'center'});
     target.classList.add('ss-search-hit');
     setTimeout(()=>target.classList.remove('ss-search-hit'),2200);
   },wasClosed?60:0);
@@ -759,12 +771,12 @@ function buildGuide(){
       let h=`<div class="c-label">${c.l}</div>`;
       if(c.intro)h+=`<div class="c-text">${c.intro}</div>`;
       if(c.b&&c.b.length){h+='<ul class="c-list">';c.b.forEach(item=>h+=`<li>${item}</li>`);h+='</ul>';}
-      if(c.figs&&c.figs.length)c.figs.forEach(f=>{h+=`<div class="diagram c-fig"><div class="dlabel">${f.label||'Graph'}</div>${f.svg}<p class="dcap">${f.cap}</p></div>`;});
+      if(c.figs&&c.figs.length)c.figs.forEach(f=>{h+=`<div class="diagram c-fig"><div class="dlabel">${f.label||'Graph'}</div>${ssLabelSvg(f.svg,f.cap)}<p class="dcap">${f.cap}</p></div>`;});
       cd.innerHTML=h;body.appendChild(cd);
     });
     if(u.traps&&u.traps.length){u.traps.forEach(t=>{const td=document.createElement('div');td.className='trap';td.textContent=t;body.appendChild(td);});}
     if(u.fms&&u.fms.length){const fd=document.createElement('div');fd.className='formula';fd.innerHTML=u.fms.join('<br>');body.appendChild(fd);}
-    if(DIAGRAMS&&DIAGRAMS[u.id]){const dd=document.createElement('div');dd.className='diagram';dd.innerHTML=`<div class="dlabel">Diagram</div>${DIAGRAMS[u.id].svg}<p class="dcap">${DIAGRAMS[u.id].cap}</p>`;body.appendChild(dd);}
+    if(DIAGRAMS&&DIAGRAMS[u.id]){const dd=document.createElement('div');dd.className='diagram';dd.innerHTML=`<div class="dlabel">Diagram</div>${ssLabelSvg(DIAGRAMS[u.id].svg,DIAGRAMS[u.id].cap)}<p class="dcap">${DIAGRAMS[u.id].cap}</p>`;body.appendChild(dd);}
     div.appendChild(hd);div.appendChild(body);ul.appendChild(div);
   });
 }
@@ -1776,6 +1788,15 @@ function ssBuildPlanIcs(o){
   if(!daysEl||!minsEl)return;
   var daysNum=document.getElementById('spc-days-num');
   var minsNum=document.getElementById('spc-mins-num');
+  // A saved exam date (set on the homepage) pre-fills "days until your exam".
+  try{
+    var ex=JSON.parse(localStorage.getItem('ss-exam')||'null');
+    if(ex&&/^\d{4}-\d{2}-\d{2}$/.test(ex.date)){
+      var t0=new Date();t0.setHours(0,0,0,0);
+      var dl=Math.round((new Date(ex.date+'T00:00:00')-t0)/864e5);
+      if(dl>=parseInt(daysEl.min,10)&&dl<=parseInt(daysEl.max,10)){daysEl.value=dl;if(daysNum)daysNum.value=dl;}
+    }
+  }catch(e){/* no saved exam date */}
   var DAYS_DEFAULT=daysEl.value, MINS_DEFAULT=minsEl.value;
   function setFill(el){
     var min=parseFloat(el.min),max=parseFloat(el.max),val=parseFloat(el.value);
@@ -1888,21 +1909,21 @@ function cbotBuildIndex(){
     if(!t||!d)return;
     idx.push({label:t.textContent,source:'Memory Trick',text:d.textContent,
       tokens:cbotTokenize(t.textContent+' '+d.textContent),
-      jump:function(){switchTab('memory');setTimeout(()=>card.scrollIntoView({behavior:'smooth',block:'center'}),80);}});
+      jump:function(){switchTab('memory');setTimeout(()=>card.scrollIntoView({behavior:ssScrollBehavior(),block:'center'}),80);}});
   });
   document.querySelectorAll('#view-qref .qr-card').forEach(card=>{
     const k=card.querySelector('.qr-k'),v=card.querySelector('.qr-v');
     if(!k||!v)return;
     idx.push({label:k.textContent,source:'Quick Reference',text:v.textContent,
       tokens:cbotTokenize(k.textContent+' '+v.textContent),
-      jump:function(){switchTab('qref');setTimeout(()=>card.scrollIntoView({behavior:'smooth',block:'center'}),80);}});
+      jump:function(){switchTab('qref');setTimeout(()=>card.scrollIntoView({behavior:ssScrollBehavior(),block:'center'}),80);}});
   });
   document.querySelectorAll('#view-qref .qr-table tr').forEach(row=>{
     const cells=row.querySelectorAll('td');
     if(cells.length<2)return;
     const label=cells[0].textContent,text=cells[1].textContent;
     idx.push({label:label,source:'Quick Reference',text:text,tokens:cbotTokenize(label+' '+text),
-      jump:function(){switchTab('qref');setTimeout(()=>row.scrollIntoView({behavior:'smooth',block:'center'}),80);}});
+      jump:function(){switchTab('qref');setTimeout(()=>row.scrollIntoView({behavior:ssScrollBehavior(),block:'center'}),80);}});
   });
   return idx;
 }
@@ -1915,7 +1936,7 @@ function cbotJumpGuide(unitId,conceptLabel){
   unitDiv.classList.add('open');
   let target=unitDiv;
   unitDiv.querySelectorAll('.concept .c-label').forEach(el=>{if(el.textContent===conceptLabel)target=el.closest('.concept');});
-  setTimeout(()=>target.scrollIntoView({behavior:'smooth',block:'start'}),80);
+  setTimeout(()=>target.scrollIntoView({behavior:ssScrollBehavior(),block:'start'}),80);
 }
 
 function cbotSearch(query){
@@ -2142,28 +2163,86 @@ function cbotAskAndOpen(query,displayQuery){
   cbotAsk(query);
 }
 
-/* study session timer in the nav */
+/* study session timer in the nav: a stopwatch, or Pomodoro mode (25 min focus / 5 min break, 15 after every 4th) */
+const SS_POMO={focus:25*60,short:5*60,long:15*60,every:4};
+// What comes after the current Pomodoro phase. `done` counts finished focus sessions.
+function ssPomoNext(phase,done){
+  if(phase==='focus'){const d=done+1;return{phase:'break',done:d,secs:d%SS_POMO.every===0?SS_POMO.long:SS_POMO.short};}
+  return{phase:'focus',done:done,secs:SS_POMO.focus};
+}
+function ssFmtClock(s){
+  const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),ss=s%60;
+  return (h?h+':':'')+String(m).padStart(2,'0')+':'+String(ss).padStart(2,'0');
+}
 (function(){
   var nav=document.querySelector('.hero .nav');if(!nav)return;
   var ICON_PLAY='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg>';
   var ICON_PAUSE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>';
   var ICON_RESET='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 17 5"/><polyline points="21 3 21 9 15 9"/></svg>';
+  var ICON_POMO='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 3h6"/></svg>';
   var d=document.createElement('div');d.id='sg-timer';
-  d.innerHTML='<span class="sgt-label">Study timer</span><span id="sgt-time">00:00</span>'+
-    '<button class="sgt-b" id="sgt-btn" aria-label="start or pause study timer">'+ICON_PLAY+'</button>'+
-    '<button class="sgt-b" id="sgt-reset" aria-label="reset study timer">'+ICON_RESET+'</button>';
+  d.innerHTML='<span class="sgt-label">Study timer</span><span id="sgt-time" role="timer">00:00</span>'+
+    '<button class="sgt-b" id="sgt-btn" aria-label="start study timer">'+ICON_PLAY+'</button>'+
+    '<button class="sgt-b" id="sgt-reset" aria-label="reset study timer">'+ICON_RESET+'</button>'+
+    '<button class="sgt-b sgt-mode" id="sgt-mode" aria-pressed="false" aria-label="Pomodoro mode: 25 minute focus sessions with 5 minute breaks" title="Pomodoro: 25 min focus, 5 min break">'+ICON_POMO+'</button>';
   nav.appendChild(d);
-  var sec=0,run=false,iv=null;
-  function fmt(s){var h=Math.floor(s/3600),m=Math.floor((s%3600)/60),ss=s%60;
-    return (h?h+':':'')+String(m).padStart(2,'0')+':'+String(ss).padStart(2,'0');}
-  document.getElementById('sgt-btn').onclick=function(){
-    run=!run;this.innerHTML=run?ICON_PAUSE:ICON_PLAY;this.setAttribute('aria-label',run?'pause study timer':'start study timer');
-    if(run){iv=setInterval(function(){sec++;var el=document.getElementById('sgt-time');if(el)el.textContent=fmt(sec);},1000);}
-    else clearInterval(iv);
+  var timeEl=document.getElementById('sgt-time'),btn=document.getElementById('sgt-btn'),modeBtn=document.getElementById('sgt-mode');
+  var mode='watch',run=false,last=0,iv=null,elapsed=0,phase='focus',done=0,left=SS_POMO.focus;
+  try{if(localStorage.getItem('ss-timer-mode')==='pomo')mode='pomo';}catch(e){}
+  function say(msg){var l=document.getElementById('hero-live');if(l)l.textContent=msg;}
+  // A short two-note chime, only after the student has pressed start (so audio is allowed).
+  function chime(){
+    try{
+      var C=window.AudioContext||window.webkitAudioContext;if(!C)return;
+      var ctx=new C(),t=ctx.currentTime;
+      [660,880].forEach(function(f,i){
+        var o=ctx.createOscillator(),g=ctx.createGain(),at=t+i*.18;
+        o.frequency.value=f;o.connect(g);g.connect(ctx.destination);
+        g.gain.setValueAtTime(.0001,at);g.gain.exponentialRampToValueAtTime(.15,at+.02);g.gain.exponentialRampToValueAtTime(.0001,at+.3);
+        o.start(at);o.stop(at+.32);
+      });
+      setTimeout(function(){ctx.close();},900);
+    }catch(e){/* no audio available: the live-region message still announces the change */}
+  }
+  function render(){
+    timeEl.textContent=ssFmtClock(mode==='pomo'?Math.max(0,Math.ceil(left)):Math.floor(elapsed));
+    timeEl.dataset.phase=mode==='pomo'?phase:'';
+    modeBtn.setAttribute('aria-pressed',String(mode==='pomo'));
+    var label=mode==='pomo'?(phase==='focus'?'Focus session '+(done+1):'Break'):'Study timer';
+    timeEl.setAttribute('aria-label',label+', '+timeEl.textContent);
+    btn.innerHTML=run?ICON_PAUSE:ICON_PLAY;
+    btn.setAttribute('aria-label',(run?'pause ':'start ')+(mode==='pomo'?'pomodoro':'study')+' timer');
+  }
+  function tick(){
+    var now=Date.now(),dt=(now-last)/1000;last=now; // wall-clock based, so a throttled background tab stays accurate
+    if(mode==='watch')elapsed+=dt;
+    else{
+      left-=dt;
+      while(left<=0){
+        var carry=-left,n=ssPomoNext(phase,done);
+        phase=n.phase;done=n.done;left=n.secs-carry;
+        chime();
+        say(phase==='break'?'Focus session '+done+' complete. Take a '+Math.round(n.secs/60)+' minute break.':'Break over. Time to focus.');
+      }
+    }
+    render();
+  }
+  function stop(){run=false;clearInterval(iv);}
+  btn.onclick=function(){
+    run=!run;
+    if(run){last=Date.now();iv=setInterval(tick,500);}else{tick();stop();}
+    render();
   };
-  document.getElementById('sgt-reset').onclick=function(){sec=0;clearInterval(iv);run=false;
-    var btn=document.getElementById('sgt-btn');btn.innerHTML=ICON_PLAY;btn.setAttribute('aria-label','start or pause study timer');
-    document.getElementById('sgt-time').textContent='00:00';};
+  document.getElementById('sgt-reset').onclick=function(){
+    stop();elapsed=0;phase='focus';done=0;left=SS_POMO.focus;render();
+  };
+  modeBtn.onclick=function(){
+    stop();mode=mode==='pomo'?'watch':'pomo';elapsed=0;phase='focus';done=0;left=SS_POMO.focus;
+    try{localStorage.setItem('ss-timer-mode',mode);}catch(e){}
+    say(mode==='pomo'?'Pomodoro mode on: 25 minute focus sessions.':'Stopwatch mode on.');
+    render();
+  };
+  render();
 })();
 
 /* Pinning the hero tab row on scroll (position:fixed + measured spacer) was

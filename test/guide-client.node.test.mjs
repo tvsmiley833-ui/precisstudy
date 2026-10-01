@@ -468,3 +468,63 @@ describe("typed flashcard answers", () => {
     assert.ok(FUZZY_THRESHOLD > 0.5 && FUZZY_THRESHOLD < 1);
   });
 });
+
+// ───────────────────────────── Pomodoro timer ─────────────────────────────
+describe("Pomodoro timer phases", () => {
+  const { SS_POMO, ssPomoNext, ssFmtClock } = loadGuide(["SS_POMO", "ssPomoNext", "ssFmtClock"]);
+
+  test("a focus session is followed by a 5 minute break, and a break by a fresh 25 minute focus", () => {
+    assert.deepEqual({ ...ssPomoNext("focus", 0) }, { phase: "break", done: 1, secs: 5 * 60 });
+    assert.deepEqual({ ...ssPomoNext("break", 1) }, { phase: "focus", done: 1, secs: 25 * 60 });
+    assert.equal(SS_POMO.focus, 25 * 60);
+  });
+
+  test("every fourth focus session earns the long 15 minute break", () => {
+    const breaks = [];
+    let phase = "focus", done = 0;
+    for (let i = 0; i < 8; i++) {
+      const next = ssPomoNext(phase, done);
+      if (next.phase === "break") breaks.push(next.secs / 60);
+      phase = next.phase; done = next.done;
+    }
+    assert.deepEqual(breaks, [5, 5, 5, 15]);
+    assert.equal(done, 4);
+  });
+
+  test("the clock shows minutes:seconds, with hours only when needed", () => {
+    assert.equal(ssFmtClock(0), "00:00");
+    assert.equal(ssFmtClock(65), "01:05");
+    assert.equal(ssFmtClock(25 * 60), "25:00");
+    assert.equal(ssFmtClock(3600), "1:00:00");
+    assert.equal(ssFmtClock(3 * 3600 + 7 * 60 + 9), "3:07:09");
+  });
+});
+
+// ───────────────────────────── accessibility helpers ─────────────────────────────
+describe("accessibility helpers", () => {
+  const { ssLabelSvg } = loadGuide(["ssLabelSvg"]);
+
+  test("a diagram gets a screen-reader label made from its caption, with markup stripped and quotes escaped", () => {
+    const out = ssLabelSvg('<svg viewBox="0 0 10 10"><circle/></svg>', 'A <b>circle</b> with "radius" 5 &amp; a line, where a &gt; 0');
+    assert.ok(out.startsWith('<svg role="img" aria-label="A circle with &quot;radius&quot; 5 &amp; a line, where a > 0"'), out.slice(0, 160));
+    assert.ok(out.includes('viewBox="0 0 10 10"'), "original attributes kept");
+  });
+
+  test("an svg that already has its own role is left exactly as it was", () => {
+    const own = '<svg class="vec" role="img" aria-label="An arrow" viewBox="0 0 5 5"></svg>';
+    assert.equal(ssLabelSvg(own, "some caption"), own);
+  });
+
+  test("a missing caption still produces a label, and leading whitespace is preserved", () => {
+    assert.ok(ssLabelSvg("\n<svg></svg>", "").startsWith('\n<svg role="img" aria-label="Diagram"'));
+  });
+
+  test("scripted scrolling is smooth unless the device asks for reduced motion", () => {
+    const smooth = loadGuide(["ssScrollBehavior"], { globals: { window: { matchMedia: () => ({ matches: false }) } } }).ssScrollBehavior;
+    const reduced = loadGuide(["ssScrollBehavior"], { globals: { window: { matchMedia: () => ({ matches: true }) } } }).ssScrollBehavior;
+    const broken = loadGuide(["ssScrollBehavior"], { globals: { window: {} } }).ssScrollBehavior;
+    assert.equal(smooth(), "smooth");
+    assert.equal(reduced(), "auto");
+    assert.equal(broken(), "smooth", "no matchMedia: keep the default");
+  });
+});

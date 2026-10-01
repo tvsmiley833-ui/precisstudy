@@ -3,7 +3,7 @@
 // which has no node:fs, and generate-guide.mjs reads template files on import.)
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { generateGuide } from "../scripts/generate-guide.mjs";
+import { generateGuide, labelSvg } from "../scripts/generate-guide.mjs";
 import { readFileSync } from "node:fs";
 const APP = readFileSync(new URL("../public/shared/guide-app.js", import.meta.url), "utf8");
 
@@ -71,4 +71,20 @@ test("question-bank archive renders diagram figures and SVG options as markup", 
   assert.ok(html.includes(`<figure class="q-fig">${fig}</figure>`), "figure rendered as SVG");
   assert.ok(html.includes(`<li class="qb-correct">${opt}</li>`), "SVG option rendered as SVG");
   assert.ok(html.includes("Which &lt;b&gt;arrow&lt;/b&gt;?"), "question text still escaped");
+});
+
+test("unit diagrams and concept graphs get screen-reader labels from their captions", () => {
+  const html = generateGuide({
+    ...base(),
+    units: [{ id: 1, name: "One", concepts: [{ l: "C", intro: "i", b: [], figs: [{ svg: '<svg viewBox="0 0 5 5"></svg>', cap: "Graph of a > 0" }] }] }],
+    diagrams: { 1: { svg: '<svg viewBox="0 0 9 9"></svg>', cap: "A unit diagram" } },
+  });
+  assert.ok(html.includes('<svg role="img" aria-label="A unit diagram" viewBox="0 0 9 9">'), "unit diagram labelled");
+  assert.ok(html.includes('<svg role="img" aria-label="Graph of a &gt; 0"') || html.includes('<svg role="img" aria-label="Graph of a > 0"'), "concept graph labelled");
+});
+
+test("labelSvg leaves an already-labelled svg alone and escapes quotes", () => {
+  const own = '<svg role="img" aria-label="x"></svg>';
+  assert.equal(labelSvg(own, "cap"), own);
+  assert.ok(labelSvg("<svg></svg>", 'say "hi"').includes('aria-label="say &quot;hi&quot;"'));
 });

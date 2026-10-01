@@ -182,6 +182,40 @@ export function shiftUnitKeys(record, from = 1) {
   return out;
 }
 
+/**
+ * Flashcards due for spaced-repetition review across subjects.
+ * @param {Record<string, any>} blob progress blob (per-subject objects with an optional `srs` map)
+ * @param {string[]} subjectKeys
+ * @param {number} [now]
+ * @returns {{ total: number, best: { key: string, n: number } | null }}
+ */
+export function dueCards(blob, subjectKeys, now = Date.now()) {
+  let total = 0;
+  /** @type {{ key: string, n: number } | null} */
+  let best = null;
+  for (const key of subjectKeys) {
+    const srs = blob && blob[key] && blob[key].srs;
+    if (!srs || typeof srs !== "object") continue;
+    const n = Object.keys(srs).filter(t => Array.isArray(srs[t]) && srs[t][1] <= now).length;
+    total += n;
+    if (n && (!best || n > best.n)) best = { key, n };
+  }
+  return { total, best };
+}
+
+/**
+ * Whole days from `today` (local midnight) until a YYYY-MM-DD date; negative once it has passed,
+ * null if the string isn't a date.
+ * @param {string} dateStr
+ * @param {Date} [today]
+ * @returns {number | null}
+ */
+export function daysUntil(dateStr, today = new Date()) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(dateStr))) return null;
+  const t = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  return Math.round((new Date(dateStr + "T00:00:00").getTime() - t.getTime()) / 864e5);
+}
+
 const PHYSICS_SHIFT_FLAG = "ssMigrated_physics-units-v2";
 
 /**

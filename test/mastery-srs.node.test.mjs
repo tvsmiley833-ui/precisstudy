@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { mergeSrs, shiftUnitKeys, migrateLocalAlgebra2 } from "../public/shared/mastery.js";
+import { mergeSrs, shiftUnitKeys, migrateLocalAlgebra2, dueCards, daysUntil } from "../public/shared/mastery.js";
 
 test("mergeSrs keeps the most recently reviewed side per card", () => {
   const local = { a: [2, 200, 100], b: [3, 300, 50] };
@@ -70,4 +70,36 @@ test("migrateLocalAlgebra2 survives blocked storage without changing anything", 
     assert.equal(migrateLocalAlgebra2(state), false);
     assert.deepEqual(Object.keys(state.mastery), ["2"]);
   } finally { delete globalThis.localStorage; }
+});
+
+// ---- dashboard "what's next": due flashcards and the exam countdown
+test("dueCards counts cards due now per subject and names the subject with the most", () => {
+  const now = 1_000;
+  const blob = {
+    algebra2: { srs: { a: [1, 500, 1], b: [2, 1_000, 1], c: [3, 5_000, 1] } }, // a and b are due (due time <= now)
+    physics: { srs: { x: [1, 100, 1] } },
+    chemistry: { mastery: {} }, // no schedule
+    aplang: { srs: "junk" }
+  };
+  const r = dueCards(blob, ["algebra2", "physics", "chemistry", "aplang", "missing"], now);
+  assert.equal(r.total, 3);
+  assert.deepEqual(r.best, { key: "algebra2", n: 2 });
+});
+
+test("dueCards is empty when nothing is due, and tolerates a missing blob", () => {
+  assert.deepEqual(dueCards({ algebra2: { srs: { a: [1, 9_999, 1] } } }, ["algebra2"], 1_000), { total: 0, best: null });
+  assert.deepEqual(dueCards(undefined, ["algebra2"], 1_000), { total: 0, best: null });
+  assert.deepEqual(dueCards({}, [], 1_000), { total: 0, best: null });
+});
+
+test("daysUntil counts whole local days, is 0 today, negative once passed, and null for bad input", () => {
+  const today = new Date(2026, 9, 1, 15, 30); // 1 Oct 2026, mid-afternoon
+  assert.equal(daysUntil("2026-10-01", today), 0);
+  assert.equal(daysUntil("2026-10-02", today), 1);
+  assert.equal(daysUntil("2026-10-15", today), 14);
+  assert.equal(daysUntil("2026-09-30", today), -1);
+  assert.equal(daysUntil("2026-11-01", today), 31);
+  assert.equal(daysUntil("tomorrow", today), null);
+  assert.equal(daysUntil("", today), null);
+  assert.equal(daysUntil(undefined, today), null);
 });

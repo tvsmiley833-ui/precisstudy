@@ -460,6 +460,23 @@ body > :where(:not(.chalkboard):not(script):not(style)){position:relative;z-inde
 .ss-hero-resume-title{font-size:16px;font-weight:800;color:var(--text);margin-top:2px}
 .ss-hero-resume-where{font-size:13px;color:var(--text);opacity:.75;margin-top:2px}
 .ss-hero-due{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;margin:0 0 10px;padding:10px 18px;border-radius:14px;background:var(--accent-solid);color:#fff;font-size:15px}.ss-hero-due a{color:#fff;font-weight:800;text-decoration:underline;text-underline-offset:3px}.ss-hero-due a:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.ss-hero-exam,.ss-hero-due{max-width:560px;margin-left:auto!important;margin-right:auto!important;text-align:left}
+.ss-hero-exam{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;margin:0 0 10px;padding:10px 18px;border-radius:14px;background:var(--bg-card);border:2px solid var(--accent-solid);color:var(--text);font-size:15px}.ss-hero-exam b{color:var(--accent)}.ss-hero-exam a{font-weight:700;color:var(--accent);text-underline-offset:3px}
+.st-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.st-card{display:flex;flex-direction:column;gap:6px;padding:18px 20px;border-radius:16px;background:var(--bg-card);border:2px solid var(--border);color:var(--text);text-decoration:none;transition:transform .2s ease,border-color .2s ease}
+a.st-card:hover{transform:translateY(-3px);border-color:var(--accent-bright)}
+a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px}
+.st-card h3{font-size:16px;font-weight:800;margin:0}
+.st-card p{font-size:14px;line-height:1.5;color:var(--text-muted);margin:0;flex:1}
+.st-card .st-go{font-size:14px;font-weight:700;color:var(--accent)}
+.st-card kbd{font:600 12px 'IBM Plex Mono',monospace;border:1px solid var(--border);border-bottom-width:2px;border-radius:6px;padding:1px 6px;background:var(--chip-bg)}
+.st-exam{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px 14px;margin:0 0 20px;padding:18px 20px;border-radius:16px;background:var(--bg-card);border:2px solid var(--border)}
+.st-exam label{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:700;color:var(--text-muted)}
+.st-exam input{font:inherit;font-size:15px;padding:9px 12px;border-radius:10px;border:2px solid var(--border);background:var(--bg);color:var(--text)}
+.st-exam button{font:inherit;font-weight:700;font-size:14px;padding:10px 18px;border-radius:999px;border:2px solid var(--accent-solid);background:var(--accent-solid);color:#fff;cursor:pointer}
+.st-exam button.st-ghost{background:transparent;color:var(--accent)}
+.st-exam .st-status{flex-basis:100%;font-size:14px;color:var(--text-muted);min-height:1.2em}
+@media (prefers-reduced-motion:reduce){a.st-card{transition:none}a.st-card:hover{transform:none}}
 .ss-hero-resume-cta{background:var(--accent-solid);color:#fff;padding:9px 20px;border-radius:999px;
   text-decoration:none;font-size:13.5px;font-weight:700;white-space:nowrap;flex-shrink:0}
 .ss-hero-resume-cta:hover{background:var(--accent-solid-hover)}
@@ -536,6 +553,33 @@ body > :where(:not(.chalkboard):not(script):not(style)){position:relative;z-inde
         <div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:4px;">Improve</div>
         <div style="font-size:14px;color:var(--text-muted);line-height:1.5;">Watch your exam readiness score climb as weak topics turn green on your dashboard.</div>
       </div>
+    </div>
+  </div>
+</div>
+
+<div id="study-tools" class="ss-reveal" style="padding:8px 32px 24px;">
+  <div style="max-width:1120px;margin:0 auto;">
+    <h2 style="font-weight:700;font-size:14px;color:var(--nav-text);text-transform:uppercase;letter-spacing:0.06em;margin:0 0 16px;">
+      Study Tools
+    </h2>
+    <form class="st-exam" id="exam-form" onsubmit="ssSaveExam(event)">
+      <label for="exam-date">My exam date<input type="date" id="exam-date" required></label>
+      <label for="exam-label">What is it? (optional)<input type="text" id="exam-label" maxlength="40" placeholder="AP Lang exam" autocomplete="off"></label>
+      <button type="submit">Start countdown</button>
+      <button type="button" class="st-ghost" id="exam-clear" onclick="ssClearExam()" style="display:none">Clear</button>
+      <div class="st-status" id="exam-status" role="status" aria-live="polite">Set a date and we'll count down the days here, and use it to fill in your study plan.</div>
+    </form>
+    <div class="st-grid">
+      <a class="st-card" href="#classes-section"><h3>5-minute diagnostic</h3><p>Pick a class and find your weak spots before you study. No sign-up needed.</p><span class="st-go">Pick a class &rarr;</span></a>
+      <a class="st-card" href="#classes-section"><h3>Flashcards that come back on time</h3><p>Spaced repetition brings each card back just before you'd forget it. Cards due today show as a badge on the Flashcards tab.</p><span class="st-go">Pick a class &rarr;</span></a>
+      <a class="st-card" href="/flashcards"><h3>Make your own flashcards</h3><p>Paste or upload your notes and turn them into a deck you can study.</p><span class="st-go">Make a deck &rarr;</span></a>
+      <a class="st-card" href="#classes-section"><h3>Study plan in your calendar</h3><p>Choose days and minutes, then download a plan for Google, Apple, or Outlook Calendar. Find it on any guide's Quiz tab.</p><span class="st-go">Pick a class &rarr;</span></a>
+      <a class="st-card" href="#classes-section"><h3>Read aloud and dyslexia mode</h3><p>Natural voices with a voice picker, a Pomodoro timer, and a dyslexia-friendly reading mode on every guide.</p><span class="st-go">Pick a class &rarr;</span></a>
+      <div class="st-card"><h3>Search everything</h3><p>Press <kbd>Ctrl</kbd> + <kbd>K</kbd> (<kbd>&#8984;</kbd> + <kbd>K</kbd> on a Mac) on any page to jump to a topic, tool, or class.</p></div>
+      <a class="st-card" href="/dashboard"><h3>Streaks, badges, and heatmap</h3><p>See your readiness by topic, your study streak, and what to practice next.</p><span class="st-go">Open dashboard &rarr;</span></a>
+      <a class="st-card" href="/compete"><h3>Compete with friends</h3><p>Race on quizzes and challenge a classmate to beat your score.</p><span class="st-go">Compete &rarr;</span></a>
+      <a class="st-card" href="/syllabus"><h3>Upload your syllabus</h3><p>Match a guide to the order your teacher covers things.</p><span class="st-go">Upload &rarr;</span></a>
+      <a class="st-card" href="/concepts"><h3>Concept map</h3><p>See how topics depend on each other so you know what to learn first.</p><span class="st-go">Open map &rarr;</span></a>
     </div>
   </div>
 </div>
@@ -1295,21 +1339,75 @@ function ssEscapeHtml(s){
 // guide-app.js and dashboard/index.html) -- shows "Continue where you left
 // off" above the search box for a returning visitor, whichever page they
 // last studied on.
-// Flashcards due for review across every subject studied in this browser (the
-// schedule is saved with each subject's progress under ssMastery_<key>, see mastery.js).
+// ---- Exam countdown (saved in this browser; guides use it to pre-fill the study plan)
+function ssExamLoad(){
+  try{ var e = JSON.parse(localStorage.getItem('ss-exam') || 'null'); if(e && /^\d{4}-\d{2}-\d{2}$/.test(e.date)) return e; }catch(x){}
+  return null;
+}
+function ssDaysUntil(dateStr){
+  var t = new Date(); t.setHours(0,0,0,0);
+  return Math.round((new Date(dateStr + 'T00:00:00') - t) / 864e5);
+}
+function ssRenderExamForm(){
+  var e = ssExamLoad(), st = document.getElementById('exam-status');
+  if(!st) return;
+  var d = document.getElementById('exam-date'), l = document.getElementById('exam-label'), clr = document.getElementById('exam-clear');
+  if(d && !d.min){ var m = new Date(); d.min = m.getFullYear() + '-' + String(m.getMonth()+1).padStart(2,'0') + '-' + String(m.getDate()).padStart(2,'0'); }
+  if(!e){ if(clr) clr.style.display = 'none'; return; }
+  if(d) d.value = e.date; if(l) l.value = e.label || ''; if(clr) clr.style.display = '';
+  var n = ssDaysUntil(e.date);
+  st.textContent = n < 0 ? 'That date has passed. Set a new one to restart the countdown.' : n === 0 ? 'Your exam is today. You have got this.' : n + ' day' + (n === 1 ? '' : 's') + ' to go.';
+}
+function ssSaveExam(ev){
+  ev.preventDefault();
+  var date = document.getElementById('exam-date').value, label = document.getElementById('exam-label').value.trim().slice(0, 40);
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(date)) return;
+  try{ localStorage.setItem('ss-exam', JSON.stringify({ date: date, label: label })); }catch(x){}
+  ssRenderExamForm(); ssRenderHeroResume();
+}
+function ssClearExam(){
+  try{ localStorage.removeItem('ss-exam'); }catch(x){}
+  var st = document.getElementById('exam-status'); if(st) st.textContent = 'Countdown cleared.';
+  var d = document.getElementById('exam-date'), l = document.getElementById('exam-label'); if(d) d.value = ''; if(l) l.value = '';
+  var clr = document.getElementById('exam-clear'); if(clr) clr.style.display = 'none';
+  ssRenderHeroResume();
+}
+// Cards due per subject according to the signed-in account (filled in by ssLoadAccountDue).
+var ssAccountDue = {};
+async function ssLoadAccountDue(){
+  try{
+    var res = await fetch('/api/progress');
+    if(!res.ok) return;
+    var blob = await res.json(), now = Date.now(), out = {};
+    Object.keys(blob || {}).forEach(function(k){
+      var srs = blob[k] && blob[k].srs;
+      if(!srs || typeof srs !== 'object') return;
+      var n = Object.keys(srs).filter(function(t){ return srs[t] && srs[t][1] <= now; }).length;
+      if(n) out[k] = n;
+    });
+    ssAccountDue = out; ssRenderHeroResume();
+  }catch(x){ /* offline or signed out: the local schedule is still shown */ }
+}
+
+// Flashcards due for review across subjects: this browser's schedule (saved with each subject's progress
+// under ssMastery_<key>, see mastery.js) merged with the account's, taking the larger count per subject.
 function ssDueSummary(){
-  var now = Date.now(), total = 0, best = null;
+  var now = Date.now(), per = {};
   try{
     for(var i = 0; i < localStorage.length; i++){
       var k = localStorage.key(i);
       if(!k || k.indexOf('ssMastery_') !== 0) continue;
       var srs = (JSON.parse(localStorage.getItem(k)) || {}).srs || {};
       var due = Object.keys(srs).filter(function(t){ return srs[t] && srs[t][1] <= now; }).length;
-      if(!due) continue;
-      total += due;
-      if(!best || due > best.due) best = { key: k.slice(10), due: due };
+      if(due) per[k.slice(10)] = due;
     }
-  }catch(e){ return { total: 0, best: null }; }
+  }catch(e){ /* unreadable local data: fall back to the account counts */ }
+  Object.keys(ssAccountDue).forEach(function(k){ per[k] = Math.max(per[k] || 0, ssAccountDue[k]); });
+  var total = 0, best = null;
+  Object.keys(per).forEach(function(k){
+    total += per[k];
+    if(!best || per[k] > best.due) best = { key: k, due: per[k] };
+  });
   return { total: total, best: best };
 }
 function ssRenderHeroResume(){
@@ -1317,25 +1415,38 @@ function ssRenderHeroResume(){
   if(!el) return;
   var last;
   try{ last = JSON.parse(localStorage.getItem('ss-last-subject') || 'null'); }catch(e){ last = null; }
+  var examHtml = '', ex = ssExamLoad();
+  if(ex){
+    var n = ssDaysUntil(ex.date);
+    if(n >= 0){
+      examHtml = '<div class="ss-hero-exam"><span>' + (n === 0 ? '<b>Exam day.</b> You have got this.' : '<b>' + n + ' day' + (n === 1 ? '' : 's') + '</b> until ' + ssEscapeHtml(ex.label || 'your exam')) + '</span>'
+        + '<a href="#study-tools">Change date</a></div>';
+    }
+  }
   var dueHtml = '', ds = ssDueSummary();
   if(ds.best){
     var card = document.querySelector('.class-card[data-subject-key="' + ds.best.key.replace(/[^\w-]/g, '') + '"]');
     if(card){
       dueHtml = '<div class="ss-hero-due"><span><b>' + ds.total + '</b> flashcard' + (ds.total === 1 ? '' : 's') + ' due for review</span>'
-        + '<a href="' + ssEscapeHtml(card.getAttribute('href').replace(/\/$/, '')) + '/flashcards?due=1">Review ' + ssEscapeHtml(card.getAttribute('data-name') || 'now') + ' →</a></div>';
+        + '<a href="' + ssEscapeHtml(card.getAttribute('href').replace(/\/$/, '')) + '/flashcards?due=1">Review ' + ssEscapeHtml(card.getAttribute('data-name') || 'now') + ' &rarr;</a></div>';
     }
   }
-  if((!last || !last.label || !last.href) && !dueHtml){ el.style.display='none'; el.innerHTML=''; return; }
+  var hasLast = !!(last && last.label && last.href);
+  if(!hasLast && !dueHtml && !examHtml){ el.style.display='none'; el.innerHTML=''; return; }
   el.style.display='block';
-  if(!last || !last.label || !last.href){ el.innerHTML = dueHtml; return; }
-  el.innerHTML = dueHtml + '<div class="ss-hero-resume">'
-    + '<div><div class="ss-hero-resume-label">Continue where you left off</div>'
-    + '<div class="ss-hero-resume-title">' + ssEscapeHtml(last.label) + '</div>'
-    + (last.where ? '<div class="ss-hero-resume-where">' + ssEscapeHtml(last.where) + '</div>' : '') + '</div>'
-    + '<a href="' + ssEscapeHtml(last.href + (last.unit != null && /^\d+$/.test(String(last.concept)) ? '#u=' + encodeURIComponent(last.unit) + '&c=' + last.concept : '')) + '" class="ss-hero-resume-cta">Resume →</a>'
-    + '</div>';
+  var resume = '';
+  if(hasLast){
+    resume = '<div class="ss-hero-resume">'
+      + '<div><div class="ss-hero-resume-label">Continue where you left off</div>'
+      + '<div class="ss-hero-resume-title">' + ssEscapeHtml(last.label) + '</div>'
+      + (last.where ? '<div class="ss-hero-resume-where">' + ssEscapeHtml(last.where) + '</div>' : '') + '</div>'
+      + '<a href="' + ssEscapeHtml(last.href + (last.unit != null && /^\d+$/.test(String(last.concept)) ? '#u=' + encodeURIComponent(last.unit) + '&c=' + last.concept : '')) + '" class="ss-hero-resume-cta">Resume &rarr;</a>'
+      + '</div>';
+  }
+  el.innerHTML = examHtml + dueHtml + resume;
 }
 ssRenderHeroResume();
+ssRenderExamForm();
 
 function ssRenderAccountUI(){
   var area = document.getElementById('ss-account-area');
@@ -1359,6 +1470,7 @@ async function ssCheckSession(){
   }
   ssRenderAccountUI();
   ssShowAuthError();
+  if(SS_SESSION) ssLoadAccountDue();
   return SS_SESSION;
 }
 

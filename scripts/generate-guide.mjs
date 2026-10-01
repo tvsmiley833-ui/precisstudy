@@ -55,6 +55,14 @@ function buildQref(units) {
 // page carries the real study-guide prose in HTML for crawlers, and
 // hydrateGuide() — which runs whenever #units already has children — just
 // attaches click/keydown handlers to it instead of rebuilding.
+// Screen-reader description for an SVG diagram: its caption without markup. Diagrams that already
+// carry their own role/aria-label (e.g. question figures) are left alone.
+export function labelSvg(svg, cap) {
+  if (/^\s*<svg\b[^>]*\brole=/.test(svg)) return svg;
+  const text = String(cap || "Diagram").replace(/<[^>]+>/g, " ").replace(/&gt;/g, ">").replace(/&lt;/g, "<").replace(/&amp;/g, "&")
+    .replace(/\s+/g, " ").trim().replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+  return svg.replace(/^(\s*)<svg\b/, (m, ws) => `${ws}<svg role="img" aria-label="${text}"`);
+}
 function buildUnitsStatic(units, diagrams) {
   return units.map(u => {
     let body = u.concepts.map((c, ci) => {
@@ -62,7 +70,7 @@ function buildUnitsStatic(units, diagrams) {
       if (c.intro) h += `<div class="c-text">${c.intro}</div>`;
       if (c.b && c.b.length) h += `<ul class="c-list">${c.b.map(i => `<li>${i}</li>`).join("")}</ul>`;
       // Optional graphs/diagrams that belong to this concept (see physics.json).
-      if (c.figs && c.figs.length) h += c.figs.map(f => `<div class="diagram c-fig"><div class="dlabel">${f.label || "Graph"}</div>${f.svg}<p class="dcap">${f.cap}</p></div>`).join("");
+      if (c.figs && c.figs.length) h += c.figs.map(f => `<div class="diagram c-fig"><div class="dlabel">${f.label || "Graph"}</div>${labelSvg(f.svg, f.cap)}<p class="dcap">${f.cap}</p></div>`).join("");
       return `<div class="concept" data-idx="${ci}">${h}</div>`;
     }).join("");
     if (u.traps && u.traps.length)
@@ -70,7 +78,7 @@ function buildUnitsStatic(units, diagrams) {
     if (u.fms && u.fms.length)
       body += `<div class="formula">${u.fms.join("<br>")}</div>`;
     if (diagrams && diagrams[u.id])
-      body += `<div class="diagram"><div class="dlabel">Diagram</div>${diagrams[u.id].svg}<p class="dcap">${diagrams[u.id].cap}</p></div>`;
+      body += `<div class="diagram"><div class="dlabel">Diagram</div>${labelSvg(diagrams[u.id].svg, diagrams[u.id].cap)}<p class="dcap">${diagrams[u.id].cap}</p></div>`;
     // Rough study-time estimate: ~3 min per concept, plus a couple minutes
     // each for traps/formulas to review, rounded to the nearest minute (min 5).
     const estMins = Math.max(5, Math.round(

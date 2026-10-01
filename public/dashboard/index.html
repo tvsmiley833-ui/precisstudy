@@ -504,7 +504,7 @@ document.addEventListener('click', function(e){
 </script>
 
 <script type="module">
-import { computeReadiness, recommendNext, topWeakUnits, buildSchedule } from '/shared/mastery.js';
+import { computeReadiness, recommendNext, topWeakUnits, buildSchedule, dueCards, daysUntil } from '/shared/mastery.js';
 import { geometryUnits, chemistryUnits, algebra1Units, algebra2Units, aplangUnits, globalHistoryUnits, apbiologyUnits, apushUnits, physicsUnits, biologyUnits, precalcUnits, usGovernmentUnits, actPrepUnits, anatomyUnits, apChemistryUnits, apCsaUnits, apEuroUnits, apMacroUnits, apMicroUnits, apPhysicsUnits, apPsychUnits, apStatsUnits, apUsgovUnits, apWorldUnits, apHumanGeographyUnits, artHistoryUnits, astronomyUnits, computerScienceUnits, creativeWritingUnits, earthScienceUnits, economicsUnits, english10Units, english9Units, environmentalScienceUnits, french1Units, geographyUnits, german1Units, healthUnits, journalismUnits, musicTheoryUnits, psychologyUnits, satMathUnits, satReadingUnits, sociologyUnits, spanish1Units, spanish2Units, spanish3Units, speechDebateUnits, statisticsUnits, studySkillsUnits, worldHistoryUnits, calculusUnits, calcAbUnits, calcBcUnits, usHistoryUnits } from '/shared/unit-titles.js';
 
 // Category grouping for the "unassessed classes" accordion below -- same
@@ -1456,7 +1456,17 @@ function renderTodayPlan(subjects, blob) {
     if (weak.length && (!worst || weak[0].pct < worst.pct)) worst = Object.assign({ subject: s }, weak[0]);
   });
   const goal = blob.goal && blob.goal.days && blob.goal.minutesPerDay ? blob.goal : null;
-  if (!goal && (!worst || worst.pct >= 80)) { el.style.display = 'none'; el.innerHTML = ''; return; }
+  // Spaced-repetition cards due now (per subject, from the account's saved schedule), and the exam
+  // date saved on the homepage -- used when there is no onboarding goal.
+  const due = dueCards(blob, subjects.map(s => s.key));
+  const dueSubject = due.best ? subjects.find(s => s.key === due.best.key) : null;
+  let exam = null;
+  try {
+    const e = JSON.parse(localStorage.getItem('ss-exam') || 'null');
+    const d = e ? daysUntil(e.date) : null;
+    if (d !== null && d >= 0) exam = { days: d, label: e.label || 'Exam' };
+  } catch (x) { /* no saved exam date */ }
+  if (!goal && !dueSubject && !exam && (!worst || worst.pct >= 80)) { el.style.display = 'none'; el.innerHTML = ''; return; }
 
   const MIN_PER_Q = 1.5, CARDS_PER_MIN = 3;
   let head = '', tasks = [], progress = '';
@@ -1482,10 +1492,18 @@ function renderTodayPlan(subjects, blob) {
     tasks.push(worst && worst.pct < 80
       ? { href: worst.subject.href + '?practice=' + worst.unitId, title: 'Practice ' + qTarget + ' questions', sub: worst.unitName + ' · ' + worst.subject.label + ' · ' + worst.pct + '% so far' }
       : { href: practiceSubj.href + '/quiz', title: 'Practice ' + qTarget + ' questions', sub: practiceSubj.label + ' · mixed units' });
-    tasks.push({ href: practiceSubj.href + '/flashcards', title: 'Review ' + cardTarget + ' flashcards', sub: practiceSubj.label });
+    if (!dueSubject) tasks.push({ href: practiceSubj.href + '/flashcards', title: 'Review ' + cardTarget + ' flashcards', sub: practiceSubj.label });
   } else {
-    head = 'Today\'s focus';
-    tasks.push({ href: worst.subject.href + '?practice=' + worst.unitId, title: worst.unitName, sub: worst.subject.label + ' — your weakest topic at ' + worst.pct + '%' });
+    head = exam ? (exam.days === 0 ? exam.label + ' is today' : exam.label + ' in ' + exam.days + ' day' + (exam.days === 1 ? '' : 's')) : 'Today\'s focus';
+    if (worst && worst.pct < 80) tasks.push({ href: worst.subject.href + '?practice=' + worst.unitId, title: worst.unitName, sub: worst.subject.label + ' — your weakest topic at ' + worst.pct + '%' });
+  }
+  // Due cards go first: spaced repetition only works if they are reviewed on time.
+  if (dueSubject) {
+    tasks.unshift({
+      href: dueSubject.href + '/flashcards?due=1',
+      title: 'Review ' + due.total + ' due flashcard' + (due.total === 1 ? '' : 's'),
+      sub: dueSubject.label + (due.best.n < due.total ? ' (most of them) · more in other classes' : '') + ' · due now'
+    });
   }
   const ICON = '<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
   el.style.display = 'block';
