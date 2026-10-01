@@ -23,6 +23,9 @@ interface SubjectProgress {
   // subject; unit-order.js (run on the actual study guide page) reorders
   // UNITS to match this on the next load.
   unitOrder?: number[];
+  // Spaced-repetition schedule for flashcards, keyed by card term:
+  // [Leitner box 1-5, next due (epoch ms), last reviewed (epoch ms)].
+  srs?: Record<string, [number, number, number]>;
 }
 
 // Per-subject progress lives under subject-name keys alongside the fixed
@@ -170,6 +173,29 @@ const MAX_RECENT_ACTIVE_DATES = 14;
 
 function emptySubject(): SubjectProgress {
   return { mastery: {}, examples: {}, cardsKnown: [] };
+}
+
+const MAX_SRS_CARDS = 3000;
+const MAX_SRS_KEY_LEN = 200;
+const MAX_SRS_TIME = 4102444800000; // 2100-01-01
+
+// Drops anything malformed rather than rejecting the whole save, same as unitOrder.
+function sanitizeSrs(raw: unknown): SubjectProgress["srs"] {
+  const out: Record<string, [number, number, number]> = {};
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return out;
+  let n = 0;
+  for (const [term, rec] of Object.entries(raw as Record<string, unknown>)) {
+    if (n >= MAX_SRS_CARDS) break;
+    if (!term || term.length > MAX_SRS_KEY_LEN || !Array.isArray(rec) || rec.length < 2) continue;
+    const box = Math.round(Number(rec[0]));
+    const due = Number(rec[1]);
+    const t = rec.length > 2 ? Number(rec[2]) : 0;
+    if (!Number.isFinite(box) || box < 1 || box > 5) continue;
+    if (!Number.isFinite(due) || due < 0 || due > MAX_SRS_TIME) continue;
+    out[term] = [box, Math.round(due), Number.isFinite(t) && t >= 0 && t <= MAX_SRS_TIME ? Math.round(t) : 0];
+    n++;
+  }
+  return out;
 }
 
 const MAX_UNIT_ORDER = 100;
@@ -421,11 +447,14 @@ export async function handlePostProgress(request: Request, env: Env): Promise<Re
   // ever sends mastery/examples/cardsKnown), so a POST that omits it should
   // preserve whatever was already saved rather than wiping it out.
   const unitOrder = "unitOrder" in rec ? sanitizeUnitOrder(rec.unitOrder) : blob[subject]?.unitOrder;
+  // Like unitOrder: a POST that omits srs (older cached client) keeps what was saved.
+  const srs = "srs" in rec ? sanitizeSrs(rec.srs) : blob[subject]?.srs;
   blob[subject] = {
     mastery: mastery as SubjectProgress["mastery"],
     examples: examples as SubjectProgress["examples"],
     cardsKnown: cardsKnown.filter(c => typeof c === "string") as string[],
-    ...(unitOrder && unitOrder.length ? { unitOrder } : {})
+    ...(unitOrder && unitOrder.length ? { unitOrder } : {}),
+    ...(srs && Object.keys(srs).length ? { srs } : {})
   };
   blob.updatedAt = new Date().toISOString();
 

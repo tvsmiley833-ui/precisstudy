@@ -8,7 +8,27 @@
  * @property {Record<string, MasteryRecord>} mastery
  * @property {Record<string, boolean>} examples
  * @property {string[]} cardsKnown
+ * @property {Record<string, [number, number, number]>} srs  flashcard review schedule: term -> [box 1-5, due ms, last reviewed ms]
  */
+
+/**
+ * Merge two spaced-repetition schedules card by card, keeping whichever side was
+ * reviewed most recently (a missing/0 last-reviewed time loses to any real one;
+ * ties keep `a`). Pure, so it can be tested without a browser.
+ * @param {Record<string, [number, number, number]> | undefined} a
+ * @param {Record<string, [number, number, number]> | undefined} b
+ */
+export function mergeSrs(a, b) {
+  /** @type {Record<string, [number, number, number]>} */
+  const out = Object.assign({}, a || {});
+  for (const term of Object.keys(b || {})) {
+    const theirs = /** @type {Record<string, [number, number, number]>} */ (b)[term];
+    if (!Array.isArray(theirs)) continue;
+    const mine = out[term];
+    if (!mine || (theirs[2] || 0) > (mine[2] || 0)) out[term] = [theirs[0], theirs[1], theirs[2] || 0];
+  }
+  return out;
+}
 
 /**
  * @param {MasteryRecord | undefined} record
@@ -237,6 +257,8 @@ async function touchStreak() {
  *   markExampleDone: (id: string) => void;
  *   markCardKnown: (id: string) => void;
  *   unmarkCardKnown: (id: string) => void;
+ *   setSrs: (term: string, rec: [number, number, number]) => void;
+ *   mergeSrs: (other: Record<string, [number, number, number]>) => void;
  *   getSnapshot: () => MasteryState;
  *   getReadiness: () => { pct: number | null; assessedCount: number; totalCount: number };
  *   getRecommendation: () => { type: string; unitId?: number; unitName?: string; pct?: number };
@@ -246,7 +268,7 @@ async function touchStreak() {
 export function createMastery(subject, unitIds, unitNames) {
   const storageKey = "ssMastery_" + subject;
   /** @type {MasteryState} */
-  let state = { mastery: {}, examples: {}, cardsKnown: [] };
+  let state = { mastery: {}, examples: {}, cardsKnown: [], srs: {} };
   /** @type {ReturnType<typeof setTimeout> | null} */
   let syncTimer = null;
   let dirty = false;
@@ -276,7 +298,7 @@ export function createMastery(subject, unitIds, unitNames) {
       const res = await fetch("/api/progress", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ subject: subject, mastery: state.mastery, examples: state.examples, cardsKnown: state.cardsKnown })
+        body: JSON.stringify({ subject: subject, mastery: state.mastery, examples: state.examples, cardsKnown: state.cardsKnown, srs: state.srs })
       });
       if (res.ok) {
         dirty = false;
@@ -300,8 +322,12 @@ export function createMastery(subject, unitIds, unitNames) {
       const blob = await res.json();
       const serverSubject = blob && blob[subject];
       if (serverSubject) {
-        state = { mastery: serverSubject.mastery || {}, examples: serverSubject.examples || {}, cardsKnown: serverSubject.cardsKnown || [] };
+        // The schedule merges per card (newest review wins) so a review done offline or on
+        // another device isn't lost; everything else keeps the existing server-wins behavior.
+        const srs = mergeSrs(state.srs, serverSubject.srs);
+        state = { mastery: serverSubject.mastery || {}, examples: serverSubject.examples || {}, cardsKnown: serverSubject.cardsKnown || [], srs: srs };
         saveLocal();
+        if (Object.keys(srs).length !== Object.keys(serverSubject.srs || {}).length) scheduleSync(); // local had cards the server lacks
       }
     } catch (e) { /* offline or not logged in - keep local state */ }
   }
@@ -335,6 +361,20 @@ export function createMastery(subject, unitIds, unitNames) {
     unmarkCardKnown(id) {
       const idx = state.cardsKnown.indexOf(id);
       if (idx !== -1) state.cardsKnown.splice(idx, 1);
+      saveLocal();
+      scheduleSync();
+    },
+    /** Record one flashcard review: [box, due ms, last reviewed ms]. */
+    setSrs(term, rec) {
+      state.srs[term] = rec;
+      saveLocal();
+      scheduleSync();
+    },
+    /** Fold in a schedule from elsewhere (e.g. one saved in this browser before accounts synced it). */
+    mergeSrs(other) {
+      const before = JSON.stringify(state.srs);
+      state.srs = mergeSrs(state.srs, other);
+      if (JSON.stringify(state.srs) === before) return;
       saveLocal();
       scheduleSync();
     },

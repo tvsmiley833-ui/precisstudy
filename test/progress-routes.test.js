@@ -250,6 +250,65 @@ describe("handlePostProgress", () => {
     expect(saved.geometry.unitOrder).toEqual([3, 1, 2]);
   });
 
+  it("saves a valid spaced-repetition schedule and returns it on GET", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV();
+    const srs = { Acceleration: [2, 1790000000000, 1789900000000], "Slope of d-t": [5, 1795000000000, 1789900000000] };
+    const body = { subject: "physics", mastery: {}, examples: {}, cardsKnown: [], srs };
+    const res = await handlePostProgress(req("https://example.com/api/progress", cookie, "POST", body), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(res.status).toBe(200);
+    const saved = JSON.parse(kv._store.get("progress:student@example.com"));
+    expect(saved.physics.srs).toEqual(srs);
+  });
+
+  it("drops malformed srs entries and defaults a missing last-reviewed time", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV();
+    const srs = {
+      good: [3, 1790000000000],
+      boxTooHigh: [9, 1790000000000, 1],
+      boxZero: [0, 1790000000000, 1],
+      dueNaN: [2, "soon", 1],
+      dueHuge: [2, 9e15, 1],
+      notArray: "x",
+      tooShort: [2],
+      ["x".repeat(201)]: [2, 1790000000000, 1],
+      badT: [2, 1790000000000, -5]
+    };
+    const body = { subject: "physics", mastery: {}, examples: {}, cardsKnown: [], srs };
+    const res = await handlePostProgress(req("https://example.com/api/progress", cookie, "POST", body), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(res.status).toBe(200);
+    const saved = JSON.parse(kv._store.get("progress:student@example.com"));
+    expect(Object.keys(saved.physics.srs).sort()).toEqual(["badT", "good"]);
+    expect(saved.physics.srs.good).toEqual([3, 1790000000000, 0]);
+    expect(saved.physics.srs.badT[2]).toBe(0);
+  });
+
+  it("caps the srs schedule at 3000 cards", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV();
+    const srs = {};
+    for (let i = 0; i < 3100; i++) srs["card" + i] = [1, 1790000000000, 1];
+    const body = { subject: "physics", mastery: {}, examples: {}, cardsKnown: [], srs };
+    await handlePostProgress(req("https://example.com/api/progress", cookie, "POST", body), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    const saved = JSON.parse(kv._store.get("progress:student@example.com"));
+    expect(Object.keys(saved.physics.srs).length).toBe(3000);
+  });
+
+  it("keeps the saved srs when a later POST omits it, and clears it when sent empty", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV();
+    const env = { SESSION_SECRET: SECRET, PROGRESS: kv };
+    const first = { subject: "physics", mastery: {}, examples: {}, cardsKnown: [], srs: { Acceleration: [2, 1790000000000, 1789900000000] } };
+    await handlePostProgress(req("https://example.com/api/progress", cookie, "POST", first), env);
+    const omitted = { subject: "physics", mastery: {}, examples: {}, cardsKnown: ["Acceleration"] };
+    await handlePostProgress(req("https://example.com/api/progress", cookie, "POST", omitted), env);
+    expect(JSON.parse(kv._store.get("progress:student@example.com")).physics.srs).toEqual({ Acceleration: [2, 1790000000000, 1789900000000] });
+    const cleared = { subject: "physics", mastery: {}, examples: {}, cardsKnown: [], srs: {} };
+    await handlePostProgress(req("https://example.com/api/progress", cookie, "POST", cleared), env);
+    expect(JSON.parse(kv._store.get("progress:student@example.com")).physics.srs).toBeUndefined();
+  });
+
   it("dedupes and strips malformed entries from unitOrder, capping at 100", async () => {
     const cookie = await sessionCookieFor("student@example.com");
     const kv = fakeKV();

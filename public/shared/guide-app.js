@@ -884,31 +884,30 @@ function ssFuzzyMatch(typed,correct){
 // a miss drops it to box 1 and makes it due immediately. Cards never rated have
 // no schedule and stay in "Still learning" until first rated.
 const SRS_DAYS=[0,1,3,7,14,30],SRS_DAY_MS=864e5;
-let ssSrs=null;
-function ssSrsKey(){return 'ss-srs-'+SS_GUIDE.slug;}
-function ssSrsLoad(){
-  if(ssSrs)return ssSrs;
-  try{ssSrs=JSON.parse(localStorage.getItem(ssSrsKey())||'null');}catch(e){ssSrs=null;}
-  if(!ssSrs||typeof ssSrs!=='object')ssSrs={};
-  return ssSrs;
-}
-function ssSrsSave(){try{localStorage.setItem(ssSrsKey(),JSON.stringify(ssSrs));}catch(e){/* private mode: schedule just won't persist */}}
-// Cards marked known before this feature existed get a schedule too, spread
-// over the next few days so the first week isn't one big wave.
+// The schedule lives in the mastery state (public/shared/mastery.js), so it is saved
+// locally and, when signed in, synced to the account with the rest of the progress.
+// Entries are [box, due ms, last reviewed ms].
+function ssSrsLoad(){return (SS_MASTERY&&SS_MASTERY.getSnapshot().srs)||{};}
+// One-time moves into the synced state: a schedule saved in this browser by the
+// first version of this feature, then cards marked known before it existed (given
+// a first review spread over the next few days so there's no big first-week wave).
 function ssSrsSeed(){
   if(!SS_MASTERY)return;
-  const srs=ssSrsLoad(),now=Date.now();let n=0,changed=false;
+  const legacyKey='ss-srs-'+SS_GUIDE.slug;
+  try{
+    const old=JSON.parse(localStorage.getItem(legacyKey)||'null');
+    if(old&&typeof old==='object'){SS_MASTERY.mergeSrs(old);localStorage.removeItem(legacyKey);}
+  }catch(e){/* unreadable legacy data: ignore */}
+  const srs=ssSrsLoad(),now=Date.now();let n=0;
   SS_MASTERY.getSnapshot().cardsKnown.forEach(function(t){
     if(srs[t])return;
-    srs[t]=[2,now+((n++%5)+1)*SRS_DAY_MS];changed=true;
+    SS_MASTERY.setSrs(t,[2,now+((n++%5)+1)*SRS_DAY_MS,0]);
   });
-  if(changed)ssSrsSave();
 }
 function ssSrsRecord(term,known){
-  const srs=ssSrsLoad(),cur=srs[term],now=Date.now();
+  const cur=ssSrsLoad()[term],now=Date.now();
   const box=known?Math.min(5,(cur?cur[0]:0)+1):1;
-  srs[term]=[box,known?now+SRS_DAYS[box]*SRS_DAY_MS:now];
-  ssSrsSave();
+  SS_MASTERY.setSrs(term,[box,known?now+SRS_DAYS[box]*SRS_DAY_MS:now,now]);
   ssSrsRefresh();
 }
 function ssSrsIsDue(term){const r=ssSrsLoad()[term];return !!r&&r[1]<=Date.now();}
@@ -1206,7 +1205,7 @@ window.__ssMasteryInstances = window.__ssMasteryInstances || [];
 function ssStartChemMastery(){
   SS_MASTERY = window.__ssCreateMastery(SS_GUIDE.key, UNITS.map(function(u){return u.id;}), UNITS.reduce(function(acc,u){acc[u.id]=u.name;return acc;},{}));
   window.__ssMasteryInstances.push(SS_MASTERY);
-  SS_MASTERY.init().then(function(){ try{ showFC(); }catch(e){} try{ if(examplesBuilt) buildExamples(); }catch(e){} try{ ssOverallProgressUpdate(); }catch(e){} try{ renderAllUnitProgress(); }catch(e){} });
+  SS_MASTERY.init().then(function(){ try{ showFC(); if(new URLSearchParams(location.search).get('due')==='1'&&ssSrsDueCount())ssSrsStartDue(); }catch(e){} try{ if(examplesBuilt) buildExamples(); }catch(e){} try{ ssOverallProgressUpdate(); }catch(e){} try{ renderAllUnitProgress(); }catch(e){} });
 }
 if (window.__ssCreateMastery) { ssStartChemMastery(); }
 else { window.addEventListener('ss-mastery-ready', ssStartChemMastery, { once: true }); }

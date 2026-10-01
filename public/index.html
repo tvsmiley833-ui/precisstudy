@@ -459,6 +459,7 @@ body > :where(:not(.chalkboard):not(script):not(style)){position:relative;z-inde
 .ss-hero-resume-label{font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em}
 .ss-hero-resume-title{font-size:16px;font-weight:800;color:var(--text);margin-top:2px}
 .ss-hero-resume-where{font-size:13px;color:var(--text);opacity:.75;margin-top:2px}
+.ss-hero-due{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;margin:0 0 10px;padding:10px 18px;border-radius:14px;background:var(--accent-solid);color:#fff;font-size:15px}.ss-hero-due a{color:#fff;font-weight:800;text-decoration:underline;text-underline-offset:3px}.ss-hero-due a:focus-visible{outline:2px solid #fff;outline-offset:3px}
 .ss-hero-resume-cta{background:var(--accent-solid);color:#fff;padding:9px 20px;border-radius:999px;
   text-decoration:none;font-size:13.5px;font-weight:700;white-space:nowrap;flex-shrink:0}
 .ss-hero-resume-cta:hover{background:var(--accent-solid-hover)}
@@ -1294,14 +1295,40 @@ function ssEscapeHtml(s){
 // guide-app.js and dashboard/index.html) -- shows "Continue where you left
 // off" above the search box for a returning visitor, whichever page they
 // last studied on.
+// Flashcards due for review across every subject studied in this browser (the
+// schedule is saved with each subject's progress under ssMastery_<key>, see mastery.js).
+function ssDueSummary(){
+  var now = Date.now(), total = 0, best = null;
+  try{
+    for(var i = 0; i < localStorage.length; i++){
+      var k = localStorage.key(i);
+      if(!k || k.indexOf('ssMastery_') !== 0) continue;
+      var srs = (JSON.parse(localStorage.getItem(k)) || {}).srs || {};
+      var due = Object.keys(srs).filter(function(t){ return srs[t] && srs[t][1] <= now; }).length;
+      if(!due) continue;
+      total += due;
+      if(!best || due > best.due) best = { key: k.slice(10), due: due };
+    }
+  }catch(e){ return { total: 0, best: null }; }
+  return { total: total, best: best };
+}
 function ssRenderHeroResume(){
   var el = document.getElementById('hero-resume');
   if(!el) return;
   var last;
   try{ last = JSON.parse(localStorage.getItem('ss-last-subject') || 'null'); }catch(e){ last = null; }
-  if(!last || !last.label || !last.href){ el.style.display='none'; el.innerHTML=''; return; }
+  var dueHtml = '', ds = ssDueSummary();
+  if(ds.best){
+    var card = document.querySelector('.class-card[data-subject-key="' + ds.best.key.replace(/[^\w-]/g, '') + '"]');
+    if(card){
+      dueHtml = '<div class="ss-hero-due"><span><b>' + ds.total + '</b> flashcard' + (ds.total === 1 ? '' : 's') + ' due for review</span>'
+        + '<a href="' + ssEscapeHtml(card.getAttribute('href').replace(/\/$/, '')) + '/flashcards?due=1">Review ' + ssEscapeHtml(card.getAttribute('data-name') || 'now') + ' →</a></div>';
+    }
+  }
+  if((!last || !last.label || !last.href) && !dueHtml){ el.style.display='none'; el.innerHTML=''; return; }
   el.style.display='block';
-  el.innerHTML = '<div class="ss-hero-resume">'
+  if(!last || !last.label || !last.href){ el.innerHTML = dueHtml; return; }
+  el.innerHTML = dueHtml + '<div class="ss-hero-resume">'
     + '<div><div class="ss-hero-resume-label">Continue where you left off</div>'
     + '<div class="ss-hero-resume-title">' + ssEscapeHtml(last.label) + '</div>'
     + (last.where ? '<div class="ss-hero-resume-where">' + ssEscapeHtml(last.where) + '</div>' : '') + '</div>'
