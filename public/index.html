@@ -456,6 +456,15 @@ body > :where(:not(.chalkboard):not(script):not(style)){position:relative;z-inde
 .class-group-h{font-size:13px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--text-muted);
   margin:0 0 12px;display:flex;align-items:center;gap:10px}
 .class-group-h::after{content:"";flex:1;height:1px;background:var(--border)}
+/* hierarchy + contrast pass */
+.class-group{margin-bottom:44px}
+.class-group-h{font-size:17px;letter-spacing:.06em;color:var(--text)}
+.class-group-h::after{background:color-mix(in srgb,var(--text) 22%,transparent)}
+.class-card{border-color:color-mix(in srgb,var(--text) 20%,transparent)!important}
+.class-card-topics{font-size:14px;color:color-mix(in srgb,var(--text) 82%,var(--bg-card))}
+.class-card-more{opacity:1;color:var(--accent);font-weight:700}
+[data-theme="dark"] .chalkboard{opacity:.06}
+.chalkboard{opacity:.05}
 :focus-visible{outline:2px solid var(--accent-bright);outline-offset:2px;border-radius:6px}
 .ss-hero-resume{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
   max-width:560px;margin:0 auto 22px;padding:14px 20px;
