@@ -197,7 +197,7 @@ const AUTH_ROUTES: Record<string, Record<string, (request: Request, env: Env) =>
 // actually loads: Google AdSense (script + ad iframes), Cloudflare's own
 // Web Analytics beacon (auto-injected by the zone), the optional Desmos
 // graphing calculator embed (guide-template toolkit menu; inert unless
-// DESMOS_API_KEY is configured in public/shared/guide-app.js), and
+// DESMOS_API_KEY is configured in client/guide-app.js), and
 // MathJax (guide pages load tex-mml-chtml.js from jsDelivr to render every
 // $...$ formula in their study-guide/quiz content -- without it in
 // script-src the browser silently blocks the script and every formula on

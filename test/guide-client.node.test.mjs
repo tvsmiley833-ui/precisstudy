@@ -1,4 +1,4 @@
-// Tests for client-side features in public/shared/guide-app.js. The real functions are cut
+// Tests for client-side features in client/guide-app.js (built into public/shared/guide-app.js). The real functions are cut
 // out of the shipped file (see helpers/guide-fns.mjs) and run with stubbed browser globals.
 import { test, describe } from "node:test";
 import assert from "node:assert/strict";

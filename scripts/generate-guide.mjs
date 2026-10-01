@@ -11,7 +11,7 @@ const require = createRequire(import.meta.url);
 const { heroPattern, bodyPattern } = require("./hero-patterns.cjs");
 import { fileURLToPath } from "node:url";
 
-// Matches SS_TTS_SPEAKER_ICON in public/shared/guide-app.js -- inlined
+// Matches SS_TTS_SPEAKER_ICON in client/guide-app.js -- inlined
 // literally here since buildUnitsStatic() emits plain HTML at build time,
 // not JS that could reference that constant.
 const TTS_SPEAKER_ICON_SVG = '<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
@@ -423,7 +423,7 @@ export function generateGuide(config) {
   // apbiology). Preserve that exact key so migrated pages keep existing
   // student progress; everything else stays slug-based.
   const mKey = masteryKey || slug;
-  // The app logic itself is public/shared/guide-app.js, shared by every
+  // The app logic itself is client/guide-app.js (built to public/shared/guide-app.js), shared by every
   // guide; it reads the subject from SS_GUIDE.
   html += `const SS_GUIDE=${js({ slug, key: mKey, title }).replace(/</g, "\\u003c")};\n`;
   // Same footer every live page carries (error-monitor.js was added to the pages by

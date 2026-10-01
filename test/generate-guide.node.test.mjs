@@ -5,7 +5,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { generateGuide, labelSvg } from "../scripts/generate-guide.mjs";
 import { readFileSync } from "node:fs";
-const APP = readFileSync(new URL("../public/shared/guide-app.js", import.meta.url), "utf8");
+const APP = readFileSync(new URL("../client/guide-app.js", import.meta.url), "utf8");
 
 const base = () => ({
   slug: "demo",

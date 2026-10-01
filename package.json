@@ -8,7 +8,7 @@
     "test": "npm run test:scripts && vitest run",
     "test:scripts": "node --test test/*.node.test.mjs",
     "typecheck": "tsc --noEmit",
-    "build:client": "esbuild client/personality.js --minify --format=esm --target=es2022 --legal-comments=none --outfile=public/shared/personality.js",
+    "build:client": "esbuild client/personality.js --minify --format=esm --target=es2022 --legal-comments=none --tsconfig-raw={} --outfile=public/shared/personality.js && esbuild client/guide-app.js --minify --target=es2020 --legal-comments=none --tsconfig-raw={} --outfile=public/shared/guide-app.js",
     "predeploy": "npm run build:client",
     "guides:regen": "node scripts/regen-guides.mjs"
   },

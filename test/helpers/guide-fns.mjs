@@ -1,10 +1,10 @@
-// Loads named top-level functions/constants straight out of public/shared/guide-app.js so
+// Loads named top-level functions/constants straight out of client/guide-app.js (the readable source of public/shared/guide-app.js) so
 // tests exercise the code that actually ships. guide-app.js is a classic browser script
 // (not a module), so each requested binding is cut out by name and evaluated with stubbed
 // browser globals instead of importing the file.
 import { readFileSync } from "node:fs";
 
-const SRC = readFileSync(new URL("../../public/shared/guide-app.js", import.meta.url), "utf8");
+const SRC = readFileSync(new URL("../../client/guide-app.js", import.meta.url), "utf8");
 const LINES = SRC.split("\n");
 
 /** Source text of one column-0 `function name(` or `const|let|var name` declaration. */
