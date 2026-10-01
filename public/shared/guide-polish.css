@@ -562,6 +562,7 @@ html:root body .hero.hero .sgt-mode[aria-pressed="true"] { background: var(--bra
 html:root body .hero.hero #sgt-time[data-phase="break"] { color: var(--brand-green); }
 
 /* ---------- Sticky "next concept" bar ---------- */
+.unit .concept{scroll-margin-top:140px}
 .ss-cnav{position:fixed;z-index:60;bottom:20px;left:50%;width:min(560px,calc(100vw - 300px));display:flex;align-items:center;gap:10px;box-sizing:border-box;padding:8px 8px 8px 16px;background:var(--surface);border:1px solid var(--border-strong,var(--border));border-radius:999px;box-shadow:0 6px 24px rgba(0,0,0,.28);transform:translate(-50%,0);transition:transform .2s ease,opacity .2s ease}
 .ss-cnav[hidden]{display:flex;opacity:0;transform:translate(-50%,24px);pointer-events:none;visibility:hidden}
 .ss-cnav-where{flex:1;min-width:0;font-size:14px;color:var(--ink-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}

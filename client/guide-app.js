@@ -2920,7 +2920,7 @@ function ssDiagBatchRenderContinue(){
   if(m)setTimeout(function(){jumpToUnit(m[1],+m[2]);},150);
 })();
 
-// Sticky "next concept" bar: follows the concept at ~40% of the viewport and
+// Sticky "next concept" bar: follows the concept at the top of the viewport (180px line, matching .concept scroll-margin-top) and
 // steps through every concept in page order (unit order included), opening the
 // next unit when needed. After the last concept it points at the Quiz tab.
 (function(){
@@ -2938,7 +2938,7 @@ function ssDiagBatchRenderContinue(){
   function update(){
     raf=0;
     var guide=document.getElementById('view-guide');
-    var i=-1,line=innerHeight*.4;
+    var i=-1,line=180;
     if(guide&&guide.classList.contains('active')){
       for(var k=0;k<all.length;k++){
         var c=all[k];if(!c.offsetParent)continue;
