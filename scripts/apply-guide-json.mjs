@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 // Push content from guides/<slug>.json onto public/<slug>/index.html without
-// regenerating the whole page. The live pages carry layout fixes the
-// generator template doesn't have, so a full regenerate would undo them;
-// instead this generates the page in memory and copies over only the regions
-// that come from guide data (head metadata, counts, unit list, flashcard and
-// question archives, Quick Reference, Memory Tricks, Worked Examples and the
-// inline data script). Everything else on the page is left byte-for-byte.
+// rewriting the whole page: it generates the page in memory and copies over only
+// the regions that come from guide data (head metadata, counts, unit list,
+// flashcard and question archives, Quick Reference, Memory Tricks, Worked Examples
+// and the inline data script). Everything else on the page is left byte-for-byte.
+// The pages and the generator template are kept identical (see
+// test/pages-match-generator.node.test.mjs), so `npm run guides:regen` -- a full
+// regenerate -- is also safe; use that after changing the template itself.
 //
 //   node scripts/apply-guide-json.mjs <slug> [<slug>...]
 //   node scripts/apply-guide-json.mjs --check <slug>...   # report, don't write

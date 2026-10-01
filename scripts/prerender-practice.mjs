@@ -109,8 +109,8 @@ if (!html.includes(QB_ANCHOR)) {
 }
 
 let out = html;
-out = out.replace(FC_ANCHOR, `\n${renderFlashcardArchive(FLASHCARDS, UNITS)}</div>\n<div id="view-quiz"`);
-out = out.replace(QB_ANCHOR, `\n${renderQuestionBank(QUIZ, HARD_Q, UNITS)}</div>\n<div id="view-cards"`);
+out = out.replace(FC_ANCHOR, () => `\n${renderFlashcardArchive(FLASHCARDS, UNITS)}</div>\n<div id="view-quiz"`); // function form: question text may contain "$'"
+out = out.replace(QB_ANCHOR, () => `\n${renderQuestionBank(QUIZ, HARD_Q, UNITS)}</div>\n<div id="view-cards"`);
 
 writeFileSync(target, out);
 console.log(`Pre-rendered ${FLASHCARDS.length} flashcards, ${QUIZ.length} quiz questions, ${HARD_Q.length} hard-mode questions into ${target}`);

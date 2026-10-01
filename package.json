@@ -9,7 +9,8 @@
     "test:scripts": "node --test test/*.node.test.mjs",
     "typecheck": "tsc --noEmit",
     "build:client": "esbuild client/personality.js --minify --format=esm --target=es2022 --legal-comments=none --outfile=public/shared/personality.js",
-    "predeploy": "npm run build:client"
+    "predeploy": "npm run build:client",
+    "guides:regen": "node scripts/regen-guides.mjs"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.21.3",

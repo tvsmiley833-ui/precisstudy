@@ -640,6 +640,10 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 @media(max-width:600px){
   .desmos-panel{left:12px;top:100px}
 }
+/* On narrow screens the toolkit windows' staggered desktop cascade
+   (see ssMakeDraggable() defaults above) would push some of them
+   partly off-screen -- start them all flush against the left edge
+   instead. They're still fully draggable from there. */
 @media(max-width:480px){
   #cbot-panel,.reference-panel{left:8px}
   .reference-panel{top:100px}
@@ -787,7 +791,8 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
       <div class="tablist" role="tablist" aria-label="Study guide views">
       <button class="tab-btn active" role="tab" id="tab-guide" aria-controls="view-guide" aria-selected="true" onclick="switchTab('guide')">Study Guide</button>
       <button class="tab-btn" role="tab" id="tab-cards" aria-controls="view-cards" aria-selected="false" tabindex="-1" onclick="switchTab('cards')">Flashcards</button>
-      <button class="tab-btn" role="tab" id="tab-quiz" aria-controls="view-quiz" aria-selected="false" tabindex="-1" onclick="ssQuizTabClick()">Quiz</button><button class="tab-btn" role="tab" id="tab-examples" aria-controls="view-examples" aria-selected="false" tabindex="-1" onclick="switchTab('examples')">Worked Examples</button>
+      <button class="tab-btn" role="tab" id="tab-quiz" aria-controls="view-quiz" aria-selected="false" tabindex="-1" onclick="ssQuizTabClick()">Quiz</button>
+      <button class="tab-btn" role="tab" id="tab-examples" aria-controls="view-examples" aria-selected="false" tabindex="-1" onclick="switchTab('examples')">Worked Examples</button>
       <button class="tab-btn" role="tab" id="tab-exam" aria-controls="view-exam" aria-selected="false" tabindex="-1" onclick="switchTab('exam')">Practice Exam</button>
       <button class="tab-btn" role="tab" id="tab-qref" aria-controls="view-qref" aria-selected="false" tabindex="-1" onclick="switchTab('qref')">Quick Reference</button>
       <button class="tab-btn" role="tab" id="tab-memory" aria-controls="view-memory" aria-selected="false" tabindex="-1" onclick="switchTab('memory')">Memory Tricks</button>

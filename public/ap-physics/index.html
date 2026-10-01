@@ -640,6 +640,10 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 @media(max-width:600px){
   .desmos-panel{left:12px;top:100px}
 }
+/* On narrow screens the toolkit windows' staggered desktop cascade
+   (see ssMakeDraggable() defaults above) would push some of them
+   partly off-screen -- start them all flush against the left edge
+   instead. They're still fully draggable from there. */
 @media(max-width:480px){
   #cbot-panel,.reference-panel{left:8px}
   .reference-panel{top:100px}

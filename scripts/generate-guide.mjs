@@ -243,11 +243,13 @@ export function generateGuide(config) {
   const metaDescription = buildMetaDescription(config);
 
   let html = templateHead
-    .replace(/__TITLE__/g, esc(title))
-    .replace(/__PAGE_TITLE__/g, esc(`${title} Study Guide — PrecisStudy`))
-    .replace(/__DESCRIPTION__/g, esc(metaDescription))
-    .replace(/__SLUG__/g, slug)
-    .replace(/__JSONLD__/, buildJsonLd(config, metaDescription));
+    // Replacement *functions* throughout: a replacement string would treat "$'", "$&" and "$`" in
+    // guide text (math like "$'...") as special patterns and splice copies of the page into itself.
+    .replace(/__TITLE__/g, () => esc(title))
+    .replace(/__PAGE_TITLE__/g, () => esc(`${title} Study Guide — PrecisStudy`))
+    .replace(/__DESCRIPTION__/g, () => esc(metaDescription))
+    .replace(/__SLUG__/g, () => slug)
+    .replace(/__JSONLD__/, () => buildJsonLd(config, metaDescription));
 
   let style = templateStyle;
   if (accentColor) {
@@ -312,19 +314,19 @@ export function generateGuide(config) {
   html += hero;
 
   let views = templateViews
-    .replace("__SPC_INTRO__", `${quiz.length} practice questions across ${units.length} units. Slide to match your situation.`)
-    .replace("__FILTER_CHIPS__",
+    .replace("__SPC_INTRO__", () => `${quiz.length} practice questions across ${units.length} units. Slide to match your situation.`)
+    .replace("__FILTER_CHIPS__", () =>
       `<button class="chip on">All Units</button>${units.map(u => `<button class="chip">Unit ${u.id}</button>`).join("")}`)
-    .replace("__FILTER_OPTIONS__",
+    .replace("__FILTER_OPTIONS__", () =>
       `<option value="0">All Units</option>${units.map(u => `<option value="${u.id}">Unit ${u.id}</option>`).join("")}`)
-    .replace('<div id="units"></div>', `<div id="units">${buildUnitsStatic(units, config.diagrams || {})}</div>`)
-    .replace("__QBANK__", config.qbankArchive ? buildQBankArchive(units, quiz, hardQ) : "")
-    .replace("__FC_ARCHIVE__", buildFcArchive(units, flashcards))
-    .replace("__EXAMPLES__", buildExamplesStatic(units, worked))
-    .replace("__QREF__", config.qrefHtml || buildQref(units))
+    .replace('<div id="units"></div>', () => `<div id="units">${buildUnitsStatic(units, config.diagrams || {})}</div>`)
+    .replace("__QBANK__", () => config.qbankArchive ? buildQBankArchive(units, quiz, hardQ) : "")
+    .replace("__FC_ARCHIVE__", () => buildFcArchive(units, flashcards))
+    .replace("__EXAMPLES__", () => buildExamplesStatic(units, worked))
+    .replace("__QREF__", () => config.qrefHtml || buildQref(units))
     .replace(
       '<div class="mem-intro">Common mistakes for each unit — read the mistake, then make sure you know why it\'s wrong.</div>__MEMORY__',
-      config.memoryHtml || `<div class="mem-intro">Common mistakes for each unit — read the mistake, then make sure you know why it's wrong.</div>${buildMemory(units)}`,
+      () => config.memoryHtml || `<div class="mem-intro">Common mistakes for each unit — read the mistake, then make sure you know why it's wrong.</div>${buildMemory(units)}`,
     );
   if (!worked.length)
     views = views.replace(/<div id="view-examples"[^>]*><\/div>\n?/, "");
@@ -416,8 +418,9 @@ export function generateGuide(config) {
   // The app logic itself is public/shared/guide-app.js, shared by every
   // guide; it reads the subject from SS_GUIDE.
   html += `const SS_GUIDE=${js({ slug, key: mKey, title }).replace(/</g, "\\u003c")};\n`;
-  html += `</script><script src="/shared/guide-app.js">`;
-  html += `\n</script><script src="/shared/command-palette.js" defer></script><script src="/shared/high-contrast.js" defer></script></body></html>`;
+  // Same footer every live page carries (error-monitor.js was added to the pages by
+  // scripts/patch-error-monitor.mjs; keep this list in sync with that footer).
+  html += `</script><script src="/shared/guide-app.js"></script><script src="/shared/command-palette.js" defer></script><script src="/shared/high-contrast.js" defer></script><script src="/shared/error-monitor.js" defer></script></body></html>`;
 
   return html;
 }
