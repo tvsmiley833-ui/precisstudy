@@ -2919,3 +2919,57 @@ function ssDiagBatchRenderContinue(){
   var m=/^#u=([\w-]+)&c=(\d+)$/.exec(location.hash);
   if(m)setTimeout(function(){jumpToUnit(m[1],+m[2]);},150);
 })();
+
+// Sticky "next concept" bar: follows the concept at ~40% of the viewport and
+// steps through every concept in page order (unit order included), opening the
+// next unit when needed. After the last concept it points at the Quiz tab.
+(function(){
+  if(typeof UNITS==='undefined')return;
+  var all=[].slice.call(document.querySelectorAll('.unit .concept[data-idx]'));
+  if(!all.length)return;
+  var bar=document.createElement('div');
+  bar.className='ss-cnav';bar.setAttribute('role','region');bar.setAttribute('aria-label','Concept navigation');bar.hidden=true;
+  bar.innerHTML='<button type="button" class="ss-cnav-prev" aria-label="Previous concept">&larr;</button><span class="ss-cnav-where"></span><button type="button" class="ss-cnav-next"></button>';
+  document.body.appendChild(bar);
+  var where=bar.querySelector('.ss-cnav-where'),prev=bar.querySelector('.ss-cnav-prev'),next=bar.querySelector('.ss-cnav-next');
+  var cur=-1,raf=0;
+  function label(c){var l=c&&c.querySelector('.c-label');return l?l.textContent.trim():'Next concept';}
+  function unitOf(c){return c.closest('.unit');}
+  function update(){
+    raf=0;
+    var guide=document.getElementById('view-guide');
+    var i=-1,line=innerHeight*.4;
+    if(guide&&guide.classList.contains('active')){
+      for(var k=0;k<all.length;k++){
+        var c=all[k];if(!c.offsetParent)continue;
+        var r=c.getBoundingClientRect();
+        if(r.top<=line)i=k;else break;
+      }
+      if(i>-1&&line-all[i].getBoundingClientRect().bottom>400)i=-1;
+    }
+    if(i===cur&&!bar.hidden===(i>-1))return;
+    cur=i;
+    if(i<0){bar.hidden=true;return;}
+    var c=all[i],u=unitOf(c),sib=u.querySelectorAll('.concept[data-idx]');
+    where.innerHTML='<b>Unit '+u.getAttribute('data-id')+'</b> · concept '+(+c.getAttribute('data-idx')+1)+' of '+sib.length;
+    prev.disabled=i===0;
+    next.textContent=i<all.length-1?'Next: '+label(all[i+1])+' →':'Take the quiz →';
+    bar.hidden=false;
+  }
+  function go(c){
+    var u=unitOf(c);
+    if(u.classList.contains('open'))c.scrollIntoView({behavior:ssScrollBehavior(),block:'start'});
+    else jumpToUnit(u.getAttribute('data-id'),+c.getAttribute('data-idx'));
+  }
+  next.addEventListener('click',function(){
+    if(cur<0)return;
+    if(cur<all.length-1)go(all[cur+1]);
+    else{switchTab('quiz');window.scrollTo({top:0,behavior:ssScrollBehavior()});}
+  });
+  prev.addEventListener('click',function(){if(cur>0)go(all[cur-1]);});
+  function sched(){if(!raf)raf=requestAnimationFrame(update);}
+  addEventListener('scroll',sched,{passive:true});
+  addEventListener('resize',sched);
+  document.addEventListener('click',sched);
+  sched();
+})();

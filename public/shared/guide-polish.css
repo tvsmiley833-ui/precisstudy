@@ -560,3 +560,17 @@ html body .diagram .dcap{color:var(--ink-muted,var(--ink-dim,#5c6a63))}
 /* ---------- Pomodoro mode on the study timer ---------- */
 html:root body .hero.hero .sgt-mode[aria-pressed="true"] { background: var(--brand-green) !important; border-color: var(--brand-green) !important; color: #0e231e !important; }
 html:root body .hero.hero #sgt-time[data-phase="break"] { color: var(--brand-green); }
+
+/* ---------- Sticky "next concept" bar ---------- */
+.ss-cnav{position:fixed;z-index:60;bottom:20px;left:50%;width:min(560px,calc(100vw - 300px));display:flex;align-items:center;gap:10px;box-sizing:border-box;padding:8px 8px 8px 16px;background:var(--surface);border:1px solid var(--border-strong,var(--border));border-radius:999px;box-shadow:0 6px 24px rgba(0,0,0,.28);transform:translate(-50%,0);transition:transform .2s ease,opacity .2s ease}
+.ss-cnav[hidden]{display:flex;opacity:0;transform:translate(-50%,24px);pointer-events:none;visibility:hidden}
+.ss-cnav-where{flex:1;min-width:0;font-size:14px;color:var(--ink-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ss-cnav-where b{color:var(--ink);font-weight:700}
+.ss-cnav button{min-height:44px;border-radius:999px;border:1px solid var(--border);background:var(--surface-2,var(--surface));color:var(--ink);font:inherit;font-size:14px;font-weight:700;cursor:pointer;padding:0 16px}
+.ss-cnav button:hover{border-color:var(--accent)}
+.ss-cnav .ss-cnav-next{background:var(--accent);border-color:var(--accent);color:#fff;max-width:46%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ss-cnav .ss-cnav-prev{width:44px;padding:0;flex:none}
+@media(max-width:900px){.ss-cnav{width:calc(100vw - 106px);left:16px;bottom:84px;transform:none}.ss-cnav[hidden]{transform:translateY(24px)}.ss-cnav-where{display:none}.ss-cnav .ss-cnav-next{max-width:none;flex:1}}
+@media(prefers-reduced-motion:reduce){.ss-cnav{transition:none}}
+@media print{.ss-cnav{display:none!important}}
+html.ss-focus-mode .ss-cnav{display:none}
