@@ -531,63 +531,6 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
   </div>
 </div>
 
-<div id="how-it-works" class="ss-reveal" style="padding:8px 32px 24px;">
-  <div style="max-width:1120px;margin:0 auto;">
-    <h2 style="font-weight:700;font-size:14px;color:var(--nav-text);text-transform:uppercase;letter-spacing:0.06em;margin:0 0 16px;">
-      How It Works
-    </h2>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;">
-      <div>
-        <div style="width:36px;height:36px;border-radius:10px;background:var(--chip-bg);color:var(--chip-text);font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;">1</div>
-        <div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:4px;">Diagnose</div>
-        <div style="font-size:14px;color:var(--text-muted);line-height:1.5;">Take a 5-minute diagnostic to find your weak spots — before you waste time studying what you already know.</div>
-      </div>
-      <div>
-        <div style="width:36px;height:36px;border-radius:10px;background:var(--chip-bg);color:var(--chip-text);font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;">2</div>
-        <div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:4px;">Study</div>
-        <div style="font-size:14px;color:var(--text-muted);line-height:1.5;">Read focused notes and worked examples for exactly the topics you're missing.</div>
-      </div>
-      <div>
-        <div style="width:36px;height:36px;border-radius:10px;background:var(--chip-bg);color:var(--chip-text);font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;">3</div>
-        <div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:4px;">Practice</div>
-        <div style="font-size:14px;color:var(--text-muted);line-height:1.5;">Quiz yourself and review flashcards. Every answer updates your mastery, topic by topic.</div>
-      </div>
-      <div>
-        <div style="width:36px;height:36px;border-radius:10px;background:var(--chip-bg);color:var(--chip-text);font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;">4</div>
-        <div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:4px;">Improve</div>
-        <div style="font-size:14px;color:var(--text-muted);line-height:1.5;">Watch your exam readiness score climb as weak topics turn green on your dashboard.</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="study-tools" class="ss-reveal" style="padding:8px 32px 24px;">
-  <div style="max-width:1120px;margin:0 auto;">
-    <h2 style="font-weight:700;font-size:14px;color:var(--nav-text);text-transform:uppercase;letter-spacing:0.06em;margin:0 0 16px;">
-      Study Tools
-    </h2>
-    <form class="st-exam" id="exam-form" onsubmit="ssSaveExam(event)">
-      <label for="exam-date">My exam date<input type="date" id="exam-date" required></label>
-      <label for="exam-label">What is it? (optional)<input type="text" id="exam-label" maxlength="40" placeholder="AP Lang exam" autocomplete="off"></label>
-      <button type="submit">Start countdown</button>
-      <button type="button" class="st-ghost" id="exam-clear" onclick="ssClearExam()" style="display:none">Clear</button>
-      <div class="st-status" id="exam-status" role="status" aria-live="polite">Set a date and we'll count down the days here, and use it to fill in your study plan.</div>
-    </form>
-    <div class="st-grid">
-      <a class="st-card" href="#classes-section"><h3>5-minute diagnostic</h3><p>Pick a class and find your weak spots before you study. No sign-up needed.</p><span class="st-go">Pick a class &rarr;</span></a>
-      <a class="st-card" href="#classes-section"><h3>Flashcards that come back on time</h3><p>Spaced repetition brings each card back just before you'd forget it. Cards due today show as a badge on the Flashcards tab.</p><span class="st-go">Pick a class &rarr;</span></a>
-      <a class="st-card" href="/flashcards"><h3>Make your own flashcards</h3><p>Paste or upload your notes and turn them into a deck you can study.</p><span class="st-go">Make a deck &rarr;</span></a>
-      <a class="st-card" href="#classes-section"><h3>Study plan in your calendar</h3><p>Choose days and minutes, then download a plan for Google, Apple, or Outlook Calendar. Find it on any guide's Quiz tab.</p><span class="st-go">Pick a class &rarr;</span></a>
-      <a class="st-card" href="#classes-section"><h3>Read aloud and dyslexia mode</h3><p>Natural voices with a voice picker, a Pomodoro timer, and a dyslexia-friendly reading mode on every guide.</p><span class="st-go">Pick a class &rarr;</span></a>
-      <div class="st-card"><h3>Search everything</h3><p>Press <kbd>Ctrl</kbd> + <kbd>K</kbd> (<kbd>&#8984;</kbd> + <kbd>K</kbd> on a Mac) on any page to jump to a topic, tool, or class.</p></div>
-      <a class="st-card" href="/dashboard"><h3>Streaks, badges, and heatmap</h3><p>See your readiness by topic, your study streak, and what to practice next.</p><span class="st-go">Open dashboard &rarr;</span></a>
-      <a class="st-card" href="/compete"><h3>Compete with friends</h3><p>Race on quizzes and challenge a classmate to beat your score.</p><span class="st-go">Compete &rarr;</span></a>
-      <a class="st-card" href="/syllabus"><h3>Upload your syllabus</h3><p>Match a guide to the order your teacher covers things.</p><span class="st-go">Upload &rarr;</span></a>
-      <a class="st-card" href="/concepts"><h3>Concept map</h3><p>See how topics depend on each other so you know what to learn first.</p><span class="st-go">Open map &rarr;</span></a>
-    </div>
-  </div>
-</div>
-
 <div id="classes-section" class="ss-reveal" style="padding:8px 32px 24px;">
   <div style="max-width:1120px;margin:0 auto;">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
@@ -977,6 +920,63 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
     </div>
   </div>
 </div>
+<div id="how-it-works" class="ss-reveal" style="padding:8px 32px 24px;">
+  <div style="max-width:1120px;margin:0 auto;">
+    <h2 style="font-weight:700;font-size:14px;color:var(--nav-text);text-transform:uppercase;letter-spacing:0.06em;margin:0 0 16px;">
+      How It Works
+    </h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;">
+      <div>
+        <div style="width:36px;height:36px;border-radius:10px;background:var(--chip-bg);color:var(--chip-text);font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;">1</div>
+        <div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:4px;">Diagnose</div>
+        <div style="font-size:14px;color:var(--text-muted);line-height:1.5;">Take a 5-minute diagnostic to find your weak spots — before you waste time studying what you already know.</div>
+      </div>
+      <div>
+        <div style="width:36px;height:36px;border-radius:10px;background:var(--chip-bg);color:var(--chip-text);font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;">2</div>
+        <div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:4px;">Study</div>
+        <div style="font-size:14px;color:var(--text-muted);line-height:1.5;">Read focused notes and worked examples for exactly the topics you're missing.</div>
+      </div>
+      <div>
+        <div style="width:36px;height:36px;border-radius:10px;background:var(--chip-bg);color:var(--chip-text);font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;">3</div>
+        <div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:4px;">Practice</div>
+        <div style="font-size:14px;color:var(--text-muted);line-height:1.5;">Quiz yourself and review flashcards. Every answer updates your mastery, topic by topic.</div>
+      </div>
+      <div>
+        <div style="width:36px;height:36px;border-radius:10px;background:var(--chip-bg);color:var(--chip-text);font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;">4</div>
+        <div style="font-weight:800;font-size:16px;color:var(--text);margin-bottom:4px;">Improve</div>
+        <div style="font-size:14px;color:var(--text-muted);line-height:1.5;">Watch your exam readiness score climb as weak topics turn green on your dashboard.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="study-tools" class="ss-reveal" style="padding:8px 32px 24px;">
+  <div style="max-width:1120px;margin:0 auto;">
+    <h2 style="font-weight:700;font-size:14px;color:var(--nav-text);text-transform:uppercase;letter-spacing:0.06em;margin:0 0 16px;">
+      Study Tools
+    </h2>
+    <form class="st-exam" id="exam-form" onsubmit="ssSaveExam(event)">
+      <label for="exam-date">My exam date<input type="date" id="exam-date" required></label>
+      <label for="exam-label">What is it? (optional)<input type="text" id="exam-label" maxlength="40" placeholder="AP Lang exam" autocomplete="off"></label>
+      <button type="submit">Start countdown</button>
+      <button type="button" class="st-ghost" id="exam-clear" onclick="ssClearExam()" style="display:none">Clear</button>
+      <div class="st-status" id="exam-status" role="status" aria-live="polite">Set a date and we'll count down the days here, and use it to fill in your study plan.</div>
+    </form>
+    <div class="st-grid">
+      <a class="st-card" href="#classes-section"><h3>5-minute diagnostic</h3><p>Pick a class and find your weak spots before you study. No sign-up needed.</p><span class="st-go">Pick a class &rarr;</span></a>
+      <a class="st-card" href="#classes-section"><h3>Flashcards that come back on time</h3><p>Spaced repetition brings each card back just before you'd forget it. Cards due today show as a badge on the Flashcards tab.</p><span class="st-go">Pick a class &rarr;</span></a>
+      <a class="st-card" href="/flashcards"><h3>Make your own flashcards</h3><p>Paste or upload your notes and turn them into a deck you can study.</p><span class="st-go">Make a deck &rarr;</span></a>
+      <a class="st-card" href="#classes-section"><h3>Study plan in your calendar</h3><p>Choose days and minutes, then download a plan for Google, Apple, or Outlook Calendar. Find it on any guide's Quiz tab.</p><span class="st-go">Pick a class &rarr;</span></a>
+      <a class="st-card" href="#classes-section"><h3>Read aloud and dyslexia mode</h3><p>Natural voices with a voice picker, a Pomodoro timer, and a dyslexia-friendly reading mode on every guide.</p><span class="st-go">Pick a class &rarr;</span></a>
+      <div class="st-card"><h3>Search everything</h3><p>Press <kbd>Ctrl</kbd> + <kbd>K</kbd> (<kbd>&#8984;</kbd> + <kbd>K</kbd> on a Mac) on any page to jump to a topic, tool, or class.</p></div>
+      <a class="st-card" href="/dashboard"><h3>Streaks, badges, and heatmap</h3><p>See your readiness by topic, your study streak, and what to practice next.</p><span class="st-go">Open dashboard &rarr;</span></a>
+      <a class="st-card" href="/compete"><h3>Compete with friends</h3><p>Race on quizzes and challenge a classmate to beat your score.</p><span class="st-go">Compete &rarr;</span></a>
+      <a class="st-card" href="/syllabus"><h3>Upload your syllabus</h3><p>Match a guide to the order your teacher covers things.</p><span class="st-go">Upload &rarr;</span></a>
+      <a class="st-card" href="/concepts"><h3>Concept map</h3><p>See how topics depend on each other so you know what to learn first.</p><span class="st-go">Open map &rarr;</span></a>
+    </div>
+  </div>
+</div>
+
 
 <section class="ss-reveal ss-demo" aria-labelledby="ss-demo-h" style="padding:8px 32px 32px;">
   <div style="max-width:1120px;margin:0 auto;">
