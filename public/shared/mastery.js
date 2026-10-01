@@ -165,17 +165,19 @@ export function buildSchedule(mastery, unitIds, unitNames, days, minutesPerDay) 
 }
 
 /**
- * Moves numeric unit keys up by one (Physics gained a new Unit 1).
+ * Moves numeric unit keys >= `from` up by one (a unit was inserted at position `from`;
+ * Physics gained a new Unit 1, Algebra II a new Unit 2).
  * @template T
  * @param {Record<string, T>} record
+ * @param {number} [from]
  * @returns {Record<string, T>}
  */
-export function shiftUnitKeys(record) {
+export function shiftUnitKeys(record, from = 1) {
   /** @type {Record<string, T>} */
   const out = {};
   for (const [k, v] of Object.entries(record)) {
     const n = Number(k);
-    out[Number.isInteger(n) && n > 0 ? String(n + 1) : k] = v;
+    out[Number.isInteger(n) && n >= from && n > 0 ? String(n + 1) : k] = v;
   }
   return out;
 }
@@ -198,6 +200,27 @@ export function migrateLocalPhysics(state) {
   const keys = Object.keys(state.mastery);
   if (!keys.length || keys.includes("12")) return false;
   state.mastery = shiftUnitKeys(state.mastery);
+  return true;
+}
+
+const ALGEBRA2_SHIFT_FLAG = "ssMigrated_algebra2-units-v2";
+
+/**
+ * One-time shift of locally saved Algebra II progress (signed-out students; signed-in ones are
+ * migrated server-side and overwrite this on merge). Algebra II gained a new Unit 2, so old
+ * units 2-12 became 3-13. A "13" key only exists in the new numbering, so it means the data
+ * is already new-style.
+ * @param {MasteryState} state
+ * @returns {boolean} true if the state changed
+ */
+export function migrateLocalAlgebra2(state) {
+  try {
+    if (localStorage.getItem(ALGEBRA2_SHIFT_FLAG)) return false;
+    localStorage.setItem(ALGEBRA2_SHIFT_FLAG, "1");
+  } catch (e) { return false; }
+  const keys = Object.keys(state.mastery);
+  if (!keys.length || keys.includes("13")) return false;
+  state.mastery = shiftUnitKeys(state.mastery, 2);
   return true;
 }
 
@@ -336,6 +359,7 @@ export function createMastery(subject, unitIds, unitNames) {
     async init() {
       load();
       if (subject === "physics" && migrateLocalPhysics(state)) saveLocal();
+      if (subject === "algebra2" && migrateLocalAlgebra2(state)) saveLocal();
       await mergeFromServer();
     },
     recordAnswer(unitId, correct) {

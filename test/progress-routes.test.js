@@ -1041,3 +1041,67 @@ describe("physics unit-shift migration", () => {
     expect(stored(kv).migrations).toEqual(["physics-units-v2"]);
   });
 });
+
+describe("algebra II unit-shift migration (new Unit 2: completing the square)", () => {
+  const url = "https://example.com/api/progress";
+  function stored(kv) { return JSON.parse(kv._store.get("progress:student@example.com")); }
+
+  it("shifts old units 2-12 up by one, leaves Unit 1 and other subjects alone, and runs once", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV({ "progress:student@example.com": JSON.stringify({
+      updatedAt: "2026-09-30T12:00:00.000Z",
+      algebra2: { mastery: { "1": { correct: 5, total: 6 }, "2": { correct: 3, total: 4 }, "12": { correct: 1, total: 2 } }, examples: {}, cardsKnown: ["Remainder Theorem"], unitOrder: [3, 1, 2] },
+      physics: { mastery: { "2": { correct: 2, total: 2 } }, examples: {}, cardsKnown: [] },
+      chemistry: { mastery: { "2": { correct: 7, total: 8 } }, examples: {}, cardsKnown: [] }
+    }) });
+    const env = { SESSION_SECRET: SECRET, PROGRESS: kv };
+    const data = await (await handleGetProgress(req(url, cookie), env)).json();
+    expect(data.algebra2.mastery).toEqual({ "1": { correct: 5, total: 6 }, "3": { correct: 3, total: 4 }, "13": { correct: 1, total: 2 } });
+    expect(data.algebra2.unitOrder).toEqual([4, 1, 3]);
+    expect(data.algebra2.cardsKnown).toEqual(["Remainder Theorem"]);
+    expect(data.chemistry.mastery).toEqual({ "2": { correct: 7, total: 8 } });
+    expect(stored(kv).migrations).toContain("algebra2-units-v2");
+    const again = await (await handleGetProgress(req(url, cookie), env)).json();
+    expect(again.algebra2.mastery).toEqual(data.algebra2.mastery);
+  });
+
+  it("flags but does not shift algebra II data saved after the cutoff", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV({ "progress:student@example.com": JSON.stringify({
+      updatedAt: "2026-10-01T23:00:00.000Z",
+      algebra2: { mastery: { "2": { correct: 3, total: 4 } }, examples: {}, cardsKnown: [] }
+    }) });
+    const data = await (await handleGetProgress(req(url, cookie), { SESSION_SECRET: SECRET, PROGRESS: kv })).json();
+    expect(data.algebra2.mastery).toEqual({ "2": { correct: 3, total: 4 } });
+    expect(stored(kv).migrations).toContain("algebra2-units-v2");
+  });
+
+  it("marks old data migrated on a POST so its fresh timestamp can't hide it", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV({ "progress:student@example.com": JSON.stringify({
+      updatedAt: "2026-09-30T12:00:00.000Z",
+      algebra2: { mastery: { "2": { correct: 1, total: 2 } }, examples: {}, cardsKnown: [] }
+    }) });
+    const env = { SESSION_SECRET: SECRET, PROGRESS: kv };
+    await handlePostProgress(req(url, cookie, "POST", { subject: "chemistry", mastery: {}, examples: {}, cardsKnown: [] }), env);
+    expect(stored(kv).algebra2.mastery).toEqual({ "3": { correct: 1, total: 2 } });
+    expect(stored(kv).migrations).toContain("algebra2-units-v2");
+  });
+
+  it("does nothing for a student with no algebra II data", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV({ "progress:student@example.com": JSON.stringify({
+      updatedAt: "2026-09-30T12:00:00.000Z",
+      chemistry: { mastery: { "2": { correct: 7, total: 8 } }, examples: {}, cardsKnown: [] }
+    }) });
+    const data = await (await handleGetProgress(req(url, cookie), { SESSION_SECRET: SECRET, PROGRESS: kv })).json();
+    expect(data.chemistry.mastery).toEqual({ "2": { correct: 7, total: 8 } });
+    expect(stored(kv).migrations ?? []).not.toContain("algebra2-units-v2");
+  });
+
+  it("shiftUnitKeys can start from a later unit and ignores non-numeric keys", async () => {
+    const { shiftUnitKeys } = await import("../src/progress-routes.ts");
+    expect(shiftUnitKeys({ "1": "a", "2": "b", "x": "c", "10": "d" }, 2)).toEqual({ "1": "a", "3": "b", "x": "c", "11": "d" });
+    expect(shiftUnitKeys({ "1": "a", "2": "b" })).toEqual({ "2": "a", "3": "b" });
+  });
+});

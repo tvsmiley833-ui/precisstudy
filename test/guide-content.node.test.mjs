@@ -74,7 +74,8 @@ test("a unit never repeats a flashcard term (progress and review schedule are ke
     const seen = new Map();
     (g.flashcards || []).forEach((c, i) => {
       if (/[<>]/.test(c.t)) return; // code generics like ArrayList<Integer> are deliberate variants
-      const key = `${c.u}|${norm(c.t)}`;
+      // The exact term (only case and spacing ignored) is what progress is keyed by: "a = 1" and "a ≠ 1" are different cards.
+      const key = `${c.u}|${String(c.t).trim().toLowerCase().replace(/\s+/g, " ")}`;
       if (seen.has(key)) bad.push(`${slug}: "${c.t}" in unit ${c.u} appears at flashcards[${seen.get(key)}] and [${i}]`);
       else seen.set(key, i);
     });

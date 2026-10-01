@@ -38,17 +38,18 @@ export const algebra1Units = [
 /** @type {Unit[]} */
 export const algebra2Units = [
   { id: 1, name: "Real Number Subsets & Inequalities" },
-  { id: 2, name: "Polynomial Functions & Operations" },
-  { id: 3, name: "Rational Expressions & Equations" },
-  { id: 4, name: "Radicals & Rational Exponents" },
-  { id: 5, name: "Exponential & Logarithmic Functions" },
-  { id: 6, name: "Sequences & Series" },
-  { id: 7, name: "Trigonometric Functions & the Unit Circle" },
-  { id: 8, name: "Trigonometric Graphs & Identities" },
-  { id: 9, name: "Complex Numbers & Quadratics Revisited" },
-  { id: 10, name: "Function Operations, Inverses & Transformations" },
-  { id: 11, name: "Statistics: Sampling & Inference" },
-  { id: 12, name: "Probability" }
+  { id: 2, name: "Solving Quadratics by Completing the Square" },
+  { id: 3, name: "Polynomial Functions & Operations" },
+  { id: 4, name: "Rational Expressions & Equations" },
+  { id: 5, name: "Radicals & Rational Exponents" },
+  { id: 6, name: "Exponential & Logarithmic Functions" },
+  { id: 7, name: "Sequences & Series" },
+  { id: 8, name: "Trigonometric Functions & the Unit Circle" },
+  { id: 9, name: "Trigonometric Graphs & Identities" },
+  { id: 10, name: "Complex Numbers & Quadratics Revisited" },
+  { id: 11, name: "Function Operations, Inverses & Transformations" },
+  { id: 12, name: "Statistics: Sampling & Inference" },
+  { id: 13, name: "Probability" }
 ];
 
 /** @type {Unit[]} */

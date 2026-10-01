@@ -34,7 +34,7 @@ interface SubjectProgress {
 export type ProgressBlob = {
   goal: { days: number; minutesPerDay: number; savedAt: string } | null;
   updatedAt: string | null;
-  // One-time data migrations already applied (see migratePhysicsUnits).
+  // One-time data migrations already applied (see migratePhysicsUnits, migrateAlgebra2Units).
   migrations?: string[];
   enrolledSubjects: string[];
   pushSubscriptions: PushSubscriptionRecord[];
@@ -266,13 +266,35 @@ function isValidBlock(b: unknown): b is ScheduleBlock {
 const PHYSICS_SHIFT_MIGRATION = "physics-units-v2";
 const PHYSICS_SHIFT_CUTOFF = "2026-09-23T21:10:00.000Z";
 
-export function shiftUnitKeys<T>(record: Record<string, T>): Record<string, T> {
+/** Moves numeric unit keys >= `from` up by one (a unit was inserted at position `from`). */
+export function shiftUnitKeys<T>(record: Record<string, T>, from = 1): Record<string, T> {
   const out: Record<string, T> = {};
   for (const [k, v] of Object.entries(record)) {
     const n = Number(k);
-    out[Number.isInteger(n) && n > 0 ? String(n + 1) : k] = v;
+    out[Number.isInteger(n) && n >= from && n > 0 ? String(n + 1) : k] = v;
   }
   return out;
+}
+
+// Algebra II gained a new Unit 2 (Completing the Square), so old units 2-12 became 3-13
+// (Unit 1 is unchanged). Same rules as the Physics shift above: progress last written before
+// the cutoff is shifted once; blobs written after it already use the new numbers and are only flagged.
+const ALGEBRA2_SHIFT_MIGRATION = "algebra2-units-v2";
+export const ALGEBRA2_SHIFT_CUTOFF = "2026-10-01T02:35:55.000Z";
+
+// Returns true when the blob changed and should be written back.
+export function migrateAlgebra2Units(blob: ProgressBlob): boolean {
+  const done = Array.isArray(blob.migrations) ? blob.migrations : [];
+  if (done.includes(ALGEBRA2_SHIFT_MIGRATION)) return false;
+  const algebra2 = blob.algebra2;
+  const hasData = !!algebra2 && (Object.keys(algebra2.mastery || {}).length > 0 || !!algebra2.unitOrder?.length);
+  if (!hasData) return false;
+  if (blob.updatedAt && blob.updatedAt < ALGEBRA2_SHIFT_CUTOFF) {
+    algebra2.mastery = shiftUnitKeys(algebra2.mastery || {}, 2);
+    if (algebra2.unitOrder) algebra2.unitOrder = algebra2.unitOrder.map(id => (id >= 2 ? id + 1 : id));
+  }
+  blob.migrations = [...done, ALGEBRA2_SHIFT_MIGRATION];
+  return true;
 }
 
 // Returns true when the blob changed and should be written back.
@@ -416,7 +438,8 @@ export async function handleGetProgress(request: Request, env: Env): Promise<Res
   if (!env.PROGRESS) return json({ error: "Progress sync isn't configured yet" }, 503);
 
   const blob = await loadBlob(env, session.email);
-  if (migratePhysicsUnits(blob)) await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  const migrated = [migratePhysicsUnits(blob), migrateAlgebra2Units(blob)].some(Boolean);
+  if (migrated) await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
   return json(blob);
 }
 
@@ -440,9 +463,10 @@ export async function handlePostProgress(request: Request, env: Env): Promise<Re
   const examples = typeof rec.examples === "object" && rec.examples !== null ? rec.examples : {};
   const cardsKnown = Array.isArray(rec.cardsKnown) ? rec.cardsKnown : [];
   const blob = await loadBlob(env, session.email);
-  // Mark old physics data migrated before this save stamps a fresh updatedAt
+  // Mark old physics / algebra II data migrated before this save stamps a fresh updatedAt
   // (which would otherwise make it look post-cutoff and skip the shift).
   migratePhysicsUnits(blob);
+  migrateAlgebra2Units(blob);
   // unitOrder isn't part of mastery.js's regular autosync payload (it only
   // ever sends mastery/examples/cardsKnown), so a POST that omits it should
   // preserve whatever was already saved rather than wiping it out.
