@@ -1,0 +1,470 @@
+// Tests for client-side features in public/shared/guide-app.js. The real functions are cut
+// out of the shipped file (see helpers/guide-fns.mjs) and run with stubbed browser globals.
+import { test, describe } from "node:test";
+import assert from "node:assert/strict";
+import { loadGuide } from "./helpers/guide-fns.mjs";
+
+// ───────────────────────────── study plan (.ics) ─────────────────────────────
+describe("study plan calendar export", () => {
+  const { ssIcsText, ssIcsFold, ssBuildPlanIcs } = loadGuide(["ssIcsText", "ssIcsFold", "ssP2", "ssYmd", "ssBuildPlanIcs"]);
+  const units = Array.from({ length: 12 }, (_, i) => ({ id: i + 1, name: `Topic ${i + 1}` }));
+  const MORNING = new Date(2026, 8, 29, 10, 0, 0); // before a 16:00 reminder
+  const NIGHT = new Date(2026, 8, 29, 22, 0, 0); // after it
+  const plan = (over = {}) => ssBuildPlanIcs({
+    days: 14, mins: 30, perDayQ: 20, timeStr: "16:00", now: MORNING, covered: 6,
+    title: "Algebra II", slug: "algebra2", origin: "https://precisstudy.com", units, ...over
+  });
+  const unfold = t => t.replace(/\r\n /g, "");
+  const eventCount = t => t.split("BEGIN:VEVENT").length - 1;
+  const lines = t => unfold(t).split("\r\n");
+
+  test("is a well-formed calendar with CRLF line endings", () => {
+    const t = plan();
+    assert.ok(t.startsWith("BEGIN:VCALENDAR\r\nVERSION:2.0\r\n"));
+    assert.ok(t.endsWith("END:VCALENDAR\r\n"));
+    assert.ok(!/[^\r]\n/.test(t), "no bare LF line endings");
+    assert.equal((t.match(/BEGIN:VEVENT/g) || []).length, (t.match(/END:VEVENT/g) || []).length);
+    assert.equal((t.match(/BEGIN:VALARM/g) || []).length, (t.match(/END:VALARM/g) || []).length);
+  });
+
+  test("starts today when the reminder time is still ahead: one event per day plus exam day", () => {
+    const t = plan();
+    assert.equal(eventCount(t), 15); // 14 study days (Sep 29 - Oct 12) + exam day
+    assert.ok(t.includes("DTSTART:20260929T160000"));
+    assert.ok(t.includes("DTSTART;VALUE=DATE:20261013"));
+    assert.ok(t.includes("DTEND;VALUE=DATE:20261014"));
+  });
+
+  test("starts tomorrow when today's reminder time has already passed", () => {
+    const t = plan({ now: NIGHT });
+    assert.ok(!t.includes("DTSTART:20260929T"));
+    assert.ok(t.includes("DTSTART:20260930T160000"));
+    assert.equal(eventCount(t), 14); // 13 study days + exam day
+  });
+
+  test("a reminder exactly at the current time counts as passed", () => {
+    const t = plan({ now: new Date(2026, 8, 29, 16, 0, 0) });
+    assert.ok(!t.includes("DTSTART:20260929T"));
+  });
+
+  test("event length follows the minutes-per-day setting, including across the hour", () => {
+    assert.ok(plan({ mins: 30 }).includes("DTEND:20260929T163000"));
+    assert.ok(plan({ mins: 90 }).includes("DTEND:20260929T173000"));
+    assert.ok(plan({ mins: 45, timeStr: "16:30" }).includes("DTEND:20260929T171500"));
+  });
+
+  test("an invalid time falls back to 16:00", () => {
+    assert.ok(plan({ timeStr: "soon" }).includes("DTSTART:20260929T160000"));
+    assert.ok(plan({ timeStr: "" }).includes("DTSTART:20260929T160000"));
+  });
+
+  test("spreads covered units across the days and ends with a final review", () => {
+    const sums = lines(plan()).filter(l => l.startsWith("SUMMARY:Study"));
+    assert.equal(sums.length, 14);
+    assert.equal(sums[0], "SUMMARY:Study Algebra II: Unit 1");
+    assert.equal(sums[13], "SUMMARY:Study Algebra II: Final review + mixed quiz");
+    const seen = new Set(sums.slice(0, 13).map(s => s.match(/Unit (\d+)/)?.[1]));
+    for (let u = 1; u <= 6; u++) assert.ok(seen.has(String(u)), `unit ${u} is scheduled`);
+    assert.ok(![...seen].some(n => Number(n) > 6), "no unit beyond what the plan covers");
+  });
+
+  test("when there are more units than days, a day covers a range of units", () => {
+    const t = plan({ days: 3, covered: 12 });
+    const sums = lines(t).filter(l => l.startsWith("SUMMARY:Study"));
+    assert.equal(sums.length, 3);
+    assert.match(sums[0], /Units 1–6$/);
+    assert.match(sums[1], /Units 7–12$/);
+    assert.ok(sums[2].includes("Final review"));
+  });
+
+  test("every covered unit gets scheduled at least once, whatever the days and unit count", () => {
+    for (let days = 1; days <= 60; days++) {
+      for (let covered = 1; covered <= 12; covered++) {
+        const sums = lines(plan({ days, covered, now: MORNING })).filter(l => l.startsWith("SUMMARY:Study"));
+        const seen = new Set();
+        for (const l of sums) {
+          const range = l.match(/Units (\d+)–(\d+)$/);
+          if (range) for (let u = +range[1]; u <= +range[2]; u++) seen.add(u);
+          else { const one = l.match(/: Unit (\d+)$/); if (one) seen.add(+one[1]); }
+        }
+        for (let u = 1; u <= covered; u++) assert.ok(seen.has(u), `days=${days} covered=${covered}: unit ${u} missing`);
+        assert.ok(![...seen].some(u => u > covered), `days=${days} covered=${covered}: scheduled a unit it shouldn't`);
+      }
+    }
+  });
+
+  test("a one-day plan has a single study day that isn't a 'final review'", () => {
+    const sums = lines(plan({ days: 1 })).filter(l => l.startsWith("SUMMARY:Study"));
+    assert.equal(sums.length, 1);
+    assert.ok(!sums[0].includes("Final review"));
+  });
+
+  test("gives every event a unique, stable UID", () => {
+    const uids = lines(plan()).filter(l => l.startsWith("UID:"));
+    assert.equal(new Set(uids).size, uids.length);
+    assert.deepEqual(uids, lines(plan()).filter(l => l.startsWith("UID:")), "same inputs give the same UIDs");
+    assert.ok(uids[0].startsWith("UID:algebra2-plan-20260929@"));
+  });
+
+  test("includes the question goal, guide link, and a 10 minute alert", () => {
+    const t = unfold(plan());
+    assert.ok(t.includes("Goal: about 20 questions in 30 minutes."));
+    assert.ok(t.includes("Open the guide: https://precisstudy.com/algebra2/"));
+    assert.ok(t.includes("TRIGGER:-PT10M"));
+  });
+
+  test("escapes special characters and folds long lines to 75 bytes without losing text", () => {
+    const odd = [{ id: 1, name: "Real Numbers, Inequalities; and a \\ backslash é中" }, { id: 2, name: "x".repeat(200) }];
+    const t = plan({ units: odd, covered: 2, days: 3 });
+    for (const physical of t.split("\r\n")) assert.ok(new TextEncoder().encode(physical).length <= 75, `too long: ${physical.length}`);
+    const flat = unfold(t);
+    assert.ok(flat.includes("Real Numbers\\, Inequalities\\; and a \\\\ backslash é中"));
+    assert.ok(flat.includes("x".repeat(200)), "folded text rejoins exactly");
+  });
+
+  test("ssIcsText escapes backslash, semicolon, comma, and newlines", () => {
+    assert.equal(ssIcsText("a,b;c\\d\r\ne\nf"), "a\\,b\\;c\\\\d\\ne\\nf");
+    assert.equal(ssIcsText(42), "42");
+  });
+
+  test("ssIcsFold never splits a multi-byte character and continues lines with a space", () => {
+    const folded = ssIcsFold("A".repeat(74) + "\u{1F4DA}" + "B".repeat(10));
+    const parts = folded.split("\r\n");
+    assert.ok(parts.length >= 2);
+    assert.ok(parts.slice(1).every(p => p.startsWith(" ")));
+    assert.equal(folded.replace(/\r\n /g, ""), "A".repeat(74) + "\u{1F4DA}" + "B".repeat(10));
+    for (const p of parts) assert.ok(new TextEncoder().encode(p).length <= 75);
+    assert.equal(ssIcsFold("short"), "short");
+  });
+});
+
+// ───────────────────────────── read-aloud text ─────────────────────────────
+describe("read-aloud text conversion", () => {
+  const { ssMathToSpeech, ssSpeechClean, ssUnitSpeechSegments } = loadGuide(
+    ["SS_TTS_MATH_WORDS", "ssMathToSpeech", "ssSpeechClean", "ssUnitSpeechSegments"],
+    { globals: { document: { querySelector: () => null } } }
+  );
+  const noLeftovers = s => assert.ok(!/[\\{}^_$|]/.test(s), `leftover symbols in: ${s}`);
+
+  test("reads a fraction as 'the fraction A, over B' so the grouping is clear", () => {
+    const s = ssSpeechClean("Solve $\\frac{x+3}{2}=5$ for $x$.");
+    assert.equal(s, "Solve the fraction x plus 3, over 2, equals 5 for x.");
+  });
+
+  test("reads the quadratic formula without leftover markup", () => {
+    const s = ssSpeechClean("$x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}$");
+    for (const part of ["x equals the fraction", "negative b", "plus or minus", "the square root of b squared minus 4ac", "over 2a"]) assert.ok(s.includes(part), part);
+    noLeftovers(s);
+  });
+
+  test("distinguishes binary minus from a leading negative", () => {
+    assert.equal(ssMathToSpeech("x-5"), "x minus 5");
+    assert.equal(ssMathToSpeech("-3"), "negative 3");
+    assert.equal(ssMathToSpeech("a=-b"), "a equals negative b");
+  });
+
+  test("speaks exponents, subscripts, roots, and trig functions", () => {
+    assert.equal(ssMathToSpeech("x^2"), "x squared");
+    assert.equal(ssMathToSpeech("(a+b)^3"), "(a plus b) cubed");
+    assert.equal(ssMathToSpeech("2^{n}"), "2 to the power of n");
+    assert.equal(ssMathToSpeech("f^{-1}(x)"), "f inverse (x)");
+    assert.equal(ssMathToSpeech("x_1+x_2"), "x sub 1 plus x sub 2");
+    assert.equal(ssMathToSpeech("\\sqrt[3]{27}"), "the cube root of 27");
+    assert.equal(ssMathToSpeech("\\sqrt[5]{x}"), "the fifth root of x");
+    assert.equal(ssMathToSpeech("\\sin^2\\theta+\\cos^2\\theta=1"), "sine squared theta plus cosine squared theta equals 1");
+    assert.equal(ssMathToSpeech("\\log_2 8 = 3"), "log sub 2 8 equals 3");
+  });
+
+  test("speaks comparison symbols", () => {
+    const s = ssMathToSpeech("a \\neq 0, x \\le 5, y \\ge 2, \\pi \\approx 3.14");
+    for (const part of ["is not equal to", "less than or equal to", "greater than or equal to", "pi", "is approximately"]) assert.ok(s.includes(part), part);
+  });
+
+  test("leaves dollar amounts alone but still converts a bare '$0$'", () => {
+    assert.equal(ssSpeechClean("It costs $50 per month plus $3 fee"), "It costs $50 per month plus $3 fee");
+    assert.equal(ssSpeechClean("set it equal to $0$."), "set it equal to 0.");
+  });
+
+  test("strips HTML and normalises symbols and abbreviations", () => {
+    assert.equal(ssSpeechClean("<b>Bold</b> text with <a href=\"x\">a link</a>"), "Bold text with a link");
+    assert.equal(ssSpeechClean("Save 20% & more, e.g. now, vs. later"), "Save 20 percent and more, for example, now, versus later");
+    assert.equal(ssSpeechClean("see p. 12 and pp. 3"), "see page 12 and pages 3");
+    assert.equal(ssSpeechClean("it is ≠ 5 ≤ 6"), "it is is not equal to 5 less than or equal to 6");
+  });
+
+  test("reads set-builder notation naturally", () => {
+    const s = ssSpeechClean("The solution is {x | x > 3}.");
+    assert.ok(s.includes("the set of x such that x is greater than 3"));
+    noLeftovers(s);
+  });
+
+  test("never leaves LaTeX commands behind in a real-world sample", () => {
+    const samples = [
+      "$\\tfrac{1}{2}bh$", "$\\frac{\\sqrt{3}}{2}$", "$\\Delta x \\ne 0$", "$a \\pm b$", "$\\ln x = y$",
+      "$$\\frac{a}{b}\\cdot\\frac{c}{d}$$", "$x \\in \\mathbb{R}$ roughly"
+    ];
+    for (const sample of samples) assert.ok(!/\\[a-zA-Z]/.test(ssSpeechClean(sample)), sample);
+  });
+
+  test("splits a unit into sentence-sized pieces that end cleanly", () => {
+    const long = Array.from({ length: 9 }, (_, i) => `This is sentence number ${i + 1} of a long bullet.`).join(" ");
+    const unit = { id: 1, name: "Real Numbers", concepts: [{ l: "Sets", intro: "An intro.", b: [long, "Short bullet", "<b>Bold</b> bullet"] }] };
+    const segs = ssUnitSpeechSegments(unit);
+    assert.equal(segs[0], "Unit 1: Real Numbers.");
+    assert.equal(segs[1], "Sets.");
+    assert.ok(segs.length > 5, "long bullet is split");
+    for (const s of segs) {
+      assert.match(s, /[.!?:]$/);
+      assert.ok(s.length <= 230, `segment too long (${s.length})`);
+    }
+    assert.ok(segs.includes("Bold bullet."));
+  });
+
+  test("uses the title as currently shown on the page, so reordered units are read by their new number", () => {
+    const { ssUnitSpeechSegments: seg } = loadGuide(["SS_TTS_MATH_WORDS", "ssMathToSpeech", "ssSpeechClean", "ssUnitSpeechSegments"], {
+      globals: { document: { querySelector: () => ({ firstChild: { nodeType: 3, nodeValue: "Unit 1: Real Numbers" } }) } }
+    });
+    assert.equal(seg({ id: 11, name: "Real Numbers", concepts: [] })[0], "Unit 1: Real Numbers.");
+  });
+});
+
+// ───────────────────────────── read-aloud voice choice ─────────────────────────────
+describe("read-aloud voice choice", () => {
+  const state = { voices: [], store: {}, throwing: false };
+  const { ssVoiceScore, ssEnglishVoices, ssTtsPrefs, ssPickVoice } = loadGuide(
+    ["SS_TTS_AVOID", "ssVoiceScore", "ssEnglishVoices", "ssTtsPrefs", "ssPickVoice"],
+    {
+      globals: {
+        window: { speechSynthesis: { getVoices: () => state.voices } },
+        localStorage: { getItem: k => { if (state.throwing) throw new Error("blocked"); return state.store[k] ?? null; } }
+      }
+    }
+  );
+  const v = (name, lang = "en-US", extra = {}) => ({ name, lang, voiceURI: name, localService: true, default: false, ...extra });
+  const reset = () => { state.voices = []; state.store = {}; state.throwing = false; };
+
+  test("ranks natural/neural and premium/enhanced voices above standard ones", () => {
+    reset();
+    state.voices = [v("Fred"), v("Samantha"), v("Google US English"), v("Microsoft Aria Online (Natural) - English (United States)"), v("Alex (Enhanced)")];
+    const ranked = ssEnglishVoices().sort((a, b) => ssVoiceScore(b) - ssVoiceScore(a)).map(x => x.name);
+    assert.equal(ranked[0], "Microsoft Aria Online (Natural) - English (United States)");
+    assert.ok(ranked.indexOf("Alex (Enhanced)") < ranked.indexOf("Samantha"));
+    assert.ok(ranked.indexOf("Google US English") < ranked.indexOf("Samantha"));
+    assert.equal(ranked[ranked.length - 1], "Fred", "novelty voice last");
+  });
+
+  test("never picks a novelty voice, even when it is the browser default", () => {
+    reset();
+    state.voices = [v("Bubbles", "en-US", { default: true }), v("Zarvox"), v("Daniel", "en-GB")];
+    assert.equal(ssPickVoice().name, "Daniel");
+  });
+
+  test("only considers English voices, and returns null when there are none", () => {
+    reset();
+    state.voices = [v("Monica", "es-ES"), v("Thomas", "fr-FR")];
+    assert.equal(ssPickVoice(), null);
+    state.voices.push(v("Karen", "en-AU"));
+    assert.equal(ssPickVoice().name, "Karen");
+  });
+
+  test("prefers en-US over other English variants when otherwise equal", () => {
+    reset();
+    state.voices = [v("Generic", "en-GB"), v("Generic Two", "en-US")];
+    assert.equal(ssPickVoice().name, "Generic Two");
+  });
+
+  test("a saved choice wins; a saved voice that no longer exists falls back to the best one", () => {
+    reset();
+    state.voices = [v("Samantha"), v("Daniel", "en-GB")];
+    state.store["ss-tts-voice"] = "Daniel";
+    assert.equal(ssPickVoice().name, "Daniel");
+    state.store["ss-tts-voice"] = "Uninstalled Voice";
+    assert.equal(ssPickVoice().name, "Samantha");
+  });
+
+  test("prefs default to automatic voice at 0.96x and survive bad stored values or blocked storage", () => {
+    reset();
+    assert.deepEqual({ ...ssTtsPrefs() }, { voice: "", rate: 0.96 });
+    state.store["ss-tts-voice"] = "Daniel";
+    state.store["ss-tts-rate"] = "1.1";
+    assert.deepEqual({ ...ssTtsPrefs() }, { voice: "Daniel", rate: 1.1 });
+    state.store["ss-tts-rate"] = "fast";
+    assert.equal(ssTtsPrefs().rate, 0.96);
+    state.throwing = true;
+    assert.deepEqual({ ...ssTtsPrefs() }, { voice: "", rate: 0.96 });
+  });
+});
+
+// ───────────────────────────── spaced repetition ─────────────────────────────
+describe("flashcard spaced repetition", () => {
+  const DAY = 864e5;
+  const clock = { t: 1_800_000_000_000 };
+  const FLASHCARDS = [{ t: "alpha", u: 1 }, { t: "beta", u: 1 }, { t: "gamma", u: 1 }];
+  const ls = { data: {}, getItem(k) { return k in this.data ? this.data[k] : null; }, setItem(k, x) { this.data[k] = String(x); }, removeItem(k) { delete this.data[k]; } };
+
+  function setup(known = [], srs = {}, withMastery = true) {
+    const st = { cardsKnown: [...known], srs: { ...srs } };
+    const SS_MASTERY = withMastery ? {
+      getSnapshot: () => st,
+      setSrs: (t, r) => { st.srs[t] = r; },
+      mergeSrs: o => { for (const [k, x] of Object.entries(o)) if (!st.srs[k]) st.srs[k] = x; }
+    } : null;
+    ls.data = {};
+    const api = loadGuide(
+      ["SRS_DAYS", "ssSrsLoad", "ssSrsSeed", "ssSrsRecord", "ssSrsIsDue", "ssSrsDueCount", "ssSrsNextDue", "ssSrsNextLabel", "ssSrsRefresh"],
+      { globals: { SS_MASTERY, SS_GUIDE: { slug: "algebra2" }, FLASHCARDS, localStorage: ls, Date: { now: () => clock.t }, document: { getElementById: () => null } }, extra: "let fcFilterMode='all';" }
+    );
+    return { st, api };
+  }
+
+  test("a correct answer moves the card up one box and pushes the due date out", () => {
+    const { st, api } = setup();
+    api.ssSrsRecord("alpha", true);
+    assert.deepEqual([...st.srs.alpha], [1, clock.t + 1 * DAY, clock.t]);
+    api.ssSrsRecord("alpha", true);
+    assert.deepEqual([...st.srs.alpha], [2, clock.t + 3 * DAY, clock.t]);
+  });
+
+  test("boxes climb 1 to 5 on the 1, 3, 7, 14, 30 day schedule and stop at 5", () => {
+    const { st, api } = setup();
+    const boxes = [], gaps = [];
+    for (let i = 0; i < 7; i++) { api.ssSrsRecord("alpha", true); boxes.push(st.srs.alpha[0]); gaps.push((st.srs.alpha[1] - clock.t) / DAY); }
+    assert.deepEqual(boxes, [1, 2, 3, 4, 5, 5, 5]);
+    assert.deepEqual(gaps, [1, 3, 7, 14, 30, 30, 30]);
+  });
+
+  test("a wrong answer drops the card to box 1 and makes it due immediately", () => {
+    const { st, api } = setup([], { alpha: [4, clock.t + 14 * DAY, 1] });
+    api.ssSrsRecord("alpha", false);
+    assert.deepEqual([...st.srs.alpha], [1, clock.t, clock.t]);
+    assert.equal(api.ssSrsIsDue("alpha"), true);
+  });
+
+  test("counts only scheduled cards that are due now", () => {
+    const { api } = setup([], { alpha: [1, clock.t - 1, 1], beta: [2, clock.t + DAY, 1] }); // gamma never rated
+    assert.equal(api.ssSrsDueCount(), 1);
+    assert.equal(api.ssSrsIsDue("alpha"), true);
+    assert.equal(api.ssSrsIsDue("beta"), false);
+    assert.equal(api.ssSrsIsDue("gamma"), false);
+    assert.equal(api.ssSrsIsDue("not a card"), false);
+  });
+
+  test("finds the next review time and words it for humans", () => {
+    const { api } = setup([], { alpha: [1, clock.t + 3 * DAY, 1], beta: [1, clock.t + DAY / 2, 1] });
+    assert.equal(api.ssSrsNextDue(), clock.t + DAY / 2);
+    assert.equal(api.ssSrsNextLabel(clock.t + DAY / 2), "tomorrow");
+    assert.equal(api.ssSrsNextLabel(clock.t + DAY), "tomorrow");
+    assert.equal(api.ssSrsNextLabel(clock.t + 3 * DAY), "in 3 days");
+    assert.equal(setup().api.ssSrsNextDue(), null);
+  });
+
+  test("without a mastery object there is no schedule and nothing is due", () => {
+    const { api } = setup([], {}, false);
+    assert.deepEqual({ ...api.ssSrsLoad() }, {});
+    assert.equal(api.ssSrsDueCount(), 0);
+    assert.doesNotThrow(() => api.ssSrsSeed());
+  });
+
+  test("cards marked known before the feature get a first review spread over the next five days", () => {
+    const { st, api } = setup(["alpha", "beta", "gamma"], { alpha: [4, clock.t + 14 * DAY, 99] });
+    api.ssSrsSeed();
+    assert.deepEqual([...st.srs.alpha], [4, clock.t + 14 * DAY, 99], "an existing schedule is never overwritten");
+    assert.deepEqual([...st.srs.beta], [2, clock.t + 1 * DAY, 0]);
+    assert.deepEqual([...st.srs.gamma], [2, clock.t + 2 * DAY, 0]);
+    api.ssSrsSeed();
+    assert.deepEqual([...st.srs.beta], [2, clock.t + 1 * DAY, 0], "seeding twice changes nothing");
+  });
+
+  test("a schedule saved by the first version of the feature is moved into the account state and removed", () => {
+    const { st, api } = setup();
+    ls.data["ss-srs-algebra2"] = JSON.stringify({ alpha: [3, clock.t + DAY, 5] });
+    api.ssSrsSeed();
+    assert.deepEqual([...st.srs.alpha], [3, clock.t + DAY, 5]);
+    assert.equal(ls.getItem("ss-srs-algebra2"), null);
+  });
+
+  test("unreadable legacy data is ignored without throwing", () => {
+    const { st, api } = setup();
+    ls.data["ss-srs-algebra2"] = "{not json";
+    assert.doesNotThrow(() => api.ssSrsSeed());
+    assert.deepEqual({ ...st.srs }, {});
+  });
+});
+
+// ───────────────────────────── drag-to-reorder helpers ─────────────────────────────
+describe("unit drag and reorder", () => {
+  const scrolls = [];
+  const { ssDragScrollTick, setY } = loadGuide(["ssDragScrollRaf", "ssDragScrollTick"], {
+    globals: {
+      window: { scrollBy: o => scrolls.push(o) },
+      innerHeight: 800,
+      requestAnimationFrame: () => 7
+    },
+    extra: "const setY=v=>{ssDragY=v};",
+    returns: ["setY"]
+  });
+  const tick = y => { scrolls.length = 0; setY(y); ssDragScrollTick(); return scrolls.length ? scrolls[0] : null; };
+
+  test("scrolls up near the top edge, faster the closer to the edge", () => {
+    const edge = tick(0), mid = tick(45), far = tick(80);
+    assert.ok(edge.top < 0 && mid.top < 0 && far.top < 0);
+    assert.ok(Math.abs(edge.top) > Math.abs(mid.top) && Math.abs(mid.top) > Math.abs(far.top));
+    assert.equal(edge.top, -22);
+    assert.equal(edge.behavior, "instant");
+  });
+
+  test("scrolls down near the bottom edge", () => {
+    const d = tick(799);
+    assert.ok(d.top > 0 && d.top <= 22);
+  });
+
+  test("does not scroll in the middle of the window", () => {
+    assert.equal(tick(400), null);
+    assert.equal(tick(90), null); // exactly at the edge band's inner boundary
+  });
+
+  test("a pointer above the window is treated as the top edge, not an extra-fast scroll", () => {
+    assert.equal(tick(-300).top, -22);
+  });
+
+  test("renumbers the visible unit titles to match their position", () => {
+    const mk = text => { const title = { firstChild: { nodeType: 3, nodeValue: text } }; return { querySelector: () => title }; };
+    const noText = { querySelector: () => ({ firstChild: { nodeType: 1 } }) };
+    const children = [mk("Unit 11: GrAmSS"), mk("Unit 1: Rhetoric"), noText, mk("Unit 10: Grammar")];
+    const { ssRenumberUnitTitles } = loadGuide(["ssRenumberUnitTitles"], { globals: { document: { getElementById: () => ({ children }) } } });
+    ssRenumberUnitTitles();
+    assert.equal(children[0].querySelector().firstChild.nodeValue, "Unit 1: GrAmSS");
+    assert.equal(children[1].querySelector().firstChild.nodeValue, "Unit 2: Rhetoric");
+    assert.equal(children[3].querySelector().firstChild.nodeValue, "Unit 4: Grammar");
+  });
+});
+
+// ───────────────────────────── flashcard typing check ─────────────────────────────
+describe("typed flashcard answers", () => {
+  const { ssLevenshtein, FUZZY_THRESHOLD, ssFuzzyMatch } = loadGuide(["ssLevenshtein", "FUZZY_THRESHOLD", "ssFuzzyMatch"]);
+
+  test("edit distance", () => {
+    assert.equal(ssLevenshtein("kitten", "sitting"), 3);
+    assert.equal(ssLevenshtein("", "abc"), 3);
+    assert.equal(ssLevenshtein("same", "same"), 0);
+  });
+
+  test("ignores case and extra spaces and reports an exact match", () => {
+    const r = ssFuzzyMatch("  Mitochondria   ", "mitochondria");
+    assert.equal(r.match, true);
+    assert.equal(r.exact, true);
+  });
+
+  test("accepts a small typo in a long term but not in a short one", () => {
+    assert.equal(ssFuzzyMatch("photosynthesys", "photosynthesis").match, true);
+    assert.equal(ssFuzzyMatch("photosynthesys", "photosynthesis").exact, false);
+    assert.equal(ssFuzzyMatch("cut", "cat").match, false);
+  });
+
+  test("rejects wrong and empty answers", () => {
+    assert.equal(ssFuzzyMatch("", "anything").match, false);
+    assert.equal(ssFuzzyMatch("   ", "anything").match, false);
+    assert.equal(ssFuzzyMatch("osmosis", "diffusion").match, false);
+    assert.ok(FUZZY_THRESHOLD > 0.5 && FUZZY_THRESHOLD < 1);
+  });
+});

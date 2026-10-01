@@ -1719,6 +1719,56 @@ updateMistakeLogBadge();
   });
 })();
 
+/* ----- Study plan as a calendar file (.ics). Pure functions, no DOM, so they can be tested. ----- */
+function ssIcsText(t){return String(t).replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\r?\n/g,'\\n');}
+// RFC 5545 caps lines at 75 octets; continuation lines start with one space.
+function ssIcsFold(line){
+  var enc=new TextEncoder(),out=[],cur='',n=0;
+  for(var ch of line){
+    var w=enc.encode(ch).length,max=out.length?74:75;
+    if(n+w>max){out.push(cur);cur='';n=0;}
+    cur+=ch;n+=w;
+  }
+  out.push(cur);
+  return out.join('\r\n ');
+}
+function ssP2(n){return (n<10?'0':'')+n;}
+function ssYmd(d){return d.getFullYear()+ssP2(d.getMonth()+1)+ssP2(d.getDate());}
+// o: {days, mins, perDayQ, timeStr 'HH:MM', now Date, covered (units to cover), title, slug, origin, units [{id,name}]}
+function ssBuildPlanIcs(o){
+  var days=o.days,mins=o.mins,units=o.units,covered=o.covered,title=o.title,slug=o.slug;
+  var hm=/^(\d{2}):(\d{2})$/.exec(o.timeStr)||['','16','00'];
+  var now=o.now,exam=new Date(now.getFullYear(),now.getMonth(),now.getDate()+days);
+  var start=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  // Today only counts if the reminder time hasn't passed yet.
+  if(now.getHours()*60+now.getMinutes()>=(+hm[1])*60+(+hm[2]))start.setDate(start.getDate()+1);
+  var n=Math.max(1,Math.round((exam-start)/864e5));
+  var stamp=now.toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
+  var end=new Date(2000,0,1,+hm[1],+hm[2]+mins);
+  var endStr=ssP2(end.getHours())+ssP2(end.getMinutes())+'00';
+  var ev=[];
+  // The last day of a multi-day plan is a final review, so the units are spread over the days before it.
+  var m=n>1?n-1:1;
+  for(var i=0;i<n;i++){
+    var d=new Date(start.getFullYear(),start.getMonth(),start.getDate()+i);
+    var k=Math.min(i,m-1);
+    var lo=Math.floor(k*covered/m),hi=Math.max(lo,Math.floor((k+1)*covered/m)-1);
+    var names=[];for(var u=lo;u<=hi&&u<units.length;u++)names.push('Unit '+units[u].id+': '+units[u].name);
+    var last=i===n-1&&n>1;
+    var what=last?'Final review + mixed quiz':(names.length>1?'Units '+units[lo].id+'\u2013'+units[hi].id:'Unit '+units[lo].id);
+    var desc=(last?'Mixed practice across everything you have covered.':names.join('\n'))+'\n\nGoal: about '+o.perDayQ+' questions in '+mins+' minutes.\nOpen the guide: '+o.origin+'/'+slug+'/';
+    ev.push(['BEGIN:VEVENT','UID:'+slug+'-plan-'+ssYmd(d)+'@precisstudy.com','DTSTAMP:'+stamp,
+      'DTSTART:'+ssYmd(d)+'T'+hm[1]+hm[2]+'00','DTEND:'+ssYmd(d)+'T'+endStr,
+      'SUMMARY:'+ssIcsText('Study '+title+': '+what),'DESCRIPTION:'+ssIcsText(desc),
+      'BEGIN:VALARM','TRIGGER:-PT10M','ACTION:DISPLAY','DESCRIPTION:'+ssIcsText('Study time: '+title),'END:VALARM','END:VEVENT'].join('\r\n'));
+  }
+  var next=new Date(exam.getFullYear(),exam.getMonth(),exam.getDate()+1);
+  ev.push(['BEGIN:VEVENT','UID:'+slug+'-exam-'+ssYmd(exam)+'@precisstudy.com','DTSTAMP:'+stamp,
+    'DTSTART;VALUE=DATE:'+ssYmd(exam),'DTEND;VALUE=DATE:'+ssYmd(next),'SUMMARY:'+ssIcsText(title+' exam day'),'TRANSP:TRANSPARENT','END:VEVENT'].join('\r\n'));
+  var lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//PrecisStudy//Study Plan//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH','X-WR-CALNAME:'+ssIcsText(title+' study plan')].concat(ev.join('\r\n').split('\r\n'),['END:VCALENDAR']);
+  return lines.map(ssIcsFold).join('\r\n')+'\r\n';
+}
+
 (function(){
   var SS_TOTAL_Q=QUIZ.length, SS_UNIT_COUNT=UNITS.length, MIN_PER_Q=1.5;
   var daysEl=document.getElementById('spc-days');
@@ -1779,51 +1829,10 @@ updateMistakeLogBadge();
   update();
 
   /* ----- "Add to calendar": the plan above as a downloadable .ics (no account needed) ----- */
-  function icsText(t){return String(t).replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\r?\n/g,'\\n');}
-  // RFC 5545 caps lines at 75 octets; continuation lines start with one space.
-  function icsFold(line){
-    var enc=new TextEncoder(),out=[],cur='',n=0;
-    for(var ch of line){
-      var w=enc.encode(ch).length,max=out.length?74:75;
-      if(n+w>max){out.push(cur);cur='';n=0;}
-      cur+=ch;n+=w;
-    }
-    out.push(cur);
-    return out.join('\r\n ');
-  }
-  function p2(n){return (n<10?'0':'')+n;}
-  function ymd(d){return d.getFullYear()+p2(d.getMonth()+1)+p2(d.getDate());}
   function buildPlanIcs(timeStr){
-    var days=parseInt(daysEl.value,10),mins=parseInt(minsEl.value,10);
-    var perDayQ=Math.round(mins/MIN_PER_Q);
-    var hm=/^(\d{2}):(\d{2})$/.exec(timeStr)||['','16','00'];
-    var now=new Date(),exam=new Date(now.getFullYear(),now.getMonth(),now.getDate()+days);
-    var start=new Date(now.getFullYear(),now.getMonth(),now.getDate());
-    // Today only counts if the reminder time hasn't passed yet.
-    if(now.getHours()*60+now.getMinutes()>=(+hm[1])*60+(+hm[2]))start.setDate(start.getDate()+1);
-    var n=Math.max(1,Math.round((exam-start)/864e5));
-    var covered=Math.min(SS_UNIT_COUNT,Math.max(1,parseInt(document.getElementById('spc-units').textContent,10)||1));
-    var stamp=new Date().toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
-    var end=new Date(2000,0,1,+hm[1],+hm[2]+mins);
-    var endStr=p2(end.getHours())+p2(end.getMinutes())+'00';
-    var title=SS_GUIDE.title,ev=[];
-    for(var i=0;i<n;i++){
-      var d=new Date(start.getFullYear(),start.getMonth(),start.getDate()+i);
-      var lo=Math.floor(i*covered/n),hi=Math.max(lo,Math.floor((i+1)*covered/n)-1);
-      var names=[];for(var u=lo;u<=hi&&u<UNITS.length;u++)names.push('Unit '+UNITS[u].id+': '+UNITS[u].name);
-      var last=i===n-1&&n>1;
-      var what=last?'Final review + mixed quiz':(names.length>1?'Units '+UNITS[lo].id+'\u2013'+UNITS[hi].id:'Unit '+UNITS[lo].id);
-      var desc=(last?'Mixed practice across everything you have covered.':names.join('\n'))+'\n\nGoal: about '+perDayQ+' questions in '+mins+' minutes.\nOpen the guide: '+location.origin+'/'+SS_GUIDE.slug+'/';
-      ev.push(['BEGIN:VEVENT','UID:'+SS_GUIDE.slug+'-plan-'+ymd(d)+'@precisstudy.com','DTSTAMP:'+stamp,
-        'DTSTART:'+ymd(d)+'T'+hm[1]+hm[2]+'00','DTEND:'+ymd(d)+'T'+endStr,
-        'SUMMARY:'+icsText('Study '+title+': '+what),'DESCRIPTION:'+icsText(desc),
-        'BEGIN:VALARM','TRIGGER:-PT10M','ACTION:DISPLAY','DESCRIPTION:'+icsText('Study time: '+title),'END:VALARM','END:VEVENT'].join('\r\n'));
-    }
-    var next=new Date(exam.getFullYear(),exam.getMonth(),exam.getDate()+1);
-    ev.push(['BEGIN:VEVENT','UID:'+SS_GUIDE.slug+'-exam-'+ymd(exam)+'@precisstudy.com','DTSTAMP:'+stamp,
-      'DTSTART;VALUE=DATE:'+ymd(exam),'DTEND;VALUE=DATE:'+ymd(next),'SUMMARY:'+icsText(title+' exam day'),'TRANSP:TRANSPARENT','END:VEVENT'].join('\r\n'));
-    var lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//PrecisStudy//Study Plan//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH','X-WR-CALNAME:'+icsText(title+' study plan')].concat(ev.join('\r\n').split('\r\n'),['END:VCALENDAR']);
-    return lines.map(icsFold).join('\r\n')+'\r\n';
+    return ssBuildPlanIcs({days:parseInt(daysEl.value,10),mins:parseInt(minsEl.value,10),perDayQ:Math.round(parseInt(minsEl.value,10)/MIN_PER_Q),
+      timeStr:timeStr,now:new Date(),covered:Math.min(SS_UNIT_COUNT,Math.max(1,parseInt(document.getElementById('spc-units').textContent,10)||1)),
+      title:SS_GUIDE.title,slug:SS_GUIDE.slug,origin:location.origin,units:UNITS});
   }
   var body=document.getElementById('spc-body');
   if(body&&resetBtn){
@@ -1842,7 +1851,6 @@ updateMistakeLogBadge();
       document.getElementById('spc-cal-note').textContent='Downloaded. Open the file to add it to your calendar.';
     });
   }
-  window.ssBuildPlanIcs=buildPlanIcs;
 })();
 
 /* ===== study helper chatbot ===== */
