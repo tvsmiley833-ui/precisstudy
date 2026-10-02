@@ -29,7 +29,7 @@
     { l: 'AP Human Geography', h: '/ap-human-geography' }, { l: 'Art History', h: '/art-history' }, { l: 'Astronomy', h: '/astronomy' },
     { l: 'Computer Science', h: '/computer-science' }, { l: 'Creative Writing', h: '/creative-writing' }, { l: 'Earth Science', h: '/earth-science' },
     { l: 'Economics', h: '/economics' }, { l: 'English 10', h: '/english-10' }, { l: 'English 9', h: '/english-9' },
-    { l: 'Environmental Science', h: '/environmental-science' }, { l: 'French 1', h: '/french-1' }, { l: 'Geography', h: '/geography' },
+    { l: 'Environmental Science', h: '/environmental-science' }, { l: 'French 1', h: '/french-1' }, { l: 'French 2', h: '/french-2' }, { l: 'French 3', h: '/french-3' }, { l: 'Geography', h: '/geography' },
     { l: 'German 1', h: '/german-1' }, { l: 'Health', h: '/health' }, { l: 'Journalism', h: '/journalism' },
     { l: 'Music Theory', h: '/music-theory' }, { l: 'Psychology', h: '/psychology' }, { l: 'SAT Math Prep', h: '/sat-math' },
     { l: 'SAT Reading & Writing', h: '/sat-reading' }, { l: 'Sociology', h: '/sociology' }, { l: 'Spanish 1', h: '/spanish-1' },

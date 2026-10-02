@@ -230,6 +230,16 @@ export const FUN_FACTS = {
     "Roughly a third of English vocabulary comes from French.",
     "The cedilla in ç tells you to pronounce the c like an s.",
   ],
+  "french-2": [
+    "About seventeen French verbs, like aller and venir, use être instead of avoir in the passé composé.",
+    "The imparfait is the French tense for \"used to\" and \"was ...-ing\".",
+    "Il y a deux jours means \"two days ago\": French says \"there is\" where English says \"ago\".",
+  ],
+  "french-3": [
+    "The French subjunctive appears after expressions of will, emotion, and doubt.",
+    "The Académie française, founded in 1635, publishes the official French dictionary.",
+    "About 300 million people speak French worldwide.",
+  ],
   "german-1": [
     "All German nouns are capitalized.",
     "German builds long compound words, like Handschuh (\"hand shoe\") for glove.",

@@ -81,7 +81,7 @@ const SUBJECT_GROUP = {
   "global-history": "history", "world-history": "history", "ap-world": "history", "ap-euro": "history", apush: "history", "us-history": "history",
   "us-government": "gov", "ap-usgov": "gov", geography: "geo", "ap-human-geography": "geo",
   "english-9": "english", "english-10": "english", "ap-lang": "english", "sat-reading": "english", "creative-writing": "english", journalism: "english", "speech-debate": "english",
-  "spanish-1": "spanish", "spanish-2": "spanish", "spanish-3": "spanish", "french-1": "french", "german-1": "german",
+  "spanish-1": "spanish", "spanish-2": "spanish", "spanish-3": "spanish", "french-1": "french", "french-2": "french", "french-3": "french", "german-1": "german",
   "music-theory": "music", economics: "econ", "ap-macro": "econ", "ap-micro": "econ",
   psychology: "psych", "ap-psych": "psych", sociology: "psych", health: "health", "art-history": "art", "study-skills": "study",
 };

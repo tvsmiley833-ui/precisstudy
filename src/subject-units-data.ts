@@ -392,6 +392,26 @@ export const SUBJECT_UNIT_NAMES: Record<string, Record<string, string>> = {
     "7": "Food & Café Culture",
     "8": "City Places & Directions"
   },
+  "french-2": {
+    "1": "Passé Composé with Avoir",
+    "2": "Passé Composé with Être",
+    "3": "L'Imparfait",
+    "4": "Passé Composé vs Imparfait",
+    "5": "Object Pronouns, Y & EN",
+    "6": "Reflexive Verbs & Daily Routine",
+    "7": "Futur Proche & Futur Simple",
+    "8": "Comparatives, Superlatives & Shopping"
+  },
+  "french-3": {
+    "1": "Le Plus-que-parfait",
+    "2": "Le Conditionnel & les Phrases avec Si",
+    "3": "Le Subjonctif Présent",
+    "4": "Les Pronoms Relatifs",
+    "5": "Demonstratives & Possessive Pronouns",
+    "6": "Le Passif & le Discours Indirect",
+    "7": "Le Futur Antérieur & le Conditionnel Passé",
+    "8": "Culture Francophone & Expression Écrite"
+  },
   "geography": {
     "1": "Map Skills & Tools",
     "2": "Physical Geography & Landforms",

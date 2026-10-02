@@ -27,7 +27,7 @@ describe("getSubjectIcon", () => {
     expect(getSubjectIcon(undefined)).toBeNull();
   });
 
-  it("has 55 subjects extracted from the homepage class cards", () => {
-    expect(Object.keys(SUBJECT_ICONS).length).toBe(55);
+  it("has 57 subjects extracted from the homepage class cards", () => {
+    expect(Object.keys(SUBJECT_ICONS).length).toBe(57);
   });
 });

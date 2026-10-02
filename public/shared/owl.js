@@ -99,7 +99,7 @@ export const ACCESSORIES = [
   { id: "goggles", label: "Lab goggles", how: "Reach 80% in a science class", groups: ["chemistry", "ap-chemistry", "biology", "apbiology", "ap-biology", "physics", "ap-physics", "earth-science", "environmental-science", "anatomy", "astronomy"] },
   { id: "explorer", label: "Explorer hat", how: "Reach 80% in a history class", groups: ["globalhistory", "global-history", "apush", "us-history", "world-history", "ap-world", "ap-euro", "us-government", "ap-usgov", "geography", "ap-human-geography", "art-history"] },
   { id: "glasses", label: "Reading glasses", how: "Reach 80% in an English class", groups: ["english-9", "english-10", "aplang", "ap-lang", "creative-writing", "journalism", "sat-reading", "speech-debate"] },
-  { id: "beret", label: "Beret", how: "Reach 80% in a language class", groups: ["spanish-1", "spanish-2", "spanish-3", "french-1", "german-1"] },
+  { id: "beret", label: "Beret", how: "Reach 80% in a language class", groups: ["spanish-1", "spanish-2", "spanish-3", "french-1", "french-2", "french-3", "german-1"] },
   { id: "headphones", label: "Headphones", how: "Reach 80% in Music Theory", groups: ["music-theory"] },
 ];
 

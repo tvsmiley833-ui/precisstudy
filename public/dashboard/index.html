@@ -505,7 +505,7 @@ document.addEventListener('click', function(e){
 
 <script type="module">
 import { computeReadiness, recommendNext, topWeakUnits, buildSchedule, dueCards, daysUntil } from '/shared/mastery.js';
-import { geometryUnits, chemistryUnits, algebra1Units, algebra2Units, aplangUnits, globalHistoryUnits, apbiologyUnits, apushUnits, physicsUnits, biologyUnits, precalcUnits, usGovernmentUnits, actPrepUnits, anatomyUnits, apChemistryUnits, apCsaUnits, apEuroUnits, apMacroUnits, apMicroUnits, apPhysicsUnits, apPsychUnits, apStatsUnits, apUsgovUnits, apWorldUnits, apHumanGeographyUnits, artHistoryUnits, astronomyUnits, computerScienceUnits, creativeWritingUnits, earthScienceUnits, economicsUnits, english10Units, english9Units, environmentalScienceUnits, french1Units, geographyUnits, german1Units, healthUnits, journalismUnits, musicTheoryUnits, psychologyUnits, satMathUnits, satReadingUnits, sociologyUnits, spanish1Units, spanish2Units, spanish3Units, speechDebateUnits, statisticsUnits, studySkillsUnits, worldHistoryUnits, calculusUnits, calcAbUnits, calcBcUnits, usHistoryUnits } from '/shared/unit-titles.js';
+import { geometryUnits, chemistryUnits, algebra1Units, algebra2Units, aplangUnits, globalHistoryUnits, apbiologyUnits, apushUnits, physicsUnits, biologyUnits, precalcUnits, usGovernmentUnits, actPrepUnits, anatomyUnits, apChemistryUnits, apCsaUnits, apEuroUnits, apMacroUnits, apMicroUnits, apPhysicsUnits, apPsychUnits, apStatsUnits, apUsgovUnits, apWorldUnits, apHumanGeographyUnits, artHistoryUnits, astronomyUnits, computerScienceUnits, creativeWritingUnits, earthScienceUnits, economicsUnits, english10Units, english9Units, environmentalScienceUnits, french1Units, french2Units, french3Units, geographyUnits, german1Units, healthUnits, journalismUnits, musicTheoryUnits, psychologyUnits, satMathUnits, satReadingUnits, sociologyUnits, spanish1Units, spanish2Units, spanish3Units, speechDebateUnits, statisticsUnits, studySkillsUnits, worldHistoryUnits, calculusUnits, calcAbUnits, calcBcUnits, usHistoryUnits } from '/shared/unit-titles.js';
 
 // Category grouping for the "unassessed classes" accordion below -- same
 // taxonomy used on the homepage and in Settings, so a class always lands in
@@ -519,7 +519,7 @@ const SUBJECT_CATEGORY = {
   globalhistory: 'humanities', 'us-history': 'humanities', 'art-history': 'humanities', economics: 'humanities', geography: 'humanities',
   psychology: 'humanities', sociology: 'humanities', 'us-government': 'humanities', 'world-history': 'humanities',
   'creative-writing': 'english', 'english-10': 'english', 'english-9': 'english', journalism: 'english', 'speech-debate': 'english',
-  'french-1': 'languages', 'german-1': 'languages', 'spanish-1': 'languages', 'spanish-2': 'languages', 'spanish-3': 'languages',
+  'french-1': 'languages', 'french-2': 'languages', 'french-3': 'languages', 'german-1': 'languages', 'spanish-1': 'languages', 'spanish-2': 'languages', 'spanish-3': 'languages',
   'computer-science': 'electives', health: 'electives', 'music-theory': 'electives', 'study-skills': 'electives',
   'act-prep': 'testprep', 'sat-math': 'testprep', 'sat-reading': 'testprep'
 };
@@ -562,6 +562,8 @@ const SUBJECTS_CONFIG = [
   { key: 'english-9', label: 'English 9', href: '/english-9', units: english9Units },
   { key: 'environmental-science', label: 'Environmental Science', href: '/environmental-science', units: environmentalScienceUnits },
   { key: 'french-1', label: 'French 1', href: '/french-1', units: french1Units },
+  { key: 'french-2', label: 'French 2', href: '/french-2', units: french2Units },
+  { key: 'french-3', label: 'French 3', href: '/french-3', units: french3Units },
   { key: 'geography', label: 'Geography', href: '/geography', units: geographyUnits },
   { key: 'german-1', label: 'German 1', href: '/german-1', units: german1Units },
   { key: 'health', label: 'Health', href: '/health', units: healthUnits },

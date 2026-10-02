@@ -53,6 +53,8 @@ const SUBJECT_LABELS: Record<string, string> = {
   "english-9": "English 9",
   "environmental-science": "Environmental Science",
   "french-1": "French 1",
+  "french-2": "French 2",
+  "french-3": "French 3",
   "geography": "Geography",
   "german-1": "German 1",
   "health": "Health",

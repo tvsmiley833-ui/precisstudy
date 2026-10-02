@@ -16,7 +16,7 @@ const SUBJECT_TO_EXPORT = {
   "ap-human-geography": "apHumanGeographyUnits", "art-history": "artHistoryUnits", astronomy: "astronomyUnits",
   "computer-science": "computerScienceUnits", "creative-writing": "creativeWritingUnits", "earth-science": "earthScienceUnits",
   economics: "economicsUnits", "english-10": "english10Units", "english-9": "english9Units",
-  "environmental-science": "environmentalScienceUnits", "french-1": "french1Units", geography: "geographyUnits",
+  "environmental-science": "environmentalScienceUnits", "french-1": "french1Units", "french-2": "french2Units", "french-3": "french3Units", geography: "geographyUnits",
   "german-1": "german1Units", health: "healthUnits", journalism: "journalismUnits", "music-theory": "musicTheoryUnits",
   psychology: "psychologyUnits", "sat-math": "satMathUnits", "sat-reading": "satReadingUnits", sociology: "sociologyUnits",
   "spanish-1": "spanish1Units", "spanish-2": "spanish2Units", "spanish-3": "spanish3Units", "speech-debate": "speechDebateUnits",

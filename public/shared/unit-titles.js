@@ -722,3 +722,27 @@ export const usHistoryUnits = [
   { id: 10, name: "World War II & the Cold War (1939-1980)" },
   { id: 11, name: "Modern America (1980-Present)" }
 ];
+
+/** @type {Unit[]} */
+export const french2Units = [
+  { id: 1, name: "Pass\u00e9 Compos\u00e9 with Avoir" },
+  { id: 2, name: "Pass\u00e9 Compos\u00e9 with \u00catre" },
+  { id: 3, name: "L'Imparfait" },
+  { id: 4, name: "Pass\u00e9 Compos\u00e9 vs Imparfait" },
+  { id: 5, name: "Object Pronouns, Y & EN" },
+  { id: 6, name: "Reflexive Verbs & Daily Routine" },
+  { id: 7, name: "Futur Proche & Futur Simple" },
+  { id: 8, name: "Comparatives, Superlatives & Shopping" }
+];
+
+/** @type {Unit[]} */
+export const french3Units = [
+  { id: 1, name: "Le Plus-que-parfait" },
+  { id: 2, name: "Le Conditionnel & les Phrases avec Si" },
+  { id: 3, name: "Le Subjonctif Pr\u00e9sent" },
+  { id: 4, name: "Les Pronoms Relatifs" },
+  { id: 5, name: "Demonstratives & Possessive Pronouns" },
+  { id: 6, name: "Le Passif & le Discours Indirect" },
+  { id: 7, name: "Le Futur Ant\u00e9rieur & le Conditionnel Pass\u00e9" },
+  { id: 8, name: "Culture Francophone & Expression \u00c9crite" }
+];
