@@ -2973,3 +2973,51 @@ function ssDiagBatchRenderContinue(){
   document.addEventListener('click',sched);
   sched();
 })();
+
+// Flashcard swipe-to-rate: drag right = "Know it", left = "Still learning".
+// A tap (no drag) still flips; vertical pans still scroll (touch-action:pan-y).
+// Keyboard/buttons are unchanged, so swiping is a shortcut, never the only way.
+(function(){
+  var scene=document.getElementById('scene');
+  if(!scene||!window.PointerEvent)return;
+  var sx=0,sy=0,dx=0,drag=false,live=false,swallow=false,reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var THRESH=90;
+  function reset(anim){
+    scene.classList.remove('swiping');scene.classList.toggle('swipe-out',!!anim);
+    scene.style.transform='';scene.style.opacity='';scene.style.removeProperty('--sw');scene.removeAttribute('data-dir');
+  }
+  scene.addEventListener('pointerdown',function(e){
+    if(e.pointerType==='mouse'&&e.button!==0)return;
+    live=true;drag=false;dx=0;sx=e.clientX;sy=e.clientY;
+  });
+  scene.addEventListener('pointermove',function(e){
+    if(!live)return;
+    dx=e.clientX-sx;var dy=e.clientY-sy;
+    if(!drag){
+      if(Math.abs(dx)>12&&Math.abs(dx)>Math.abs(dy)*1.5){drag=true;scene.setPointerCapture(e.pointerId);scene.classList.remove('swipe-out');scene.classList.add('swiping');}
+      else return;
+    }
+    scene.style.transform='translateX('+dx+'px) rotate('+(dx/25)+'deg)';
+    scene.style.setProperty('--sw',Math.min(1,Math.abs(dx)/THRESH).toFixed(2));
+    scene.setAttribute('data-dir',dx>0?'known':'learning');
+  });
+  function end(){
+    if(!live)return;live=false;
+    if(!drag)return;
+    drag=false;swallow=true;setTimeout(function(){swallow=false;},0);
+    if(Math.abs(dx)>=THRESH){
+      var rating=dx>0?'known':'learning';
+      if(reduce){reset(false);rateFC(rating);return;}
+      scene.classList.add('swipe-out');
+      scene.style.transform='translateX('+(dx>0?'':'-')+'120%) rotate('+(dx>0?'':'-')+'12deg)';scene.style.opacity='0';
+      setTimeout(function(){reset(false);rateFC(rating);},180);
+    }else reset(!reduce);
+  }
+  scene.addEventListener('pointerup',end);
+  scene.addEventListener('pointercancel',function(){live=false;if(drag){drag=false;reset(!reduce);}});
+  scene.addEventListener('click',function(e){if(swallow){e.stopImmediatePropagation();e.preventDefault();}},true);
+  if(matchMedia('(pointer: coarse)').matches){
+    var h=document.querySelector('#view-cards .hint');
+    if(h)h.textContent='Tap to flip · Swipe right = know it · Swipe left = still learning';
+  }
+})();

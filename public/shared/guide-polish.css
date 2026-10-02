@@ -575,3 +575,14 @@ html:root body .hero.hero #sgt-time[data-phase="break"] { color: var(--brand-gre
 @media(prefers-reduced-motion:reduce){.ss-cnav{transition:none}}
 @media print{.ss-cnav{display:none!important}}
 html.ss-focus-mode .ss-cnav{display:none}
+
+/* ---------- Flashcards: swipe-to-rate + bigger rating buttons ---------- */
+#view-cards .scene{touch-action:pan-y;position:relative;user-select:none;-webkit-user-select:none}
+#view-cards .scene.swiping{transition:none;will-change:transform}
+#view-cards .scene.swipe-out{transition:transform .18s ease,opacity .18s ease}
+#view-cards .scene::after{content:"";position:absolute;inset:0;border-radius:var(--radius);pointer-events:none;opacity:0;border:3px solid transparent}
+#view-cards .scene.swiping::after{opacity:var(--sw,0)}
+#view-cards .scene[data-dir="known"]::after{border-color:#7fc98f;background:rgba(127,201,143,.16)}
+#view-cards .scene[data-dir="learning"]::after{border-color:#e07a82;background:rgba(224,122,130,.16)}
+html body #view-cards button[onclick^="rateFC"]{flex:1 1 150px;max-width:240px;min-height:56px;font-size:19px;font-weight:700}
+@media(prefers-reduced-motion:reduce){#view-cards .scene.swipe-out{transition:none}}
