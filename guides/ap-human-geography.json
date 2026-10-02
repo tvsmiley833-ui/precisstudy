@@ -1,7 +1,7 @@
 {
  "slug": "ap-human-geography",
  "title": "AP Human Geography",
- "description": "Free AP Human Geography study guide: 7 units, 35 practice questions, 28 flashcards, quick reference, memory tricks, and a full practice exam. Completely free.",
+ "description": "Free AP Human Geography study guide: 7 units, 121 practice questions, 106 flashcards, quick reference, memory tricks, and a full practice exam. Completely free.",
  "fontUrl": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Permanent+Marker&display=swap",
  "accentColor": "#0e7490",
  "units": [
@@ -10,40 +10,143 @@
    "name": "Thinking Geographically",
    "concepts": [
     {
-     "l": "Spatial Concepts",
-     "intro": "Geographers use a common toolkit of spatial ideas to describe where things are and why they are there.",
+     "l": "What Geography Studies",
+     "intro": "Geography asks where things are, why they are there, and how places connect. It uses a few core ideas to describe both people and the land.",
      "b": [
-      "Absolute location: exact position (coordinates, address); relative location: position described in relation to other places",
-      "Distance decay: interaction between two places decreases as the distance between them increases",
-      "Space-time compression: technology (transportation, communication) shrinks the effective distance between places",
-      "Distribution: the arrangement of a phenomenon across Earth's surface (density, concentration, pattern)"
+      "Geography: the study of the spatial (where) patterns of people and the physical world, and the processes that create them. It answers 'where' and then 'why there.'",
+      "Graphics: the visual tools geographers use to communicate spatial information, especially maps, but also graphs, charts, diagrams, and photos. Maps are often called the language of geography.",
+      "Taxonomy: a system for classifying things into groups. Geographers build taxonomies to organize the world, such as types of regions, types of diffusion, or types of maps.",
+      "Holistic synthesis: geography's whole-picture approach. It combines physical factors (climate, landforms) with human ones (culture, economics, politics) and draws on many disciplines to understand a place as a whole."
      ]
     },
     {
-     "l": "Types of Regions",
-     "intro": "A region is an area with one or more unifying characteristics; geographers classify regions by how that unity is defined.",
+     "l": "Environment, Culture & Acculturation",
+     "intro": "Every place is a mix of what nature provides and what people build. Culture is the bridge between the two.",
      "b": [
-      "Formal region: shared, official/measurable trait (e.g., a country, a climate zone)",
-      "Functional region: organized around a focal point/node (e.g., a cell-phone tower's coverage area)",
-      "Perceptual (vernacular) region: defined by people's shared feelings/perceptions rather than official data (e.g., 'the Midwest')"
-     ]
-    },
-    {
-     "l": "Maps, Scale, and GIS",
-     "intro": "How geographers represent and analyze spatial data shapes what patterns they can see.",
-     "b": [
-      "Map scale: the ratio between distance on a map and distance on Earth; large scale = zoomed in/small area, small scale = zoomed out/large area",
-      "GIS (Geographic Information Systems): software layering multiple data sets onto a map for spatial analysis",
-      "Choropleth map: uses shading/color to show a measured value across regions; a common source of the modifiable areal unit problem"
+      "Natural environment: the physical world not made by people, including climate, landforms, soil, water, vegetation, and wildlife.",
+      "Cultural environment (cultural landscape): the natural environment as modified by people, such as farms, roads, buildings, terraced hillsides, and city layouts. Carl Sauer called it the cultural landscape.",
+      "Culture: the shared beliefs, values, language, customs, and material traits (food, clothing, buildings) of a group of people, learned and passed down over generations.",
+      "Acculturation: the process in which a group adopts some traits of another (usually dominant) culture while keeping much of its own. Example: immigrants learning English while keeping their home cuisine and holidays. Full absorption is called assimilation."
      ]
     },
     {
      "l": "Human-Environment Interaction",
-     "intro": "Geography examines how people shape, and are shaped by, their physical environment.",
+     "intro": "Geographers have long debated how much the environment shapes people and how much people shape the environment.",
      "b": [
-      "Environmental determinism: the (largely discredited) view that the physical environment alone dictates human behavior/culture",
-      "Possibilism: the environment sets constraints, but humans choose among possible responses",
-      "Sustainability: meeting present needs without compromising the ability of future generations to meet theirs"
+      "Environmental determinism: the discredited idea that the physical environment (especially climate) directly controls human behavior and how advanced a society becomes. It was used to justify colonialism and racism.",
+      "Possibilism: the view that the environment sets limits, but people choose among many possible responses using culture and technology. Example: desert societies can farm with irrigation.",
+      "Arable land: land suitable for growing crops. Only about 10 percent of Earth's land is arable, which is why physiological density matters.",
+      "Sustainability: meeting present needs without compromising the ability of future generations to meet theirs."
+     ]
+    },
+    {
+     "l": "Maps & Cartography",
+     "intro": "Maps are the main tool of geography. Different maps are built for different jobs.",
+     "b": [
+      "Map: a two-dimensional (flat) representation of part or all of Earth's surface. Every map simplifies reality and contains some distortion.",
+      "Cartography / cartographer: cartography is the science and art of making maps; a cartographer is the person who makes them and decides what to show, what to leave out, and how.",
+      "Reference maps: maps that show the locations of places and features for general use, like the maps in an atlas or a road map. They answer 'where is it?'",
+      "Political map (a reference map): shows human-made boundaries between countries, states, or counties, plus capitals and major cities.",
+      "Physical map (a reference map): shows natural features such as mountains, rivers, lakes, deserts, and oceans, often with color shading for elevation.",
+      "Topographic map (a reference map): shows elevation and the shape of the land with contour lines; lines close together mean steep terrain."
+     ]
+    },
+    {
+     "l": "Thematic Maps",
+     "intro": "Thematic maps show data about one topic, such as population, income, or voting, rather than general locations.",
+     "b": [
+      "Thematic maps: maps that display the spatial pattern of a specific theme or variable, like a map of median income by county.",
+      "Isoline (isopleth) map: connects points of equal value with lines, such as isotherms for temperature, isobars for air pressure, or contour lines for elevation. An isopleth uses rates or averages, such as population density.",
+      "Choropleth map: shades or colors predefined areas (states, counties) according to a data value. Darker usually means more. Works best with rates, and its pattern can change if boundaries change (the modifiable areal unit problem).",
+      "Cartogram: resizes countries or regions in proportion to a statistic, such as population or GDP, rather than land area. In a population cartogram, India and China look huge and Canada looks small."
+     ]
+    },
+    {
+     "l": "Map Scale & Projections",
+     "intro": "Scale tells you how much the map is zoomed in; the projection tells you how the round Earth was flattened and what got distorted.",
+     "b": [
+      "Map scale: the ratio between a distance on the map and the real distance on Earth, shown as a ratio (1:24,000), a written statement, or a bar. Large scale = zoomed in on a small area with lots of detail; small scale = a large area with little detail.",
+      "Mercator's map: a 1569 projection by Gerardus Mercator that keeps shapes and compass directions true, which made it ideal for sea navigation. It badly exaggerates area near the poles: Greenland looks about the size of Africa, though Africa is about 14 times larger.",
+      "Equal area map: a projection that keeps the relative size (area) of landmasses accurate but distorts their shapes, especially near the edges.",
+      "Peters Projection map: an equal-area projection promoted by Arno Peters in the 1970s. It shows the true relative size of continents (Africa and South America look large) but stretches their shapes. It was promoted as a fairer view of the Global South than Mercator.",
+      "Distortion: every flat map distorts at least one of shape, area, distance, or direction, so cartographers choose a projection based on what the map is for."
+     ]
+    },
+    {
+     "l": "Location & the Global Grid",
+     "intro": "Location can be described exactly, with coordinates, or in relation to other places.",
+     "b": [
+      "Absolute location: a place's exact position on Earth, usually given by latitude and longitude (for example, about 40.7° N, 74.0° W for New York City). It never changes.",
+      "Relative location: a place's position compared with other places, such as 'across the river from New Jersey' or 'two hours north of Philadelphia.' It can change as connections change.",
+      "Latitude: imaginary lines (parallels) running east-west that measure distance north or south of the equator, from 0° to 90° N or S.",
+      "Longitude: imaginary lines (meridians) running north-south that measure distance east or west of the Prime Meridian, from 0° to 180° E or W.",
+      "Equator: 0° latitude, the line halfway between the North and South Poles that divides Earth into the Northern and Southern Hemispheres.",
+      "Prime Meridian: 0° longitude, which runs through Greenwich, England, and divides Earth into the Eastern and Western Hemispheres."
+     ]
+    },
+    {
+     "l": "Time Zones & the Date Line",
+     "intro": "Because Earth rotates 360° in 24 hours, time changes by one hour for roughly every 15° of longitude.",
+     "b": [
+      "Greenwich Mean Time (GMT): the time at the Prime Meridian in Greenwich, England, used as the reference point for world time zones. Today scientists use the nearly identical Coordinated Universal Time (UTC).",
+      "Time zones: 24 standard zones, each about 15° of longitude wide (360° ÷ 24 hours). Boundaries zigzag to follow political borders, and some large countries, like China, use a single time zone.",
+      "International Date Line: an imaginary line roughly along 180° longitude where the calendar date changes. Crossing it westward (toward Asia) adds a day; crossing eastward (toward the Americas) subtracts a day. It zigzags to keep island nations on one date."
+     ]
+    },
+    {
+     "l": "Site, Situation & Globalization",
+     "intro": "Why a place grew where it did depends on its own features and on its connections to the rest of the world.",
+     "b": [
+      "Site: the physical characteristics of a place itself, including landforms, climate, water supply, soil, and elevation. Example: a city's deep natural harbor or a defensible hilltop.",
+      "Situation: a place's location relative to other places, including access to trade routes, resources, and other cities. Example: Singapore's location on the shipping route between the Indian and Pacific Oceans.",
+      "Globalization: the increasing connection of the world's people, economies, and cultures through trade, communication, travel, and technology. Examples: global supply chains, international brands, and worldwide social media.",
+      "Time-space compression: faster transportation and communication shrink the effective distance between places, which speeds up globalization.",
+      "Distance decay: interaction between two places decreases as the distance between them increases."
+     ]
+    },
+    {
+     "l": "Types of Regions",
+     "intro": "A region is an area unified by one or more characteristics. AP Human Geography uses three types.",
+     "b": [
+      "Formal regions (uniform regions): areas where everyone shares one or more measurable traits, such as a country, a state, a language area, or a climate zone. They have clear, official boundaries.",
+      "Functional regions (nodal regions): areas organized around a central point (node) and defined by connections to it, such as a cell-tower coverage area, a newspaper's delivery area, or a city's commuter zone. Ties weaken farther from the node.",
+      "Vernacular regions (perceptual regions): areas defined by people's shared feelings and mental images rather than official data, with fuzzy boundaries. Examples: 'the South,' 'the Midwest,' 'the Bible Belt.'"
+     ]
+    },
+    {
+     "l": "Diffusion & Hearths",
+     "intro": "Ideas, innovations, diseases, and cultural traits spread from where they start. The type of diffusion describes how they travel.",
+     "b": [
+      "Hearth: the place where an idea, innovation, or cultural trait originates. Example: Mesopotamia as a hearth of agriculture, or Silicon Valley as a hearth of tech innovation.",
+      "Diffusion: the process by which a characteristic spreads across space from one place to another over time.",
+      "Relocation diffusion: spread through the physical movement of people who carry a trait with them to a new place. Example: immigrants bringing their language, religion, or food to a new country.",
+      "Expansion diffusion: spread outward from the hearth while the trait stays strong in the original place, like a snowball growing. It has three types: contagious, hierarchical, and stimulus.",
+      "Contagious diffusion (expansion): rapid, widespread person-to-person spread through a population regardless of status. Examples: a viral video or a contagious disease.",
+      "Hierarchical diffusion (expansion): spread from larger or more important places or people to smaller or less important ones, such as from major cities to towns, or from celebrities to the public. Example: fashion trends moving from New York and Paris outward.",
+      "Stimulus diffusion (expansion): the underlying idea spreads, but the trait itself changes to fit the new culture. Example: McDonald's in India sells the McAloo Tikki instead of beef burgers."
+     ]
+    },
+    {
+     "l": "Spatial Distribution & Density",
+     "intro": "Distribution is how something is spread across space. Geographers measure it with density, concentration, and pattern.",
+     "b": [
+      "Spatial distribution: the arrangement of a phenomenon across Earth's surface, described by density, concentration, and pattern.",
+      "Density: the frequency with which something occurs within a given unit of area, such as people per square kilometer.",
+      "Arithmetic density: total population divided by total land area. It is the simplest measure but hides uneven settlement. Example: Egypt's arithmetic density looks moderate, though most people live along the Nile.",
+      "Physiological density: total population divided by arable land. A high number means a lot of pressure on the land that can grow food. Egypt's physiological density is very high.",
+      "Agricultural density: number of farmers divided by arable land. A high number suggests many farmers and little mechanization (often less-developed countries); a low number suggests mechanized, efficient farming.",
+      "Concentration: the extent of a feature's spread over space. Clustered means objects are close together (a village with houses grouped near a church); dispersed means they are spread far apart (farmhouses scattered across the Great Plains).",
+      "Pattern: the geometric arrangement of objects in space, such as linear (towns along a highway or river), grid (city blocks), or random."
+     ]
+    },
+    {
+     "l": "Geographic Data",
+     "intro": "Geographers collect data from counts, surveys, satellites, and software to see spatial patterns.",
+     "b": [
+      "Census: an official count of a population, usually with information on age, sex, household, and income. The United States takes one every 10 years, as required by the Constitution, and uses it to divide seats in the House of Representatives.",
+      "Geographic information system (GIS): a computer system that stores, analyzes, and displays geographic data in layers (for example, roads, rivers, and income on one map), so patterns and relationships can be compared.",
+      "Remote sensing: collecting data about Earth from a distance, using satellites or aircraft. It provides much of the raw data used in GIS.",
+      "GPS (Global Positioning System): satellites that pinpoint an exact absolute location on Earth."
      ]
     }
    ],
@@ -51,11 +154,16 @@
     "The 'five themes of geography' are location, place, human-environment interaction, movement, and region.",
     "Toponyms (place names) often reveal a location's settlement or cultural history.",
     "Remote sensing (satellites, aerial imagery) feeds much of the raw data used in GIS.",
-    "Site describes a place's physical characteristics; situation describes its location relative to other places."
+    "Site describes a place's physical characteristics; situation describes its location relative to other places.",
+    "Three densities: arithmetic (people ÷ land), physiological (people ÷ arable land), agricultural (farmers ÷ arable land).",
+    "Expansion diffusion has three types: contagious, hierarchical, and stimulus; relocation diffusion moves with migrants."
    ],
    "traps": [
     "Don't confuse absolute location (fixed coordinates) with relative location (context-dependent, can change).",
-    "A 'large-scale' map is zoomed IN (shows a small area in detail) — this is the opposite of everyday usage of 'large.'"
+    "A 'large-scale' map is zoomed IN (shows a small area in detail) — this is the opposite of everyday usage of 'large.'",
+    "Physiological density divides by arable land, not total land — don't mix it up with arithmetic density.",
+    "Mercator keeps shape but distorts area; Peters (equal area) keeps area but distorts shape.",
+    "Site is the place's own physical features; situation is its location relative to other places."
    ]
   },
   {
@@ -1484,6 +1592,366 @@
    ],
    "a": 0,
    "e": "The UN Sustainable Development Goals set targets through 2030."
+  },
+  {
+   "u": 1,
+   "q": "Physiological density measures:",
+   "o": [
+    "The number of people per unit of total land area",
+    "The number of people per unit of arable land",
+    "The number of farmers per unit of arable land",
+    "The number of cities per country"
+   ],
+   "a": 1,
+   "e": "Physiological density = population ÷ arable land."
+  },
+  {
+   "u": 1,
+   "q": "A country with a high agricultural density most likely has:",
+   "o": [
+    "Highly mechanized farms with few workers",
+    "Very little arable land and no farmers",
+    "A mostly urban, service-based economy",
+    "Many farmers working the land with little mechanization"
+   ],
+   "a": 3,
+   "e": "Many farmers per unit of farmland suggests labor-intensive, less mechanized agriculture."
+  },
+  {
+   "u": 1,
+   "q": "Arithmetic density is calculated by dividing:",
+   "o": [
+    "Total population by total land area",
+    "Total population by arable land",
+    "Farmers by arable land",
+    "Urban population by rural population"
+   ],
+   "a": 0,
+   "e": "Arithmetic density is the simplest density measure."
+  },
+  {
+   "u": 1,
+   "q": "Egypt has a moderate arithmetic density but a very high physiological density. This shows that:",
+   "o": [
+    "Egypt has more farmland than people",
+    "Egypt's farms are fully mechanized",
+    "Most people depend on a small amount of farmland along the Nile",
+    "Egypt's population is evenly spread"
+   ],
+   "a": 2,
+   "e": "Physiological density reveals pressure on the small arable area."
+  },
+  {
+   "u": 1,
+   "q": "Which map uses lines to connect points of equal value, such as temperature or elevation?",
+   "o": [
+    "Choropleth map",
+    "Cartogram",
+    "Isoline map",
+    "Political map"
+   ],
+   "a": 2,
+   "e": "Isolines connect equal values: isotherms, isobars, contour lines."
+  },
+  {
+   "u": 1,
+   "q": "A map that resizes each country in proportion to its population is a:",
+   "o": [
+    "Cartogram",
+    "Choropleth map",
+    "Topographic map",
+    "Mercator projection"
+   ],
+   "a": 0,
+   "e": "Cartograms distort size to show a statistic."
+  },
+  {
+   "u": 1,
+   "q": "Which of these is a reference map?",
+   "o": [
+    "Choropleth map",
+    "Cartogram",
+    "Isoline map",
+    "Political map"
+   ],
+   "a": 3,
+   "e": "Political, physical, and topographic maps are reference maps; the others are thematic."
+  },
+  {
+   "u": 1,
+   "q": "A map that uses contour lines to show elevation is a:",
+   "o": [
+    "Political map",
+    "Topographic map",
+    "Cartogram",
+    "Choropleth map"
+   ],
+   "a": 1,
+   "e": "Topographic maps show elevation with contour lines."
+  },
+  {
+   "u": 1,
+   "q": "Which statement best describes the Peters Projection?",
+   "o": [
+    "It shows the true relative size of landmasses but distorts their shapes",
+    "It keeps shapes true but enlarges the poles",
+    "It shows only political boundaries",
+    "It is used mainly for sea navigation"
+   ],
+   "a": 0,
+   "e": "Peters is an equal-area projection."
+  },
+  {
+   "u": 1,
+   "q": "An equal area map preserves:",
+   "o": [
+    "The exact shape of every continent",
+    "True compass directions everywhere",
+    "The relative size of landmasses",
+    "Distances from one point to all others"
+   ],
+   "a": 2,
+   "e": "Equal-area projections trade shape accuracy for accurate area."
+  },
+  {
+   "u": 1,
+   "q": "The Prime Meridian is:",
+   "o": [
+    "0° latitude, dividing north and south",
+    "0° longitude, passing through Greenwich, England",
+    "180° longitude, where the date changes",
+    "The line separating time zones in the U.S."
+   ],
+   "a": 1,
+   "e": "Longitude is measured east and west from the Prime Meridian."
+  },
+  {
+   "u": 1,
+   "q": "A traveler crosses the International Date Line heading west from Hawaii toward Japan. What happens to the date?",
+   "o": [
+    "It moves back one day",
+    "It stays the same",
+    "It moves forward one hour",
+    "It moves forward one day"
+   ],
+   "a": 3,
+   "e": "Crossing westward adds a day."
+  },
+  {
+   "u": 1,
+   "q": "Why is each standard time zone about 15° of longitude wide?",
+   "o": [
+    "Each country gets 15° of territory",
+    "Earth rotates 360° in 24 hours, so 15° per hour",
+    "The equator is 15° wide",
+    "Latitude lines are 15° apart"
+   ],
+   "a": 1,
+   "e": "360 ÷ 24 = 15."
+  },
+  {
+   "u": 1,
+   "q": "Latitude measures:",
+   "o": [
+    "Distance east or west of the Prime Meridian",
+    "Elevation above sea level",
+    "Time difference from Greenwich",
+    "Distance north or south of the equator"
+   ],
+   "a": 3,
+   "e": "Latitude lines (parallels) run east-west."
+  },
+  {
+   "u": 1,
+   "q": "Longitude measures:",
+   "o": [
+    "Distance east or west of the Prime Meridian",
+    "Distance north or south of the equator",
+    "The size of a time zone",
+    "Elevation of the land"
+   ],
+   "a": 0,
+   "e": "Longitude lines (meridians) run north-south."
+  },
+  {
+   "u": 1,
+   "q": "Greenwich Mean Time is:",
+   "o": [
+    "The time at the International Date Line",
+    "The local time in Washington, D.C.",
+    "The time at the Prime Meridian, used as the world reference",
+    "The time zone used only by ships"
+   ],
+   "a": 2,
+   "e": "GMT (now UTC) is the base for world time zones."
+  },
+  {
+   "u": 1,
+   "q": "A city built beside a deep natural harbor is being described by its:",
+   "o": [
+    "Situation",
+    "Relative location",
+    "Site",
+    "Functional region"
+   ],
+   "a": 2,
+   "e": "Site = the place's own physical characteristics."
+  },
+  {
+   "u": 1,
+   "q": "Singapore's importance as a port on the main shipping route between two oceans describes its:",
+   "o": [
+    "Situation",
+    "Site",
+    "Absolute location",
+    "Arithmetic density"
+   ],
+   "a": 0,
+   "e": "Situation = location relative to other places."
+  },
+  {
+   "u": 1,
+   "q": "Immigrants bringing their religion and food to a new country is an example of:",
+   "o": [
+    "Hierarchical diffusion",
+    "Stimulus diffusion",
+    "Contagious diffusion",
+    "Relocation diffusion"
+   ],
+   "a": 3,
+   "e": "The trait moves with the people."
+  },
+  {
+   "u": 1,
+   "q": "A video that spreads rapidly from person to person across social media is an example of:",
+   "o": [
+    "Relocation diffusion",
+    "Contagious diffusion",
+    "Hierarchical diffusion",
+    "Stimulus diffusion"
+   ],
+   "a": 1,
+   "e": "Contagious diffusion spreads person to person regardless of status."
+  },
+  {
+   "u": 1,
+   "q": "A fashion trend that starts in New York and Paris, then reaches smaller cities and towns, is an example of:",
+   "o": [
+    "Hierarchical diffusion",
+    "Contagious diffusion",
+    "Relocation diffusion",
+    "Stimulus diffusion"
+   ],
+   "a": 0,
+   "e": "It moves down the urban hierarchy."
+  },
+  {
+   "u": 1,
+   "q": "McDonald's selling the vegetarian McAloo Tikki in India is an example of:",
+   "o": [
+    "Relocation diffusion",
+    "Contagious diffusion",
+    "Stimulus diffusion",
+    "Environmental determinism"
+   ],
+   "a": 2,
+   "e": "The fast-food idea spread, but the product was adapted to local culture."
+  },
+  {
+   "u": 1,
+   "q": "The place where an idea or innovation originates is its:",
+   "o": [
+    "Node",
+    "Hearth",
+    "Situation",
+    "Site"
+   ],
+   "a": 1,
+   "e": "Diffusion spreads outward from the hearth."
+  },
+  {
+   "u": 1,
+   "q": "Which is the best example of a vernacular region?",
+   "o": [
+    "The state of Texas",
+    "A school district",
+    "A radio station's broadcast area",
+    "The Bible Belt"
+   ],
+   "a": 3,
+   "e": "Vernacular regions are based on perception and have fuzzy borders."
+  },
+  {
+   "u": 1,
+   "q": "Immigrants who learn English and adopt some American customs while keeping their own language at home are experiencing:",
+   "o": [
+    "Environmental determinism",
+    "Acculturation",
+    "Hierarchical diffusion",
+    "Possibilism"
+   ],
+   "a": 1,
+   "e": "Acculturation means adopting some traits while keeping much of one's own culture."
+  },
+  {
+   "u": 1,
+   "q": "A rice terrace carved into a mountainside is part of the:",
+   "o": [
+    "Natural environment",
+    "Vernacular region",
+    "Physical map",
+    "Cultural environment"
+   ],
+   "a": 3,
+   "e": "It is the natural environment modified by people."
+  },
+  {
+   "u": 1,
+   "q": "Farmhouses spread far apart across the Great Plains show a:",
+   "o": [
+    "Dispersed distribution",
+    "Clustered distribution",
+    "Linear pattern only",
+    "High physiological density"
+   ],
+   "a": 0,
+   "e": "Dispersed = objects far apart."
+  },
+  {
+   "u": 1,
+   "q": "A census is:",
+   "o": [
+    "A satellite image of Earth",
+    "A map that shows elevation",
+    "An official count of a population",
+    "A type of diffusion"
+   ],
+   "a": 2,
+   "e": "The U.S. Census is taken every 10 years."
+  },
+  {
+   "u": 1,
+   "q": "Geography's 'holistic synthesis' approach means:",
+   "o": [
+    "Studying only physical landforms",
+    "Classifying maps by scale",
+    "Combining physical and human factors to understand a place as a whole",
+    "Using only census data"
+   ],
+   "a": 2,
+   "e": "Geography integrates many disciplines."
+  },
+  {
+   "u": 1,
+   "q": "Globalization is best described as:",
+   "o": [
+    "The increasing interconnection of the world's economies, cultures, and people",
+    "The spread of one language to every country",
+    "The division of the world into time zones",
+    "Mapping the globe with a single projection"
+   ],
+   "a": 0,
+   "e": "Trade, communication, and travel link places worldwide."
   }
  ],
  "flashcards": [
@@ -1761,6 +2229,261 @@
    "u": 7,
    "t": "Sustainable development",
    "d": "Meeting present needs without compromising future generations."
+  },
+  {
+   "u": 1,
+   "t": "Geography",
+   "d": "The study of where things are on Earth and why, for both people and the physical environment."
+  },
+  {
+   "u": 1,
+   "t": "Graphics",
+   "d": "Visual tools for spatial information: maps, graphs, charts, diagrams, photos."
+  },
+  {
+   "u": 1,
+   "t": "Taxonomy",
+   "d": "A system for classifying things into groups, such as types of regions or diffusion."
+  },
+  {
+   "u": 1,
+   "t": "Natural environment",
+   "d": "The physical world not made by people: climate, landforms, soil, water, vegetation."
+  },
+  {
+   "u": 1,
+   "t": "Cultural environment",
+   "d": "The natural environment as modified by people: farms, roads, buildings (cultural landscape)."
+  },
+  {
+   "u": 1,
+   "t": "Culture",
+   "d": "Shared beliefs, values, language, customs, and material traits of a group."
+  },
+  {
+   "u": 1,
+   "t": "Acculturation",
+   "d": "Adopting some traits of another culture while keeping much of your own."
+  },
+  {
+   "u": 1,
+   "t": "Holistic synthesis",
+   "d": "Geography's whole-picture approach combining physical and human factors and many disciplines."
+  },
+  {
+   "u": 1,
+   "t": "Environmental determinism",
+   "d": "Discredited idea that the physical environment controls human behavior and development."
+  },
+  {
+   "u": 1,
+   "t": "Map",
+   "d": "A flat representation of part or all of Earth's surface; always simplified and distorted."
+  },
+  {
+   "u": 1,
+   "t": "Cartography / cartographer",
+   "d": "The science and art of mapmaking / the person who makes maps."
+  },
+  {
+   "u": 1,
+   "t": "Reference maps",
+   "d": "General maps showing locations of places and features (political, physical, topographic)."
+  },
+  {
+   "u": 1,
+   "t": "Political map",
+   "d": "Reference map showing boundaries, capitals, and cities."
+  },
+  {
+   "u": 1,
+   "t": "Physical map",
+   "d": "Reference map showing natural features such as mountains, rivers, and elevation."
+  },
+  {
+   "u": 1,
+   "t": "Topographic map",
+   "d": "Reference map showing elevation with contour lines."
+  },
+  {
+   "u": 1,
+   "t": "Thematic maps",
+   "d": "Maps showing the spatial pattern of one topic or variable."
+  },
+  {
+   "u": 1,
+   "t": "Isoline (isopleth) map",
+   "d": "Lines connect points of equal value (temperature, pressure, elevation)."
+  },
+  {
+   "u": 1,
+   "t": "Choropleth map",
+   "d": "Areas shaded by a data value; works best with rates."
+  },
+  {
+   "u": 1,
+   "t": "Cartogram",
+   "d": "Areas resized in proportion to a statistic such as population."
+  },
+  {
+   "u": 1,
+   "t": "Map scale",
+   "d": "Ratio of map distance to real distance; large scale = small area, more detail."
+  },
+  {
+   "u": 1,
+   "t": "Mercator's map",
+   "d": "Keeps shape and direction (navigation) but exaggerates area near the poles."
+  },
+  {
+   "u": 1,
+   "t": "Latitude",
+   "d": "Parallels measuring distance north or south of the equator, 0°–90°."
+  },
+  {
+   "u": 1,
+   "t": "Longitude",
+   "d": "Meridians measuring distance east or west of the Prime Meridian, 0°–180°."
+  },
+  {
+   "u": 1,
+   "t": "International Date Line",
+   "d": "About 180° longitude; crossing westward adds a day, eastward subtracts one."
+  },
+  {
+   "u": 1,
+   "t": "Prime Meridian",
+   "d": "0° longitude, through Greenwich, England."
+  },
+  {
+   "u": 1,
+   "t": "Equator",
+   "d": "0° latitude, dividing the Northern and Southern Hemispheres."
+  },
+  {
+   "u": 1,
+   "t": "Greenwich Mean Time",
+   "d": "Time at the Prime Meridian; the reference for world time zones (now UTC)."
+  },
+  {
+   "u": 1,
+   "t": "Time zones",
+   "d": "24 zones about 15° of longitude wide, because Earth turns 15° per hour."
+  },
+  {
+   "u": 1,
+   "t": "Equal area map",
+   "d": "Projection that keeps relative area accurate but distorts shape."
+  },
+  {
+   "u": 1,
+   "t": "Peters Projection map",
+   "d": "Equal-area projection showing true continent sizes with stretched shapes."
+  },
+  {
+   "u": 1,
+   "t": "Site",
+   "d": "The physical characteristics of a place itself (harbor, hill, water supply)."
+  },
+  {
+   "u": 1,
+   "t": "Situation",
+   "d": "A place's location relative to other places (trade routes, access)."
+  },
+  {
+   "u": 1,
+   "t": "Globalization",
+   "d": "Increasing interconnection of economies, cultures, and people worldwide."
+  },
+  {
+   "u": 1,
+   "t": "Vernacular region",
+   "d": "A region defined by people's perceptions, with fuzzy borders ('the South')."
+  },
+  {
+   "u": 1,
+   "t": "Diffusion",
+   "d": "The spread of a trait or idea from one place to others over time."
+  },
+  {
+   "u": 1,
+   "t": "Relocation diffusion",
+   "d": "Spread through people moving and carrying the trait with them."
+  },
+  {
+   "u": 1,
+   "t": "Expansion diffusion",
+   "d": "Spread outward from the hearth while staying strong there (contagious, hierarchical, stimulus)."
+  },
+  {
+   "u": 1,
+   "t": "Contagious diffusion",
+   "d": "Rapid person-to-person spread through a population (viral video, disease)."
+  },
+  {
+   "u": 1,
+   "t": "Hierarchical diffusion",
+   "d": "Spread from larger or more important places or people to smaller ones."
+  },
+  {
+   "u": 1,
+   "t": "Stimulus diffusion",
+   "d": "The idea spreads but the trait changes to fit the new culture (McAloo Tikki)."
+  },
+  {
+   "u": 1,
+   "t": "Hearth",
+   "d": "The place where an idea or cultural trait originates."
+  },
+  {
+   "u": 1,
+   "t": "Spatial distribution",
+   "d": "How a phenomenon is arranged across space: density, concentration, pattern."
+  },
+  {
+   "u": 1,
+   "t": "Density",
+   "d": "How often something occurs per unit of area."
+  },
+  {
+   "u": 1,
+   "t": "Arithmetic density",
+   "d": "Total population ÷ total land area."
+  },
+  {
+   "u": 1,
+   "t": "Physiological density",
+   "d": "Total population ÷ arable land; shows pressure on farmland."
+  },
+  {
+   "u": 1,
+   "t": "Agricultural density",
+   "d": "Farmers ÷ arable land; high = little mechanization."
+  },
+  {
+   "u": 1,
+   "t": "Concentration (clustered vs dispersed)",
+   "d": "How spread out a feature is: clustered = close together; dispersed = far apart."
+  },
+  {
+   "u": 1,
+   "t": "Pattern",
+   "d": "The geometric arrangement of objects: linear, grid, random."
+  },
+  {
+   "u": 1,
+   "t": "Arable land",
+   "d": "Land suitable for growing crops (about 10% of Earth's land)."
+  },
+  {
+   "u": 1,
+   "t": "Census",
+   "d": "An official population count; the U.S. holds one every 10 years."
+  },
+  {
+   "u": 1,
+   "t": "Geographic information system (GIS)",
+   "d": "Computer system that layers and analyzes geographic data."
   }
  ],
  "examParts": {
