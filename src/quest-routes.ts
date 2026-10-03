@@ -287,10 +287,12 @@ export async function handleGetQuest(request: Request, env: Env): Promise<Respon
   const blob = await loadBlob(env, session.email);
   const localDate = localDateFrom(request);
   const monday = mondayUTC(new Date());
+  const before = JSON.stringify(blob.quest ?? null);
   const quest = ensureQuestState(blob, session.email, localDate);
   reconcileProgress(blob, quest, monday, localDate);
   blob.quest = quest;
-  await saveBlob(env, session.email, blob);
+  // A read is the most common call on this route; only write the whole blob back when the quest state really changed.
+  if (JSON.stringify(quest) !== before) await saveBlob(env, session.email, blob);
 
   return json({ ok: true, quest: publicQuestState(quest) });
 }

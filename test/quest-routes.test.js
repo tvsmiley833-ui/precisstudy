@@ -105,6 +105,18 @@ describe("handleGetQuest", () => {
     expect(new Set(data.quest.weekly.quests.map(q => q.key)).size).toBe(2);
   });
 
+  it("a repeat GET with nothing changed writes nothing back", async () => {
+    const cookie = await sessionCookieFor("readonly@example.com");
+    const kv = fakeKV();
+    await handleGetQuest(req("https://example.com/api/quest", cookie), envWith(kv));
+    let puts = 0;
+    const put = kv.put.bind(kv);
+    kv.put = async (...a) => { puts++; return put(...a); };
+    const res = await handleGetQuest(req("https://example.com/api/quest", cookie), envWith(kv));
+    expect(res.status).toBe(200);
+    expect(puts).toBe(0);
+  });
+
   it("is stable across repeated GETs on the same day (no reroll)", async () => {
     const cookie = await sessionCookieFor("stable@example.com");
     const kv = fakeKV();
