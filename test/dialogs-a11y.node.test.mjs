@@ -82,3 +82,13 @@ test("homepage animations and the streak message respect reduced motion correctl
   const c = read("../public/shared/celebrate.js");
   assert.ok(c.indexOf("sageClap(msg)") > c.indexOf("launchConfetti(x, y)") && /if \(!prefersReducedMotion\(\)\) \{\s*const rect/.test(c));
 });
+
+test("quiz copy matches reality: no sign-in gate, picker always shown, worksheet limited to the chosen unit", () => {
+  const html = read("../public/spanish-1/index.html");
+  assert.ok(!html.includes('id="quiz-gate"'));
+  assert.ok(!/free diagnostic/.test(html));
+  assert.match(html, /Everything here is open without an account/);
+  const js = read("../client/guide-app.js");
+  assert.match(js, /if\(sel\) sel\.style\.display = ''/);
+  assert.match(js, /if\(only&&q\.u!==only\)return;/);
+});

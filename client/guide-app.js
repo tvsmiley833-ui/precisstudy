@@ -1278,8 +1278,10 @@ function printFlashcardSheet(){
   ssRunPrintJob(document.title.replace(/\s*[—-].*$/,'')+' — Flashcards Study Sheet',body);
 }
 function printWorksheet(){
+  // Print the unit chosen in the quiz picker, not the whole bank with its answer key.
+  var picked=document.getElementById('q-sel'),only=picked&&/^\d+$/.test(picked.value)&&+picked.value>0?+picked.value:0;
   var byUnit={};
-  (QUIZ||[]).forEach(function(q){(byUnit[q.u]=byUnit[q.u]||[]).push(q);});
+  (QUIZ||[]).forEach(function(q){if(only&&q.u!==only)return;(byUnit[q.u]=byUnit[q.u]||[]).push(q);});
   var num=0;
   var keyLines=[];
   var letters=['A','B','C','D','E','F'];
@@ -2531,20 +2533,16 @@ async function ssCheckSession(){
   return SS_SESSION;
 }
 
+// The whole quiz is open to everyone; signing in only syncs progress. So the unit picker is always shown and the
+// note is just a nudge for signed-out students.
 function ssApplyQuizGate(){
-  const gate = document.getElementById('quiz-gate');
-  const real = document.getElementById('quiz-real');
-  if(!gate || !real) return;
-  gate.style.display = 'none';
-  real.style.display = '';
   const sel = document.getElementById('q-sel');
   const note = document.getElementById('anon-quiz-note');
+  if(sel) sel.style.display = '';
   if(SS_SESSION){
-    if(sel) sel.style.display = '';
     if(note) note.style.display = 'none';
-  }else{
-    if(sel) sel.style.display = 'none';
-    if(note){ note.style.display = 'block'; ssRenderLoginBoxes(); }
+  }else if(note){
+    note.style.display = 'block'; ssRenderLoginBoxes();
   }
 }
 
