@@ -208,3 +208,10 @@ test("study timer survives a reload and mirrors the clock in the tab title while
 test("touch screens get 44px targets on the small guide controls", () => {
   assert.match(read("../public/shared/guide-polish.css"), /@media \(pointer: coarse\) \{\s*\.chip, \.btn, \.sgt-b/);
 });
+
+test("bookmarked questions can be practised from the quiz picker", () => {
+  const js = read("../client/guide-app.js");
+  assert.match(js, /function ssBookmarkedQuestions\(\)/);
+  assert.match(js, /raw==='bookmarks'\)src=ssBookmarkedQuestions\(\)/);
+  assert.match(js, /ssRefreshBookmarkOption\(\)/);
+});

@@ -1490,7 +1490,21 @@ function qBookmarkToggle(qid){
   var set=qBookmarkSet();
   if(set.has(qid))set.delete(qid);else set.add(qid);
   try{localStorage.setItem(Q_BOOKMARK_KEY,JSON.stringify(Array.from(set)));}catch(e){}
+  if(typeof ssRefreshBookmarkOption==='function')ssRefreshBookmarkOption();
   return set.has(qid);
+}
+// A "Bookmarked (n)" entry in the quiz picker, present only while something is bookmarked, so saved questions can be practised.
+function ssBookmarkedQuestions(){
+  const ids=qBookmarkSet();
+  return QUIZ.concat(ssHardQ()).filter(function(q){return ids.has(qId(q));});
+}
+function ssRefreshBookmarkOption(){
+  const sel=document.getElementById('q-sel');if(!sel)return;
+  const n=ssBookmarkedQuestions().length;
+  let opt=sel.querySelector('option[value="bookmarks"]');
+  if(!n){if(opt){if(sel.value==='bookmarks')sel.value='quick';opt.remove();}return;}
+  if(!opt){opt=document.createElement('option');opt.value='bookmarks';sel.appendChild(opt);}
+  opt.textContent='\u2605 Bookmarked ('+n+' Qs)';
 }
 function qId(q){return q.u+'|'+q.q;}
 
@@ -1655,6 +1669,7 @@ function buildQSel(){
   UNITS.forEach(u=>{const n=QUIZ.filter(q=>q.u===u.id).length+HQ.filter(q=>q.u===u.id).length;if(n)sel.innerHTML+=`<option value="${u.id}">Unit ${u.id}: ${u.name} (${n} Qs)</option>`;});
   if(HQ.length)sel.innerHTML+='<option value="hard">Hard Mode Only ('+HQ.length+' Qs)</option>';
   ssInitDifficultyChips();
+  ssRefreshBookmarkOption();
   loadQ();
 }
 let difficultyFilter='all';
@@ -1673,6 +1688,7 @@ function loadQ(){
   let src;
   if(raw==='quick')src=ssQuickTen(QUIZ.concat(HQ));
   else if(raw==='hard')src=HQ.slice();
+  else if(raw==='bookmarks')src=ssBookmarkedQuestions();
   else if(+raw===0)src=QUIZ.concat(HQ);
   else src=QUIZ.concat(HQ).filter(q=>q.u===+raw);
   if(difficultyFilter!=='all')src=src.filter(q=>ssDiffOf(q)===difficultyFilter);
