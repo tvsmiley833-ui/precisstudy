@@ -375,19 +375,20 @@ function jumpToUnit(id,conceptIdx,isFormula){
     setTimeout(()=>target.classList.remove('ss-search-hit'),2200);
   },wasClosed?60:0);
 }
-// "Just Start" (diag-skip-btn): a student with zero background skips the
-// diagnostic entirely, so the dashboard would otherwise leave this subject
-// sitting in "Not yet assessed" forever -- seed a real 0% record on Unit 1
-// the same way two wrong quiz answers would (recordAnswer requires
-// total>=2 before computeReadiness treats a unit as assessed), so the
-// subject shows up as a real 0% card instead of hiding in that accordion.
+// "Just Start" (diag-skip-btn): a student with zero background skips the diagnostic. They used to be given two fake wrong
+// answers on Unit 1 so the dashboard would list the subject, which polluted every readiness figure; enrolling the subject
+// (the same list the dashboard reads) does the job without inventing data.
 function justStartUnit1(){
-  if(SS_MASTERY&&UNITS.length){
-    SS_MASTERY.recordAnswer(UNITS[0].id,false);
-    SS_MASTERY.recordAnswer(UNITS[0].id,false);
-    renderUnitProgress(UNITS[0].id);
-  }
-  jumpToUnit(UNITS[0].id);
+  ssEnrollInThisSubject();
+  if(UNITS.length)jumpToUnit(UNITS[0].id);
+}
+function ssEnrollInThisSubject(){
+  if(!SS_SESSION||typeof SS_GUIDE==='undefined')return;
+  fetch('/api/progress').then(r=>r.ok?r.json():null).then(blob=>{
+    const cur=(blob&&Array.isArray(blob.enrolledSubjects))?blob.enrolledSubjects:[];
+    if(cur.indexOf(SS_GUIDE.key)>=0)return;
+    return fetch('/api/enrolled-subjects',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({subjects:cur.concat(SS_GUIDE.key)})});
+  }).catch(function(){});
 }
 
 const filterTags={};
@@ -1375,12 +1376,37 @@ function ssOverallProgressUpdate(){
 
 let diagMode=false;
 function ssHardQ(){return (typeof HARD_Q!=='undefined'&&Array.isArray(HARD_Q))?HARD_Q:[];}
+// A question's difficulty: its own d field, or 'hard' when it comes from the guide's hard-question bank.
+function ssDiffOf(q){return q.d||(ssHardQ().indexOf(q)>=0?'hard':null);}
+// How many questions sit at each level. Only the SAT guide tags easy/medium/hard, so the chips are shown for a level only
+// when it has enough questions to practise with; otherwise a chip just produced an empty quiz and a "0/0 NaN%" result.
+const SS_MIN_PER_LEVEL=10;
+function ssDifficultyLevels(){
+  const counts={easy:0,medium:0,hard:0};
+  QUIZ.concat(ssHardQ()).forEach(function(q){const d=ssDiffOf(q);if(d&&d in counts)counts[d]++;});
+  return counts;
+}
+function ssInitDifficultyChips(){
+  const counts=ssDifficultyLevels();
+  let shown=0;
+  document.querySelectorAll('.diff-chip').forEach(function(c){
+    const d=c.dataset.diff;
+    if(d==='all')return;
+    const ok=counts[d]>=SS_MIN_PER_LEVEL;
+    c.style.display=ok?'':'none';
+    if(ok)shown++;
+  });
+  const row=document.querySelector('.diff-chips');
+  if(row)row.style.display=shown?'flex':'none';
+  if(!shown)difficultyFilter='all';
+}
 function buildQSel(){
   const sel=document.getElementById('q-sel');
   const HQ=ssHardQ();
   sel.innerHTML='<option value="quick">⚡ Quick 10: mixed, weighted to your weak units</option><option value="0">All Units ('+(QUIZ.length+HQ.length)+' questions)</option>';
   UNITS.forEach(u=>{const n=QUIZ.filter(q=>q.u===u.id).length+HQ.filter(q=>q.u===u.id).length;if(n)sel.innerHTML+=`<option value="${u.id}">Unit ${u.id}: ${u.name} (${n} Qs)</option>`;});
   if(HQ.length)sel.innerHTML+='<option value="hard">Hard Mode Only ('+HQ.length+' Qs)</option>';
+  ssInitDifficultyChips();
   loadQ();
 }
 let difficultyFilter='all';
@@ -1401,7 +1427,7 @@ function loadQ(){
   else if(raw==='hard')src=HQ.slice();
   else if(+raw===0)src=QUIZ.concat(HQ);
   else src=QUIZ.concat(HQ).filter(q=>q.u===+raw);
-  if(difficultyFilter!=='all')src=src.filter(q=>q.d===difficultyFilter);
+  if(difficultyFilter!=='all')src=src.filter(q=>ssDiffOf(q)===difficultyFilter);
   qPool=raw==='quick'?src:src.sort(()=>Math.random()-.5);
   qIdx=0;score=0;qStreak=0;qBestStreak=0;qMissedUnits=new Set();requeueCounts=new WeakMap();qSessionStart=Date.now();showQ();
 }
@@ -1412,7 +1438,7 @@ let qStreak=0,qBestStreak=0,qMissedUnits=new Set();
 function ssQuickTen(all){
   const m=(SS_MASTERY&&SS_MASTERY.getSnapshot().mastery)||{};
   const weight=function(u){const r=m[String(u)];const pct=r&&r.total>=2?r.correct/r.total*100:50;return 1+Math.max(0,100-pct)/20;};
-  const pool=all.filter(function(q){return difficultyFilter==='all'||q.d===difficultyFilter;}).map(function(q){return {q:q,w:weight(q.u)};});
+  const pool=all.filter(function(q){return difficultyFilter==='all'||ssDiffOf(q)===difficultyFilter;}).map(function(q){return {q:q,w:weight(q.u)};});
   const out=[];
   while(out.length<10&&pool.length){
     let t=pool.reduce(function(a,x){return a+x.w;},0)*Math.random(),i=0;
@@ -1436,12 +1462,12 @@ function diagSetActive(active){
 // fixed sample. Capped at MAX_DIAG_ROUNDS total rounds so a student who
 // stays weak everywhere isn't stuck in an unbounded loop.
 const MAX_DIAG_ROUNDS=3, DIAG_ROUND_QS_PER_UNIT=3;
-let diagRound=0, diagAskedIds=null;
+let diagRound=0, diagAskedIds=null, diagTally={};
 function startDiagnostic(){
   switchTab('quiz');
   /* already mid-diagnostic (not yet finished) — re-focus it instead of wiping progress and restarting */
   if(diagMode&&qPool&&qPool.length&&qIdx<qPool.length){showQ();return;}
-  diagRound=1;diagAskedIds=new Set();
+  diagRound=1;diagAskedIds=new Set();diagTally={};
   const perUnit={};
   QUIZ.forEach(q=>{(perUnit[q.u]=perUnit[q.u]||[]).push(q);});
   let pool=[];
@@ -1463,9 +1489,9 @@ function startDiagnostic(){
 // round's first question) -- the caller (showQ) must bail out without
 // rendering its own terminal scoreboard when this returns true.
 function showDiagSummary(){
-  const mastery=SS_MASTERY?SS_MASTERY.getSnapshot().mastery||{}:{};
+  // Scored from THIS run only: lifetime mastery would let months-old answers decide which units look weak today.
   const rows=UNITS.map(u=>{
-    const rec=mastery[u.id];
+    const rec=diagTally[u.id];
     if(!rec||rec.total<1)return null;
     const pct=Math.round(rec.correct/rec.total*100);
     return {id:u.id,name:u.name,pct};
@@ -1518,6 +1544,11 @@ function showDiagSummary(){
 }
 function showQ(){
   const qb=document.getElementById('qbox');
+  if(!qPool.length){
+    // An empty pool (a filter with no matches) must not fall through to the results card: it would show "0/0 NaN%".
+    qb.innerHTML='<div class="result"><div class="sub">No questions match this choice yet.</div><button class="btn" onclick="setDifficultyFilter(\'all\')">Show all questions</button></div>';
+    return;
+  }
   if(qIdx>=qPool.length){
     if(diagMode&&showDiagSummary())return;
     if(ssChallengeCode){ssFinishChallenge();return;}
@@ -1596,6 +1627,12 @@ function revealNextHintTier(){
   btn.textContent=qHintTier>=3?'No more hints':`Hint (${qHintTier+1}/3)`;
   if(qHintTier>=3)btn.disabled=true;
 }
+// What a quiz answer is worth: only a first, unaided correct answer earns mastery credit. A guess, a 50/50 (hint tier 2)
+// or the answer preview (tier 3) counts as a miss, and a repeat of a question already seen answered records nothing.
+function ssAnswerCredit(correct,guessed,hintTier,priorAsks){
+  if(priorAsks>0)return {record:false,credited:false};
+  return {record:true,credited:!!correct&&!guessed&&hintTier<2};
+}
 let guessFlag=false, guessedQs=[], guessedRight=0;
 function markGuess(){
   guessFlag=!guessFlag;
@@ -1605,6 +1642,8 @@ function markGuess(){
 function ansQ(i){
   const q=qPool[qIdx];
   const wasGuess=guessFlag;
+  const priorAsks=requeueCounts.get(q)||0; // >0: this is a repeat of a question the student already saw answered
+  const assisted=wasGuess||qHintTier>=2; // a 50/50 or the answer preview, or an admitted guess
   document.querySelectorAll('.q-opt').forEach((btn,idx)=>{
     btn.disabled=true;
     if(idx===q.a)btn.classList.add('correct');
@@ -1620,7 +1659,7 @@ function ansQ(i){
     if(wasGuess){
       guessedQs.push(q);guessedRight++;
       const n=requeueCounts.get(q)||0;
-      if(n<MAX_REQUEUES){
+      if(n<MAX_REQUEUES&&!diagMode){
         requeueCounts.set(q,n+1);
         qPool.splice(Math.min(qIdx+REQUEUE_DELAY,qPool.length),0,q);
       }
@@ -1629,13 +1668,19 @@ function ansQ(i){
     if(window.__ssResetCombo)window.__ssResetCombo();
     if(wasGuess)guessedQs.push(q);
     const n=requeueCounts.get(q)||0;
-    if(n<MAX_REQUEUES){
+    if(n<MAX_REQUEUES&&!diagMode){
       requeueCounts.set(q,n+1);
       qPool.splice(Math.min(qIdx+REQUEUE_DELAY,qPool.length),0,q);
     }
   }
-  if(SS_MASTERY)SS_MASTERY.recordAnswer(q.u,i===q.a);
-  if(i===q.a)mistakeLogRemove(q);else mistakeLogAdd(q);
+  // Only a first, unaided correct answer earns mastery credit. A guess, a 50/50 or the answer preview counts as a miss, and
+  // a repeat of a question the student has already seen answered is practice that records nothing.
+  const credit=ssAnswerCredit(i===q.a,wasGuess,qHintTier,priorAsks);
+  if(credit.record){
+    if(SS_MASTERY)SS_MASTERY.recordAnswer(q.u,credit.credited);
+    if(diagMode){const t=diagTally[q.u]||(diagTally[q.u]={correct:0,total:0});t.total++;if(credit.credited)t.correct++;}
+  }
+  if(i===q.a&&!assisted)mistakeLogRemove(q);else if(i!==q.a)mistakeLogAdd(q);
   ssOverallProgressUpdate();
   renderUnitProgress(q.u);
   const expEl=document.getElementById('q-exp');

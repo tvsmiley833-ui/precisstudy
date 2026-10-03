@@ -305,6 +305,25 @@ export default {
   }
 };
 
+const WRITE_ALLOWED_ORIGINS = new Set([
+  "https://precisstudy.com",
+  "https://www.precisstudy.com",
+  "https://studystacks.org",
+  "https://www.studystacks.org"
+]);
+
+/** True for a state-changing /api or /auth request that a browser says came from another site. */
+export function isCrossSiteWrite(request: Request, url: URL): boolean {
+  const m = request.method;
+  if (m === "GET" || m === "HEAD" || m === "OPTIONS") return false;
+  if (!url.pathname.startsWith("/api/") && !url.pathname.startsWith("/auth/")) return false;
+  if (request.headers.get("Sec-Fetch-Site") === "cross-site") return true;
+  const origin = request.headers.get("Origin");
+  if (!origin) return false;
+  if (origin === url.origin || WRITE_ALLOWED_ORIGINS.has(origin)) return false;
+  try { return new URL(origin).hostname !== "localhost"; } catch (e) { return true; }
+}
+
 async function handleFetch(request: Request, env: Env): Promise<Response> {
   const url = new URL(request.url);
 
@@ -347,6 +366,11 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
       }
     });
   }
+
+  // Cross-site request forgery / abuse: browsers always send Origin (and Sec-Fetch-Site) on cross-site POSTs, and
+  // request.json() happily parses text/plain, so without this any web page could make a visitor's browser POST to
+  // /api/* and /auth/*. Cross-origin writes are refused; requests with no browser headers (curl, server-side) still work.
+  if (isCrossSiteWrite(request, url)) return json({ error: "Cross-site requests are not allowed" }, 403);
 
   // Quests, Leaderboards, Study Group and Peer Challenge used to be four
   // separate top-level pages; they're now tabs on one /compete/ page so the

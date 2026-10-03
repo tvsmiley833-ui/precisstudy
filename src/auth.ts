@@ -90,15 +90,53 @@ export async function verifySession(token: string, secret: string): Promise<Sess
   return payload;
 }
 
+export function normalizeEmail(email: string): string {
+  return String(email).trim().toLowerCase();
+}
+
+// Per-user KV keys that were written under whatever spelling of the address the session carried. Before addresses were
+// normalized, "John@x.com" and "john@x.com" were two accounts with separate progress; on the next sign-in the data moves
+// to the lowercase key so the person finds everything again.
+const LEGACY_EMAIL_KEY_PREFIXES = ["progress:", "gtok:", "gsettings:", "gcache:", "syldates:", "canvastok:"];
+
+export async function adoptLegacyEmailKeys(env: { PROGRESS?: KVNamespace }, typed: string, lower: string): Promise<void> {
+  const kv = env.PROGRESS;
+  if (!kv || !typed || typed === lower) return;
+  try {
+    for (const prefix of LEGACY_EMAIL_KEY_PREFIXES) {
+      const old = await kv.get(prefix + typed);
+      if (old === null) continue;
+      if ((await kv.get(prefix + lower)) === null) {
+        await kv.put(prefix + lower, old);
+        if (prefix === "progress:") await repointReverseKeys(kv, old, lower);
+      } else if (prefix === "progress:") {
+        await kv.put("progress-legacy:" + typed, old); // both existed: keep the lowercase account, park the other for a manual merge
+      }
+      await kv.delete(prefix + typed);
+    }
+  } catch (e) { /* signing in must never fail because of tidy-up */ }
+}
+
+async function repointReverseKeys(kv: KVNamespace, progressJson: string, lower: string): Promise<void> {
+  try {
+    const blob = JSON.parse(progressJson) as { shareToken?: string; calendarToken?: string; inviteToken?: string };
+    if (blob.shareToken) await kv.put("share:" + blob.shareToken, lower);
+    if (blob.calendarToken) await kv.put("cal:" + blob.calendarToken, lower);
+    if (blob.inviteToken) await kv.put("invite:" + blob.inviteToken, lower);
+  } catch (e) { /* unreadable blob: nothing to repoint */ }
+}
+
 export async function issueSessionCookie(env: { SESSION_SECRET: string; PROGRESS?: KVNamespace }, profile: { email: string; name?: string; provider: string }): Promise<string> {
   const now = Math.floor(Date.now() / 1000);
+  const email = normalizeEmail(profile.email);
+  await adoptLegacyEmailKeys(env, profile.email.trim(), email);
   const payload: SessionPayload = {
-    email: profile.email,
-    name: profile.name || profile.email,
+    email,
+    name: profile.name || email,
     provider: profile.provider,
     iat: now,
     exp: now + SESSION_MAX_AGE,
-    sv: await getSessionVersion(env.PROGRESS, profile.email)
+    sv: await getSessionVersion(env.PROGRESS, email)
   };
   const token = await signSession(payload, env.SESSION_SECRET);
   return `${SESSION_COOKIE}=${token}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${SESSION_MAX_AGE}`;

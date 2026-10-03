@@ -10,7 +10,7 @@ import { googleCacheKey } from "./google-sync.js";
 import { googleSettingsKey } from "./google-routes.js";
 import { syllabusDatesKey } from "./syllabus-dates.js";
 import { groupKey } from "./leaderboard-routes.js";
-import { challengeKey } from "./challenge-routes.js";
+import { challengeKey, challengeIndexKey } from "./challenge-routes.js";
 
 const SCAN_LIMIT = 1000; // stay under the Worker's per-request KV operation limit
 
@@ -72,7 +72,7 @@ export async function deleteUserData(env: Env, sessionEmail: string): Promise<De
     if (await kv.get(canvasTokenKey(e)) !== null) report.canvasTokenRemoved = true;
     for (const key of [
       "progress:" + e, "login:" + e.toLowerCase(), googleTokenKey(e), googleSettingsKey(e), googleCacheKey(e),
-      syllabusDatesKey(e), canvasTokenKey(e),
+      syllabusDatesKey(e), canvasTokenKey(e), challengeIndexKey(e),
     ]) await del(key);
   }
   for (const key of reverseKeys) await del(key);

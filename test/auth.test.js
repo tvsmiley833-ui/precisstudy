@@ -280,3 +280,44 @@ describe("isValidEmail", () => {
     expect(isValidEmail("a".repeat(260) + "@b.com")).toBe(false);
   });
 });
+
+describe("email normalization at sign-in", () => {
+  const env = (kv) => ({ SESSION_SECRET: "s", PROGRESS: kv });
+
+  it("the session always carries the lowercase address, however it was typed", async () => {
+    const cookie = await issueSessionCookie(env(kvStub()), { email: "  John@Example.COM ", provider: "email" });
+    const session = await getSession(new Request("https://x.test/", { headers: { Cookie: cookie.split(";")[0] } }), env(kvStub()));
+    expect(session.email).toBe("john@example.com");
+  });
+
+  it("moves progress and token keys saved under the old mixed-case spelling to the lowercase key, once", async () => {
+    const kv = kvStub();
+    await kv.put("progress:John@Example.com", JSON.stringify({ shareToken: "sharetok1", inviteToken: "inv1", geometry: { mastery: { "1": { correct: 1, total: 1 } } } }));
+    await kv.put("gtok:John@Example.com", "enc");
+    await kv.put("share:sharetok1", "John@Example.com");
+    await kv.put("invite:inv1", "John@Example.com");
+    await issueSessionCookie(env(kv), { email: "John@Example.com", provider: "email" });
+    expect(await kv.get("progress:John@Example.com")).toBeNull();
+    expect(JSON.parse(await kv.get("progress:john@example.com")).geometry.mastery["1"]).toEqual({ correct: 1, total: 1 });
+    expect(await kv.get("gtok:john@example.com")).toBe("enc");
+    expect(await kv.get("share:sharetok1")).toBe("john@example.com");
+    expect(await kv.get("invite:inv1")).toBe("john@example.com");
+  });
+
+  it("when both spellings already have progress, keeps the lowercase account and parks the other copy instead of deleting it", async () => {
+    const kv = kvStub();
+    await kv.put("progress:John@Example.com", JSON.stringify({ a: 1 }));
+    await kv.put("progress:john@example.com", JSON.stringify({ b: 2 }));
+    await issueSessionCookie(env(kv), { email: "John@Example.com", provider: "email" });
+    expect(JSON.parse(await kv.get("progress:john@example.com"))).toEqual({ b: 2 });
+    expect(JSON.parse(await kv.get("progress-legacy:John@Example.com"))).toEqual({ a: 1 });
+    expect(await kv.get("progress:John@Example.com")).toBeNull();
+  });
+
+  it("signing in with an already-lowercase address touches nothing", async () => {
+    const kv = kvStub();
+    await kv.put("progress:john@example.com", "x");
+    await issueSessionCookie(env(kv), { email: "john@example.com", provider: "google" });
+    expect(await kv.get("progress:john@example.com")).toBe("x");
+  });
+});

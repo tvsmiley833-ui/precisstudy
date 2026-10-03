@@ -318,3 +318,38 @@ describe("shared JS cache-busting", () => {
     expect(hashes.size).toBe(fileCount);
   });
 });
+
+describe("cross-site write guard", () => {
+  const post = (extra) => SELF.fetch("https://precisstudy.com/api/feedback", {
+    method: "POST",
+    headers: { "Content-Type": "text/plain", ...extra },
+    body: JSON.stringify({ message: "hello" }),
+  });
+
+  it("refuses a state-changing API request from another origin", async () => {
+    const res = await post({ Origin: "https://evil.example" });
+    expect(res.status).toBe(403);
+    expect((await res.json()).error).toMatch(/cross-site/i);
+  });
+
+  it("refuses a request the browser marks Sec-Fetch-Site: cross-site, even without an Origin", async () => {
+    expect((await post({ "Sec-Fetch-Site": "cross-site" })).status).toBe(403);
+  });
+
+  it("refuses cross-origin writes to /auth routes too", async () => {
+    const res = await SELF.fetch("https://precisstudy.com/auth/email/start", { method: "POST", headers: { Origin: "https://evil.example", "Content-Type": "text/plain" }, body: "{}" });
+    expect(res.status).toBe(403);
+  });
+
+  it("lets same-origin and header-less (non-browser) requests through to the handler", async () => {
+    for (const extra of [{ Origin: "https://precisstudy.com", "Sec-Fetch-Site": "same-origin" }, {}]) {
+      const res = await post(extra);
+      expect(res.status).not.toBe(403);
+    }
+  });
+
+  it("never blocks reads or CORS preflights", async () => {
+    expect((await SELF.fetch("https://precisstudy.com/auth/me", { headers: { Origin: "https://evil.example" } })).status).toBe(200);
+    expect((await SELF.fetch("https://precisstudy.com/api/chat", { method: "OPTIONS", headers: { Origin: "https://evil.example" } })).status).not.toBe(403);
+  });
+});

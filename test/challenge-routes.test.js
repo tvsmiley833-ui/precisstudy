@@ -314,3 +314,61 @@ describe("handleGetChallenges", () => {
     expect(data.challenges).toEqual([]);
   });
 });
+
+describe("challenge expiry and the per-user index", () => {
+  const req2 = (url, cookie, method, body) => new Request(url, { method: method || "GET", headers: { "Content-Type": "application/json", ...(cookie ? { Cookie: cookie } : {}) }, body: body ? JSON.stringify(body) : undefined });
+
+  it("an expired challenge is treated as not found, and so is one with an unreadable expiresAt", async () => {
+    const cookie = await sessionCookieFor("claimer@example.com");
+    const kv = fakeKV({
+      "challenge:OLDONE": JSON.stringify({ subjectKey: "geometry", questionNumbers: [1], creatorEmail: "a@example.com", createdAt: "2026-01-01T00:00:00Z", expiresAt: "2026-01-15T00:00:00Z" }),
+      "challenge:BADEXP": JSON.stringify({ subjectKey: "geometry", questionNumbers: [1], creatorEmail: "a@example.com", createdAt: "2026-01-01T00:00:00Z", expiresAt: "not a date" }),
+    });
+    const env = { SESSION_SECRET: SECRET, PROGRESS: kv };
+    for (const code of ["OLDONE", "BADEXP"]) {
+      const res = await handleGetChallenge(req2("https://example.com/api/challenge/" + code, cookie), env, code);
+      expect(res.status).toBe(404);
+    }
+  });
+
+  it("created challenges are written with a TTL and codes come from crypto, not Math.random", async () => {
+    const cookie = await sessionCookieFor("maker@example.com");
+    const puts = [];
+    const kv = fakeKV();
+    const origPut = kv.put;
+    kv.put = async (k, v, o) => { puts.push([k, o]); return origPut(k, v); };
+    const env = { SESSION_SECRET: SECRET, PROGRESS: kv };
+    const res = await handlePostChallengeCreate(req2("https://example.com/api/challenge/create", cookie, "POST", { subjectKey: "geometry", questionNumbers: [1, 2, 3] }), env);
+    const { code } = await res.json();
+    expect(code).toMatch(/^[A-HJ-NP-Z2-9]{6}$/);
+    const chal = puts.find(([k]) => k === "challenge:" + code);
+    expect(chal[1].expirationTtl).toBeGreaterThan(14 * 24 * 3600);
+  });
+
+  it("lists a user's challenges from the index without scanning, for creator and opponent", async () => {
+    const maker = await sessionCookieFor("maker@example.com");
+    const friend = await sessionCookieFor("friend@example.com");
+    const kv = fakeKV();
+    const env = { SESSION_SECRET: SECRET, PROGRESS: kv };
+    const { code } = await (await handlePostChallengeCreate(req2("https://example.com/api/challenge/create", maker, "POST", { subjectKey: "geometry", questionNumbers: [1, 2] }), env)).json();
+    await handlePostChallengeClaim(req2("https://example.com/api/challenge/claim", friend, "POST"), env, code);
+    kv.list = async () => { throw new Error("must not scan once the index exists"); };
+    const a = await (await handleGetChallenges(req2("https://example.com/api/challenges", maker), env)).json();
+    const b = await (await handleGetChallenges(req2("https://example.com/api/challenges", friend), env)).json();
+    expect(a.challenges).toEqual([{ code, subjectKey: "geometry", role: "creator", claimed: true, done: false }]);
+    expect(b.challenges).toEqual([{ code, subjectKey: "geometry", role: "opponent", claimed: true, done: false }]);
+  });
+
+  it("a user with no index yet gets one built from a scan of the older challenges", async () => {
+    const cookie = await sessionCookieFor("old@example.com");
+    const future = new Date(Date.now() + 5 * 864e5).toISOString();
+    const kv = fakeKV({
+      "challenge:LEGACY": JSON.stringify({ subjectKey: "chemistry", questionNumbers: [1], creatorEmail: "OLD@example.com", createdAt: "2026-10-01T00:00:00Z", expiresAt: future }),
+      "challenge:OTHERS": JSON.stringify({ subjectKey: "chemistry", questionNumbers: [1], creatorEmail: "x@example.com", createdAt: "2026-10-01T00:00:00Z", expiresAt: future }),
+    });
+    const env = { SESSION_SECRET: SECRET, PROGRESS: kv };
+    const out = await (await handleGetChallenges(req2("https://example.com/api/challenges", cookie), env)).json();
+    expect(out.challenges.map(c => c.code)).toEqual(["LEGACY"]);
+    expect(JSON.parse(kv._store.get("chalidx:old@example.com"))).toEqual(["LEGACY"]);
+  });
+});

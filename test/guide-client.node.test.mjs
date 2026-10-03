@@ -548,3 +548,68 @@ describe("math typesetting of content written after page load", () => {
     });
   }
 });
+
+// The Easy/Medium/Hard chips only make sense where questions carry a difficulty; elsewhere they emptied the quiz to "0/0 NaN%".
+describe("difficulty chips", () => {
+  // ssHardQ is a one-line function, so extracting it also takes the helpers that follow it up to the end of ssDifficultyLevels.
+  const mk = (QUIZ, HARD_Q) => loadGuide(["ssHardQ"], { globals: { QUIZ, HARD_Q }, returns: ["ssDiffOf", "ssDifficultyLevels"] });
+  const qs = (n, d) => Array.from({ length: n }, (_, i) => ({ q: `${d}${i}`, d }));
+
+  test("a question's difficulty is its own d, or 'hard' when it comes from the hard bank", () => {
+    const hard = { q: "h" };
+    const { ssDiffOf } = mk([], [hard]);
+    assert.equal(ssDiffOf({ q: "x", d: "easy" }), "easy");
+    assert.equal(ssDiffOf(hard), "hard");
+    assert.equal(ssDiffOf({ q: "plain" }), null);
+  });
+
+  test("levels are counted across the quiz and the hard bank", () => {
+    const hardBank = qs(4, undefined).map(q => ({ q: q.q }));
+    const { ssDifficultyLevels } = mk([...qs(12, "easy"), ...qs(3, "medium"), { q: "none" }], hardBank);
+    assert.deepEqual(ssDifficultyLevels(), { easy: 12, medium: 3, hard: 4 });
+  });
+
+  test("a guide with no difficulty tags and no hard bank has zero at every level (so no chips are shown)", () => {
+    const { ssDifficultyLevels } = mk([{ q: "a" }, { q: "b" }], undefined);
+    assert.deepEqual(ssDifficultyLevels(), { easy: 0, medium: 0, hard: 0 });
+  });
+});
+
+describe("what a quiz answer is worth (mastery credit)", () => {
+  const { ssAnswerCredit } = loadGuide(["ssAnswerCredit"]);
+
+  test("a first, unaided correct answer earns credit", () => {
+    assert.deepEqual(ssAnswerCredit(true, false, 0, 0), { record: true, credited: true });
+    assert.deepEqual(ssAnswerCredit(true, false, 1, 0), { record: true, credited: true }, "tier 1 only names the unit");
+  });
+
+  test("a wrong answer is recorded as a miss, assisted or not", () => {
+    assert.deepEqual(ssAnswerCredit(false, false, 0, 0), { record: true, credited: false });
+    assert.deepEqual(ssAnswerCredit(false, true, 3, 0), { record: true, credited: false });
+  });
+
+  test("a correct answer after a guess, the 50/50 hint or the answer preview earns no credit", () => {
+    assert.deepEqual(ssAnswerCredit(true, true, 0, 0), { record: true, credited: false });
+    assert.deepEqual(ssAnswerCredit(true, false, 2, 0), { record: true, credited: false });
+    assert.deepEqual(ssAnswerCredit(true, false, 3, 0), { record: true, credited: false });
+  });
+
+  test("a repeat of a question already answered records nothing, right or wrong", () => {
+    assert.deepEqual(ssAnswerCredit(true, false, 0, 1), { record: false, credited: false });
+    assert.deepEqual(ssAnswerCredit(false, false, 0, 2), { record: false, credited: false });
+  });
+});
+
+describe("diagnostic bookkeeping", () => {
+  test("'Just Start' no longer fabricates wrong answers", () => {
+    const src = extract("justStartUnit1");
+    assert.ok(!/recordAnswer/.test(src), "justStartUnit1 must not record answers");
+    assert.match(extract("ssEnrollInThisSubject"), /enrolled-subjects/);
+  });
+
+  test("the diagnostic summary is scored from this run's tally, not lifetime mastery", () => {
+    const src = extract("showDiagSummary");
+    assert.match(src, /diagTally/);
+    assert.ok(!/getSnapshot\(\)\.mastery/.test(src), "showDiagSummary must not read lifetime mastery");
+  });
+});
