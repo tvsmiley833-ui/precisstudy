@@ -246,3 +246,13 @@ test("accessibility themes apply before first paint: static stylesheet plus a he
   assert.ok(!/createElement\('style'\)/.test(read("../public/shared/high-contrast.js")));
   assert.match(read("../public/shared/high-contrast.css"), /\[data-amoled="on"\]/);
 });
+
+test("guide pages: every <script> opens and closes once, so no content can end a script early", async () => {
+  const { readdirSync } = await import("node:fs");
+  const guides = readdirSync(new URL("../guides/", import.meta.url)).filter(f => f.endsWith(".json")).map(f => f.replace(".json", ""));
+  for (const g of guides) {
+    const html = read(`../public/${g}/index.html`);
+    assert.equal((html.match(/<script\b/g) || []).length, (html.match(/<\/script>/g) || []).length, g);
+    assert.ok(!/<!--\s*<script/i.test(html), g);
+  }
+});

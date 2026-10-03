@@ -45,7 +45,9 @@ const esc = (s) => String(s)
   .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
   .replace(/"/g, "&quot;");
 
-const js = (v) => JSON.stringify(v);
+// Data goes into a classic <script>: "<" is escaped so "</script" or "<!--" in content can never end or confuse the
+// element, and U+2028/2029 are escaped because they are line terminators in older JS parsers.
+const js = (v) => JSON.stringify(v).replace(/</g, "\\u003c").replace(/\u2028/g, "\\u2028").replace(/\u2029/g, "\\u2029");
 
 // Guide text goes into the page as HTML (and the client does the same with ssFixLt in client/guide-app.js): a literal "<"
 // followed by a letter that is not one of the tags the content uses (ArrayList<Integer>, i<arr.length) must be escaped,
@@ -444,7 +446,7 @@ export function generateGuide(config) {
   const mKey = masteryKey || slug;
   // The app logic itself is client/guide-app.js (built to public/shared/guide-app.js), shared by every
   // guide; it reads the subject from SS_GUIDE.
-  html += `const SS_GUIDE=${js({ slug, key: mKey, title, ...(targetLang ? { lang: targetLang } : {}), ...((calculator ?? CALC_SLUGS.has(slug)) ? { calc: true } : {}) }).replace(/</g, "\\u003c")};\n`;
+  html += `const SS_GUIDE=${js({ slug, key: mKey, title, ...(targetLang ? { lang: targetLang } : {}), ...((calculator ?? CALC_SLUGS.has(slug)) ? { calc: true } : {}) })};\n`;
   // Same footer every live page carries (error-monitor.js was added to the pages by
   // scripts/patch-error-monitor.mjs; keep this list in sync with that footer).
   html += `</script><script src="/shared/guide-app.js"></script><script src="/shared/command-palette.js" defer></script><script src="/shared/high-contrast.js" defer></script><script src="/shared/error-monitor.js" defer></script></body></html>`;
