@@ -2,6 +2,7 @@
 // out of the shipped file (see helpers/guide-fns.mjs) and run with stubbed browser globals.
 import { test, describe } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { loadGuide, extract } from "./helpers/guide-fns.mjs";
 
 // ───────────────────────────── study plan (.ics) ─────────────────────────────
@@ -663,5 +664,83 @@ describe("flashcard order after rating (no skipped cards, working requeue)", () 
     const src = extract("fcShuffle");
     assert.match(src, /const deck=fcDeck/);
     assert.ok(!/getActiveDeck/.test(src.split("\n").slice(0, 3).join("\n")), "must not shuffle the throwaway filtered copy");
+  });
+});
+
+describe("quiz keyboard shortcuts are scoped to the question area", () => {
+  function setup({ active, quizActive = true, optionDisabled = false, nextVisible = true }) {
+    const clicked = [];
+    const inQbox = new Set();
+    const mk = (tag, extra = {}) => ({ tagName: tag, isContentEditable: false, closest: () => null, ...extra });
+    const qbox = { contains: (n) => inQbox.has(n) };
+    const opt = [0, 1, 2, 3].map(i => ({ disabled: optionDisabled, click: () => clicked.push("opt" + i) }));
+    const next = { style: { display: nextVisible ? "inline-block" : "none" }, click: () => clicked.push("next") };
+    const els = { "view-quiz": { classList: { contains: () => quizActive } }, qbox, "q-next": next };
+    const nodes = { button: mk("BUTTON"), link: mk("A"), text: mk("DIV"), input: mk("INPUT"), outside: mk("A") };
+    for (const n of ["button", "text", "input"]) inQbox.add(nodes[n]);
+    const doc = { activeElement: nodes[active], getElementById: (id) => els[id] || null, querySelectorAll: () => opt };
+    const { ssQuizKeyboardShortcuts } = loadGuide(["ssQuizKeyboardShortcuts"], { globals: { document: doc } });
+    const press = (key, extra = {}) => { let prevented = false; ssQuizKeyboardShortcuts({ key, preventDefault: () => { prevented = true; }, ...extra }); return prevented; };
+    return { press, clicked };
+  }
+
+  test("1-4 answer only while focus is inside the question area", () => {
+    const inside = setup({ active: "text" });
+    assert.equal(inside.press("2"), true);
+    assert.deepEqual(inside.clicked, ["opt1"]);
+    const outside = setup({ active: "outside" });
+    assert.equal(outside.press("2"), false);
+    assert.deepEqual(outside.clicked, []);
+  });
+
+  test("Enter on a focused button or link is left to that control, not turned into Next", () => {
+    const onButton = setup({ active: "button" });
+    assert.equal(onButton.press("Enter"), false);
+    assert.deepEqual(onButton.clicked, []);
+    const onText = setup({ active: "text" });
+    assert.equal(onText.press("Enter"), true);
+    assert.deepEqual(onText.clicked, ["next"]);
+  });
+
+  test("modifier keys, typing fields and other tabs are ignored", () => {
+    assert.deepEqual(setup({ active: "text" }).press("1", { ctrlKey: true }), false);
+    assert.deepEqual(setup({ active: "input" }).clicked, []);
+    const typing = setup({ active: "input" }); typing.press("1");
+    assert.deepEqual(typing.clicked, []);
+    const otherTab = setup({ active: "text", quizActive: false }); otherTab.press("1");
+    assert.deepEqual(otherTab.clicked, []);
+  });
+});
+
+describe("flashcards for screen readers", () => {
+  function scene(flipped) {
+    const attrs = { front: {}, back: {} };
+    const face = (k) => ({ setAttribute: (n, v) => { attrs[k][n] = v; } });
+    const faces = { ".face.front": face("front"), ".face.back": face("back") };
+    const live = { textContent: "" };
+    const els = { scene: { classList: { contains: () => flipped }, querySelector: (q) => faces[q] }, "fc-live": live, "fc-def": { textContent: "the answer" }, "fc-term": { textContent: "the term" } };
+    const { ssFcSyncFaces } = loadGuide(["ssFcSyncFaces"], { globals: { document: { getElementById: (id) => els[id] || null } } });
+    return { ssFcSyncFaces, attrs, live };
+  }
+
+  test("only the face that is showing is exposed, so the answer isn't read out with the question", () => {
+    const front = scene(false); front.ssFcSyncFaces(false);
+    assert.deepEqual([front.attrs.front["aria-hidden"], front.attrs.back["aria-hidden"]], ["false", "true"]);
+    const back = scene(true); back.ssFcSyncFaces(false);
+    assert.deepEqual([back.attrs.front["aria-hidden"], back.attrs.back["aria-hidden"]], ["true", "false"]);
+  });
+
+  test("flipping announces the face that is now showing", () => {
+    const a = scene(true); a.ssFcSyncFaces(true);
+    assert.equal(a.live.textContent, "Definition: the answer");
+    const b = scene(false); b.ssFcSyncFaces(true);
+    assert.equal(b.live.textContent, "Term: the term");
+  });
+
+  test("the template no longer hides the card behind a fixed aria-label", () => {
+    const html = readFileSync(new URL("../scripts/guide-template/page-views.template.html", import.meta.url), "utf8");
+    const sceneTag = html.match(/<div class="scene"[^>]*>/)[0];
+    assert.ok(!/aria-label=/.test(sceneTag), sceneTag);
+    assert.match(html, /id="fc-live"[^>]*aria-live="polite"/);
   });
 });

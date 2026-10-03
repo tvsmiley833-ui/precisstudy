@@ -30,7 +30,7 @@ function ssShuffleOptions(q){
   if(typeof q.a==='number')q.a=order.indexOf(q.a);
   q._shuffled=true;
 }
-function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');var idx=-1;tabs.forEach((b,i)=>{if(b.id==='tab-'+id)idx=i;});if(idx!==-1){tabs.forEach((b,i)=>{var on=i===idx;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;});var _hl=document.getElementById('hero-live');if(_hl)_hl.textContent=tabs[idx].textContent.trim()+' tab';}if(id==='examples'&&!examplesBuilt)buildExamples();if(id==='exam'&&!examBuilt)buildExam();}
+function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');var idx=-1;tabs.forEach((b,i)=>{if(b.id==='tab-'+id)idx=i;});if(idx!==-1){tabs.forEach((b,i)=>{var on=i===idx;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;});try{tabs[idx].scrollIntoView({inline:'center',block:'nearest',behavior:ssScrollBehavior()});}catch(e){}var _hl=document.getElementById('hero-live');if(_hl)_hl.textContent=tabs[idx].textContent.trim()+' tab';}if(id==='examples'&&!examplesBuilt)buildExamples();if(id==='exam'&&!examBuilt)buildExam();}
 let examBuilt=false;
 var examplesBuilt=false, ex2map={}, ex2shown={};
 
@@ -311,6 +311,22 @@ document.addEventListener('keydown',function(e){
   if(tag==='BUTTON'||tag==='A'||(el&&el.id==='scene'))return;
   var vc=document.getElementById('view-cards');
   if(vc&&vc.classList.contains('active')){e.preventDefault();flip();}
+});
+/* Flashcards tab: left/right move between cards, 1 = known, 2 = still learning. Only acts while focus is on the card, the page or
+   the card controls (never in the deck picker, the typing box or any dialog), and ignores modifier keys. */
+document.addEventListener('keydown',function(e){
+  if(e.ctrlKey||e.metaKey||e.altKey)return;
+  var vc=document.getElementById('view-cards');
+  if(!vc||!vc.classList.contains('active'))return;
+  var el=document.activeElement;
+  var tag=(el&&el.tagName)||'';
+  if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT'||(el&&el.isContentEditable))return;
+  if(el&&el!==document.body&&!vc.contains(el))return;
+  if(typeof fcMode!=='undefined'&&fcMode==='type')return;
+  if(e.key==='ArrowRight'){e.preventDefault();fcNav(1);}
+  else if(e.key==='ArrowLeft'){e.preventDefault();fcNav(-1);}
+  else if(e.key==='1'){e.preventDefault();rateFC('known');}
+  else if(e.key==='2'){e.preventDefault();rateFC('learning');}
 });
 /* "?" opens the keyboard-shortcuts reference modal. Same guard as above. */
 document.addEventListener('keydown',function(e){
@@ -1048,7 +1064,9 @@ function showFC(){
   const learningCount=fcDeck.length-knownCount;
   document.getElementById('fc-count').textContent=(fcIdx+1)+' / '+deck.length;
   document.getElementById('fc-progress').textContent=`✓ ${knownCount} known  ·  ✗ ${learningCount} still learning`;
-  if(scene)scene.classList.remove('flipped');
+  if(scene){scene.classList.remove('flipped');ssFcSyncFaces(false);}
+  const liveCard=document.getElementById('fc-live');
+  if(liveCard&&!isType)liveCard.textContent='Card '+(fcIdx+1)+' of '+deck.length+'. Term: '+card.t;
   if(isType&&typeRow){
     document.getElementById('fc-type-def').textContent=card.d;
     const input=document.getElementById('fc-type-input');
@@ -1058,7 +1076,20 @@ function showFC(){
   }
   ssTypeset(isType&&typeRow?typeRow:scene);
 }
-function flip(){document.getElementById('scene').classList.toggle('flipped');}
+// Only the face that is showing is exposed to screen readers (the other would read the answer out with the question), and the
+// newly showing face is announced, since flipping is otherwise silent for them.
+function ssFcSyncFaces(announce){
+  const scene=document.getElementById('scene');if(!scene)return;
+  const flipped=scene.classList.contains('flipped');
+  const front=scene.querySelector('.face.front'),back=scene.querySelector('.face.back');
+  if(front)front.setAttribute('aria-hidden',flipped?'true':'false');
+  if(back)back.setAttribute('aria-hidden',flipped?'false':'true');
+  if(announce){
+    const live=document.getElementById('fc-live');
+    if(live)live.textContent=(flipped?'Definition: ':'Term: ')+(document.getElementById(flipped?'fc-def':'fc-term')||{}).textContent;
+  }
+}
+function flip(){document.getElementById('scene').classList.toggle('flipped');ssFcSyncFaces(true);}
 function fcNav(d){const deck=getActiveDeck();if(!deck.length)return;fcIdx=(fcIdx+d+deck.length)%deck.length;showFC();}
 // Shuffle the underlying deck, not the filtered copy getActiveDeck() returns: a filter builds a new array each call, so shuffling
 // that did nothing in the Learning / Known / Due views.
@@ -1597,7 +1628,7 @@ function showQ(){
     `<button class="guess-btn" id="guess-btn" onclick="markGuess()">I'm just guessing</button> `+
     `<button class="q-hint-btn" id="q-hint-btn" onclick="revealNextHintTier()">Hint (1/3)</button>`+
     `<div class="q-hint-box" id="q-hint-box"></div>`+
-    `<div class="q-opts">`;
+    `<div class="q-opts" role="group" aria-label="Answer choices">`;
   q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">`+
     `<svg class="q-opt-icon icon-correct" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`+
     `<svg class="q-opt-icon icon-wrong" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`+
@@ -1605,6 +1636,7 @@ function showQ(){
   h+=`</div><div class="q-exp" id="q-exp">${ssFixLt(q.e)}</div><button class="q-next show" id="q-next" onclick="nextQ()" style="display:none">Next →</button></div>`;
   qb.innerHTML=h;
   ssTypeset(qb);
+  if(ssQuizTouched){var qt=qb.querySelector('.q-text');if(qt){qt.setAttribute('tabindex','-1');try{qt.focus({preventScroll:true});}catch(e){}}}
 }
 function toggleQBookmark(){
   const q=qPool[qIdx];if(!q)return;
@@ -1667,9 +1699,13 @@ function ansQ(i){
   const assisted=wasGuess||qHintTier>=2; // a 50/50 or the answer preview, or an admitted guess
   document.querySelectorAll('.q-opt').forEach((btn,idx)=>{
     btn.disabled=true;
+    // Correct/wrong used to be shown by colour alone; add the same information as text for screen readers.
+    var note=idx===q.a?(idx===i?' (your answer, correct)':' (correct answer)'):(idx===i?' (your answer, incorrect)':'');
+    if(note){var sr=document.createElement('span');sr.className='sr-only';sr.textContent=note;btn.appendChild(sr);}
     if(idx===q.a)btn.classList.add('correct');
     else if(idx===i&&i!==q.a)btn.classList.add('wrong');
   });
+  ssQuizTouched=true;
   if(i===q.a){qStreak++;qBestStreak=Math.max(qBestStreak,qStreak);}else{qStreak=0;qMissedUnits.add(q.u);}
   if(i===q.a){
     score++;
@@ -1759,23 +1795,35 @@ function ansQ(i){
       .catch(function(){rep.textContent='Could not send \u2014 try again';rep.disabled=false;});
   };
   expEl.appendChild(rep);
-  document.getElementById('q-next').style.display='inline-block';
+  var nextBtn=document.getElementById('q-next');
+  nextBtn.style.display='inline-block';
   document.getElementById('q-sc').textContent=`Score: ${score}`;
   var _hl=document.getElementById('hero-live');
-  if(_hl)_hl.textContent=(i===q.a?'Correct. ':'Incorrect. ')+(q.e||'');
+  if(_hl)_hl.textContent=(i===q.a?'Correct. ':'Incorrect. The correct answer is '+ssPlain(q.o[q.a])+'. ')+ssPlain(q.e||'');
+  // The focused option was just disabled, which would drop keyboard focus to the page; keep it in the quiz on the next action.
+  try{nextBtn.focus({preventScroll:true});}catch(e){}
   guessFlag=false;
 }
-function nextQ(){qIdx++;showQ();}
+let ssQuizTouched=false; // true once the student has acted in the quiz, so focus is only moved after real use, never on page load
+function nextQ(){ssQuizTouched=true;qIdx++;showQ();}
+// Bare-key shortcuts (1-4 to answer, Enter for Next) only act while focus is inside the question area itself. Anywhere else
+// (a link, a tab, the search box, a dialog) the keys keep their normal meaning, and Enter on a focused button or link is left
+// to that control, which is what a keyboard user expects (WCAG 2.1.1 / 2.1.4).
 function ssQuizKeyboardShortcuts(e){
+  if(e.ctrlKey||e.metaKey||e.altKey)return;
   var vq=document.getElementById('view-quiz');
   if(!vq||!vq.classList.contains('active'))return;
-  var tag=(document.activeElement&&document.activeElement.tagName)||'';
-  if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT')return;
+  var qb=document.getElementById('qbox');
+  var el=document.activeElement;
+  if(!qb||!el||!qb.contains(el))return;
+  var tag=el.tagName||'';
+  if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT'||el.isContentEditable)return;
   if(e.key>='1'&&e.key<='4'){
     var idx=+e.key-1;
     var opts=document.querySelectorAll('.q-opt');
     if(opts[idx]&&!opts[idx].disabled){opts[idx].click();e.preventDefault();}
   }else if(e.key==='Enter'){
+    if(tag==='BUTTON'||tag==='A'||el.closest('.q-exp'))return; // the focused control handles Enter itself
     var nb=document.getElementById('q-next');
     if(nb&&nb.style.display!=='none'){nb.click();e.preventDefault();}
   }
@@ -2683,7 +2731,9 @@ function shortcutsModalInit(){
   var rows=[
     ['/','Focus search'],
     ['Space','Flip flashcard (Flashcards tab)'],
-    ['1 – 4','Answer a quiz question (Quiz tab)'],
+    ['← →','Previous / next flashcard'],
+    ['1 / 2','Flashcards: known / still learning'],
+    ['1 – 4','Answer a quiz question (while focus is in the quiz)'],
     ['Enter','Next question · flip flashcard'],
     ['Esc','Close panels'],
     ['?','Show this list']

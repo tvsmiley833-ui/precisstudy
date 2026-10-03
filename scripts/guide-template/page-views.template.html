@@ -77,12 +77,14 @@
     <select id="fc-sel" aria-label="Choose a flashcard set" onchange="loadFC()"></select>
     <span class="fc-count" id="fc-count"></span>
   </div>
-  <div class="scene" id="scene" role="button" tabindex="0" aria-label="Flashcard — activate to flip between term and definition" onclick="flip()" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();flip();}">
+  <div class="scene" id="scene" role="button" tabindex="0" aria-describedby="fc-hint" onclick="flip()" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();flip();}">
     <div class="inner" id="inner">
       <div class="face front"><div class="lbl">Term</div><div class="term" id="fc-term"></div></div>
-      <div class="face back"><div class="lbl">Definition</div><div class="def" id="fc-def"></div></div>
+      <div class="face back" aria-hidden="true"><div class="lbl">Definition</div><div class="def" id="fc-def"></div></div>
     </div>
   </div>
+  <span id="fc-hint" class="sr-only">Press Enter or Space to flip the card. Left and right arrows move between cards. 1 marks it known, 2 marks it still learning.</span>
+  <div id="fc-live" class="sr-only" role="status" aria-live="polite"></div>
   <div class="fc-type-row" id="fc-type-row" style="display:none">
     <div class="lbl" style="font-family:'Space Grotesk';font-size:16.5px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-dim)">Definition</div>
     <div class="fc-type-def" id="fc-type-def"></div>
@@ -135,7 +137,7 @@ __FC_ARCHIVE__</div>
     <button class="btn" type="button" onclick="printWorksheet()" style="font-size:14px;padding:7px 14px">Print Worksheet</button>
     <button class="btn" type="button" id="challenge-friend-btn" onclick="challengeFromQuiz()">Challenge a Friend</button>
     <span class="q-prog" id="q-prog"></span>
-    <span class="q-sc" id="q-sc" aria-live="polite"></span>
+    <span class="q-sc" id="q-sc"></span>
     <span class="q-kbd-hint">Press 1–4 to answer · Enter for next</span>
   </div>
   <div id="diag-banner" style="display:none;background:var(--accent-soft);border:1px solid var(--accent);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:12px;font-size:14.5px;color:var(--accent-ink)"></div>
