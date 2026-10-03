@@ -464,7 +464,7 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
     });
   }
 
-  if (request.method === "GET") {
+  if (request.method === "GET" || request.method === "HEAD") {
     const guess = guessGuide(url.pathname);
     if (guess && !(await env.ASSETS.fetch(new Request(url.origin + url.pathname))).ok) return Response.redirect(`${url.origin}/${guess}/`, 301);
   }
