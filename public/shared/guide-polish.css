@@ -644,3 +644,9 @@ body{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-ri
 .ex-q .ex-opt:disabled{opacity:.55;cursor:not-allowed}
 .ex-fr-score{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
 .ex-fr-score .btn[aria-pressed="true"]{background:var(--accent-solid,var(--accent));color:#fff}
+
+/* Touch screens: small controls get a 44px hit area (A11Y-26). */
+@media (pointer: coarse) {
+  .chip, .btn, .sgt-b, .unit-tts-btn, .q-bookmark, .cbot-hd button, .shortcuts-modal-close, .qref-drawer-close { min-height: 44px; min-width: 44px; }
+  .unit-drag-handle { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+}

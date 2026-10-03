@@ -204,3 +204,7 @@ test("study timer survives a reload and mirrors the clock in the tab title while
   assert.match(js, /function mirrorTitle\(\)/);
   assert.match(js, /document\.addEventListener\('visibilitychange',mirrorTitle\)/);
 });
+
+test("touch screens get 44px targets on the small guide controls", () => {
+  assert.match(read("../public/shared/guide-polish.css"), /@media \(pointer: coarse\) \{\s*\.chip, \.btn, \.sgt-b/);
+});
