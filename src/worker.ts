@@ -156,6 +156,11 @@ async function injectAssetVersions(res: Response, env: Env): Promise<Response> {
 // rewrites every HTML response (see injectAssetVersions below), so adding
 // the tags here keeps it to one place that can't drift. Skipped on /admin:
 // that's an internal tool, not a place visitors need either widget.
+// Pages that are about the signed-in account: the "no sign-up required" banner would sit above their sign-in card.
+export function showsMissionBanner(pathname: string): boolean {
+  return !/^\/(dashboard|settings|concepts|compete|challenge|syllabus|flashcards|onboarding)(\/|$)/.test(pathname);
+}
+
 async function injectSiteWidgets(res: Response, pathname: string): Promise<Response> {
   if (pathname.startsWith("/admin")) return res;
   if (!res.headers.get("Content-Type")?.includes("text/html")) return res;
@@ -166,7 +171,7 @@ async function injectSiteWidgets(res: Response, pathname: string): Promise<Respo
         el.append('<script src="/shared/tooltips.js" type="module"></script>', { html: true });
         el.append('<script src="/shared/optimistic.js" type="module"></script>', { html: true });
         el.append('<script src="/shared/personality.js" type="module"></script>', { html: true });
-        el.prepend('<script src="/shared/mission-banner.js" defer></script>', { html: true });
+        if (showsMissionBanner(pathname)) el.prepend('<script src="/shared/mission-banner.js" defer></script>', { html: true });
       }
     })
     .transform(res);

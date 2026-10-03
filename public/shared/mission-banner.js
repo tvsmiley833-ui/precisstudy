@@ -30,7 +30,7 @@
   bar.id = "mb-bar";
   bar.setAttribute("role", "note");
   bar.innerHTML =
-    "<span>PrecisStudy is 100% free, always — no paywalls, no sign-up required. <a href=\"/about\">Our mission</a></span>" +
+    "<span>PrecisStudy is 100% free, always — no paywalls. Signing in is optional and just syncs your progress. <a href=\"/about\">Our mission</a></span>" +
     '<button id="mb-close" type="button" aria-label="Dismiss">' +
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>' +
     "</button>";

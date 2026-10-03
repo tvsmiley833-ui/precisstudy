@@ -372,3 +372,11 @@ describe("boss", () => {
     expect(data2.quest.boss.defeated).toBe(true);
   });
 });
+
+describe("mission banner placement", () => {
+  it("is skipped on account pages but shown on guides and the homepage", async () => {
+    const { showsMissionBanner } = await import("../src/worker.js");
+    for (const p of ["/dashboard/", "/settings", "/concepts/", "/compete/x", "/syllabus/"]) expect(showsMissionBanner(p)).toBe(false);
+    for (const p of ["/", "/biology/", "/about/", "/request/"]) expect(showsMissionBanner(p)).toBe(true);
+  });
+});
