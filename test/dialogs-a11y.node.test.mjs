@@ -285,3 +285,7 @@ test("flashcard and syllabus uploads check size and legacy .doc before sending, 
 test("a new device doesn't bounce an already-onboarded student back into the wizard", () => {
   assert.match(read("../public/index.html"), /if \(blob\.goal \|\| \(blob\.quest && blob\.quest\.setupClaimed\)\) alreadyOnboarded = true;/);
 });
+
+test("a syllabus-learned unit order is applied to the page when the student hasn't dragged their own", () => {
+  assert.match(read("../client/guide-app.js"), /localStorage\.getItem\('ssUnitOrder_'\+SS_GUIDE\.key\)/);
+});

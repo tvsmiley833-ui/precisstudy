@@ -502,7 +502,8 @@ function ssUnitDragHandleHtml(id){
 function ssUnitOrderKey(){return 'ss-unit-order-'+SS_GUIDE.slug;}
 function ssLoadUnitOrder(){
   try{
-    const raw=localStorage.getItem(ssUnitOrderKey());
+    // The student's own drag order wins; otherwise the order learned from an uploaded syllabus (see /syllabus).
+    const raw=localStorage.getItem(ssUnitOrderKey())||localStorage.getItem('ssUnitOrder_'+SS_GUIDE.key);
     if(!raw)return null;
     const order=JSON.parse(raw);
     return Array.isArray(order)?order:null;
