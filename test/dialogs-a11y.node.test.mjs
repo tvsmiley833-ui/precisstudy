@@ -215,3 +215,9 @@ test("bookmarked questions can be practised from the quiz picker", () => {
   assert.match(js, /raw==='bookmarks'\)src=ssBookmarkedQuestions\(\)/);
   assert.match(js, /ssRefreshBookmarkOption\(\)/);
 });
+
+test("phone quiz tab tucks rarely used controls behind More options", () => {
+  const html = read("../public/spanish-1/index.html");
+  assert.match(html, /id="q-more-btn" aria-expanded="false" aria-controls="q-bar"/);
+  assert.match(read("../public/shared/guide-polish.css"), /\.q-bar:not\(\.q-more-open\) \.diff-chips/);
+});

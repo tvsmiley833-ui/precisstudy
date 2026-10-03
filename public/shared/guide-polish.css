@@ -650,3 +650,16 @@ body{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-ri
   .chip, .btn, .sgt-b, .unit-tts-btn, .q-bookmark, .cbot-hd button, .shortcuts-modal-close, .qref-drawer-close { min-height: 44px; min-width: 44px; }
   .unit-drag-handle { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
 }
+
+/* Phones: keep the first question near the top of the quiz tab (GUIDE-13). The rarely used controls sit behind "More options". */
+.q-more-btn{display:none}
+@media (max-width: 640px) {
+  .q-more-btn{display:inline-flex}
+  .q-bar:not(.q-more-open) .diff-chips,
+  .q-bar:not(.q-more-open) .mistake-log-btn,
+  .q-bar:not(.q-more-open) #challenge-friend-btn,
+  .q-bar:not(.q-more-open) button[onclick^="printWorksheet"],
+  .q-bar .q-kbd-hint,
+  #view-quiz .diag-skip-btn { display: none; }
+  #anon-quiz-note { font-size: 13px; padding: 8px 12px; }
+}
