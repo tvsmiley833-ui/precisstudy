@@ -1,3 +1,4 @@
+import { fetchWithTimeout } from "./http.js";
 import { getGoogleToken } from "./google-token.js";
 
 interface ScheduleBlock {
@@ -40,7 +41,7 @@ async function getAccessToken(env: { PROGRESS: KVNamespace; SESSION_SECRET: stri
   const token = await getGoogleToken(env, email);
   if (!token) return null;
   try {
-    const res = await fetch("https://oauth2.googleapis.com/token", {
+    const res = await fetchWithTimeout("https://oauth2.googleapis.com/token", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({
@@ -68,7 +69,7 @@ async function createEvent(accessToken: string, calendarId: string, block: Sched
     reminders: { useDefault: true }
   };
   try {
-    const res = await fetch(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events`, {
+    const res = await fetchWithTimeout(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events`, {
       method: "POST",
       headers: { Authorization: "Bearer " + accessToken, "Content-Type": "application/json" },
       body: JSON.stringify(body)
@@ -83,7 +84,7 @@ async function createEvent(accessToken: string, calendarId: string, block: Sched
 
 async function deleteEvent(accessToken: string, calendarId: string, eventId: string): Promise<void> {
   try {
-    await fetch(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events/${encodeURIComponent(eventId)}`, {
+    await fetchWithTimeout(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events/${encodeURIComponent(eventId)}`, {
       method: "DELETE",
       headers: { Authorization: "Bearer " + accessToken }
     });

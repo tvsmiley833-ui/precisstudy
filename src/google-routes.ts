@@ -1,3 +1,4 @@
+import { fetchWithTimeout } from "./http.js";
 import { getSession } from "./auth.js";
 import { getGoogleToken, deleteGoogleToken } from "./google-token.js";
 import {
@@ -82,7 +83,7 @@ export async function handleGoogleCalendars(request: Request, env: Env): Promise
   if (!token) return json({ connected: false, calendars: [] });
 
   try {
-    const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
+    const tokenRes = await fetchWithTimeout("https://oauth2.googleapis.com/token", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({
@@ -96,7 +97,7 @@ export async function handleGoogleCalendars(request: Request, env: Env): Promise
     if (!tokenRes.ok || typeof tokenData?.access_token !== "string") {
       return json({ connected: false, calendars: [] });
     }
-    const listRes = await fetch("https://www.googleapis.com/calendar/v3/users/me/calendarList", {
+    const listRes = await fetchWithTimeout("https://www.googleapis.com/calendar/v3/users/me/calendarList", {
       headers: { Authorization: "Bearer " + tokenData.access_token }
     });
     if (!listRes.ok) return json({ connected: true, calendars: [] });
@@ -119,7 +120,7 @@ export async function handleGoogleDisconnect(request: Request, env: Env): Promis
   const token = await getGoogleToken(env, session.email);
   if (token) {
     try {
-      await fetch("https://oauth2.googleapis.com/revoke?token=" + encodeURIComponent(token.refreshToken), {
+      await fetchWithTimeout("https://oauth2.googleapis.com/revoke?token=" + encodeURIComponent(token.refreshToken), {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" }
       });

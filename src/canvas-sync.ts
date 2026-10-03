@@ -1,3 +1,4 @@
+import { fetchWithTimeout } from "./http.js";
 import { getCanvasToken } from "./canvas-token.js";
 import type { Assignment } from "./google-sync.js";
 
@@ -26,7 +27,7 @@ export async function syncCanvasAssignments(
   if (!token) return { connected: false, items: [] };
 
   try {
-    const res = await fetch(`https://${token.domain}/api/v1/users/self/upcoming_events`, {
+    const res = await fetchWithTimeout(`https://${token.domain}/api/v1/users/self/upcoming_events`, {
       headers: { Authorization: "Bearer " + token.apiToken }
     });
     if (!res.ok) return { connected: true, items: [] };

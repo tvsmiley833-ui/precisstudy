@@ -1,3 +1,4 @@
+import { fetchWithTimeout } from "./http.js";
 import { getGoogleToken, deleteGoogleToken } from "./google-token.js";
 
 export interface GoogleSettings {
@@ -68,7 +69,7 @@ async function mapLimit<T, R>(items: T[], limit: number, fn: (item: T) => Promis
 class GoogleUnavailable extends Error {}
 
 async function gfetch(url: string, accessToken: string): Promise<any> {
-  const res = await fetch(url, { headers: { Authorization: "Bearer " + accessToken } });
+  const res = await fetchWithTimeout(url, { headers: { Authorization: "Bearer " + accessToken } });
   if (!res.ok) throw new GoogleUnavailable(url + " -> " + res.status);
   return res.json();
 }
@@ -223,7 +224,7 @@ export async function syncGoogleAssignments(
   // 1. Refresh -> access token (never stored).
   let accessToken: string;
   try {
-    const res = await fetch("https://oauth2.googleapis.com/token", {
+    const res = await fetchWithTimeout("https://oauth2.googleapis.com/token", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({

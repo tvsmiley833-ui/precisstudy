@@ -1,3 +1,4 @@
+import { fetchWithTimeout } from "./http.js";
 import { getSession } from "./auth.js";
 import { getCanvasToken, putCanvasToken, deleteCanvasToken } from "./canvas-token.js";
 
@@ -15,6 +16,16 @@ const MAX_TOKEN_LEN = 2000;
 // confusing failure later from e.g. a pasted "https://school.instructure.com/"
 // silently becoming a malformed API URL.
 const DOMAIN_RE = /^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?(\.[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)+$/i;
+
+// The student's token is sent to this host, so only Canvas's own hosting domains are accepted by default. A school with its
+// own domain can be added through CANVAS_EXTRA_DOMAINS (comma-separated suffixes) without a code change.
+const CANVAS_HOST_SUFFIXES = [".instructure.com", ".canvaslms.com"];
+
+function isAllowedCanvasHost(domain: string, extra: string | undefined): boolean {
+  const d = domain.toLowerCase();
+  const suffixes = CANVAS_HOST_SUFFIXES.concat((extra || "").split(",").map(x => x.trim().toLowerCase()).filter(Boolean));
+  return suffixes.some(s => { const bare = s.replace(/^\./, ""); return d === bare || d.endsWith("." + bare); });
+}
 
 function isValidDomain(domain: unknown): domain is string {
   return typeof domain === "string" && domain.length > 0 && domain.length <= MAX_DOMAIN_LEN && DOMAIN_RE.test(domain);
@@ -38,6 +49,9 @@ export async function handleCanvasConnect(request: Request, env: Env): Promise<R
   if (!isValidDomain(domain)) {
     return json({ error: "Enter your Canvas domain, e.g. yourschool.instructure.com (no https:// or path)" }, 400);
   }
+  if (!isAllowedCanvasHost(domain, (env as { CANVAS_EXTRA_DOMAINS?: string }).CANVAS_EXTRA_DOMAINS)) {
+    return json({ error: "That doesn't look like a Canvas address. Use your school's instructure.com address, or ask us to add yours." }, 400);
+  }
   if (typeof apiToken !== "string" || !apiToken.trim() || apiToken.length > MAX_TOKEN_LEN) {
     return json({ error: "Enter a Canvas access token" }, 400);
   }
@@ -46,8 +60,9 @@ export async function handleCanvasConnect(request: Request, env: Env): Promise<R
   // every sync afterward is a worse experience than one extra round-trip
   // here.
   try {
-    const probe = await fetch(`https://${domain}/api/v1/users/self`, {
-      headers: { Authorization: "Bearer " + apiToken.trim() }
+    const probe = await fetchWithTimeout(`https://${domain}/api/v1/users/self`, {
+      headers: { Authorization: "Bearer " + apiToken.trim() },
+      redirect: "manual" // a redirect would carry the token to another host
     });
     if (!probe.ok) {
       return json({ error: "Couldn't verify that Canvas domain and token — check both and try again." }, 400);

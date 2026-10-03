@@ -1,3 +1,4 @@
+import { fetchWithTimeout } from "./http.js";
 import {
   issueSessionCookie,
   clearSessionCookie,
@@ -109,7 +110,7 @@ export async function handleGoogleCallback(request: Request, env: Env): Promise<
     return authErrorRedirect("state");
   }
 
-  const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
+  const tokenRes = await fetchWithTimeout("https://oauth2.googleapis.com/token", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({
@@ -123,7 +124,7 @@ export async function handleGoogleCallback(request: Request, env: Env): Promise<
   if (!tokenRes.ok) return authErrorRedirect("provider", "google token " + tokenRes.status);
   const tokenData: any = await tokenRes.json();
 
-  const profileRes = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+  const profileRes = await fetchWithTimeout("https://www.googleapis.com/oauth2/v3/userinfo", {
     headers: { Authorization: "Bearer " + String(tokenData?.access_token) }
   });
   if (!profileRes.ok) return authErrorRedirect("provider", "google userinfo " + profileRes.status);
@@ -170,7 +171,7 @@ export async function handleGithubCallback(request: Request, env: Env): Promise<
     return authErrorRedirect("state");
   }
 
-  const tokenRes = await fetch("https://github.com/login/oauth/access_token", {
+  const tokenRes = await fetchWithTimeout("https://github.com/login/oauth/access_token", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded", Accept: "application/json" },
     body: new URLSearchParams({
@@ -189,13 +190,13 @@ export async function handleGithubCallback(request: Request, env: Env): Promise<
     "User-Agent": "studystacks-app",
     Accept: "application/vnd.github+json"
   };
-  const profileRes = await fetch("https://api.github.com/user", { headers: ghHeaders });
+  const profileRes = await fetchWithTimeout("https://api.github.com/user", { headers: ghHeaders });
   if (!profileRes.ok) return authErrorRedirect("provider", "github user " + profileRes.status);
   const profile: any = await profileRes.json();
 
   let email: string | undefined = typeof profile.email === "string" ? profile.email : undefined;
   if (!email) {
-    const emailsRes = await fetch("https://api.github.com/user/emails", { headers: ghHeaders });
+    const emailsRes = await fetchWithTimeout("https://api.github.com/user/emails", { headers: ghHeaders });
     if (emailsRes.ok) {
       const emails: any = await emailsRes.json();
       const list = Array.isArray(emails) ? emails : [];

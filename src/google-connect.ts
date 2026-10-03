@@ -1,3 +1,4 @@
+import { fetchWithTimeout } from "./http.js";
 import { getSession } from "./auth.js";
 import {
   SITE_ORIGIN, makeState, checkState, stateCookie, clearStateCookie,
@@ -69,7 +70,7 @@ export async function handleGoogleConnectCallback(request: Request, env: Env): P
 
   let tokenData: any;
   try {
-    const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
+    const tokenRes = await fetchWithTimeout("https://oauth2.googleapis.com/token", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({
@@ -94,7 +95,7 @@ export async function handleGoogleConnectCallback(request: Request, env: Env): P
 
   let googleEmail = "";
   try {
-    const infoRes = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+    const infoRes = await fetchWithTimeout("https://www.googleapis.com/oauth2/v3/userinfo", {
       headers: { Authorization: "Bearer " + String(tokenData.access_token) }
     });
     if (infoRes.ok) {

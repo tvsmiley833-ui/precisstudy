@@ -1,3 +1,4 @@
+import { fetchWithTimeout } from "./http.js";
 // Everything we store about one person, removed in one place. Used by "Delete my account".
 //
 // Keys are written with the email exactly as the session carries it, but the old deletion code only
@@ -60,7 +61,7 @@ export async function deleteUserData(env: Env, sessionEmail: string): Promise<De
     try {
       const token = env.SESSION_SECRET ? await getGoogleToken(env as { PROGRESS: KVNamespace; SESSION_SECRET: string }, e) : null;
       if (token?.refreshToken) {
-        const res = await fetch("https://oauth2.googleapis.com/revoke?token=" + encodeURIComponent(token.refreshToken), {
+        const res = await fetchWithTimeout("https://oauth2.googleapis.com/revoke?token=" + encodeURIComponent(token.refreshToken), {
           method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" },
         });
         if (res.ok) report.googleRevoked = true;

@@ -48,6 +48,24 @@ describe("handleCanvasConnect", () => {
     }
   });
 
+  it("refuses to send a token to a host that isn't Canvas (no fetch is made)", async () => {
+    const c = await cookie("s@e.edu");
+    const spy = vi.spyOn(globalThis, "fetch");
+    for (const domain of ["evil.example.com", "instructure.com.evil.example", "school.canvaslms.com.evil.io"]) {
+      const res = await handleCanvasConnect(req("https://example.com/api/canvas/connect", c, "POST", { domain, apiToken: "secret" }), env());
+      expect(res.status).toBe(400);
+    }
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it("accepts a school's own domain when the owner has allowlisted it", async () => {
+    const c = await cookie("s@e.edu");
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response("{}", { status: 200 }));
+    const e = { ...env(), CANVAS_EXTRA_DOMAINS: "canvas.myschool.edu" };
+    const res = await handleCanvasConnect(req("https://example.com/api/canvas/connect", c, "POST", { domain: "canvas.myschool.edu", apiToken: "t" }), e);
+    expect(res.status).toBe(200);
+  });
+
   it("rejects an empty api token", async () => {
     const c = await cookie("s@e.edu");
     const res = await handleCanvasConnect(req("https://example.com/api/canvas/connect", c, "POST", { domain: "school.instructure.com", apiToken: "  " }), env());
