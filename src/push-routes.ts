@@ -105,6 +105,8 @@ interface StreakData {
   timezone: string | null;
 }
 
+export const MAX_PUSH_SUBSCRIPTIONS = 5;
+
 export async function handlePushSubscribe(request: Request, env: Env): Promise<Response> {
   const session = await getSession(request, env);
   if (!session) return json({ error: "Sign in required" }, 401);
@@ -123,11 +125,13 @@ export async function handlePushSubscribe(request: Request, env: Env): Promise<R
   const blob = (await loadBlob(env, session.email)) || { pushSubscriptions: [], updatedAt: new Date().toISOString() };
   const existing = Array.isArray(blob.pushSubscriptions) ? blob.pushSubscriptions : [];
   const withoutDupe = existing.filter(s => s.endpoint !== sub.endpoint);
+  // Keep only the newest few devices: every extra subscription is one more push per reminder, and an unbounded list
+  // lets one account (or a bug) multiply fan-out on the cron.
   blob.pushSubscriptions = [...withoutDupe, {
     endpoint: sub.endpoint,
     keys: { p256dh: sub.keys.p256dh, auth: sub.keys.auth },
     expirationTime: sub.expirationTime || null
-  }];
+  }].slice(-MAX_PUSH_SUBSCRIPTIONS);
   blob.updatedAt = new Date().toISOString();
 
   await saveSubscriptions(env, session.email, blob);

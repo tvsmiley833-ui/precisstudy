@@ -63,6 +63,17 @@ describe("handlePushSubscribe", () => {
     expect(res.status).toBe(400);
   });
 
+  it("keeps only the five newest devices", async () => {
+    const cookie = await sessionCookieFor("many@example.com");
+    const kv = fakeKV();
+    for (let i = 1; i <= 7; i++) {
+      const sub = { endpoint: "https://fcm.googleapis.com/fcm/send/dev" + i, keys: VALID_KEYS, expirationTime: null };
+      await handlePushSubscribe(req("https://example.com/api/push/subscribe", cookie, "POST", { subscription: sub }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    }
+    const subs = JSON.parse(kv._store.get("progress:many@example.com")).pushSubscriptions;
+    expect(subs.map(x => x.endpoint.slice(-4))).toEqual(["dev3", "dev4", "dev5", "dev6", "dev7"]);
+  });
+
   it("saves a valid subscription and preserves existing progress", async () => {
     const cookie = await sessionCookieFor("student@example.com");
     const existing = { geometry: { mastery: { "1": { correct: 1, total: 2 } }, examples: {}, cardsKnown: [] } };
