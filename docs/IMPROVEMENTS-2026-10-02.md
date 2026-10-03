@@ -4,6 +4,12 @@ Produced by an automated audit: 16 dimension auditors found 496 candidate findin
 
 Effort: S = hours, M = a day or two, L = several days, XL = a project. **Owner** = needs the site owner (accounts, keys, legal or product decisions), not just code.
 
+## Status (updated 2026-10-02)
+
+Done and deployed: SEC-1, SEC-2, SEC-3, PWA-1, GUIDE-1, GUIDE-2, PRIV-1, BE-1, BE-2 (each with tests).
+Waiting on the owner: PRIV-2 (age gate, legal decision) and TEST-1 (CI workflow file needs a token with `workflow` scope, or edit `.github/workflows/ci.yml` in the GitHub web UI: change `npx vitest run` to `npm test`).
+Still open from the migration fix: any Algebra II / Physics blob that a quest, push or leaderboard write stamped before 2026-10-02 may already hold old unit numbers; that needs a one-time audit of production KV.
+
 ## Summary
 
 - **P0 now**: 11 items
