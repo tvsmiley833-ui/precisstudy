@@ -136,3 +136,8 @@ test("no native alert/prompt/confirm in the guide client; deletes need a second 
   assert.match(read("../public/admin/index.html"), /if\(!r1\.ok\) throw/);
   assert.match(read("../public/flashcards/index.html"), /failed = !res\.ok/);
 });
+
+test("MathJax is pinned and only sent to guides that contain $...$ math", () => {
+  assert.match(read("../public/algebra2/index.html"), /mathjax@3\.2\.2\/es5\/tex-mml-chtml\.js/);
+  for (const g of ["spanish-1", "ap-biology", "us-history"]) assert.ok(!/mathjax/i.test(read(`../public/${g}/index.html`)), g);
+});

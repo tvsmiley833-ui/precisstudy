@@ -40,7 +40,8 @@ function cuts(s){var c=[],inM=false,money=/^\d[\d,]*(\.\d+)?([kKMB](?![A-Za-z]))
 function money(root){if(!root||!root.nodeType)return;var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT),n,todo=[];while(n=w.nextNode())if(n.nodeValue.indexOf('$')>-1&&!n.parentNode.closest('.tex2jax_ignore,script,style'))todo.push(n);todo.forEach(function(t){var s=t.nodeValue,c=cuts(s);if(!c.length)return;var f=document.createDocumentFragment(),p=0;c.forEach(function(i){f.appendChild(document.createTextNode(s.slice(p,i)));var sp=document.createElement('span');sp.className='tex2jax_ignore';sp.textContent='$';f.appendChild(sp);p=i+1});f.appendChild(document.createTextNode(s.slice(p)));t.parentNode.replaceChild(f,t)})}
 window.ssMoneyCuts=cuts;money(document.body);
 return MathJax.startup.defaultPageReady().then(function(){var t=MathJax.typesetPromise;MathJax.typesetPromise=function(e){(e||[document.body]).forEach(money);return t(e)}})}}};</script>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" async></script>
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",

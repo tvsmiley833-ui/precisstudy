@@ -26,6 +26,7 @@ function unitDragHandleHtml(id) {
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const T = (name) => readFileSync(join(ROOT, "scripts/guide-template", name), "utf8");
 const templateHead = T("head.html");
+const templateMathjax = T("mathjax.html");
 const templateStyle = T("style.css");
 const templateWiring = T("module-wiring.html");
 const templateHero = T("hero.html");
@@ -257,7 +258,10 @@ export function generateGuide(config) {
 
   const metaDescription = buildMetaDescription(config);
 
+  // MathJax (about 256 KB) is only sent to guides whose content has a $...$ pair; every other guide skips it.
+  const usesMath = /\$[^$]*\$/.test(JSON.stringify(config));
   let html = templateHead
+    .replace("__MATHJAX__", () => (usesMath ? templateMathjax : ""))
     // Replacement *functions* throughout: a replacement string would treat "$'", "$&" and "$`" in
     // guide text (math like "$'...") as special patterns and splice copies of the page into itself.
     .replace(/__TITLE__/g, () => esc(title))
