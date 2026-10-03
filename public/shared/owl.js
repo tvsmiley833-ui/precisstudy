@@ -127,7 +127,7 @@ export function owlSvg(opts = {}) {
     <filter id="${fid}" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.4"/></filter>
   </defs>
   <ellipse cx="64" cy="137" rx="30" ry="3" fill="#000" opacity=".2"/>
-  <g filter="url(#${fid})" stroke-linecap="round" stroke-linejoin="round">
+  <g ${size >= 64 ? `filter="url(#${fid})"` : ""} stroke-linecap="round" stroke-linejoin="round">
   <path d="M26 56C24 40 26 24 30 12c10 4 20 12 28 24z" fill="${C.bodyDark}" stroke="${C.chalk}" stroke-width="2.4"/><path d="M102 56c2-16 0-32-4-44-10 4-20 12-28 24z" fill="${C.bodyDark}" stroke="${C.chalk}" stroke-width="2.4"/>
   <path d="M31 40C30 31 31 23 33 18c5 3 10 8 14 14z" fill="${C.bodyLight}" opacity=".55"/><path d="M97 40c1-9 0-17-2-22-5 3-10 8-14 14z" fill="${C.bodyLight}" opacity=".55"/>
   <ellipse cx="64" cy="80" rx="42" ry="50" fill="url(#${fid}b)" stroke="${C.chalk}" stroke-width="2.6"/>

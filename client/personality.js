@@ -235,7 +235,10 @@ function unitPath() {
     unit.dataset.path = pct >= 80 ? "done" : pct > 0 ? "started" : "new";
   });
   paint();
-  new MutationObserver(paint).observe(unitsEl, { subtree: true, characterData: true, childList: true });
+  // Coalesce bursts of changes into one repaint per frame instead of re-running on every single mutation.
+  let queued = false;
+  new MutationObserver(() => { if (queued) return; queued = true; requestAnimationFrame(() => { queued = false; paint(); }); })
+    .observe(unitsEl, { subtree: true, characterData: true, childList: true });
 }
 
 // ---------------------------------------------------------------- streak / XP pill
