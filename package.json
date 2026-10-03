@@ -9,7 +9,9 @@
     "test:scripts": "node --test test/*.node.test.mjs",
     "typecheck": "tsc --noEmit",
     "build:client": "esbuild client/personality.js --minify --format=esm --target=es2022 --legal-comments=none --tsconfig-raw={} --outfile=public/shared/personality.js && esbuild client/guide-app.js --minify --target=es2020 --legal-comments=none --tsconfig-raw={} --outfile=public/shared/guide-app.js",
-    "predeploy": "npm run build:client",
+    "predeploy": "npm run build:client && npm run typecheck && npm test",
+    "postdeploy": "node scripts/smoke.mjs",
+    "smoke": "node scripts/smoke.mjs",
     "guides:regen": "node scripts/regen-guides.mjs"
   },
   "devDependencies": {
