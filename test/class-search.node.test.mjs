@@ -34,3 +34,8 @@ test("filtering hides a subject group's heading when none of its cards match", (
 test("on phones How It Works is moved above the class list", () => {
   assert.match(html, /classes\.parentNode\.insertBefore\(how, classes\)/);
 });
+
+test("signed-out visitors see their on-device readiness on class cards", () => {
+  assert.match(html, /function ssShowLocalReadiness\(\)/);
+  assert.match(html, /if\(!session\)\{ ssShowLocalReadiness\(\); return; \}/);
+});

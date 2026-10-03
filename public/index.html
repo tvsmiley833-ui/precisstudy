@@ -1624,9 +1624,36 @@ function ssApplyEnrolledFilter(enrolled){
     + ' · <a href="/settings/" style="color:var(--text-muted);text-decoration:none;">edit</a>';
 }
 
+// Signed-out visitors who have practised on this device see their own readiness on the cards too, with a nudge to save it.
+function ssShowLocalReadiness(){
+  var any = false;
+  document.querySelectorAll('.class-card[data-subject-key]').forEach(function(card){
+    var raw = null;
+    try { raw = localStorage.getItem('ssMastery_' + card.dataset.subjectKey); } catch(e) {}
+    if(!raw) return;
+    var rec = null; try { rec = JSON.parse(raw); } catch(e) {}
+    var pct = ssReadinessPct(rec && rec.mastery);
+    if(pct === null) return;
+    any = true;
+    var badge = document.createElement('div');
+    badge.className = 'ss-readiness';
+    badge.style.display = 'flex';
+    badge.innerHTML = '<span class="ss-readiness-bar"><span class="ss-readiness-bar-fill" style="width:' + pct + '%"></span></span><span>' + pct + '% ready</span>';
+    card.insertBefore(badge, card.children[3] || null);
+  });
+  if(any && !document.getElementById('ss-local-note')){
+    var anchor = document.getElementById('class-search');
+    var note = document.createElement('p');
+    note.id = 'ss-local-note';
+    note.style.cssText = 'text-align:center;font-size:13px;color:var(--text-muted);margin:10px 0 0;';
+    note.textContent = 'Your progress is saved on this device. Sign in to keep it safe and sync it everywhere.';
+    if(anchor && anchor.closest('div')) anchor.closest('div').insertAdjacentElement('afterend', note);
+  }
+}
+
 async function ssLoadClassReadiness(){
   var session = await ssCheckSession();
-  if(!session) return;
+  if(!session){ ssShowLocalReadiness(); return; }
   try{
     var res = await fetch('/api/progress');
     if(!res.ok) return;
