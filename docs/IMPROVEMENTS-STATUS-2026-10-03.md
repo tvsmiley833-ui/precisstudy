@@ -1,7 +1,7 @@
 # Improvements status — 2026-10-03
 
 Source list: `docs/IMPROVEMENTS-2026-10-02.md` (200 items). This file records what has shipped and what is still open.
-Test state: 453 node + 669 vitest passing; every deploy now gates on them and runs a smoke check.
+Test state: 455 node + 676 vitest passing; every deploy now gates on them and runs a smoke check.
 
 ## Shipped (deployed to production)
 
@@ -78,6 +78,10 @@ Test state: 453 node + 669 vitest passing; every deploy now gates on them and ru
 - **PRIV-5** download-my-data (`/api/export` + Settings button). **PRIV-7** feedback attaches the account email only on opt-in. **PRIV-9 (partial)** client logs keep origin+path and redact emails/tokens. **PRIV-11** empty subject leaderboards are blanked.
 - **GROW-2** new students keep their destination through onboarding. **GROW-7** on-device readiness for signed-out visitors. **GROW-8** mistyped guide addresses redirect (301).
 - **SEO-1** related-guide links on every guide. **SEO-2 (partial)** sitemap `lastmod` from git (llms.txt still hand-kept). **CONT-3 (partial)** About/Educators quote real totals. **CONT-4 (partial)** ratchet lint for duplicate stems/terms/placeholders (existing duplicates are baselined, not yet fixed).
+
+### Backend, tests and code-health batch
+- **BE-25** unique leaderboard handles. **BE-10 (partial)** worked-example ids and quest boss handled in unit migrations. **BE-14 (partial)** one unreadable Classroom course no longer hides the rest. **BE-20 (partial)** syllabus class picker has no default; dates can be appended without duplicates.
+- **TEST-4** tests can't reach real networks; test config matches production's 404 handling. **CODE-3 (partial)** one shared `json()`. **CODE-10 (partial)** `noUnusedLocals/Parameters`, dead code removed. **CODE-12** README rewritten, old plans archived. **CODE-13 (partial)** regen works from any directory, reports orphans. **FEAT-9** palette/error-monitor robustness. **SEO-5 (partial)** one canonical URL per guide view, About title. **PRIV-12** Canvas token guidance.
 
 ## Still open (updated)
 GUIDE-13, GUIDE-16 (module timing unclear), GUIDE-19, GUIDE-21–24, GUIDE-26, GUIDE-28, GUIDE-30; A11Y-20 inline-head bootstrap; A11Y-26 rest; MOB-2 offline quizzes; PERF-2/3/4/6/7/8/10/11/13/14/15/17/19; PERF-9 update toast and shared registration; UX-1 concepts/compete/syllabus pages; nav 'Sign in' for anonymous visitors.
