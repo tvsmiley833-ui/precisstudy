@@ -359,6 +359,22 @@ const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replac
 const owl = (mood, size, extra = {}) => `<div class="owl">${owlSvg({ mood, size, ...extra })}</div>`;
 const say = (mood, text, size = 72) => `<div class="ob-sage">${owl(mood, size)}<div class="ob-bubble"><small>Sage</small>${text}</div></div>`;
 
+const OB_VAPID = "BFLqJyuV9vTCmo9TTgfsX9yOgI1DhUopA1Bm7Kw-Raxt5aD9286kiIVFLPcCWuInwcNzsTIuuAX-439U_D2WH1Q";
+async function obEnablePush() {
+  if (!("serviceWorker" in navigator) || !("PushManager" in window) || typeof Notification === "undefined") return false;
+  if (Notification.permission === "denied") return false;
+  try {
+    if ((await Notification.requestPermission()) !== "granted") return false;
+    const reg = await navigator.serviceWorker.register("/sw.js");
+    await navigator.serviceWorker.ready;
+    const pad = "=".repeat((4 - OB_VAPID.length % 4) % 4);
+    const raw = atob((OB_VAPID + pad).replace(/-/g, "+").replace(/_/g, "/"));
+    const key = Uint8Array.from(raw, (c) => c.charCodeAt(0));
+    const sub = (await reg.pushManager.getSubscription()) || (await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: key }));
+    const res = await fetch("/api/push/subscribe", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ subscription: sub.toJSON() }) });
+    return res.ok;
+  } catch (e) { return false; }
+}
 async function api(url, body) {
   const init = { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) };
   if (window.ssOptimistic && window.ssOptimistic.fetch) return window.ssOptimistic.fetch(url, init);
@@ -440,6 +456,7 @@ const VIEWS = {
     const row = (k, t, d) => `<button type="button" class="ob-opt" role="switch" aria-checked="${!!S.prefs[k]}" data-k="${k}"><span><b>${t}</b><span>${d}</span></span><span class="ob-switch" aria-hidden="true"></span></button>`;
     return `${say("happy", "Want me to nudge you? I'll keep it friendly, promise.")}
       <h1 class="ob-h">Reminders</h1>
+      <p id="ob-push-note" role="status" class="ob-note"></p>
       <div class="ob-opts">${row("daily", "Daily reminder", "A nudge if you haven't studied yet today")}${row("streak", "Streak alert", "A heads-up before your streak breaks")}${row("blocks", "Study-block reminders", "Just before a session on your schedule")}</div>`;
   },
   done: () => {
@@ -515,7 +532,21 @@ const BIND = {
     pick(".ob-opt", (b) => { const k = b.dataset.k; S.prefs[k] = !S.prefs[k]; b.setAttribute("aria-checked", String(S.prefs[k])); });
     next(async () => {
       const btn = $("ob-next"); btn.disabled = true; btn.textContent = "Saving…";
-      try { await api("/api/notification-prefs", S.prefs); award("reminders"); go(5); }
+      try {
+        // Turning reminders on only means something once the browser agrees to show them, so ask now and subscribe.
+        if (S.prefs.daily || S.prefs.streak || S.prefs.blocks) {
+          const ok = await obEnablePush();
+          if (!ok) {
+            // Stay on this step so the explanation is actually read; the next press continues with reminders off.
+            S.prefs = { daily: false, streak: false, blocks: false };
+            document.querySelectorAll(".ob-opt[data-k]").forEach((b) => b.setAttribute("aria-checked", "false"));
+            const note = $("ob-push-note"); if (note) note.textContent = "Notifications weren't allowed on this device, so reminders are off. You can turn them on later in Settings.";
+            btn.disabled = false; btn.textContent = "Continue without reminders";
+            return;
+          }
+        }
+        await api("/api/notification-prefs", S.prefs); award("reminders"); go(5);
+      }
       catch (e) { btn.disabled = false; btn.textContent = "Try again"; }
     });
   },

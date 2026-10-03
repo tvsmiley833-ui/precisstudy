@@ -289,3 +289,11 @@ test("a new device doesn't bounce an already-onboarded student back into the wiz
 test("a syllabus-learned unit order is applied to the page when the student hasn't dragged their own", () => {
   assert.match(read("../client/guide-app.js"), /localStorage\.getItem\('ssUnitOrder_'\+SS_GUIDE\.key\)/);
 });
+
+test("onboarding reminders actually ask for notification permission and subscribe, and fall back to off if refused", () => {
+  const h = read("../public/onboarding/index.html");
+  assert.match(h, /async function obEnablePush\(\)/);
+  assert.match(h, /Notification\.requestPermission\(\)/);
+  assert.match(h, /\/api\/push\/subscribe/);
+  assert.match(h, /reminders are off/);
+});
