@@ -88,8 +88,8 @@ describe("per-view subject routing", () => {
   }
 
   it("does not intercept an unknown subject", async () => {
-    const res = await SELF.fetch("https://precisstudy.com/biology/quiz");
-    expect(res.status).toBe(200); // falls through to the SPA index.html, not a subject bundle
+    const res = await SELF.fetch("https://precisstudy.com/nosuchsubject/quiz");
+    expect(res.status).toBe(404); // production serves its 404 page here, never a subject bundle
     const body = await res.text();
     const geoBody = await (await SELF.fetch("https://precisstudy.com/geometry/")).text();
     expect(body).not.toBe(geoBody);
@@ -97,7 +97,7 @@ describe("per-view subject routing", () => {
 
   it("does not intercept an unknown view segment under a real subject (falls back to the SPA shell, not the subject bundle)", async () => {
     const res = await SELF.fetch("https://precisstudy.com/geometry/not-a-real-view");
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(404);
     const body = await res.text();
     const geoBody = await (await SELF.fetch("https://precisstudy.com/geometry/")).text();
     expect(body).not.toBe(geoBody);
@@ -476,5 +476,14 @@ describe("continueDailyWork (the daily snapshot pass and the leaderboards that f
     expect((await continueDailyWork({ PROGRESS: kv }, { start: false })).step).toBe("leaderboards");
     expect([...kv._m.keys()].filter(k => k.startsWith("history:")).length).toBe(150);
     expect(kv._m.has("lb:global:questions")).toBe(true);
+  });
+});
+
+describe("guide address guesses through the real worker", () => {
+  it("301s a mistyped guide address and leaves real pages alone", async () => {
+    const r = await SELF.fetch("https://precisstudy.com/ap-bio", { redirect: "manual" });
+    expect(r.status).toBe(301);
+    expect(r.headers.get("Location")).toBe("https://precisstudy.com/ap-biology/");
+    expect((await SELF.fetch("https://precisstudy.com/biology/")).status).toBe(200);
   });
 });

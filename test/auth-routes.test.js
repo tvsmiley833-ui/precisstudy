@@ -230,6 +230,8 @@ describe("OAuth state CSRF protection", () => {
   });
 
   it("/auth/google/callback accepts a state that matches its cookie (proceeds past the CSRF check), and clears the state cookie even on a post-CSRF failure", async () => {
+    // The provider refuses the fake code; mocked so the test never calls Google for real.
+    const spy = vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(JSON.stringify({ error: "invalid_grant" }), { status: 400 }));
     const startRes = await handleGoogleStart(new Request("https://precisstudy.com/auth/google/start"), env);
     const state = new URL(startRes.headers.get("Location")).searchParams.get("state");
 
@@ -248,6 +250,7 @@ describe("OAuth state CSRF protection", () => {
     // cookie left behind after a token-exchange hiccup could be replayed within its
     // remaining TTL, which is exactly what binding state to a cookie is meant to stop.
     expect(res.headers.get("Set-Cookie")).toContain("ss_oauth_state=;");
+    spy.mockRestore();
   });
 
   it("/auth/github/start sets an ss_oauth_state cookie bound to the redirect's state param", async () => {
