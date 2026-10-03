@@ -5,7 +5,7 @@ import vm from "node:vm";
 
 const html = readFileSync(new URL("../public/index.html", import.meta.url), "utf8");
 const start = html.indexOf("var SS_ABBR");
-const end = html.indexOf("/* Phones: collapse");
+const end = html.indexOf("/* Phones: the value proposition");
 const ctx = {};
 vm.runInNewContext(html.slice(start, end), ctx);
 const names = [...html.matchAll(/data-name="([^"]*)"/g)].map(m => m[1]);
