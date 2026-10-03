@@ -1114,3 +1114,24 @@ export async function handlePostNotificationPrefs(request: Request, env: Env): P
   await putBlob(env, session.email, blob);
   return json({ ok: true, notificationPrefs: prefs });
 }
+
+/**
+ * "Download my data": everything saved for the signed-in account as one JSON file. Push endpoints and share/calendar tokens
+ * are left out: they are credentials, not the student's data, and a downloaded file may sit on a shared computer.
+ */
+export async function handleGetExport(request: Request, env: Env): Promise<Response> {
+  const session = await getSession(request, env);
+  if (!session) return json({ error: "Sign in required" }, 401);
+  if (!env.PROGRESS) return json({ error: "Progress sync isn't configured yet" }, 503);
+  const blob = await loadBlob(env, session.email);
+  const { pushSubscriptions, shareToken, calendarToken, inviteToken, ...rest } = blob as ProgressBlob & Record<string, unknown>;
+  void pushSubscriptions; void shareToken; void calendarToken; void inviteToken;
+  const body = JSON.stringify({ exportedAt: new Date().toISOString(), account: { email: session.email, name: session.name ?? null }, data: rest }, null, 2);
+  return new Response(body, {
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Content-Disposition": 'attachment; filename="precisstudy-my-data.json"',
+      "Cache-Control": "private, no-store"
+    }
+  });
+}

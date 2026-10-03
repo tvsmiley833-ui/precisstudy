@@ -21,7 +21,7 @@ import { handleFeedbackSubmit } from "./feedback.js";
 import { handleClientLogPost } from "./client-log-routes.js";
 import { handleAdminMe, handleAdminListGuideRequests, handleAdminDeleteGuideRequest, handleAdminUpdateGuideRequestStatus, handleAdminStats, handleAdminGetGuideRequestFile, handleAdminListFeedback, handleAdminDeleteFeedback, handleAdminUpdateFeedbackStatus } from "./admin-routes.js";
 import { readSnapshotState, writeSnapshotState } from "./progress-routes.js";
-import { handleGetProgress, handlePostProgress, handlePostProgressReset, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak, handlePostNotificationPrefs, recordDailySnapshots, handlePostShareGenerate, handlePostShareRevoke, handleGetShare, handlePostCalendarGenerate, handlePostCalendarRevoke, handleGetCalendarFeed, handlePostInviteGenerate } from "./progress-routes.js";
+import { handleGetExport, handleGetProgress, handlePostProgress, handlePostProgressReset, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak, handlePostNotificationPrefs, recordDailySnapshots, handlePostShareGenerate, handlePostShareRevoke, handleGetShare, handlePostCalendarGenerate, handlePostCalendarRevoke, handleGetCalendarFeed, handlePostInviteGenerate } from "./progress-routes.js";
 import { handleGenerateFlashcards, handleSaveFlashcards, handleDeleteFlashcards, handleReviewFlashcard } from "./flashcards-routes.js";
 import { handleSyllabusParse } from "./syllabus-routes.js";
 import { handleSaveSyllabusDates } from "./syllabus-dates.js";
@@ -229,6 +229,7 @@ const AUTH_ROUTES: Record<string, Record<string, (request: Request, env: Env) =>
   "/auth/logout": { POST: handleLogout },
   "/auth/sign-out-everywhere": { POST: handleSignOutEverywhere },
   "/auth/delete-account": { POST: handleDeleteAccount },
+  "/api/export": { GET: handleGetExport },
   "/auth/google/connect/start": { GET: handleGoogleConnectStart },
   "/auth/google/connect/callback": { GET: handleGoogleConnectCallback }
 };

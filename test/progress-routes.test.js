@@ -1334,3 +1334,19 @@ describe("streak date plausibility (a made-up localDate can't inflate a streak)"
     expect(isPlausibleLocalDate("2026-13-45")).toBe(false);
   });
 });
+
+describe("data export", () => {
+  it("401s without a session and returns the account's data, without credentials, as a download", async () => {
+    const { handleGetExport } = await import("../src/progress-routes.js");
+    expect((await handleGetExport(req("https://example.com/api/export", null), { SESSION_SECRET: SECRET, PROGRESS: fakeKV() })).status).toBe(401);
+    const cookie = await sessionCookieFor("me@example.com");
+    const kv = fakeKV({ "progress:me@example.com": JSON.stringify({ shareToken: "sekrit-token", pushSubscriptions: [{ endpoint: "https://x" }], streak: { current: 2, longest: 3 }, geometry: { mastery: {}, examples: {}, cardsKnown: ["a"] } }) });
+    const res = await handleGetExport(req("https://example.com/api/export", cookie), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(res.status).toBe(200);
+    expect(res.headers.get("Content-Disposition")).toContain("attachment");
+    const text = await res.text();
+    expect(text).not.toContain("sekrit-token");
+    expect(text).not.toContain("https://x");
+    expect(JSON.parse(text).data.streak.current).toBe(2);
+  });
+});
