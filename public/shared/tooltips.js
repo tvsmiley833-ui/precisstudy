@@ -53,7 +53,7 @@ export function computePosition(trigger, tip, viewport) {
       "border:1px solid var(--border-strong,var(--border,#8a8f98));" +
       "background:var(--bg-card,var(--surface,#fff));color:var(--text,var(--ink,#111));" +
       "font-family:inherit;font-size:12.5px;font-weight:600;line-height:1.35;text-align:left;" +
-      "pointer-events:none;visibility:hidden;opacity:0;transition:opacity .12s ease;overflow-wrap:anywhere}" +
+      "pointer-events:auto;visibility:hidden;opacity:0;transition:opacity .12s ease;overflow-wrap:anywhere}" +
       "#ss-tip.ss-tip-on{visibility:visible;opacity:1}" +
       "@media(prefers-reduced-motion:reduce){#ss-tip{transition:none}}" +
       ".ss-tip-btn{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;" +
@@ -90,6 +90,8 @@ export function computePosition(trigger, tip, viewport) {
     try {
       if (el.nodeType !== 1 || SKIP.test(el.tagName) || el.hasAttribute("data-tip-native")) return;
       if (el.namespaceURI === "http://www.w3.org/2000/svg") return;
+      // An input with a pattern uses its title as the validation message; leave it native.
+      if (el.hasAttribute("pattern") && /^(INPUT|TEXTAREA)$/.test(el.tagName)) return;
       var title = el.getAttribute("title");
       if (title === null || el.hasAttribute("data-tip")) {
         if (title !== null) el.removeAttribute("title");
@@ -130,6 +132,7 @@ export function computePosition(trigger, tip, viewport) {
   }
 
   var shownAt = 0;
+  var watchTimer = 0;
   function show(el) {
     var text = el.getAttribute("data-tip");
     if (!text) return;
@@ -138,13 +141,17 @@ export function computePosition(trigger, tip, viewport) {
     current = el;
     tipEl.textContent = text;
     var prev = el.getAttribute("aria-describedby");
-    if (prev !== "ss-tip" && (!prev || prev.split(" ").indexOf("ss-tip") < 0)) {
+    // When the tip text is the element's own accessible name, describing it too would be read out twice.
+    var sameAsName = (el.getAttribute("aria-label") || "").trim() === text.trim();
+    if (!sameAsName && prev !== "ss-tip" && (!prev || prev.split(" ").indexOf("ss-tip") < 0)) {
       prevDescribed = prev;
       el.setAttribute("aria-describedby", prev ? prev + " ss-tip" : "ss-tip");
     }
     place();
     tipEl.classList.add("ss-tip-on");
     shownAt = Date.now();
+    clearInterval(watchTimer);
+    watchTimer = setInterval(function () { if (!current || !current.isConnected) hide(); }, 500); // trigger removed while shown
   }
 
   function restoreDescribed() {
@@ -156,6 +163,7 @@ export function computePosition(trigger, tip, viewport) {
 
   function hide() {
     clearTimeout(showTimer);
+    clearInterval(watchTimer);
     tipEl.classList.remove("ss-tip-on");
     restoreDescribed();
     current = null;
@@ -181,9 +189,13 @@ export function computePosition(trigger, tip, viewport) {
       if (!el) return;
       var to = tipTarget(e.relatedTarget);
       if (to === el) return;
+      if (e.relatedTarget && tipEl.contains(e.relatedTarget)) return; // moving onto the tip itself keeps it open (WCAG 1.4.13)
       if (isCoarse() && current === el) return;
       hide();
     } catch (err) {}
+  });
+  tipEl.addEventListener("mouseleave", function (e) {
+    try { if (!(e.relatedTarget && current && current.contains(e.relatedTarget))) hide(); } catch (err) {}
   });
   document.addEventListener("focusin", function (e) {
     try {

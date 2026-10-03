@@ -92,3 +92,12 @@ test("quiz copy matches reality: no sign-in gate, picker always shown, worksheet
   assert.match(js, /if\(sel\) sel\.style\.display = ''/);
   assert.match(js, /if\(only&&q\.u!==only\)return;/);
 });
+
+test("tooltips stay open when hovered, close if their trigger disappears, don't double-announce or strip validation titles", () => {
+  const js = read("../public/shared/tooltips.js");
+  assert.match(js, /pointer-events:auto/);
+  assert.match(js, /tipEl\.contains\(e\.relatedTarget\)/);
+  assert.match(js, /isConnected\) hide\(\)/);
+  assert.match(js, /sameAsName/);
+  assert.match(js, /hasAttribute\("pattern"\)/);
+});
