@@ -251,7 +251,40 @@ function buildJsonLd(config, description) {
   return `<script type="application/ld+json">\n${JSON.stringify(graph, null, 2).replace(/</g, "\\u003c")}\n</script>`;
 }
 
+// Build-time schema check: a typo in guides/*.json fails here with a precise message instead of shipping a broken page.
+export function validateGuideConfig(config) {
+  const errs = [];
+  const bad = (m) => errs.push(m);
+  const { slug, title, units, quiz, flashcards } = config;
+  if (typeof slug !== "string" || !/^[a-z0-9-]+$/.test(slug)) bad(`slug must match /^[a-z0-9-]+$/ (got ${JSON.stringify(slug)})`);
+  if (config.masteryKey !== undefined && !/^[a-z0-9-]+$/.test(String(config.masteryKey))) bad(`masteryKey must match /^[a-z0-9-]+$/`);
+  if (typeof title !== "string" || !title.trim()) bad("title is required");
+  if (!Array.isArray(units) || !units.length) { bad("units must be a non-empty array"); return errs; }
+  const ids = new Set();
+  for (const u of units) {
+    if (!Number.isInteger(u.id) || ids.has(u.id)) bad(`unit id ${JSON.stringify(u.id)} is missing or duplicated`);
+    ids.add(u.id);
+    if (typeof u.name !== "string" || !u.name) bad(`unit ${u.id} needs a name`);
+    if (!Array.isArray(u.concepts) || !u.concepts.length) bad(`unit ${u.id} needs concepts`);
+    else for (const c of u.concepts) if (typeof c.l !== "string" || !c.l) bad(`unit ${u.id} has a concept without a label (l)`);
+  }
+  (Array.isArray(quiz) ? quiz : []).forEach((q, i) => {
+    const at = `quiz[${i}]`;
+    if (!ids.has(q.u)) bad(`${at} refers to unknown unit ${q.u}`);
+    if (typeof q.q !== "string" || !q.q) bad(`${at} has no question text`);
+    if (!Array.isArray(q.o) || q.o.length < 2) bad(`${at} needs at least two options`);
+    else if (!Number.isInteger(q.a) || q.a < 0 || q.a >= q.o.length) bad(`${at} answer index ${q.a} is outside its options`);
+  });
+  (Array.isArray(flashcards) ? flashcards : []).forEach((f, i) => {
+    if (!ids.has(f.u)) bad(`flashcards[${i}] refers to unknown unit ${f.u}`);
+    if (typeof f.t !== "string" || !f.t || typeof f.d !== "string" || !f.d) bad(`flashcards[${i}] needs a term (t) and definition (d)`);
+  });
+  return errs;
+}
+
 export function generateGuide(config) {
+  const schemaErrors = validateGuideConfig(config);
+  if (schemaErrors.length) throw new Error(`guides/${config.slug || "?"}.json is invalid:\n  - ${schemaErrors.slice(0, 12).join("\n  - ")}${schemaErrors.length > 12 ? `\n  … and ${schemaErrors.length - 12} more` : ""}`);
   const { slug, title, accentColor, units, quiz, flashcards,
           examParts, masteryKey, targetLang, calculator, officialReferenceUrl, officialReferenceLabel, officialReferenceContent } = config;
   const worked = Array.isArray(config.workedExamples) ? config.workedExamples : [];
