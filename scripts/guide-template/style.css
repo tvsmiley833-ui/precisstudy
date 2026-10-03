@@ -413,16 +413,8 @@ input[type=range].spc-slider::-moz-range-progress{background:var(--accent);heigh
 .cbot-hd button{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:24px;padding:4px 6px;border-radius:6px}
 .cbot-hd button:hover{color:var(--ink);background:var(--surface-hover)}
 .cbot-disclaimer{font-size:14px;color:var(--ink-muted);padding:8px 14px;border-bottom:1px solid var(--border);background:var(--surface-2)}
-#cbot-settings{display:none;padding:12px 14px;border-bottom:1px solid var(--border);background:var(--surface-2);gap:8px;flex-direction:column}
-#cbot-settings.open{display:flex}
-#cbot-settings label{font-size:18px;color:var(--ink-muted);display:block;margin-bottom:3px}
-#cbot-settings input{width:100%;box-sizing:border-box;background:var(--bg);border:1px solid var(--border);
   border-radius:6px;color:var(--ink);padding:7px 9px;font-size:20.2px;margin-bottom:8px;font-family:inherit}
-#cbot-settings .cbot-set-row{display:flex;gap:8px}
-#cbot-settings .cbot-set-row button{flex:1;padding:7px;border-radius:6px;border:1px solid var(--border);
   background:var(--surface);color:var(--ink-muted);cursor:pointer;font-size:18.8px}
-#cbot-settings .cbot-set-row button.primary{background:var(--accent-soft);color:var(--accent-ink);border-color:var(--accent)}
-#cbot-settings .cbot-hint{font-size:17.2px;color:var(--ink-dim);line-height:1.5;margin-bottom:8px}
 #cbot-msgs{flex:1;overflow-y:auto;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
 .cbot-msg{max-width:86%;padding:9px 12px;border-radius:12px;font-size:21px;line-height:1.5;white-space:pre-wrap;font-family:'Inter'}
 .cbot-msg.bot{background:var(--surface-2);color:var(--ink);align-self:flex-start;border-bottom-left-radius:3px}

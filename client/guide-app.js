@@ -2132,9 +2132,6 @@ function ssBuildPlanIcs(o){
 })();
 
 /* ===== study helper chatbot ===== */
-const CBOT_KEY='chemCbotConfig';
-const CBOT_OMNIROUTE_URL='http://127.0.0.1:20128/api/v1';
-const CBOT_OMNIROUTE_MODEL='kiro/claude-haiku-4.5';
 let cbotIndex=null;
 let cbotHistory=[];
 
@@ -2229,42 +2226,9 @@ function cbotToggle(){
     document.addEventListener('keydown',cbotKeydown);
     ssBringToFront(panel);
     setTimeout(function(){var i=document.getElementById('cbot-input');if(i)i.focus();},0);
-    if(!cbotHistory.length)cbotAddMsg('bot',"Hi! Ask me about any term or concept from the guide — like \"activation energy\" or \"limiting reagent\" — and I'll pull up the explanation. No setup needed.");
+    if(!cbotHistory.length){const ex=cbotExamples();cbotAddMsg('bot',"Hi! Ask me about any term or concept from the guide — like "+ex[0]+" or "+ex[1]+" — and I'll pull up the explanation. No setup needed.");};
   }
 }
-function cbotToggleSettings(){document.getElementById('cbot-settings').classList.toggle('open');}
-
-function cbotLoadSettings(){
-  try{
-    const raw=JSON.parse(localStorage.getItem(CBOT_KEY)||'null');
-    if(!raw||!raw.key)return null;
-    return {url:CBOT_OMNIROUTE_URL,model:CBOT_OMNIROUTE_MODEL,key:raw.key};
-  }catch(e){return null;}
-}
-function cbotSaveSettings(){
-  const key=document.getElementById('cbot-key').value.trim();
-  if(key){
-    try{
-      localStorage.setItem(CBOT_KEY,JSON.stringify({key:key}));
-      cbotAddMsg('bot','Saved. Open-ended questions now route through your local OmniRoute server ('+CBOT_OMNIROUTE_MODEL+') — check OmniRoute\'s usage/cost report after asking something to see it tick up.');
-    }catch(e){
-      cbotAddMsg('bot','Couldn\'t save — this browser/page is blocking local storage (e.g. private browsing). Try opening the file normally, not from a sandboxed preview.');
-    }
-  }else{
-    cbotAddMsg('bot','Paste your OmniRoute API key above to enable live AI — or leave it blank to just use the built-in guide search.');
-  }
-  document.getElementById('cbot-settings').classList.remove('open');
-}
-function cbotClearSettings(){
-  try{localStorage.removeItem(CBOT_KEY);}catch(e){}
-  document.getElementById('cbot-key').value='';
-  cbotAddMsg('bot','Cleared. Back to built-in guide search only.');
-  document.getElementById('cbot-settings').classList.remove('open');
-}
-(function(){const raw=(function(){try{return JSON.parse(localStorage.getItem(CBOT_KEY)||'null');}catch(e){return null;}})();
-  if(raw&&raw.key){const k=document.getElementById('cbot-key');if(k)k.value=raw.key;}
-})();
-
 // Bouncing-dots bubble shown while the AI Study Helper's reply is pending.
 // cbotAddMsg() removes it automatically the moment a real bot message
 // renders, so every reply path (proxy, custom API, local search fallback)
@@ -2289,6 +2253,12 @@ function cbotHideTyping(){
 // student sees -- e.g. ssExplainWrongAnswer shows "Why is 'X' wrong?" but
 // the model needs the full question/choice/correct-answer context to
 // actually answer that, not just the four-word display bubble.
+// Two example terms from THIS guide's flashcards, so the helper's prompts match the subject.
+function cbotExamples(){
+  const f=(typeof FLASHCARDS!=='undefined'&&FLASHCARDS)||[];
+  const terms=f.map(function(c){return c.t;}).filter(function(x){return x&&x.length<=32;});
+  return terms.length>=2?['\"'+terms[0]+'\"','\"'+terms[Math.floor(terms.length/2)]+'\"']:['a term','a concept'];
+}
 function cbotAddMsg(role,text,jumpFn,jumpLabel,historyText){
   if(role==='bot')cbotHideTyping();
   const wrap=document.getElementById('cbot-msgs');
@@ -2307,28 +2277,8 @@ function cbotAddMsg(role,text,jumpFn,jumpLabel,historyText){
   cbotHistory.push({role:role==='user'?'user':'assistant',content:historyText!==undefined?historyText:text});
 }
 
-async function cbotCallApi(cfg,query){
-  const sys="You are a concise, friendly tutor helping a student study "+SS_GUIDE.title+". Keep answers short (2-5 sentences), accurate, and focused on the question asked.";
-  const messages=[{role:'system',content:sys}].concat(cbotHistory.slice(-8));
-  const res=await fetch(cfg.url.replace(/\/$/,'')+'/chat/completions',{
-    method:'POST',
-    headers:{'Content-Type':'application/json','Authorization':'Bearer '+cfg.key},
-    body:JSON.stringify({model:cfg.model,messages:messages,max_tokens:400,stream:false})
-  });
-  if(!res.ok){
-    let detail='';
-    try{const errBody=await res.json();detail=errBody&&errBody.error&&errBody.error.message?': '+errBody.error.message:'';}catch(e){}
-    throw new Error(res.status+detail);
-  }
-  const data=await res.json();
-  return data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content;
-}
 
 const CBOT_PUBLISHED=(location.protocol==='http:'||location.protocol==='https:');
-if(CBOT_PUBLISHED){
-  const sBtn=document.getElementById('cbot-settings-btn');
-  if(sBtn)sBtn.style.display='none';
-}
 
 // What Sage should know about where the student is: the tab, the unit or
 // quiz question on screen, and the guide passages that match their question
@@ -2376,8 +2326,8 @@ async function cbotAsk(query){
   cbotShowTyping();
 
   const results=cbotSearch(query);
-  const cfg=CBOT_PUBLISHED?null:cbotLoadSettings();
-  const noKeyFallbackText="I couldn't find that in the guide. Try a specific term (e.g. \"activation energy\", \"limiting reagent\", \"pH\") or check the Quick Reference / Memory Tricks tabs."+(CBOT_PUBLISHED?"":" You can also connect your own AI API in Advanced settings for open-ended help.");
+  const exs=cbotExamples();
+  const noKeyFallbackText="I couldn't find that in the guide. Try a specific term (e.g. "+exs[0]+", "+exs[1]+") or check the Quick Reference / Memory Tricks tabs.";
 
   if(CBOT_PUBLISHED){
     try{
@@ -2388,15 +2338,6 @@ async function cbotAsk(query){
       cbotAddMsg('bot','The AI helper is temporarily unavailable ('+err.message+'). Here\'s the closest match from the guide instead:');
       if(results.length){const top=results[0].entry;cbotAddMsg('bot',top.label+'\n\n'+top.text,top.jump,'Jump to this in the guide →');}
       else cbotAddMsg('bot',noKeyFallbackText);
-    }
-  }else if(cfg){
-    try{
-      const reply=await cbotCallApi(cfg,query);
-      const top=results.length?results[0].entry:null;
-      cbotAddMsg('bot',reply||"I didn't get a usable reply from the API.",top&&top.jump,top?'Jump to this in the guide →':undefined);
-    }catch(err){
-      cbotAddMsg('bot','Couldn\'t reach your configured API ('+err.message+'). Here\'s the closest match from the guide instead:');
-      if(results.length){const top=results[0].entry;cbotAddMsg('bot',top.label+'\n\n'+top.text,top.jump,'Jump to this in the guide →');}
     }
   }else if(results.length&&results[0].score>=2.5){
     const top=results[0].entry;
@@ -2714,16 +2655,8 @@ function cbotPanelInit(){
   panel.id='cbot-panel';
   panel.setAttribute('role','dialog');panel.setAttribute('aria-label','Study helper');panel.setAttribute('aria-hidden','true');
   panel.innerHTML='<div class="cbot-hd"><b>Study Helper</b>'+
-    '<button id="cbot-settings-btn" type="button" onclick="cbotToggleSettings()" title="AI connection settings" aria-label="AI connection settings">'+
-      '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82A1.65 1.65 0 0 0 3 13.09H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>'+
     '<button type="button" onclick="cbotToggle()" aria-label="Close study helper">✕</button></div>'+
     '<div class="cbot-disclaimer">AI-generated — can be wrong, especially on math and science. Double-check anything important.</div>'+
-    '<div id="cbot-settings">'+
-      '<div class="cbot-hint">By default this searches the guide itself — no setup needed. Paste your OmniRoute API key below to enable open-ended AI answers, routed through your local OmniRoute server. Stored only in this browser (localStorage), never in this file.</div>'+
-      '<label for="cbot-key">OmniRoute API key</label>'+
-      '<input id="cbot-key" type="password" placeholder="sk-…"/>'+
-      '<div class="cbot-set-row"><button class="primary" onclick="cbotSaveSettings()">Save</button><button onclick="cbotClearSettings()">Clear</button></div>'+
-    '</div>'+
     '<div id="cbot-msgs" role="log" aria-live="polite" aria-label="Conversation"></div>'+
     '<form id="cbot-form" onsubmit="return cbotSend(event)">'+
       '<input id="cbot-input" type="text" enterkeyhint="send" aria-label="Ask the study helper" placeholder="Ask about a term or concept…" autocomplete="off"/>'+

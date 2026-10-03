@@ -19,7 +19,9 @@ test("study helper is a labelled dialog with a live log, a labelled input, Esc a
   assert.match(js, /setAttribute\('role','dialog'\);panel\.setAttribute\('aria-label','Study helper'\)/);
   assert.match(js, /id="cbot-msgs" role="log"/);
   assert.match(js, /id="cbot-input" type="text" enterkeyhint="send" aria-label=/);
-  assert.match(js, /id="cbot-settings-btn" type="button"[^>]*aria-label=/);
+  assert.ok(!/OmniRoute|OMNIROUTE|cbot-settings|cbot-key/.test(js), "the local-dev API-key form must not ship");
+  assert.ok(!/activation energy|limiting reagent/.test(js), "examples come from this guide's own flashcards");
+  assert.match(js, /function cbotExamples\(\)/);
   assert.match(js, /function cbotKeydown\(e\)\{if\(e\.key==='Escape'\)/);
   assert.match(js, /cbotReturnFocus\.focus\(\)/);
 });
