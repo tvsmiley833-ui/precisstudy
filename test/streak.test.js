@@ -76,3 +76,16 @@ describe("feedback and the account email", () => {
     expect((await submit({ contactMe: true })).email).toBe("kid@example.com");
   });
 });
+
+import { scrubUrl, scrubText } from "../src/client-log-routes.js";
+
+describe("client log scrubbing", () => {
+  it("keeps only origin and path of a URL", () => {
+    expect(scrubUrl("https://precisstudy.com/share/?t=abcdef123456&x=1#frag")).toBe("https://precisstudy.com/share/");
+  });
+  it("redacts emails, token parameters and long key-like strings", () => {
+    const out = scrubText("fail for kid@example.com at /api?token=abc123XYZ and key QWERTYUIOPASDFGHJKLZXCVBNM123456");
+    expect(out).not.toMatch(/kid@|abc123XYZ|QWERTYUIOP/);
+    expect(out).toContain("[email]");
+  });
+});

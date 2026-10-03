@@ -25,6 +25,20 @@ function clampString(v: unknown): string | undefined {
   return trimmed.slice(0, MAX_STRING_LEN);
 }
 
+/** Origin and path only: query strings and fragments are where tokens and personal data end up. */
+export function scrubUrl(raw: string): string {
+  try { const u = new URL(raw); return u.origin + u.pathname; } catch (e) { return raw.split(/[?#]/)[0] ?? ""; }
+}
+
+/** Redacts email addresses and anything that looks like a token or key before it reaches the logs. */
+export function scrubText(raw: string | undefined): string | undefined {
+  if (!raw) return raw;
+  return raw
+    .replace(/[\w.+-]+@[\w-]+(\.[\w-]+)+/g, "[email]")
+    .replace(/([?&](?:t|token|code|key|ref|state)=)[^&\s"']+/gi, "$1[redacted]")
+    .replace(/\b[A-Za-z0-9_-]{28,}\b/g, "[redacted]");
+}
+
 export async function handleClientLogPost(request: Request, env: { CLIENT_LOG_RATE_LIMIT?: RateLimit }): Promise<Response> {
   if (env.CLIENT_LOG_RATE_LIMIT) {
     const { success } = await env.CLIENT_LOG_RATE_LIMIT.limit({ key: "client-log:" + getClientIp(request) });
@@ -54,12 +68,12 @@ export async function handleClientLogPost(request: Request, env: { CLIENT_LOG_RA
 
   const record = body as Record<string, unknown>;
   const kind = record.kind;
-  const url = clampString(record.url) || "";
+  const url = scrubUrl(clampString(record.url) || "");
 
   if (kind === "error") {
-    const message = clampString(record.message);
+    const message = scrubText(clampString(record.message));
     if (!message) return json({ error: "Missing message" }, 400);
-    const stack = clampString(record.stack);
+    const stack = scrubText(clampString(record.stack));
     const line = typeof record.line === "number" && Number.isFinite(record.line) ? record.line : undefined;
     const col = typeof record.col === "number" && Number.isFinite(record.col) ? record.col : undefined;
     logError("client-error", new Error(message), { stack, url, line, col });
