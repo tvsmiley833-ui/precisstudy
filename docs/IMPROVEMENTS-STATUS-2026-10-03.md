@@ -1,7 +1,7 @@
 # Improvements status — 2026-10-03
 
 Source list: `docs/IMPROVEMENTS-2026-10-02.md` (200 items). This file records what has shipped and what is still open.
-Latest deploy when last updated: version 363d65c0 (guide search folding). Test state: 368 node + 644 vitest passing.
+Latest deploy when last updated: version a0bf8e7d (phone quiz More options). Test state: 379 node + 645 vitest passing.
 
 ## Shipped (deployed to production)
 
@@ -55,6 +55,11 @@ Latest deploy when last updated: version 363d65c0 (guide search folding). Test s
 - **GUIDE-25** titles built from `SS_GUIDE.title`. **GUIDE-27** `--accent-bright` defined. **GUIDE-29** in-page dialogs/share sheet, two-step deletes that check responses. **GUIDE-31** calculator only on math/science guides.
 - **UX-1 (partial)** signed-out students with local progress see their dashboard with a sync strip; Settings > Appearance opens without an account.
 - **PERF-1** MathJax pinned to 3.2.2 and sent only to guides with `$...$`. **PERF-5 (partial)** Permanent Marker preload and three dead font files removed. **PERF-9 (partial)** service worker: offline page, navigation preload, 4 s network timeout, bounded cache, one copy of `?v=` assets. **PERF-12** pointer-capture dragging. **PERF-16** trailing slashes on section links. **PERF-18 (partial)** GET /api/quest writes only on change.
+
+### Later batches (same day, continued)
+- **GUIDE-13 (partial)** phone quiz tab: rarely used controls behind "More options". **GUIDE-19 (partial)** quiz resume ("Resume quiz (Q 3/12)") after a refresh. **GUIDE-22** free-response: write first, 20 chars unlock the model answer, self-score, drafts kept in sessionStorage. **GUIDE-24 (partial)** study timer persists across reloads and mirrors in the tab title while hidden. **GUIDE-26 (partial)** "Bookmarked (n)" quiz set. **GUIDE-28** worked examples keep revealed steps; Got it needs a step. **GUIDE-30 (partial)** plan tiers renamed to coverage terms.
+- **A11Y-26 (partial)** 44px touch targets. **UX-1 (partial)** concept map works from local progress.
+- **PERF-3 (partial)** mission banner skipped on account pages and reworded. **PERF-10** header styles static. **PERF-14 (partial)** hidden kicker logo removed, image/manifest caching. **PERF-15 (partial)** dashboard skeletons follow class count.
 
 ## Still open (updated)
 GUIDE-13, GUIDE-16 (module timing unclear), GUIDE-19, GUIDE-21–24, GUIDE-26, GUIDE-28, GUIDE-30; A11Y-20 inline-head bootstrap; A11Y-26 rest; MOB-2 offline quizzes; PERF-2/3/4/6/7/8/10/11/13/14/15/17/19; PERF-9 update toast and shared registration; UX-1 concepts/compete/syllabus pages; nav 'Sign in' for anonymous visitors.
