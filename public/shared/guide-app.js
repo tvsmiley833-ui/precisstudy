@@ -31,12 +31,18 @@ ${buildPartFR("C",PART_C)}
   <h3><span class="ex-part-btn" tabindex="0" role="button" aria-expanded="false" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();event.stopPropagation();togglePart('${e}')}">${n.title||"Part "+e} (${t.length} question${t.length===1?"":"s"}, 1 pt each)</span></h3>
   <div class="ex-part-hd-meta"><span id="score-${e}">Score: 0 / ${t.length}</span>${exTimerHtml(e)}</div>
 </div>
-<div class="ex-part-body">${o}</div></div>`}function buildPartFR(e,t){if(!t.length)return"";const n=examPartMeta(e);t.forEach(function(i){i.sa===void 0&&ssShuffleOptions(i)});const o=t.map(i=>i.sa!==void 0?`
-<div class="ex-q">
+<div class="ex-part-body">${o}</div></div>`}function ssFrKey(e,t){return"ss-fr-"+SS_GUIDE.slug+"-"+e+"-"+t}function ssFrSaved(e,t){try{return ssEscHtml(sessionStorage.getItem(ssFrKey(e,t))||"")}catch{return""}}function ssFrInput(e,t,n){try{sessionStorage.setItem(ssFrKey(e,t),n.value)}catch{}const o=n.closest(".ex-q"),s=o&&o.querySelector(".ex-opt");s&&(s.disabled=n.value.trim().length<20)}function ssFrScore(e,t){e.parentNode.querySelectorAll("button").forEach(function(n){n.setAttribute("aria-pressed",String(n===e))})}function buildPartFR(e,t){if(!t.length)return"";const n=examPartMeta(e);t.forEach(function(i){i.sa===void 0&&ssShuffleOptions(i)});const o=t.map(i=>i.sa!==void 0?`
+<div class="ex-q" data-fr="${e}-${i.n}">
   <div class="ex-qnum">Question ${i.n}</div>
   <div class="ex-qtext">${ssFixLt(i.q)}</div>
-  <button class="ex-opt" style="background:var(--surface-2);text-align:left" onclick="toggleSA(this)">\u25B6 Show Model Answer</button>
-  <div class="ex-sa" style="display:none"><strong>Model Answer</strong>${i.sa.replace(/\n/g,"<br>")}</div>
+  <label class="ex-fr-label" for="frans-${e}-${i.n}">Write your answer first (the model answer unlocks after 20 characters)</label>
+  <textarea class="ex-fr-answer" id="frans-${e}-${i.n}" rows="4" oninput="ssFrInput('${e}',${i.n},this)">${ssFrSaved(e,i.n)}</textarea>
+  <button class="ex-opt" style="background:var(--surface-2);text-align:left" onclick="toggleSA(this)" ${ssFrSaved(e,i.n).trim().length>=20?"":"disabled"}>\u25B6 Show Model Answer</button>
+  <div class="ex-sa" style="display:none"><strong>Model Answer</strong>${i.sa.replace(/\n/g,"<br>")}
+    <div class="ex-fr-score" role="group" aria-label="Score your own answer"><span>How did yours compare?</span>
+      <button type="button" class="btn" aria-pressed="false" onclick="ssFrScore(this,'Missed it')">Missed it</button>
+      <button type="button" class="btn" aria-pressed="false" onclick="ssFrScore(this,'Partly')">Partly</button>
+      <button type="button" class="btn" aria-pressed="false" onclick="ssFrScore(this,'Nailed it')">Nailed it</button></div></div>
 </div>`:`
 <div class="ex-q" id="exq-${e}-${i.n}">
   <div class="ex-qnum">Question ${i.n}</div>

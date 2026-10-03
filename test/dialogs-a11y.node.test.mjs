@@ -182,3 +182,11 @@ test("worked examples keep revealed steps across a rebuild and need a step befor
   assert.match(js, /const kept=Object\.assign\(\{\},ex2shown\);ex2shown=\{\};/);
   assert.match(js, /Reveal at least one step, then mark Got it\./);
 });
+
+test("free-response parts ask for an answer first, keep the draft, and offer a self-score", () => {
+  const js = read("../client/guide-app.js");
+  assert.match(js, /class="ex-fr-answer"/);
+  assert.match(js, /\.trim\(\)\.length>=20\?'':'disabled'/);
+  assert.match(js, /function ssFrScore\(/);
+  assert.match(js, /sessionStorage\.setItem\(ssFrKey/);
+});

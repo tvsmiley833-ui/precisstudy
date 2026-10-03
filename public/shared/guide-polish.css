@@ -637,3 +637,10 @@ body{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-ri
 :root{--accent-bright:var(--accent)}
 
 .quiz-resume{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 12px;padding:10px 14px;border:1px solid var(--accent);border-radius:12px;background:var(--accent-soft)}
+
+/* Free-response answer box and self-score (GUIDE-22). */
+.ex-fr-label{display:block;margin:8px 0 4px;font-size:14px;color:var(--ink-muted)}
+.ex-fr-answer{width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:var(--surface);color:var(--ink);font:inherit;margin-bottom:8px}
+.ex-q .ex-opt:disabled{opacity:.55;cursor:not-allowed}
+.ex-fr-score{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+.ex-fr-score .btn[aria-pressed="true"]{background:var(--accent-solid,var(--accent));color:#fff}

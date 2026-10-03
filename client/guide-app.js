@@ -140,6 +140,17 @@ return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-body">${items}</div></div>`;
 }
 
+// Free-response practice: the answer is written before the model answer unlocks, and the draft is kept for the tab session.
+function ssFrKey(id,n){return 'ss-fr-'+SS_GUIDE.slug+'-'+id+'-'+n;}
+function ssFrSaved(id,n){try{return ssEscHtml(sessionStorage.getItem(ssFrKey(id,n))||'');}catch(e){return '';}}
+function ssFrInput(id,n,ta){
+  try{sessionStorage.setItem(ssFrKey(id,n),ta.value);}catch(e){}
+  const q=ta.closest('.ex-q'),btn=q&&q.querySelector('.ex-opt');
+  if(btn)btn.disabled=ta.value.trim().length<20;
+}
+function ssFrScore(btn,label){
+  btn.parentNode.querySelectorAll('button').forEach(function(b){b.setAttribute('aria-pressed',String(b===btn));});
+}
 function buildPartFR(id,qs){
 if(!qs.length)return'';
 // Some guides author these as genuine free-response (q.sa, a model answer to
@@ -148,11 +159,17 @@ if(!qs.length)return'';
 const meta=examPartMeta(id);
 qs.forEach(function(q){if(q.sa===undefined)ssShuffleOptions(q);});
 const items=qs.map(q=>q.sa!==undefined?`
-<div class="ex-q">
+<div class="ex-q" data-fr="${id}-${q.n}">
   <div class="ex-qnum">Question ${q.n}</div>
   <div class="ex-qtext">${ssFixLt(q.q)}</div>
-  <button class="ex-opt" style="background:var(--surface-2);text-align:left" onclick="toggleSA(this)">▶ Show Model Answer</button>
-  <div class="ex-sa" style="display:none"><strong>Model Answer</strong>${q.sa.replace(/\n/g,'<br>')}</div>
+  <label class="ex-fr-label" for="frans-${id}-${q.n}">Write your answer first (the model answer unlocks after 20 characters)</label>
+  <textarea class="ex-fr-answer" id="frans-${id}-${q.n}" rows="4" oninput="ssFrInput('${id}',${q.n},this)">${ssFrSaved(id,q.n)}</textarea>
+  <button class="ex-opt" style="background:var(--surface-2);text-align:left" onclick="toggleSA(this)" ${ssFrSaved(id,q.n).trim().length>=20?'':'disabled'}>▶ Show Model Answer</button>
+  <div class="ex-sa" style="display:none"><strong>Model Answer</strong>${q.sa.replace(/\n/g,'<br>')}
+    <div class="ex-fr-score" role="group" aria-label="Score your own answer"><span>How did yours compare?</span>
+      <button type="button" class="btn" aria-pressed="false" onclick="ssFrScore(this,'Missed it')">Missed it</button>
+      <button type="button" class="btn" aria-pressed="false" onclick="ssFrScore(this,'Partly')">Partly</button>
+      <button type="button" class="btn" aria-pressed="false" onclick="ssFrScore(this,'Nailed it')">Nailed it</button></div></div>
 </div>`:`
 <div class="ex-q" id="exq-${id}-${q.n}">
   <div class="ex-qnum">Question ${q.n}</div>
