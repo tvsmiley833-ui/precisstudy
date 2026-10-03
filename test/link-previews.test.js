@@ -29,7 +29,7 @@ function shareKV(shareToken) {
     ["share:" + TOKEN]: EMAIL,
     ["progress:" + EMAIL]: blob({
       shareToken,
-      streak: { current: 5, longest: 9 },
+      streak: { current: 5, longest: 9, lastActiveDate: new Date().toISOString().slice(0, 10), timezone: "UTC" }, // alive today, so it still counts
       geometry: { mastery: mastery(9, 10) },
       chemistry: { mastery: mastery(5, 10) }
     })

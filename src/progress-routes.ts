@@ -3,6 +3,7 @@ import { randomToken } from "./random-token.js";
 import { loadGoogleSettings } from "./google-routes.js";
 import { pushScheduleToGoogleCalendar } from "./google-calendar-push.js";
 import { consumeRef } from "./auth-state.js";
+import { effectiveStreak } from "./streak.js";
 
 export const SUBJECTS = ["geometry", "chemistry", "algebra1", "algebra2", "aplang", "globalhistory", "apbiology", "apush", "physics", "biology", "precalc", "act-prep", "anatomy", "ap-chemistry", "ap-csa", "ap-euro", "ap-human-geography", "ap-macro", "ap-micro", "ap-physics", "ap-psych", "ap-stats", "ap-usgov", "ap-world", "art-history", "astronomy", "computer-science", "creative-writing", "earth-science", "economics", "english-10", "english-9", "environmental-science", "french-1", "french-2", "french-3", "geography", "german-1", "health", "journalism", "music-theory", "psychology", "sat-math", "sat-reading", "sociology", "spanish-1", "spanish-2", "spanish-3", "speech-debate", "statistics", "study-skills", "us-government", "world-history", "calculus", "calc-ab", "calc-bc", "us-history"];
 
@@ -475,7 +476,7 @@ function computeServerXP(blob: ProgressBlob): number {
   if (blob.goal) badgesUnlocked++;
   if (perfectUnits >= 1) badgesUnlocked++;
   if (perfectUnits >= 5) badgesUnlocked++;
-  const streakBonus = blob.streak?.current || 0;
+  const streakBonus = effectiveStreak(blob.streak); // a lapsed streak no longer adds XP
   return totalCorrect * 10 + totalCardsKnown * 2 + totalExamplesDone * 5 + streakBonus * 5 + badgesUnlocked * 50;
 }
 
@@ -713,7 +714,7 @@ export function summarizeShare(blob: ProgressBlob) {
   }
   subjects.sort((a, b) => b.pct - a.pct);
   return {
-    streak: blob.streak ? { current: blob.streak.current, longest: blob.streak.longest } : null,
+    streak: blob.streak ? { current: effectiveStreak(blob.streak), longest: blob.streak.longest } : null,
     subjects
   };
 }

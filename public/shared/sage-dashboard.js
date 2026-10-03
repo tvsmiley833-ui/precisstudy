@@ -24,7 +24,9 @@ function render() {
 
   const streak = blob.streak;
   const today = streak && streak.timezone ? new Intl.DateTimeFormat("en-CA", { timeZone: streak.timezone }).format(new Date()) : null;
-  const atRisk = !!(streak && streak.current > 0 && today && streak.lastActiveDate !== today);
+  // "Sleepy" only while the streak can still be saved: active yesterday but not yet today. Older than that it has lapsed.
+  const yesterday = streak && streak.timezone ? new Intl.DateTimeFormat("en-CA", { timeZone: streak.timezone }).format(new Date(Date.now() - 864e5)) : null;
+  const atRisk = !!(streak && streak.current > 0 && today && streak.lastActiveDate !== today && streak.lastActiveDate === yesterday);
   const noClasses = !(blob.enrolledSubjects || []).length;
 
   const labels = data.labels || {};

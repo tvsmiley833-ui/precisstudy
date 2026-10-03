@@ -933,7 +933,7 @@ describe("share link", () => {
     const kv = fakeKV({
       "progress:student@example.com": JSON.stringify({
         geometry: { mastery: { "1": { correct: 4, total: 5 } }, examples: {}, cardsKnown: [] },
-        streak: { current: 3, longest: 10 }
+        streak: { current: 3, longest: 10, lastActiveDate: new Date().toISOString().slice(0, 10), timezone: "UTC" }
       })
     });
     const genRes = await handlePostShareGenerate(req("https://example.com/api/share/generate", cookie, "POST"), { SESSION_SECRET: SECRET, PROGRESS: kv });
@@ -949,6 +949,16 @@ describe("share link", () => {
     expect(data.subjects).toEqual([{ key: "geometry", pct: 80, assessedUnits: 1 }]);
     // never leaks the owning email in the public response
     expect(JSON.stringify(data)).not.toContain("student@example.com");
+  });
+
+  it("does not present a lapsed streak as current on the public share", async () => {
+    const cookie = await sessionCookieFor("lapsed@example.com");
+    const kv = fakeKV({
+      "progress:lapsed@example.com": JSON.stringify({ streak: { current: 12, longest: 12, lastActiveDate: "2026-01-01", timezone: "UTC" } })
+    });
+    const { token } = await (await handlePostShareGenerate(req("https://example.com/api/share/generate", cookie, "POST"), { SESSION_SECRET: SECRET, PROGRESS: kv })).json();
+    const data = await (await handleGetShare(req("https://example.com/api/share?t=" + token), { PROGRESS: kv })).json();
+    expect(data.streak).toEqual({ current: 0, longest: 12 });
   });
 
   it("regenerating invalidates the old token", async () => {

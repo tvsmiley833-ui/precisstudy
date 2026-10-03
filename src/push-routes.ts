@@ -1,3 +1,4 @@
+import { effectiveStreak, localDays } from "./streak.js";
 import { getSession } from "./auth.js";
 import { applyUnitMigrations, putBlob, indexesReady, PUSH_INDEX_PREFIX, type ProgressBlob as FullProgressBlob } from "./progress-routes.js";
 import { logError } from "./log.js";
@@ -379,6 +380,8 @@ export async function sendStreakReminders(env: Env): Promise<{ checked: number; 
 
     if (local.minutes < STREAK_REMINDER_MINUTES || local.minutes >= STREAK_REMINDER_MINUTES + 5) return;
     if (streak.lastActiveDate === today) return; // already active today - don't nag
+    // Only a streak that is still savable gets a nudge: lapsed students must not be told to "keep" a streak that is gone.
+    if (!(effectiveStreak(streak) > 0) || streak.lastActiveDate !== localDays(streak.timezone).yesterday) return;
 
     const message = {
       data: JSON.stringify({
