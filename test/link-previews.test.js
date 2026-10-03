@@ -81,7 +81,7 @@ describe("challengePreview", () => {
     const p = await challengePreview(env(challengeKV(null, { correct: 4, total: 5, completedAt: "x" })), CODE);
     expect(p.title).toBe("Challenge: Algebra I quiz on PrecisStudy");
     expect(p.description).toBe("5 questions. Can you beat Swift Otter 42's score?");
-    expect(p.url).toBe("https://precisstudy.com/challenge?challenge=" + CODE);
+    expect(p.url).toBe("https://precisstudy.com/challenge/?challenge=" + CODE);
     expect(JSON.stringify(p)).not.toContain("example.com");
     expect(p.description).not.toMatch(/4\/5|4 of 5|80%/);
   });
@@ -111,7 +111,7 @@ describe("challengePreview", () => {
     for (const [kv, code] of [[fakeKV(), CODE], [challengeKV(null, undefined, { expiresAt: "2020-01-01T00:00:00Z" }), CODE], [challengeKV(null, undefined), "no!"]]) {
       const p = await challengePreview(env(kv), code);
       expect(p.title).toBe("Peer Challenge — PrecisStudy");
-      expect(p.url).toBe("https://precisstudy.com/challenge");
+      expect(p.url).toBe("https://precisstudy.com/challenge/");
     }
   });
 });
@@ -148,7 +148,7 @@ describe("withLinkPreview (rewritten HTML)", () => {
 
   it("updates existing tags in place instead of duplicating them", async () => {
     const page = PAGE.replace("</head>", '<meta name="description" content="old"/><meta property="og:title" content="old"/></head>');
-    const req = new Request(`https://precisstudy.com/challenge?challenge=${CODE}`);
+    const req = new Request(`https://precisstudy.com/challenge/?challenge=${CODE}`);
     const html = await (await withLinkPreview(htmlRes(page), req, env(challengeKV(null, undefined)))).text();
     expect(html.match(/name="description"/g)).toHaveLength(1);
     expect(html.match(/property="og:title"/g)).toHaveLength(1);
@@ -159,7 +159,7 @@ describe("withLinkPreview (rewritten HTML)", () => {
   it("HTML-escapes a hostile nickname in both new and existing tags", async () => {
     const hostile = '"><script>alert(1)</script>';
     const kv = challengeKV(hostile, undefined);
-    const req = new Request(`https://precisstudy.com/challenge?challenge=${CODE}`);
+    const req = new Request(`https://precisstudy.com/challenge/?challenge=${CODE}`);
     const fresh = await (await withLinkPreview(htmlRes(PAGE), req, env(kv))).text();
     const existing = await (await withLinkPreview(htmlRes(PAGE.replace("</head>", '<meta property="og:description" content="x"/></head>')), req, env(kv))).text();
     for (const html of [fresh, existing]) {

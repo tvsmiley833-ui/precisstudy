@@ -92,7 +92,7 @@ const SHARE_GENERIC: Preview = {
 const CHALLENGE_GENERIC: Preview = {
   title: "Peer Challenge — PrecisStudy",
   description: "A classmate challenged you to a head-to-head quiz on PrecisStudy. Free, no sign-up needed to look.",
-  url: `${ORIGIN}/challenge`
+  url: `${ORIGIN}/challenge/`
 };
 
 const INVITE: Omit<Preview, "url"> = {
@@ -152,7 +152,7 @@ export async function challengePreview(env: Env, code: string): Promise<Preview>
   return {
     title: `Challenge: ${subject} quiz on PrecisStudy`,
     description,
-    url: `${ORIGIN}/challenge?challenge=${code}`
+    url: `${ORIGIN}/challenge/?challenge=${code}`
   };
 }
 
@@ -189,6 +189,8 @@ export function applyPreview(res: Response, p: Preview): Response {
     { selector: 'meta[property="og:url"]', attr: "property", key: "og:url", value: p.url },
     { selector: 'meta[property="og:type"]', attr: "property", key: "og:type", value: "website" },
     { selector: 'meta[property="og:image"]', attr: "property", key: "og:image", value: IMAGE },
+    { selector: 'meta[property="og:site_name"]', attr: "property", key: "og:site_name", value: "PrecisStudy" },
+    { selector: 'meta[property="og:image:alt"]', attr: "property", key: "og:image:alt", value: "PrecisStudy: free study guides, quizzes and flashcards" },
     { selector: 'meta[name="twitter:card"]', attr: "name", key: "twitter:card", value: "summary" },
     { selector: 'meta[name="twitter:title"]', attr: "name", key: "twitter:title", value: p.title },
     { selector: 'meta[name="twitter:description"]', attr: "name", key: "twitter:description", value: p.description },
