@@ -40,9 +40,18 @@ describe("handleCanvasConnect", () => {
     expect(res.status).toBe(401);
   });
 
-  it("rejects a malformed domain (has protocol, has a path, or empty)", async () => {
+  it("accepts a pasted URL and keeps just the host", async () => {
     const c = await cookie("s@e.edu");
-    for (const domain of ["https://school.instructure.com", "school.instructure.com/", ""]) {
+    const e = env();
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response("{}", { status: 200 }));
+    const res = await handleCanvasConnect(req("https://example.com/api/canvas/connect", c, "POST", { domain: "  HTTPS://School.Instructure.com/courses/12?x=1 ", apiToken: "t" }), e);
+    expect(res.status).toBe(200);
+    expect((await res.json()).domain).toBe("school.instructure.com");
+  });
+
+  it("rejects a malformed domain (empty, no dot, spaces)", async () => {
+    const c = await cookie("s@e.edu");
+    for (const domain of ["", "localhost", "school instructure.com"]) {
       const res = await handleCanvasConnect(req("https://example.com/api/canvas/connect", c, "POST", { domain, apiToken: "t" }), env());
       expect(res.status).toBe(400);
     }

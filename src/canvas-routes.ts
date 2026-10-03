@@ -27,6 +27,14 @@ function isAllowedCanvasHost(domain: string, extra: string | undefined): boolean
   return suffixes.some(s => { const bare = s.replace(/^\./, ""); return d === bare || d.endsWith("." + bare); });
 }
 
+function normalizeCanvasDomain(raw: string): string {
+  let d = raw.trim().toLowerCase();
+  d = d.replace(/^[a-z][a-z0-9+.-]*:\/\//, "");   // protocol
+  d = d.split(/[/?#]/)[0] ?? "";                  // path, query, fragment
+  d = d.replace(/:\d+$/, "");                     // port
+  return d;
+}
+
 function isValidDomain(domain: unknown): domain is string {
   return typeof domain === "string" && domain.length > 0 && domain.length <= MAX_DOMAIN_LEN && DOMAIN_RE.test(domain);
 }
@@ -43,7 +51,8 @@ export async function handleCanvasConnect(request: Request, env: Env): Promise<R
     return json({ error: "Invalid JSON body" }, 400);
   }
   const rec = body && typeof body === "object" ? (body as Record<string, unknown>) : {};
-  const domain = rec.domain;
+  // Students paste whatever is in the address bar: accept a full URL and keep just the host.
+  const domain = typeof rec.domain === "string" ? normalizeCanvasDomain(rec.domain) : rec.domain;
   const apiToken = rec.apiToken;
 
   if (!isValidDomain(domain)) {
