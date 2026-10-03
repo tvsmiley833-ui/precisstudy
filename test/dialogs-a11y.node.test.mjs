@@ -170,3 +170,9 @@ test("secondary-page header styles are a static stylesheet, not injected by scri
   assert.ok(!/createElement\("style"\)/.test(read("../public/shared/site-header.js")));
   assert.match(read("../public/about/index.html"), /href="\/shared\/site-header\.css"/);
 });
+
+test("dashboard skeletons are sized to the student's classes, not one per guide", () => {
+  const d = read("../public/dashboard/index.html");
+  assert.match(d, /Math\.min\(6, Math\.max\(2, ssLocalProgressCount\(\)\)\)/);
+  assert.ok(!/SUBJECTS_CONFIG\.map\(function\(\)\{\s*return '<div class="ss-card" aria-hidden/.test(d));
+});

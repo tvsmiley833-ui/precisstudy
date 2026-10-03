@@ -1259,15 +1259,17 @@ function sbRestoreSavedConfig() {
 }
 
 // True when this browser holds saved practice for any guide (written by each guide's mastery module).
-function ssHasLocalProgress() {
+function ssLocalProgressCount() {
+  let n = 0;
   try {
     for (let i = 0; i < localStorage.length; i++) {
       const k = localStorage.key(i);
-      if (k && k.indexOf('ssMastery_') === 0 && localStorage.getItem(k) && localStorage.getItem(k) !== '{}') return true;
+      if (k && k.indexOf('ssMastery_') === 0 && localStorage.getItem(k) && localStorage.getItem(k) !== '{}') n++;
     }
   } catch (e) {}
-  return false;
+  return n;
 }
+function ssHasLocalProgress() { return ssLocalProgressCount() > 0; }
 
 function localFallback() {
   // Same keys/shape the shared module writes on each subject's page (same
@@ -1323,7 +1325,9 @@ function renderDashGreeting(session, blob) {
 
 function renderSkeletons() {
   const subjectsEl = document.getElementById('dash-subjects');
-  subjectsEl.innerHTML = SUBJECTS_CONFIG.map(function(){
+  // About as many placeholders as the student has classes with progress (not one per guide on the site).
+  const placeholders = Array.from({ length: Math.min(6, Math.max(2, ssLocalProgressCount())) });
+  subjectsEl.innerHTML = placeholders.map(function(){
     return '<div class="ss-card" aria-hidden="true">'
       + '<div class="skel-bar" style="width:140px;height:20px;margin-bottom:14px;"></div>'
       + '<div class="skel-bar" style="width:100%;height:10px;margin-bottom:10px;"></div>'
