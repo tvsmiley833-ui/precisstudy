@@ -57,9 +57,9 @@ function render() {
 
   const closet = ACCESSORIES.map((a) => {
     const ok = unlocked(a);
-    return `<button type="button" class="sage-acc${a.id === worn ? " on" : ""}" data-acc="${a.id}" ${ok ? "" : "disabled"}
+    return `<button type="button" class="sage-acc${a.id === worn ? " on" : ""}" data-acc="${a.id}" ${ok ? "" : 'aria-disabled="true"'}
       aria-pressed="${a.id === worn}" title="${esc(ok ? a.label : a.how)}">
-      ${owlSvg({ mood: "idle", acc: a.id, size: 40, label: "" })}<span>${esc(ok ? a.label : "Locked")}</span></button>`;
+      ${owlSvg({ mood: "idle", acc: a.id, size: 40, label: "" })}<span>${esc(ok ? a.label : "Locked")}</span>${ok ? "" : `<small class="sage-acc-how">${esc(a.how)}</small>`}</button>`;
   }).join("");
 
   mount.innerHTML = `<div class="sage-dash">
@@ -73,18 +73,21 @@ function render() {
     </div>
   </div>`;
 
-  mount.querySelectorAll(".sage-acc:not([disabled])").forEach((b) => b.addEventListener("click", () => {
+  mount.querySelectorAll(".sage-acc:not([aria-disabled])").forEach((b) => b.addEventListener("click", () => {
     const id = b.getAttribute("data-acc") || "";
     try { localStorage.setItem("sage-acc", id === worn ? "" : id); } catch (e) {}
     const open = /** @type {HTMLDetailsElement|null} */ (mount.querySelector(".sage-closet"))?.open;
     render();
     const d = /** @type {HTMLDetailsElement|null} */ (mount.querySelector(".sage-closet"));
     if (d && open) d.open = true;
+    const again = /** @type {HTMLElement|null} */ (mount.querySelector(`.sage-acc[data-acc="${id}"]`));
+    if (again) again.focus(); // the grid was rebuilt, so put focus back on the item just chosen
   }));
 }
 
 const st = document.createElement("style");
 st.textContent = OWL_CSS + `
+.sage-acc[aria-disabled]{opacity:.6;cursor:not-allowed}.sage-acc-how{display:block;font-size:11px;color:var(--text-muted)}
 .sage-dash{display:flex;gap:14px;align-items:flex-start;max-width:620px;margin:18px auto 0;text-align:left}
 .sage-dash-owl{flex-shrink:0}
 .sage-dash-body{flex:1;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:14px 16px}
@@ -95,7 +98,7 @@ st.textContent = OWL_CSS + `
 .sage-closet-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .sage-acc{display:flex;flex-direction:column;align-items:center;gap:2px;width:84px;padding:6px 4px;border-radius:12px;border:1.5px solid var(--border);background:transparent;color:var(--text);font:600 11.5px inherit;cursor:pointer}
 .sage-acc.on{border-color:var(--accent);background:color-mix(in oklab,var(--accent) 12%,transparent)}
-.sage-acc[disabled]{opacity:.45;cursor:not-allowed;filter:grayscale(1)}
+.sage-acc[disabled],.sage-acc[aria-disabled]{opacity:.45;cursor:not-allowed;filter:grayscale(1)}
 .sage-closet-note{margin:8px 0 0;font-size:12.5px;color:var(--text-muted)}
 `;
 document.head.appendChild(st);

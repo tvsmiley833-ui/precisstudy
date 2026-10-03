@@ -79,11 +79,14 @@ function launchConfetti(x, y) {
 export function celebrateCorrect(anchorEl) {
   comboCount++;
   chalkTap();
-  if (!prefersReducedMotion() && typeof document !== "undefined") {
-    const rect = anchorEl && anchorEl.getBoundingClientRect ? anchorEl.getBoundingClientRect() : null;
-    const x = rect ? rect.left + rect.width / 2 : window.innerWidth / 2;
-    const y = rect ? rect.top : window.innerHeight / 2;
-    launchConfetti(x, y);
+  if (typeof document !== "undefined") {
+    // Reduced motion skips only the confetti; the encouragement message is information, so it always shows.
+    if (!prefersReducedMotion()) {
+      const rect = anchorEl && anchorEl.getBoundingClientRect ? anchorEl.getBoundingClientRect() : null;
+      const x = rect ? rect.left + rect.width / 2 : window.innerWidth / 2;
+      const y = rect ? rect.top : window.innerHeight / 2;
+      launchConfetti(x, y);
+    }
     /** @type {Record<string, string>} */
     const milestones = MILESTONES;
     const msg = milestones[String(comboCount)] || (comboCount > 20 && comboCount % 10 === 0 ? comboCount + " in a row!" : null);

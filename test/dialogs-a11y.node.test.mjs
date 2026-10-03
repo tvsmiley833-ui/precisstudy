@@ -66,3 +66,17 @@ test("high contrast follows prefers-contrast when nothing is saved and syncs acr
   assert.match(js, /stored === null && !!\(window\.matchMedia && matchMedia\('\(prefers-contrast: more\)'\)/);
   assert.match(js, /addEventListener\('storage'/);
 });
+
+test("owl: decorative owls are hidden from screen readers, locked closet items are aria-disabled with visible hints", () => {
+  assert.match(read("../public/shared/owl.js"), /opts\.label \?\? "Sage the owl"/);
+  const d = read("../public/shared/sage-dashboard.js");
+  assert.match(d, /aria-disabled="true"/);
+  assert.match(d, /sage-acc-how/);
+  assert.match(d, /again\.focus\(\)/);
+});
+
+test("homepage animations and the streak message respect reduced motion correctly", () => {
+  assert.match(read("../public/index.html"), /prefers-reduced-motion:reduce\)\{\.ss-hero-anim\{opacity:1;animation:none\}/);
+  const c = read("../public/shared/celebrate.js");
+  assert.ok(c.indexOf("sageClap(msg)") > c.indexOf("launchConfetti(x, y)") && /if \(!prefersReducedMotion\(\)\) \{\s*const rect/.test(c));
+});

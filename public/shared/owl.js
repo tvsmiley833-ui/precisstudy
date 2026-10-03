@@ -116,11 +116,11 @@ export function wornAccessory() {
 export function owlSvg(opts = {}) {
   const mood = opts.mood || "idle";
   const size = opts.size || 120;
-  const label = opts.label || "Sage the owl";
+  const label = opts.label ?? "Sage the owl"; // "" marks a purely decorative owl
   const fid = "sage-chalk-" + (++uid);
   // Chalkboard look: brand-green fills, a cream chalk outline, chalk hatching
   // on the belly, all roughened slightly so edges read as drawn in chalk.
-  return `<svg class="sage sage-${mood}" viewBox="0 0 128 140" width="${size}" height="${Math.round(size * 140 / 128)}" role="img" aria-label="${label}" xmlns="http://www.w3.org/2000/svg">
+  return `<svg class="sage sage-${mood}" viewBox="0 0 128 140" width="${size}" height="${Math.round(size * 140 / 128)}" ${label ? `role="img" aria-label="${label}"` : 'aria-hidden="true"'} xmlns="http://www.w3.org/2000/svg">
   <defs>
     <radialGradient id="${fid}b" cx=".5" cy=".28" r=".85"><stop offset="0" stop-color="${C.bodyLight}"/><stop offset=".65" stop-color="${C.body}"/><stop offset="1" stop-color="${C.bodyDeep}"/></radialGradient>
     <linearGradient id="${fid}l" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${C.bellyLight}"/><stop offset="1" stop-color="${C.belly}"/></linearGradient>
