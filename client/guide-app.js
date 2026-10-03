@@ -286,8 +286,14 @@ function ssTypeset(el){
 
 // GUIDE
 const SEARCH_BADGE={concept:'Notes',flashcard:'Flashcard',quiz:'Quiz'};
+// Search compares text without case, accents or markup, so "esta" finds "está" and tags never match.
+function ssFold(s){return String(s==null?'':s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();}
+let ssSearchShowAll=false;
+function ssSearchMore(){ssSearchShowAll=true;searchGuide();}
 function searchGuide(){
-  const q=(document.getElementById('search-box').value||'').toLowerCase().trim();
+  const typed=(document.getElementById('search-box').value||'').trim();
+  if(typed!==searchGuide._last){ssSearchShowAll=false;searchGuide._last=typed;}
+  const q=ssFold(typed).trim();
   const sr=document.getElementById('search-results');
   document.querySelectorAll('.unit').forEach(u=>u.style.display='');
   document.getElementById('filter-row').style.display='';
@@ -296,30 +302,30 @@ function searchGuide(){
   const matches=[];
   UNITS.forEach(u=>{
     u.concepts.forEach((c,ci)=>{
-      const text=(c.l+' '+(c.intro||'')+' '+(c.b||[]).join(' ')).toLowerCase();
-      if(text.includes(q))matches.push({type:'concept',unit:u.id,unitName:u.name,concept:c.l,preview:(c.intro||c.b?.[0]||'').slice(0,120),conceptIdx:ci});
+      const text=ssFold(ssPlain(c.l+' '+(c.intro||'')+' '+(c.b||[]).join(' ')));
+      if(text.includes(q))matches.push({type:'concept',unit:u.id,unitName:u.name,concept:ssPlain(c.l),preview:ssPlain(c.intro||c.b?.[0]||'').slice(0,120),conceptIdx:ci});
     });
-    if(u.fms) u.fms.forEach(f=>{if(f.toLowerCase().includes(q))matches.push({type:'concept',unit:u.id,unitName:u.name,concept:'Formula',preview:f,isFormula:true});});
+    if(u.fms) u.fms.forEach(f=>{if(ssFold(ssPlain(f)).includes(q))matches.push({type:'concept',unit:u.id,unitName:u.name,concept:'Formula',preview:ssPlain(f),isFormula:true});});
   });
   const unitName=id=>{const u=UNITS.find(x=>x.id===id);return u?u.name:'Unit '+id;};
   (typeof FLASHCARDS!=='undefined'?FLASHCARDS:[]).forEach(f=>{
-    const text=(f.t+' '+f.d).toLowerCase();
-    if(text.includes(q))matches.push({type:'flashcard',unit:f.u,unitName:unitName(f.u),concept:f.t,preview:f.d.slice(0,120)});
+    const text=ssFold(ssPlain(f.t+' '+f.d));
+    if(text.includes(q))matches.push({type:'flashcard',unit:f.u,unitName:unitName(f.u),concept:ssPlain(f.t),preview:ssPlain(f.d).slice(0,120)});
   });
   (typeof QUIZ!=='undefined'?QUIZ:[]).forEach(qq=>{
-    const text=(qq.q+' '+(qq.o||[]).join(' ')).toLowerCase();
-    if(text.includes(q))matches.push({type:'quiz',unit:qq.u,unitName:unitName(qq.u),concept:'Quiz question',preview:qq.q.slice(0,120)});
+    const text=ssFold(ssPlain(qq.q+' '+(qq.o||[]).join(' ')));
+    if(text.includes(q))matches.push({type:'quiz',unit:qq.u,unitName:unitName(qq.u),concept:'Quiz question',preview:ssPlain(qq.q).slice(0,120)});
   });
   if(!matches.length){sr.style.display='block';sr.classList.add('show');const qEsc=q.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));sr.innerHTML='<div style="color:var(--ink-muted);font-size:14px;padding:8px">No results for "'+qEsc+'"</div>';if(_hl)_hl.textContent='No results for '+q;return;}
   sr.style.display='block';sr.classList.add('show');
   if(_hl)_hl.textContent=matches.length+' result'+(matches.length===1?'':'s')+' for '+q;
   const jump=m=>m.type==='concept'?`jumpToUnit(${m.unit},${m.conceptIdx!==undefined?m.conceptIdx:'null'},${!!m.isFormula})`:m.type==='flashcard'?`jumpToFlashcardUnit(${m.unit})`:`jumpToQuizUnit(${m.unit})`;
   sr.innerHTML='<div style="font-size:13px;color:var(--ink-muted);margin-bottom:6px">'+matches.length+' result(s)</div>'+
-    matches.slice(0,12).map(m=>`<button type="button" onclick="${jump(m)}" style="display:block;width:100%;text-align:left;font-family:inherit;padding:8px 12px;background:var(--surface);color:inherit;border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:5px;cursor:pointer;">
+    matches.slice(0,ssSearchShowAll?matches.length:12).map(m=>`<button type="button" onclick="${jump(m)}" style="display:block;width:100%;text-align:left;font-family:inherit;padding:8px 12px;background:var(--surface);color:inherit;border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:5px;cursor:pointer;">
       <span style="font-size:12px;font-weight:700;color:var(--ink-muted);text-transform:uppercase">${SEARCH_BADGE[m.type]} · Unit ${m.unit}: ${m.unitName}</span>
-      <div style="font-size:14px;font-weight:700;color:var(--ink);margin:2px 0">${m.concept}</div>
-      <div style="font-size:13px;color:var(--ink-dim)">${m.preview}…</div>
-    </button>`).join('');
+      <div style="font-size:14px;font-weight:700;color:var(--ink);margin:2px 0">${ssEscHtml(m.concept)}</div>
+      <div style="font-size:13px;color:var(--ink-dim)">${ssEscHtml(m.preview)}…</div>
+    </button>`).join('')+(matches.length>12&&!ssSearchShowAll?'<button type="button" class="btn" onclick="ssSearchMore()" style="margin-top:8px">Show all '+matches.length+'</button>':'');
 }
 function clearSearch(){document.getElementById('search-box').value='';searchGuide();}
 document.addEventListener('keydown',function(e){

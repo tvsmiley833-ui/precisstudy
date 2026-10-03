@@ -842,3 +842,12 @@ describe("unit check-yourself questions", () => {
     assert.equal(ssUnitCheckPick(bank, 9, 3, Math.random).length, 0);
   });
 });
+
+describe("guide search folding", () => {
+  const { ssFold } = loadGuide(["ssFold"], {});
+  test("ignores case and accents", () => {
+    assert.equal(ssFold("Está"), "esta");
+    assert.equal(ssFold("ÉCOLE"), "ecole");
+    assert.equal(ssFold(null), "");
+  });
+});
