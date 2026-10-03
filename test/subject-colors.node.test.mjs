@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
-const read = (p) => readFileSync(new URL(p, import.meta.url), "utf8");
+const read = (p) => readFileSync(new URL(p, import.meta.url), "utf8") + (p.endsWith("dashboard/index.html") ? readFileSync(new URL("../public/shared/dashboard-app.js", import.meta.url), "utf8") : "");
 const lum = (hex) => { const c = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255).map(v => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4)); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
 const whiteOn = (hex) => 1.05 / (lum(hex) + 0.05);
 
