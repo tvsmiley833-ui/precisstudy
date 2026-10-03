@@ -266,3 +266,9 @@ test("source and test files contain no raw control bytes (git would treat them a
     }
   }
 });
+
+test("signing out clears this site's saved progress and caches on every page that offers it", () => {
+  assert.match(read("../public/shared/local-data.js"), /ssMastery_/);
+  for (const f of ["../public/index.html", "../public/dashboard/index.html", "../public/about/index.html"]) assert.match(read(f), /ssClearLocalData\(\)/);
+  assert.match(read("../src/worker.ts"), /local-data\.js/);
+});

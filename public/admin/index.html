@@ -186,6 +186,7 @@ function ssToggleLoginPanel(){
 
 async function ssLogout(){
   try{ await fetch('/auth/logout', {method:'POST'}); }catch(e){}
+  if(window.ssClearLocalData)ssClearLocalData();
   SS_SESSION = false;
   ssRenderAccountUI();
 }
