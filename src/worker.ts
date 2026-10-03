@@ -233,7 +233,7 @@ const CSP = [
   // it. Low marginal risk here: 'unsafe-inline' below already lets any
   // injected <script> run directly, which is the more powerful primitive --
   // eval() adds little an attacker couldn't already do.
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google https://static.cloudflareinsights.com https://www.desmos.com https://cdn.jsdelivr.net",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google https://static.cloudflareinsights.com https://www.desmos.com https://cdn.jsdelivr.net/npm/mathjax@3.2.2/",
   "style-src 'self' 'unsafe-inline'",
   // data:: Desmos embeds its icon/math fonts as base64 data: URIs rather
   // than fetching them from a URL, so font-src needs to allow that scheme
