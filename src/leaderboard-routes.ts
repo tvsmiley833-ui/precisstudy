@@ -19,8 +19,27 @@ const HANDLE_NOUNS = ["Fox", "Owl", "Otter", "Falcon", "Panda", "Wolf", "Hawk", 
 export function generateHandle(): string {
   const adj = HANDLE_ADJECTIVES[Math.floor(Math.random() * HANDLE_ADJECTIVES.length)];
   const noun = HANDLE_NOUNS[Math.floor(Math.random() * HANDLE_NOUNS.length)];
-  const num = Math.floor(Math.random() * 90) + 10; // 10-99
+  const num = Math.floor(Math.random() * 900) + 100; // 100-999: 360,000 combinations
   return `${adj} ${noun} ${num}`;
+}
+
+/**
+ * A handle nobody else holds: reserved in KV under lbhandle:<handle>, with a few retries on a collision. Even 360,000
+ * combinations meet birthday collisions in the hundreds of students, and two students sharing a name on a board is confusing.
+ */
+export async function reserveHandle(env: { PROGRESS?: KVNamespace }, email: string): Promise<string> {
+  if (!env.PROGRESS) return generateHandle();
+  const owner = email.toLowerCase();
+  for (let i = 0; i < 6; i++) {
+    const h = generateHandle();
+    try {
+      const held = await env.PROGRESS.get("lbhandle:" + h);
+      if (held && held !== owner) continue;
+      await env.PROGRESS.put("lbhandle:" + h, owner);
+      return h;
+    } catch (e) { return h; }
+  }
+  return generateHandle() + Math.floor(Math.random() * 10); // vanishingly rare: all six tries collided
 }
 
 export function displayNameFor(lb: NonNullable<ProgressBlob["leaderboard"]>): string {
@@ -168,7 +187,7 @@ export async function handlePostOptIn(request: Request, env: Env): Promise<Respo
     return json({ ok: true, leaderboard: blob.leaderboard });
   }
 
-  const handle = blob.leaderboard?.handle || generateHandle();
+  const handle = blob.leaderboard?.handle || (await reserveHandle(env, session.email));
   blob.leaderboard = { optedIn: true, handle, nickname: blob.leaderboard?.nickname || null, groupCode: blob.leaderboard?.groupCode || null };
   await saveBlob(env, session.email, blob);
   await env.PROGRESS.put(LB_INDEX_PREFIX + session.email, "1"); // lets the leaderboard job read only opted-in students

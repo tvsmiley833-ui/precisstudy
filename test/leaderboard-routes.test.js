@@ -457,3 +457,14 @@ describe("group membership is one key per member (no lost joins)", () => {
     expect((await handlePostGroupJoin(post("/api/leaderboard/group/join", b, { code: "FULLGP" }), envWith(kv))).status).toBe(400);
   });
 });
+
+describe("unique handles", () => {
+  it("never gives two students the same handle while one is reserved", async () => {
+    const { reserveHandle } = await import("../src/leaderboard-routes.js");
+    const kv = fakeKV();
+    const seen = new Set();
+    for (let i = 0; i < 300; i++) seen.add(await reserveHandle({ PROGRESS: kv }, `s${i}@example.com`));
+    expect(seen.size).toBe(300);
+    for (const h of seen) expect(h).toMatch(/^[A-Z][a-z]+ [A-Z][a-z]+ \d{3}\d?$/);
+  });
+});

@@ -48,11 +48,12 @@ export async function deleteUserData(env: Env, sessionEmail: string): Promise<De
     const raw = await kv.get("progress:" + e);
     if (!raw) continue;
     try {
-      const blob = JSON.parse(raw) as { shareToken?: string; calendarToken?: string; inviteToken?: string; leaderboard?: { groupCode?: string | null } };
+      const blob = JSON.parse(raw) as { shareToken?: string; calendarToken?: string; inviteToken?: string; leaderboard?: { groupCode?: string | null; handle?: string } };
       if (blob.shareToken) reverseKeys.add("share:" + blob.shareToken);
       if (blob.calendarToken) reverseKeys.add("cal:" + blob.calendarToken);
       if (blob.inviteToken) reverseKeys.add("invite:" + blob.inviteToken);
       if (blob.leaderboard?.groupCode) groupCodes.add(blob.leaderboard.groupCode);
+      if (blob.leaderboard?.handle) reverseKeys.add("lbhandle:" + blob.leaderboard.handle); // free the name for someone else
     } catch (err) { /* unreadable blob: still delete it below */ }
   }
 

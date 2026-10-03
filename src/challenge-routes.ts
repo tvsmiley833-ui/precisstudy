@@ -1,6 +1,6 @@
 import { getSession } from "./auth.js";
 import { loadBlob, putBlob, SUBJECTS, type ProgressBlob } from "./progress-routes.js";
-import { generateHandle, displayNameFor } from "./leaderboard-routes.js";
+import { reserveHandle, displayNameFor } from "./leaderboard-routes.js";
 
 function json(body: unknown, status?: number): Response {
   return new Response(JSON.stringify(body), {
@@ -106,7 +106,7 @@ async function ensureHandle(env: Env, email: string): Promise<{ handle: string; 
   if (blob.leaderboard?.handle) {
     return { handle: blob.leaderboard.handle, nickname: blob.leaderboard.nickname || null };
   }
-  const handle = generateHandle();
+  const handle = await reserveHandle(env, email);
   blob.leaderboard = {
     optedIn: blob.leaderboard?.optedIn || false,
     handle,
