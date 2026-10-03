@@ -33,6 +33,8 @@
 
     function reportError(message, stack, filename, lineno, colno) {
       try {
+        // "Script error." is a cross-origin error the browser hides the details of: it tells us nothing and would use up the budget.
+        if (/^script error\.?$/i.test(String(message || '').trim())) return;
         if (errorCount >= MAX_ERROR_REPORTS) return;
         errorCount++;
         post({

@@ -329,3 +329,10 @@ test("every guide links a few related guides, never itself", async () => {
     for (const l of links) assert.ok(existsSync(new URL(`../public/${l}/index.html`, import.meta.url)), `${g} -> ${l} missing`);
   }
 });
+
+test("command palette ignores key-less/IME events and matches slugs; error monitor drops opaque 'Script error.'", () => {
+  const p = read("../public/shared/command-palette.js");
+  assert.match(p, /typeof e\.key !== 'string' \|\| e\.isComposing/);
+  assert.match(p, /String\(d\.h\)\.toLowerCase\(\)\.indexOf\(q\)/);
+  assert.match(read("../public/shared/error-monitor.js"), /script error/i);
+});

@@ -90,7 +90,7 @@
 
   function filterList() {
     var q = input.value.trim().toLowerCase();
-    filtered = !q ? DESTINATIONS : DESTINATIONS.filter(function (d) { return d.l.toLowerCase().indexOf(q) !== -1; });
+    filtered = !q ? DESTINATIONS : DESTINATIONS.filter(function (d) { return d.l.toLowerCase().indexOf(q) !== -1 || String(d.h).toLowerCase().indexOf(q) !== -1; });
     activeIdx = 0;
     render();
   }
@@ -113,6 +113,8 @@
   }
 
   document.addEventListener('keydown', function (e) {
+    // Some synthetic and IME events arrive without a key, or mid-composition: ignore them.
+    if (typeof e.key !== 'string' || e.isComposing) return;
     var isOpenShortcut = (e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k';
     if (isOpenShortcut) {
       e.preventDefault();
