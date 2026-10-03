@@ -342,3 +342,7 @@ test("syllabus class picker has no silent default and saves need a choice", () =
   assert.match(h, /<option value="">Choose a class…<\/option>/);
   assert.match(h, /Choose which class this is for first\./);
 });
+
+test("Settings explains what a Canvas token is and recommends an expiry", () => {
+  assert.match(read("../public/settings/index.html"), /works like a password[\s\S]{0,400}expiry date/);
+});
