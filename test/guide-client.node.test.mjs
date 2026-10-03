@@ -777,3 +777,25 @@ describe("guide headings", () => {
     assert.match(js, /<h3><span class="ex-part-btn"[^>]*role="button"/);
   });
 });
+
+describe("exam totals and timer announcements", () => {
+  function setup() {
+    const els = { "ex-score-box": { textContent: "" }, "ex-live": { textContent: "" } };
+    const globals = { document: { getElementById: (id) => els[id] || null }, PART_A: [{}, {}, {}], PART_B1: [{}], examScores: { A: 2 }, examAnswered: { A: { 1: true, 2: true } }, examPartMeta: () => ({ title: "Part A" }) };
+    const api = loadGuide(["ssExamUpdateTotal", "ssExamTimerSay"], { globals });
+    return { els, api };
+  }
+  test("the running total counts answered questions, not all of them", () => {
+    const { els, api } = setup();
+    api.ssExamUpdateTotal();
+    assert.equal(els["ex-score-box"].textContent, "Multiple choice so far: 2 of 2 answered correct (100%), 2 not yet answered.");
+  });
+  test("the clock is announced at 5 min, 1 min and time up only", () => {
+    const { els, api } = setup();
+    const say = (remaining, expired = false) => { api.ssExamTimerSay("A", { remaining, expired }); return els["ex-live"].textContent; };
+    assert.equal(say(301), "");
+    assert.equal(say(300), "Part A: 5 minutes left.");
+    assert.equal(say(60), "Part A: 1 minute left.");
+    assert.equal(say(0, true), "Part A: time is up.");
+  });
+});

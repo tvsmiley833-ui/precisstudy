@@ -54,7 +54,8 @@ v.innerHTML=`
 </div>
 <div class="ex-lockdown-warn" id="ex-lockdown-warn" style="display:none" role="status" aria-live="polite"></div>
 <div class="ex-lockdown-summary" id="ex-lockdown-summary" style="display:none"></div>
-<div id="ex-score-box" class="ex-score"></div>
+<div id="ex-score-box" class="ex-score" role="status"></div>
+<div id="ex-live" class="sr-only" role="status" aria-live="polite"></div>
 ${buildPartMC('A',PART_A)}
 ${buildPartMC('B1',PART_B1)}
 ${buildPartFR('B2',PART_B2)}
@@ -197,14 +198,39 @@ function startPartTimer(id){
   if(!t){t=examTimers[id]={remaining:meta.minutes*60,expired:false,intervalId:null};}
   if(t.expired||t.intervalId)return; // already ticking, or already ran out
   t.intervalId=setInterval(function(){
+    if(document.hidden)return; // a tab left in the background must not burn the student's time
     t.remaining--;
     if(t.remaining<=0){
       t.remaining=0;t.expired=true;
       clearInterval(t.intervalId);t.intervalId=null;
     }
+    ssExamTimerSay(id,t);
     renderPartTimer(id);
   },1000);
   renderPartTimer(id);
+}
+// Screen readers hear the clock only at the moments that matter, not every second.
+function ssExamTimerSay(id,t){
+  const live=document.getElementById('ex-live');
+  if(!live)return;
+  const label=(examPartMeta(id).title||('Part '+id));
+  if(t.expired)live.textContent=label+': time is up.';
+  else if(t.remaining===300)live.textContent=label+': 5 minutes left.';
+  else if(t.remaining===60)live.textContent=label+': 1 minute left.';
+}
+// Running total across every part, shown in #ex-score-box as questions are answered.
+function ssExamUpdateTotal(){
+  const box=document.getElementById('ex-score-box');
+  if(!box)return;
+  const pools={A:PART_A,B1:PART_B1};
+  let right=0,done=0,total=0;
+  Object.keys(pools).forEach(function(k){
+    total+=pools[k].length;right+=examScores[k]||0;
+    done+=Object.keys(examAnswered[k]||{}).length;
+  });
+  if(!done){box.textContent='';return;}
+  const pct=Math.round(right/done*100);
+  box.textContent='Multiple choice so far: '+right+' of '+done+' answered correct ('+pct+'%), '+(total-done)+' not yet answered.';
 }
 function renderPartTimer(id){
   const el=document.getElementById('timer-'+id);
@@ -244,6 +270,7 @@ const pool={A:PART_A,B1:PART_B1,B2:PART_B2,C:PART_C}[part];
 const scoreEl=document.getElementById('score-'+part);
 if(scoreEl)scoreEl.textContent=`Score: ${examScores[part]||0} / ${pool.length}`;
 examRecordUnit(pool.find(function(x){return x.n===qn;}),chosen===correct);
+ssExamUpdateTotal();
 }
 
 
