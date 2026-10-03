@@ -260,7 +260,7 @@ function renderRequests(requests){
       + '<div class="req-meta">' + formatDate(r.submittedAt) + '</div></div>'
       + '<div style="display:flex;gap:8px;align-items:center;">'
       + '<select class="req-status" data-status="' + status + '" aria-label="Status for ' + ssEscapeHtml(r.className) + '" onchange="updateRequestStatus(\'' + ssEscapeHtml(encodeURIComponent(r.key).replace(/'/g, '%27')) + '\', this)">' + statusOpts + '</select>'
-      + '<button class="req-delete" onclick="deleteRequest(\'' + ssEscapeHtml(encodeURIComponent(r.key).replace(/'/g, '%27')) + '\')">Delete</button>'
+      + '<button class="req-delete" onclick="deleteRequest(\'' + ssEscapeHtml(encodeURIComponent(r.key).replace(/'/g, '%27')) + '\', this)">Delete</button>'
       + '</div>'
       + '</div>'
       + (r.notes ? '<div class="req-notes">' + ssEscapeHtml(r.notes) + '</div>' : '')
@@ -298,7 +298,7 @@ function renderFeedback(feedback){
       + '<span class="req-meta">' + formatDate(f.submittedAt) + (f.page ? ' · ' + ssEscapeHtml(f.page) : '') + '</span></div>'
       + '<div style="display:flex;gap:8px;align-items:center;">'
       + '<select class="req-status fb-status" data-status="' + status + '" aria-label="Status" onchange="updateFeedbackStatus(\'' + ssEscapeHtml(encodeURIComponent(f.key).replace(/'/g, '%27')) + '\', this)">' + statusOpts + '</select>'
-      + '<button class="req-delete" onclick="deleteFeedback(\'' + ssEscapeHtml(encodeURIComponent(f.key).replace(/'/g, '%27')) + '\')">Delete</button>'
+      + '<button class="req-delete" onclick="deleteFeedback(\'' + ssEscapeHtml(encodeURIComponent(f.key).replace(/'/g, '%27')) + '\', this)">Delete</button>'
       + '</div>'
       + '</div>'
       + '<div class="fb-message">' + ssEscapeHtml(f.message) + '</div>'
@@ -335,11 +335,21 @@ async function updateFeedbackStatus(encodedKey, selectEl){
   selectEl.disabled = false;
 }
 
-async function deleteFeedback(encodedKey){
+// Two-step delete without a native dialog: the first click arms the button, a second within 4 s confirms.
+function ssConfirmTwice(btn, armedText) {
+  if (btn && btn.dataset.armed) { clearTimeout(btn._armT); delete btn.dataset.armed; btn.textContent = btn.dataset.label; return true; }
+  if (!btn) return true;
+  btn.dataset.label = btn.textContent; btn.dataset.armed = '1'; btn.textContent = armedText || 'Click again to delete';
+  btn._armT = setTimeout(function () { delete btn.dataset.armed; btn.textContent = btn.dataset.label; }, 4000);
+  return false;
+}
+async function deleteFeedback(encodedKey, btn){
+  if(!ssConfirmTwice(btn)) return;
   var row = document.querySelector('.fb-row[data-key="' + decodeURIComponent(encodedKey) + '"]');
   if(row) row.style.opacity = '0.5';
   try{
-    await fetch('/api/admin/feedback?key=' + encodedKey, { method: 'DELETE' });
+    var r1 = await fetch('/api/admin/feedback?key=' + encodedKey, { method: 'DELETE' });
+    if(!r1.ok) throw new Error('delete failed');
     await loadFeedback();
   }catch(e){
     if(row) row.style.opacity = '1';
@@ -399,11 +409,13 @@ async function updateRequestStatus(encodedKey, selectEl){
   selectEl.disabled = false;
 }
 
-async function deleteRequest(encodedKey){
+async function deleteRequest(encodedKey, btn){
+  if(!ssConfirmTwice(btn)) return;
   var row = document.querySelector('.req-row[data-key="' + decodeURIComponent(encodedKey) + '"]');
   if(row) row.style.opacity = '0.5';
   try{
-    await fetch('/api/admin/guide-requests?key=' + encodedKey, { method: 'DELETE' });
+    var r2 = await fetch('/api/admin/guide-requests?key=' + encodedKey, { method: 'DELETE' });
+    if(!r2.ok) throw new Error('delete failed');
     await loadRequests();
   }catch(e){
     if(row) row.style.opacity = '1';

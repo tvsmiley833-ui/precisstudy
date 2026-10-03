@@ -207,7 +207,7 @@ function renderDeckList(){
     btn.addEventListener('click', function(){ startStudy(btn.getAttribute('data-study')); });
   });
   el.querySelectorAll('[data-delete]').forEach(function(btn){
-    btn.addEventListener('click', function(){ deleteDeck(btn.getAttribute('data-delete')); });
+    btn.addEventListener('click', function(){ if (ssConfirmTwice(btn, 'Click again to delete')) deleteDeck(btn.getAttribute('data-delete')); });
   });
 }
 
@@ -221,12 +221,22 @@ async function loadDecks(){
   renderDeckList();
 }
 
+// Two-step delete without a native dialog: the first click arms the button, a second within 4 s confirms.
+function ssConfirmTwice(btn, armedText) {
+  if (btn && btn.dataset.armed) { clearTimeout(btn._armT); delete btn.dataset.armed; btn.textContent = btn.dataset.label; return true; }
+  if (!btn) return true;
+  btn.dataset.label = btn.textContent; btn.dataset.armed = '1'; btn.textContent = armedText || 'Click again to delete';
+  btn._armT = setTimeout(function () { delete btn.dataset.armed; btn.textContent = btn.dataset.label; }, 4000);
+  return false;
+}
 async function deleteDeck(id){
-  if(!confirm('Delete this deck? This cannot be undone.')) return;
+  var failed = false;
   try{
-    await fetch('/api/flashcards/delete', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ id: id }) });
-  }catch(e){ /* fall through to reload either way */ }
+    var res = await fetch('/api/flashcards/delete', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ id: id }) });
+    failed = !res.ok;
+  }catch(e){ failed = true; }
   await loadDecks();
+  if (failed) { var st = document.getElementById('fc-generate-status'); if (st) st.textContent = "Couldn't delete that deck. Try again."; }
 }
 
 document.getElementById('fc-new-btn').addEventListener('click', function(){

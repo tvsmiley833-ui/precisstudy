@@ -1277,6 +1277,41 @@ function printFlashcardSheet(){
   }).join('');
   ssRunPrintJob(SS_GUIDE.title+' — Flashcards Study Sheet',body);
 }
+// Small in-page replacements for alert/confirm/prompt: they work on phones, are themed, and can be read by screen readers.
+function ssToast(msg){
+  let el=document.getElementById('ss-toast');
+  if(!el){el=document.createElement('div');el.id='ss-toast';el.setAttribute('role','status');
+    el.style.cssText='position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%);max-width:min(420px,calc(100vw - 32px));padding:12px 16px;border-radius:12px;background:var(--surface,#fff);color:var(--ink,#111);border:1px solid var(--border-strong,#888);box-shadow:0 8px 24px rgba(0,0,0,.25);z-index:2000;font-size:14.5px';
+    document.body.appendChild(el);}
+  el.textContent=msg;el.style.display='block';
+  clearTimeout(ssToast._t);ssToast._t=setTimeout(function(){el.style.display='none';},6000);
+}
+// Resolves with the textarea's text (when withText) or true, and with null/false if dismissed.
+function ssDialog(opts){
+  return new Promise(function(resolve){
+    const d=document.createElement('dialog');
+    d.className='ss-dialog';
+    d.style.cssText='max-width:min(440px,calc(100vw - 32px));padding:20px;border:1px solid var(--border-strong,#888);border-radius:14px;background:var(--surface,#fff);color:var(--ink,#111)';
+    const h=document.createElement('p');h.style.cssText='margin:0 0 12px;font-weight:700';h.textContent=opts.message;d.appendChild(h);
+    let ta=null;
+    if(opts.withText){ta=document.createElement('textarea');ta.rows=3;ta.maxLength=500;ta.setAttribute('aria-label',opts.message);ta.style.cssText='width:100%;box-sizing:border-box;margin-bottom:12px;font:inherit';d.appendChild(ta);}
+    const row=document.createElement('div');row.style.cssText='display:flex;gap:8px;justify-content:flex-end';
+    const no=document.createElement('button');no.type='button';no.className='btn';no.textContent=opts.cancel||'Cancel';
+    const yes=document.createElement('button');yes.type='button';yes.className='btn';yes.textContent=opts.ok||'OK';
+    row.appendChild(no);row.appendChild(yes);d.appendChild(row);
+    let result=opts.withText?null:false;
+    no.onclick=function(){d.close();};
+    yes.onclick=function(){result=opts.withText?ta.value:true;d.close();};
+    d.addEventListener('close',function(){d.remove();resolve(result);});
+    document.body.appendChild(d);d.showModal();(ta||yes).focus();
+  });
+}
+// Share a link: the phone's share sheet when there is one, else the clipboard.
+async function ssShareLink(title,link){
+  if(navigator.share){try{await navigator.share({title:title,url:link});return;}catch(e){if(e&&e.name==='AbortError')return;}}
+  try{await navigator.clipboard.writeText(link);ssToast('Link copied: '+link);}
+  catch(e){ssToast('Copy this link: '+link);}
+}
 function printWorksheet(){
   // Print the unit chosen in the quiz picker, not the whole bank with its answer key.
   var picked=document.getElementById('q-sel'),only=picked&&/^\d+$/.test(picked.value)&&+picked.value>0?+picked.value:0;
@@ -1919,8 +1954,8 @@ function ansQ(i){
   const rep=document.createElement('button');
   rep.type='button';rep.id='q-report';rep.className='q-report';
   rep.textContent='Report a problem with this question';
-  rep.onclick=function(){
-    var why=prompt('What looks wrong with this question? (wrong answer, typo, unclear...)');
+  rep.onclick=async function(){
+    var why=await ssDialog({message:'What looks wrong with this question? (wrong answer, typo, unclear...)',withText:true,ok:'Send report'});
     if(why===null)return;
     rep.disabled=true;rep.textContent='Sending\u2026';
     fetch('/api/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
@@ -2945,12 +2980,12 @@ var ssChallengeCode=null;
 async function challengeFromQuiz(){
   if(SS_SESSION===undefined) await ssCheckSession();
   if(!SS_SESSION){
-    alert('Sign in to challenge a friend -- use the sign-in options in the Quiz tab.');
+    ssToast('Sign in to challenge a friend \u2014 use the sign-in options in the Quiz tab.');
     return;
   }
   var pool=(qPool||[]).filter(function(q){return QUIZ.indexOf(q)!==-1;});
   if(pool.length<5){
-    alert('Load a bigger question set first (try "All Units", or a unit with at least 5 questions) to start a challenge.');
+    ssToast('Load a bigger question set first (try "All Units", or a unit with at least 5 questions) to start a challenge.');
     return;
   }
   var shuffled=pool.slice();
@@ -2965,11 +3000,11 @@ async function challengeFromQuiz(){
       body:JSON.stringify({subjectKey:SS_SUBJECT_KEY,questionNumbers:questionNumbers})
     });
     var data=await res.json();
-    if(!res.ok){alert(data.error||'Could not create a challenge right now.');return;}
+    if(!res.ok){ssToast(data.error||'Could not create a challenge right now.');return;}
     var link=location.origin+location.pathname+'?challenge='+data.code;
-    prompt('Challenge created! Copy this link to share with a friend:',link);
+    ssShareLink('Challenge me on '+SS_GUIDE.title,link);
   }catch(e){
-    alert('Something went wrong creating the challenge.');
+    ssToast('Something went wrong creating the challenge.');
   }finally{
     if(btn)btn.disabled=false;
   }
@@ -3023,15 +3058,15 @@ async function ssFinishChallenge(){
   try{
     var res=await fetch('/api/challenge/'+code);
     var data=await res.json();
-    if(!res.ok){alert(data.error||'That challenge code was not found.');return;}
+    if(!res.ok){ssToast(data.error||'That challenge code was not found.');return;}
     if(data.subjectKey!==SS_SUBJECT_KEY){
-      if(confirm('This challenge is for a different subject. Open the Peer Challenge page instead?'))location.href='/challenge?challenge='+code;
+      if(await ssDialog({message:'This challenge is for a different subject. Open the Peer Challenge page instead?',ok:'Open it'}))location.href='/challenge?challenge='+code;
       return;
     }
     if(data.role==='none'){
       var claimRes=await fetch('/api/challenge/'+code+'/claim',{method:'POST'});
       var claimData=await claimRes.json();
-      if(!claimRes.ok){alert(claimData.error||'Could not join this challenge.');return;}
+      if(!claimRes.ok){ssToast(claimData.error||'Could not join this challenge.');return;}
       data.questionNumbers=claimData.questionNumbers;
       data.role='opponent';
     }

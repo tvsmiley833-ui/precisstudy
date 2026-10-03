@@ -127,3 +127,12 @@ test("tab titles come from SS_GUIDE.title in the Worker's form, never parsed fro
   assert.ok(!/BASE_TITLE\.replace/.test(js));
   assert.ok(!/document\.title\.replace\(/.test(js));
 });
+
+test("no native alert/prompt/confirm in the guide client; deletes need a second click and check the response", () => {
+  const js = read("../client/guide-app.js");
+  assert.ok(!/[^a-zA-Z.]((alert|prompt|confirm)\()/.test(js.replace(/\/\/[^\n]*/g, "")));
+  assert.match(js, /function ssShareLink\(/);
+  for (const f of ["../public/admin/index.html", "../public/flashcards/index.html"]) assert.match(read(f), /function ssConfirmTwice\(/);
+  assert.match(read("../public/admin/index.html"), /if\(!r1\.ok\) throw/);
+  assert.match(read("../public/flashcards/index.html"), /failed = !res\.ok/);
+});
