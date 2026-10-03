@@ -514,7 +514,7 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
     <button id="class-search-clear" type="button" aria-label="Clear search" onclick="ssClearClassSearch()" style="display:none;position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:20px;line-height:1;padding:4px;">×</button>
     <div id="search-dropdown" role="listbox" aria-label="Matching subjects"></div>
   </div>
-  <div id="no-match-msg" style="display:none;max-width:480px;margin:12px auto 0;font-size:13px;color:var(--text-muted);">No classes match your search yet — try a different name.</div>
+  <div id="no-match-msg" style="display:none;max-width:480px;margin:12px auto 0;font-size:13px;color:var(--text-muted);">No classes match your search yet. <a id="no-match-req" href="/request">Request this class &rarr;</a></div>
   <div id="category-pills" role="group" aria-label="Filter by category">
     <button type="button" class="cat-pill" aria-pressed="false" onclick="ssJumpToCategory('Math', this)">Math</button>
     <button type="button" class="cat-pill" aria-pressed="false" onclick="ssJumpToCategory('Science', this)">Science</button>
@@ -1188,13 +1188,36 @@ document.querySelectorAll('.cs-notify-form').forEach(function(form){
   update();
 })();
 
+/* Class search: match how students actually type ("algebra 2", "ap lang", "calc ab", "ap gov"). Both sides are
+   normalised (case, "&" -> "and", dots dropped, roman numerals -> digits); every typed word must be the start of a
+   word in the class name, after expanding common abbreviations. */
+var SS_ABBR = { gov: 'government', govt: 'government', lang: 'language', comp: 'composition', calc: 'calculus', bio: 'biology',
+  chem: 'chemistry', econ: 'economics', psych: 'psychology', stats: 'statistics', stat: 'statistics', env: 'environmental',
+  euro: 'european', hist: 'history', cs: 'computer science', csa: 'ap computer science a', usa: 'us', lit: 'literature' };
+var SS_ROMAN = { i: '1', ii: '2', iii: '3', iv: '4' };
+function ssSearchTokens(text, expand) {
+  var out = [];
+  String(text).toLowerCase().replace(/&/g, ' and ').replace(/\./g, '').split(/[^a-z0-9]+/).forEach(function(t) {
+    if (!t) return;
+    if (SS_ROMAN[t]) t = SS_ROMAN[t];
+    if (expand && SS_ABBR[t]) out.push.apply(out, SS_ABBR[t].split(' ')); else out.push(t);
+  });
+  return out;
+}
+function ssClassMatches(name, q) {
+  var want = ssSearchTokens(q, true);
+  if (!want.length) return true;
+  var have = ssSearchTokens(name, false);
+  return want.every(function(w) { return have.some(function(h) { return h.indexOf(w) === 0; }); });
+}
+
 function filterClasses(q) {
   q = q.trim().toLowerCase();
   var cards = document.querySelectorAll('.class-card');
   var visibleInSection = {};
   cards.forEach(function(c) {
     var name = (c.getAttribute('data-name') || '').toLowerCase();
-    var match = !q || name.indexOf(q) !== -1;
+    var match = !q || ssClassMatches(name, q);
     c.style.display = match ? '' : 'none';
     var section = c.closest('#classes-section, #coming-soon-section');
     if (section && match) visibleInSection[section.id] = true;
@@ -1204,6 +1227,8 @@ function filterClasses(q) {
     if (section) section.style.display = visibleInSection[id] ? '' : 'none';
   });
   var msg = document.getElementById('no-match-msg');
+  var req = document.getElementById('no-match-req');
+  if (req) req.href = '/request' + (q ? '?class=' + encodeURIComponent(q) : '');
   if (msg) msg.style.display = (!visibleInSection['classes-section'] && !visibleInSection['coming-soon-section']) ? 'block' : 'none';
 }
 
@@ -1219,8 +1244,9 @@ function ssUpdateSearchDropdown(q) {
   cards.forEach(function(c) {
     var name = c.getAttribute('data-name') || '';
     var lower = name.toLowerCase();
+    if (!ssClassMatches(name, q)) return;
     var idx = lower.indexOf(q);
-    if (idx === -1) return;
+    if (idx === -1) idx = 999;
     // Rank a match at the start of the name, or right after a space (a whole
     // word), above one buried mid-word -- otherwise incidental hits like
     // "Geography" containing "ap" outrank actual "AP ..." classes just by
@@ -1234,7 +1260,7 @@ function ssUpdateSearchDropdown(q) {
     return a.name.localeCompare(b.name);
   });
   if (!matches.length) {
-    dd.innerHTML = '<div class="search-dd-empty">No subjects found</div>';
+    dd.innerHTML = '<div class="search-dd-empty">No class found for \u201c' + ssEscapeHtml(q) + '\u201d</div><a class="search-dd-row" role="option" href="/request?class=' + encodeURIComponent(q) + '">Request \u201c' + ssEscapeHtml(q) + '\u201d \u2192</a>';
   } else {
     dd.innerHTML = matches.slice(0, 12).map(function(m) {
       return '<a class="search-dd-row" role="option" href="' + ssEscapeHtml(m.href) + '">' + ssEscapeHtml(m.name) + '</a>';

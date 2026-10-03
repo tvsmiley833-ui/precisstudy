@@ -113,6 +113,9 @@ body{transition:background .2s ease,color .2s ease}
 .today-plan .tp-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
 .today-plan .tp-label{font-size:12.5px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.06em}
 .today-plan .tp-head{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:24px;margin:2px 0 0;color:var(--text)}
+.today-plan .tp-set-form{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:14px}
+.today-plan .tp-set-form select{padding:6px 8px;border-radius:8px;border:1px solid var(--border);background:var(--bg-card);color:var(--text);font:inherit}
+.today-plan button.tp-set{background:none;border:1px solid var(--accent);border-radius:999px;padding:6px 12px;cursor:pointer;font-family:inherit}
 .today-plan .tp-set{font-weight:700;font-size:14px;color:var(--accent);text-decoration:none}
 .today-plan .tp-progress{display:flex;align-items:center;gap:12px;margin:14px 0 4px;font-size:13.5px;color:var(--text-muted);font-weight:600}
 .today-plan .tp-bar{flex:1;height:8px;border-radius:99px;background:var(--border);overflow:hidden}
@@ -1448,6 +1451,20 @@ async function loadDashAssignments(forceRefresh) {
 // student's weakest assessed unit plus a flashcard review -- with a live
 // countdown and a progress bar for questions answered today. Without a
 // saved goal it still names the weakest unit (the old focus banner).
+// Saves a study goal from the Today's plan picker (20 min/day; onboarding or Settings can change it).
+async function ssSaveTestGoal(e) {
+  e.preventDefault();
+  const form = e.target, btn = form.querySelector('button');
+  btn.disabled = true; btn.textContent = 'Saving…';
+  try {
+    const r = await fetch('/api/goal', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ days: Number(form.days.value), minutesPerDay: 20 }) });
+    if (!r.ok) throw new Error();
+    location.reload();
+  } catch (err) {
+    btn.disabled = false; btn.textContent = 'Couldn\u2019t save, try again';
+  }
+  return false;
+}
 function renderTodayPlan(subjects, blob) {
   const el = document.getElementById('dash-focus');
   if (!el) return;
@@ -1513,7 +1530,7 @@ function renderTodayPlan(subjects, blob) {
   el.innerHTML = '<section class="ss-card today-plan" aria-labelledby="tp-h">'
     + '<div class="tp-top"><div><div class="tp-label">Today\'s plan' + (goal ? ' · ' + goal.minutesPerDay + ' min' : '') + '</div>'
     + '<h2 id="tp-h" class="tp-head">' + ssEscapeHtml(head) + '</h2></div>'
-    + (goal ? '' : '<a class="tp-set" href="/onboarding">Set a test date</a>') + '</div>'
+    + (goal ? '' : '<form class="tp-set-form" onsubmit="return ssSaveTestGoal(event)"><label for="tp-days">My test is</label> <select id="tp-days" name="days"><option value="7">this week</option><option value="14">in 2 weeks</option><option value="30" selected>in a month</option><option value="90">later this year</option></select> <button class="tp-set" type="submit">Plan my study</button></form>') + '</div>'
     + progress
     + '<ol class="tp-tasks">' + tasks.map(t => '<li><a href="' + ssEscapeHtml(t.href) + '"><span><b>' + ssEscapeHtml(t.title) + '</b><small>' + ssEscapeHtml(t.sub) + '</small></span>' + ICON + '</a></li>').join('') + '</ol>'
     + '</section>';

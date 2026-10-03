@@ -235,6 +235,11 @@ function ssToggleTheme(){
 </script>
 
 <script>
+(function () {
+  var q = new URLSearchParams(location.search).get('class');
+  var f = document.getElementById('rg-class');
+  if (q && f && !f.value) f.value = q.slice(0, 120);
+})();
 var RG_MAX_FILES = 3, RG_MAX_FILE_SIZE = 6*1024*1024, RG_MAX_TOTAL = 15*1024*1024;
 
 function rgFormatBytes(n){
