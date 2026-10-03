@@ -62,6 +62,7 @@ ${buildPartFR('C',PART_C)}
 `;
 // open Part A by default
 togglePart('A');
+ssTypeset(v);
 }
 
 // Exam-condition lockdown mode: purely opt-in UX layered on top of the
@@ -115,11 +116,11 @@ qs.forEach(ssShuffleOptions);
 const items=qs.map(q=>`
 <div class="ex-q" id="exq-${id}-${q.n}">
   <div class="ex-qnum">Question ${q.n}</div>
-  <div class="ex-qtext">${q.q}</div>
+  <div class="ex-qtext">${ssFixLt(q.q)}</div>
   <div class="ex-opts">
-    ${q.o.map((opt,i)=>`<button class="ex-opt" onclick="ansExam('${id}',${q.n},${i},${q.a})">(${i+1}) ${opt}</button>`).join('')}
+    ${q.o.map((opt,i)=>`<button class="ex-opt" onclick="ansExam('${id}',${q.n},${i},${q.a})">(${i+1}) ${ssFixLt(opt)}</button>`).join('')}
   </div>
-  <div class="ex-exp" id="exp-${id}-${q.n}">${q.e}</div>
+  <div class="ex-exp" id="exp-${id}-${q.n}">${ssFixLt(q.e)}</div>
 </div>`).join('');
 return `<div class="ex-part" id="ex-part-${id}">
 <div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
@@ -139,17 +140,17 @@ qs.forEach(function(q){if(q.sa===undefined)ssShuffleOptions(q);});
 const items=qs.map(q=>q.sa!==undefined?`
 <div class="ex-q">
   <div class="ex-qnum">Question ${q.n}</div>
-  <div class="ex-qtext">${q.q}</div>
+  <div class="ex-qtext">${ssFixLt(q.q)}</div>
   <button class="ex-opt" style="background:var(--surface-2);text-align:left" onclick="toggleSA(this)">▶ Show Model Answer</button>
   <div class="ex-sa" style="display:none"><strong>Model Answer</strong>${q.sa.replace(/\n/g,'<br>')}</div>
 </div>`:`
 <div class="ex-q" id="exq-${id}-${q.n}">
   <div class="ex-qnum">Question ${q.n}</div>
-  <div class="ex-qtext">${q.q}</div>
+  <div class="ex-qtext">${ssFixLt(q.q)}</div>
   <div class="ex-opts">
-    ${q.o.map((opt,i)=>`<button class="ex-opt" onclick="ansExam('${id}',${q.n},${i},${q.a})">(${i+1}) ${opt}</button>`).join('')}
+    ${q.o.map((opt,i)=>`<button class="ex-opt" onclick="ansExam('${id}',${q.n},${i},${q.a})">(${i+1}) ${ssFixLt(opt)}</button>`).join('')}
   </div>
-  <div class="ex-exp" id="exp-${id}-${q.n}">${q.e}</div>
+  <div class="ex-exp" id="exp-${id}-${q.n}">${ssFixLt(q.e)}</div>
 </div>`).join('');
 const allMC=qs.every(q=>q.sa===undefined);
 const rightMeta=allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`;
@@ -238,13 +239,12 @@ examRecordUnit(pool.find(function(x){return x.n===qn;}),chosen===correct);
 }
 
 
-// simple helper: re-typeset any $...$/$$...$$ math MathJax may find in
-// freshly-injected DOM. Existing guide content doesn't use LaTeX delimiters
-// yet (a follow-up content pass would be needed for this to visibly do
-// anything) — this just wires the rendering pipeline up for when it does.
+// Re-typeset $...$ / $$...$$ math in freshly injected DOM. Guides in algebra, precalculus, physics, chemistry and
+// statistics use LaTeX in quiz options, explanations, flashcards, worked steps and the exam, so every place that
+// writes content after page load must call this (the startup pass only covers what is already in the page).
 function ssTypeset(el){
   if(window.MathJax&&window.MathJax.typesetPromise){
-    try{window.MathJax.typesetPromise(el?[el]:undefined);}catch(e){}
+    try{return window.MathJax.typesetPromise(el?[el]:undefined);}catch(e){}
   }
 }
 
@@ -336,6 +336,9 @@ async function jumpToQuizUnit(id){
 }
 // Smooth scrolling unless the student has asked their device for reduced motion (CSS alone can't
 // override an explicit scroll behavior passed from script).
+// Guide text is inserted as HTML, so a literal "<" followed by a letter (ArrayList<Integer>, i<arr.length) would be
+// parsed as a tag and vanish. Escape any "<" that does not start one of the tags the content really uses.
+function ssFixLt(s){return String(s==null?'':s).replace(/<(?!\/?(?:b|i|em|strong|sup|sub|br|code|span|u|small|a|p|ul|li|ol|div|table|tr|td|th|thead|tbody|pre|mark|kbd|abbr|hr|img|svg|path|g|circle|line|rect|text|tspan|polygon|polyline|ellipse|defs|marker|style|h3|h4|details|summary|figure|figcaption)(?=[\s/>]))(?=[A-Za-z])/gi,'&lt;');}
 function ssScrollBehavior(){
   try{return window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth';}catch(e){return 'smooth';}
 }
@@ -768,14 +771,14 @@ function buildGuide(){
     const body=document.createElement('div');body.className='unit-body';
     u.concepts.forEach((c,ci)=>{
       const cd=document.createElement('div');cd.className='concept';cd.dataset.idx=ci;
-      let h=`<div class="c-label">${c.l}</div>`;
-      if(c.intro)h+=`<div class="c-text">${c.intro}</div>`;
-      if(c.b&&c.b.length){h+='<ul class="c-list">';c.b.forEach(item=>h+=`<li>${item}</li>`);h+='</ul>';}
+      let h=`<div class="c-label">${ssFixLt(c.l)}</div>`;
+      if(c.intro)h+=`<div class="c-text">${ssFixLt(c.intro)}</div>`;
+      if(c.b&&c.b.length){h+='<ul class="c-list">';c.b.forEach(item=>h+=`<li>${ssFixLt(item)}</li>`);h+='</ul>';}
       if(c.figs&&c.figs.length)c.figs.forEach(f=>{h+=`<div class="diagram c-fig"><div class="dlabel">${f.label||'Graph'}</div>${ssLabelSvg(f.svg,f.cap)}<p class="dcap">${f.cap}</p></div>`;});
       cd.innerHTML=h;body.appendChild(cd);
     });
     if(u.traps&&u.traps.length){u.traps.forEach(t=>{const td=document.createElement('div');td.className='trap';td.textContent=t;body.appendChild(td);});}
-    if(u.fms&&u.fms.length){const fd=document.createElement('div');fd.className='formula';fd.innerHTML=u.fms.join('<br>');body.appendChild(fd);}
+    if(u.fms&&u.fms.length){const fd=document.createElement('div');fd.className='formula';fd.innerHTML=u.fms.map(ssFixLt).join('<br>');body.appendChild(fd);}
     if(DIAGRAMS&&DIAGRAMS[u.id]){const dd=document.createElement('div');dd.className='diagram';dd.innerHTML=`<div class="dlabel">Diagram</div>${ssLabelSvg(DIAGRAMS[u.id].svg,DIAGRAMS[u.id].cap)}<p class="dcap">${DIAGRAMS[u.id].cap}</p>`;body.appendChild(dd);}
     div.appendChild(hd);div.appendChild(body);ul.appendChild(div);
   });
@@ -1052,6 +1055,7 @@ function showFC(){
     if(input){input.value='';input.disabled=false;setTimeout(()=>input.focus(),0);}
     if(fb){fb.textContent='';fb.className='fc-type-feedback';}
   }
+  ssTypeset(isType&&typeRow?typeRow:scene);
 }
 function flip(){document.getElementById('scene').classList.toggle('flipped');}
 function fcNav(d){const deck=getActiveDeck();if(!deck.length)return;fcIdx=(fcIdx+d+deck.length)%deck.length;showFC();}
@@ -1089,7 +1093,12 @@ function ssRunPrintJob(title,bodyHtml){
     window.removeEventListener('afterprint',cleanup);
   }
   window.addEventListener('afterprint',cleanup);
-  setTimeout(function(){window.print();},50);
+  var go=function(){window.print();};
+  if(window.MathJax&&window.MathJax.typesetPromise){
+    // Wait for math to render so the printout shows equations, not raw $...$ source.
+    try{window.MathJax.typesetPromise([container]).then(function(){setTimeout(go,50);},function(){setTimeout(go,50);});}
+    catch(e){setTimeout(go,50);}
+  }else setTimeout(go,50);
 }
 function printFlashcardSheet(){
   var byUnit={};
@@ -1180,10 +1189,10 @@ function buildExamples(){
 function revealStep(id){
   const w=ex2map[id];const c=document.getElementById('ex2s-'+id);let n=ex2shown[id]||0;
   if(n<w.steps.length){
-    const d=document.createElement('div');d.className='ex2-step';d.innerHTML='<span>'+(n+1)+'</span><div>'+w.steps[n]+'</div>';c.appendChild(d);
+    const d=document.createElement('div');d.className='ex2-step';d.innerHTML='<span>'+(n+1)+'</span><div>'+w.steps[n]+'</div>';c.appendChild(d);ssTypeset(d);
     n++;ex2shown[id]=n;
     if(n===w.steps.length){
-      const a=document.createElement('div');a.className='ex2-answer';a.innerHTML='✓ '+w.answer;c.appendChild(a);
+      const a=document.createElement('div');a.className='ex2-answer';a.innerHTML='✓ '+w.answer;c.appendChild(a);ssTypeset(a);
       const btn=document.querySelector('.ex2-card[data-id="'+id+'"] .ex2-reveal');if(btn)btn.style.display='none';
     }
   }
@@ -1529,7 +1538,7 @@ function showQ(){
   const STAR_OUTLINE='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
   const STAR_FILLED='<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2.5 15.09 9.26 22 10.27 17 15.14 18.18 22 12 18.56 5.82 22 7 15.14 2 10.27 8.91 9.26"/></svg>';
   const diffPill=q.d?`<span class="q-diff q-diff-${q.d}">${q.d}</span>`:'';
-  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${q.q}</div>${diffPill}`+
+  let h=`<div class="q-block"><div class="q-block-hd"><div class="q-text">${ssFixLt(q.q)}</div>${diffPill}`+
     `<button type="button" class="q-bookmark${bookmarked?' on':''}" id="q-bookmark" onclick="toggleQBookmark()" aria-label="${bookmarked?'Remove bookmark':'Bookmark this question'}" aria-pressed="${bookmarked}">${bookmarked?STAR_FILLED:STAR_OUTLINE}</button></div>`+
     (q.fig?`<figure class="q-fig">${q.fig}</figure>`:'')+
     (q.topic?`<div class="q-topic">${q.topic}</div>`:'')+
@@ -1540,8 +1549,8 @@ function showQ(){
   q.o.forEach((opt,i)=>h+=`<button class="q-opt" onclick="ansQ(${i})">`+
     `<svg class="q-opt-icon icon-correct" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`+
     `<svg class="q-opt-icon icon-wrong" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`+
-    `<span>${opt}</span></button>`);
-  h+=`</div><div class="q-exp" id="q-exp">${q.e}</div><button class="q-next show" id="q-next" onclick="nextQ()" style="display:none">Next →</button></div>`;
+    `<span>${ssFixLt(opt)}</span></button>`);
+  h+=`</div><div class="q-exp" id="q-exp">${ssFixLt(q.e)}</div><button class="q-next show" id="q-next" onclick="nextQ()" style="display:none">Next →</button></div>`;
   qb.innerHTML=h;
   ssTypeset(qb);
 }
@@ -1638,12 +1647,13 @@ function ansQ(i){
     const hd=document.createElement('div');
     hd.className='q-why-hd';
     hd.innerHTML=i===q.a?'<p><b>Correct!</b> Here\u2019s why:</p>':'<p><b>Not quite.</b> The answer is <b></b>. Here\u2019s why:</p>';
-    if(i!==q.a)hd.querySelectorAll('b')[1].innerHTML=q.o[q.a]; // same trusted markup the option buttons render
+    if(i!==q.a)hd.querySelectorAll('b')[1].innerHTML=ssFixLt(q.o[q.a]); // same trusted markup the option buttons render
     expEl.prepend(hd);
   }
   if(wasGuess){
     expEl.innerHTML=(i===q.a?'<b class="guess-flag">Lucky guess — added back for more practice.</b><br>':'<b class="guess-flag">Marked as a guess.</b><br>')+expEl.innerHTML;
   }
+  ssTypeset(expEl); // the "answer is …" heading was just filled in, so typeset again
   // The static q.e explanation only ever covers why the correct answer is
   // right, not why the specific wrong choice a student picked is wrong --
   // that's a different explanation for every possible wrong option, not

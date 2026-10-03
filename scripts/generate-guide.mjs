@@ -38,6 +38,11 @@ const esc = (s) => String(s)
 
 const js = (v) => JSON.stringify(v);
 
+// Guide text goes into the page as HTML (and the client does the same with ssFixLt in client/guide-app.js): a literal "<"
+// followed by a letter that is not one of the tags the content uses (ArrayList<Integer>, i<arr.length) must be escaped,
+// or the browser treats it as a tag and drops it.
+export const fixLt = (s) => String(s ?? "").replace(/<(?!\/?(?:b|i|em|strong|sup|sub|br|code|span|u|small|a|p|ul|li|ol|div|table|tr|td|th|thead|tbody|pre|mark|kbd|abbr|hr|img|svg|path|g|circle|line|rect|text|tspan|polygon|polyline|ellipse|defs|marker|style|h3|h4|details|summary|figure|figcaption)(?=[\s/>]))(?=[A-Za-z])/gi, "&lt;");
+
 function buildQref(units) {
   return units.map(u => {
     const cards = u.concepts.map(c =>
@@ -66,9 +71,9 @@ export function labelSvg(svg, cap) {
 function buildUnitsStatic(units, diagrams) {
   return units.map(u => {
     let body = u.concepts.map((c, ci) => {
-      let h = `<div class="c-label">${c.l}</div>`;
-      if (c.intro) h += `<div class="c-text">${c.intro}</div>`;
-      if (c.b && c.b.length) h += `<ul class="c-list">${c.b.map(i => `<li>${i}</li>`).join("")}</ul>`;
+      let h = `<div class="c-label">${fixLt(c.l)}</div>`;
+      if (c.intro) h += `<div class="c-text">${fixLt(c.intro)}</div>`;
+      if (c.b && c.b.length) h += `<ul class="c-list">${c.b.map(i => `<li>${fixLt(i)}</li>`).join("")}</ul>`;
       // Optional graphs/diagrams that belong to this concept (see physics.json).
       if (c.figs && c.figs.length) h += c.figs.map(f => `<div class="diagram c-fig"><div class="dlabel">${f.label || "Graph"}</div>${labelSvg(f.svg, f.cap)}<p class="dcap">${f.cap}</p></div>`).join("");
       return `<div class="concept" data-idx="${ci}">${h}</div>`;
@@ -76,7 +81,7 @@ function buildUnitsStatic(units, diagrams) {
     if (u.traps && u.traps.length)
       body += u.traps.map(t => `<div class="trap">${esc(t)}</div>`).join("");
     if (u.fms && u.fms.length)
-      body += `<div class="formula">${u.fms.join("<br>")}</div>`;
+      body += `<div class="formula">${u.fms.map(fixLt).join("<br>")}</div>`;
     if (diagrams && diagrams[u.id])
       body += `<div class="diagram"><div class="dlabel">Diagram</div>${labelSvg(diagrams[u.id].svg, diagrams[u.id].cap)}<p class="dcap">${diagrams[u.id].cap}</p></div>`;
     // Rough study-time estimate: ~3 min per concept, plus a couple minutes

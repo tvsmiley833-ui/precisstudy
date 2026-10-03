@@ -88,3 +88,28 @@ test("labelSvg leaves an already-labelled svg alone and escapes quotes", () => {
   assert.equal(labelSvg(own, "cap"), own);
   assert.ok(labelSvg("<svg></svg>", 'say "hi"').includes('aria-label="say &quot;hi&quot;"'));
 });
+
+// Literal "<" in guide text (ArrayList<Integer>, i<arr.length) was parsed as an HTML tag and vanished.
+test("a literal '<' before a letter is escaped in concept text, but real tags are kept", () => {
+  const g = base();
+  g.units[0].concepts = [{ l: "Generics", intro: "Use <b>ArrayList<Integer></b> for boxed ints", b: ["Loop: for (int i=0; i<arr.length; i++)", "x < y and 2 < n stay readable", "H<sub>2</sub>O"] }];
+  const html = generateGuide(g);
+  const units = html.slice(html.indexOf('<div class="concept"'));
+  assert.ok(units.includes("ArrayList&lt;Integer>"), "generic type survives");
+  assert.ok(units.includes("i&lt;arr.length"), "loop bound survives");
+  assert.ok(units.includes("<b>ArrayList"), "<b> is still a real tag");
+  assert.ok(units.includes("H<sub>2</sub>O"), "<sub> is still a real tag");
+  assert.ok(!/<li>[^<]*ArrayList<Integer/.test(units));
+});
+
+test("client ssFixLt matches the generator's escaping", async () => {
+  const { fixLt } = await import("../scripts/generate-guide.mjs");
+  const { loadGuide } = await import("./helpers/guide-fns.mjs");
+  const ssFixLt = loadGuide(["ssFixLt"]).ssFixLt;
+  for (const s of ["ArrayList<Integer>", "i<arr.length", "a < b", "<b>bold</b>", "H<sub>2</sub>O", "x<y", "0<b<1", "x<a;", "0<p<1", "line 1<br/>line 2", "", null]) {
+    assert.equal(ssFixLt(s), fixLt(s), JSON.stringify(s));
+  }
+  assert.equal(ssFixLt("Map<String, List<Integer>>"), "Map&lt;String, List&lt;Integer>>");
+  assert.equal(ssFixLt("if 0<b<1 then"), "if 0&lt;b<1 then");
+  assert.equal(ssFixLt("a<br/>b and <a href=\"x\">y</a>"), "a<br/>b and <a href=\"x\">y</a>");
+});

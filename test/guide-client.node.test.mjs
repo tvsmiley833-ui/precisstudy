@@ -2,7 +2,7 @@
 // out of the shipped file (see helpers/guide-fns.mjs) and run with stubbed browser globals.
 import { test, describe } from "node:test";
 import assert from "node:assert/strict";
-import { loadGuide } from "./helpers/guide-fns.mjs";
+import { loadGuide, extract } from "./helpers/guide-fns.mjs";
 
 // ───────────────────────────── study plan (.ics) ─────────────────────────────
 describe("study plan calendar export", () => {
@@ -527,4 +527,24 @@ describe("accessibility helpers", () => {
     assert.equal(reduced(), "auto");
     assert.equal(broken(), "smooth", "no matchMedia: keep the default");
   });
+});
+
+// Math (LaTeX in $...$) appears in quiz options/explanations, flashcards, worked steps and the exam. MathJax only
+// typesets what is in the page at startup, so every function that writes content later must re-typeset it.
+describe("math typesetting of content written after page load", () => {
+  test("ssTypeset hands the element to MathJax and is a no-op without it", () => {
+    const calls = [];
+    const el = { id: "x" };
+    const withMj = loadGuide(["ssTypeset"], { globals: { window: { MathJax: { typesetPromise: (a) => { calls.push(a); return Promise.resolve(); } } } } }).ssTypeset;
+    withMj(el);
+    assert.deepEqual(calls, [[el]]);
+    const without = loadGuide(["ssTypeset"], { globals: { window: {} } }).ssTypeset;
+    assert.doesNotThrow(() => without(el));
+  });
+
+  for (const fn of ["buildExam", "showFC", "revealStep", "ansQ", "buildExamples", "ssRunPrintJob"]) {
+    test(`${fn}() re-typesets the content it writes`, () => {
+      assert.match(extract(fn), /ssTypeset\(|typesetPromise/, `${fn} writes math-bearing content but never typesets it`);
+    });
+  }
 });
