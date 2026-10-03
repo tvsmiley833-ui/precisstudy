@@ -71,9 +71,19 @@
     else document.documentElement.removeAttribute('data-contrast');
   }
 
+  // An explicit choice (high or normal) wins; with none saved, follow the device's "more contrast" setting.
   var saved;
-  try { saved = localStorage.getItem(KEY) === 'high'; } catch (e) { saved = false; }
+  try {
+    var stored = localStorage.getItem(KEY);
+    saved = stored === 'high' || (stored === null && !!(window.matchMedia && matchMedia('(prefers-contrast: more)').matches));
+  } catch (e) { saved = false; }
   apply(saved);
+
+  // Keep other open tabs in step when the setting changes in Settings.
+  window.addEventListener('storage', function (e) {
+    if (e.key === KEY) apply(e.newValue === 'high');
+    else if (e.key === AMOLED_KEY) applyAmoled(e.newValue === 'on');
+  });
 
   window.ssIsHighContrast = function () {
     return document.documentElement.getAttribute('data-contrast') === 'high';

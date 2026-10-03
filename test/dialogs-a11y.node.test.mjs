@@ -60,3 +60,9 @@ test("quiz clock starts when the first question shows, and Quick 10 is rebuilt w
   assert.match(js, /qSessionStart===null\)qSessionStart=Date\.now\(\)/);
   assert.match(js, /id==='quiz'&&!ssQuickRebuilt/);
 });
+
+test("high contrast follows prefers-contrast when nothing is saved and syncs across tabs", () => {
+  const js = read("../public/shared/high-contrast.js");
+  assert.match(js, /stored === null && !!\(window\.matchMedia && matchMedia\('\(prefers-contrast: more\)'\)/);
+  assert.match(js, /addEventListener\('storage'/);
+});
