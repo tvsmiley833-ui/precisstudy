@@ -1,9 +1,10 @@
-// Shared abuse limits: strongly consistent native rate limits, daily quotas for the routes that cost money (Workers AI),
-// and a cheap request-size check that runs before a body is buffered.
+// Shared abuse limits: native rate limits (a speed bump against floods), daily quotas for the routes that cost money
+// (Workers AI, the hard ceiling), and a cheap request-size check that runs before a body is buffered.
 //
-// The older KV-based limiter in auth.ts is eventually consistent, so a fast burst can slip past it. The native limiter
-// (wrangler.jsonc "ratelimits") is consistent within a data centre; every helper here treats a missing binding as
-// "allowed" so local runs and tests without the bindings keep working.
+// Measured against production: Cloudflare's native rate limiter is approximate and per location. A 300-request parallel burst
+// against a "20 per 60 s" limit saw about a third refused, and a slow trickle is never limited. So it blunts floods but is not
+// a meter; the per-IP and per-user daily quotas below are what actually cap AI spend. Every helper treats a missing binding
+// as "allowed" so local runs and tests without the bindings keep working.
 
 /** True when the request is allowed. */
 export async function allowedBy(limiter: RateLimit | undefined, key: string): Promise<boolean> {
