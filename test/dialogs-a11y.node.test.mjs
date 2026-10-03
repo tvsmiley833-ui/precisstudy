@@ -256,3 +256,13 @@ test("guide pages: every <script> opens and closes once, so no content can end a
     assert.ok(!/<!--\s*<script/i.test(html), g);
   }
 });
+
+test("source and test files contain no raw control bytes (git would treat them as binary)", async () => {
+  const { readdirSync } = await import("node:fs");
+  for (const dir of ["../src/", "../test/"]) {
+    for (const f of readdirSync(new URL(dir, import.meta.url)).filter(n => /\.(ts|js|mjs)$/.test(n))) {
+      const bytes = readFileSync(new URL(dir + f, import.meta.url));
+      assert.ok(!bytes.some(b => b < 9 || (b > 13 && b < 32)), `${dir}${f} has a raw control byte`);
+    }
+  }
+});
