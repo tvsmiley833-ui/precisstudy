@@ -23,3 +23,20 @@ test("study helper is a labelled dialog with a live log, a labelled input, Esc a
   assert.match(js, /function cbotKeydown\(e\)\{if\(e\.key==='Escape'\)/);
   assert.match(js, /cbotReturnFocus\.focus\(\)/);
 });
+
+test("request page file input is reachable by keyboard and remove buttons name their file", () => {
+  const html = read("../public/request/index.html");
+  assert.ok(!/input\[type="file"\]\{display:none\}/.test(html));
+  assert.match(html, /input\[type="file"\]:focus-visible/);
+  assert.match(html, /aria-label="Remove ' \+ ssEscapeHtml\(f\.name\)/);
+});
+
+test("feedback dialog: labelled fields, pressed state, focus restore, safe error parsing", () => {
+  const js = read("../public/shared/feedback-widget.js");
+  assert.match(js, /id="fbw-message" aria-label=/);
+  assert.match(js, /id="fbw-email" type="email" aria-label=/);
+  assert.match(js, /aria-pressed/);
+  assert.match(js, /opener\.focus\(\)/);
+  assert.match(js, /clearTimeout\(closeTimer\)/);
+  assert.match(js, /res\.json\(\)\.catch\(/);
+});

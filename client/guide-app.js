@@ -972,14 +972,36 @@ function ssLevenshtein(a,b){
   return prev[n];
 }
 const FUZZY_THRESHOLD=0.82;
+// Typed answers are compared without case, accents, punctuation or a trailing "(parenthetical)", and a term written
+// "a / b" accepts either side. A answer that is right except for an accent counts but is flagged (accentOnly).
+function ssNormTyped(s,keepAccents){
+  let x=String(s).toLowerCase();
+  if(!keepAccents)x=x.normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  return x.replace(/['\u2019`]/g,'').replace(/[^\p{L}\p{N}\s]/gu,' ').replace(/\s+/g,' ').trim();
+}
+function ssTypedCandidates(correct){
+  const raw=String(correct);
+  const bare=raw.replace(/\([^)]*\)/g,' ');
+  const out=[raw,bare];
+  bare.split('/').forEach(function(p){out.push(p);});
+  return out.filter(function(x,i){return x.trim()&&out.indexOf(x)===i;});
+}
 function ssFuzzyMatch(typed,correct){
-  const a=String(typed).toLowerCase().trim().replace(/\s+/g,' ');
-  const b=String(correct).toLowerCase().trim().replace(/\s+/g,' ');
+  const a=ssNormTyped(typed);
   if(!a)return{match:false,exact:false,ratio:0};
-  if(a===b)return{match:true,exact:true,ratio:1};
-  const dist=ssLevenshtein(a,b);
-  const ratio=1-dist/Math.max(a.length,b.length,1);
-  return{match:ratio>=FUZZY_THRESHOLD,exact:false,ratio};
+  let best=0,accentOnly=false;
+  const lit=ssNormTyped(typed,true);
+  for(const cand of ssTypedCandidates(correct)){
+    const b=ssNormTyped(cand);
+    if(!b)continue;
+    if(a===b){
+      accentOnly=lit!==ssNormTyped(cand,true);
+      return{match:true,exact:!accentOnly,ratio:1,accentOnly};
+    }
+    const ratio=1-ssLevenshtein(a,b)/Math.max(a.length,b.length,1);
+    if(ratio>best)best=ratio;
+  }
+  return{match:best>=FUZZY_THRESHOLD,exact:false,ratio:best,accentOnly:false};
 }
 
 // SPACED REPETITION (Leitner boxes, per browser). Each rated card gets a box 1-5;
@@ -1070,22 +1092,28 @@ function checkTypedAnswer(){
   const fb=document.getElementById('fc-type-feedback');
   if(!deck.length||!input||input.disabled)return;
   const card=deck[fcIdx];
-  const {match,exact}=ssFuzzyMatch(input.value,card.t);
+  const {match,exact,accentOnly}=ssFuzzyMatch(input.value,card.t);
   input.disabled=true;
   if(!SS_MASTERY){setTimeout(()=>fcNav(1),400);return;}
   if(match){
     SS_MASTERY.markCardKnown(card.t);ssSrsRecord(card.t,true);
     fb.className='fc-type-feedback correct';
-    fb.textContent=exact?'✓ Correct!':'✓ Close enough — "'+card.t+'"';
+    fb.textContent=exact?'✓ Correct!':(accentOnly?'✓ Right — mind the accent: "'+card.t+'"':'✓ Close enough — "'+card.t+'"');
     if(window.__ssCelebrateCorrect)window.__ssCelebrateCorrect(input);
   }else{
     SS_MASTERY.unmarkCardKnown(card.t);ssSrsRecord(card.t,false);
     fb.className='fc-type-feedback wrong';
-    fb.textContent='✗ It was: "'+card.t+'"';
+    fb.textContent='✗ It was: "'+card.t+'" ';
+    // Stay on the card until the student moves on, and let them overrule a harsh miss.
+    const right=document.createElement('button');right.type='button';right.className='btn';right.textContent='I was right';
+    right.onclick=function(){SS_MASTERY.markCardKnown(card.t);ssSrsRecord(card.t,true);renderUnitProgress(card.u);fcNav(1);};
+    const next=document.createElement('button');next.type='button';next.className='btn';next.textContent='Next card';
+    next.onclick=function(){fcNav(1);};
+    fb.appendChild(right);fb.appendChild(next);next.focus();
     if(window.__ssResetCombo)window.__ssResetCombo();
   }
   renderUnitProgress(card.u);
-  setTimeout(()=>fcNav(1),match?900:1700);
+  if(match)setTimeout(()=>fcNav(1),900);
 }
 function buildFCSel(){
   const sel=document.getElementById('fc-sel');

@@ -121,7 +121,8 @@ body{transition:background .2s ease,color .2s ease}
 .rg-file-btn{display:inline-flex;align-items:center;gap:8px;background:var(--bg);border:2px dashed var(--border);border-radius:10px;
   padding:11px 14px;color:var(--text-muted);font-size:14px;font-weight:600;cursor:pointer;transition:border-color .2s ease,color .2s ease;width:100%;box-sizing:border-box}
 .rg-file-btn:hover{border-color:var(--accent-bright);color:var(--accent)}
-.rg-field input[type="file"]{display:none}
+.rg-field input[type="file"]{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none}
+.rg-field:has(input[type="file"]:focus-visible) .rg-file-btn{outline:3px solid var(--accent);outline-offset:3px}
 .rg-files-list{margin-top:8px;display:flex;flex-direction:column;gap:4px}
 .rg-file-chip{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--bg);border:1px solid var(--border);
   border-radius:8px;padding:6px 10px;font-size:13px;color:var(--text-body)}
@@ -259,7 +260,7 @@ function rgRenderFileList(){
   var list = document.getElementById('rg-files-list');
   list.innerHTML = RG_SELECTED_FILES.map(function(f, i){
     return '<div class="rg-file-chip"><span>' + ssEscapeHtml(f.name) + ' (' + rgFormatBytes(f.size) + ')</span>'
-      + '<button type="button" onclick="rgRemoveFile(' + i + ')" aria-label="Remove file">✕</button></div>';
+      + '<button type="button" onclick="rgRemoveFile(' + i + ')" aria-label="Remove ' + ssEscapeHtml(f.name) + '">✕</button></div>';
   }).join('');
 }
 

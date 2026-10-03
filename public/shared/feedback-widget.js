@@ -48,7 +48,7 @@
     'border-radius:999px;padding:9px 18px;font-family:inherit;font-size:13.5px;font-weight:700;cursor:pointer}' +
     '#fbw-submit:disabled{opacity:.6;cursor:default}' +
     '#fbw-status{font-size:12.5px;margin-top:10px;min-height:16px;color:var(--text-muted, var(--ink-muted, #777))}' +
-    '#fbw-status.fbw-error{color:#c0392b}' +
+    '#fbw-status.fbw-error{color:var(--danger, #b23a3a)}' +
     '#fbw-status.fbw-ok{color:var(--accent-bright, var(--accent, #268a58))}';
   document.head.appendChild(style);
 
@@ -66,15 +66,15 @@
   var backdrop = document.createElement("div");
   backdrop.id = "fbw-backdrop";
   var catButtonsHtml = CATEGORIES.map(function (c, i) {
-    return '<button type="button" class="fbw-cat' + (i === 0 ? " active" : "") + '" data-v="' + c.v + '">' + c.l + "</button>";
+    return '<button type="button" class="fbw-cat' + (i === 0 ? " active" : "") + '" aria-pressed="' + (i === 0) + '" data-v="' + c.v + '">' + c.l + "</button>";
   }).join("");
   backdrop.innerHTML =
     '<div id="fbw-modal" role="dialog" aria-modal="true" aria-labelledby="fbw-title">' +
     '<h2 id="fbw-title">Send feedback</h2>' +
     '<p class="fbw-sub">Bugs, ideas, anything — it goes straight to the people building this.</p>' +
     '<div id="fbw-cats">' + catButtonsHtml + "</div>" +
-    '<textarea id="fbw-message" placeholder="What\'s on your mind?" maxlength="2000"></textarea>' +
-    '<input id="fbw-email" type="email" placeholder="Email (optional, if you want a reply)"/>' +
+    '<textarea id="fbw-message" aria-label="Your feedback" placeholder="What\'s on your mind?" maxlength="2000"></textarea>' +
+    '<input id="fbw-email" type="email" aria-label="Email, optional" autocomplete="email" placeholder="Email (optional, if you want a reply)"/>' +
     '<div id="fbw-actions"><button id="fbw-cancel" type="button">Cancel</button><button id="fbw-submit" type="button">Send</button></div>' +
     '<div id="fbw-status" role="status"></div>' +
     "</div>";
@@ -91,13 +91,19 @@
     statusEl.className = kind ? "fbw-" + kind : "";
   }
 
+  var opener = null, closeTimer = null;
   function open() {
+    clearTimeout(closeTimer); // a "Thanks" auto-close from an earlier send must not shut a reopened dialog
+    opener = document.activeElement;
     backdrop.classList.add("open");
     setStatus("");
     setTimeout(function () { messageEl.focus(); }, 0);
   }
   function close() {
+    clearTimeout(closeTimer);
     backdrop.classList.remove("open");
+    if (opener && opener.focus && document.contains(opener)) opener.focus();
+    opener = null;
   }
 
   btn.addEventListener("click", open);
@@ -110,7 +116,7 @@
   backdrop.querySelectorAll(".fbw-cat").forEach(function (el) {
     el.addEventListener("click", function () {
       category = el.dataset.v;
-      backdrop.querySelectorAll(".fbw-cat").forEach(function (o) { o.classList.toggle("active", o === el); });
+      backdrop.querySelectorAll(".fbw-cat").forEach(function (o) { o.classList.toggle("active", o === el); o.setAttribute("aria-pressed", String(o === el)); });
     });
   });
 
@@ -128,11 +134,11 @@
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message: message, email: emailEl.value.trim(), category: category, page: location.pathname })
     }).then(function (res) {
-      if (!res.ok) return res.json().then(function (d) { throw new Error((d && d.error) || "Something went wrong"); });
+      if (!res.ok) return res.json().catch(function () { return null; }).then(function (d) { throw new Error((d && d.error) || "Couldn't send — try again."); });
       setStatus("Thanks — got it!", "ok");
       messageEl.value = "";
       emailEl.value = "";
-      setTimeout(close, 1200);
+      closeTimer = setTimeout(close, 1200);
     }).catch(function (e) {
       setStatus(e.message || "Couldn't send — try again.", "error");
     }).finally(function () {

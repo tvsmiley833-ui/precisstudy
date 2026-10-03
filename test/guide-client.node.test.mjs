@@ -461,7 +461,7 @@ describe("unit drag and reorder", () => {
 
 // ───────────────────────────── flashcard typing check ─────────────────────────────
 describe("typed flashcard answers", () => {
-  const { ssLevenshtein, FUZZY_THRESHOLD, ssFuzzyMatch } = loadGuide(["ssLevenshtein", "FUZZY_THRESHOLD", "ssFuzzyMatch"]);
+  const { ssLevenshtein, FUZZY_THRESHOLD, ssFuzzyMatch } = loadGuide(["ssLevenshtein", "FUZZY_THRESHOLD", "ssFuzzyMatch", "ssNormTyped", "ssTypedCandidates"]);
 
   test("edit distance", () => {
     assert.equal(ssLevenshtein("kitten", "sitting"), 3);
@@ -479,6 +479,16 @@ describe("typed flashcard answers", () => {
     assert.equal(ssFuzzyMatch("photosynthesys", "photosynthesis").match, true);
     assert.equal(ssFuzzyMatch("photosynthesys", "photosynthesis").exact, false);
     assert.equal(ssFuzzyMatch("cut", "cat").match, false);
+  });
+
+  test("accents, punctuation and parentheticals don't matter; an accent-only answer is flagged", () => {
+    assert.equal(ssFuzzyMatch("bacons rebellion", "Bacon\u2019s Rebellion").exact, true);
+    assert.equal(ssFuzzyMatch("esta", "est\u00e1").match, true);
+    assert.equal(ssFuzzyMatch("esta", "est\u00e1").accentOnly, true);
+    assert.equal(ssFuzzyMatch("est\u00e1", "est\u00e1").accentOnly, false);
+    assert.equal(ssFuzzyMatch("mitosis", "Mitosis (cell division)").exact, true);
+    assert.equal(ssFuzzyMatch("la casa", "la casa / el hogar").match, true);
+    assert.equal(ssFuzzyMatch("el hogar", "la casa / el hogar").match, true);
   });
 
   test("rejects wrong and empty answers", () => {
