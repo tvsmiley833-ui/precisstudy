@@ -30,3 +30,7 @@ test("filtering hides a subject group's heading when none of its cards match", (
   assert.match(html, /querySelectorAll\('\.class-group'\)\.forEach/);
   assert.match(html, /g\.style\.display = any \? '' : 'none'/);
 });
+
+test("on phones How It Works is moved above the class list", () => {
+  assert.match(html, /classes\.parentNode\.insertBefore\(how, classes\)/);
+});

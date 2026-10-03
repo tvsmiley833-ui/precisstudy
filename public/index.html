@@ -1225,6 +1225,13 @@ function ssClassMatches(name, q) {
   return want.every(function(w) { return have.some(function(h) { return h.indexOf(w) === 0; }); });
 }
 
+/* Phones: the value proposition ("How it works") comes before the long class list, not 16 screens below it. */
+(function(){
+  if (!window.matchMedia || !matchMedia('(max-width:640px)').matches) return;
+  var how = document.getElementById('how-it-works'), classes = document.getElementById('classes-section');
+  if (how && classes && classes.parentNode === how.parentNode) classes.parentNode.insertBefore(how, classes);
+})();
+
 /* Phones: collapse long class groups to four cards with a Show all button. */
 (function(){
   if (!window.matchMedia || !matchMedia('(max-width:640px)').matches) return;
