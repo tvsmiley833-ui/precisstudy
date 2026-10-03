@@ -30,7 +30,7 @@ function ssShuffleOptions(q){
   if(typeof q.a==='number')q.a=order.indexOf(q.a);
   q._shuffled=true;
 }
-function switchTab(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');var idx=-1;tabs.forEach((b,i)=>{if(b.id==='tab-'+id)idx=i;});if(idx!==-1){tabs.forEach((b,i)=>{var on=i===idx;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;});try{tabs[idx].scrollIntoView({inline:'center',block:'nearest',behavior:ssScrollBehavior()});}catch(e){}var _hl=document.getElementById('hero-live');if(_hl)_hl.textContent=tabs[idx].textContent.trim()+' tab';}if(id==='examples'&&!examplesBuilt)buildExamples();if(id==='exam'&&!examBuilt)buildExam();}
+function switchTab(id){if(id!=='exam'&&typeof ssLockdownActive!=='undefined'&&ssLockdownActive)ssEndExamLockdown();document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');var idx=-1;tabs.forEach((b,i)=>{if(b.id==='tab-'+id)idx=i;});if(idx!==-1){tabs.forEach((b,i)=>{var on=i===idx;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;});try{tabs[idx].scrollIntoView({inline:'center',block:'nearest',behavior:ssScrollBehavior()});}catch(e){}var _hl=document.getElementById('hero-live');if(_hl)_hl.textContent=tabs[idx].textContent.trim()+' tab';}if(id==='examples'&&!examplesBuilt)buildExamples();if(id==='exam'&&!examBuilt)buildExam();}
 let examBuilt=false;
 var examplesBuilt=false, ex2map={}, ex2shown={};
 
@@ -87,6 +87,11 @@ function ssStartExamLockdown(){
   if(wantLockdown&&window.__ssEnterLockdown)window.__ssEnterLockdown(ssLockdownWarn);
   var startRow=document.getElementById('ex-lockdown-start-row');
   var endBtn=document.getElementById('ex-lockdown-end-btn');
+  if(wantLockdown&&!(document.documentElement.requestFullscreen||document.documentElement.webkitRequestFullscreen)){
+    // e.g. iPhone Safari: no fullscreen, so only leaving the tab or window can be noticed
+    var w=document.getElementById('ex-lockdown-warn');
+    if(w){w.textContent='Fullscreen isn\u2019t available on this device, so only switching tabs or apps will be counted.';w.style.display='block';}
+  }
   if(startRow)startRow.style.display='none';
   if(endBtn)endBtn.style.display=wantLockdown?'':'none';
 }
@@ -97,11 +102,14 @@ function ssEndExamLockdown(){
   var out=document.getElementById('ex-lockdown-summary');
   if(out){
     var secs=Math.round((summary.totalTimeAwayMs||0)/1000);
-    out.style.display='block';
+    out.style.display='block';out.tabIndex=-1;out.setAttribute('role','status');
     out.innerHTML='<strong>Focus Summary</strong><span>You left the exam view '+(summary.exitCount||0)+' time'+(summary.exitCount===1?'':'s')+', totaling '+secs+' second'+(secs===1?'':'s')+'.</span>';
   }
   var endBtn=document.getElementById('ex-lockdown-end-btn');
   if(endBtn)endBtn.style.display='none';
+  var sr=document.getElementById('ex-lockdown-start-row');
+  if(sr)sr.style.display=''; // so the exam can be retaken
+  if(out&&out.style.display==='block')try{out.focus({preventScroll:false});}catch(e){}
   var warn=document.getElementById('ex-lockdown-warn');
   if(warn)warn.style.display='none';
 }

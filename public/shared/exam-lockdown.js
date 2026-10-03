@@ -53,26 +53,44 @@ export function enterLockdown(onWarn) {
       if (!state || !state.awaySince) return;
       state.totalTimeAwayMs += now() - state.awaySince;
       state.awaySince = null;
+      try { warn(); } catch (e) {} // show the notice now that the student can actually see it
+    };
+    // Leaving fullscreen is counted, but it has no "came back" signal to time, so it adds no time away.
+    const markFullscreenExit = () => {
+      if (!state) return;
+      state.exitCount++;
+      try { warn(); } catch (e) {}
     };
 
     const onVisibility = () => { if (document.hidden) markAway(); else markBack(); };
-    const onBlur = () => markAway();
+    // Focus moving into an iframe or a native dialog blurs the window without the student leaving the exam.
+    const onBlur = () => setTimeout(() => {
+      if (!state || document.hidden) return;
+      const a = document.activeElement;
+      if (document.hasFocus() || (a && a.tagName === "IFRAME")) return;
+      markAway();
+    }, 0);
     const onFocus = () => markBack();
     const onFullscreenChange = () => {
-      const fsActive = !!document.fullscreenElement;
-      if (state.fullscreenActive && !fsActive) markAway();
+      const fsActive = !!(document.fullscreenElement || document.webkitFullscreenElement);
+      if (state.fullscreenActive && !fsActive) markFullscreenExit();
       state.fullscreenActive = fsActive;
     };
+    const onPageHide = () => exitLockdown();
 
     document.addEventListener("visibilitychange", onVisibility);
     window.addEventListener("blur", onBlur);
     window.addEventListener("focus", onFocus);
     document.addEventListener("fullscreenchange", onFullscreenChange);
+    document.addEventListener("webkitfullscreenchange", onFullscreenChange);
+    window.addEventListener("pagehide", onPageHide);
     state.listeners = [
       ["visibilitychange", onVisibility, document],
       ["blur", onBlur, window],
       ["focus", onFocus, window],
       ["fullscreenchange", onFullscreenChange, document],
+      ["webkitfullscreenchange", onFullscreenChange, document],
+      ["pagehide", onPageHide, window],
     ];
 
     // Fullscreen is best-effort: some browsers/contexts (e.g. certain iOS
@@ -81,8 +99,9 @@ export function enterLockdown(onWarn) {
     // whole feature.
     try {
       const el = document.documentElement;
-      if (el && typeof el.requestFullscreen === "function") {
-        Promise.resolve(el.requestFullscreen())
+      const req = el && (el.requestFullscreen || el.webkitRequestFullscreen);
+      if (typeof req === "function") {
+        Promise.resolve(req.call(el))
           .then(() => { if (state) state.fullscreenActive = true; })
           .catch(() => {});
       }
@@ -111,8 +130,9 @@ export function exitLockdown() {
     summary.exitCount = state.exitCount;
     summary.totalTimeAwayMs = state.totalTimeAwayMs;
     try {
-      if (document.fullscreenElement && typeof document.exitFullscreen === "function") {
-        Promise.resolve(document.exitFullscreen()).catch(() => {});
+      const exit = document.exitFullscreen || document.webkitExitFullscreen;
+      if ((document.fullscreenElement || document.webkitFullscreenElement) && typeof exit === "function") {
+        Promise.resolve(exit.call(document)).catch(() => {});
       }
     } catch (e) {}
   } catch (e) {
