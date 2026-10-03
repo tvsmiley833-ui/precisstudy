@@ -66,7 +66,7 @@ describe("feedback and the account email", () => {
     const stored = [];
     const now = Math.floor(Date.now() / 1000);
     const token = await signSession({ email: "kid@example.com", name: "Kid", provider: "google", iat: now, exp: now + 3600 }, "sec");
-    const env = { SESSION_SECRET: "sec", FEEDBACK: { put: async (k, v) => stored.push(JSON.parse(v)), get: async () => null }, PROGRESS: { put: async () => {}, get: async () => null } };
+    const env = { SESSION_SECRET: "sec", FEEDBACK: { put: async (k, v) => { if (k.startsWith("fb:")) stored.push(JSON.parse(v)); }, get: async () => null }, PROGRESS: { put: async () => {}, get: async () => null } };
     const res = await handleFeedbackSubmit(new Request("https://example.com/api/feedback", { method: "POST", headers: { "Content-Type": "application/json", Cookie: `${SESSION_COOKIE}=${token}` }, body: JSON.stringify({ message: "hello", ...extra }) }), env);
     expect(res.status).toBe(200);
     return stored[0];
