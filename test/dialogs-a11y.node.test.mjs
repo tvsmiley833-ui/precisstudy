@@ -176,3 +176,9 @@ test("dashboard skeletons are sized to the student's classes, not one per guide"
   assert.match(d, /Math\.min\(6, Math\.max\(2, ssLocalProgressCount\(\)\)\)/);
   assert.ok(!/SUBJECTS_CONFIG\.map\(function\(\)\{\s*return '<div class="ss-card" aria-hidden/.test(d));
 });
+
+test("worked examples keep revealed steps across a rebuild and need a step before Got it", () => {
+  const js = read("../client/guide-app.js");
+  assert.match(js, /const kept=Object\.assign\(\{\},ex2shown\);ex2shown=\{\};/);
+  assert.match(js, /Reveal at least one step, then mark Got it\./);
+});

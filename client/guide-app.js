@@ -1389,6 +1389,7 @@ const REQUEUE_DELAY=3,MAX_REQUEUES=2;
    migrate from - this is the first time per-unit progress persists at all) */
 function buildExamples(){
   examplesBuilt=true;
+  const kept=Object.assign({},ex2shown);ex2shown={}; // a rebuild (mastery loading late) re-renders the cards, so re-reveal what was open
   const v=document.getElementById('view-examples');
   if(!v||typeof WORKED==='undefined'||!WORKED.length)return;
   let h='<div class="ex2-intro">Try each problem on your own first — then reveal the solution one step at a time. Mark “Got it” to track your progress.</div>';
@@ -1412,6 +1413,7 @@ function buildExamples(){
     h+='</div>';
   });
   v.innerHTML=h;
+  Object.keys(kept).forEach(function(id){if(ex2map[id])for(let i=0;i<kept[id];i++)revealStep(id);});
   ssTypeset(v);
 }
 function revealStep(id){
@@ -1427,8 +1429,10 @@ function revealStep(id){
 }
 function revealAll(id){const w=ex2map[id];while((ex2shown[id]||0)<w.steps.length)revealStep(id);}
 function markExample(id){
+  // "Got it" means you worked through it: at least one step must have been looked at first.
+  if(!(ex2shown[id]>0)){const c=document.getElementById('ex2s-'+id);if(c){const n=document.createElement('div');n.className='ex2-step';n.setAttribute('role','status');n.textContent='Reveal at least one step, then mark Got it.';c.appendChild(n);setTimeout(function(){n.remove();},3000);}return;}
   if(SS_MASTERY)SS_MASTERY.markExampleDone(id);
-  const card=document.querySelector('.ex2-card[data-id="'+id+'"]');if(card)card.classList.add('done');
+  const card=document.querySelector('.ex2-card[data-id="'+id+'"]');if(card){card.classList.add('done');const b=card.querySelector('.ex2-done');if(b){b.setAttribute('aria-pressed','true');b.textContent='\u2713 Done';}}
 }
 
 // Stamp "last visited subject" on every guide-page load, not just when the
