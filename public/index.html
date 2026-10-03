@@ -378,7 +378,7 @@ body > :where(:not(.chalkboard):not(script):not(style)){position:relative;z-inde
 }
 @media(min-width:641px){.ss-show-all{display:none}}
 </style>
-<style>/* Header: one line per link; drop the marketing links first when space runs out. */.nav-links a,#ss-account-area button,#ss-account-area a{white-space:nowrap}@media(max-width:1360px){.nav-links a[href="/about"],.nav-links a[href="/#how-it-works"]{display:none}}.header-bar .nav-links{flex:1;justify-content:flex-start}.header-bar .nav-links a[href="#classes-section"].nav-hide-sm{margin-left:auto}.header-bar .nav-links a[href="/settings"].nav-hide-sm{margin-right:auto}</style>
+<style>/* Header: one line per link; drop the marketing links first when space runs out. */.nav-links a,#ss-account-area button,#ss-account-area a{white-space:nowrap}@media(max-width:1360px){.nav-links a[href="/about/"],.nav-links a[href="/#how-it-works"]{display:none}}.header-bar .nav-links{flex:1;justify-content:flex-start}.header-bar .nav-links a[href="#classes-section"].nav-hide-sm{margin-left:auto}.header-bar .nav-links a[href="/settings/"].nav-hide-sm{margin-right:auto}</style>
 <div role="banner" class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:var(--bg-header);border-bottom:1px solid var(--border);position:relative;">
   <button id="ss-logo-btn" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="ss-mobile-menu" onclick="ssLogoClick()" style="font-weight:800;font-size:22px;color:var(--nav-text);display:flex;align-items:center;gap:8px;background:none;border:none;padding:0;cursor:pointer;font-family:inherit;">
     <span style="display:inline-block;width:28px;height:28px;position:relative;flex-shrink:0;"><img src="/logo-icon.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;" class="ss-logo-light"/><img src="/logo-icon-dark.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;display:none;" class="ss-logo-dark"/></span>PrecisStudy
@@ -386,8 +386,8 @@ body > :where(:not(.chalkboard):not(script):not(style)){position:relative;z-inde
   <div role="navigation" aria-label="Main" class="nav-links" style="display:flex;gap:16px;font-weight:600;font-size:15px;color:var(--nav-text);align-items:center;">
     <a href="#classes-section" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Browse Subjects</a>
     <a href="#how-it-works" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">How It Works</a>
-    <a href="/dashboard" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Dashboard</a>
-    <a href="/settings" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Settings</a>
+    <a href="/dashboard/" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Dashboard</a>
+    <a href="/settings/" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Settings</a>
     <button id="theme-toggle" onclick="ssToggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode">
       <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -398,11 +398,11 @@ body > :where(:not(.chalkboard):not(script):not(style)){position:relative;z-inde
   <div id="ss-mobile-menu" role="menu" aria-label="Main" style="display:none;position:absolute;top:100%;left:16px;margin-top:8px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;box-shadow:0 12px 32px -12px rgba(0,0,0,.35);padding:8px;min-width:200px;z-index:60;flex-direction:column;">
     <a role="menuitem" href="#classes-section" onclick="ssCloseMobileMenu()" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Browse Subjects</a>
     <a role="menuitem" href="#how-it-works" onclick="ssCloseMobileMenu()" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">How It Works</a>
-    <a role="menuitem" href="/about" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Who Are We</a>
-    <a role="menuitem" href="/request" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Request a Guide</a>
-    <a role="menuitem" href="/educators" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Educators</a>
-    <a role="menuitem" href="/dashboard" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Dashboard</a>
-    <a role="menuitem" href="/settings" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Settings</a>
+    <a role="menuitem" href="/about/" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Who Are We</a>
+    <a role="menuitem" href="/request/" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Request a Guide</a>
+    <a role="menuitem" href="/educators/" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Educators</a>
+    <a role="menuitem" href="/dashboard/" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Dashboard</a>
+    <a role="menuitem" href="/settings/" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Settings</a>
     <a role="menuitem" href="#classes-section" onclick="ssCloseMobileMenu()" style="color:var(--accent-solid);text-decoration:none;font-weight:700;font-size:15px;padding:10px 12px;border-radius:8px;">Pick your class →</a>
   </div>
 </div>
@@ -528,7 +528,7 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
     <button id="class-search-clear" type="button" aria-label="Clear search" onclick="ssClearClassSearch()" style="display:none;position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:20px;line-height:1;padding:4px;">×</button>
     <div id="search-dropdown" role="listbox" aria-label="Matching subjects"></div>
   </div>
-  <div id="no-match-msg" style="display:none;max-width:480px;margin:12px auto 0;font-size:13px;color:var(--text-muted);">No classes match your search yet. <a id="no-match-req" href="/request">Request this class &rarr;</a></div>
+  <div id="no-match-msg" style="display:none;max-width:480px;margin:12px auto 0;font-size:13px;color:var(--text-muted);">No classes match your search yet. <a id="no-match-req" href="/request/">Request this class &rarr;</a></div>
   <div id="category-pills" role="group" aria-label="Filter by category">
     <button type="button" class="cat-pill" aria-pressed="false" onclick="ssJumpToCategory('Math', this)">Math</button>
     <button type="button" class="cat-pill" aria-pressed="false" onclick="ssJumpToCategory('Science', this)">Science</button>
@@ -547,7 +547,7 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
       <b>Sage</b>
       <p>Hi, I'm Sage! Tell me your class and test date and I'll build your study plan. You earn XP for every step.</p>
       <div class="sage-intro-actions">
-        <a href="/onboarding" class="sage-btn sage-btn-solid">Build my plan</a>
+        <a href="/onboarding/" class="sage-btn sage-btn-solid">Build my plan</a>
         <a href="#classes-section" class="sage-btn">Just browse</a>
       </div>
     </div>
@@ -567,56 +567,56 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
       <div class="class-group" data-group="Math">
         <h3 class="class-group-h">Math</h3>
         <div class="class-group-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
-      <a href="/algebra1" class="class-card" data-name="Algebra I" data-subject-key="algebra1">
+      <a href="/algebra1/" class="class-card" data-name="Algebra I" data-subject-key="algebra1">
         <div class="class-card-icon"></div>
         <div class="cc-name">Algebra I</div>
         <div class="cc-meta">11 units · 220 practice questions</div>
         <p class="class-card-topics">Solving Equations &amp; Inequalities · Linear Functions &amp; Graphing · Systems of Equations &amp; Inequalities <span class="class-card-more">+8 more</span></p>
       </a>
-      <a href="/algebra2" class="class-card" data-name="Algebra II" data-subject-key="algebra2">
+      <a href="/algebra2/" class="class-card" data-name="Algebra II" data-subject-key="algebra2">
         <div class="class-card-icon"></div>
         <div class="cc-name">Algebra II</div>
         <div class="cc-meta">13 units · 547 practice questions</div>
         <p class="class-card-topics">Real Numbers, Inequalities &amp; Polynomial Factoring · Polynomial Functions &amp; Operations · Rational Expressions &amp; Equations <span class="class-card-more">+9 more</span></p>
       </a>
-      <a href="/geometry" class="class-card" data-name="Geometry" data-subject-key="geometry">
+      <a href="/geometry/" class="class-card" data-name="Geometry" data-subject-key="geometry">
         <div class="class-card-icon"></div>
         <div class="cc-name">Geometry</div>
         <div style="font-size:14px;color:var(--text-muted);margin-bottom:14px;">11 units · 439 practice questions</div>
         <p class="class-card-topics">Foundations: Points, Lines &amp; Angles · Parallel Lines &amp; Transversals · Triangles: Angles &amp; Inequalities <span class="class-card-more">+8 more</span></p>
         <div style="font-size:13px;font-weight:700;color:var(--badge-green);">The Original</div>
       </a>
-      <a href="/precalc" class="class-card" data-name="PreCalculus" data-subject-key="precalc">
+      <a href="/precalc/" class="class-card" data-name="PreCalculus" data-subject-key="precalc">
         <div class="class-card-icon"></div>
         <div class="cc-name">PreCalculus</div>
         <div class="cc-meta">9 units · 144 practice questions</div>
         <p class="class-card-topics">Functions &amp; Their Graphs · Polynomial &amp; Rational Functions · Exponential &amp; Logarithmic Functions <span class="class-card-more">+6 more</span></p>
       </a>
-      <a href="/calculus" class="class-card" data-name="Calculus" data-subject-key="calculus">
+      <a href="/calculus/" class="class-card" data-name="Calculus" data-subject-key="calculus">
         <div class="class-card-icon"></div>
         <div class="cc-name">Calculus</div>
         <div class="cc-meta">8 units · 108 practice questions</div>
         <p class="class-card-topics">Limits &amp; Continuity · Derivative Rules &amp; Techniques · Applications of Derivatives <span class="class-card-more">+5 more</span></p>
       </a>
-      <a href="/calc-ab" class="class-card" data-name="AP Calculus AB" data-subject-key="calc-ab">
+      <a href="/calc-ab/" class="class-card" data-name="AP Calculus AB" data-subject-key="calc-ab">
         <div class="class-card-icon"></div>
         <div class="cc-name">AP Calculus AB</div>
         <div class="cc-meta">8 units · 96 practice questions</div>
         <p class="class-card-topics">Limits &amp; Continuity · Differentiation: Definition &amp; Basic Rules · Differentiation: Composite, Implicit &amp; Inverse <span class="class-card-more">+5 more</span></p>
       </a>
-      <a href="/calc-bc" class="class-card" data-name="AP Calculus BC" data-subject-key="calc-bc">
+      <a href="/calc-bc/" class="class-card" data-name="AP Calculus BC" data-subject-key="calc-bc">
         <div class="class-card-icon"></div>
         <div class="cc-name">AP Calculus BC</div>
         <div class="cc-meta">8 units · 132 practice questions</div>
         <p class="class-card-topics">Limits &amp; Continuity · Differentiation &amp; Applications · Integration &amp; Differential Equations <span class="class-card-more">+5 more</span></p>
       </a>
-<a href="/economics" class="class-card" data-name="Economics" data-subject-key="economics">
+<a href="/economics/" class="class-card" data-name="Economics" data-subject-key="economics">
         <div class="class-card-icon"></div>
         <div class="cc-name">Economics</div>
         <div class="cc-meta">8 units · 152 practice questions</div>
         <p class="class-card-topics">Scarcity &amp; Opportunity Cost · Supply &amp; Demand · Market Structures <span class="class-card-more">+5 more</span></p>
       </a>
-      <a href="/statistics" class="class-card" data-subject-key="statistics" data-name="Statistics">
+      <a href="/statistics/" class="class-card" data-subject-key="statistics" data-name="Statistics">
         <div class="class-card-icon"></div>
         <div class="cc-name">Statistics</div>
         <div class="cc-meta">8 units · 96 practice questions</div>
@@ -627,49 +627,49 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
       <div class="class-group" data-group="Science">
         <h3 class="class-group-h">Science</h3>
         <div class="class-group-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
-      <a href="/biology" class="class-card" data-name="Biology" data-subject-key="biology">
+      <a href="/biology/" class="class-card" data-name="Biology" data-subject-key="biology">
         <div class="class-card-icon"></div>
         <div class="cc-name">Biology</div>
         <div class="cc-meta">8 units · 128 practice questions</div>
         <p class="class-card-topics">Characteristics of Life &amp; the Scientific Method · Chemistry of Life · Cell Biology <span class="class-card-more">+5 more</span></p>
       </a>
-            <a href="/chemistry" class="class-card" data-name="Chemistry" data-subject-key="chemistry">
+            <a href="/chemistry/" class="class-card" data-name="Chemistry" data-subject-key="chemistry">
         <div class="class-card-icon"></div>
         <div class="cc-name">Chemistry</div>
         <div class="cc-meta">16 units · 468 practice questions</div>
         <p class="class-card-topics">Matter &amp; Change · Measurements &amp; Math · Atomic Concepts <span class="class-card-more">+13 more</span></p>
       </a>
-      <a href="/physics" class="class-card" data-name="Physics" data-subject-key="physics">
+      <a href="/physics/" class="class-card" data-name="Physics" data-subject-key="physics">
         <div class="class-card-icon"></div>
         <div class="cc-name">Physics</div>
         <div class="cc-meta">12 units · 465 practice questions</div>
         <p class="class-card-topics">Measurement, Vectors &amp; Motion Basics · Kinematics · Newton&#x27;s Laws &amp; Dynamics <span class="class-card-more">+9 more</span></p>
       </a>
-      <a href="/earth-science" class="class-card" data-name="Earth Science" data-subject-key="earthscience">
+      <a href="/earth-science/" class="class-card" data-name="Earth Science" data-subject-key="earthscience">
         <div class="class-card-icon"></div>
         <div class="cc-name">Earth Science</div>
         <div class="cc-meta">8 units · 320 practice questions</div>
         <p class="class-card-topics">Earth Systems &amp; Scientific Method · Plate Tectonics · Earthquakes &amp; Volcanoes <span class="class-card-more">+5 more</span></p>
       </a>
-      <a href="/environmental-science" class="class-card" data-subject-key="environmental-science" data-name="Environmental Science">
+      <a href="/environmental-science/" class="class-card" data-subject-key="environmental-science" data-name="Environmental Science">
         <div class="class-card-icon"></div>
         <div class="cc-name">Environmental Science</div>
         <div class="cc-meta">8 units · 80 practice questions</div>
         <p class="class-card-topics">Ecosystems &amp; Energy Flow · Biodiversity &amp; Populations · Water Resources <span class="class-card-more">+5 more</span></p>
       </a>
-      <a href="/anatomy" class="class-card" data-subject-key="anatomy" data-name="Anatomy & Physiology">
+      <a href="/anatomy/" class="class-card" data-subject-key="anatomy" data-name="Anatomy & Physiology">
         <div class="class-card-icon"></div>
         <div class="cc-name">Anatomy & Physiology</div>
         <div class="cc-meta">8 units · 320 practice questions</div>
         <p class="class-card-topics">Intro &amp; Terminology · Skeletal System · Muscular System <span class="class-card-more">+5 more</span></p>
       </a>
-      <a href="/astronomy" class="class-card" data-subject-key="astronomy" data-name="Astronomy">
+      <a href="/astronomy/" class="class-card" data-subject-key="astronomy" data-name="Astronomy">
         <div class="class-card-icon"></div>
         <div class="cc-name">Astronomy</div>
         <div class="cc-meta">8 units · 313 practice questions</div>
         <p class="class-card-topics">Observing the Sky · Earth-Moon-Sun System · Solar System Survey <span class="class-card-more">+5 more</span></p>
       </a>
-                  <a href="/psychology" class="class-card" data-subject-key="psychology" data-name="Psychology">
+                  <a href="/psychology/" class="class-card" data-subject-key="psychology" data-name="Psychology">
         <div class="class-card-icon"></div>
         <div class="cc-name">Psychology</div>
         <div class="cc-meta">8 units · 318 practice questions</div>
@@ -680,37 +680,37 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
             <div class="class-group" data-group="History">
         <h3 class="class-group-h">History</h3>
         <div class="class-group-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
-<a href="/global-history" class="class-card" data-name="Global History" data-subject-key="globalhistory">
+<a href="/global-history/" class="class-card" data-name="Global History" data-subject-key="globalhistory">
         <div class="class-card-icon"></div>
         <div class="cc-name">Global History</div>
         <div class="cc-meta">14 units · 280 practice questions</div>
         <p class="class-card-topics">Early River Valley Civilizations · Classical Greece &amp; Rome · Classical China &amp; India <span class="class-card-more">+11 more</span></p>
       </a>
-<a href="/apush" class="class-card" data-name="APUSH" data-subject-key="apush">
+<a href="/apush/" class="class-card" data-name="APUSH" data-subject-key="apush">
         <div class="class-card-icon"></div>
         <div class="cc-name">APUSH</div>
         <div class="cc-meta">9 units · 247 practice questions</div>
         <p class="class-card-topics">Period 1: 1491-1607 · Period 2: 1607-1754 · Period 3: 1754-1800 <span class="class-card-more">+6 more</span></p>
       </a>
-<a href="/us-history" class="class-card" data-name="US History" data-subject-key="us-history">
+<a href="/us-history/" class="class-card" data-name="US History" data-subject-key="us-history">
         <div class="class-card-icon"></div>
         <div class="cc-name">US History</div>
         <div class="cc-meta">11 units · 267 practice questions</div>
         <p class="class-card-topics">Colonization &amp; the Atlantic World (1491-1690) · Colonial Society &amp; the Road to Revolution (1690-1763) · Revolution &amp; the Founding (1763-1815) <span class="class-card-more">+8 more</span></p>
       </a>
-<a href="/us-government" class="class-card" data-name="US Government" data-subject-key="usgovernment">
+<a href="/us-government/" class="class-card" data-name="US Government" data-subject-key="usgovernment">
         <div class="class-card-icon"></div>
         <div class="cc-name">US Government</div>
         <div class="cc-meta">8 units · 103 practice questions</div>
         <p class="class-card-topics">Foundations of American Democracy · The Constitution: Principles &amp; Structure · Congress <span class="class-card-more">+5 more</span></p>
       </a>
-<a href="/world-history" class="class-card" data-subject-key="world-history" data-name="World History">
+<a href="/world-history/" class="class-card" data-subject-key="world-history" data-name="World History">
         <div class="class-card-icon"></div>
         <div class="cc-name">World History</div>
         <div class="cc-meta">8 units · 80 practice questions</div>
         <p class="class-card-topics">Ancient Civilizations · Classical Greece &amp; Rome · Post-Classical Asia &amp; Africa <span class="class-card-more">+5 more</span></p>
       </a>
-<a href="/geography" class="class-card" data-subject-key="geography" data-name="Geography">
+<a href="/geography/" class="class-card" data-subject-key="geography" data-name="Geography">
         <div class="class-card-icon"></div>
         <div class="cc-name">Geography</div>
         <div class="cc-meta">8 units · 308 practice questions</div>
@@ -721,37 +721,37 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
       <div class="class-group" data-group="English">
         <h3 class="class-group-h">English</h3>
         <div class="class-group-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
-<a href="/english-9" class="class-card" data-name="English 9" data-subject-key="english9">
+<a href="/english-9/" class="class-card" data-name="English 9" data-subject-key="english9">
         <div class="class-card-icon"></div>
         <div class="cc-name">English 9</div>
         <div class="cc-meta">8 units · 119 practice questions</div>
         <p class="class-card-topics">Elements of Story · Figurative Language &amp; Literary Devices · Symbolism, Theme &amp; Motif <span class="class-card-more">+5 more</span></p>
       </a>
-<a href="/english-10" class="class-card" data-name="English 10" data-subject-key="english10">
+<a href="/english-10/" class="class-card" data-name="English 10" data-subject-key="english10">
         <div class="class-card-icon"></div>
         <div class="cc-name">English 10</div>
         <div class="cc-meta">8 units · 119 practice questions</div>
         <p class="class-card-topics">World Literature &amp; Cultural Context · Rhetorical Analysis · Shakespearean Drama &amp; Tragedy <span class="class-card-more">+5 more</span></p>
       </a>
-<a href="/art-history" class="class-card" data-subject-key="art-history" data-name="Art History">
+<a href="/art-history/" class="class-card" data-subject-key="art-history" data-name="Art History">
         <div class="class-card-icon"></div>
         <div class="cc-name">Art History</div>
         <div class="cc-meta">8 units · 294 practice questions</div>
         <p class="class-card-topics">Art Vocabulary &amp; Analysis · Ancient &amp; Classical Art · Medieval &amp; Renaissance <span class="class-card-more">+5 more</span></p>
       </a>
-<a href="/creative-writing" class="class-card" data-subject-key="creative-writing" data-name="Creative Writing">
+<a href="/creative-writing/" class="class-card" data-subject-key="creative-writing" data-name="Creative Writing">
         <div class="class-card-icon"></div>
         <div class="cc-name">Creative Writing</div>
         <div class="cc-meta">8 units · 320 practice questions</div>
         <p class="class-card-topics">Writer&#x27;s Toolkit &amp; Habits · Story Elements Deep Dive · Character Craft <span class="class-card-more">+5 more</span></p>
       </a>
-<a href="/journalism" class="class-card" data-subject-key="journalism" data-name="Journalism">
+<a href="/journalism/" class="class-card" data-subject-key="journalism" data-name="Journalism">
         <div class="class-card-icon"></div>
         <div class="cc-name">Journalism</div>
         <div class="cc-meta">8 units · 320 practice questions</div>
         <p class="class-card-topics">What Makes News · News Writing &amp; Inverted Pyramid · Interviewing Skills <span class="class-card-more">+5 more</span></p>
       </a>
-<a href="/speech-debate" class="class-card" data-subject-key="speech-debate" data-name="Speech & Debate">
+<a href="/speech-debate/" class="class-card" data-subject-key="speech-debate" data-name="Speech & Debate">
         <div class="class-card-icon"></div>
         <div class="cc-name">Speech & Debate</div>
         <div class="cc-meta">8 units · 80 practice questions</div>
@@ -762,43 +762,43 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
 <div class="class-group" data-group="Languages">
         <h3 class="class-group-h">Languages</h3>
         <div class="class-group-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
-<a href="/spanish-1" class="class-card" data-name="Spanish 1" data-subject-key="spanish1">
+<a href="/spanish-1/" class="class-card" data-name="Spanish 1" data-subject-key="spanish1">
         <div class="class-card-icon"></div>
         <div class="cc-name">Spanish 1</div>
         <div class="cc-meta">8 units · 356 practice questions</div>
         <p class="class-card-topics">Greetings &amp; Introductions · Numbers, Dates &amp; Time · Family &amp; Descriptions <span class="class-card-more">+5 more</span></p>
       </a>
-<a href="/spanish-2" class="class-card" data-name="Spanish 2" data-subject-key="spanish2">
+<a href="/spanish-2/" class="class-card" data-name="Spanish 2" data-subject-key="spanish2">
         <div class="class-card-icon"></div>
         <div class="cc-name">Spanish 2</div>
         <div class="cc-meta">8 units · 172 practice questions</div>
         <p class="class-card-topics">Preterite Introduction · Preterite vs Imperfect · Commands <span class="class-card-more">+5 more</span></p>
       </a>
-      <a href="/spanish-3" class="class-card" data-subject-key="spanish-3" data-name="Spanish 3">
+      <a href="/spanish-3/" class="class-card" data-subject-key="spanish-3" data-name="Spanish 3">
         <div class="class-card-icon"></div>
         <div class="cc-name">Spanish 3</div>
         <div class="cc-meta">8 units · 80 practice questions</div>
         <p class="class-card-topics">Advanced Preterite vs Imperfect · Future &amp; Conditional · Present Perfect <span class="class-card-more">+5 more</span></p>
       </a>
-      <a href="/french-1" class="class-card" data-subject-key="french-1" data-name="French 1">
+      <a href="/french-1/" class="class-card" data-subject-key="french-1" data-name="French 1">
         <div class="class-card-icon"></div>
         <div class="cc-name">French 1</div>
         <div class="cc-meta">8 units · 306 practice questions</div>
         <p class="class-card-topics">Greetings &amp; Alphabet · Articles &amp; Nouns · Regular -ER Verbs <span class="class-card-more">+5 more</span></p>
       </a>
-      <a href="/french-2" class="class-card" data-subject-key="french-2" data-name="French 2">
+      <a href="/french-2/" class="class-card" data-subject-key="french-2" data-name="French 2">
         <div class="class-card-icon"></div>
         <div class="cc-name">French 2</div>
         <div class="cc-meta">8 units · 192 practice questions</div>
         <p class="class-card-topics">Passé Composé with Avoir · Passé Composé with Être · L'Imparfait <span class="class-card-more">+5 more</span></p>
       </a>
-      <a href="/french-3" class="class-card" data-subject-key="french-3" data-name="French 3">
+      <a href="/french-3/" class="class-card" data-subject-key="french-3" data-name="French 3">
         <div class="class-card-icon"></div>
         <div class="cc-name">French 3</div>
         <div class="cc-meta">8 units · 192 practice questions</div>
         <p class="class-card-topics">Le Plus-que-parfait · Le Conditionnel &amp; les Phrases avec Si · Le Subjonctif Présent <span class="class-card-more">+5 more</span></p>
       </a>
-      <a href="/german-1" class="class-card" data-subject-key="german-1" data-name="German 1">
+      <a href="/german-1/" class="class-card" data-subject-key="german-1" data-name="German 1">
         <div class="class-card-icon"></div>
         <div class="cc-name">German 1</div>
         <div class="cc-meta">8 units · 304 practice questions</div>
@@ -810,7 +810,7 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
       <div class="class-group" data-group="Technology">
         <h3 class="class-group-h">Technology</h3>
         <div class="class-group-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
-      <a href="/computer-science" class="class-card" data-subject-key="computer-science" data-name="Computer Science">
+      <a href="/computer-science/" class="class-card" data-subject-key="computer-science" data-name="Computer Science">
         <div class="class-card-icon"></div>
         <div class="cc-name">Computer Science</div>
         <div class="cc-meta">8 units · 311 practice questions</div>
@@ -821,25 +821,25 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
       <div class="class-group" data-group="Electives & Skills">
         <h3 class="class-group-h">Electives & Skills</h3>
         <div class="class-group-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
-      <a href="/study-skills" class="class-card" data-subject-key="study-skills" data-name="Study Skills">
+      <a href="/study-skills/" class="class-card" data-subject-key="study-skills" data-name="Study Skills">
         <div class="class-card-icon"></div>
         <div class="cc-name">Study Skills</div>
         <div class="cc-meta">8 units · 80 practice questions</div>
         <p class="class-card-topics">How Memory Works · Active Recall &amp; Spaced Repetition · Note-Taking Systems <span class="class-card-more">+5 more</span></p>
       </a>
-      <a href="/music-theory" class="class-card" data-subject-key="music-theory" data-name="Music Theory">
+      <a href="/music-theory/" class="class-card" data-subject-key="music-theory" data-name="Music Theory">
         <div class="class-card-icon"></div>
         <div class="cc-name">Music Theory</div>
         <div class="cc-meta">8 units · 159 practice questions</div>
         <p class="class-card-topics">Notes, Staff &amp; Clefs · Rhythm &amp; Meter · Scales &amp; Keys <span class="class-card-more">+5 more</span></p>
       </a>
-<a href="/sociology" class="class-card" data-subject-key="sociology" data-name="Sociology">
+<a href="/sociology/" class="class-card" data-subject-key="sociology" data-name="Sociology">
         <div class="class-card-icon"></div>
         <div class="cc-name">Sociology</div>
         <div class="cc-meta">8 units · 80 practice questions</div>
         <p class="class-card-topics">Sociological Perspective · Research Methods · Culture &amp; Socialization <span class="class-card-more">+5 more</span></p>
       </a>
-<a href="/health" class="class-card" data-subject-key="health" data-name="Health">
+<a href="/health/" class="class-card" data-subject-key="health" data-name="Health">
         <div class="class-card-icon"></div>
         <div class="cc-name">Health</div>
         <div class="cc-meta">8 units · 320 practice questions</div>
@@ -850,79 +850,79 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
       <div class="class-group" data-group="AP Courses">
         <h3 class="class-group-h">Advanced Placement</h3>
         <div class="class-group-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
-<a href="/ap-biology" class="class-card" data-name="AP Biology" data-subject-key="apbiology">
+<a href="/ap-biology/" class="class-card" data-name="AP Biology" data-subject-key="apbiology">
         <div class="class-card-icon"></div>
         <div class="cc-name">AP Biology</div>
         <div class="cc-meta">8 units · 122 practice questions</div>
         <p class="class-card-topics">Chemistry of Life · Cell Structure &amp; Function · Cellular Energetics <span class="class-card-more">+5 more</span></p>
       </a>
-<a href="/ap-chemistry" class="class-card" data-subject-key="ap-chemistry" data-name="AP Chemistry">
+<a href="/ap-chemistry/" class="class-card" data-subject-key="ap-chemistry" data-name="AP Chemistry">
         <div class="class-card-icon"></div>
         <div class="cc-name">AP Chemistry</div>
         <div class="cc-meta">8 units · 320 practice questions</div>
         <p class="class-card-topics">Atomic Structure &amp; Moles · Stoichiometry · Gas Laws <span class="class-card-more">+5 more</span></p>
       </a>
-<a href="/ap-csa" class="class-card" data-subject-key="ap-csa" data-name="AP Computer Science A">
+<a href="/ap-csa/" class="class-card" data-subject-key="ap-csa" data-name="AP Computer Science A">
         <div class="class-card-icon"></div>
         <div class="cc-name">AP Computer Science A</div>
         <div class="cc-meta">8 units · 320 practice questions</div>
         <p class="class-card-topics">Java Basics &amp; Primitive Types · Objects &amp; Classes · Boolean Logic &amp; Ifs <span class="class-card-more">+5 more</span></p>
       </a>
-<a href="/ap-euro" class="class-card" data-subject-key="ap-euro" data-name="AP European History">
+<a href="/ap-euro/" class="class-card" data-subject-key="ap-euro" data-name="AP European History">
         <div class="class-card-icon"></div>
         <div class="cc-name">AP European History</div>
         <div class="cc-meta">8 units · 311 practice questions</div>
         <p class="class-card-topics">Renaissance &amp; Exploration · Reformation &amp; Wars of Religion · Absolutism &amp; Constitutionalism <span class="class-card-more">+5 more</span></p>
       </a>
-<a href="/ap-lang" class="class-card" data-name="AP English Language and Composition" data-subject-key="aplang">
+<a href="/ap-lang/" class="class-card" data-name="AP English Language and Composition" data-subject-key="aplang">
         <div class="class-card-icon"></div>
         <div class="cc-name">AP English Lang &amp; Comp</div>
         <div class="cc-meta">11 units · 542 practice questions</div>
         <p class="class-card-topics">The Rhetorical Situation · Rhetorical Appeals &amp; Logical Fallacies · Rhetorical Devices &amp; Figurative Language <span class="class-card-more">+7 more</span></p>
       </a>
-<a href="/ap-macro" class="class-card" data-subject-key="ap-macro" data-name="AP Macroeconomics">
+<a href="/ap-macro/" class="class-card" data-subject-key="ap-macro" data-name="AP Macroeconomics">
         <div class="class-card-icon"></div>
         <div class="cc-name">AP Macroeconomics</div>
         <div class="cc-meta">8 units · 319 practice questions</div>
         <p class="class-card-topics">Basic Economic Concepts · Economic Indicators &amp; GDP · Unemployment &amp; Inflation <span class="class-card-more">+5 more</span></p>
       </a>
-<a href="/ap-micro" class="class-card" data-subject-key="ap-micro" data-name="AP Microeconomics">
+<a href="/ap-micro/" class="class-card" data-subject-key="ap-micro" data-name="AP Microeconomics">
         <div class="class-card-icon"></div>
         <div class="cc-name">AP Microeconomics</div>
         <div class="cc-meta">8 units · 314 practice questions</div>
         <p class="class-card-topics">Basic Concepts &amp; Trade · Supply &amp; Demand Deep Dive · Elasticity <span class="class-card-more">+5 more</span></p>
       </a>
-<a href="/ap-physics" class="class-card" data-subject-key="ap-physics" data-name="AP Physics 1">
+<a href="/ap-physics/" class="class-card" data-subject-key="ap-physics" data-name="AP Physics 1">
         <div class="class-card-icon"></div>
         <div class="cc-name">AP Physics 1</div>
         <div class="cc-meta">11 units · 371 practice questions</div>
         <p class="class-card-topics">Kinematics · Dynamics &amp; Newton&#x27;s Laws · Circular Motion &amp; Gravity <span class="class-card-more">+8 more</span></p>
       </a>
-<a href="/ap-psych" class="class-card" data-subject-key="ap-psych" data-name="AP Psychology">
+<a href="/ap-psych/" class="class-card" data-subject-key="ap-psych" data-name="AP Psychology">
         <div class="class-card-icon"></div>
         <div class="cc-name">AP Psychology</div>
         <div class="cc-meta">8 units · 290 practice questions</div>
         <p class="class-card-topics">History &amp; Research Methods · Biological Bases · Sensation &amp; Perception <span class="class-card-more">+5 more</span></p>
       </a>
-<a href="/ap-stats" class="class-card" data-subject-key="ap-stats" data-name="AP Statistics">
+<a href="/ap-stats/" class="class-card" data-subject-key="ap-stats" data-name="AP Statistics">
         <div class="class-card-icon"></div>
         <div class="cc-name">AP Statistics</div>
         <div class="cc-meta">8 units · 320 practice questions</div>
         <p class="class-card-topics">Exploring Data · Modeling Distributions · Describing Bivariate Data <span class="class-card-more">+5 more</span></p>
       </a>
-<a href="/ap-usgov" class="class-card" data-subject-key="ap-usgov" data-name="AP US Government">
+<a href="/ap-usgov/" class="class-card" data-subject-key="ap-usgov" data-name="AP US Government">
         <div class="class-card-icon"></div>
         <div class="cc-name">AP US Government</div>
         <div class="cc-meta">8 units · 314 practice questions</div>
         <p class="class-card-topics">Foundations of Democracy · Branches: Legislative · Branches: Executive &amp; Bureaucracy <span class="class-card-more">+5 more</span></p>
       </a>
-<a href="/ap-world" class="class-card" data-subject-key="ap-world" data-name="AP World History">
+<a href="/ap-world/" class="class-card" data-subject-key="ap-world" data-name="AP World History">
         <div class="class-card-icon"></div>
         <div class="cc-name">AP World History</div>
         <div class="cc-meta">8 units · 320 practice questions</div>
         <p class="class-card-topics">The Global Tapestry 1200-1450 · Networks of Exchange · Land-Based Empires <span class="class-card-more">+5 more</span></p>
       </a>
-<a href="/ap-human-geography" class="class-card" data-subject-key="ap-human-geography" data-name="AP Human Geography">
+<a href="/ap-human-geography/" class="class-card" data-subject-key="ap-human-geography" data-name="AP Human Geography">
         <div class="class-card-icon"></div>
         <div class="cc-name">AP Human Geography</div>
         <div class="cc-meta">7 units · 121 practice questions</div>
@@ -932,19 +932,19 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
       <div class="class-group" data-group="Test Prep">
         <h3 class="class-group-h">Test Prep</h3>
         <div class="class-group-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
-<a href="/sat-math" class="class-card" data-subject-key="sat-math" data-name="SAT Math Prep">
+<a href="/sat-math/" class="class-card" data-subject-key="sat-math" data-name="SAT Math Prep">
         <div class="class-card-icon"></div>
         <div class="cc-name">SAT Math Prep</div>
         <div class="cc-meta">8 units · 253 practice questions</div>
         <p class="class-card-topics">Heart of Algebra · Problem Solving &amp; Data · Passport to Advanced Math <span class="class-card-more">+5 more</span></p>
       </a>
-<a href="/sat-reading" class="class-card" data-subject-key="sat-reading" data-name="SAT Reading & Writing">
+<a href="/sat-reading/" class="class-card" data-subject-key="sat-reading" data-name="SAT Reading & Writing">
         <div class="class-card-icon"></div>
         <div class="cc-name">SAT Reading & Writing</div>
         <div class="cc-meta">8 units · 87 practice questions</div>
         <p class="class-card-topics">Information &amp; Ideas · Command of Evidence · Words in Context <span class="class-card-more">+5 more</span></p>
       </a>
-<a href="/act-prep" class="class-card" data-subject-key="act-prep" data-name="ACT Prep">
+<a href="/act-prep/" class="class-card" data-subject-key="act-prep" data-name="ACT Prep">
         <div class="class-card-icon"></div>
         <div class="cc-name">ACT Prep</div>
         <div class="cc-meta">8 units · 320 practice questions</div>
@@ -1001,17 +1001,17 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
     <div class="st-grid">
       <a class="st-card" href="#classes-section"><h3>5-minute diagnostic</h3><p>Pick a class and find your weak spots before you study. No sign-up needed.</p><span class="st-go">Pick a class &rarr;</span></a>
       <a class="st-card" href="#classes-section"><h3>Flashcards that come back on time</h3><p>Spaced repetition brings each card back just before you'd forget it. Cards due today show as a badge on the Flashcards tab.</p><span class="st-go">Pick a class &rarr;</span></a>
-      <a class="st-card" href="/flashcards"><h3>Make your own flashcards</h3><p>Paste or upload your notes and turn them into a deck you can study.</p><span class="st-go">Make a deck &rarr;</span></a>
+      <a class="st-card" href="/flashcards/"><h3>Make your own flashcards</h3><p>Paste or upload your notes and turn them into a deck you can study.</p><span class="st-go">Make a deck &rarr;</span></a>
       <a class="st-card" href="#classes-section"><h3>Study plan in your calendar</h3><p>Choose days and minutes, then download a plan for Google, Apple, or Outlook Calendar. Find it on any guide's Quiz tab.</p><span class="st-go">Pick a class &rarr;</span></a>
     </div>
     <details class="st-more"><summary>6 more study tools</summary>
     <div class="st-grid">
       <a class="st-card" href="#classes-section"><h3>Read aloud and dyslexia mode</h3><p>Natural voices with a voice picker, a Pomodoro timer, and a dyslexia-friendly reading mode on every guide.</p><span class="st-go">Pick a class &rarr;</span></a>
       <div class="st-card"><h3>Search everything</h3><p>Press <kbd>Ctrl</kbd> + <kbd>K</kbd> (<kbd>&#8984;</kbd> + <kbd>K</kbd> on a Mac) on any page to jump to a topic, tool, or class.</p></div>
-      <a class="st-card" href="/dashboard"><h3>Streaks, badges, and heatmap</h3><p>See your readiness by topic, your study streak, and what to practice next.</p><span class="st-go">Open dashboard &rarr;</span></a>
-      <a class="st-card" href="/compete"><h3>Compete with friends</h3><p>Race on quizzes and challenge a classmate to beat your score.</p><span class="st-go">Compete &rarr;</span></a>
-      <a class="st-card" href="/syllabus"><h3>Upload your syllabus</h3><p>Match a guide to the order your teacher covers things.</p><span class="st-go">Upload &rarr;</span></a>
-      <a class="st-card" href="/concepts"><h3>Concept map</h3><p>See how topics depend on each other so you know what to learn first.</p><span class="st-go">Open map &rarr;</span></a>
+      <a class="st-card" href="/dashboard/"><h3>Streaks, badges, and heatmap</h3><p>See your readiness by topic, your study streak, and what to practice next.</p><span class="st-go">Open dashboard &rarr;</span></a>
+      <a class="st-card" href="/compete/"><h3>Compete with friends</h3><p>Race on quizzes and challenge a classmate to beat your score.</p><span class="st-go">Compete &rarr;</span></a>
+      <a class="st-card" href="/syllabus/"><h3>Upload your syllabus</h3><p>Match a guide to the order your teacher covers things.</p><span class="st-go">Upload &rarr;</span></a>
+      <a class="st-card" href="/concepts/"><h3>Concept map</h3><p>See how topics depend on each other so you know what to learn first.</p><span class="st-go">Open map &rarr;</span></a>
     </div>
     </details>
   </div>
@@ -1085,13 +1085,13 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
 </div>
 
 <div role="contentinfo" style="border-top:1px solid var(--border);padding:24px 32px;text-align:center;">
-  <a href="/about" style="color:var(--text-muted);font-size:13px;text-decoration:none;display:inline-block;padding:10px 7px;">Who Are We</a>
-  <a href="/request" style="color:var(--text-muted);font-size:13px;text-decoration:none;display:inline-block;padding:10px 7px;">Request a Guide</a>
-  <a href="/educators" style="color:var(--text-muted);font-size:13px;text-decoration:none;display:inline-block;padding:10px 7px;">Educators</a>
-  <a href="/changelog" style="color:var(--text-muted);font-size:13px;text-decoration:none;display:inline-block;padding:10px 7px;">Changelog</a>
-  <a href="/privacy" style="color:var(--text-muted);font-size:13px;text-decoration:none;display:inline-block;padding:10px 7px;">Privacy</a>
-  <a href="/terms" style="color:var(--text-muted);font-size:13px;text-decoration:none;display:inline-block;padding:10px 7px;">Terms</a>
-  <a href="/parents-bill-of-rights" style="color:var(--text-muted);font-size:13px;text-decoration:none;display:inline-block;padding:10px 7px;">Parents' Bill of Rights</a>
+  <a href="/about/" style="color:var(--text-muted);font-size:13px;text-decoration:none;display:inline-block;padding:10px 7px;">Who Are We</a>
+  <a href="/request/" style="color:var(--text-muted);font-size:13px;text-decoration:none;display:inline-block;padding:10px 7px;">Request a Guide</a>
+  <a href="/educators/" style="color:var(--text-muted);font-size:13px;text-decoration:none;display:inline-block;padding:10px 7px;">Educators</a>
+  <a href="/changelog/" style="color:var(--text-muted);font-size:13px;text-decoration:none;display:inline-block;padding:10px 7px;">Changelog</a>
+  <a href="/privacy/" style="color:var(--text-muted);font-size:13px;text-decoration:none;display:inline-block;padding:10px 7px;">Privacy</a>
+  <a href="/terms/" style="color:var(--text-muted);font-size:13px;text-decoration:none;display:inline-block;padding:10px 7px;">Terms</a>
+  <a href="/parents-bill-of-rights/" style="color:var(--text-muted);font-size:13px;text-decoration:none;display:inline-block;padding:10px 7px;">Parents' Bill of Rights</a>
   <a href="#" onclick="ssOpenCookiePreferences();return false;" style="color:var(--text-muted);font-size:13px;text-decoration:none;display:inline-block;padding:10px 7px;">Cookie preferences</a>
   <a href="#" class="ss-mail-link" data-u="support" data-d="precisstudy.com" style="color:var(--text-muted);font-size:13px;text-decoration:none;">
     Questions or feedback? <span class="ss-mail-addr"></span>
@@ -1099,7 +1099,7 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
 </div>
 
 <div id="ss-cookie-banner" class="ss-cookie" style="display:none">
-  <p>We show ads to keep PrecisStudy free. Ads use cookies; guides work the same either way. <a href="/privacy">Privacy</a></p>
+  <p>We show ads to keep PrecisStudy free. Ads use cookies; guides work the same either way. <a href="/privacy/">Privacy</a></p>
   <div class="ss-cookie-actions">
     <button type="button" onclick="ssCookieConsentReject()">Decline</button>
     <button type="button" onclick="ssCookieConsentAccept()">Accept</button>
@@ -1585,7 +1585,7 @@ function ssReadinessPct(mastery){
 function ssShowAllClasses(){
   document.querySelectorAll('.class-card[data-subject-key]').forEach(function(card){ card.style.display = ''; });
   ssSyncClassGroups();
-  document.getElementById('classes-note').innerHTML = '<a href="/settings" style="color:var(--accent);font-weight:700;text-decoration:none;">Choose your classes →</a>';
+  document.getElementById('classes-note').innerHTML = '<a href="/settings/" style="color:var(--accent);font-weight:700;text-decoration:none;">Choose your classes →</a>';
 }
 
 function ssSyncClassGroups(){
@@ -1599,7 +1599,7 @@ function ssSyncClassGroups(){
 function ssApplyEnrolledFilter(enrolled){
   var note = document.getElementById('classes-note');
   if(!enrolled || !enrolled.length){
-    note.innerHTML = '<a href="/settings" style="color:var(--accent);font-weight:700;text-decoration:none;">📚 Tell us which classes you\'re taking →</a>';
+    note.innerHTML = '<a href="/settings/" style="color:var(--accent);font-weight:700;text-decoration:none;">📚 Tell us which classes you\'re taking →</a>';
     return;
   }
   var enrolledSet = new Set(enrolled);
@@ -1608,7 +1608,7 @@ function ssApplyEnrolledFilter(enrolled){
   });
   ssSyncClassGroups();
   note.innerHTML = 'Showing your classes — <a href="#" onclick="ssShowAllClasses();return false;" style="color:var(--accent);font-weight:700;text-decoration:none;">show all</a>'
-    + ' · <a href="/settings" style="color:var(--text-muted);text-decoration:none;">edit</a>';
+    + ' · <a href="/settings/" style="color:var(--text-muted);text-decoration:none;">edit</a>';
 }
 
 async function ssLoadClassReadiness(){

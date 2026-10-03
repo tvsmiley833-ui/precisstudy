@@ -236,9 +236,9 @@ body{transition:background .2s ease,color .2s ease}
   <div role="navigation" aria-label="Main" class="nav-links" style="display:flex;gap:16px;font-weight:600;font-size:15px;color:var(--nav-text);align-items:center;">
     <a href="/#classes-section" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Browse Subjects</a>
     <a href="/#how-it-works" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">How It Works</a>
-    <a href="/dashboard" class="nav-hide-sm" aria-current="page" style="color:var(--accent);text-decoration:none;">Dashboard</a>
-    <a href="/flashcards" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Flashcards</a>
-    <a href="/settings" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Settings</a>
+    <a href="/dashboard/" class="nav-hide-sm" aria-current="page" style="color:var(--accent);text-decoration:none;">Dashboard</a>
+    <a href="/flashcards/" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Flashcards</a>
+    <a href="/settings/" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Settings</a>
     <button id="theme-toggle" onclick="ssToggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode">
       <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -250,11 +250,11 @@ body{transition:background .2s ease,color .2s ease}
   <div id="ss-mobile-menu" role="menu" aria-label="Main">
     <a role="menuitem" href="/#classes-section">Browse Subjects</a>
     <a role="menuitem" href="/#how-it-works">How It Works</a>
-    <a role="menuitem" href="/about">Who Are We</a>
-    <a role="menuitem" href="/request">Request a Guide</a>
-    <a role="menuitem" href="/educators">Educators</a>
-    <a role="menuitem" href="/dashboard" aria-current="page">Dashboard</a>
-    <a role="menuitem" href="/settings">Settings</a>
+    <a role="menuitem" href="/about/">Who Are We</a>
+    <a role="menuitem" href="/request/">Request a Guide</a>
+    <a role="menuitem" href="/educators/">Educators</a>
+    <a role="menuitem" href="/dashboard/" aria-current="page">Dashboard</a>
+    <a role="menuitem" href="/settings/">Settings</a>
     <a role="menuitem" class="ss-menu-cta" href="/#classes-section">Pick your class →</a>
   </div>
 </div>
@@ -332,7 +332,7 @@ body{transition:background .2s ease,color .2s ease}
     <div class="ss-card" id="dash-assignments-card">
       <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px;">
         <div style="font-weight:800;font-size:19px;color:var(--text);"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Upcoming Assignments</div>
-        <a href="/settings" style="font-size:12.5px;color:var(--text-muted);text-decoration:none;font-weight:700;">Manage →</a>
+        <a href="/settings/" style="font-size:12.5px;color:var(--text-muted);text-decoration:none;font-weight:700;">Manage →</a>
       </div>
       <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 8px;">Your Google Classroom coursework and calendar due-dates, in one place.</p>
       <div id="dash-assignments-sync" style="display:none;align-items:center;gap:8px;margin-bottom:10px;">
@@ -393,10 +393,10 @@ body{transition:background .2s ease,color .2s ease}
 
       <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;">
         <button id="sb-build-btn" class="ss-cta-btn" style="background:var(--accent-solid);color:#fff;border:none;padding:10px 20px;border-radius:999px;font-size:14px;font-weight:700;cursor:pointer;">Build my schedule</button>
-        <a href="/syllabus" style="font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;">📄 Or upload a syllabus for exact class times →</a>
-        <a href="/concepts" style="font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;">🧭 See unit dependency map →</a>
+        <a href="/syllabus/" style="font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;">📄 Or upload a syllabus for exact class times →</a>
+        <a href="/concepts/" style="font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;">🧭 See unit dependency map →</a>
         <a href="/compete/" style="font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;">🏆 Compete: quests, leaderboards, groups &amp; challenges →</a>
-        <a href="/educators" style="font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;">🏫 Educator Resource Hub →</a>
+        <a href="/educators/" style="font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;">🏫 Educator Resource Hub →</a>
         <span id="sb-status" style="font-size:12.5px;color:var(--text-muted);"></span>
       </div>
 
@@ -417,8 +417,8 @@ body{transition:background .2s ease,color .2s ease}
 </div>
 
 <div role="contentinfo" style="border-top:1px solid var(--border);padding:24px 32px;text-align:center;">
-  <a href="/privacy" style="color:var(--text-muted);font-size:13px;text-decoration:none;margin-right:14px;">Privacy</a>
-  <a href="/terms" style="color:var(--text-muted);font-size:13px;text-decoration:none;margin-right:14px;">Terms</a>
+  <a href="/privacy/" style="color:var(--text-muted);font-size:13px;text-decoration:none;margin-right:14px;">Privacy</a>
+  <a href="/terms/" style="color:var(--text-muted);font-size:13px;text-decoration:none;margin-right:14px;">Terms</a>
   <a href="#" class="ss-mail-link" data-u="support" data-d="precisstudy.com" style="color:var(--text-muted);font-size:13px;text-decoration:none;">
     Questions or feedback? <span class="ss-mail-addr"></span>
   </a>
@@ -1949,12 +1949,12 @@ async function loadDashboard() {
   function renderDashSubjects() {
     const list = dashShowAll ? SUBJECTS_CONFIG : SUBJECTS_CONFIG.filter(s => enrolledSet.has(s.key));
     if (enrolledSet.size === 0) {
-      noteEl.innerHTML = '<a href="/settings" style="color:var(--accent);font-weight:700;text-decoration:none;">📚 Tell us which classes you\'re taking →</a>';
+      noteEl.innerHTML = '<a href="/settings/" style="color:var(--accent);font-weight:700;text-decoration:none;">📚 Tell us which classes you\'re taking →</a>';
     } else if (dashShowAll) {
-      noteEl.innerHTML = 'Showing all classes · <a href="/settings" style="color:var(--text-muted);text-decoration:none;">edit your classes</a>';
+      noteEl.innerHTML = 'Showing all classes · <a href="/settings/" style="color:var(--text-muted);text-decoration:none;">edit your classes</a>';
     } else {
       noteEl.innerHTML = 'Showing your classes — <a href="#" onclick="dashShowAllClasses();return false;" style="color:var(--accent);font-weight:700;text-decoration:none;">show all</a>'
-        + ' · <a href="/settings" style="color:var(--text-muted);text-decoration:none;">edit</a>';
+        + ' · <a href="/settings/" style="color:var(--text-muted);text-decoration:none;">edit</a>';
     }
 
     const filterWrap = document.getElementById('dash-subject-filter-wrap');

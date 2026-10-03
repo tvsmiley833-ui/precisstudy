@@ -223,9 +223,9 @@ a{color:var(--accent)}
 </style>
 </head>
 <body>
-<a href="/dashboard" class="skip-link" onclick="obSkip(event)">Skip setup and go to dashboard</a>
+<a href="/dashboard/" class="skip-link" onclick="obSkip(event)">Skip setup and go to dashboard</a>
 
-<style>/* Header: one line per link; drop the marketing links first when space runs out. */.nav-links a,#ss-account-area button,#ss-account-area a{white-space:nowrap}@media(max-width:1360px){.nav-links a[href="/about"],.nav-links a[href="/#how-it-works"]{display:none}}</style>
+<style>/* Header: one line per link; drop the marketing links first when space runs out. */.nav-links a,#ss-account-area button,#ss-account-area a{white-space:nowrap}@media(max-width:1360px){.nav-links a[href="/about/"],.nav-links a[href="/#how-it-works"]{display:none}}</style>
 <div role="banner" class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:var(--bg-header);border-bottom:1px solid var(--border);">
   <a href="/" style="font-weight:800;font-size:22px;color:var(--nav-text);display:flex;align-items:center;gap:8px;text-decoration:none;">
     <span style="display:inline-block;width:28px;height:28px;position:relative;flex-shrink:0;"><img src="/logo-icon.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;" class="ss-logo-light"/><img src="/logo-icon-dark.png" alt="" width="28" height="28" style="border-radius:6px;position:absolute;inset:0;display:none;" class="ss-logo-dark"/></span>PrecisStudy
@@ -250,7 +250,7 @@ a{color:var(--accent)}
       <button type="button" class="ob-back" id="ob-back" aria-label="Back" onclick="obBack()">←</button>
       <div class="ob-bar" id="ob-bar" role="progressbar" aria-label="Setup progress" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0"><i></i><i></i><i></i><i></i></div>
       <span class="ob-xp" id="ob-xp">0 XP</span>
-      <a href="/dashboard" class="ob-skip" onclick="obSkip(event)">Skip</a>
+      <a href="/dashboard/" class="ob-skip" onclick="obSkip(event)">Skip</a>
     </div>
     <div id="ob-screen" aria-live="polite"></div>
   </div>
@@ -448,7 +448,7 @@ const VIEWS = {
     const test = TESTS.find((t) => t.v === S.days);
     foot(first
       ? `<a class="ob-cta full" style="text-align:center;text-decoration:none" href="/${PATHS[first.key] || first.key}" onclick="obFinish()">Start with ${esc(first.label)}</a>`
-      : `<a class="ob-cta full" style="text-align:center;text-decoration:none" href="/dashboard" onclick="obFinish()">Go to my dashboard</a>`);
+      : `<a class="ob-cta full" style="text-align:center;text-decoration:none" href="/dashboard/" onclick="obFinish()">Go to my dashboard</a>`);
     return `${owl("cheer", 140, { cap: true })}
       <h1 class="ob-h">You're all set!</h1>
       <div class="ob-ach" role="status" id="ob-ach">${owlSvg({ mood: "happy", cap: true, size: 44, label: "" })}<span><b>Achievement unlocked: First Flight</b><small id="ob-ach-note">+${S.xp} XP · Sage earned a graduation cap</small></span></div>
@@ -457,7 +457,7 @@ const VIEWS = {
         <div><span>Next test</span><span>${test ? test.t : "Not set"}</span></div>
         <div><span>Daily goal</span><span>${S.minutes ? S.minutes + " min a day" : "Not set"}</span></div>
       </div>
-      ${first ? `<p class="ob-sub" style="margin-top:14px"><a href="/dashboard" onclick="obFinish()">Or go to your dashboard</a></p>` : ""}`;
+      ${first ? `<p class="ob-sub" style="margin-top:14px"><a href="/dashboard/" onclick="obFinish()">Or go to your dashboard</a></p>` : ""}`;
   },
 };
 

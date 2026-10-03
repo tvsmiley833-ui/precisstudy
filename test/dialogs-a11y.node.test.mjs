@@ -148,3 +148,11 @@ test("floating panels drag with pointer events on the handle, with no document-l
   assert.match(js, /handle\.addEventListener\('pointerdown',down\)/);
   assert.match(js, /setPointerCapture/);
 });
+
+test("internal links to site sections carry the trailing slash, so they skip the slash redirect", async () => {
+  const { existsSync } = await import("node:fs");
+  for (const f of ["../public/index.html", "../public/dashboard/index.html", "../public/settings/index.html"]) {
+    const bad = [...read(f).matchAll(/href="\/([a-z0-9-]+)"/g)].map(m => m[1]).filter(d => existsSync(new URL(`../public/${d}/index.html`, import.meta.url)));
+    assert.deepEqual(bad, [], f);
+  }
+});
