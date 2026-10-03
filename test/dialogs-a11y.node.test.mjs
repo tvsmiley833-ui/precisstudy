@@ -53,3 +53,10 @@ test("search and answer inputs ask phones for the right Enter key", () => {
   assert.match(read("../public/spanish-1/index.html"), /id="fc-type-input" type="text" enterkeyhint="done"/);
   assert.match(read("../public/index.html"), /id="class-search" type="text" enterkeyhint="search"/);
 });
+
+test("quiz clock starts when the first question shows, and Quick 10 is rebuilt when the quiz tab first opens", () => {
+  const js = read("../client/guide-app.js");
+  assert.match(js, /qSessionStart=null;showQ\(\);/);
+  assert.match(js, /qSessionStart===null\)qSessionStart=Date\.now\(\)/);
+  assert.match(js, /id==='quiz'&&!ssQuickRebuilt/);
+});

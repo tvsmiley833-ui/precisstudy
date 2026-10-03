@@ -30,7 +30,8 @@ function ssShuffleOptions(q){
   if(typeof q.a==='number')q.a=order.indexOf(q.a);
   q._shuffled=true;
 }
-function switchTab(id){if(id!=='exam'&&typeof ssLockdownActive!=='undefined'&&ssLockdownActive)ssEndExamLockdown();document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');var idx=-1;tabs.forEach((b,i)=>{if(b.id==='tab-'+id)idx=i;});if(idx!==-1){tabs.forEach((b,i)=>{var on=i===idx;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;});try{tabs[idx].scrollIntoView({inline:'center',block:'nearest',behavior:ssScrollBehavior()});}catch(e){}var _hl=document.getElementById('hero-live');if(_hl)_hl.textContent=tabs[idx].textContent.trim()+' tab';}if(id==='examples'&&!examplesBuilt)buildExamples();if(id==='exam'&&!examBuilt)buildExam();}
+var ssQuickRebuilt=false;
+function switchTab(id){if(id==='quiz'&&!ssQuickRebuilt){ssQuickRebuilt=true;const s=document.getElementById('q-sel');if(s&&s.value==='quick'&&!ssQuizTouched&&typeof loadQ==='function')loadQ();}if(id!=='exam'&&typeof ssLockdownActive!=='undefined'&&ssLockdownActive)ssEndExamLockdown();document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const tabs=document.querySelectorAll('.tab-btn');tabs.forEach(b=>b.classList.remove('active'));document.getElementById('view-'+id).classList.add('active');var idx=-1;tabs.forEach((b,i)=>{if(b.id==='tab-'+id)idx=i;});if(idx!==-1){tabs.forEach((b,i)=>{var on=i===idx;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1;});try{tabs[idx].scrollIntoView({inline:'center',block:'nearest',behavior:ssScrollBehavior()});}catch(e){}var _hl=document.getElementById('hero-live');if(_hl)_hl.textContent=tabs[idx].textContent.trim()+' tab';}if(id==='examples'&&!examplesBuilt)buildExamples();if(id==='exam'&&!examBuilt)buildExam();}
 let examBuilt=false;
 var examplesBuilt=false, ex2map={}, ex2shown={};
 
@@ -1612,7 +1613,7 @@ function loadQ(){
   else src=QUIZ.concat(HQ).filter(q=>q.u===+raw);
   if(difficultyFilter!=='all')src=src.filter(q=>ssDiffOf(q)===difficultyFilter);
   qPool=raw==='quick'?src:src.sort(()=>Math.random()-.5);
-  qIdx=0;score=0;qStreak=0;qBestStreak=0;qMissedUnits=new Set();requeueCounts=new WeakMap();qSessionStart=Date.now();showQ();
+  qIdx=0;score=0;qStreak=0;qBestStreak=0;qMissedUnits=new Set();requeueCounts=new WeakMap();qSessionStart=null;showQ();
 }
 let qStreak=0,qBestStreak=0,qMissedUnits=new Set();
 // Ten questions, drawn without replacement with each unit weighted by how
@@ -1727,6 +1728,7 @@ function showDiagSummary(){
 }
 function showQ(){
   const qb=document.getElementById('qbox');
+  if(qPool.length&&qIdx<qPool.length&&qSessionStart===null)qSessionStart=Date.now(); // time from the first question on screen, not from page load
   if(!qPool.length){
     // An empty pool (a filter with no matches) must not fall through to the results card: it would show "0/0 NaN%".
     qb.innerHTML='<div class="result"><div class="sub">No questions match this choice yet.</div><button class="btn" onclick="setDifficultyFilter(\'all\')">Show all questions</button></div>';
