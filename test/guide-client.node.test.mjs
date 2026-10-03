@@ -322,22 +322,41 @@ describe("flashcard spaced repetition", () => {
     const { st, api } = setup();
     api.ssSrsRecord("alpha", true);
     assert.deepEqual([...st.srs.alpha], [1, clock.t + 1 * DAY, clock.t]);
+    clock.t += 1 * DAY;
     api.ssSrsRecord("alpha", true);
     assert.deepEqual([...st.srs.alpha], [2, clock.t + 3 * DAY, clock.t]);
+  });
+
+  test("a right answer on a card that isn't due yet doesn't move it (no cramming)", () => {
+    const { st, api } = setup();
+    api.ssSrsRecord("alpha", true);
+    const due = st.srs.alpha[1];
+    api.ssSrsRecord("alpha", true);
+    assert.deepEqual([...st.srs.alpha], [1, due, clock.t]);
+  });
+
+  test("a miss drops two boxes, never below 1, and is due now", () => {
+    const { st, api } = setup();
+    for (let i = 0; i < 4; i++) { api.ssSrsRecord("alpha", true); clock.t = st.srs.alpha[1]; }
+    assert.equal(st.srs.alpha[0], 4);
+    api.ssSrsRecord("alpha", false);
+    assert.deepEqual([...st.srs.alpha], [2, clock.t, clock.t]);
+    api.ssSrsRecord("alpha", false);
+    assert.equal(st.srs.alpha[0], 1);
   });
 
   test("boxes climb 1 to 5 on the 1, 3, 7, 14, 30 day schedule and stop at 5", () => {
     const { st, api } = setup();
     const boxes = [], gaps = [];
-    for (let i = 0; i < 7; i++) { api.ssSrsRecord("alpha", true); boxes.push(st.srs.alpha[0]); gaps.push((st.srs.alpha[1] - clock.t) / DAY); }
+    for (let i = 0; i < 7; i++) { api.ssSrsRecord("alpha", true); boxes.push(st.srs.alpha[0]); gaps.push((st.srs.alpha[1] - clock.t) / DAY); clock.t = st.srs.alpha[1]; }
     assert.deepEqual(boxes, [1, 2, 3, 4, 5, 5, 5]);
     assert.deepEqual(gaps, [1, 3, 7, 14, 30, 30, 30]);
   });
 
-  test("a wrong answer drops the card to box 1 and makes it due immediately", () => {
+  test("a wrong answer drops the card two boxes and makes it due immediately", () => {
     const { st, api } = setup([], { alpha: [4, clock.t + 14 * DAY, 1] });
     api.ssSrsRecord("alpha", false);
-    assert.deepEqual([...st.srs.alpha], [1, clock.t, clock.t]);
+    assert.deepEqual([...st.srs.alpha], [2, clock.t, clock.t]);
     assert.equal(api.ssSrsIsDue("alpha"), true);
   });
 

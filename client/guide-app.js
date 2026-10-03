@@ -913,7 +913,7 @@ function ssFuzzyMatch(typed,correct){
 
 // SPACED REPETITION (Leitner boxes, per browser). Each rated card gets a box 1-5;
 // a right answer moves it up and pushes its due date out (1, 3, 7, 14, 30 days),
-// a miss drops it to box 1 and makes it due immediately. Cards never rated have
+// a miss drops it two boxes (min 1) and makes it due immediately; a right answer on a card that isn't due yet changes nothing. Cards never rated have
 // no schedule and stay in "Still learning" until first rated.
 const SRS_DAYS=[0,1,3,7,14,30],SRS_DAY_MS=864e5;
 // The schedule lives in the mastery state (public/shared/mastery.js), so it is saved
@@ -938,7 +938,10 @@ function ssSrsSeed(){
 }
 function ssSrsRecord(term,known){
   const cur=ssSrsLoad()[term],now=Date.now();
-  const box=known?Math.min(5,(cur?cur[0]:0)+1):1;
+  // Only a card that is due (or brand new) earns a box: "Know it" a few seconds after the last review
+  // is cramming, not recall, and must not push the next review out. A miss costs two boxes and is due now.
+  if(known&&cur&&cur[1]>now){SS_MASTERY.setSrs(term,[cur[0],cur[1],now]);ssSrsRefresh();return;}
+  const box=known?Math.min(5,(cur?cur[0]:0)+1):Math.max(1,(cur?cur[0]:1)-2);
   SS_MASTERY.setSrs(term,[box,known?now+SRS_DAYS[box]*SRS_DAY_MS:now,now]);
   ssSrsRefresh();
 }
@@ -1187,6 +1190,8 @@ function rateFC(rating){
   const deck=getActiveDeck();
   if(!deck.length||!SS_MASTERY)return;
   const card=deck[fcIdx];
+  const sc=document.getElementById('scene');
+  if(sc&&!sc.classList.contains('flipped')){const lv=document.getElementById('fc-live');if(lv)lv.textContent='Flip the card to check your answer before rating it.';return;}
   const before=deck.slice(); // in the unfiltered view the active deck IS fcDeck, which the requeue below reorders
   if(rating==='known')SS_MASTERY.markCardKnown(card.t);
   else SS_MASTERY.unmarkCardKnown(card.t);
