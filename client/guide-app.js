@@ -2120,11 +2120,22 @@ function cbotSearch(query){
   return scored.slice(0,3);
 }
 
+var cbotReturnFocus=null;
+function cbotKeydown(e){if(e.key==='Escape'){var p=document.getElementById('cbot-panel');if(p&&p.contains(document.activeElement))cbotToggle();}}
 function cbotToggle(){
   var panel=document.getElementById('cbot-panel');
   var opening=panel.classList.toggle('open');
+  panel.setAttribute('aria-hidden',opening?'false':'true');
+  if(!opening){
+    document.removeEventListener('keydown',cbotKeydown);
+    if(cbotReturnFocus&&document.contains(cbotReturnFocus))cbotReturnFocus.focus();
+    cbotReturnFocus=null;
+  }
   if(opening){
+    cbotReturnFocus=document.activeElement;
+    document.addEventListener('keydown',cbotKeydown);
     ssBringToFront(panel);
+    setTimeout(function(){var i=document.getElementById('cbot-input');if(i)i.focus();},0);
     if(!cbotHistory.length)cbotAddMsg('bot',"Hi! Ask me about any term or concept from the guide — like \"activation energy\" or \"limiting reagent\" — and I'll pull up the explanation. No setup needed.");
   }
 }
@@ -2608,8 +2619,9 @@ function cbotPanelInit(){
   if(document.getElementById('cbot-panel'))return;
   var panel=document.createElement('div');
   panel.id='cbot-panel';
+  panel.setAttribute('role','dialog');panel.setAttribute('aria-label','Study helper');panel.setAttribute('aria-hidden','true');
   panel.innerHTML='<div class="cbot-hd"><b>Study Helper</b>'+
-    '<button id="cbot-settings-btn" onclick="cbotToggleSettings()" title="AI connection settings">'+
+    '<button id="cbot-settings-btn" type="button" onclick="cbotToggleSettings()" title="AI connection settings" aria-label="AI connection settings">'+
       '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82A1.65 1.65 0 0 0 3 13.09H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>'+
     '<button type="button" onclick="cbotToggle()" aria-label="Close study helper">✕</button></div>'+
     '<div class="cbot-disclaimer">AI-generated — can be wrong, especially on math and science. Double-check anything important.</div>'+
@@ -2619,9 +2631,9 @@ function cbotPanelInit(){
       '<input id="cbot-key" type="password" placeholder="sk-…"/>'+
       '<div class="cbot-set-row"><button class="primary" onclick="cbotSaveSettings()">Save</button><button onclick="cbotClearSettings()">Clear</button></div>'+
     '</div>'+
-    '<div id="cbot-msgs"></div>'+
+    '<div id="cbot-msgs" role="log" aria-live="polite" aria-label="Conversation"></div>'+
     '<form id="cbot-form" onsubmit="return cbotSend(event)">'+
-      '<input id="cbot-input" type="text" placeholder="Ask about a term or concept…" autocomplete="off"/>'+
+      '<input id="cbot-input" type="text" aria-label="Ask the study helper" placeholder="Ask about a term or concept…" autocomplete="off"/>'+
       '<button type="submit" aria-label="Send">➤</button>'+
     '</form>';
   document.body.appendChild(panel);
@@ -2810,7 +2822,10 @@ function shortcutsModalToggle(){
   var panel=document.getElementById('shortcuts-modal');
   if(panel&&panel.classList.contains('open'))shortcutsModalClose();else shortcutsModalOpen();
 }
-function shortcutsModalKeydown(e){if(e.key==='Escape')shortcutsModalClose();}
+function shortcutsModalKeydown(e){
+  if(e.key==='Escape')shortcutsModalClose();
+  else if(e.key==='Tab'){e.preventDefault();var b=document.querySelector('#shortcuts-modal .shortcuts-modal-close');if(b)b.focus();} // the close button is the only control
+}
 
 /* ----- official reference sheet, e.g. the Digital SAT's on-screen Math
    Reference -- rendered inline from OFFICIAL_REFERENCE.content instead of

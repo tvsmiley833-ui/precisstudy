@@ -63,8 +63,8 @@
   backdrop.id = 'cp-backdrop';
   backdrop.innerHTML =
     '<div id="cp-modal" role="dialog" aria-modal="true" aria-label="Quick navigation">' +
-    '<input id="cp-input" type="text" placeholder="Jump to a subject or page..." autocomplete="off"/>' +
-    '<div id="cp-list"></div>' +
+    '<input id="cp-input" type="text" role="combobox" aria-label="Jump to a subject or page" aria-expanded="true" aria-controls="cp-list" aria-autocomplete="list" placeholder="Jump to a subject or page..." autocomplete="off"/>' +
+    '<div id="cp-list" role="listbox" aria-label="Destinations"></div>' +
     '<div id="cp-hint">↑↓ to navigate · Enter to open · Esc to close</div>' +
     '</div>';
   document.body.appendChild(backdrop);
@@ -76,15 +76,16 @@
 
   function render() {
     if (!filtered.length) {
-      list.innerHTML = '<div id="cp-empty">No matches.</div>';
+      list.innerHTML = '<div id="cp-empty" role="status">No matches.</div>';
+      input.removeAttribute('aria-activedescendant');
       return;
     }
     list.innerHTML = filtered.map(function (d, i) {
-      return '<div class="cp-item' + (i === activeIdx ? ' active' : '') + '" data-idx="' + i + '">' +
+      return '<div class="cp-item' + (i === activeIdx ? ' active' : '') + '" id="cp-opt-' + i + '" role="option" aria-selected="' + (i === activeIdx) + '" data-idx="' + i + '">' +
         '<span>' + d.l + '</span><small>' + d.h + '</small></div>';
     }).join('');
     var activeEl = list.querySelector('.cp-item.active');
-    if (activeEl) activeEl.scrollIntoView({ block: 'nearest' });
+    if (activeEl) { activeEl.scrollIntoView({ block: 'nearest' }); input.setAttribute('aria-activedescendant', activeEl.id); }
   }
 
   function filterList() {
@@ -94,7 +95,9 @@
     render();
   }
 
+  var opener = null;
   function open() {
+    opener = document.activeElement;
     backdrop.classList.add('open');
     input.value = '';
     filterList();
@@ -102,6 +105,8 @@
   }
   function close() {
     backdrop.classList.remove('open');
+    if (opener && opener.focus && document.contains(opener)) opener.focus();
+    opener = null;
   }
   function go(item) {
     if (item) location.href = item.h;
@@ -116,6 +121,7 @@
     }
     if (!backdrop.classList.contains('open')) return;
     if (e.key === 'Escape') { close(); return; }
+    if (e.key === 'Tab') { e.preventDefault(); input.focus(); return; } // the input is the only control: keep focus in the dialog
     if (e.key === 'ArrowDown') { e.preventDefault(); activeIdx = Math.min(activeIdx + 1, filtered.length - 1); render(); }
     else if (e.key === 'ArrowUp') { e.preventDefault(); activeIdx = Math.max(activeIdx - 1, 0); render(); }
     else if (e.key === 'Enter') { e.preventDefault(); go(filtered[activeIdx]); }
