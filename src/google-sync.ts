@@ -113,6 +113,17 @@ async function fetchClassroom(accessToken: string): Promise<Assignment[]> {
 
   const perCourse = await mapLimit(courses, COURSE_CONCURRENCY, async (course: any) => {
     const cid = String(course.id);
+    // One course the student can't read (403) or that has gone (404) must not hide every other course's assignments.
+    try { return await fetchCourse(course, cid, accessToken); } catch (e) {
+      if (e instanceof GoogleUnavailable && / -> (403|404)$/.test(e.message)) return [] as Assignment[];
+      throw e;
+    }
+  });
+  return perCourse.flat();
+}
+
+async function fetchCourse(course: any, cid: string, accessToken: string): Promise<Assignment[]> {
+  {
     const [workRes, subRes] = await Promise.all([
       gfetch(
         `https://classroom.googleapis.com/v1/courses/${encodeURIComponent(cid)}/courseWork?pageSize=50&orderBy=${encodeURIComponent("dueDate desc")}`,
@@ -141,8 +152,7 @@ async function fetchClassroom(accessToken: string): Promise<Assignment[]> {
         state: submissionState(subByWork.get(String(cw.id)))
       };
     });
-  });
-  return perCourse.flat();
+  }
 }
 
 interface CalItem extends Assignment {

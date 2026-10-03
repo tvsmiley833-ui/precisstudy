@@ -92,6 +92,22 @@ describe("syncGoogleAssignments", () => {
     expect(w2).toMatchObject({ dueAt: null, allDay: true, state: "todo" });
   });
 
+  it("one unreadable course (403) doesn't hide the other courses' assignments", async () => {
+    const e = env();
+    await connect(e, "s@e.edu");
+    globalThis.fetch = routeFetch({
+      "https://oauth2.googleapis.com/token": () => jsonRes({ access_token: "at", expires_in: 3599 }),
+      "https://classroom.googleapis.com/v1/courses?": () => jsonRes({ courses: [{ id: "bad", name: "Locked" }, { id: "c1", name: "Bio" }] }),
+      "https://classroom.googleapis.com/v1/courses/bad/": () => new Response("{}", { status: 403 }),
+      "https://classroom.googleapis.com/v1/courses/c1/courseWork?": () => jsonRes({ courseWork: [{ id: "w1", title: "Lab 3", dueDate: { year: 2026, month: 9, day: 20 } }] }),
+      "https://classroom.googleapis.com/v1/courses/c1/courseWork/-/studentSubmissions?": () => jsonRes({ studentSubmissions: [] }),
+      "https://www.googleapis.com/calendar/v3/calendars/primary/events?": () => jsonRes({ items: [] })
+    });
+    const feed = await syncGoogleAssignments(e, "s@e.edu", { calendarIds: ["primary"], schoolworkOnly: true });
+    expect(feed.connected).toBe(true);
+    expect(feed.items.map(i => i.id)).toEqual(["classroom:c1:w1"]);
+  });
+
   it("normalizes Calendar events (timed + all-day) and applies the schoolwork filter", async () => {
     const e = env();
     await connect(e, "s@e.edu");
