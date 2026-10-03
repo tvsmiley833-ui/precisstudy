@@ -1,3 +1,4 @@
+import { LASTMOD } from "./lastmod.js";
 import { handleChatPost, handleChatOptions, json } from "./chat.js";
 import { allowedBy, declaredTooLarge, bodyLimitFor } from "./limits.js";
 import { getClientIp } from "./auth.js";
@@ -495,7 +496,7 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
       ...sortedSubjects.map(s => `/${s}/`)
     ];
     const body = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`
-      + locs.map(p => `  <url><loc>https://precisstudy.com${p}</loc></url>`).join("\n")
+      + locs.map(p => `  <url><loc>https://precisstudy.com${p}</loc>${LASTMOD[p] ? `<lastmod>${LASTMOD[p]}</lastmod>` : ""}</url>`).join("\n")
       + `\n</urlset>\n`;
     return new Response(body, {
       headers: { "Content-Type": "application/xml; charset=utf-8", "Cache-Control": "public, max-age=3600" }
