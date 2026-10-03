@@ -19,6 +19,7 @@ import { handleRequestGuideSubmit } from "./guide-requests.js";
 import { handleFeedbackSubmit } from "./feedback.js";
 import { handleClientLogPost } from "./client-log-routes.js";
 import { handleAdminMe, handleAdminListGuideRequests, handleAdminDeleteGuideRequest, handleAdminUpdateGuideRequestStatus, handleAdminStats, handleAdminGetGuideRequestFile, handleAdminListFeedback, handleAdminDeleteFeedback, handleAdminUpdateFeedbackStatus } from "./admin-routes.js";
+import { readSnapshotState, writeSnapshotState } from "./progress-routes.js";
 import { handleGetProgress, handlePostProgress, handlePostProgressReset, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak, handlePostNotificationPrefs, recordDailySnapshots, handlePostShareGenerate, handlePostShareRevoke, handleGetShare, handlePostCalendarGenerate, handlePostCalendarRevoke, handleGetCalendarFeed, handlePostInviteGenerate } from "./progress-routes.js";
 import { handleGenerateFlashcards, handleSaveFlashcards, handleDeleteFlashcards, handleReviewFlashcard } from "./flashcards-routes.js";
 import { handleSyllabusParse } from "./syllabus-routes.js";
@@ -271,6 +272,31 @@ interface Fetcher {
   fetch(request: Request): Promise<Response>;
 }
 
+/**
+ * The daily snapshot pass and the leaderboards that depend on it. One call does one batch of students (see
+ * recordDailySnapshots); the daily trigger starts the pass and the frequent trigger keeps calling this until it reports done,
+ * so a growing student list is spread over several runs instead of exceeding one run's operation limit. The leaderboards are
+ * computed once, after every student's snapshot for the day is in.
+ */
+export async function continueDailyWork(env: Env, opts: { start: boolean }): Promise<{ step: string }> {
+  if (!env.PROGRESS) return { step: "no-kv" };
+  const today = new Date().toISOString().slice(0, 10);
+  let state = await readSnapshotState(env);
+  const startedToday = !!state && state.date === today;
+  if (!startedToday && !opts.start) return { step: "idle" };
+  if (!startedToday || !state!.done) {
+    const r = await recordDailySnapshots(env);
+    if (!r.done) return { step: "snapshots-batch" };
+    state = await readSnapshotState(env);
+  }
+  if (state && state.date === today && state.done && !state.lbDone) {
+    await computeLeaderboards(env);
+    await writeSnapshotState(env, { ...state, lbDone: true });
+    return { step: "leaderboards" };
+  }
+  return { step: "idle" };
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     try {
@@ -292,17 +318,11 @@ export default {
     if (controller.cron === "*/5 * * * *") {
       run("blockReminders", sendScheduledBlockReminders(env));
       run("streakReminders", sendStreakReminders(env));
+      // Carry on with today's snapshot pass (and then the leaderboards) if the daily run has not finished it.
+      run("dailyWorkContinue", continueDailyWork(env, { start: false }));
     } else {
       run("dailyReminders", sendDailyReminders(env));
-      // Leaderboard aggregation reads the history entries recordDailySnapshots
-      // writes for today, so it's chained after that single run (not run()'d
-      // concurrently) while still going through the same logged/best-effort
-      // wrapper for its own step.
-      ctx.waitUntil(
-        recordDailySnapshots(env)
-          .catch((e) => logError("cron:dailySnapshots", e, { cron: controller.cron }))
-          .then(() => run("leaderboards", computeLeaderboards(env)))
-      );
+      run("dailyWork", continueDailyWork(env, { start: true }));
     }
   }
 };

@@ -9,8 +9,9 @@ import { canvasTokenKey } from "./canvas-token.js";
 import { googleCacheKey } from "./google-sync.js";
 import { googleSettingsKey } from "./google-routes.js";
 import { syllabusDatesKey } from "./syllabus-dates.js";
-import { groupKey } from "./leaderboard-routes.js";
+import { groupKey, loadGroup, removeMember } from "./leaderboard-routes.js";
 import { challengeKey, challengeIndexKey } from "./challenge-routes.js";
+import { historyKey, PUSH_INDEX_PREFIX, LB_INDEX_PREFIX } from "./progress-routes.js";
 
 const SCAN_LIMIT = 1000; // stay under the Worker's per-request KV operation limit
 
@@ -72,22 +73,21 @@ export async function deleteUserData(env: Env, sessionEmail: string): Promise<De
     if (await kv.get(canvasTokenKey(e)) !== null) report.canvasTokenRemoved = true;
     for (const key of [
       "progress:" + e, "login:" + e.toLowerCase(), googleTokenKey(e), googleSettingsKey(e), googleCacheKey(e),
-      syllabusDatesKey(e), canvasTokenKey(e), challengeIndexKey(e),
+      syllabusDatesKey(e), canvasTokenKey(e), challengeIndexKey(e), historyKey(e), PUSH_INDEX_PREFIX + e, LB_INDEX_PREFIX + e,
     ]) await del(key);
   }
   for (const key of reverseKeys) await del(key);
 
-  // 4. Leaderboard groups: remove the member, delete the group when nobody is left.
+  // 4. Leaderboard groups: remove the member, and delete the group record when nobody is left.
   for (const code of groupCodes) {
-    const raw = await kv.get(groupKey(code));
-    if (!raw) continue;
     try {
-      const group = JSON.parse(raw) as { members: string[] };
-      const members = (group.members || []).filter(m => !emails.some(e => same(m, e)));
-      if (members.length === (group.members || []).length) continue;
+      for (const e of emails) await removeMember(env as Env, code, e);
+      const remaining = await loadGroup(env as Env, code);
+      if (remaining && remaining.members.length === 0) {
+        await kv.delete(groupKey(code));
+        report.keysDeleted++;
+      }
       report.groupsLeft++;
-      if (members.length) await kv.put(groupKey(code), JSON.stringify({ ...group, members }));
-      else { await kv.delete(groupKey(code)); report.keysDeleted++; }
     } catch (err) { /* leave an unreadable group alone */ }
   }
 

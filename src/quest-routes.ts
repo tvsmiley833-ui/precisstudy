@@ -1,5 +1,5 @@
 import { getSession } from "./auth.js";
-import { loadBlob, SUBJECTS, type ProgressBlob, type QuestState, type QuestInstance } from "./progress-routes.js";
+import { loadBlob, putBlob, isPlausibleLocalDate, SUBJECTS, type ProgressBlob, type QuestState, type QuestInstance } from "./progress-routes.js";
 import { mondayUTC, weeklyDelta, activeDaysThisWeek } from "./leaderboard-routes.js";
 import { memberWeakestUnit, unitLabel, SUBJECT_LABELS } from "./study-group-routes.js";
 
@@ -12,7 +12,7 @@ function json(body: unknown, status?: number): Response {
 
 async function saveBlob(env: Env, email: string, blob: ProgressBlob): Promise<void> {
   blob.updatedAt = new Date().toISOString();
-  await env.PROGRESS.put("progress:" + email, JSON.stringify(blob));
+  await putBlob(env, email, blob);
 }
 
 // -- Catalog ---------------------------------------------------------------
@@ -275,7 +275,7 @@ const LOCAL_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 function localDateFrom(request: Request): string {
   const url = new URL(request.url);
   const q = url.searchParams.get("localDate");
-  if (q && LOCAL_DATE_RE.test(q)) return q;
+  if (q && isPlausibleLocalDate(q)) return q; // anything more than a day from the server date is not a real local date
   return new Date().toISOString().slice(0, 10);
 }
 

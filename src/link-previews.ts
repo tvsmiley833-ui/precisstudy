@@ -114,7 +114,7 @@ export async function sharePreview(env: Env, token: string): Promise<Preview> {
   if (!env.PROGRESS || !TOKEN_RE.test(token)) return SHARE_GENERIC;
   const email = await env.PROGRESS.get("share:" + token);
   if (!email) return SHARE_GENERIC;
-  const blob = await loadBlob(env, email);
+  const blob = await loadBlob(env, email, { history: false });
   if (blob.shareToken !== token) return SHARE_GENERIC;
 
   const { streak, subjects } = summarizeShare(blob);
@@ -140,7 +140,7 @@ export async function challengePreview(env: Env, code: string): Promise<Preview>
 
   // Read-only on purpose (a GET must not mint a handle the way the API's
   // ensureHandle does): a creator with no handle yet is just "A classmate".
-  const lb = (await loadBlob(env, challenge.creatorEmail)).leaderboard;
+  const lb = (await loadBlob(env, challenge.creatorEmail, { history: false })).leaderboard;
   const who = lb?.handle ? clean(displayNameFor(lb), 40) : "A classmate";
   const n = challenge.questionNumbers.length;
   const subject = SUBJECT_LABELS[challenge.subjectKey] || "Quiz";

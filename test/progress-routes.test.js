@@ -1,5 +1,5 @@
 import { SELF } from "cloudflare:test";
-import { describe, it, expect, vi, afterEach } from "vitest";
+import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import { signSession, SESSION_COOKIE } from "../src/auth.js";
 import { handleGetProgress, handlePostProgress, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak, handlePostNotificationPrefs, recordDailySnapshots, handlePostShareGenerate, handlePostShareRevoke, handleGetShare, handlePostCalendarGenerate, handlePostCalendarRevoke, handleGetCalendarFeed, handlePostInviteGenerate, creditInviteIfAny } from "../src/progress-routes.js";
 import { putGoogleToken } from "../src/google-token.js";
@@ -601,31 +601,43 @@ describe("handlePostGoal", () => {
 });
 
 describe("handlePostStreak", () => {
+  // The handler now only accepts a localDate within a day of the server's date, so these date-driven tests run the handler
+  // with the clock set to the date each request claims (see "streak date plausibility" below for the rejection cases).
+  const clocked = async (request, env) => {
+    try {
+      const b = await request.clone().json();
+      if (b && typeof b.localDate === "string" && /^\d{4}-\d{2}-\d{2}$/.test(b.localDate)) vi.setSystemTime(new Date(b.localDate + "T12:00:00Z"));
+    } catch (e) { /* not JSON: leave the clock alone */ }
+    return handlePostStreak(request, env);
+  };
+  beforeEach(() => { vi.useFakeTimers({ toFake: ["Date"] }); });
+  afterEach(() => { vi.useRealTimers(); });
+
   it("401s with no session", async () => {
-    const res = await handlePostStreak(req("https://example.com/api/streak", null, "POST", { localDate: "2026-08-15" }), { SESSION_SECRET: SECRET, PROGRESS: fakeKV() });
+    const res = await clocked(req("https://example.com/api/streak", null, "POST", { localDate: "2026-08-15" }), { SESSION_SECRET: SECRET, PROGRESS: fakeKV() });
     expect(res.status).toBe(401);
   });
 
   it("rejects invalid JSON", async () => {
     const cookie = await sessionCookieFor("student@example.com");
     const badReq = new Request("https://example.com/api/streak", { method: "POST", headers: { Cookie: cookie, "Content-Type": "application/json" }, body: "not json" });
-    const res = await handlePostStreak(badReq, { SESSION_SECRET: SECRET, PROGRESS: fakeKV() });
+    const res = await clocked(badReq, { SESSION_SECRET: SECRET, PROGRESS: fakeKV() });
     expect(res.status).toBe(400);
   });
 
   it("rejects a malformed or missing localDate", async () => {
     const cookie = await sessionCookieFor("student@example.com");
     const kv = fakeKV();
-    const res1 = await handlePostStreak(req("https://example.com/api/streak", cookie, "POST", {}), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    const res1 = await clocked(req("https://example.com/api/streak", cookie, "POST", {}), { SESSION_SECRET: SECRET, PROGRESS: kv });
     expect(res1.status).toBe(400);
-    const res2 = await handlePostStreak(req("https://example.com/api/streak", cookie, "POST", { localDate: "08/15/2026" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    const res2 = await clocked(req("https://example.com/api/streak", cookie, "POST", { localDate: "08/15/2026" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
     expect(res2.status).toBe(400);
   });
 
   it("starts a streak at 1 on first-ever activity", async () => {
     const cookie = await sessionCookieFor("student@example.com");
     const kv = fakeKV();
-    const res = await handlePostStreak(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-15" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    const res = await clocked(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-15" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
     expect(res.status).toBe(200);
     const data = await res.json();
     expect(data.streak).toEqual({ current: 1, longest: 1, lastActiveDate: "2026-08-15", timezone: null, recentActiveDates: ["2026-08-15"] });
@@ -635,7 +647,7 @@ describe("handlePostStreak", () => {
   it("stores a valid timezone alongside a streak-changing update", async () => {
     const cookie = await sessionCookieFor("student@example.com");
     const kv = fakeKV();
-    const res = await handlePostStreak(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-15", timezone: "America/New_York" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    const res = await clocked(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-15", timezone: "America/New_York" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
     const data = await res.json();
     expect(data.streak).toEqual({ current: 1, longest: 1, lastActiveDate: "2026-08-15", timezone: "America/New_York", recentActiveDates: ["2026-08-15"] });
   });
@@ -643,7 +655,7 @@ describe("handlePostStreak", () => {
   it("ignores an invalid timezone rather than erroring, falling back to null", async () => {
     const cookie = await sessionCookieFor("student@example.com");
     const kv = fakeKV();
-    const res = await handlePostStreak(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-15", timezone: "Not/AZone" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    const res = await clocked(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-15", timezone: "Not/AZone" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
     expect(res.status).toBe(200);
     const data = await res.json();
     expect(data.streak.timezone).toBe(null);
@@ -653,7 +665,7 @@ describe("handlePostStreak", () => {
     const cookie = await sessionCookieFor("student@example.com");
     const existing = { streak: { current: 3, longest: 5, lastActiveDate: "2026-08-15", timezone: "America/New_York" } };
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify(existing) });
-    const res = await handlePostStreak(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-16" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    const res = await clocked(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-16" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
     const data = await res.json();
     expect(data.streak.timezone).toBe("America/New_York");
   });
@@ -662,7 +674,7 @@ describe("handlePostStreak", () => {
     const cookie = await sessionCookieFor("student@example.com");
     const existing = { streak: { current: 3, longest: 5, lastActiveDate: "2026-08-15", timezone: "America/New_York" } };
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify(existing) });
-    const res = await handlePostStreak(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-15", timezone: "America/Los_Angeles" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    const res = await clocked(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-15", timezone: "America/Los_Angeles" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
     const data = await res.json();
     expect(data.changed).toBe(false);
     expect(data.streak).toEqual({ current: 3, longest: 5, lastActiveDate: "2026-08-15", timezone: "America/Los_Angeles" });
@@ -674,7 +686,7 @@ describe("handlePostStreak", () => {
     const cookie = await sessionCookieFor("student@example.com");
     const existing = { streak: { current: 3, longest: 5, lastActiveDate: "2026-08-15" } };
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify(existing) });
-    const res = await handlePostStreak(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-15" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    const res = await clocked(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-15" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
     const data = await res.json();
     expect(data.changed).toBe(false);
     expect(data.streak).toEqual(existing.streak);
@@ -684,7 +696,7 @@ describe("handlePostStreak", () => {
     const cookie = await sessionCookieFor("student@example.com");
     const existing = { streak: { current: 3, longest: 5, lastActiveDate: "2026-08-15" } };
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify(existing) });
-    const res = await handlePostStreak(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-16" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    const res = await clocked(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-16" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
     const data = await res.json();
     expect(data.streak).toEqual({ current: 4, longest: 5, lastActiveDate: "2026-08-16", timezone: null, recentActiveDates: ["2026-08-16"] });
   });
@@ -693,7 +705,7 @@ describe("handlePostStreak", () => {
     const cookie = await sessionCookieFor("student@example.com");
     const existing = { streak: { current: 5, longest: 5, lastActiveDate: "2026-08-15" } };
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify(existing) });
-    const res = await handlePostStreak(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-16" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    const res = await clocked(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-16" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
     const data = await res.json();
     expect(data.streak).toEqual({ current: 6, longest: 6, lastActiveDate: "2026-08-16", timezone: null, recentActiveDates: ["2026-08-16"] });
   });
@@ -702,7 +714,7 @@ describe("handlePostStreak", () => {
     const cookie = await sessionCookieFor("student@example.com");
     const existing = { streak: { current: 8, longest: 8, lastActiveDate: "2026-08-10" } };
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify(existing) });
-    const res = await handlePostStreak(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-15" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    const res = await clocked(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-15" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
     const data = await res.json();
     expect(data.streak).toEqual({ current: 1, longest: 8, lastActiveDate: "2026-08-15", timezone: null, recentActiveDates: ["2026-08-15"] });
   });
@@ -711,7 +723,7 @@ describe("handlePostStreak", () => {
     const cookie = await sessionCookieFor("student@example.com");
     const existing = { streak: { current: 8, longest: 8, lastActiveDate: "2026-08-15" } };
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify(existing) });
-    const res = await handlePostStreak(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-14" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    const res = await clocked(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-14" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
     const data = await res.json();
     expect(data.changed).toBe(false);
     expect(data.streak).toEqual(existing.streak);
@@ -726,7 +738,7 @@ describe("handlePostStreak", () => {
       streak: null
     };
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify(existing) });
-    await handlePostStreak(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-15" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    await clocked(req("https://example.com/api/streak", cookie, "POST", { localDate: "2026-08-15" }), { SESSION_SECRET: SECRET, PROGRESS: kv });
     const saved = JSON.parse(kv._store.get("progress:student@example.com"));
     expect(saved.geometry).toEqual(existing.geometry);
     expect(saved.streak).toEqual({ current: 1, longest: 1, lastActiveDate: "2026-08-15", timezone: null, recentActiveDates: ["2026-08-15"] });
@@ -735,8 +747,9 @@ describe("handlePostStreak", () => {
 
 describe("recordDailySnapshots", () => {
   const today = new Date().toISOString().slice(0, 10);
+  const hist = (kv, email = "student@example.com") => JSON.parse(kv._store.get("history:" + email));
 
-  it("records today's readiness for an assessed subject", async () => {
+  it("records today's readiness for an assessed subject, in the history key", async () => {
     const kv = fakeKV({
       "progress:student@example.com": JSON.stringify({
         geometry: { mastery: { "1": { correct: 1, total: 2 }, "2": { correct: 2, total: 2 } }, examples: {}, cardsKnown: [] }
@@ -745,9 +758,15 @@ describe("recordDailySnapshots", () => {
 
     const result = await recordDailySnapshots({ PROGRESS: kv });
 
-    expect(result).toEqual({ checked: 1, recorded: 1 });
-    const saved = JSON.parse(kv._store.get("progress:student@example.com"));
-    expect(saved.history).toEqual([{ date: today, subjects: { geometry: 75 }, totalAnswered: 4, xp: 30 }]);
+    expect(result).toEqual({ checked: 1, recorded: 1, done: true });
+    expect(hist(kv)).toEqual([{ date: today, subjects: { geometry: 75 }, totalAnswered: 4, xp: 30 }]);
+  });
+
+  it("never rewrites the student's progress blob (a stale read could otherwise revert their latest answers)", async () => {
+    const original = JSON.stringify({ geometry: { mastery: { "1": { correct: 1, total: 2 }, "2": { correct: 2, total: 2 } }, examples: {}, cardsKnown: [] } });
+    const kv = fakeKV({ "progress:student@example.com": original });
+    await recordDailySnapshots({ PROGRESS: kv });
+    expect(kv._store.get("progress:student@example.com")).toBe(original);
   });
 
   it("skips a subject with nothing assessed yet, and a student with no subjects assessed at all", async () => {
@@ -759,46 +778,147 @@ describe("recordDailySnapshots", () => {
 
     const result = await recordDailySnapshots({ PROGRESS: kv });
 
-    expect(result).toEqual({ checked: 1, recorded: 0 });
-    const saved = JSON.parse(kv._store.get("progress:untouched@example.com"));
-    expect(saved.history).toBeUndefined();
+    expect(result).toEqual({ checked: 1, recorded: 0, done: true });
+    expect(kv._store.has("history:untouched@example.com")).toBe(false);
   });
 
   it("does not double-record a student already snapshotted today", async () => {
     const kv = fakeKV({
-      "progress:student@example.com": JSON.stringify({
-        geometry: { mastery: { "1": { correct: 2, total: 2 } }, examples: {}, cardsKnown: [] },
-        history: [{ date: today, subjects: { geometry: 40 } }]
-      })
+      "progress:student@example.com": JSON.stringify({ geometry: { mastery: { "1": { correct: 2, total: 2 } }, examples: {}, cardsKnown: [] } }),
+      "history:student@example.com": JSON.stringify([{ date: today, subjects: { geometry: 40 } }])
     });
 
     const result = await recordDailySnapshots({ PROGRESS: kv });
 
-    expect(result).toEqual({ checked: 1, recorded: 0 });
-    const saved = JSON.parse(kv._store.get("progress:student@example.com"));
-    expect(saved.history).toEqual([{ date: today, subjects: { geometry: 40 } }]);
+    expect(result).toEqual({ checked: 1, recorded: 0, done: true });
+    expect(hist(kv)).toEqual([{ date: today, subjects: { geometry: 40 } }]);
+  });
+
+  it("carries on from history still sitting inside an older progress blob", async () => {
+    const kv = fakeKV({
+      "progress:student@example.com": JSON.stringify({
+        geometry: { mastery: { "1": { correct: 1, total: 2 } }, examples: {}, cardsKnown: [] },
+        history: [{ date: "2025-01-01", subjects: { geometry: 10 } }]
+      })
+    });
+    await recordDailySnapshots({ PROGRESS: kv });
+    expect(hist(kv).map(h => h.date)).toEqual(["2025-01-01", today]);
   });
 
   it("caps history at 60 entries, dropping the oldest", async () => {
     const oldHistory = Array.from({ length: 60 }, (_, i) => ({ date: `2025-01-${String(i + 1).padStart(2, "0")}`, subjects: { geometry: i } }));
     const kv = fakeKV({
-      "progress:student@example.com": JSON.stringify({
-        geometry: { mastery: { "1": { correct: 1, total: 2 } }, examples: {}, cardsKnown: [] },
-        history: oldHistory
-      })
+      "progress:student@example.com": JSON.stringify({ geometry: { mastery: { "1": { correct: 1, total: 2 } }, examples: {}, cardsKnown: [] } }),
+      "history:student@example.com": JSON.stringify(oldHistory)
     });
 
     await recordDailySnapshots({ PROGRESS: kv });
 
-    const saved = JSON.parse(kv._store.get("progress:student@example.com"));
-    expect(saved.history.length).toBe(60);
-    expect(saved.history[saved.history.length - 1]).toEqual({ date: today, subjects: { geometry: 50 }, totalAnswered: 2, xp: 10 });
-    expect(saved.history[0].date).toBe("2025-01-02"); // oldest (01-01) was dropped to make room
+    const saved = hist(kv);
+    expect(saved.length).toBe(60);
+    expect(saved[saved.length - 1]).toEqual({ date: today, subjects: { geometry: 50 }, totalAnswered: 2, xp: 10 });
+    expect(saved[0].date).toBe("2025-01-02"); // oldest (01-01) was dropped to make room
   });
 
   it("returns zeroed counts when KV isn't configured", async () => {
     const result = await recordDailySnapshots({});
-    expect(result).toEqual({ checked: 0, recorded: 0 });
+    expect(result).toEqual({ checked: 0, recorded: 0, done: true });
+  });
+});
+
+describe("daily snapshot pass: batches, resumption and index keys", () => {
+  const today = new Date().toISOString().slice(0, 10);
+  // KV whose list() honours prefix, limit and cursor, like the real one.
+  function pagedKV(initial) {
+    const kv = fakeKV(initial);
+    kv.list = async ({ prefix, cursor, limit } = {}) => {
+      const all = [...kv._store.keys()].filter(k => !prefix || k.startsWith(prefix)).sort();
+      const start = cursor ? Number(cursor) : 0;
+      const end = limit ? start + limit : all.length;
+      return { keys: all.slice(start, end).map(name => ({ name })), list_complete: end >= all.length, cursor: String(end) };
+    };
+    return kv;
+  }
+  const assessed = { geometry: { mastery: { "1": { correct: 2, total: 2 } }, examples: {}, cardsKnown: [] } };
+  const users = (n) => Object.fromEntries(Array.from({ length: n }, (_, i) => [`progress:u${i}@example.com`, JSON.stringify(assessed)]));
+
+  it("works through the students in batches, remembering where it stopped, and reports done only at the end", async () => {
+    const kv = pagedKV(users(5));
+    const env = { PROGRESS: kv };
+    const r1 = await recordDailySnapshots(env, { batch: 2 });
+    expect(r1).toEqual({ checked: 2, recorded: 2, done: false });
+    expect(JSON.parse(kv._store.get("cron:snap"))).toMatchObject({ date: today, done: false });
+    const r2 = await recordDailySnapshots(env, { batch: 2 });
+    expect(r2).toEqual({ checked: 2, recorded: 2, done: false });
+    const r3 = await recordDailySnapshots(env, { batch: 2 });
+    expect(r3).toEqual({ checked: 1, recorded: 1, done: true });
+    expect([...kv._store.keys()].filter(k => k.startsWith("history:")).length).toBe(5);
+    // once done, further calls the same day do nothing
+    expect(await recordDailySnapshots(env, { batch: 2 })).toEqual({ checked: 0, recorded: 0, done: true });
+  });
+
+  it("starts over on a new day instead of treating yesterday's finished pass as today's", async () => {
+    const kv = pagedKV({ ...users(1), "cron:snap": JSON.stringify({ date: "2020-01-01", done: true }) });
+    const r = await recordDailySnapshots({ PROGRESS: kv });
+    expect(r).toEqual({ checked: 1, recorded: 1, done: true });
+  });
+
+  it("backfills the push and leaderboard indexes from the blobs, removes stale entries, and flags the indexes ready when the pass completes", async () => {
+    const kv = pagedKV({
+      "progress:sub@example.com": JSON.stringify({ ...assessed, pushSubscriptions: [{ endpoint: "https://fcm.googleapis.com/x", keys: { p256dh: "p", auth: "a" } }], leaderboard: { optedIn: true, handle: "Owl" } }),
+      "progress:plain@example.com": JSON.stringify(assessed),
+      "progress:out@example.com": JSON.stringify({ ...assessed, leaderboard: { optedIn: false, handle: "Gone" } }),
+      "pushsub:plain@example.com": "1", // stale: this student has no subscription any more
+      "lbopt:out@example.com": "1", // stale: this student opted out
+    });
+    expect(await kv.get("cron:idx-ready")).toBeNull();
+    await recordDailySnapshots({ PROGRESS: kv });
+    expect(kv._store.has("pushsub:sub@example.com")).toBe(true);
+    expect(kv._store.has("lbopt:sub@example.com")).toBe(true);
+    expect(kv._store.has("pushsub:plain@example.com")).toBe(false);
+    expect(kv._store.has("lbopt:out@example.com")).toBe(false);
+    expect(await kv.get("cron:idx-ready")).toBe("1");
+  });
+
+  it("one unreadable student record does not stop the rest", async () => {
+    const kv = pagedKV({ "progress:a@example.com": "{not json", ...users(1) });
+    const r = await recordDailySnapshots({ PROGRESS: kv });
+    expect(r.recorded).toBe(1);
+    expect(r.done).toBe(true);
+  });
+});
+
+describe("history lives in its own key", () => {
+  const url = "https://example.com/api/progress";
+
+  it("GET /api/progress still returns the history, now read from its own key", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV({
+      "progress:student@example.com": JSON.stringify({ streak: { current: 1, longest: 1 } }),
+      "history:student@example.com": JSON.stringify([{ date: "2026-10-01", subjects: { geometry: 50 } }])
+    });
+    const data = await (await handleGetProgress(req(url, cookie), { SESSION_SECRET: SECRET, PROGRESS: kv })).json();
+    expect(data.history).toEqual([{ date: "2026-10-01", subjects: { geometry: 50 } }]);
+  });
+
+  it("saving progress keeps history out of the blob and never lets an old in-blob copy overwrite a newer history key", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV({
+      "progress:student@example.com": JSON.stringify({ history: [{ date: "2025-01-01", subjects: {} }] }), // stale legacy copy
+      "history:student@example.com": JSON.stringify([{ date: "2026-10-02", subjects: { geometry: 90 } }]) // newer, from the cron
+    });
+    await handlePostGoal(req("https://example.com/api/goal", cookie, "POST", { days: 14, minutesPerDay: 30 }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(JSON.parse(kv._store.get("progress:student@example.com")).history).toBeUndefined();
+    expect(JSON.parse(kv._store.get("history:student@example.com"))).toEqual([{ date: "2026-10-02", subjects: { geometry: 90 } }]);
+  });
+
+  it("the first save after the change moves a legacy in-blob history to the new key instead of losing it", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const legacy = [{ date: "2026-09-30", subjects: { geometry: 70 } }];
+    const kv = fakeKV({ "progress:student@example.com": JSON.stringify({ history: legacy }) });
+    await handlePostGoal(req("https://example.com/api/goal", cookie, "POST", { days: 14, minutesPerDay: 30 }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+    expect(JSON.parse(kv._store.get("history:student@example.com"))).toEqual(legacy);
+    expect(JSON.parse(kv._store.get("progress:student@example.com")).history).toBeUndefined();
   });
 });
 
@@ -1174,5 +1294,33 @@ describe("algebra II unit-shift migration (new Unit 2: completing the square)", 
     const { shiftUnitKeys } = await import("../src/progress-routes.ts");
     expect(shiftUnitKeys({ "1": "a", "2": "b", "x": "c", "10": "d" }, 2)).toEqual({ "1": "a", "3": "b", "x": "c", "11": "d" });
     expect(shiftUnitKeys({ "1": "a", "2": "b" })).toEqual({ "2": "a", "3": "b" });
+  });
+});
+
+
+describe("streak date plausibility (a made-up localDate can't inflate a streak)", () => {
+  const day = (offset) => new Date(Date.now() + offset * 86400000).toISOString().slice(0, 10);
+  const post = async (localDate, kv) => {
+    const cookie = await sessionCookieFor("student@example.com");
+    return handlePostStreak(req("https://example.com/api/streak", cookie, "POST", { localDate }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+  };
+
+  it("accepts yesterday, today and tomorrow (every real timezone)", async () => {
+    for (const offset of [-1, 0, 1]) expect((await post(day(offset), fakeKV())).status).toBe(200);
+  });
+
+  it("rejects a date more than a day from the server's date, so streak days can't be farmed with future dates", async () => {
+    for (const offset of [2, 30, -2, -400]) expect((await post(day(offset), fakeKV())).status).toBe(400);
+    const kv = fakeKV();
+    await post(day(1), kv);
+    expect((await post(day(2), kv)).status).toBe(400);
+    expect(JSON.parse(kv._store.get("progress:student@example.com")).streak.current).toBe(1);
+  });
+
+  it("isPlausibleLocalDate rejects malformed strings too", async () => {
+    const { isPlausibleLocalDate } = await import("../src/progress-routes.ts");
+    expect(isPlausibleLocalDate(day(0))).toBe(true);
+    expect(isPlausibleLocalDate("not-a-date")).toBe(false);
+    expect(isPlausibleLocalDate("2026-13-45")).toBe(false);
   });
 });

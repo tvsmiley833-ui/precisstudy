@@ -371,20 +371,61 @@ export function applyUnitMigrations(blob: ProgressBlob): boolean {
   return a || b;
 }
 
-export async function loadBlobMigrated(env: Env, email: string): Promise<{ blob: ProgressBlob; migrated: boolean }> {
+type HistoryEntries = NonNullable<ProgressBlob["history"]>;
+
+export function historyKey(email: string): string {
+  return "history:" + email;
+}
+
+/**
+ * The daily snapshots live in their own key. They used to sit inside the progress blob, so the nightly job rewrote every
+ * student's whole blob; KV reads can be up to a minute stale, which let it put an older copy over answers a student had just
+ * saved. Writing only this key means the job can never touch anything else.
+ */
+export async function loadHistory(env: Env, email: string): Promise<HistoryEntries | null> {
+  if (!env.PROGRESS) return null;
+  const raw = await env.PROGRESS.get(historyKey(email));
+  if (raw === null) return null;
+  try {
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+/**
+ * Saves a progress blob WITHOUT its history (see loadHistory). A copy of history still inside an old blob is moved to the
+ * history key first, but only if that key does not exist yet, so a newer history is never overwritten by a stale copy.
+ * The object passed in is left untouched: callers often return it to the client afterwards.
+ */
+export async function putBlob(env: Env, email: string, blob: object): Promise<void> {
+  const { history, ...rest } = blob as { history?: unknown };
+  if (Array.isArray(history) && history.length && (await env.PROGRESS.get(historyKey(email))) === null) {
+    await env.PROGRESS.put(historyKey(email), JSON.stringify(history));
+  }
+  await env.PROGRESS.put("progress:" + email, JSON.stringify(rest));
+}
+
+export async function loadBlobMigrated(env: Env, email: string, opts: { history?: boolean } = {}): Promise<{ blob: ProgressBlob; migrated: boolean }> {
   if (!env.PROGRESS) return { blob: emptyBlob(), migrated: false };
   const raw = await env.PROGRESS.get("progress:" + email);
   if (!raw) return { blob: emptyBlob(), migrated: false };
   try {
     const blob: ProgressBlob = Object.assign(emptyBlob(), JSON.parse(raw));
+    if (opts.history !== false) {
+      const history = await loadHistory(env, email);
+      if (history) blob.history = history;
+    }
     return { blob, migrated: applyUnitMigrations(blob) };
   } catch (e) {
     return { blob: emptyBlob(), migrated: false };
   }
 }
 
-export async function loadBlob(env: Env, email: string): Promise<ProgressBlob> {
-  return (await loadBlobMigrated(env, email)).blob;
+/** `history: false` skips the extra history read, for callers (link previews, public summaries) that never look at it. */
+export async function loadBlob(env: Env, email: string, opts: { history?: boolean } = {}): Promise<ProgressBlob> {
+  return (await loadBlobMigrated(env, email, opts)).blob;
 }
 
 // Mirrors computeReadiness() in public/shared/mastery.js (same total>=2
@@ -440,35 +481,83 @@ function computeServerXP(blob: ProgressBlob): number {
 
 const MAX_HISTORY_DAYS = 60;
 
-// Cron-triggered (see worker.ts's daily "0 22 * * *" branch): appends one
-// snapshot per student per day of each assessed subject's current readiness
-// -- the accuracy trend sparklines feature needs this real history to exist
-// before it can plot anything, so this starts collecting it now even though
-// no UI reads `history` yet. Skips a student entirely once today's snapshot
-// is already recorded, and skips a subject with nothing assessed rather
-// than recording a meaningless 0.
-export async function recordDailySnapshots(env: Env): Promise<{ checked: number; recorded: number }> {
-  if (!env.PROGRESS) return { checked: 0, recorded: 0 };
-  const today = new Date().toISOString().slice(0, 10);
+// ---- Cron support: index keys and a resumable daily pass ----------------------------------------------------------
+//
+// A scheduled run may make about 1,000 KV/subrequest calls, and every job used to list ALL students and read each blob, so
+// somewhere past a few hundred students the runs started failing part-way through. Two tiny index keys now let the frequent
+// and leaderboard jobs read only the students who matter, and the daily pass works through the students in batches across
+// several runs, remembering where it stopped.
 
-  let cursor: string | undefined;
+export const PUSH_INDEX_PREFIX = "pushsub:"; // one key per student who has at least one push subscription
+export const LB_INDEX_PREFIX = "lbopt:"; // one key per student who opted in to leaderboards
+const INDEX_READY_KEY = "cron:idx-ready";
+const SNAP_STATE_KEY = "cron:snap";
+const SNAP_BATCH = 120; // each student costs up to ~5 KV operations, so a batch stays well under the per-run limit
+
+/** True once a complete daily pass has built both indexes; until then the jobs fall back to scanning every student. */
+export async function indexesReady(env: Env): Promise<boolean> {
+  return !!env.PROGRESS && (await env.PROGRESS.get(INDEX_READY_KEY)) === "1";
+}
+
+export interface SnapshotState {
+  date: string; // UTC day this pass belongs to
+  cursor?: string; // where the next batch continues
+  done: boolean; // every student has been visited
+  lbDone?: boolean; // the leaderboards for this day have been computed
+}
+
+export async function readSnapshotState(env: Env): Promise<SnapshotState | null> {
+  if (!env.PROGRESS) return null;
+  const raw = await env.PROGRESS.get(SNAP_STATE_KEY);
+  if (!raw) return null;
+  try {
+    const st = JSON.parse(raw) as SnapshotState;
+    return st && typeof st.date === "string" ? st : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+export async function writeSnapshotState(env: Env, state: SnapshotState): Promise<void> {
+  await env.PROGRESS.put(SNAP_STATE_KEY, JSON.stringify(state), { expirationTtl: 3 * 24 * 60 * 60 });
+}
+
+async function ensureIndex(env: Env, key: string, wanted: boolean): Promise<void> {
+  const has = (await env.PROGRESS.get(key)) !== null;
+  if (wanted && !has) await env.PROGRESS.put(key, "1");
+  else if (!wanted && has) await env.PROGRESS.delete(key);
+}
+
+// Cron-triggered (the daily "0 22 * * *" run, continued by the "*/5" run until it reports done). Appends one snapshot per
+// student per day of each assessed subject's current readiness -- the accuracy-trend sparklines and weekly leaderboards need
+// this history. It writes ONLY the student's history key, never their progress blob (see loadHistory for why), and it
+// backfills the push and leaderboard index keys from the blobs it reads. Each call handles one batch of students and records
+// its position, so the work is spread over as many runs as it needs. Skips a student already snapshotted today and a subject
+// with nothing assessed rather than recording a meaningless 0.
+export async function recordDailySnapshots(env: Env, opts: { batch?: number } = {}): Promise<{ checked: number; recorded: number; done: boolean }> {
+  if (!env.PROGRESS) return { checked: 0, recorded: 0, done: true };
+  const today = new Date().toISOString().slice(0, 10);
+  const batch = Math.max(1, opts.batch ?? SNAP_BATCH);
+
+  let state = await readSnapshotState(env);
+  if (!state || state.date !== today) state = { date: today, done: false };
+  if (state.done) return { checked: 0, recorded: 0, done: true };
+
+  const list = await env.PROGRESS.list({ prefix: "progress:", cursor: state.cursor, limit: batch });
   let checked = 0;
   let recorded = 0;
-
-  do {
-    const list = await env.PROGRESS.list({ prefix: "progress:", cursor });
-    for (const key of list.keys) {
-      checked++;
+  for (const key of list.keys) {
+    checked++;
+    try {
       const raw = await env.PROGRESS.get(key.name);
       if (!raw) continue;
-      let blob: ProgressBlob;
-      try {
-        blob = JSON.parse(raw);
-      } catch (e) {
-        continue;
-      }
+      const blob = JSON.parse(raw) as ProgressBlob;
+      const email = key.name.slice("progress:".length);
 
-      const history = Array.isArray(blob.history) ? blob.history : [];
+      await ensureIndex(env, PUSH_INDEX_PREFIX + email, Array.isArray(blob.pushSubscriptions) && blob.pushSubscriptions.length > 0);
+      await ensureIndex(env, LB_INDEX_PREFIX + email, !!blob.leaderboard?.optedIn);
+
+      const history: HistoryEntries = (await loadHistory(env, email)) ?? (Array.isArray(blob.history) ? blob.history : []);
       if (history.length && history[history.length - 1]?.date === today) continue;
 
       const subjects: Record<string, number> = {};
@@ -484,15 +573,23 @@ export async function recordDailySnapshots(env: Env): Promise<{ checked: number;
       const xp = computeServerXP(blob);
       history.push({ date: today, subjects, totalAnswered, xp });
       while (history.length > MAX_HISTORY_DAYS) history.shift();
-      blob.history = history;
 
-      await env.PROGRESS.put(key.name, JSON.stringify(blob));
+      // Only the history key is written: the student's progress blob is never touched by this job.
+      await env.PROGRESS.put(historyKey(email), JSON.stringify(history));
       recorded++;
+    } catch (e) {
+      // One unreadable record must not stop the rest of the students from being processed.
     }
-    cursor = list.list_complete ? undefined : list.cursor;
-  } while (cursor);
+  }
 
-  return { checked, recorded };
+  if (list.list_complete) {
+    state = { ...state, cursor: undefined, done: true };
+    await env.PROGRESS.put(INDEX_READY_KEY, "1");
+  } else {
+    state = { ...state, cursor: list.cursor };
+  }
+  await writeSnapshotState(env, state);
+  return { checked, recorded, done: state.done };
 }
 
 export async function handleGetProgress(request: Request, env: Env): Promise<Response> {
@@ -501,7 +598,7 @@ export async function handleGetProgress(request: Request, env: Env): Promise<Res
   if (!env.PROGRESS) return json({ error: "Progress sync isn't configured yet" }, 503);
 
   const { blob, migrated } = await loadBlobMigrated(env, session.email);
-  if (migrated) await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  if (migrated) await putBlob(env, session.email, blob);
   return json(blob);
 }
 
@@ -547,7 +644,7 @@ export async function handlePostProgress(request: Request, env: Env): Promise<Re
   };
   blob.updatedAt = new Date().toISOString();
 
-  await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  await putBlob(env, session.email, blob);
   // The merged counters go back so the client can adopt anything another device recorded.
   return json({ ok: true, mastery: mergedMastery, examples: mergedExamples });
 }
@@ -566,7 +663,7 @@ export async function handlePostProgressReset(request: Request, env: Env): Promi
   for (const subject of SUBJECTS) blob[subject] = emptySubject();
   blob.updatedAt = new Date().toISOString();
 
-  await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  await putBlob(env, session.email, blob);
   return json({ ok: true });
 }
 
@@ -583,7 +680,7 @@ export async function handlePostShareGenerate(request: Request, env: Env): Promi
   const oldToken = blob.shareToken;
   const token = randomToken();
   blob.shareToken = token;
-  await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  await putBlob(env, session.email, blob);
   await env.PROGRESS.put("share:" + token, session.email);
   if (oldToken) await env.PROGRESS.delete("share:" + oldToken);
   return json({ token });
@@ -597,7 +694,7 @@ export async function handlePostShareRevoke(request: Request, env: Env): Promise
   const blob = await loadBlob(env, session.email);
   const token = blob.shareToken;
   blob.shareToken = null;
-  await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  await putBlob(env, session.email, blob);
   if (token) await env.PROGRESS.delete("share:" + token);
   return json({ ok: true });
 }
@@ -653,7 +750,7 @@ export async function handlePostCalendarGenerate(request: Request, env: Env): Pr
   const oldToken = blob.calendarToken;
   const token = randomToken();
   blob.calendarToken = token;
-  await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  await putBlob(env, session.email, blob);
   await env.PROGRESS.put("cal:" + token, session.email);
   if (oldToken) await env.PROGRESS.delete("cal:" + oldToken);
   return json({ token });
@@ -667,7 +764,7 @@ export async function handlePostCalendarRevoke(request: Request, env: Env): Prom
   const blob = await loadBlob(env, session.email);
   const token = blob.calendarToken;
   blob.calendarToken = null;
-  await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  await putBlob(env, session.email, blob);
   if (token) await env.PROGRESS.delete("cal:" + token);
   return json({ ok: true });
 }
@@ -769,7 +866,7 @@ export async function handlePostInviteGenerate(request: Request, env: Env): Prom
 
   const token = randomToken();
   blob.inviteToken = token;
-  await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  await putBlob(env, session.email, blob);
   await env.PROGRESS.put("invite:" + token, session.email);
   return json({ token, invitesAccepted: 0 });
 }
@@ -790,7 +887,7 @@ export async function creditInviteIfAny(env: Env, request: Request, newUserEmail
     const blob = await loadBlob(env, inviterEmail);
     if (blob.inviteToken !== token) return;
     blob.invitesAccepted = (blob.invitesAccepted || 0) + 1;
-    await env.PROGRESS.put("progress:" + inviterEmail, JSON.stringify(blob));
+    await putBlob(env, inviterEmail, blob);
   } catch (e) { /* ignore -- sign-in must not fail because of this */ }
 }
 
@@ -813,7 +910,7 @@ export async function handlePostEnrolledSubjects(request: Request, env: Env): Pr
   blob.enrolledSubjects = enrolledSubjects;
   blob.updatedAt = new Date().toISOString();
 
-  await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  await putBlob(env, session.email, blob);
   return json({ ok: true, enrolledSubjects });
 }
 
@@ -876,8 +973,19 @@ export async function handlePostSchedule(request: Request, env: Env): Promise<Re
   };
   blob.updatedAt = new Date().toISOString();
 
-  await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  await putBlob(env, session.email, blob);
   return json({ ok: true, schedule: blob.schedule });
+}
+
+/**
+ * The client says what its local date is, which decides streak days and quest days, so it can't be taken at face value: a
+ * made-up future date would add a streak day (or a fresh set of quests) per request. Local time differs from UTC by at most a
+ * day, so a date more than one day away from the server's date is not real.
+ */
+export function isPlausibleLocalDate(localDate: string, now = new Date()): boolean {
+  if (!LOCAL_DATE_RE.test(localDate)) return false;
+  const serverDay = now.toISOString().slice(0, 10);
+  return Math.abs(daysBetween(serverDay, localDate)) <= 1;
 }
 
 export async function handlePostStreak(request: Request, env: Env): Promise<Response> {
@@ -896,6 +1004,7 @@ export async function handlePostStreak(request: Request, env: Env): Promise<Resp
   if (!localDate || typeof localDate !== "string" || !LOCAL_DATE_RE.test(localDate)) {
     return json({ error: "localDate must be an ISO date string (YYYY-MM-DD)" }, 400);
   }
+  if (!isPlausibleLocalDate(localDate)) return json({ error: "localDate is too far from today" }, 400);
 
   const requestedTimezone = body && typeof body === "object" && "timezone" in body ? String((body as Record<string, unknown>).timezone) : undefined;
   const timezone = isValidTimezone(requestedTimezone!) ? requestedTimezone : null;
@@ -910,7 +1019,7 @@ export async function handlePostStreak(request: Request, env: Env): Promise<Resp
     if (timezone && timezone !== prev.timezone) {
       blob.streak = streak;
       blob.updatedAt = new Date().toISOString();
-      await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+      await putBlob(env, session.email, blob);
     }
     return json({ ok: true, streak, changed: false });
   }
@@ -930,7 +1039,7 @@ export async function handlePostStreak(request: Request, env: Env): Promise<Resp
   blob.streak = streak;
   blob.updatedAt = new Date().toISOString();
 
-  await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  await putBlob(env, session.email, blob);
   return json({ ok: true, streak, changed: true });
 }
 
@@ -956,7 +1065,7 @@ export async function handlePostGoal(request: Request, env: Env): Promise<Respon
   blob.goal = { days, minutesPerDay, savedAt: new Date().toISOString() };
   blob.updatedAt = new Date().toISOString();
 
-  await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  await putBlob(env, session.email, blob);
   return json({ ok: true, goal: blob.goal });
 }
 
@@ -989,6 +1098,6 @@ export async function handlePostNotificationPrefs(request: Request, env: Env): P
   blob.notificationPrefs = prefs;
   blob.updatedAt = new Date().toISOString();
 
-  await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  await putBlob(env, session.email, blob);
   return json({ ok: true, notificationPrefs: prefs });
 }

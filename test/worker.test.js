@@ -1,6 +1,6 @@
 import { SELF } from "cloudflare:test";
 import { describe, it, expect, vi } from "vitest";
-import { abuseGuard } from "../src/worker.ts";
+import { abuseGuard, continueDailyWork } from "../src/worker.ts";
 import { allowedBy, withinDailyQuota, declaredTooLarge, bodyLimitFor, utcDay } from "../src/limits.ts";
 
 describe("security headers", () => {
@@ -422,5 +422,59 @@ describe("abuse limits", () => {
       expect(await abuseGuard(new Request("https://precisstudy.com/api/chat", { method: "OPTIONS" }), new URL("https://precisstudy.com/api/chat"), env)).toBeNull();
       expect(await abuseGuard(post("/spanish-1/"), new URL("https://precisstudy.com/spanish-1/"), env)).toBeNull();
     });
+  });
+});
+
+
+describe("continueDailyWork (the daily snapshot pass and the leaderboards that follow it)", () => {
+  const today = new Date().toISOString().slice(0, 10);
+  function pagedKV(initial) {
+    const m = new Map(Object.entries(initial || {}));
+    return {
+      _m: m,
+      get: async (k) => (m.has(k) ? m.get(k) : null),
+      put: async (k, v) => { m.set(k, v); },
+      delete: async (k) => { m.delete(k); },
+      list: async ({ prefix, cursor, limit } = {}) => {
+        const all = [...m.keys()].filter(k => !prefix || k.startsWith(prefix)).sort();
+        const start = cursor ? Number(cursor) : 0;
+        const end = limit ? start + limit : all.length;
+        return { keys: all.slice(start, end).map(name => ({ name })), list_complete: end >= all.length, cursor: String(end) };
+      },
+    };
+  }
+  const student = JSON.stringify({
+    geometry: { mastery: { "1": { correct: 2, total: 2 } }, examples: {}, cardsKnown: [] },
+    leaderboard: { optedIn: true, handle: "Fox", nickname: null, groupCode: null },
+  });
+
+  it("the frequent trigger does nothing until the daily trigger has started today's pass", async () => {
+    const kv = pagedKV({ "progress:a@example.com": student });
+    expect(await continueDailyWork({ PROGRESS: kv }, { start: false })).toEqual({ step: "idle" });
+    expect(kv._m.has("history:a@example.com")).toBe(false);
+  });
+
+  it("the daily trigger snapshots everyone and then computes the leaderboards once, exactly once", async () => {
+    const kv = pagedKV({ "progress:a@example.com": student, "progress:b@example.com": student });
+    const first = await continueDailyWork({ PROGRESS: kv }, { start: true });
+    expect(first.step).toBe("leaderboards");
+    expect(kv._m.has("history:a@example.com") && kv._m.has("history:b@example.com")).toBe(true);
+    expect(kv._m.has("lb:global:questions")).toBe(true);
+    expect(JSON.parse(kv._m.get("cron:snap"))).toMatchObject({ date: today, done: true, lbDone: true });
+    // later triggers the same day find nothing left to do
+    kv._m.delete("lb:global:questions");
+    expect(await continueDailyWork({ PROGRESS: kv }, { start: false })).toEqual({ step: "idle" });
+    expect(await continueDailyWork({ PROGRESS: kv }, { start: true })).toEqual({ step: "idle" });
+    expect(kv._m.has("lb:global:questions")).toBe(false);
+  });
+
+  it("with more students than one batch, the frequent trigger finishes the job across runs and the boards wait for the last batch", async () => {
+    const many = Object.fromEntries(Array.from({ length: 150 }, (_, i) => [`progress:s${String(i).padStart(3, "0")}@example.com`, student]));
+    const kv = pagedKV(many);
+    expect((await continueDailyWork({ PROGRESS: kv }, { start: true })).step).toBe("snapshots-batch");
+    expect(kv._m.has("lb:global:questions")).toBe(false);
+    expect((await continueDailyWork({ PROGRESS: kv }, { start: false })).step).toBe("leaderboards");
+    expect([...kv._m.keys()].filter(k => k.startsWith("history:")).length).toBe(150);
+    expect(kv._m.has("lb:global:questions")).toBe(true);
   });
 });

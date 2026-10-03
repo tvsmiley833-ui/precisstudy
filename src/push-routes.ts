@@ -1,5 +1,6 @@
 import { getSession } from "./auth.js";
-import { applyUnitMigrations, type ProgressBlob as FullProgressBlob } from "./progress-routes.js";
+import { applyUnitMigrations, putBlob, indexesReady, PUSH_INDEX_PREFIX, type ProgressBlob as FullProgressBlob } from "./progress-routes.js";
+import { logError } from "./log.js";
 import { buildPushPayload } from "@block65/webcrypto-web-push";
 
 function json(body: unknown, status?: number): Response {
@@ -128,7 +129,7 @@ export async function handlePushSubscribe(request: Request, env: Env): Promise<R
   }];
   blob.updatedAt = new Date().toISOString();
 
-  await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  await saveSubscriptions(env, session.email, blob);
   return json({ ok: true });
 }
 
@@ -150,7 +151,7 @@ export async function handlePushUnsubscribe(request: Request, env: Env): Promise
   blob.pushSubscriptions = endpoint ? existing.filter(s => s.endpoint !== endpoint) : [];
   blob.updatedAt = new Date().toISOString();
 
-  await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  await saveSubscriptions(env, session.email, blob);
   return json({ ok: true });
 }
 
@@ -230,6 +231,45 @@ export async function handlePushTest(request: Request, env: Env): Promise<Respon
   return json({ ok: true, sent });
 }
 
+/**
+ * Runs `fn` for every student who may need a push, one student at a time, and returns how many were visited. Once the daily
+ * pass has built the push index only subscribers are read; until then (right after a deploy) every student is scanned. A
+ * failure for one student is logged and skipped so it can't stop the others.
+ */
+async function forEachSubscriber(env: Env, fn: (email: string, blob: ProgressBlob) => Promise<void>): Promise<number> {
+  const useIndex = await indexesReady(env);
+  const prefix = useIndex ? PUSH_INDEX_PREFIX : "progress:";
+  let cursor: string | undefined;
+  let checked = 0;
+  do {
+    const list = await env.PROGRESS.list({ prefix, cursor });
+    for (const key of list.keys) {
+      checked++;
+      const email = key.name.slice(prefix.length);
+      try {
+        const raw = await env.PROGRESS.get("progress:" + email);
+        if (!raw) {
+          if (useIndex) await env.PROGRESS.delete(key.name); // the account is gone; drop its index entry
+          continue;
+        }
+        await fn(email, JSON.parse(raw) as ProgressBlob);
+      } catch (e) {
+        logError("push-cron", e, { job: "forEachSubscriber" });
+      }
+    }
+    cursor = list.list_complete ? undefined : list.cursor;
+  } while (cursor);
+  return checked;
+}
+
+/** Saves a blob after subscriptions changed, and keeps the push index in step with whether any remain. */
+async function saveSubscriptions(env: Env, email: string, blob: ProgressBlob): Promise<void> {
+  await putBlob(env, email, blob);
+  const has = Array.isArray(blob.pushSubscriptions) && blob.pushSubscriptions.length > 0;
+  if (has) await env.PROGRESS.put(PUSH_INDEX_PREFIX + email, "1");
+  else await env.PROGRESS.delete(PUSH_INDEX_PREFIX + email);
+}
+
 export async function sendDailyReminders(env: Env): Promise<{ checked: number; sent: number }> {
   if (!env.PROGRESS || !env.VAPID_PRIVATE_KEY) return { checked: 0, sent: 0 };
 
@@ -245,44 +285,31 @@ export async function sendDailyReminders(env: Env): Promise<{ checked: number; s
     options: { ttl: 3600 }
   };
 
-  do {
-    const list = await env.PROGRESS.list({ prefix: "progress:", cursor });
-    for (const key of list.keys) {
-      checked++;
-      const raw = await env.PROGRESS.get(key.name);
-      if (!raw) continue;
-      let blob: ProgressBlob;
-      try {
-        blob = JSON.parse(raw);
-      } catch (e) {
-        continue;
-      }
-      const subs = Array.isArray(blob.pushSubscriptions) ? blob.pushSubscriptions : [];
-      if (!subs.length || !blob.goal || !notificationAllowed(blob, "daily")) continue;
+  checked = await forEachSubscriber(env, async (email, blob) => {
+    const subs = Array.isArray(blob.pushSubscriptions) ? blob.pushSubscriptions : [];
+    if (!subs.length || !blob.goal || !notificationAllowed(blob, "daily")) return;
 
-      const stillValid: PushSubscription[] = [];
-      for (const sub of subs) {
-        try {
-          const res = await sendToSubscription(env, sub, message);
-          if (res.ok || res.status === 201) {
-            sent++;
-            stillValid.push(sub);
-          } else if (res.status !== 404 && res.status !== 410) {
-            // transient failure - keep the subscription for next time
-            stillValid.push(sub);
-          }
-          // 404/410 means the push service says this subscription is gone - drop it
-        } catch (e) {
-          stillValid.push(sub); // network error - keep it, don't punish for a transient blip
+    const stillValid: PushSubscription[] = [];
+    for (const sub of subs) {
+      try {
+        const res = await sendToSubscription(env, sub, message);
+        if (res.ok || res.status === 201) {
+          sent++;
+          stillValid.push(sub);
+        } else if (res.status !== 404 && res.status !== 410) {
+          // transient failure - keep the subscription for next time
+          stillValid.push(sub);
         }
-      }
-      if (stillValid.length !== subs.length) {
-        blob.pushSubscriptions = stillValid;
-        await env.PROGRESS.put(key.name, JSON.stringify(blob));
+        // 404/410 means the push service says this subscription is gone - drop it
+      } catch (e) {
+        stillValid.push(sub); // network error - keep it, don't punish for a transient blip
       }
     }
-    cursor = list.list_complete ? undefined : list.cursor;
-  } while (cursor);
+    if (stillValid.length !== subs.length) {
+      blob.pushSubscriptions = stillValid;
+      await saveSubscriptions(env, email, blob);
+    }
+  });
 
   return { checked, sent };
 }
@@ -336,59 +363,45 @@ export async function sendStreakReminders(env: Env): Promise<{ checked: number; 
   let checked = 0;
   let sent = 0;
 
-  do {
-    const list = await env.PROGRESS.list({ prefix: "progress:", cursor });
-    for (const key of list.keys) {
-      checked++;
-      const raw = await env.PROGRESS.get(key.name);
-      if (!raw) continue;
-      let blob: ProgressBlob;
-      try {
-        blob = JSON.parse(raw);
-      } catch (e) {
-        continue;
-      }
+  checked = await forEachSubscriber(env, async (email, blob) => {
+    const streak = blob.streak;
+    const subs = Array.isArray(blob.pushSubscriptions) ? blob.pushSubscriptions : [];
+    if (!streak || !(streak.current > 0) || !streak.timezone || !subs.length || !notificationAllowed(blob, "streak")) return;
 
-      const streak = blob.streak;
-      const subs = Array.isArray(blob.pushSubscriptions) ? blob.pushSubscriptions : [];
-      if (!streak || !(streak.current > 0) || !streak.timezone || !subs.length || !notificationAllowed(blob, "streak")) continue;
-
-      let local: { day: string; minutes: number };
-      let today: string;
-      try {
-        local = localDayAndMinutes(streak.timezone);
-        today = localDateString(streak.timezone);
-      } catch (e) {
-        continue; // stale/invalid timezone saved before validation was added - skip rather than crash
-      }
-
-      if (local.minutes < STREAK_REMINDER_MINUTES || local.minutes >= STREAK_REMINDER_MINUTES + 5) continue;
-      if (streak.lastActiveDate === today) continue; // already active today - don't nag
-
-      const message = {
-        data: JSON.stringify({
-          title: `🔥 Don't lose your ${streak.current}-day streak!`,
-          body: "A few minutes of practice before midnight keeps it going.",
-          url: "/dashboard"
-        }),
-        options: { ttl: 3600 }
-      };
-
-      const deadEndpoints = new Set<string>();
-      for (const sub of subs) {
-        try {
-          const res = await sendToSubscription(env, sub, message);
-          if (res.ok || res.status === 201) sent++;
-          else if (res.status === 404 || res.status === 410) deadEndpoints.add(sub.endpoint);
-        } catch (e) { /* transient failure - keep the subscription for next time */ }
-      }
-      if (deadEndpoints.size) {
-        blob.pushSubscriptions = subs.filter(s => !deadEndpoints.has(s.endpoint));
-        await env.PROGRESS.put(key.name, JSON.stringify(blob));
-      }
+    let local: { day: string; minutes: number };
+    let today: string;
+    try {
+      local = localDayAndMinutes(streak.timezone);
+      today = localDateString(streak.timezone);
+    } catch (e) {
+      return; // stale/invalid timezone saved before validation was added - skip rather than crash
     }
-    cursor = list.list_complete ? undefined : list.cursor;
-  } while (cursor);
+
+    if (local.minutes < STREAK_REMINDER_MINUTES || local.minutes >= STREAK_REMINDER_MINUTES + 5) return;
+    if (streak.lastActiveDate === today) return; // already active today - don't nag
+
+    const message = {
+      data: JSON.stringify({
+        title: `🔥 Don't lose your ${streak.current}-day streak!`,
+        body: "A few minutes of practice before midnight keeps it going.",
+        url: "/dashboard"
+      }),
+      options: { ttl: 3600 }
+    };
+
+    const deadEndpoints = new Set<string>();
+    for (const sub of subs) {
+      try {
+        const res = await sendToSubscription(env, sub, message);
+        if (res.ok || res.status === 201) sent++;
+        else if (res.status === 404 || res.status === 410) deadEndpoints.add(sub.endpoint);
+      } catch (e) { /* transient failure - keep the subscription for next time */ }
+    }
+    if (deadEndpoints.size) {
+      blob.pushSubscriptions = subs.filter(s => !deadEndpoints.has(s.endpoint));
+      await saveSubscriptions(env, email, blob);
+    }
+  });
 
   return { checked, sent };
 }
@@ -404,71 +417,57 @@ export async function sendScheduledBlockReminders(env: Env): Promise<{ checked: 
   let checked = 0;
   let sent = 0;
 
-  do {
-    const list = await env.PROGRESS.list({ prefix: "progress:", cursor });
-    for (const key of list.keys) {
-      checked++;
-      const raw = await env.PROGRESS.get(key.name);
-      if (!raw) continue;
-      let blob: ProgressBlob;
-      try {
-        blob = JSON.parse(raw);
-      } catch (e) {
-        continue;
-      }
+  checked = await forEachSubscriber(env, async (email, blob) => {
+    const schedule = blob.schedule;
+    const subs = Array.isArray(blob.pushSubscriptions) ? blob.pushSubscriptions : [];
+    if (!schedule || !schedule.notifyEnabled || !schedule.timezone || !subs.length || !notificationAllowed(blob, "blocks")) return;
+    const blocks = Array.isArray(schedule.blocks) ? schedule.blocks : [];
+    if (!blocks.length) return;
 
-      const schedule = blob.schedule;
-      const subs = Array.isArray(blob.pushSubscriptions) ? blob.pushSubscriptions : [];
-      if (!schedule || !schedule.notifyEnabled || !schedule.timezone || !subs.length || !notificationAllowed(blob, "blocks")) continue;
-      const blocks = Array.isArray(schedule.blocks) ? schedule.blocks : [];
-      if (!blocks.length) continue;
+    let local: { day: string; minutes: number };
+    try {
+      local = localDayAndMinutes(schedule.timezone);
+    } catch (e) {
+      return; // stale/invalid timezone saved before validation was added - skip rather than crash
+    }
 
-      let local: { day: string; minutes: number };
-      try {
-        local = localDayAndMinutes(schedule.timezone);
-      } catch (e) {
-        continue; // stale/invalid timezone saved before validation was added - skip rather than crash
-      }
+    // Fires once per block, 10-15 minutes before it starts (the 5-minute
+    // window matches this job's own */5 * * * * cadence, same trick the
+    // old "just started" version used at offset 0 -- shifted 10 minutes
+    // earlier here so the student gets a heads-up instead of a
+    // just-missed-it ping).
+    const dueBlocks = blocks.filter(b => {
+      if (b.day !== local.day) return false;
+      const startMin = timeToMinutes(b.start);
+      const minutesUntilStart = startMin - local.minutes;
+      return minutesUntilStart >= 10 && minutesUntilStart < 15;
+    });
+    if (!dueBlocks.length) return;
 
-      // Fires once per block, 10-15 minutes before it starts (the 5-minute
-      // window matches this job's own */5 * * * * cadence, same trick the
-      // old "just started" version used at offset 0 -- shifted 10 minutes
-      // earlier here so the student gets a heads-up instead of a
-      // just-missed-it ping).
-      const dueBlocks = blocks.filter(b => {
-        if (b.day !== local.day) return false;
-        const startMin = timeToMinutes(b.start);
-        const minutesUntilStart = startMin - local.minutes;
-        return minutesUntilStart >= 10 && minutesUntilStart < 15;
-      });
-      if (!dueBlocks.length) continue;
-
-      const deadEndpoints = new Set<string>();
-      for (const block of dueBlocks) {
-        const message = {
-          data: JSON.stringify({
-            title: `${block.subjectLabel} starts in 10 minutes ⏰`,
-            body: `Your ${block.start}–${block.end} study block is coming up.`,
-            url: "/dashboard"
-          }),
-          options: { ttl: 900 }
-        };
-        for (const sub of subs) {
-          if (deadEndpoints.has(sub.endpoint)) continue;
-          try {
-            const res = await sendToSubscription(env, sub, message);
-            if (res.ok || res.status === 201) sent++;
-            else if (res.status === 404 || res.status === 410) deadEndpoints.add(sub.endpoint);
-          } catch (e) { /* transient failure - keep the subscription for next time */ }
-        }
-      }
-      if (deadEndpoints.size) {
-        blob.pushSubscriptions = subs.filter(s => !deadEndpoints.has(s.endpoint));
-        await env.PROGRESS.put(key.name, JSON.stringify(blob));
+    const deadEndpoints = new Set<string>();
+    for (const block of dueBlocks) {
+      const message = {
+        data: JSON.stringify({
+          title: `${block.subjectLabel} starts in 10 minutes ⏰`,
+          body: `Your ${block.start}–${block.end} study block is coming up.`,
+          url: "/dashboard"
+        }),
+        options: { ttl: 900 }
+      };
+      for (const sub of subs) {
+        if (deadEndpoints.has(sub.endpoint)) continue;
+        try {
+          const res = await sendToSubscription(env, sub, message);
+          if (res.ok || res.status === 201) sent++;
+          else if (res.status === 404 || res.status === 410) deadEndpoints.add(sub.endpoint);
+        } catch (e) { /* transient failure - keep the subscription for next time */ }
       }
     }
-    cursor = list.list_complete ? undefined : list.cursor;
-  } while (cursor);
+    if (deadEndpoints.size) {
+      blob.pushSubscriptions = subs.filter(s => !deadEndpoints.has(s.endpoint));
+      await saveSubscriptions(env, email, blob);
+    }
+  });
 
   return { checked, sent };
 }

@@ -2,7 +2,7 @@ import { getSession } from "./auth.js";
 import { withinDailyQuota } from "./limits.js";
 
 const DEFAULT_AI_DAILY_PER_USER = 30;
-import { applyUnitMigrations, type ProgressBlob as FullProgressBlob } from "./progress-routes.js";
+import { applyUnitMigrations, putBlob, type ProgressBlob as FullProgressBlob } from "./progress-routes.js";
 import { randomToken } from "./random-token.js";
 import { ALLOWED_UPLOAD_TYPES, matchesDeclaredType } from "./file-validation.js";
 
@@ -251,7 +251,7 @@ export async function handleSaveFlashcards(request: Request, env: Env): Promise<
   while (decks.length > MAX_DECKS) decks.shift();
   blob.customDecks = decks;
 
-  await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  await putBlob(env, session.email, blob);
   return json({ ok: true, deck });
 }
 
@@ -273,7 +273,7 @@ export async function handleDeleteFlashcards(request: Request, env: Env): Promis
   const decks = Array.isArray(blob.customDecks) ? blob.customDecks : [];
   blob.customDecks = decks.filter(d => d.id !== id);
 
-  await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  await putBlob(env, session.email, blob);
   return json({ ok: true });
 }
 
@@ -311,6 +311,6 @@ export async function handleReviewFlashcard(request: Request, env: Env): Promise
   card.reps = result.reps;
   card.due = result.due;
 
-  await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
+  await putBlob(env, session.email, blob);
   return json({ ok: true, card: { due: result.due, interval: result.interval } });
 }

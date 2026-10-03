@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { deleteUserData } from "../src/account-delete.js";
+import { loadGroup } from "../src/leaderboard-routes.js";
 
 // In-memory KV with prefix listing, like Cloudflare KV (enough for deleteUserData).
 function kvStub() {
@@ -23,8 +24,12 @@ function seed() {
   p.set("login:learner@example.com", "{}");
   for (const pre of ["gtok:", "gsettings:", "gcache:", "syldates:", "canvastok:"]) p.set(pre + ME, "x");
   p.set("share:sharetok1", ME); p.set("cal:caltok1", ME); p.set("invite:invtok1", ME);
+  p.set("history:" + ME, "[]");
+  p.set("chalidx:learner@example.com", "[]");
   p.set("sv:learner@example.com", "3"); // session version is kept on purpose
-  p.set("lbgroup:GRP1", JSON.stringify({ members: [ME, OTHER], createdAt: "2026-01-01" }));
+  p.set("lbgroup:GRP1", JSON.stringify({ members: [ME], createdAt: "2026-01-01" })); // pre-change array membership
+  p.set("lbgm:GRP1:" + OTHER, "1"); // new-style membership
+  p.set("lbgm:GRP1:learner@example.com", "1");
   p.set("challenge:AAAAAA", JSON.stringify({ creatorEmail: ME, opponentEmail: OTHER }));
   p.set("challenge:BBBBBB", JSON.stringify({ creatorEmail: OTHER, opponentEmail: "learner@example.com" }));
   p.set("challenge:CCCCCC", JSON.stringify({ creatorEmail: OTHER, opponentEmail: "third@example.com" }));
@@ -43,16 +48,18 @@ describe("deleteUserData", () => {
     const left = [...PROGRESS._m.keys()].filter(k => k.toLowerCase().includes("learner@example.com") || ["share:sharetok1", "cal:caltok1", "invite:invtok1"].includes(k));
     expect(left).toEqual(["sv:learner@example.com"]); // only the session-version counter stays, so old cookies stay dead
     expect(report.canvasTokenRemoved).toBe(true);
-    expect(report.keysDeleted).toBe(10); // progress, login, gtok, gsettings, gcache, syldates, canvastok + share, cal, invite
+    expect(report.keysDeleted).toBe(12); // progress, login, gtok, gsettings, gcache, syldates, canvastok, chalidx, history + share, cal, invite
   });
 
   it("removes the person from a shared group and deletes the group when nobody is left", async () => {
     const { env, PROGRESS } = seed();
     await deleteUserData(env, ME);
-    expect(JSON.parse(PROGRESS._m.get("lbgroup:GRP1")).members).toEqual([OTHER]);
+    expect((await loadGroup(env, "GRP1")).members).toEqual([OTHER]);
+    expect(PROGRESS._m.has("lbgm:GRP1:learner@example.com")).toBe(false);
     PROGRESS._m.set("progress:" + OTHER, JSON.stringify({ leaderboard: { groupCode: "GRP1" } }));
     await deleteUserData(env, OTHER);
     expect(PROGRESS._m.has("lbgroup:GRP1")).toBe(false);
+    expect(PROGRESS._m.has("lbgm:GRP1:" + OTHER)).toBe(false);
   });
 
   it("deletes challenges the person created or joined, and leaves unrelated ones", async () => {

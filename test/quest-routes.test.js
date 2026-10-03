@@ -77,6 +77,18 @@ describe("handleGetQuest", () => {
     expect(res.status).toBe(401);
   });
 
+  it("ignores a made-up localDate: only a date within a day of the server's date decides which day's quests you get", async () => {
+    const cookie = await sessionCookieFor("cheat@example.com");
+    const today = new Date().toISOString().slice(0, 10);
+    for (const fake of ["2099-01-01", "2001-01-01"]) {
+      const kv = fakeKV();
+      const res = await handleGetQuest(req("https://example.com/api/quest?localDate=" + fake, cookie), envWith(kv));
+      expect(res.status).toBe(200);
+      const stored = JSON.parse(kv._store.get("progress:cheat@example.com"));
+      expect(stored.quest.daily.date).toBe(today);
+    }
+  });
+
   it("initializes a fresh player with 3 daily quests, 2 weekly quests, xp 0, no boss", async () => {
     const cookie = await sessionCookieFor("new@example.com");
     const kv = fakeKV();

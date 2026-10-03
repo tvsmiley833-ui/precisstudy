@@ -1,5 +1,5 @@
 import { getSession } from "./auth.js";
-import { loadBlob, SUBJECTS, type ProgressBlob } from "./progress-routes.js";
+import { loadBlob, putBlob, SUBJECTS, type ProgressBlob } from "./progress-routes.js";
 import { generateHandle, displayNameFor } from "./leaderboard-routes.js";
 
 function json(body: unknown, status?: number): Response {
@@ -114,7 +114,7 @@ async function ensureHandle(env: Env, email: string): Promise<{ handle: string; 
     groupCode: blob.leaderboard?.groupCode || null
   };
   blob.updatedAt = new Date().toISOString();
-  await env.PROGRESS.put("progress:" + email, JSON.stringify(blob));
+  await putBlob(env, email, blob);
   return { handle, nickname: blob.leaderboard.nickname || null };
 }
 

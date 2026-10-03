@@ -22,6 +22,9 @@ function fakeKV(initial) {
     async put(key, value) {
       store.set(key, value);
     },
+    async delete(key) {
+      store.delete(key);
+    },
     async list({ prefix, cursor } = {}) {
       const keys = [...store.keys()]
         .filter(k => !prefix || k.startsWith(prefix))
@@ -498,5 +501,73 @@ describe("sendStreakReminders", () => {
   it("returns zeroed counts when push isn't configured", async () => {
     const result = await sendStreakReminders({ PROGRESS: fakeKV() });
     expect(result).toEqual({ checked: 0, sent: 0 });
+  });
+});
+
+
+describe("reminder jobs read only subscribers once the push index is ready", () => {
+  const sub = { endpoint: "https://fcm.googleapis.com/fcm/send/abc", keys: VALID_KEYS, expirationTime: null };
+  const goal = { days: 14, minutesPerDay: 30 };
+
+  it("visits only students in the push index, instead of every student", async () => {
+    const reads = [];
+    const kv = fakeKV({
+      "cron:idx-ready": "1",
+      "pushsub:in@example.com": "1",
+      "progress:in@example.com": JSON.stringify({ goal, pushSubscriptions: [sub] }),
+      "progress:never-subscribed@example.com": JSON.stringify({ goal, pushSubscriptions: [sub] }), // not indexed: skipped
+    });
+    const origGet = kv.get; kv.get = async (k) => { reads.push(k); return origGet(k); };
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(null, { status: 201 }));
+    const result = await sendDailyReminders({ PROGRESS: kv, ...VAPID });
+    expect(result).toEqual({ checked: 1, sent: 1 });
+    expect(reads).not.toContain("progress:never-subscribed@example.com");
+  });
+
+  it("before the index exists (e.g. right after a deploy) it still scans every student so nobody misses reminders", async () => {
+    const kv = fakeKV({
+      "progress:a@example.com": JSON.stringify({ goal, pushSubscriptions: [sub] }),
+      "progress:b@example.com": JSON.stringify({ goal, pushSubscriptions: [sub] }),
+    });
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(null, { status: 201 }));
+    const result = await sendDailyReminders({ PROGRESS: kv, ...VAPID });
+    expect(result).toEqual({ checked: 2, sent: 2 });
+  });
+
+  it("an index entry whose account is gone is cleaned up, and one broken record does not stop the others", async () => {
+    const kv = fakeKV({
+      "cron:idx-ready": "1",
+      "pushsub:gone@example.com": "1",
+      "pushsub:broken@example.com": "1",
+      "progress:broken@example.com": "{not json",
+      "pushsub:ok@example.com": "1",
+      "progress:ok@example.com": JSON.stringify({ goal, pushSubscriptions: [sub] }),
+    });
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(null, { status: 201 }));
+    const result = await sendDailyReminders({ PROGRESS: kv, ...VAPID });
+    expect(result.sent).toBe(1);
+    expect(kv._store.has("pushsub:gone@example.com")).toBe(false);
+  });
+
+  it("subscribing adds the student to the index and unsubscribing the last endpoint removes them", async () => {
+    const cookie = await sessionCookieFor("student@example.com");
+    const kv = fakeKV({ "progress:student@example.com": JSON.stringify({ pushSubscriptions: [] }) });
+    const env = { SESSION_SECRET: SECRET, PROGRESS: kv };
+    const body = { subscription: { endpoint: "https://fcm.googleapis.com/fcm/send/xyz", keys: VALID_KEYS } };
+    await handlePushSubscribe(new Request("https://example.com/api/push/subscribe", { method: "POST", headers: { "Content-Type": "application/json", Cookie: cookie }, body: JSON.stringify(body) }), env);
+    expect(kv._store.get("pushsub:student@example.com")).toBe("1");
+    await handlePushUnsubscribe(new Request("https://example.com/api/push/unsubscribe", { method: "POST", headers: { "Content-Type": "application/json", Cookie: cookie }, body: JSON.stringify({ endpoint: "https://fcm.googleapis.com/fcm/send/xyz" }) }), env);
+    expect(kv._store.has("pushsub:student@example.com")).toBe(false);
+  });
+
+  it("dropping a dead endpoint (410) from someone's last subscription also removes them from the index", async () => {
+    const kv = fakeKV({
+      "cron:idx-ready": "1",
+      "pushsub:dead@example.com": "1",
+      "progress:dead@example.com": JSON.stringify({ goal, pushSubscriptions: [sub] }),
+    });
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(null, { status: 410 }));
+    await sendDailyReminders({ PROGRESS: kv, ...VAPID });
+    expect(kv._store.has("pushsub:dead@example.com")).toBe(false);
   });
 });
