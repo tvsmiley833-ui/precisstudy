@@ -6,7 +6,7 @@ Effort: S = hours, M = a day or two, L = several days, XL = a project. **Owner**
 
 ## Status (updated 2026-10-02)
 
-Done and deployed: SEC-1, SEC-2, SEC-3, PWA-1, GUIDE-1, GUIDE-2, PRIV-1, BE-1, BE-2 (each with tests).
+Done and deployed: SEC-1, SEC-2, SEC-3, PWA-1, GUIDE-1, GUIDE-2, PRIV-1, BE-1, BE-2, SEC-4, BE-4, BE-7, GUIDE-3, GUIDE-5, GUIDE-6, PRIV-3 (each with tests; BE-8 partly: mastery input is now validated).
 Waiting on the owner: PRIV-2 (age gate, legal decision) and TEST-1 (CI workflow file needs a token with `workflow` scope, or edit `.github/workflows/ci.yml` in the GitHub web UI: change `npx vitest run` to `npm test`).
 Still open from the migration fix: any Algebra II / Physics blob that a quest, push or leaderboard write stamped before 2026-10-02 may already hold old unit numbers; that needs a one-time audit of production KV.
 
