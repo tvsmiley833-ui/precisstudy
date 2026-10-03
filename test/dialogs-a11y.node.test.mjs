@@ -272,3 +272,12 @@ test("signing out clears this site's saved progress and caches on every page tha
   for (const f of ["../public/index.html", "../public/dashboard/index.html", "../public/about/index.html"]) assert.match(read(f), /ssClearLocalData\(\)/);
   assert.match(read("../src/worker.ts"), /local-data\.js/);
 });
+
+test("flashcard and syllabus uploads check size and legacy .doc before sending, and let iPhones pick photos", () => {
+  for (const f of ["../public/flashcards/index.html", "../public/syllabus/index.html"]) {
+    const h = read(f);
+    assert.match(h, /function ssUploadProblem\(file\)/);
+    assert.match(h, /accept="image\/\*,\.pdf,\.docx,\.txt"/);
+    assert.ok(!/accept="[^"]*\.doc,/.test(h));
+  }
+});
