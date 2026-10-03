@@ -215,6 +215,15 @@ describe("computeLeaderboards + GET /api/leaderboard", () => {
     };
   }
 
+  it("blanks a subject board that nobody is on any more, so stale rankings and opted-out handles disappear", async () => {
+    const kv = fakeKV({
+      "lb:subject:geometry:xp": JSON.stringify([{ handle: "Old Owl", value: 50, rank: 1 }]),
+      "progress:out@example.com": JSON.stringify(blobFor({ optedIn: false, xpHistory: 500 }))
+    });
+    await computeLeaderboards({ PROGRESS: kv });
+    expect(JSON.parse(kv._store.get("lb:subject:geometry:xp"))).toEqual([]);
+  });
+
   it("a non-opted-in student's data never appears in a computed board, even with lots of progress", async () => {
     const kv = fakeKV({
       "progress:optedin@example.com": JSON.stringify(blobFor({ optedIn: true, xpHistory: 500 })),

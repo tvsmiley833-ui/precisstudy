@@ -396,6 +396,18 @@ export async function computeLeaderboards(env: Env): Promise<{ checked: number; 
       boardsWritten++;
     }
   }
+  // A board with nobody on it this week must still be overwritten, or last week's rankings (and handles that have since
+  // opted out) would keep showing. Blank any previously written subject board that wasn't rebuilt above.
+  try {
+    const written = new Set<string>();
+    for (const subjectKey of Object.keys(subjectRows)) for (const metric of metrics) if (toBoard(subjectRows[subjectKey]!, metric).length) written.add(`lb:subject:${subjectKey}:${metric}`);
+    let cur: string | undefined;
+    do {
+      const l = await env.PROGRESS.list({ prefix: "lb:subject:", cursor: cur });
+      for (const k of l.keys) if (!written.has(k.name)) writes.push(env.PROGRESS.put(k.name, "[]"));
+      cur = l.list_complete ? undefined : l.cursor;
+    } while (cur);
+  } catch (e) { /* the fresh boards are already queued; a failed sweep just leaves yesterday's empty-board state */ }
   await Promise.all(writes);
 
   return { checked, boardsWritten };
