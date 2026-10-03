@@ -7,7 +7,10 @@
 // network-only -- caching signed-in student data would be stale/wrong the
 // moment it's out of date, and those routes already fail gracefully offline
 // (see public/shared/mastery.js's catch blocks).
-const CACHE_VERSION = "ss-v2";
+const CACHE_VERSION = "ss-v3";
+const OFFLINE_URL = "/offline.html";
+const NETWORK_TIMEOUT_MS = 4000; // a slow network falls back to the cached copy instead of hanging
+const MAX_PAGES = 80; // bounded: oldest cached pages are dropped first
 
 // Web push: src/push-routes.ts sends JSON {title, body, url}. Without these two handlers the
 // browser shows a generic "site updated in the background" notice (or nothing) and Safari drops
@@ -39,6 +42,8 @@ self.addEventListener("notificationclick", (event) => {
 });
 
 self.addEventListener("install", (event) => {
+  // The offline page is the one thing precached, so a first-ever offline visit still gets something useful.
+  event.waitUntil(caches.open(CACHE_VERSION).then((c) => c.add(OFFLINE_URL)).catch(() => null));
   self.skipWaiting();
 });
 
@@ -46,7 +51,8 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
       Promise.all(keys.filter((k) => k !== CACHE_VERSION).map((k) => caches.delete(k)))
-    ).then(() => self.clients.claim())
+    ).then(() => (self.registration.navigationPreload ? self.registration.navigationPreload.enable().catch(() => null) : null))
+     .then(() => self.clients.claim())
   );
 });
 
@@ -57,10 +63,30 @@ function isCacheable(request, url) {
   return true;
 }
 
-const OFFLINE = () => new Response("Offline and this page hasn't been visited before.", {
-  status: 503,
-  headers: { "Content-Type": "text/plain" }
-});
+const OFFLINE = async (request, cache) => {
+  if (request && request.mode === "navigate") {
+    const page = await cache.match(OFFLINE_URL);
+    if (page) return page;
+  }
+  return new Response("Offline and this page hasn't been visited before.", { status: 503, headers: { "Content-Type": "text/plain" } });
+};
+
+// Versioned assets (?v=<hash>) change URL on every deploy; keep only the newest copy of each path.
+async function putFresh(cache, request, res) {
+  const url = new URL(request.url);
+  if (url.searchParams.has("v")) {
+    const stale = (await cache.keys()).filter((k) => {
+      const u = new URL(k.url);
+      return u.pathname === url.pathname && u.search !== url.search;
+    });
+    await Promise.all(stale.map((k) => cache.delete(k)));
+  }
+  await cache.put(request, res);
+  if (request.mode === "navigate") {
+    const pages = (await cache.keys()).filter((k) => k.mode === "navigate" || new URL(k.url).pathname.endsWith("/"));
+    if (pages.length > MAX_PAGES) await Promise.all(pages.slice(0, pages.length - MAX_PAGES).map((k) => cache.delete(k)));
+  }
+}
 
 function isNetworkFirst(request, url) {
   return request.mode === "navigate" || url.pathname.startsWith("/shared/") || url.pathname.endsWith("/");
@@ -72,16 +98,26 @@ self.addEventListener("fetch", (event) => {
 
   event.respondWith(
     caches.open(CACHE_VERSION).then(async (cache) => {
-      const networkFetch = fetch(event.request).then((res) => {
-        if (res.ok) cache.put(event.request, res.clone());
+      const networkFetch = (async () => {
+        // Navigation preload starts the request while this worker boots; use it instead of a second fetch.
+        const pre = event.preloadResponse ? await event.preloadResponse : null;
+        const res = pre || (await fetch(event.request));
+        if (res.ok) event.waitUntil(putFresh(cache, event.request, res.clone()));
         return res;
-      });
+      })();
 
       if (isNetworkFirst(event.request, url)) {
+        const cached = await cache.match(event.request);
         try {
-          return await networkFetch;
+          if (!cached) return await networkFetch;
+          // With a cached copy on hand, don't make the student wait on a slow network.
+          return await Promise.race([
+            networkFetch,
+            new Promise((_, rej) => setTimeout(() => rej(new Error("timeout")), NETWORK_TIMEOUT_MS)),
+          ]);
         } catch (e) {
-          return (await cache.match(event.request)) || OFFLINE();
+          networkFetch.catch(() => null);
+          return cached || (await OFFLINE(event.request, cache));
         }
       }
 
@@ -91,7 +127,7 @@ self.addEventListener("fetch", (event) => {
         event.waitUntil(networkFetch.catch(() => null));
         return cached;
       }
-      return networkFetch.catch(OFFLINE);
+      return networkFetch.catch(() => OFFLINE(event.request, cache));
     })
   );
 });
