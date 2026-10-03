@@ -45,7 +45,9 @@ export function computeUnitStatus(record) {
 /**
  * @param {Record<string, MasteryRecord>} mastery
  * @param {number[]} unitIds
- * @returns {{ pct: number | null; assessedCount: number; totalCount: number }}
+ * @returns {{ pct: number | null; assessedCount: number; totalCount: number; enough: boolean }}
+ *   `enough` is false until about 60% of the units have been assessed: an average over one unit of eight is an
+ *   early read, not an exam-readiness score, and must not be shown (or turned into a score forecast) as one.
  */
 export function computeReadiness(mastery, unitIds) {
   const assessed = unitIds
@@ -53,14 +55,15 @@ export function computeReadiness(mastery, unitIds) {
     .filter(record => record && record.total >= 2);
 
   if (assessed.length === 0) {
-    return { pct: null, assessedCount: 0, totalCount: unitIds.length };
+    return { pct: null, assessedCount: 0, totalCount: unitIds.length, enough: false };
   }
 
   const sumPct = assessed.reduce((sum, record) => sum + ((record?.correct ?? 0) / (record?.total || 1)) * 100, 0);
   return {
     pct: Math.round(sumPct / assessed.length),
     assessedCount: assessed.length,
-    totalCount: unitIds.length
+    totalCount: unitIds.length,
+    enough: assessed.length >= Math.ceil(unitIds.length * 0.6)
   };
 }
 

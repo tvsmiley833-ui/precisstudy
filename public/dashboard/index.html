@@ -635,13 +635,13 @@ function renderSubject(subjectKey, label, href, subjectData, unitIds, unitNames)
   const scoreText = readiness.pct === null ? '—' : readiness.pct + '%';
   const notAssessedCount = readiness.totalCount - readiness.assessedCount;
   const caveat = notAssessedCount > 0
-    ? notAssessedCount + ' of ' + readiness.totalCount + ' units not yet assessed'
+    ? (readiness.enough ? '' : 'Only ' + readiness.assessedCount + ' of ' + readiness.totalCount + ' units practiced so far, so this is an early read. ') + notAssessedCount + ' of ' + readiness.totalCount + ' units not yet assessed'
     : 'All ' + readiness.totalCount + ' units assessed';
 
   el.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;">'
     + '<div style="font-weight:800;font-size:18px;color:var(--text);">' + label + '</div>'
     + '<div style="text-align:right;"><div style="font-weight:800;font-size:28px;line-height:1;color:' + statusColor(readiness.pct) + ';">' + scoreText + '</div>'
-    + (readiness.pct === null ? '' : '<div style="font-size:12px;color:var(--text-muted);margin-top:2px;" title="Average score across the units you\'ve been assessed on">exam readiness</div>') + '</div>'
+    + (readiness.pct === null ? '' : '<div style="font-size:12px;color:var(--text-muted);margin-top:2px;" title="Average score across the units you\'ve been assessed on">' + (readiness.enough ? 'exam readiness' : 'early read') + '</div>') + '</div>'
     + '</div>'
     + '<p style="margin:0 0 16px;font-size:13px;color:var(--text-muted);">' + caveat + '</p>'
     + '<div style="border-top:1px solid var(--border);padding-top:14px;">' + recHtml + '</div>'
@@ -1807,7 +1807,7 @@ async function loadDashboard() {
         if (!subj) return null;
         const unitIds = s.units.map(function (u) { return u.id; });
         const readiness = computeReadiness(subj.mastery || {}, unitIds);
-        if (readiness.pct === null) return null;
+        if (readiness.pct === null || !readiness.enough) return null;
         return { label: s.label, href: s.href, pct: readiness.pct, forecast: forecastScore(s.key, readiness.pct) };
       })
       .filter(Boolean)

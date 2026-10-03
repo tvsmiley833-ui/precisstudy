@@ -26,7 +26,7 @@ describe("computeUnitStatus", () => {
 describe("computeReadiness", () => {
   it("returns null pct when nothing is assessed", () => {
     const result = computeReadiness({}, [1, 2, 3]);
-    expect(result).toEqual({ pct: null, assessedCount: 0, totalCount: 3 });
+    expect(result).toEqual({ pct: null, assessedCount: 0, totalCount: 3, enough: false });
   });
 
   it("averages only assessed units", () => {
@@ -36,7 +36,15 @@ describe("computeReadiness", () => {
       3: { correct: 1, total: 4 }   // 25%, assessed
     };
     const result = computeReadiness(mastery, [1, 2, 3]);
-    expect(result).toEqual({ pct: 63, assessedCount: 2, totalCount: 3 });
+    expect(result).toEqual({ pct: 63, assessedCount: 2, totalCount: 3, enough: true });
+  });
+
+  it("two right answers in one unit of eight is an early read, not exam readiness", () => {
+    const eight = [1, 2, 3, 4, 5, 6, 7, 8];
+    expect(computeReadiness({ 1: { correct: 2, total: 2 } }, eight)).toMatchObject({ pct: 100, enough: false });
+    const five = Object.fromEntries([1, 2, 3, 4, 5].map(i => [i, { correct: 2, total: 2 }]));
+    expect(computeReadiness(five, eight).enough).toBe(true); // 5 of 8 units >= 60%
+    expect(computeReadiness({ ...five, 5: undefined }, eight).enough).toBe(false); // 4 of 8
   });
 });
 
