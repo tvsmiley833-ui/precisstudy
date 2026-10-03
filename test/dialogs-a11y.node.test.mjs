@@ -162,3 +162,11 @@ test("the dashboard activity heatmap has a text alternative", () => {
   assert.match(d, /role="img" aria-label="' \+ ssEscapeHtml\('Activity grid\. '/);
   assert.match(d, /Busiest day: /);
 });
+
+test("secondary-page header styles are a static stylesheet, not injected by script", () => {
+  const css = read("../public/shared/site-header.css");
+  assert.equal((css.match(/\{/g) || []).length, (css.match(/\}/g) || []).length);
+  assert.match(css, /@media\(min-width:961px\)\{#ss-mobile-menu\{display:none!important\}\s*\}/);
+  assert.ok(!/createElement\("style"\)/.test(read("../public/shared/site-header.js")));
+  assert.match(read("../public/about/index.html"), /href="\/shared\/site-header\.css"/);
+});
