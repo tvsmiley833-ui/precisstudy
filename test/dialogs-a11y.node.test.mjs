@@ -228,3 +228,13 @@ test("guide pages link one shared base stylesheet instead of inlining it", () =>
   assert.ok(html.length < 230000, "page should no longer carry the 54 KB base stylesheet");
   assert.ok(read("../public/shared/guide-base.css").includes(".unit-hd{display:flex"));
 });
+
+test("install hint: second day only, never when installed or dismissed, iOS instructions and Android install button", () => {
+  const js = read("../public/shared/install-hint.js");
+  assert.match(js, /days\.length < 2\) return/);
+  assert.match(js, /display-mode: standalone/);
+  assert.match(js, /ss-install-hint-dismissed/);
+  assert.match(js, /Add to Home Screen/);
+  assert.match(js, /beforeinstallprompt/);
+  assert.match(read("../src/worker.ts"), /install-hint\.js/);
+});
