@@ -1,47 +1,31 @@
 # PrecisStudy
 
-Free, self-contained study guides for high school and AP subjects — notes, flashcards, quizzes, and full practice exams, all running on Cloudflare Workers.
+Free study guides for high school and AP classes — notes, flashcards, quizzes, worked examples and full practice exams — running on Cloudflare Workers.
 
 Live at [precisstudy.com](https://precisstudy.com).
 
-## Subjects
+## What's here
 
-Geometry, Chemistry, Algebra I & II, AP English Language & Composition, Global History, AP Biology, Biology, APUSH, Physics, and PreCalculus — each guide includes:
-
-- A full unit-by-unit study guide with worked examples and common traps
-- Flashcards and a quiz question bank per unit
-- A timed full-length practice exam
-- A quick-reference sheet and memory-trick summaries
-- Progress tracking and mastery scoring for signed-in users
+57 guides (math, science, history, English, languages, SAT/ACT prep and electives). Each has a unit-by-unit study guide, flashcards with spaced repetition, a quiz bank, a practice exam, a quick reference and common-mistakes notes. Signed-in students also get progress sync, a dashboard, streaks and quests, study groups and peer challenges, a study schedule, and Google Classroom/Canvas due dates.
 
 ## Stack
 
-- **Cloudflare Workers** for the backend (`src/`), routing, auth, and progress APIs
-- **Cloudflare KV** for sessions, progress, and guide-request storage
-- **Static HTML/CSS/JS** guide pages (`public/`) — no build step, no framework
-- **Vitest** with `@cloudflare/vitest-pool-workers` for backend tests
+- **Cloudflare Workers** (`src/`): routing, auth, progress APIs, AI helper, cron jobs.
+- **Cloudflare KV**: sessions, progress, push subscriptions, leaderboards.
+- **Guide pages are generated**: `guides/<slug>.json` → `scripts/generate-guide.mjs` + `scripts/guide-template/` → `public/<slug>/index.html`. Never hand-edit a generated page; run `npm run guides:regen`.
+- **Client code**: `client/guide-app.js` and `client/personality.js` are built by esbuild into `public/shared/` (`npm run build:client`). Other shared scripts in `public/shared/` are plain files; the Worker adds content hashes (`?v=`) and long cache headers to them.
+- **Tests**: vitest (Workers pool) for the backend and browser-side modules, plus Node tests (`test/*.node.test.mjs`) for the build scripts and page contents.
 
-## Local development
+## Commands
 
 ```bash
 npm install
-npm run dev
+npm run dev          # local Worker
+npm test             # node tests + vitest
+npm run typecheck
+npm run guides:regen # rebuild every guide page from guides/*.json
+npm run smoke        # check key pages and headers on production
+npm run deploy       # builds, typechecks, runs tests, deploys, then smoke-checks
 ```
 
-## Tests
-
-```bash
-npm test
-```
-
-## Deploy
-
-```bash
-npm run deploy
-```
-
-Requires a configured `wrangler.jsonc` with your own KV namespace IDs and secrets (`wrangler secret put ...`) — none are included in this repo.
-
-## License
-
-MIT — see [LICENSE](LICENSE).
+See `scripts/README.md` for the build helpers, `docs/IMPROVEMENTS-STATUS-2026-10-03.md` for what has shipped and what is open, and `CLAUDE.md` for working rules. Older plans are in `docs/archive-*`.
