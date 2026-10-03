@@ -71,7 +71,7 @@ export function labelSvg(svg, cap) {
 function buildUnitsStatic(units, diagrams) {
   return units.map(u => {
     let body = u.concepts.map((c, ci) => {
-      let h = `<div class="c-label">${fixLt(c.l)}</div>`;
+      let h = `<h3 class="c-label">${fixLt(c.l)}</h3>`;
       if (c.intro) h += `<div class="c-text">${fixLt(c.intro)}</div>`;
       if (c.b && c.b.length) h += `<ul class="c-list">${c.b.map(i => `<li>${fixLt(i)}</li>`).join("")}</ul>`;
       // Optional graphs/diagrams that belong to this concept (see physics.json).
@@ -91,7 +91,7 @@ function buildUnitsStatic(units, diagrams) {
     ));
     const hd = `<div class="unit-hd" tabindex="0" role="button" aria-expanded="false">` +
       unitDragHandleHtml(u.id) +
-      `<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts · ~${estMins} min</span></span>` +
+      `<h2 class="unit-h"><span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts · ~${estMins} min</span></span></h2>` +
       `<span class="unit-progress" id="unit-progress-${u.id}" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span>` +
       `<button type="button" class="unit-tts-btn" data-unit="${u.id}" aria-label="Read this unit aloud" onclick="event.stopPropagation();ssReadUnitAloud(${u.id})">${TTS_SPEAKER_ICON_SVG}</button>` +
       `<span class="chevron">▾</span></div>`;

@@ -123,8 +123,8 @@ const items=qs.map(q=>`
   <div class="ex-exp" id="exp-${id}-${q.n}">${ssFixLt(q.e)}</div>
 </div>`).join('');
 return `<div class="ex-part" id="ex-part-${id}">
-<div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'}, 1 pt each)</h3>
+<div class="ex-part-hd" onclick="togglePart('${id}')">
+  <h3><span class="ex-part-btn" tabindex="0" role="button" aria-expanded="false" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();event.stopPropagation();togglePart('${id}')}">${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'}, 1 pt each)</span></h3>
   <div class="ex-part-hd-meta"><span id="score-${id}">Score: 0 / ${qs.length}</span>${exTimerHtml(id)}</div>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
@@ -155,8 +155,8 @@ const items=qs.map(q=>q.sa!==undefined?`
 const allMC=qs.every(q=>q.sa===undefined);
 const rightMeta=allMC?`<span id="score-${id}">Score: 0 / ${qs.length}</span>`:`<span style="font-size:18px;color:var(--ink-dim)">Click to show model answers</span>`;
 return `<div class="ex-part" id="ex-part-${id}">
-<div class="ex-part-hd" tabindex="0" role="button" aria-expanded="false" onclick="togglePart('${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();togglePart('${id}')}">
-  <h3>${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'})</h3>
+<div class="ex-part-hd" onclick="togglePart('${id}')">
+  <h3><span class="ex-part-btn" tabindex="0" role="button" aria-expanded="false" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();event.stopPropagation();togglePart('${id}')}">${meta.title||('Part '+id)} (${qs.length} question${qs.length===1?'':'s'})</span></h3>
   <div class="ex-part-hd-meta">${rightMeta}${exTimerHtml(id)}</div>
 </div>
 <div class="ex-part-body">${items}</div></div>`;
@@ -210,7 +210,7 @@ function renderPartTimer(id){
 function togglePart(id){
   const part=document.getElementById('ex-part-'+id);
   const isOpen=part.classList.toggle('open');
-  const hd=part.querySelector('.ex-part-hd');
+  const hd=part.querySelector('.ex-part-btn');
   if(hd)hd.setAttribute('aria-expanded',isOpen?'true':'false');
   if(isOpen)startPartTimer(id);
 }
@@ -783,12 +783,12 @@ function buildGuide(){
     const div=document.createElement('div');div.className='unit';div.dataset.id=u.id;
     const hd=document.createElement('div');hd.className='unit-hd';
     const estMins=Math.max(5,Math.round(u.concepts.length*3+(u.traps?u.traps.length:0)*2+(u.fms?u.fms.length:0)*2));
-    hd.innerHTML=`${ssUnitDragHandleHtml(u.id)}<span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts · ~${estMins} min</span></span><span class="unit-progress" id="unit-progress-${u.id}" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span><button type="button" class="unit-tts-btn" data-unit="${u.id}" aria-label="Read this unit aloud" onclick="event.stopPropagation();ssReadUnitAloud(${u.id})">${SS_TTS_SPEAKER_ICON}</button><span class="chevron">▾</span>`;
+    hd.innerHTML=`${ssUnitDragHandleHtml(u.id)}<h2 class="unit-h"><span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts · ~${estMins} min</span></span></h2><span class="unit-progress" id="unit-progress-${u.id}" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span><button type="button" class="unit-tts-btn" data-unit="${u.id}" aria-label="Read this unit aloud" onclick="event.stopPropagation();ssReadUnitAloud(${u.id})">${SS_TTS_SPEAKER_ICON}</button><span class="chevron">▾</span>`;
     ssWireUnitHeader(div,hd);
     const body=document.createElement('div');body.className='unit-body';
     u.concepts.forEach((c,ci)=>{
       const cd=document.createElement('div');cd.className='concept';cd.dataset.idx=ci;
-      let h=`<div class="c-label">${ssFixLt(c.l)}</div>`;
+      let h=`<h3 class="c-label">${ssFixLt(c.l)}</h3>`;
       if(c.intro)h+=`<div class="c-text">${ssFixLt(c.intro)}</div>`;
       if(c.b&&c.b.length){h+='<ul class="c-list">';c.b.forEach(item=>h+=`<li>${ssFixLt(item)}</li>`);h+='</ul>';}
       if(c.figs&&c.figs.length)c.figs.forEach(f=>{h+=`<div class="diagram c-fig"><div class="dlabel">${f.label||'Graph'}</div>${ssLabelSvg(f.svg,f.cap)}<p class="dcap">${f.cap}</p></div>`;});

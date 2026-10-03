@@ -744,3 +744,17 @@ describe("flashcards for screen readers", () => {
     assert.match(html, /id="fc-live"[^>]*aria-live="polite"/);
   });
 });
+
+describe("guide headings", () => {
+  const page = readFileSync(new URL("../public/spanish-1/index.html", import.meta.url), "utf8");
+  test("units are h2, concepts are h3, and no heading sits inside a role=button", () => {
+    assert.match(page, /<h2 class="unit-h"><span class="unit-title">/);
+    assert.match(page, /<h3 class="c-label">/);
+    assert.ok(!/role="button"[^>]*>\s*<h[1-6]/.test(page));
+  });
+  test("exam parts put the button inside the heading", () => {
+    const js = readFileSync(new URL("../client/guide-app.js", import.meta.url), "utf8");
+    assert.ok(!/class="ex-part-hd"[^>]*role="button"/.test(js));
+    assert.match(js, /<h3><span class="ex-part-btn"[^>]*role="button"/);
+  });
+});
