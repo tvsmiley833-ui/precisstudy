@@ -1769,8 +1769,54 @@ function showDiagSummary(){
   ssDiagBatchRenderContinue();
   return false;
 }
+// Quiz resume: the running quiz (which questions, in what order, where the student is) is saved per guide so a refresh or
+// a closed tab doesn't lose it. Offered as "Resume quiz (Q 6/10)" next time the quiz tab opens; discarded when it finishes.
+const SS_QUIZ_SAVE_MS=12*3600*1000;
+function ssQuizSaveKey(){return 'ss-quiz-run-'+SS_GUIDE.slug;}
+function ssQuizSave(){
+  try{
+    if(diagMode||mistakeReviewMode||ssChallengeCode||!qPool.length)return;
+    if(qIdx>=qPool.length){localStorage.removeItem(ssQuizSaveKey());return;} // finished
+    if(qIdx<=0)return; // a fresh quiz keeps any earlier saved run until it is resumed or dismissed
+    localStorage.setItem(ssQuizSaveKey(),JSON.stringify({sel:document.getElementById('q-sel').value,ids:qPool.map(qId),idx:qIdx,score:score,ts:Date.now()}));
+  }catch(e){}
+}
+function ssQuizLoadSaved(){
+  try{
+    const r=JSON.parse(localStorage.getItem(ssQuizSaveKey())||'null');
+    if(!r||!Array.isArray(r.ids)||!(r.idx>0)||r.idx>=r.ids.length||Date.now()-r.ts>SS_QUIZ_SAVE_MS)return null;
+    return r;
+  }catch(e){return null;}
+}
+function ssQuizResolve(ids,bank){
+  const byId={};bank.forEach(function(q){byId[qId(q)]=q;});
+  const out=ids.map(function(id){return byId[id];});
+  return out.every(Boolean)?out:null; // the question bank changed since it was saved: don't resume a different quiz
+}
+function ssQuizResume(){
+  const r=ssQuizLoadSaved();if(!r)return;
+  const pool=ssQuizResolve(r.ids,QUIZ.concat(ssHardQ()));
+  if(!pool){ssQuizDiscard();return;}
+  const sel=document.getElementById('q-sel');if(sel&&[].some.call(sel.options,function(o){return o.value===r.sel;}))sel.value=r.sel;
+  qPool=pool;qIdx=r.idx;score=r.score||0;qStreak=0;qBestStreak=0;qMissedUnits=new Set();requeueCounts=new WeakMap();qSessionStart=null;
+  ssQuizTouched=true;ssQuizResumeBannerRemove();showQ();
+}
+function ssQuizDiscard(){try{localStorage.removeItem(ssQuizSaveKey());}catch(e){}ssQuizResumeBannerRemove();}
+function ssQuizResumeBannerRemove(){const b=document.getElementById('quiz-resume');if(b)b.remove();}
+function ssQuizResumeOffer(){
+  ssQuizResumeBannerRemove();
+  if(ssQuizTouched||qIdx>0)return;
+  const r=ssQuizLoadSaved();if(!r)return;
+  const qb=document.getElementById('qbox');if(!qb||!qb.parentNode)return;
+  const b=document.createElement('div');b.id='quiz-resume';b.className='quiz-resume';b.setAttribute('role','region');b.setAttribute('aria-label','Resume your quiz');
+  b.innerHTML='<span>You have a quiz in progress.</span> ';
+  const go=document.createElement('button');go.type='button';go.className='btn';go.textContent='Resume quiz (Q '+(r.idx+1)+'/'+r.ids.length+')';go.onclick=ssQuizResume;
+  const no=document.createElement('button');no.type='button';no.className='btn';no.textContent='Start fresh';no.onclick=ssQuizDiscard;
+  b.appendChild(go);b.appendChild(no);qb.parentNode.insertBefore(b,qb);
+}
 function showQ(){
   const qb=document.getElementById('qbox');
+  ssQuizSave();
   if(qPool.length&&qIdx<qPool.length&&qSessionStart===null)qSessionStart=Date.now(); // time from the first question on screen, not from page load
   if(!qPool.length){
     // An empty pool (a filter with no matches) must not fall through to the results card: it would show "0/0 NaN%".
@@ -2591,6 +2637,7 @@ async function ssQuizTabClick(){
   switchTab('quiz');
   if(SS_SESSION === undefined) await ssCheckSession();
   ssApplyQuizGate();
+  ssQuizResumeOffer();
 }
 
 ssCheckSession();

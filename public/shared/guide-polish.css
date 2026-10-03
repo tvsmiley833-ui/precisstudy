@@ -635,3 +635,5 @@ body{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-ri
 
 /* The search-hit ring and drag-drop line use --accent-bright, which only some themes define (GUIDE-27). */
 :root{--accent-bright:var(--accent)}
+
+.quiz-resume{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 12px;padding:10px 14px;border:1px solid var(--accent);border-radius:12px;background:var(--accent-soft)}

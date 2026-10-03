@@ -851,3 +851,15 @@ describe("guide search folding", () => {
     assert.equal(ssFold(null), "");
   });
 });
+
+describe("quiz resume", () => {
+  const q = (u, text) => ({ u, q: text });
+  const bank = [q(1, "a"), q(1, "b"), q(2, "c")];
+  const { ssQuizResolve } = loadGuide(["ssQuizResolve"], { globals: { qId: (x) => x.u + "|" + x.q } });
+  test("rebuilds the saved question order from the bank", () => {
+    assert.deepEqual(ssQuizResolve(["2|c", "1|a"], bank).map(x => x.q), ["c", "a"]);
+  });
+  test("refuses to resume when a saved question no longer exists", () => {
+    assert.equal(ssQuizResolve(["1|a", "9|gone"], bank), null);
+  });
+});
