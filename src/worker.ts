@@ -840,6 +840,8 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
     const subject = subjectMatch[1];
     const view = subjectMatch[2];
     if (subject && view && SUBJECT_PATHS.has(subject) && SUBJECT_VIEW_SEGMENTS.has(view)) {
+      // One address per view: "/biology/quiz/" is the same page as "/biology/quiz", so send it to the canonical form.
+      if (url.pathname.endsWith("/")) return Response.redirect(`${url.origin}/${subject}/${view}${url.search}`, 301);
       const assetUrl = new URL(request.url);
       assetUrl.pathname = `/${subject}/`;
       const res = await env.ASSETS.fetch(new Request(assetUrl, request));

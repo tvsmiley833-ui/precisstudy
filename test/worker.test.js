@@ -487,3 +487,12 @@ describe("guide address guesses through the real worker", () => {
     expect((await SELF.fetch("https://precisstudy.com/biology/")).status).toBe(200);
   });
 });
+
+describe("one address per guide view", () => {
+  it("301s a trailing-slash view URL to the canonical form", async () => {
+    const r = await SELF.fetch("https://precisstudy.com/biology/quiz/", { redirect: "manual" });
+    expect(r.status).toBe(301);
+    expect(r.headers.get("Location")).toBe("https://precisstudy.com/biology/quiz");
+    expect((await SELF.fetch("https://precisstudy.com/biology/quiz")).status).toBe(200);
+  });
+});
