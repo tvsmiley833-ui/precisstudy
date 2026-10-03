@@ -1888,19 +1888,26 @@ async function loadDashboard() {
     ];
 
     let cells = '';
+    let totalQ = 0, activeDays = 0, bestN = 0, bestDate = '';
     for (let d = new Date(start); d <= today; d.setDate(d.getDate() + 1)) {
       const dateStr = d.toISOString().slice(0, 10);
       const n = deltaByDate[dateStr] || 0;
+      totalQ += n; if (n) activeDays++; if (n > bestN) { bestN = n; bestDate = dateStr; }
       const bg = BUCKET_BG[bucket(n)];
       const label = n ? (n + ' question' + (n === 1 ? '' : 's') + ' on ' + dateStr) : ('No activity on ' + dateStr);
       cells += '<div title="' + ssEscapeHtml(label) + '" style="width:16px;height:16px;border-radius:4px;background:' + bg + ';"></div>';
     }
 
-    el.innerHTML = '<div style="display:grid;grid-template-rows:repeat(7,16px);grid-auto-flow:column;gap:4px;overflow-x:auto;padding-bottom:4px;">' + cells + '</div>'
+    // Colour alone can't carry this, so the grid gets a text summary that screen readers (and everyone else) can read.
+    const summary = totalQ
+      ? totalQ + ' question' + (totalQ === 1 ? '' : 's') + ' answered on ' + activeDays + ' day' + (activeDays === 1 ? '' : 's') + ' in the last ' + WEEKS + ' weeks. Busiest day: ' + bestDate + ' (' + bestN + ').'
+      : 'No questions answered in the last ' + WEEKS + ' weeks.';
+    el.innerHTML = '<div role="img" aria-label="' + ssEscapeHtml('Activity grid. ' + summary) + '" style="display:grid;grid-template-rows:repeat(7,16px);grid-auto-flow:column;gap:4px;overflow-x:auto;padding-bottom:4px;">' + cells + '</div>'
       + '<div style="display:flex;align-items:center;gap:5px;margin-top:10px;font-size:13px;color:var(--text-muted);">'
       + '<span>Less</span>'
       + BUCKET_BG.map(function (bg) { return '<span style="width:14px;height:14px;border-radius:3px;background:' + bg + ';display:inline-block;"></span>'; }).join('')
-      + '<span>More</span></div>';
+      + '<span>More</span></div>'
+      + '<p style="margin:8px 0 0;font-size:13px;color:var(--text-muted);">' + ssEscapeHtml(summary) + '</p>';
   }
 
   function renderDashAnalytics(blob) {

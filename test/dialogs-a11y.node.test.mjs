@@ -156,3 +156,9 @@ test("internal links to site sections carry the trailing slash, so they skip the
     assert.deepEqual(bad, [], f);
   }
 });
+
+test("the dashboard activity heatmap has a text alternative", () => {
+  const d = read("../public/dashboard/index.html");
+  assert.match(d, /role="img" aria-label="' \+ ssEscapeHtml\('Activity grid\. '/);
+  assert.match(d, /Busiest day: /);
+});
