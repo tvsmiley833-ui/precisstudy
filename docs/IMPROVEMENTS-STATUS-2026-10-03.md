@@ -1,8 +1,7 @@
 # Improvements status — 2026-10-03
 
 Source list: `docs/IMPROVEMENTS-2026-10-02.md` (200 items). This file records what has shipped and what is still open.
-Latest deploy when written: version d8d247b8 (commit "test: study helper input now carries enterkeyhint").
-Test state: 349 node + 643 vitest passing.
+Latest deploy when last updated: version 363d65c0 (guide search folding). Test state: 368 node + 644 vitest passing.
 
 ## Shipped (deployed to production)
 
@@ -45,7 +44,22 @@ Test state: 349 node + 643 vitest passing.
 - **MOB-3 (partial)** `viewport-fit=cover` and safe-area insets on guide pages.
 - **MOB-4 (partial)** `enterkeyhint` on search, answer, and helper inputs.
 
-## Open — not yet done
+## Shipped after the first version of this file (2026-10-03, later batches)
+- **GUIDE-11** quiz clock starts at the first question; Quick 10 rebuilt after mastery loads.
+- **A11Y-20 (partial)** high contrast follows `prefers-contrast` and syncs across tabs (still applied by the deferred script, not the inline head).
+- **A11Y-21** homepage reduced motion; streak message kept without confetti. **A11Y-24** owl names, closet keyboard use.
+- **A11Y-22** tooltips hoverable, close with trigger, no double announcements, validation titles kept.
+- **A11Y-26 (partial)** dashboard heatmap text summary.
+- **GUIDE-17** helper examples from the guide's flashcards; OmniRoute dev form removed. **GUIDE-18** honest anonymous quiz note, `#quiz-gate` removed, worksheet prints only the chosen unit.
+- **GUIDE-20 (partial)** search folds accents, ignores markup, "Show all", Esc clears.
+- **GUIDE-25** titles built from `SS_GUIDE.title`. **GUIDE-27** `--accent-bright` defined. **GUIDE-29** in-page dialogs/share sheet, two-step deletes that check responses. **GUIDE-31** calculator only on math/science guides.
+- **UX-1 (partial)** signed-out students with local progress see their dashboard with a sync strip; Settings > Appearance opens without an account.
+- **PERF-1** MathJax pinned to 3.2.2 and sent only to guides with `$...$`. **PERF-5 (partial)** Permanent Marker preload and three dead font files removed. **PERF-9 (partial)** service worker: offline page, navigation preload, 4 s network timeout, bounded cache, one copy of `?v=` assets. **PERF-12** pointer-capture dragging. **PERF-16** trailing slashes on section links. **PERF-18 (partial)** GET /api/quest writes only on change.
+
+## Still open (updated)
+GUIDE-13, GUIDE-16 (module timing unclear), GUIDE-19, GUIDE-21–24, GUIDE-26, GUIDE-28, GUIDE-30; A11Y-20 inline-head bootstrap; A11Y-26 rest; MOB-2 offline quizzes; PERF-2/3/4/6/7/8/10/11/13/14/15/17/19; PERF-9 update toast and shared registration; UX-1 concepts/compete/syllabus pages; nav 'Sign in' for anonymous visitors.
+
+## Open — as of the first version of this file
 
 ### Remaining pieces of partly-done items
 - A11Y-8: `lang` on options/inline foreign text; keep read-aloud on phones with pause/resume.
