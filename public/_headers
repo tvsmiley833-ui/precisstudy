@@ -7,3 +7,15 @@
 # Self-hosted fonts never change under a given name; bump the filename to bust.
 /fonts/*
   Cache-Control: public, max-age=31536000, immutable
+
+# Images and the web manifest change rarely: cache a day, serve stale while revalidating for a week.
+/*.png
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/*.jpg
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/*.webp
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/*.svg
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/manifest.json
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
