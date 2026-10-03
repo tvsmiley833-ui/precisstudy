@@ -47,9 +47,10 @@ export async function handleFeedbackSubmit(request: Request, env: Env): Promise<
   const fieldError = validateFields(message, emailRaw, category);
   if (fieldError) return json({ error: fieldError }, 400);
 
-  // A signed-in visitor's account email is more reliable than a hand-typed
-  // one for following up, so prefer it when the explicit field is blank.
-  const session = await getSession(request, env).catch(() => null);
+  // The account email is attached only when the visitor ticked "you can reply to my account email": signing in is not
+  // consent to be contacted about every comment.
+  const contactMe = body?.contactMe === true;
+  const session = contactMe && !emailRaw ? await getSession(request, env).catch(() => null) : null;
   const email = emailRaw || session?.email || "";
 
   const feedbackId = Date.now() + ":" + crypto.randomUUID();

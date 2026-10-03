@@ -58,3 +58,21 @@ describe("feedback length", () => {
     expect(res.status).toBe(400);
   });
 });
+
+import { signSession, SESSION_COOKIE } from "../src/auth.js";
+
+describe("feedback and the account email", () => {
+  async function submit(extra) {
+    const stored = [];
+    const now = Math.floor(Date.now() / 1000);
+    const token = await signSession({ email: "kid@example.com", name: "Kid", provider: "google", iat: now, exp: now + 3600 }, "sec");
+    const env = { SESSION_SECRET: "sec", FEEDBACK: { put: async (k, v) => stored.push(JSON.parse(v)), get: async () => null }, PROGRESS: { put: async () => {}, get: async () => null } };
+    const res = await handleFeedbackSubmit(new Request("https://example.com/api/feedback", { method: "POST", headers: { "Content-Type": "application/json", Cookie: `${SESSION_COOKIE}=${token}` }, body: JSON.stringify({ message: "hello", ...extra }) }), env);
+    expect(res.status).toBe(200);
+    return stored[0];
+  }
+  it("does not attach the signed-in email unless the visitor opts in", async () => {
+    expect((await submit({})).email).toBe("");
+    expect((await submit({ contactMe: true })).email).toBe("kid@example.com");
+  });
+});

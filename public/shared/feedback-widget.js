@@ -75,6 +75,7 @@
     '<div id="fbw-cats">' + catButtonsHtml + "</div>" +
     '<textarea id="fbw-message" aria-label="Your feedback" placeholder="What\'s on your mind?" maxlength="2000"></textarea>' +
     '<input id="fbw-email" type="email" aria-label="Email, optional" autocomplete="email" placeholder="Email (optional, if you want a reply)"/>' +
+    '<label id="fbw-contact-row" style="display:flex;gap:8px;align-items:center;font-size:13px;margin:8px 0"><input id="fbw-contact" type="checkbox"/> You can reply to my account email</label>' +
     '<div id="fbw-actions"><button id="fbw-cancel" type="button">Cancel</button><button id="fbw-submit" type="button">Send</button></div>' +
     '<div id="fbw-status" role="status"></div>' +
     "</div>";
@@ -132,7 +133,7 @@
     fetch("/api/feedback", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: message, email: emailEl.value.trim(), category: category, page: location.pathname })
+      body: JSON.stringify({ message: message, email: emailEl.value.trim(), category: category, page: location.pathname, contactMe: !!(backdrop.querySelector("#fbw-contact") || {}).checked })
     }).then(function (res) {
       if (!res.ok) return res.json().catch(function () { return null; }).then(function (d) { throw new Error((d && d.error) || "Couldn't send — try again."); });
       setStatus("Thanks — got it!", "ok");
