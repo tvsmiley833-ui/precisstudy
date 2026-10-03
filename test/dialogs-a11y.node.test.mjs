@@ -112,3 +112,10 @@ test("signed-out students: dashboard shows saved local progress with a sync stri
   assert.match(set, /Appearance \(theme, contrast, sound\) is stored on this device/);
   assert.match(set, /getAttribute\('data-tab'\) === 'appearance'/);
 });
+
+test("the graphing calculator is only offered on math and science guides; --accent-bright always resolves", () => {
+  assert.match(read("../public/algebra2/index.html"), /"calc":true/);
+  assert.ok(!/"calc":true/.test(read("../public/spanish-1/index.html")));
+  assert.match(read("../client/guide-app.js"), /DESMOS_API_KEY&&SS_GUIDE\.calc/);
+  assert.match(read("../public/shared/guide-polish.css"), /:root\{--accent-bright:var\(--accent\)\}/);
+});

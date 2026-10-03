@@ -2595,12 +2595,12 @@ function qrefDrawerKeydown(e){if(e.key==='Escape')qrefDrawerClose();}
    script) never appears and never makes a network request. To enable it,
    the site owner gets a free key for personal/school use at
    https://www.desmos.com/api/v1.12/calculator.js docs (sign in at
-   desmos.com/my-api) and pastes it in below. Generic — available on every
-   guide once a key is configured, not gated to any subject. ----- */
+   desmos.com/my-api) and pastes it in below. Offered only on guides flagged
+   as math/science (SS_GUIDE.calc, from the generator). ----- */
 const DESMOS_API_KEY = "8479496f50ff414cac31c105094c403c";
 let desmosScriptLoaded=false, desmosCalculator=null;
 function desmosInit(){
-  if(!DESMOS_API_KEY)return;
+  if(!DESMOS_API_KEY||!SS_GUIDE.calc)return;
   var panel=document.createElement('div');
   panel.id='desmos-panel';
   panel.className='desmos-panel';
@@ -2749,7 +2749,7 @@ function toolkitInit(){
   item('Quick Reference','<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',qrefDrawerToggle);
   item('AI Study Helper','<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>',cbotToggle);
   if('speechSynthesis' in window)item('Read-aloud voice',SS_TTS_SPEAKER_ICON,ssOpenVoiceDialog);
-  if(DESMOS_API_KEY){
+  if(DESMOS_API_KEY&&SS_GUIDE.calc){
     item('Graphing Calculator','<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 9 13 13 21 5"/><polyline points="15 5 21 5 21 11"/></svg>',desmosToggle);
   }
   if(typeof OFFICIAL_REFERENCE!=='undefined'&&OFFICIAL_REFERENCE){

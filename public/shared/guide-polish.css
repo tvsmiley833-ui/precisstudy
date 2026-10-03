@@ -632,3 +632,6 @@ body{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-ri
   .toolkit-menu{bottom:calc(148px + env(safe-area-inset-bottom))}
   #cbot-panel{max-height:calc(100dvh - 120px)}
 }
+
+/* The search-hit ring and drag-drop line use --accent-bright, which only some themes define (GUIDE-27). */
+:root{--accent-bright:var(--accent)}

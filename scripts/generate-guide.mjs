@@ -68,6 +68,8 @@ export function labelSvg(svg, cap) {
     .replace(/\s+/g, " ").trim().replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
   return svg.replace(/^(\s*)<svg\b/, (m, ws) => `${ws}<svg role="img" aria-label="${text}"`);
 }
+// Guides where a graphing calculator helps; a guide's JSON can override with "calculator": true/false.
+const CALC_SLUGS = new Set(["algebra1", "algebra2", "geometry", "precalc", "calculus", "calc-ab", "calc-bc", "statistics", "ap-stats", "sat-math", "act-prep", "physics", "ap-physics", "chemistry", "ap-chemistry"]);
 function buildUnitsStatic(units, diagrams) {
   return units.map(u => {
     let body = u.concepts.map((c, ci) => {
@@ -240,7 +242,7 @@ function buildJsonLd(config, description) {
 
 export function generateGuide(config) {
   const { slug, title, accentColor, units, quiz, flashcards,
-          examParts, masteryKey, targetLang, officialReferenceUrl, officialReferenceLabel, officialReferenceContent } = config;
+          examParts, masteryKey, targetLang, calculator, officialReferenceUrl, officialReferenceLabel, officialReferenceContent } = config;
   const worked = Array.isArray(config.workedExamples) ? config.workedExamples : [];
   const hardQ = Array.isArray(config.hardQuiz) ? config.hardQuiz : [];
 
@@ -430,7 +432,7 @@ export function generateGuide(config) {
   const mKey = masteryKey || slug;
   // The app logic itself is client/guide-app.js (built to public/shared/guide-app.js), shared by every
   // guide; it reads the subject from SS_GUIDE.
-  html += `const SS_GUIDE=${js({ slug, key: mKey, title, ...(targetLang ? { lang: targetLang } : {}) }).replace(/</g, "\\u003c")};\n`;
+  html += `const SS_GUIDE=${js({ slug, key: mKey, title, ...(targetLang ? { lang: targetLang } : {}), ...((calculator ?? CALC_SLUGS.has(slug)) ? { calc: true } : {}) }).replace(/</g, "\\u003c")};\n`;
   // Same footer every live page carries (error-monitor.js was added to the pages by
   // scripts/patch-error-monitor.mjs; keep this list in sync with that footer).
   html += `</script><script src="/shared/guide-app.js"></script><script src="/shared/command-palette.js" defer></script><script src="/shared/high-contrast.js" defer></script><script src="/shared/error-monitor.js" defer></script></body></html>`;
