@@ -396,3 +396,16 @@ describe("mission banner placement", () => {
     for (const p of ["/", "/biology/", "/about/", "/request/"]) expect(showsMissionBanner(p)).toBe(true);
   });
 });
+
+describe("guide address guesses", () => {
+  it("maps common mistypes to the real guide and leaves real guides and nonsense alone", async () => {
+    const { guessGuide } = await import("../src/worker.js");
+    expect(guessGuide("/ap-bio")).toBe("ap-biology");
+    expect(guessGuide("/Algebra-2/")).toBe("algebra2");
+    expect(guessGuide("/spanish")).toBe("spanish-1");
+    expect(guessGuide("/APbiology")).toBe("ap-biology");
+    expect(guessGuide("/biology")).toBeNull();
+    expect(guessGuide("/not-a-thing")).toBeNull();
+    expect(guessGuide("/a/b")).toBeNull();
+  });
+});

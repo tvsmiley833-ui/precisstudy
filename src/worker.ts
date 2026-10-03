@@ -162,6 +162,30 @@ const CONTRAST_BOOTSTRAP =
   "if(c==='high'||(c===null&&window.matchMedia&&matchMedia('(prefers-contrast: more)').matches))d.setAttribute('data-contrast','high');" +
   "if(localStorage.getItem('ss-amoled')==='on')d.setAttribute('data-amoled','on')}catch(e){}})()</script>";
 
+// Common guesses at a guide's address ("/ap-bio", "/algebra-2", "/spanish") redirect to the real one instead of a 404.
+const GUIDE_ALIASES: Record<string, string> = {
+  "ap-bio": "ap-biology", "apbio": "ap-biology", "ap-chem": "ap-chemistry", "apchem": "ap-chemistry", "ap-stat": "ap-stats", "ap-statistics": "ap-stats",
+  "ap-lit": "ap-lang", "aplang": "ap-lang", "ap-gov": "ap-usgov", "apgov": "ap-usgov", "ap-us-gov": "ap-usgov", "ap-psychology": "ap-psych",
+  "ap-world-history": "ap-world", "ap-european-history": "ap-euro", "ap-us-history": "apush", "ap-macroeconomics": "ap-macro",
+  "ap-microeconomics": "ap-micro", "ap-computer-science": "ap-csa", "ap-cs": "ap-csa", "ap-human-geo": "ap-human-geography",
+  "algebra-1": "algebra1", "algebra-2": "algebra2", "algebra": "algebra1", "pre-calc": "precalc", "pre-calculus": "precalc", "precalculus": "precalc",
+  "spanish": "spanish-1", "french": "french-1", "german": "german-1", "cs": "computer-science", "gov": "us-government", "government": "us-government",
+  "history": "us-history", "econ": "economics", "stats": "statistics", "bio": "biology", "chem": "chemistry", "sat": "sat-math", "act": "act-prep",
+  "env-science": "environmental-science", "apes": "environmental-science", "anatomy-physiology": "anatomy", "psych": "psychology",
+};
+
+/** The guide a mistyped single-segment address most likely means, or null. */
+export function guessGuide(pathname: string): string | null {
+  const m = /^\/([A-Za-z0-9_-]+)\/?$/.exec(pathname);
+  if (!m) return null;
+  const seg = m[1]!.toLowerCase().replace(/_/g, "-");
+  if (SUBJECT_PATHS.has(seg)) return null; // already a real guide
+  if (GUIDE_ALIASES[seg]) return GUIDE_ALIASES[seg]!;
+  const squash = (x: string) => x.replace(/[^a-z0-9]/g, "");
+  const hits = [...SUBJECT_PATHS].filter(g => squash(g) === squash(seg));
+  return hits.length === 1 ? hits[0]! : null;
+}
+
 // Pages that are about the signed-in account: the "no sign-up required" banner would sit above their sign-in card.
 export function showsMissionBanner(pathname: string): boolean {
   return !/^\/(dashboard|settings|concepts|compete|challenge|syllabus|flashcards|onboarding)(\/|$)/.test(pathname);
@@ -438,6 +462,11 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
         "Cache-Control": "public, max-age=86400"
       }
     });
+  }
+
+  if (request.method === "GET") {
+    const guess = guessGuide(url.pathname);
+    if (guess && !(await env.ASSETS.fetch(new Request(url.origin + url.pathname))).ok) return Response.redirect(`${url.origin}/${guess}/`, 301);
   }
 
   // Cross-site request forgery / abuse: browsers always send Origin (and Sec-Fetch-Site) on cross-site POSTs, and
