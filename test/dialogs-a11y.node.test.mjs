@@ -190,3 +190,9 @@ test("free-response parts ask for an answer first, keep the draft, and offer a s
   assert.match(js, /function ssFrScore\(/);
   assert.match(js, /sessionStorage\.setItem\(ssFrKey/);
 });
+
+test("concept map draws from local progress for signed-out students", () => {
+  const c = read("../public/concepts/index.html");
+  assert.match(c, /Showing progress saved on this device/);
+  assert.match(c, /ssMastery_/);
+});

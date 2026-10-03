@@ -334,9 +334,30 @@ async function cmInit(){
     me = { loggedIn: false };
   }
   if (!me.loggedIn) {
-    gate.style.display = 'block';
-    gateMsg.textContent = 'Sign in to see your concept dependency map.';
-    document.getElementById('cm-login-box').innerHTML = cmLoginBoxHtml();
+    // Progress saved on this device is enough to draw the map; only a visitor with none sees the sign-in card.
+    var local = {}, any = false;
+    try {
+      for (var i = 0; i < localStorage.length; i++) {
+        var k = localStorage.key(i);
+        if (k && k.indexOf('ssMastery_') === 0) {
+          var v = JSON.parse(localStorage.getItem(k) || 'null');
+          if (v && v.mastery && Object.keys(v.mastery).length) { local[k.slice('ssMastery_'.length)] = v; any = true; }
+        }
+      }
+    } catch (e) {}
+    if (!any) {
+      gate.style.display = 'block';
+      gateMsg.textContent = 'Practice any guide first, or sign in, to see your concept dependency map.';
+      document.getElementById('cm-login-box').innerHTML = cmLoginBoxHtml();
+      return;
+    }
+    cmBlob = local;
+    var strip = document.createElement('p');
+    strip.style.cssText = 'text-align:center;font-size:14px;color:var(--text-muted);margin:0 0 12px;';
+    strip.textContent = 'Showing progress saved on this device. Sign in to sync it across devices.';
+    content.parentNode.insertBefore(strip, content);
+    content.style.display = 'block';
+    cmRender();
     return;
   }
 
