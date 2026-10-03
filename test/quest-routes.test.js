@@ -237,6 +237,22 @@ describe("claim", () => {
     expect(claimData2.quest.xp).toBe(def.xp); // no double payout
   });
 
+  it("two simultaneous claims of the same quest pay out once", async () => {
+    const cookie = await sessionCookieFor("race@example.com");
+    const kv = fakeKV();
+    const data0 = await (await handleGetQuest(req("https://example.com/api/quest", cookie), envWith(kv))).json();
+    const target = data0.quest.daily.quests[0];
+    satisfyDaily(kv, "race@example.com", target.key);
+    await handleGetQuest(req("https://example.com/api/quest", cookie), envWith(kv));
+    const claim = () => handlePostQuestClaim(req("https://example.com/api/quest/claim", cookie, "POST", { scope: "daily", key: target.key }), envWith(kv));
+    const [a, b] = await Promise.all([claim(), claim()]);
+    const results = [await a.json(), await b.json()];
+    expect(results.filter(r => r.xpAwarded > 0)).toHaveLength(1);
+    const def = DAILY_POOL.find(d => d.key === target.key);
+    const final = await (await handleGetQuest(req("https://example.com/api/quest", cookie), envWith(kv))).json();
+    expect(final.quest.xp).toBe(def.xp);
+  });
+
   it("pays the all-three bonus only once all three daily quests are claimed", async () => {
     const cookie = await sessionCookieFor("bonus@example.com");
     const kv = fakeKV();

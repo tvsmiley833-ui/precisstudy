@@ -279,6 +279,25 @@ function localDateFrom(request: Request): string {
   return new Date().toISOString().slice(0, 10);
 }
 
+/**
+ * Claims are read-modify-write on the whole blob, so two simultaneous requests could both see "unclaimed" and both award
+ * XP. A small marker written first (and checked by the second request) closes most of that window. KV is eventually
+ * consistent, so this is a strong guard rather than a lock; it returns false when the claim was already taken.
+ */
+async function markClaim(env: Env, email: string, scope: string, key: string, period: string): Promise<boolean> {
+  if (!env.PROGRESS) return true;
+  const marker = `qclaim:${email.toLowerCase()}:${scope}:${key}:${period}`;
+  try {
+    if (await env.PROGRESS.get(marker)) return false;
+    // Write my id, then read back: with simultaneous claimers the last write wins, every reader sees that same winner,
+    // and only the request whose id survived goes on to award the XP.
+    const mine = crypto.randomUUID();
+    await env.PROGRESS.put(marker, mine, { expirationTtl: 9 * 24 * 3600 });
+    return (await env.PROGRESS.get(marker)) === mine;
+  } catch (e) { /* the marker is an extra guard; never block a legitimate claim because KV hiccupped */ }
+  return true;
+}
+
 export async function handleGetQuest(request: Request, env: Env): Promise<Response> {
   const session = await getSession(request, env);
   if (!session) return json({ error: "Sign in required" }, 401);
@@ -379,6 +398,7 @@ export async function handlePostQuestClaim(request: Request, env: Env): Promise<
     if (quest.daily.bonusClaimed) return json({ ok: true, quest: publicQuestState(quest), alreadyClaimed: true });
     const allClaimed = quest.daily.quests.length === 3 && quest.daily.quests.every(q => q.claimed);
     if (!allClaimed) return json({ error: "Claim all three daily quests first" }, 400);
+    if (!(await markClaim(env, session.email, "daily", "bonus", quest.daily.date))) return json({ ok: true, quest: publicQuestState(quest), alreadyClaimed: true });
     quest.daily.bonusClaimed = true;
     quest.xp += DAILY_BONUS_XP;
     blob.quest = quest;
@@ -393,6 +413,9 @@ export async function handlePostQuestClaim(request: Request, env: Env): Promise<
   if (q.claimed) return json({ ok: true, quest: publicQuestState(quest), alreadyClaimed: true });
   if (q.progress < q.target) return json({ error: "This quest isn't complete yet" }, 400);
 
+  if (!(await markClaim(env, session.email, scope, key, scope === "daily" ? quest.daily.date : String(quest.weekly.weekStart ?? "")))) {
+    return json({ ok: true, quest: publicQuestState(quest), alreadyClaimed: true });
+  }
   q.claimed = true;
   const def = pool.find(p => p.key === key);
   const xpAwarded = def?.xp || 0;
