@@ -221,3 +221,10 @@ test("phone quiz tab tucks rarely used controls behind More options", () => {
   assert.match(html, /id="q-more-btn" aria-expanded="false" aria-controls="q-bar"/);
   assert.match(read("../public/shared/guide-polish.css"), /\.q-bar:not\(\.q-more-open\) \.diff-chips/);
 });
+
+test("guide pages link one shared base stylesheet instead of inlining it", () => {
+  const html = read("../public/spanish-1/index.html");
+  assert.match(html, /<link rel="stylesheet" href="\/shared\/guide-base\.css"\/>/);
+  assert.ok(html.length < 230000, "page should no longer carry the 54 KB base stylesheet");
+  assert.ok(read("../public/shared/guide-base.css").includes(".unit-hd{display:flex"));
+});

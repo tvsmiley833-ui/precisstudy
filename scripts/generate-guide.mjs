@@ -28,6 +28,14 @@ const T = (name) => readFileSync(join(ROOT, "scripts/guide-template", name), "ut
 const templateHead = T("head.html");
 const templateMathjax = T("mathjax.html");
 const templateStyle = T("style.css");
+// The base stylesheet is identical on every guide, so it ships once as a cacheable /shared file (the Worker adds ?v=<hash>);
+// each page only inlines the small per-subject tail. Written whenever the generator loads and the bytes differ.
+{
+  const sharedCss = join(ROOT, "public/shared/guide-base.css");
+  let current = "";
+  try { current = readFileSync(sharedCss, "utf8"); } catch (e) { /* first run */ }
+  if (current !== templateStyle) writeFileSync(sharedCss, templateStyle);
+}
 const templateWiring = T("module-wiring.html");
 const templateHero = T("hero.html");
 const templateViews = T("page-views.template.html");
@@ -320,7 +328,7 @@ export function generateGuide(config) {
       style += `\nbody::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:${bsvgUri};background-size:${bp.size}px ${bp.size}px;opacity:.9;}\n.page,.hero,.nav,.content,main,.wrap{position:relative;z-index:1}\n[data-theme="dark"] body::before{opacity:.5}`;
     }
   }
-  html += `<style>\n${style}\n</style>\n`;
+  html += `<link rel="stylesheet" href="/shared/guide-base.css"/>\n<style>\n${style.slice(templateStyle.length)}\n</style>\n`;
 
   html += templateWiring;
 
