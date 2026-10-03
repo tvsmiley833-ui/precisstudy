@@ -601,3 +601,7 @@ html body #view-cards button[onclick^="rateFC"]{flex:1 1 150px;max-width:240px;m
   }
   html:root body .hero.hero .tablist .tab-btn { scroll-snap-align: center; }
 }
+
+/* Native controls and scrollbars follow the page theme (A11Y-19). */
+:root{color-scheme:light}
+:root[data-theme="dark"]{color-scheme:dark}

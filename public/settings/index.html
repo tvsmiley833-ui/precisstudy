@@ -13,7 +13,7 @@
 (function(){
   try {
     var saved = localStorage.getItem('ss-theme');
-    if (saved !== 'light') document.documentElement.setAttribute('data-theme', 'dark');
+    if (saved === 'dark' || (saved !== 'light' && !(window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches))) document.documentElement.setAttribute('data-theme', 'dark');
   } catch (e) {}
 })();
 </script>
@@ -301,6 +301,12 @@ html{scroll-behavior:smooth}
       <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">
         Increases text and border contrast across the whole site.
       </p>
+      <fieldset style="border:0;padding:0;margin:0 0 18px;">
+        <legend style="font-weight:700;font-size:15px;color:var(--text);padding:0;margin-bottom:8px;">Theme</legend>
+        <label class="ss-toggle-row"><input type="radio" name="settings-theme" value="system"> Match my device</label>
+        <label class="ss-toggle-row"><input type="radio" name="settings-theme" value="light"> Light</label>
+        <label class="ss-toggle-row"><input type="radio" name="settings-theme" value="dark"> Dark</label>
+      </fieldset>
       <label class="ss-toggle-row">
         <input type="checkbox" id="settings-high-contrast"> High contrast mode
       </label>
@@ -1356,6 +1362,21 @@ function ssToggleTheme(){
     try { localStorage.setItem('ss-theme', 'dark'); } catch (e) {}
   }
 }
+
+(function(){
+  var radios = document.querySelectorAll('input[name="settings-theme"]');
+  var saved = 'system';
+  try { var v = localStorage.getItem('ss-theme'); if (v === 'light' || v === 'dark') saved = v; } catch (e) {}
+  function apply(v) {
+    var dark = v === 'dark' || (v === 'system' && !(window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches));
+    if (dark) document.documentElement.setAttribute('data-theme', 'dark'); else document.documentElement.removeAttribute('data-theme');
+    try { if (v === 'system') localStorage.removeItem('ss-theme'); else localStorage.setItem('ss-theme', v); } catch (e) {}
+  }
+  radios.forEach(function(r) {
+    r.checked = r.value === saved;
+    r.addEventListener('change', function() { if (r.checked) apply(r.value); });
+  });
+})();
 </script>
 <script>
 (function(){
