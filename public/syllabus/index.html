@@ -191,9 +191,10 @@ label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-m
 
 <script>
 function ssEscapeHtml(s){
-  var div = document.createElement('div');
-  div.textContent = String(s == null ? '' : s);
-  return div.innerHTML;
+  // Escapes quotes as well as & < >, so the result is safe inside attribute values too.
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
+    return c === '&' ? '&amp;' : c === '<' ? '&lt;' : c === '>' ? '&gt;' : c === '"' ? '&quot;' : '&#39;';
+  });
 }
 function ssToggleTheme(){
   var isDark = document.documentElement.getAttribute('data-theme') === 'dark';

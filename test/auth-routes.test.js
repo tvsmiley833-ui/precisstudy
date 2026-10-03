@@ -308,6 +308,33 @@ describe("/auth/verify — GET confirms, POST signs in (login-CSRF guard)", () =
     expect(env.MAGIC_LINKS._m.has(token)).toBe(false); // consumed
   });
 
+  it("refuses a cross-site POST (login CSRF) and leaves the token unconsumed", async () => {
+    const env = baseEnv();
+    const token = await createMagicLinkToken(env, "learner@example.com");
+    for (const headers of [{ Origin: "https://evil.example" }, { "Sec-Fetch-Site": "cross-site" }]) {
+      const res = await handleVerifyConfirm(new Request("https://precisstudy.com/auth/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded", ...headers },
+        body: new URLSearchParams({ token })
+      }), env);
+      expect(res.status).toBe(302);
+      expect(res.headers.get("Location")).toContain("auth_error=link");
+      expect(res.headers.get("Set-Cookie") || "").not.toContain("ss_session=");
+      expect(env.MAGIC_LINKS._m.has(token)).toBe(true);
+    }
+  });
+
+  it("accepts a same-origin POST that carries an Origin header", async () => {
+    const env = baseEnv();
+    const token = await createMagicLinkToken(env, "learner@example.com");
+    const res = await handleVerifyConfirm(new Request("https://precisstudy.com/auth/verify", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded", Origin: "https://precisstudy.com", "Sec-Fetch-Site": "same-origin" },
+      body: new URLSearchParams({ token })
+    }), env);
+    expect(res.headers.get("Set-Cookie") || "").toContain("ss_session=");
+  });
+
   it("credits the inviting classmate when a new account signs in with an ss_ref cookie set", async () => {
     const progress = kvStub();
     await progress.put("progress:inviter@example.com", JSON.stringify({ inviteToken: "invitetoken1234567890" }));

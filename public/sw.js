@@ -9,6 +9,35 @@
 // (see public/shared/mastery.js's catch blocks).
 const CACHE_VERSION = "ss-v2";
 
+// Web push: src/push-routes.ts sends JSON {title, body, url}. Without these two handlers the
+// browser shows a generic "site updated in the background" notice (or nothing) and Safari drops
+// subscriptions that show no notification.
+self.addEventListener("push", (event) => {
+  let data = {};
+  try { data = event.data ? event.data.json() : {}; } catch (e) { data = { body: event.data ? event.data.text() : "" }; }
+  const title = typeof data.title === "string" && data.title ? data.title : "PrecisStudy";
+  // Same-site paths only: "//host" and "/\host" would resolve to another origin.
+  const url = typeof data.url === "string" && /^\/(?![\/\\])/.test(data.url) ? data.url : "/dashboard";
+  event.waitUntil(self.registration.showNotification(title, {
+    body: typeof data.body === "string" ? data.body : "",
+    icon: "/apple-touch-icon.png",
+    badge: "/favicon.png",
+    tag: "precisstudy-reminder",
+    data: { url }
+  }));
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  const target = new URL((event.notification.data && event.notification.data.url) || "/dashboard", self.location.origin).href;
+  event.waitUntil(self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((wins) => {
+    for (const w of wins) {
+      if (w.url === target && "focus" in w) return w.focus();
+    }
+    return self.clients.openWindow(target);
+  }));
+});
+
 self.addEventListener("install", (event) => {
   self.skipWaiting();
 });

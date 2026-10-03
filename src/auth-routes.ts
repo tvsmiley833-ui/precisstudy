@@ -301,6 +301,14 @@ export async function handleVerify(request: Request, env: Env): Promise<Response
 
 export async function handleVerifyConfirm(request: Request, env: Env): Promise<Response> {
   if (sessionSecretMissing(env)) return notConfigured("Sign-in");
+  // Login CSRF: a foreign page could auto-submit the attacker's own valid token and sign the
+  // victim into the attacker's account. Browsers always send Origin (and Sec-Fetch-Site) on
+  // cross-site POSTs, so refuse anything that is not same-origin. Requests with neither header
+  // (non-browser clients) still work.
+  const origin = request.headers.get("Origin");
+  if ((origin && origin !== new URL(request.url).origin) || request.headers.get("Sec-Fetch-Site") === "cross-site") {
+    return authErrorRedirect("link", "verify: cross-site POST refused");
+  }
   let token = "";
   try {
     const form = await request.formData();

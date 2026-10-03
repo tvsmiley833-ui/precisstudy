@@ -1,4 +1,5 @@
 import { getSession } from "./auth.js";
+import { safeDownloadInfo } from "./file-validation.js";
 
 function json(body: unknown, status?: number): Response {
   return new Response(JSON.stringify(body), {
@@ -233,14 +234,16 @@ export async function handleAdminGetGuideRequestFile(request: Request, env: Env)
   if (!obj || !obj.value) return json({ error: "File not found" }, 404);
 
   const meta = (obj.metadata ?? {}) as Record<string, unknown>;
-  const filename = String(meta.filename || "attachment").replace(/["\\\r\n]/g, "");
-  const contentType = String(meta.contentType || "application/octet-stream");
+  const dl = safeDownloadInfo(meta.filename, meta.contentType);
 
   return new Response(obj.value, {
     status: 200,
     headers: {
-      "Content-Type": contentType,
-      "Content-Disposition": `attachment; filename="${filename}"`,
+      "Content-Type": dl.type,
+      "Content-Disposition": dl.disposition,
+      "X-Content-Type-Options": "nosniff",
+      "Content-Security-Policy": "sandbox; default-src 'none'",
+      "Cross-Origin-Resource-Policy": "same-origin",
       "Cache-Control": "private, no-store"
     }
   });

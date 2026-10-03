@@ -162,9 +162,10 @@ html{scroll-behavior:smooth}
 
 <script>
 function ssEscapeHtml(s){
-  var div = document.createElement('div');
-  div.textContent = String(s == null ? '' : s);
-  return div.innerHTML;
+  // Escapes quotes as well as & < >, so the result is safe inside attribute values too.
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
+    return c === '&' ? '&amp;' : c === '<' ? '&lt;' : c === '>' ? '&gt;' : c === '"' ? '&quot;' : '&#39;';
+  });
 }
 
 let SS_SESSION;
@@ -249,7 +250,7 @@ function renderRequests(requests){
   empty.style.display = 'none';
   var STATUSES = ['new', 'planned', 'in-progress', 'done'];
   list.innerHTML = requests.map(function(r){
-    var status = r.status || 'new';
+    var status = STATUSES.indexOf(r.status) >= 0 ? r.status : 'new';
     var statusOpts = STATUSES.map(function(s){
       return '<option value="' + s + '"' + (s === status ? ' selected' : '') + '>' + s + '</option>';
     }).join('');
@@ -258,14 +259,14 @@ function renderRequests(requests){
       + '<div><div class="req-class">' + ssEscapeHtml(r.className) + '</div>'
       + '<div class="req-meta">' + formatDate(r.submittedAt) + '</div></div>'
       + '<div style="display:flex;gap:8px;align-items:center;">'
-      + '<select class="req-status" data-status="' + status + '" aria-label="Status for ' + ssEscapeHtml(r.className) + '" onchange="updateRequestStatus(\'' + encodeURIComponent(r.key) + '\', this)">' + statusOpts + '</select>'
-      + '<button class="req-delete" onclick="deleteRequest(\'' + encodeURIComponent(r.key) + '\')">Delete</button>'
+      + '<select class="req-status" data-status="' + status + '" aria-label="Status for ' + ssEscapeHtml(r.className) + '" onchange="updateRequestStatus(\'' + ssEscapeHtml(encodeURIComponent(r.key).replace(/'/g, '%27')) + '\', this)">' + statusOpts + '</select>'
+      + '<button class="req-delete" onclick="deleteRequest(\'' + ssEscapeHtml(encodeURIComponent(r.key).replace(/'/g, '%27')) + '\')">Delete</button>'
       + '</div>'
       + '</div>'
       + (r.notes ? '<div class="req-notes">' + ssEscapeHtml(r.notes) + '</div>' : '')
       + (r.email ? '<div class="req-email">' + ssEscapeHtml(r.email) + '</div>' : '')
       + (r.files && r.files.length ? '<div class="req-files">' + r.files.map(function(f){
-          return '<a class="req-file" href="/api/admin/guide-request-file?key=' + encodeURIComponent(f.key) + '" target="_blank" rel="noopener">'
+          return '<a class="req-file" href="/api/admin/guide-request-file?key=' + ssEscapeHtml(encodeURIComponent(f.key)) + '" target="_blank" rel="noopener">'
             + '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>' + ssEscapeHtml(f.name) + ' (' + formatBytes(f.size) + ')</a>';
         }).join('') + '</div>' : '')
       + '</div>';
@@ -287,7 +288,7 @@ function renderFeedback(feedback){
   empty.style.display = 'none';
   var STATUSES = ['new', 'read', 'resolved'];
   list.innerHTML = feedback.map(function(f){
-    var status = f.status || 'new';
+    var status = STATUSES.indexOf(f.status) >= 0 ? f.status : 'new';
     var statusOpts = STATUSES.map(function(s){
       return '<option value="' + s + '"' + (s === status ? ' selected' : '') + '>' + s + '</option>';
     }).join('');
@@ -296,8 +297,8 @@ function renderFeedback(feedback){
       + '<div><span class="fb-cat">' + ssEscapeHtml(FB_CAT_LABELS[f.category] || 'Other') + '</span>'
       + '<span class="req-meta">' + formatDate(f.submittedAt) + (f.page ? ' · ' + ssEscapeHtml(f.page) : '') + '</span></div>'
       + '<div style="display:flex;gap:8px;align-items:center;">'
-      + '<select class="req-status fb-status" data-status="' + status + '" aria-label="Status" onchange="updateFeedbackStatus(\'' + encodeURIComponent(f.key) + '\', this)">' + statusOpts + '</select>'
-      + '<button class="req-delete" onclick="deleteFeedback(\'' + encodeURIComponent(f.key) + '\')">Delete</button>'
+      + '<select class="req-status fb-status" data-status="' + status + '" aria-label="Status" onchange="updateFeedbackStatus(\'' + ssEscapeHtml(encodeURIComponent(f.key).replace(/'/g, '%27')) + '\', this)">' + statusOpts + '</select>'
+      + '<button class="req-delete" onclick="deleteFeedback(\'' + ssEscapeHtml(encodeURIComponent(f.key).replace(/'/g, '%27')) + '\')">Delete</button>'
       + '</div>'
       + '</div>'
       + '<div class="fb-message">' + ssEscapeHtml(f.message) + '</div>'

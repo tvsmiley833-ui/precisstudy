@@ -38,13 +38,13 @@ async function storeFiles(env: Env, requestId: string, fileEntries: FileEntry[],
     const f = fileEntries[i]!;
     const buf = buffers[i];
     if (!buf) continue;
-    const name = f.name ? String(f.name).slice(0, MAX_FILENAME_LEN) : `file-${i + 1}`;
-    const type = f.type || "application/octet-stream";
+    const name = f.name ? String(f.name).replace(/[\u0000-\u001f\u007f]/g, "").slice(0, MAX_FILENAME_LEN) || `file-${i + 1}` : `file-${i + 1}`;
+    const type = ALLOWED_TYPES.has(f.type) ? f.type : "application/octet-stream";
     const fileKey = `reqfile:${requestId}:${i}`;
     await env.GUIDE_REQUESTS.put(fileKey, buf, {
-      metadata: { filename: name, contentType: type, size: f.size }
+      metadata: { filename: name, contentType: type, size: buf.byteLength }
     });
-    files.push({ key: fileKey, name, size: f.size, type });
+    files.push({ key: fileKey, name, size: buf.byteLength, type });
   }
   return files;
 }
@@ -101,11 +101,12 @@ export async function handleRequestGuideSubmit(request: Request, env: Env): Prom
 
   const buffers: ArrayBuffer[] = [];
   for (const f of fileEntries) {
-    if (f.type && !ALLOWED_TYPES.has(f.type)) {
+    if (!f.type || !ALLOWED_TYPES.has(f.type)) {
       return json({ error: `${f.name}: unsupported file type` }, 400);
     }
     const buf = await f.arrayBuffer();
-    if (f.type && !matchesDeclaredType(buf, f.type)) {
+    if (buf.byteLength > MAX_FILE_SIZE) return json({ error: `${f.name} is too large (max 6MB per file)` }, 400);
+    if (!matchesDeclaredType(buf, f.type)) {
       return json({ error: `${f.name}: file content doesn't match its declared type` }, 400);
     }
     buffers.push(buf);
