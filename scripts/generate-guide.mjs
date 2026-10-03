@@ -240,7 +240,7 @@ function buildJsonLd(config, description) {
 
 export function generateGuide(config) {
   const { slug, title, accentColor, units, quiz, flashcards,
-          examParts, masteryKey, officialReferenceUrl, officialReferenceLabel, officialReferenceContent } = config;
+          examParts, masteryKey, targetLang, officialReferenceUrl, officialReferenceLabel, officialReferenceContent } = config;
   const worked = Array.isArray(config.workedExamples) ? config.workedExamples : [];
   const hardQ = Array.isArray(config.hardQuiz) ? config.hardQuiz : [];
 
@@ -430,7 +430,7 @@ export function generateGuide(config) {
   const mKey = masteryKey || slug;
   // The app logic itself is client/guide-app.js (built to public/shared/guide-app.js), shared by every
   // guide; it reads the subject from SS_GUIDE.
-  html += `const SS_GUIDE=${js({ slug, key: mKey, title }).replace(/</g, "\\u003c")};\n`;
+  html += `const SS_GUIDE=${js({ slug, key: mKey, title, ...(targetLang ? { lang: targetLang } : {}) }).replace(/</g, "\\u003c")};\n`;
   // Same footer every live page carries (error-monitor.js was added to the pages by
   // scripts/patch-error-monitor.mjs; keep this list in sync with that footer).
   html += `</script><script src="/shared/guide-app.js"></script><script src="/shared/command-palette.js" defer></script><script src="/shared/high-contrast.js" defer></script><script src="/shared/error-monitor.js" defer></script></body></html>`;

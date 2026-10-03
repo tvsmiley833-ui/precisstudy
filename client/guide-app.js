@@ -1084,6 +1084,30 @@ function ssSrsEnsureUi(){
   }
   ssSrsRefresh();
 }
+// Language guides: the flashcard term is in the target language, so a screen reader gets lang= on it and sighted
+// students get a button that says it aloud in a matching voice (when the device has one).
+function ssVoiceForLang(lang){
+  const vs=(window.speechSynthesis&&window.speechSynthesis.getVoices())||[];
+  return vs.find(function(v){return v.lang&&v.lang.toLowerCase().indexOf(lang)===0;})||null;
+}
+function ssFcSpeak(){
+  const deck=getActiveDeck(),card=deck[fcIdx];
+  if(!card||!SS_GUIDE.lang||!('speechSynthesis' in window))return;
+  const ut=new SpeechSynthesisUtterance(card.t);
+  const v=ssVoiceForLang(SS_GUIDE.lang);
+  if(v)ut.voice=v;
+  ut.lang=v?v.lang:SS_GUIDE.lang;
+  window.speechSynthesis.cancel();window.speechSynthesis.speak(ut);
+}
+function ssFcEnsureSpeak(){
+  if(!SS_GUIDE.lang||!('speechSynthesis' in window)||document.getElementById('fc-speak'))return;
+  const scene=document.getElementById('scene');if(!scene)return;
+  const b=document.createElement('button');
+  b.type='button';b.id='fc-speak';b.className='btn';b.textContent='\u{1F50A} Hear it';
+  b.setAttribute('aria-label','Hear this term pronounced');
+  b.onclick=ssFcSpeak;
+  scene.parentNode.insertBefore(b,scene.nextSibling);
+}
 function showFC(){
   ssSrsEnsureUi();
   const deck=getActiveDeck();
@@ -1095,7 +1119,10 @@ function showFC(){
   if(!deck.length){document.getElementById('fc-term').textContent='No cards';document.getElementById('fc-def').textContent=fcFilterMode==='due'?'Nothing is due right now':'Rate some cards first';document.getElementById('fc-count').textContent='0 / 0';document.getElementById('fc-progress').textContent='';return;}
   if(fcIdx>=deck.length)fcIdx=0;
   const card=deck[fcIdx];
-  document.getElementById('fc-term').textContent=card.t;
+  const termEl=document.getElementById('fc-term');
+  termEl.textContent=card.t;
+  if(SS_GUIDE.lang)termEl.setAttribute('lang',SS_GUIDE.lang);
+  ssFcEnsureSpeak();
   document.getElementById('fc-def').textContent=card.d;
   const known=fcKnownSet();
   const knownCount=fcDeck.filter(c=>known.has(c.t)).length;

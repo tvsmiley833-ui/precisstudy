@@ -799,3 +799,19 @@ describe("exam totals and timer announcements", () => {
     assert.equal(say(0, true), "Part A: time is up.");
   });
 });
+
+describe("language guides", () => {
+  test("every language guide declares its target language and the page carries it", () => {
+    const want = { "spanish-1": "es", "spanish-2": "es", "spanish-3": "es", "french-1": "fr", "french-2": "fr", "french-3": "fr", "german-1": "de" };
+    for (const [slug, lang] of Object.entries(want)) {
+      assert.equal(JSON.parse(readFileSync(new URL(`../guides/${slug}.json`, import.meta.url), "utf8")).targetLang, lang);
+      assert.match(readFileSync(new URL(`../public/${slug}/index.html`, import.meta.url), "utf8"), new RegExp(`"lang":"${lang}"`));
+    }
+  });
+  test("a matching voice is chosen by language prefix, none when the device lacks one", () => {
+    const voices = [{ lang: "en-US" }, { lang: "es_MX" }, { lang: "fr-FR" }];
+    const { ssVoiceForLang } = loadGuide(["ssVoiceForLang"], { globals: { window: { speechSynthesis: { getVoices: () => voices } } } });
+    assert.equal(ssVoiceForLang("fr").lang, "fr-FR");
+    assert.equal(ssVoiceForLang("de"), null);
+  });
+});
