@@ -1,7 +1,7 @@
 # Improvements status — 2026-10-03
 
 Source list: `docs/IMPROVEMENTS-2026-10-02.md` (200 items). This file records what has shipped and what is still open.
-Latest deploy when last updated: version a0bf8e7d (phone quiz More options). Test state: 379 node + 645 vitest passing.
+Latest deploy when last updated: version 0e8e30b5. Test state: 387 node + 650 vitest passing.
 
 ## Shipped (deployed to production)
 
@@ -60,6 +60,14 @@ Latest deploy when last updated: version a0bf8e7d (phone quiz More options). Tes
 - **GUIDE-13 (partial)** phone quiz tab: rarely used controls behind "More options". **GUIDE-19 (partial)** quiz resume ("Resume quiz (Q 3/12)") after a refresh. **GUIDE-22** free-response: write first, 20 chars unlock the model answer, self-score, drafts kept in sessionStorage. **GUIDE-24 (partial)** study timer persists across reloads and mirrors in the tab title while hidden. **GUIDE-26 (partial)** "Bookmarked (n)" quiz set. **GUIDE-28** worked examples keep revealed steps; Got it needs a step. **GUIDE-30 (partial)** plan tiers renamed to coverage terms.
 - **A11Y-26 (partial)** 44px touch targets. **UX-1 (partial)** concept map works from local progress.
 - **PERF-3 (partial)** mission banner skipped on account pages and reworded. **PERF-10** header styles static. **PERF-14 (partial)** hidden kicker logo removed, image/manifest caching. **PERF-15 (partial)** dashboard skeletons follow class count.
+
+### Final batches of 2026-10-03
+- **PERF-7 (partial)** the 54 KB guide base stylesheet is now `/shared/guide-base.css` (versioned, immutable) instead of inline on every guide (page HTML ~20% smaller); per-subject tail stays inline. **PERF-13** dashboard and settings scripts moved to `/shared/dashboard-app.js` and `/shared/settings-app.js`. Shared files added to the Worker's versioning list.
+- **A11Y-20** high-contrast/AMOLED stylesheet linked from `<head>` by the Worker with an inline attribute bootstrap (no flash; follows `prefers-contrast`).
+- **MOB-4** "Add to Home Screen" hint after the second day (iOS instructions; Android install button), homepage and dashboard only.
+- **UX-3 (partial)** empty subject headings hidden while searching.
+- **SEC-9** guide data escapes `<` and U+2028/2029 everywhere; script-balance test. **CODE-9** guide JSON schema validation at build. **CODE-2** raw control bytes removed from source/tests + guard test.
+- **BE-9 (partial)** lapsed streaks no longer add XP or show on share pages; reminders only for savable streaks; Sage "sleepy" only when savable (streak freezes not done).
 
 ## Still open (updated)
 GUIDE-13, GUIDE-16 (module timing unclear), GUIDE-19, GUIDE-21–24, GUIDE-26, GUIDE-28, GUIDE-30; A11Y-20 inline-head bootstrap; A11Y-26 rest; MOB-2 offline quizzes; PERF-2/3/4/6/7/8/10/11/13/14/15/17/19; PERF-9 update toast and shared registration; UX-1 concepts/compete/syllabus pages; nav 'Sign in' for anonymous visitors.
