@@ -815,3 +815,20 @@ describe("language guides", () => {
     assert.equal(ssVoiceForLang("de"), null);
   });
 });
+
+describe("unit check-yourself questions", () => {
+  const bank = [
+    { u: 1, q: "a", o: ["x", "y"], a: 0 }, { u: 1, q: "b", o: ["x", "y"], a: 1 }, { u: 1, q: "c", o: ["x", "y"], a: 0 },
+    { u: 1, q: "d", o: ["x", "y"], a: 0 }, { u: 1, q: "fig", o: ["x", "y"], a: 0, fig: "<svg/>" }, { u: 2, q: "other", o: ["x", "y"], a: 0 },
+  ];
+  const { ssUnitCheckPick } = loadGuide(["ssUnitCheckPick"], {});
+  test("picks three questions from that unit only, never a figure question", () => {
+    const got = ssUnitCheckPick(bank, 1, 3, () => 0.3);
+    assert.equal(got.length, 3);
+    assert.ok(got.every(q => q.u === 1 && !q.fig));
+  });
+  test("returns fewer when the unit has fewer, and none for an empty unit", () => {
+    assert.equal(ssUnitCheckPick(bank, 2, 3, Math.random).length, 1);
+    assert.equal(ssUnitCheckPick(bank, 9, 3, Math.random).length, 0);
+  });
+});

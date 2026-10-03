@@ -838,12 +838,48 @@ function buildGuide(){
 // Unit header wiring. The whole row toggles on click, but only the title is
 // the keyboard/screen-reader button: the row also holds the read-aloud
 // button, and a button can't contain another control (WCAG 4.1.2).
+// "Check yourself": three questions from the quiz bank for this unit, added to the bottom of the unit the first
+// time it is opened, so the study guide asks for recall instead of being read-only. Not scored or saved.
+function ssUnitCheckPick(bank,unitId,n,rand){
+  const pool=(bank||[]).filter(function(q){return q.u===unitId&&q.o&&q.o.length>1&&!q.fig;});
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(rand()*(i+1));const x=pool[i];pool[i]=pool[j];pool[j]=x;}
+  return pool.slice(0,n);
+}
+function ssUnitCheckEnsure(div){
+  const body=div.querySelector('.unit-body');
+  if(!body||body.querySelector('.unit-check')||typeof QUIZ==='undefined')return;
+  const qs=ssUnitCheckPick(QUIZ,Number(div.dataset.id),3,Math.random);
+  if(!qs.length)return;
+  const wrap=document.createElement('section');
+  wrap.className='unit-check';
+  wrap.setAttribute('aria-label','Check yourself');
+  const h=document.createElement('h3');h.className='unit-check-h';h.textContent='Check yourself';
+  wrap.appendChild(h);
+  qs.forEach(function(q,qi){
+    const box=document.createElement('div');box.className='unit-check-q';
+    const p=document.createElement('p');p.className='unit-check-text';p.textContent=(qi+1)+'. '+q.q;
+    const opts=document.createElement('div');opts.className='unit-check-opts';opts.setAttribute('role','group');opts.setAttribute('aria-label','Answer choices');
+    const fb=document.createElement('p');fb.className='unit-check-fb';fb.setAttribute('role','status');
+    q.o.forEach(function(o,i){
+      const b=document.createElement('button');b.type='button';b.className='unit-check-opt';b.textContent=o;
+      b.onclick=function(){
+        opts.querySelectorAll('button').forEach(function(x,xi){x.disabled=true;if(xi===q.a)x.classList.add('correct');});
+        if(i!==q.a)b.classList.add('wrong');
+        fb.textContent=(i===q.a?'Correct. ':'Not quite. The answer is '+q.o[q.a]+'. ')+(q.e||'');
+      };
+      opts.appendChild(b);
+    });
+    box.appendChild(p);box.appendChild(opts);box.appendChild(fb);wrap.appendChild(box);
+  });
+  body.appendChild(wrap);
+  ssTypeset(wrap);
+}
 function ssWireUnitHeader(div,hd){
   const title=hd.querySelector('.unit-title')||hd;
   hd.removeAttribute('role');hd.removeAttribute('tabindex');hd.removeAttribute('aria-expanded');
   title.setAttribute('role','button');title.tabIndex=0;
   title.setAttribute('aria-expanded',div.classList.contains('open')?'true':'false');
-  hd.onclick=()=>{const isOpen=div.classList.toggle('open');title.setAttribute('aria-expanded',isOpen?'true':'false');};
+  hd.onclick=()=>{const isOpen=div.classList.toggle('open');title.setAttribute('aria-expanded',isOpen?'true':'false');if(isOpen)ssUnitCheckEnsure(div);};
   title.onkeydown=(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();hd.click();}};
 }
 function hydrateGuide(){

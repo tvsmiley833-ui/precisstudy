@@ -605,3 +605,16 @@ html body #view-cards button[onclick^="rateFC"]{flex:1 1 150px;max-width:240px;m
 /* Native controls and scrollbars follow the page theme (A11Y-19). */
 :root{color-scheme:light}
 :root[data-theme="dark"]{color-scheme:dark}
+
+/* "Check yourself" block at the end of each unit (GUIDE-10). */
+.unit-check{margin:18px 0 4px;padding:14px 16px;border:1px dashed var(--border-strong,var(--border));border-radius:12px}
+.unit-check-h{margin:0 0 10px;font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent-ink,var(--accent))}
+.unit-check-q{margin-bottom:14px}
+.unit-check-text{margin:0 0 8px;font-weight:600}
+.unit-check-opts{display:grid;gap:6px}
+.unit-check-opt{text-align:left;padding:10px 12px;min-height:44px;border:1px solid var(--border);border-radius:10px;background:var(--surface);color:var(--ink);font:inherit;cursor:pointer}
+.unit-check-opt:hover:not(:disabled){border-color:var(--accent)}
+.unit-check-opt.correct{border-color:var(--success);background:var(--success-soft)}
+.unit-check-opt.wrong{border-color:var(--danger);background:var(--danger-soft)}
+.unit-check-opt:disabled{cursor:default}
+.unit-check-fb{margin:8px 0 0;font-size:14px;color:var(--ink-muted)}
