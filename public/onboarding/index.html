@@ -460,10 +460,15 @@ const VIEWS = {
       <div class="ob-opts">${row("daily", "Daily reminder", "A nudge if you haven't studied yet today")}${row("streak", "Streak alert", "A heads-up before your streak breaks")}${row("blocks", "Study-block reminders", "Just before a session on your schedule")}</div>`;
   },
   done: () => {
-    const first = SUBJECTS.find((s) => S.enrolled.includes(s.key));
+    // The page they signed up from (a challenge, guide or invite) comes first; otherwise the first class they picked.
+    let nextPath = new URLSearchParams(location.search).get("next") || "";
+    if (!/^\/(?![\/\\])[^\s]*$/.test(nextPath) || nextPath.startsWith("/onboarding")) nextPath = "";
+    const first = SUBJECTS.find((s) => s.key === S.enrolled[0]) || SUBJECTS.find((s) => S.enrolled.includes(s.key));
     const count = S.enrolled.length;
     const test = TESTS.find((t) => t.v === S.days);
-    foot(first
+    foot(nextPath
+      ? `<a class="ob-cta full" style="text-align:center;text-decoration:none" href="${esc(nextPath)}" onclick="obFinish()">Continue where you were</a>`
+      : first
       ? `<a class="ob-cta full" style="text-align:center;text-decoration:none" href="/${PATHS[first.key] || first.key}" onclick="obFinish()">Start with ${esc(first.label)}</a>`
       : `<a class="ob-cta full" style="text-align:center;text-decoration:none" href="/dashboard/" onclick="obFinish()">Go to my dashboard</a>`);
     return `${owl("cheer", 140, { cap: true })}

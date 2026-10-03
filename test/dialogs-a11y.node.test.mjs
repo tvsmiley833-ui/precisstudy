@@ -309,3 +309,11 @@ test("marketing pages quote real totals (subject count and question count)", asy
   assert.equal(Number(m[2]), guides.length);
   assert.ok(Number(m[1].replace(/,/g, "")) <= questions && Number(m[1].replace(/,/g, "")) > questions * 0.9, "About's question count should be a true round-down");
 });
+
+test("first-time sign-ins keep their destination through onboarding", () => {
+  const a = read("../src/auth-routes.ts");
+  assert.equal((a.match(/"\/onboarding" \+ \(next \? "\?next=" \+ encodeURIComponent\(next\) : ""\)/g) || []).length, 3);
+  const o = read("../public/onboarding/index.html");
+  assert.match(o, /Continue where you were/);
+  assert.match(o, /S\.enrolled\[0\]/);
+});

@@ -140,7 +140,9 @@ export async function handleGoogleCallback(request: Request, env: Env): Promise<
   });
   const isNewUser = await recordLogin(env, profile.email, "google");
   if (isNewUser) await creditInviteIfAny(env, request, profile.email);
-  const dest = isNewUser ? "/onboarding" : (consumeNext(request) || "/");
+  const next = consumeNext(request);
+  // A new student still goes through setup, but keeps the page they came for (a challenge, a guide, an invite).
+  const dest = isNewUser ? "/onboarding" + (next ? "?next=" + encodeURIComponent(next) : "") : (next || "/");
   return redirect(SITE_ORIGIN + dest, { "Set-Cookie": [cookie, clearStateCookie(), clearNextCookie(), clearRefCookie()] });
 }
 
@@ -215,7 +217,9 @@ export async function handleGithubCallback(request: Request, env: Env): Promise<
   });
   const isNewUser = await recordLogin(env, email, "github");
   if (isNewUser) await creditInviteIfAny(env, request, email);
-  const dest = isNewUser ? "/onboarding" : (consumeNext(request) || "/");
+  const next = consumeNext(request);
+  // A new student still goes through setup, but keeps the page they came for (a challenge, a guide, an invite).
+  const dest = isNewUser ? "/onboarding" + (next ? "?next=" + encodeURIComponent(next) : "") : (next || "/");
   return redirect(SITE_ORIGIN + dest, { "Set-Cookie": [cookie, clearStateCookie(), clearNextCookie(), clearRefCookie()] });
 }
 
@@ -325,7 +329,9 @@ export async function handleVerifyConfirm(request: Request, env: Env): Promise<R
   const cookie = await issueSessionCookie(env, { email, name: email, provider: "email" });
   const isNewUser = await recordLogin(env, email, "email");
   if (isNewUser) await creditInviteIfAny(env, request, email);
-  const dest = isNewUser ? "/onboarding" : (consumeNext(request) || "/");
+  const next = consumeNext(request);
+  // A new student still goes through setup, but keeps the page they came for (a challenge, a guide, an invite).
+  const dest = isNewUser ? "/onboarding" + (next ? "?next=" + encodeURIComponent(next) : "") : (next || "/");
   return redirect(SITE_ORIGIN + dest, { "Set-Cookie": [cookie, clearNextCookie(), clearRefCookie()] });
 }
 
