@@ -1,3 +1,4 @@
+import { logError } from "./log.js";
 import { getClientIp } from "./auth.js";
 import { allowedBy, withinDailyQuota } from "./limits.js";
 
@@ -219,7 +220,8 @@ export async function handleChatPost(request: Request, env: { AI: Ai; CHAT_RATE_
       max_tokens: 400
     });
   } catch (e) {
-    return json({ error: "Could not reach AI provider", detail: String(e && typeof e === "object" && "message" in e ? (e as { message: string }).message : e).slice(0, 300) }, 502, cors);
+    logError("chat-ai", e); // the provider's message can echo prompt or config details, so it stays in the logs
+    return json({ error: "The AI helper is unavailable right now — try again in a moment." }, 502, cors);
   }
 
   const reply = (result && (result.response || result.result)) || "";

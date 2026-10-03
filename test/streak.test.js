@@ -23,3 +23,17 @@ describe("effectiveStreak", () => {
     expect(effectiveStreak({ current: 3, lastActiveDate: "2026-10-03", timezone: "Not/AZone" }, NOW)).toBe(3);
   });
 });
+
+import { icsEscape, icsFold } from "../src/progress-routes.js";
+
+describe("ICS output", () => {
+  it("escapes every kind of line break so a label can't inject calendar properties", () => {
+    expect(icsEscape("a\r\nEND:VEVENT\rX;Y,Z")).toBe("a\\nEND:VEVENT\\nX\\;Y\\,Z");
+  });
+  it("folds long lines at 75 octets without splitting a character", () => {
+    const line = "SUMMARY:" + "é".repeat(60);
+    const folded = icsFold(line);
+    for (const part of folded.split("\r\n")) expect(new TextEncoder().encode(part).length).toBeLessThanOrEqual(75);
+    expect(folded.replace(/\r\n /g, "")).toBe(line);
+  });
+});

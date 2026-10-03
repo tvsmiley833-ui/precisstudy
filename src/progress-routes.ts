@@ -783,8 +783,20 @@ const ICS_BYDAY: Record<string, string> = {
   mon: "MO", tue: "TU", wed: "WE", thu: "TH", fri: "FR", sat: "SA", sun: "SU"
 };
 
-function icsEscape(s: string): string {
-  return s.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
+export function icsEscape(s: string): string {
+  return s.replace(/\r\n?/g, "\n").replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
+}
+
+/** RFC 5545: content lines are at most 75 octets; longer ones continue on a line that starts with one space. */
+export function icsFold(line: string): string {
+  const enc = new TextEncoder();
+  let out = "", cur = "", bytes = 0, limit = 75;
+  for (const ch of line) {
+    const n = enc.encode(ch).length;
+    if (bytes + n > limit) { out += cur + "\r\n "; cur = ""; bytes = 0; limit = 74; }
+    cur += ch; bytes += n;
+  }
+  return out + cur;
 }
 
 function icsTimestampUTC(d: Date): string {
@@ -825,7 +837,7 @@ export async function handleGetCalendarFeed(request: Request, env: Env): Promise
       `DTSTART;TZID=${tzid}:${anchor}T${start}`,
       `DTEND;TZID=${tzid}:${anchor}T${end}`,
       `RRULE:FREQ=WEEKLY;BYDAY=${byday}`,
-      `SUMMARY:${icsEscape(b.subjectLabel)} study block`,
+      icsFold(`SUMMARY:${icsEscape(b.subjectLabel)} study block`),
       "END:VEVENT"
     ].join("\r\n");
   }).filter(Boolean);

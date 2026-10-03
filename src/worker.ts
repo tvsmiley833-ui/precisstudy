@@ -263,9 +263,12 @@ const SECURITY_HEADERS: Record<string, string> = {
   "Permissions-Policy": "geolocation=(), camera=(), microphone=(), payment=(), usb=()"
 };
 
-function withSecurityHeaders(response: Response): Response {
+function withSecurityHeaders(response: Response, pathname = ""): Response {
   const res = new Response(response.body, response);
   for (const [name, value] of Object.entries(SECURITY_HEADERS)) res.headers.set(name, value);
+  res.headers.set("Cross-Origin-Opener-Policy", "same-origin");
+  // Signed-in data must never sit in a shared (school) browser or proxy cache.
+  if (pathname.startsWith("/api/") || pathname.startsWith("/auth/")) res.headers.set("Cache-Control", "private, no-store");
   return res;
 }
 
@@ -318,7 +321,7 @@ export async function continueDailyWork(env: Env, opts: { start: boolean }): Pro
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     try {
-      return withRefCookie(withSecurityHeaders(await handleFetch(request, env)), request);
+      return withRefCookie(withSecurityHeaders(await handleFetch(request, env), new URL(request.url).pathname), request);
     } catch (e) {
       // An unhandled rejection here would otherwise surface as Cloudflare's
       // bare 500 with none of SECURITY_HEADERS applied.
