@@ -162,6 +162,24 @@ describe("handleChatPost", () => {
     expect(fakeEnv.CHAT_RATE_LIMIT.limit).toHaveBeenCalledWith({ key: expect.stringMatching(/^chat:/) });
   });
 
+  it("returns 429 without calling the model when total chat throughput is exhausted", async () => {
+    const fakeEnv = { AI: { run: vi.fn().mockResolvedValue({ response: "ok" }) }, CHAT_GLOBAL_RATE_LIMIT: { limit: vi.fn().mockResolvedValue({ success: false }) } };
+    const res = await handleChatPost(new Request("https://precisstudy.com/api/chat", { method: "POST", body: JSON.stringify({ history: [{ role: "user", content: "hi" }] }) }), fakeEnv);
+    expect(res.status).toBe(429);
+    expect(fakeEnv.AI.run).not.toHaveBeenCalled();
+  });
+
+  it("caps messages per visitor per day, counting only requests that reach the model", async () => {
+    const m = new Map();
+    const PROGRESS = { get: async (k) => (m.has(k) ? m.get(k) : null), put: async (k, v) => { m.set(k, v); } };
+    const fakeEnv = { AI: { run: vi.fn().mockResolvedValue({ response: "ok" }) }, PROGRESS, CHAT_DAILY_PER_IP: "2" };
+    const send = () => handleChatPost(new Request("https://precisstudy.com/api/chat", { method: "POST", headers: { "CF-Connecting-IP": "7.7.7.7" }, body: JSON.stringify({ history: [{ role: "user", content: "hi" }] }) }), fakeEnv);
+    expect([(await send()).status, (await send()).status, (await send()).status]).toEqual([200, 200, 429]);
+    expect(fakeEnv.AI.run).toHaveBeenCalledTimes(2);
+    const other = await handleChatPost(new Request("https://precisstudy.com/api/chat", { method: "POST", headers: { "CF-Connecting-IP": "8.8.8.8" }, body: JSON.stringify({ history: [{ role: "user", content: "hi" }] }) }), fakeEnv);
+    expect(other.status).toBe(200);
+  });
+
   it("returns 502 when the AI binding throws", async () => {
     const fakeEnv = { AI: { run: vi.fn().mockRejectedValue(new Error("boom")) } };
     const req = new Request("https://example.com/api/chat", {

@@ -21,4 +21,9 @@ interface Env {
   VAPID_SUBJECT: string;
   CHAT_RATE_LIMIT: RateLimit;
   CLIENT_LOG_RATE_LIMIT: RateLimit;
+  HEAVY_RATE_LIMIT: RateLimit; // AI / school-connection routes, per IP
+  FORM_RATE_LIMIT: RateLimit; // public forms and the sign-in email, per IP
+  CHAT_GLOBAL_RATE_LIMIT: RateLimit; // total chat throughput across everyone
+  CHAT_DAILY_PER_IP?: string; // optional override of the per-IP daily chat cap
+  AI_DAILY_PER_USER?: string; // optional override of the per-person daily AI-job cap
 }

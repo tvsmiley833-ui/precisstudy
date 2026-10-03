@@ -366,14 +366,24 @@ document.getElementById('fc-flip-card').addEventListener('click', function(){
 async function rateCurrentCard(rating){
   if (!FC_STUDY_QUEUE.length) return;
   var cardIndex = FC_STUDY_QUEUE[0];
+  var saved = false;
   try{
-    await fetch('/api/flashcards/review', {
+    var res = await fetch('/api/flashcards/review', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({ deckId: FC_STUDY_DECK.id, cardIndex: cardIndex, rating: rating })
     });
-  }catch(e){ /* move on regardless -- next visit will re-derive from saved state */ }
+    saved = res.ok;
+  }catch(e){ saved = false; }
+  if (!saved) {
+    // Keep the card in the queue so a failed save (offline, expired session) isn't silently lost.
+    var note = document.getElementById('fc-study-progress');
+    if (note) note.textContent = "Couldn't save that rating. Check your connection and try again.";
+    return;
+  }
   FC_STUDY_QUEUE.shift();
+  // 'Again' means the card is not learned yet: bring it back a few cards later in this session.
+  if (rating === 'again') FC_STUDY_QUEUE.splice(Math.min(3, FC_STUDY_QUEUE.length), 0, cardIndex);
   FC_STUDY_FLIPPED = false;
   renderStudyCard();
 }

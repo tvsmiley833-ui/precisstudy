@@ -1060,7 +1060,9 @@ function showFC(){
 }
 function flip(){document.getElementById('scene').classList.toggle('flipped');}
 function fcNav(d){const deck=getActiveDeck();if(!deck.length)return;fcIdx=(fcIdx+d+deck.length)%deck.length;showFC();}
-function fcShuffle(){const deck=getActiveDeck();for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}fcIdx=0;showFC();}
+// Shuffle the underlying deck, not the filtered copy getActiveDeck() returns: a filter builds a new array each call, so shuffling
+// that did nothing in the Learning / Known / Due views.
+function fcShuffle(){const deck=fcDeck;for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}fcIdx=0;showFC();}
 // Anki/Quizlet both import plain tab-separated text (front<TAB>back per
 // line) via their "Import" flow, so one export format covers both --
 // avoids maintaining two export paths for one underlying need. The
@@ -1134,15 +1136,34 @@ function printWorksheet(){
   var answerKey='<div class="ss-print-pagebreak"></div><h2>Answer Key</h2><div class="ss-print-key">'+keyLines.join('')+'</div>';
   ssRunPrintJob(document.title.replace(/\s*[—-].*$/,'')+' — Practice Worksheet',body+answerKey);
 }
+// After a rating the card may leave the filtered deck (a 'Still learning' deck loses a card you just marked known, a 'Due' deck
+// loses one you just reviewed). Advancing by index would then skip the next card, so remember which card is next and find it
+// again in the rebuilt deck. A card rated 'still learning' is also moved a few places later in the deck so it comes back soon.
+const FC_AGAIN_GAP=4;
+function ssNextCardAfterRating(deckBefore,idx,deckAfter){
+  if(!deckAfter.length)return 0;
+  const next=deckBefore[(idx+1)%deckBefore.length];
+  const at=deckAfter.indexOf(next);
+  return at>=0?at:Math.min(idx,deckAfter.length-1);
+}
+function ssRequeueCard(deck,card,gap){
+  const from=deck.indexOf(card);
+  if(from<0)return;
+  deck.splice(from,1);
+  deck.splice(Math.min(from+gap,deck.length),0,card);
+}
 function rateFC(rating){
   const deck=getActiveDeck();
   if(!deck.length||!SS_MASTERY)return;
   const card=deck[fcIdx];
+  const before=deck.slice(); // in the unfiltered view the active deck IS fcDeck, which the requeue below reorders
   if(rating==='known')SS_MASTERY.markCardKnown(card.t);
   else SS_MASTERY.unmarkCardKnown(card.t);
   ssSrsRecord(card.t,rating==='known');
+  if(rating!=='known')ssRequeueCard(fcDeck,card,FC_AGAIN_GAP);
   renderUnitProgress(card.u);
-  fcNav(1);
+  fcIdx=ssNextCardAfterRating(before,fcIdx,getActiveDeck());
+  showFC();
 }
 function filterFC(){
   if(fcFilterMode==='all'){fcFilterMode='learning';document.getElementById('filter-btn').textContent='Show: Still Learning';}

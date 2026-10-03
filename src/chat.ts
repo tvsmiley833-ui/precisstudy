@@ -1,4 +1,5 @@
 import { getClientIp } from "./auth.js";
+import { allowedBy, withinDailyQuota } from "./limits.js";
 
 // Object.create(null): SUBJECTS is indexed with a client-controlled path
 // segment (see subjectFromReferer below). A plain {} object literal would
@@ -172,7 +173,9 @@ export function json(body: unknown, status?: number, extraHeaders?: Record<strin
   });
 }
 
-export async function handleChatPost(request: Request, env: { AI: Ai; CHAT_RATE_LIMIT?: RateLimit }): Promise<Response> {
+const DEFAULT_CHAT_DAILY_PER_IP = 150;
+
+export async function handleChatPost(request: Request, env: { AI: Ai; CHAT_RATE_LIMIT?: RateLimit; CHAT_GLOBAL_RATE_LIMIT?: RateLimit; PROGRESS?: KVNamespace; CHAT_DAILY_PER_IP?: string }): Promise<Response> {
   const cors = corsHeaders(request);
 
   // Per-IP cap on the unauthenticated LLM proxy — every call bills Workers AI.
@@ -195,6 +198,15 @@ export async function handleChatPost(request: Request, env: { AI: Ai; CHAT_RATE_
   if (!messages.length) return json({ error: "Empty message" }, 400, cors);
 
   if (!env.AI) return json({ error: "Server not configured — Workers AI binding is missing" }, 500, cors);
+
+  // Cost ceilings: a limit on total chat throughput across everyone, and a daily cap per visitor (every call bills Workers AI).
+  if (!(await allowedBy(env.CHAT_GLOBAL_RATE_LIMIT, "chat:global"))) {
+    return json({ error: "The AI helper is very busy right now — try again in a minute." }, 429, cors);
+  }
+  const dailyCap = parseInt(env.CHAT_DAILY_PER_IP || "", 10) || DEFAULT_CHAT_DAILY_PER_IP;
+  if (!(await withinDailyQuota(env.PROGRESS, "chatday:" + getClientIp(request), dailyCap))) {
+    return json({ error: "You've used today's AI helper messages. It resets tomorrow (UTC); the study guides keep working." }, 429, cors);
+  }
 
   const subject = subjectFromReferer(request.headers.get("Referer"));
   const context = sanitizeContext(body && typeof body === "object" && "context" in body ? (body as Record<string, unknown>).context : undefined);

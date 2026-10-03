@@ -613,3 +613,55 @@ describe("diagnostic bookkeeping", () => {
     assert.ok(!/getSnapshot\(\)\.mastery/.test(src), "showDiagSummary must not read lifetime mastery");
   });
 });
+
+describe("flashcard order after rating (no skipped cards, working requeue)", () => {
+  const { ssNextCardAfterRating, ssRequeueCard } = loadGuide(["ssNextCardAfterRating", "ssRequeueCard"]);
+  const names = (deck) => deck.map(c => c.t).join("");
+  const mk = (s) => s.split("").map(t => ({ t }));
+
+  test("a card that leaves a filtered deck does not make the next card get skipped", () => {
+    const [a, b, c, d] = mk("ABCD");
+    const before = [a, b, c, d];
+    const after = [a, c, d]; // B was just rated into 'known' and left the 'still learning' view
+    assert.equal(ssNextCardAfterRating(before, 1, after), 1, "C is next, and it now sits at B's old index");
+  });
+
+  test("a card that stays in the deck advances normally", () => {
+    const [a, b, c] = mk("ABC");
+    assert.equal(ssNextCardAfterRating([a, b, c], 0, [a, b, c]), 1);
+  });
+
+  test("wraps to the start when the last card leaves, and handles an emptied or single-card deck", () => {
+    const [a, b] = mk("AB");
+    assert.equal(ssNextCardAfterRating([a, b], 1, [a]), 0);
+    assert.equal(ssNextCardAfterRating([a], 0, []), 0);
+    assert.equal(ssNextCardAfterRating([a], 0, [a]), 0);
+  });
+
+  test("a card rated 'still learning' comes back a few cards later", () => {
+    const deck = mk("ABCDEF");
+    ssRequeueCard(deck, deck[0], 4);
+    assert.equal(names(deck), "BCDEAF");
+  });
+
+  test("requeueing near the end clamps to the end of the deck, and an unknown card is ignored", () => {
+    const deck = mk("ABCD");
+    ssRequeueCard(deck, deck[2], 4);
+    assert.equal(names(deck), "ABDC");
+    ssRequeueCard(deck, { t: "Z" }, 4);
+    assert.equal(names(deck), "ABDC");
+  });
+
+  test("in the unfiltered view the next card is still found after the rated card is moved", () => {
+    const deck = mk("ABCDEF");
+    const before = deck.slice(); // rateFC snapshots, because the active deck and fcDeck are the same array here
+    ssRequeueCard(deck, deck[0], 4);
+    assert.equal(ssNextCardAfterRating(before, 0, deck), 0, "B is next and is now first");
+  });
+
+  test("shuffle works on the underlying deck so it also works in filtered views", () => {
+    const src = extract("fcShuffle");
+    assert.match(src, /const deck=fcDeck/);
+    assert.ok(!/getActiveDeck/.test(src.split("\n").slice(0, 3).join("\n")), "must not shuffle the throwaway filtered copy");
+  });
+});

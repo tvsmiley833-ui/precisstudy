@@ -1,4 +1,6 @@
 import { handleChatPost, handleChatOptions, json } from "./chat.js";
+import { allowedBy, declaredTooLarge, bodyLimitFor } from "./limits.js";
+import { getClientIp } from "./auth.js";
 import { logError } from "./log.js";
 import {
   handleGoogleStart,
@@ -305,6 +307,34 @@ export default {
   }
 };
 
+// Routes that spend money (Workers AI) or call out to a school/Google on the student's behalf: a tighter per-IP burst limit.
+const HEAVY_PATHS = new Set(["/api/flashcards/generate", "/api/syllabus/parse", "/api/canvas/connect", "/api/assignments", "/api/google/calendars"]);
+// Public forms and the sign-in email: they send mail or store files for anonymous visitors.
+const FORM_PATHS = new Set(["/api/feedback", "/api/request-guide", "/auth/email/start"]);
+
+/**
+ * Per-request abuse guard, run before any handler: refuses oversized bodies by their declared length (so an upload is turned
+ * away before it is buffered) and applies the native, strongly consistent per-IP limits to the expensive and public routes.
+ * Returns a response to send, or null to carry on.
+ */
+export async function abuseGuard(request: Request, url: URL, env: Partial<Env>): Promise<Response | null> {
+  const m = request.method;
+  if (m === "GET" || m === "HEAD" || m === "OPTIONS") return null;
+  const path = url.pathname;
+  if (!path.startsWith("/api/") && !path.startsWith("/auth/")) return null;
+  if (path.startsWith("/api/") && declaredTooLarge(request, bodyLimitFor(path))) {
+    return json({ error: "That request is too large" }, 413);
+  }
+  const ip = getClientIp(request);
+  if (HEAVY_PATHS.has(path) && !(await allowedBy(env.HEAVY_RATE_LIMIT, "heavy:" + ip))) {
+    return json({ error: "Too many requests — slow down and try again in a minute." }, 429);
+  }
+  if (FORM_PATHS.has(path) && !(await allowedBy(env.FORM_RATE_LIMIT, "form:" + ip))) {
+    return json({ error: "Too many requests — try again in a minute." }, 429);
+  }
+  return null;
+}
+
 const WRITE_ALLOWED_ORIGINS = new Set([
   "https://precisstudy.com",
   "https://www.precisstudy.com",
@@ -371,6 +401,9 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
   // request.json() happily parses text/plain, so without this any web page could make a visitor's browser POST to
   // /api/* and /auth/*. Cross-origin writes are refused; requests with no browser headers (curl, server-side) still work.
   if (isCrossSiteWrite(request, url)) return json({ error: "Cross-site requests are not allowed" }, 403);
+
+  const refused = await abuseGuard(request, url, env);
+  if (refused) return refused;
 
   // Quests, Leaderboards, Study Group and Peer Challenge used to be four
   // separate top-level pages; they're now tabs on one /compete/ page so the

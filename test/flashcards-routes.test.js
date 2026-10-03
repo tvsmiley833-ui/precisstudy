@@ -42,6 +42,29 @@ function req(url, cookie, method, body) {
   return new Request(url, { method: method || "GET", headers, body: body !== undefined ? JSON.stringify(body) : undefined });
 }
 
+describe("handleGenerateFlashcards: daily AI cap and upload types", () => {
+  it("stops a person after their daily number of AI uploads, without calling the model again", async () => {
+    const cookie = await sessionCookieFor("heavy@example.com");
+    let calls = 0;
+    const AI = fakeAI(async () => { calls++; return { response: "[]" }; });
+    const env = { SESSION_SECRET: SECRET, AI, PROGRESS: fakeKV(), AI_DAILY_PER_USER: "2" };
+    const go = () => handleGenerateFlashcards(req("https://example.com/api/flashcards/generate", cookie, "POST", { text: "some notes about cells" }), env);
+    const statuses = [(await go()).status, (await go()).status, (await go()).status];
+    expect(statuses[2]).toBe(429);
+    expect(statuses[0]).not.toBe(429);
+    expect(calls).toBeLessThanOrEqual(2);
+  });
+
+  it("rejects an uploaded file that declares no type (it used to skip the type and signature checks)", async () => {
+    const cookie = await sessionCookieFor("up@example.com");
+    const form = new FormData();
+    form.append("file", new File([new TextEncoder().encode("<script>alert(1)</script>")], "notes.html", { type: "" }));
+    const res = await handleGenerateFlashcards(new Request("https://example.com/api/flashcards/generate", { method: "POST", headers: { Cookie: cookie }, body: form }), { SESSION_SECRET: SECRET, AI: fakeAI({ response: "[]" }), PROGRESS: fakeKV() });
+    expect(res.status).toBe(400);
+    expect((await res.json()).error).toMatch(/unsupported file type/i);
+  });
+});
+
 describe("handleGenerateFlashcards", () => {
   it("401s with no session", async () => {
     const res = await handleGenerateFlashcards(req("https://example.com/api/flashcards/generate", null, "POST", { text: "notes" }), { SESSION_SECRET: SECRET, AI: fakeAI({ response: "[]" }) });

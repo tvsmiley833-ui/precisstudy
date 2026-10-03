@@ -1,5 +1,7 @@
 import { SELF } from "cloudflare:test";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
+import { abuseGuard } from "../src/worker.ts";
+import { allowedBy, withinDailyQuota, declaredTooLarge, bodyLimitFor, utcDay } from "../src/limits.ts";
 
 describe("security headers", () => {
   it("sets baseline security headers on every response, API and asset alike", async () => {
@@ -351,5 +353,74 @@ describe("cross-site write guard", () => {
   it("never blocks reads or CORS preflights", async () => {
     expect((await SELF.fetch("https://precisstudy.com/auth/me", { headers: { Origin: "https://evil.example" } })).status).toBe(200);
     expect((await SELF.fetch("https://precisstudy.com/api/chat", { method: "OPTIONS", headers: { Origin: "https://evil.example" } })).status).not.toBe(403);
+  });
+});
+
+
+describe("abuse limits", () => {
+  const kv = () => { const m = new Map(); return { _m: m, get: async (k) => (m.has(k) ? m.get(k) : null), put: async (k, v) => { m.set(k, v); } }; };
+  const lim = (success) => ({ limit: vi.fn().mockResolvedValue({ success }) });
+  const post = (path, headers = {}) => new Request("https://precisstudy.com" + path, { method: "POST", headers: { "CF-Connecting-IP": "9.9.9.9", ...headers }, body: "{}" });
+
+  describe("limits helpers", () => {
+    it("allowedBy lets everything through without a binding, honours the answer, and fails open if the limiter throws", async () => {
+      expect(await allowedBy(undefined, "k")).toBe(true);
+      expect(await allowedBy(lim(true), "k")).toBe(true);
+      expect(await allowedBy(lim(false), "k")).toBe(false);
+      expect(await allowedBy({ limit: async () => { throw new Error("down"); } }, "k")).toBe(true);
+    });
+
+    it("withinDailyQuota allows up to the cap per key per day, then refuses; other keys are unaffected", async () => {
+      const store = kv();
+      expect([await withinDailyQuota(store, "a", 2), await withinDailyQuota(store, "a", 2), await withinDailyQuota(store, "a", 2)]).toEqual([true, true, false]);
+      expect(await withinDailyQuota(store, "b", 2)).toBe(true);
+      expect([...store._m.keys()]).toContain("a:" + utcDay());
+      expect(await withinDailyQuota(undefined, "a", 1)).toBe(true);
+    });
+
+    it("declaredTooLarge only looks at a numeric Content-Length", () => {
+      const r = (len) => new Request("https://x.test/", { method: "POST", headers: len === null ? {} : { "Content-Length": String(len) }, body: "x" });
+      expect(declaredTooLarge(r(11), 10)).toBe(true);
+      expect(declaredTooLarge(r(10), 10)).toBe(false);
+      expect(declaredTooLarge(new Request("https://x.test/"), 10)).toBe(false);
+    });
+
+    it("body limits are generous only where files are expected", () => {
+      expect(bodyLimitFor("/api/request-guide")).toBeGreaterThan(15 * 1024 * 1024);
+      expect(bodyLimitFor("/api/flashcards/generate")).toBeGreaterThan(8 * 1024 * 1024);
+      expect(bodyLimitFor("/api/feedback")).toBe(256 * 1024);
+      expect(bodyLimitFor("/api/progress")).toBe(1024 * 1024);
+    });
+  });
+
+  describe("abuseGuard", () => {
+    it("rejects a declared body over the route's limit with 413 before any handler runs", async () => {
+      const res = await abuseGuard(post("/api/feedback", { "Content-Length": String(300 * 1024) }), new URL("https://precisstudy.com/api/feedback"), {});
+      expect(res.status).toBe(413);
+      expect(await abuseGuard(post("/api/request-guide", { "Content-Length": String(10 * 1024 * 1024) }), new URL("https://precisstudy.com/api/request-guide"), {})).toBeNull();
+    });
+
+    it("applies the per-IP heavy limit to AI and school-connection routes only", async () => {
+      const env = { HEAVY_RATE_LIMIT: lim(false), FORM_RATE_LIMIT: lim(true) };
+      for (const path of ["/api/flashcards/generate", "/api/syllabus/parse", "/api/canvas/connect", "/api/assignments"]) {
+        expect((await abuseGuard(post(path), new URL("https://precisstudy.com" + path), env)).status).toBe(429);
+      }
+      expect(env.HEAVY_RATE_LIMIT.limit).toHaveBeenCalledWith({ key: "heavy:9.9.9.9" });
+      expect(await abuseGuard(post("/api/quest/swap"), new URL("https://precisstudy.com/api/quest/swap"), env)).toBeNull();
+    });
+
+    it("applies the form limit to the public forms and the sign-in email", async () => {
+      const env = { FORM_RATE_LIMIT: lim(false) };
+      for (const path of ["/api/feedback", "/api/request-guide", "/auth/email/start"]) {
+        expect((await abuseGuard(post(path), new URL("https://precisstudy.com" + path), env)).status).toBe(429);
+      }
+    });
+
+    it("never touches reads, preflights, or pages", async () => {
+      const env = { HEAVY_RATE_LIMIT: lim(false), FORM_RATE_LIMIT: lim(false) };
+      expect(await abuseGuard(new Request("https://precisstudy.com/api/assignments"), new URL("https://precisstudy.com/api/assignments"), env)).toBeNull();
+      expect(await abuseGuard(new Request("https://precisstudy.com/api/chat", { method: "OPTIONS" }), new URL("https://precisstudy.com/api/chat"), env)).toBeNull();
+      expect(await abuseGuard(post("/spanish-1/"), new URL("https://precisstudy.com/spanish-1/"), env)).toBeNull();
+    });
   });
 });

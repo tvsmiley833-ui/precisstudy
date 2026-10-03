@@ -1,4 +1,7 @@
 import { getSession } from "./auth.js";
+import { withinDailyQuota } from "./limits.js";
+
+const DEFAULT_AI_DAILY_PER_USER = 30;
 import { ALLOWED_UPLOAD_TYPES, matchesDeclaredType } from "./file-validation.js";
 
 function json(body: unknown, status?: number): Response {
@@ -120,10 +123,10 @@ async function extractDocumentText(request: Request, env: Env): Promise<{ text?:
       return { error: "Attach a file, or paste the syllabus text instead", status: 400 };
     }
     if (file.size > MAX_UPLOAD_SIZE) return { error: "That file is too large (max 8MB)", status: 400 };
-    if (file.type && !ALLOWED_UPLOAD_TYPES.has(file.type)) return { error: "Unsupported file type — PDF, DOC, DOCX, TXT, PNG, JPG, or WEBP only", status: 400 };
+    if (!file.type || !ALLOWED_UPLOAD_TYPES.has(file.type)) return { error: "Unsupported file type — PDF, DOC, DOCX, TXT, PNG, JPG, or WEBP only", status: 400 };
 
     const buf = await file.arrayBuffer();
-    if (file.type && !matchesDeclaredType(buf, file.type)) return { error: "That file's content doesn't match its declared type", status: 400 };
+    if (!matchesDeclaredType(buf, file.type)) return { error: "That file's content doesn't match its declared type", status: 400 };
 
     if (file.type === "text/plain") {
       return { text: new TextDecoder().decode(buf) };
@@ -152,6 +155,12 @@ export async function handleSyllabusParse(request: Request, env: Env): Promise<R
   const session = await getSession(request, env);
   if (!session) return json({ error: "Sign in required" }, 401);
   if (!env.AI) return json({ error: "Server not configured — Workers AI binding is missing" }, 500);
+
+  // Every call bills Workers AI (document conversion, then generation): cap how many a person can run per day.
+  const dailyCap = parseInt(env.AI_DAILY_PER_USER || "", 10) || DEFAULT_AI_DAILY_PER_USER;
+  if (!(await withinDailyQuota(env.PROGRESS, "aiday:" + session.email.toLowerCase(), dailyCap))) {
+    return json({ error: "You've used today's AI uploads. It resets tomorrow (UTC) — try again then." }, 429);
+  }
 
   const extracted = await extractDocumentText(request, env);
   if (extracted.error) return json({ error: extracted.error }, extracted.status || 400);
