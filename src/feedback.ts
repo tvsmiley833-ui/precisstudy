@@ -39,7 +39,7 @@ export async function handleFeedbackSubmit(request: Request, env: Env): Promise<
     return json({ error: "Invalid JSON body" }, 400);
   }
 
-  const message = typeof body?.message === "string" ? body.message.trim().slice(0, MAX_MESSAGE_LEN) : "";
+  const message = typeof body?.message === "string" ? body.message.trim() : ""; // validated against MAX_MESSAGE_LEN below, not silently cut
   const emailRaw = typeof body?.email === "string" ? body.email.trim() : "";
   const category = typeof body?.category === "string" ? body.category.trim() : "";
   const page = typeof body?.page === "string" ? body.page.trim().slice(0, MAX_PAGE_LEN) : "";

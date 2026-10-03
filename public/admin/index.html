@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Dashboard — PrecisStudy</title>
+<title>Admin — PrecisStudy</title>
 <meta name="robots" content="noindex"/>
 <link rel="icon" type="image/png" href="/favicon.png"/>
 <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
@@ -440,7 +440,7 @@ async function initDashboard(){
     gate.style.display = 'block';
     gateMsg.textContent = "You need to sign in to view this dashboard.";
     signinBtn.style.display = 'inline-flex';
-    signinBtn.onclick = function(){ window.location.href = '/auth/google/start'; };
+    signinBtn.onclick = function(){ window.location.href = '/auth/google/start?next=' + encodeURIComponent(location.pathname); };
     return;
   }
 

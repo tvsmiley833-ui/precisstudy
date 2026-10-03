@@ -49,3 +49,12 @@ describe("flashcard due dates use the student's day", () => {
     expect(sm2({}, "again").due).toMatch(/^\d{4}-\d{2}-\d{2}$/);
   });
 });
+
+import { handleFeedbackSubmit } from "../src/feedback.js";
+
+describe("feedback length", () => {
+  it("refuses an over-long message instead of silently cutting it", async () => {
+    const res = await handleFeedbackSubmit(new Request("https://example.com/api/feedback", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message: "x".repeat(2500) }) }), { FEEDBACK: { put: async () => {}, get: async () => null }, PROGRESS: { put: async () => {}, get: async () => null } });
+    expect(res.status).toBe(400);
+  });
+});
