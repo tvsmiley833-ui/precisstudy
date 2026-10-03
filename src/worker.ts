@@ -316,10 +316,6 @@ function withRefCookie(response: Response, request: Request): Response {
   return res;
 }
 
-interface Fetcher {
-  fetch(request: Request): Promise<Response>;
-}
-
 /**
  * The daily snapshot pass and the leaderboards that depend on it. One call does one batch of students (see
  * recordDailySnapshots); the daily trigger starts the pass and the frequent trigger keeps calling this until it reports done,

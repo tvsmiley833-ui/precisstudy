@@ -15,7 +15,7 @@ import {
 } from "./auth.js";
 import { deleteUserData } from "./account-delete.js";
 import {
-  SITE_ORIGIN, STATE_TTL, stateCookie, clearStateCookie,
+  SITE_ORIGIN, stateCookie, clearStateCookie,
   makeState, checkState, safeNext, nextCookie, clearNextCookie, consumeNext, clearRefCookie
 } from "./auth-state.js";
 import { creditInviteIfAny } from "./progress-routes.js";

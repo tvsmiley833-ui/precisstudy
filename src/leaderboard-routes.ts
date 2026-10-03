@@ -1,5 +1,4 @@
 import { getSession } from "./auth.js";
-import { randomToken } from "./random-token.js";
 import { loadBlob, loadHistory, putBlob, indexesReady, LB_INDEX_PREFIX, SUBJECTS, type ProgressBlob } from "./progress-routes.js";
 
 function json(body: unknown, status?: number): Response {

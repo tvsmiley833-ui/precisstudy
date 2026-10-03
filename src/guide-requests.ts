@@ -18,7 +18,7 @@ const MAX_FILE_SIZE = 6 * 1024 * 1024; // 6MB per file
 const MAX_TOTAL_SIZE = 15 * 1024 * 1024; // 15MB per request
 const MAX_FILENAME_LEN = 200;
 
-function validateFields(className: string, notes: string, emailRaw: string): string | null {
+function validateFields(className: string, emailRaw: string): string | null {
   if (!className) return "Tell us which class or subject you need";
   if (className.length > MAX_CLASS_LEN) return "That class name is too long";
   if (emailRaw && !isValidEmail(emailRaw)) return "Enter a valid email address, or leave it blank";
@@ -87,7 +87,7 @@ export async function handleRequestGuideSubmit(request: Request, env: Env): Prom
     fileEntries = form.getAll("files").filter(f => f && typeof f === "object" && "arrayBuffer" in f && typeof (f as FileEntry).arrayBuffer === "function" && (f as FileEntry).size > 0) as FileEntry[];
   }
 
-  const fieldError = validateFields(className, notes, emailRaw);
+  const fieldError = validateFields(className, emailRaw);
   if (fieldError) return json({ error: fieldError }, 400);
 
   if (fileEntries.length > MAX_FILES) return json({ error: `Attach at most ${MAX_FILES} files` }, 400);

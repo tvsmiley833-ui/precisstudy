@@ -270,8 +270,6 @@ function decorateWeekly(q: QuestInstance) {
   return { key: q.key, label: def?.label || q.key, target: q.target, progress: q.progress, xp: def?.xp || 0, claimed: q.claimed };
 }
 
-const LOCAL_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
-
 function localDateFrom(request: Request): string {
   const url = new URL(request.url);
   const q = url.searchParams.get("localDate");

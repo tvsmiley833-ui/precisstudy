@@ -278,7 +278,6 @@ async function saveSubscriptions(env: Env, email: string, blob: ProgressBlob): P
 export async function sendDailyReminders(env: Env): Promise<{ checked: number; sent: number }> {
   if (!env.PROGRESS || !env.VAPID_PRIVATE_KEY) return { checked: 0, sent: 0 };
 
-  let cursor: string | undefined;
   let checked = 0;
   let sent = 0;
   const message = {
@@ -364,7 +363,6 @@ const STREAK_REMINDER_MINUTES = 20 * 60; // 8:00 PM local
 export async function sendStreakReminders(env: Env): Promise<{ checked: number; sent: number }> {
   if (!env.PROGRESS || !env.VAPID_PRIVATE_KEY) return { checked: 0, sent: 0 };
 
-  let cursor: string | undefined;
   let checked = 0;
   let sent = 0;
 
@@ -420,7 +418,6 @@ export async function sendStreakReminders(env: Env): Promise<{ checked: number; 
 export async function sendScheduledBlockReminders(env: Env): Promise<{ checked: number; sent: number }> {
   if (!env.PROGRESS || !env.VAPID_PRIVATE_KEY) return { checked: 0, sent: 0 };
 
-  let cursor: string | undefined;
   let checked = 0;
   let sent = 0;
 
