@@ -1256,6 +1256,11 @@ function filterClasses(q) {
     var section = c.closest('#classes-section, #coming-soon-section');
     if (section && match) visibleInSection[section.id] = true;
   });
+  // A subject group whose cards are all filtered out shouldn't leave its heading standing alone.
+  document.querySelectorAll('.class-group').forEach(function(g) {
+    var any = Array.prototype.some.call(g.querySelectorAll('.class-card'), function(c) { return c.style.display !== 'none'; });
+    g.style.display = any ? '' : 'none';
+  });
   ['classes-section', 'coming-soon-section'].forEach(function(id) {
     var section = document.getElementById(id);
     if (section) section.style.display = visibleInSection[id] ? '' : 'none';

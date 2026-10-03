@@ -25,3 +25,8 @@ test("no match for a class that isn't there, empty query matches all", () => {
   assert.deepEqual(find("underwater basket weaving"), []);
   assert.equal(find("").length, names.length);
 });
+
+test("filtering hides a subject group's heading when none of its cards match", () => {
+  assert.match(html, /querySelectorAll\('\.class-group'\)\.forEach/);
+  assert.match(html, /g\.style\.display = any \? '' : 'none'/);
+});
