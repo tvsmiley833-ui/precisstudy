@@ -196,3 +196,11 @@ test("concept map draws from local progress for signed-out students", () => {
   assert.match(c, /Showing progress saved on this device/);
   assert.match(c, /ssMastery_/);
 });
+
+test("study timer survives a reload and mirrors the clock in the tab title while hidden", () => {
+  const js = read("../client/guide-app.js");
+  assert.match(js, /var SKEY='ss-timer-state'/);
+  assert.match(js, /sessionStorage\.setItem\(SKEY/);
+  assert.match(js, /function mirrorTitle\(\)/);
+  assert.match(js, /document\.addEventListener\('visibilitychange',mirrorTitle\)/);
+});

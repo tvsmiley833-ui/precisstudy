@@ -2546,18 +2546,36 @@ function ssFmtClock(s){
     }
     render();
   }
-  function stop(){run=false;clearInterval(iv);}
+  // Survive a reload: the timer state lives in sessionStorage and, if it was running, catches up by the wall-clock gap.
+  var SKEY='ss-timer-state';
+  function persist(){try{sessionStorage.setItem(SKEY,JSON.stringify({mode:mode,run:run,elapsed:elapsed,phase:phase,done:done,left:left,ts:Date.now()}));}catch(e){}}
+  // While the tab is in the background and the timer runs, show the clock in the tab title.
+  var baseTitle=null;
+  function mirrorTitle(){
+    if(run&&document.hidden){if(baseTitle===null)baseTitle=document.title;document.title=timeEl.textContent+' \u00b7 '+baseTitle;}
+    else if(baseTitle!==null){document.title=baseTitle;baseTitle=null;}
+  }
+  document.addEventListener('visibilitychange',mirrorTitle);
+  function stop(){run=false;clearInterval(iv);persist();mirrorTitle();}
+  function startRun(){run=true;last=Date.now();iv=setInterval(function(){tick();persist();mirrorTitle();},500);}
   btn.onclick=function(){
-    run=!run;
-    if(run){last=Date.now();iv=setInterval(tick,500);}else{tick();stop();}
-    render();
+    if(!run)startRun();else{tick();stop();}
+    persist();render();
   };
   document.getElementById('sgt-reset').onclick=function(){
-    stop();elapsed=0;phase='focus';done=0;left=SS_POMO.focus;render();
+    stop();elapsed=0;phase='focus';done=0;left=SS_POMO.focus;persist();render();
   };
+  try{
+    var saved=JSON.parse(sessionStorage.getItem(SKEY)||'null');
+    if(saved&&saved.mode===mode){
+      elapsed=saved.elapsed||0;phase=saved.phase||'focus';done=saved.done||0;left=saved.left>0?saved.left:SS_POMO.focus;
+      if(saved.run){last=saved.ts;startRun();tick();} // tick() applies the time that passed while the page was away
+    }
+  }catch(e){}
   modeBtn.onclick=function(){
     stop();mode=mode==='pomo'?'watch':'pomo';elapsed=0;phase='focus';done=0;left=SS_POMO.focus;
     try{localStorage.setItem('ss-timer-mode',mode);}catch(e){}
+    persist();
     say(mode==='pomo'?'Pomodoro mode on: 25 minute focus sessions.':'Stopwatch mode on.');
     render();
   };
