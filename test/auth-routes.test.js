@@ -1,5 +1,5 @@
 import { SELF } from "cloudflare:test";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import { handleGoogleStart, handleGoogleCallback, handleGithubStart, handleGithubCallback, handleVerify, handleVerifyConfirm, handleDeleteAccount, handleSignOutEverywhere } from "../src/auth-routes.js";
 import { createMagicLinkToken, issueSessionCookie, getSessionVersion } from "../src/auth.js";
 
@@ -436,5 +436,42 @@ describe("/auth/email/start", () => {
   it("rejects GET", async () => {
     const res = await SELF.fetch("https://precisstudy.com/auth/email/start");
     expect(res.status).toBe(405);
+  });
+});
+
+describe("Google sign-in callback (mocked provider)", () => {
+  afterEach(() => vi.restoreAllMocks());
+  const kv = () => { const m = new Map(); return { get: async k => (m.has(k) ? m.get(k) : null), put: async (k, v) => { m.set(k, v); }, delete: async k => { m.delete(k); }, list: async () => ({ keys: [], list_complete: true }) }; };
+  const env = () => ({ GOOGLE_CLIENT_ID: "id", GOOGLE_CLIENT_SECRET: "secret", SESSION_SECRET: "test-session-secret", PROGRESS: kv() });
+
+  async function callback(profile) {
+    const e = env();
+    const startRes = await handleGoogleStart(new Request("https://precisstudy.com/auth/google/start"), e);
+    const state = new URL(startRes.headers.get("Location")).searchParams.get("state");
+    vi.spyOn(globalThis, "fetch").mockImplementation(async url => {
+      if (String(url).includes("oauth2.googleapis.com/token")) return new Response(JSON.stringify({ access_token: "tok" }), { status: 200 });
+      if (String(url).includes("userinfo")) return new Response(JSON.stringify(profile), { status: 200 });
+      return new Response("{}", { status: 404 });
+    });
+    return handleGoogleCallback(new Request(`https://precisstudy.com/auth/google/callback?code=c&state=${encodeURIComponent(state)}`, { headers: { Cookie: `ss_oauth_state=${state}` } }), e);
+  }
+
+  it("signs in a verified address: session cookie issued, new users go to onboarding", async () => {
+    const res = await callback({ email: "Learner@Example.com", name: "Learner", email_verified: true });
+    expect(res.status).toBe(302);
+    expect(new URL(res.headers.get("Location")).pathname).toBe("/onboarding");
+    expect(res.headers.get("Set-Cookie")).toContain("ss_session=");
+  });
+
+  it("refuses an unverified address: no session cookie", async () => {
+    const res = await callback({ email: "someone@example.com", name: "X", email_verified: false });
+    expect(res.status).toBe(302);
+    expect(new URL(res.headers.get("Location")).search).toContain("auth_error");
+    expect(res.headers.get("Set-Cookie") || "").not.toContain("ss_session=eyJ");
+  });
+
+  it("refuses a profile with no email", async () => {
+    const res = await callback({ name: "X", email_verified: true });
+    expect(new URL(res.headers.get("Location")).search).toContain("auth_error");
   });
 });

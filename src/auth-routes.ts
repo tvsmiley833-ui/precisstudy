@@ -130,6 +130,8 @@ export async function handleGoogleCallback(request: Request, env: Env): Promise<
   if (!profileRes.ok) return authErrorRedirect("provider", "google userinfo " + profileRes.status);
   const profile: any = await profileRes.json();
   if (!profile.email) return authErrorRedirect("no_email", "google");
+  // An unverified address proves nothing about who owns the mailbox: never sign someone in (or into their account) on it.
+  if (profile.email_verified !== true && profile.email_verified !== "true") return authErrorRedirect("no_email", "google unverified");
 
   const cookie = await issueSessionCookie(env, {
     email: profile.email,
