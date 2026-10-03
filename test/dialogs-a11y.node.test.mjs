@@ -297,3 +297,15 @@ test("onboarding reminders actually ask for notification permission and subscrib
   assert.match(h, /\/api\/push\/subscribe/);
   assert.match(h, /reminders are off/);
 });
+
+test("marketing pages quote real totals (subject count and question count)", async () => {
+  const { readdirSync } = await import("node:fs");
+  const guides = readdirSync(new URL("../guides/", import.meta.url)).filter(f => f.endsWith(".json"));
+  let questions = 0;
+  for (const g of guides) { const j = JSON.parse(read(`../guides/${g}`)); questions += (j.quiz || []).length + (j.hardQuiz || []).length; }
+  assert.match(read("../public/educators/index.html"), new RegExp(`any of ${guides.length} subjects`));
+  const m = read("../public/about/index.html").match(/over ([\d,]+) questions across (\d+) subjects/);
+  assert.ok(m, "About should quote totals");
+  assert.equal(Number(m[2]), guides.length);
+  assert.ok(Number(m[1].replace(/,/g, "")) <= questions && Number(m[1].replace(/,/g, "")) > questions * 0.9, "About's question count should be a true round-down");
+});
