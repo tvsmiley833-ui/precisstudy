@@ -101,3 +101,14 @@ test("tooltips stay open when hovered, close if their trigger disappears, don't 
   assert.match(js, /sameAsName/);
   assert.match(js, /hasAttribute\("pattern"\)/);
 });
+
+test("signed-out students: dashboard shows saved local progress with a sync strip; settings open Appearance", () => {
+  const dash = read("../public/dashboard/index.html");
+  assert.match(dash, /function ssHasLocalProgress\(\)/);
+  assert.match(dash, /anon && !ssHasLocalProgress\(\)/);
+  assert.match(dash, /if \(anon\) throw new Error\('local only'\)/);
+  assert.match(dash, /Sign in to sync it across devices/);
+  const set = read("../public/settings/index.html");
+  assert.match(set, /Appearance \(theme, contrast, sound\) is stored on this device/);
+  assert.match(set, /getAttribute\('data-tab'\) === 'appearance'/);
+});

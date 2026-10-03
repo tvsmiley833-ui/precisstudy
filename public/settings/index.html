@@ -1222,11 +1222,20 @@ async function initSettings(){
   }
 
   if(!session){
-    subtitle.textContent = 'Sign in to manage your classes.';
+    subtitle.textContent = 'Sign in to manage your classes and account. Appearance works without one.';
     gate.style.display = 'block';
-    gateMsg.textContent = 'You need to sign in to view settings.';
+    gateMsg.textContent = 'Sign in to manage your classes, notifications and sharing.';
     signinBtn.style.display = 'inline-flex';
     signinBtn.onclick = function(){ window.location.href = '/auth/google/start'; };
+    // Appearance (theme, contrast, sound) is stored on this device, so it needs no account: show just that tab.
+    content.style.display = 'block';
+    document.querySelectorAll('#settings-tablist .ss-tab').forEach(function(t){
+      var on = t.getAttribute('data-tab') === 'appearance';
+      t.style.display = on ? '' : 'none';
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+    });
+    document.querySelectorAll('[data-panel]').forEach(function(pn){ pn.hidden = pn.getAttribute('data-panel') !== 'appearance'; });
     return;
   }
 
