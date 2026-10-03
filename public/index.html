@@ -1185,15 +1185,15 @@ document.querySelectorAll('.cs-notify-form').forEach(function(form){
     tier.classList.remove('spc-tier-ready', 'spc-tier-ontrack', 'spc-tier-start');
     if (pct >= 90) {
       tier.classList.add('spc-tier-ready');
-      title.textContent = 'Exam Ready';
-      sub.textContent = "You'll work through the full question bank before test day.";
+      title.textContent = 'Full coverage';
+      sub.textContent = "At this pace you'll see the whole question bank before test day. Coverage isn't mastery, so check your accuracy too.";
     } else if (pct >= 50) {
       tier.classList.add('spc-tier-ontrack');
-      title.textContent = 'On Track';
+      title.textContent = 'Good coverage';
       sub.textContent = 'Solid coverage — keep this pace going.';
     } else {
       tier.classList.add('spc-tier-start');
-      title.textContent = 'Just Getting Started';
+      title.textContent = 'Light coverage';
       sub.textContent = 'Add a few more minutes a day to cover more ground before your exam.';
     }
   }

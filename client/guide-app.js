@@ -2170,13 +2170,13 @@ function ssBuildPlanIcs(o){
     tier.classList.remove('good','moderate','behind');
     if(pct>=90){
       tier.classList.add('good');
-      title.textContent='Exam Ready';sub.textContent="You'll work through the full question bank before test day.";
+      title.textContent='Full coverage';sub.textContent="At this pace you'll see the whole question bank before test day. Coverage isn't mastery, so check your accuracy too.";
     }else if(pct>=50){
       tier.classList.add('moderate');
-      title.textContent='On Track';sub.textContent='Solid coverage — keep this pace going.';
+      title.textContent='Good coverage';sub.textContent='Solid coverage — keep this pace going.';
     }else{
       tier.classList.add('behind');
-      title.textContent='Just Getting Started';sub.textContent='Add a few more minutes a day to cover more ground before your exam.';
+      title.textContent='Light coverage';sub.textContent='Add a few more minutes a day to cover more ground before your exam.';
     }
   }
   daysEl.addEventListener('input',update);
