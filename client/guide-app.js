@@ -1275,7 +1275,7 @@ function printFlashcardSheet(){
       +cards.map(function(f){return '<tr><td>'+f.t+'</td><td>'+f.d+'</td></tr>';}).join('')
       +'</tbody></table>';
   }).join('');
-  ssRunPrintJob(document.title.replace(/\s*[—-].*$/,'')+' — Flashcards Study Sheet',body);
+  ssRunPrintJob(SS_GUIDE.title+' — Flashcards Study Sheet',body);
 }
 function printWorksheet(){
   // Print the unit chosen in the quiz picker, not the whole bank with its answer key.
@@ -1297,7 +1297,7 @@ function printWorksheet(){
     return '<h2>Unit '+u.id+': '+u.name+'</h2>'+qHtml;
   }).join('');
   var answerKey='<div class="ss-print-pagebreak"></div><h2>Answer Key</h2><div class="ss-print-key">'+keyLines.join('')+'</div>';
-  ssRunPrintJob(document.title.replace(/\s*[—-].*$/,'')+' — Practice Worksheet',body+answerKey);
+  ssRunPrintJob(SS_GUIDE.title+' — Practice Worksheet',body+answerKey);
 }
 // After a rating the card may leave the filtered deck (a 'Still learning' deck loses a card you just marked known, a 'Due' deck
 // loses one you just reviewed). Advancing by index would then skip the next card, so remember which card is next and find it
@@ -3078,16 +3078,18 @@ function ssDiagBatchRenderContinue(){
   var SS_BASE='/'+SS_GUIDE.slug;
   var TAB_TO_SEG={guide:'',cards:'flashcards',quiz:'quiz',examples:'examples',exam:'exam',qref:'reference',memory:'memory'};
   var SEG_TO_TAB={flashcards:'cards',quiz:'quiz',examples:'examples',exam:'exam',reference:'qref',memory:'memory'};
-  var TAB_TITLES={cards:'Flashcards',quiz:'Quiz',examples:'Worked Examples',exam:'Practice Exam',qref:'Quick Reference',memory:'Memory Tricks'};
-  var BASE_TITLE=document.title;
-  var SUBJECT_NAME=BASE_TITLE.replace(/\s*Study Guide.*$/,'');
+  var TAB_TITLES={cards:'Flashcards',quiz:'Practice Quiz',examples:'Worked Examples',exam:'Practice Exam',qref:'Quick Reference',memory:'Memory Tricks'};
+  // Titles are built from SS_GUIDE.title, in the same "<Subject> <View> — PrecisStudy" form the Worker gives deep links,
+  // instead of being parsed back out of a title the Worker may already have rewritten.
+  var SUBJECT_NAME=SS_GUIDE.title;
+  var BASE_TITLE=SUBJECT_NAME+' Study Guide \u2014 PrecisStudy';
   var _prevSwitchTab=switchTab;
   switchTab=function(id){
     _prevSwitchTab(id);
     var seg=TAB_TO_SEG[id];
     var path=SS_BASE+(seg?'/'+seg:'/');
     if(location.pathname!==path){ try{ history.pushState({tab:id},'',path); }catch(e){} }
-    document.title=TAB_TITLES[id]?(TAB_TITLES[id]+' \u2014 '+SUBJECT_NAME+' Study Guide'):BASE_TITLE;
+    document.title=TAB_TITLES[id]?(SUBJECT_NAME+' '+TAB_TITLES[id]+' \u2014 PrecisStudy'):BASE_TITLE;
   };
   function tabFromUrl(){
     var rest=location.pathname.slice(SS_BASE.length).replace(/^\/|\/$/g,'');

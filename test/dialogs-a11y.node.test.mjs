@@ -119,3 +119,11 @@ test("the graphing calculator is only offered on math and science guides; --acce
   assert.match(read("../client/guide-app.js"), /DESMOS_API_KEY&&SS_GUIDE\.calc/);
   assert.match(read("../public/shared/guide-polish.css"), /:root\{--accent-bright:var\(--accent\)\}/);
 });
+
+test("tab titles come from SS_GUIDE.title in the Worker's form, never parsed from the live title", () => {
+  const js = read("../client/guide-app.js");
+  assert.match(js, /var SUBJECT_NAME=SS_GUIDE\.title;/);
+  assert.match(js, /SUBJECT_NAME\+' '\+TAB_TITLES\[id\]\+' \\u2014 PrecisStudy'/);
+  assert.ok(!/BASE_TITLE\.replace/.test(js));
+  assert.ok(!/document\.title\.replace\(/.test(js));
+});
