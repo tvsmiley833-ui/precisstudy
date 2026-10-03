@@ -91,7 +91,7 @@ async function rewriteViewMeta(res: Response, view: string): Promise<Response> {
 // stylesheet (<link href="/shared/guide-polish.css">). Kept as an explicit list
 // (not read from disk at request time) so a typo here fails loudly in
 // review rather than silently caching-forever a file nobody versioned.
-const SHARED_JS_FILES = new Set(["sage-dashboard.js", "dashboard-app.js", "settings-app.js", "install-hint.js", "guide-base.css", "site-header.css", "celebrate.js", "command-palette.js", "error-monitor.js", "feedback-widget.js", "guide-app.js", "high-contrast.js", "mastery.js", "mission-banner.js", "optimistic.js", "tooltips.js", "unit-titles.js", "unit-order.js", "personality.js", "site-header.js", "guide-polish.css"]);
+const SHARED_JS_FILES = new Set(["high-contrast.css", "sage-dashboard.js", "dashboard-app.js", "settings-app.js", "install-hint.js", "guide-base.css", "site-header.css", "celebrate.js", "command-palette.js", "error-monitor.js", "feedback-widget.js", "guide-app.js", "high-contrast.js", "mastery.js", "mission-banner.js", "optimistic.js", "tooltips.js", "unit-titles.js", "unit-order.js", "personality.js", "site-header.js", "guide-polish.css"]);
 
 // Per-isolate cache: hashing 6 small files is cheap, but there's no reason
 // to redo it every request when the isolate will serve many requests
@@ -156,6 +156,11 @@ async function injectAssetVersions(res: Response, env: Env): Promise<Response> {
 // rewrites every HTML response (see injectAssetVersions below), so adding
 // the tags here keeps it to one place that can't drift. Skipped on /admin:
 // that's an internal tool, not a place visitors need either widget.
+const CONTRAST_BOOTSTRAP =
+  "<script>(function(){try{var d=document.documentElement,c=localStorage.getItem('ss-contrast');" +
+  "if(c==='high'||(c===null&&window.matchMedia&&matchMedia('(prefers-contrast: more)').matches))d.setAttribute('data-contrast','high');" +
+  "if(localStorage.getItem('ss-amoled')==='on')d.setAttribute('data-amoled','on')}catch(e){}})()</script>";
+
 // Pages that are about the signed-in account: the "no sign-up required" banner would sit above their sign-in card.
 export function showsMissionBanner(pathname: string): boolean {
   return !/^\/(dashboard|settings|concepts|compete|challenge|syllabus|flashcards|onboarding)(\/|$)/.test(pathname);
@@ -165,6 +170,13 @@ async function injectSiteWidgets(res: Response, pathname: string): Promise<Respo
   if (pathname.startsWith("/admin")) return res;
   if (!res.headers.get("Content-Type")?.includes("text/html")) return res;
   return new HTMLRewriter()
+    .on("head", {
+      element(el) {
+        // Accessibility themes before first paint: the stylesheet is static and the tiny inline script sets the attributes
+        // from the saved choice (or the device's "more contrast" setting), so there is no flash of the normal theme.
+        el.append('<link rel="stylesheet" href="/shared/high-contrast.css"/>' + CONTRAST_BOOTSTRAP, { html: true });
+      }
+    })
     .on("body", {
       element(el) {
         el.append('<script src="/shared/feedback-widget.js" defer></script>', { html: true });

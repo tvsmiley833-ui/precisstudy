@@ -238,3 +238,11 @@ test("install hint: second day only, never when installed or dismissed, iOS inst
   assert.match(js, /beforeinstallprompt/);
   assert.match(read("../src/worker.ts"), /install-hint\.js/);
 });
+
+test("accessibility themes apply before first paint: static stylesheet plus a head bootstrap from the Worker", () => {
+  const src = read("../src/worker.ts");
+  assert.ok(src.includes('href="/shared/high-contrast.css"'));
+  assert.ok(src.includes("prefers-contrast: more") && src.includes("ss-amoled"));
+  assert.ok(!/createElement\('style'\)/.test(read("../public/shared/high-contrast.js")));
+  assert.match(read("../public/shared/high-contrast.css"), /\[data-amoled="on"\]/);
+});
