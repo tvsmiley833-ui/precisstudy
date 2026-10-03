@@ -179,6 +179,53 @@ const MAX_SRS_CARDS = 3000;
 const MAX_SRS_KEY_LEN = 200;
 const MAX_SRS_TIME = 4102444800000; // 2100-01-01
 
+const MAX_MASTERY_COUNT = 1_000_000;
+const MAX_MASTERY_UNITS = 200;
+const MAX_EXAMPLES = 2000;
+const MAX_CARDS_KNOWN = 5000;
+
+/** Keeps only well-formed { correct, total } entries (non-negative integers, correct <= total) for numeric unit ids. */
+export function sanitizeMastery(raw: unknown): SubjectProgress["mastery"] {
+  const out: SubjectProgress["mastery"] = {};
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return out;
+  let n = 0;
+  for (const [unit, v] of Object.entries(raw as Record<string, unknown>)) {
+    if (n >= MAX_MASTERY_UNITS) break;
+    if (!/^\d{1,4}$/.test(unit) || !v || typeof v !== "object") continue;
+    const { correct, total } = v as { correct?: unknown; total?: unknown };
+    if (!Number.isInteger(correct) || !Number.isInteger(total)) continue;
+    const c = correct as number, t = total as number;
+    if (c < 0 || t < 0 || c > t || t > MAX_MASTERY_COUNT) continue;
+    out[unit] = { correct: c, total: t };
+    n++;
+  }
+  return out;
+}
+
+/**
+ * Merges two per-unit mastery maps. Answer counters only ever increase, so the entry with the larger total is the more
+ * recent one (ties: more correct). This stops a stale tab or second device from overwriting answers recorded elsewhere.
+ */
+export function mergeMastery(a: SubjectProgress["mastery"] | undefined, b: SubjectProgress["mastery"] | undefined): SubjectProgress["mastery"] {
+  const out: SubjectProgress["mastery"] = { ...(a || {}) };
+  for (const [unit, rec] of Object.entries(b || {})) {
+    const cur = out[unit];
+    if (!cur || rec.total > cur.total || (rec.total === cur.total && rec.correct > cur.correct)) out[unit] = rec;
+  }
+  return out;
+}
+
+/** Worked examples are only ever marked done, so merging is a union of the true flags. */
+export function mergeExamples(a: SubjectProgress["examples"] | undefined, b: SubjectProgress["examples"] | undefined): SubjectProgress["examples"] {
+  const out: SubjectProgress["examples"] = {};
+  for (const src of [a || {}, b || {}]) {
+    for (const [id, done] of Object.entries(src)) {
+      if (done === true && Object.keys(out).length < MAX_EXAMPLES && id.length <= 120) out[id] = true;
+    }
+  }
+  return out;
+}
+
 // Drops anything malformed rather than rejecting the whole save, same as unitOrder.
 function sanitizeSrs(raw: unknown): SubjectProgress["srs"] {
   const out: Record<string, [number, number, number]> = {};
@@ -312,16 +359,32 @@ export function migratePhysicsUnits(blob: ProgressBlob): boolean {
   return true;
 }
 
-export async function loadBlob(env: Env, email: string): Promise<ProgressBlob> {
-  if (!env.PROGRESS) return emptyBlob();
+/**
+ * Runs every unit-renumbering migration on a blob that has just been read from KV. It MUST happen at load time, before any
+ * handler stamps a new updatedAt: the migrations decide "old numbering vs new" from updatedAt, so a quest, push, challenge,
+ * flashcard or leaderboard write that lands first would otherwise lock the old numbering in as if it were the new one.
+ * Returns true when the blob changed.
+ */
+export function applyUnitMigrations(blob: ProgressBlob): boolean {
+  const a = migratePhysicsUnits(blob);
+  const b = migrateAlgebra2Units(blob);
+  return a || b;
+}
+
+export async function loadBlobMigrated(env: Env, email: string): Promise<{ blob: ProgressBlob; migrated: boolean }> {
+  if (!env.PROGRESS) return { blob: emptyBlob(), migrated: false };
   const raw = await env.PROGRESS.get("progress:" + email);
-  if (!raw) return emptyBlob();
+  if (!raw) return { blob: emptyBlob(), migrated: false };
   try {
-    const parsed = JSON.parse(raw);
-    return Object.assign(emptyBlob(), parsed);
+    const blob: ProgressBlob = Object.assign(emptyBlob(), JSON.parse(raw));
+    return { blob, migrated: applyUnitMigrations(blob) };
   } catch (e) {
-    return emptyBlob();
+    return { blob: emptyBlob(), migrated: false };
   }
+}
+
+export async function loadBlob(env: Env, email: string): Promise<ProgressBlob> {
+  return (await loadBlobMigrated(env, email)).blob;
 }
 
 // Mirrors computeReadiness() in public/shared/mastery.js (same total>=2
@@ -437,8 +500,7 @@ export async function handleGetProgress(request: Request, env: Env): Promise<Res
   if (!session) return json({ error: "Sign in required" }, 401);
   if (!env.PROGRESS) return json({ error: "Progress sync isn't configured yet" }, 503);
 
-  const blob = await loadBlob(env, session.email);
-  const migrated = [migratePhysicsUnits(blob), migrateAlgebra2Units(blob)].some(Boolean);
+  const { blob, migrated } = await loadBlobMigrated(env, session.email);
   if (migrated) await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
   return json(blob);
 }
@@ -459,8 +521,8 @@ export async function handlePostProgress(request: Request, env: Env): Promise<Re
   if (!subject || !SUBJECTS.includes(subject)) return json({ error: "Unknown subject" }, 400);
 
   const rec = body && typeof body === "object" ? (body as Record<string, unknown>) : {};
-  const mastery = typeof rec.mastery === "object" && rec.mastery !== null ? rec.mastery : {};
-  const examples = typeof rec.examples === "object" && rec.examples !== null ? rec.examples : {};
+  const mastery = sanitizeMastery(rec.mastery);
+  const examples = typeof rec.examples === "object" && rec.examples !== null ? rec.examples as SubjectProgress["examples"] : {};
   const cardsKnown = Array.isArray(rec.cardsKnown) ? rec.cardsKnown : [];
   const blob = await loadBlob(env, session.email);
   // Mark old physics / algebra II data migrated before this save stamps a fresh updatedAt
@@ -473,17 +535,21 @@ export async function handlePostProgress(request: Request, env: Env): Promise<Re
   const unitOrder = "unitOrder" in rec ? sanitizeUnitOrder(rec.unitOrder) : blob[subject]?.unitOrder;
   // Like unitOrder: a POST that omits srs (older cached client) keeps what was saved.
   const srs = "srs" in rec ? sanitizeSrs(rec.srs) : blob[subject]?.srs;
+  // Merge (don't replace) the counters: a stale tab/second device must not erase answers recorded elsewhere.
+  const mergedMastery = mergeMastery(blob[subject]?.mastery, mastery);
+  const mergedExamples = mergeExamples(blob[subject]?.examples, examples);
   blob[subject] = {
-    mastery: mastery as SubjectProgress["mastery"],
-    examples: examples as SubjectProgress["examples"],
-    cardsKnown: cardsKnown.filter(c => typeof c === "string") as string[],
+    mastery: mergedMastery,
+    examples: mergedExamples,
+    cardsKnown: cardsKnown.filter(c => typeof c === "string").slice(0, MAX_CARDS_KNOWN) as string[],
     ...(unitOrder && unitOrder.length ? { unitOrder } : {}),
     ...(srs && Object.keys(srs).length ? { srs } : {})
   };
   blob.updatedAt = new Date().toISOString();
 
   await env.PROGRESS.put("progress:" + session.email, JSON.stringify(blob));
-  return json({ ok: true });
+  // The merged counters go back so the client can adopt anything another device recorded.
+  return json({ ok: true, mastery: mergedMastery, examples: mergedExamples });
 }
 
 // "Reset all progress" (Settings) -- wipes mastery/examples/cardsKnown for

@@ -3,6 +3,8 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import { signSession, SESSION_COOKIE } from "../src/auth.js";
 import { handleGetProgress, handlePostProgress, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak, handlePostNotificationPrefs, recordDailySnapshots, handlePostShareGenerate, handlePostShareRevoke, handleGetShare, handlePostCalendarGenerate, handlePostCalendarRevoke, handleGetCalendarFeed, handlePostInviteGenerate, creditInviteIfAny } from "../src/progress-routes.js";
 import { putGoogleToken } from "../src/google-token.js";
+import { handleGetQuest } from "../src/quest-routes.js";
+import { handlePushSubscribe } from "../src/push-routes.js";
 import { googleSettingsKey } from "../src/google-routes.js";
 
 const SECRET = "test-session-secret";
@@ -225,12 +227,55 @@ describe("handlePostProgress", () => {
     const body = { subject: "chemistry", mastery: { "3": { correct: 2, total: 2 } }, examples: { "1": true }, cardsKnown: ["c1"] };
     const res = await handlePostProgress(req("https://example.com/api/progress", cookie, "POST", body), { SESSION_SECRET: SECRET, PROGRESS: kv });
     expect(res.status).toBe(200);
-    expect(await res.json()).toEqual({ ok: true });
+    expect(await res.json()).toEqual({ ok: true, mastery: { "3": { correct: 2, total: 2 } }, examples: { "1": true } });
 
     const saved = JSON.parse(kv._store.get("progress:student@example.com"));
     expect(saved.geometry).toEqual(existing.geometry);
     expect(saved.chemistry).toEqual({ mastery: { "3": { correct: 2, total: 2 } }, examples: { "1": true }, cardsKnown: ["c1"] });
     expect(typeof saved.updatedAt).toBe("string");
+  });
+
+  describe("merging with what the server already has", () => {
+    const url = "https://example.com/api/progress";
+    const saved = (kv) => JSON.parse(kv._store.get("progress:student@example.com"));
+
+    it("a stale tab can't erase answers another device recorded: larger per-unit totals win, other units are kept", async () => {
+      const cookie = await sessionCookieFor("student@example.com");
+      const kv = fakeKV({ "progress:student@example.com": JSON.stringify({
+        updatedAt: "2026-10-02T00:00:00.000Z",
+        chemistry: { mastery: { "1": { correct: 9, total: 10 }, "2": { correct: 4, total: 5 } }, examples: { a: true }, cardsKnown: [] }
+      }) });
+      // the stale tab only knows unit 1 at 3/4 and has one extra example
+      const body = { subject: "chemistry", mastery: { "1": { correct: 3, total: 4 }, "5": { correct: 1, total: 1 } }, examples: { b: true }, cardsKnown: [] };
+      const res = await handlePostProgress(req(url, cookie, "POST", body), { SESSION_SECRET: SECRET, PROGRESS: kv });
+      const out = await res.json();
+      expect(saved(kv).chemistry.mastery).toEqual({ "1": { correct: 9, total: 10 }, "2": { correct: 4, total: 5 }, "5": { correct: 1, total: 1 } });
+      expect(saved(kv).chemistry.examples).toEqual({ a: true, b: true });
+      expect(out.mastery).toEqual(saved(kv).chemistry.mastery); // the client gets the merged result back
+    });
+
+    it("a newer total replaces an older one, and ties keep the higher correct count", async () => {
+      const cookie = await sessionCookieFor("student@example.com");
+      const kv = fakeKV({ "progress:student@example.com": JSON.stringify({ chemistry: { mastery: { "1": { correct: 3, total: 4 }, "2": { correct: 2, total: 5 } }, examples: {}, cardsKnown: [] } }) });
+      await handlePostProgress(req(url, cookie, "POST", { subject: "chemistry", mastery: { "1": { correct: 4, total: 5 }, "2": { correct: 3, total: 5 } }, examples: {}, cardsKnown: [] }), { SESSION_SECRET: SECRET, PROGRESS: kv });
+      expect(saved(kv).chemistry.mastery).toEqual({ "1": { correct: 4, total: 5 }, "2": { correct: 3, total: 5 } });
+    });
+
+    it("drops malformed mastery entries instead of storing them", async () => {
+      const cookie = await sessionCookieFor("student@example.com");
+      const kv = fakeKV();
+      const body = { subject: "chemistry", mastery: { "1": { correct: 2, total: 3 }, "x": { correct: 1, total: 1 }, "2": { correct: 5, total: 3 }, "3": { correct: -1, total: 2 }, "4": "nope", "5": { correct: 1.5, total: 2 }, "6": { correct: 1, total: 99999999 } }, examples: {}, cardsKnown: [] };
+      await handlePostProgress(req(url, cookie, "POST", body), { SESSION_SECRET: SECRET, PROGRESS: kv });
+      expect(saved(kv).chemistry.mastery).toEqual({ "1": { correct: 2, total: 3 } });
+    });
+
+    it("merge helpers behave on empty input", async () => {
+      const { mergeMastery, mergeExamples, sanitizeMastery } = await import("../src/progress-routes.ts");
+      expect(mergeMastery(undefined, undefined)).toEqual({});
+      expect(mergeExamples(undefined, { a: true, b: false })).toEqual({ a: true });
+      expect(sanitizeMastery(null)).toEqual({});
+      expect(sanitizeMastery([1, 2])).toEqual({});
+    });
   });
 
   it("creates a fresh blob for a student's first-ever save", async () => {
@@ -1091,6 +1136,28 @@ describe("algebra II unit-shift migration (new Unit 2: completing the square)", 
     expect(stored(kv).algebra2.mastery).toEqual({ "3": { correct: 1, total: 2 } });
     expect(stored(kv).migrations).toContain("algebra2-units-v2");
   });
+
+  // The migration decides old-vs-new numbering from updatedAt, so any handler that stamped a fresh updatedAt
+  // before migrating used to lock the OLD numbering in as if it were the new one.
+  for (const [name, fire] of [
+    ["GET /api/quest", (cookie, env) => handleGetQuest(req("https://example.com/api/quest", cookie), env)],
+    ["a push subscription", (cookie, env) => handlePushSubscribe(req("https://example.com/api/push/subscribe", cookie, "POST", { subscription: { endpoint: "https://fcm.googleapis.com/fcm/send/abc", keys: { p256dh: "p", auth: "a" } } }), env)],
+    ["a goal save", (cookie, env) => handlePostGoal(req("https://example.com/api/goal", cookie, "POST", { days: 14, minutesPerDay: 30 }), env)],
+  ]) {
+    it(`${name} landing before the first progress read does not defeat the algebra II / physics migration`, async () => {
+      const cookie = await sessionCookieFor("student@example.com");
+      const kv = fakeKV({ "progress:student@example.com": JSON.stringify({
+        updatedAt: "2026-09-22T12:00:00.000Z",
+        algebra2: { mastery: { "2": { correct: 3, total: 4 } }, examples: {}, cardsKnown: [] },
+        physics: { mastery: { "1": { correct: 2, total: 2 } }, examples: {}, cardsKnown: [] }
+      }) });
+      const env = { SESSION_SECRET: SECRET, PROGRESS: kv };
+      await fire(cookie, env);
+      const data = await (await handleGetProgress(req("https://example.com/api/progress", cookie), env)).json();
+      expect(data.algebra2.mastery).toEqual({ "3": { correct: 3, total: 4 } });
+      expect(data.physics.mastery).toEqual({ "2": { correct: 2, total: 2 } });
+    });
+  }
 
   it("does nothing for a student with no algebra II data", async () => {
     const cookie = await sessionCookieFor("student@example.com");

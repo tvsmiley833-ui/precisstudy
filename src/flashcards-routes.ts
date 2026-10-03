@@ -1,4 +1,5 @@
 import { getSession } from "./auth.js";
+import { applyUnitMigrations, type ProgressBlob as FullProgressBlob } from "./progress-routes.js";
 import { randomToken } from "./random-token.js";
 import { ALLOWED_UPLOAD_TYPES, matchesDeclaredType } from "./file-validation.js";
 
@@ -79,7 +80,9 @@ async function loadBlob(env: Env, email: string): Promise<ProgressBlob> {
   const raw = await env.PROGRESS.get("progress:" + email);
   if (!raw) return {};
   try {
-    return JSON.parse(raw);
+    const blob = JSON.parse(raw);
+    applyUnitMigrations(blob as FullProgressBlob); // see applyUnitMigrations: must run before anything stamps updatedAt
+    return blob;
   } catch (e) {
     return {};
   }

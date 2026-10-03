@@ -304,6 +304,17 @@ async function touchStreak() {
   } catch (e) { /* offline or not logged in - try again next time something is recorded */ }
 }
 
+/** Per-unit merge of answer counters: the larger total is the more recent (counters only grow); same rule as the server. */
+function mergeMasteryMax(a, b) {
+  const out = Object.assign({}, a || {});
+  Object.keys(b || {}).forEach(function (unit) {
+    const rec = b[unit];
+    const cur = out[unit];
+    if (!cur || rec.total > cur.total || (rec.total === cur.total && rec.correct > cur.correct)) out[unit] = rec;
+  });
+  return out;
+}
+
 /**
  * @param {string} subject
  * @param {number[]} unitIds
@@ -341,8 +352,10 @@ export function createMastery(subject, unitIds, unitNames) {
     try { localStorage.setItem(storageKey, JSON.stringify(state)); } catch (e) { /* ignore */ }
   }
 
+  let changeCount = 0; // bumped on every local change, so a save knows whether something new arrived while it was in flight
   function scheduleSync() {
     dirty = true;
+    changeCount++;
     if (syncTimer) return;
     syncTimer = setTimeout(pushToServer, SYNC_DEBOUNCE_MS);
   }
@@ -351,6 +364,7 @@ export function createMastery(subject, unitIds, unitNames) {
     syncTimer = null;
     if (!dirty) return;
     if (!(await isSignedIn())) { dirty = false; return; } // signed out - local progress only, don't spam 401s
+    const sentAt = changeCount;
     try {
       const res = await fetch("/api/progress", {
         method: "POST",
@@ -358,7 +372,18 @@ export function createMastery(subject, unitIds, unitNames) {
         body: JSON.stringify({ subject: subject, mastery: state.mastery, examples: state.examples, cardsKnown: state.cardsKnown, srs: state.srs })
       });
       if (res.ok) {
-        dirty = false;
+        // Only clear the flag if nothing was recorded while the request was in flight.
+        if (changeCount === sentAt) dirty = false;
+        else scheduleSync();
+        // The server merges per unit (larger totals win) so another device's answers aren't lost; adopt its result.
+        try {
+          const merged = await res.json();
+          if (merged && merged.mastery) {
+            state.mastery = mergeMasteryMax(state.mastery, merged.mastery);
+            if (merged.examples) state.examples = Object.assign({}, merged.examples, state.examples);
+            saveLocal();
+          }
+        } catch (e) { /* older server response without a body - nothing to adopt */ }
       } else {
         scheduleSync(); // server rejected it (e.g. session expired) - retry on the next cycle
       }

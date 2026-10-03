@@ -1,4 +1,5 @@
 import { getSession } from "./auth.js";
+import { applyUnitMigrations, type ProgressBlob as FullProgressBlob } from "./progress-routes.js";
 import { buildPushPayload } from "@block65/webcrypto-web-push";
 
 function json(body: unknown, status?: number): Response {
@@ -56,7 +57,9 @@ async function loadBlob(env: Env, email: string): Promise<ProgressBlob | null> {
   const raw = await env.PROGRESS.get("progress:" + email);
   if (!raw) return null;
   try {
-    return JSON.parse(raw);
+    const blob = JSON.parse(raw);
+    applyUnitMigrations(blob as FullProgressBlob); // see applyUnitMigrations: must run before anything stamps updatedAt
+    return blob;
   } catch (e) {
     return null;
   }

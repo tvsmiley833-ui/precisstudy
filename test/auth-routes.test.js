@@ -68,7 +68,7 @@ describe("/auth/delete-account", () => {
     }), env);
 
     expect(res.status).toBe(200);
-    expect(await res.json()).toEqual({ ok: true });
+    expect(await res.json()).toMatchObject({ ok: true });
     expect(res.headers.get("Set-Cookie")).toContain("Max-Age=0");
     expect(env.PROGRESS._m.has("progress:" + email)).toBe(false);
     expect(env.PROGRESS._m.has("login:" + email)).toBe(false);

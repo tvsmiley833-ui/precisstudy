@@ -12,7 +12,7 @@ import {
   checkRateLimit,
   getClientIp
 } from "./auth.js";
-import { deleteGoogleToken } from "./google-token.js";
+import { deleteUserData } from "./account-delete.js";
 import {
   SITE_ORIGIN, STATE_TTL, stateCookie, clearStateCookie,
   makeState, checkState, safeNext, nextCookie, clearNextCookie, consumeNext, clearRefCookie
@@ -363,17 +363,12 @@ export async function handleDeleteAccount(request: Request, env: Env): Promise<R
   if (!session) return json({ error: "Sign in required" }, 401);
   if (!env.PROGRESS) return json({ error: "Account deletion isn't configured yet" }, 503);
 
-  const email = session.email.toLowerCase();
   // Bump (not delete) the session version first so every outstanding token
   // for this email is invalidated immediately, including this request's own
   // cookie -- deleting the sv:<email> key instead would reset the counter to
   // 0 and let an old pre-any-bump token (sv defaults to 0) validate again.
-  await bumpSessionVersion(env, email);
-  await Promise.all([
-    env.PROGRESS.delete("progress:" + email),
-    env.PROGRESS.delete("login:" + email),
-    deleteGoogleToken(env, email)
-  ]);
+  await bumpSessionVersion(env, session.email);
+  const report = await deleteUserData(env, session.email);
 
-  return json({ ok: true }, 200, { "Set-Cookie": clearSessionCookie() });
+  return json({ ok: true, canvasTokenRemoved: report.canvasTokenRemoved, googleRevoked: report.googleRevoked }, 200, { "Set-Cookie": clearSessionCookie() });
 }

@@ -103,3 +103,57 @@ test("daysUntil counts whole local days, is 0 today, negative once passed, and n
   assert.equal(daysUntil("", today), null);
   assert.equal(daysUntil(undefined, today), null);
 });
+
+// ── progress sync: adopting the server's merged counters, and not dropping answers made while a save is in flight ──
+import { createMastery } from "../public/shared/mastery.js";
+
+function syncHarness({ merged, delaySave = false }) {
+  const store = new Map();
+  const posts = [];
+  let release;
+  globalThis.window = { __ssMe: Promise.resolve({ loggedIn: true }), dispatchEvent() {} };
+  globalThis.CustomEvent = class { constructor(t, o) { this.type = t; this.detail = o && o.detail; } };
+  globalThis.localStorage = { getItem: k => (store.has(k) ? store.get(k) : null), setItem: (k, v) => store.set(k, String(v)), removeItem: k => store.delete(k) };
+  globalThis.fetch = async (url, opts) => {
+    if (url === "/api/progress" && opts && opts.method === "POST") {
+      posts.push(JSON.parse(opts.body));
+      if (delaySave) await new Promise(r => { release = r; });
+      return { ok: true, json: async () => merged };
+    }
+    if (url === "/api/progress") return { ok: true, json: async () => ({}) };
+    return { ok: true, json: async () => ({}) }; // /api/streak
+  };
+  return { posts, release: () => release && release() };
+}
+
+test("a save adopts the server's merged per-unit counters, keeping whichever total is larger", async () => {
+  const h = syncHarness({ merged: { mastery: { "1": { correct: 9, total: 10 }, "2": { correct: 1, total: 1 } }, examples: { ex1: true } } });
+  const m = createMastery("chemistry", [1, 2], {});
+  await m.init();
+  m.recordAnswer(1, true); // local unit 1 is 1/1, the server already has 9/10 from another device
+  m.flushSyncNow();
+  await new Promise(r => setTimeout(r, 20));
+  const snap = m.getSnapshot();
+  assert.deepEqual(snap.mastery["1"], { correct: 9, total: 10 });
+  assert.deepEqual(snap.mastery["2"], { correct: 1, total: 1 });
+  assert.equal(snap.examples.ex1, true);
+  assert.equal(h.posts.length, 1);
+});
+
+test("an answer recorded while a save is in flight is not marked as synced", async () => {
+  const h = syncHarness({ merged: { mastery: { "1": { correct: 1, total: 1 } }, examples: {} }, delaySave: true });
+  const m = createMastery("chemistry", [1], {});
+  await m.init();
+  m.recordAnswer(1, true);
+  m.flushSyncNow();
+  await new Promise(r => setTimeout(r, 10)); // request is now in flight
+  m.recordAnswer(1, true); // second answer during the flight
+  h.release();
+  await new Promise(r => setTimeout(r, 20));
+  assert.deepEqual(m.getSnapshot().mastery["1"], { correct: 2, total: 2 }, "the newer local total survives the merge");
+  m.flushSyncNow(); // dirty must still be set, so this sends the second answer
+  await new Promise(r => setTimeout(r, 10));
+  assert.equal(h.posts.length, 2, "the second answer is sent in a follow-up save");
+  assert.deepEqual(h.posts[1].mastery["1"], { correct: 2, total: 2 });
+  h.release();
+});
