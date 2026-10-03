@@ -28,6 +28,18 @@ describe("POST /api/syllabus/dates", () => {
     expect(res.status).toBe(401);
   });
 
+  it("append adds new dates without wiping earlier ones or repeating exact duplicates; the default replaces", async () => {
+    const e = env();
+    const c = await cookie("s@e.edu");
+    const save = (keyDates, extra) => handleSaveSyllabusDates(post("https://precisstudy.com/api/syllabus/dates", c, { subject: "apush", subjectLabel: "APUSH", keyDates, ...extra }), e);
+    await save([{ date: "2026-10-10", title: "Unit 1 test" }]);
+    const added = await (await save([{ date: "2026-10-10", title: "unit 1 TEST" }, { date: "2026-11-02", title: "Essay" }], { append: true })).json();
+    expect(added.added).toBe(1);
+    expect((await loadSyllabusDates(e, "s@e.edu")).map(x => x.title)).toEqual(["Unit 1 test", "Essay"]);
+    await save([{ date: "2026-12-01", title: "Final" }]);
+    expect((await loadSyllabusDates(e, "s@e.edu")).map(x => x.title)).toEqual(["Final"]);
+  });
+
   it("400s on invalid JSON body", async () => {
     const e = env();
     const c = await cookie("s@e.edu");
@@ -50,7 +62,7 @@ describe("POST /api/syllabus/dates", () => {
     }), e);
     expect(res.status).toBe(200);
     const body = await res.json();
-    expect(body).toEqual({ saved: 1, submitted: 3 });
+    expect(body).toEqual({ saved: 1, added: 1, submitted: 3 });
     const items = await loadSyllabusDates(e, "s@e.edu");
     expect(items).toEqual([{ subject: "apush", subjectLabel: "APUSH", date: "2026-10-15", title: "Midterm exam" }]);
   });

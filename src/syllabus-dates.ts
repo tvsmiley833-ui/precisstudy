@@ -96,9 +96,15 @@ export async function handleSaveSyllabusDates(request: Request, env: Env): Promi
   const existing = await loadSyllabusDates(env, session.email);
   // Replace any previously-saved entries for this subject so re-uploading a
   // syllabus doesn't pile up duplicates, then merge in everything else.
-  const merged = existing.filter(e => e.subject !== subjectKey).concat(usable).slice(-MAX_TOTAL_ITEMS);
+  // Default: a re-upload replaces that class's dates (so corrections don't pile up). With append:true the new dates are added
+  // to what is saved, skipping exact repeats, for a second document such as a test calendar.
+  const append = body?.append === true;
+  const base = append ? existing : existing.filter(e => e.subject !== subjectKey);
+  const seen = new Set(base.map(e => `${e.subject}|${e.date}|${e.title.toLowerCase()}`));
+  const fresh = append ? usable.filter(e => !seen.has(`${e.subject}|${e.date}|${e.title.toLowerCase()}`)) : usable;
+  const merged = base.concat(fresh).sort((a, b) => a.date.localeCompare(b.date)).slice(-MAX_TOTAL_ITEMS);
 
   await env.PROGRESS.put(syllabusDatesKey(session.email), JSON.stringify({ items: merged } satisfies SyllabusDatesStore));
 
-  return json({ saved: usable.length, submitted: keyDates.length });
+  return json({ saved: usable.length, added: fresh.length, submitted: keyDates.length });
 }

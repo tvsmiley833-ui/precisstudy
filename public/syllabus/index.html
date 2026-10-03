@@ -237,7 +237,7 @@ var DAY_LABELS = {mon:'Mon',tue:'Tue',wed:'Wed',thu:'Thu',fri:'Fri',sat:'Sat',su
 
 function sylPopulateSubjects(){
   var sel = document.getElementById('syl-subject');
-  sel.innerHTML = SYL_SUBJECTS.map(function(s){ return '<option value="'+s.key+'">'+ssEscapeHtml(s.label)+'</option>'; }).join('');
+  sel.innerHTML = '<option value="">Choose a class…</option>' + SYL_SUBJECTS.map(function(s){ return '<option value="'+s.key+'">'+ssEscapeHtml(s.label)+'</option>'; }).join('');
 }
 
 var sylMode = 'file';
@@ -396,6 +396,7 @@ async function sylSaveSchedule(){
   var btn = document.getElementById('syl-save-schedule-btn');
   var status = document.getElementById('syl-save-status');
   var subjectKey = document.getElementById('syl-subject').value;
+  if (!subjectKey) { var _s = document.getElementById('syl-save-status') || document.getElementById('syl-order-status'); if (_s) _s.textContent = 'Choose which class this is for first.'; return; }
   var subjectLabel = (SYL_SUBJECTS.find(function(s){ return s.key === subjectKey; }) || {}).label || subjectKey;
   var checked = Array.from(document.querySelectorAll('.syl-meet-check:checked')).map(function(c){ return sylLastMeetings[+c.dataset.idx]; });
 
@@ -491,6 +492,7 @@ async function sylMaybeRenderUnitOrder(){
   if (!sylLastTopics.length) return;
 
   var subjectKey = document.getElementById('syl-subject').value;
+  if (!subjectKey) { var _s = document.getElementById('syl-save-status') || document.getElementById('syl-order-status'); if (_s) _s.textContent = 'Choose which class this is for first.'; return; }
   var exportName = SYL_UNIT_EXPORTS[subjectKey];
   if (!exportName) return;
 
@@ -543,6 +545,7 @@ async function sylSaveUnitOrder(){
   var btn = document.getElementById('syl-save-order-btn');
   var status = document.getElementById('syl-order-status');
   var subjectKey = document.getElementById('syl-subject').value;
+  if (!subjectKey) { var _s = document.getElementById('syl-save-status') || document.getElementById('syl-order-status'); if (_s) _s.textContent = 'Choose which class this is for first.'; return; }
   if (!sylMatchedUnitOrder || !sylMatchedUnitOrder.length) return;
 
   btn.disabled = true;
@@ -583,6 +586,7 @@ async function sylSaveDates(){
   if (!usableCount) { status.textContent = "None of these dates have a full year, so they can't be added to your dashboard — copy them manually."; return; }
 
   var subjectKey = document.getElementById('syl-subject').value;
+  if (!subjectKey) { var _s = document.getElementById('syl-save-status') || document.getElementById('syl-order-status'); if (_s) _s.textContent = 'Choose which class this is for first.'; return; }
   var subjectLabel = (SYL_SUBJECTS.find(function(s){ return s.key === subjectKey; }) || {}).label || subjectKey;
 
   btn.disabled = true;

@@ -336,3 +336,9 @@ test("command palette ignores key-less/IME events and matches slugs; error monit
   assert.match(p, /String\(d\.h\)\.toLowerCase\(\)\.indexOf\(q\)/);
   assert.match(read("../public/shared/error-monitor.js"), /script error/i);
 });
+
+test("syllabus class picker has no silent default and saves need a choice", () => {
+  const h = read("../public/syllabus/index.html");
+  assert.match(h, /<option value="">Choose a class…<\/option>/);
+  assert.match(h, /Choose which class this is for first\./);
+});
