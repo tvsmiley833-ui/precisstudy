@@ -3,13 +3,7 @@ import { withinDailyQuota } from "./limits.js";
 
 const DEFAULT_AI_DAILY_PER_USER = 30;
 import { ALLOWED_UPLOAD_TYPES, matchesDeclaredType } from "./file-validation.js";
-
-function json(body: unknown, status?: number): Response {
-  return new Response(JSON.stringify(body), {
-    status: status || 200,
-    headers: { "Content-Type": "application/json" }
-  });
-}
+import { json } from "./http.js";
 
 interface SyllabusMeeting {
   day: string;

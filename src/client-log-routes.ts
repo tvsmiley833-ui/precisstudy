@@ -5,18 +5,12 @@
 // strictly validated before anything reaches the logger.
 import { logError, logInfo } from "./log.js";
 import { getClientIp } from "./auth.js";
+import { json } from "./http.js";
 
 const MAX_BODY_BYTES = 4096;
 const MAX_STRING_LEN = 500;
 const MAX_VITALS = 10;
 const VITAL_NAMES = new Set(["LCP", "CLS", "INP", "TTFB", "FCP"]);
-
-function json(body: unknown, status?: number): Response {
-  return new Response(JSON.stringify(body), {
-    status: status || 200,
-    headers: { "Content-Type": "application/json" }
-  });
-}
 
 function clampString(v: unknown): string | undefined {
   if (typeof v !== "string") return undefined;

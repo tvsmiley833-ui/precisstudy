@@ -3,13 +3,7 @@ import { getSession } from "./auth.js";
 import { applyUnitMigrations, putBlob, indexesReady, PUSH_INDEX_PREFIX, type ProgressBlob as FullProgressBlob } from "./progress-routes.js";
 import { logError } from "./log.js";
 import { buildPushPayload } from "@block65/webcrypto-web-push";
-
-function json(body: unknown, status?: number): Response {
-  return new Response(JSON.stringify(body), {
-    status: status || 200,
-    headers: { "Content-Type": "application/json" }
-  });
-}
+import { json } from "./http.js";
 
 // Real browsers only ever hand out push subscriptions pointing at one of these
 // push-service hosts. Without this allowlist, a client could register a

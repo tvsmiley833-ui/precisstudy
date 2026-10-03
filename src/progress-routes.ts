@@ -4,15 +4,9 @@ import { loadGoogleSettings } from "./google-routes.js";
 import { pushScheduleToGoogleCalendar } from "./google-calendar-push.js";
 import { consumeRef } from "./auth-state.js";
 import { effectiveStreak } from "./streak.js";
+import { json } from "./http.js";
 
 export const SUBJECTS = ["geometry", "chemistry", "algebra1", "algebra2", "aplang", "globalhistory", "apbiology", "apush", "physics", "biology", "precalc", "act-prep", "anatomy", "ap-chemistry", "ap-csa", "ap-euro", "ap-human-geography", "ap-macro", "ap-micro", "ap-physics", "ap-psych", "ap-stats", "ap-usgov", "ap-world", "art-history", "astronomy", "computer-science", "creative-writing", "earth-science", "economics", "english-10", "english-9", "environmental-science", "french-1", "french-2", "french-3", "geography", "german-1", "health", "journalism", "music-theory", "psychology", "sat-math", "sat-reading", "sociology", "spanish-1", "spanish-2", "spanish-3", "speech-debate", "statistics", "study-skills", "us-government", "world-history", "calculus", "calc-ab", "calc-bc", "us-history"];
-
-function json(body: unknown, status?: number): Response {
-  return new Response(JSON.stringify(body), {
-    status: status || 200,
-    headers: { "Content-Type": "application/json" }
-  });
-}
 
 interface SubjectProgress {
   mastery: Record<string, { correct: number; total: number }>;

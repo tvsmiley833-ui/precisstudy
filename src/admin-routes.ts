@@ -1,12 +1,6 @@
 import { getSession } from "./auth.js";
 import { safeDownloadInfo } from "./file-validation.js";
-
-function json(body: unknown, status?: number): Response {
-  return new Response(JSON.stringify(body), {
-    status: status || 200,
-    headers: { "Content-Type": "application/json" }
-  });
-}
+import { json } from "./http.js";
 
 function isAdminEmail(env: Env, email: string | undefined): boolean {
   if (!email || !env.ADMIN_EMAILS) return false;

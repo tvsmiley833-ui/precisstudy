@@ -1,15 +1,9 @@
 import { isValidEmail, checkRateLimit, getClientIp } from "./auth.js";
 import { ALLOWED_UPLOAD_TYPES as ALLOWED_TYPES, matchesDeclaredType } from "./file-validation.js";
+import { json } from "./http.js";
 
 const SUBMIT_RATE_LIMIT_MAX = 5;
 const SUBMIT_RATE_LIMIT_WINDOW = 60 * 60; // 1 hour
-
-function json(body: unknown, status?: number): Response {
-  return new Response(JSON.stringify(body), {
-    status: status || 200,
-    headers: { "Content-Type": "application/json" }
-  });
-}
 
 const MAX_CLASS_LEN = 120;
 const MAX_NOTES_LEN = 1000;

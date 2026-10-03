@@ -1,14 +1,8 @@
 import { isValidEmail, checkRateLimit, getClientIp, getSession } from "./auth.js";
+import { json } from "./http.js";
 
 const SUBMIT_RATE_LIMIT_MAX = 8;
 const SUBMIT_RATE_LIMIT_WINDOW = 60 * 60; // 1 hour
-
-function json(body: unknown, status?: number): Response {
-  return new Response(JSON.stringify(body), {
-    status: status || 200,
-    headers: { "Content-Type": "application/json" }
-  });
-}
 
 const MAX_MESSAGE_LEN = 2000;
 const MAX_PAGE_LEN = 300;

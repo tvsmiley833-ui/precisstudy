@@ -2,13 +2,7 @@ import { getSession } from "./auth.js";
 import { loadBlob, SUBJECTS, type ProgressBlob } from "./progress-routes.js";
 import { SUBJECT_UNIT_NAMES } from "./subject-units-data.js";
 import { loadGroup, setGroupName, mondayUTC, weeklyDelta, activeDaysThisWeek, displayNameFor } from "./leaderboard-routes.js";
-
-function json(body: unknown, status?: number): Response {
-  return new Response(JSON.stringify(body), {
-    status: status || 200,
-    headers: { "Content-Type": "application/json" }
-  });
-}
+import { json } from "./http.js";
 
 const MAX_GROUP_NAME_LENGTH = 40;
 // eslint-disable-next-line no-control-regex

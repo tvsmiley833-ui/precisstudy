@@ -1,12 +1,6 @@
 import { getSession } from "./auth.js";
 import { loadBlob, loadHistory, putBlob, indexesReady, LB_INDEX_PREFIX, SUBJECTS, type ProgressBlob } from "./progress-routes.js";
-
-function json(body: unknown, status?: number): Response {
-  return new Response(JSON.stringify(body), {
-    status: status || 200,
-    headers: { "Content-Type": "application/json" }
-  });
-}
+import { json } from "./http.js";
 
 // -- Handle generation -------------------------------------------------
 // Anonymous, stable-per-student handles like "Quick Fox 42" -- assigned once

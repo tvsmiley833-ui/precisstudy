@@ -1,13 +1,7 @@
 import { getSession } from "./auth.js";
 import { loadBlob, putBlob, SUBJECTS, type ProgressBlob } from "./progress-routes.js";
 import { reserveHandle, displayNameFor } from "./leaderboard-routes.js";
-
-function json(body: unknown, status?: number): Response {
-  return new Response(JSON.stringify(body), {
-    status: status || 200,
-    headers: { "Content-Type": "application/json" }
-  });
-}
+import { json } from "./http.js";
 
 // Quiz content itself is client-side only (embedded QUIZ=[...] per subject
 // page) -- the server never sees or stores question text/options/answers.

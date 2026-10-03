@@ -1,12 +1,6 @@
 import { getSession } from "./auth.js";
 import type { Assignment } from "./google-sync.js";
-
-function json(body: unknown, status?: number): Response {
-  return new Response(JSON.stringify(body), {
-    status: status || 200,
-    headers: { "Content-Type": "application/json" }
-  });
-}
+import { json } from "./http.js";
 
 export interface SyllabusDateEntry {
   subject: string;

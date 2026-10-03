@@ -5,3 +5,11 @@ export const OUTBOUND_TIMEOUT_MS = 8000;
 export function fetchWithTimeout(input: string | URL | Request, init: RequestInit = {}, ms = OUTBOUND_TIMEOUT_MS): Promise<Response> {
   return fetch(input, { ...init, signal: init.signal ?? AbortSignal.timeout(ms) });
 }
+
+/** JSON response; the one shared copy (extra headers: use new Response directly or the auth/chat variants). */
+export function json(body: unknown, status?: number): Response {
+  return new Response(JSON.stringify(body), {
+    status: status || 200,
+    headers: { "Content-Type": "application/json" }
+  });
+}

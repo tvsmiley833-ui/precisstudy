@@ -1,4 +1,4 @@
-import { fetchWithTimeout } from "./http.js";
+import { fetchWithTimeout, json } from "./http.js";
 import { getSession } from "./auth.js";
 import { getGoogleToken, deleteGoogleToken } from "./google-token.js";
 import {
@@ -7,13 +7,6 @@ import {
 } from "./google-sync.js";
 import { syncCanvasAssignments } from "./canvas-sync.js";
 import { loadSyllabusDates, syllabusDatesToAssignments } from "./syllabus-dates.js";
-
-function json(body: unknown, status?: number): Response {
-  return new Response(JSON.stringify(body), {
-    status: status || 200,
-    headers: { "Content-Type": "application/json" }
-  });
-}
 
 const CACHE_FRESH_MS = 15 * 60 * 1000;
 const MAX_CALENDAR_IDS = 25;

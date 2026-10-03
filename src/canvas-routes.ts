@@ -1,13 +1,6 @@
-import { fetchWithTimeout } from "./http.js";
+import { fetchWithTimeout, json } from "./http.js";
 import { getSession } from "./auth.js";
 import { getCanvasToken, putCanvasToken, deleteCanvasToken } from "./canvas-token.js";
-
-function json(body: unknown, status?: number): Response {
-  return new Response(JSON.stringify(body), {
-    status: status || 200,
-    headers: { "Content-Type": "application/json" }
-  });
-}
 
 const MAX_DOMAIN_LEN = 253;
 const MAX_TOKEN_LEN = 2000;

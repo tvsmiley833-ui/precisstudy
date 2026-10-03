@@ -2,13 +2,7 @@ import { getSession } from "./auth.js";
 import { loadBlob, putBlob, isPlausibleLocalDate, SUBJECTS, type ProgressBlob, type QuestState, type QuestInstance } from "./progress-routes.js";
 import { mondayUTC, weeklyDelta, activeDaysThisWeek } from "./leaderboard-routes.js";
 import { memberWeakestUnit, unitLabel, SUBJECT_LABELS } from "./study-group-routes.js";
-
-function json(body: unknown, status?: number): Response {
-  return new Response(JSON.stringify(body), {
-    status: status || 200,
-    headers: { "Content-Type": "application/json" }
-  });
-}
+import { json } from "./http.js";
 
 async function saveBlob(env: Env, email: string, blob: ProgressBlob): Promise<void> {
   blob.updatedAt = new Date().toISOString();
