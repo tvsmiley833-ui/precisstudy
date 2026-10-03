@@ -141,3 +141,10 @@ test("MathJax is pinned and only sent to guides that contain $...$ math", () => 
   assert.match(read("../public/algebra2/index.html"), /mathjax@3\.2\.2\/es5\/tex-mml-chtml\.js/);
   for (const g of ["spanish-1", "ap-biology", "us-history"]) assert.ok(!/mathjax/i.test(read(`../public/${g}/index.html`)), g);
 });
+
+test("floating panels drag with pointer events on the handle, with no document-level touchmove listener", () => {
+  const js = read("../client/guide-app.js");
+  assert.ok(!/addEventListener\('touchmove'/.test(js));
+  assert.match(js, /handle\.addEventListener\('pointerdown',down\)/);
+  assert.match(js, /setPointerCapture/);
+});

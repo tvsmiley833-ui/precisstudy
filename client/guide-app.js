@@ -2718,13 +2718,15 @@ function ssMakeDraggable(panel,handleSelector){
   handle.style.cursor='move';
   handle.style.touchAction='none';
   var dragging=false,startX=0,startY=0,startLeft=0,startTop=0;
-  function pointOf(e){return e.touches&&e.touches.length?e.touches[0]:e;}
+  // Pointer events with capture on the handle: nothing is listening on the whole document while nobody is dragging,
+  // so touch scrolling elsewhere on the page is never blocked by a non-passive touchmove listener.
   function down(e){
     if(e.target.closest('button,a,input,select,textarea'))return;
+    if(e.pointerType==='mouse'&&e.button!==0)return;
     ssBringToFront(panel);
     dragging=true;
-    var pt=pointOf(e);
-    startX=pt.clientX;startY=pt.clientY;
+    try{handle.setPointerCapture(e.pointerId);}catch(err){}
+    startX=e.clientX;startY=e.clientY;
     var rect=panel.getBoundingClientRect();
     startLeft=rect.left;startTop=rect.top;
     panel.style.left=startLeft+'px';
@@ -2732,28 +2734,23 @@ function ssMakeDraggable(panel,handleSelector){
     panel.style.right='auto';
     panel.style.bottom='auto';
     document.body.style.userSelect='none';
-    if(e.cancelable)e.preventDefault();
+    e.preventDefault();
   }
   function move(e){
     if(!dragging)return;
-    var pt=pointOf(e);
-    var newLeft=startLeft+(pt.clientX-startX);
-    var newTop=startTop+(pt.clientY-startY);
+    var newLeft=startLeft+(e.clientX-startX);
+    var newTop=startTop+(e.clientY-startY);
     newLeft=Math.max(8-panel.offsetWidth+40,Math.min(newLeft,window.innerWidth-40));
     newTop=Math.max(0,Math.min(newTop,window.innerHeight-40));
     panel.style.left=newLeft+'px';
     panel.style.top=newTop+'px';
-    if(e.cancelable)e.preventDefault();
   }
   function up(){dragging=false;document.body.style.userSelect='';}
-  handle.addEventListener('mousedown',down);
-  document.addEventListener('mousemove',move);
-  document.addEventListener('mouseup',up);
-  handle.addEventListener('touchstart',down,{passive:false});
-  document.addEventListener('touchmove',move,{passive:false});
-  document.addEventListener('touchend',up);
-  panel.addEventListener('mousedown',function(){ssBringToFront(panel);});
-  panel.addEventListener('touchstart',function(){ssBringToFront(panel);},{passive:true});
+  handle.addEventListener('pointerdown',down);
+  handle.addEventListener('pointermove',move);
+  handle.addEventListener('pointerup',up);
+  handle.addEventListener('pointercancel',up);
+  panel.addEventListener('pointerdown',function(){ssBringToFront(panel);});
 }
 
 function toolkitInit(){
