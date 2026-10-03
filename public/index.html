@@ -364,6 +364,19 @@ body > :where(:not(.chalkboard):not(script):not(style)){position:relative;z-inde
 
 <a href="#main-content" class="ss-skip-link" style="position:absolute;left:-9999px;top:0;z-index:100;background:var(--accent-solid);color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;text-decoration:none;">Skip to main content</a>
 
+<style>/* Phones: a compact two-column class list, four per group until "Show all" (UX-5). */
+@media(max-width:640px){
+  .class-group-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+  .class-card{padding:14px!important;border-radius:14px!important}
+  .class-card .class-card-topics{display:none}
+  .class-card .cc-name{font-size:15px}
+  .class-card .cc-meta{font-size:12px}
+  .class-group{margin-bottom:26px!important}
+  body:not(.ss-searching) .class-group.ss-collapsed .class-card:nth-child(n+5){display:none}
+  .ss-show-all{display:block;width:100%;margin-top:10px;min-height:44px;border:1px solid var(--border);background:var(--bg-card);color:var(--accent);border-radius:12px;font:inherit;font-weight:700;cursor:pointer}
+}
+@media(min-width:641px){.ss-show-all{display:none}}
+</style>
 <style>/* Header: one line per link; drop the marketing links first when space runs out. */.nav-links a,#ss-account-area button,#ss-account-area a{white-space:nowrap}@media(max-width:1360px){.nav-links a[href="/about"],.nav-links a[href="/#how-it-works"]{display:none}}.header-bar .nav-links{flex:1;justify-content:flex-start}.header-bar .nav-links a[href="#classes-section"].nav-hide-sm{margin-left:auto}.header-bar .nav-links a[href="/settings"].nav-hide-sm{margin-right:auto}</style>
 <div role="banner" class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:var(--bg-header);border-bottom:1px solid var(--border);position:relative;">
   <button id="ss-logo-btn" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="ss-mobile-menu" onclick="ssLogoClick()" style="font-weight:800;font-size:22px;color:var(--nav-text);display:flex;align-items:center;gap:8px;background:none;border:none;padding:0;cursor:pointer;font-family:inherit;">
@@ -1211,7 +1224,27 @@ function ssClassMatches(name, q) {
   return want.every(function(w) { return have.some(function(h) { return h.indexOf(w) === 0; }); });
 }
 
+/* Phones: collapse long class groups to four cards with a Show all button. */
+(function(){
+  if (!window.matchMedia || !matchMedia('(max-width:640px)').matches) return;
+  document.querySelectorAll('.class-group').forEach(function(g){
+    var n = g.querySelectorAll('.class-card').length;
+    if (n <= 4) return;
+    g.classList.add('ss-collapsed');
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'ss-show-all'; b.setAttribute('aria-expanded', 'false');
+    b.textContent = 'Show all ' + n;
+    b.addEventListener('click', function(){
+      var open = g.classList.toggle('ss-collapsed') === false;
+      b.setAttribute('aria-expanded', open ? 'true' : 'false');
+      b.textContent = open ? 'Show fewer' : 'Show all ' + n;
+    });
+    g.appendChild(b);
+  });
+})();
+
 function filterClasses(q) {
+  document.body.classList.toggle('ss-searching', !!q.trim());
   q = q.trim().toLowerCase();
   var cards = document.querySelectorAll('.class-card');
   var visibleInSection = {};
