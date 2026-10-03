@@ -4,7 +4,7 @@
 // The views template (page-views.template.html) carries every static shell the
 // page logic expects — study planner, search, quiz scaffolding, flashcard deck,
 // exam mount point. Subject-specific content is injected at __TOKENS__.
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, readdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
@@ -282,6 +282,36 @@ export function validateGuideConfig(config) {
   return errs;
 }
 
+// Related guides: each page links a few siblings from the same subject area, so crawlers and students can move sideways.
+const RELATED_GROUPS = [
+  ["algebra1", "algebra2", "geometry", "precalc", "calculus", "calc-ab", "calc-bc", "statistics", "ap-stats", "sat-math", "act-prep"],
+  ["biology", "ap-biology", "chemistry", "ap-chemistry", "physics", "ap-physics", "anatomy", "earth-science", "environmental-science", "astronomy"],
+  ["us-history", "apush", "world-history", "ap-world", "global-history", "ap-euro", "us-government", "ap-usgov", "geography", "ap-human-geography"],
+  ["english-9", "english-10", "ap-lang", "sat-reading", "creative-writing", "journalism", "speech-debate", "act-prep"],
+  ["spanish-1", "spanish-2", "spanish-3", "french-1", "french-2", "french-3", "german-1"],
+  ["economics", "ap-macro", "ap-micro", "psychology", "ap-psych", "sociology", "computer-science", "ap-csa", "music-theory", "art-history", "health", "study-skills"],
+];
+const GUIDE_TITLES = (() => {
+  const out = {};
+  try {
+    for (const f of readdirSync(join(ROOT, "guides"))) if (f.endsWith(".json")) { const j = JSON.parse(readFileSync(join(ROOT, "guides", f), "utf8")); out[j.slug] = j.title; }
+  } catch (e) { /* titles are a nicety: without them the section is simply omitted */ }
+  return out;
+})();
+export function relatedGuides(slug, max = 5) {
+  const group = RELATED_GROUPS.find(g => g.includes(slug));
+  if (!group) return [];
+  const i = group.indexOf(slug);
+  // nearest neighbours first (the previous and next course in the sequence), then the rest of the group
+  const order = group.map((s, k) => ({ s, d: Math.abs(k - i) })).filter(x => x.s !== slug && GUIDE_TITLES[x.s]).sort((a, b) => a.d - b.d);
+  return order.slice(0, max).map(x => ({ slug: x.s, title: GUIDE_TITLES[x.s] }));
+}
+function buildRelated(slug) {
+  const rel = relatedGuides(slug);
+  if (!rel.length) return "";
+  return `<nav class="related-guides" aria-labelledby="related-h"><h2 id="related-h">Related study guides</h2><ul>${rel.map(r => `<li><a href="/${r.slug}/">${esc(r.title)} study guide</a></li>`).join("")}</ul></nav>\n`;
+}
+
 export function generateGuide(config) {
   const schemaErrors = validateGuideConfig(config);
   if (schemaErrors.length) throw new Error(`guides/${config.slug || "?"}.json is invalid:\n  - ${schemaErrors.slice(0, 12).join("\n  - ")}${schemaErrors.length > 12 ? `\n  … and ${schemaErrors.length - 12} more` : ""}`);
@@ -393,6 +423,7 @@ export function generateGuide(config) {
   if (!worked.length)
     views = views.replace(/<div id="view-examples"[^>]*><\/div>\n?/, "");
   html += views;
+  html += buildRelated(slug);
 
   // Data + logic. Exam parts required by schema but may be empty arrays.
   html += `\n<script>\n`;

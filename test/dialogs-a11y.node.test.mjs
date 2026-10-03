@@ -317,3 +317,15 @@ test("first-time sign-ins keep their destination through onboarding", () => {
   assert.match(o, /Continue where you were/);
   assert.match(o, /S\.enrolled\[0\]/);
 });
+
+test("every guide links a few related guides, never itself", async () => {
+  const { readdirSync, existsSync } = await import("node:fs");
+  const guides = readdirSync(new URL("../guides/", import.meta.url)).filter(f => f.endsWith(".json")).map(f => f.replace(".json", ""));
+  for (const g of guides) {
+    const html = read(`../public/${g}/index.html`);
+    const links = [...(html.match(/<nav class="related-guides".*?<\/nav>/s)?.[0] || "").matchAll(/href="\/([a-z0-9-]+)\/"/g)].map(m => m[1]);
+    assert.ok(links.length >= 2, `${g} should link related guides`);
+    assert.ok(!links.includes(g), `${g} links itself`);
+    for (const l of links) assert.ok(existsSync(new URL(`../public/${l}/index.html`, import.meta.url)), `${g} -> ${l} missing`);
+  }
+});
