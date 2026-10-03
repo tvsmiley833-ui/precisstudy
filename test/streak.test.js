@@ -37,3 +37,15 @@ describe("ICS output", () => {
     expect(folded.replace(/\r\n /g, "")).toBe(line);
   });
 });
+
+import { sm2 } from "../src/flashcards-routes.js";
+
+describe("flashcard due dates use the student's day", () => {
+  it("counts from the supplied local date instead of the server's UTC date", () => {
+    expect(sm2({}, "again", "2026-03-10").due).toBe("2026-03-11");
+    expect(sm2({ reps: 1, interval: 1, ease: 2.5 }, "good", "2026-03-10").due).toBe("2026-03-16");
+  });
+  it("falls back to the server date without one", () => {
+    expect(sm2({}, "again").due).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+  });
+});

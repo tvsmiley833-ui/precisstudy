@@ -183,7 +183,7 @@ var FC_STUDY_DECK = null;
 var FC_STUDY_QUEUE = []; // indices into FC_STUDY_DECK.cards that are due today
 var FC_STUDY_FLIPPED = false;
 
-function todayStr(){ return new Date().toISOString().slice(0, 10); }
+function todayStr(){ return new Intl.DateTimeFormat('en-CA').format(new Date()); } // the student's own calendar day
 function isDue(card){ return !card.due || card.due <= todayStr(); }
 
 function showView(id){
@@ -390,7 +390,7 @@ async function rateCurrentCard(rating){
     var res = await fetch('/api/flashcards/review', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ deckId: FC_STUDY_DECK.id, cardIndex: cardIndex, rating: rating })
+      body: JSON.stringify({ deckId: FC_STUDY_DECK.id, cardIndex: cardIndex, rating: rating, localDate: todayStr() })
     });
     saved = res.ok;
   }catch(e){ saved = false; }

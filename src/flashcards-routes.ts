@@ -2,7 +2,7 @@ import { getSession } from "./auth.js";
 import { withinDailyQuota } from "./limits.js";
 
 const DEFAULT_AI_DAILY_PER_USER = 30;
-import { applyUnitMigrations, putBlob, type ProgressBlob as FullProgressBlob } from "./progress-routes.js";
+import { applyUnitMigrations, putBlob, isPlausibleLocalDate, type ProgressBlob as FullProgressBlob } from "./progress-routes.js";
 import { randomToken } from "./random-token.js";
 import { ALLOWED_UPLOAD_TYPES, matchesDeclaredType } from "./file-validation.js";
 
@@ -25,8 +25,10 @@ interface Flashcard {
 const SM2_MIN_EASE = 1.3;
 const SM2_DEFAULT_EASE = 2.5;
 
-function todayPlus(days: number): string {
-  const d = new Date();
+// `from` is the student's own calendar day (YYYY-MM-DD), so a card rated at 8 pm in New York is due on their tomorrow, not
+// at the UTC evening before. Without one (older clients) the server's UTC date is used.
+function todayPlus(days: number, from?: string): string {
+  const d = from && /^\d{4}-\d{2}-\d{2}$/.test(from) ? new Date(from + "T00:00:00Z") : new Date();
   d.setUTCDate(d.getUTCDate() + days);
   return d.toISOString().slice(0, 10);
 }
@@ -36,19 +38,19 @@ function todayPlus(days: number): string {
 // Cards with no prior SRS state (undefined ease/interval/reps) start from
 // the algorithm's own defaults, so an old deck saved before this feature
 // shipped behaves exactly like a brand-new deck the first time it's rated.
-export function sm2(card: Pick<Flashcard, "ease" | "interval" | "reps">, rating: "again" | "hard" | "good" | "easy"): { ease: number; interval: number; reps: number; due: string } {
+export function sm2(card: Pick<Flashcard, "ease" | "interval" | "reps">, rating: "again" | "hard" | "good" | "easy", today?: string): { ease: number; interval: number; reps: number; due: string } {
   const ease = card.ease ?? SM2_DEFAULT_EASE;
   const reps = card.reps ?? 0;
   const interval = card.interval ?? 0;
 
   if (rating === "again") {
-    return { ease, reps: 0, interval: 1, due: todayPlus(1) };
+    return { ease, reps: 0, interval: 1, due: todayPlus(1, today) };
   }
 
   if (rating === "hard") {
     const nextInterval = Math.max(1, Math.round(interval * 1.2));
     const nextEase = Math.max(SM2_MIN_EASE, ease - 0.15);
-    return { ease: nextEase, reps: reps + 1, interval: nextInterval, due: todayPlus(nextInterval) };
+    return { ease: nextEase, reps: reps + 1, interval: nextInterval, due: todayPlus(nextInterval, today) };
   }
 
   // good or easy: same rep-based progression, "easy" adds a bonus multiplier
@@ -61,7 +63,7 @@ export function sm2(card: Pick<Flashcard, "ease" | "interval" | "reps">, rating:
   const nextEase = rating === "easy" ? ease + 0.15 : ease;
   if (rating === "easy") nextInterval = Math.round(nextInterval * 1.3);
 
-  return { ease: nextEase, reps: reps + 1, interval: nextInterval, due: todayPlus(nextInterval) };
+  return { ease: nextEase, reps: reps + 1, interval: nextInterval, due: todayPlus(nextInterval, today) };
 }
 
 interface FlashcardDeck {
@@ -305,7 +307,8 @@ export async function handleReviewFlashcard(request: Request, env: Env): Promise
   const card = deck.cards[cardIndex];
   if (!card) return json({ error: "Card not found" }, 404);
 
-  const result = sm2(card, rating as "again" | "hard" | "good" | "easy");
+  const localDate = typeof rec.localDate === "string" && isPlausibleLocalDate(rec.localDate) ? rec.localDate : undefined;
+  const result = sm2(card, rating as "again" | "hard" | "good" | "easy", localDate);
   card.ease = result.ease;
   card.interval = result.interval;
   card.reps = result.reps;
