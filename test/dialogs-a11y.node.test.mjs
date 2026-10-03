@@ -281,3 +281,7 @@ test("flashcard and syllabus uploads check size and legacy .doc before sending, 
     assert.ok(!/accept="[^"]*\.doc,/.test(h));
   }
 });
+
+test("a new device doesn't bounce an already-onboarded student back into the wizard", () => {
+  assert.match(read("../public/index.html"), /if \(blob\.goal \|\| \(blob\.quest && blob\.quest\.setupClaimed\)\) alreadyOnboarded = true;/);
+});

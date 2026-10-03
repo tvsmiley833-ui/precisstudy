@@ -1648,6 +1648,8 @@ async function ssLoadClassReadiness(){
     var enrolled = blob.enrolledSubjects;
     var alreadyOnboarded = false;
     try { alreadyOnboarded = localStorage.getItem('ob-done-v2') === '1'; } catch(e){}
+    // On a new device the local flag is missing, but a saved goal or a claimed setup quest proves the wizard was finished.
+    if (blob.goal || (blob.quest && blob.quest.setupClaimed)) alreadyOnboarded = true;
     if ((!enrolled || !enrolled.length) && !alreadyOnboarded) {
       location.replace('/onboarding');
       return;
