@@ -40,3 +40,16 @@ test("feedback dialog: labelled fields, pressed state, focus restore, safe error
   assert.match(js, /clearTimeout\(closeTimer\)/);
   assert.match(js, /res\.json\(\)\.catch\(/);
 });
+
+test("guide pages cover the notch and keep fixed controls clear of the home indicator", () => {
+  assert.match(read("../public/spanish-1/index.html"), /viewport-fit=cover/);
+  const css = read("../public/shared/guide-polish.css");
+  assert.match(css, /\.toolkit-fab\{bottom:calc\(90px \+ env\(safe-area-inset-bottom\)\)/);
+  assert.match(css, /padding-left:env\(safe-area-inset-left\)/);
+});
+
+test("search and answer inputs ask phones for the right Enter key", () => {
+  assert.match(read("../public/spanish-1/index.html"), /id="search-box" type="search" enterkeyhint="search"/);
+  assert.match(read("../public/spanish-1/index.html"), /id="fc-type-input" type="text" enterkeyhint="done"/);
+  assert.match(read("../public/index.html"), /id="class-search" type="text" enterkeyhint="search"/);
+});

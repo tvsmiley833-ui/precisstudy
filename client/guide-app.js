@@ -2724,7 +2724,7 @@ function cbotPanelInit(){
     '</div>'+
     '<div id="cbot-msgs" role="log" aria-live="polite" aria-label="Conversation"></div>'+
     '<form id="cbot-form" onsubmit="return cbotSend(event)">'+
-      '<input id="cbot-input" type="text" aria-label="Ask the study helper" placeholder="Ask about a term or concept…" autocomplete="off"/>'+
+      '<input id="cbot-input" type="text" enterkeyhint="send" aria-label="Ask the study helper" placeholder="Ask about a term or concept…" autocomplete="off"/>'+
       '<button type="submit" aria-label="Send">➤</button>'+
     '</form>';
   document.body.appendChild(panel);

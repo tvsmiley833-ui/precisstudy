@@ -22,7 +22,7 @@
     'transition:transform .15s ease}' +
     '#fbw-btn:hover{transform:translateY(-1px)}' +
     '#fbw-btn svg{width:16px;height:16px;flex-shrink:0}' +
-    '@media(max-width:640px){#fbw-btn span{display:none}#fbw-btn{padding:12px;right:16px;bottom:16px}}' +
+    '@media(max-width:640px){#fbw-btn span{display:none}#fbw-btn{padding:12px;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px))}}' +
     '#fbw-backdrop{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;' +
     'padding:16px;background:rgba(0,0,0,.45)}' +
     '#fbw-backdrop.open{display:flex}' +

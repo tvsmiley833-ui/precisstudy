@@ -618,3 +618,17 @@ html body #view-cards button[onclick^="rateFC"]{flex:1 1 150px;max-width:240px;m
 .unit-check-opt.wrong{border-color:var(--danger);background:var(--danger-soft)}
 .unit-check-opt:disabled{cursor:default}
 .unit-check-fb{margin:8px 0 0;font-size:14px;color:var(--ink-muted)}
+
+/* Notched phones (MOB-3): the page extends under the notch/home indicator (viewport-fit=cover), so keep content and
+   the fixed controls clear of them. env() is 0 everywhere else. */
+body{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+.back-to-top{bottom:calc(22px + env(safe-area-inset-bottom))}
+.toolkit-fab{bottom:calc(90px + env(safe-area-inset-bottom))}
+.toolkit-menu{bottom:calc(156px + env(safe-area-inset-bottom))}
+.ss-cnav{bottom:calc(20px + env(safe-area-inset-bottom))}
+@media(max-width:900px){
+  .ss-cnav{bottom:calc(84px + env(safe-area-inset-bottom))}
+  .toolkit-fab{bottom:calc(82px + env(safe-area-inset-bottom))}
+  .toolkit-menu{bottom:calc(148px + env(safe-area-inset-bottom))}
+  #cbot-panel{max-height:calc(100dvh - 120px)}
+}

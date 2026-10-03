@@ -519,7 +519,7 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
   <div id="hero-resume" class="ss-hero-anim" style="animation-delay:.12s;display:none;"></div>
   <div class="ss-hero-anim" style="animation-delay:.16s;max-width:480px;margin:0 auto;position:relative;z-index:5;">
     <span style="position:absolute;left:16px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--text-muted);"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
-    <input id="class-search" type="text" aria-label="Search for your class" placeholder="Search for your class..." autocomplete="off"
+    <input id="class-search" type="text" enterkeyhint="search" aria-label="Search for your class" placeholder="Search for your class..." autocomplete="off"
       role="combobox" aria-expanded="false" aria-controls="search-dropdown" aria-autocomplete="list"
       oninput="filterClasses(this.value);ssUpdateSearchDropdown(this.value);ssUpdateSearchClearBtn()"
       onkeydown="if(event.key==='Escape')ssCloseSearchDropdown()"
