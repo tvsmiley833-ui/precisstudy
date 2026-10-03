@@ -1,7 +1,7 @@
 # Improvements status — 2026-10-03
 
 Source list: `docs/IMPROVEMENTS-2026-10-02.md` (200 items). This file records what has shipped and what is still open.
-Latest deploy when last updated: version 0e8e30b5. Test state: 387 node + 650 vitest passing.
+Test state: 389 node + 663 vitest passing; every deploy now gates on them.
 
 ## Shipped (deployed to production)
 
@@ -68,6 +68,11 @@ Latest deploy when last updated: version 0e8e30b5. Test state: 387 node + 650 vi
 - **UX-3 (partial)** empty subject headings hidden while searching.
 - **SEC-9** guide data escapes `<` and U+2028/2029 everywhere; script-balance test. **CODE-9** guide JSON schema validation at build. **CODE-2** raw control bytes removed from source/tests + guard test.
 - **BE-9 (partial)** lapsed streaks no longer add XP or show on share pages; reminders only for savable streaks; Sage "sleepy" only when savable (streak freezes not done).
+
+### Last batches (security, backend, ops)
+- **SEC-7 (partial)** MathJax SRI + CSP limited to the pinned path. **SEC-8 (partial)** Google sign-in needs `email_verified`; success/failure callback tests (PKCE and admin restriction not done). **SEC-10** `no-store` on api/auth, COOP, local progress/caches cleared on logout. **SEC-11** outbound fetch deadlines, Canvas token only to Canvas hosts (owner allowlist), no redirects. **SEC-12 (partial)** ICS escape + fold. **SEC-13** generic AI error.
+- **BE-12 (partial)** quest claims guarded against double payout. **BE-15 (partial)** five newest push subscriptions. **BE-16 (partial)** flashcard due dates use the student's day. **BE-18** onboarding reminders subscribe to push. **BE-19 (partial)** onboarding completion read from the account. **BE-22 (partial)** pasted Canvas URL accepted. **BE-23** upload size/.doc checks, `image/*`. **BE-24 (partial)** admin title/sign-in return, over-long feedback refused. **BE-26 (partial)** challenge URL slash, site_name, image alt.
+- **TEST-2/7** `npm run deploy` now runs typecheck + tests first and a smoke check (`scripts/smoke.mjs`) afterwards. **CODE-8 (partial)** unreferenced one-off scripts deleted, `scripts/README.md`. **UX-5** How It Works above the class list on phones. **GUIDE-16** syllabus order applied. **PERF-19 (partial)** repaint coalescing, no roughen filter on small owls.
 
 ## Still open (updated)
 GUIDE-13, GUIDE-16 (module timing unclear), GUIDE-19, GUIDE-21–24, GUIDE-26, GUIDE-28, GUIDE-30; A11Y-20 inline-head bootstrap; A11Y-26 rest; MOB-2 offline quizzes; PERF-2/3/4/6/7/8/10/11/13/14/15/17/19; PERF-9 update toast and shared registration; UX-1 concepts/compete/syllabus pages; nav 'Sign in' for anonymous visitors.
