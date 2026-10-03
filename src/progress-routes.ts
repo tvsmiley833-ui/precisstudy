@@ -324,6 +324,17 @@ export function shiftUnitKeys<T>(record: Record<string, T>, from = 1): Record<st
   return out;
 }
 
+/** Worked-example ids are "<unit>-<index>": move the unit part of every id at or after `from` up by one, like shiftUnitKeys. */
+export function shiftExampleKeys<T>(record: Record<string, T>, from = 1): Record<string, T> {
+  const out: Record<string, T> = {};
+  for (const [k, v] of Object.entries(record)) {
+    const m = /^(\d+)-(.+)$/.exec(k);
+    const n = m ? Number(m[1]) : NaN;
+    out[m && n >= from && n > 0 ? `${n + 1}-${m[2]}` : k] = v;
+  }
+  return out;
+}
+
 // Algebra II gained a new Unit 2 (Completing the Square), so old units 2-12 became 3-13
 // (Unit 1 is unchanged). Same rules as the Physics shift above: progress last written before
 // the cutoff is shifted once; blobs written after it already use the new numbers and are only flagged.
@@ -339,6 +350,8 @@ export function migrateAlgebra2Units(blob: ProgressBlob): boolean {
   if (!hasData) return false;
   if (blob.updatedAt && blob.updatedAt < ALGEBRA2_SHIFT_CUTOFF) {
     algebra2.mastery = shiftUnitKeys(algebra2.mastery || {}, 2);
+    if (algebra2.examples) algebra2.examples = shiftExampleKeys(algebra2.examples, 2);
+    if (blob.quest) blob.quest.boss = null; // a boss is tied to unit ids that just moved
     if (algebra2.unitOrder) algebra2.unitOrder = algebra2.unitOrder.map(id => (id >= 2 ? id + 1 : id));
   }
   blob.migrations = [...done, ALGEBRA2_SHIFT_MIGRATION];
@@ -354,6 +367,8 @@ export function migratePhysicsUnits(blob: ProgressBlob): boolean {
   if (!hasData) return false;
   if (blob.updatedAt && blob.updatedAt < PHYSICS_SHIFT_CUTOFF) {
     physics.mastery = shiftUnitKeys(physics.mastery || {});
+    if (physics.examples) physics.examples = shiftExampleKeys(physics.examples);
+    if (blob.quest) blob.quest.boss = null; // a boss is tied to unit ids that just moved
     if (physics.unitOrder) physics.unitOrder = physics.unitOrder.map(id => id + 1);
   }
   blob.migrations = [...done, PHYSICS_SHIFT_MIGRATION];

@@ -89,3 +89,18 @@ describe("client log scrubbing", () => {
     expect(out).toContain("[email]");
   });
 });
+
+import { shiftExampleKeys, migrateAlgebra2Units, ALGEBRA2_SHIFT_CUTOFF } from "../src/progress-routes.js";
+
+describe("unit migrations and worked examples", () => {
+  it("moves example ids with their unit", () => {
+    expect(shiftExampleKeys({ "1-0": true, "2-0": true, "3-1": true }, 2)).toEqual({ "1-0": true, "3-0": true, "4-1": true });
+  });
+  it("shifts Algebra II examples and clears the boss with the mastery", () => {
+    const blob = { updatedAt: "2026-09-01T00:00:00.000Z", algebra2: { mastery: { "2": { correct: 1, total: 2 } }, examples: { "2-0": true }, cardsKnown: [] }, quest: { boss: { unit: 2 } }, migrations: [] };
+    expect(blob.updatedAt < ALGEBRA2_SHIFT_CUTOFF).toBe(true);
+    migrateAlgebra2Units(blob);
+    expect(Object.keys(blob.algebra2.examples)).toEqual(["3-0"]);
+    expect(blob.quest.boss).toBeNull();
+  });
+});
