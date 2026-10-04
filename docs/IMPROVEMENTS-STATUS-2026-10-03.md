@@ -151,4 +151,4 @@ PERF-1 MathJax only where needed; PERF-2 build-time math; PERF-3 mission banner;
 
 ## 2026-10-04 (later): planner and worked examples
 - Planner is a top-nav tab and the single home for exam dates (several, per class), the pace calculator, assignments and the weekly builder; plan.js keeps them in step.
-- Worked examples added for Calculus BC, Statistics, AP Statistics, SAT Math, Chemistry, AP Chemistry and AP Physics (all numbers computed). Still without them: none of the 57 guides with units but check `workedExamples` per guide.
+- Worked examples added for Calculus BC, Statistics, AP Statistics, SAT Math, Chemistry, AP Chemistry and AP Physics (all numbers computed). Every one of the 57 guides now has worked examples.
