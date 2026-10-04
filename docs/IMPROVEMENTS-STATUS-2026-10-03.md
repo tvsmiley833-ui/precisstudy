@@ -83,6 +83,9 @@ Test state: 455 node + 676 vitest passing; every deploy now gates on them and ru
 - **BE-25** unique leaderboard handles. **BE-10 (partial)** worked-example ids and quest boss handled in unit migrations. **BE-14 (partial)** one unreadable Classroom course no longer hides the rest. **BE-20 (partial)** syllabus class picker has no default; dates can be appended without duplicates.
 - **TEST-4** tests can't reach real networks; test config matches production's 404 handling. **CODE-3 (partial)** one shared `json()`. **CODE-10 (partial)** `noUnusedLocals/Parameters`, dead code removed. **CODE-12** README rewritten, old plans archived. **CODE-13 (partial)** regen works from any directory, reports orphans. **FEAT-9** palette/error-monitor robustness. **SEO-5 (partial)** one canonical URL per guide view, About title. **PRIV-12** Canvas token guidance.
 
+### 2026-10-04 batch
+- **SEC-6 (partial)** honeypot on feedback and guide-request forms (Turnstile still needs the owner). **SEC-8 (partial)** PKCE (S256) on Google sign-in; the admin panel now requires a Google sign-in. **FEAT-8** concept map warns only after weak assessed units and offers one Continue step. **FEAT-10 (partial)** unused export removed, sound context suspended. **GROW-4 (partial)** "Share my score" on quiz results.
+
 ## Still open (updated)
 GUIDE-13, GUIDE-16 (module timing unclear), GUIDE-19, GUIDE-21–24, GUIDE-26, GUIDE-28, GUIDE-30; A11Y-20 inline-head bootstrap; A11Y-26 rest; MOB-2 offline quizzes; PERF-2/3/4/6/7/8/10/11/13/14/15/17/19; PERF-9 update toast and shared registration; UX-1 concepts/compete/syllabus pages; nav 'Sign in' for anonymous visitors.
 
