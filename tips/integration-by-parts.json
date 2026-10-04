@@ -1,0 +1,89 @@
+{
+ "slug": "integration-by-parts",
+ "brand": "PrecisStudy",
+ "subject": "CALCULUS BC",
+ "url": "precisstudy.com/calc-bc",
+ "pageTitle": "Integration by Parts: The LIATE Rule and Worked Examples",
+ "guide": "calc-bc",
+ "guideLabel": "Calculus BC",
+ "description": "Use ∫u dv = uv − ∫v du and the LIATE rule to choose u, with two fully worked calculus examples.",
+ "published": "2026-10-04",
+ "caption": "Integration by parts in 7 swipes: the formula, how to choose u, and two worked examples. Save this for your BC exam prep. Free Calculus BC study guide at precisstudy.com/calc-bc (no sign-up).",
+ "hashtags": [
+  "calculus",
+  "integrationbyparts",
+  "apcalculus",
+  "studytok",
+  "studytips",
+  "calcbc",
+  "math"
+ ],
+ "slides": [
+  {
+   "type": "hook",
+   "title": "INTEGRATION BY PARTS IN 4 STEPS"
+  },
+  {
+   "type": "formula",
+   "title": "THE FORMULA",
+   "lines": [
+    "∫ u dv = uv − ∫ v du"
+   ],
+   "note": "Pick u so that du is simpler than u."
+  },
+  {
+   "type": "formula",
+   "title": "CHOOSE u WITH LIATE",
+   "lines": [
+    "Logarithmic",
+    "Inverse trig",
+    "Algebraic (polynomial)",
+    "Trigonometric",
+    "Exponential"
+   ],
+   "note": "The first type in this list is usually u."
+  },
+  {
+   "type": "example",
+   "title": "EXAMPLE 1",
+   "problem": "Find ∫ x eˣ dx.",
+   "steps": [
+    "u = x, dv = eˣ dx, so du = dx and v = eˣ",
+    "∫ x eˣ dx = x eˣ − ∫ eˣ dx",
+    "= x eˣ − eˣ + C"
+   ],
+   "answer": "(x − 1)eˣ + C"
+  },
+  {
+   "type": "example",
+   "title": "EXAMPLE 2",
+   "problem": "Find ∫ x cos x dx.",
+   "steps": [
+    "u = x, dv = cos x dx, so du = dx and v = sin x",
+    "∫ x cos x dx = x sin x − ∫ sin x dx",
+    "= x sin x + cos x + C"
+   ],
+   "answer": "x sin x + cos x + C"
+  },
+  {
+   "type": "warn",
+   "title": "WATCH OUT",
+   "wrong": "Choosing u = eˣ and dv = x dx",
+   "points": [
+    "That makes the new integral harder.",
+    "Check by differentiating your answer.",
+    "Some integrals need parts twice."
+   ]
+  },
+  {
+   "type": "cta",
+   "title": "WANT MORE PRACTICE?",
+   "lines": [
+    "Free Calculus BC study guide",
+    "Quizzes, flashcards, and practice exams"
+   ],
+   "button": "precisstudy.com/calc-bc",
+   "foot": "100% free. No sign-up."
+  }
+ ]
+}

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Integration by Parts: The LIATE Rule and Worked Examples | PrecisStudy</title>
+<meta name="description" content="Use ∫u dv = uv − ∫v du and the LIATE rule to choose u, with two fully worked calculus examples."/>
+<meta property="og:type" content="article"/>
+<meta property="og:site_name" content="PrecisStudy"/>
+<meta property="og:title" content="Integration by Parts: The LIATE Rule and Worked Examples | PrecisStudy"/>
+<meta property="og:description" content="Use ∫u dv = uv − ∫v du and the LIATE rule to choose u, with two fully worked calculus examples."/>
+<meta property="og:url" content="https://precisstudy.com/tips/integration-by-parts/"/>
+<link rel="canonical" href="https://precisstudy.com/tips/integration-by-parts/"/>
+<meta property="og:image" content="https://precisstudy.com/tips/integration-by-parts/og.jpg"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Integration by Parts: The LIATE Rule and Worked Examples | PrecisStudy"/>
+<meta name="twitter:description" content="Use ∫u dv = uv − ∫v du and the LIATE rule to choose u, with two fully worked calculus examples."/>
+<meta name="twitter:image" content="https://precisstudy.com/tips/integration-by-parts/og.jpg"/>
+<link rel="icon" type="image/png" href="/favicon.png"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="preload" href="/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin/>
+<link rel="stylesheet" href="/fonts/nunito.css"/>
+<script>
+(function(){
+  try {
+    var saved = localStorage.getItem('ss-theme');
+    if (saved === 'dark' || (saved !== 'light' && !(window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches))) document.documentElement.setAttribute('data-theme', 'dark');
+  } catch (e) {}
+})();
+</script>
+<style>
+:root{
+  --bg:#eef1ea; --bg-card:#fff; --bg-header:#ffffff;
+  --border:#c8d2c5;
+  --text:#233a31; --text-body:#33493d; --text-muted:#5a6f63; --nav-text:#3d5347;
+  --accent:#1f6e46; --accent-bright:#268a58; --accent-hover:#175a39; --accent-solid:#1f6e46; --accent-solid-hover:#175a39;
+  --badge-green:#1f8a5f;
+  --chip-bg:#dde8df; --chip-text:#175a39;
+  --card-shadow:0 1px 3px rgba(35,58,49,.06),0 24px 48px -28px rgba(35,58,49,.20);
+  --hero-glow:radial-gradient(ellipse at center, rgba(31,110,70,.14), rgba(31,110,70,0) 70%);
+}
+[data-theme="dark"]{
+  --bg:#14302a; --bg-card:#1b3d33; --bg-header:#12291f;
+  --border:#2f5346;
+  --text:#f2f5ee; --text-body:#dbe6dd; --text-muted:#b7c9bc; --nav-text:#eef2ea;
+  --accent:#4fbf85; --accent-bright:#63d199; --accent-hover:#3fa873; --accent-solid:#237750; --accent-solid-hover:#1a6644;
+  --badge-green:#3ecf8e;
+  --chip-bg:#22362c; --chip-text:#63d199;
+  --card-shadow:0 1px 3px rgba(0,0,0,.32),0 24px 48px -28px rgba(0,0,0,.5);
+  --hero-glow:radial-gradient(ellipse at center, rgba(79,191,133,.12), rgba(79,191,133,0) 70%);
+}
+#theme-toggle{background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:999px;
+  width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+#theme-toggle:hover{border-color:var(--accent-bright);color:var(--accent)}
+#theme-toggle svg{width:17px;height:17px}
+#theme-toggle .icon-sun{display:none}
+[data-theme="dark"] #theme-toggle .icon-moon{display:none}
+[data-theme="dark"] #theme-toggle .icon-sun{display:block}
+[data-theme="dark"] .ss-logo-light{display:none!important}
+[data-theme="dark"] .ss-logo-dark{display:inline!important}
+
+#ss-signin-btn{background:none;border:1px solid var(--border);color:var(--nav-text);font-weight:700;padding:8px 16px;
+  border-radius:999px;cursor:pointer;font-family:inherit;font-size:15px;white-space:nowrap}
+#ss-signin-btn:hover{background:var(--bg)}
+#ss-login-panel{display:none;position:absolute;top:calc(100% + 10px);right:0;background:var(--bg-card);border:2px solid var(--border);
+  border-radius:16px;padding:22px;width:280px;box-shadow:0 12px 32px rgba(0,0,0,.18);z-index:50;text-align:left}
+#ss-login-panel.open{display:block}
+.ss-oauth-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;box-sizing:border-box;
+  padding:10px 14px;border-radius:12px;border:2px solid var(--border);background:var(--bg-card);color:var(--text);
+  font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none;margin-bottom:9px;transition:all .15s}
+.ss-oauth-btn:hover{border-color:var(--accent-bright);background:var(--bg)}
+.ss-status{font-size:12.5px;color:var(--text-muted);margin-top:9px;min-height:16px}
+.ss-account{display:flex;align-items:center;gap:10px}
+.ss-account-name{font-weight:700;color:var(--text);font-size:14px;white-space:nowrap}
+.ss-account button{background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);padding:6px 12px;
+  font-size:13px;cursor:pointer;font-family:inherit}
+.ss-account button:hover{color:var(--accent);border-color:var(--accent-bright)}
+@media(max-width:640px){#ss-signin-btn{padding:7px 12px;font-size:13px} .ss-account-name{display:none}}
+@media(max-width:640px){
+  .header-bar{padding:14px 16px}
+  .nav-links{gap:10px}
+  .nav-hide-sm{display:none}
+  .nav-links > .ss-cta-btn{display:none}
+}
+
+html{scroll-behavior:smooth}
+body{transition:background .2s ease,color .2s ease}
+
+.ss-hero{position:relative;overflow:hidden}
+.ss-hero::before{content:"";position:absolute;top:-160px;left:50%;transform:translateX(-50%);width:900px;height:460px;
+  background:var(--hero-glow);pointer-events:none;z-index:0}
+.ss-hero-inner{position:relative;z-index:1}
+
+@keyframes ssFadeInUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.ss-hero-anim{opacity:0;animation:ssFadeInUp .6s cubic-bezier(.2,.8,.2,1) forwards}
+
+.ss-cta-btn{transition:background .2s ease,transform .15s ease,box-shadow .2s ease}
+.ss-cta-btn:hover{background:var(--accent-solid-hover);transform:translateY(-1px);box-shadow:0 8px 20px rgba(31,110,70,.28)}
+
+.ss-card{background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:32px;
+  box-shadow:var(--card-shadow)}
+
+.ss-reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.ss-reveal.in-view{opacity:1;transform:translateY(0)}
+.ss-skip-link:focus{left:16px!important;top:16px!important}
+:focus-visible{outline:2px solid var(--accent-bright);outline-offset:2px;border-radius:6px}
+</style>
+<link rel="stylesheet" href="/shared/site-header.css"/>
+<style>
+.tip-wrap{max-width:760px;margin:0 auto;padding:36px 24px 72px}
+.tip-crumbs{font-size:13.5px;color:var(--text-muted);margin:0 0 18px}.tip-crumbs a{color:var(--text-muted)}
+.tip-chip{display:inline-block;background:var(--chip-bg,#e6efe8);color:var(--accent);font-weight:800;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px;border-radius:999px}
+.tip-wrap h1{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:clamp(30px,5vw,44px);line-height:1.12;margin:14px 0 12px;color:var(--text)}
+.tip-lede{font-size:18px;line-height:1.55;color:var(--text-body,var(--text));margin:0 0 28px}
+.tip-sec{margin:34px 0}.tip-sec h2{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:26px;line-height:1.2;margin:0 0 14px;color:var(--text)}
+.tip-cards{list-style:none;margin:0 0 14px;padding:0;display:grid;gap:10px}
+.tip-cards li{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:15px 18px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-weight:600;font-size:16.5px;line-height:1.45;color:var(--text);overflow-wrap:anywhere}
+.tip-note,.tip-sec p{font-size:17px;line-height:1.6;color:var(--text-body,var(--text));margin:10px 0}
+.tip-rows{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:12px}
+.tip-rows li{display:flex;gap:14px;align-items:flex-start}.tip-badge{flex:none;min-width:44px;height:44px;border-radius:12px;background:var(--accent-solid);color:#fff;font-weight:800;display:grid;place-items:center;padding:0 8px}
+.tip-q{font-size:19px;font-weight:700;color:var(--text);margin:0 0 10px}
+.tip-steps{margin:0 0 12px;padding-left:22px;font-size:17px;line-height:1.55;color:var(--text-body,var(--text))}
+.tip-answer{background:var(--accent-solid);color:#fff;border-radius:14px;padding:15px 18px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-weight:700;font-size:17px;overflow-wrap:anywhere}
+.tip-warn{border:2px solid #c25454;border-radius:16px;padding:20px 22px;background:color-mix(in srgb,#c25454 7%,var(--bg-card))}
+.tip-warn h2{color:var(--text)}.tip-wrong{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-weight:700;text-decoration:line-through;text-decoration-color:#c25454;text-decoration-thickness:2px;color:var(--text);margin:0 0 12px;font-size:17px;overflow-wrap:anywhere}
+.tip-cta{margin-top:40px;background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:26px;text-align:center}
+.tip-cta h2{margin:0 0 8px}.tip-cta p{margin:6px 0}
+.tip-btn{display:inline-block;margin-top:12px;background:var(--accent-solid);color:#fff;font-weight:800;text-decoration:none;padding:13px 26px;border-radius:999px;font-size:16px}
+.tip-btn:hover{background:var(--accent-solid-hover)}
+.tip-more{margin-top:44px}.tip-more h2{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:22px;margin:0 0 12px}
+.tip-more ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}.tip-more a{color:var(--accent);font-weight:700;text-decoration:none}.tip-more a:hover{text-decoration:underline}
+.tip-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;margin-top:22px}
+.tip-card{display:block;text-decoration:none;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:20px;color:var(--text);transition:border-color .15s ease,transform .15s ease}
+.tip-card:hover{border-color:var(--accent);transform:translateY(-2px)}.tip-card b{display:block;font-size:17px;line-height:1.3;margin:10px 0 6px}.tip-card span.d{font-size:14px;line-height:1.45;color:var(--text-muted)}
+.tip-card[hidden]{display:none}.tip-filter{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}.tip-filter button{font:inherit;font-size:13.5px;font-weight:700;padding:7px 14px;border-radius:999px;border:1px solid var(--border);background:var(--bg-card);color:var(--text);cursor:pointer}.tip-filter button[aria-pressed="true"]{background:var(--accent-solid);border-color:var(--accent-solid);color:#fff}.tip-filter button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){.tip-card{transition:none}.tip-card:hover{transform:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"Integration by Parts: The LIATE Rule and Worked Examples","description":"Use ∫u dv = uv − ∫v du and the LIATE rule to choose u, with two fully worked calculus examples.","datePublished":"2026-10-04","dateModified":"2026-10-04","mainEntityOfPage":"https://precisstudy.com/tips/integration-by-parts/","image":"https://precisstudy.com/tips/integration-by-parts/og.jpg","author":{"@type":"Organization","name":"PrecisStudy","url":"https://precisstudy.com/"},"publisher":{"@type":"Organization","name":"PrecisStudy","logo":{"@type":"ImageObject","url":"https://precisstudy.com/logo-full.png"}},"about":"Calculus BC"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://precisstudy.com/"},{"@type":"ListItem","position":2,"name":"Study Tips","item":"https://precisstudy.com/tips/"},{"@type":"ListItem","position":3,"name":"Integration by Parts: The LIATE Rule and Worked Examples","item":"https://precisstudy.com/tips/integration-by-parts/"}]}]}</script>
+</head>
+<body style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);">
+<a href="#main-content" class="ss-skip-link" style="position:absolute;left:-9999px;top:0;z-index:100;background:var(--accent-solid);color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;text-decoration:none;">Skip to main content</a>
+
+
+<style>/* Header: one line per link; drop the marketing links first when space runs out. */.nav-links a,#ss-account-area button,#ss-account-area a{white-space:nowrap}</style>
+<div role="banner" class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:var(--bg-header);border-bottom:1px solid var(--border);position:relative;">
+  <a href="/" style="font-weight:800;font-size:22px;color:var(--nav-text);display:flex;align-items:center;gap:8px;text-decoration:none;" aria-label="PrecisStudy">
+    <svg class="ss-mark" viewBox="46 30 164 196" width="22" height="26" aria-hidden="true" focusable="false" style="flex-shrink:0;margin-right:-5px"><style>[data-theme="dark"] .ss-mark .mb{fill:#fff}[data-theme="dark"] .ss-mark .m1{fill:#2f8a5c}[data-theme="dark"] .ss-mark .m2{fill:#cf9d3a}[data-theme="dark"] .ss-mark .m3{fill:#e0d4a8}[data-theme="dark"] .ss-mark .md{fill:#1b3d33}</style><path class="mb" d="M55 36H87Q91 36 91 40V222L71 202L51 222V40Q51 36 55 36Z" fill="currentColor"/><circle class="m1" cx="135" cy="106" r="71.5" style="fill:var(--accent,#1f6e46)"/><circle class="m2" cx="135" cy="106" r="48" fill="#f5b83d"/><circle class="m3" cx="135" cy="106" r="26" fill="#fff3c9"/><circle class="md" cx="135" cy="106" r="9" fill="currentColor"/></svg>recisStudy
+  </a>
+  <div role="navigation" aria-label="Main" class="nav-links" style="display:flex;gap:16px;font-weight:600;font-size:15px;color:var(--nav-text);align-items:center;">
+    <a href="/#classes-section" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Browse Subjects</a>
+    <a href="/#how-it-works" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">How It Works</a>
+    <a href="/dashboard/" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Dashboard</a>
+    <a href="/flashcards/" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Flashcards</a>
+    <a href="/planner/" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Planner</a>
+    <a href="/settings/" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Settings</a>
+    <button id="theme-toggle" onclick="ssToggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <div id="ss-account-area" style="position:relative;"></div>
+    <a href="/#classes-section" class="ss-cta-btn" style="background:var(--bg-card);color:var(--accent);border:2px solid var(--accent-solid);padding:6px 16px;border-radius:20px;text-decoration:none;white-space:nowrap;">Pick your class →</a>
+    <button id="ss-menu-btn" class="ss-menu-btn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="ss-mobile-menu"><svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </div>
+  <div id="ss-mobile-menu" role="menu" aria-label="Main">
+    <a role="menuitem" href="/#classes-section">Browse Subjects</a>
+    <a role="menuitem" href="/#how-it-works">How It Works</a>
+    <a role="menuitem" href="/about/">Who Are We</a>
+    <a role="menuitem" href="/request/">Request a Guide</a>
+    <a role="menuitem" href="/educators/">Educators</a>
+    <a role="menuitem" href="/dashboard/">Dashboard</a>
+    <a role="menuitem" href="/flashcards/">Flashcards</a>
+    <a role="menuitem" href="/planner/">Planner</a>
+    <a role="menuitem" href="/settings/">Settings</a>
+    <a role="menuitem" class="ss-menu-cta" href="/#classes-section">Pick your class →</a>
+  </div>
+</div>
+
+<div role="main" id="main-content" class="tip-wrap">
+<nav class="tip-crumbs" aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/tips/">Study Tips</a> &rsaquo; <span>Calculus BC</span></nav>
+<span class="tip-chip">Calculus BC</span>
+<h1>Integration by Parts: The LIATE Rule and Worked Examples</h1>
+<p class="tip-lede">Use ∫u dv = uv − ∫v du and the LIATE rule to choose u, with two fully worked calculus examples.</p>
+
+<section class="tip-sec"><h2>The formula</h2><ul class="tip-cards"><li>∫ u dv = uv − ∫ v du</li></ul><p class="tip-note">Pick u so that du is simpler than u.</p></section>
+<section class="tip-sec"><h2>CHOOSE u WITH LIATE</h2><ul class="tip-cards"><li>Logarithmic</li><li>Inverse trig</li><li>Algebraic (polynomial)</li><li>Trigonometric</li><li>Exponential</li></ul><p class="tip-note">The first type in this list is usually u.</p></section>
+<section class="tip-sec"><h2>Example 1</h2><p class="tip-q">Find ∫ x eˣ dx.</p><ol class="tip-steps"><li>u = x, dv = eˣ dx, so du = dx and v = eˣ</li><li>∫ x eˣ dx = x eˣ − ∫ eˣ dx</li><li>= x eˣ − eˣ + C</li></ol><div class="tip-answer">(x − 1)eˣ + C</div></section>
+<section class="tip-sec"><h2>Example 2</h2><p class="tip-q">Find ∫ x cos x dx.</p><ol class="tip-steps"><li>u = x, dv = cos x dx, so du = dx and v = sin x</li><li>∫ x cos x dx = x sin x − ∫ sin x dx</li><li>= x sin x + cos x + C</li></ol><div class="tip-answer">x sin x + cos x + C</div></section>
+<section class="tip-sec tip-warn"><h2>Common mistake</h2><p class="tip-wrong">Choosing u = eˣ and dv = x dx</p><p>That makes the new integral harder.</p><p>Check by differentiating your answer.</p><p>Some integrals need parts twice.</p></section>
+
+<section class="tip-cta"><h2>Want more Calculus BC practice?</h2><p>The free Calculus BC study guide has quizzes, flashcards and practice exams. 100% free, no sign-up needed.</p><a class="tip-btn" href="/calc-bc/">Open the Calculus BC guide</a></section>
+<aside class="tip-more"><h2>More study tips</h2><ul><li><a href="/tips/active-vs-passive-voice/">Active vs Passive Voice: How to Tell and When to Use Each</a></li><li><a href="/tips/balancing-chemical-equations/">How to Balance Chemical Equations in 3 Steps</a></li><li><a href="/tips/chain-rule/">The Chain Rule: How to Differentiate Composite Functions</a></li><li><a href="/tips/circle-area-circumference/">Area and Circumference of a Circle: Formulas and Examples</a></li></ul></aside>
+</div>
+<div role="contentinfo" style="border-top:1px solid var(--border);padding:24px 32px;text-align:center;">
+  <a href="/privacy/" style="color:var(--text-muted);font-size:13px;text-decoration:none;margin-right:14px;">Privacy</a>
+  <a href="/terms/" style="color:var(--text-muted);font-size:13px;text-decoration:none;margin-right:14px;">Terms</a>
+  <a href="/parents-bill-of-rights/" style="color:var(--text-muted);font-size:13px;text-decoration:none;margin-right:14px;">Parents' Bill of Rights</a>
+  <a href="#" class="ss-mail-link" data-u="support" data-d="precisstudy.com" style="color:var(--text-muted);font-size:13px;text-decoration:none;">
+    Questions or feedback? <span class="ss-mail-addr"></span>
+  </a>
+</div>
+
+<script>
+document.querySelectorAll('.ss-mail-link').forEach(function(el){
+  var addr = el.dataset.u + '@' + el.dataset.d;
+  el.href = 'mailto:' + addr;
+  var span = el.querySelector('.ss-mail-addr');
+  if (span) span.textContent = addr;
+});
+
+function ssToggleTheme(){
+  var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  if (isDark) {
+    document.documentElement.removeAttribute('data-theme');
+    try { localStorage.setItem('ss-theme', 'light'); } catch (e) {}
+  } else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    try { localStorage.setItem('ss-theme', 'dark'); } catch (e) {}
+  }
+}
+</script>
+
+<script>
+function ssLoginBoxHtml(){
+  return '<a class="ss-oauth-btn" href="/auth/google/start?next=' + encodeURIComponent(location.pathname) + '">Continue with Google</a>'
+    + '<a class="ss-oauth-btn" href="/auth/github/start?next=' + encodeURIComponent(location.pathname) + '">Continue with GitHub</a>'
+    + '<div class="ss-status"></div>';
+}
+
+function ssToggleLoginPanel(){
+  var panel = document.getElementById('ss-login-panel');
+  if(!panel) return;
+  var opening = !panel.classList.contains('open');
+  panel.classList.toggle('open', opening);
+  if(opening) panel.querySelector('.ss-login-box').innerHTML = ssLoginBoxHtml();
+}
+
+async function ssLogout(){
+  try{ await fetch('/auth/logout', {method:'POST'}); }catch(e){}
+  if(window.ssClearLocalData)ssClearLocalData();
+  SS_SESSION = false;
+  ssRenderAccountUI();
+}
+
+function ssEscapeHtml(s){
+  // Escapes quotes as well as & < >, so the result is safe inside attribute values too.
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
+    return c === '&' ? '&amp;' : c === '<' ? '&lt;' : c === '>' ? '&gt;' : c === '"' ? '&quot;' : '&#39;';
+  });
+}
+
+let SS_SESSION;
+
+function ssRenderAccountUI(){
+  var area = document.getElementById('ss-account-area');
+  if(!area) return;
+  if(SS_SESSION){
+    area.innerHTML = '<div class="ss-account"><span class="ss-account-name">' + ssEscapeHtml(SS_SESSION.name) + '</span>'
+      + '<button onclick="ssLogout()">Sign out</button></div>';
+  }else{
+    area.innerHTML = '<button id="ss-signin-btn" onclick="ssToggleLoginPanel()">Sign In</button>'
+      + '<div id="ss-login-panel"><div class="ss-login-box"></div></div>';
+  }
+}
+
+async function ssCheckSession(){
+  try{
+    var res = await fetch('/auth/me');
+    var data = await res.json();
+    SS_SESSION = data.loggedIn ? data : false;
+  }catch(e){
+    SS_SESSION = false;
+  }
+  ssRenderAccountUI();
+  return SS_SESSION;
+}
+
+document.addEventListener('click', function(e){
+  var panel = document.getElementById('ss-login-panel');
+  var area = document.getElementById('ss-account-area');
+  if(panel && panel.classList.contains('open') && area && !area.contains(e.target)){
+    panel.classList.remove('open');
+  }
+});
+
+ssCheckSession();
+
+if ('IntersectionObserver' in window) {
+  var ssRevealObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        ssRevealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.ss-reveal').forEach(function(el) { ssRevealObserver.observe(el); });
+} else {
+  document.querySelectorAll('.ss-reveal').forEach(function(el) { el.classList.add('in-view'); });
+}
+</script>
+<script src="/shared/command-palette.js" defer></script><script src="/shared/account-menu.js" defer></script><script src="/shared/high-contrast.js" defer></script><script src="/shared/error-monitor.js" defer></script>
+<script src="/shared/site-header.js" defer></script>
+</body>
+</html>
