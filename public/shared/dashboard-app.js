@@ -1232,12 +1232,12 @@ async function loadDashboard() {
     el.innerHTML = '<div style="display:inline-flex;flex-direction:column;align-items:center;gap:6px;min-width:220px;">'
       + '<div style="display:flex;align-items:center;gap:8px;">'
       + '<span style="font-weight:800;font-size:15px;color:var(--text);">⭐ Level ' + level + '</span>'
-      + '<span style="font-size:12.5px;color:var(--text-muted);">' + stats.xp + ' XP</span>'
+      + '<span style="font-size:12.5px;color:var(--text-muted);">' + stats.xp.toLocaleString() + ' / ' + ceil.toLocaleString() + ' XP</span>'
       + '</div>'
       + '<div style="width:220px;height:8px;border-radius:999px;background:var(--border);overflow:hidden;">'
       + '<div style="width:' + pct + '%;height:100%;background:var(--accent-solid, var(--accent));border-radius:999px;"></div>'
       + '</div>'
-      + '<span style="font-size:11px;color:var(--text-muted);">' + (ceil - stats.xp) + ' XP to Level ' + (level + 1) + '</span>'
+      + '<span style="font-size:11px;color:var(--text-muted);">' + (ceil - stats.xp).toLocaleString() + ' XP to Level ' + (level + 1) + '</span>'
       + '</div>';
   }
 
@@ -1283,15 +1283,28 @@ async function loadDashboard() {
     const el = document.getElementById('dash-badges');
     const badges = computeBadges(blob);
     if (!badges.some(function (b) { return b.unlocked; })) return;
+    const locked = badges.filter(function (b) { return !b.unlocked; });
     el.style.display = 'flex';
-    el.innerHTML = badges.map(function (b) {
-      return '<span title="' + ssEscapeHtml(b.unlocked ? b.label : b.label + ' — ' + b.hint) + '" '
-        + 'style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:999px;font-size:13px;font-weight:700;'
-        + (b.unlocked
-          ? 'background:var(--chip-bg);color:var(--chip-text);'
-          : 'background:transparent;border:1px dashed var(--border, #444);color:var(--text-muted);opacity:.55;filter:grayscale(1);')
-        + '">' + b.emoji + ' ' + ssEscapeHtml(b.label) + '</span>';
-    }).join('');
+    el.style.cssText += ';flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding-bottom:6px;max-width:100%;';
+    el.setAttribute('role', 'list');
+    // Earned badges first; the rest sit behind one "more to earn" chip so a new student is not shown a wall of locked icons.
+    el.innerHTML = badges.filter(function (b) { return b.unlocked; }).map(function (b) {
+      return '<span role="listitem" tabindex="0" title="' + ssEscapeHtml(b.label + ' (earned)') + '" '
+        + 'style="flex-shrink:0;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;font-size:20px;font-weight:700;background:var(--chip-bg);color:var(--chip-text);">' + b.emoji
+        + '<span style="font-size:13px">' + ssEscapeHtml(b.label) + '</span></span>';
+    }).join('') + (locked.length ? '<button type="button" id="dash-badges-more" aria-expanded="false" style="flex-shrink:0;background:none;border:1px dashed var(--border,#444);border-radius:999px;color:var(--text-muted);font:inherit;font-size:13px;font-weight:700;padding:8px 14px;cursor:pointer">+' + locked.length + ' to earn</button>' : '');
+    const more = document.getElementById('dash-badges-more');
+    if (more) more.addEventListener('click', function () {
+      const open = more.getAttribute('aria-expanded') !== 'true';
+      more.setAttribute('aria-expanded', open ? 'true' : 'false');
+      el.querySelectorAll('[data-locked]').forEach(function (n) { n.remove(); });
+      if (open) {
+        more.insertAdjacentHTML('beforebegin', locked.map(function (b) {
+          return '<span data-locked="1" role="listitem" tabindex="0" title="' + ssEscapeHtml(b.label + ': ' + b.hint) + '" style="flex-shrink:0;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;font-size:20px;border:1px dashed var(--border,#444);color:var(--text-muted);filter:grayscale(1);opacity:.8">&#128274;<span style="font-size:13px">' + ssEscapeHtml(b.label) + '</span></span>';
+        }).join(''));
+        more.textContent = 'Hide';
+      } else more.textContent = '+' + locked.length + ' to earn';
+    });
   }
 
   // Printable progress report for a parent/tutor: builds a throwaway
@@ -1523,7 +1536,7 @@ async function loadDashboard() {
   function renderDashSubjects() {
     const list = dashShowAll ? SUBJECTS_CONFIG : SUBJECTS_CONFIG.filter(s => enrolledSet.has(s.key));
     if (enrolledSet.size === 0) {
-      noteEl.innerHTML = '<a href="/settings/" style="color:var(--accent);font-weight:700;text-decoration:none;">📚 Tell us which classes you\'re taking →</a>';
+      noteEl.innerHTML = '<a href="/settings/" style="color:var(--accent);font-weight:700;text-decoration:none;">Choose your classes →</a>';
     } else if (dashShowAll) {
       noteEl.innerHTML = 'Showing all classes · <a href="/settings/" style="color:var(--text-muted);text-decoration:none;">edit your classes</a>';
     } else {

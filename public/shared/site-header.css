@@ -17,3 +17,8 @@
 @media(min-width:961px){#ss-mobile-menu{display:none!important}
 }
 
+
+/* Current page in the desktop nav: bolder, accent colour and an underline, on every page that uses the shared header. */
+.nav-links a[aria-current="page"]{color:var(--accent)!important;font-weight:800;text-decoration:underline!important;text-underline-offset:8px;text-decoration-thickness:2px}
+.nav-links a:hover{color:var(--accent)!important}
+.nav-links a:focus-visible,.header-bar a:focus-visible{outline:2px solid var(--accent-bright);outline-offset:3px;border-radius:6px}
