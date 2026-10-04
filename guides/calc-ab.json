@@ -2266,6 +2266,438 @@
    ],
    "a": 3,
    "e": "∫₀^π sin x dx = 2."
+  },
+  {
+   "u": 2,
+   "q": "d/dx (3x⁴) =",
+   "o": [
+    "12x³",
+    "3x³",
+    "9x³",
+    "12x⁴"
+   ],
+   "a": 0,
+   "e": "Power rule: multiply by the exponent and lower it by one: 3·4 = 12, exponent 3."
+  },
+  {
+   "u": 2,
+   "q": "d/dx (5x³) =",
+   "o": [
+    "15x³",
+    "10x²",
+    "5x²",
+    "15x²"
+   ],
+   "a": 3,
+   "e": "Power rule: multiply by the exponent and lower it by one: 5·3 = 15, exponent 2."
+  },
+  {
+   "u": 2,
+   "q": "d/dx (4x⁵) =",
+   "o": [
+    "4x⁴",
+    "20x⁵",
+    "16x⁴",
+    "20x⁴"
+   ],
+   "a": 3,
+   "e": "Power rule: multiply by the exponent and lower it by one: 4·5 = 20, exponent 4."
+  },
+  {
+   "u": 2,
+   "q": "d/dx (6x²) =",
+   "o": [
+    "2x",
+    "12x",
+    "6x",
+    "12x²"
+   ],
+   "a": 1,
+   "e": "Power rule: multiply by the exponent and lower it by one: 6·2 = 12, exponent 1."
+  },
+  {
+   "u": 2,
+   "q": "d/dx (7x³) =",
+   "o": [
+    "7x²",
+    "21x²",
+    "21x³",
+    "14x²"
+   ],
+   "a": 1,
+   "e": "Power rule: multiply by the exponent and lower it by one: 7·3 = 21, exponent 2."
+  },
+  {
+   "u": 2,
+   "q": "d/dx (2x⁶) =",
+   "o": [
+    "10x⁵",
+    "12x⁶",
+    "12x⁵",
+    "2x⁵"
+   ],
+   "a": 2,
+   "e": "Power rule: multiply by the exponent and lower it by one: 2·6 = 12, exponent 5."
+  },
+  {
+   "u": 3,
+   "q": "d/dx sin(2x) =",
+   "o": [
+    "−2 cos(2x)",
+    "2 cos(2x)",
+    "cos(2x)",
+    "2 sin(2x)"
+   ],
+   "a": 1,
+   "e": "Chain rule: cos(2x) · 2."
+  },
+  {
+   "u": 3,
+   "q": "d/dx e^{2x} =",
+   "o": [
+    "e^{2x}",
+    "2x e^{2x−1}",
+    "2e^{2x}",
+    "e^{2}"
+   ],
+   "a": 2,
+   "e": "Chain rule: e^{2x} · 2."
+  },
+  {
+   "u": 3,
+   "q": "d/dx cos(2x) =",
+   "o": [
+    "−2 sin(2x)",
+    "−2 cos(2x)",
+    "−sin(2x)",
+    "2 sin(2x)"
+   ],
+   "a": 0,
+   "e": "Chain rule: −sin(2x) · 2."
+  },
+  {
+   "u": 3,
+   "q": "d/dx sin(3x) =",
+   "o": [
+    "3 sin(3x)",
+    "−3 cos(3x)",
+    "3 cos(3x)",
+    "cos(3x)"
+   ],
+   "a": 2,
+   "e": "Chain rule: cos(3x) · 3."
+  },
+  {
+   "u": 3,
+   "q": "d/dx e^{3x} =",
+   "o": [
+    "e^{3x}",
+    "3x e^{3x−1}",
+    "e^{3}",
+    "3e^{3x}"
+   ],
+   "a": 3,
+   "e": "Chain rule: e^{3x} · 3."
+  },
+  {
+   "u": 3,
+   "q": "d/dx cos(3x) =",
+   "o": [
+    "−sin(3x)",
+    "−3 cos(3x)",
+    "−3 sin(3x)",
+    "3 sin(3x)"
+   ],
+   "a": 2,
+   "e": "Chain rule: −sin(3x) · 3."
+  },
+  {
+   "u": 3,
+   "q": "d/dx sin(5x) =",
+   "o": [
+    "cos(5x)",
+    "5 sin(5x)",
+    "5 cos(5x)",
+    "−5 cos(5x)"
+   ],
+   "a": 2,
+   "e": "Chain rule: cos(5x) · 5."
+  },
+  {
+   "u": 3,
+   "q": "d/dx e^{5x} =",
+   "o": [
+    "e^{5}",
+    "5e^{5x}",
+    "5x e^{5x−1}",
+    "e^{5x}"
+   ],
+   "a": 1,
+   "e": "Chain rule: e^{5x} · 5."
+  },
+  {
+   "u": 3,
+   "q": "d/dx cos(5x) =",
+   "o": [
+    "−sin(5x)",
+    "−5 sin(5x)",
+    "5 sin(5x)",
+    "−5 cos(5x)"
+   ],
+   "a": 1,
+   "e": "Chain rule: −sin(5x) · 5."
+  },
+  {
+   "u": 6,
+   "q": "∫₀^2 3x² dx =",
+   "o": [
+    "72",
+    "8",
+    "12",
+    "9"
+   ],
+   "a": 1,
+   "e": "Antiderivative 3x^3/3, evaluated from 0 to 2, gives 8."
+  },
+  {
+   "u": 6,
+   "q": "∫₀^1 4x³ dx =",
+   "o": [
+    "2",
+    "1",
+    "16",
+    "4"
+   ],
+   "a": 1,
+   "e": "Antiderivative 4x^4/4, evaluated from 0 to 1, gives 1."
+  },
+  {
+   "u": 6,
+   "q": "∫₀^3 6x² dx =",
+   "o": [
+    "108",
+    "54",
+    "55",
+    "486"
+   ],
+   "a": 1,
+   "e": "Antiderivative 6x^3/3, evaluated from 0 to 3, gives 54."
+  },
+  {
+   "u": 6,
+   "q": "∫₀^2 2x³ dx =",
+   "o": [
+    "128",
+    "16",
+    "8",
+    "9"
+   ],
+   "a": 2,
+   "e": "Antiderivative 2x^4/4, evaluated from 0 to 2, gives 8."
+  },
+  {
+   "u": 6,
+   "q": "∫₀^1 5x⁴ dx =",
+   "o": [
+    "1",
+    "25",
+    "5",
+    "2"
+   ],
+   "a": 0,
+   "e": "Antiderivative 5x^5/5, evaluated from 0 to 1, gives 1."
+  },
+  {
+   "u": 6,
+   "q": "∫₀^2 12x³ dx =",
+   "o": [
+    "768",
+    "96",
+    "48",
+    "49"
+   ],
+   "a": 2,
+   "e": "Antiderivative 12x^4/4, evaluated from 0 to 2, gives 48."
+  },
+  {
+   "u": 6,
+   "q": "∫ sin(2x) dx =",
+   "o": [
+    "cos(2x)/2 + C",
+    "−cos(2x)/2 + C",
+    "−2 cos(2x) + C",
+    "2 cos(2x) + C"
+   ],
+   "a": 1,
+   "e": "Reverse the chain rule: the derivative of −cos(2x)/2 is sin(2x)."
+  },
+  {
+   "u": 6,
+   "q": "∫ sin(3x) dx =",
+   "o": [
+    "−3 cos(3x) + C",
+    "3 cos(3x) + C",
+    "cos(3x)/3 + C",
+    "−cos(3x)/3 + C"
+   ],
+   "a": 3,
+   "e": "Reverse the chain rule: the derivative of −cos(3x)/3 is sin(3x)."
+  },
+  {
+   "u": 6,
+   "q": "∫ sin(4x) dx =",
+   "o": [
+    "4 cos(4x) + C",
+    "−cos(4x)/4 + C",
+    "cos(4x)/4 + C",
+    "−4 cos(4x) + C"
+   ],
+   "a": 1,
+   "e": "Reverse the chain rule: the derivative of −cos(4x)/4 is sin(4x)."
+  },
+  {
+   "u": 2,
+   "q": "The slope of the tangent line to f(x) = x³ at x = 2 is:",
+   "o": [
+    "12",
+    "11",
+    "14",
+    "8"
+   ],
+   "a": 0,
+   "e": "f′(2) = 12."
+  },
+  {
+   "u": 2,
+   "q": "The slope of the tangent line to f(x) = x² + 3x at x = 1 is:",
+   "o": [
+    "4",
+    "10",
+    "7",
+    "5"
+   ],
+   "a": 3,
+   "e": "f′(1) = 5."
+  },
+  {
+   "u": 2,
+   "q": "The slope of the tangent line to f(x) = x⁴ at x = 1 is:",
+   "o": [
+    "1",
+    "4",
+    "3",
+    "6"
+   ],
+   "a": 1,
+   "e": "f′(1) = 4."
+  },
+  {
+   "u": 2,
+   "q": "The slope of the tangent line to f(x) = 2x³ − x at x = 2 is:",
+   "o": [
+    "22",
+    "25",
+    "14",
+    "23"
+   ],
+   "a": 3,
+   "e": "f′(2) = 23."
+  },
+  {
+   "u": 2,
+   "q": "The slope of the tangent line to f(x) = x³ − 3x at x = 2 is:",
+   "o": [
+    "9",
+    "11",
+    "2",
+    "8"
+   ],
+   "a": 0,
+   "e": "f′(2) = 9."
+  },
+  {
+   "u": 5,
+   "q": "The local maximum of f(x) = x³ − 3x occurs at x =",
+   "o": [
+    "2",
+    "−1",
+    "1",
+    "0"
+   ],
+   "a": 1,
+   "e": "f′ changes from + to − at x = −1."
+  },
+  {
+   "u": 5,
+   "q": "The local maximum of f(x) = x³ − 12x occurs at x =",
+   "o": [
+    "4",
+    "−2",
+    "2",
+    "0"
+   ],
+   "a": 1,
+   "e": "f′ changes from + to − at x = −2."
+  },
+  {
+   "u": 5,
+   "q": "The local maximum of f(x) = x³ − 27x occurs at x =",
+   "o": [
+    "3",
+    "0",
+    "−3",
+    "6"
+   ],
+   "a": 2,
+   "e": "f′ changes from + to − at x = −3."
+  },
+  {
+   "u": 1,
+   "q": "lim_{x→∞} (6x² + 1)/(3x² − x) =",
+   "o": [
+    "2",
+    "0",
+    "3/6",
+    "∞"
+   ],
+   "a": 0,
+   "e": "Leading coefficients: 6/3."
+  },
+  {
+   "u": 1,
+   "q": "lim_{x→∞} (10x² + 1)/(4x² − x) =",
+   "o": [
+    "10/4",
+    "∞",
+    "4/10",
+    "0"
+   ],
+   "a": 0,
+   "e": "Leading coefficients: 10/4."
+  },
+  {
+   "u": 1,
+   "q": "lim_{x→∞} (9x² + 1)/(2x² − x) =",
+   "o": [
+    "2/9",
+    "∞",
+    "0",
+    "9/2"
+   ],
+   "a": 3,
+   "e": "Leading coefficients: 9/2."
+  },
+  {
+   "u": 1,
+   "q": "lim_{x→∞} (8x² + 1)/(5x² − x) =",
+   "o": [
+    "0",
+    "5/8",
+    "8/5",
+    "∞"
+   ],
+   "a": 2,
+   "e": "Leading coefficients: 8/5."
   }
  ],
  "flashcards": [
