@@ -496,3 +496,12 @@ describe("one address per guide view", () => {
     expect((await SELF.fetch("https://precisstudy.com/biology/quiz")).status).toBe(200);
   });
 });
+
+describe("AdSense account meta tag", () => {
+  it("is added to every HTML page", async () => {
+    for (const path of ["/", "/biology/", "/about/", "/dashboard/"]) {
+      const html = await (await SELF.fetch("https://precisstudy.com" + path)).text();
+      expect(html).toContain('<meta name="google-adsense-account" content="ca-pub-9710380778867118">');
+    }
+  });
+});

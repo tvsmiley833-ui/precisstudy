@@ -202,6 +202,8 @@ async function injectSiteWidgets(res: Response, pathname: string): Promise<Respo
         // Accessibility themes before first paint: the stylesheet is static and the tiny inline script sets the attributes
         // from the saved choice (or the device's "more contrast" setting), so there is no flash of the normal theme.
         el.append('<link rel="stylesheet" href="/shared/high-contrast.css"/>' + CONTRAST_BOOTSTRAP, { html: true });
+        // AdSense site connection: a plain meta tag, no script and no cookies, on every page.
+        el.append('<meta name="google-adsense-account" content="ca-pub-9710380778867118">', { html: true });
       }
     })
     .on("body", {
