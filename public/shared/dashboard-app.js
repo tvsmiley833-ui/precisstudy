@@ -1781,6 +1781,21 @@ async function loadDashboard() {
       }
       unassessedEl.appendChild(heading);
 
+      // A handful of classes needs no category accordions: list them straight away.
+      if (unassessed.length <= 5) {
+        const list = document.createElement('div');
+        list.className = 'ss-card';
+        list.style.cssText = 'padding:6px 8px;';
+        unassessed.slice().sort(apLast).forEach(s => {
+          const row = document.createElement('a');
+          row.href = s.href;
+          row.style.cssText = 'display:flex;justify-content:space-between;align-items:center;padding:11px 10px;border-radius:10px;text-decoration:none;color:var(--text);font-size:14px;font-weight:600;min-height:44px;box-sizing:border-box;';
+          const estMin = Math.max(2, Math.round(s.units.length));
+          row.innerHTML = '<span>' + ssEscapeHtml(s.label) + '</span><span style="color:var(--accent);font-weight:700;font-size:12.5px;" title="Diagnostic, about ' + estMin + ' minutes">Start diagnostic →</span>';
+          list.appendChild(row);
+        });
+        unassessedEl.appendChild(list);
+      } else {
       CATEGORY_ORDER.filter(cat => byCategory[cat]).forEach(cat => {
         const group = byCategory[cat].slice().sort(apLast);
         const details = document.createElement('details');
@@ -1810,6 +1825,7 @@ async function loadDashboard() {
         details.appendChild(body);
         unassessedEl.appendChild(details);
       });
+      }
     }
   }
   renderDashSubjects();
