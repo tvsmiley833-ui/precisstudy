@@ -25,6 +25,10 @@ export const TIPS: { slug: string; published: string }[] = [
     "published": "2026-10-04"
   },
   {
+    "slug": "dilution-m1v1",
+    "published": "2026-10-04"
+  },
+  {
     "slug": "dominant-recessive-alleles",
     "published": "2026-10-04"
   },
@@ -34,6 +38,14 @@ export const TIPS: { slug: string; published: string }[] = [
   },
   {
     "slug": "factoring-trinomials",
+    "published": "2026-10-04"
+  },
+  {
+    "slug": "hardy-weinberg",
+    "published": "2026-10-04"
+  },
+  {
+    "slug": "ideal-gas-law",
     "published": "2026-10-04"
   },
   {
@@ -85,6 +97,10 @@ export const TIPS: { slug: string; published: string }[] = [
     "published": "2026-10-04"
   },
   {
+    "slug": "percent-change",
+    "published": "2026-10-04"
+  },
+  {
     "slug": "periodic-trends",
     "published": "2026-10-04"
   },
@@ -106,6 +122,14 @@ export const TIPS: { slug: string; published: string }[] = [
   },
   {
     "slug": "preterite-vs-imperfect",
+    "published": "2026-10-04"
+  },
+  {
+    "slug": "price-elasticity-of-demand",
+    "published": "2026-10-04"
+  },
+  {
+    "slug": "probability-and-or-rules",
     "published": "2026-10-04"
   },
   {
@@ -170,6 +194,10 @@ export const TIPS: { slug: string; published: string }[] = [
   },
   {
     "slug": "u-substitution",
+    "published": "2026-10-04"
+  },
+  {
+    "slug": "vertex-form-completing-the-square",
     "published": "2026-10-04"
   },
   {
