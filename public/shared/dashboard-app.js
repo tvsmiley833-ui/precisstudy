@@ -790,7 +790,7 @@ function renderDashGreeting(session, blob) {
   const el = document.getElementById('dash-greeting');
   if (!el) return;
   const hour = new Date().getHours();
-  const timeGreeting = hour < 5 ? 'Burning the midnight oil' : hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : hour < 21 ? 'Good evening' : 'Good evening';
+  const timeGreeting = hour < 5 ? 'Good evening' : hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : hour < 21 ? 'Good evening' : 'Good evening';
   const firstName = (session && session.name || '').trim().split(/\s+/)[0];
   let text = firstName ? `${timeGreeting}, ${firstName}.` : `${timeGreeting}.`;
 
@@ -1020,7 +1020,7 @@ function renderTodayPlan(subjects, blob) {
     }
     const practiceSubj = worst ? worst.subject : subjects[0];
     tasks.push(worst && worst.pct < 80
-      ? { href: worst.subject.href + '?practice=' + worst.unitId, title: 'Practice ' + qTarget + ' questions', sub: worst.unitName + ' · ' + worst.subject.label + ' · ' + worst.pct + '% so far' }
+      ? { href: worst.subject.href + '?practice=' + worst.unitId, title: 'Practice ' + qTarget + ' questions', sub: worst.unitName + ' · ' + worst.subject.label + ' · ' + (worst.pct > 0 ? worst.pct + '% so far' : 'Not started yet') }
       : { href: practiceSubj.href + '/quiz', title: 'Practice ' + qTarget + ' questions', sub: practiceSubj.label + ' · mixed units' });
     if (!dueSubject) tasks.push({ href: practiceSubj.href + '/flashcards', title: 'Review ' + cardTarget + ' flashcards', sub: practiceSubj.label });
   } else {
@@ -1379,13 +1379,14 @@ async function loadDashboard() {
       return 4;
     }
     const BUCKET_BG = [
-      'color-mix(in srgb, var(--text) 16%, transparent)',
-      'color-mix(in srgb, var(--accent-bright, var(--accent)) 45%, transparent)',
-      'color-mix(in srgb, var(--accent-bright, var(--accent)) 70%, transparent)',
-      'color-mix(in srgb, var(--accent-bright, var(--accent)) 90%, transparent)',
+      'color-mix(in srgb, var(--text) 14%, var(--bg-card))',
+      'color-mix(in srgb, var(--accent-bright, var(--accent)) 38%, var(--bg-card))',
+      'color-mix(in srgb, var(--accent-bright, var(--accent)) 62%, var(--bg-card))',
+      'color-mix(in srgb, var(--accent-bright, var(--accent)) 85%, var(--bg-card))',
       'var(--accent-solid, var(--accent-bright, var(--accent)))'
     ];
 
+    const fmtDate = function (iso) { const p = iso.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }); };
     let cells = '';
     let totalQ = 0, activeDays = 0, bestN = 0, bestDate = '';
     for (let d = new Date(start); d <= today; d.setDate(d.getDate() + 1)) {
@@ -1393,15 +1394,26 @@ async function loadDashboard() {
       const n = deltaByDate[dateStr] || 0;
       totalQ += n; if (n) activeDays++; if (n > bestN) { bestN = n; bestDate = dateStr; }
       const bg = BUCKET_BG[bucket(n)];
-      const label = n ? (n + ' question' + (n === 1 ? '' : 's') + ' on ' + dateStr) : ('No activity on ' + dateStr);
-      cells += '<div title="' + ssEscapeHtml(label) + '" style="width:16px;height:16px;border-radius:4px;background:' + bg + ';"></div>';
+      const label = n ? (n + ' question' + (n === 1 ? '' : 's') + ' on ' + fmtDate(dateStr)) : ('No activity on ' + fmtDate(dateStr));
+      cells += '<div title="' + ssEscapeHtml(label) + '" style="width:16px;height:16px;border-radius:4px;background:' + bg + ';box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--text) 10%,transparent);"></div>';
     }
 
     // Colour alone can't carry this, so the grid gets a text summary that screen readers (and everyone else) can read.
     const summary = totalQ
-      ? totalQ + ' question' + (totalQ === 1 ? '' : 's') + ' answered on ' + activeDays + ' day' + (activeDays === 1 ? '' : 's') + ' in the last ' + WEEKS + ' weeks. Busiest day: ' + bestDate + ' (' + bestN + ').'
+      ? totalQ + ' question' + (totalQ === 1 ? '' : 's') + ' answered on ' + activeDays + ' day' + (activeDays === 1 ? '' : 's') + ' in the last ' + WEEKS + ' weeks. Busiest day: ' + (bestDate ? fmtDate(bestDate) : '') + ' (' + bestN + ').'
       : 'No questions answered in the last ' + WEEKS + ' weeks.';
-    el.innerHTML = '<div role="img" aria-label="' + ssEscapeHtml('Activity grid. ' + summary) + '" style="display:grid;grid-template-rows:repeat(7,16px);grid-auto-flow:column;gap:4px;overflow-x:auto;padding-bottom:4px;">' + cells + '</div>'
+    let monthsHtml = '', lastMonth = -1;
+    for (let w = 0; w < WEEKS; w++) {
+      const wd = new Date(start); wd.setDate(wd.getDate() + w * 7);
+      const m = wd.getMonth();
+      monthsHtml += '<span style="position:absolute;left:' + (w * 20) + 'px;">' + (m !== lastMonth ? wd.toLocaleDateString(undefined, { month: 'short' }) : '') + '</span>';
+      lastMonth = m;
+    }
+    const dayLabels = ['', 'Mon', '', 'Wed', '', 'Fri', ''].map(function (t) { return '<span style="height:16px;line-height:16px;">' + t + '</span>'; }).join('');
+    el.innerHTML = '<div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;">'
+      + '<div aria-hidden="true" style="display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--text-muted);padding-top:18px;flex-shrink:0;">' + dayLabels + '</div>'
+      + '<div><div aria-hidden="true" style="position:relative;height:14px;margin-bottom:4px;font-size:11px;color:var(--text-muted);width:' + (WEEKS * 20) + 'px;">' + monthsHtml + '</div>'
+      + '<div role="img" aria-label="' + ssEscapeHtml('Activity grid. ' + summary) + '" style="display:grid;grid-template-rows:repeat(7,16px);grid-auto-flow:column;gap:4px;">' + cells + '</div></div></div>'
       + '<div style="display:flex;align-items:center;gap:5px;margin-top:10px;font-size:13px;color:var(--text-muted);">'
       + '<span>Less</span>'
       + BUCKET_BG.map(function (bg) { return '<span style="width:14px;height:14px;border-radius:3px;background:' + bg + ';display:inline-block;"></span>'; }).join('')
@@ -1424,31 +1436,32 @@ async function loadDashboard() {
       totalCorrect += correct;
       totalAnswered += answered;
       totalCardsKnown += (subj.cardsKnown || []).length;
-      rows.push({ label: s.label, pct, answered, cardsKnown: (subj.cardsKnown || []).length });
+      const sf = SUBJECTS_FOR_SCHEDULE.find(function (x) { return x.key === s.key; }) || SUBJECTS_CONFIG.find(function (x) { return x.key === s.key; });
+      rows.push({ label: s.label, href: sf && sf.href, pct, answered, cardsKnown: (subj.cardsKnown || []).length });
     });
     if (!rows.length) { card.style.display = 'none'; return; }
     card.style.display = 'block';
 
     const overallPct = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : null;
     document.getElementById('dash-analytics-summary').innerHTML = [
-      { n: totalAnswered, l: 'questions answered' },
-      { n: overallPct === null ? '—' : overallPct + '%', l: 'overall accuracy' },
-      { n: totalCardsKnown, l: 'cards mastered' }
+      { n: totalAnswered.toLocaleString(), l: totalAnswered === 1 ? 'question answered' : 'questions answered' },
+      { n: overallPct === null ? '—' : overallPct + '%', l: 'overall accuracy', tip: 'Correct answers out of all questions you have answered, across every class (all time).' },
+      { n: totalCardsKnown.toLocaleString(), l: totalCardsKnown === 1 ? 'card mastered' : 'cards mastered' }
     ].map(function (stat) {
-      return '<div><div style="font-size:24px;font-weight:800;color:var(--text);">' + stat.n + '</div>'
-        + '<div style="font-size:12.5px;color:var(--text-muted);">' + stat.l + '</div></div>';
+      return '<div' + (stat.tip ? ' title="' + ssEscapeHtml(stat.tip) + '"' : '') + '><div style="font-size:26px;font-weight:800;color:var(--text);">' + stat.n + '</div>'
+        + '<div style="font-size:14px;color:var(--text-muted);">' + stat.l + (stat.tip ? ' <span aria-hidden="true" style="opacity:.7">&#9432;</span>' : '') + '</div></div>';
     }).join('');
 
     rows.sort(function (a, b) { return (a.pct === null ? 101 : a.pct) - (b.pct === null ? 101 : b.pct); });
     document.getElementById('dash-analytics-table').innerHTML = rows.map(function (r) {
       const pctLabel = r.pct === null ? 'not assessed yet' : r.pct + '% accuracy';
       const barColor = r.pct === null ? 'var(--border, #444)' : r.pct >= 80 ? '#3fae6a' : r.pct >= 50 ? '#936e2a' : '#c25454';
-      return '<div style="display:flex;align-items:center;gap:10px;padding:6px 0;font-size:13.5px;">'
+      return '<' + (r.href ? 'a href="' + ssEscapeHtml(r.href) + '"' : 'div') + ' class="dash-prog-row" style="display:flex;align-items:center;gap:10px;padding:8px 6px;margin:0 -6px;border-radius:10px;font-size:14px;text-decoration:none;">'
         + '<div style="width:150px;flex-shrink:0;color:var(--text);">' + ssEscapeHtml(r.label) + '</div>'
         + '<div style="flex:1;height:8px;border-radius:999px;background:var(--border, #333);overflow:hidden;">'
         + '<div style="height:100%;border-radius:999px;background:' + barColor + ';width:' + (r.pct === null ? 0 : r.pct) + '%;"></div></div>'
         + '<div style="width:110px;flex-shrink:0;text-align:right;color:var(--text-muted);">' + pctLabel + '</div>'
-        + '</div>';
+        + (r.href ? '</a>' : '</div>');
     }).join('');
   }
 
@@ -1530,6 +1543,12 @@ async function loadDashboard() {
       headingLabel.textContent = 'Not yet assessed (' + unassessed.length + ')';
       heading.appendChild(headingLabel);
       if (unassessed.length > 1) {
+        const rndBtn = document.createElement('button');
+        rndBtn.type = 'button';
+        rndBtn.style.cssText = 'background:none;border:1px solid var(--border);border-radius:999px;color:var(--text);font-weight:700;font-size:12.5px;padding:6px 14px;cursor:pointer;';
+        rndBtn.textContent = 'Surprise me';
+        rndBtn.addEventListener('click', function () { location.href = unassessed[Math.floor(Math.random() * unassessed.length)].href; });
+        heading.appendChild(rndBtn);
         const batchBtn = document.createElement('button');
         batchBtn.type = 'button';
         batchBtn.style.cssText = 'background:none;border:1px solid var(--border);border-radius:999px;color:var(--accent);font-weight:700;font-size:12.5px;padding:6px 14px;cursor:pointer;';
@@ -1562,7 +1581,7 @@ async function loadDashboard() {
           // counts, not a fixed marketing number every subject shares.
           const estMin = Math.max(2, Math.round(s.units.length));
           row.innerHTML = '<span>' + ssEscapeHtml(s.label) + '</span>'
-            + '<span style="color:var(--accent);font-weight:700;font-size:12.5px;">Take diagnostic (~' + estMin + ' min) →</span>';
+            + '<span style="color:var(--accent);font-weight:700;font-size:12.5px;display:inline-flex;align-items:center;gap:5px;" title="Diagnostic, about ' + estMin + ' minutes"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>' + estMin + ' min <span aria-hidden="true">→</span><span class="sr-only" style="position:absolute;left:-9999px">Take diagnostic</span></span>';
           body.appendChild(row);
         });
         details.appendChild(body);

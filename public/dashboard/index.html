@@ -222,6 +222,26 @@ body{transition:background .2s ease,color .2s ease}
 }
 @keyframes dashSidebarIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
 @media(prefers-reduced-motion:reduce){.dash-sidebar-panel:not(.dash-collapsed){animation:none}}
+
+/* ---- dashboard polish ---- */
+.ss-density-btn.active{background:var(--accent-bright)!important;border-color:var(--accent-bright)!important;color:#fff!important}
+.ss-density-btn{min-height:36px}
+.dash-prog-row:hover{background:color-mix(in srgb,var(--text) 6%,transparent)}
+.dash-prog-row:focus-visible{outline:2px solid var(--accent-bright)}
+button,[role="button"],summary,select,label[for]{cursor:pointer}
+button:active:not(:disabled){transform:scale(.98)}
+#main-content,.dash-main{padding-bottom:40px}
+body{padding-bottom:100px}
+.dash-main{max-width:1200px}
+html{scroll-behavior:smooth}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+[data-theme="dark"]{color-scheme:dark;scrollbar-color:#3d6657 #14302a}
+[data-theme="dark"] ::-webkit-scrollbar{width:12px;height:12px}
+[data-theme="dark"] ::-webkit-scrollbar-track{background:#14302a}
+[data-theme="dark"] ::-webkit-scrollbar-thumb{background:#3d6657;border-radius:8px;border:3px solid #14302a}
+#sb-grid-clear-btn{border:1px solid color-mix(in srgb,#b3362c 60%,var(--border))!important;border-radius:999px!important;padding:6px 14px!important;color:#b3362c!important}
+[data-theme="dark"] #sb-grid-clear-btn{color:#ff8a80!important;border-color:#ff8a80!important}
+@media(max-width:640px){.ss-filter-input,input[type="text"],input[type="number"],select{font-size:16px}}
 </style>
 <link rel="stylesheet" href="/shared/site-header.css"/>
 </head>
@@ -297,7 +317,7 @@ body{transition:background .2s ease,color .2s ease}
         <button id="dash-subject-filter-clear" type="button" aria-label="Clear filter" style="display:none;position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:18px;line-height:1;padding:4px;">×</button>
       </div>
       <div id="dash-density-row" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;" role="group" aria-label="Card density">
-        <span style="font-size:12.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;width:100%;">Density</span>
+        <span style="font-size:13px;font-weight:800;color:var(--text-body);text-transform:uppercase;letter-spacing:.05em;width:100%;">Density</span>
         <button type="button" class="ss-density-btn" data-density="compact" style="background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);font-size:12.5px;font-weight:700;padding:5px 12px;cursor:pointer;">Compact</button>
         <button type="button" class="ss-density-btn" data-density="comfortable" style="background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);font-size:12.5px;font-weight:700;padding:5px 12px;cursor:pointer;">Comfortable</button>
         <button type="button" class="ss-density-btn" data-density="spacious" style="background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);font-size:12.5px;font-weight:700;padding:5px 12px;cursor:pointer;">Spacious</button>
@@ -335,7 +355,7 @@ body{transition:background .2s ease,color .2s ease}
         <div style="font-weight:800;font-size:19px;color:var(--text);"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Upcoming Assignments</div>
         <a href="/settings/" style="font-size:12.5px;color:var(--text-muted);text-decoration:none;font-weight:700;">Manage →</a>
       </div>
-      <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 8px;">Your Google Classroom coursework and calendar due-dates, in one place.</p>
+      <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 8px;">Your Google Classroom and Canvas coursework, plus calendar due-dates, in one place.</p>
       <div id="dash-assignments-sync" style="display:none;align-items:center;gap:8px;margin-bottom:10px;">
         <span id="dash-assignments-sync-label" style="font-size:12px;color:var(--text-muted);"></span>
         <button id="dash-assignments-refresh-btn" title="Refresh now" aria-label="Refresh assignments now" style="background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);cursor:pointer;font-size:12px;padding:3px 10px;display:flex;align-items:center;gap:5px;">
