@@ -254,6 +254,16 @@ body{transition:background .2s ease,color .2s ease}
 
 body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:2147483647;opacity:.035;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+/* Subject accents: one hue per group, lightness set per theme so icons and hover borders keep contrast. */
+:root{--gl:.46}[data-theme="dark"]{--gl:.78}
+.class-group{--gh:150}
+.class-group[data-group="Math"]{--gh:250}.class-group[data-group="Science"]{--gh:155}.class-group[data-group="History"]{--gh:75}
+.class-group[data-group="English"]{--gh:15}.class-group[data-group="Languages"]{--gh:310}.class-group[data-group="Technology"]{--gh:205}
+.class-group[data-group="Electives & Skills"]{--gh:40}.class-group[data-group="AP Courses"]{--gh:285}.class-group[data-group="Test Prep"]{--gh:100}
+.class-group{--gc:oklch(var(--gl) .13 var(--gh))}
+.class-group .class-card-icon{color:var(--gc)}
+.class-group .class-card:not(.class-card-soon):hover{border-color:var(--gc)!important}
+.class-group .class-group-h{border-left:4px solid var(--gc);padding-left:10px}
 .class-card-topics{margin:10px 0 0;font-size:13.5px;line-height:1.45;color:var(--text-muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .class-card-more{white-space:nowrap;opacity:.8}
 @media(max-width:640px){#category-pills{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;scrollbar-width:none;padding:0 16px 4px;margin-left:-16px;margin-right:-16px;max-width:none}#category-pills::-webkit-scrollbar{display:none}.cat-pill{flex-shrink:0}}
@@ -404,7 +414,7 @@ body > :where(:not(.chalkboard):not(script):not(style)){position:relative;z-inde
       <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
     </button>
     <div id="ss-account-area" style="position:relative;"></div>
-    <a href="#classes-section" class="ss-cta-btn" style="background:var(--bg-card);color:var(--accent);border:2px solid var(--accent-solid);padding:6px 16px;border-radius:20px;text-decoration:none;white-space:nowrap;">Pick your class →</a>
+    <a href="#classes-section" class="ss-cta-btn" style="background:var(--accent-solid);color:#fff;border:2px solid var(--accent-solid);padding:6px 16px;border-radius:20px;text-decoration:none;white-space:nowrap;">Pick your class →</a>
   </div>
   <div id="ss-mobile-menu" role="menu" aria-label="Main" style="display:none;position:absolute;top:100%;left:16px;margin-top:8px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;box-shadow:0 12px 32px -12px rgba(0,0,0,.35);padding:8px;min-width:200px;z-index:60;flex-direction:column;">
     <a role="menuitem" href="#classes-section" onclick="ssCloseMobileMenu()" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Browse Subjects</a>
