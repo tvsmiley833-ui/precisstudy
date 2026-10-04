@@ -1770,7 +1770,7 @@ async function ssCheckSession(){
   try{
     var res = await fetch('/auth/me');
     var data = await res.json();
-    SS_SESSION = data.loggedIn ? data : false;
+    SS_SESSION = data.loggedIn ? data : false; if (data.loggedIn) document.documentElement.setAttribute("data-signed-in", "1");
   }catch(e){
     SS_SESSION = false;
   }

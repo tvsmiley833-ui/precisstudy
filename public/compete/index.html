@@ -516,7 +516,8 @@ async function qsLoadLevel(){
     if (!r.ok) return;
     var st = await r.json();
     var f = function(l){ return Math.round(100 * Math.pow(l, 1.6)); };
-    qsState.level = { level: st.level, xpIntoLevel: st.xp - f(st.level), xpForNext: f(st.level + 1) - f(st.level) };
+    var lo = st.level > 1 ? f(st.level - 1) : 0;
+    qsState.level = { level: st.level, xpIntoLevel: st.xp - lo, xpForNext: f(st.level) - lo };
   } catch (e) {}
 }
 
