@@ -25,6 +25,10 @@ export const TIPS: { slug: string; published: string }[] = [
     "published": "2026-10-04"
   },
   {
+    "slug": "dominant-recessive-alleles",
+    "published": "2026-10-04"
+  },
+  {
     "slug": "exponent-rules",
     "published": "2026-10-04"
   },
@@ -38,6 +42,10 @@ export const TIPS: { slug: string; published: string }[] = [
   },
   {
     "slug": "kinematics-equations",
+    "published": "2026-10-04"
+  },
+  {
+    "slug": "kinetic-energy-work",
     "published": "2026-10-04"
   },
   {
@@ -86,6 +94,10 @@ export const TIPS: { slug: string; published: string }[] = [
   },
   {
     "slug": "photosynthesis-vs-cellular-respiration",
+    "published": "2026-10-04"
+  },
+  {
+    "slug": "point-slope-form",
     "published": "2026-10-04"
   },
   {
