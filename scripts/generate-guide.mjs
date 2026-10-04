@@ -425,7 +425,7 @@ export function generateGuide(config) {
   let hero = templateHero
     .replaceAll("APUSH", esc(title))
     .replace(`9 Units · 137 Quiz Questions · 72 Flashcards · Diagnostic · Full Reference Tables · Diagrams · Saved Progress`,
-      `${units.length} Units · ${quiz.length} Quiz Questions · ${flashcards.length} Flashcards · Diagnostic${worked.length ? " · Worked Examples" : ""} · Quick Reference · Memory Tricks · Saved Progress`);
+      `${units.length} Units · ${quiz.length} Quiz Questions · ${flashcards.length} Flashcards${worked.length ? ` · ${worked.length} Worked Examples` : ""}`);
   if (!worked.length)
     hero = hero.replace(/\s*<button class="tab-btn" role="tab" id="tab-examples"[^>]*>Worked Examples<\/button>/, "");
   html += hero;

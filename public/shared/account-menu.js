@@ -22,7 +22,7 @@
   function html(name, floating) {
     return '<button type="button" class="ss-avatar-btn" aria-haspopup="menu" aria-expanded="false" aria-label="Account menu">'
       + (hasAv ? '<img class="ss-avatar" alt="" src="/api/avatar' + avVer + '" style="object-fit:cover">' : '<span class="ss-avatar" aria-hidden="true">' + esc(name.trim().charAt(0).toUpperCase()) + '</span>')
-      + '<span class="ss-acct-name">' + esc(name) + '</span><span class="ss-acct-caret" aria-hidden="true" style="font-size:10px">&#9662;</span></button>'
+      + '<span class="ss-acct-name">' + esc(name) + '</span><svg class="ss-acct-caret" aria-hidden="true" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>'
       + '<div class="ss-acct-menu" role="menu" hidden><a role="menuitem" href="/dashboard/">Dashboard</a><a role="menuitem" href="/settings/">Settings</a>'
       + '<button type="button" role="menuitem" data-signout>Sign out</button></div>';
   }
