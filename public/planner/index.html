@@ -250,6 +250,17 @@ html{scroll-behavior:smooth}
 #sb-grid-scroll{-webkit-overflow-scrolling:touch}
 #sb-toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,140%);background:var(--accent-solid);color:#fff;font-weight:700;font-size:14px;padding:12px 22px;border-radius:999px;box-shadow:0 12px 32px rgba(0,0,0,.22);z-index:90;opacity:0;transition:transform .22s ease,opacity .22s ease}
 #sb-toast.visible{transform:translate(-50%,0);opacity:1}
+.sb-preset-btn{display:inline-flex;flex-direction:column;align-items:flex-start;gap:2px;border-radius:14px!important;padding:9px 16px!important;text-align:left}
+.sb-preset-sub{font-size:11.5px;font-weight:600;color:var(--text-muted)}
+.sb-secondary-btn{background:none;border:2px solid var(--border);border-radius:999px;padding:9px 18px;font:inherit;font-size:14px;font-weight:700;color:var(--text);cursor:pointer}
+.sb-secondary-btn:hover{border-color:var(--accent-bright);color:var(--accent)}
+.sb-cat-tools{display:flex;gap:8px;margin-bottom:4px}
+.sb-cat-tools button{background:none;border:none;color:var(--accent);font:inherit;font-size:12.5px;font-weight:700;cursor:pointer;padding:4px 2px;text-decoration:underline}
+.sb-subject-row.sb-selected{background:color-mix(in srgb,var(--accent-bright) 10%,transparent);border-color:var(--accent-bright)!important}
+.sb-grab{cursor:grab;color:var(--text-muted);font-size:16px;letter-spacing:-3px;user-select:none;padding:0 4px;touch-action:none}
+.sb-dragging{opacity:.5}
+.sb-drop{outline:2px dashed var(--accent-bright);outline-offset:2px}
+.sb-preview-note{margin-bottom:12px;padding:10px 14px;border:1px dashed var(--accent-bright);border-radius:12px;font-size:13.5px;color:var(--text)}
 </style>
 <link rel="stylesheet" href="/shared/site-header.css"/>
 </head>
@@ -312,7 +323,7 @@ html{scroll-behavior:smooth}
       <details id="sb-tutorial" style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin-bottom:18px;">
         <summary style="cursor:pointer;font-size:13px;font-weight:700;color:var(--accent);list-style:none;">❔ How this works (3 steps)</summary>
         <ol style="margin:10px 0 2px;padding-left:20px;font-size:13px;color:var(--text-muted);line-height:1.6;">
-          <li><b style="color:var(--text)">Paint your free time.</b> Click or drag across the grid below for each day you can study — a day can have more than one window.</li>
+          <li><b style="color:var(--text)">Paint your free time.</b> Click or drag across the grid below for each day you can study. Click a filled cell again to clear just that hour.</li>
           <li><b style="color:var(--text)">Pick your subjects.</b> Check off the classes you want scheduled, grouped by type below. If you check more than one, use the ↑↓ arrows to rank them — higher priority gets more of the free days.</li>
           <li><b style="color:var(--text)">Build it.</b> Click "Build my schedule" — each colored block links straight to that subject's next study unit.</li>
         </ol>
@@ -321,8 +332,8 @@ html{scroll-behavior:smooth}
       <div style="margin-bottom:16px;">
         <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;"><span class="pl-step">1</span> When are you free to study? <span style="font-weight:500;color:var(--text-muted);">Click or drag across the grid to paint free hours — a day can have more than one window.</span></div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
-          <button class="sb-preset-btn" type="button" data-preset="light">☀️ Light (15 min/day, weekdays)</button>
-          <button class="sb-preset-btn" type="button" data-preset="crunch">Exam Crunch (1 hr/day, every day)</button>
+          <button class="sb-preset-btn" type="button" data-preset="light"><b>☀️ Light</b><span class="sb-preset-sub">15 minutes each weekday afternoon</span></button>
+          <button class="sb-preset-btn" type="button" data-preset="crunch"><b>🔥 Exam Crunch</b><span class="sb-preset-sub">An hour every day, weekends included</span></button>
         </div>
         <div id="sb-grid-scroll" style="overflow-x:auto;margin-bottom:10px;">
           <div id="sb-grid" style="display:inline-grid;grid-template-columns:44px repeat(7,minmax(34px,1fr));gap:2px;user-select:none;"></div>
@@ -352,14 +363,13 @@ html{scroll-behavior:smooth}
       </div>
 
       <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;">
+        <button id="sb-preview-btn" type="button" class="sb-secondary-btn">Preview</button>
         <button id="sb-build-btn" class="ss-cta-btn" style="background:var(--accent-solid);color:#fff;border:none;padding:10px 20px;border-radius:999px;font-size:14px;font-weight:700;cursor:pointer;">Build my schedule</button>
-        <a href="/syllabus/" style="font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;">📄 Or upload a syllabus for exact class times →</a>
-        <a href="/concepts/" style="font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;">🧭 See unit dependency map →</a>
-        <a href="/compete/" style="font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;">🏆 Compete: quests, leaderboards, groups &amp; challenges →</a>
-        <a href="/educators/" style="font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;">🏫 Educator Resource Hub →</a>
+        <a href="/syllabus/" class="sb-secondary-btn" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"/></svg>Upload a syllabus for exact class times</a>
         <span id="sb-status" style="font-size:12.5px;color:var(--text-muted);"></span>
       </div>
 
+      <div id="sb-live" class="sr-only" role="status" aria-live="polite" style="position:absolute;left:-9999px"></div>
       <div id="sb-result" style="margin-top:20px;"></div>
       <div id="sb-notify-prompt" style="display:none;margin-top:14px;background:var(--accent-soft, var(--surface));border:1px solid var(--border);border-radius:12px;padding:14px 16px;">
         <div style="font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:2px;">🔔 Want a reminder right when each block starts?</div>

@@ -428,6 +428,8 @@ function sbRenderBlocks() {
   });
 }
 
+function sbAnnounce(msg) { const s = document.getElementById('sb-live'); if (s) s.textContent = msg; }
+
 function sbRenderSubjects() {
   const wrap = document.getElementById('sb-subjects');
   if (!wrap) return;
@@ -452,11 +454,14 @@ function sbRenderSubjects() {
       + '<span class="sb-cat-count">' + subjects.length + '</span>'
       + '<svg class="sb-cat-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>'
       + '</summary>'
-      + '<div class="sb-cat-body">';
+      + '<div class="sb-cat-body">'
+      + '<div class="sb-cat-tools"><button type="button" data-cat-all="' + catKey + '">Select all</button><button type="button" data-cat-none="' + catKey + '">Deselect all</button></div>';
     subjects.forEach(function (s) {
       const idx = sbSelectedSubjects.findIndex(function (x) { return x.key === s.key; });
       const sel = idx === -1 ? null : sbSelectedSubjects[idx];
-      html += '<div class="sb-subject-row"><label>'
+      html += '<div class="sb-subject-row' + (sel ? ' sb-selected' : '') + '" data-row-subj="' + s.key + '"' + (sel ? ' draggable="true"' : '') + '>'
+        + (sel ? '<span class="sb-grab" title="Drag to change priority" aria-hidden="true">&#8942;&#8942;</span>' : '')
+        + '<label>'
         + '<input type="checkbox" data-subj="' + s.key + '"' + (sel ? ' checked' : '') + '/>'
         + '<span class="sb-swatch" style="background:' + SUBJECT_COLORS[s.key] + '"></span>' + s.label + '</label>';
       if (sel) {
@@ -484,7 +489,38 @@ function sbRenderSubjects() {
       } else {
         sbSelectedSubjects = sbSelectedSubjects.filter(function (x) { return x.key !== key; });
       }
-      sbRenderSubjects();
+      sbRenderSubjects(); sbAnnounce((cb.checked ? 'Added ' : 'Removed ') + (SUBJECTS_CONFIG.find(function (s) { return s.key === key; }) || {}).label);
+    });
+  });
+  function catKeys(cat) { return (byCat[cat] || []).map(function (s) { return s.key; }); }
+  wrap.querySelectorAll('button[data-cat-all]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      catKeys(b.dataset.catAll).forEach(function (k) { if (!sbSelectedSubjects.find(function (x) { return x.key === k; })) sbSelectedSubjects.push({ key: k, unitMode: 'auto' }); });
+      sbRenderSubjects(); sbAnnounce('Selected all in this group');
+    });
+  });
+  wrap.querySelectorAll('button[data-cat-none]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      const ks = catKeys(b.dataset.catNone);
+      sbSelectedSubjects = sbSelectedSubjects.filter(function (x) { return ks.indexOf(x.key) === -1; });
+      sbRenderSubjects(); sbAnnounce('Cleared this group');
+    });
+  });
+  // Drag a selected subject onto another to reorder priority (the up/down buttons stay for keyboard users).
+  let dragKey = null;
+  wrap.querySelectorAll('.sb-subject-row[draggable="true"]').forEach(function (row) {
+    row.addEventListener('dragstart', function (e) { dragKey = row.dataset.rowSubj; row.classList.add('sb-dragging'); if (e.dataTransfer) { e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', dragKey); } });
+    row.addEventListener('dragend', function () { row.classList.remove('sb-dragging'); wrap.querySelectorAll('.sb-drop').forEach(function (r) { r.classList.remove('sb-drop'); }); });
+    row.addEventListener('dragover', function (e) { if (dragKey && dragKey !== row.dataset.rowSubj) { e.preventDefault(); row.classList.add('sb-drop'); } });
+    row.addEventListener('dragleave', function () { row.classList.remove('sb-drop'); });
+    row.addEventListener('drop', function (e) {
+      e.preventDefault();
+      const from = sbSelectedSubjects.findIndex(function (x) { return x.key === dragKey; });
+      const to = sbSelectedSubjects.findIndex(function (x) { return x.key === row.dataset.rowSubj; });
+      if (from < 0 || to < 0 || from === to) return;
+      const item = sbSelectedSubjects.splice(from, 1)[0];
+      sbSelectedSubjects.splice(to, 0, item);
+      sbRenderSubjects(); sbAnnounce('Priority updated');
     });
   });
   wrap.querySelectorAll('select[data-subj-unit]').forEach(function (selEl) {
@@ -550,7 +586,9 @@ function sbUpcomingDueDayKeys() {
   return keys;
 }
 
-function sbBuildSchedule(ev) {
+function sbPreviewSchedule() { sbBuildSchedule(null, true); }
+
+function sbBuildSchedule(ev, preview) {
   const statusEl = document.getElementById('sb-status');
   const resultEl = document.getElementById('sb-result');
 
@@ -623,6 +661,7 @@ function sbBuildSchedule(ev) {
       }).join('')
     + '</div>';
 
+  if (preview) { resultEl.insertAdjacentHTML('afterbegin', '<div class="sb-preview-note"><b>Preview only.</b> Nothing is saved yet. Press &ldquo;Build my schedule&rdquo; to keep it.</div>'); return; }
   try {
     localStorage.setItem('ssScheduleConfig', JSON.stringify({ blocks: sbFreeBlocks, subjects: sbSelectedSubjects }));
   } catch (e) { /* ignore */ }
@@ -1668,6 +1707,8 @@ function initScheduleBuilder(blob) {
   const sbGridClearBtn = document.getElementById('sb-grid-clear-btn');
   if (sbAddBlockBtn) sbAddBlockBtn.addEventListener('click', sbAddBlock);
   if (sbBuildBtn) sbBuildBtn.addEventListener('click', sbBuildSchedule);
+  const sbPreviewBtn = document.getElementById('sb-preview-btn');
+  if (sbPreviewBtn) sbPreviewBtn.addEventListener('click', sbPreviewSchedule);
   if (sbGridClearBtn) sbGridClearBtn.addEventListener('click', function () {
     sbGridCells = new Set();
     sbRenderGrid();
