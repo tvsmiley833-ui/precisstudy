@@ -5,6 +5,14 @@ export const TIPS: { slug: string; published: string }[] = [
     "published": "2026-10-04"
   },
   {
+    "slug": "exponent-rules",
+    "published": "2026-10-04"
+  },
+  {
+    "slug": "kinematics-equations",
+    "published": "2026-10-04"
+  },
+  {
     "slug": "mitosis-vs-meiosis",
     "published": "2026-10-04"
   },
@@ -17,7 +25,31 @@ export const TIPS: { slug: string; published: string }[] = [
     "published": "2026-10-04"
   },
   {
+    "slug": "passe-compose-etre-verbs",
+    "published": "2026-10-04"
+  },
+  {
+    "slug": "periodic-trends",
+    "published": "2026-10-04"
+  },
+  {
+    "slug": "photosynthesis-vs-cellular-respiration",
+    "published": "2026-10-04"
+  },
+  {
+    "slug": "power-rule-derivatives",
+    "published": "2026-10-04"
+  },
+  {
     "slug": "preterite-vs-imperfect",
+    "published": "2026-10-04"
+  },
+  {
+    "slug": "punnett-squares",
+    "published": "2026-10-04"
+  },
+  {
+    "slug": "pythagorean-theorem",
     "published": "2026-10-04"
   },
   {
@@ -29,11 +61,23 @@ export const TIPS: { slug: string; published: string }[] = [
     "published": "2026-10-04"
   },
   {
+    "slug": "slope-and-line-equations",
+    "published": "2026-10-04"
+  },
+  {
     "slug": "sohcahtoa",
     "published": "2026-10-04"
   },
   {
     "slug": "sum-diff-cubes",
+    "published": "2026-10-04"
+  },
+  {
+    "slug": "supply-and-demand-shifts",
+    "published": "2026-10-04"
+  },
+  {
+    "slug": "z-scores-and-empirical-rule",
     "published": "2026-10-04"
   }
 ];
