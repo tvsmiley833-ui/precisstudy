@@ -56,6 +56,7 @@ export const LASTMOD: Record<string, string> = {
   "/onboarding/": "2026-10-04",
   "/parents-bill-of-rights/": "2026-10-04",
   "/physics/": "2026-10-04",
+  "/planner/": "2026-10-04",
   "/precalc/": "2026-10-04",
   "/privacy/": "2026-10-04",
   "/psychology/": "2026-10-04",
