@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "wrangler dev --local-upstream localhost:8787",
+    "dev:login": "wrangler dev --local-upstream localhost:8787 --env-file .dev-login.vars",
     "deploy": "wrangler deploy",
     "test": "npm run test:scripts && vitest run",
     "test:scripts": "node --test test/*.node.test.mjs",

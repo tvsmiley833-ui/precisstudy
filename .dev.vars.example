@@ -18,5 +18,5 @@ VAPID_PRIVATE_KEY=""
 # mailto: address or site URL identifying the push sender, e.g. mailto:you@example.com
 VAPID_SUBJECT=""
 
-# Local testing only: lets http://localhost:8787/auth/dev-login sign in as a fixed test student. Never set this in production.
-DEV_LOGIN="1"
+# Local test sign-in: put SESSION_SECRET and DEV_LOGIN="1" in .dev-login.vars (gitignored) and run `npm run dev:login`,
+# then open http://localhost:8787/auth/dev-login?seed=1. Kept out of .dev.vars so the unit tests do not pick it up.
