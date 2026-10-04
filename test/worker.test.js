@@ -505,3 +505,15 @@ describe("AdSense account meta tag", () => {
     }
   });
 });
+
+describe("slashless addresses", () => {
+  it("permanently redirect guides and section pages to their slashed address", async () => {
+    for (const [from, to] of [["/biology", "/biology/"], ["/about", "/about/"], ["/french-1", "/french-1/"]]) {
+      const r = await SELF.fetch("https://precisstudy.com" + from + "?x=1", { redirect: "manual" });
+      expect(r.status).toBe(301);
+      expect(r.headers.get("Location")).toBe("https://precisstudy.com" + to + "?x=1");
+    }
+    expect((await SELF.fetch("https://precisstudy.com/biology/")).status).toBe(200);
+    expect((await SELF.fetch("https://precisstudy.com/biology/quiz")).status).toBe(200);
+  });
+});

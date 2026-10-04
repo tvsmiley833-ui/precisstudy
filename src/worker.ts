@@ -164,6 +164,14 @@ const CONTRAST_BOOTSTRAP =
   "if(c==='high'||(c===null&&window.matchMedia&&matchMedia('(prefers-contrast: more)').matches))d.setAttribute('data-contrast','high');" +
   "if(localStorage.getItem('ss-amoled')==='on')d.setAttribute('data-amoled','on')}catch(e){}})()</script>";
 
+const SLASH_PAGES = new Set(["about", "privacy", "terms", "request", "dashboard", "settings", "concepts", "compete", "challenge", "syllabus", "flashcards", "educators", "changelog", "parents-bill-of-rights", "onboarding", "share", "age"]);
+
+/** True for "/<guide>" or "/<page>" with no trailing slash, which should permanently redirect to the slashed address. */
+export function needsSlashRedirect(pathname: string): boolean {
+  const m = /^\/([a-z0-9-]+)$/.exec(pathname);
+  return !!m && (SUBJECT_PATHS.has(m[1]!) || SLASH_PAGES.has(m[1]!));
+}
+
 // Common guesses at a guide's address ("/ap-bio", "/algebra-2", "/spanish") redirect to the real one instead of a 404.
 const GUIDE_ALIASES: Record<string, string> = {
   "ap-bio": "ap-biology", "apbio": "ap-biology", "ap-chem": "ap-chemistry", "apchem": "ap-chemistry", "ap-stat": "ap-stats", "ap-statistics": "ap-stats",
@@ -468,6 +476,12 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
         "Cache-Control": "public, max-age=86400"
       }
     });
+  }
+
+  // "/biology" -> "/biology/": the asset layer's own redirect is a temporary 307; search engines want a permanent 301 so the
+  // slashless address is dropped from the index and its signals move to the real one.
+  if ((request.method === "GET" || request.method === "HEAD") && needsSlashRedirect(url.pathname)) {
+    return Response.redirect(`${url.origin}${url.pathname}/${url.search}`, 301);
   }
 
   if (request.method === "GET" || request.method === "HEAD") {
