@@ -249,15 +249,17 @@ async function statsPill() {
   w.__ssMe = w.__ssMe || fetch("/auth/me").then(r => (r.ok ? r.json() : null)).catch(() => null);
   const me = await w.__ssMe;
   if (!me || !me.loggedIn) return;
-  // Same numbers as the dashboard (GET /api/stats); cached for the browser session.
+  // Same numbers as the dashboard (GET /api/stats, read-only).
   /** @type {{ streak: number, xp: number, level: number } | null} */
   let stats = null;
   try { stats = JSON.parse(sessionStorage.getItem("ss-stats2") || "null"); } catch (e) {}
+  // One minute, so the pill follows XP earned on the last page instead of freezing for the whole session.
+  if (stats && !(Date.now() - (/** @type {any} */ (stats).t || 0) < 60000)) stats = null;
   if (!stats) {
     try {
       const s = await fetch("/api/stats").then(r => (r.ok ? r.json() : null));
       if (!s) return;
-      stats = { streak: s.streak || 0, xp: s.xp || 0, level: s.level || 1 };
+      stats = /** @type {any} */ ({ streak: s.streak || 0, xp: s.xp || 0, level: s.level || 1, t: Date.now() });
       try { sessionStorage.setItem("ss-stats2", JSON.stringify(stats)); } catch (e) {}
     } catch (e) { return; }
   }
