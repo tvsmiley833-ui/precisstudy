@@ -22,7 +22,7 @@ const bodyOpen = about.slice(bodyA, about.indexOf(">", bodyA) + 1);
 const [chromeA] = between(about, '<a href="#main-content" class="ss-skip-link"', ">");
 const chromeB = about.indexOf('<div role="main"');
 const CHROME = about.slice(chromeA, chromeB).replace(/<a role="menuitem" href="\/about\/"[^>]*aria-current="page"[^>]*>/, m => m.replace(' aria-current="page"', ""));
-const [footA] = between(about, '<div role="contentinfo"', ">");
+const [footA] = between(about, '<footer class="site-foot"', ">");
 const TAIL = about.slice(footA, about.lastIndexOf("</body>"));
 
 const CSS = `<style>
