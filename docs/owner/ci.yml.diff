@@ -1,0 +1,8 @@
+--- .github/workflows/ci.yml	2026-10-04 00:26:57
++++ .github/workflows/ci.yml	2026-10-04 00:26:57
+@@ -15,4 +15,4 @@
+           cache: npm
+       - run: npm ci
+       - run: npm run typecheck
+-      - run: npx vitest run
++      - run: npm test

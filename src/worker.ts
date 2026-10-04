@@ -1,3 +1,4 @@
+import { handleHealth, handleConfig, runBackup, runRetention, logMissingSecrets } from "./ops.js";
 import { LASTMOD } from "./lastmod.js";
 import { handleChatPost, handleChatOptions, json } from "./chat.js";
 import { allowedBy, declaredTooLarge, bodyLimitFor } from "./limits.js";
@@ -92,7 +93,7 @@ async function rewriteViewMeta(res: Response, view: string): Promise<Response> {
 // stylesheet (<link href="/shared/guide-polish.css">). Kept as an explicit list
 // (not read from disk at request time) so a typo here fails loudly in
 // review rather than silently caching-forever a file nobody versioned.
-const SHARED_JS_FILES = new Set(["local-data.js", "high-contrast.css", "sage-dashboard.js", "dashboard-app.js", "settings-app.js", "install-hint.js", "guide-base.css", "site-header.css", "celebrate.js", "command-palette.js", "error-monitor.js", "feedback-widget.js", "guide-app.js", "high-contrast.js", "mastery.js", "mission-banner.js", "optimistic.js", "tooltips.js", "unit-titles.js", "unit-order.js", "personality.js", "site-header.js", "guide-polish.css"]);
+const SHARED_JS_FILES = new Set(["turnstile.js", "local-data.js", "high-contrast.css", "sage-dashboard.js", "dashboard-app.js", "settings-app.js", "install-hint.js", "guide-base.css", "site-header.css", "celebrate.js", "command-palette.js", "error-monitor.js", "feedback-widget.js", "guide-app.js", "high-contrast.js", "mastery.js", "mission-banner.js", "optimistic.js", "tooltips.js", "unit-titles.js", "unit-order.js", "personality.js", "site-header.js", "guide-polish.css"]);
 
 // Per-isolate cache: hashing 6 small files is cheap, but there's no reason
 // to redo it every request when the isolate will serve many requests
@@ -209,6 +210,7 @@ async function injectSiteWidgets(res: Response, pathname: string): Promise<Respo
         el.append('<script src="/shared/optimistic.js" type="module"></script>', { html: true });
         el.append('<script src="/shared/personality.js" type="module"></script>', { html: true });
         el.append('<script src="/shared/local-data.js" defer></script>', { html: true });
+        el.append('<script src="/shared/turnstile.js" defer></script>', { html: true });
         if (pathname === "/" || pathname.startsWith("/dashboard")) el.append('<script src="/shared/install-hint.js" defer></script>', { html: true });
         if (showsMissionBanner(pathname)) el.prepend('<script src="/shared/mission-banner.js" defer></script>', { html: true });
       }
@@ -259,7 +261,7 @@ const CSP = [
   // it. Low marginal risk here: 'unsafe-inline' below already lets any
   // injected <script> run directly, which is the more powerful primitive --
   // eval() adds little an attacker couldn't already do.
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google https://static.cloudflareinsights.com https://www.desmos.com https://cdn.jsdelivr.net/npm/mathjax@3.2.2/",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google https://static.cloudflareinsights.com https://www.desmos.com https://cdn.jsdelivr.net/npm/mathjax@3.2.2/ https://challenges.cloudflare.com",
   "style-src 'self' 'unsafe-inline'",
   // data:: Desmos embeds its icon/math fonts as base64 data: URIs rather
   // than fetching them from a URL, so font-src needs to allow that scheme
@@ -273,7 +275,7 @@ const CSP = [
   "worker-src 'self' blob:",
   "img-src 'self' data: https:",
   "connect-src 'self' https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google https://cloudflareinsights.com https://www.desmos.com https://cdn.jsdelivr.net",
-  "frame-src https://*.doubleclick.net https://*.googlesyndication.com https://*.google.com https://*.adtrafficquality.google",
+  "frame-src https://challenges.cloudflare.com https://*.doubleclick.net https://*.googlesyndication.com https://*.google.com https://*.adtrafficquality.google",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
@@ -360,11 +362,15 @@ export default {
     const run = (name: string, p: Promise<unknown>) =>
       ctx.waitUntil(p.catch((e) => logError("cron:" + name, e, { cron: controller.cron })));
     if (controller.cron === "*/5 * * * *") {
+      run("backupContinue", runBackup(env, { start: false }));
       run("blockReminders", sendScheduledBlockReminders(env));
       run("streakReminders", sendStreakReminders(env));
       // Carry on with today's snapshot pass (and then the leaderboards) if the daily run has not finished it.
       run("dailyWorkContinue", continueDailyWork(env, { start: false }));
     } else {
+      logMissingSecrets(env);
+      run("backupStart", runBackup(env, { start: true }));
+      run("retention", runRetention(env));
       run("dailyReminders", sendDailyReminders(env));
       run("dailyWork", continueDailyWork(env, { start: true }));
     }
@@ -528,6 +534,9 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
       headers: { "Content-Type": "application/xml; charset=utf-8", "Cache-Control": "public, max-age=3600" }
     });
   }
+
+  if (url.pathname === "/api/health" && (request.method === "GET" || request.method === "HEAD")) return handleHealth(env);
+  if (url.pathname === "/api/config" && request.method === "GET") return handleConfig(env);
 
   if (url.pathname === "/api/chat") {
     if (request.method === "POST") return handleChatPost(request, env);

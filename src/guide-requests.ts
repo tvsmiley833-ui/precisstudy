@@ -1,3 +1,4 @@
+import { verifyTurnstile } from "./ops.js";
 import { isValidEmail, checkRateLimit, getClientIp } from "./auth.js";
 import { ALLOWED_UPLOAD_TYPES as ALLOWED_TYPES, matchesDeclaredType } from "./file-validation.js";
 import { json } from "./http.js";
@@ -76,6 +77,7 @@ export async function handleRequestGuideSubmit(request: Request, env: Env): Prom
       return json({ error: "Invalid form submission" }, 400);
     }
     if (((form.get("website") || "").toString()).trim()) return json({ ok: true }); // honeypot: see feedback.ts
+    if (!(await verifyTurnstile(env, form.get("cf-turnstile-response"), getClientIp(request)))) return json({ error: "Please complete the check and try again." }, 400);
     className = (form.get("className") || "").toString().trim();
     notes = (form.get("notes") || "").toString().trim().slice(0, MAX_NOTES_LEN);
     emailRaw = (form.get("email") || "").toString().trim();

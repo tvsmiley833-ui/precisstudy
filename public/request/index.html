@@ -204,7 +204,8 @@ body{transition:background .2s ease,color .2s ease}
         <div class="rg-files-list" id="rg-files-list"></div>
       </div>
       <button type="submit" class="rg-submit" id="rg-submit-btn">Send request</button>
-      <div class="rg-status" id="rg-status"></div>
+      <div id="rg-turnstile"></div>
+        <div class="rg-status" id="rg-status"></div>
     </form>
   </div>
 </div>
@@ -321,6 +322,7 @@ document.getElementById('rg-form').addEventListener('submit', async function(e){
   try{
     var fd = new FormData();
     fd.append('className', className);
+    fd.append('cf-turnstile-response', (window.__rgTs && window.__rgTs.token()) || '');
     fd.append('website', (document.getElementById('rg-website') || {}).value || '');
     fd.append('notes', notes);
     fd.append('email', email);
@@ -425,6 +427,8 @@ if ('IntersectionObserver' in window) {
 }
 </script>
 <script src="/shared/command-palette.js" defer></script><script src="/shared/high-contrast.js" defer></script><script src="/shared/error-monitor.js" defer></script>
+<script src="/shared/turnstile.js" defer></script>
 <script src="/shared/site-header.js" defer></script>
+<script>window.addEventListener('DOMContentLoaded',function(){ if(window.ssTurnstile) window.__rgTs = window.ssTurnstile(document.getElementById('rg-turnstile')); else window.addEventListener('load',function(){ if(window.ssTurnstile) window.__rgTs = window.ssTurnstile(document.getElementById('rg-turnstile')); }); });</script>
 </body>
 </html>

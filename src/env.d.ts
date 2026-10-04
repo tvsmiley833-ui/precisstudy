@@ -26,4 +26,10 @@ interface Env {
   CHAT_GLOBAL_RATE_LIMIT: RateLimit; // total chat throughput across everyone
   CHAT_DAILY_PER_IP?: string; // optional override of the per-IP daily chat cap
   AI_DAILY_PER_USER?: string; // optional override of the per-person daily AI-job cap
+  // Owner-enabled operations (see docs/owner/): each does nothing until its binding or variable exists.
+  BACKUPS?: R2Bucket; // nightly NDJSON backups of PROGRESS and FEEDBACK (docs/owner/OPS-BACKUPS.md)
+  RETENTION_DAYS?: string; // delete guide requests and feedback older than this many days
+  TURNSTILE_SECRET?: string; // Cloudflare Turnstile secret for the public forms
+  TURNSTILE_SITE_KEY?: string; // matching public site key, served by /api/config
+  CANVAS_EXTRA_DOMAINS?: string; // extra Canvas hosts a school may use (comma-separated)
 }
