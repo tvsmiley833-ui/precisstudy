@@ -205,6 +205,34 @@ html{scroll-behavior:smooth}
   font-weight:700;font-size:14px;padding:12px 22px;border-radius:999px;box-shadow:0 12px 32px rgba(0,0,0,.22);
   z-index:90;opacity:0;pointer-events:none;transition:transform .22s ease,opacity .22s ease}
 #ss-toast.visible{transform:translate(-50%,0);opacity:1}
+
+/* ---- settings polish ---- */
+.ss-tab{display:flex;align-items:center;gap:10px}
+.ss-tab-ic{width:18px;height:18px;flex-shrink:0}
+.ss-tab:hover{transform:translateX(2px)}
+.ss-tab[aria-selected="true"]{background:color-mix(in srgb,var(--accent-bright) 12%,var(--bg-card))}
+#settings-subtitle{color:var(--text-body)}
+.ss-tabpanels [role="tabpanel"] > .ss-card{margin-top:24px}
+.ss-tabpanels [role="tabpanel"] > .ss-card:first-child{margin-top:0}
+.ss-tabpanels .ss-card[style*="margin-top:20px"]{margin-top:24px!important}
+#main-content{padding-bottom:120px!important}
+.ss-card button,.ss-oauth-btn{min-height:44px}
+.ss-card button:active:not(:disabled),.ss-oauth-btn:active{transform:scale(.98)}
+.ss-card input[type="text"],.ss-card input[type="password"],.ss-field-grid input{border:1px solid color-mix(in srgb,var(--text) 35%,transparent)!important;min-height:44px}
+.ss-card input[type="text"]:hover,.ss-card input[type="password"]:hover,.ss-field-grid input:hover{background:color-mix(in srgb,var(--bg) 70%,var(--bg-card))}
+.ss-card input::placeholder{color:var(--text-muted);opacity:1}
+.ss-field-grid input:placeholder-shown{border-style:dashed!important}
+@media(max-width:640px){.ss-card input[type="text"],.ss-card input[type="password"],.ss-field-grid input{font-size:16px}}
+.ss-danger{color:#b3362c!important;border-color:#b3362c!important}
+[data-theme="dark"] .ss-danger{color:#ff8a80!important;border-color:#ff8a80!important}
+.ss-g-title{display:flex;align-items:center;gap:8px}
+.ss-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#22a06b;box-shadow:0 0 0 3px rgba(34,160,107,.25);margin-right:6px;vertical-align:1px}
+.ss-empty-box{font-size:13px;color:var(--text-muted);border:1px dashed var(--border);border-radius:10px;padding:12px;text-align:center}
+.ss-steps{margin:0 0 14px;padding-left:20px;font-size:13.5px;line-height:1.55;color:var(--text-muted)}
+.ss-steps code{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:12.5px;color:var(--text)}
+.ss-show-tok{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-muted);margin:0 0 12px;cursor:pointer}
+.ss-unsaved-discard{background:none;border:0;color:var(--text-muted);font:inherit;font-size:13.5px;font-weight:700;text-decoration:underline;cursor:pointer;padding:8px}
+@media(prefers-reduced-motion:no-preference){.ss-tabpanels [role="tabpanel"]:not([hidden]){animation:ssPanelIn .15s ease}@keyframes ssPanelIn{from{opacity:0}to{opacity:1}}}
 </style>
 <link rel="stylesheet" href="/shared/site-header.css"/>
 </head>
@@ -262,11 +290,11 @@ html{scroll-behavior:smooth}
   <div id="settings-content" style="display:none;">
    <div class="ss-tabs-layout">
     <div class="ss-tablist" role="tablist" aria-label="Settings categories" id="settings-tablist">
-      <button type="button" class="ss-tab" role="tab" id="tab-account" aria-controls="panel-account" aria-selected="true" data-tab="account">Account</button>
-      <button type="button" class="ss-tab" role="tab" id="tab-study" aria-controls="panel-study" aria-selected="false" tabindex="-1" data-tab="study">Study Preferences</button>
-      <button type="button" class="ss-tab" role="tab" id="tab-notifications" aria-controls="panel-notifications" aria-selected="false" tabindex="-1" data-tab="notifications">Notifications</button>
-      <button type="button" class="ss-tab" role="tab" id="tab-appearance" aria-controls="panel-appearance" aria-selected="false" tabindex="-1" data-tab="appearance">Appearance</button>
-      <button type="button" class="ss-tab" role="tab" id="tab-data" aria-controls="panel-data" aria-selected="false" tabindex="-1" data-tab="data">Data Management</button>
+      <button type="button" class="ss-tab" role="tab" id="tab-account" aria-controls="panel-account" aria-selected="true" data-tab="account"><svg class="ss-tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Account</button>
+      <button type="button" class="ss-tab" role="tab" id="tab-appearance" aria-controls="panel-appearance" aria-selected="false" tabindex="-1" data-tab="appearance"><svg class="ss-tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>Appearance</button>
+      <button type="button" class="ss-tab" role="tab" id="tab-study" aria-controls="panel-study" aria-selected="false" tabindex="-1" data-tab="study"><svg class="ss-tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Study Preferences</button>
+      <button type="button" class="ss-tab" role="tab" id="tab-notifications" aria-controls="panel-notifications" aria-selected="false" tabindex="-1" data-tab="notifications"><svg class="ss-tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 21h4"/></svg>Notifications</button>
+      <button type="button" class="ss-tab" role="tab" id="tab-data" aria-controls="panel-data" aria-selected="false" tabindex="-1" data-tab="data"><svg class="ss-tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>Data Management</button>
     </div>
     <div class="ss-tabpanels">
     <div id="panel-study" role="tabpanel" aria-labelledby="tab-study" data-panel="study" hidden>
@@ -352,7 +380,7 @@ html{scroll-behavior:smooth}
 
     <div id="panel-account" role="tabpanel" aria-labelledby="tab-account" data-panel="account">
     <div class="ss-card" id="google-card">
-      <div style="font-weight:800;font-size:17px;color:var(--text);margin-bottom:4px;">Connected accounts</div>
+      <div class="ss-g-title" style="font-weight:800;font-size:17px;color:var(--text);margin-bottom:4px;"><svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#4285F4" d="M45.1 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h11.8c-.5 2.8-2.1 5.1-4.5 6.7v5.5h7.3c4.3-4 6.5-9.8 6.5-16.2z"/><path fill="#34A853" d="M24 46c6.1 0 11.2-2 14.9-5.5l-7.3-5.5c-2 1.4-4.6 2.2-7.6 2.2-5.8 0-10.8-3.9-12.5-9.2H4v5.7C7.7 41.1 15.3 46 24 46z"/><path fill="#FBBC05" d="M11.5 28c-.4-1.4-.7-2.9-.7-4.5s.3-3.1.7-4.5v-5.7H4C2.4 16.5 1.5 20.1 1.5 24s.9 7.5 2.5 10.7z"/><path fill="#EA4335" d="M24 10.8c3.3 0 6.2 1.1 8.5 3.3l6.4-6.4C35.2 4.1 30.1 2 24 2 15.3 2 7.7 6.9 4 14.3l7.5 5.7c1.7-5.3 6.7-9.2 12.5-9.2z"/></svg>Google Classroom &amp; Calendar</div>
       <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">
         Connect Google to pull your Classroom assignments and calendar due-dates into one list.
       </p>
@@ -363,7 +391,7 @@ html{scroll-behavior:smooth}
       </div>
 
       <div id="google-connected" style="display:none;">
-        <p style="font-size:13px;color:var(--text-muted);margin:0 0 8px;">Connected as <b id="google-email"></b></p>
+        <p style="font-size:13px;color:var(--text-muted);margin:0 0 8px;"><span class="ss-dot" aria-hidden="true"></span>Connected as <b id="google-email" style="color:var(--text)"></b></p>
         <label class="ss-toggle-row">
           <input type="checkbox" id="google-schoolwork-only"> Only show schoolwork on my list
         </label>
@@ -374,7 +402,7 @@ html{scroll-behavior:smooth}
         <div id="google-calendar-list" style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px;"></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
           <button id="google-save-btn" style="width:auto;padding:10px 20px;">Save</button>
-          <button id="google-disconnect-btn" class="ss-oauth-btn" style="width:auto;padding:10px 20px;margin-bottom:0;">Disconnect</button>
+          <button id="google-disconnect-btn" class="ss-oauth-btn ss-danger" style="width:auto;padding:10px 20px;margin-bottom:0;">Disconnect</button>
         </div>
         <div id="google-save-status" style="margin-top:10px;font-size:13px;color:var(--text-muted);"></div>
       </div>
@@ -385,9 +413,11 @@ html{scroll-behavior:smooth}
       <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">
         Connect Canvas to pull your assignments into the same list as Google Classroom.
       </p>
-      <p style="font-size:13px;color:var(--text-muted);margin:0 0 14px;">
-        An access token works like a password for your Canvas account, so treat it that way. In Canvas, open Account &rarr; Settings &rarr; New Access Token, give it a purpose like &ldquo;PrecisStudy&rdquo; and an expiry date a few months out. We only use it to read your upcoming assignments, we store it encrypted, and you can disconnect here (and delete the token in Canvas) any time.
-      </p>
+      <ul class="ss-steps">
+        <li>An access token works like a password for your Canvas account, so keep it private.</li>
+        <li>In Canvas open <code>Account</code> &rarr; <code>Settings</code> &rarr; <code>+ New Access Token</code>.</li>
+        <li>Name it &ldquo;PrecisStudy&rdquo; and set an expiry date a few weeks out. You can revoke it in Canvas any time.</li>
+      </ul>
       <div id="canvas-disconnected">
         <div class="ss-field-grid" style="margin-bottom:10px;">
           <div>
@@ -399,12 +429,12 @@ html{scroll-behavior:smooth}
             <input type="password" id="canvas-token" placeholder="Canvas access token"/>
           </div>
         </div>
-        <button id="canvas-connect-btn" style="width:auto;padding:10px 20px;">Connect</button>
-        <p style="font-size:12.5px;color:var(--text-muted);margin:10px 0 0;">Generate a token from Canvas: Account → Settings → "+ New Access Token".</p>
+        <label class="ss-show-tok"><input type="checkbox" id="canvas-show-token"> Show token</label>
+        <button id="canvas-connect-btn" style="width:auto;padding:10px 20px;" disabled>Connect</button>
       </div>
       <div id="canvas-connected" style="display:none;">
         <p style="font-size:13px;color:var(--text-muted);margin:0 0 12px;">Connected to <b id="canvas-domain-label"></b></p>
-        <button id="canvas-disconnect-btn" class="ss-oauth-btn" style="width:auto;padding:10px 20px;margin-bottom:0;">Disconnect</button>
+        <button id="canvas-disconnect-btn" class="ss-oauth-btn ss-danger" style="width:auto;padding:10px 20px;margin-bottom:0;">Disconnect</button>
       </div>
       <div id="canvas-status" style="margin-top:10px;font-size:13px;color:var(--text-muted);"></div>
     </div>
@@ -421,7 +451,7 @@ html{scroll-behavior:smooth}
     <div class="ss-card" style="margin-top:20px;">
       <div style="font-weight:800;font-size:17px;color:var(--text);margin-bottom:4px;">Download my data</div>
       <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">Get everything saved for your account (progress, streak, classes, schedule) as one JSON file.</p>
-      <a href="/api/export" download class="ss-oauth-btn" style="width:auto;display:inline-flex;padding:10px 20px;">Download my data</a>
+      <a href="/api/export" download class="ss-oauth-btn" style="width:auto;display:inline-flex;padding:10px 20px;">Download my data (.json)</a>
     </div>
 
     <div class="ss-card" style="margin-top:20px;border-color:#b3362c;">
@@ -429,7 +459,7 @@ html{scroll-behavior:smooth}
       <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">
         Permanently deletes your saved progress, streak, classes, and connected accounts. This can't be undone.
       </p>
-      <button id="delete-account-btn" style="width:auto;padding:10px 20px;background:#b3362c;color:#fff;">Delete my account</button>
+      <button id="delete-account-btn" style="width:auto;padding:10px 20px;background:#b3362c;color:#fff;border:0;">Delete my account</button>
       <div id="delete-account-status" style="margin-top:10px;font-size:13px;color:var(--text-muted);"></div>
     </div>
     </div><!-- /panel-account -->
@@ -440,7 +470,7 @@ html{scroll-behavior:smooth}
       <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">
         Download everything PrecisStudy has saved for your account — mastery, streak, classes, schedule, and goals — as a single JSON file.
       </p>
-      <button id="export-data-btn" style="width:auto;padding:10px 20px;">Download my data</button>
+      <button id="export-data-btn" style="width:auto;padding:10px 20px;">Download my data (.json)</button>
       <div id="export-data-status" style="margin-top:10px;font-size:13px;color:var(--text-muted);"></div>
     </div>
 
@@ -515,6 +545,7 @@ html{scroll-behavior:smooth}
 
 <div id="ss-unsaved-bar" role="status" aria-live="polite">
   <span>You have unsaved changes</span>
+  <button id="ss-unsaved-discard" class="ss-unsaved-discard" type="button">Discard</button>
   <button id="ss-unsaved-save" type="button">Save Changes</button>
 </div>
 <div id="ss-toast" role="status" aria-live="polite"></div>
@@ -574,8 +605,10 @@ html{scroll-behavior:smooth}
     }
     var cals = calRes.calendars || [];
     if(!cals.length){
-      list.innerHTML = '<span style="font-size:13px;color:var(--text-muted);">No calendars found.</span>';
+      list.innerHTML = '<div class="ss-empty-box">No calendars found on this Google account.</div>';
+      qs('google-push-schedule').disabled = true;
     }
+    if(cals.length) qs('google-push-schedule').disabled = false;
     cals.forEach(function(c){
       var row = document.createElement('label');
       row.style.cssText = 'display:flex;gap:8px;align-items:center;font-size:14px;color:var(--text);';
@@ -605,6 +638,7 @@ html{scroll-behavior:smooth}
       } catch(err){ status.textContent = 'Could not save.'; }
     }
     if(e.target && e.target.id === 'google-disconnect-btn'){
+      if(!confirm('Disconnect Google? Your synced assignments will be removed from your list until you reconnect.')) return;
       e.target.disabled = true;
       var status = qs('google-save-status');
       try {
@@ -663,7 +697,7 @@ html{scroll-behavior:smooth}
 </script>
 <script>
 (function(){
-  var TABS = ['account','study','notifications','appearance','data'];
+  var TABS = ['account','appearance','study','notifications','data'];
   var tablist = document.getElementById('settings-tablist');
   if(!tablist) return;
 

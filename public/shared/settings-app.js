@@ -355,7 +355,11 @@ async function ssSignOutEverywhere(){
 }
 
 async function ssDeleteAccount(){
-  if(!confirm('Delete your account? This permanently erases your saved progress, streak, classes, and connected accounts and cannot be undone.')) return;
+  var who = (SS_SESSION && SS_SESSION.email) || '';
+  if(who){
+    var typed = prompt('This permanently erases your saved progress, streak, classes, and connected accounts. To confirm, type your email address (' + who + '):');
+    if(!typed || typed.trim().toLowerCase() !== who.toLowerCase()) return;
+  }else if(!confirm('Delete your account? This permanently erases your saved progress, streak, classes, and connected accounts and cannot be undone.')) return;
   var btn = document.getElementById('delete-account-btn');
   var status = document.getElementById('delete-account-status');
   btn.disabled = true;
@@ -758,6 +762,14 @@ async function initSettings(){
   document.getElementById('notif-pref-streak').addEventListener('change', function(){ ssSaveNotifPref('streak', this.checked); });
   document.getElementById('notif-pref-blocks').addEventListener('change', function(){ ssSaveNotifPref('blocks', this.checked); });
   document.getElementById('canvas-connect-btn').addEventListener('click', ssCanvasConnect);
+  (function(){
+    var d = document.getElementById('canvas-domain'), k = document.getElementById('canvas-token'), b = document.getElementById('canvas-connect-btn'), sh = document.getElementById('canvas-show-token');
+    function sync(){ b.disabled = !(d.value.trim().length > 3 && k.value.trim().length > 10); }
+    [d, k].forEach(function(el){ el.addEventListener('input', sync); el.addEventListener('keydown', function(e){ if(e.key === 'Enter' && !b.disabled) ssCanvasConnect(); }); });
+    if(sh) sh.addEventListener('change', function(){ k.type = sh.checked ? 'text' : 'password'; });
+    sync();
+  })();
+  var disc = document.getElementById('ss-unsaved-discard'); if(disc) disc.addEventListener('click', function(){ location.reload(); });
   document.getElementById('canvas-disconnect-btn').addEventListener('click', ssCanvasDisconnect);
   await ssRefreshCanvasStatus();
   ssInitHighContrastToggle();
@@ -813,7 +825,8 @@ async function ssCanvasConnect(){
   var status = document.getElementById('canvas-status');
   var btn = document.getElementById('canvas-connect-btn');
   btn.disabled = true;
-  status.textContent = 'Connecting…';
+  btn.textContent = 'Connecting…';
+  status.textContent = 'Verifying your token with Canvas…';
   try{
     var res = await fetch('/api/canvas/connect', {
       method: 'POST',
@@ -823,19 +836,21 @@ async function ssCanvasConnect(){
     var data = await res.json();
     if(!res.ok){
       status.textContent = data.error || "Couldn't connect — try again.";
-      btn.disabled = false;
+      btn.disabled = false; btn.textContent = 'Connect';
       return;
     }
     document.getElementById('canvas-token').value = '';
+    document.getElementById('canvas-token').type = 'password';
     status.textContent = '';
     await ssRefreshCanvasStatus();
   }catch(e){
     status.textContent = "Couldn't connect — check your connection and try again.";
   }
-  btn.disabled = false;
+  btn.disabled = false; btn.textContent = 'Connect';
 }
 
 async function ssCanvasDisconnect(){
+  if(!confirm('Disconnect Canvas? Your synced assignments will be removed from your list until you reconnect.')) return;
   var btn = document.getElementById('canvas-disconnect-btn');
   btn.disabled = true;
   try{
