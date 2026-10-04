@@ -186,6 +186,7 @@ body{transition:background .2s ease,color .2s ease}
     <form id="rg-form">
       <div class="rg-field">
         <label for="rg-class">Class or subject <span class="rg-hint">required</span></label>
+        <input id="rg-website" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"/>
         <input id="rg-class" type="text" placeholder="e.g. AP Biology, Algebra 1, US History" maxlength="120" required/>
       </div>
       <div class="rg-field">
@@ -320,6 +321,7 @@ document.getElementById('rg-form').addEventListener('submit', async function(e){
   try{
     var fd = new FormData();
     fd.append('className', className);
+    fd.append('website', (document.getElementById('rg-website') || {}).value || '');
     fd.append('notes', notes);
     fd.append('email', email);
     RG_SELECTED_FILES.forEach(function(f){ fd.append('files', f); });

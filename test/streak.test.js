@@ -104,3 +104,13 @@ describe("unit migrations and worked examples", () => {
     expect(blob.quest.boss).toBeNull();
   });
 });
+
+describe("honeypot", () => {
+  it("a filled hidden field gets a success reply and saves nothing", async () => {
+    const stored = [];
+    const env = { FEEDBACK: { put: async (k) => stored.push(k), get: async () => null }, PROGRESS: { put: async () => {}, get: async () => null } };
+    const res = await handleFeedbackSubmit(new Request("https://example.com/api/feedback", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message: "buy pills", website: "http://spam.example" }) }), env);
+    expect(res.status).toBe(200);
+    expect(stored.filter(k => k.startsWith("fb:"))).toEqual([]);
+  });
+});

@@ -75,6 +75,7 @@ export async function handleRequestGuideSubmit(request: Request, env: Env): Prom
     } catch (e) {
       return json({ error: "Invalid form submission" }, 400);
     }
+    if (((form.get("website") || "").toString()).trim()) return json({ ok: true }); // honeypot: see feedback.ts
     className = (form.get("className") || "").toString().trim();
     notes = (form.get("notes") || "").toString().trim().slice(0, MAX_NOTES_LEN);
     emailRaw = (form.get("email") || "").toString().trim();

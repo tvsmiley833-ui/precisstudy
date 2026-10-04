@@ -33,6 +33,9 @@ export async function handleFeedbackSubmit(request: Request, env: Env): Promise<
     return json({ error: "Invalid JSON body" }, 400);
   }
 
+  // Honeypot: the form carries a hidden "website" field no person fills in. A bot that does gets a success reply and nothing is saved.
+  if (typeof body?.website === "string" && body.website.trim()) return json({ ok: true });
+
   const message = typeof body?.message === "string" ? body.message.trim() : ""; // validated against MAX_MESSAGE_LEN below, not silently cut
   const emailRaw = typeof body?.email === "string" ? body.email.trim() : "";
   const category = typeof body?.category === "string" ? body.category.trim() : "";
