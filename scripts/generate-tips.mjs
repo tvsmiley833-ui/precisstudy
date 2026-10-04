@@ -80,7 +80,9 @@ const tips = readdirSync(join(root, "tips")).filter(f => f.endsWith(".json")).so
 for (const t of tips) for (const k of ["slug", "pageTitle", "guide", "guideLabel", "description", "published", "subject", "slides"]) if (!t[k]) throw new Error(`tips/${t.slug || "?"}: missing ${k}`);
 if (!tips.every(t => existsSync(join(root, "public", t.guide, "index.html")))) throw new Error("a tip points at a guide that does not exist");
 
-function head(title, desc, path, extra) {
+function head(title, desc, path, extra, image) {
+  const img = image ? `${ORIGIN}${image}` : `${ORIGIN}/logo-full.png`;
+  const dims = image ? `\n<meta property="og:image:width" content="1200"/>\n<meta property="og:image:height" content="630"/>` : "";
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -94,11 +96,11 @@ function head(title, desc, path, extra) {
 <meta property="og:description" content="${esc(desc)}"/>
 <meta property="og:url" content="${ORIGIN}${path}"/>
 <link rel="canonical" href="${ORIGIN}${path}"/>
-<meta property="og:image" content="${ORIGIN}/logo-full.png"/>
-<meta name="twitter:card" content="summary"/>
+<meta property="og:image" content="${img}"/>${dims}
+<meta name="twitter:card" content="${image ? "summary_large_image" : "summary"}"/>
 <meta name="twitter:title" content="${esc(title)}"/>
 <meta name="twitter:description" content="${esc(desc)}"/>
-<meta name="twitter:image" content="${ORIGIN}/logo-full.png"/>
+<meta name="twitter:image" content="${img}"/>
 <link rel="icon" type="image/png" href="/favicon.png"/>
 <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
 <link rel="preload" href="/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin/>
@@ -123,7 +125,7 @@ function articlePage(t) {
   const path = `/tips/${t.slug}/`;
   const title = `${t.pageTitle} | PrecisStudy`;
   const ld = { "@context": "https://schema.org", "@graph": [
-    { "@type": "Article", headline: t.pageTitle, description: t.description, datePublished: t.published, dateModified: t.published, mainEntityOfPage: ORIGIN + path, image: ORIGIN + "/logo-full.png",
+    { "@type": "Article", headline: t.pageTitle, description: t.description, datePublished: t.published, dateModified: t.published, mainEntityOfPage: ORIGIN + path, image: existsSync(join(root, "public/tips", t.slug, "og.jpg")) ? `${ORIGIN}/tips/${t.slug}/og.jpg` : ORIGIN + "/logo-full.png",
       author: { "@type": "Organization", name: "PrecisStudy", url: ORIGIN + "/" }, publisher: { "@type": "Organization", name: "PrecisStudy", logo: { "@type": "ImageObject", url: ORIGIN + "/logo-full.png" } }, about: t.guideLabel },
     { "@type": "BreadcrumbList", itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: ORIGIN + "/" },
@@ -140,7 +142,8 @@ ${t.slides.map(section).join("\n")}
 <aside class="tip-more"><h2>More study tips</h2><ul>${others.map(o => `<li><a href="/tips/${o.slug}/">${esc(o.pageTitle)}</a></li>`).join("")}</ul></aside>
 </div>
 `;
-  return head(title, t.description, path, `<script type="application/ld+json">${JSON.stringify(ld)}</script>\n`) + main + TAIL + "</body>\n</html>\n";
+  const og = existsSync(join(root, "public/tips", t.slug, "og.jpg")) ? `/tips/${t.slug}/og.jpg` : null;
+  return head(title, t.description, path, `<script type="application/ld+json">${JSON.stringify(ld)}</script>\n`, og) + main + TAIL + "</body>\n</html>\n";
 }
 
 function indexPage() {
