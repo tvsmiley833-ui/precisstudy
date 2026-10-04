@@ -14,6 +14,14 @@ const checks = [
   { path: "/auth/me", status: 200, json: (j) => j.loggedIn === false, header: ["cache-control", /no-store/] },
   { path: "/api/progress", status: 401 },
   { path: "/shared/guide-base.css", status: 200, contains: ".unit-hd" },
+  { path: "/tips/", status: 200, contains: "Study tips" },
+  { path: "/tips/sohcahtoa/", status: 200, contains: "SOH-CAH-TOA" },
+  { path: "/planner/", status: 200, contains: "sb-grid" },
+  { path: "/sitemap.xml", status: 200, contains: "/tips/sohcahtoa/" },
+  { path: "/api/profile", status: 401 },
+  { path: "/api/sessions", status: 401 },
+  { path: "/api/avatar", status: 401 },
+  { path: "/shared/account-menu.js", status: 200, contains: "ss-avatar-btn" },
 ];
 
 let failed = 0;
