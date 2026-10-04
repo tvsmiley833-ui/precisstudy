@@ -129,3 +129,15 @@ body[data-page="planner"] [role="contentinfo"]{background:var(--bg-card);margin-
 .pl-exam-main:hover{background:color-mix(in srgb,var(--accent-bright) 10%,transparent)}
 .pl-exam-del{flex:none;width:44px;background:none;border:0;border-left:1px solid var(--border);color:var(--text-muted);cursor:pointer}
 .pl-exam-del:hover{color:#ff8a80;background:color-mix(in srgb,#b3362c 12%,transparent)}
+
+/* Print: just the title, the exam list and the built weekly plan. */
+@media print{
+  body[data-page="planner"] .header-bar,body[data-page="planner"] #ss-mobile-menu,body[data-page="planner"] .pl-back,body[data-page="planner"] .pl-top p,
+  body[data-page="planner"] #pl-exam-form,body[data-page="planner"] .pl-exam-del,body[data-page="planner"] #pl-pace-card,body[data-page="planner"] #dash-assignments-card,
+  body[data-page="planner"] .pl-badge,body[data-page="planner"] #sb-build-btn,body[data-page="planner"] #sb-print-btn,body[data-page="planner"] [role="contentinfo"],
+  body[data-page="planner"] #fbw-btn,body[data-page="planner"] .ss-skip-link,body[data-page="planner"] #ss-bottom-nav,body[data-page="planner"] #mb-bar{display:none!important}
+  body[data-page="planner"] #dash-content .ss-card:has(#sb-result)>:not(#sb-result):not(.pl-h):not(h2){display:none!important}
+  body[data-page="planner"] .pl-plan{display:block}
+  body[data-page="planner"] #pl-exam-card{box-shadow:none;border:0;padding:0}
+  body[data-page="planner"]{background:#fff;color:#000}
+}
