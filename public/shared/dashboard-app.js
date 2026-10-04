@@ -347,7 +347,9 @@ function sbTimeToMinutes(t) {
 
 function ssPrefs() { try { return JSON.parse(localStorage.getItem('ss_prefs') || '{}') || {}; } catch (e) { return {}; } }
 // Keep the saved time-format / study-length preferences current across devices (Settings > Profile).
-fetch('/api/profile').then(r => r.ok ? r.json() : null).then(p => { if (p) try { localStorage.setItem('ss_prefs', JSON.stringify({ timeFormat: p.timeFormat || null, studyMinutes: p.studyMinutes || null })); } catch (e) {} }).catch(() => {});
+// Signed-out visitors skip the call (it would only log a 401 in the console).
+(window.__ssMe = window.__ssMe || fetch('/auth/me').then(r => (r.ok ? r.json() : null)).catch(() => null))
+  .then(me => (me && me.loggedIn ? fetch('/api/profile') : null)).then(r => (r && r.ok ? r.json() : null)).then(p => { if (p) try { localStorage.setItem('ss_prefs', JSON.stringify({ timeFormat: p.timeFormat || null, studyMinutes: p.studyMinutes || null })); } catch (e) {} }).catch(() => {});
 
 function sbFormatTime(mins) {
   let h = Math.floor(mins / 60), m = mins % 60;
