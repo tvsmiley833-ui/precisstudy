@@ -478,3 +478,30 @@ describe("Google sign-in callback (mocked provider)", () => {
     expect(new URL(res.headers.get("Location")).search).toContain("auth_error");
   });
 });
+
+describe("Google sign-in PKCE", () => {
+  const env = { GOOGLE_CLIENT_ID: "id", GOOGLE_CLIENT_SECRET: "secret", SESSION_SECRET: "test-session-secret" };
+  afterEach(() => vi.restoreAllMocks());
+
+  it("start sends an S256 challenge and sets the verifier cookie", async () => {
+    const res = await handleGoogleStart(new Request("https://precisstudy.com/auth/google/start"), env);
+    const loc = new URL(res.headers.get("Location"));
+    expect(loc.searchParams.get("code_challenge_method")).toBe("S256");
+    expect(loc.searchParams.get("code_challenge")).toMatch(/^[A-Za-z0-9_-]{43}$/);
+    expect(res.headers.get("Set-Cookie")).toContain("ss_pkce=");
+  });
+
+  it("the callback sends the matching verifier to the token endpoint", async () => {
+    const startRes = await handleGoogleStart(new Request("https://precisstudy.com/auth/google/start"), env);
+    const state = new URL(startRes.headers.get("Location")).searchParams.get("state");
+    const challenge = new URL(startRes.headers.get("Location")).searchParams.get("code_challenge");
+    const verifier = /ss_pkce=([A-Za-z0-9_-]+)/.exec(startRes.headers.get("Set-Cookie"))[1];
+    // the challenge really is SHA-256(verifier)
+    const digest = new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(verifier)));
+    expect(btoa(String.fromCharCode(...digest)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "")).toBe(challenge);
+    let sent = null;
+    vi.spyOn(globalThis, "fetch").mockImplementation(async (url, init) => { if (String(url).includes("/token")) sent = String(init.body); return new Response("{}", { status: 400 }); });
+    await handleGoogleCallback(new Request(`https://precisstudy.com/auth/google/callback?code=c&state=${encodeURIComponent(state)}`, { headers: { Cookie: `ss_oauth_state=${state}; ss_pkce=${verifier}` } }), env);
+    expect(sent).toContain("code_verifier=" + verifier);
+  });
+});

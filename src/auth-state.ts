@@ -75,3 +75,33 @@ export function consumeRef(request: Request): string | null {
   const raw = getCookie(request, REF_COOKIE);
   return raw ? decodeURIComponent(raw) : null;
 }
+
+
+// PKCE (RFC 7636): the sign-in carries a one-time secret that only this browser knows, so a stolen authorization code can't
+// be redeemed by anyone else. The verifier travels in a short-lived HttpOnly cookie; only its S256 hash goes to the provider.
+const PKCE_COOKIE = "ss_pkce";
+
+function base64Url(bytes: Uint8Array): string {
+  let s = "";
+  for (const b of bytes) s += String.fromCharCode(b);
+  return btoa(s).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+
+export async function newPkce(): Promise<{ verifier: string; challenge: string }> {
+  const verifier = base64Url(crypto.getRandomValues(new Uint8Array(32)));
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(verifier));
+  return { verifier, challenge: base64Url(new Uint8Array(digest)) };
+}
+
+export function pkceCookie(verifier: string): string {
+  return `${PKCE_COOKIE}=${verifier}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${STATE_TTL}`;
+}
+
+export function clearPkceCookie(): string {
+  return `${PKCE_COOKIE}=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0`;
+}
+
+export function readPkceVerifier(request: Request): string | null {
+  const v = getCookie(request, PKCE_COOKIE);
+  return v && /^[A-Za-z0-9_-]{43}$/.test(v) ? v : null;
+}

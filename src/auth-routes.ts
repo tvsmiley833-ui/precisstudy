@@ -15,7 +15,7 @@ import {
 } from "./auth.js";
 import { deleteUserData } from "./account-delete.js";
 import {
-  SITE_ORIGIN, stateCookie, clearStateCookie,
+  SITE_ORIGIN, stateCookie, clearStateCookie, newPkce, pkceCookie, clearPkceCookie, readPkceVerifier,
   makeState, checkState, safeNext, nextCookie, clearNextCookie, consumeNext, clearRefCookie
 } from "./auth-state.js";
 import { creditInviteIfAny } from "./progress-routes.js";
@@ -54,7 +54,7 @@ type AuthErrorReason = "state" | "provider" | "no_email" | "config" | "expired" 
 function authErrorRedirect(reason: AuthErrorReason, detail?: string): Response {
   console.error("auth failure [" + reason + "]" + (detail ? ": " + detail : ""));
   return redirect(SITE_ORIGIN + "/?auth_error=" + reason, {
-    "Set-Cookie": [clearStateCookie(), clearNextCookie()]
+    "Set-Cookie": [clearStateCookie(), clearNextCookie(), clearPkceCookie()]
   });
 }
 
@@ -87,8 +87,11 @@ export async function handleGoogleStart(request: Request, env: Env): Promise<Res
   if (!env.GOOGLE_CLIENT_ID || !env.GOOGLE_CLIENT_SECRET) return notConfigured("Google");
   if (sessionSecretMissing(env)) return notConfigured("Sign-in");
   const state = await makeState(env);
+  const pkce = await newPkce();
   const next = safeNext(new URL(request.url).searchParams.get("next"));
   const params = new URLSearchParams({
+    code_challenge: pkce.challenge,
+    code_challenge_method: "S256",
     client_id: env.GOOGLE_CLIENT_ID,
     redirect_uri: SITE_ORIGIN + "/auth/google/callback",
     response_type: "code",
@@ -96,7 +99,7 @@ export async function handleGoogleStart(request: Request, env: Env): Promise<Res
     state,
     prompt: "select_account"
   });
-  const cookies = next ? [stateCookie(state), nextCookie(next)] : [stateCookie(state)];
+  const cookies = next ? [stateCookie(state), nextCookie(next), pkceCookie(pkce.verifier)] : [stateCookie(state), pkceCookie(pkce.verifier)];
   return redirect("https://accounts.google.com/o/oauth2/v2/auth?" + params.toString(), { "Set-Cookie": cookies });
 }
 
@@ -118,7 +121,9 @@ export async function handleGoogleCallback(request: Request, env: Env): Promise<
       client_secret: env.GOOGLE_CLIENT_SECRET,
       code,
       redirect_uri: SITE_ORIGIN + "/auth/google/callback",
-      grant_type: "authorization_code"
+      grant_type: "authorization_code",
+      // A login started before PKCE shipped has no verifier cookie; it simply completes without one.
+      ...(readPkceVerifier(request) ? { code_verifier: readPkceVerifier(request)! } : {})
     })
   });
   if (!tokenRes.ok) return authErrorRedirect("provider", "google token " + tokenRes.status);
@@ -143,7 +148,7 @@ export async function handleGoogleCallback(request: Request, env: Env): Promise<
   const next = consumeNext(request);
   // A new student still goes through setup, but keeps the page they came for (a challenge, a guide, an invite).
   const dest = isNewUser ? "/onboarding" + (next ? "?next=" + encodeURIComponent(next) : "") : (next || "/");
-  return redirect(SITE_ORIGIN + dest, { "Set-Cookie": [cookie, clearStateCookie(), clearNextCookie(), clearRefCookie()] });
+  return redirect(SITE_ORIGIN + dest, { "Set-Cookie": [cookie, clearStateCookie(), clearNextCookie(), clearRefCookie(), clearPkceCookie()] });
 }
 
 // ===== GitHub =====
@@ -220,7 +225,7 @@ export async function handleGithubCallback(request: Request, env: Env): Promise<
   const next = consumeNext(request);
   // A new student still goes through setup, but keeps the page they came for (a challenge, a guide, an invite).
   const dest = isNewUser ? "/onboarding" + (next ? "?next=" + encodeURIComponent(next) : "") : (next || "/");
-  return redirect(SITE_ORIGIN + dest, { "Set-Cookie": [cookie, clearStateCookie(), clearNextCookie(), clearRefCookie()] });
+  return redirect(SITE_ORIGIN + dest, { "Set-Cookie": [cookie, clearStateCookie(), clearNextCookie(), clearRefCookie(), clearPkceCookie()] });
 }
 
 // ===== Email magic link =====
