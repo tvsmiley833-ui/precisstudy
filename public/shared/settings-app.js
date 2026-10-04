@@ -911,11 +911,19 @@ function ssTimeAgo(iso){
 async function ssInitSessions(){
   var ul = document.getElementById('sessions-list'), note = document.getElementById('sessions-note');
   if(!ul) return;
+  var showAll = false, more = document.createElement('button');
+  more.type = 'button'; more.className = 'ss-link-btn'; more.style.cssText = 'margin-top:10px;background:none;border:0;padding:4px 0;color:var(--accent,inherit);font:inherit;font-size:13.5px;font-weight:700;text-decoration:underline;cursor:pointer';
+  more.addEventListener('click', function(){ showAll = !showAll; load(); });
+  ul.after(more);
   async function load(){
     try{
       var r = await fetch('/api/sessions'); if(!r.ok) return;
       var d = await r.json(); ul.innerHTML = '';
-      d.sessions.forEach(function(s){
+      var all = d.sessions.slice().sort(function(a, b){ return (b.current ? 1 : 0) - (a.current ? 1 : 0) || b.createdAt - a.createdAt; });
+      var shown = showAll ? all : all.slice(0, 3);
+      more.hidden = all.length <= 3;
+      more.textContent = showAll ? 'Show 3 most recent' : 'Show all ' + all.length + ' devices';
+      shown.forEach(function(s){
         var li = document.createElement('li');
         li.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--border);border-radius:12px;padding:10px 14px;flex-wrap:wrap';
         var txt = document.createElement('div');
