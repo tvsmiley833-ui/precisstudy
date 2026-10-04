@@ -2555,6 +2555,191 @@
    "d": "Volume of a solid of revolution found by integrating the areas of circular cross sections: V = π ∫ [R(x)]² dx."
   }
  ],
+ "workedExamples": [
+  {
+   "u": 1,
+   "title": "A limit by factoring",
+   "prompt": "Evaluate lim_{x→2} (x² + x − 6)/(x − 2).",
+   "steps": [
+    "Direct substitution gives 0/0",
+    "Factor the numerator: (x − 2)(x + 3)",
+    "Cancel x − 2 to get x + 3",
+    "Substitute x = 2"
+   ],
+   "answer": "5"
+  },
+  {
+   "u": 1,
+   "title": "Continuity at a point",
+   "prompt": "Find k so that f(x) = kx² for x ≤ 2 and f(x) = 3x + 2 for x > 2 is continuous at x = 2.",
+   "steps": [
+    "The left value is f(2) = 4k",
+    "The right limit is 3(2) + 2 = 8",
+    "Set them equal: 4k = 8"
+   ],
+   "answer": "k = 2"
+  },
+  {
+   "u": 2,
+   "title": "Product rule",
+   "prompt": "Differentiate f(x) = x² cos x.",
+   "steps": [
+    "Let u = x² and v = cos x",
+    "u′ = 2x and v′ = −sin x",
+    "f′ = u′v + uv′"
+   ],
+   "answer": "f′(x) = 2x cos x − x² sin x"
+  },
+  {
+   "u": 2,
+   "title": "Equation of a tangent line",
+   "prompt": "Find the tangent line to y = x³ − 2x at x = 1.",
+   "steps": [
+    "y(1) = 1 − 2 = −1, so the point is (1, −1)",
+    "y′ = 3x² − 2, so the slope is y′(1) = 1",
+    "Point-slope: y + 1 = 1(x − 1)"
+   ],
+   "answer": "y = x − 2"
+  },
+  {
+   "u": 3,
+   "title": "Chain rule",
+   "prompt": "Differentiate y = (3x² + 1)⁴.",
+   "steps": [
+    "Outside function: u⁴, inside: u = 3x² + 1",
+    "Derivative of the outside: 4u³",
+    "Derivative of the inside: 6x",
+    "Multiply"
+   ],
+   "answer": "y′ = 24x(3x² + 1)³"
+  },
+  {
+   "u": 3,
+   "title": "Implicit differentiation",
+   "prompt": "Find dy/dx for x² + xy + y² = 7.",
+   "steps": [
+    "Differentiate each term: 2x + (y + x·dy/dx) + 2y·dy/dx = 0",
+    "Collect dy/dx terms: (x + 2y)dy/dx = −(2x + y)",
+    "Divide"
+   ],
+   "answer": "dy/dx = −(2x + y)/(x + 2y)"
+  },
+  {
+   "u": 4,
+   "title": "Related rates",
+   "prompt": "A spherical balloon is inflated at 100 cm³/s. How fast is the radius growing when r = 5 cm?",
+   "steps": [
+    "V = (4/3)πr³, so dV/dt = 4πr²·dr/dt",
+    "Substitute: 100 = 4π(25)·dr/dt",
+    "Solve: dr/dt = 100/(100π)"
+   ],
+   "answer": "dr/dt = 1/π cm/s ≈ 0.318 cm/s"
+  },
+  {
+   "u": 4,
+   "title": "Motion along a line",
+   "prompt": "A particle has position s(t) = t³ − 6t² + 9t. When is it at rest?",
+   "steps": [
+    "Velocity is v(t) = 3t² − 12t + 9",
+    "Factor: 3(t − 1)(t − 3)",
+    "Set v(t) = 0"
+   ],
+   "answer": "t = 1 and t = 3"
+  },
+  {
+   "u": 5,
+   "title": "Local extrema",
+   "prompt": "Find the local extrema of f(x) = x³ − 3x² − 9x + 5.",
+   "steps": [
+    "f′(x) = 3x² − 6x − 9 = 3(x − 3)(x + 1)",
+    "Critical points: x = −1 and x = 3",
+    "f″(x) = 6x − 6: f″(−1) = −12 (maximum), f″(3) = 12 (minimum)",
+    "f(−1) = 10 and f(3) = −22"
+   ],
+   "answer": "Local maximum 10 at x = −1, local minimum −22 at x = 3"
+  },
+  {
+   "u": 5,
+   "title": "Optimization",
+   "prompt": "A farmer has 100 m of fencing for a rectangular pen against a barn (no fence needed on the barn side). Find the largest area.",
+   "steps": [
+    "Let x be the two sides perpendicular to the barn: the third side is 100 − 2x",
+    "Area A = x(100 − 2x) = 100x − 2x²",
+    "A′ = 100 − 4x = 0 gives x = 25",
+    "The third side is 50"
+   ],
+   "answer": "1250 m² (25 m by 50 m)"
+  },
+  {
+   "u": 6,
+   "title": "Definite integral",
+   "prompt": "Evaluate ∫₁³ (2x + 1) dx.",
+   "steps": [
+    "Antiderivative: x² + x",
+    "At 3: 9 + 3 = 12",
+    "At 1: 1 + 1 = 2",
+    "Subtract"
+   ],
+   "answer": "10"
+  },
+  {
+   "u": 6,
+   "title": "u-substitution",
+   "prompt": "Evaluate ∫ 2x(x² + 5)³ dx.",
+   "steps": [
+    "Let u = x² + 5, so du = 2x dx",
+    "The integral becomes ∫ u³ du",
+    "Integrate: u⁴/4 + C",
+    "Substitute back"
+   ],
+   "answer": "(x² + 5)⁴/4 + C"
+  },
+  {
+   "u": 7,
+   "title": "Separable differential equation",
+   "prompt": "Solve dy/dx = 2xy with y(0) = 3.",
+   "steps": [
+    "Separate: dy/y = 2x dx",
+    "Integrate: ln|y| = x² + C",
+    "Exponentiate: y = Ae^(x²)",
+    "Use y(0) = 3: A = 3"
+   ],
+   "answer": "y = 3e^(x²)"
+  },
+  {
+   "u": 7,
+   "title": "Exponential growth",
+   "prompt": "A population grows by dP/dt = 0.04P and starts at 500. Find P(t).",
+   "steps": [
+    "The solution of dP/dt = kP is P = P₀e^(kt)",
+    "Here k = 0.04 and P₀ = 500"
+   ],
+   "answer": "P(t) = 500e^(0.04t)"
+  },
+  {
+   "u": 8,
+   "title": "Area between curves",
+   "prompt": "Find the area between y = x² and y = x + 2.",
+   "steps": [
+    "Intersections: x² = x + 2 gives x = −1 and x = 2",
+    "On [−1, 2] the line is on top",
+    "Area = ∫₋₁² (x + 2 − x²) dx",
+    "Antiderivative: x²/2 + 2x − x³/3, evaluated from −1 to 2: 10/3 − (−7/6)"
+   ],
+   "answer": "9/2"
+  },
+  {
+   "u": 8,
+   "title": "Volume by disks",
+   "prompt": "The region under y = √x from x = 0 to x = 4 is rotated about the x-axis. Find the volume.",
+   "steps": [
+    "Disk method: V = π∫₀⁴ (√x)² dx",
+    "Simplify: π∫₀⁴ x dx",
+    "Antiderivative: πx²/2 from 0 to 4"
+   ],
+   "answer": "8π"
+  }
+ ],
  "examParts": {
   "PART_A": [
    {

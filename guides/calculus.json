@@ -2584,6 +2584,182 @@
    "d": "Σaₙ converges but Σ|aₙ| diverges."
   }
  ],
+ "workedExamples": [
+  {
+   "u": 1,
+   "title": "A limit at infinity",
+   "prompt": "Evaluate lim_{x→∞} (5x² − 3)/(2x² + x).",
+   "steps": [
+    "Divide the top and bottom by x²",
+    "(5 − 3/x²)/(2 + 1/x)",
+    "As x grows, 3/x² and 1/x go to 0"
+   ],
+   "answer": "5/2"
+  },
+  {
+   "u": 1,
+   "title": "One-sided limits",
+   "prompt": "For f(x) = |x|/x, find the left and right limits at 0.",
+   "steps": [
+    "For x > 0, |x|/x = 1, so the right limit is 1",
+    "For x < 0, |x|/x = −1, so the left limit is −1",
+    "The two sides disagree"
+   ],
+   "answer": "Right limit 1, left limit −1, so the two-sided limit does not exist"
+  },
+  {
+   "u": 2,
+   "title": "Power rule",
+   "prompt": "Differentiate f(x) = 4x³ − 5x² + 7x − 2.",
+   "steps": [
+    "Apply the power rule to each term",
+    "4·3x² − 5·2x + 7",
+    "The constant becomes 0"
+   ],
+   "answer": "f′(x) = 12x² − 10x + 7"
+  },
+  {
+   "u": 2,
+   "title": "Quotient rule",
+   "prompt": "Differentiate f(x) = (2x + 1)/(x − 3).",
+   "steps": [
+    "f′ = (u′v − uv′)/v² with u = 2x + 1, v = x − 3",
+    "u′ = 2 and v′ = 1",
+    "Numerator: 2(x − 3) − (2x + 1)(1) = −7"
+   ],
+   "answer": "f′(x) = −7/(x − 3)²"
+  },
+  {
+   "u": 3,
+   "title": "Increasing and decreasing",
+   "prompt": "Where is f(x) = x² − 6x + 5 increasing?",
+   "steps": [
+    "f′(x) = 2x − 6",
+    "f′(x) = 0 at x = 3",
+    "f′ is positive for x > 3"
+   ],
+   "answer": "Increasing on (3, ∞), decreasing on (−∞, 3)"
+  },
+  {
+   "u": 3,
+   "title": "Concavity",
+   "prompt": "Find where f(x) = x³ − 3x² is concave up.",
+   "steps": [
+    "f′(x) = 3x² − 6x",
+    "f″(x) = 6x − 6",
+    "f″ > 0 when x > 1"
+   ],
+   "answer": "Concave up on (1, ∞), with an inflection point at x = 1"
+  },
+  {
+   "u": 4,
+   "title": "Indefinite integral",
+   "prompt": "Find ∫ (6x² − 4x + 3) dx.",
+   "steps": [
+    "Integrate term by term",
+    "6·x³/3 − 4·x²/2 + 3x",
+    "Add the constant of integration"
+   ],
+   "answer": "2x³ − 2x² + 3x + C"
+  },
+  {
+   "u": 4,
+   "title": "Fundamental Theorem",
+   "prompt": "Evaluate ∫₀² (3x² + 1) dx.",
+   "steps": [
+    "Antiderivative: x³ + x",
+    "At 2: 8 + 2 = 10",
+    "At 0: 0"
+   ],
+   "answer": "10"
+  },
+  {
+   "u": 5,
+   "title": "Area under a curve",
+   "prompt": "Find the area under y = 4 − x² from x = 0 to x = 2.",
+   "steps": [
+    "Area = ∫₀² (4 − x²) dx",
+    "Antiderivative: 4x − x³/3",
+    "At 2: 8 − 8/3 = 16/3"
+   ],
+   "answer": "16/3"
+  },
+  {
+   "u": 5,
+   "title": "Average value",
+   "prompt": "Find the average value of f(x) = 3x² on [0, 2].",
+   "steps": [
+    "Average = (1/(b − a))∫ₐᵇ f(x) dx",
+    "∫₀² 3x² dx = x³ from 0 to 2 = 8",
+    "Divide by 2"
+   ],
+   "answer": "4"
+  },
+  {
+   "u": 6,
+   "title": "Derivative with e and ln",
+   "prompt": "Differentiate f(x) = e^(3x) + ln(2x).",
+   "steps": [
+    "d/dx e^(3x) = 3e^(3x)",
+    "d/dx ln(2x) = 2/(2x) = 1/x"
+   ],
+   "answer": "f′(x) = 3e^(3x) + 1/x"
+  },
+  {
+   "u": 6,
+   "title": "Exponential decay",
+   "prompt": "A sample decays by A(t) = 80e^(−0.1t). How long until 40 remains?",
+   "steps": [
+    "Set 80e^(−0.1t) = 40",
+    "e^(−0.1t) = 1/2",
+    "−0.1t = ln(1/2) = −ln 2",
+    "t = ln 2/0.1"
+   ],
+   "answer": "t = 10 ln 2 ≈ 6.93"
+  },
+  {
+   "u": 7,
+   "title": "Related rates",
+   "prompt": "A square's side grows at 2 cm/s. How fast is the area growing when the side is 6 cm?",
+   "steps": [
+    "A = s², so dA/dt = 2s·ds/dt",
+    "Substitute s = 6 and ds/dt = 2"
+   ],
+   "answer": "24 cm²/s"
+  },
+  {
+   "u": 7,
+   "title": "Optimization",
+   "prompt": "Find two positive numbers with sum 30 and the largest product.",
+   "steps": [
+    "Let the numbers be x and 30 − x",
+    "P = x(30 − x) = 30x − x²",
+    "P′ = 30 − 2x = 0 gives x = 15"
+   ],
+   "answer": "15 and 15, with product 225"
+  },
+  {
+   "u": 8,
+   "title": "Geometric series",
+   "prompt": "Find the sum of 6 + 2 + 2/3 + 2/9 + …",
+   "steps": [
+    "The ratio is r = 1/3, so it converges",
+    "Sum = a/(1 − r) = 6/(2/3)"
+   ],
+   "answer": "9"
+  },
+  {
+   "u": 8,
+   "title": "Limit of a sequence",
+   "prompt": "Find lim_{n→∞} (3n + 2)/(n − 1).",
+   "steps": [
+    "Divide the top and bottom by n",
+    "(3 + 2/n)/(1 − 1/n)",
+    "The fractions with n in the denominator go to 0"
+   ],
+   "answer": "3"
+  }
+ ],
  "examParts": {
   "PART_A": [
    {

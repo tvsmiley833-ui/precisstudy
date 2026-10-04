@@ -3329,6 +3329,208 @@
    "e": "lim [(3 + h)² − 9]/h = lim (6 + h) = 6."
   }
  ],
+ "workedExamples": [
+  {
+   "u": 1,
+   "title": "Composition of functions",
+   "prompt": "Given f(x) = 3x − 2 and g(x) = x² + 1, find f(g(2)).",
+   "steps": [
+    "Work from the inside out: g(2) = 2² + 1 = 5",
+    "Now apply f: f(5) = 3(5) − 2"
+   ],
+   "answer": "f(g(2)) = 13"
+  },
+  {
+   "u": 1,
+   "title": "Finding an inverse",
+   "prompt": "Find the inverse of f(x) = (x − 4)/3.",
+   "steps": [
+    "Write y = (x − 4)/3",
+    "Swap x and y: x = (y − 4)/3",
+    "Multiply by 3: 3x = y − 4",
+    "Add 4: y = 3x + 4"
+   ],
+   "answer": "f⁻¹(x) = 3x + 4"
+  },
+  {
+   "u": 2,
+   "title": "Zeros of a polynomial",
+   "prompt": "Find all zeros of f(x) = x³ − 4x² − x + 4.",
+   "steps": [
+    "Group: x²(x − 4) − 1(x − 4)",
+    "Factor: (x − 4)(x² − 1)",
+    "Factor the difference of squares: (x − 4)(x − 1)(x + 1)",
+    "Set each factor to 0"
+   ],
+   "answer": "x = 4, x = 1, x = −1"
+  },
+  {
+   "u": 2,
+   "title": "Asymptotes of a rational function",
+   "prompt": "Find the vertical and horizontal asymptotes of f(x) = (3x + 1)/(x − 2).",
+   "steps": [
+    "Vertical: set the denominator to 0, so x = 2",
+    "Horizontal: the degrees are equal, so divide the leading coefficients: 3/1"
+   ],
+   "answer": "Vertical asymptote x = 2, horizontal asymptote y = 3"
+  },
+  {
+   "u": 3,
+   "title": "Solving an exponential equation",
+   "prompt": "Solve 5 · 2ˣ = 80.",
+   "steps": [
+    "Divide both sides by 5: 2ˣ = 16",
+    "Write 16 as a power of 2: 16 = 2⁴",
+    "Match exponents"
+   ],
+   "answer": "x = 4"
+  },
+  {
+   "u": 3,
+   "title": "Solving a logarithmic equation",
+   "prompt": "Solve log₃(x + 2) = 2.",
+   "steps": [
+    "Rewrite in exponential form: x + 2 = 3²",
+    "Simplify: x + 2 = 9",
+    "Subtract 2"
+   ],
+   "answer": "x = 7"
+  },
+  {
+   "u": 4,
+   "title": "Using the unit circle",
+   "prompt": "Find the exact values of sin(2π/3) and cos(2π/3).",
+   "steps": [
+    "2π/3 is in quadrant II with reference angle π/3",
+    "sin(π/3) = √3/2 and cos(π/3) = 1/2",
+    "In quadrant II, sine is positive and cosine is negative"
+   ],
+   "answer": "sin(2π/3) = √3/2, cos(2π/3) = −1/2"
+  },
+  {
+   "u": 4,
+   "title": "Period and amplitude",
+   "prompt": "Find the amplitude and period of y = 4 sin(3x).",
+   "steps": [
+    "Amplitude is |a| = 4",
+    "Period is 2π/|b| = 2π/3"
+   ],
+   "answer": "Amplitude 4, period 2π/3"
+  },
+  {
+   "u": 5,
+   "title": "Solving a trig equation",
+   "prompt": "Solve 2 cos x − 1 = 0 on [0, 2π).",
+   "steps": [
+    "Isolate cosine: cos x = 1/2",
+    "The reference angle is π/3",
+    "Cosine is positive in quadrants I and IV"
+   ],
+   "answer": "x = π/3 and x = 5π/3"
+  },
+  {
+   "u": 5,
+   "title": "Verifying an identity",
+   "prompt": "Show that (1 − cos²x)/sin x = sin x.",
+   "steps": [
+    "Use the Pythagorean identity: 1 − cos²x = sin²x",
+    "Substitute: sin²x / sin x",
+    "Cancel one factor of sin x"
+   ],
+   "answer": "The left side simplifies to sin x"
+  },
+  {
+   "u": 6,
+   "title": "Law of Cosines",
+   "prompt": "A triangle has sides a = 5 and b = 8 with included angle C = 60°. Find side c.",
+   "steps": [
+    "c² = a² + b² − 2ab cos C",
+    "c² = 25 + 64 − 2(5)(8)(1/2)",
+    "c² = 89 − 40 = 49",
+    "Take the square root"
+   ],
+   "answer": "c = 7"
+  },
+  {
+   "u": 6,
+   "title": "Law of Sines",
+   "prompt": "In a triangle, A = 30°, B = 45° and a = 10. Find side b.",
+   "steps": [
+    "a/sin A = b/sin B",
+    "10/sin 30° = b/sin 45°",
+    "10/(1/2) = 20, so b = 20 · sin 45°",
+    "b = 20 · (√2/2)"
+   ],
+   "answer": "b = 10√2 ≈ 14.1"
+  },
+  {
+   "u": 7,
+   "title": "Solving a system by elimination",
+   "prompt": "Solve 3x + 2y = 12 and x − 2y = 4.",
+   "steps": [
+    "Add the equations to eliminate y: 4x = 16",
+    "So x = 4",
+    "Substitute into x − 2y = 4: 4 − 2y = 4",
+    "So y = 0"
+   ],
+   "answer": "(4, 0)"
+  },
+  {
+   "u": 7,
+   "title": "Determinant of a 2 × 2 matrix",
+   "prompt": "Find the determinant of [[4, 3], [2, 5]].",
+   "steps": [
+    "Use ad − bc",
+    "(4)(5) − (3)(2)",
+    "20 − 6"
+   ],
+   "answer": "14"
+  },
+  {
+   "u": 8,
+   "title": "Arithmetic series",
+   "prompt": "Find the sum of the first 20 terms of 3, 7, 11, 15, …",
+   "steps": [
+    "The common difference is d = 4",
+    "a₂₀ = 3 + 19(4) = 79",
+    "Sum = n(a₁ + aₙ)/2 = 20(3 + 79)/2"
+   ],
+   "answer": "820"
+  },
+  {
+   "u": 8,
+   "title": "Infinite geometric series",
+   "prompt": "Find the sum of 12 + 6 + 3 + 1.5 + …",
+   "steps": [
+    "The ratio is r = 1/2, and |r| < 1 so the series converges",
+    "Sum = a/(1 − r) = 12/(1 − 1/2)"
+   ],
+   "answer": "24"
+  },
+  {
+   "u": 9,
+   "title": "A limit by factoring",
+   "prompt": "Evaluate lim_{x→3} (x² − 9)/(x − 3).",
+   "steps": [
+    "Direct substitution gives 0/0",
+    "Factor: (x − 3)(x + 3)/(x − 3)",
+    "Cancel: x + 3",
+    "Substitute x = 3"
+   ],
+   "answer": "6"
+  },
+  {
+   "u": 9,
+   "title": "Average rate of change",
+   "prompt": "Find the average rate of change of f(x) = x² + 2x from x = 1 to x = 4.",
+   "steps": [
+    "f(4) = 16 + 8 = 24",
+    "f(1) = 1 + 2 = 3",
+    "(24 − 3)/(4 − 1) = 21/3"
+   ],
+   "answer": "7"
+  }
+ ],
  "examParts": {
   "PART_A": [
    {
