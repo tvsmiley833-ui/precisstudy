@@ -647,3 +647,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
   details>*{display:block!important}
   a{color:#000;text-decoration:underline}
 }
+
+.site-foot{border-top:1px solid var(--border);margin-top:32px;padding:16px;text-align:center}
+.site-foot a{display:inline-block;padding:10px 8px;color:var(--text-muted);font-size:13px;text-decoration:none}
+.site-foot a:hover,.site-foot a:focus-visible{color:var(--text);text-decoration:underline}

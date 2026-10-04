@@ -337,6 +337,14 @@ function buildRelated(slug) {
     + `</nav>\n`;
 }
 
+const SITE_FOOTER = `<footer class="site-foot">
+  <a href="/about/">Who are we</a>
+  <a href="/request/">Request a guide</a>
+  <a href="/tips/">Study tips</a>
+  <a href="/privacy/">Privacy</a>
+  <a href="/terms/">Terms</a>
+</footer>\n`;
+
 export function generateGuide(config) {
   const schemaErrors = validateGuideConfig(config);
   if (schemaErrors.length) throw new Error(`guides/${config.slug || "?"}.json is invalid:\n  - ${schemaErrors.slice(0, 12).join("\n  - ")}${schemaErrors.length > 12 ? `\n  … and ${schemaErrors.length - 12} more` : ""}`);
@@ -449,6 +457,7 @@ export function generateGuide(config) {
     views = views.replace(/<div id="view-examples"[^>]*><\/div>\n?/, "");
   html += views;
   html += buildRelated(slug);
+  html += SITE_FOOTER;
 
   // Data + logic. Exam parts required by schema but may be empty arrays.
   html += `\n<script>\n`;
