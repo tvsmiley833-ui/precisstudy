@@ -13,6 +13,14 @@ export const TIPS: { slug: string; published: string }[] = [
     "published": "2026-10-04"
   },
   {
+    "slug": "law-of-sines-vs-cosines",
+    "published": "2026-10-04"
+  },
+  {
+    "slug": "limiting-reagent",
+    "published": "2026-10-04"
+  },
+  {
     "slug": "mitosis-vs-meiosis",
     "published": "2026-10-04"
   },
@@ -54,6 +62,10 @@ export const TIPS: { slug: string; published: string }[] = [
   },
   {
     "slug": "quadratic-formula",
+    "published": "2026-10-04"
+  },
+  {
+    "slug": "semicolons-vs-colons",
     "published": "2026-10-04"
   },
   {
