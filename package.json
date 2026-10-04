@@ -9,10 +9,11 @@
     "test:scripts": "node --test test/*.node.test.mjs",
     "typecheck": "tsc --noEmit",
     "build:client": "esbuild client/personality.js --minify --format=esm --target=es2022 --legal-comments=none --tsconfig-raw={} --outfile=public/shared/personality.js && esbuild client/guide-app.js --minify --target=es2020 --legal-comments=none --tsconfig-raw={} --outfile=public/shared/guide-app.js",
-    "predeploy": "node scripts/gen-lastmod.mjs && npm run build:client && npm run typecheck && npm test",
+    "predeploy": "node scripts/generate-tips.mjs && node scripts/gen-lastmod.mjs && npm run build:client && npm run typecheck && npm test",
     "postdeploy": "node scripts/smoke.mjs",
     "smoke": "node scripts/smoke.mjs",
-    "guides:regen": "node scripts/regen-guides.mjs"
+    "guides:regen": "node scripts/regen-guides.mjs",
+    "tips:gen": "node scripts/generate-tips.mjs"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.21.3",

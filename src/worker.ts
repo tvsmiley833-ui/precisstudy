@@ -33,6 +33,7 @@ import {
   handleAssignments, handleGoogleCalendars, handleGoogleDisconnect,
   handleGoogleSettingsGet, handleGoogleSettingsPost
 } from "./google-routes.js";
+import { TIPS } from "./tips-list.js";
 import { handleProfile, handleSessions, handleAvatar } from "./profile-routes.js";
 import { handleCanvasConnect, handleCanvasDisconnect, handleCanvasStatus, handleCanvasSyncNow } from "./canvas-routes.js";
 import { refCookie } from "./auth-state.js";
@@ -165,10 +166,12 @@ const CONTRAST_BOOTSTRAP =
   "if(c==='high'||(c===null&&window.matchMedia&&matchMedia('(prefers-contrast: more)').matches))d.setAttribute('data-contrast','high');" +
   "if(localStorage.getItem('ss-amoled')==='on')d.setAttribute('data-amoled','on')}catch(e){}})()</script>";
 
-const SLASH_PAGES = new Set(["about", "privacy", "terms", "request", "dashboard", "planner", "settings", "concepts", "compete", "challenge", "syllabus", "flashcards", "educators", "changelog", "parents-bill-of-rights", "onboarding", "share", "age"]);
+const SLASH_PAGES = new Set(["about", "privacy", "terms", "request", "dashboard", "planner", "tips", "settings", "concepts", "compete", "challenge", "syllabus", "flashcards", "educators", "changelog", "parents-bill-of-rights", "onboarding", "share", "age"]);
 
 /** True for "/<guide>" or "/<page>" with no trailing slash, which should permanently redirect to the slashed address. */
 export function needsSlashRedirect(pathname: string): boolean {
+  const tip = /^\/tips\/([a-z0-9-]+)$/.exec(pathname);
+  if (tip) return TIPS.some(t => t.slug === tip[1]);
   const m = /^\/([a-z0-9-]+)$/.exec(pathname);
   return !!m && (SUBJECT_PATHS.has(m[1]!) || SLASH_PAGES.has(m[1]!));
 }
@@ -241,6 +244,9 @@ async function injectSiteWidgets(res: Response, pathname: string): Promise<Respo
     })
     .transform(res);
 }
+
+// A tip page's last-modified date is its published date; every other page uses the last commit that touched it.
+const lastmodFor = (p: string): string | undefined => LASTMOD[p] ?? TIPS.find(t => `/tips/${t.slug}/` === p)?.published;
 
 const SUBJECT_VIEW_RE = /^\/([a-z0-9-]+)\/([a-z0-9-]+)\/?$/;
 
@@ -555,10 +561,12 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
     // "Discovered - currently not indexed" instead of anything useful.
     const locs = [
       ...staticPages,
-      ...sortedSubjects.map(s => `/${s}/`)
+      "/tips/",
+      ...sortedSubjects.map(s => `/${s}/`),
+      ...TIPS.map(t => `/tips/${t.slug}/`)
     ];
     const body = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`
-      + locs.map(p => `  <url><loc>https://precisstudy.com${p}</loc>${LASTMOD[p] ? `<lastmod>${LASTMOD[p]}</lastmod>` : ""}</url>`).join("\n")
+      + locs.map(p => `  <url><loc>https://precisstudy.com${p}</loc>${lastmodFor(p) ? `<lastmod>${lastmodFor(p)}</lastmod>` : ""}</url>`).join("\n")
       + `\n</urlset>\n`;
     return new Response(body, {
       headers: { "Content-Type": "application/xml; charset=utf-8", "Cache-Control": "public, max-age=3600" }

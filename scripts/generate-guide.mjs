@@ -319,10 +319,22 @@ export function relatedGuides(slug, max = 5) {
   const order = group.map((s, k) => ({ s, d: Math.abs(k - i) })).filter(x => x.s !== slug && GUIDE_TITLES[x.s]).sort((a, b) => a.d - b.d);
   return order.slice(0, max).map(x => ({ slug: x.s, title: GUIDE_TITLES[x.s] }));
 }
+// Study tips (tips/*.json) that point at this guide: a crawlable, topical link from the guide to each tip page.
+const TIPS_FOR = (() => {
+  const out = {};
+  try {
+    for (const f of readdirSync(join(ROOT, "tips"))) if (f.endsWith(".json")) { const t = JSON.parse(readFileSync(join(ROOT, "tips", f), "utf8")); (out[t.guide] = out[t.guide] || []).push({ slug: t.slug, title: t.pageTitle }); }
+  } catch (e) { /* tips are optional */ }
+  return out;
+})();
 function buildRelated(slug) {
   const rel = relatedGuides(slug);
-  if (!rel.length) return "";
-  return `<nav class="related-guides" aria-labelledby="related-h"><h2 id="related-h">Related study guides</h2><ul>${rel.map(r => `<li><a href="/${r.slug}/">${esc(r.title)} study guide</a></li>`).join("")}</ul></nav>\n`;
+  const tips = TIPS_FOR[slug] || [];
+  if (!rel.length && !tips.length) return "";
+  return `<nav class="related-guides" aria-label="Related study content">`
+    + (tips.length ? `<h2 id="related-t">Study tips</h2><ul>${tips.map(t => `<li><a href="/tips/${t.slug}/">${esc(t.title)}</a></li>`).join("")}</ul>` : "")
+    + (rel.length ? `<h2 id="related-h">Related study guides</h2><ul>${rel.map(r => `<li><a href="/${r.slug}/">${esc(r.title)} study guide</a></li>`).join("")}</ul>` : "")
+    + `</nav>\n`;
 }
 
 export function generateGuide(config) {
