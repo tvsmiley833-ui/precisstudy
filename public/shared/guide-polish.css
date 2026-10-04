@@ -678,3 +678,13 @@ body{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-ri
 
 /* Phones: keep the breadcrumb clear of the streak pill and account button in the hero's top-right corner. */
 @media (max-width: 560px) { html:root body .hero-inner .breadcrumb { padding-right: 176px; } }
+
+/* Phones, Quiz tab: the question comes right after the quiz controls; the diagnostic buttons and the study-plan teaser move below it. */
+@media (max-width: 560px) {
+  html:root body #quiz-real:not([style*="display: none"]):not([style*="display:none"]) { display: flex; flex-direction: column; }
+  html:root body #quiz-real > * { order: 5; }
+  html:root body #quiz-real > #anon-quiz-note { order: 1; }
+  html:root body #quiz-real > .q-bar { order: 2; }
+  html:root body #quiz-real > #diag-banner, html:root body #quiz-real > #diag-summary { order: 3; }
+  html:root body #quiz-real > #qbox { order: 4; margin-bottom: 18px; }
+}

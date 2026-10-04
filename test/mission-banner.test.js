@@ -12,3 +12,11 @@ describe("mission banner is part of the first paint", () => {
     expect(MISSION_BANNER_HEAD).toContain("html[data-mb=off] #mb-bar{display:none}");
   });
 });
+
+import { showsBottomNav } from "../src/worker.js";
+describe("phone bottom nav placement", () => {
+  it("is on secondary pages only", () => {
+    for (const p of ["/dashboard/", "/settings/", "/planner/", "/tips/", "/tips/sohcahtoa/", "/about/"]) expect(showsBottomNav(p)).toBe(true);
+    for (const p of ["/", "/geometry/", "/geometry/quiz", "/admin/", "/onboarding/", "/age/"]) expect(showsBottomNav(p)).toBe(false);
+  });
+});
