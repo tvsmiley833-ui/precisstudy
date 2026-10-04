@@ -3313,5 +3313,48 @@
     "e": "Uses elasticity as the decision hinge, concedes the strongest counter, and resolves with mechanism-aware policy design."
    }
   ]
- }
+ },
+ "workedExamples": [
+  {
+   "u": 1,
+   "title": "Opportunity cost",
+   "prompt": "You have 3 hours. Studying earns you an estimated 6 extra points on a test; working earns $30. If you choose to study, what is the opportunity cost?",
+   "steps": [
+    "Opportunity cost is the value of the best alternative you give up",
+    "The best alternative to studying is working",
+    "So the cost of studying is the $30"
+   ],
+   "answer": "$30 of lost earnings"
+  },
+  {
+   "u": 2,
+   "title": "Equilibrium",
+   "prompt": "Demand is Qd = 100 − 2P and supply is Qs = 20 + 2P. Find equilibrium.",
+   "steps": [
+    "Set the quantities equal: 100 − 2P = 20 + 2P",
+    "80 = 4P, so P = 20 and Q = 60"
+   ],
+   "answer": "P = $20, Q = 60"
+  },
+  {
+   "u": 5,
+   "title": "Compound interest",
+   "prompt": "You deposit $1,000 at 5% interest compounded yearly. What is the balance after 3 years?",
+   "steps": [
+    "Balance = P(1 + r)ⁿ",
+    "1000(1.05)³ = 1000 × 1.157625"
+   ],
+   "answer": "$1,157.63"
+  },
+  {
+   "u": 5,
+   "title": "Money multiplier",
+   "prompt": "If banks must hold 10% of deposits as reserves, how much can a new $500 deposit expand the money supply at most?",
+   "steps": [
+    "Multiplier = 1/0.10 = 10",
+    "10 × $500"
+   ],
+   "answer": "$5,000"
+  }
+ ]
 }

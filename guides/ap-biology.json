@@ -4216,5 +4216,83 @@
     "e": "Full argumentative architecture earns top marks."
    }
   ]
- }
+ },
+ "workedExamples": [
+  {
+   "u": 1,
+   "title": "pH difference",
+   "prompt": "How many times more acidic is a solution at pH 6 than one at pH 8?",
+   "steps": [
+    "Each pH unit is a factor of 10 in [H⁺]",
+    "Two units apart: 10² = 100"
+   ],
+   "answer": "100 times more acidic"
+  },
+  {
+   "u": 2,
+   "title": "Water potential",
+   "prompt": "Find the solute potential of a 0.1 M sucrose solution at 20 °C (293 K). Use Ψₛ = −iCRT with i = 1, R = 0.0831 L·bar/mol·K.",
+   "steps": [
+    "Ψₛ = −(1)(0.1)(0.0831)(293)",
+    "= −2.43 bar",
+    "With no pressure potential, Ψ = Ψₛ"
+   ],
+   "answer": "Ψₛ ≈ −2.43 bar"
+  },
+  {
+   "u": 4,
+   "title": "Length of mitosis",
+   "prompt": "In a sample of 200 cells, 20 are in mitosis. The cell cycle takes 24 hours. Estimate how long mitosis lasts.",
+   "steps": [
+    "Fraction in mitosis = 20/200 = 0.10",
+    "Time in mitosis ≈ fraction × cycle time",
+    "0.10 × 24 h"
+   ],
+   "answer": "About 2.4 hours"
+  },
+  {
+   "u": 5,
+   "title": "Chi-square test",
+   "prompt": "A dihybrid cross gives 315, 108, 101, 32 offspring (556 total). Test it against a 9:3:3:1 ratio.",
+   "steps": [
+    "Expected: 312.75, 104.25, 104.25, 34.75",
+    "χ² = Σ(O − E)²/E = 0.016 + 0.135 + 0.101 + 0.218 ≈ 0.47",
+    "df = 3; the critical value at p = 0.05 is 7.81",
+    "0.47 < 7.81, so fail to reject the null"
+   ],
+   "answer": "χ² ≈ 0.47: the data fit 9:3:3:1"
+  },
+  {
+   "u": 6,
+   "title": "Transcription",
+   "prompt": "The DNA template strand reads 3′-TACGGA-5′. What mRNA is made?",
+   "steps": [
+    "mRNA pairs with the template: A–U, T–A, G–C, C–G",
+    "T→A, A→U, C→G, G→C, G→C, A→U",
+    "mRNA reads 5′ → 3′"
+   ],
+   "answer": "5′-AUGCCU-3′"
+  },
+  {
+   "u": 7,
+   "title": "Hardy-Weinberg",
+   "prompt": "A recessive allele causes a condition in 9% of a population (q² = 0.09). Find the heterozygote frequency.",
+   "steps": [
+    "q = 0.3 and p = 0.7",
+    "2pq = 2(0.7)(0.3)"
+   ],
+   "answer": "0.42 (42%)"
+  },
+  {
+   "u": 8,
+   "title": "Mark and recapture",
+   "prompt": "50 animals are marked and released. A later sample of 40 contains 8 marked. Estimate the population size.",
+   "steps": [
+    "Marked fraction in the sample = 8/40 = 0.2",
+    "The same fraction holds for the whole population: 50/N = 0.2",
+    "N = 50/0.2"
+   ],
+   "answer": "N ≈ 250 (Lincoln–Petersen: 50 × 40 / 8)"
+  }
+ ]
 }

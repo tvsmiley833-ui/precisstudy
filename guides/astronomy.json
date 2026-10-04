@@ -5696,5 +5696,48 @@
     "e": "Full argumentative architecture earns top marks."
    }
   ]
- }
+ },
+ "workedExamples": [
+  {
+   "u": 3,
+   "title": "Kepler's third law",
+   "prompt": "A planet orbits the Sun at an average distance of 4 AU. Find its orbital period in years.",
+   "steps": [
+    "P² = a³ (years, AU)",
+    "P² = 4³ = 64",
+    "P = 8"
+   ],
+   "answer": "8 years"
+  },
+  {
+   "u": 4,
+   "title": "Light travel time",
+   "prompt": "The Sun is 1.496 × 10⁸ km from Earth. How long does its light take to arrive? (c = 3.0 × 10⁵ km/s)",
+   "steps": [
+    "time = distance / speed",
+    "= 1.496×10⁸ / 3.0×10⁵ ≈ 499 s",
+    "499 s ÷ 60"
+   ],
+   "answer": "About 8.3 minutes"
+  },
+  {
+   "u": 5,
+   "title": "Parallax distance",
+   "prompt": "A star has a parallax of 0.25 arcseconds. How far is it?",
+   "steps": [
+    "Distance in parsecs = 1 / parallax in arcseconds",
+    "= 1/0.25"
+   ],
+   "answer": "4 parsecs (about 13 light-years)"
+  },
+  {
+   "u": 5,
+   "title": "Magnitudes",
+   "prompt": "A star is 5 magnitudes brighter than another. How many times brighter does it appear?",
+   "steps": [
+    "5 magnitudes is defined as a factor of 100 in brightness"
+   ],
+   "answer": "100 times brighter"
+  }
+ ]
 }

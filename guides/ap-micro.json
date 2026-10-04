@@ -5537,5 +5537,73 @@
     "e": "Full argumentative architecture earns top marks."
    }
   ]
- }
+ },
+ "workedExamples": [
+  {
+   "u": 2,
+   "title": "Market equilibrium",
+   "prompt": "Demand is Qd = 100 − 2P and supply is Qs = 20 + 2P. Find the equilibrium price and quantity.",
+   "steps": [
+    "Set Qd = Qs: 100 − 2P = 20 + 2P",
+    "80 = 4P, so P = 20",
+    "Q = 100 − 2(20) = 60"
+   ],
+   "answer": "P = $20, Q = 60"
+  },
+  {
+   "u": 3,
+   "title": "Price elasticity (midpoint)",
+   "prompt": "When price rises from $10 to $12, quantity demanded falls from 100 to 80. Find the price elasticity of demand.",
+   "steps": [
+    "%ΔQ = −20/90 = −22.2%",
+    "%ΔP = 2/11 = 18.2%",
+    "|E| = 22.2/18.2 ≈ 1.22 > 1"
+   ],
+   "answer": "Elastic (|E| ≈ 1.22)"
+  },
+  {
+   "u": 4,
+   "title": "Utility maximizing",
+   "prompt": "MUx = 20 at Px = $4 and MUy = 15 at Py = $3. Is the consumer maximizing utility?",
+   "steps": [
+    "Compare marginal utility per dollar",
+    "MUx/Px = 20/4 = 5",
+    "MUy/Py = 15/3 = 5"
+   ],
+   "answer": "Yes, the ratios are equal"
+  },
+  {
+   "u": 5,
+   "title": "Average total cost",
+   "prompt": "Total cost is $500 at 50 units. Find ATC. If producing a 51st unit raises TC to $510, find MC.",
+   "steps": [
+    "ATC = TC/Q = 500/50 = 10",
+    "MC = ΔTC/ΔQ = 10/1"
+   ],
+   "answer": "ATC = $10, MC = $10"
+  },
+  {
+   "u": 6,
+   "title": "Monopoly profit",
+   "prompt": "A monopolist faces P = 100 − Q with MC = 20. Find the profit-maximizing quantity, price, and profit.",
+   "steps": [
+    "MR = 100 − 2Q; set MR = MC: 100 − 2Q = 20",
+    "Q = 40, P = 100 − 40 = 60",
+    "Profit = (P − ATC)Q; with ATC = MC = 20, (60 − 20)(40)"
+   ],
+   "answer": "Q = 40, P = $60, profit = $1,600"
+  },
+  {
+   "u": 8,
+   "title": "Deadweight loss of a tax",
+   "prompt": "With Qd = 100 − 2P and Qs = 20 + 2P, a $4 per-unit tax is placed on sellers. Find the new quantity and deadweight loss.",
+   "steps": [
+    "Buyers pay Pd = (100 − Q)/2; sellers keep Ps = (Q − 20)/2",
+    "Pd − Ps = 4: (120 − 2Q)/2 = 4, so Q = 56",
+    "Original Q = 60, so Q falls by 4",
+    "DWL = ½ × tax × ΔQ = ½(4)(4)"
+   ],
+   "answer": "Q = 56; deadweight loss = $8"
+  }
+ ]
 }

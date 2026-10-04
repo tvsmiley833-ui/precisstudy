@@ -5740,5 +5740,52 @@
     "e": "Full argumentative architecture earns top marks."
    }
   ]
- }
+ },
+ "workedExamples": [
+  {
+   "u": 1,
+   "title": "Integer division",
+   "prompt": "What do 7 / 2, 7 % 2 and 7 / 2.0 evaluate to in Java?",
+   "steps": [
+    "Integer division drops the remainder: 7 / 2 = 3",
+    "% gives the remainder: 7 % 2 = 1",
+    "If one operand is a double, the result is a double: 7 / 2.0 = 3.5"
+   ],
+   "answer": "3, 1 and 3.5"
+  },
+  {
+   "u": 4,
+   "title": "Loop trace",
+   "prompt": "What is the value of sum after: int sum = 0; for (int i = 1; i <= 4; i++) sum += i * i;",
+   "steps": [
+    "i = 1: sum = 1",
+    "i = 2: sum = 5",
+    "i = 3: sum = 14",
+    "i = 4: sum = 30"
+   ],
+   "answer": "30"
+  },
+  {
+   "u": 5,
+   "title": "Array traversal",
+   "prompt": "int[] a = {3, 8, 1, 6}; what does a loop that keeps the largest value return?",
+   "steps": [
+    "Start max = a[0] = 3",
+    "8 > 3, so max = 8",
+    "1 and 6 are not larger"
+   ],
+   "answer": "8"
+  },
+  {
+   "u": 8,
+   "title": "Recursion",
+   "prompt": "What does fact(4) return if fact(n) is n * fact(n − 1) with fact(0) = 1?",
+   "steps": [
+    "fact(4) = 4 × fact(3)",
+    "fact(3) = 3 × fact(2), fact(2) = 2 × fact(1), fact(1) = 1 × fact(0) = 1",
+    "Multiply back up: 4 × 3 × 2 × 1"
+   ],
+   "answer": "24"
+  }
+ ]
 }

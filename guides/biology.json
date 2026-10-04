@@ -3915,6 +3915,71 @@
    }
   ]
  },
+ "workedExamples": [
+  {
+   "u": 1,
+   "title": "Microscope magnification",
+   "prompt": "A cell's image is 40 mm long under the microscope. Its real length is 0.2 mm. What is the magnification?",
+   "steps": [
+    "Magnification = image size ÷ actual size",
+    "40 mm ÷ 0.2 mm"
+   ],
+   "answer": "200×"
+  },
+  {
+   "u": 3,
+   "title": "Surface area to volume",
+   "prompt": "Compare the surface-area-to-volume ratio of a cube-shaped cell with sides 2 µm and one with sides 4 µm.",
+   "steps": [
+    "2 µm cell: SA = 6(4) = 24, V = 8, ratio 3",
+    "4 µm cell: SA = 6(16) = 96, V = 64, ratio 1.5",
+    "Bigger cells have less surface per unit volume, so exchange gets harder"
+   ],
+   "answer": "3 vs 1.5; the larger cell has the lower ratio"
+  },
+  {
+   "u": 5,
+   "title": "Monohybrid cross",
+   "prompt": "Cross two heterozygous plants (Aa × Aa). What fraction of offspring are aa, and what is the phenotype ratio if A is dominant?",
+   "steps": [
+    "Gametes from each parent: A or a",
+    "Punnett square: AA, Aa, Aa, aa",
+    "aa = 1 of 4 boxes"
+   ],
+   "answer": "1/4 are aa; phenotype ratio 3 dominant : 1 recessive"
+  },
+  {
+   "u": 6,
+   "title": "Hardy-Weinberg",
+   "prompt": "In a population, 4% of people show a recessive trait (q² = 0.04). What fraction are heterozygous carriers?",
+   "steps": [
+    "q = √0.04 = 0.2",
+    "p = 1 − q = 0.8",
+    "Carriers = 2pq = 2(0.8)(0.2)"
+   ],
+   "answer": "0.32 (32%)"
+  },
+  {
+   "u": 7,
+   "title": "Logistic growth",
+   "prompt": "A population has N = 500, carrying capacity K = 1000 and r = 0.2. Find dN/dt = rN(1 − N/K).",
+   "steps": [
+    "N/K = 0.5, so 1 − N/K = 0.5",
+    "dN/dt = 0.2 × 500 × 0.5"
+   ],
+   "answer": "50 individuals per time step"
+  },
+  {
+   "u": 8,
+   "title": "Cardiac output",
+   "prompt": "A heart beats 72 times per minute and pumps 70 mL per beat. Find the cardiac output.",
+   "steps": [
+    "Cardiac output = stroke volume × heart rate",
+    "70 × 72"
+   ],
+   "answer": "5,040 mL/min (about 5 L/min)"
+  }
+ ],
  "diagrams": {
   "1": {
    "cap": "Levels of biological organization, from smallest/simplest to largest/most complex.",

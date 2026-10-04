@@ -5707,5 +5707,39 @@
     "e": "Full argumentative architecture earns top marks."
    }
   ]
- }
+ },
+ "workedExamples": [
+  {
+   "u": 1,
+   "title": "Binary to decimal",
+   "prompt": "Convert 1101₂ to decimal, and 45 to binary.",
+   "steps": [
+    "1101₂ = 8 + 4 + 0 + 1 = 13",
+    "45 = 32 + 8 + 4 + 1",
+    "Bits for 32, 16, 8, 4, 2, 1: 1 0 1 1 0 1"
+   ],
+   "answer": "13; 101101₂"
+  },
+  {
+   "u": 1,
+   "title": "Hexadecimal",
+   "prompt": "What is FF in hexadecimal as a decimal number?",
+   "steps": [
+    "F = 15",
+    "FF = 15 × 16 + 15 = 240 + 15"
+   ],
+   "answer": "255"
+  },
+  {
+   "u": 5,
+   "title": "Binary search steps",
+   "prompt": "A sorted list has 1,024 items. At most how many comparisons does binary search need to find an item or decide it is absent?",
+   "steps": [
+    "Each step halves the remaining items",
+    "1,024 → 512 → … → 1 takes log₂(1024) = 10 halvings",
+    "So about 10 steps (plus one for the final check)"
+   ],
+   "answer": "About 10 comparisons"
+  }
+ ]
 }

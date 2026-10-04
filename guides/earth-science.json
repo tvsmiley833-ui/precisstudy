@@ -5449,5 +5449,38 @@
     "e": "Weighs timescales, externalities, and equity; avoids either/or fallacy with mechanism-aware policy design."
    }
   ]
- }
+ },
+ "workedExamples": [
+  {
+   "u": 2,
+   "title": "Plate motion",
+   "prompt": "A plate moves 2 cm per year. How far does it move in 10 million years?",
+   "steps": [
+    "2 cm/yr × 10,000,000 yr = 20,000,000 cm",
+    "20,000,000 cm = 200 km"
+   ],
+   "answer": "200 km"
+  },
+  {
+   "u": 5,
+   "title": "Radiometric dating",
+   "prompt": "A rock now holds 25% of its original parent isotope, whose half-life is 1 billion years. How old is it?",
+   "steps": [
+    "50% remains after 1 half-life",
+    "25% remains after 2 half-lives",
+    "2 × 1 billion years"
+   ],
+   "answer": "2 billion years"
+  },
+  {
+   "u": 5,
+   "title": "Stream gradient",
+   "prompt": "A stream drops 100 m in elevation over 20 km. Find its gradient.",
+   "steps": [
+    "Gradient = change in elevation / distance",
+    "100 m / 20 km"
+   ],
+   "answer": "5 m/km"
+  }
+ ]
 }
