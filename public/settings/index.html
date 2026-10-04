@@ -236,7 +236,7 @@ html{scroll-behavior:smooth}
 
 /* ---- button system: primary (solid), secondary (outline), danger (red), ghost (text) ---- */
 .ss-card button:not(.ss-density-btn):not(.ss-unsaved-discard),.ss-card .ss-oauth-btn,#ss-unsaved-save,#settings-signin-btn{
-  display:inline-flex!important;align-items:center;justify-content:center;gap:8px;box-sizing:border-box;min-height:44px;width:auto!important;margin:0!important;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;box-sizing:border-box;min-height:44px;width:auto!important;margin:0!important;
   padding:0 22px!important;border-radius:999px!important;font:inherit;font-size:14.5px!important;font-weight:700;line-height:1;text-decoration:none;white-space:nowrap;cursor:pointer;
   border:2px solid transparent;transition:background .15s ease,border-color .15s ease,color .15s ease,box-shadow .15s ease,transform .1s ease}
 /* primary */
@@ -256,6 +256,7 @@ html{scroll-behavior:smooth}
 .ss-card .ss-danger:hover,#reset-progress-btn:hover,#ss-share-revoke-btn:hover,#ss-cal-revoke-btn:hover{background:color-mix(in srgb,#b3362c 14%,transparent)!important}
 #delete-account-btn{background:#b3362c!important;color:#fff!important;border-color:#b3362c!important}
 #delete-account-btn:hover{background:#8f2a22!important;border-color:#8f2a22!important}
+#profile-avatar-remove[hidden]{display:none}
 /* states */
 .ss-card button:disabled,#ss-unsaved-save:disabled{opacity:.55;cursor:not-allowed;box-shadow:none!important;transform:none!important}
 .ss-card button:focus-visible,.ss-card .ss-oauth-btn:focus-visible,#ss-unsaved-save:focus-visible{outline:3px solid var(--accent-bright);outline-offset:2px}
@@ -421,7 +422,7 @@ html{scroll-behavior:smooth}
         <span id="profile-avatar-ph" aria-hidden="true" style="width:64px;height:64px;border-radius:50%;background:var(--accent-solid);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:26px">?</span>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <label class="ss-oauth-btn" style="width:auto;margin:0;padding:9px 16px;cursor:pointer;display:inline-flex">Upload picture<input type="file" id="profile-avatar-file" accept="image/png,image/jpeg,image/webp" hidden/></label>
-          <button type="button" id="profile-avatar-remove" class="ss-oauth-btn" style="width:auto;margin:0;padding:9px 16px;display:none">Remove</button>
+          <button type="button" id="profile-avatar-remove" class="ss-oauth-btn" hidden>Remove</button>
         </div>
         <span id="profile-avatar-status" role="status" style="font-size:13px;color:var(--text-muted)"></span>
       </div>

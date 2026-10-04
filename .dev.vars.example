@@ -17,3 +17,6 @@ GITHUB_CLIENT_SECRET=""
 VAPID_PRIVATE_KEY=""
 # mailto: address or site URL identifying the push sender, e.g. mailto:you@example.com
 VAPID_SUBJECT=""
+
+# Local testing only: lets http://localhost:8787/auth/dev-login sign in as a fixed test student. Never set this in production.
+DEV_LOGIN="1"

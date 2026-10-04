@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { MISSION_BANNER_HTML, MISSION_BANNER_HEAD } from "../src/worker.js";
+import { MISSION_BANNER_HTML, MISSION_BANNER_HEAD } from "../src/mission-banner.js";
 
 describe("mission banner is part of the first paint", () => {
   it("ships as markup with a close button, not only as a deferred script", () => {

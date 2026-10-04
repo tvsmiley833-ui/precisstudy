@@ -16,11 +16,11 @@
   var st = document.createElement("style"); st.textContent = css; document.head.appendChild(st);
 
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
-  var user = null, hasAv = false, building = false;
+  var user = null, hasAv = false, building = false, avVer = '';
 
   function html(name, floating) {
     return '<button type="button" class="ss-avatar-btn" aria-haspopup="menu" aria-expanded="false" aria-label="Account menu">'
-      + (hasAv ? '<img class="ss-avatar" alt="" src="/api/avatar" style="object-fit:cover">' : '<span class="ss-avatar" aria-hidden="true">' + esc(name.trim().charAt(0).toUpperCase()) + '</span>')
+      + (hasAv ? '<img class="ss-avatar" alt="" src="/api/avatar' + avVer + '" style="object-fit:cover">' : '<span class="ss-avatar" aria-hidden="true">' + esc(name.trim().charAt(0).toUpperCase()) + '</span>')
       + '<span class="ss-acct-name">' + esc(name) + '</span><span class="ss-acct-caret" aria-hidden="true" style="font-size:10px">&#9662;</span></button>'
       + '<div class="ss-acct-menu" role="menu" hidden><a role="menuitem" href="/dashboard/">Dashboard</a><a role="menuitem" href="/settings/">Settings</a>'
       + '<button type="button" role="menuitem" data-signout>Sign out</button></div>';
@@ -52,6 +52,13 @@
       document.body.appendChild(d); wire(d);
     }
   }
+  window.addEventListener("ss-account-changed", function (e) {
+    var d = e.detail || {};
+    if (d.name) user = d.name;
+    hasAv = !!d.avatar; avVer = "?v=" + Date.now();
+    document.querySelectorAll(".ss-acct-wrap").forEach(function (w) { if (w.classList.contains("ss-acct-float")) w.remove(); else w.innerHTML = ""; });
+    build();
+  });
   var me = window.__ssMe || fetch("/auth/me").then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
   window.__ssMe = me;
   me.then(function (d) {

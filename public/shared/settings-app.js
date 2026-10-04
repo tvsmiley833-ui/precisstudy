@@ -862,33 +862,35 @@ async function ssCanvasDisconnect(){
   btn.disabled = false;
 }
 
+// After a name or picture change: refresh the session and tell the header menu (account-menu.js) to redraw.
+async function ssAccountChanged(){
+  var sess = typeof ssCheckSession === 'function' ? await ssCheckSession() : null;
+  if(sess) window.dispatchEvent(new CustomEvent('ss-account-changed', { detail: { name: sess.name, avatar: !!sess.avatar } }));
+}
+
 function ssShowAvatar(has, label){
   var img = document.getElementById('profile-avatar'), ph = document.getElementById('profile-avatar-ph'), rm = document.getElementById('profile-avatar-remove');
   if(!img) return;
   ph.textContent = (label || '?').trim().charAt(0).toUpperCase();
-  if(has){ img.src = '/api/avatar?v=' + Date.now(); img.style.display = 'block'; ph.style.display = 'none'; rm.style.display = ''; }
-  else { img.style.display = 'none'; ph.style.display = 'flex'; rm.style.display = 'none'; }
+  if(has){ img.src = '/api/avatar?v=' + Date.now(); img.style.display = 'block'; ph.style.display = 'none'; rm.hidden = false; }
+  else { img.style.display = 'none'; ph.style.display = 'flex'; rm.hidden = true; }
 }
 
 // Square-crop to 128px and re-encode as JPEG in the browser, so the server only ever stores a small, known format.
 function ssResizeAvatar(file){
-  return new Promise(function(resolve, reject){
-    var url = URL.createObjectURL(file), im = new Image();
-    im.onload = function(){
-      var s = Math.min(im.width, im.height), c = document.createElement('canvas'); c.width = c.height = 128;
-      c.getContext('2d').drawImage(im, (im.width - s) / 2, (im.height - s) / 2, s, s, 0, 0, 128, 128);
-      URL.revokeObjectURL(url);
-      c.toBlob(function(b){ b ? resolve(b) : reject(new Error('encode')); }, 'image/jpeg', 0.85);
-    };
-    im.onerror = function(){ URL.revokeObjectURL(url); reject(new Error('read')); };
-    im.src = url;
+  // createImageBitmap decodes the file directly: no blob: URL, which the site's img-src policy does not allow.
+  return createImageBitmap(file).then(function(im){
+    var s = Math.min(im.width, im.height), c = document.createElement('canvas'); c.width = c.height = 128;
+    c.getContext('2d').drawImage(im, (im.width - s) / 2, (im.height - s) / 2, s, s, 0, 0, 128, 128);
+    if(im.close) im.close();
+    return new Promise(function(resolve, reject){ c.toBlob(function(b){ b ? resolve(b) : reject(new Error('encode')); }, 'image/jpeg', 0.85); });
   });
 }
 
 function ssInitAvatar(){
   var file = document.getElementById('profile-avatar-file'), rm = document.getElementById('profile-avatar-remove'), st = document.getElementById('profile-avatar-status');
   if(!file) return;
-  async function done(r){ var d = await r.json().catch(function(){ return {}; }); st.textContent = r.ok ? 'Saved.' : (d.error || "Couldn't save the picture."); if(r.ok){ ssShowAvatar(d.hasAvatar, document.getElementById('profile-name').value || document.getElementById('profile-email').value); window.__ssMe = null; if(typeof ssCheckSession === 'function') ssCheckSession(); } }
+  async function done(r){ var d = await r.json().catch(function(){ return {}; }); st.textContent = r.ok ? 'Saved.' : (d.error || "Couldn't save the picture."); if(r.ok){ ssShowAvatar(d.hasAvatar, document.getElementById('profile-name').value || document.getElementById('profile-email').value); window.__ssMe = null; ssAccountChanged(); } }
   file.addEventListener('change', async function(){
     if(!file.files[0]) return; st.textContent = 'Saving…';
     try{ var blob = await ssResizeAvatar(file.files[0]); await done(await fetch('/api/avatar', { method:'PUT', headers:{'Content-Type':'image/jpeg'}, body: blob })); }
@@ -975,7 +977,7 @@ async function ssInitProfile(){
       var r = await fetch('/api/profile', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ displayName: name.value, timezone: tz.value, timeFormat: document.getElementById('profile-timefmt').value || null, studyMinutes: document.getElementById('profile-minutes').value ? parseInt(document.getElementById('profile-minutes').value, 10) : null }) });
       var d = await r.json().catch(function(){ return {}; });
       st.textContent = r.ok ? 'Saved.' : (d.error || "Couldn't save.");
-      if(r.ok){ try{ localStorage.setItem('ss_prefs', JSON.stringify({ timeFormat: d.timeFormat || null, studyMinutes: d.studyMinutes || null })); }catch(e){} window.__ssMe = null; if(typeof ssCheckSession === 'function') await ssCheckSession(); }
+      if(r.ok){ try{ localStorage.setItem('ss_prefs', JSON.stringify({ timeFormat: d.timeFormat || null, studyMinutes: d.studyMinutes || null })); }catch(e){} window.__ssMe = null; await ssAccountChanged(); }
     }catch(e){ st.textContent = "Couldn't save. Check your connection."; }
     btn.disabled = false;
   });
