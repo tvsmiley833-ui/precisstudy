@@ -835,9 +835,9 @@ function buildGuide(){
   all.className='chip on';all.textContent='All Units';
   all.onclick=()=>ssFilterByUnit(0);
   fr.appendChild(all);
-  UNITS.forEach(u=>{
+  UNITS.forEach((u,ui)=>{
     const chip=document.createElement('button');
-    chip.className='chip';chip.textContent='Unit '+u.id;
+    chip.className='chip';chip.textContent='Unit '+(ui+1);
     chip.onclick=()=>ssFilterByUnit(u.id);
     fr.appendChild(chip);filterTags[u.id]=chip;
     const div=document.createElement('div');div.className='unit';div.dataset.id=u.id;
@@ -928,6 +928,17 @@ function hydrateGuide(){
   window.addEventListener('scroll',function(){
     btn.classList.toggle('visible',window.scrollY>threshold());
   },{passive:true});
+})();
+// A saved syllabus order (applied to UNITS before anything renders) means the prerendered markup is in the wrong order:
+// rebuild the units and chips from data instead of hydrating them.
+(function(){
+  const ul=document.getElementById('units');
+  const domIds=Array.from(ul.children).map(function(e){return String(e.dataset.id);});
+  if(domIds.length&&domIds.join(',')!==UNITS.map(function(u){return String(u.id);}).join(',')){
+    ul.innerHTML='';
+    const fr=document.getElementById('filter-row');
+    if(fr)fr.innerHTML='';
+  }
 })();
 if(document.getElementById('units').children.length===0){buildGuide();}else{hydrateGuide();}
 ssInitUnitReorder();

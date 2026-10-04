@@ -454,7 +454,9 @@ export function generateGuide(config) {
   html += `\n<script>\n`;
   // Reorder units to the student's syllabus order (see public/shared/unit-order.js).
   const unitOrderKey = masteryKey || slug;
-  html += `const UNITS=${js(units)};window.__ssApplyUnitOrder&&window.__ssApplyUnitOrder('${unitOrderKey}',UNITS);window.__ssRefreshUnitOrder&&window.__ssRefreshUnitOrder('${unitOrderKey}');\n`;
+  // Applied inline, before anything renders: the shared module that owns this logic loads later, so calling it from here
+  // used to be a no-op. The module still refreshes the saved order for the next visit once it is ready.
+  html += `const UNITS=${js(units)};try{var __o=JSON.parse(localStorage.getItem('ssUnitOrder_${unitOrderKey}')||'null');if(Array.isArray(__o)&&__o.length){var __m=new Map(),__x=new Map(UNITS.map(function(u,n){return[u.id,n]}));__o.forEach(function(i,n){if(!__m.has(i))__m.set(i,n)});UNITS.sort(function(a,b){var p=__m.has(a.id)?__m.get(a.id):1/0,q=__m.has(b.id)?__m.get(b.id):1/0;return p!==q?p-q:__x.get(a.id)-__x.get(b.id)})}}catch(e){}window.addEventListener('ss-mastery-ready',function(){window.__ssRefreshUnitOrder&&window.__ssRefreshUnitOrder('${unitOrderKey}')},{once:true});\n`;
   // buildGuide() references this for optional per-unit SVG diagrams; guides
   // without diagrams get the empty object the hand-authored pages use.
   html += `const DIAGRAMS=${js(config.diagrams || {})};\n`;
