@@ -114,3 +114,19 @@ describe("honeypot", () => {
     expect(stored.filter(k => k.startsWith("fb:"))).toEqual([]);
   });
 });
+
+import { handleAdminMe } from "../src/admin-routes.js";
+
+describe("admin access", () => {
+  async function me(provider) {
+    const now = Math.floor(Date.now() / 1000);
+    const token = await signSession({ email: "boss@example.com", name: "Boss", provider, iat: now, exp: now + 3600 }, "sec");
+    const res = await handleAdminMe(new Request("https://example.com/api/admin/me", { headers: { Cookie: `${SESSION_COOKIE}=${token}` } }), { SESSION_SECRET: "sec", ADMIN_EMAILS: "boss@example.com" });
+    return (await res.json()).isAdmin;
+  }
+  it("is granted to a Google sign-in on the allowlist but not to a magic-link or GitHub session", async () => {
+    expect(await me("google")).toBe(true);
+    expect(await me("email")).toBe(false);
+    expect(await me("github")).toBe(false);
+  });
+});

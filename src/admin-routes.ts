@@ -2,8 +2,13 @@ import { getSession } from "./auth.js";
 import { safeDownloadInfo } from "./file-validation.js";
 import { json } from "./http.js";
 
-function isAdminEmail(env: Env, email: string | undefined): boolean {
+// Admin rights need a sign-in whose address the provider has verified. Google checks email_verified; a magic link (any typed
+// address) or an unverified GitHub email must never be enough to open the admin panel.
+const ADMIN_PROVIDERS = new Set(["google"]);
+
+function isAdminEmail(env: Env, email: string | undefined, provider?: string): boolean {
   if (!email || !env.ADMIN_EMAILS) return false;
+  if (!provider || !ADMIN_PROVIDERS.has(provider)) return false;
   const allowed = env.ADMIN_EMAILS.split(",").map(e => e.trim().toLowerCase()).filter(Boolean);
   return allowed.includes(String(email).toLowerCase());
 }
@@ -11,13 +16,13 @@ function isAdminEmail(env: Env, email: string | undefined): boolean {
 async function requireAdmin(request: Request, env: Env): Promise<{ ok: boolean; session?: { email: string; name: string; provider: string }; res?: Response }> {
   const session = await getSession(request, env);
   if (!session) return { ok: false, res: json({ error: "Sign in required" }, 401) };
-  if (!isAdminEmail(env, session.email)) return { ok: false, res: json({ error: "Not authorized" }, 403) };
+  if (!isAdminEmail(env, session.email, session.provider)) return { ok: false, res: json({ error: "Not authorized" }, 403) };
   return { ok: true, session };
 }
 
 export async function handleAdminMe(request: Request, env: Env): Promise<Response> {
   const session = await getSession(request, env);
-  const isAdmin = !!session && isAdminEmail(env, session.email);
+  const isAdmin = !!session && isAdminEmail(env, session.email, session.provider);
   return json({ loggedIn: !!session, isAdmin });
 }
 
