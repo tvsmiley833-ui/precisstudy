@@ -34,6 +34,7 @@ import {
   handleGoogleSettingsGet, handleGoogleSettingsPost
 } from "./google-routes.js";
 import { TIPS } from "./tips-list.js";
+import { isPagePath, pageEtag, assetIfNoneMatch } from "./page-etag.js";
 import { MISSION_BANNER_HTML, MISSION_BANNER_HEAD } from "./mission-banner.js";
 import { handleDevLogin } from "./dev-login.js";
 import { handleProfile, handleSessions, handleAvatar } from "./profile-routes.js";
@@ -121,6 +122,18 @@ async function getSharedAssetVersions(env: Env): Promise<Map<string, string>> {
   }));
   sharedAssetVersions = versions;
   return versions;
+}
+
+// One id per deploy: Cloudflare's version id when the binding is present, else a digest of the shared-file hashes.
+let deployIdCache: string | null = null;
+async function getDeployId(env: Env): Promise<string> {
+  if (deployIdCache) return deployIdCache;
+  const meta = env.CF_VERSION_METADATA?.id;
+  if (meta) return (deployIdCache = meta.replace(/[^a-z0-9]/gi, "").slice(0, 12));
+  const versions = await getSharedAssetVersions(env);
+  const text = [...versions.entries()].sort().map(([k, v]) => k + v).join("|");
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  return (deployIdCache = [...new Uint8Array(digest)].map(x => x.toString(16).padStart(2, "0")).join("").slice(0, 12));
 }
 
 // Rewrites every <script src="/shared/x.js"> on the page to
@@ -367,7 +380,21 @@ export async function continueDailyWork(env: Env, opts: { start: boolean }): Pro
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     try {
-      return withRefCookie(withSecurityHeaders(await handleFetch(request, env), new URL(request.url).pathname), request);
+      const pathname = new URL(request.url).pathname;
+      const page = (request.method === "GET" || request.method === "HEAD") && isPagePath(pathname);
+      let req = request;
+      const deployId = page ? await getDeployId(env) : "";
+      if (page && request.headers.has("If-None-Match")) {
+        // Only a tag from this deploy may produce a 304: see src/page-etag.ts.
+        const headers = new Headers(request.headers);
+        const inm = assetIfNoneMatch(request.headers.get("If-None-Match"), deployId);
+        if (inm) headers.set("If-None-Match", inm); else headers.delete("If-None-Match");
+        req = new Request(request, { headers });
+      }
+      let res = withRefCookie(withSecurityHeaders(await handleFetch(req, env), pathname), request);
+      const etag = page ? res.headers.get("ETag") : null;
+      if (etag) { res = new Response(res.body, res); res.headers.set("ETag", pageEtag(etag, deployId)); }
+      return res;
     } catch (e) {
       // An unhandled rejection here would otherwise surface as Cloudflare's
       // bare 500 with none of SECURITY_HEADERS applied.

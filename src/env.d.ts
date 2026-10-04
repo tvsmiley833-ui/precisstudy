@@ -31,6 +31,7 @@ interface Env {
   RETENTION_DAYS?: string; // delete guide requests and feedback older than this many days
   TURNSTILE_SECRET?: string; // Cloudflare Turnstile secret for the public forms
   TURNSTILE_SITE_KEY?: string; // matching public site key, served by /api/config
+  CF_VERSION_METADATA?: { id: string; tag?: string }; // Cloudflare's per-deploy version id (wrangler.jsonc version_metadata)
   DEV_LOGIN?: string; // local `wrangler dev` only: enables /auth/dev-login on localhost (see src/dev-login.ts)
   CANVAS_EXTRA_DOMAINS?: string; // extra Canvas hosts a school may use (comma-separated)
 }
