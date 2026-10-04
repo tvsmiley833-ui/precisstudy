@@ -1,0 +1,21 @@
+{
+ "slug": "chain-rule",
+ "brand": "PrecisStudy",
+ "subject": "CALCULUS",
+ "url": "precisstudy.com/calculus",
+ "caption": "The chain rule, explained in 6 swipes. Save this for your next derivatives quiz. Free Calculus study guide, quizzes, and flashcards at precisstudy.com/calculus (no sign-up).",
+ "hashtags": ["calculus", "derivatives", "chainrule", "studytok", "apcalc", "studytips", "math"],
+ "slides": [
+  {"type": "hook", "title": "THE CHAIN RULE, STEP BY STEP"},
+  {"type": "formula", "title": "THE RULE", "lines": ["d/dx [f(g(x))] = f′(g(x)) · g′(x)"], "note": "Differentiate the outer function, keep the inside, then multiply by the derivative of the inside."},
+  {"type": "example", "title": "EXAMPLE 1", "problem": "Differentiate y = (3x + 1)⁵", "steps": ["Outer: u⁵ → 5u⁴", "Inside: 3x + 1 → 3", "5(3x + 1)⁴ · 3"], "answer": "15(3x + 1)⁴"},
+  {"type": "example", "title": "EXAMPLE 2", "problem": "Differentiate y = sin(x²)", "steps": ["Outer: sin u → cos u", "Inside: x² → 2x", "cos(x²) · 2x"], "answer": "2x cos(x²)"},
+  {"type": "warn", "title": "WATCH OUT", "wrong": "d/dx (3x + 1)⁵ = 5(3x + 1)⁴", "points": ["Do not forget to multiply by the derivative of the inside.", "Leave the inside function unchanged when you differentiate the outside."]},
+  {"type": "cta", "title": "WANT MORE PRACTICE?", "lines": ["Free Calculus study guide", "Quizzes, flashcards, and practice exams"], "button": "precisstudy.com/calculus", "foot": "100% free. No sign-up."}
+ ],
+ "pageTitle": "The Chain Rule: How to Differentiate Composite Functions",
+ "guide": "calculus",
+ "guideLabel": "Calculus",
+ "description": "Learn the chain rule in three steps with two worked examples and the most common mistake.",
+ "published": "2026-10-04"
+}
