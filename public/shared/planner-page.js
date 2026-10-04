@@ -6,6 +6,59 @@
 
   function plural(n, w) { return n + ' ' + w + (n === 1 ? '' : 's'); }
 
+  // ---- Test scope: the whole course, one unit, or a few units. get() is null (whole course) or a list of unit ids.
+  var scopeSeq = 0;
+  function scopePicker(host, onChange) {
+    var name = 'scope' + (++scopeSeq), mode = 'all', ids = [], cls = null;
+    function rows() { return cls && cls.unitQs ? cls.unitQs : []; }
+    function emit() { if (onChange) onChange(); }
+    function body() {
+      var b = host.querySelector('.pl-scope-body'), r = rows();
+      if (mode === 'one') {
+        b.innerHTML = '<select aria-label="Unit">' + r.map(function (u) { return '<option value="' + u[0] + '">' + esc(u[0] + '. ' + u[1]) + ' (' + u[2] + ' q)</option>'; }).join('') + '</select>';
+        var sel = b.firstChild; if (ids.length) sel.value = String(ids[0]); ids = [+sel.value];
+        sel.addEventListener('change', function () { ids = [+sel.value]; emit(); });
+      } else if (mode === 'few') {
+        b.innerHTML = '<div class="pl-units">' + r.map(function (u) { return '<label><input type="checkbox" value="' + u[0] + '"' + (ids.indexOf(u[0]) >= 0 ? ' checked' : '') + '><span>' + esc(u[0] + '. ' + u[1]) + '</span><small>' + u[2] + ' q</small></label>'; }).join('') + '</div>';
+        b.firstChild.addEventListener('change', function () { ids = [].map.call(b.querySelectorAll('input:checked'), function (i) { return +i.value; }); emit(); });
+      } else b.innerHTML = '';
+    }
+    host.innerHTML = '<fieldset class="pl-scope"><legend>What does the test cover?</legend><div class="pl-seg">'
+      + [['all', 'Whole course'], ['one', 'One unit'], ['few', 'A few units']].map(function (m) { return '<label><input type="radio" name="' + name + '" value="' + m[0] + '"' + (m[0] === 'all' ? ' checked' : '') + '><span>' + m[1] + '</span></label>'; }).join('')
+      + '</div><div class="pl-scope-body"></div></fieldset>';
+    host.addEventListener('change', function (ev) {
+      if (ev.target.name !== name) return;
+      mode = ev.target.value; ids = mode === 'one' ? ids.slice(0, 1) : mode === 'all' ? [] : ids; body(); emit();
+    });
+    return {
+      get: function () { return mode === 'all' || !ids.length ? null : ids.slice(); },
+      set: function (list, c) {
+        if (c) cls = c;
+        host.hidden = !(cls && cls.unitQs && cls.unitQs.length > 1);
+        ids = Array.isArray(list) ? list.slice() : [];
+        mode = !ids.length ? 'all' : ids.length === 1 ? 'one' : 'few';
+        host.querySelector('input[value="' + mode + '"]').checked = true; body();
+      },
+      setClass: function (c) { cls = c; ids = []; mode = 'all'; host.querySelector('input[value="all"]').checked = true; host.hidden = !(c && c.unitQs && c.unitQs.length > 1); body(); }
+    };
+  }
+  // Questions and unit count for a class limited to a scope (null = whole course).
+  function scoped(c, ids) {
+    if (!c) return { q: 0, n: 0 };
+    if (!ids || !c.unitQs) return { q: c.questions, n: c.units };
+    var r = c.unitQs.filter(function (u) { return ids.indexOf(u[0]) >= 0; });
+    return { q: r.reduce(function (a, u) { return a + u[2]; }, 0), n: r.length };
+  }
+  function scopeText(c, ids) {
+    if (!ids || !ids.length) return '';
+    return (ids.length === 1 ? 'Unit ' : 'Units ') + ids.slice().sort(function (a, b) { return a - b; }).join(', ');
+  }
+  var examScope = scopePicker($('exam-scope')), paceScope = scopePicker($('pl-scope'), function () { update(); });
+  function classBySlug(s) { return classes.filter(function (c) { return c.slug === s; })[0] || null; }
+  $('exam-class').addEventListener('change', function () { examScope.setClass(classBySlug($('exam-class').value)); });
+  examScope.setClass(null);
+  paceScope.setClass(null);
+
   // ---- 1. Exam date
   var classTitles = {};
   function renderExam() {
@@ -17,7 +70,7 @@
     $('pl-days-label').textContent = !e ? 'No upcoming exam' : n === 0 ? 'Exam day' : (n === 1 ? 'day' : 'days') + ' until ' + (e.label || classTitles[e.slug] || 'your next exam');
     $('pl-exams').innerHTML = l.map(function (x) {
       var d = P.daysUntil(x.date), past = d < 0, name = x.label || classTitles[x.slug] || 'Exam';
-      return '<li class="pl-exam' + (past ? ' past' : '') + '"><button type="button" class="pl-exam-main" data-id="' + x.id + '" title="Plan my pace for this exam"><b>' + esc(name) + '</b><span>' + (x.slug && classTitles[x.slug] && x.label ? esc(classTitles[x.slug]) + ' · ' : '') + x.date + ' · ' + (past ? 'passed' : d === 0 ? 'today' : plural(d, 'day')) + '</span></button>'
+      return '<li class="pl-exam' + (past ? ' past' : '') + '"><button type="button" class="pl-exam-main" data-id="' + x.id + '" title="Plan my pace for this exam"><b>' + esc(name) + '</b><span>' + ((x.slug && classTitles[x.slug] && x.label ? esc(classTitles[x.slug]) + ' · ' : '') + (x.units ? esc(scopeText(null, x.units)) + ' · ' : '')) + x.date + ' · ' + (past ? 'passed' : d === 0 ? 'today' : plural(d, 'day')) + '</span></button>'
         + '<button type="button" class="pl-exam-del" data-del="' + x.id + '" aria-label="Remove ' + esc(name) + '"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></li>';
     }).join('');
   }
@@ -29,7 +82,7 @@
       var x = P.getExams().filter(function (q) { return q.id === pick.dataset.id; })[0];
       if (!x) return;
       var d = P.daysUntil(x.date);
-      if (x.slug && classes.some(function (c) { return c.slug === x.slug; })) { $('pl-class').value = x.slug; cur = classes.filter(function (c) { return c.slug === x.slug; })[0]; }
+      if (x.slug && classes.some(function (c) { return c.slug === x.slug; })) { $('pl-class').value = x.slug; cur = classBySlug(x.slug); paceScope.set(x.units || [], cur); }
       if (d >= 1) { unlocked = true; daysEl.disabled = false; $('pl-lock').hidden = true; daysEl.value = Math.min(d, +daysEl.max); }
       update(); $('pl-pace-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
@@ -45,8 +98,8 @@
     ev.preventDefault();
     var d = $('exam-date').value;
     if (d < P.isoToday()) { toast('Pick a date that is today or later', true); return; }
-    P.addExam(d, $('exam-label').value, $('exam-class').value);
-    $('exam-date').value = ''; $('exam-label').value = '';
+    P.addExam(d, $('exam-label').value, $('exam-class').value, examScope.get());
+    $('exam-date').value = ''; $('exam-label').value = ''; examScope.setClass(classBySlug($('exam-class').value));
     toast('Exam added');
   });
 
@@ -62,7 +115,7 @@
     minsEl.value = P.getMinutes();
   }
   function update() {
-    var days = +daysEl.value, mins = +minsEl.value, total = cur ? cur.questions : 0, units = cur ? cur.units : 0;
+    var days = +daysEl.value, mins = +minsEl.value, sc = scoped(cur, paceScope.get()), total = sc.q, units = sc.n;
     $('spc-days-val').textContent = plural(days, 'day');
     $('spc-mins-val').textContent = mins + ' min';
     var q = Math.min(total, Math.round(days * mins / MIN_PER_Q)), pct = total ? Math.min(100, Math.round(q / total * 100)) : 0;
@@ -86,7 +139,7 @@
       + '<text x="' + (L - 4) + '" y="12" text-anchor="end" font-size="9" fill="var(--text-muted)">100%</text><text x="' + (L - 4) + '" y="' + (8 + ph) + '" text-anchor="end" font-size="9" fill="var(--text-muted)">0%</text>'
       + '<text x="' + L + '" y="' + (H - 4) + '" font-size="9" fill="var(--text-muted)">1 day</text><text x="' + (W - 8) + '" y="' + (H - 4) + '" text-anchor="end" font-size="9" fill="var(--text-muted)">' + maxD + ' days</text>'
       + '<polyline points="' + pts.join(' ') + '" fill="none" stroke="var(--accent-bright)" stroke-width="2.5" stroke-linejoin="round"/><circle cx="' + cx.toFixed(1) + '" cy="' + cy.toFixed(1) + '" r="6" fill="#f5b83d" stroke="var(--bg-card)" stroke-width="2"><title>' + pct + '% of the question bank after ' + plural(days, 'day') + '</title></circle>';
-    $('spc-chart-cap').textContent = 'Projected coverage at ' + mins + ' min/day: ' + pct + '% of ' + (cur ? cur.title : 'the') + ' question bank after ' + plural(days, 'day') + '. Coverage is not a score prediction.';
+    $('spc-chart-cap').textContent = 'Projected coverage at ' + mins + ' min/day: ' + pct + '% of ' + (cur ? cur.title + (paceScope.get() ? ' (' + scopeText(cur, paceScope.get()) + ')' : '') : 'the') + ' question bank after ' + plural(days, 'day') + '. Coverage is not a score prediction.';
   }
   document.querySelectorAll('.spc-presets button').forEach(function (b) { b.addEventListener('click', function () { daysEl.value = b.dataset.d; minsEl.value = b.dataset.m; update(); }); });
   daysEl.addEventListener('input', update); minsEl.addEventListener('input', update);
@@ -102,7 +155,7 @@
 
   // Daily study events from tomorrow to the exam, plus the exam itself. Floating local times so every calendar app agrees.
   $('pl-ics-btn').addEventListener('click', function () {
-    var days = +daysEl.value, mins = +minsEl.value, name = cur ? cur.title : 'class', e = P.getExam();
+    var days = +daysEl.value, mins = +minsEl.value, name = cur ? cur.title + (paceScope.get() ? ' ' + scopeText(cur, paceScope.get()).toLowerCase() : '') : 'class', e = P.getExam();
     function stamp(d, h, m) { return d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0') + 'T' + String(h).padStart(2, '0') + String(m).padStart(2, '0') + '00'; }
     var now = new Date(), nowStamp = now.toISOString().replace(/[-:]/g, '').replace(/\.\d+/, ''), L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//PrecisStudy//Study Plan//EN', 'CALSCALE:GREGORIAN'];
     for (var i = 1; i <= days; i++) {
@@ -151,8 +204,8 @@
     try { saved = localStorage.getItem('ss-plan-class') || ''; var l = JSON.parse(localStorage.getItem('ss-last-subject') || 'null'); last = l && l.href ? l.href.replace(/\//g, '') : ''; } catch (x) { /* none */ }
     sel.innerHTML = rows.map(function (c) { return '<option value="' + c.slug + '">' + c.title.replace(/&/g, '&amp;') + '</option>'; }).join('');
     var ne = P.getExam(), want = [ne && ne.slug, saved, last, 'geometry'].filter(function (s) { return rows.some(function (c) { return c.slug === s; }); })[0] || rows[0].slug;
-    sel.value = want; cur = rows.filter(function (c) { return c.slug === want; })[0];
-    sel.addEventListener('change', function () { cur = classes.filter(function (c) { return c.slug === sel.value; })[0]; try { localStorage.setItem('ss-plan-class', sel.value); } catch (x) { /* ignore */ } update(); });
+    sel.value = want; cur = classBySlug(want); paceScope.set(ne && ne.slug === want ? ne.units || [] : [], cur);
+    sel.addEventListener('change', function () { cur = classBySlug(sel.value); paceScope.setClass(cur); try { localStorage.setItem('ss-plan-class', sel.value); } catch (x) { /* ignore */ } update(); });
     update();
   }).catch(function () { $('spc-save-status').textContent = 'Could not load class sizes. Refresh to try again.'; });
 })();

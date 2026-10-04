@@ -28,7 +28,7 @@
     if (n2) syncGoal(Math.max(1, daysUntil(n2.date)), getMinutes());
   }
   function getExams() { return list(); }
-  function getExam() { var n = nearest(list()); return n ? { date: n.date, label: n.label || '', slug: n.slug || '' } : null; }
+  function getExam() { var n = nearest(list()); return n ? { date: n.date, label: n.label || '', slug: n.slug || '', units: n.units || null } : null; }
   function getMinutes() { try { var m = parseInt(localStorage.getItem(MINS_KEY), 10); if (m >= 10 && m <= 180) return m; } catch (x) { /* default */ } return 30; }
   function changed() { try { window.dispatchEvent(new CustomEvent('ss-plan-changed')); } catch (x) { /* old browser */ } }
   // Best effort: signed-out visitors and offline requests simply keep the local copy.
@@ -37,10 +37,14 @@
     return fetch('/api/goal', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ days: days, minutesPerDay: minutes || getMinutes() }) })
       .then(function (r) { return r.ok; }).catch(function () { return false; });
   }
-  function addExam(date, label, slug) {
+  // units: optional list of unit ids the test covers; empty or omitted means the whole course.
+  function addExam(date, label, slug, units) {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return false;
     var l = list();
-    l.push({ id: 'e' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5), date: date, label: String(label || '').trim().slice(0, 40), slug: String(slug || '').slice(0, 60) });
+    var e = { id: 'e' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5), date: date, label: String(label || '').trim().slice(0, 40), slug: String(slug || '').slice(0, 60) };
+    var u = (Array.isArray(units) ? units : []).filter(function (x) { return Number.isInteger(x) && x > 0; }).slice(0, 60);
+    if (u.length && slug) e.units = u;
+    l.push(e);
     save(l.sort(function (a, b) { return a.date < b.date ? -1 : 1; }));
     return true;
   }

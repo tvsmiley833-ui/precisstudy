@@ -326,6 +326,7 @@ html{scroll-behavior:smooth}
         <ul class="pl-exams" id="pl-exams" aria-label="Your exams"></ul>
         <form id="pl-exam-form" autocomplete="off">
           <label class="pl-field" for="exam-class">Class<select id="exam-class"><option value="">Not tied to a class</option></select></label>
+          <div id="exam-scope"></div>
           <label class="pl-field" for="exam-date">Exam date<input type="date" id="exam-date" required></label>
           <label class="pl-field" for="exam-label">What is it?<input type="text" id="exam-label" maxlength="40" placeholder="Unit 4 test, final, AP exam"></label>
           <div class="pl-actions"><button type="submit" class="pl-btn" id="pl-save-date">Add exam</button></div>
@@ -334,6 +335,7 @@ html{scroll-behavior:smooth}
       <div class="ss-card spc-card" style="max-width:none" id="pl-pace-card">
         <h2 class="pl-h"><svg class="pl-ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg>How much can you cover?</h2>
         <label class="pl-field" for="pl-class" style="margin-top:12px">Class<select id="pl-class"></select></label>
+        <div id="pl-scope"></div>
         <div class="spc-row"><label for="spc-days">Days until your exam <span id="spc-days-val">14 days</span></label><input type="range" class="spc-slider" id="spc-days" min="1" max="120" value="14"><div class="pl-note" id="pl-lock" hidden>Set from your exam date. <button type="button" class="pl-link" id="pl-unlock">Unlock to try other lengths</button></div></div>
         <div class="spc-row"><label for="spc-mins">Minutes per day <span id="spc-mins-val">30 min</span></label><input type="range" class="spc-slider" id="spc-mins" min="10" max="180" value="30" step="5"></div>
         <div class="spc-presets" role="group" aria-label="Pacing presets"><button type="button" class="pl-link pl-reset" id="pl-reset">Reset</button>

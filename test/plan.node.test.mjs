@@ -44,3 +44,15 @@ test("past exams are listed but never become the countdown", () => {
   assert.equal(P.getExams().length, 1);
   assert.equal(P.getExam(), null);
 });
+
+test("an exam can cover some units of a class; whole course and classless exams store no units", () => {
+  const { P } = load();
+  P.addExam(day(4), "Unit test", "chemistry", [2, 4, 4.5, -1, "x"]);
+  P.addExam(day(6), "Final", "chemistry", []);
+  P.addExam(day(8), "Misc", "", [1]);
+  const [a, b, c] = P.getExams();
+  assert.deepEqual(a.units, [2, 4]);
+  assert.equal(b.units, undefined);
+  assert.equal(c.units, undefined);
+  assert.deepEqual(P.getExam().units, [2, 4]);
+});
