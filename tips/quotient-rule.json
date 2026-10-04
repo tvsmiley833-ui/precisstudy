@@ -1,0 +1,75 @@
+{
+ "slug": "quotient-rule",
+ "brand": "PrecisStudy",
+ "subject": "CALCULUS",
+ "url": "precisstudy.com/calculus",
+ "caption": "The quotient rule, explained in 6 swipes. Save this for your next quiz. Free Calculus study guide, quizzes, and flashcards at precisstudy.com/calculus (no sign-up).",
+ "hashtags": [
+  "calculus",
+  "derivatives",
+  "quotientrule",
+  "studytok",
+  "apcalc",
+  "studytips",
+  "math"
+ ],
+ "slides": [
+  {
+   "type": "hook",
+   "title": "THE QUOTIENT RULE, STEP BY STEP"
+  },
+  {
+   "type": "formula",
+   "title": "THE RULE",
+   "lines": [
+    "d/dx [f/g] = (f′g − f g′) / g²"
+   ],
+   "note": "Low d-high minus high d-low, over the low squared. Order matters in the top."
+  },
+  {
+   "type": "example",
+   "title": "EXAMPLE 1",
+   "problem": "Differentiate y = x² / (x + 1)",
+   "steps": [
+    "f = x², f′ = 2x; g = x + 1, g′ = 1",
+    "(2x(x + 1) − x²(1)) / (x + 1)²",
+    "Simplify the top: 2x² + 2x − x² = x² + 2x"
+   ],
+   "answer": "(x² + 2x) / (x + 1)²"
+  },
+  {
+   "type": "example",
+   "title": "EXAMPLE 2",
+   "problem": "Differentiate y = sin x / x",
+   "steps": [
+    "f = sin x, f′ = cos x; g = x, g′ = 1",
+    "(cos x · x − sin x · 1) / x²"
+   ],
+   "answer": "(x cos x − sin x) / x²"
+  },
+  {
+   "type": "warn",
+   "title": "WATCH OUT",
+   "wrong": "d/dx [f/g] = f′ / g′",
+   "points": [
+    "The derivative of a quotient is not the quotient of the derivatives.",
+    "Keep f′g first, then subtract fg′. Swapping them flips the sign."
+   ]
+  },
+  {
+   "type": "cta",
+   "title": "WANT MORE PRACTICE?",
+   "lines": [
+    "Free Calculus study guide",
+    "Quizzes, flashcards, and practice exams"
+   ],
+   "button": "precisstudy.com/calculus",
+   "foot": "100% free. No sign-up."
+  }
+ ],
+ "pageTitle": "The Quotient Rule: How to Differentiate a Fraction of Functions",
+ "guide": "calculus",
+ "guideLabel": "Calculus",
+ "description": "Learn the quotient rule with two worked examples and the most common mistakes.",
+ "published": "2026-10-04"
+}
