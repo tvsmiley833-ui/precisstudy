@@ -33,6 +33,7 @@ import {
   handleAssignments, handleGoogleCalendars, handleGoogleDisconnect,
   handleGoogleSettingsGet, handleGoogleSettingsPost
 } from "./google-routes.js";
+import { handleProfile } from "./profile-routes.js";
 import { handleCanvasConnect, handleCanvasDisconnect, handleCanvasStatus } from "./canvas-routes.js";
 import { refCookie } from "./auth-state.js";
 import { withLinkPreview } from "./link-previews.js";
@@ -743,6 +744,8 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
     if (request.method === "POST") return handlePostGoal(request, env);
     return json({ error: "Method not allowed" }, 405);
   }
+
+  if (url.pathname === "/api/profile") return handleProfile(request, env);
 
   if (url.pathname === "/api/notification-prefs") {
     if (request.method === "POST") return handlePostNotificationPrefs(request, env);

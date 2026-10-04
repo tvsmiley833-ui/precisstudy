@@ -771,6 +771,7 @@ async function initSettings(){
   })();
   var disc = document.getElementById('ss-unsaved-discard'); if(disc) disc.addEventListener('click', function(){ location.reload(); });
   document.getElementById('canvas-disconnect-btn').addEventListener('click', ssCanvasDisconnect);
+  await ssInitProfile();
   await ssRefreshCanvasStatus();
   ssInitHighContrastToggle();
   ssInitAmoledToggle();
@@ -858,6 +859,33 @@ async function ssCanvasDisconnect(){
   }catch(e){ /* fall through to refresh either way */ }
   await ssRefreshCanvasStatus();
   btn.disabled = false;
+}
+
+async function ssInitProfile(){
+  var name = document.getElementById('profile-name'), email = document.getElementById('profile-email');
+  var tz = document.getElementById('profile-tz'), btn = document.getElementById('profile-save-btn'), st = document.getElementById('profile-status');
+  if(!name || !btn) return;
+  var zones = [];
+  try{ zones = Intl.supportedValuesOf('timeZone'); }catch(e){ zones = ['America/New_York','America/Chicago','America/Denver','America/Los_Angeles','Europe/London','Europe/Paris','Asia/Tokyo','Australia/Sydney','UTC']; }
+  zones.forEach(function(z){ var o = document.createElement('option'); o.value = z; o.textContent = z.replace(/_/g, ' '); tz.appendChild(o); });
+  try{
+    var res = await fetch('/api/profile');
+    if(res.ok){
+      var p = await res.json();
+      name.value = p.displayName || ''; email.value = p.email || ''; tz.value = p.timezone || '';
+      if(!name.value && p.name && p.name !== p.email) name.placeholder = p.name;
+    }
+  }catch(e){ /* leave blank */ }
+  btn.addEventListener('click', async function(){
+    btn.disabled = true; st.textContent = 'Saving…';
+    try{
+      var r = await fetch('/api/profile', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ displayName: name.value, timezone: tz.value }) });
+      var d = await r.json().catch(function(){ return {}; });
+      st.textContent = r.ok ? 'Saved.' : (d.error || "Couldn't save.");
+      if(r.ok){ window.__ssMe = null; if(typeof ssCheckSession === 'function') await ssCheckSession(); }
+    }catch(e){ st.textContent = "Couldn't save. Check your connection."; }
+    btn.disabled = false;
+  });
 }
 
 initSettings();

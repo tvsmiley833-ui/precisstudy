@@ -379,7 +379,20 @@ html{scroll-behavior:smooth}
     </div><!-- /panel-notifications -->
 
     <div id="panel-account" role="tabpanel" aria-labelledby="tab-account" data-panel="account">
-    <div class="ss-card" id="google-card">
+    <div class="ss-card" id="profile-card">
+      <div style="font-weight:800;font-size:17px;color:var(--text);margin-bottom:4px;">Profile</div>
+      <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">How you appear on PrecisStudy. Your sign-in email can&rsquo;t be changed here.</p>
+      <div class="ss-field-grid" style="margin-bottom:12px;">
+        <div><label for="profile-name">Display name</label><input type="text" id="profile-name" maxlength="40" autocomplete="nickname" placeholder="Your name"/></div>
+        <div><label for="profile-email">Email</label><input type="text" id="profile-email" readonly aria-readonly="true"/></div>
+      </div>
+      <label for="profile-tz" style="display:block;font-size:13px;color:var(--text-muted);margin-bottom:4px;">Timezone <span style="opacity:.8">(sets when your streak day and reminders roll over)</span></label>
+      <select id="profile-tz" style="width:100%;box-sizing:border-box;min-height:44px;padding:10px 12px;border:1px solid color-mix(in srgb,var(--text) 35%,transparent);border-radius:10px;background:var(--bg-card);color:var(--text);font:inherit;font-size:14px;margin-bottom:14px;"><option value="">Automatic (from my browser)</option></select>
+      <button id="profile-save-btn" style="width:auto;padding:10px 20px;">Save profile</button>
+      <span id="profile-status" role="status" style="margin-left:12px;font-size:13px;color:var(--text-muted);"></span>
+    </div>
+
+    <div class="ss-card" id="google-card" style="margin-top:24px;">
       <div class="ss-g-title" style="font-weight:800;font-size:17px;color:var(--text);margin-bottom:4px;"><svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#4285F4" d="M45.1 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h11.8c-.5 2.8-2.1 5.1-4.5 6.7v5.5h7.3c4.3-4 6.5-9.8 6.5-16.2z"/><path fill="#34A853" d="M24 46c6.1 0 11.2-2 14.9-5.5l-7.3-5.5c-2 1.4-4.6 2.2-7.6 2.2-5.8 0-10.8-3.9-12.5-9.2H4v5.7C7.7 41.1 15.3 46 24 46z"/><path fill="#FBBC05" d="M11.5 28c-.4-1.4-.7-2.9-.7-4.5s.3-3.1.7-4.5v-5.7H4C2.4 16.5 1.5 20.1 1.5 24s.9 7.5 2.5 10.7z"/><path fill="#EA4335" d="M24 10.8c3.3 0 6.2 1.1 8.5 3.3l6.4-6.4C35.2 4.1 30.1 2 24 2 15.3 2 7.7 6.9 4 14.3l7.5 5.7c1.7-5.3 6.7-9.2 12.5-9.2z"/></svg>Google Classroom &amp; Calendar</div>
       <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">
         Connect Google to pull your Classroom assignments and calendar due-dates into one list.

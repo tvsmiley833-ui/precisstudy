@@ -70,6 +70,8 @@ export type ProgressBlob = {
   // Per-notification-type opt-out (Settings). A missing key means "on" --
   // see notificationAllowed() in push-routes.ts, which reads this same field.
   notificationPrefs?: { daily?: boolean; streak?: boolean; blocks?: boolean } | null;
+  // Settings > Profile. timezone, when set, overrides the browser-reported one for the streak day and reminders.
+  profile?: { displayName?: string | null; timezone?: string | null } | null;
   // AI-generated flashcard decks (see flashcards-routes.ts), independent of
   // the per-guide FLASHCARDS arrays baked into guide pages at generate time.
   // Capped at MAX_CUSTOM_DECKS, oldest evicted first.
@@ -277,7 +279,7 @@ function daysBetween(a: string, b: string): number {
 const DAY_KEYS = new Set(["mon", "tue", "wed", "thu", "fri", "sat", "sun"]);
 const TIME_RE = /^([01]\d|2[0-3]):([0-5]\d)$/;
 
-function isValidTimezone(tz: string): boolean {
+export function isValidTimezone(tz: string): boolean {
   if (typeof tz !== "string" || !tz) return false;
   try {
     new Intl.DateTimeFormat("en-US", { timeZone: tz });
@@ -1029,9 +1031,9 @@ export async function handlePostStreak(request: Request, env: Env): Promise<Resp
   if (!isPlausibleLocalDate(localDate)) return json({ error: "localDate is too far from today" }, 400);
 
   const requestedTimezone = body && typeof body === "object" && "timezone" in body ? String((body as Record<string, unknown>).timezone) : undefined;
-  const timezone = isValidTimezone(requestedTimezone!) ? requestedTimezone : null;
-
   const blob = await loadBlob(env, session.email);
+  const pinnedTz = blob.profile?.timezone;
+  const timezone = pinnedTz && isValidTimezone(pinnedTz) ? pinnedTz : (isValidTimezone(requestedTimezone!) ? requestedTimezone : null);
   const prev = blob.streak || { current: 0, longest: 0, lastActiveDate: null, timezone: null };
 
   if (prev.lastActiveDate === localDate) {
