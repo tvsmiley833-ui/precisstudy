@@ -133,3 +133,9 @@ PERF-1 MathJax only where needed; PERF-2 build-time math; PERF-3 mission banner;
 - Guide pages are generated: edit `guides/*.json`, `scripts/generate-guide.mjs`, `scripts/guide-template/*`, then `npm run guides:regen`. Never hand-edit generated pages.
 - Client code: `client/guide-app.js` → `npm run build:client` → `public/shared/guide-app.js`. `public/shared/guide-polish.css` is shared and needs no regen.
 - Deploy chain: `npm test && git push && npm run deploy`. Do not chain with `;` after tests, or a failing test still deploys.
+
+## 2026-10-04 autonomous session (after the audit list)
+- **Shipped:** brand P mark (Forest palette, favicon, icons, one-colour versions in `branding/final/`); site-wide signed-in avatar menu (`shared/account-menu.js`); Settings: profile card (display name, timezone, avatar, time format, study length), signed-in devices list with per-device sign-out, Canvas sync frequency + Sync now, one button system; dashboard: Up next list, heatmap metric toggle and day detail, AP courses grouped under parent subjects; `/planner/` page; homepage pins, sort, presets, coverage chart, mobile bottom nav.
+- **Performance:** the mission banner is now server-rendered (was a ~40px layout shift on every guide, mobile CLS 0.25 → 0.03), and generated guide pages now close `<head>` (site-wide head additions had been landing at the end of the document).
+- **Growth:** Study Tips section (`tips/*.json` → `scripts/generate-tips.mjs` → `public/tips/**`, `src/tips-list.ts`; sitemap, guide and homepage links). The same JSON drives social carousels in `precisstudy-social/decks/`.
+- **Owner reminders unchanged:** see `docs/owner/SESSION-STATE-2026-10-04.md`.
