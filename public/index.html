@@ -280,6 +280,24 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 @media(max-width:640px),(hover:none){.ss-kbd-hint{display:none}}
 .ss-sort{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-muted)}
 .ss-sort select{background:var(--bg-card);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:5px 8px;font:inherit;font-size:13px}
+.ss-bnav{display:none}
+@media(max-width:640px){
+  .ss-bnav{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:9990;background:var(--bg-header);border-top:1px solid var(--border);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));justify-content:space-around}
+  .ss-bnav a,.ss-bnav button{flex:1;min-height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:none;border:0;color:var(--text-muted);font:inherit;font-size:11px;font-weight:700;text-decoration:none;cursor:pointer;border-radius:10px}
+  .ss-bnav svg{width:22px;height:22px}
+  .ss-bnav a:active,.ss-bnav button:active{background:var(--chip-bg);color:var(--accent)}
+  .ss-bnav a[aria-current="page"]{color:var(--accent)}
+  body{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
+  #fbw-btn{bottom:calc(76px + env(safe-area-inset-bottom,0px))!important}
+}
+.spc-presets{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.spc-presets button{background:transparent;color:var(--text);border:1.5px solid var(--accent-bright);border-radius:20px;padding:7px 13px;font:inherit;font-size:13.5px;font-weight:700;cursor:pointer}
+.spc-presets button:hover,.spc-presets button[aria-pressed="true"]{background:var(--accent-solid);color:#fff;border-color:var(--accent-solid)}
+.spc-warn{margin-top:10px;font-size:13.5px;line-height:1.45;color:var(--text);background:color-mix(in srgb,#f5b83d 22%,var(--bg-card));border:1px solid color-mix(in srgb,#f5b83d 60%,var(--border));border-radius:10px;padding:9px 12px}
+.spc-warn[hidden]{display:none}
+.spc-chart{margin-top:14px}.spc-chart svg{width:100%;height:auto;display:block}
+.spc-chart-cap{font-size:12.5px;color:var(--text-muted);margin-top:4px}
+.cc-grade{display:inline-block;margin-left:8px;font-size:11.5px;font-weight:800;letter-spacing:.03em;padding:2px 8px;border-radius:999px;background:var(--chip-bg);color:var(--accent);vertical-align:1px}
 .class-card-topics{margin:10px 0 0;font-size:13.5px;line-height:1.45;color:var(--text-muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .class-card-more{white-space:nowrap;opacity:.8}
 @media(max-width:640px){#category-pills{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;scrollbar-width:none;padding:0 16px 4px;margin-left:-16px;margin-right:-16px;max-width:none}#category-pills::-webkit-scrollbar{display:none}.cat-pill{flex-shrink:0}}
@@ -1097,6 +1115,12 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
       <input type="range" class="spc-slider" id="spc-mins" min="10" max="120" value="30" step="5">
     </div>
 
+    <div class="spc-presets" role="group" aria-label="Pacing presets">
+      <button type="button" data-d="7" data-m="60" aria-pressed="false">1-week crunch</button>
+      <button type="button" data-d="30" data-m="30" aria-pressed="false">1-month steady</button>
+      <button type="button" data-d="60" data-m="15" aria-pressed="false">Daily light review</button>
+    </div>
+
     <div class="spc-stats">
       <div class="spc-stat">
         <div class="spc-stat-val" id="spc-questions">0</div>
@@ -1116,6 +1140,10 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
       <div id="spc-tier-title"></div>
       <div class="spc-tier-sub" id="spc-tier-sub"></div>
     </div>
+
+    <div class="spc-warn" id="spc-warn" role="status" hidden></div>
+    <div class="spc-chart"><svg id="spc-chart" viewBox="0 0 320 120" role="img" aria-label="Projected coverage of the question bank by days of study"></svg>
+      <div class="spc-chart-cap" id="spc-chart-cap"></div></div>
 
     <div style="display:flex;align-items:center;gap:12px;margin-top:18px;">
       <button id="spc-save-btn" class="ss-cta-btn" style="background:var(--bg-card);color:var(--accent);border:2px solid var(--accent-solid);padding:8px 18px;border-radius:20px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">Save this plan</button>
@@ -1237,10 +1265,47 @@ document.querySelectorAll('.cs-notify-form').forEach(function(form){
       title.textContent = 'Light coverage';
       sub.textContent = 'Add a few more minutes a day to cover more ground before your exam.';
     }
+
+    var need = Math.ceil(GEO_TOTAL_Q * MIN_PER_Q / days);
+    var warn = document.getElementById('spc-warn');
+    if (pct < 100 && need > 120) { warn.textContent = 'Heads up: even at 120 min/day, ' + days + (days === 1 ? ' day' : ' days') + ' is not enough to see every question. Try at least ' + Math.ceil(GEO_TOTAL_Q * MIN_PER_Q / 120) + ' days.'; warn.hidden = false; }
+    else if (pct < 100) { warn.textContent = 'To see every question in ' + days + (days === 1 ? ' day' : ' days') + ', you would need about ' + need + ' min/day.'; warn.hidden = false; }
+    else warn.hidden = true;
+    document.querySelectorAll('.spc-presets button').forEach(function(b){ b.setAttribute('aria-pressed', (+b.dataset.d === days && +b.dataset.m === mins) ? 'true' : 'false'); });
+    // Coverage curve: % of the bank seen vs days studied, at the chosen minutes per day. Coverage is not a score prediction.
+    var W = 320, H = 120, L = 30, B = 20, pw = W - L - 8, ph = H - B - 8, pts = [];
+    for (var d = 1; d <= 60; d++) pts.push((L + (d - 1) / 59 * pw).toFixed(1) + ',' + (8 + ph - Math.min(100, d * mins / MIN_PER_Q / GEO_TOTAL_Q * 100) / 100 * ph).toFixed(1));
+    var cx = L + (days - 1) / 59 * pw, cy = 8 + ph - pct / 100 * ph;
+    document.getElementById('spc-chart').innerHTML = '<line x1="' + L + '" y1="' + (8 + ph) + '" x2="' + (W - 8) + '" y2="' + (8 + ph) + '" stroke="var(--border)"/>'
+      + '<line x1="' + L + '" y1="8" x2="' + (W - 8) + '" y2="8" stroke="var(--border)" stroke-dasharray="3 3"/>'
+      + '<text x="' + (L - 4) + '" y="12" text-anchor="end" font-size="9" fill="var(--text-muted)">100%</text><text x="' + (L - 4) + '" y="' + (8 + ph) + '" text-anchor="end" font-size="9" fill="var(--text-muted)">0%</text>'
+      + '<text x="' + L + '" y="' + (H - 4) + '" font-size="9" fill="var(--text-muted)">1 day</text><text x="' + (W - 8) + '" y="' + (H - 4) + '" text-anchor="end" font-size="9" fill="var(--text-muted)">60 days</text>'
+      + '<polyline points="' + pts.join(' ') + '" fill="none" stroke="var(--accent-bright)" stroke-width="2.5" stroke-linejoin="round"/>'
+      + '<circle cx="' + cx.toFixed(1) + '" cy="' + cy.toFixed(1) + '" r="5" fill="#f5b83d" stroke="var(--bg-card)" stroke-width="2"/>';
+    document.getElementById('spc-chart-cap').textContent = 'Projected coverage at ' + mins + ' min/day: ' + pct + '% of the bank after ' + days + (days === 1 ? ' day' : ' days') + '. Coverage is not a score prediction.';
   }
+  document.querySelectorAll('.spc-presets button').forEach(function(b){
+    b.addEventListener('click', function(){ daysEl.value = b.dataset.d; minsEl.value = b.dataset.m; update(); });
+  });
   daysEl.addEventListener('input', update);
   minsEl.addEventListener('input', update);
   update();
+})();
+
+
+/* Typical grade levels (a rough guide: schools differ). */
+(function(){
+  var G = {algebra1:'8th-9th',geometry:'9th-10th',algebra2:'10th-11th',precalc:'11th-12th',calculus:'12th','calc-ab':'AP','calc-bc':'AP',statistics:'11th-12th',economics:'11th-12th',
+    biology:'9th-10th',chemistry:'10th-11th',physics:'11th-12th',earthscience:'9th','environmental-science':'10th-12th',anatomy:'11th-12th',astronomy:'10th-12th',psychology:'11th-12th',
+    globalhistory:'9th-10th',apush:'AP','us-history':'11th','usgovernment':'12th','world-history':'9th-10th',geography:'9th',english9:'9th',english10:'10th','art-history':'10th-12th',
+    'creative-writing':'9th-12th',journalism:'9th-12th','speech-debate':'9th-12th',spanish1:'9th-10th',spanish2:'10th-11th','spanish-3':'11th-12th','french-1':'9th-10th','french-2':'10th-11th','french-3':'11th-12th','german-1':'9th-10th',
+    'computer-science':'9th-12th','study-skills':'9th-12th','music-theory':'9th-12th',sociology:'11th-12th',health:'9th-10th',
+    'sat-math':'SAT','sat-reading':'SAT','act-prep':'ACT'};
+  document.querySelectorAll('.class-card[data-subject-key]').forEach(function(card){
+    var k = card.dataset.subjectKey, g = G[k] || (/^ap/.test(k) ? 'AP' : '');
+    var name = card.querySelector('.cc-name'); if(!g || !name || name.querySelector('.cc-grade')) return;
+    var t = document.createElement('span'); t.className = 'cc-grade'; t.textContent = g; t.title = 'Typical grade level'; name.appendChild(t);
+  });
 })();
 
 /* Class search: match how students actually type ("algebra 2", "ap lang", "calc ab", "ap gov"). Both sides are
@@ -1870,5 +1935,11 @@ document.querySelectorAll('.class-card[data-subject-key]').forEach(function(card
 })();
 </script>
 <script src="/shared/command-palette.js" defer></script><script src="/shared/account-menu.js" defer></script><script src="/shared/high-contrast.js" defer></script><script src="/shared/error-monitor.js" defer></script>
+<nav class="ss-bnav" aria-label="Quick navigation">
+  <a href="/" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg>Home</a>
+  <button type="button" onclick="window.scrollTo({top:0,behavior:'smooth'});setTimeout(function(){var i=document.getElementById('class-search');if(i)i.focus()},250)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>Search</button>
+  <a href="/flashcards/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M7 3h10"/></svg>Flashcards</a>
+  <a href="/dashboard/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>Dashboard</a>
+</nav>
 </body>
 </html>
