@@ -51,6 +51,7 @@ const CSS = `<style>
 .tip-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;margin-top:22px}
 .tip-card{display:block;text-decoration:none;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:20px;color:var(--text);transition:border-color .15s ease,transform .15s ease}
 .tip-card:hover{border-color:var(--accent);transform:translateY(-2px)}.tip-card b{display:block;font-size:17px;line-height:1.3;margin:10px 0 6px}.tip-card span.d{font-size:14px;line-height:1.45;color:var(--text-muted)}
+.tip-card[hidden]{display:none}.tip-filter{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}.tip-filter button{font:inherit;font-size:13.5px;font-weight:700;padding:7px 14px;border-radius:999px;border:1px solid var(--border);background:var(--bg-card);color:var(--text);cursor:pointer}.tip-filter button[aria-pressed="true"]{background:var(--accent-solid);border-color:var(--accent-solid);color:#fff}.tip-filter button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media(prefers-reduced-motion:reduce){.tip-card{transition:none}.tip-card:hover{transform:none}}
 </style>`;
 
@@ -155,7 +156,9 @@ function indexPage() {
 <nav class="tip-crumbs" aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <span>Study Tips</span></nav>
 <h1>Study tips</h1>
 <p class="tip-lede">Quick mnemonics, worked examples and the mistakes to avoid. Each tip links to the full free study guide for the class.</p>
-<div class="tip-grid">${tips.map(t => `<a class="tip-card" href="/tips/${t.slug}/"><span class="tip-chip">${esc(t.guideLabel)}</span><b>${esc(t.pageTitle)}</b><span class="d">${esc(t.description)}</span></a>`).join("")}</div>
+<div class="tip-filter" id="tip-filter" role="group" aria-label="Filter by class" hidden></div>
+<div class="tip-grid" id="tip-grid">${[...tips].sort((a, b) => a.guideLabel.localeCompare(b.guideLabel)).map(t => `<a class="tip-card" href="/tips/${t.slug}/"><span class="tip-chip">${esc(t.guideLabel)}</span><b>${esc(t.pageTitle)}</b><span class="d">${esc(t.description)}</span></a>`).join("")}</div>
+<script>(function(){var g=document.getElementById("tip-grid"),f=document.getElementById("tip-filter");if(!g||!f)return;var cards=[].slice.call(g.children),labels=[];cards.forEach(function(c){var l=c.querySelector(".tip-chip").textContent;if(labels.indexOf(l)<0)labels.push(l)});function show(l,b){cards.forEach(function(c){c.hidden=!!l&&c.querySelector(".tip-chip").textContent!==l});[].forEach.call(f.children,function(x){x.setAttribute("aria-pressed",x===b?"true":"false")})}["All"].concat(labels).forEach(function(l,i){var b=document.createElement("button");b.type="button";b.textContent=l;b.setAttribute("aria-pressed",i?"false":"true");b.onclick=function(){show(i?l:"",b)};f.appendChild(b)});f.hidden=false})();</script>
 </div>
 `;
   return head("Study Tips for High School Classes | PrecisStudy", desc, path, `<script type="application/ld+json">${JSON.stringify(ld)}</script>\n`).replace('<meta property="og:type" content="article"/>', '<meta property="og:type" content="website"/>') + main + TAIL + "</body>\n</html>\n";

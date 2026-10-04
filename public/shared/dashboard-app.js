@@ -137,12 +137,13 @@ function renderSubject(subjectKey, label, href, subjectData, unitIds, unitNames)
   el.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;">'
     + '<div style="font-weight:800;font-size:18px;color:var(--text);">' + label + '</div>'
     + '<div style="text-align:right;"><div style="font-weight:800;font-size:28px;line-height:1;color:' + statusColor(readiness.pct) + ';">' + scoreText + '</div>'
-    + (readiness.pct === null ? '' : '<div style="font-size:12px;color:var(--text-muted);margin-top:2px;" title="Average score across the units you\'ve been assessed on">' + (readiness.enough ? 'exam readiness' : 'early read') + '</div>') + '</div>'
+    + (readiness.pct === null ? '' : '<div style="font-size:12px;color:var(--text-muted);margin-top:2px;" title="Average score across the units you\'ve been assessed on (' + readiness.assessedCount + ' of ' + readiness.totalCount + ' so far)">' + (readiness.enough ? 'exam readiness' : 'early read') + '</div>') + '</div>'
     + '</div>'
     + '<p style="margin:0 0 16px;font-size:13px;color:var(--text-muted);">' + caveat + '</p>'
     + '<div style="border-top:1px solid var(--border);padding-top:14px;">' + recHtml + '</div>'
-    + '<div style="border-top:1px solid var(--border);margin-top:14px;padding-top:14px;">'
-    + '<div style="font-weight:700;font-size:14px;color:var(--text);margin-bottom:10px;">Study Schedule</div>'
+    + '<details style="border-top:1px solid var(--border);margin-top:14px;padding-top:14px;">'
+    + '<summary style="font-weight:700;font-size:14px;color:var(--text);cursor:pointer;margin-bottom:10px;">Quick schedule for this class</summary>'
+    + '<p style="margin:0 0 10px;font-size:13px;color:var(--text-muted);">Planning several classes? <a href="/planner/" style="color:var(--accent);font-weight:700;">Use the weekly planner</a>.</p>'
     + '<div id="sched-form-' + subjectKey + '" style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;">'
     + '<label style="font-size:13px;color:var(--text-muted);">Days until your exam<br/>'
     + '<input id="sched-days-' + subjectKey + '" type="number" min="1" max="60" value="14" style="width:70px;padding:7px 9px;border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);background:var(--bg-card);margin-top:4px;"/></label>'
@@ -151,7 +152,7 @@ function renderSubject(subjectKey, label, href, subjectData, unitIds, unitNames)
     + '<button id="sched-build-' + subjectKey + '" class="ss-cta-btn" style="background:var(--accent-solid);color:#fff;border:none;padding:9px 16px;border-radius:999px;font-size:14px;font-weight:700;cursor:pointer;">Build my schedule</button>'
     + '</div>'
     + '<div id="sched-result-' + subjectKey + '" style="margin-top:14px;"></div>'
-    + '</div>';
+    + '</details>';
 
   const buildBtn = document.getElementById('sched-build-' + subjectKey);
   const resultEl = document.getElementById('sched-result-' + subjectKey);
@@ -939,8 +940,7 @@ async function loadDashAssignments(forceRefresh) {
 
   if (!data.items || !data.items.length) {
     if (!settings.connected) {
-      body.innerHTML = '<p style="margin:0 0 12px;font-size:13.5px;color:var(--text-muted);">See your Google Classroom assignments and calendar right here.</p>'
-        + '<a class="ss-cta-btn" href="/auth/google/connect/start?next=' + encodeURIComponent(location.pathname) + '" style="display:inline-block;background:var(--accent-solid);color:#fff;padding:8px 16px;border-radius:999px;text-decoration:none;font-size:13.5px;font-weight:700;">Connect Google Classroom</a>';
+      body.innerHTML = '<a class="ss-cta-btn" href="/auth/google/connect/start?next=' + encodeURIComponent(location.pathname) + '" style="display:inline-block;background:var(--accent-solid);color:#fff;padding:8px 16px;border-radius:999px;text-decoration:none;font-size:13.5px;font-weight:700;">Connect Google Classroom</a>';
     } else {
       body.innerHTML = '<p style="margin:0;font-size:13.5px;color:var(--text-muted);">You\'re all caught up — nothing due.</p>';
     }
