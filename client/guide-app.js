@@ -3228,7 +3228,7 @@ function ssDiagBatchRenderContinue(){
   // Titles are built from SS_GUIDE.title, in the same "<Subject> <View> — PrecisStudy" form the Worker gives deep links,
   // instead of being parsed back out of a title the Worker may already have rewritten.
   var SUBJECT_NAME=SS_GUIDE.title;
-  var BASE_TITLE=SUBJECT_NAME+' Study Guide \u2014 PrecisStudy';
+  var BASE_TITLE=SS_GUIDE.baseTitle||(SUBJECT_NAME+' Study Guide \u2014 PrecisStudy');
   var _prevSwitchTab=switchTab;
   switchTab=function(id){
     _prevSwitchTab(id);

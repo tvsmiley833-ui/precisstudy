@@ -207,12 +207,25 @@ function buildFcArchive(units, flashcards) {
 // study guide: 8 units, 320 practice questions, 80 flashcards…") that Google
 // treats as duplicate; this builds one from the guide's real unit names and
 // real counts, trimming topic names until it fits a ~160-char SERP snippet.
+// Page <title>: leads with the thing students search ("<course> study guide") and says what's inside, within ~60 characters.
+export function pageTitle(title) {
+  const options = [
+    `${title} Study Guide: Notes, Flashcards & Practice Tests | PrecisStudy`,
+    `${title} Study Guide: Notes, Flashcards & Quizzes | PrecisStudy`,
+    `${title} Study Guide: Notes, Flashcards & Quizzes`,
+    `${title} Study Guide — PrecisStudy`,
+  ];
+  return options.find(o => o.length <= 66) || options[options.length - 1];
+}
+
 function buildMetaDescription({ title, units, quiz, flashcards }) {
   const names = (units || []).map(u => u.name).filter(Boolean);
   const first = names[0], last = names[names.length - 1];
   const scope = names.length >= 2 && first && last ? ` — from ${first} to ${last}` : "";
   const counts = `${quiz.length} questions, ${flashcards.length} flashcards, a practice exam and quick-reference tables`;
   const candidates = [
+    `Free ${title} study guide${scope}: unit notes, ${quiz.length} practice questions, ${flashcards.length} flashcards and a full practice exam. No sign-up.`,
+    `Free ${title} study guide: unit notes, ${quiz.length} practice questions, ${flashcards.length} flashcards and a full practice exam. No sign-up.`,
     `${title} study guide${scope}. ${counts}. Free, no sign-up.`,
     `${title} study guide${scope}. ${quiz.length} questions, ${flashcards.length} flashcards, a full practice exam. Free.`,
     `${title} study guide. ${counts}. Free, no sign-up.`,
@@ -338,7 +351,7 @@ export function generateGuide(config) {
     // Replacement *functions* throughout: a replacement string would treat "$'", "$&" and "$`" in
     // guide text (math like "$'...") as special patterns and splice copies of the page into itself.
     .replace(/__TITLE__/g, () => esc(title))
-    .replace(/__PAGE_TITLE__/g, () => esc(`${title} Study Guide — PrecisStudy`))
+    .replace(/__PAGE_TITLE__/g, () => esc(pageTitle(title)))
     .replace(/__DESCRIPTION__/g, () => esc(metaDescription))
     .replace(/__SLUG__/g, () => slug)
     .replace(/__JSONLD__/, () => buildJsonLd(config, metaDescription));
@@ -510,7 +523,7 @@ export function generateGuide(config) {
   const mKey = masteryKey || slug;
   // The app logic itself is client/guide-app.js (built to public/shared/guide-app.js), shared by every
   // guide; it reads the subject from SS_GUIDE.
-  html += `const SS_GUIDE=${js({ slug, key: mKey, title, ...(targetLang ? { lang: targetLang } : {}), ...((calculator ?? CALC_SLUGS.has(slug)) ? { calc: true } : {}) })};\n`;
+  html += `const SS_GUIDE=${js({ slug, key: mKey, title, baseTitle: pageTitle(title), ...(targetLang ? { lang: targetLang } : {}), ...((calculator ?? CALC_SLUGS.has(slug)) ? { calc: true } : {}) })};\n`;
   // Same footer every live page carries (error-monitor.js was added to the pages by
   // scripts/patch-error-monitor.mjs; keep this list in sync with that footer).
   html += `</script><script src="/shared/guide-app.js"></script><script src="/shared/command-palette.js" defer></script><script src="/shared/high-contrast.js" defer></script><script src="/shared/error-monitor.js" defer></script></body></html>`;

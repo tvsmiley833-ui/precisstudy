@@ -229,7 +229,7 @@ describe("subject sub-view <title>/description rewriting", () => {
   it("leaves the base guide page's own title/description untouched", async () => {
     const res = await SELF.fetch("https://precisstudy.com/geometry/");
     const html = await res.text();
-    expect(html).toContain("<title>Geometry Study Guide — PrecisStudy</title>");
+    expect(html).toContain("<title>Geometry Study Guide: Notes, Flashcards &amp; Quizzes | PrecisStudy</title>");
   });
 });
 
