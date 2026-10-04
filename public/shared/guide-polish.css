@@ -737,3 +737,19 @@ html body .fc-due-chip:not(.has-due) { border: 0 !important; background: none !i
 @media (max-width: 640px) {
   html body .hero .breadcrumb li:not(:nth-last-child(2)), html body .hero nav[aria-label="Breadcrumb"] li:not(:nth-last-child(2)) { display: none; }
 }
+
+/* Quiz tab at every width: question first, banners below it; "just guessing" and Hint sit under the answers. */
+@media (min-width: 561px) {
+  html:root body #quiz-real:not([style*="display: none"]):not([style*="display:none"]) { display: flex; flex-direction: column; }
+  html:root body #quiz-real > * { order: 5; }
+  html:root body #quiz-real > #anon-quiz-note { order: 1; }
+  html:root body #quiz-real > .q-bar { order: 2; }
+  html:root body #quiz-real > #diag-banner, html:root body #quiz-real > #diag-summary { order: 3; }
+  html:root body #quiz-real > #qbox { order: 4; margin-bottom: 18px; }
+}
+html body #qbox .q-block { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 8px; }
+html body #qbox .q-block > * { flex: 0 0 100%; order: 0; margin: 0; }
+html body #qbox .q-block > .q-opts { order: 1; margin-top: 8px; }
+html body #qbox .q-block > .guess-btn, html body #qbox .q-block > .q-hint-btn { flex: 0 0 auto; order: 2; }
+html body #qbox .q-block > .q-hint-box { order: 3; }
+html body #qbox .q-block > .q-block-hd { margin-bottom: 12px; }
