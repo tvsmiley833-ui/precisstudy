@@ -376,3 +376,9 @@ test("ads are non-personalized and never load for a signed-in student; the polic
   assert.ok(h.indexOf("requestNonPersonalizedAds") < h.indexOf("adsbygoogle.js?client="));
   assert.match(read("../public/privacy/index.html"), /non-personalized ads only/);
 });
+
+test("the AdSense publisher id is the current one, and ads.txt authorizes it", () => {
+  assert.match(read("../public/index.html"), /adsbygoogle\.js\?client=ca-pub-9710380778867118/);
+  assert.ok(!/ca-pub-7861875126032749/.test(read("../public/index.html")));
+  assert.match(read("../public/ads.txt"), /pub-9710380778867118, DIRECT/);
+});
