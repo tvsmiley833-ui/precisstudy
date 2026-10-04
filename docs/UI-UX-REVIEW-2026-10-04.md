@@ -62,3 +62,11 @@ Priority: **P1** hurts a core task, **P2** is noticeable friction, **P3** is pol
 39. **P2 The guide breadcrumb wraps to three lines** on a 375 px screen. Show only "‹ All Guides".
 40. **P2 The flashcard hint text runs under the floating buttons.**
 41. **P3 The homepage header groups the logo, menu, theme and avatar on the left**, leaving the right edge empty. Spread them across the row.
+
+## Status (2026-10-04, afternoon)
+
+Shipped: 1, 2, 3, 6, 8, 13, 15, 17, 18, 22, 23, 24, 27, 30, 31, 33, 35, 36. Items 14, 20 and 21 were already fixed in the code when checked.
+
+Open: 4, 5, 7, 9, 10, 11, 12 (guides); 16, 19 (homepage); 25, 26, 28, 29 (dashboard); 32, 34, 37, 38; 39, 40, 41 (phones).
+
+Not checked by eye: 17 (readiness bar) only shows when signed in, and the local signed-in server cannot be started from a scheduled run.
