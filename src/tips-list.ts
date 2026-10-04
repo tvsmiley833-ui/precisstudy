@@ -17,6 +17,10 @@ export const TIPS: { slug: string; published: string }[] = [
     "published": "2026-10-04"
   },
   {
+    "slug": "confidence-interval-meaning",
+    "published": "2026-10-04"
+  },
+  {
     "slug": "difference-of-squares",
     "published": "2026-10-04"
   },
@@ -121,6 +125,10 @@ export const TIPS: { slug: string; published: string }[] = [
     "published": "2026-10-04"
   },
   {
+    "slug": "speed-vs-velocity",
+    "published": "2026-10-04"
+  },
+  {
     "slug": "sum-diff-cubes",
     "published": "2026-10-04"
   },
@@ -130,6 +138,10 @@ export const TIPS: { slug: string; published: string }[] = [
   },
   {
     "slug": "transcription-vs-translation",
+    "published": "2026-10-04"
+  },
+  {
+    "slug": "triangle-area",
     "published": "2026-10-04"
   },
   {
