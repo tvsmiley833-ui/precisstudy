@@ -48,7 +48,13 @@
         acct.className = "ss-account ss-acct-wrap"; acct.innerHTML = html(user, false); wire(acct);
         building = false;
       }
-    } else if (!document.querySelector(".ss-acct-float")) {
+    } else if (document.querySelector(".header-bar .nav-links") && !document.querySelector(".ss-acct-inbar")) {
+      // A page with the site header but no account slot (Compete, Concept Map): sit in the header row, before the menu button.
+      var links = document.querySelector(".header-bar .nav-links");
+      var slot = document.createElement("div"); slot.className = "ss-acct-wrap ss-acct-inbar"; slot.innerHTML = html(user, false);
+      links.insertBefore(slot, links.querySelector(".ss-menu-btn"));
+      wire(slot);
+    } else if (!document.querySelector(".ss-acct-float") && !document.querySelector(".ss-acct-inbar")) {
       // Guides: sit in the hero's top-right corner beside the streak pill, so it scrolls with the page and never hides under the banner.
       var hero = document.querySelector(".hero-inner");
       var d = document.createElement("div"); d.className = "ss-acct-wrap ss-acct-float" + (hero ? " ss-acct-inhero" : ""); d.innerHTML = html(user, true);
@@ -59,7 +65,7 @@
     var d = e.detail || {};
     if (d.name) user = d.name;
     hasAv = !!d.avatar; avVer = "?v=" + Date.now();
-    document.querySelectorAll(".ss-acct-wrap").forEach(function (w) { if (w.classList.contains("ss-acct-float")) w.remove(); else w.innerHTML = ""; });
+    document.querySelectorAll(".ss-acct-wrap").forEach(function (w) { if (w.classList.contains("ss-acct-float") || w.classList.contains("ss-acct-inbar")) w.remove(); else w.innerHTML = ""; });
     build();
   });
   var me = window.__ssMe || fetch("/auth/me").then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
