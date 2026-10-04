@@ -300,11 +300,11 @@ html{scroll-behavior:smooth}
   </div>
 </div>
 
-<div role="main" id="main-content" class="ss-hero" style="text-align:center;padding:56px 32px 16px;">
-  <div class="ss-hero-inner">
-    <h1 class="ss-hero-anim" style="animation-delay:0s;font-size:36px;font-weight:800;color:var(--text);margin:0;letter-spacing:-0.02em;">Study Planner</h1>
-    <p style="margin:8px auto 0;font-size:15px;color:var(--text-muted);max-width:560px;">Set your exam date, see what pace gets you through the material, then build a weekly plan around your free time and assignments. Everything here is connected.</p>
-    <p style="margin:10px 0 0;"><a href="/dashboard/" style="font-size:13.5px;font-weight:700;color:var(--accent);text-decoration:none;">&larr; Back to dashboard</a></p>
+<div role="main" id="main-content" class="pl-top">
+  <div class="pl-wrap">
+    <a href="/dashboard/" class="pl-back"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Back to dashboard</a>
+    <h1>Study Planner</h1>
+    <p>Set your exam date, see what pace gets you through the material, then build a weekly plan around your free time and assignments. Everything here is connected.</p>
   </div>
 </div>
 
@@ -315,40 +315,40 @@ html{scroll-behavior:smooth}
   </div>
 </div>
 
-<div id="dash-content" style="display:none;padding:0 32px 64px;">
-  <div style="max-width:920px;margin:0 auto;display:grid;gap:20px;">
+<div id="dash-content" style="display:none;padding:0 32px 120px;">
+  <div class="pl-wrap" style="display:grid;gap:24px;">
     <section class="pl-plan" aria-label="Exam date and pace">
       <div class="ss-card spc-card" style="max-width:none" id="pl-exam-card">
-        <div style="font-weight:800;font-size:19px;color:var(--text);">1. When is your exam?</div>
+        <h2 class="pl-h"><svg class="pl-ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>When is your exam?</h2>
         <p class="pl-note" style="margin:4px 0 0">Set it once. The countdown, your pace, your dashboard and every guide use the same date.</p>
-        <div class="pl-count" id="pl-count" aria-live="polite"><b id="pl-days">&ndash;</b><span id="pl-days-label">no date set</span></div>
+        <div class="pl-count" id="pl-count" aria-live="polite"><span class="pl-badge" id="pl-badge"><b id="pl-days">&ndash;</b> <span id="pl-days-label">No date set</span></span></div>
         <form id="pl-exam-form" autocomplete="off">
           <label class="pl-field" for="exam-date">Exam date<input type="date" id="exam-date" required></label>
-          <label class="pl-field" for="exam-label">What is it? (optional)<input type="text" id="exam-label" maxlength="40" placeholder="AP Lang exam"></label>
-          <div class="pl-actions"><button type="submit" class="pl-btn">Save date</button><button type="button" class="pl-btn ghost" id="exam-clear" hidden>Clear</button></div>
+          <label class="pl-field" for="exam-label">What is it?<input type="text" id="exam-label" maxlength="40" placeholder="AP Lang exam"></label>
+          <div class="pl-actions"><button type="submit" class="pl-btn" id="pl-save-date">Save date</button><button type="button" class="pl-btn ghost" id="exam-clear" hidden>Clear</button></div>
         </form>
       </div>
       <div class="ss-card spc-card" style="max-width:none" id="pl-pace-card">
-        <div style="font-weight:800;font-size:19px;color:var(--text);">2. How much can you cover?</div>
+        <h2 class="pl-h"><svg class="pl-ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg>How much can you cover?</h2>
         <label class="pl-field" for="pl-class" style="margin-top:12px">Class<select id="pl-class"></select></label>
-        <div class="spc-row"><label for="spc-days">Days until your exam <span id="spc-days-val">14 days</span></label><input type="range" class="spc-slider" id="spc-days" min="1" max="120" value="14"></div>
+        <div class="spc-row"><label for="spc-days">Days until your exam <span id="spc-days-val">14 days</span></label><input type="range" class="spc-slider" id="spc-days" min="1" max="120" value="14"><div class="pl-note" id="pl-lock" hidden>Set from your exam date. <button type="button" class="pl-link" id="pl-unlock">Unlock to try other lengths</button></div></div>
         <div class="spc-row"><label for="spc-mins">Minutes per day <span id="spc-mins-val">30 min</span></label><input type="range" class="spc-slider" id="spc-mins" min="10" max="180" value="30" step="5"></div>
-        <div class="spc-presets" role="group" aria-label="Pacing presets">
+        <div class="spc-presets" role="group" aria-label="Pacing presets"><button type="button" class="pl-link pl-reset" id="pl-reset">Reset</button>
           <button type="button" data-d="7" data-m="60" aria-pressed="false">1-week crunch</button>
           <button type="button" data-d="30" data-m="30" aria-pressed="false">1-month steady</button>
           <button type="button" data-d="60" data-m="15" aria-pressed="false">Daily light review</button>
         </div>
-        <div class="spc-stats">
+        <div class="spc-stats" aria-live="polite">
           <div class="spc-stat"><div class="spc-stat-val" id="spc-questions">0</div><div class="spc-stat-label">Questions you'll complete</div></div>
           <div class="spc-stat"><div class="spc-stat-val" id="spc-units">0</div><div class="spc-stat-label">Units covered</div></div>
-          <div class="spc-stat"><div class="spc-stat-val" id="spc-pct">0%</div><div class="spc-stat-label">of the question bank</div></div>
+          <div class="spc-stat"><div class="spc-stat-val" id="spc-pct">0%</div><div class="spc-stat-label">of the question bank <span class="pl-info" tabindex="0" role="note" title="Coverage is not a score prediction" aria-label="Coverage is not a score prediction">i</span></div></div>
         </div>
         <div class="spc-tier" id="spc-tier"><div id="spc-tier-title"></div><div class="spc-tier-sub" id="spc-tier-sub"></div></div>
         <div class="spc-warn" id="spc-warn" role="status" hidden></div>
-        <div class="spc-chart"><svg id="spc-chart" viewBox="0 0 320 120" role="img" aria-label="Projected coverage of the question bank by days of study"></svg><div class="spc-chart-cap" id="spc-chart-cap"></div></div>
-        <div class="pl-actions" style="margin-top:16px">
-          <button type="button" class="pl-btn" id="spc-save-btn">Save this plan</button>
-          <button type="button" class="pl-btn ghost" id="pl-ics-btn">Add to my calendar</button>
+        <div class="spc-chart"><svg id="spc-chart" viewBox="0 0 320 120" role="img" aria-label="Projected coverage of the question bank by days of study"></svg><div class="spc-chart-cap sr-only" id="spc-chart-cap"></div></div>
+        <div class="pl-actions pl-stack">
+          <button type="button" class="pl-btn pl-full" id="spc-save-btn">Save this plan</button>
+          <button type="button" class="pl-btn ghost pl-full" id="pl-ics-btn"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M12 14v4M10 16h4"/></svg>Add to my calendar</button>
           <span class="pl-note" id="spc-save-status" role="status"></span>
         </div>
       </div>
@@ -356,8 +356,8 @@ html{scroll-behavior:smooth}
 
     <div class="ss-card" id="dash-assignments-card">
       <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px;">
-        <div style="font-weight:800;font-size:19px;color:var(--text);">3. Upcoming assignments</div>
-        <a href="/settings/" style="font-size:12.5px;color:var(--text-muted);text-decoration:none;font-weight:700;">Manage &rarr;</a>
+        <h2 class="pl-h"><svg class="pl-ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg>Upcoming assignments</h2>
+        <a href="/settings/" style="font-size:12.5px;color:var(--text-muted);text-decoration:none;font-weight:700;display:inline-flex;align-items:center;gap:4px;">Manage<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </div>
       <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 8px;">Your Google Classroom and Canvas coursework, plus calendar due-dates. Study blocks below are placed around them.</p>
       <div id="dash-assignments-sync" style="display:none;align-items:center;gap:8px;margin-bottom:10px;">

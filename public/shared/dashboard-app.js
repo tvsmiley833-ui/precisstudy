@@ -458,7 +458,7 @@ function sbRenderSubjects() {
     }).length;
     html += '<details class="sb-cat"' + (openCount ? ' open' : '') + '>'
       + '<summary><span>' + CATEGORY_LABELS[catKey] + '</span>'
-      + '<span class="sb-cat-count">' + subjects.length + '</span>'
+      + '<span class="sb-cat-count" title="Courses available in this group">' + subjects.length + '</span>'
       + '<svg class="sb-cat-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>'
       + '</summary>'
       + '<div class="sb-cat-body">'

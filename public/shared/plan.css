@@ -34,3 +34,68 @@ input[type=range].spc-slider::-moz-range-thumb{width:22px;height:22px;border-rad
 .pl-btn{background:var(--accent-solid);color:#fff;border:0;border-radius:999px;padding:10px 20px;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
 .pl-btn.ghost{background:transparent;color:var(--accent);border:2px solid var(--accent-solid)}
 .pl-note{font-size:13px;color:var(--text-muted)}
+
+/* ---- Planner polish ---- */
+html{scroll-behavior:smooth}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.pl-wrap{max-width:1000px;margin:0 auto}
+.pl-top{padding:36px 32px 24px}.pl-top .pl-wrap{display:grid;gap:10px;text-align:left}
+.pl-top h1{font-size:38px;font-weight:700;color:var(--text);margin:0;letter-spacing:-.02em;line-height:1.1}
+.pl-top p{margin:0;max-width:640px;font-size:16px;line-height:1.55;color:color-mix(in srgb,var(--text) 82%,transparent)}
+.pl-back{display:inline-flex;align-items:center;gap:6px;width:max-content;font-size:14px;font-weight:700;color:var(--accent);text-decoration:none}
+.pl-back:hover{text-decoration:underline}
+.pl-plan{gap:28px;align-items:stretch}
+.pl-plan .spc-card,#dash-assignments-card,#dash-content .ss-card{box-shadow:0 4px 15px rgba(0,0,0,.12);border-radius:18px}
+.pl-h{display:flex;align-items:center;gap:10px;margin:0;font-size:22px;font-weight:700;color:var(--text)}
+.pl-ico{flex:none;color:var(--accent)}
+.pl-badge{display:inline-flex;align-items:baseline;gap:6px;padding:7px 14px;border-radius:999px;border:1.5px solid var(--border);color:var(--text-muted);font-size:14px;font-weight:700}
+.pl-badge.on{background:var(--accent-solid);border-color:var(--accent-solid);color:#fff}.pl-badge b{font-size:20px}.pl-badge:not(.on) b{display:none}
+.pl-field{font-weight:700}
+.spc-card input,.spc-card select{border:1px solid var(--border-strong,color-mix(in srgb,var(--text) 28%,transparent));border-radius:12px;min-height:44px;box-sizing:border-box;background:var(--bg)}
+.spc-card select{padding-right:34px;background-position:right 12px center}
+.spc-card input::placeholder{color:color-mix(in srgb,var(--text) 55%,transparent);opacity:1}
+.spc-card input[type=date]:invalid{color:color-mix(in srgb,var(--text) 55%,transparent)}
+.spc-card input[type=date]::-webkit-calendar-picker-indicator{cursor:pointer;margin:0;padding:4px}
+.spc-card input[type=range].spc-slider{min-height:0}
+.pl-btn{padding:12px 28px;min-height:44px;transition:background-color .2s ease,transform .1s ease,color .2s ease}
+.pl-btn:active{transform:scale(.98)}
+.pl-btn.dirty{background:#fff;color:#14302a}
+.pl-full{width:100%;justify-content:center;display:inline-flex;align-items:center;gap:8px}
+.pl-stack{display:grid;gap:10px;margin-top:20px}
+.pl-link{background:none;border:0;padding:0;font:inherit;font-weight:700;color:var(--accent);text-decoration:underline;cursor:pointer}
+.pl-reset{margin-left:auto;align-self:center}
+.spc-presets{align-items:center}.spc-presets button:not(.pl-link){flex:1 1 0;min-width:120px;padding:9px 10px;text-align:center}
+.spc-presets button[aria-pressed="true"]{background:var(--accent-solid);color:#fff}
+input[type=range].spc-slider{height:10px}
+input[type=range].spc-slider::-webkit-slider-thumb{width:30px;height:30px}
+input[type=range].spc-slider::-moz-range-thumb{width:30px;height:30px}
+input[type=range].spc-slider:disabled{cursor:not-allowed;opacity:.6}
+.spc-row label span{min-width:72px;text-align:right}
+.spc-stats{gap:0;border:1px solid var(--border);border-radius:14px;overflow:hidden;margin:22px 0 16px}
+.spc-stat{background:none;border-radius:0;padding:14px 8px;display:grid;grid-template-rows:auto 1fr;align-content:start}
+.spc-stat+.spc-stat{border-left:1px solid var(--border)}
+.spc-stat-val{font-size:30px}.spc-stat-label{min-height:2.6em}
+.pl-info{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;border:1px solid currentColor;font-size:10px;font-style:italic;cursor:help;vertical-align:1px}
+.spc-tier{text-align:left}
+[data-theme="dark"] .spc-tier-ontrack{color:#f3d98a}
+.spc-warn{color:var(--text)}
+.spc-chart svg{max-width:none}
+body[data-page="planner"] :focus-visible{outline:2px solid var(--accent-bright);outline-offset:2px}
+[data-theme="dark"] body[data-page="planner"] :focus-visible{outline-color:#fff}
+body[data-page="planner"] .spc-slider,body[data-page="planner"] .sb-grid-cell,body[data-page="planner"] button,body[data-page="planner"] .sb-grid-hd,body[data-page="planner"] .sb-grid-time{-webkit-user-select:none;user-select:none}
+body[data-page="planner"] button{transition:background-color .2s ease,color .2s ease,border-color .2s ease}
+.sb-grid-time{opacity:.7}
+.sb-grid-cell{border-color:color-mix(in srgb,var(--text) 18%,transparent)!important}
+#sb-build-btn{flex:1 1 100%;order:10;padding:16px 24px!important;font-size:16px!important;min-height:52px}
+#sb-block-day,#sb-block-start,#sb-block-end{min-height:44px;font-size:16px!important;border-radius:12px!important}
+#sb-block-add-btn{background:transparent!important;border-color:var(--accent-bright)!important;color:var(--accent)!important}
+#dash-content .ss-card>div:first-child[style*="font-weight:800"]{font-size:24px!important}
+.sb-cat summary{min-height:44px}.sb-subject-row input[type=checkbox]{width:22px;height:22px;margin:0;flex:none}
+body[data-page="planner"]{--sc-w:thin}
+body[data-page="planner"] *{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--text) 30%,transparent) transparent}
+body[data-page="planner"] ::-webkit-scrollbar{width:10px;height:10px}
+body[data-page="planner"] ::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--text) 30%,transparent);border-radius:10px}
+body[data-page="planner"] [role="contentinfo"]{background:var(--bg-card);margin-top:48px;padding-bottom:96px!important}
+@media(max-width:640px){.pl-plan{grid-template-columns:1fr}.pl-top h1{font-size:30px}.spc-card input,.spc-card select,#sb-block-day,#sb-block-start,#sb-block-end{font-size:16px}.spc-stat-val{font-size:24px}input[type=range].spc-slider::-webkit-slider-thumb{width:34px;height:34px}}
+.pl-field{min-width:0}.pl-field input,.pl-field select,.pl-plan input[type=text],.pl-plan select{width:100%;box-sizing:border-box}
+.pl-badge{max-width:100%;flex-wrap:wrap}
