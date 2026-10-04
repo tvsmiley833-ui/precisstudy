@@ -224,6 +224,8 @@ body{transition:background .2s ease,color .2s ease}
 @media(prefers-reduced-motion:reduce){.dash-sidebar-panel:not(.dash-collapsed){animation:none}}
 
 /* ---- dashboard polish ---- */
+@media(max-width:560px){.dash-prog-row{flex-wrap:wrap;row-gap:6px!important}.dash-prog-row .dpr-name{width:auto!important;flex:1 1 auto}.dash-prog-row .dpr-pct{width:auto!important}.dash-prog-row .dpr-bar{order:3;flex:1 0 100%!important}}
+
 .ss-density-btn.active{background:var(--accent-bright)!important;border-color:var(--accent-bright)!important;color:#fff!important}
 .ss-density-btn{min-height:36px}
 .dash-prog-row:hover{background:color-mix(in srgb,var(--text) 6%,transparent)}

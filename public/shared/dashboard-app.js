@@ -1483,8 +1483,8 @@ async function loadDashboard() {
     const dayLabels = ['', 'Mon', '', 'Wed', '', 'Fri', ''].map(function (t) { return '<span style="height:16px;line-height:16px;">' + t + '</span>'; }).join('');
     const tog = function (key, text) { return '<button type="button" class="hm-tog" data-metric="' + key + '" aria-pressed="' + (metric === key ? 'true' : 'false') + '">' + text + '</button>'; };
     el.innerHTML = '<div class="hm-toggle" role="group" aria-label="Heatmap measure">' + tog('questions', 'Questions') + tog('minutes', 'Est. minutes') + '</div>'
-      + '<div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;">'
-      + '<div aria-hidden="true" style="display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--text-muted);padding-top:18px;flex-shrink:0;">' + dayLabels + '</div>'
+      + '<div class="hm-scroll" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;">'
+      + '<div aria-hidden="true" style="display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--text-muted);padding-top:18px;flex-shrink:0;position:sticky;left:0;background:var(--bg-card);padding-right:4px;z-index:1;">' + dayLabels + '</div>'
       + '<div><div aria-hidden="true" style="position:relative;height:14px;margin-bottom:4px;font-size:11px;color:var(--text-muted);width:' + (WEEKS * 20) + 'px;">' + monthsHtml + '</div>'
       + '<div role="group" aria-label="Activity by day. Select a day for details." style="display:grid;grid-template-rows:repeat(7,16px);grid-auto-flow:column;gap:4px;">' + cells + '</div></div></div>'
       + '<div style="display:flex;align-items:center;gap:5px;margin-top:10px;font-size:13px;color:var(--text-muted);">'
@@ -1494,6 +1494,8 @@ async function loadDashboard() {
       + '<p style="margin:8px 0 0;font-size:13px;color:var(--text-muted);">' + ssEscapeHtml(summary) + (metric === 'minutes' ? ' Minutes are estimated at 1.5 per question.' : '') + '</p>'
       + '<div id="hm-detail" class="hm-detail" role="region" aria-live="polite" hidden></div>';
 
+    // On a narrow screen the grid scrolls sideways: start at the newest weeks, not the oldest.
+    const scroller = el.querySelector('.hm-scroll'); if (scroller) scroller.scrollLeft = scroller.scrollWidth;
     el.querySelectorAll('.hm-tog').forEach(function (b) {
       b.addEventListener('click', function () {
         try { localStorage.setItem('ss-heat-metric', b.dataset.metric); } catch (e) { /* ignore */ }
@@ -1558,10 +1560,10 @@ async function loadDashboard() {
       const pctLabel = r.pct === null ? 'not assessed yet' : r.pct + '% accuracy';
       const barColor = r.pct === null ? 'var(--border, #444)' : r.pct >= 80 ? '#3fae6a' : r.pct >= 50 ? '#936e2a' : '#c25454';
       return '<' + (r.href ? 'a href="' + ssEscapeHtml(r.href) + '"' : 'div') + ' class="dash-prog-row" style="display:flex;align-items:center;gap:10px;padding:8px 6px;margin:0 -6px;border-radius:10px;font-size:14px;text-decoration:none;">'
-        + '<div style="width:150px;flex-shrink:0;color:var(--text);">' + ssEscapeHtml(r.label) + '</div>'
-        + '<div style="flex:1;height:8px;border-radius:999px;background:var(--border, #333);overflow:hidden;">'
+        + '<div class="dpr-name" style="width:150px;flex-shrink:0;color:var(--text);">' + ssEscapeHtml(r.label) + '</div>'
+        + '<div class="dpr-bar" style="flex:1;height:8px;border-radius:999px;background:var(--border, #333);overflow:hidden;">'
         + '<div style="height:100%;border-radius:999px;background:' + barColor + ';width:' + (r.pct === null ? 0 : r.pct) + '%;"></div></div>'
-        + '<div style="width:110px;flex-shrink:0;text-align:right;color:var(--text-muted);">' + pctLabel + '</div>'
+        + '<div class="dpr-pct" style="width:110px;flex-shrink:0;text-align:right;color:var(--text-muted);">' + pctLabel + '</div>'
         + (r.href ? '</a>' : '</div>');
     }).join('');
   }

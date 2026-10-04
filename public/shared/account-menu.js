@@ -8,6 +8,7 @@
     + ".ss-avatar-btn{display:flex;align-items:center;gap:8px;padding:4px 10px 4px 4px;border:1px solid var(--border,#d6dccf);border-radius:999px;background:var(--bg-card,#fff);color:var(--text,#1c2a24);font:inherit;font-size:14px;font-weight:700;cursor:pointer}"
     + ".ss-avatar-btn:hover{border-color:var(--accent-bright,#268a58)}"
     + ".ss-acct-wrap{position:relative}.ss-acct-float{position:fixed;top:40px;right:12px;z-index:70}.ss-acct-float .ss-avatar-btn{padding:3px;gap:0}.ss-acct-float .ss-acct-name,.ss-acct-float .ss-acct-caret{display:none}"
+    + ".ss-acct-float.ss-acct-inhero{position:absolute;top:-2px;right:0;z-index:20}html:root body .hero-inner:has(.ss-acct-inhero) .ss-stats-pill{right:44px!important}"
     + "@media(max-width:640px){.ss-acct-name{display:none}}"
     + ".ss-acct-menu{position:absolute;right:0;top:calc(100% + 8px);min-width:170px;background:var(--bg-card,#fff);border:1px solid var(--border,#d6dccf);border-radius:12px;box-shadow:0 12px 28px rgba(0,0,0,.2);padding:6px;z-index:80;flex-direction:column;display:flex}"
     + ".ss-acct-menu[hidden]{display:none}"
@@ -48,8 +49,10 @@
         building = false;
       }
     } else if (!document.querySelector(".ss-acct-float")) {
-      var d = document.createElement("div"); d.className = "ss-acct-wrap ss-acct-float"; d.innerHTML = html(user, true);
-      document.body.appendChild(d); wire(d);
+      // Guides: sit in the hero's top-right corner beside the streak pill, so it scrolls with the page and never hides under the banner.
+      var hero = document.querySelector(".hero-inner");
+      var d = document.createElement("div"); d.className = "ss-acct-wrap ss-acct-float" + (hero ? " ss-acct-inhero" : ""); d.innerHTML = html(user, true);
+      (hero || document.body).appendChild(d); wire(d);
     }
   }
   window.addEventListener("ss-account-changed", function (e) {
