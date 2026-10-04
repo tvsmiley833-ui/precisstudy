@@ -5691,6 +5691,125 @@
    }
   ]
  },
+ "workedExamples": [
+  {
+   "u": 1,
+   "title": "Average atomic mass",
+   "prompt": "Element X has two isotopes: 63 u at 69.2% and 65 u at 30.8%. Find the average atomic mass.",
+   "steps": [
+    "Weight each mass by its abundance",
+    "0.692(63) + 0.308(65)",
+    "= 43.60 + 20.02"
+   ],
+   "answer": "63.6 u"
+  },
+  {
+   "u": 2,
+   "title": "Mass-to-mass stoichiometry",
+   "prompt": "Propane burns: C₃H₈ + 5O₂ → 3CO₂ + 4H₂O. What mass of CO₂ forms from 10.0 g of C₃H₈?",
+   "steps": [
+    "Moles C₃H₈ = 10.0 g / 44.10 g/mol = 0.2268 mol",
+    "Mole ratio 3 CO₂ : 1 C₃H₈ gives 0.680 mol CO₂",
+    "Mass = 0.680 mol × 44.01 g/mol"
+   ],
+   "answer": "29.9 g"
+  },
+  {
+   "u": 3,
+   "title": "Dalton's law",
+   "prompt": "A 4.0 L flask holds 2.0 mol N₂ and 1.0 mol O₂ at a total pressure of 3.0 atm. Find the partial pressure of N₂.",
+   "steps": [
+    "Mole fraction of N₂ = 2.0/3.0",
+    "Partial pressure = mole fraction × total",
+    "= (2/3)(3.0 atm)"
+   ],
+   "answer": "2.0 atm"
+  },
+  {
+   "u": 4,
+   "title": "Hess's law",
+   "prompt": "Given A → B ΔH = +50 kJ and B → C ΔH = −80 kJ, find ΔH for A → C.",
+   "steps": [
+    "Add the equations; B cancels",
+    "Add the enthalpies: +50 + (−80)"
+   ],
+   "answer": "−30 kJ"
+  },
+  {
+   "u": 4,
+   "title": "Calorimetry",
+   "prompt": "50.0 g of water absorbs 2,090 J and warms by what amount? (c = 4.18 J/g·°C)",
+   "steps": [
+    "q = mcΔT, so ΔT = q/(mc)",
+    "= 2090 / (50.0 × 4.18)"
+   ],
+   "answer": "10.0 °C"
+  },
+  {
+   "u": 5,
+   "title": "Ionization energy",
+   "prompt": "Why is the first ionization energy of O lower than that of N?",
+   "steps": [
+    "N has a half-filled 2p subshell (2p³)",
+    "O (2p⁴) has a paired electron in one 2p orbital",
+    "Electron–electron repulsion in the pair makes it easier to remove"
+   ],
+   "answer": "Pairing repulsion in O's 2p⁴ lowers its IE"
+  },
+  {
+   "u": 6,
+   "title": "VSEPR",
+   "prompt": "Predict the molecular geometry and polarity of SF₂ and CO₂.",
+   "steps": [
+    "SF₂: 2 bonds + 2 lone pairs on S → bent, polar",
+    "CO₂: 2 bonds, no lone pairs on C → linear; the bond dipoles cancel"
+   ],
+   "answer": "SF₂ bent and polar; CO₂ linear and nonpolar"
+  },
+  {
+   "u": 7,
+   "title": "Rate law from data",
+   "prompt": "Doubling [A] with [B] fixed quadruples the rate, and doubling [B] with [A] fixed doubles it. Write the rate law.",
+   "steps": [
+    "Rate ∝ [A]²: 2² = 4",
+    "Rate ∝ [B]¹: 2¹ = 2"
+   ],
+   "answer": "rate = k[A]²[B]"
+  },
+  {
+   "u": 7,
+   "title": "Equilibrium shift",
+   "prompt": "For 2NO₂ ⇌ N₂O₄ (exothermic forward), what happens to Q and the shift when the container volume is halved?",
+   "steps": [
+    "Halving volume doubles every concentration",
+    "Q = [N₂O₄]/[NO₂]² becomes Q/2, so Q < K",
+    "The system shifts toward fewer gas moles: forward"
+   ],
+   "answer": "Q < K, so the reaction shifts forward"
+  },
+  {
+   "u": 8,
+   "title": "pH of a weak acid",
+   "prompt": "Find the pH of 0.10 M HA with Ka = 1.8 × 10⁻⁵.",
+   "steps": [
+    "Ka = x²/(0.10 − x) ≈ x²/0.10 because x is small",
+    "x = √(1.8×10⁻⁵ × 0.10) = 1.34×10⁻³ M",
+    "pH = −log(1.34×10⁻³)"
+   ],
+   "answer": "pH ≈ 2.87"
+  },
+  {
+   "u": 8,
+   "title": "Free energy and cell potential",
+   "prompt": "A cell with n = 2 electrons has E° = +1.10 V. Find ΔG°. (F = 96,485 C/mol)",
+   "steps": [
+    "ΔG° = −nFE°",
+    "= −(2)(96,485)(1.10)",
+    "= −212,267 J"
+   ],
+   "answer": "≈ -212 kJ/mol (spontaneous)"
+  }
+ ],
  "officialReferenceUrl": "https://apcentral.collegeboard.org/media/pdf/ap-chemistry-equations-sheet.pdf",
  "officialReferenceLabel": "AP Chemistry Equations Sheet",
  "officialReferenceContent": "<p class=\"ref-section-label\">Constants</p><div class=\"ref-conv-grid\"><div>R = 8.314 J/(mol&middot;K)</div><div>R = 0.0821 L&middot;atm/(mol&middot;K)</div><div>Avogadro's number = 6.022 &times; 10&sup2;&sup3; /mol</div><div>Faraday's constant F = 96,485 C/mol</div><div>K<sub>w</sub> = 1.0 &times; 10&#8315;&sup1;&#8308; (at 25&deg;C)</div><div>1 atm = 760 mmHg = 101.3 kPa</div><div>STP = 0&deg;C and 1 atm</div></div><p class=\"ref-section-label\">Key Equations</p><div class=\"ref-grid\"><div class=\"ref-item\"><div class=\"ref-eq\" style=\"font-size:13.5px\">PV = nRT<br><small style=\"color:var(--ink-muted)\">Ideal Gas Law</small></div></div><div class=\"ref-item\"><div class=\"ref-eq\" style=\"font-size:13.5px\">P&#8321;V&#8321;/T&#8321; = P&#8322;V&#8322;/T&#8322;<br><small style=\"color:var(--ink-muted)\">Combined Gas Law</small></div></div><div class=\"ref-item\"><div class=\"ref-eq\" style=\"font-size:13.5px\">M = mol solute / L solution<br><small style=\"color:var(--ink-muted)\">Molarity</small></div></div><div class=\"ref-item\"><div class=\"ref-eq\" style=\"font-size:13.5px\">pH = -log[H&#8314;]<br>pOH = -log[OH&#8315;]<br><small style=\"color:var(--ink-muted)\">pH / pOH</small></div></div><div class=\"ref-item\"><div class=\"ref-eq\" style=\"font-size:13.5px\">pH + pOH = 14<br><small style=\"color:var(--ink-muted)\">at 25&deg;C</small></div></div><div class=\"ref-item\"><div class=\"ref-eq\" style=\"font-size:13.5px\">pH = pK<sub>a</sub> + log([A&#8315;]/[HA])<br><small style=\"color:var(--ink-muted)\">Henderson&ndash;Hasselbalch</small></div></div><div class=\"ref-item\"><div class=\"ref-eq\" style=\"font-size:13.5px\">q = mc&Delta;T<br><small style=\"color:var(--ink-muted)\">Heat / Specific Heat</small></div></div><div class=\"ref-item\"><div class=\"ref-eq\" style=\"font-size:13.5px\">&Delta;G&deg; = &Delta;H&deg; - T&Delta;S&deg;<br><small style=\"color:var(--ink-muted)\">Gibbs Free Energy</small></div></div><div class=\"ref-item\"><div class=\"ref-eq\" style=\"font-size:13.5px\">&Delta;G&deg; = -RT ln K = -nFE&deg;<br><small style=\"color:var(--ink-muted)\">&Delta;G&deg; and K, E&deg;</small></div></div><div class=\"ref-item\"><div class=\"ref-eq\" style=\"font-size:13.5px\">rate = k[A]<sup>m</sup>[B]<sup>n</sup><br><small style=\"color:var(--ink-muted)\">Rate Law</small></div></div><div class=\"ref-item\"><div class=\"ref-eq\" style=\"font-size:13.5px\">K = [products] / [reactants]<br><small style=\"color:var(--ink-muted)\">Equilibrium Constant</small></div></div><div class=\"ref-item\"><div class=\"ref-eq\" style=\"font-size:13.5px\">n = mass / molar mass<br><small style=\"color:var(--ink-muted)\">Moles</small></div></div></div><p style=\"font-size:12px;color:var(--ink-muted);margin-top:4px\">This is a condensed quick-reference of the most-used constants and equations, not the full multi-page official sheet -- see the link below for everything (including the full periodic table and thermodynamic data tables).</p>"

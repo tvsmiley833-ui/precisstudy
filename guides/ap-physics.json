@@ -6756,5 +6756,141 @@
     "e": "Full argumentative architecture earns top marks."
    }
   ]
- }
+ },
+ "workedExamples": [
+  {
+   "u": 1,
+   "title": "Kinematics without time",
+   "prompt": "A car accelerates from rest at 3.0 m/s² over 24 m. Find its final speed.",
+   "steps": [
+    "v² = v₀² + 2aΔx",
+    "v² = 0 + 2(3.0)(24) = 144",
+    "v = 12"
+   ],
+   "answer": "12 m/s"
+  },
+  {
+   "u": 1,
+   "title": "Projectile range",
+   "prompt": "A ball is launched at 20 m/s at 60° above level ground. Find its range. (g = 9.8 m/s²)",
+   "steps": [
+    "Range = v² sin 2θ / g",
+    "= 400 sin 120° / 9.8",
+    "= 400(0.866)/9.8"
+   ],
+   "answer": "≈ 35.3 m"
+  },
+  {
+   "u": 2,
+   "title": "Block on an incline",
+   "prompt": "A frictionless incline is 30°. Find a block's acceleration down the slope.",
+   "steps": [
+    "Along the incline the force is mg sin θ",
+    "a = g sin θ = 9.8 sin 30°"
+   ],
+   "answer": "4.9 m/s²"
+  },
+  {
+   "u": 3,
+   "title": "Minimum speed at the top of a loop",
+   "prompt": "A car drives a vertical loop of radius 10 m. Find the minimum speed at the top to stay on the track.",
+   "steps": [
+    "At the minimum speed the normal force is zero",
+    "Gravity alone provides the centripetal force: mg = mv²/r",
+    "v = √(gr) = √(9.8 × 10)"
+   ],
+   "answer": "≈ 9.9 m/s"
+  },
+  {
+   "u": 4,
+   "title": "Torque",
+   "prompt": "A 20 N force acts perpendicular to a 0.50 m wrench. Find the torque.",
+   "steps": [
+    "τ = rF sin θ with θ = 90°",
+    "= 0.50 × 20"
+   ],
+   "answer": "10 N·m"
+  },
+  {
+   "u": 5,
+   "title": "Perfectly inelastic collision",
+   "prompt": "A 2.0 kg cart moving at 3.0 m/s hits a stationary 3.0 kg cart and they stick. Find the final speed.",
+   "steps": [
+    "Momentum is conserved: 2.0(3.0) = (2.0 + 3.0)v",
+    "v = 6.0/5.0"
+   ],
+   "answer": "1.2 m/s"
+  },
+  {
+   "u": 6,
+   "title": "Energy and speed",
+   "prompt": "A 2.0 kg object falls from rest through 20 m (no air resistance). Find its speed at the bottom.",
+   "steps": [
+    "mgh = ½mv², so mass cancels",
+    "v = √(2gh) = √(2 × 9.8 × 20)"
+   ],
+   "answer": "≈ 19.8 m/s"
+  },
+  {
+   "u": 7,
+   "title": "Parallel resistors",
+   "prompt": "A 6 Ω and a 3 Ω resistor are in parallel. Find the equivalent resistance.",
+   "steps": [
+    "1/R = 1/6 + 1/3 = 1/6 + 2/6 = 3/6",
+    "R = 2"
+   ],
+   "answer": "2 Ω"
+  },
+  {
+   "u": 7,
+   "title": "Electric power",
+   "prompt": "A 12 V source drives 2.0 A through a resistor. Find the resistance and power.",
+   "steps": [
+    "R = V/I = 12/2.0 = 6 Ω",
+    "P = IV = 2.0 × 12"
+   ],
+   "answer": "6 Ω, 24 W"
+  },
+  {
+   "u": 8,
+   "title": "Magnetic force",
+   "prompt": "A proton (q = 1.6×10⁻¹⁹ C) moves at 2.0×10⁶ m/s perpendicular to a 0.50 T field. Find the force.",
+   "steps": [
+    "F = qvB sin θ with θ = 90°",
+    "= (1.6×10⁻¹⁹)(2.0×10⁶)(0.50)"
+   ],
+   "answer": "1.6 × 10⁻¹³ N"
+  },
+  {
+   "u": 9,
+   "title": "Wave speed",
+   "prompt": "A wave has frequency 440 Hz and wavelength 0.78 m. Find its speed.",
+   "steps": [
+    "v = fλ",
+    "= 440 × 0.78"
+   ],
+   "answer": "≈ 343 m/s"
+  },
+  {
+   "u": 10,
+   "title": "Thin lens",
+   "prompt": "An object is 30 cm from a converging lens of focal length 10 cm. Find the image distance.",
+   "steps": [
+    "1/f = 1/dₒ + 1/dᵢ",
+    "1/dᵢ = 1/10 − 1/30 = 3/30 − 1/30 = 2/30",
+    "dᵢ = 15"
+   ],
+   "answer": "15 cm (real image)"
+  },
+  {
+   "u": 11,
+   "title": "Photon energy",
+   "prompt": "Find the energy of a 500 nm photon in eV. (hc = 1240 eV·nm)",
+   "steps": [
+    "E = hc/λ",
+    "= 1240 / 500"
+   ],
+   "answer": "2.48 eV"
+  }
+ ]
 }

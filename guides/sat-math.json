@@ -4471,6 +4471,143 @@
   "PART_B2": [],
   "PART_C": []
  },
+ "workedExamples": [
+  {
+   "u": 1,
+   "title": "Solve a linear equation",
+   "prompt": "Solve 3(x − 2) = 2x + 5.",
+   "steps": [
+    "Distribute: 3x − 6 = 2x + 5",
+    "Subtract 2x: x − 6 = 5",
+    "Add 6: x = 11",
+    "Check: 3(9) = 27 and 2(11) + 5 = 27"
+   ],
+   "answer": "x = 11"
+  },
+  {
+   "u": 1,
+   "title": "Solve a system",
+   "prompt": "Solve 2x + y = 11 and x − y = 1.",
+   "steps": [
+    "Add the equations: 3x = 12, so x = 4",
+    "Substitute into x − y = 1: y = 3",
+    "Check: 2(4) + 3 = 11"
+   ],
+   "answer": "x = 4, y = 3"
+  },
+  {
+   "u": 2,
+   "title": "Percent change in sequence",
+   "prompt": "A $80 jacket is 20% off, then 10% tax is added. What is the final price?",
+   "steps": [
+    "20% off: 80 × 0.80 = 64",
+    "Add 10% tax: 64 × 1.10"
+   ],
+   "answer": "$70.40"
+  },
+  {
+   "u": 2,
+   "title": "Rate",
+   "prompt": "A cyclist rides 60 miles in 90 minutes. What is the speed in miles per hour?",
+   "steps": [
+    "90 minutes = 1.5 hours",
+    "60 / 1.5"
+   ],
+   "answer": "40 mph"
+  },
+  {
+   "u": 3,
+   "title": "Solve a quadratic",
+   "prompt": "Solve x² − 5x + 6 = 0.",
+   "steps": [
+    "Find two numbers that multiply to 6 and add to −5: −2 and −3",
+    "Factor: (x − 2)(x − 3) = 0"
+   ],
+   "answer": "x = 2 or x = 3"
+  },
+  {
+   "u": 3,
+   "title": "Exponential growth",
+   "prompt": "A population of 200 doubles every 3 years. What is it after 9 years?",
+   "steps": [
+    "9 years is 9/3 = 3 doublings",
+    "200 × 2³"
+   ],
+   "answer": "1,600"
+  },
+  {
+   "u": 3,
+   "title": "Vertex of a parabola",
+   "prompt": "What is the minimum value of f(x) = x² − 4x + 1?",
+   "steps": [
+    "The vertex is at x = −b/2a = 4/2 = 2",
+    "f(2) = 4 − 8 + 1"
+   ],
+   "answer": "−3"
+  },
+  {
+   "u": 4,
+   "title": "Circle area from circumference",
+   "prompt": "A circle has circumference 10π. What is its area?",
+   "steps": [
+    "C = 2πr, so r = 5",
+    "A = πr² = 25π"
+   ],
+   "answer": "25π"
+  },
+  {
+   "u": 4,
+   "title": "Right triangle",
+   "prompt": "A right triangle has legs 5 and 12. What is the hypotenuse and the perimeter?",
+   "steps": [
+    "5² + 12² = 25 + 144 = 169",
+    "Hypotenuse = 13",
+    "Perimeter = 5 + 12 + 13"
+   ],
+   "answer": "Hypotenuse 13; perimeter 30"
+  },
+  {
+   "u": 5,
+   "title": "Cosine from sine",
+   "prompt": "In a right triangle, sin A = 5/13. Find cos A.",
+   "steps": [
+    "Draw it: opposite 5, hypotenuse 13",
+    "The adjacent side is √(13² − 5²) = 12",
+    "cos A = adjacent/hypotenuse"
+   ],
+   "answer": "12/13"
+  },
+  {
+   "u": 5,
+   "title": "Degrees to radians",
+   "prompt": "Convert 60° to radians.",
+   "steps": [
+    "180° = π radians",
+    "60° × π/180°"
+   ],
+   "answer": "π/3"
+  },
+  {
+   "u": 7,
+   "title": "Factoring with no calculator",
+   "prompt": "Simplify (x² − 9)/(x − 3) for x ≠ 3.",
+   "steps": [
+    "x² − 9 is a difference of squares: (x − 3)(x + 3)",
+    "Cancel the common factor (x − 3)"
+   ],
+   "answer": "x + 3"
+  },
+  {
+   "u": 8,
+   "title": "Pacing",
+   "prompt": "The math section has 58 questions in 80 minutes. About how long can you spend per question?",
+   "steps": [
+    "80 / 58 ≈ 1.38 minutes",
+    "That is about 80 seconds, so skip and return to anything that takes much longer"
+   ],
+   "answer": "About 1 minute 20 seconds"
+  }
+ ],
  "examMeta": {
   "title": "SAT Math — Full Practice Exam",
   "parts": {

@@ -8390,6 +8390,210 @@
    }
   ]
  },
+ "workedExamples": [
+  {
+   "u": 1,
+   "title": "Physical or chemical change",
+   "prompt": "Sugar dissolves in water, and separately an iron nail rusts. Classify each change.",
+   "steps": [
+    "A physical change alters form but not the substance: dissolving sugar can be reversed by evaporating the water",
+    "A chemical change forms a new substance: rust (iron oxide) is not iron",
+    "Signs of a chemical change include a new color, gas, or precipitate"
+   ],
+   "answer": "Dissolving = physical; rusting = chemical"
+  },
+  {
+   "u": 2,
+   "title": "Density and significant figures",
+   "prompt": "A metal block has mass 54 g and volume 20. mL. Find its density, and give 12.5 × 3.2 with the right number of significant figures.",
+   "steps": [
+    "Density = mass/volume = 54 g / 20. mL = 2.7 g/mL",
+    "In a product, keep the fewest significant figures: 3.2 has two",
+    "12.5 × 3.2 = 40.0, rounded to two significant figures"
+   ],
+   "answer": "2.7 g/mL; 40. (two significant figures)"
+  },
+  {
+   "u": 3,
+   "title": "Average atomic mass",
+   "prompt": "Chlorine-35 (34.969 u) is 75.77% abundant and chlorine-37 (36.966 u) is 24.23%. Find the average atomic mass.",
+   "steps": [
+    "Multiply each mass by its fractional abundance",
+    "0.7577(34.969) + 0.2423(36.966)",
+    "= 26.50 + 8.957"
+   ],
+   "answer": "35.45 u"
+  },
+  {
+   "u": 4,
+   "title": "Periodic trend",
+   "prompt": "Which has the larger atomic radius, Na or Mg, and why?",
+   "steps": [
+    "Na and Mg are in the same period",
+    "Mg has one more proton pulling on the same shell",
+    "More nuclear charge pulls the electrons closer, so the radius shrinks across a period"
+   ],
+   "answer": "Na is larger"
+  },
+  {
+   "u": 5,
+   "title": "Lewis structure of NH₃",
+   "prompt": "How many valence electrons does NH₃ have, and what is its electron arrangement on N?",
+   "steps": [
+    "N has 5 and each of 3 H has 1: total 8",
+    "Three N–H bonds use 6 electrons",
+    "The remaining 2 form one lone pair on N"
+   ],
+   "answer": "8 valence electrons; 3 bonds and 1 lone pair on N (trigonal pyramidal)"
+  },
+  {
+   "u": 6,
+   "title": "Mass from moles",
+   "prompt": "What is the mass of 2.5 mol of H₂O (molar mass 18.015 g/mol)?",
+   "steps": [
+    "mass = moles × molar mass",
+    "2.5 mol × 18.015 g/mol"
+   ],
+   "answer": "45.04 g"
+  },
+  {
+   "u": 6,
+   "title": "Empirical formula",
+   "prompt": "A compound is 40.0% C, 6.7% H, and 53.3% O by mass. Find its empirical formula.",
+   "steps": [
+    "Assume 100 g: 40.0 g C, 6.7 g H, 53.3 g O",
+    "Moles: C 3.33, H 6.65, O 3.33",
+    "Divide by the smallest (3.33): C 1, H 2, O 1"
+   ],
+   "answer": "CH₂O"
+  },
+  {
+   "u": 7,
+   "title": "Balancing an equation",
+   "prompt": "Balance: Al + O₂ → Al₂O₃.",
+   "steps": [
+    "Put Al₂O₃ first: 2 Al and 3 O on the right",
+    "Use 2 Al₂O₃ so oxygen is even: 4 Al and 6 O",
+    "Then 4 Al on the left and 3 O₂"
+   ],
+   "answer": "4Al + 3O₂ → 2Al₂O₃"
+  },
+  {
+   "u": 7,
+   "title": "Limiting reagent",
+   "prompt": "3.0 mol H₂ reacts with 3.0 mol O₂ in 2H₂ + O₂ → 2H₂O. Which is limiting and how much water forms?",
+   "steps": [
+    "2 mol H₂ is needed per 1 mol O₂",
+    "3.0 mol H₂ would need only 1.5 mol O₂",
+    "So H₂ runs out first, and moles of water = moles of H₂"
+   ],
+   "answer": "H₂ is limiting; 3.0 mol H₂O"
+  },
+  {
+   "u": 8,
+   "title": "Heat to melt ice",
+   "prompt": "How much heat melts 50. g of ice at 0 °C? (ΔH_fus = 334 J/g)",
+   "steps": [
+    "q = m × ΔH_fus",
+    "50. g × 334 J/g"
+   ],
+   "answer": "16,700 J (16.7 kJ)"
+  },
+  {
+   "u": 9,
+   "title": "Boyle's law",
+   "prompt": "A gas occupies 2.0 L at 1.0 atm. Find its volume at 4.0 atm and constant temperature.",
+   "steps": [
+    "P₁V₁ = P₂V₂",
+    "V₂ = (1.0)(2.0)/4.0"
+   ],
+   "answer": "0.50 L"
+  },
+  {
+   "u": 9,
+   "title": "Ideal gas law",
+   "prompt": "How many moles are in 22.4 L of gas at 1.00 atm and 273 K? (R = 0.0821 L·atm/mol·K)",
+   "steps": [
+    "n = PV/RT",
+    "= (1.00)(22.4)/(0.0821 × 273)"
+   ],
+   "answer": "≈ 1.00 mol"
+  },
+  {
+   "u": 10,
+   "title": "Dilution",
+   "prompt": "How many mL of 6.0 M HCl are needed to make 250 mL of 1.5 M HCl?",
+   "steps": [
+    "M₁V₁ = M₂V₂",
+    "V₁ = (1.5)(250)/6.0"
+   ],
+   "answer": "62.5 mL"
+  },
+  {
+   "u": 11,
+   "title": "Heat from temperature change",
+   "prompt": "How much heat is needed to warm 100. g of water from 20 °C to 50 °C? (c = 4.184 J/g·°C)",
+   "steps": [
+    "q = mcΔT",
+    "ΔT = 30 °C",
+    "q = 100 × 4.184 × 30"
+   ],
+   "answer": "12,552 J (about 12.6 kJ)"
+  },
+  {
+   "u": 12,
+   "title": "Equilibrium constant",
+   "prompt": "For N₂ + 3H₂ ⇌ 2NH₃, equilibrium amounts are [N₂] = 0.5 M, [H₂] = 1.0 M, [NH₃] = 2.0 M. Find K.",
+   "steps": [
+    "K = [NH₃]² / ([N₂][H₂]³)",
+    "= 2.0² / (0.5 × 1.0³) = 4/0.5"
+   ],
+   "answer": "K = 8"
+  },
+  {
+   "u": 13,
+   "title": "pH of a strong acid and base",
+   "prompt": "Find the pH of 0.001 M HCl and the pH of 0.01 M NaOH.",
+   "steps": [
+    "HCl is a strong acid: [H⁺] = 0.001, pH = −log(0.001) = 3",
+    "NaOH is a strong base: [OH⁻] = 0.01, pOH = 2",
+    "pH = 14 − 2"
+   ],
+   "answer": "pH 3 and pH 12"
+  },
+  {
+   "u": 14,
+   "title": "Cell voltage",
+   "prompt": "A Zn/Cu cell has E° (Cu²⁺/Cu) = +0.34 V and E° (Zn²⁺/Zn) = −0.76 V. Find E°cell.",
+   "steps": [
+    "The cathode has the higher reduction potential: Cu",
+    "E°cell = E°cathode − E°anode",
+    "= 0.34 − (−0.76)"
+   ],
+   "answer": "+1.10 V"
+  },
+  {
+   "u": 15,
+   "title": "Half-life",
+   "prompt": "80 g of an isotope with a 5-day half-life sits for 15 days. How much remains?",
+   "steps": [
+    "15 days is 15/5 = 3 half-lives",
+    "80 → 40 → 20 → 10"
+   ],
+   "answer": "10 g"
+  },
+  {
+   "u": 16,
+   "title": "Alkane formula",
+   "prompt": "What is the molecular formula of an alkane with 6 carbons, and what is it called?",
+   "steps": [
+    "Alkanes follow CₙH₂ₙ₊₂",
+    "n = 6 gives C₆H₁₄",
+    "The 6-carbon prefix is hex-"
+   ],
+   "answer": "C₆H₁₄, hexane"
+  }
+ ],
  "diagrams": {
   "3": {
    "cap": "Rutherford gold-foil experiment — most α particles pass through (empty space); a few deflect off the dense positive nucleus.",
