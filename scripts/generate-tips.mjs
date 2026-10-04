@@ -55,7 +55,7 @@ const CSS = `<style>
 </style>`;
 
 function sentence(t) {
-  if (/=/.test(t) || t !== t.toUpperCase()) return t;
+  if (/=/.test(t) || t !== t.toUpperCase() || !/\s/.test(t.trim())) return t; // mnemonics (FANBOYS, SOH-CAH-TOA) stay as written
   const s = t.toLowerCase();
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
