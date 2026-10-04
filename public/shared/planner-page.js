@@ -106,6 +106,25 @@
 
   window.addEventListener('ss-plan-changed', function () { renderExam(); setDaysFromExam(); update(); });
 
+
+  // ---- Phones: the 7-column grid becomes one day at a time (tabs and arrows; dragging still paints).
+  (function () {
+    var grid = $('sb-grid'), nav = $('pl-daynav'), tabs = $('pl-daytabs');
+    if (!grid || !nav) return;
+    var names = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], order = [1, 2, 3, 4, 5, 6, 0], cur = order.indexOf(new Date().getDay());
+    nav.hidden = false;
+    tabs.innerHTML = order.map(function (d, i) { return '<button type="button" role="tab" data-i="' + i + '">' + names[d] + '</button>'; }).join('');
+    function apply() {
+      [].forEach.call(grid.children, function (el, i) { var c = i % 8; el.classList.toggle('pl-off', c !== 0 && c !== cur + 1); });
+      [].forEach.call(tabs.children, function (b, i) { b.setAttribute('aria-selected', i === cur ? 'true' : 'false'); });
+    }
+    function go(i) { cur = (i + 7) % 7; apply(); }
+    tabs.addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) go(+b.dataset.i); });
+    $('pl-day-prev').addEventListener('click', function () { go(cur - 1); });
+    $('pl-day-next').addEventListener('click', function () { go(cur + 1); });
+    new MutationObserver(apply).observe(grid, { childList: true });
+    apply();
+  })();
   renderExam(); setDaysFromExam(); update();
   var keys = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'], st = document.createElement('style');
   st.textContent = '#sb-grid .sb-grid-cell[data-cell^="' + keys[new Date().getDay()] + '-"]:not(.sb-grid-filled){background:color-mix(in srgb,var(--accent-bright) 12%,var(--bg))}';

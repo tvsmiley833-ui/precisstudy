@@ -385,6 +385,12 @@ html{scroll-behavior:smooth}
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
           <button class="sb-preset-btn" type="button" data-preset="light"><b>☀️ Light</b><span class="sb-preset-sub">15 minutes each weekday afternoon</span></button>
           <button class="sb-preset-btn" type="button" data-preset="crunch"><b>🔥 Exam Crunch</b><span class="sb-preset-sub">An hour every day, weekends included</span></button>
+          <button class="sb-preset-btn" type="button" data-preset="regents"><b>📝 Regents Retake</b><span class="sb-preset-sub">Mon–Thu 4–5:30pm and Saturday 10am–noon</span></button>
+        </div>
+        <div class="pl-daynav" id="pl-daynav" hidden>
+          <button type="button" id="pl-day-prev" aria-label="Previous day"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+          <div class="pl-daytabs" id="pl-daytabs" role="tablist" aria-label="Day of the week"></div>
+          <button type="button" id="pl-day-next" aria-label="Next day"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
         </div>
         <div id="sb-grid-scroll" style="overflow-x:auto;margin-bottom:10px;">
           <div id="sb-grid" style="display:inline-grid;grid-template-columns:44px repeat(7,minmax(34px,1fr));gap:2px;user-select:none;"></div>
@@ -405,6 +411,13 @@ html{scroll-behavior:smooth}
             <button id="sb-block-add-btn" type="button" style="background:var(--bg);border:2px solid var(--border);border-radius:10px;padding:9px 16px;font-size:13.5px;font-weight:700;color:var(--text);cursor:pointer;">+ Add block</button>
           </div>
         </details>
+        <div class="pl-layouts" aria-label="Saved layouts">
+          <input type="text" id="sb-layout-name" maxlength="40" placeholder="Name this layout (e.g. Fall 2026 finals)" aria-label="Layout name">
+          <button type="button" class="sb-secondary-btn" id="sb-layout-save">Save layout</button>
+          <select id="sb-layout-list" aria-label="Saved layouts"></select>
+          <button type="button" class="sb-secondary-btn" id="sb-layout-load">Load</button>
+          <button type="button" class="sb-secondary-btn" id="sb-layout-delete">Delete</button>
+        </div>
         <div id="sb-blocks-list" style="display:flex;flex-direction:column;gap:6px;"></div>
       </div>
 
@@ -416,7 +429,13 @@ html{scroll-behavior:smooth}
       <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;">
         <button id="sb-preview-btn" type="button" class="sb-secondary-btn">Preview</button>
         <button id="sb-build-btn" class="ss-cta-btn" style="background:var(--accent-solid);color:#fff;border:none;padding:10px 20px;border-radius:999px;font-size:14px;font-weight:700;cursor:pointer;">Build my schedule</button>
-        <a href="/syllabus/" class="sb-secondary-btn" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"/></svg>Upload a syllabus for exact class times</a>
+        <div class="pl-drop" id="sb-syl-drop" style="flex:1 1 100%">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"/></svg>
+          <div><b>Drop your syllabus here</b> or <label for="sb-syl-file" class="pl-link" style="cursor:pointer">choose a file</label><div class="pl-note">PDF, Word, image or text. We read your class times and remove them from your free hours.</div></div>
+          <input type="file" id="sb-syl-file" accept="image/*,.pdf,.docx,.txt" class="sr-only">
+          <progress id="sb-syl-bar" max="100" value="0" hidden></progress>
+          <div class="pl-note" id="sb-syl-status" role="status"></div>
+        </div>
         <span id="sb-status" style="font-size:12.5px;color:var(--text-muted);"></span>
       </div>
 

@@ -212,6 +212,8 @@ const SB_DAYS = [
   { key: 'thu', label: 'Thu' }, { key: 'fri', label: 'Fri' }, { key: 'sat', label: 'Sat' }, { key: 'sun', label: 'Sun' }
 ];
 let sbFreeBlocks = []; // [{id, day, start:'HH:MM', end:'HH:MM'}]
+let sbMoreOpen = false;
+let SB_ENROLLED = new Set();
 let sbSelectedSubjects = []; // [{key, unitMode:'auto'|'<unitId>'}], order = priority (index 0 = highest)
 let sbBlob = null;
 // Populated by loadDashAssignments() -- reused by sbBuildSchedule() to flag
@@ -377,14 +379,112 @@ function sbAddBlock() {
 // for a short push before a test.
 const SB_PRESETS = {
   light: { days: ['mon', 'tue', 'wed', 'thu', 'fri'], start: '16:00', end: '16:15' },
-  crunch: { days: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'], start: '17:00', end: '18:00' }
+  crunch: { days: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'], start: '17:00', end: '18:00' },
+  // Standardized-exam review (Regents, state tests): after-school sessions plus one long weekend block for full practice sets.
+  regents: { blocks: [{ days: ['mon', 'tue', 'wed', 'thu'], start: '16:00', end: '17:30' }, { days: ['sat'], start: '10:00', end: '12:00' }] }
 };
+
+
+// Toast with an optional Undo button (the same #sb-toast the schedule builder already uses).
+let sbToastTimer = null;
+function sbToast(msg, undoFn) {
+  const t = document.getElementById('sb-toast');
+  if (!t) return;
+  clearTimeout(sbToastTimer);
+  t.textContent = msg;
+  if (undoFn) {
+    const b = document.createElement('button');
+    b.type = 'button'; b.textContent = 'Undo';
+    b.addEventListener('click', function () { undoFn(); t.classList.remove('visible'); });
+    t.appendChild(b);
+  }
+  t.classList.add('visible');
+  sbToastTimer = setTimeout(function () { t.classList.remove('visible'); }, undoFn ? 7000 : 3200);
+}
+
+// Named layouts: the free-time blocks and chosen subjects, saved on this device ("Fall 2026 finals").
+const SB_LAYOUTS_KEY = 'ss-sb-layouts';
+function sbLayouts() { try { return JSON.parse(localStorage.getItem(SB_LAYOUTS_KEY) || '{}') || {}; } catch (e) { return {}; } }
+function sbInitLayouts() {
+  const sel = document.getElementById('sb-layout-list'), name = document.getElementById('sb-layout-name');
+  if (!sel || !name) return;
+  function fill(pick) {
+    const names = Object.keys(sbLayouts()).sort();
+    sel.innerHTML = '<option value="">Saved layouts' + (names.length ? '' : ' (none yet)') + '</option>' + names.map(function (n) { return '<option>' + ssEscapeHtml(n) + '</option>'; }).join('');
+    if (pick) sel.value = pick;
+  }
+  fill();
+  document.getElementById('sb-layout-save').addEventListener('click', function () {
+    const n = name.value.trim().slice(0, 40);
+    if (!n) { sbToast('Name your layout first'); name.focus(); return; }
+    if (!sbFreeBlocks.length) { sbToast('Add some free time before saving'); return; }
+    const all = sbLayouts();
+    all[n] = { blocks: sbFreeBlocks, subjects: sbSelectedSubjects };
+    try { localStorage.setItem(SB_LAYOUTS_KEY, JSON.stringify(all)); } catch (e) { sbToast('Could not save on this device'); return; }
+    fill(n); name.value = ''; sbToast('Saved “' + n + '”');
+  });
+  document.getElementById('sb-layout-load').addEventListener('click', function () {
+    const l = sbLayouts()[sel.value];
+    if (!l) { sbToast('Pick a saved layout'); return; }
+    sbFreeBlocks = (l.blocks || []).map(function (b) { return Object.assign({}, b); });
+    sbSelectedSubjects = (l.subjects || []).filter(function (x) { return SUBJECTS_FOR_SCHEDULE.some(function (s) { return s.key === x.key; }); });
+    sbRenderBlocks(); sbSeedGridFromBlocks(); sbRenderGrid(); sbRenderSubjects();
+    sbToast('Loaded “' + sel.value + '”');
+  });
+  document.getElementById('sb-layout-delete').addEventListener('click', function () {
+    const all = sbLayouts(), n = sel.value;
+    if (!n || !all[n]) { sbToast('Pick a saved layout'); return; }
+    const gone = all[n]; delete all[n];
+    try { localStorage.setItem(SB_LAYOUTS_KEY, JSON.stringify(all)); } catch (e) { return; }
+    fill();
+    sbToast('Deleted “' + n + '”', function () { const a2 = sbLayouts(); a2[n] = gone; localStorage.setItem(SB_LAYOUTS_KEY, JSON.stringify(a2)); fill(n); });
+  });
+}
+
+// Drop a syllabus here: class meeting times are read out and removed from your free time (you are in class then).
+function sbInitSyllabusDrop() {
+  const zone = document.getElementById('sb-syl-drop'), input = document.getElementById('sb-syl-file');
+  if (!zone || !input) return;
+  const status = document.getElementById('sb-syl-status'), bar = document.getElementById('sb-syl-bar');
+  function upload(file) {
+    if (!file) return;
+    if (file.size > 8 * 1024 * 1024) { status.textContent = 'That file is over 8 MB. Try a smaller file or a PDF export.'; return; }
+    if (/\.doc$/i.test(file.name)) { status.textContent = 'Old .doc files can’t be read. Save it as .docx or PDF.'; return; }
+    const form = new FormData(); form.set('file', file);
+    const xhr = new XMLHttpRequest();
+    bar.hidden = false; bar.value = 0; status.textContent = 'Uploading ' + file.name + '…';
+    xhr.upload.onprogress = function (e) { if (e.lengthComputable) bar.value = e.loaded / e.total * 90; };
+    xhr.upload.onload = function () { bar.value = 92; status.textContent = 'Reading your syllabus…'; };
+    xhr.onerror = function () { bar.hidden = true; status.textContent = 'Couldn’t reach the server. Check your connection and try again.'; };
+    xhr.onload = function () {
+      bar.value = 100; setTimeout(function () { bar.hidden = true; }, 600);
+      let data = {}; try { data = JSON.parse(xhr.responseText); } catch (e) { /* keep empty */ }
+      if (xhr.status < 200 || xhr.status >= 300) { status.textContent = data.error || (xhr.status === 401 ? 'Sign in to read a syllabus.' : 'Couldn’t read that syllabus. Try again.'); return; }
+      const meetings = data.meetings || [];
+      let removed = 0;
+      meetings.forEach(function (m) {
+        const a = sbTimeToMinutes(m.start), b = sbTimeToMinutes(m.end);
+        if (a === null || b === null) return;
+        SB_GRID_HOURS.forEach(function (h) { const k = m.day + '-' + h; if (a < (h + 1) * 60 && b > h * 60 && sbGridCells.delete(k)) removed++; });
+      });
+      if (removed) { sbRenderGrid(); sbApplyGridToBlocks(); }
+      status.innerHTML = meetings.length ? 'Found ' + meetings.length + ' class meeting' + (meetings.length === 1 ? '' : 's') + (removed ? ' and took ' + removed + ' hour' + (removed === 1 ? '' : 's') + ' out of your free time. ' : '. ') + '<a href="/syllabus/">Review dates and topics</a>' : 'No fixed class times found. <a href="/syllabus/">Open the syllabus tool</a> for dates and topics.';
+    };
+    xhr.open('POST', '/api/syllabus/parse'); xhr.send(form);
+  }
+  input.addEventListener('change', function () { upload(input.files[0]); input.value = ''; });
+  ['dragenter', 'dragover'].forEach(function (ev) { zone.addEventListener(ev, function (e) { e.preventDefault(); zone.classList.add('over'); }); });
+  ['dragleave', 'drop'].forEach(function (ev) { zone.addEventListener(ev, function (e) { e.preventDefault(); zone.classList.remove('over'); }); });
+  zone.addEventListener('drop', function (e) { upload(e.dataTransfer && e.dataTransfer.files[0]); });
+}
 
 function sbApplyPreset(name) {
   const preset = SB_PRESETS[name];
   if (!preset) return;
-  sbFreeBlocks = preset.days.map(function (day) {
-    return { id: 'preset-' + name + '-' + day, day: day, start: preset.start, end: preset.end };
+  const parts = preset.blocks || [{ days: preset.days, start: preset.start, end: preset.end }];
+  sbFreeBlocks = [];
+  parts.forEach(function (part, i) {
+    part.days.forEach(function (day) { sbFreeBlocks.push({ id: 'preset-' + name + i + '-' + day, day: day, start: part.start, end: part.end }); });
   });
   sbRenderBlocks();
   sbSeedGridFromBlocks();
@@ -449,9 +549,10 @@ function sbRenderSubjects() {
     (byCat[cat] = byCat[cat] || []).push(s);
   });
 
+  function catSections(shown) {
   let html = '';
   CATEGORY_ORDER.forEach(function (catKey) {
-    const subjects = byCat[catKey] && byCat[catKey].slice().sort(apLast);
+    const subjects = byCat[catKey] && byCat[catKey].filter(function (s) { return shown.indexOf(s.key) !== -1; }).slice().sort(apLast);
     if (!subjects || !subjects.length) return;
     const openCount = subjects.filter(function (s) {
       return sbSelectedSubjects.some(function (x) { return x.key === s.key; });
@@ -486,7 +587,17 @@ function sbRenderSubjects() {
     });
     html += '</div></details>';
   });
+  return html;
+  }
+  const enrolledNow = typeof SB_ENROLLED !== 'undefined' && SB_ENROLLED.size ? SB_ENROLLED : null;
+  const isShown = function (s) { return !enrolledNow || enrolledNow.has(s.key) || sbSelectedSubjects.some(function (x) { return x.key === s.key; }); };
+  const mainKeys = SUBJECTS_FOR_SCHEDULE.filter(isShown).map(function (s) { return s.key; });
+  const moreKeys = SUBJECTS_FOR_SCHEDULE.filter(function (s) { return !isShown(s); }).map(function (s) { return s.key; });
+  let html = catSections(mainKeys);
+  if (moreKeys.length) html += '<details class="sb-more"' + (sbMoreOpen ? ' open' : '') + '><summary>Add more subjects (' + moreKeys.length + ')</summary>' + catSections(moreKeys) + '</details>';
   wrap.innerHTML = html;
+  const moreEl = wrap.querySelector('.sb-more');
+  if (moreEl) moreEl.addEventListener('toggle', function () { sbMoreOpen = moreEl.open; });
 
   wrap.querySelectorAll('input[data-subj]').forEach(function (cb) {
     cb.addEventListener('change', function () {
@@ -1113,7 +1224,8 @@ async function loadPlanner(anon) {
     blob = await res.json();
   } catch (e) { blob = localFallback(); }
   const enrolledSet = new Set(blob.enrolledSubjects || []);
-  SUBJECTS_FOR_SCHEDULE = enrolledSet.size === 0 ? SUBJECTS_CONFIG : SUBJECTS_CONFIG.filter(s => enrolledSet.has(s.key));
+  SUBJECTS_FOR_SCHEDULE = SUBJECTS_CONFIG;
+  SB_ENROLLED = enrolledSet;
   initScheduleBuilder(blob);
   if (!anon) {
     loadDashAssignments().catch(function () {
@@ -1769,10 +1881,15 @@ function initScheduleBuilder(blob) {
   const sbPreviewBtn = document.getElementById('sb-preview-btn');
   if (sbPreviewBtn) sbPreviewBtn.addEventListener('click', sbPreviewSchedule);
   if (sbGridClearBtn) sbGridClearBtn.addEventListener('click', function () {
+    const before = new Set(sbGridCells);
+    if (!before.size) return;
     sbGridCells = new Set();
     sbRenderGrid();
     sbApplyGridToBlocks();
+    sbToast('Cleared all free time', function () { sbGridCells = before; sbRenderGrid(); sbApplyGridToBlocks(); });
   });
+  sbInitLayouts();
+  sbInitSyllabusDrop();
   document.querySelectorAll('.sb-preset-btn[data-preset]').forEach(function (btn) {
     btn.addEventListener('click', function () { sbApplyPreset(btn.dataset.preset); });
   });
