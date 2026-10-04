@@ -1,6 +1,7 @@
 # OPS-2: error alerting and uptime
 
 ## Already in the code
+- NOTE: the first health check showed one required secret missing (`VAPID_SUBJECT`, the contact in push messages). It is now set as a plain variable in `wrangler.jsonc`. Two stray secrets, `GOOGLE_CLIENT` and `GOOGLE_CLIENT_SECRE`, look like typos and can be deleted: `npx wrangler secret delete GOOGLE_CLIENT` and `... GOOGLE_CLIENT_SECRE`.
 - `GET /api/health` returns `200 {"ok":true,"kv":true,"missingSecrets":0,...}` and `503` if the progress database doesn't answer. It never names a missing secret (only a count), so it is safe to leave public.
 - The daily cron logs `missing-secrets` at error level in Workers Logs when a required secret isn't set (VAPID keys, OAuth, etc.).
 - `npm run smoke` and every `npm run deploy` check the key pages after deploying.

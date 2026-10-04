@@ -192,7 +192,8 @@ async function sendToSubscription(env: Env, subscription: PushSubscription, mess
     return new Response(null, { status: 410 });
   }
   const vapid = {
-    subject: env.VAPID_SUBJECT,
+    // Push services want a contact in the signing token; fall back to the first admin address if the variable is unset.
+    subject: env.VAPID_SUBJECT || "mailto:" + String(env.ADMIN_EMAILS || "").split(",")[0]!.trim(),
     publicKey: env.VAPID_PUBLIC_KEY,
     privateKey: env.VAPID_PRIVATE_KEY
   };
