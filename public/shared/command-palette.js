@@ -18,6 +18,8 @@
     { l: 'Compete (Quests, Leaderboards, Study Group, Challenge)', h: '/compete/' },
     { l: 'Educator Resource Hub', h: '/educators' },
     { l: 'Changelog', h: '/changelog' },
+    { l: 'Weekly Planner', h: '/planner' },
+    { l: 'Study Tips', h: '/tips/' },
     { l: 'Geometry', h: '/geometry' }, { l: 'Chemistry', h: '/chemistry' }, { l: 'Algebra I', h: '/algebra1' },
     { l: 'Algebra II', h: '/algebra2' }, { l: 'AP English Lang & Comp', h: '/ap-lang' }, { l: 'Global History', h: '/global-history' },
     { l: 'AP Biology', h: '/ap-biology' }, { l: 'APUSH', h: '/apush' }, { l: 'US History', h: '/us-history' },
