@@ -84,8 +84,10 @@ label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-m
 .order-num{font-weight:800;color:var(--accent);min-width:24px}
 </style>
 <link rel="stylesheet" href="/shared/site-header.css"/>
+<style>.ss-skip-link:focus{left:16px!important;top:16px!important}</style>
 </head>
 <body style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);">
+<a href="#main-content" class="ss-skip-link" style="position:absolute;left:-9999px;top:0;z-index:100;background:var(--accent-solid,#1f6e46);color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;text-decoration:none;">Skip to main content</a>
 
 <style>/* Header: one line per link; drop the marketing links first when space runs out. */.nav-links a,#ss-account-area button,#ss-account-area a{white-space:nowrap}</style>
 <div role="banner" class="header-bar" style="display:flex;align-items:center;justify-content:space-between;padding:18px 32px;background:var(--bg-header);border-bottom:1px solid var(--border);position:relative;">
@@ -116,7 +118,7 @@ label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-m
   </div>
 </div>
 
-<div style="max-width:640px;margin:0 auto;padding:48px 24px 80px;">
+<div role="main" id="main-content" tabindex="-1" style="max-width:640px;margin:0 auto;padding:48px 24px 80px;">
   <h1 style="font-size:28px;font-weight:800;color:var(--text);margin:0 0 6px;">Upload your syllabus</h1>
   <p style="font-size:15px;color:var(--text-muted);margin:0 0 28px;">Upload a PDF, Word doc, or photo of your class syllabus — PrecisStudy pulls out your weekly meeting times and key dates so you don't have to type them in by hand.</p>
 

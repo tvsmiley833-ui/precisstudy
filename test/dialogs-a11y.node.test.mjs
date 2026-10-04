@@ -384,3 +384,11 @@ test("the AdSense publisher id is the current one, and ads.txt authorizes it", (
   assert.ok(!/ca-pub-7861875126032749/.test(read("../public/index.html")));
   assert.match(read("../public/ads.txt"), /pub-9710380778867118, DIRECT/);
 });
+
+test("every standalone page has a main landmark, and pages with the site header have a skip link", () => {
+  for (const p of ["about", "compete", "concepts", "dashboard", "educators", "flashcards", "planner", "request", "settings", "share", "syllabus", "tips"]) {
+    const h = read(`../public/${p}/index.html`);
+    assert.match(h, /<main\b|role="main"/, `${p}: no main landmark`);
+    if (h.includes('class="header-bar')) assert.match(h, /skip-link/, `${p}: no skip link`);
+  }
+});
