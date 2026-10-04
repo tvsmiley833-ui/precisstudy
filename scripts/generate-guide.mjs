@@ -526,7 +526,7 @@ export function generateGuide(config) {
   html += `const SS_GUIDE=${js({ slug, key: mKey, title, baseTitle: pageTitle(title), ...(targetLang ? { lang: targetLang } : {}), ...((calculator ?? CALC_SLUGS.has(slug)) ? { calc: true } : {}) })};\n`;
   // Same footer every live page carries (error-monitor.js was added to the pages by
   // scripts/patch-error-monitor.mjs; keep this list in sync with that footer).
-  html += `</script><script src="/shared/guide-app.js"></script><script src="/shared/command-palette.js" defer></script><script src="/shared/high-contrast.js" defer></script><script src="/shared/error-monitor.js" defer></script></body></html>`;
+  html += `</script><script src="/shared/guide-app.js"></script><script src="/shared/command-palette.js" defer></script><script src="/shared/account-menu.js" defer></script><script src="/shared/high-contrast.js" defer></script><script src="/shared/error-monitor.js" defer></script></body></html>`;
 
   return html;
 }
