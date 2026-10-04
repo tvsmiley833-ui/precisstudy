@@ -1602,6 +1602,7 @@ async function loadDashboard() {
     const dayLabels = ['', 'Mon', '', 'Wed', '', 'Fri', ''].map(function (t) { return '<span style="height:16px;line-height:16px;">' + t + '</span>'; }).join('');
     const tog = function (key, text) { return '<button type="button" class="hm-tog" data-metric="' + key + '" aria-pressed="' + (metric === key ? 'true' : 'false') + '">' + text + '</button>'; };
     el.innerHTML = '<div class="hm-toggle" role="group" aria-label="Heatmap measure">' + tog('questions', 'Questions') + tog('minutes', 'Est. minutes') + '</div>'
+      + '<div class="hm-layout"><div class="hm-main">'
       + '<div class="hm-scroll" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;">'
       + '<div aria-hidden="true" style="display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--text-muted);padding-top:18px;flex-shrink:0;position:sticky;left:0;background:var(--bg-card);padding-right:4px;z-index:1;">' + dayLabels + '</div>'
       + '<div><div aria-hidden="true" style="position:relative;height:14px;margin-bottom:4px;font-size:11px;color:var(--text-muted);width:' + (WEEKS * 20) + 'px;">' + monthsHtml + '</div>'
@@ -1609,9 +1610,9 @@ async function loadDashboard() {
       + '<div style="display:flex;align-items:center;gap:5px;margin-top:10px;font-size:13px;color:var(--text-muted);">'
       + '<span>Less</span>'
       + BUCKET_BG.map(function (bg) { return '<span style="width:14px;height:14px;border-radius:3px;background:' + bg + ';display:inline-block;"></span>'; }).join('')
-      + '<span>More</span></div>'
+      + '<span>More</span></div></div><div class="hm-side">'
       + '<p style="margin:8px 0 0;font-size:13px;color:var(--text-muted);">' + ssEscapeHtml(summary) + (metric === 'minutes' ? ' Minutes are estimated at 1.5 per question.' : '') + '</p>'
-      + '<div id="hm-detail" class="hm-detail" role="region" aria-live="polite" hidden></div>';
+      + '<div id="hm-detail" class="hm-detail" role="region" aria-live="polite" hidden></div></div></div>';
 
     // On a narrow screen the grid scrolls sideways: start at the newest weeks, not the oldest.
     const scroller = el.querySelector('.hm-scroll'); if (scroller) scroller.scrollLeft = scroller.scrollWidth;
