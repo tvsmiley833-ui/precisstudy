@@ -380,8 +380,8 @@ function sbAddBlock() {
 const SB_PRESETS = {
   light: { days: ['mon', 'tue', 'wed', 'thu', 'fri'], start: '16:00', end: '16:15' },
   crunch: { days: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'], start: '17:00', end: '18:00' },
-  // Standardized-exam review (Regents, state tests): after-school sessions plus one long weekend block for full practice sets.
-  regents: { blocks: [{ days: ['mon', 'tue', 'wed', 'thu'], start: '16:00', end: '17:30' }, { days: ['sat'], start: '10:00', end: '12:00' }] }
+  // Balanced weekly routine: after-school sessions plus one long weekend block for full practice sets.
+  ourplan: { blocks: [{ days: ['mon', 'tue', 'wed', 'thu'], start: '16:00', end: '17:30' }, { days: ['sat'], start: '10:00', end: '12:00' }] }
 };
 
 
