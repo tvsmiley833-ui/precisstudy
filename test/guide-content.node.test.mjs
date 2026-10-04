@@ -40,6 +40,23 @@ test("every question points at a real unit and has a valid, unambiguous answer",
   assert.equal(bad.length, 0, "\n  " + problems(bad));
 });
 
+// Environmental Science shipped with questions for 2 of its 8 units, and Spanish 1 with "No sé"
+// standing in for real wrong answers.
+test("every unit has quiz questions, and no option is a filler placeholder", () => {
+  const bad = [];
+  const filler = /^(no sé|ninguna|ninguna es correcta)$/i;
+  for (const [slug, g] of guides) {
+    const perUnit = new Map();
+    (g.quiz || []).forEach((q, i) => {
+      perUnit.set(q.u, (perUnit.get(q.u) || 0) + 1);
+      const opts = (q.o || []).map(o => String(o).trim());
+      if (opts.some(o => filler.test(o))) bad.push(`${slug} quiz[${i}]: filler option in "${String(q.q).slice(0, 50)}"`);
+    });
+    for (const u of g.units || []) if ((perUnit.get(u.id) || 0) < 5) bad.push(`${slug}: unit ${u.id} has ${perUnit.get(u.id) || 0} quiz questions`);
+  }
+  assert.equal(bad.length, 0, "\n  " + problems(bad));
+});
+
 test("no question appears twice with identical options, within or between the quiz and hard quiz", () => {
   const bad = [];
   for (const [slug, g] of guides) {
