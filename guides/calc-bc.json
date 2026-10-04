@@ -3187,5 +3187,209 @@
     "sa": "(a) ∫_0^4 √x dx = (2/3)(8) = 16/3. (b) π∫_0^4 x dx = 8π. (c) Washer about y = 2: outer radius 2 − 0 = 2, inner radius 2 − √x, so V = π∫_0^4 [2² − (2 − √x)²] dx."
    }
   ]
- }
+ },
+ "workedExamples": [
+  {
+   "u": 1,
+   "title": "A limit that needs a series or L'Hôpital twice",
+   "prompt": "Evaluate lim_{x→0} (eˣ − 1 − x)/x².",
+   "steps": [
+    "Both top and bottom → 0, so use L'Hôpital: (eˣ − 1)/(2x)",
+    "Still 0/0: apply it again: eˣ/2",
+    "At x = 0 this is 1/2",
+    "Check with the series: eˣ − 1 − x = x²/2 + x³/6 + …, so dividing by x² leaves 1/2"
+   ],
+   "answer": "1/2"
+  },
+  {
+   "u": 1,
+   "title": "Continuity at a point",
+   "prompt": "For what value of k is f(x) = (x² − 9)/(x − 3) when x ≠ 3, and f(3) = k, continuous at x = 3?",
+   "steps": [
+    "Continuity needs lim f(x) = f(3)",
+    "Factor: (x − 3)(x + 3)/(x − 3) = x + 3 for x ≠ 3",
+    "The limit as x → 3 is 6",
+    "So k must equal 6"
+   ],
+   "answer": "k = 6"
+  },
+  {
+   "u": 2,
+   "title": "Logarithmic differentiation",
+   "prompt": "Find dy/dx at x = 2 for y = xˣ.",
+   "steps": [
+    "Take ln of both sides: ln y = x ln x",
+    "Differentiate: y'/y = ln x + 1",
+    "So y' = xˣ(ln x + 1)",
+    "At x = 2: 4(ln 2 + 1)"
+   ],
+   "answer": "4(ln 2 + 1) ≈ 6.77"
+  },
+  {
+   "u": 2,
+   "title": "Implicit differentiation",
+   "prompt": "Find dy/dx at (3, 4) on x² + y² = 25.",
+   "steps": [
+    "Differentiate both sides: 2x + 2y(dy/dx) = 0",
+    "Solve: dy/dx = −x/y",
+    "Substitute (3, 4): −3/4"
+   ],
+   "answer": "−3/4"
+  },
+  {
+   "u": 3,
+   "title": "Integration by parts",
+   "prompt": "Evaluate ∫₀¹ x eˣ dx.",
+   "steps": [
+    "Let u = x, dv = eˣ dx, so du = dx, v = eˣ",
+    "∫ x eˣ dx = x eˣ − ∫ eˣ dx = (x − 1)eˣ",
+    "Evaluate from 0 to 1: (0)e − (−1)(1) = 1"
+   ],
+   "answer": "1"
+  },
+  {
+   "u": 3,
+   "title": "Separable differential equation",
+   "prompt": "Solve dy/dx = 2xy with y(0) = 3.",
+   "steps": [
+    "Separate: dy/y = 2x dx",
+    "Integrate: ln|y| = x² + C",
+    "So y = Ae^{x²}",
+    "y(0) = 3 gives A = 3"
+   ],
+   "answer": "y = 3e^{x²}"
+  },
+  {
+   "u": 4,
+   "title": "Area between curves",
+   "prompt": "Find the area between y = x and y = x² from x = 0 to 1.",
+   "steps": [
+    "On [0, 1] the line y = x is above the parabola",
+    "Area = ∫₀¹ (x − x²) dx",
+    "= [x²/2 − x³/3] from 0 to 1 = 1/2 − 1/3"
+   ],
+   "answer": "1/6"
+  },
+  {
+   "u": 4,
+   "title": "Volume by disks",
+   "prompt": "The region under y = √x from x = 0 to 4 is revolved about the x-axis. Find the volume.",
+   "steps": [
+    "Disk radius = √x, so each disk has area π(√x)² = πx",
+    "V = π∫₀⁴ x dx",
+    "= π[x²/2] from 0 to 4 = π · 8"
+   ],
+   "answer": "8π"
+  },
+  {
+   "u": 5,
+   "title": "Parametric slope",
+   "prompt": "For x = t², y = t³, find dy/dx at t = 2.",
+   "steps": [
+    "dx/dt = 2t and dy/dt = 3t²",
+    "dy/dx = (dy/dt)/(dx/dt) = 3t²/2t = 3t/2",
+    "At t = 2: 3"
+   ],
+   "answer": "3"
+  },
+  {
+   "u": 5,
+   "title": "Arc length of a parametric curve",
+   "prompt": "Find the length of x = t², y = t³ for 0 ≤ t ≤ 1.",
+   "steps": [
+    "L = ∫ √((dx/dt)² + (dy/dt)²) dt = ∫₀¹ √(4t² + 9t⁴) dt",
+    "Factor: t√(4 + 9t²) for t ≥ 0",
+    "Let u = 4 + 9t², du = 18t dt: ∫ t√u dt = (1/18)∫ √u du = (1/27)u^{3/2}",
+    "At t = 1, u = 13; at t = 0, u = 4: (13^{3/2} − 8)/27"
+   ],
+   "answer": "(13√13 − 8)/27 ≈ 1.44"
+  },
+  {
+   "u": 5,
+   "title": "Area in polar coordinates",
+   "prompt": "Find the area enclosed by r = 1 + cos θ.",
+   "steps": [
+    "Area = (1/2)∫₀^{2π} r² dθ",
+    "= (1/2)∫ (1 + 2cos θ + cos²θ) dθ",
+    "Over a full period ∫cos θ = 0 and ∫cos²θ = π, so the integral is (1/2)(2π + π)"
+   ],
+   "answer": "3π/2"
+  },
+  {
+   "u": 6,
+   "title": "Geometric series",
+   "prompt": "Find the sum of Σ (n = 0 to ∞) 3(1/2)ⁿ.",
+   "steps": [
+    "First term a = 3, ratio r = 1/2, and |r| < 1 so it converges",
+    "Sum = a/(1 − r) = 3/(1/2)"
+   ],
+   "answer": "6"
+  },
+  {
+   "u": 6,
+   "title": "Ratio test",
+   "prompt": "Does Σ n/2ⁿ converge? If so, to what?",
+   "steps": [
+    "Ratio: (n+1)/2ⁿ⁺¹ ÷ n/2ⁿ = (n+1)/(2n) → 1/2 < 1, so it converges",
+    "Its value: Σ n xⁿ = x/(1−x)² at x = 1/2",
+    "= (1/2)/(1/4) = 2"
+   ],
+   "answer": "Converges, sum = 2"
+  },
+  {
+   "u": 6,
+   "title": "Interval of convergence",
+   "prompt": "Find the interval of convergence of Σ xⁿ/n (n ≥ 1).",
+   "steps": [
+    "Ratio test: |x|ⁿ⁺¹/(n+1) · n/|x|ⁿ → |x|, so converges for |x| < 1",
+    "At x = 1: Σ 1/n is the harmonic series, which diverges",
+    "At x = −1: Σ (−1)ⁿ/n is the alternating harmonic series, which converges"
+   ],
+   "answer": "[−1, 1)"
+  },
+  {
+   "u": 7,
+   "title": "Build a Maclaurin series",
+   "prompt": "Write the first three nonzero terms of the Maclaurin series for e^{x²}.",
+   "steps": [
+    "Start with eᵘ = 1 + u + u²/2 + u³/6 + …",
+    "Substitute u = x²: 1 + x² + x⁴/2 + x⁶/6 + …",
+    "First three nonzero terms: 1, x², x⁴/2"
+   ],
+   "answer": "1 + x² + x⁴/2"
+  },
+  {
+   "u": 7,
+   "title": "Approximate with a Taylor polynomial",
+   "prompt": "Use the first three terms of the cosine series to approximate cos(0.2).",
+   "steps": [
+    "cos x = 1 − x²/2 + x⁴/24 − …",
+    "At x = 0.2: 1 − 0.04/2 + 0.0016/24",
+    "= 1 − 0.02 + 0.0000667"
+   ],
+   "answer": "≈ 0.98007"
+  },
+  {
+   "u": 8,
+   "title": "Lagrange error bound",
+   "prompt": "Use the degree-3 Maclaurin polynomial for eˣ to estimate e^{0.5}. Bound the error.",
+   "steps": [
+    "P₃(x) = 1 + x + x²/2 + x³/6, so P₃(0.5) = 1 + 0.5 + 0.125 + 0.02083 = 1.64583",
+    "Error ≤ M|x|⁴/4! where M bounds the 4th derivative eˣ on [0, 0.5]; use M = 2 (since e^{0.5} < 2)",
+    "Error ≤ 2(0.5)⁴/24 = 2(0.0625)/24 ≈ 0.0052"
+   ],
+   "answer": "P₃(0.5) ≈ 1.6458 with error < 0.0052"
+  },
+  {
+   "u": 8,
+   "title": "Alternating series error",
+   "prompt": "Estimate ln(1.1) with the first three terms of x − x²/2 + x³/3 at x = 0.1, and bound the error.",
+   "steps": [
+    "0.1 − 0.005 + 0.000333 = 0.095333",
+    "The next term is x⁴/4 = 0.000025",
+    "For an alternating series with decreasing terms, the error is at most the first omitted term"
+   ],
+   "answer": "≈ 0.09533, error ≤ 0.000025"
+  }
+ ]
 }

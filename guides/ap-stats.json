@@ -5708,6 +5708,163 @@
    }
   ]
  },
+ "workedExamples": [
+  {
+   "u": 1,
+   "title": "Five-number summary and outliers",
+   "prompt": "Data: 3, 5, 6, 7, 8, 9, 10, 12, 40. Find the five-number summary and decide whether 40 is an outlier by the 1.5 × IQR rule.",
+   "steps": [
+    "Median = 8 (5th of 9)",
+    "Q1 = median of 3, 5, 6, 7 = 5.5; Q3 = median of 9, 10, 12, 40 = 11",
+    "IQR = 11 − 5.5 = 5.5",
+    "Upper fence = Q3 + 1.5(IQR) = 11 + 8.25 = 19.25",
+    "40 > 19.25, so it is an outlier"
+   ],
+   "answer": "Min 3, Q1 5.5, median 8, Q3 11, max 40; 40 is an outlier"
+  },
+  {
+   "u": 1,
+   "title": "Effect of an outlier",
+   "prompt": "Removing the outlier 40 from 3, 5, 6, 7, 8, 9, 10, 12 changes the mean from 11.1 to 7.5. What happens to the median and IQR?",
+   "steps": [
+    "Median: 8 before, 7.5 after, a shift of 0.5",
+    "IQR: 5.5 before (Q1 = 5.5, Q3 = 11), 4 after (Q1 = 5.5, Q3 = 9.5)",
+    "The mean dropped by 3.6 (about a third), far more than the median moved",
+    "Mean and standard deviation are not resistant to outliers; median and IQR are much more so"
+   ],
+   "answer": "Median 8 → 7.5 and IQR 5.5 → 4, while the mean falls from 11.1 to 7.5"
+  },
+  {
+   "u": 2,
+   "title": "Normal probability",
+   "prompt": "Heights are N(64, 2.5). Find P(X > 68).",
+   "steps": [
+    "z = (68 − 64)/2.5 = 1.6",
+    "P(Z > 1.6) = 1 − 0.9452 = 0.0548"
+   ],
+   "answer": "≈ 0.055"
+  },
+  {
+   "u": 2,
+   "title": "Finding a percentile",
+   "prompt": "Using N(64, 2.5), find the height at the 90th percentile.",
+   "steps": [
+    "The z-score for the 90th percentile is about 1.28",
+    "x = μ + zσ = 64 + 1.28(2.5)"
+   ],
+   "answer": "≈ 67.2 inches"
+  },
+  {
+   "u": 3,
+   "title": "Least-squares regression line",
+   "prompt": "x̄ = 10, sₓ = 2, ȳ = 50, s_y = 8, r = 0.6. Find the LSRL and predict y at x = 12.",
+   "steps": [
+    "Slope b = r(s_y/sₓ) = 0.6(8/2) = 2.4",
+    "Intercept a = ȳ − b·x̄ = 50 − 2.4(10) = 26",
+    "ŷ = 26 + 2.4x",
+    "At x = 12: ŷ = 26 + 28.8"
+   ],
+   "answer": "ŷ = 26 + 2.4x; prediction 54.8"
+  },
+  {
+   "u": 3,
+   "title": "Residual",
+   "prompt": "Using ŷ = 26 + 2.4x, a point has x = 12 and y = 60. Find the residual and say what it means.",
+   "steps": [
+    "Residual = actual − predicted = 60 − 54.8",
+    "= 5.2"
+   ],
+   "answer": "Residual = 5.2: the actual value is 5.2 above the line's prediction"
+  },
+  {
+   "u": 4,
+   "title": "Blocking",
+   "prompt": "A gardener tests two fertilizers on 20 plots, 10 on sunny ground and 10 shaded. Why block by sunlight?",
+   "steps": [
+    "Sunlight affects growth, so it is a variable we want to control",
+    "Within each block (sunny, shaded), randomly assign fertilizers",
+    "Comparing within blocks removes sunlight's effect from the comparison"
+   ],
+   "answer": "Blocking removes variability due to sunlight, so the fertilizer effect is easier to see"
+  },
+  {
+   "u": 5,
+   "title": "Conditional probability",
+   "prompt": "P(A and B) = 0.12 and P(B) = 0.40. Find P(A | B). Are A and B independent if P(A) = 0.30?",
+   "steps": [
+    "P(A | B) = P(A and B)/P(B) = 0.12/0.40 = 0.30",
+    "Independent when P(A | B) = P(A): 0.30 = 0.30"
+   ],
+   "answer": "P(A | B) = 0.30; yes, independent"
+  },
+  {
+   "u": 6,
+   "title": "Mean and SD of a discrete variable",
+   "prompt": "X takes 0, 1, 2 with probabilities 0.2, 0.5, 0.3. Find μ and σ.",
+   "steps": [
+    "μ = 0(0.2) + 1(0.5) + 2(0.3) = 1.1",
+    "Variance = 0.2(0 − 1.1)² + 0.5(1 − 1.1)² + 0.3(2 − 1.1)² = 0.242 + 0.005 + 0.243 = 0.49",
+    "σ = √0.49 = 0.7"
+   ],
+   "answer": "μ = 1.1, σ = 0.7"
+  },
+  {
+   "u": 6,
+   "title": "Binomial probability",
+   "prompt": "A shooter makes 30% of free throws. In 5 independent shots, find P(exactly 2 makes).",
+   "steps": [
+    "Binomial: n = 5, p = 0.3",
+    "P(X = 2) = C(5,2)(0.3)²(0.7)³",
+    "= 10 × 0.09 × 0.343"
+   ],
+   "answer": "≈ 0.309"
+  },
+  {
+   "u": 6,
+   "title": "Linear transformation",
+   "prompt": "X has mean 1.1 and SD 0.7. Find the mean and SD of 2X + 3.",
+   "steps": [
+    "Mean: 2(1.1) + 3 = 5.2",
+    "SD: |2| × 0.7 = 1.4 (adding 3 does not change spread)"
+   ],
+   "answer": "Mean 5.2, SD 1.4"
+  },
+  {
+   "u": 7,
+   "title": "Sampling distribution of a proportion",
+   "prompt": "p = 0.60 and n = 100. Find the mean and SD of p̂, then P(p̂ > 0.70).",
+   "steps": [
+    "Mean of p̂ = 0.60; SD = √(0.6 · 0.4/100) ≈ 0.049",
+    "Check conditions: np = 60 and n(1 − p) = 40, both ≥ 10, so p̂ is approximately normal",
+    "z = (0.70 − 0.60)/0.049 ≈ 2.04",
+    "P(Z > 2.04) ≈ 0.021"
+   ],
+   "answer": "Mean 0.60, SD ≈ 0.049, P ≈ 0.021"
+  },
+  {
+   "u": 8,
+   "title": "One-proportion z-interval",
+   "prompt": "In a random sample of 200, p̂ = 0.45. Construct a 95% confidence interval for p.",
+   "steps": [
+    "Conditions: random sample, np̂ = 90 and n(1 − p̂) = 110 are both ≥ 10",
+    "SE = √(0.45 · 0.55/200) ≈ 0.0352",
+    "Margin of error = 1.96(0.0352) ≈ 0.069",
+    "Interval: 0.45 ± 0.069"
+   ],
+   "answer": "(0.381, 0.519)"
+  },
+  {
+   "u": 8,
+   "title": "One-sample t-test",
+   "prompt": "A sample of n = 16 has mean 52 and s = 8. Test H₀: μ = 48 against Hₐ: μ ≠ 48.",
+   "steps": [
+    "t = (x̄ − μ₀)/(s/√n) = (52 − 48)/(8/4) = 2.0",
+    "df = 15; the two-sided p-value ≈ 0.064",
+    "0.064 > 0.05, so we fail to reject H₀ at the 5% level"
+   ],
+   "answer": "t = 2.0, df = 15, p ≈ 0.064: fail to reject H₀"
+  }
+ ],
  "officialReferenceUrl": "https://apcentral.collegeboard.org/media/pdf/ap-statistics-formula-tables-sheet.pdf",
  "officialReferenceLabel": "AP Statistics Formula & Tables",
  "officialReferenceContent": "<p class=\"ref-section-label\">Key Formulas</p><div class=\"ref-grid\"><div class=\"ref-item\"><div class=\"ref-eq\" style=\"font-size:13.5px\">x&#772; = &Sigma;x / n<br><small style=\"color:var(--ink-muted)\">Sample Mean</small></div></div><div class=\"ref-item\"><div class=\"ref-eq\" style=\"font-size:13.5px\">s = &radic;(&Sigma;(x-x&#772;)&sup2; / (n-1))<br><small style=\"color:var(--ink-muted)\">Sample Std. Deviation</small></div></div><div class=\"ref-item\"><div class=\"ref-eq\" style=\"font-size:13.5px\">z = (x - &mu;) / &sigma;<br><small style=\"color:var(--ink-muted)\">Standardized Score (z)</small></div></div><div class=\"ref-item\"><div class=\"ref-eq\" style=\"font-size:13.5px\">SE = s / &radic;n<br><small style=\"color:var(--ink-muted)\">Standard Error of the Mean</small></div></div><div class=\"ref-item\"><div class=\"ref-eq\" style=\"font-size:13.5px\">estimate &plusmn; (critical value)(SE)<br><small style=\"color:var(--ink-muted)\">Confidence Interval (general)</small></div></div><div class=\"ref-item\"><div class=\"ref-eq\" style=\"font-size:13.5px\">p&#770; &plusmn; z*&radic;(p&#770;(1-p&#770;)/n)<br><small style=\"color:var(--ink-muted)\">CI for a Proportion</small></div></div><div class=\"ref-item\"><div class=\"ref-eq\" style=\"font-size:13.5px\">(statistic - parameter) / (SE of statistic)<br><small style=\"color:var(--ink-muted)\">Test Statistic (general)</small></div></div><div class=\"ref-item\"><div class=\"ref-eq\" style=\"font-size:13.5px\">&ycirc; = b&#8320; + b&#8321;x<br><small style=\"color:var(--ink-muted)\">Least-Squares Regression Line</small></div></div><div class=\"ref-item\"><div class=\"ref-eq\" style=\"font-size:13.5px\">b&#8321; = r(s<sub>y</sub>/s<sub>x</sub>)<br><small style=\"color:var(--ink-muted)\">Regression Slope</small></div></div><div class=\"ref-item\"><div class=\"ref-eq\" style=\"font-size:13.5px\">r&sup2;<br><small style=\"color:var(--ink-muted)\">Coefficient of Determination</small></div></div><div class=\"ref-item\"><div class=\"ref-eq\" style=\"font-size:13.5px\">&chi;&sup2; = &Sigma;(observed - expected)&sup2; / expected<br><small style=\"color:var(--ink-muted)\">Chi-Square Statistic</small></div></div><div class=\"ref-item\"><div class=\"ref-eq\" style=\"font-size:13.5px\">P(A and B) = P(A)&middot;P(B|A)<br><small style=\"color:var(--ink-muted)\">General Multiplication Rule</small></div></div></div><p style=\"font-size:12px;color:var(--ink-muted);margin-top:4px\">This is a condensed quick-reference of the most-used formulas, not the full official sheet -- see the link below for the complete formula list and probability/t-distribution tables.</p>"

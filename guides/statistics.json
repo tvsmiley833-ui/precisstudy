@@ -2809,5 +2809,158 @@
     "sa": "H₀: p = 0.70; Hₐ: p < 0.70, where p is the true proportion of graduates who attend college. Conditions: random sample; 200 is less than 10% of all graduates; np₀ = 140 and n(1 − p₀) = 60 are both at least 10. Test statistic: z = (0.63 − 0.70)/√(0.70·0.30/200) = −0.07/0.0324 ≈ −2.16. P-value = P(Z ≤ −2.16) ≈ 0.015. Since 0.015 < 0.05, reject H₀: there is convincing evidence that fewer than 70% of the school's graduates attend college."
    }
   ]
- }
+ },
+ "workedExamples": [
+  {
+   "u": 1,
+   "title": "Mean vs median with an outlier",
+   "prompt": "Find the mean and median of 2, 4, 4, 5, 7, 9, 30. Which better describes a typical value?",
+   "steps": [
+    "Mean: add them (61) and divide by 7 → about 8.71",
+    "Median: the middle of 7 sorted values is the 4th → 5",
+    "The 30 pulls the mean up but barely moves the median",
+    "So the median describes a typical value better here"
+   ],
+   "answer": "Mean ≈ 8.71, median = 5; the median is more typical"
+  },
+  {
+   "u": 1,
+   "title": "Spotting skew",
+   "prompt": "A distribution has mean 52 and median 44. Which way is it skewed, and why?",
+   "steps": [
+    "The mean is dragged toward the long tail; the median resists",
+    "Here the mean is above the median",
+    "So the tail runs to the right"
+   ],
+   "answer": "Skewed right (positive skew)"
+  },
+  {
+   "u": 2,
+   "title": "Z-score",
+   "prompt": "A test has mean 70 and standard deviation 8. How many standard deviations above the mean is a score of 82?",
+   "steps": [
+    "z = (score − mean)/SD",
+    "z = (82 − 70)/8 = 12/8"
+   ],
+   "answer": "z = 1.5"
+  },
+  {
+   "u": 2,
+   "title": "Empirical rule",
+   "prompt": "Heights are roughly normal with mean 64 in and SD 2.5 in. About what percent of people are between 59 and 69 in?",
+   "steps": [
+    "59 is 2 SDs below 64 and 69 is 2 SDs above",
+    "The empirical rule says about 95% fall within 2 SDs"
+   ],
+   "answer": "About 95%"
+  },
+  {
+   "u": 2,
+   "title": "Normal probability",
+   "prompt": "With z = 1.5 for a score of 82 (mean 70, SD 8), what proportion of students scored below 82?",
+   "steps": [
+    "Look up or compute the area to the left of z = 1.5",
+    "Φ(1.5) ≈ 0.9332"
+   ],
+   "answer": "About 93.3%"
+  },
+  {
+   "u": 3,
+   "title": "Correlation and r²",
+   "prompt": "Two variables have r = 0.80. What share of the variation in y is explained by x?",
+   "steps": [
+    "The share explained is r²",
+    "0.80² = 0.64"
+   ],
+   "answer": "64% (and correlation alone does not prove causation)"
+  },
+  {
+   "u": 3,
+   "title": "Computing r",
+   "prompt": "For the data (1,2), (2,4), (3,5), (4,4), (5,5), find the correlation coefficient.",
+   "steps": [
+    "Means: x̄ = 3, ȳ = 4",
+    "Σ(x − x̄)(y − ȳ) = 6; Σ(x − x̄)² = 10; Σ(y − ȳ)² = 6",
+    "r = 6/√(10 · 6) = 6/√60"
+   ],
+   "answer": "r ≈ 0.775"
+  },
+  {
+   "u": 4,
+   "title": "Margin of error from sample size",
+   "prompt": "A poll surveys 400 randomly chosen adults. About what is its margin of error for a proportion at 95% confidence?",
+   "steps": [
+    "A quick rule of thumb: margin of error ≈ 1/√n",
+    "1/√400 = 1/20"
+   ],
+   "answer": "About ±5 percentage points"
+  },
+  {
+   "u": 5,
+   "title": "Addition rule",
+   "prompt": "P(A) = 0.5, P(B) = 0.3, and P(A and B) = 0.1. Find P(A or B).",
+   "steps": [
+    "P(A or B) = P(A) + P(B) − P(A and B)",
+    "= 0.5 + 0.3 − 0.1"
+   ],
+   "answer": "0.7"
+  },
+  {
+   "u": 5,
+   "title": "Two dice",
+   "prompt": "What is the probability that two fair dice sum to 7?",
+   "steps": [
+    "There are 6 × 6 = 36 equally likely outcomes",
+    "Sums of 7: (1,6), (2,5), (3,4), (4,3), (5,2), (6,1) → 6 outcomes",
+    "6/36 = 1/6"
+   ],
+   "answer": "1/6 ≈ 0.167"
+  },
+  {
+   "u": 6,
+   "title": "Confidence interval for a proportion",
+   "prompt": "In a random sample of 400 voters, 56% support a measure. Build a 95% confidence interval for the true proportion.",
+   "steps": [
+    "Standard error = √(0.56 · 0.44 / 400) ≈ 0.0248",
+    "Margin of error = 1.96 × 0.0248 ≈ 0.0486",
+    "Interval: 0.56 ± 0.0486"
+   ],
+   "answer": "(0.511, 0.609)"
+  },
+  {
+   "u": 6,
+   "title": "Confidence interval for a mean",
+   "prompt": "A sample of 25 has mean 50 and standard deviation 10. Build a 95% t-interval for the mean.",
+   "steps": [
+    "Standard error = 10/√25 = 2",
+    "With df = 24, t* ≈ 2.064",
+    "Margin of error = 2.064 × 2 ≈ 4.13",
+    "Interval: 50 ± 4.13"
+   ],
+   "answer": "(45.87, 54.13)"
+  },
+  {
+   "u": 7,
+   "title": "A one-proportion z-test",
+   "prompt": "A claim says 50% of voters support a measure. A random sample of 400 finds 56%. Test H₀: p = 0.5 against Hₐ: p ≠ 0.5.",
+   "steps": [
+    "Standard error under H₀ = √(0.5 · 0.5 / 400) = 0.025",
+    "z = (0.56 − 0.50)/0.025 = 2.4",
+    "Two-sided p-value = 2(1 − Φ(2.4)) ≈ 0.0164",
+    "0.0164 < 0.05, so reject H₀"
+   ],
+   "answer": "z = 2.4, p ≈ 0.016: reject H₀ at the 5% level"
+  },
+  {
+   "u": 8,
+   "title": "Percent change trap",
+   "prompt": "A price rises from $50 to $75, then falls back to $50. What are the two percent changes?",
+   "steps": [
+    "Rise: (75 − 50)/50 = 50%",
+    "Fall: (50 − 75)/75 = −33.3%",
+    "The same $25 change is a different percent because the base differs"
+   ],
+   "answer": "+50% up, then −33.3% down"
+  }
+ ]
 }
