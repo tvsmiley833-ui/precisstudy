@@ -32,7 +32,7 @@ export const LASTMOD: Record<string, string> = {
   "/chemistry/": "2026-10-03",
   "/compete/": "2026-10-03",
   "/computer-science/": "2026-10-03",
-  "/concepts/": "2026-10-03",
+  "/concepts/": "2026-10-04",
   "/creative-writing/": "2026-10-03",
   "/dashboard/": "2026-10-03",
   "/earth-science/": "2026-10-03",

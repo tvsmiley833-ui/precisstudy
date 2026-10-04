@@ -25,6 +25,9 @@ function chalkTap() {
   const bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 2400; bp.Q.value = 0.8;
   const gain = ctx.createGain(); gain.gain.value = 0.25;
   src.connect(bp).connect(gain).connect(ctx.destination);
+  // Keep the audio device asleep between taps instead of holding it open for the whole session.
+  if (ctx.state === "suspended") ctx.resume().catch(() => {});
+  src.onended = () => { ctx.suspend().catch(() => {}); };
   src.start();
 }
 
@@ -97,8 +100,4 @@ export function celebrateCorrect(anchorEl) {
 
 export function resetCombo() {
   comboCount = 0;
-}
-
-export function getCombo() {
-  return comboCount;
 }
