@@ -34,11 +34,18 @@
   // "Cookie preferences" link below. 'rejected' or no choice yet both mean
   // "don't load it"; only 'accepted' does.
   function loadAdsense(){
-    var s = document.createElement('script');
-    s.async = true;
-    s.crossOrigin = 'anonymous';
-    s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7861875126032749';
-    document.head.appendChild(s);
+    // Student audience: non-personalized ads only (based on the page, not on browsing history), and no ads at all for a signed-in
+    // student. Asking /auth/me first means nothing from Google loads until we know the visitor is signed out.
+    fetch('/auth/me').then(function(r){ return r.ok ? r.json() : { loggedIn: false }; }).catch(function(){ return { loggedIn: false }; }).then(function(me){
+      if (me && me.loggedIn) return;
+      window.adsbygoogle = window.adsbygoogle || [];
+      window.adsbygoogle.requestNonPersonalizedAds = 1;
+      var s = document.createElement('script');
+      s.async = true;
+      s.crossOrigin = 'anonymous';
+      s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7861875126032749';
+      document.head.appendChild(s);
+    });
   }
   var choice;
   try { choice = localStorage.getItem('ss-cookie-consent'); } catch (e) { choice = null; }

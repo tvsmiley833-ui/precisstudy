@@ -11,7 +11,7 @@ Everything here needs your accounts or a decision. The code for each is already 
 | 5 | **Turnstile** spam check | Create a Turnstile widget, set 2 values | 10 min | `TURNSTILE.md` |
 | 6 | **PRIV-3** Privacy policy | Review the draft, fill the 4 decisions, publish | 30 min | `PRIVACY-POLICY-DRAFT.md` |
 | 7 | **PRIV-2** Age gate | **Done: 13+ gate is live.** Nothing to do except put the age wording in the policy you publish (already in the draft) | - | `AGE-AND-ADS.md` |
-| 8 | **PRIV-4** Non-personalized ads | Decide, then flip one snippet | 5 min | `AGE-AND-ADS.md` |
+| 8 | **PRIV-4** Non-personalized ads | **Done and live.** Also switch off personalized ads in your AdSense account (Privacy & messaging) so the setting matches | 5 min | `AGE-AND-ADS.md` |
 
 ## 1. TEST-1: make CI run every test
 

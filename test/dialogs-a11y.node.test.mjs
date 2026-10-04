@@ -368,3 +368,11 @@ test("age page only continues to the two sign-in starts and offers a no-account 
   assert.match(h, /name="robots" content="noindex"|<meta name="robots" content="noindex"/);
   assert.match(read("../public/privacy/index.html"), /accounts are for people 13 and older/);
 });
+
+test("ads are non-personalized and never load for a signed-in student; the policy says so", () => {
+  const h = read("../public/index.html");
+  assert.match(h, /requestNonPersonalizedAds = 1/);
+  assert.match(h, /fetch\('\/auth\/me'\)[\s\S]{0,400}me\.loggedIn\) return;/);
+  assert.ok(h.indexOf("requestNonPersonalizedAds") < h.indexOf("adsbygoogle.js?client="));
+  assert.match(read("../public/privacy/index.html"), /non-personalized ads only/);
+});
