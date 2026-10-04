@@ -16,11 +16,11 @@
   var st = document.createElement("style"); st.textContent = css; document.head.appendChild(st);
 
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
-  var user = null, building = false;
+  var user = null, hasAv = false, building = false;
 
   function html(name, floating) {
     return '<button type="button" class="ss-avatar-btn" aria-haspopup="menu" aria-expanded="false" aria-label="Account menu">'
-      + '<span class="ss-avatar" aria-hidden="true">' + esc(name.trim().charAt(0).toUpperCase()) + '</span>'
+      + (hasAv ? '<img class="ss-avatar" alt="" src="/api/avatar" style="object-fit:cover">' : '<span class="ss-avatar" aria-hidden="true">' + esc(name.trim().charAt(0).toUpperCase()) + '</span>')
       + '<span class="ss-acct-name">' + esc(name) + '</span><span class="ss-acct-caret" aria-hidden="true" style="font-size:10px">&#9662;</span></button>'
       + '<div class="ss-acct-menu" role="menu" hidden><a role="menuitem" href="/dashboard/">Dashboard</a><a role="menuitem" href="/settings/">Settings</a>'
       + '<button type="button" role="menuitem" data-signout>Sign out</button></div>';
@@ -56,7 +56,7 @@
   window.__ssMe = me;
   me.then(function (d) {
     if (!d || !d.loggedIn) return;
-    user = d.name || d.email || "Account";
+    user = d.name || d.email || "Account"; hasAv = !!d.avatar;
     build();
     var area = document.getElementById("ss-account-area");
     if (area) new MutationObserver(build).observe(area, { childList: true, subtree: true });

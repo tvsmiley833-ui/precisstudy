@@ -44,6 +44,10 @@ export interface SessionPayload {
   exp: number;
   purpose?: string;
   sv?: number;
+  /** Random id of this sign-in, so it can be listed and revoked on its own. Absent on tokens issued before device sessions existed. */
+  sid?: string;
+  /** 1 when the account has an avatar image saved. */
+  av?: number;
 }
 
 // Per-user session version. Bumping it (on "sign out") invalidates every
@@ -53,17 +57,63 @@ function sessionVersionKey(email: string): string {
   return "sv:" + email.toLowerCase();
 }
 
-export async function getSessionVersion(kv: KVNamespace | undefined, email: string): Promise<number> {
-  if (!kv) return 0;
+// The sv: value is either a bare number (the version) or JSON {v, r}: r lists revoked session ids (signed out one device at a time).
+// It is one KV read either way, and getSession already does that read on every request.
+export interface SessionState { v: number; r: string[] }
+
+export async function getSessionState(kv: KVNamespace | undefined, email: string): Promise<SessionState> {
+  if (!kv) return { v: 0, r: [] };
   const raw = await kv.get(sessionVersionKey(email));
-  const n = raw ? parseInt(raw, 10) : 0;
-  return Number.isFinite(n) ? n : 0;
+  if (!raw) return { v: 0, r: [] };
+  if (raw.startsWith("{")) {
+    try {
+      const j = JSON.parse(raw) as { v?: unknown; r?: unknown };
+      return { v: Number.isFinite(j.v) ? Number(j.v) : 0, r: Array.isArray(j.r) ? j.r.filter((x): x is string => typeof x === "string") : [] };
+    } catch (e) { return { v: 0, r: [] }; }
+  }
+  const n = parseInt(raw, 10);
+  return { v: Number.isFinite(n) ? n : 0, r: [] };
+}
+
+export async function getSessionVersion(kv: KVNamespace | undefined, email: string): Promise<number> {
+  return (await getSessionState(kv, email)).v;
 }
 
 export async function bumpSessionVersion(env: { PROGRESS?: KVNamespace }, email: string): Promise<void> {
   if (!env.PROGRESS || !email) return;
   const next = (await getSessionVersion(env.PROGRESS, email)) + 1;
   await env.PROGRESS.put(sessionVersionKey(email), String(next));
+  await env.PROGRESS.delete(sessionsKey(email));
+}
+
+const MAX_REVOKED = 40;
+export async function revokeSession(env: { PROGRESS?: KVNamespace }, email: string, sid: string): Promise<void> {
+  if (!env.PROGRESS || !email || !sid) return;
+  const st = await getSessionState(env.PROGRESS, email);
+  const r = st.r.filter(x => x !== sid).concat(sid).slice(-MAX_REVOKED);
+  await env.PROGRESS.put(sessionVersionKey(email), JSON.stringify({ v: st.v, r }));
+  const list = await listSessions(env, email);
+  await env.PROGRESS.put(sessionsKey(email), JSON.stringify(list.filter(x => x.id !== sid)));
+}
+
+export interface SessionRecord { id: string; device: string; createdAt: number }
+function sessionsKey(email: string): string { return "sessions:" + email.toLowerCase(); }
+export async function listSessions(env: { PROGRESS?: KVNamespace }, email: string): Promise<SessionRecord[]> {
+  if (!env.PROGRESS) return [];
+  try {
+    const raw = await env.PROGRESS.get(sessionsKey(email));
+    const arr = raw ? JSON.parse(raw) : [];
+    const cutoff = Date.now() / 1000 - SESSION_MAX_AGE;
+    return Array.isArray(arr) ? arr.filter((x: SessionRecord) => x && typeof x.id === "string" && x.createdAt > cutoff) : [];
+  } catch (e) { return []; }
+}
+
+/** "Chrome on Mac" from a User-Agent: coarse on purpose, nothing identifying is stored. */
+export function describeDevice(ua: string | null): string {
+  const s = ua || "";
+  const browser = /Edg\//.test(s) ? "Edge" : /OPR\/|Opera/.test(s) ? "Opera" : /Firefox\//.test(s) ? "Firefox" : /Chrome\//.test(s) ? "Chrome" : /Safari\//.test(s) ? "Safari" : "Browser";
+  const os = /iPhone|iPad|iOS/.test(s) ? "iPhone/iPad" : /Android/.test(s) ? "Android" : /Windows/.test(s) ? "Windows" : /Mac OS X|Macintosh/.test(s) ? "Mac" : /CrOS/.test(s) ? "Chromebook" : /Linux/.test(s) ? "Linux" : "a device";
+  return browser + " on " + os;
 }
 
 export async function verifySession(token: string, secret: string): Promise<SessionPayload | null> {
@@ -126,18 +176,29 @@ async function repointReverseKeys(kv: KVNamespace, progressJson: string, lower: 
   } catch (e) { /* unreadable blob: nothing to repoint */ }
 }
 
-export async function issueSessionCookie(env: { SESSION_SECRET: string; PROGRESS?: KVNamespace }, profile: { email: string; name?: string; provider: string }): Promise<string> {
+export async function issueSessionCookie(env: { SESSION_SECRET: string; PROGRESS?: KVNamespace }, profile: { email: string; name?: string; provider: string }, request?: Request): Promise<string> {
   const now = Math.floor(Date.now() / 1000);
   const email = normalizeEmail(profile.email);
   await adoptLegacyEmailKeys(env, profile.email.trim(), email);
+  // A display name or avatar chosen in Settings survives signing in again.
+  let saved: { displayName?: string | null; hasAvatar?: boolean } = {};
+  if (env.PROGRESS) {
+    try { saved = (JSON.parse((await env.PROGRESS.get("progress:" + email)) || "{}") as { profile?: typeof saved }).profile || {}; } catch (e) { /* no saved profile */ }
+  }
   const payload: SessionPayload = {
     email,
-    name: profile.name || email,
+    name: saved.displayName || profile.name || email,
+    ...(saved.hasAvatar ? { av: 1 } : {}),
     provider: profile.provider,
     iat: now,
     exp: now + SESSION_MAX_AGE,
-    sv: await getSessionVersion(env.PROGRESS, email)
+    sv: await getSessionVersion(env.PROGRESS, email),
+    sid: crypto.randomUUID().replace(/-/g, "").slice(0, 16)
   };
+  if (env.PROGRESS && request) {
+    const list = (await listSessions(env, email)).concat({ id: payload.sid as string, device: describeDevice(request.headers.get("User-Agent")), createdAt: now }).slice(-10);
+    await env.PROGRESS.put(sessionsKey(email), JSON.stringify(list));
+  }
   const token = await signSession(payload, env.SESSION_SECRET);
   return `${SESSION_COOKIE}=${token}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${SESSION_MAX_AGE}`;
 }
@@ -170,8 +231,9 @@ export async function getSession(request: Request, env: { SESSION_SECRET: string
   // Reject tokens minted before the user's last "sign out everywhere".
   // A token with no `sv` predates this check and counts as version 0.
   if (env.PROGRESS) {
-    const current = await getSessionVersion(env.PROGRESS, payload.email);
-    if ((payload.sv || 0) !== current) return null;
+    const st = await getSessionState(env.PROGRESS, payload.email);
+    if ((payload.sv || 0) !== st.v) return null;
+    if (payload.sid && st.r.includes(payload.sid)) return null;
   }
   return payload;
 }

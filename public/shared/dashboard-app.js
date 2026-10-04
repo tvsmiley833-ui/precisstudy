@@ -141,7 +141,7 @@ function renderSubject(subjectKey, label, href, subjectData, unitIds, unitNames)
     + '<label style="font-size:13px;color:var(--text-muted);">Days until your exam<br/>'
     + '<input id="sched-days-' + subjectKey + '" type="number" min="1" max="60" value="14" style="width:70px;padding:7px 9px;border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);background:var(--bg-card);margin-top:4px;"/></label>'
     + '<label style="font-size:13px;color:var(--text-muted);">Minutes per day<br/>'
-    + '<input id="sched-minutes-' + subjectKey + '" type="number" min="10" max="180" value="30" style="width:70px;padding:7px 9px;border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);background:var(--bg-card);margin-top:4px;"/></label>'
+    + '<input id="sched-minutes-' + subjectKey + '" type="number" min="10" max="180" value="' + (ssPrefs().studyMinutes || 30) + '" style="width:70px;padding:7px 9px;border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);background:var(--bg-card);margin-top:4px;"/></label>'
     + '<button id="sched-build-' + subjectKey + '" class="ss-cta-btn" style="background:var(--accent-solid);color:#fff;border:none;padding:9px 16px;border-radius:999px;font-size:14px;font-weight:700;cursor:pointer;">Build my schedule</button>'
     + '</div>'
     + '<div id="sched-result-' + subjectKey + '" style="margin-top:14px;"></div>'
@@ -336,8 +336,13 @@ function sbTimeToMinutes(t) {
   return h * 60 + m;
 }
 
+function ssPrefs() { try { return JSON.parse(localStorage.getItem('ss_prefs') || '{}') || {}; } catch (e) { return {}; } }
+// Keep the saved time-format / study-length preferences current across devices (Settings > Profile).
+fetch('/api/profile').then(r => r.ok ? r.json() : null).then(p => { if (p) try { localStorage.setItem('ss_prefs', JSON.stringify({ timeFormat: p.timeFormat || null, studyMinutes: p.studyMinutes || null })); } catch (e) {} }).catch(() => {});
+
 function sbFormatTime(mins) {
   let h = Math.floor(mins / 60), m = mins % 60;
+  if (ssPrefs().timeFormat === '24h') return String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0');
   const ampm = h >= 12 ? 'PM' : 'AM';
   h = h % 12; if (h === 0) h = 12;
   return h + (m ? ':' + String(m).padStart(2, '0') : '') + ' ' + ampm;

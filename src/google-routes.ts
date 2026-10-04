@@ -5,7 +5,7 @@ import {
   syncGoogleAssignments, googleCacheKey, DEFAULT_SETTINGS,
   type GoogleSettings, type Feed, type Assignment
 } from "./google-sync.js";
-import { syncCanvasAssignments } from "./canvas-sync.js";
+import { syncCanvasCached } from "./canvas-sync.js";
 import { loadSyllabusDates, syllabusDatesToAssignments } from "./syllabus-dates.js";
 
 const CACHE_FRESH_MS = 15 * 60 * 1000;
@@ -41,7 +41,7 @@ export async function handleAssignments(request: Request, env: Env): Promise<Res
   // Canvas has no cache layer of its own (see canvas-sync.ts) -- it's
   // always fetched live and merged in, independent of whether the
   // Google-sourced half of the feed came from cache or a fresh sync.
-  const canvas = await syncCanvasAssignments(env, session.email);
+  const canvas = await syncCanvasCached(env, session.email, new URL(request.url).searchParams.get("refresh") === "1");
   // Syllabus-sourced key dates have no connection state of their own -- a
   // student who never connects Google/Canvas should still see them, so this
   // is computed unconditionally, same as canvas above.

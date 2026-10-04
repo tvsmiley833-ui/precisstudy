@@ -138,7 +138,7 @@ describe("handleCanvasStatus", () => {
   it("reports not connected when nothing is stored", async () => {
     const c = await cookie("s@e.edu");
     const res = await handleCanvasStatus(req("https://example.com/api/canvas/status", c), env());
-    expect(await res.json()).toEqual({ connected: false, domain: null });
+    expect(await res.json()).toEqual({ connected: false, domain: null, lastSynced: null });
   });
 
   it("reports connected with the domain, never the token", async () => {
@@ -147,7 +147,7 @@ describe("handleCanvasStatus", () => {
     await putCanvasToken(e, "s@e.edu", { domain: "school.instructure.com", apiToken: "secret-tok", connectedAt: "x" });
     const res = await handleCanvasStatus(req("https://example.com/api/canvas/status", c), e);
     const data = await res.json();
-    expect(data).toEqual({ connected: true, domain: "school.instructure.com" });
+    expect(data).toEqual({ connected: true, domain: "school.instructure.com", lastSynced: null });
     expect(JSON.stringify(data)).not.toContain("secret-tok");
   });
 });

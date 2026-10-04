@@ -1716,7 +1716,7 @@ function ssRenderAccountUI(){
   if(SS_SESSION){
     var nm = SS_SESSION.name || SS_SESSION.email || 'Account';
     area.innerHTML = '<div class="ss-account"><button type="button" class="ss-avatar-btn" id="ss-avatar-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="ss-acct-menu" onclick="ssToggleAcctMenu()">'
-      + '<span class="ss-avatar" aria-hidden="true">' + ssEscapeHtml(nm.trim().charAt(0).toUpperCase()) + '</span>'
+      + (SS_SESSION.avatar ? '<img class="ss-avatar" alt="" src="/api/avatar" style="object-fit:cover">' : '<span class="ss-avatar" aria-hidden="true">' + ssEscapeHtml(nm.trim().charAt(0).toUpperCase()) + '</span>')
       + '<span class="ss-account-name">' + ssEscapeHtml(nm) + '</span><span aria-hidden="true" style="font-size:10px">&#9662;</span></button>'
       + '<div id="ss-acct-menu" role="menu" hidden><a role="menuitem" href="/dashboard/">Dashboard</a><a role="menuitem" href="/settings/">Settings</a>'
       + '<button type="button" role="menuitem" onclick="ssLogout()">Sign out</button></div></div>';

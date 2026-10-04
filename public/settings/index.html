@@ -382,12 +382,26 @@ html{scroll-behavior:smooth}
     <div class="ss-card" id="profile-card">
       <div style="font-weight:800;font-size:17px;color:var(--text);margin-bottom:4px;">Profile</div>
       <p style="font-size:14px;color:var(--text-muted);margin:0 0 16px;">How you appear on PrecisStudy. Your sign-in email can&rsquo;t be changed here.</p>
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap;">
+        <img id="profile-avatar" alt="" width="64" height="64" style="width:64px;height:64px;border-radius:50%;object-fit:cover;background:var(--accent-solid);display:none"/>
+        <span id="profile-avatar-ph" aria-hidden="true" style="width:64px;height:64px;border-radius:50%;background:var(--accent-solid);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:26px">?</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <label class="ss-oauth-btn" style="width:auto;margin:0;padding:9px 16px;cursor:pointer;display:inline-flex">Upload picture<input type="file" id="profile-avatar-file" accept="image/png,image/jpeg,image/webp" hidden/></label>
+          <button type="button" id="profile-avatar-remove" class="ss-oauth-btn" style="width:auto;margin:0;padding:9px 16px;display:none">Remove</button>
+        </div>
+        <span id="profile-avatar-status" role="status" style="font-size:13px;color:var(--text-muted)"></span>
+      </div>
       <div class="ss-field-grid" style="margin-bottom:12px;">
         <div><label for="profile-name">Display name</label><input type="text" id="profile-name" maxlength="40" autocomplete="nickname" placeholder="Your name"/></div>
         <div><label for="profile-email">Email</label><input type="text" id="profile-email" readonly aria-readonly="true"/></div>
       </div>
       <label for="profile-tz" style="display:block;font-size:13px;color:var(--text-muted);margin-bottom:4px;">Timezone <span style="opacity:.8">(sets when your streak day and reminders roll over)</span></label>
       <select id="profile-tz" style="width:100%;box-sizing:border-box;min-height:44px;padding:10px 12px;border:1px solid color-mix(in srgb,var(--text) 35%,transparent);border-radius:10px;background:var(--bg-card);color:var(--text);font:inherit;font-size:14px;margin-bottom:14px;"><option value="">Automatic (from my browser)</option></select>
+      <div class="ss-field-grid" style="margin-bottom:14px;">
+        <div><label for="profile-timefmt">Time format</label><select id="profile-timefmt" style="width:100%;box-sizing:border-box;min-height:44px;padding:10px 12px;border:1px solid color-mix(in srgb,var(--text) 35%,transparent);border-radius:10px;background:var(--bg-card);color:var(--text);font:inherit;font-size:14px"><option value="">Automatic (12-hour)</option><option value="12h">12-hour (3:30 PM)</option><option value="24h">24-hour (15:30)</option></select></div>
+        <div><label for="profile-minutes">Default study session (minutes)</label><input type="number" id="profile-minutes" min="10" max="180" placeholder="30" inputmode="numeric"/></div>
+      </div>
+      <p id="profile-since" style="font-size:13px;color:var(--text-muted);margin:0 0 14px;"></p>
       <button id="profile-save-btn" style="width:auto;padding:10px 20px;">Save profile</button>
       <span id="profile-status" role="status" style="margin-left:12px;font-size:13px;color:var(--text-muted);"></span>
     </div>
@@ -447,10 +461,20 @@ html{scroll-behavior:smooth}
         <button id="canvas-connect-btn" style="width:auto;padding:10px 20px;" disabled>Connect</button>
       </div>
       <div id="canvas-connected" style="display:none;">
-        <p style="font-size:13px;color:var(--text-muted);margin:0 0 12px;">Connected to <b id="canvas-domain-label"></b></p>
+        <p style="font-size:13px;color:var(--text-muted);margin:0 0 12px;"><span class="ss-dot" aria-hidden="true"></span>Connected to <b id="canvas-domain-label" style="color:var(--text)"></b></p>
+        <label for="canvas-freq" style="display:block;font-size:13px;color:var(--text-muted);margin-bottom:4px;">Sync frequency</label>
+        <select id="canvas-freq" style="min-height:44px;padding:10px 12px;border:1px solid color-mix(in srgb,var(--text) 35%,transparent);border-radius:10px;background:var(--bg-card);color:var(--text);font:inherit;font-size:14px;margin-bottom:10px"><option value="always">Every time I open my list</option><option value="hourly">At most once an hour</option><option value="daily">At most once a day</option><option value="manual">Only when I press Sync now</option></select>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px"><button id="canvas-sync-btn" class="ss-oauth-btn" style="width:auto;padding:10px 20px;margin-bottom:0;">Sync now</button><span id="canvas-last" style="font-size:13px;color:var(--text-muted)"></span></div>
         <button id="canvas-disconnect-btn" class="ss-oauth-btn ss-danger" style="width:auto;padding:10px 20px;margin-bottom:0;">Disconnect</button>
       </div>
       <div id="canvas-status" style="margin-top:10px;font-size:13px;color:var(--text-muted);"></div>
+    </div>
+
+    <div class="ss-card" id="sessions-card" style="margin-top:24px;">
+      <div style="font-weight:800;font-size:17px;color:var(--text);margin-bottom:4px;">Signed-in devices</div>
+      <p style="font-size:14px;color:var(--text-muted);margin:0 0 14px;">Where your account is currently signed in. Sign one out if you don&rsquo;t recognise it.</p>
+      <ul id="sessions-list" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px"></ul>
+      <p id="sessions-note" style="font-size:12.5px;color:var(--text-muted);margin:10px 0 0;"></p>
     </div>
 
     <div class="ss-card" style="margin-top:20px;">

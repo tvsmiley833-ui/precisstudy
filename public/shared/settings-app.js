@@ -772,6 +772,7 @@ async function initSettings(){
   var disc = document.getElementById('ss-unsaved-discard'); if(disc) disc.addEventListener('click', function(){ location.reload(); });
   document.getElementById('canvas-disconnect-btn').addEventListener('click', ssCanvasDisconnect);
   await ssInitProfile();
+  ssInitAvatar(); ssInitSessions(); ssInitCanvasSync();
   await ssRefreshCanvasStatus();
   ssInitHighContrastToggle();
   ssInitAmoledToggle();
@@ -861,6 +862,91 @@ async function ssCanvasDisconnect(){
   btn.disabled = false;
 }
 
+function ssShowAvatar(has, label){
+  var img = document.getElementById('profile-avatar'), ph = document.getElementById('profile-avatar-ph'), rm = document.getElementById('profile-avatar-remove');
+  if(!img) return;
+  ph.textContent = (label || '?').trim().charAt(0).toUpperCase();
+  if(has){ img.src = '/api/avatar?v=' + Date.now(); img.style.display = 'block'; ph.style.display = 'none'; rm.style.display = ''; }
+  else { img.style.display = 'none'; ph.style.display = 'flex'; rm.style.display = 'none'; }
+}
+
+// Square-crop to 128px and re-encode as JPEG in the browser, so the server only ever stores a small, known format.
+function ssResizeAvatar(file){
+  return new Promise(function(resolve, reject){
+    var url = URL.createObjectURL(file), im = new Image();
+    im.onload = function(){
+      var s = Math.min(im.width, im.height), c = document.createElement('canvas'); c.width = c.height = 128;
+      c.getContext('2d').drawImage(im, (im.width - s) / 2, (im.height - s) / 2, s, s, 0, 0, 128, 128);
+      URL.revokeObjectURL(url);
+      c.toBlob(function(b){ b ? resolve(b) : reject(new Error('encode')); }, 'image/jpeg', 0.85);
+    };
+    im.onerror = function(){ URL.revokeObjectURL(url); reject(new Error('read')); };
+    im.src = url;
+  });
+}
+
+function ssInitAvatar(){
+  var file = document.getElementById('profile-avatar-file'), rm = document.getElementById('profile-avatar-remove'), st = document.getElementById('profile-avatar-status');
+  if(!file) return;
+  async function done(r){ var d = await r.json().catch(function(){ return {}; }); st.textContent = r.ok ? 'Saved.' : (d.error || "Couldn't save the picture."); if(r.ok){ ssShowAvatar(d.hasAvatar, document.getElementById('profile-name').value || document.getElementById('profile-email').value); window.__ssMe = null; if(typeof ssCheckSession === 'function') ssCheckSession(); } }
+  file.addEventListener('change', async function(){
+    if(!file.files[0]) return; st.textContent = 'Saving…';
+    try{ var blob = await ssResizeAvatar(file.files[0]); await done(await fetch('/api/avatar', { method:'PUT', headers:{'Content-Type':'image/jpeg'}, body: blob })); }
+    catch(e){ st.textContent = "Couldn't read that image."; }
+    file.value = '';
+  });
+  rm.addEventListener('click', async function(){ st.textContent = 'Removing…'; await done(await fetch('/api/avatar', { method:'DELETE' })); });
+}
+
+function ssTimeAgo(iso){
+  var d = new Date(iso); if(isNaN(d)) return '';
+  var m = Math.round((Date.now() - d.getTime()) / 60000);
+  if(m < 1) return 'just now'; if(m < 60) return m + ' min ago';
+  var h = Math.round(m / 60); if(h < 24) return h + ' hr ago';
+  return Math.round(h / 24) + ' days ago';
+}
+
+async function ssInitSessions(){
+  var ul = document.getElementById('sessions-list'), note = document.getElementById('sessions-note');
+  if(!ul) return;
+  async function load(){
+    try{
+      var r = await fetch('/api/sessions'); if(!r.ok) return;
+      var d = await r.json(); ul.innerHTML = '';
+      d.sessions.forEach(function(s){
+        var li = document.createElement('li');
+        li.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--border);border-radius:12px;padding:10px 14px;flex-wrap:wrap';
+        var txt = document.createElement('div');
+        txt.innerHTML = '<div style="font-weight:700;font-size:14px;color:var(--text)"></div><div style="font-size:12.5px;color:var(--text-muted)"></div>';
+        txt.firstChild.textContent = s.device + (s.current ? ' (this device)' : '');
+        txt.lastChild.textContent = 'Signed in ' + ssTimeAgo(new Date(s.createdAt * 1000).toISOString());
+        li.appendChild(txt);
+        if(!s.current){
+          var b = document.createElement('button'); b.type = 'button'; b.className = 'ss-oauth-btn ss-danger'; b.style.cssText = 'width:auto;margin:0;padding:8px 14px'; b.textContent = 'Sign out';
+          b.addEventListener('click', async function(){ if(!confirm('Sign out ' + s.device + '?')) return; b.disabled = true; await fetch('/api/sessions/revoke', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: s.id }) }); load(); });
+          li.appendChild(b);
+        }
+        ul.appendChild(li);
+      });
+      note.textContent = d.sessions.length ? 'Devices that signed in before this list existed are not shown. "Sign out of all devices" ends them too.' : 'No devices recorded yet. Sign out and back in to appear here.';
+    }catch(e){ /* leave empty */ }
+  }
+  load();
+}
+
+function ssInitCanvasSync(){
+  var f = document.getElementById('canvas-freq'), b = document.getElementById('canvas-sync-btn'), last = document.getElementById('canvas-last');
+  if(!f) return;
+  f.addEventListener('change', function(){ fetch('/api/profile', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ canvasSync: f.value }) }); });
+  b.addEventListener('click', async function(){
+    b.disabled = true; b.textContent = 'Syncing…';
+    try{ var r = await fetch('/api/canvas/sync', { method:'POST' }); var d = await r.json(); last.textContent = r.ok ? 'Synced just now (' + d.count + ' item' + (d.count === 1 ? '' : 's') + ').' : (d.error || "Couldn't sync."); }
+    catch(e){ last.textContent = "Couldn't sync. Check your connection."; }
+    b.disabled = false; b.textContent = 'Sync now';
+  });
+  fetch('/api/canvas/status').then(function(r){ return r.json(); }).then(function(d){ if(d.lastSynced) last.textContent = 'Last synced ' + ssTimeAgo(d.lastSynced) + '.'; }).catch(function(){});
+}
+
 async function ssInitProfile(){
   var name = document.getElementById('profile-name'), email = document.getElementById('profile-email');
   var tz = document.getElementById('profile-tz'), btn = document.getElementById('profile-save-btn'), st = document.getElementById('profile-status');
@@ -873,16 +959,23 @@ async function ssInitProfile(){
     if(res.ok){
       var p = await res.json();
       name.value = p.displayName || ''; email.value = p.email || ''; tz.value = p.timezone || '';
+      var tf = document.getElementById('profile-timefmt'), pm = document.getElementById('profile-minutes'), since = document.getElementById('profile-since');
+      tf.value = p.timeFormat || ''; pm.value = p.studyMinutes || '';
+      var sd = p.memberSince || p.firstActivity;
+      if(sd){ var dt = new Date(sd.length === 10 ? sd + 'T12:00:00' : sd); if(!isNaN(dt)) since.textContent = (p.memberSince ? 'Member since ' : 'First activity ') + dt.toLocaleDateString(undefined, { month: 'long', year: 'numeric' }) + '.'; }
+      ssShowAvatar(p.hasAvatar, p.displayName || p.name || p.email);
+      window.__ssProfileCache = p; try{ localStorage.setItem('ss_prefs', JSON.stringify({ timeFormat: p.timeFormat || null, studyMinutes: p.studyMinutes || null })); }catch(e){}
+      var cf = document.getElementById('canvas-freq'); if(cf) cf.value = p.canvasSync || 'always';
       if(!name.value && p.name && p.name !== p.email) name.placeholder = p.name;
     }
   }catch(e){ /* leave blank */ }
   btn.addEventListener('click', async function(){
     btn.disabled = true; st.textContent = 'Saving…';
     try{
-      var r = await fetch('/api/profile', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ displayName: name.value, timezone: tz.value }) });
+      var r = await fetch('/api/profile', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ displayName: name.value, timezone: tz.value, timeFormat: document.getElementById('profile-timefmt').value || null, studyMinutes: document.getElementById('profile-minutes').value ? parseInt(document.getElementById('profile-minutes').value, 10) : null }) });
       var d = await r.json().catch(function(){ return {}; });
       st.textContent = r.ok ? 'Saved.' : (d.error || "Couldn't save.");
-      if(r.ok){ window.__ssMe = null; if(typeof ssCheckSession === 'function') await ssCheckSession(); }
+      if(r.ok){ try{ localStorage.setItem('ss_prefs', JSON.stringify({ timeFormat: d.timeFormat || null, studyMinutes: d.studyMinutes || null })); }catch(e){} window.__ssMe = null; if(typeof ssCheckSession === 'function') await ssCheckSession(); }
     }catch(e){ st.textContent = "Couldn't save. Check your connection."; }
     btn.disabled = false;
   });

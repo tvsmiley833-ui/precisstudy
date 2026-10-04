@@ -71,7 +71,7 @@ export type ProgressBlob = {
   // see notificationAllowed() in push-routes.ts, which reads this same field.
   notificationPrefs?: { daily?: boolean; streak?: boolean; blocks?: boolean } | null;
   // Settings > Profile. timezone, when set, overrides the browser-reported one for the streak day and reminders.
-  profile?: { displayName?: string | null; timezone?: string | null } | null;
+  profile?: { displayName?: string | null; timezone?: string | null; timeFormat?: "12h" | "24h" | null; studyMinutes?: number | null; canvasSync?: "always" | "hourly" | "daily" | "manual"; hasAvatar?: boolean; createdAt?: string } | null;
   // AI-generated flashcard decks (see flashcards-routes.ts), independent of
   // the per-guide FLASHCARDS arrays baked into guide pages at generate time.
   // Capped at MAX_CUSTOM_DECKS, oldest evicted first.

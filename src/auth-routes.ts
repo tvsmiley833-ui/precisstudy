@@ -19,6 +19,7 @@ import {
   makeState, checkState, safeNext, nextCookie, clearNextCookie, consumeNext, clearRefCookie
 } from "./auth-state.js";
 import { creditInviteIfAny } from "./progress-routes.js";
+import { stampMemberSince } from "./profile-routes.js";
 
 type ExtraHeaders = Record<string, string | string[]>;
 
@@ -142,9 +143,9 @@ export async function handleGoogleCallback(request: Request, env: Env): Promise<
     email: profile.email,
     name: profile.name,
     provider: "google"
-  });
+  }, request);
   const isNewUser = await recordLogin(env, profile.email, "google");
-  if (isNewUser) await creditInviteIfAny(env, request, profile.email);
+  if (isNewUser) { await creditInviteIfAny(env, request, profile.email); await stampMemberSince(env, profile.email); }
   const next = consumeNext(request);
   // A new student still goes through setup, but keeps the page they came for (a challenge, a guide, an invite).
   const dest = isNewUser ? "/onboarding" + (next ? "?next=" + encodeURIComponent(next) : "") : (next || "/");
@@ -219,9 +220,9 @@ export async function handleGithubCallback(request: Request, env: Env): Promise<
     email,
     name: profile.name || profile.login,
     provider: "github"
-  });
+  }, request);
   const isNewUser = await recordLogin(env, email, "github");
-  if (isNewUser) await creditInviteIfAny(env, request, email);
+  if (isNewUser) { await creditInviteIfAny(env, request, email); await stampMemberSince(env, email); }
   const next = consumeNext(request);
   // A new student still goes through setup, but keeps the page they came for (a challenge, a guide, an invite).
   const dest = isNewUser ? "/onboarding" + (next ? "?next=" + encodeURIComponent(next) : "") : (next || "/");
@@ -331,9 +332,9 @@ export async function handleVerifyConfirm(request: Request, env: Env): Promise<R
   const email = token ? await consumeMagicLinkToken(env, token) : null;
   if (!email) return authErrorRedirect("expired", "magic link");
 
-  const cookie = await issueSessionCookie(env, { email, name: email, provider: "email" });
+  const cookie = await issueSessionCookie(env, { email, name: email, provider: "email" }, request);
   const isNewUser = await recordLogin(env, email, "email");
-  if (isNewUser) await creditInviteIfAny(env, request, email);
+  if (isNewUser) { await creditInviteIfAny(env, request, email); await stampMemberSince(env, email); }
   const next = consumeNext(request);
   // A new student still goes through setup, but keeps the page they came for (a challenge, a guide, an invite).
   const dest = isNewUser ? "/onboarding" + (next ? "?next=" + encodeURIComponent(next) : "") : (next || "/");
@@ -345,7 +346,7 @@ export async function handleVerifyConfirm(request: Request, env: Env): Promise<R
 export async function handleMe(request: Request, env: Env): Promise<Response> {
   const session = await getSession(request, env);
   if (!session) return json({ loggedIn: false }, 200);
-  return json({ loggedIn: true, email: session.email, name: session.name, provider: session.provider });
+  return json({ loggedIn: true, email: session.email, name: session.name, provider: session.provider, avatar: !!session.av });
 }
 
 export async function handleLogout(request: Request, env: Env): Promise<Response> {

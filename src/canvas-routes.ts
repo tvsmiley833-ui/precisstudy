@@ -1,6 +1,7 @@
 import { fetchWithTimeout, json } from "./http.js";
 import { getSession } from "./auth.js";
 import { getCanvasToken, putCanvasToken, deleteCanvasToken } from "./canvas-token.js";
+import { syncCanvasCached, canvasCacheKey } from "./canvas-sync.js";
 
 const MAX_DOMAIN_LEN = 253;
 const MAX_TOKEN_LEN = 2000;
@@ -81,6 +82,7 @@ export async function handleCanvasDisconnect(request: Request, env: Env): Promis
   const session = await getSession(request, env);
   if (!session) return json({ error: "Sign in required" }, 401);
   await deleteCanvasToken(env, session.email);
+  await env.PROGRESS?.delete(canvasCacheKey(session.email));
   return json({ ok: true });
 }
 
@@ -88,5 +90,16 @@ export async function handleCanvasStatus(request: Request, env: Env): Promise<Re
   const session = await getSession(request, env);
   if (!session) return json({ error: "Sign in required" }, 401);
   const token = await getCanvasToken(env, session.email);
-  return json({ connected: !!token, domain: token?.domain ?? null });
+  let lastSynced: string | null = null;
+  if (token) { try { lastSynced = (JSON.parse((await env.PROGRESS.get(canvasCacheKey(session.email))) || "null") as { fetchedAt?: string } | null)?.fetchedAt ?? null; } catch (e) { /* none yet */ } }
+  return json({ connected: !!token, domain: token?.domain ?? null, lastSynced });
+}
+
+export async function handleCanvasSyncNow(request: Request, env: Env): Promise<Response> {
+  const session = await getSession(request, env);
+  if (!session) return json({ error: "Sign in required" }, 401);
+  if (!env.PROGRESS) return json({ error: "Not configured" }, 503);
+  const feed = await syncCanvasCached(env, session.email, true);
+  if (!feed.connected) return json({ error: "Canvas isn't connected" }, 400);
+  return json({ ok: true, count: feed.items.length, lastSynced: feed.fetchedAt ?? null });
 }

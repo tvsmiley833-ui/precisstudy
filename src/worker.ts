@@ -33,8 +33,8 @@ import {
   handleAssignments, handleGoogleCalendars, handleGoogleDisconnect,
   handleGoogleSettingsGet, handleGoogleSettingsPost
 } from "./google-routes.js";
-import { handleProfile } from "./profile-routes.js";
-import { handleCanvasConnect, handleCanvasDisconnect, handleCanvasStatus } from "./canvas-routes.js";
+import { handleProfile, handleSessions, handleAvatar } from "./profile-routes.js";
+import { handleCanvasConnect, handleCanvasDisconnect, handleCanvasStatus, handleCanvasSyncNow } from "./canvas-routes.js";
 import { refCookie } from "./auth-state.js";
 import { withLinkPreview } from "./link-previews.js";
 import { handlePostOptIn, handlePostOptOut, handlePostNickname, handlePostGroupCreate, handlePostGroupJoin, handlePostGroupLeave, handleGetLeaderboard, computeLeaderboards } from "./leaderboard-routes.js";
@@ -390,7 +390,7 @@ export default {
 };
 
 // Routes that spend money (Workers AI) or call out to a school/Google on the student's behalf: a tighter per-IP burst limit.
-const HEAVY_PATHS = new Set(["/api/flashcards/generate", "/api/syllabus/parse", "/api/canvas/connect", "/api/assignments", "/api/google/calendars"]);
+const HEAVY_PATHS = new Set(["/api/flashcards/generate", "/api/syllabus/parse", "/api/canvas/connect", "/api/canvas/sync", "/api/assignments", "/api/google/calendars"]);
 // Public forms and the sign-in email: they send mail or store files for anonymous visitors.
 const FORM_PATHS = new Set(["/api/feedback", "/api/request-guide", "/auth/email/start"]);
 
@@ -746,6 +746,8 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
   }
 
   if (url.pathname === "/api/profile") return handleProfile(request, env);
+  if (url.pathname === "/api/sessions" || url.pathname === "/api/sessions/revoke") return handleSessions(request, env);
+  if (url.pathname === "/api/avatar") return handleAvatar(request, env);
 
   if (url.pathname === "/api/notification-prefs") {
     if (request.method === "POST") return handlePostNotificationPrefs(request, env);
@@ -825,6 +827,11 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
 
   if (url.pathname === "/api/canvas/disconnect") {
     if (request.method === "POST") return handleCanvasDisconnect(request, env);
+    return json({ error: "Method not allowed" }, 405);
+  }
+
+  if (url.pathname === "/api/canvas/sync") {
+    if (request.method === "POST") return handleCanvasSyncNow(request, env);
     return json({ error: "Method not allowed" }, 405);
   }
 
