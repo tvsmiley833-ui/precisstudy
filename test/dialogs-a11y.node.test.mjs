@@ -359,3 +359,12 @@ test("quiz results offer a native share of the score", () => {
   assert.match(js, /function ssShareScore\(score,total\)/);
   assert.match(js, /onclick="ssShareScore\(/);
 });
+
+test("age page only continues to the two sign-in starts and offers a no-account path", () => {
+  const h = read("../public/age/index.html");
+  assert.match(h, /\\\/auth\\\/\(google\|github\)\\\/start/);
+  assert.match(h, /keep studying without an account/i);
+  assert.match(h, /13 and older/);
+  assert.match(h, /name="robots" content="noindex"|<meta name="robots" content="noindex"/);
+  assert.match(read("../public/privacy/index.html"), /accounts are for people 13 and older/);
+});

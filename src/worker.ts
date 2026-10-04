@@ -1,3 +1,4 @@
+import { ageGate, handleAgePost } from "./age-gate.js";
 import { handleHealth, handleConfig, runBackup, runRetention, logMissingSecrets } from "./ops.js";
 import { LASTMOD } from "./lastmod.js";
 import { handleChatPost, handleChatOptions, json } from "./chat.js";
@@ -189,7 +190,7 @@ export function guessGuide(pathname: string): string | null {
 
 // Pages that are about the signed-in account: the "no sign-up required" banner would sit above their sign-in card.
 export function showsMissionBanner(pathname: string): boolean {
-  return !/^\/(dashboard|settings|concepts|compete|challenge|syllabus|flashcards|onboarding)(\/|$)/.test(pathname);
+  return !/^\/(dashboard|settings|concepts|compete|challenge|syllabus|flashcards|onboarding|age)(\/|$)/.test(pathname);
 }
 
 async function injectSiteWidgets(res: Response, pathname: string): Promise<Response> {
@@ -827,6 +828,14 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
     if (request.method === "POST") return handlePushTest(request, env);
     return json({ error: "Method not allowed" }, 405);
   }
+
+  if (url.pathname === "/api/age") {
+    if (request.method === "POST") return handleAgePost(request, env);
+    return json({ error: "Method not allowed" }, 405);
+  }
+
+  const underAge = await ageGate(request, env, url);
+  if (underAge) return underAge;
 
   const authRoute = AUTH_ROUTES[url.pathname];
   if (authRoute) {

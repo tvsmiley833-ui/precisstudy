@@ -1,6 +1,8 @@
 # PRIV-2 age gate and PRIV-4 ads: decisions
 
-## Age (PRIV-2)
+## Age (PRIV-2): DONE, option A (13+) is live
+Built and deployed: a month/year screen at `/age/` before Google, GitHub and email sign-in; under-13s get no account and are told the guides still work; only a signed one-year cookie is kept (no birth date stored); the live privacy page's age paragraph matches. Details below are the original options.
+
 The site never asks age, so a child under 13 can sign in. In the US, collecting personal data from under-13s needs verifiable parental consent (COPPA).
 
 - **Option A: 13+ only (recommended for a one-person site).** Before the first sign-in, ask birth year. Under 13: no account is created and the guides keep working without one. Policy states the site is for 13+. Existing accounts of under-13s are deleted on a parent's request.
