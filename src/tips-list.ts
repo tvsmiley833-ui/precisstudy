@@ -13,6 +13,10 @@ export const TIPS: { slug: string; published: string }[] = [
     "published": "2026-10-04"
   },
   {
+    "slug": "factoring-trinomials",
+    "published": "2026-10-04"
+  },
+  {
     "slug": "ionic-vs-covalent-bonds",
     "published": "2026-10-04"
   },
@@ -41,6 +45,10 @@ export const TIPS: { slug: string; published: string }[] = [
     "published": "2026-10-04"
   },
   {
+    "slug": "ohms-law",
+    "published": "2026-10-04"
+  },
+  {
     "slug": "passe-compose-etre-verbs",
     "published": "2026-10-04"
   },
@@ -58,6 +66,10 @@ export const TIPS: { slug: string; published: string }[] = [
   },
   {
     "slug": "preterite-vs-imperfect",
+    "published": "2026-10-04"
+  },
+  {
+    "slug": "product-rule",
     "published": "2026-10-04"
   },
   {

@@ -1,0 +1,21 @@
+{
+ "slug": "product-rule",
+ "brand": "PrecisStudy",
+ "subject": "CALCULUS",
+ "url": "precisstudy.com/calculus",
+ "caption": "The product rule, explained in 6 swipes. Save this for your next derivatives quiz. Free Calculus study guide, quizzes, and flashcards at precisstudy.com/calculus (no sign-up).",
+ "hashtags": ["calculus", "derivatives", "productrule", "studytok", "apcalc", "studytips", "math"],
+ "slides": [
+  {"type": "hook", "title": "THE PRODUCT RULE, STEP BY STEP"},
+  {"type": "formula", "title": "THE RULE", "lines": ["d/dx [f(x) · g(x)] = f′(x) · g(x) + f(x) · g′(x)"], "note": "Derivative of the first times the second, plus the first times the derivative of the second."},
+  {"type": "example", "title": "EXAMPLE 1", "problem": "Differentiate y = x² · sin x", "steps": ["f = x², f′ = 2x", "g = sin x, g′ = cos x", "2x · sin x + x² · cos x"], "answer": "2x sin x + x² cos x"},
+  {"type": "example", "title": "EXAMPLE 2", "problem": "Differentiate y = (3x + 1)(x − 4)", "steps": ["f = 3x + 1, f′ = 3", "g = x − 4, g′ = 1", "3(x − 4) + (3x + 1)(1)"], "answer": "6x − 11"},
+  {"type": "warn", "title": "WATCH OUT", "wrong": "d/dx [x² · sin x] = 2x · cos x", "points": ["The derivative of a product is not the product of the derivatives.", "You need both terms: f′g and fg′."]},
+  {"type": "cta", "title": "WANT MORE PRACTICE?", "lines": ["Free Calculus study guide", "Quizzes, flashcards, and practice exams"], "button": "precisstudy.com/calculus", "foot": "100% free. No sign-up."}
+ ],
+ "pageTitle": "The Product Rule: How to Differentiate a Product of Functions",
+ "guide": "calculus",
+ "guideLabel": "Calculus",
+ "description": "Learn the product rule in two steps with two worked examples and the most common mistake.",
+ "published": "2026-10-04"
+}
