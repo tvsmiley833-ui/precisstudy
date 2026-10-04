@@ -7,7 +7,7 @@ The site never asks age, so a child under 13 can sign in. In the US, collecting 
   *I build:* a birth-year screen shown before Google/GitHub/email sign-in, a stored "age confirmed" marker (year only, no birthday), the block message, and the policy line. About half a day.
 - **Option B: allow under-13 with consent.** Needs a parental-consent flow and a way to verify the parent. Not recommended.
 
-If you school's students are in a district with its own data agreement (New York Ed Law 2-d, etc.), also check what that agreement asks of you.
+If your school's students are in a district with its own data agreement (New York Ed Law 2-d, etc.), also check what that agreement asks of you.
 
 **Tell me A or B and I'll build it.**
 
