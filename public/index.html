@@ -228,6 +228,11 @@ html[data-signed-in] .sage-intro,html[data-signed-in] #how-it-works,html[data-si
 .cat-pill.active{background:var(--accent-solid);color:#fff;border-color:var(--accent-solid)}
 
 .class-group-h{transition:color .3s ease}
+/* Your classes: one grid, no subject headings. */
+#classes-grid.ss-mine{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;align-items:start}
+#classes-grid.ss-mine .class-group,#classes-grid.ss-mine .class-group-grid{display:contents!important}
+#classes-grid.ss-mine .class-group[hidden],#classes-grid.ss-mine .class-group[style*="display: none"]{display:none!important}
+#classes-grid.ss-mine .class-group-h{display:none!important}
 .class-group-grid{transition:box-shadow .3s ease;border-radius:18px}
 .cat-highlight .class-group-h{color:var(--accent)}
 .cat-highlight .class-group-grid{box-shadow:0 0 0 4px rgba(31,110,70,.22)}
@@ -1644,6 +1649,7 @@ function ssSortClasses(mode, skipSave){
 try{ var ssSavedSort = localStorage.getItem('ss_class_sort'); if(ssSavedSort && ssSavedSort !== 'default'){ var ssSel = document.getElementById('ss-sort'); if(ssSel){ ssSel.value = ssSavedSort; ssSortClasses(ssSavedSort, true); } } }catch(e){}
 
 function ssShowAllClasses(){
+  var g0 = document.getElementById('classes-grid'); if(g0) g0.classList.remove('ss-mine');
   document.querySelectorAll('.class-card[data-subject-key]').forEach(function(card){ card.style.display = ''; });
   ssSyncClassGroups();
   document.getElementById('classes-note').innerHTML = '<a href="/settings/" style="color:var(--accent);font-weight:700;text-decoration:none;">Choose your classes →</a>';
@@ -1668,6 +1674,7 @@ function ssApplyEnrolledFilter(enrolled){
     card.style.display = enrolledSet.has(card.dataset.subjectKey) ? '' : 'none';
   });
   ssSyncClassGroups();
+  var g1 = document.getElementById('classes-grid'); if(g1) g1.classList.add('ss-mine');
   note.innerHTML = 'Showing your classes — <a href="#" onclick="ssShowAllClasses();return false;" style="color:var(--accent);font-weight:700;text-decoration:none;">show all</a>'
     + ' · <a href="/settings/" style="color:var(--text-muted);text-decoration:none;">edit</a>';
 }
