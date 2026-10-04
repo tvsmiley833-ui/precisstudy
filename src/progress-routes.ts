@@ -3,7 +3,7 @@ import { randomToken } from "./random-token.js";
 import { loadGoogleSettings } from "./google-routes.js";
 import { pushScheduleToGoogleCalendar } from "./google-calendar-push.js";
 import { consumeRef } from "./auth-state.js";
-import { effectiveStreak } from "./streak.js";
+import { effectiveStreak, nextStreak } from "./streak.js";
 import { json } from "./http.js";
 
 export const SUBJECTS = ["geometry", "chemistry", "algebra1", "algebra2", "aplang", "globalhistory", "apbiology", "apush", "physics", "biology", "precalc", "act-prep", "anatomy", "ap-chemistry", "ap-csa", "ap-euro", "ap-human-geography", "ap-macro", "ap-micro", "ap-physics", "ap-psych", "ap-stats", "ap-usgov", "ap-world", "art-history", "astronomy", "computer-science", "creative-writing", "earth-science", "economics", "english-10", "english-9", "environmental-science", "french-1", "french-2", "french-3", "geography", "german-1", "health", "journalism", "music-theory", "psychology", "sat-math", "sat-reading", "sociology", "spanish-1", "spanish-2", "spanish-3", "speech-debate", "statistics", "study-skills", "us-government", "world-history", "calculus", "calc-ab", "calc-bc", "us-history"];
@@ -157,6 +157,8 @@ interface StreakData {
   longest: number;
   lastActiveDate: string | null;
   timezone: string | null;
+  // Banked streak freezes (0-2): one is earned at every 7-day milestone and bridges one missed day (see streak.ts).
+  freezes?: number;
   // Rolling set of the last ~14 distinct localDates touchStreak() recorded
   // (see handlePostStreak) -- unlike `current`, which resets to 1 on any gap,
   // this lets the Weekly Leaderboards "Active days this week" metric count
@@ -1069,17 +1071,18 @@ export async function handlePostStreak(request: Request, env: Env): Promise<Resp
     // request) -- ignore rather than let it reset or corrupt an existing streak.
     return json({ ok: true, streak: prev, changed: false });
   }
-  const current = gap === 1 ? prev.current + 1 : 1;
+  const step = nextStreak(prev, localDate);
+  const current = step.current;
   const recentActiveDates = [...new Set([...(prev.recentActiveDates || []), localDate])]
     .sort()
     .slice(-MAX_RECENT_ACTIVE_DATES);
-  const streak = { current, longest: Math.max(prev.longest, current), lastActiveDate: localDate, timezone: timezone || prev.timezone || null, recentActiveDates };
+  const streak = { current, longest: step.longest, lastActiveDate: localDate, timezone: timezone || prev.timezone || null, recentActiveDates, freezes: step.freezes };
 
   blob.streak = streak;
   blob.updatedAt = new Date().toISOString();
 
   await putBlob(env, session.email, blob);
-  return json({ ok: true, streak, changed: true });
+  return json({ ok: true, streak, changed: true, usedFreeze: step.usedFreeze, earnedFreeze: step.earnedFreeze });
 }
 
 export async function handlePostGoal(request: Request, env: Env): Promise<Response> {

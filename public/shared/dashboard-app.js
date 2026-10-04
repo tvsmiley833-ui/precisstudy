@@ -1827,6 +1827,7 @@ async function loadDashboard() {
     streakEl.innerHTML = '<span style="display:inline-flex;align-items:center;gap:7px;background:var(--chip-bg);color:var(--chip-text);font-weight:800;font-size:15px;padding:9px 18px;border-radius:999px;">'
       + '<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#f2a93b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c1 3 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-5 1-9Z"/></svg>' + blob.streak.current + '-day streak'
       + (blob.streak.longest > blob.streak.current ? '<span style="font-weight:600;opacity:.7;font-size:13px;margin-left:2px;">· best ' + blob.streak.longest + '</span>' : '')
+      + (blob.streak.freezes > 0 ? '<span title="A streak freeze covers one missed day. You earn one every 7 days, up to 2." style="font-weight:700;font-size:13px;margin-left:2px;">· ❄ ' + blob.streak.freezes + ' freeze' + (blob.streak.freezes === 1 ? '' : 's') + '</span>' : '')
       + '</span>';
   }
   renderDashLevel(blob);

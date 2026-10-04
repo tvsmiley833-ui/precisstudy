@@ -130,3 +130,29 @@ describe("admin access", () => {
     expect(await me("github")).toBe(false);
   });
 });
+
+import { nextStreak } from "../src/streak.js";
+
+describe("streak freezes", () => {
+  it("continues on consecutive days and restarts after a long gap", () => {
+    expect(nextStreak({ current: 3, longest: 3, lastActiveDate: "2026-10-02" }, "2026-10-03").current).toBe(4);
+    expect(nextStreak({ current: 3, longest: 3, lastActiveDate: "2026-09-28" }, "2026-10-03").current).toBe(1);
+  });
+  it("bridges exactly one missed day with a banked freeze and uses it up", () => {
+    const s = nextStreak({ current: 9, longest: 9, lastActiveDate: "2026-10-01", freezes: 1 }, "2026-10-03");
+    expect(s).toMatchObject({ current: 10, freezes: 0, usedFreeze: true });
+  });
+  it("does not bridge without a freeze, or across two missed days", () => {
+    expect(nextStreak({ current: 9, longest: 9, lastActiveDate: "2026-10-01", freezes: 0 }, "2026-10-03").current).toBe(1);
+    expect(nextStreak({ current: 9, longest: 9, lastActiveDate: "2026-09-30", freezes: 2 }, "2026-10-03").current).toBe(1);
+  });
+  it("earns a freeze at every 7-day milestone, capped at two", () => {
+    expect(nextStreak({ current: 6, longest: 6, lastActiveDate: "2026-10-02", freezes: 0 }, "2026-10-03")).toMatchObject({ current: 7, freezes: 1, earnedFreeze: true });
+    expect(nextStreak({ current: 13, longest: 13, lastActiveDate: "2026-10-02", freezes: 2 }, "2026-10-03")).toMatchObject({ current: 14, freezes: 2, earnedFreeze: false });
+  });
+  it("keeps a one-day-lapsed streak alive for display only while a freeze is banked", () => {
+    expect(effectiveStreak({ current: 8, lastActiveDate: "2026-10-01", timezone: "UTC", freezes: 1 }, NOW)).toBe(8);
+    expect(effectiveStreak({ current: 8, lastActiveDate: "2026-10-01", timezone: "UTC", freezes: 0 }, NOW)).toBe(0);
+    expect(effectiveStreak({ current: 8, lastActiveDate: "2026-09-30", timezone: "UTC", freezes: 2 }, NOW)).toBe(0);
+  });
+});
