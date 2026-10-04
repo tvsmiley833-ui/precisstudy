@@ -565,6 +565,78 @@
    "e": "Squeeze Theorem: both bounds approach 0."
   },
   {
+   "u": 1,
+   "q": "lim_{x→4} (x² − 16)/(x − 4) =",
+   "o": [
+    "0",
+    "4",
+    "16",
+    "8"
+   ],
+   "a": 3,
+   "e": "Factor: (x − 4)(x + 4)/(x − 4) = x + 4, so the limit is 8."
+  },
+  {
+   "u": 1,
+   "q": "lim_{x→0} (e^x − 1)/x =",
+   "o": [
+    "0",
+    "1",
+    "e",
+    "Does not exist"
+   ],
+   "a": 1,
+   "e": "This is the derivative of eˣ at x = 0, which equals e⁰ = 1."
+  },
+  {
+   "u": 1,
+   "q": "lim_{x→∞} 5/x² =",
+   "o": [
+    "0",
+    "5",
+    "∞",
+    "1"
+   ],
+   "a": 0,
+   "e": "The denominator grows without bound, so the fraction goes to 0."
+  },
+  {
+   "u": 1,
+   "q": "If lim_{x→2⁻} f(x) = 3 and lim_{x→2⁺} f(x) = 5, then lim_{x→2} f(x):",
+   "o": [
+    "equals 3",
+    "equals 5",
+    "does not exist",
+    "equals 4"
+   ],
+   "a": 2,
+   "e": "The two one-sided limits must agree for the two-sided limit to exist."
+  },
+  {
+   "u": 1,
+   "q": "A function f is continuous at x = a if:",
+   "o": [
+    "f(a) is defined only",
+    "lim_{x→a} f(x) exists only",
+    "f′(a) exists",
+    "lim_{x→a} f(x) = f(a)"
+   ],
+   "a": 3,
+   "e": "Continuity requires f(a) to be defined, the limit to exist, and the two to be equal."
+  },
+  {
+   "u": 1,
+   "q": "lim_{x→3} √(x + 1) =",
+   "o": [
+    "1",
+    "2",
+    "4",
+    "3"
+   ],
+   "a": 1,
+   "e": "√x is continuous for x ≥ 0, so substitute x = 3: √4 = 2."
+  },
+  {
    "u": 2,
    "q": "d/dx (4x³ − 5x + 2) =",
    "o": [
@@ -853,6 +925,102 @@
    "e": "A standard inverse-trig derivative."
   },
   {
+   "u": 2,
+   "q": "d/dx (x⁶) =",
+   "o": [
+    "6x⁵",
+    "x⁵",
+    "6x⁶",
+    "5x⁶"
+   ],
+   "a": 0,
+   "e": "Power rule: bring down the exponent and reduce it by 1."
+  },
+  {
+   "u": 2,
+   "q": "d/dx (2x³ − 7x) =",
+   "o": [
+    "6x² − 7x",
+    "2x² − 7",
+    "6x² − 7",
+    "6x³ − 7"
+   ],
+   "a": 2,
+   "e": "Differentiate each term: (2x³)′ = 6x² and (7x)′ = 7."
+  },
+  {
+   "u": 2,
+   "q": "d/dx (cos 3x) =",
+   "o": [
+    "−sin 3x",
+    "3 sin 3x",
+    "−3 cos 3x",
+    "−3 sin 3x"
+   ],
+   "a": 3,
+   "e": "Chain rule: the derivative of cos u is −sin u times u′, and u′ = 3."
+  },
+  {
+   "u": 2,
+   "q": "d/dx (ln x²) for x > 0 =",
+   "o": [
+    "1/x²",
+    "2/x",
+    "2x",
+    "1/(2x)"
+   ],
+   "a": 1,
+   "e": "ln x² = 2 ln x, so the derivative is 2/x."
+  },
+  {
+   "u": 2,
+   "q": "d/dx (x² e^(3x)) =",
+   "o": [
+    "e^(3x)(3x² + 2x)",
+    "3x² e^(3x)",
+    "2x e^(3x)",
+    "e^(3x)(x² + 2x)"
+   ],
+   "a": 0,
+   "e": "Product rule: 2x e^(3x) + x² · 3e^(3x) = e^(3x)(3x² + 2x)."
+  },
+  {
+   "u": 2,
+   "q": "If f(x) = (x + 1)³, then f′(0) =",
+   "o": [
+    "1",
+    "0",
+    "3",
+    "6"
+   ],
+   "a": 2,
+   "e": "f′(x) = 3(x + 1)², so f′(0) = 3."
+  },
+  {
+   "u": 2,
+   "q": "If y = x² sin x, then dy/dx =",
+   "o": [
+    "2x cos x",
+    "x² cos x",
+    "2x sin x",
+    "2x sin x + x² cos x"
+   ],
+   "a": 3,
+   "e": "Product rule: (x²)′ sin x + x²(sin x)′."
+  },
+  {
+   "u": 2,
+   "q": "d/dx (1/x³) =",
+   "o": [
+    "3/x⁴",
+    "−3/x⁴",
+    "−1/(3x²)",
+    "−3/x²"
+   ],
+   "a": 1,
+   "e": "Write 1/x³ = x⁻³. The derivative is −3x⁻⁴ = −3/x⁴."
+  },
+  {
    "u": 3,
    "q": "f(x) = x³ − 3x has a relative maximum at:",
    "o": [
@@ -995,6 +1163,78 @@
    ],
    "a": 3,
    "e": "f' > 0 → f increasing; f' decreasing → f'' < 0 → concave down."
+  },
+  {
+   "u": 3,
+   "q": "On which interval is f(x) = x² − 4x increasing?",
+   "o": [
+    "(2, ∞)",
+    "(−∞, 2)",
+    "(0, 4)",
+    "(−∞, ∞)"
+   ],
+   "a": 0,
+   "e": "f′(x) = 2x − 4 is positive for x > 2."
+  },
+  {
+   "u": 3,
+   "q": "f(x) = x² − 4x has a minimum at x =",
+   "o": [
+    "0",
+    "4",
+    "2",
+    "−2"
+   ],
+   "a": 2,
+   "e": "f′(x) = 2x − 4 = 0 at x = 2, and f″(x) = 2 > 0 so it is a minimum."
+  },
+  {
+   "u": 3,
+   "q": "If f″(x) > 0 on an interval, the graph of f is:",
+   "o": [
+    "concave down",
+    "decreasing",
+    "a straight line",
+    "concave up"
+   ],
+   "a": 3,
+   "e": "A positive second derivative means f′ is increasing, so the graph curves upward."
+  },
+  {
+   "u": 3,
+   "q": "The equation of the tangent line to y = x² at x = 3 is:",
+   "o": [
+    "y = 6x + 9",
+    "y = 6x − 9",
+    "y = 3x − 6",
+    "y = 9x − 18"
+   ],
+   "a": 1,
+   "e": "y(3) = 9 and y′(3) = 6, so y − 9 = 6(x − 3), which gives y = 6x − 9."
+  },
+  {
+   "u": 3,
+   "q": "The absolute minimum of f(x) = x² − 4x on [0, 5] is:",
+   "o": [
+    "−4",
+    "0",
+    "5",
+    "−5"
+   ],
+   "a": 0,
+   "e": "The critical point x = 2 gives f(2) = −4. The endpoints give f(0) = 0 and f(5) = 5."
+  },
+  {
+   "u": 3,
+   "q": "The inflection point of f(x) = x³ occurs at x =",
+   "o": [
+    "1",
+    "−1",
+    "0",
+    "3"
+   ],
+   "a": 2,
+   "e": "f″(x) = 6x changes sign at x = 0."
   },
   {
    "u": 4,
@@ -1141,6 +1381,78 @@
    "e": "u = 3x gives (1/3)∫eᵘ du."
   },
   {
+   "u": 4,
+   "q": "∫ x⁴ dx =",
+   "o": [
+    "4x³ + C",
+    "x⁵ + C",
+    "5x⁵ + C",
+    "x⁵/5 + C"
+   ],
+   "a": 3,
+   "e": "Add 1 to the exponent and divide by the new exponent."
+  },
+  {
+   "u": 4,
+   "q": "∫₀³ 2x dx =",
+   "o": [
+    "6",
+    "9",
+    "3",
+    "18"
+   ],
+   "a": 1,
+   "e": "The antiderivative is x², so the integral is 9 − 0 = 9."
+  },
+  {
+   "u": 4,
+   "q": "∫ cos x dx =",
+   "o": [
+    "sin x + C",
+    "−sin x + C",
+    "cos x + C",
+    "−cos x + C"
+   ],
+   "a": 0,
+   "e": "The derivative of sin x is cos x."
+  },
+  {
+   "u": 4,
+   "q": "∫ 3 dx =",
+   "o": [
+    "3 + C",
+    "x + C",
+    "3x + C",
+    "3x² + C"
+   ],
+   "a": 2,
+   "e": "The antiderivative of a constant k is kx."
+  },
+  {
+   "u": 4,
+   "q": "∫₁⁴ √x dx =",
+   "o": [
+    "2",
+    "7/3",
+    "14",
+    "14/3"
+   ],
+   "a": 3,
+   "e": "∫ x^(1/2) dx = (2/3)x^(3/2). Evaluating from 1 to 4 gives (2/3)(8 − 1) = 14/3."
+  },
+  {
+   "u": 4,
+   "q": "∫ e^(2x) dx =",
+   "o": [
+    "2e^(2x) + C",
+    "(1/2)e^(2x) + C",
+    "e^(2x) + C",
+    "(1/2)e^x + C"
+   ],
+   "a": 1,
+   "e": "Divide by the inner derivative 2."
+  },
+  {
    "u": 5,
    "q": "The average value of f(x) = x² on [0, 3] is:",
    "o": [
@@ -1283,6 +1595,78 @@
    ],
    "a": 2,
    "e": "∫_{−2}^2 (4 − x²) dx = 16 − 16/3 = 32/3."
+  },
+  {
+   "u": 5,
+   "q": "The area under y = x² from x = 0 to x = 3 is:",
+   "o": [
+    "9",
+    "3",
+    "27",
+    "6"
+   ],
+   "a": 0,
+   "e": "∫₀³ x² dx = 3³/3 = 9."
+  },
+  {
+   "u": 5,
+   "q": "The area between y = x and y = x² from x = 0 to x = 1 is:",
+   "o": [
+    "1/3",
+    "1/2",
+    "1/6",
+    "1/12"
+   ],
+   "a": 2,
+   "e": "On [0, 1], x ≥ x², so the area is ∫(x − x²)dx = 1/2 − 1/3 = 1/6."
+  },
+  {
+   "u": 5,
+   "q": "The average value of f(x) = 2x on [0, 4] is:",
+   "o": [
+    "8",
+    "2",
+    "16",
+    "4"
+   ],
+   "a": 3,
+   "e": "Average value = (1/4)∫₀⁴ 2x dx = (1/4)(16) = 4."
+  },
+  {
+   "u": 5,
+   "q": "If velocity is v(t) = 3t² (meters per second), the distance traveled from t = 0 to t = 2 is:",
+   "o": [
+    "6 meters",
+    "8 meters",
+    "12 meters",
+    "4 meters"
+   ],
+   "a": 1,
+   "e": "∫₀² 3t² dt = t³ evaluated from 0 to 2 = 8."
+  },
+  {
+   "u": 5,
+   "q": "The area between y = 4 and y = x² for −2 ≤ x ≤ 2 is:",
+   "o": [
+    "32/3",
+    "16/3",
+    "8",
+    "16"
+   ],
+   "a": 0,
+   "e": "The area is ∫₋₂² (4 − x²)dx = 16 − 16/3 = 32/3."
+  },
+  {
+   "u": 5,
+   "q": "The volume of the solid formed by rotating y = x about the x-axis on [0, 3] is:",
+   "o": [
+    "3π",
+    "27π",
+    "9π",
+    "9π/2"
+   ],
+   "a": 2,
+   "e": "Disk method: V = π∫₀³ x² dx = π(27/3) = 9π."
   },
   {
    "u": 6,
@@ -1429,6 +1813,78 @@
    "e": "tan x = sin x/cos x; with u = cos x, it becomes −∫du/u."
   },
   {
+   "u": 6,
+   "q": "d/dx (e^(5x)) =",
+   "o": [
+    "e^(5x)",
+    "5xe^(5x−1)",
+    "e^(5)",
+    "5e^(5x)"
+   ],
+   "a": 3,
+   "e": "Chain rule: e^(5x) times 5."
+  },
+  {
+   "u": 6,
+   "q": "d/dx (ln(3x)) =",
+   "o": [
+    "3/x",
+    "1/x",
+    "1/(3x)",
+    "3x"
+   ],
+   "a": 1,
+   "e": "d/dx ln(3x) = 3/(3x) = 1/x."
+  },
+  {
+   "u": 6,
+   "q": "If y = 2e^(0.3t), the rate of growth is proportional to:",
+   "o": [
+    "y itself",
+    "t",
+    "e^t",
+    "a constant"
+   ],
+   "a": 0,
+   "e": "dy/dt = 0.3y, so the rate is proportional to the amount present."
+  },
+  {
+   "u": 6,
+   "q": "∫ (1/x) dx for x > 0 =",
+   "o": [
+    "1/x² + C",
+    "−1/x² + C",
+    "ln x + C",
+    "e^x + C"
+   ],
+   "a": 2,
+   "e": "The derivative of ln x is 1/x."
+  },
+  {
+   "u": 6,
+   "q": "ln(e³) =",
+   "o": [
+    "e",
+    "1",
+    "e³",
+    "3"
+   ],
+   "a": 3,
+   "e": "ln and eˣ are inverses, so ln(e³) = 3."
+  },
+  {
+   "u": 6,
+   "q": "If a population doubles every 5 years, the growth is best modeled by:",
+   "o": [
+    "a linear function",
+    "an exponential function",
+    "a quadratic function",
+    "a constant function"
+   ],
+   "a": 1,
+   "e": "Repeated doubling over equal time intervals is exponential growth."
+  },
+  {
    "u": 7,
    "q": "s(t) = t³ − 6t² + 9t gives position. When is the particle at rest?",
    "o": [
@@ -1573,6 +2029,78 @@
    "e": "L'Hôpital twice: sin x/(2x) → cos x/2 → 1/2."
   },
   {
+   "u": 7,
+   "q": "Two numbers add to 20. What is the maximum possible product?",
+   "o": [
+    "100",
+    "50",
+    "200",
+    "80"
+   ],
+   "a": 0,
+   "e": "P = x(20 − x) = 20x − x². P′ = 20 − 2x = 0 at x = 10, giving P = 100."
+  },
+  {
+   "u": 7,
+   "q": "A rectangle has perimeter 40. The maximum area is:",
+   "o": [
+    "400",
+    "200",
+    "100",
+    "50"
+   ],
+   "a": 2,
+   "e": "A = x(20 − x) is maximized at x = 10, so the rectangle is a 10 by 10 square with area 100."
+  },
+  {
+   "u": 7,
+   "q": "A balloon's radius is increasing at 2 cm/s. How fast is its volume increasing when r = 3 cm? (V = (4/3)πr³)",
+   "o": [
+    "36π cm³/s",
+    "24π cm³/s",
+    "108π cm³/s",
+    "72π cm³/s"
+   ],
+   "a": 3,
+   "e": "dV/dt = 4πr²(dr/dt) = 4π(9)(2) = 72π."
+  },
+  {
+   "u": 7,
+   "q": "A square's side grows at 3 in/s. How fast is its area growing when the side is 5 in?",
+   "o": [
+    "15 in²/s",
+    "30 in²/s",
+    "25 in²/s",
+    "75 in²/s"
+   ],
+   "a": 1,
+   "e": "A = s², so dA/dt = 2s(ds/dt) = 2(5)(3) = 30."
+  },
+  {
+   "u": 7,
+   "q": "A closed box with a square base has volume 32. Which quantity is minimized to use the least material?",
+   "o": [
+    "Surface area",
+    "Volume",
+    "Height",
+    "Base area"
+   ],
+   "a": 0,
+   "e": "The volume is fixed, so you minimize the surface area, the amount of material."
+  },
+  {
+   "u": 7,
+   "q": "To find the maximum or minimum of a function on a closed interval, you must compare values at:",
+   "o": [
+    "critical points only",
+    "endpoints only",
+    "critical points and endpoints",
+    "inflection points only"
+   ],
+   "a": 2,
+   "e": "The Extreme Value Theorem guarantees extrema on [a, b], and they occur at critical points or endpoints."
+  },
+  {
    "u": 8,
    "q": "Σ_{n=0}^∞ 3(1/2)ⁿ =",
    "o": [
@@ -1715,6 +2243,78 @@
    ],
    "a": 2,
    "e": "Telescoping: Sₙ = 1 − 1/(n + 1) → 1."
+  },
+  {
+   "u": 8,
+   "q": "The sum of the infinite geometric series 1 + 1/2 + 1/4 + 1/8 + … is:",
+   "o": [
+    "1",
+    "4",
+    "It diverges",
+    "2"
+   ],
+   "a": 3,
+   "e": "With a = 1 and r = 1/2, the sum is a/(1 − r) = 2."
+  },
+  {
+   "u": 8,
+   "q": "A geometric series converges when:",
+   "o": [
+    "r > 1",
+    "|r| < 1",
+    "r = 1",
+    "|r| > 1"
+   ],
+   "a": 1,
+   "e": "The terms shrink to zero fast enough only when the absolute value of the ratio is less than 1."
+  },
+  {
+   "u": 8,
+   "q": "The 10th term of the arithmetic sequence 3, 7, 11, … is:",
+   "o": [
+    "39",
+    "40",
+    "43",
+    "37"
+   ],
+   "a": 0,
+   "e": "aₙ = 3 + (n − 1)(4), so a₁₀ = 3 + 36 = 39."
+  },
+  {
+   "u": 8,
+   "q": "Σ from k = 1 to 4 of k² =",
+   "o": [
+    "10",
+    "16",
+    "30",
+    "25"
+   ],
+   "a": 2,
+   "e": "1 + 4 + 9 + 16 = 30."
+  },
+  {
+   "u": 8,
+   "q": "lim_{n→∞} (2n + 1)/(n + 3) =",
+   "o": [
+    "1",
+    "0",
+    "∞",
+    "2"
+   ],
+   "a": 3,
+   "e": "The degrees match, so the limit is 2/1 = 2."
+  },
+  {
+   "u": 8,
+   "q": "The series Σ 1/n (the harmonic series) is:",
+   "o": [
+    "convergent with sum 1",
+    "divergent",
+    "convergent with sum e",
+    "convergent with sum 2"
+   ],
+   "a": 1,
+   "e": "Although its terms go to zero, the harmonic series grows without bound."
   }
  ],
  "flashcards": [
