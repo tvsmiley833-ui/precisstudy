@@ -3,6 +3,12 @@
 // opens/closes (styles live in /shared/site-header.css), #ss-mobile-menu from
 // #ss-menu-btn (Escape, outside click and link clicks close it).
 (function () {
+  document.querySelectorAll(".ss-mail-link").forEach(function (el) {
+    var addr = el.dataset.u + "@" + el.dataset.d;
+    el.href = "mailto:" + addr;
+    var span = el.querySelector(".ss-mail-addr");
+    if (span) span.textContent = addr;
+  });
   var btn = document.getElementById("ss-menu-btn");
   var menu = document.getElementById("ss-mobile-menu");
   if (!btn || !menu) return;

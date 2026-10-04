@@ -4,6 +4,7 @@
 // The views template (page-views.template.html) carries every static shell the
 // page logic expects — study planner, search, quiz scaffolding, flashcard deck,
 // exam mount point. Subject-specific content is injected at __TOKENS__.
+import { siteFooter } from "./lib/site-footer.mjs";
 import { readFileSync, writeFileSync, mkdirSync, readdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { createRequire } from "node:module";
@@ -337,13 +338,7 @@ function buildRelated(slug) {
     + `</nav>\n`;
 }
 
-const SITE_FOOTER = `<footer class="site-foot">
-  <a href="/about/">Who are we</a>
-  <a href="/request/">Request a guide</a>
-  <a href="/tips/">Study tips</a>
-  <a href="/privacy/">Privacy</a>
-  <a href="/terms/">Terms</a>
-</footer>\n`;
+const SITE_FOOTER = siteFooter({ full: false });
 
 export function generateGuide(config) {
   const schemaErrors = validateGuideConfig(config);
