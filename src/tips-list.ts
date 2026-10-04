@@ -9,6 +9,10 @@ export const TIPS: { slug: string; published: string }[] = [
     "published": "2026-10-04"
   },
   {
+    "slug": "circle-area-circumference",
+    "published": "2026-10-04"
+  },
+  {
     "slug": "comma-splice-fanboys",
     "published": "2026-10-04"
   },
@@ -38,6 +42,10 @@ export const TIPS: { slug: string; published: string }[] = [
   },
   {
     "slug": "limiting-reagent",
+    "published": "2026-10-04"
+  },
+  {
+    "slug": "mean-vs-median",
     "published": "2026-10-04"
   },
   {
@@ -122,6 +130,10 @@ export const TIPS: { slug: string; published: string }[] = [
   },
   {
     "slug": "transcription-vs-translation",
+    "published": "2026-10-04"
+  },
+  {
+    "slug": "u-substitution",
     "published": "2026-10-04"
   },
   {

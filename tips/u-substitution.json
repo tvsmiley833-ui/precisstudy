@@ -1,0 +1,21 @@
+{
+ "slug": "u-substitution",
+ "brand": "PrecisStudy",
+ "subject": "CALCULUS",
+ "url": "precisstudy.com/calculus",
+ "caption": "u-substitution, explained in 6 swipes. Save this for your next quiz. Free Calculus study guide, quizzes, and flashcards at precisstudy.com/calculus (no sign-up).",
+ "hashtags": ["calculus", "integrals", "usubstitution", "studytok", "apcalc", "studytips", "math"],
+ "slides": [
+  {"type": "hook", "title": "U-SUBSTITUTION, STEP BY STEP"},
+  {"type": "formula", "title": "THE IDEA", "lines": ["∫ f(g(x)) g′(x) dx = ∫ f(u) du, with u = g(x)"], "note": "Pick u as the inside piece whose derivative is also in the integral. Then swap everything to u."},
+  {"type": "example", "title": "EXAMPLE 1", "problem": "Evaluate ∫ 2x (x² + 1)³ dx", "steps": ["u = x² + 1, du = 2x dx", "∫ u³ du = u⁴ / 4 + C", "Substitute back: u = x² + 1"], "answer": "(x² + 1)⁴ / 4 + C"},
+  {"type": "example", "title": "EXAMPLE 2", "problem": "Evaluate ∫ cos(3x) dx", "steps": ["u = 3x, du = 3 dx, so dx = du / 3", "(1/3) ∫ cos u du = (1/3) sin u + C"], "answer": "(1/3) sin(3x) + C"},
+  {"type": "warn", "title": "WATCH OUT", "wrong": "∫ cos(3x) dx = sin(3x) + C", "points": ["Do not forget the constant factor from du. Here it is 1/3.", "Never leave x and u mixed in one integral. Convert everything, then back-substitute."]},
+  {"type": "cta", "title": "WANT MORE PRACTICE?", "lines": ["Free Calculus study guide", "Quizzes, flashcards, and practice exams"], "button": "precisstudy.com/calculus", "foot": "100% free. No sign-up."}
+ ],
+ "pageTitle": "u-Substitution: How to Integrate Composite Functions",
+ "guide": "calculus",
+ "guideLabel": "Calculus",
+ "description": "Learn u-substitution with two worked examples and the most common mistakes.",
+ "published": "2026-10-04"
+}
