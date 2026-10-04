@@ -631,6 +631,9 @@ export async function handleGetStats(request: Request, env: Env): Promise<Respon
   return json({ streak: effectiveStreak(blob.streak || { current: 0 }), xp, level });
 }
 
+// A real sync is a few KB; anything this large is a mistake or an attempt to bloat the stored blob.
+const MAX_PROGRESS_BODY = 262144;
+
 export async function handlePostProgress(request: Request, env: Env): Promise<Response> {
   const session = await getSession(request, env);
   if (!session) return json({ error: "Sign in required" }, 401);
@@ -638,7 +641,9 @@ export async function handlePostProgress(request: Request, env: Env): Promise<Re
 
   let body: unknown;
   try {
-    body = await request.json();
+    const text = await request.text();
+    if (text.length > MAX_PROGRESS_BODY) return json({ error: "Progress update is too large" }, 413);
+    body = JSON.parse(text);
   } catch (e) {
     return json({ error: "Invalid JSON body" }, 400);
   }

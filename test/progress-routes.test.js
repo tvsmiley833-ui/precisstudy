@@ -1350,3 +1350,16 @@ describe("data export", () => {
     expect(JSON.parse(text).data.streak.current).toBe(2);
   });
 });
+
+describe("handlePostProgress size cap", () => {
+  it("rejects an oversized body with 413 and stores nothing", async () => {
+    const now = Math.floor(Date.now() / 1000);
+    const cookie = `${SESSION_COOKIE}=${await signSession({ email: "big@b.co", name: "n", provider: "google", iat: now, exp: now + 600 }, "s")}`;
+    const puts = [];
+    const env = { SESSION_SECRET: "s", PROGRESS: { async get() { return null; }, async put(k) { puts.push(k); }, async delete() {} } };
+    const big = JSON.stringify({ subject: "geometry", mastery: {}, pad: "x".repeat(300000) });
+    const res = await handlePostProgress(new Request("https://x.test/api/progress", { method: "POST", headers: { Cookie: cookie, "Content-Type": "application/json" }, body: big }), env);
+    expect(res.status).toBe(413);
+    expect(puts).toEqual([]);
+  });
+});
