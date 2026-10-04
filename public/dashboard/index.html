@@ -275,6 +275,7 @@ html{scroll-behavior:smooth}
     <a href="/#how-it-works" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">How It Works</a>
     <a href="/dashboard/" class="nav-hide-sm" aria-current="page" style="color:var(--accent);text-decoration:none;">Dashboard</a>
     <a href="/flashcards/" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Flashcards</a>
+    <a href="/planner/" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Planner</a>
     <a href="/settings/" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Settings</a>
     <button id="theme-toggle" onclick="ssToggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode">
       <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
@@ -366,27 +367,11 @@ html{scroll-behavior:smooth}
       <div id="dash-forecast-body" style="display:grid;gap:10px;"></div>
     </div>
 
-    <div class="ss-card" id="dash-assignments-card">
-      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px;">
-        <div style="font-weight:800;font-size:19px;color:var(--text);"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Upcoming Assignments</div>
-        <a href="/settings/" style="font-size:12.5px;color:var(--text-muted);text-decoration:none;font-weight:700;">Manage →</a>
-      </div>
-      <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 8px;">Your Google Classroom and Canvas coursework, plus calendar due-dates, in one place.</p>
-      <div id="dash-assignments-sync" style="display:none;align-items:center;gap:8px;margin-bottom:10px;">
-        <span id="dash-assignments-sync-label" style="font-size:12px;color:var(--text-muted);"></span>
-        <button id="dash-assignments-refresh-btn" title="Refresh now" aria-label="Refresh assignments now" style="background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);cursor:pointer;font-size:12px;padding:3px 10px;display:flex;align-items:center;gap:5px;">
-          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-          Refresh
-        </button>
-      </div>
-      <div id="dash-assignments-body"><div class="skel-bar" style="width:100%;height:16px;margin-bottom:8px;"></div><div class="skel-bar" style="width:70%;height:16px;"></div></div>
-    </div>
-
     <div class="ss-card" id="dash-planner-card">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;">
         <div>
-          <div style="font-weight:800;font-size:19px;color:var(--text);margin-bottom:4px;">Weekly study planner</div>
-          <p id="dash-planner-sub" style="font-size:13.5px;color:var(--text-muted);margin:0;">Paint your free time, pick your classes, and get a color-coded weekly plan.</p>
+          <div style="font-weight:800;font-size:19px;color:var(--text);margin-bottom:4px;">Your study plan</div>
+          <p id="dash-planner-sub" style="font-size:13.5px;color:var(--text-muted);margin:0;">Set your exam date, check your pace, and build a weekly plan around your free time and assignments.</p>
         </div>
         <a href="/planner/" class="ss-cta-btn" style="background:var(--accent-solid);color:#fff;padding:10px 22px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:700;white-space:nowrap;">Open planner</a>
       </div>
@@ -490,7 +475,7 @@ document.addEventListener('click', function(e){
 });
 </script>
 
-<script type="module" src="/shared/dashboard-app.js"></script>
+<script src="/shared/plan.js"></script><script type="module" src="/shared/dashboard-app.js"></script>
 <script>
 (function(){
   var header = document.querySelector('.header-bar');

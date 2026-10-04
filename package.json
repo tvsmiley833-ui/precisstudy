@@ -13,7 +13,7 @@
     "predeploy": "node scripts/generate-tips.mjs && node scripts/gen-lastmod.mjs && npm run build:client && npm run typecheck && npm test",
     "postdeploy": "node scripts/smoke.mjs",
     "smoke": "node scripts/smoke.mjs",
-    "guides:regen": "node scripts/regen-guides.mjs",
+    "guides:regen": "node scripts/regen-guides.mjs && node scripts/gen-class-counts.mjs",
     "tips:gen": "node scripts/generate-tips.mjs"
   },
   "devDependencies": {

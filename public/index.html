@@ -134,24 +134,6 @@
 [data-theme="dark"] .ss-logo-light{display:none!important}
 [data-theme="dark"] .ss-logo-dark{display:inline!important}
 
-.spc-card{background:var(--bg-card);border:2px solid var(--border);border-radius:18px;padding:28px;max-width:680px}
-.spc-row{margin-bottom:22px}
-.spc-row label{display:flex;justify-content:space-between;font-weight:700;font-size:14px;color:var(--text);margin-bottom:10px}
-.spc-row label span{color:var(--accent);font-weight:800}
-input[type=range].spc-slider{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:999px;background:var(--border);outline:none}
-input[type=range].spc-slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--accent-bright);cursor:pointer;border:3px solid var(--bg-card);box-shadow:0 1px 4px rgba(31,110,70,.35)}
-input[type=range].spc-slider::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--accent-bright);cursor:pointer;border:3px solid var(--bg-card);box-shadow:0 1px 4px rgba(31,110,70,.35)}
-.spc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:26px 0 18px}
-.spc-stat{background:var(--bg);border-radius:14px;padding:16px 10px;text-align:center}
-.spc-stat-val{font-size:26px;font-weight:800;color:var(--accent);line-height:1}
-.spc-stat-label{font-size:11.5px;color:var(--text-muted);margin-top:6px;line-height:1.3}
-.spc-tier{border-radius:12px;padding:13px 16px;font-weight:700;font-size:14px;text-align:center;transition:background .2s,color .2s}
-.spc-tier-sub{font-weight:500;font-size:12.5px;margin-top:3px;opacity:.85}
-.spc-tier-ready{background:var(--tier-ready-bg);color:var(--tier-ready-text)}
-.spc-tier-ontrack{background:var(--tier-ontrack-bg);color:var(--tier-ontrack-text)}
-.spc-tier-start{background:var(--tier-start-bg);color:var(--tier-start-text)}
-@media(max-width:480px){.spc-stats{grid-template-columns:1fr}}
-.st-exam input,.st-exam button{min-height:44px;box-sizing:border-box}
 @media(max-width:640px){#theme-toggle{width:44px;height:44px}input[type=range].spc-slider{height:44px;padding:19px 0;background-clip:content-box;box-sizing:border-box}input[type=range].spc-slider::-webkit-slider-thumb{width:26px;height:26px}input[type=range].spc-slider::-moz-range-thumb{width:26px;height:26px}}
 #ss-signin-btn{background:none;border:1px solid var(--border);color:var(--nav-text);font-weight:700;padding:8px 16px;
   border-radius:999px;cursor:pointer;font-family:inherit;font-size:15px;white-space:nowrap}
@@ -224,7 +206,6 @@ html[data-signed-in] .sage-intro,html[data-signed-in] #how-it-works,html[data-si
 .class-card-soon{box-shadow:var(--card-shadow-soon);transition:border-color .25s ease,opacity .25s ease,box-shadow .25s ease}
 .class-card-soon:hover{border-color:var(--border-hover-soon);opacity:.8}
 
-.spc-card{box-shadow:var(--card-shadow-sm)}
 
 #class-search{transition:border-color .2s ease,box-shadow .2s ease}
 #class-search:focus{border-color:var(--accent-bright);box-shadow:0 0 0 4px rgba(255,138,76,.12)}
@@ -292,13 +273,6 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
   #fbw-btn{bottom:calc(76px + env(safe-area-inset-bottom,0px))!important}
 }
 @media(max-width:640px){#ss-cookie-banner{bottom:calc(76px + env(safe-area-inset-bottom,0px))!important}.cc-grade{display:table;margin:4px 0 0}}
-.spc-presets{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
-.spc-presets button{background:transparent;color:var(--text);border:1.5px solid var(--accent-bright);border-radius:20px;padding:7px 13px;font:inherit;font-size:13.5px;font-weight:700;cursor:pointer}
-.spc-presets button:hover,.spc-presets button[aria-pressed="true"]{background:var(--accent-solid);color:#fff;border-color:var(--accent-solid)}
-.spc-warn{margin-top:10px;font-size:13.5px;line-height:1.45;color:var(--text);background:color-mix(in srgb,#f5b83d 22%,var(--bg-card));border:1px solid color-mix(in srgb,#f5b83d 60%,var(--border));border-radius:10px;padding:9px 12px}
-.spc-warn[hidden]{display:none}
-.spc-chart{margin-top:14px}.spc-chart svg{width:100%;max-width:460px;height:auto;display:block}
-.spc-chart-cap{font-size:12.5px;color:var(--text-muted);margin-top:4px}
 .cc-grade{display:inline-block;margin-left:8px;font-size:11.5px;font-weight:800;letter-spacing:.03em;padding:2px 8px;border-radius:999px;background:var(--chip-bg);color:var(--accent);vertical-align:1px}
 .class-card{position:relative}
 .ss-pin{position:absolute;top:10px;right:10px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:50%;color:var(--text-muted);cursor:pointer;opacity:.45;transition:opacity .15s ease,color .15s ease,background .15s ease}
@@ -454,6 +428,7 @@ body > :where(:not(.chalkboard):not(script):not(style)){position:relative;z-inde
     <a href="#how-it-works" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">How It Works</a>
     <a href="/dashboard/" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Dashboard</a>
     <a href="/flashcards/" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Flashcards</a>
+    <a href="/planner/" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Planner</a>
     <a href="/settings/" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Settings</a>
     <button id="theme-toggle" onclick="ssToggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode">
       <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
@@ -470,6 +445,7 @@ body > :where(:not(.chalkboard):not(script):not(style)){position:relative;z-inde
     <a role="menuitem" href="/educators/" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Educators</a>
     <a role="menuitem" href="/dashboard/" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Dashboard</a>
     <a role="menuitem" href="/flashcards/" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Flashcards</a>
+    <a role="menuitem" href="/planner/" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Planner</a>
     <a role="menuitem" href="/settings/" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Settings</a>
     <a role="menuitem" href="#classes-section" onclick="ssCloseMobileMenu()" style="color:var(--accent-solid);text-decoration:none;font-weight:700;font-size:15px;padding:10px 12px;border-radius:8px;">Pick your class →</a>
   </div>
@@ -573,12 +549,6 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
 .st-card p{font-size:14px;line-height:1.5;color:var(--text-muted);margin:0;flex:1}
 .st-card .st-go{font-size:14px;font-weight:700;color:var(--accent)}
 .st-card kbd{font:600 12px 'IBM Plex Mono',monospace;border:1px solid var(--border);border-bottom-width:2px;border-radius:6px;padding:1px 6px;background:var(--chip-bg)}
-.st-exam{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px 14px;margin:0 0 20px;padding:18px 20px;border-radius:16px;background:var(--bg-card);border:2px solid var(--border)}
-.st-exam label{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:700;color:var(--text-muted)}
-.st-exam input{font:inherit;font-size:15px;padding:9px 12px;border-radius:10px;border:2px solid var(--border);background:var(--bg);color:var(--text)}
-.st-exam button{font:inherit;font-weight:700;font-size:14px;padding:10px 18px;border-radius:999px;border:2px solid var(--accent-solid);background:var(--accent-solid);color:#fff;cursor:pointer}
-.st-exam button.st-ghost{background:transparent;color:var(--accent)}
-.st-exam .st-status{flex-basis:100%;font-size:14px;color:var(--text-muted);min-height:1.2em}
 @media (prefers-reduced-motion:reduce){a.st-card{transition:none}a.st-card:hover{transform:none}}
 .ss-hero-resume-cta{background:var(--accent-solid);color:#fff;padding:9px 20px;border-radius:999px;
   text-decoration:none;font-size:13.5px;font-weight:700;white-space:nowrap;flex-shrink:0}
@@ -1068,18 +1038,11 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
     <h2 style="font-weight:700;font-size:14px;color:var(--nav-text);text-transform:uppercase;letter-spacing:0.06em;margin:0 0 16px;">
       Study Tools
     </h2>
-    <form class="st-exam" id="exam-form" onsubmit="ssSaveExam(event)">
-      <label for="exam-date">My exam date<input type="date" id="exam-date" required></label>
-      <label for="exam-label">What is it? (optional)<input type="text" id="exam-label" maxlength="40" placeholder="AP Lang exam" autocomplete="off"></label>
-      <button type="submit">Start countdown</button>
-      <button type="button" class="st-ghost" id="exam-clear" onclick="ssClearExam()" style="display:none">Clear</button>
-      <div class="st-status" id="exam-status" role="status" aria-live="polite">Set a date and we'll count down the days here, and use it to fill in your study plan.</div>
-    </form>
     <div class="ss-four">
+      <a class="st-card" href="/planner/"><h3>Your study plan</h3><p id="exam-status">Set your exam date, see the pace you need, plan your week, and add it to your calendar.</p><span class="st-go">Open the planner &rarr;</span></a>
       <a class="st-card" href="#classes-section"><h3>5-minute diagnostic</h3><p>Pick a class and find your weak spots before you study. No sign-up needed.</p><span class="st-go">Pick a class &rarr;</span></a>
       <a class="st-card" href="#classes-section"><h3>Flashcards that come back on time</h3><p>Spaced repetition brings each card back just before you'd forget it. Cards due today show as a badge on the Flashcards tab.</p><span class="st-go">Pick a class &rarr;</span></a>
       <a class="st-card" href="/flashcards/"><h3>Make your own flashcards</h3><p>Paste or upload your notes and turn them into a deck you can study.</p><span class="st-go">Make a deck &rarr;</span></a>
-      <a class="st-card" href="#classes-section"><h3>Study plan in your calendar</h3><p>Choose days and minutes, then download a plan for Google, Apple, or Outlook Calendar. Find it on any guide's Quiz tab.</p><span class="st-go">Pick a class &rarr;</span></a>
     </div>
     <details class="st-more"><summary>6 more study tools</summary>
     <div class="st-grid">
@@ -1112,64 +1075,6 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
     </div>
   </div>
 </section>
-
-<div class="ss-reveal" style="padding:8px 32px 24px;">
-  <div style="max-width:1120px;margin:0 auto;">
-    <div style="font-weight:700;font-size:14px;color:var(--nav-text);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:16px;">
-      Plan Your Prep
-    </div>
-    <div class="spc-card" style="max-width:840px;margin:0 auto;">
-    <div style="font-weight:800;font-size:19px;color:var(--text);margin-bottom:6px;">See what your study plan could look like</div>
-    <p style="font-size:14px;color:var(--text-muted);line-height:1.5;margin-bottom:24px;">
-      Based on our Geometry guide's real question bank — 440 practice questions across 11 units. Slide to match your situation.
-    </p>
-
-    <div class="spc-row">
-      <label for="spc-days">Days until your exam <span id="spc-days-val">14 days</span></label>
-      <input type="range" class="spc-slider" id="spc-days" min="1" max="60" value="14">
-    </div>
-    <div class="spc-row">
-      <label for="spc-mins">Minutes you can study per day <span id="spc-mins-val">30 min</span></label>
-      <input type="range" class="spc-slider" id="spc-mins" min="10" max="120" value="30" step="5">
-    </div>
-
-    <div class="spc-presets" role="group" aria-label="Pacing presets">
-      <button type="button" data-d="7" data-m="60" aria-pressed="false">1-week crunch</button>
-      <button type="button" data-d="30" data-m="30" aria-pressed="false">1-month steady</button>
-      <button type="button" data-d="60" data-m="15" aria-pressed="false">Daily light review</button>
-    </div>
-
-    <div class="spc-stats">
-      <div class="spc-stat">
-        <div class="spc-stat-val" id="spc-questions">0</div>
-        <div class="spc-stat-label">Questions you'll complete</div>
-      </div>
-      <div class="spc-stat">
-        <div class="spc-stat-val" id="spc-units">0</div>
-        <div class="spc-stat-label">Units covered</div>
-      </div>
-      <div class="spc-stat">
-        <div class="spc-stat-val" id="spc-pct">0%</div>
-        <div class="spc-stat-label">of the full question bank</div>
-      </div>
-    </div>
-
-    <div class="spc-tier" id="spc-tier">
-      <div id="spc-tier-title"></div>
-      <div class="spc-tier-sub" id="spc-tier-sub"></div>
-    </div>
-
-    <div class="spc-warn" id="spc-warn" role="status" hidden></div>
-    <div class="spc-chart"><svg id="spc-chart" viewBox="0 0 320 120" role="img" aria-label="Projected coverage of the question bank by days of study"></svg>
-      <div class="spc-chart-cap" id="spc-chart-cap"></div></div>
-
-    <div style="display:flex;align-items:center;gap:12px;margin-top:18px;">
-      <button id="spc-save-btn" class="ss-cta-btn" style="background:var(--bg-card);color:var(--accent);border:2px solid var(--accent-solid);padding:8px 18px;border-radius:20px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">Save this plan</button>
-      <span id="spc-save-status" style="font-size:13px;color:var(--text-muted);"></span>
-    </div>
-    </div>
-  </div>
-</div>
 
 <div id="study-tips" class="ss-reveal" style="padding:8px 32px 40px;">
   <div style="max-width:1120px;margin:0 auto;">
@@ -1263,71 +1168,6 @@ document.querySelectorAll('.cs-notify-form').forEach(function(form){
 </script>
 
 <script>
-(function(){
-  var GEO_TOTAL_Q = 440, GEO_UNITS = 11, MIN_PER_Q = 1.5;
-  var daysEl = document.getElementById('spc-days');
-  var minsEl = document.getElementById('spc-mins');
-  function update(){
-    var days = parseInt(daysEl.value, 10);
-    var mins = parseInt(minsEl.value, 10);
-    document.getElementById('spc-days-val').textContent = days + (days === 1 ? ' day' : ' days');
-    document.getElementById('spc-mins-val').textContent = mins + ' min';
-
-    var totalMinutes = days * mins;
-    var questions = Math.min(GEO_TOTAL_Q, Math.round(totalMinutes / MIN_PER_Q));
-    var pct = Math.min(100, Math.round((questions / GEO_TOTAL_Q) * 100));
-    var units = Math.min(GEO_UNITS, Math.max(1, Math.round((pct / 100) * GEO_UNITS)));
-
-    document.getElementById('spc-questions').textContent = questions.toLocaleString();
-    document.getElementById('spc-units').textContent = units;
-    document.getElementById('spc-pct').textContent = pct + '%';
-
-    var tier = document.getElementById('spc-tier');
-    var title = document.getElementById('spc-tier-title');
-    var sub = document.getElementById('spc-tier-sub');
-    tier.classList.remove('spc-tier-ready', 'spc-tier-ontrack', 'spc-tier-start');
-    if (pct >= 90) {
-      tier.classList.add('spc-tier-ready');
-      title.textContent = 'Full coverage';
-      sub.textContent = "At this pace you'll see the whole question bank before test day. Coverage isn't mastery, so check your accuracy too.";
-    } else if (pct >= 50) {
-      tier.classList.add('spc-tier-ontrack');
-      title.textContent = 'Good coverage';
-      sub.textContent = 'Solid coverage — keep this pace going.';
-    } else {
-      tier.classList.add('spc-tier-start');
-      title.textContent = 'Light coverage';
-      sub.textContent = 'Add a few more minutes a day to cover more ground before your exam.';
-    }
-
-    var need = Math.ceil(GEO_TOTAL_Q * MIN_PER_Q / days);
-    var warn = document.getElementById('spc-warn');
-    if (pct < 100 && need > 120) { warn.textContent = 'Heads up: even at 120 min/day, ' + days + (days === 1 ? ' day' : ' days') + ' is not enough to see every question. Try at least ' + Math.ceil(GEO_TOTAL_Q * MIN_PER_Q / 120) + ' days.'; warn.hidden = false; }
-    else if (pct < 100) { warn.textContent = 'To see every question in ' + days + (days === 1 ? ' day' : ' days') + ', you would need about ' + need + ' min/day.'; warn.hidden = false; }
-    else warn.hidden = true;
-    document.querySelectorAll('.spc-presets button').forEach(function(b){ b.setAttribute('aria-pressed', (+b.dataset.d === days && +b.dataset.m === mins) ? 'true' : 'false'); });
-    // Coverage curve: % of the bank seen vs days studied, at the chosen minutes per day. Coverage is not a score prediction.
-    var W = 320, H = 120, L = 30, B = 20, pw = W - L - 8, ph = H - B - 8, pts = [];
-    for (var d = 1; d <= 60; d++) pts.push((L + (d - 1) / 59 * pw).toFixed(1) + ',' + (8 + ph - Math.min(100, d * mins / MIN_PER_Q / GEO_TOTAL_Q * 100) / 100 * ph).toFixed(1));
-    var cx = L + (days - 1) / 59 * pw, cy = 8 + ph - pct / 100 * ph;
-    document.getElementById('spc-chart').innerHTML = '<line x1="' + L + '" y1="' + (8 + ph) + '" x2="' + (W - 8) + '" y2="' + (8 + ph) + '" stroke="var(--border)"/>'
-      + '<line x1="' + L + '" y1="8" x2="' + (W - 8) + '" y2="8" stroke="var(--border)" stroke-dasharray="3 3"/>'
-      + '<text x="' + (L - 4) + '" y="12" text-anchor="end" font-size="9" fill="var(--text-muted)">100%</text><text x="' + (L - 4) + '" y="' + (8 + ph) + '" text-anchor="end" font-size="9" fill="var(--text-muted)">0%</text>'
-      + '<text x="' + L + '" y="' + (H - 4) + '" font-size="9" fill="var(--text-muted)">1 day</text><text x="' + (W - 8) + '" y="' + (H - 4) + '" text-anchor="end" font-size="9" fill="var(--text-muted)">60 days</text>'
-      + '<polyline points="' + pts.join(' ') + '" fill="none" stroke="var(--accent-bright)" stroke-width="2.5" stroke-linejoin="round"/>'
-      + '<circle cx="' + cx.toFixed(1) + '" cy="' + cy.toFixed(1) + '" r="5" fill="#f5b83d" stroke="var(--bg-card)" stroke-width="2"/>';
-    document.getElementById('spc-chart-cap').textContent = 'Projected coverage at ' + mins + ' min/day: ' + pct + '% of the bank after ' + days + (days === 1 ? ' day' : ' days') + '. Coverage is not a score prediction.';
-  }
-  document.querySelectorAll('.spc-presets button').forEach(function(b){
-    b.addEventListener('click', function(){ daysEl.value = b.dataset.d; minsEl.value = b.dataset.m; update(); });
-  });
-  daysEl.addEventListener('input', update);
-  minsEl.addEventListener('input', update);
-  update();
-})();
-
-
-
 /* Pin classes: pinned cards move into a "Pinned" group at the top; saved on this device. */
 (function(){
   var KEY = 'ss_pins', grid = document.getElementById('classes-grid');
@@ -1638,28 +1478,11 @@ function ssDaysUntil(dateStr){
 }
 function ssRenderExamForm(){
   var e = ssExamLoad(), st = document.getElementById('exam-status');
-  if(!st) return;
-  var d = document.getElementById('exam-date'), l = document.getElementById('exam-label'), clr = document.getElementById('exam-clear');
-  if(d && !d.min){ var m = new Date(); d.min = m.getFullYear() + '-' + String(m.getMonth()+1).padStart(2,'0') + '-' + String(m.getDate()).padStart(2,'0'); }
-  if(!e){ if(clr) clr.style.display = 'none'; return; }
-  if(d) d.value = e.date; if(l) l.value = e.label || ''; if(clr) clr.style.display = '';
+  if(!st || !e) return;
   var n = ssDaysUntil(e.date);
-  st.textContent = n < 0 ? 'That date has passed. Set a new one to restart the countdown.' : n === 0 ? 'Your exam is today. You have got this.' : n + ' day' + (n === 1 ? '' : 's') + ' to go.';
+  st.textContent = n < 0 ? 'That date has passed. Set a new one in the planner.' : n === 0 ? 'Your exam is today. You have got this.' : n + ' day' + (n === 1 ? '' : 's') + ' to ' + (e.label || 'your exam') + '. Open the planner to check your pace.';
 }
-function ssSaveExam(ev){
-  ev.preventDefault();
-  var date = document.getElementById('exam-date').value, label = document.getElementById('exam-label').value.trim().slice(0, 40);
-  if(!/^\d{4}-\d{2}-\d{2}$/.test(date)) return;
-  try{ localStorage.setItem('ss-exam', JSON.stringify({ date: date, label: label })); }catch(x){}
-  ssRenderExamForm(); ssRenderHeroResume();
-}
-function ssClearExam(){
-  try{ localStorage.removeItem('ss-exam'); }catch(x){}
-  var st = document.getElementById('exam-status'); if(st) st.textContent = 'Countdown cleared.';
-  var d = document.getElementById('exam-date'), l = document.getElementById('exam-label'); if(d) d.value = ''; if(l) l.value = '';
-  var clr = document.getElementById('exam-clear'); if(clr) clr.style.display = 'none';
-  ssRenderHeroResume();
-}
+window.addEventListener('ss-plan-changed', function(){ ssRenderExamForm(); ssRenderHeroResume(); });
 // Cards due per subject according to the signed-in account (filled in by ssLoadAccountDue).
 var ssAccountDue = {};
 async function ssLoadAccountDue(){
@@ -1708,7 +1531,7 @@ function ssRenderHeroResume(){
     var n = ssDaysUntil(ex.date);
     if(n >= 0){
       examHtml = '<div class="ss-hero-exam"><span>' + (n === 0 ? '<b>Exam day.</b> You have got this.' : '<b>' + n + ' day' + (n === 1 ? '' : 's') + '</b> until ' + ssEscapeHtml(ex.label || 'your exam')) + '</span>'
-        + '<a href="#study-tools">Change date</a></div>';
+        + '<a href="/planner/">Open planner</a></div>';
     }
   }
   var dueHtml = '', ds = ssDueSummary();
@@ -1918,32 +1741,6 @@ async function ssLoadClassReadiness(){
 
 ssLoadClassReadiness();
 
-document.getElementById('spc-save-btn').addEventListener('click', async function(){
-  var status = document.getElementById('spc-save-status');
-  if (!SS_SESSION) {
-    status.textContent = 'Sign in above to save this plan.';
-    ssToggleLoginPanel();
-    return;
-  }
-  var days = parseInt(document.getElementById('spc-days').value, 10);
-  var minutesPerDay = parseInt(document.getElementById('spc-mins').value, 10);
-  status.textContent = 'Saving…';
-  try{
-    var res = await fetch('/api/goal', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({days: days, minutesPerDay: minutesPerDay})
-    });
-    if(res.ok){
-      status.textContent = 'Saved! See it on your dashboard.';
-    }else{
-      var data = await res.json();
-      status.textContent = data.error || 'Something went wrong — try again.';
-    }
-  }catch(err){
-    status.textContent = 'Network error — try again.';
-  }
-});
 
 if ('IntersectionObserver' in window) {
   var ssRevealObserver = new IntersectionObserver(function(entries) {
@@ -2012,7 +1809,7 @@ document.querySelectorAll('.class-card[data-subject-key]').forEach(function(card
   requestAnimationFrame(onScroll);
 })();
 </script>
-<script src="/shared/command-palette.js" defer></script><script src="/shared/account-menu.js" defer></script><script src="/shared/high-contrast.js" defer></script><script src="/shared/error-monitor.js" defer></script>
+<script src="/shared/plan.js" defer></script><script src="/shared/command-palette.js" defer></script><script src="/shared/account-menu.js" defer></script><script src="/shared/high-contrast.js" defer></script><script src="/shared/error-monitor.js" defer></script>
 <nav class="ss-bnav" aria-label="Quick navigation">
   <a href="/" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg>Home</a>
   <button type="button" onclick="window.scrollTo({top:0,behavior:'smooth'});setTimeout(function(){var i=document.getElementById('class-search');if(i)i.focus()},250)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>Search</button>

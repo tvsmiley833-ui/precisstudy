@@ -1115,6 +1115,22 @@ async function loadPlanner(anon) {
   const enrolledSet = new Set(blob.enrolledSubjects || []);
   SUBJECTS_FOR_SCHEDULE = enrolledSet.size === 0 ? SUBJECTS_CONFIG : SUBJECTS_CONFIG.filter(s => enrolledSet.has(s.key));
   initScheduleBuilder(blob);
+  if (!anon) {
+    loadDashAssignments().catch(function () {
+      const body = document.getElementById('dash-assignments-body');
+      if (body) body.innerHTML = '<p style="margin:0;font-size:13.5px;color:var(--text-muted);">Couldn\'t load your assignments right now.</p>';
+    });
+    const refreshBtn = document.getElementById('dash-assignments-refresh-btn');
+    if (refreshBtn) refreshBtn.addEventListener('click', function () {
+      refreshBtn.disabled = true;
+      const label = document.getElementById('dash-assignments-sync-label');
+      if (label) label.textContent = 'Refreshing…';
+      loadDashAssignments(true).finally(function () { refreshBtn.disabled = false; });
+    });
+  } else {
+    const card = document.getElementById('dash-assignments-card');
+    if (card) card.style.display = 'none';
+  }
 }
 
 async function loadDashboard() {
@@ -1133,24 +1149,12 @@ async function loadDashboard() {
   if (document.body.dataset.page === 'planner') return loadPlanner(anon);
   renderSkeletons();
   if (anon) {
-    const card = document.getElementById('dash-assignments-card');
-    if (card) card.style.display = 'none';
     const strip = document.createElement('div');
     strip.style.cssText = 'max-width:840px;margin:0 auto 14px;padding:12px 16px;border:1px solid var(--border);border-radius:12px;background:var(--bg-card);font-size:14px;color:var(--text);text-align:center;';
     strip.innerHTML = '<div style="margin-bottom:8px;">This is your progress saved on this device. Sign in to sync it across devices and keep your streak.</div><div class="ss-login-box"></div>';
     content.insertBefore(strip, content.firstChild);
     strip.querySelector('.ss-login-box').innerHTML = ssLoginBoxHtml();
-  } else loadDashAssignments().catch(function () {
-    const body = document.getElementById('dash-assignments-body');
-    if (body) body.innerHTML = '<p style="margin:0;font-size:13.5px;color:var(--text-muted);">Couldn\'t load your assignments right now.</p>';
-  });
-  const refreshBtn = document.getElementById('dash-assignments-refresh-btn');
-  if (refreshBtn && !anon) refreshBtn.addEventListener('click', function () {
-    refreshBtn.disabled = true;
-    const label = document.getElementById('dash-assignments-sync-label');
-    if (label) label.textContent = 'Refreshing…';
-    loadDashAssignments(true).finally(function () { refreshBtn.disabled = false; });
-  });
+  }
 
   let blob;
   let syncFailed = false;
@@ -1737,8 +1741,15 @@ async function loadDashboard() {
 
 function renderPlannerSummary(blob) {
   const el = document.getElementById('dash-planner-sub');
+  if (!el) return;
+  const parts = [];
+  const exam = window.ssPlan && window.ssPlan.getExam();
+  const n = exam ? window.ssPlan.daysUntil(exam.date) : -1;
+  if (n >= 0) parts.push((exam.label || 'Exam') + ' ' + (n === 0 ? 'is today' : 'in ' + n + ' day' + (n === 1 ? '' : 's')));
+  if (blob && blob.goal && blob.goal.minutesPerDay) parts.push(blob.goal.minutesPerDay + ' min/day goal');
   const blocks = blob && blob.schedule && Array.isArray(blob.schedule.blocks) ? blob.schedule.blocks.length : 0;
-  if (el && blocks) el.textContent = 'Your saved plan has ' + blocks + ' study block' + (blocks === 1 ? '' : 's') + ' this week. Open the planner to view or change it.';
+  if (blocks) parts.push(blocks + ' study block' + (blocks === 1 ? '' : 's') + ' this week');
+  if (parts.length) el.textContent = parts.join(' · ') + '. Open the planner to view or change it.';
 }
 
 function initScheduleBuilder(blob) {

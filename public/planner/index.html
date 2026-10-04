@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Weekly Study Planner — PrecisStudy</title>
+<title>Study Planner — PrecisStudy</title>
 <meta name="robots" content="noindex"/>
 <link rel="icon" type="image/png" href="/favicon.png"/>
 <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
@@ -262,7 +262,7 @@ html{scroll-behavior:smooth}
 .sb-drop{outline:2px dashed var(--accent-bright);outline-offset:2px}
 .sb-preview-note{margin-bottom:12px;padding:10px 14px;border:1px dashed var(--accent-bright);border-radius:12px;font-size:13.5px;color:var(--text)}
 </style>
-<link rel="stylesheet" href="/shared/site-header.css"/>
+<link rel="stylesheet" href="/shared/site-header.css"/><link rel="stylesheet" href="/shared/plan.css"/>
 </head>
 <body data-page="planner" style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);">
 <a href="#main-content" class="ss-skip-link" style="position:absolute;left:-9999px;top:0;z-index:100;background:var(--accent-solid);color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;text-decoration:none;">Skip to main content</a>
@@ -278,6 +278,7 @@ html{scroll-behavior:smooth}
     <a href="/#how-it-works" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">How It Works</a>
     <a href="/dashboard/" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Dashboard</a>
     <a href="/flashcards/" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Flashcards</a>
+    <a href="/planner/" class="nav-hide-sm" aria-current="page" style="color:var(--accent);text-decoration:none;">Planner</a>
     <a href="/settings/" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Settings</a>
     <button id="theme-toggle" onclick="ssToggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode">
       <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
@@ -301,8 +302,8 @@ html{scroll-behavior:smooth}
 
 <div role="main" id="main-content" class="ss-hero" style="text-align:center;padding:56px 32px 16px;">
   <div class="ss-hero-inner">
-    <h1 class="ss-hero-anim" style="animation-delay:0s;font-size:36px;font-weight:800;color:var(--text);margin:0;letter-spacing:-0.02em;">Weekly Planner</h1>
-    <p style="margin:8px auto 0;font-size:15px;color:var(--text-muted);max-width:560px;">Tell us when you are free and what to study. We build a weekly plan, and each block links straight into that study guide.</p>
+    <h1 class="ss-hero-anim" style="animation-delay:0s;font-size:36px;font-weight:800;color:var(--text);margin:0;letter-spacing:-0.02em;">Study Planner</h1>
+    <p style="margin:8px auto 0;font-size:15px;color:var(--text-muted);max-width:560px;">Set your exam date, see what pace gets you through the material, then build a weekly plan around your free time and assignments. Everything here is connected.</p>
     <p style="margin:10px 0 0;"><a href="/dashboard/" style="font-size:13.5px;font-weight:700;color:var(--accent);text-decoration:none;">&larr; Back to dashboard</a></p>
   </div>
 </div>
@@ -316,6 +317,56 @@ html{scroll-behavior:smooth}
 
 <div id="dash-content" style="display:none;padding:0 32px 64px;">
   <div style="max-width:920px;margin:0 auto;display:grid;gap:20px;">
+    <section class="pl-plan" aria-label="Exam date and pace">
+      <div class="ss-card spc-card" style="max-width:none" id="pl-exam-card">
+        <div style="font-weight:800;font-size:19px;color:var(--text);">1. When is your exam?</div>
+        <p class="pl-note" style="margin:4px 0 0">Set it once. The countdown, your pace, your dashboard and every guide use the same date.</p>
+        <div class="pl-count" id="pl-count" aria-live="polite"><b id="pl-days">&ndash;</b><span id="pl-days-label">no date set</span></div>
+        <form id="pl-exam-form" autocomplete="off">
+          <label class="pl-field" for="exam-date">Exam date<input type="date" id="exam-date" required></label>
+          <label class="pl-field" for="exam-label">What is it? (optional)<input type="text" id="exam-label" maxlength="40" placeholder="AP Lang exam"></label>
+          <div class="pl-actions"><button type="submit" class="pl-btn">Save date</button><button type="button" class="pl-btn ghost" id="exam-clear" hidden>Clear</button></div>
+        </form>
+      </div>
+      <div class="ss-card spc-card" style="max-width:none" id="pl-pace-card">
+        <div style="font-weight:800;font-size:19px;color:var(--text);">2. How much can you cover?</div>
+        <label class="pl-field" for="pl-class" style="margin-top:12px">Class<select id="pl-class"></select></label>
+        <div class="spc-row"><label for="spc-days">Days until your exam <span id="spc-days-val">14 days</span></label><input type="range" class="spc-slider" id="spc-days" min="1" max="120" value="14"></div>
+        <div class="spc-row"><label for="spc-mins">Minutes per day <span id="spc-mins-val">30 min</span></label><input type="range" class="spc-slider" id="spc-mins" min="10" max="180" value="30" step="5"></div>
+        <div class="spc-presets" role="group" aria-label="Pacing presets">
+          <button type="button" data-d="7" data-m="60" aria-pressed="false">1-week crunch</button>
+          <button type="button" data-d="30" data-m="30" aria-pressed="false">1-month steady</button>
+          <button type="button" data-d="60" data-m="15" aria-pressed="false">Daily light review</button>
+        </div>
+        <div class="spc-stats">
+          <div class="spc-stat"><div class="spc-stat-val" id="spc-questions">0</div><div class="spc-stat-label">Questions you'll complete</div></div>
+          <div class="spc-stat"><div class="spc-stat-val" id="spc-units">0</div><div class="spc-stat-label">Units covered</div></div>
+          <div class="spc-stat"><div class="spc-stat-val" id="spc-pct">0%</div><div class="spc-stat-label">of the question bank</div></div>
+        </div>
+        <div class="spc-tier" id="spc-tier"><div id="spc-tier-title"></div><div class="spc-tier-sub" id="spc-tier-sub"></div></div>
+        <div class="spc-warn" id="spc-warn" role="status" hidden></div>
+        <div class="spc-chart"><svg id="spc-chart" viewBox="0 0 320 120" role="img" aria-label="Projected coverage of the question bank by days of study"></svg><div class="spc-chart-cap" id="spc-chart-cap"></div></div>
+        <div class="pl-actions" style="margin-top:16px">
+          <button type="button" class="pl-btn" id="spc-save-btn">Save this plan</button>
+          <button type="button" class="pl-btn ghost" id="pl-ics-btn">Add to my calendar</button>
+          <span class="pl-note" id="spc-save-status" role="status"></span>
+        </div>
+      </div>
+    </section>
+
+    <div class="ss-card" id="dash-assignments-card">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px;">
+        <div style="font-weight:800;font-size:19px;color:var(--text);">3. Upcoming assignments</div>
+        <a href="/settings/" style="font-size:12.5px;color:var(--text-muted);text-decoration:none;font-weight:700;">Manage &rarr;</a>
+      </div>
+      <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 8px;">Your Google Classroom and Canvas coursework, plus calendar due-dates. Study blocks below are placed around them.</p>
+      <div id="dash-assignments-sync" style="display:none;align-items:center;gap:8px;margin-bottom:10px;">
+        <span id="dash-assignments-sync-label" style="font-size:12px;color:var(--text-muted);"></span>
+        <button id="dash-assignments-refresh-btn" type="button" aria-label="Refresh assignments now" style="background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);cursor:pointer;font:inherit;font-size:12px;padding:3px 10px;">Refresh</button>
+      </div>
+      <div id="dash-assignments-body"><p class="pl-note" style="margin:0">Sign in to see assignments.</p></div>
+    </div>
+
     <div class="ss-card">
       <div style="font-weight:800;font-size:19px;color:var(--text);margin-bottom:4px;"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Build your weekly schedule</div>
       <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 10px;">Tell us when you're free and what you want to study — we'll build a color-coded weekly plan. Click any block to jump straight into that study guide.</p>
@@ -474,7 +525,7 @@ document.addEventListener('click', function(e){
 });
 </script>
 
-<script type="module" src="/shared/dashboard-app.js"></script>
+<script src="/shared/plan.js"></script><script src="/shared/planner-page.js"></script><script type="module" src="/shared/dashboard-app.js"></script>
 <script>
 (function(){
   var header = document.querySelector('.header-bar');

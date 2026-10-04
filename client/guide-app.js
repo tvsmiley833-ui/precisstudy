@@ -2177,7 +2177,7 @@ function ssBuildPlanIcs(o){
   if(!daysEl||!minsEl)return;
   var daysNum=document.getElementById('spc-days-num');
   var minsNum=document.getElementById('spc-mins-num');
-  // A saved exam date (set on the homepage) pre-fills "days until your exam".
+  // A saved exam date (set in the planner) pre-fills "days until your exam".
   try{
     var ex=JSON.parse(localStorage.getItem('ss-exam')||'null');
     if(ex&&/^\d{4}-\d{2}-\d{2}$/.test(ex.date)){
@@ -2186,6 +2186,10 @@ function ssBuildPlanIcs(o){
       if(dl>=parseInt(daysEl.min,10)&&dl<=parseInt(daysEl.max,10)){daysEl.value=dl;if(daysNum)daysNum.value=dl;}
     }
   }catch(e){/* no saved exam date */}
+  try{
+    var pm=parseInt(localStorage.getItem('ss-plan-mins'),10);
+    if(pm>=parseInt(minsEl.min,10)&&pm<=parseInt(minsEl.max,10)){minsEl.value=pm;if(minsNum)minsNum.value=pm;}
+  }catch(e){/* no saved pace */}
   var DAYS_DEFAULT=daysEl.value, MINS_DEFAULT=minsEl.value;
   function setFill(el){
     var min=parseFloat(el.min),max=parseFloat(el.max),val=parseFloat(el.value);
