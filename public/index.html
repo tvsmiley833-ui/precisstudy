@@ -274,6 +274,12 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 .class-group .class-card-icon{color:var(--gc)}
 .class-group .class-card:not(.class-card-soon):hover{border-color:var(--gc)!important}
 .class-group .class-group-h{border-left:4px solid var(--gc);padding-left:10px}
+.ss-kbd-hint{position:absolute;right:14px;top:50%;transform:translateY(-50%);pointer-events:none;font-size:11px;color:var(--text-muted);display:flex;gap:3px}
+.ss-kbd-hint kbd{font:inherit;font-weight:700;border:1px solid var(--border);border-radius:5px;padding:1px 5px;background:var(--bg-card)}
+#class-search:not(:placeholder-shown)~.ss-kbd-hint,#class-search:focus~.ss-kbd-hint{display:none}
+@media(max-width:640px),(hover:none){.ss-kbd-hint{display:none}}
+.ss-sort{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-muted)}
+.ss-sort select{background:var(--bg-card);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:5px 8px;font:inherit;font-size:13px}
 .class-card-topics{margin:10px 0 0;font-size:13.5px;line-height:1.45;color:var(--text-muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .class-card-more{white-space:nowrap;opacity:.8}
 @media(max-width:640px){#category-pills{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;scrollbar-width:none;padding:0 16px 4px;margin-left:-16px;margin-right:-16px;max-width:none}#category-pills::-webkit-scrollbar{display:none}.cat-pill{flex-shrink:0}}
@@ -546,7 +552,7 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
   <div class="ss-hero-inner">
   <h1 id="hero-headline" class="ss-hero-title">Study guides that <em class="chalk-u">actually<svg aria-hidden="true" viewBox="0 0 200 20" preserveAspectRatio="none"><path pathLength="1" d="M4 14 C50 6 120 4 196 10 M20 17 C80 12 140 12 186 15"/></svg></em> get you ready.</h1>
   <p class="ss-hero-anim" style="animation-delay:.08s;font-size:18px;color:var(--text-muted);max-width:560px;margin:0 auto 20px;line-height:1.5;">
-    Interactive quizzes, flashcards, and practice exams for real classes —
+    <strong>Interactive quizzes</strong>, <strong>flashcards</strong>, and <strong>practice exams</strong> for real classes —
     not generic summaries. Pick a class and start.
   </p>
   <div id="hero-resume" class="ss-hero-anim" style="animation-delay:.12s;display:none;"></div>
@@ -558,6 +564,7 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
       onkeydown="if(event.key==='Escape')ssCloseSearchDropdown()"
       style="width:100%;box-sizing:border-box;background:var(--bg-card);border:2px solid var(--border);border-radius:14px;padding:14px 40px 14px 44px;color:var(--text);font-size:15px;font-family:inherit;outline:none;"/>
     <button id="class-search-clear" type="button" aria-label="Clear search" onclick="ssClearClassSearch()" style="display:none;position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:20px;line-height:1;padding:4px;">×</button>
+    <span class="ss-kbd-hint" aria-hidden="true"><kbd>Ctrl</kbd> <kbd>K</kbd></span>
     <div id="search-dropdown" role="listbox" aria-label="Matching subjects"></div>
   </div>
   <div id="no-match-msg" style="display:none;max-width:480px;margin:12px auto 0;font-size:13px;color:var(--text-muted);">No classes match your search yet. <a id="no-match-req" href="/request/">Request this class &rarr;</a></div>
@@ -595,6 +602,7 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
         Classes
       </h2>
       <div id="classes-note" style="font-size:13px;color:var(--text-muted);"></div>
+      <label class="ss-sort">Sort within groups <select id="ss-sort" onchange="ssSortClasses(this.value)"><option value="default">Default order</option><option value="az">A to Z</option><option value="questions">Most questions</option></select></label>
     </div>
     <div id="classes-grid">
       <div class="class-group" data-group="Math">
@@ -1652,6 +1660,22 @@ function ssReadinessPct(mastery){
   var sum = records.reduce(function(s, r){ return s + (r.correct / r.total) * 100; }, 0);
   return Math.round(sum / records.length);
 }
+
+
+function ssSortClasses(mode, skipSave){
+  if(!skipSave){ try{ localStorage.setItem('ss_class_sort', mode); }catch(e){} }
+  document.querySelectorAll('.class-group-grid').forEach(function(grid){
+    var cards = Array.prototype.slice.call(grid.querySelectorAll(':scope > .class-card'));
+    cards.forEach(function(c, i){ if(c.dataset.idx === undefined) c.dataset.idx = i; });
+    var qs = function(c){ var m = (c.querySelector('.cc-meta') || {}).textContent || ''; var n = m.match(/([\d,]+)\s+practice/); return n ? parseInt(n[1].replace(/,/g,''), 10) : -1; };
+    cards.sort(function(a, b){
+      if(mode === 'az') return (a.dataset.name || '').localeCompare(b.dataset.name || '');
+      if(mode === 'questions') return qs(b) - qs(a);
+      return a.dataset.idx - b.dataset.idx;
+    }).forEach(function(c){ grid.appendChild(c); });
+  });
+}
+try{ var ssSavedSort = localStorage.getItem('ss_class_sort'); if(ssSavedSort && ssSavedSort !== 'default'){ var ssSel = document.getElementById('ss-sort'); if(ssSel){ ssSel.value = ssSavedSort; ssSortClasses(ssSavedSort, true); } } }catch(e){}
 
 function ssShowAllClasses(){
   document.querySelectorAll('.class-card[data-subject-key]').forEach(function(card){ card.style.display = ''; });
