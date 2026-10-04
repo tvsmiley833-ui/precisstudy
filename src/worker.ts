@@ -165,7 +165,7 @@ const CONTRAST_BOOTSTRAP =
   "if(c==='high'||(c===null&&window.matchMedia&&matchMedia('(prefers-contrast: more)').matches))d.setAttribute('data-contrast','high');" +
   "if(localStorage.getItem('ss-amoled')==='on')d.setAttribute('data-amoled','on')}catch(e){}})()</script>";
 
-const SLASH_PAGES = new Set(["about", "privacy", "terms", "request", "dashboard", "settings", "concepts", "compete", "challenge", "syllabus", "flashcards", "educators", "changelog", "parents-bill-of-rights", "onboarding", "share", "age"]);
+const SLASH_PAGES = new Set(["about", "privacy", "terms", "request", "dashboard", "planner", "settings", "concepts", "compete", "challenge", "syllabus", "flashcards", "educators", "changelog", "parents-bill-of-rights", "onboarding", "share", "age"]);
 
 /** True for "/<guide>" or "/<page>" with no trailing slash, which should permanently redirect to the slashed address. */
 export function needsSlashRedirect(pathname: string): boolean {

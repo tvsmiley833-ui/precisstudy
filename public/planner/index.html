@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Your Dashboard — PrecisStudy</title>
+<title>Weekly Study Planner — PrecisStudy</title>
 <meta name="robots" content="noindex"/>
 <link rel="icon" type="image/png" href="/favicon.png"/>
 <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
@@ -242,10 +242,18 @@ html{scroll-behavior:smooth}
 #sb-grid-clear-btn{border:1px solid color-mix(in srgb,#b3362c 60%,var(--border))!important;border-radius:999px!important;padding:6px 14px!important;color:#b3362c!important}
 [data-theme="dark"] #sb-grid-clear-btn{color:#ff8a80!important;border-color:#ff8a80!important}
 @media(max-width:640px){.ss-filter-input,input[type="text"],input[type="number"],select{font-size:16px}}
+.pl-step{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--accent-solid);color:#fff;font-size:13px;font-weight:800;margin-right:6px}
+.sb-grid-cell{height:30px!important}
+@media(pointer:coarse){.sb-grid-cell{height:38px!important}.sb-grid-time,.sb-grid-hd{font-size:11.5px!important}}
+.sb-grid-cell:hover:not(.sb-grid-filled){background:color-mix(in srgb,var(--accent-bright) 28%,var(--bg))}
+.sb-grid-cell{border-color:color-mix(in srgb,var(--border) 55%,transparent)!important}
+#sb-grid-scroll{-webkit-overflow-scrolling:touch}
+#sb-toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,140%);background:var(--accent-solid);color:#fff;font-weight:700;font-size:14px;padding:12px 22px;border-radius:999px;box-shadow:0 12px 32px rgba(0,0,0,.22);z-index:90;opacity:0;transition:transform .22s ease,opacity .22s ease}
+#sb-toast.visible{transform:translate(-50%,0);opacity:1}
 </style>
 <link rel="stylesheet" href="/shared/site-header.css"/>
 </head>
-<body style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);">
+<body data-page="planner" style="margin:0;font-family:'Nunito','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);">
 <a href="#main-content" class="ss-skip-link" style="position:absolute;left:-9999px;top:0;z-index:100;background:var(--accent-solid);color:#fff;padding:12px 20px;border-radius:0 0 10px 0;font-weight:700;text-decoration:none;">Skip to main content</a>
 
 
@@ -274,23 +282,17 @@ html{scroll-behavior:smooth}
     <a role="menuitem" href="/about/">Who Are We</a>
     <a role="menuitem" href="/request/">Request a Guide</a>
     <a role="menuitem" href="/educators/">Educators</a>
-    <a role="menuitem" href="/dashboard/" aria-current="page">Dashboard</a>
+    <a role="menuitem" href="/dashboard/">Dashboard</a>
     <a role="menuitem" href="/settings/">Settings</a>
     <a role="menuitem" class="ss-menu-cta" href="/#classes-section">Pick your class →</a>
   </div>
 </div>
 
-<div role="main" id="main-content" class="ss-hero" style="text-align:center;padding:56px 32px 24px;">
+<div role="main" id="main-content" class="ss-hero" style="text-align:center;padding:56px 32px 16px;">
   <div class="ss-hero-inner">
-    <h1 class="ss-hero-anim" style="animation-delay:0s;font-size:36px;font-weight:800;color:var(--text);margin:0;letter-spacing:-0.02em;">
-      Your Dashboard
-    </h1>
-    <div id="dash-greeting" style="margin-top:8px;font-size:15px;color:var(--text-muted);"></div>
-    <div id="dash-streak" style="display:none;margin-top:14px;"></div>
-    <div id="dash-level" style="display:none;margin-top:14px;"></div>
-    <div id="dash-sage"></div>
-    <div id="dash-focus" style="display:none;max-width:720px;margin:18px auto 0;text-align:left;"></div>
-    <div id="dash-badges" style="display:none;margin-top:18px;flex-wrap:wrap;gap:10px;justify-content:center;"></div>
+    <h1 class="ss-hero-anim" style="animation-delay:0s;font-size:36px;font-weight:800;color:var(--text);margin:0;letter-spacing:-0.02em;">Weekly Planner</h1>
+    <p style="margin:8px auto 0;font-size:15px;color:var(--text-muted);max-width:560px;">Tell us when you are free and what to study. We build a weekly plan, and each block links straight into that study guide.</p>
+    <p style="margin:10px 0 0;"><a href="/dashboard/" style="font-size:13.5px;font-weight:700;color:var(--accent);text-decoration:none;">&larr; Back to dashboard</a></p>
   </div>
 </div>
 
@@ -302,84 +304,72 @@ html{scroll-behavior:smooth}
 </div>
 
 <div id="dash-content" style="display:none;padding:0 32px 64px;">
-  <div class="dash-layout" style="max-width:1040px;margin:0 auto;">
-   <aside class="dash-sidebar" aria-label="Class filters and display options">
-    <div class="dash-sidebar-inner">
-     <button type="button" id="dash-sidebar-toggle" class="dash-sidebar-toggle" aria-expanded="false" aria-controls="dash-sidebar-panel">
-       <span id="dash-sidebar-toggle-label">Show class filters</span>
-       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-     </button>
-     <div id="dash-sidebar-panel" class="dash-sidebar-panel dash-collapsed">
-      <p id="dash-classes-note" style="margin:0 0 14px;font-size:13.5px;color:var(--text-muted);"></p>
-      <div id="dash-subject-filter-wrap" style="display:none;position:relative;margin-bottom:14px;">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);pointer-events:none;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input id="dash-subject-filter" type="text" placeholder="Filter your classes…" aria-label="Filter your classes" class="ss-filter-input" style="padding-right:36px;"/>
-        <button id="dash-subject-filter-clear" type="button" aria-label="Clear filter" style="display:none;position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:18px;line-height:1;padding:4px;">×</button>
-      </div>
-      <div id="dash-density-row" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;" role="group" aria-label="Card density">
-        <span style="font-size:13px;font-weight:800;color:var(--text-body);text-transform:uppercase;letter-spacing:.05em;width:100%;">Density</span>
-        <button type="button" class="ss-density-btn" data-density="compact" style="background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);font-size:12.5px;font-weight:700;padding:5px 12px;cursor:pointer;">Compact</button>
-        <button type="button" class="ss-density-btn" data-density="comfortable" style="background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);font-size:12.5px;font-weight:700;padding:5px 12px;cursor:pointer;">Comfortable</button>
-        <button type="button" class="ss-density-btn" data-density="spacious" style="background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);font-size:12.5px;font-weight:700;padding:5px 12px;cursor:pointer;">Spacious</button>
-      </div>
-     </div>
-    </div>
-   </aside>
-   <div class="dash-main">
+  <div style="max-width:920px;margin:0 auto;display:grid;gap:20px;">
+    <div class="ss-card">
+      <div style="font-weight:800;font-size:19px;color:var(--text);margin-bottom:4px;"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Build your weekly schedule</div>
+      <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 10px;">Tell us when you're free and what you want to study — we'll build a color-coded weekly plan. Click any block to jump straight into that study guide.</p>
 
-    <div id="dash-resume" style="display:none;"></div>
+      <details id="sb-tutorial" style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin-bottom:18px;">
+        <summary style="cursor:pointer;font-size:13px;font-weight:700;color:var(--accent);list-style:none;">❔ How this works (3 steps)</summary>
+        <ol style="margin:10px 0 2px;padding-left:20px;font-size:13px;color:var(--text-muted);line-height:1.6;">
+          <li><b style="color:var(--text)">Paint your free time.</b> Click or drag across the grid below for each day you can study — a day can have more than one window.</li>
+          <li><b style="color:var(--text)">Pick your subjects.</b> Check off the classes you want scheduled, grouped by type below. If you check more than one, use the ↑↓ arrows to rank them — higher priority gets more of the free days.</li>
+          <li><b style="color:var(--text)">Build it.</b> Click "Build my schedule" — each colored block links straight to that subject's next study unit.</li>
+        </ol>
+      </details>
 
-    <div class="ss-card" id="dash-analytics-card" style="display:none;">
-      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
-        <div style="font-weight:800;font-size:19px;color:var(--text);">📊 Your Progress</div>
-        <button type="button" id="dash-print-report-btn" style="background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);font-size:12.5px;font-weight:700;padding:6px 14px;cursor:pointer;">🖨️ Print Progress Report</button>
-      </div>
-      <div id="dash-analytics-summary" style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:14px;"></div>
-      <div id="dash-analytics-table"></div>
-    </div>
-
-    <div class="ss-card" id="dash-heatmap-card" style="display:none;">
-      <div style="font-weight:800;font-size:19px;color:var(--text);margin-bottom:4px;">Study Activity</div>
-      <p style="font-size:13px;color:var(--text-muted);margin:0 0 14px;">Questions answered per day, most recent 14 weeks.</p>
-      <div id="dash-heatmap-body"></div>
-    </div>
-
-    <div class="ss-card" id="dash-forecast-card" style="display:none;">
-      <div style="font-weight:800;font-size:19px;color:var(--text);margin-bottom:4px;">Forecasted Scores</div>
-      <p style="font-size:13px;color:var(--text-muted);margin:0 0 14px;">A rough estimate from your current quiz accuracy — not an official predictor, and it'll move as you keep practicing.</p>
-      <div id="dash-forecast-body" style="display:grid;gap:10px;"></div>
-    </div>
-
-    <div class="ss-card" id="dash-assignments-card">
-      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px;">
-        <div style="font-weight:800;font-size:19px;color:var(--text);"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Upcoming Assignments</div>
-        <a href="/settings/" style="font-size:12.5px;color:var(--text-muted);text-decoration:none;font-weight:700;">Manage →</a>
-      </div>
-      <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 8px;">Your Google Classroom and Canvas coursework, plus calendar due-dates, in one place.</p>
-      <div id="dash-assignments-sync" style="display:none;align-items:center;gap:8px;margin-bottom:10px;">
-        <span id="dash-assignments-sync-label" style="font-size:12px;color:var(--text-muted);"></span>
-        <button id="dash-assignments-refresh-btn" title="Refresh now" aria-label="Refresh assignments now" style="background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);cursor:pointer;font-size:12px;padding:3px 10px;display:flex;align-items:center;gap:5px;">
-          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-          Refresh
-        </button>
-      </div>
-      <div id="dash-assignments-body"><div class="skel-bar" style="width:100%;height:16px;margin-bottom:8px;"></div><div class="skel-bar" style="width:70%;height:16px;"></div></div>
-    </div>
-
-    <div class="ss-card" id="dash-planner-card">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;">
-        <div>
-          <div style="font-weight:800;font-size:19px;color:var(--text);margin-bottom:4px;">Weekly study planner</div>
-          <p id="dash-planner-sub" style="font-size:13.5px;color:var(--text-muted);margin:0;">Paint your free time, pick your classes, and get a color-coded weekly plan.</p>
+      <div style="margin-bottom:16px;">
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;"><span class="pl-step">1</span> When are you free to study? <span style="font-weight:500;color:var(--text-muted);">Click or drag across the grid to paint free hours — a day can have more than one window.</span></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+          <button class="sb-preset-btn" type="button" data-preset="light">☀️ Light (15 min/day, weekdays)</button>
+          <button class="sb-preset-btn" type="button" data-preset="crunch">Exam Crunch (1 hr/day, every day)</button>
         </div>
-        <a href="/planner/" class="ss-cta-btn" style="background:var(--accent-solid);color:#fff;padding:10px 22px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:700;white-space:nowrap;">Open planner</a>
+        <div id="sb-grid-scroll" style="overflow-x:auto;margin-bottom:10px;">
+          <div id="sb-grid" style="display:inline-grid;grid-template-columns:44px repeat(7,minmax(34px,1fr));gap:2px;user-select:none;"></div>
+        </div>
+        <button id="sb-grid-clear-btn" type="button" style="background:none;border:none;color:var(--text-muted);font-size:12.5px;font-weight:700;cursor:pointer;padding:0 0 10px;text-decoration:underline;">Clear all free time</button>
+        <details id="sb-manual-details" style="margin-bottom:10px;">
+          <summary style="font-size:12.5px;font-weight:700;color:var(--text-muted);cursor:pointer;">or add a specific time block →</summary>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:end;margin-top:10px;">
+            <label style="font-size:12px;font-weight:700;color:var(--text-muted);">Day<br/>
+              <select id="sb-block-day" style="padding:8px 10px;border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);background:var(--bg-card);margin-top:4px;"></select>
+            </label>
+            <label style="font-size:12px;font-weight:700;color:var(--text-muted);">From<br/>
+              <input id="sb-block-start" type="time" value="15:00" style="padding:8px 10px;border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);background:var(--bg-card);margin-top:4px;"/>
+            </label>
+            <label style="font-size:12px;font-weight:700;color:var(--text-muted);">Until<br/>
+              <input id="sb-block-end" type="time" value="16:00" style="padding:8px 10px;border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);background:var(--bg-card);margin-top:4px;"/>
+            </label>
+            <button id="sb-block-add-btn" type="button" style="background:var(--bg);border:2px solid var(--border);border-radius:10px;padding:9px 16px;font-size:13.5px;font-weight:700;color:var(--text);cursor:pointer;">+ Add block</button>
+          </div>
+        </details>
+        <div id="sb-blocks-list" style="display:flex;flex-direction:column;gap:6px;"></div>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;"><span class="pl-step">2</span> Which subjects? <span style="font-weight:500;color:var(--text-muted);">Grouped by type, like Settings. Use ↑↓ to set priority — higher priority gets more days.</span></div>
+        <div id="sb-subjects"></div>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;">
+        <button id="sb-build-btn" class="ss-cta-btn" style="background:var(--accent-solid);color:#fff;border:none;padding:10px 20px;border-radius:999px;font-size:14px;font-weight:700;cursor:pointer;">Build my schedule</button>
+        <a href="/syllabus/" style="font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;">📄 Or upload a syllabus for exact class times →</a>
+        <a href="/concepts/" style="font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;">🧭 See unit dependency map →</a>
+        <a href="/compete/" style="font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;">🏆 Compete: quests, leaderboards, groups &amp; challenges →</a>
+        <a href="/educators/" style="font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;">🏫 Educator Resource Hub →</a>
+        <span id="sb-status" style="font-size:12.5px;color:var(--text-muted);"></span>
+      </div>
+
+      <div id="sb-result" style="margin-top:20px;"></div>
+      <div id="sb-notify-prompt" style="display:none;margin-top:14px;background:var(--accent-soft, var(--surface));border:1px solid var(--border);border-radius:12px;padding:14px 16px;">
+        <div style="font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:2px;">🔔 Want a reminder right when each block starts?</div>
+        <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:10px;">We'll send a notification naming the subject 10 minutes before each scheduled block starts.</div>
+        <button id="sb-notify-yes-btn" type="button" style="background:var(--accent-solid);color:#fff;border:none;padding:8px 16px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;margin-right:8px;">Enable notifications</button>
+        <button id="sb-notify-no-btn" type="button" style="background:none;border:1px solid var(--border);color:var(--text-muted);padding:8px 16px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;">No thanks</button>
+        <div id="sb-notify-status" style="font-size:12px;color:var(--text-muted);margin-top:8px;"></div>
       </div>
     </div>
-
-    <div id="dash-subjects" style="display:grid;gap:20px;"></div>
-    <div id="dash-unassessed" style="display:grid;gap:10px;margin-top:4px;"></div>
-   </div><!-- /dash-main -->
-  </div><!-- /dash-layout -->
+  </div>
 </div>
 
 <div role="contentinfo" style="border-top:1px solid var(--border);padding:24px 32px;text-align:center;">
@@ -498,7 +488,7 @@ document.addEventListener('click', function(e){
 })();
 </script>
 <script src="/shared/command-palette.js" defer></script><script src="/shared/account-menu.js" defer></script><script src="/shared/high-contrast.js" defer></script><script src="/shared/error-monitor.js" defer></script>
-<script type="module" src="/shared/sage-dashboard.js"></script>
 <script src="/shared/site-header.js" defer></script>
+<div id="sb-toast" role="status" aria-live="polite"></div>
 </body>
 </html>

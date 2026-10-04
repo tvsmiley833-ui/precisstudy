@@ -550,7 +550,7 @@ function sbUpcomingDueDayKeys() {
   return keys;
 }
 
-function sbBuildSchedule() {
+function sbBuildSchedule(ev) {
   const statusEl = document.getElementById('sb-status');
   const resultEl = document.getElementById('sb-result');
 
@@ -627,6 +627,7 @@ function sbBuildSchedule() {
     localStorage.setItem('ssScheduleConfig', JSON.stringify({ blocks: sbFreeBlocks, subjects: sbSelectedSubjects }));
   } catch (e) { /* ignore */ }
 
+  if (ev) { const t = document.getElementById('sb-toast'); if (t) { t.textContent = 'Schedule built and saved'; t.classList.add('visible'); setTimeout(function () { t.classList.remove('visible'); }, 2600); } }
   sbSyncScheduleAndMaybeAskNotify(resolvedBlocks);
 }
 
@@ -1068,6 +1069,20 @@ function renderResumeBanner(availableSubjects) {
     + '</div>';
 }
 
+// /planner/: just the weekly schedule builder. Same state and functions as the dashboard used to run inline.
+async function loadPlanner(anon) {
+  let blob;
+  try {
+    if (anon) throw new Error('local only');
+    const res = await fetch('/api/progress');
+    if (!res.ok) throw new Error('bad response');
+    blob = await res.json();
+  } catch (e) { blob = localFallback(); }
+  const enrolledSet = new Set(blob.enrolledSubjects || []);
+  SUBJECTS_FOR_SCHEDULE = enrolledSet.size === 0 ? SUBJECTS_CONFIG : SUBJECTS_CONFIG.filter(s => enrolledSet.has(s.key));
+  initScheduleBuilder(blob);
+}
+
 async function loadDashboard() {
   const session = await ssCheckSession();
   const gate = document.getElementById('dash-gate');
@@ -1081,6 +1096,7 @@ async function loadDashboard() {
     return;
   }
   content.style.display = 'block';
+  if (document.body.dataset.page === 'planner') return loadPlanner(anon);
   renderSkeletons();
   if (anon) {
     const card = document.getElementById('dash-assignments-card');
@@ -1628,6 +1644,18 @@ async function loadDashboard() {
   const printReportBtn = document.getElementById('dash-print-report-btn');
   if (printReportBtn) printReportBtn.addEventListener('click', function () { printProgressReport(blob); });
 
+  initScheduleBuilder(blob);
+  renderPlannerSummary(blob);
+}
+
+function renderPlannerSummary(blob) {
+  const el = document.getElementById('dash-planner-sub');
+  const blocks = blob && blob.schedule && Array.isArray(blob.schedule.blocks) ? blob.schedule.blocks.length : 0;
+  if (el && blocks) el.textContent = 'Your saved plan has ' + blocks + ' study block' + (blocks === 1 ? '' : 's') + ' this week. Open the planner to view or change it.';
+}
+
+function initScheduleBuilder(blob) {
+  if (!document.getElementById('sb-grid')) return;
   sbBlob = blob;
   const hadSavedConfig = sbRestoreSavedConfig();
   sbPopulateDaySelect();
@@ -1649,6 +1677,7 @@ async function loadDashboard() {
     btn.addEventListener('click', function () { sbApplyPreset(btn.dataset.preset); });
   });
   if (hadSavedConfig && sbFreeBlocks.length && sbSelectedSubjects.length) sbBuildSchedule();
+
 }
 
 loadDashboard();
