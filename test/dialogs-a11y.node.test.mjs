@@ -346,3 +346,10 @@ test("syllabus class picker has no silent default and saves need a choice", () =
 test("Settings explains what a Canvas token is and recommends an expiry", () => {
   assert.match(read("../public/settings/index.html"), /works like a password[\s\S]{0,400}expiry date/);
 });
+
+test("concept map warns only after weak assessed units and offers one Continue step", () => {
+  const c = read("../public/concepts/index.html");
+  assert.match(c, /statuses\[j\] === 'red' \|\| statuses\[j\] === 'amber'/);
+  assert.ok(!/statuses\[j\] === 'not-assessed'\) \{ priorTrouble/.test(c));
+  assert.match(c, /Continue with Unit/);
+});

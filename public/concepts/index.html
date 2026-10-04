@@ -291,11 +291,11 @@ function cmRender(){
   var html = subject.units.map(function(u, i){
     var status = statuses[i];
     var color = STATUS_COLOR[status];
-    // Blocked = an earlier unit in the chain is red or not-assessed, and this
-    // unit itself hasn't been attempted yet -- the "shore this up first" signal.
+    // Blocked = an earlier unit the student HAS been assessed on is weak (red or amber) and this unit hasn't been attempted --
+    // the "shore this up first" signal. Units not yet assessed don't count, so a new student isn't warned about every unit.
     var priorTrouble = false;
     for (var j = 0; j < i; j++) {
-      if (statuses[j] === 'red' || statuses[j] === 'not-assessed') { priorTrouble = true; break; }
+      if (statuses[j] === 'red' || statuses[j] === 'amber') { priorTrouble = true; break; }
     }
     var blocked = priorTrouble && status === 'not-assessed';
 
@@ -303,7 +303,7 @@ function cmRender(){
       ? '<span class="cm-badge cm-badge-blocked">⚠ Shore up earlier units first</span>'
       : '';
 
-    var node = '<a class="cm-node" href="' + subject.href + '?practice=' + u.id + '" style="border-color:' + color + ';">'
+    var node = '<a class="cm-node" href="' + subject.href.replace(/\/?$/, '/') + '?practice=' + u.id + '" style="border-color:' + color + ';">'
       + '<div class="cm-node-title"><span class="cm-dot" style="background:' + color + ';"></span>Unit ' + u.id + ': ' + ssEscapeHtml(u.name) + '</div>'
       + '<div class="cm-node-sub">' + STATUS_LABEL[status] + '</div>'
       + badge
@@ -313,7 +313,12 @@ function cmRender(){
     return '<div class="cm-node-wrap">' + node + '</div>' + arrow;
   }).join('');
 
-  chainEl.innerHTML = html;
+  // One clear next step: the first unit that isn't yet solid (green).
+  var nextIdx = statuses.findIndex(function(st){ return st !== 'green'; });
+  var cta = nextIdx === -1
+    ? '<p class="cm-cta">Every unit looks solid. Nice work.</p>'
+    : '<p class="cm-cta"><a class="ss-oauth-btn" style="width:auto;display:inline-flex;padding:10px 20px;" href="' + subject.href.replace(/\/?$/, '/') + '?practice=' + subject.units[nextIdx].id + '">Continue with Unit ' + subject.units[nextIdx].id + ': ' + ssEscapeHtml(subject.units[nextIdx].name) + '</a></p>';
+  chainEl.innerHTML = cta + html;
 }
 
 function cmLoginBoxHtml(){
