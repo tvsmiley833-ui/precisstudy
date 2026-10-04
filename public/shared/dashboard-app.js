@@ -1212,7 +1212,7 @@ async function loadDashboard() {
     const streakBonus = (blob.streak && blob.streak.current) || 0;
     const badgesUnlocked = computeBadges(blob).filter(function (b) { return b.unlocked; }).length;
     return {
-      xp: totalCorrect * 10 + totalCardsKnown * 2 + totalExamplesDone * 5 + streakBonus * 5 + badgesUnlocked * 50,
+      xp: totalCorrect * 10 + totalCardsKnown * 2 + totalExamplesDone * 5 + streakBonus * 5 + badgesUnlocked * 50 + ((blob.quest && blob.quest.xp) || 0),
       totalCorrect: totalCorrect, totalCardsKnown: totalCardsKnown, totalExamplesDone: totalExamplesDone, badgesUnlocked: badgesUnlocked
     };
   }

@@ -688,3 +688,45 @@ body{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-ri
   html:root body #quiz-real > #diag-banner, html:root body #quiz-real > #diag-summary { order: 3; }
   html:root body #quiz-real > #qbox { order: 4; margin-bottom: 18px; }
 }
+
+/* Tabs get their own full-width row (scrolls sideways, fades at the edge); the tools sit below, right-aligned and larger. */
+html:root body .hero.hero .nav { flex-wrap: wrap !important; row-gap: 8px; }
+html:root body .hero.hero .tablist {
+  flex: 1 0 100%;
+  -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+  mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+}
+html:root body .hero.hero #theme-toggle,
+html:root body .hero.hero #dys-toggle,
+html:root body .hero.hero #focus-toggle { width: 40px !important; height: 40px !important; margin-bottom: 0; }
+html:root body .hero.hero #theme-toggle { margin-left: auto; }
+html:root body .hero.hero #sg-timer { margin: 0 0 0 8px !important; }
+html:root body .hero.hero .sgt-b { width: 36px; height: 36px; }
+html:root body .hero.hero .nav button[title]:hover::after { content: none; }
+
+/* Quiz choices: number badges (the 1-4 keys answer) and a clearer hover. */
+html body .q-opts { counter-reset: qo; }
+html body .q-opts > .q-opt::before {
+  counter-increment: qo;
+  content: counter(qo);
+  flex: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 26px; height: 26px; border-radius: 8px;
+  border: 1px solid var(--border-strong, var(--border));
+  font: 700 13px/1 'IBM Plex Mono', monospace;
+  color: var(--ink-muted);
+}
+html body .q-opts > .q-opt:hover:not(:disabled)::before { border-color: var(--accent); color: var(--accent); }
+html body .q-opts > .q-opt.correct::before, html body .q-opts > .q-opt.wrong::before { border-color: currentColor; color: inherit; }
+
+/* Flashcards: the two rating buttons are the primary actions; the rest stay quiet. */
+html body #view-cards button[onclick*="rateFC('known')"],
+html body #view-cards button[onclick*="rateFC('unknown')"],
+html body #view-cards button[onclick*="rateFC('learning')"] { padding: 12px 26px !important; font-size: 15px !important; font-weight: 700 !important; }
+html body #view-cards button[onclick*="rateFC('known')"] { background: var(--success, #2f8a5c) !important; border-color: var(--success, #2f8a5c) !important; color: #fff !important; }
+html body #view-cards button[onclick*="rateFC('unknown')"],
+html body #view-cards button[onclick*="rateFC('learning')"] { border-color: #cf9d3a !important; color: #cf9d3a !important; background: transparent !important; }
+
+/* Unit progress: a track you can actually see. */
+html body #units .unit-progress-track { width: 64px; height: 7px; background: color-mix(in oklab, var(--ink-muted, #888) 30%, transparent); }
+html body #units .unit-progress-label { font-size: 12.5px; font-weight: 700; }

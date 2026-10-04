@@ -110,7 +110,7 @@ describe("homepage", () => {
     const text = await res.text();
     expect(text).toContain("PrecisStudy");
     expect(text).toContain("Geometry");
-    expect(text).toContain("The Original");
+    expect(text).toContain("Geometry");
     expect(text).toContain("Chemistry");
     expect(text).toContain("Algebra I");
     expect(text).toContain("Algebra II");

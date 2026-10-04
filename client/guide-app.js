@@ -2523,8 +2523,8 @@ function ssFmtClock(s){
   var ICON_POMO='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 3h6"/></svg>';
   var d=document.createElement('div');d.id='sg-timer';
   d.innerHTML='<span class="sgt-label">Study timer</span><span id="sgt-time" role="timer">00:00</span>'+
-    '<button class="sgt-b" id="sgt-btn" aria-label="start study timer">'+ICON_PLAY+'</button>'+
-    '<button class="sgt-b" id="sgt-reset" aria-label="reset study timer">'+ICON_RESET+'</button>'+
+    '<button class="sgt-b" id="sgt-btn" aria-label="start study timer" title="Start study timer">'+ICON_PLAY+'</button>'+
+    '<button class="sgt-b" id="sgt-reset" aria-label="reset study timer" title="Reset timer">'+ICON_RESET+'</button>'+
     '<button class="sgt-b sgt-mode" id="sgt-mode" aria-pressed="false" aria-label="Pomodoro mode: 25 minute focus sessions with 5 minute breaks" title="Pomodoro: 25 min focus, 5 min break">'+ICON_POMO+'</button>';
   nav.appendChild(d);
   var timeEl=document.getElementById('sgt-time'),btn=document.getElementById('sgt-btn'),modeBtn=document.getElementById('sgt-mode');

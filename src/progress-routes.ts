@@ -488,7 +488,7 @@ function computeServerXP(blob: ProgressBlob): number {
   if (perfectUnits >= 1) badgesUnlocked++;
   if (perfectUnits >= 5) badgesUnlocked++;
   const streakBonus = effectiveStreak(blob.streak); // a lapsed streak no longer adds XP
-  return totalCorrect * 10 + totalCardsKnown * 2 + totalExamplesDone * 5 + streakBonus * 5 + badgesUnlocked * 50;
+  return totalCorrect * 10 + totalCardsKnown * 2 + totalExamplesDone * 5 + streakBonus * 5 + badgesUnlocked * 50 + (blob.quest?.xp || 0); // quest claims count toward the one level
 }
 
 const MAX_HISTORY_DAYS = 60;

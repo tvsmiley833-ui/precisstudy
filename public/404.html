@@ -12,6 +12,7 @@
 try{var t=localStorage.getItem('ss-theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.setAttribute('data-theme','dark');}catch(e){}
 </script>
 <style>
+body #mb-bar{position:absolute;top:0;left:0;right:0;border-radius:0}
 :root{--bg:#eef1ea;--card:#fff;--text:#1b2a24;--muted:#45564d;--accent:#1f6e46;--line:#d3dbd0}
 [data-theme="dark"]{--bg:#14302a;--card:#1b3d33;--text:#eef2ea;--muted:#b9c6bd;--accent:#4fbf85;--line:#2f5346}
 *{box-sizing:border-box}

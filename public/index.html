@@ -191,11 +191,12 @@ body{transition:background .2s ease,color .2s ease}
 
 @media(prefers-reduced-motion:reduce){.ss-hero-anim{opacity:1;animation:none}.ss-reveal{opacity:1;transform:none;transition:none}}
 @keyframes ssFadeInUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-.ss-hero-anim{opacity:0;animation:ssFadeInUp .6s cubic-bezier(.2,.8,.2,1) forwards}
+.ss-hero-anim{opacity:0;animation:ssFadeInUp .3s cubic-bezier(.2,.8,.2,1) forwards}
 
 .ss-hero h1.ss-hero-title{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:clamp(34px,5.4vw,60px);line-height:1.05;letter-spacing:-.02em;color:var(--text);max-width:18ch;margin:0 auto 16px;text-wrap:balance}
 .ss-hero h1.ss-hero-title em{font-style:italic;color:var(--accent)}
 
+html[data-signed-in] .sage-intro,html[data-signed-in] #how-it-works,html[data-signed-in] .nav-links>.ss-cta-btn,html[data-signed-in] #ss-mobile-menu a[href="#how-it-works"]{display:none}
 .ss-cta-btn{transition:background .2s ease,transform .15s ease,box-shadow .2s ease}
 .ss-cta-btn:hover{background:var(--chip-bg);transform:translateY(-1px);box-shadow:0 4px 10px rgba(31,110,70,.15)}
 .ss-cta-btn:active{transform:scale(.97)}
@@ -205,7 +206,7 @@ body{transition:background .2s ease,color .2s ease}
 .class-card:not(.class-card-soon):hover{transform:translateY(-4px);box-shadow:0 16px 32px rgba(31,110,70,.14);border-color:var(--accent-bright)}
 .class-card:not(.class-card-soon):active{transform:translateY(-4px) scale(.98)}
 .ss-readiness{display:none;align-items:center;gap:8px;margin-top:12px;font-size:13px;font-weight:700;color:var(--text)}
-.ss-readiness-bar{flex:1;max-width:80px;height:6px;border-radius:999px;background:var(--border);overflow:hidden}
+.ss-readiness-bar{flex:1;max-width:180px;height:8px;border-radius:999px;background:var(--border);overflow:hidden}
 .ss-readiness-bar-fill{height:100%;border-radius:999px;background:var(--badge-green);transition:width .4s ease}
 .class-card > div:first-child{transition:transform .25s cubic-bezier(.2,.8,.2,1)}
 .class-card:not(.class-card-soon):hover > div:first-child{transform:scale(1.12) rotate(-4deg)}
@@ -452,6 +453,7 @@ body > :where(:not(.chalkboard):not(script):not(style)){position:relative;z-inde
     <a href="#classes-section" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Browse Subjects</a>
     <a href="#how-it-works" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">How It Works</a>
     <a href="/dashboard/" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Dashboard</a>
+    <a href="/flashcards/" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Flashcards</a>
     <a href="/settings/" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Settings</a>
     <button id="theme-toggle" onclick="ssToggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode">
       <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
@@ -467,6 +469,7 @@ body > :where(:not(.chalkboard):not(script):not(style)){position:relative;z-inde
     <a role="menuitem" href="/request/" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Request a Guide</a>
     <a role="menuitem" href="/educators/" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Educators</a>
     <a role="menuitem" href="/dashboard/" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Dashboard</a>
+    <a role="menuitem" href="/flashcards/" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Flashcards</a>
     <a role="menuitem" href="/settings/" style="color:var(--nav-text);text-decoration:none;font-weight:600;font-size:15px;padding:10px 12px;border-radius:8px;">Settings</a>
     <a role="menuitem" href="#classes-section" onclick="ssCloseMobileMenu()" style="color:var(--accent-solid);text-decoration:none;font-weight:700;font-size:15px;padding:10px 12px;border-radius:8px;">Pick your class →</a>
   </div>
@@ -555,7 +558,7 @@ body > :where(:not(.chalkboard):not(script):not(style)){position:relative;z-inde
 .ss-hero-exam,.ss-hero-due{max-width:560px;margin-left:auto!important;margin-right:auto!important;text-align:left}
 .ss-hero-exam{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;margin:0 0 10px;padding:10px 18px;border-radius:14px;background:var(--bg-card);border:2px solid var(--accent-solid);color:var(--text);font-size:15px}.ss-hero-exam b{color:var(--accent)}.ss-hero-exam a{font-weight:700;color:var(--accent);text-underline-offset:3px}
 .st-more{margin-top:16px}.st-more summary{cursor:pointer;display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:999px;border:2px solid var(--border);color:var(--accent);font-weight:700;font-size:14px;margin-bottom:16px}.st-more summary:hover{border-color:var(--accent-bright)}
-.st-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.st-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
 .st-card{display:flex;flex-direction:column;gap:6px;padding:18px 20px;border-radius:16px;background:var(--bg-card);border:2px solid var(--border);color:var(--text);text-decoration:none;transition:transform .2s ease,border-color .2s ease}
 a.st-card:hover{transform:translateY(-3px);border-color:var(--accent-bright)}
 a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px}
@@ -652,7 +655,6 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
         <div class="cc-name">Geometry</div>
         <div style="font-size:14px;color:var(--text-muted);margin-bottom:14px;">11 units · 439 practice questions</div>
         <p class="class-card-topics">Foundations: Points, Lines &amp; Angles · Parallel Lines &amp; Transversals · Triangles: Angles &amp; Inequalities <span class="class-card-more">+8 more</span></p>
-        <div style="font-size:13px;font-weight:700;color:var(--badge-green);">The Original</div>
       </a>
       <a href="/precalc/" class="class-card" data-name="PreCalculus" data-subject-key="precalc">
         <div class="class-card-icon"></div>
@@ -916,7 +918,7 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
         </div>
       </div>
       <div class="class-group" data-group="AP Courses">
-        <h3 class="class-group-h">Advanced Placement</h3>
+        <h3 class="class-group-h">AP Courses</h3>
         <div class="class-group-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
 <a href="/ap-biology/" class="class-card" data-name="AP Biology" data-subject-key="apbiology">
         <div class="class-card-icon"></div>
@@ -1168,7 +1170,7 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
       <h2 style="font-weight:700;font-size:14px;color:var(--nav-text);text-transform:uppercase;letter-spacing:0.06em;margin:0;">Study tips</h2>
       <a href="/tips/" style="font-size:14px;font-weight:700;color:var(--accent);text-decoration:none;">All study tips &rarr;</a>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;">
       <a href="/tips/ser-vs-estar/" class="class-card" style="display:block"><b class="cc-name">Ser vs Estar</b><div class="cc-meta">Two memory tricks and worked examples</div></a>
       <a href="/tips/sohcahtoa/" class="class-card" style="display:block"><b class="cc-name">SOHCAHTOA</b><div class="cc-meta">Sine, cosine and tangent, step by step</div></a>
       <a href="/tips/mitosis-vs-meiosis/" class="class-card" style="display:block"><b class="cc-name">Mitosis vs Meiosis</b><div class="cc-meta">PMAT and the key differences</div></a>
@@ -1187,7 +1189,7 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
   <a href="/terms/" style="color:var(--text-muted);font-size:13px;text-decoration:none;display:inline-block;padding:10px 7px;">Terms</a>
   <a href="/parents-bill-of-rights/" style="color:var(--text-muted);font-size:13px;text-decoration:none;display:inline-block;padding:10px 7px;">Parents' Bill of Rights</a>
   <a href="#" onclick="ssOpenCookiePreferences();return false;" style="color:var(--text-muted);font-size:13px;text-decoration:none;display:inline-block;padding:10px 7px;">Cookie preferences</a>
-  <a href="#" class="ss-mail-link" data-u="support" data-d="precisstudy.com" style="color:var(--text-muted);font-size:13px;text-decoration:none;">
+  <a href="#" class="ss-mail-link" data-u="support" data-d="precisstudy.com" style="color:var(--text-muted);font-size:13px;text-decoration:none;white-space:nowrap;">
     Questions or feedback? <span class="ss-mail-addr"></span>
   </a>
 </div>

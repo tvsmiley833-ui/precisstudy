@@ -72,6 +72,7 @@
   window.__ssMe = me;
   me.then(function (d) {
     if (!d || !d.loggedIn) return;
+    document.documentElement.setAttribute("data-signed-in", "1"); // pages hide first-visit pitches
     user = d.name || d.email || "Account"; hasAv = !!d.avatar;
     build();
     var area = document.getElementById("ss-account-area");

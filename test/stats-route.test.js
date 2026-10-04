@@ -19,4 +19,9 @@ describe("GET /api/stats", () => {
     expect(j.xp).toBe(304); // 30 correct x 10 + 2 cards x 2
     expect(j.level).toBe(3); // level 3 starts at round(100 * 2^1.6) = 303
   });
+  it("adds claimed quest XP to the one total", async () => {
+    const blob = { quest: { xp: 120 }, enrolledSubjects: [] };
+    const r = await handleGetStats(await req("a@b.co"), { SESSION_SECRET: SECRET, PROGRESS: kv({ "progress:a@b.co": JSON.stringify(blob) }) });
+    expect((await r.json()).xp).toBe(120);
+  });
 });

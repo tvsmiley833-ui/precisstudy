@@ -179,6 +179,7 @@ label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-m
     <a href="/#classes-section" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Browse Subjects</a>
     <a href="/#how-it-works" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">How It Works</a>
     <a href="/dashboard/" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Dashboard</a>
+    <a href="/flashcards/" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Flashcards</a>
     <a href="/settings/" class="nav-hide-sm" style="color:var(--nav-text);text-decoration:none;">Settings</a>
     <button id="theme-toggle" onclick="ssToggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode">
       <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
@@ -194,6 +195,7 @@ label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-m
     <a role="menuitem" href="/request/">Request a Guide</a>
     <a role="menuitem" href="/educators/">Educators</a>
     <a role="menuitem" href="/dashboard/">Dashboard</a>
+    <a role="menuitem" href="/flashcards/">Flashcards</a>
     <a role="menuitem" href="/settings/">Settings</a>
     <a role="menuitem" class="ss-menu-cta" href="/#classes-section">Pick your class →</a>
   </div>
@@ -243,7 +245,7 @@ label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-m
           <div class="qs-level-badge" id="qs-level-badge">1</div>
           <div class="qs-header-info">
             <div class="qs-header-title">Level <span id="qs-level-num"></span> <span id="qs-level-title"></span></div>
-            <div class="qs-header-sub"><span id="qs-xp-into"></span> / <span id="qs-xp-for-next"></span> XP to next level<button type="button" class="ss-tip-btn" data-tip-tap data-tip="Quest XP is its own total, separate from your dashboard XP and badges">?</button></div>
+            <div class="qs-header-sub"><span id="qs-xp-into"></span> / <span id="qs-xp-for-next"></span> XP to next level<button type="button" class="ss-tip-btn" data-tip-tap data-tip="One level across the site: quest rewards add to the same XP as your dashboard">?</button></div>
           </div>
         </div>
       </div>
@@ -500,10 +502,22 @@ async function qsLoad(){
   try {
     var data = await qsFetch(qsQuestUrl('/api/quest'));
     qsState = data.quest;
+    await qsLoadLevel();
     qsRender();
   } catch (e) {
     document.getElementById('qs-skeleton').innerHTML = '<div class="ss-card"><p style="color:var(--text-muted);font-size:14px;margin:0;">Could not load quests. Try refreshing.</p></div>';
   }
+}
+
+// One level site-wide: show the dashboard's XP level (quest claims are included in it by the server).
+async function qsLoadLevel(){
+  try {
+    var r = await fetch('/api/stats', { credentials: 'same-origin' });
+    if (!r.ok) return;
+    var st = await r.json();
+    var f = function(l){ return Math.round(100 * Math.pow(l, 1.6)); };
+    qsState.level = { level: st.level, xpIntoLevel: st.xp - f(st.level), xpForNext: f(st.level + 1) - f(st.level) };
+  } catch (e) {}
 }
 
 function qsLevelSuffix(level){
@@ -604,6 +618,7 @@ async function qsSwap(scope, key){
   try {
     var data = await qsFetch('/api/quest/swap', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ scope: scope, key: key, localDate: qsLocalDate() }) });
     qsState = data.quest;
+    await qsLoadLevel();
     qsRender();
   } catch (e) {
     alert((e && e.message) || 'Could not swap that quest.');
@@ -619,6 +634,7 @@ async function qsClaim(scope, key){
   );
   if (!result.ok) { alert((result.error && result.error.message) || 'Could not claim that quest.'); return; }
   qsState = result.value.quest;
+  await qsLoadLevel();
   qsRender();
   if (window.celebrateCorrect && card) window.celebrateCorrect(card);
 }
@@ -631,6 +647,7 @@ async function qsClaimBonus(){
   );
   if (!result.ok) { alert((result.error && result.error.message) || 'Could not claim the bonus.'); return; }
   qsState = result.value.quest;
+  await qsLoadLevel();
   qsRender();
   if (window.celebrateCorrect) window.celebrateCorrect(document.getElementById('qs-daily-bonus'));
 }
