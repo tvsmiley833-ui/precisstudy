@@ -353,3 +353,9 @@ test("concept map warns only after weak assessed units and offers one Continue s
   assert.ok(!/statuses\[j\] === 'not-assessed'\) \{ priorTrouble/.test(c));
   assert.match(c, /Continue with Unit/);
 });
+
+test("quiz results offer a native share of the score", () => {
+  const js = read("../client/guide-app.js");
+  assert.match(js, /function ssShareScore\(score,total\)/);
+  assert.match(js, /onclick="ssShareScore\(/);
+});

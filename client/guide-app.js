@@ -1336,6 +1336,11 @@ async function ssShareLink(title,link){
   try{await navigator.clipboard.writeText(link);ssToast('Link copied: '+link);}
   catch(e){ssToast('Copy this link: '+link);}
 }
+// Native share sheet on phones (clipboard elsewhere): a score is a natural moment to bring a classmate along.
+function ssShareScore(score,total){
+  const url=location.origin+'/'+SS_GUIDE.slug+'/quiz';
+  ssShareLink('I got '+score+'/'+total+' on the '+SS_GUIDE.title+' quiz on PrecisStudy. Beat it?',url);
+}
 function printWorksheet(){
   // Print the unit chosen in the quiz picker, not the whole bank with its answer key.
   var picked=document.getElementById('q-sel'),only=picked&&/^\d+$/.test(picked.value)&&+picked.value>0?+picked.value:0;
@@ -1870,7 +1875,7 @@ function showQ(){
     qb.innerHTML=`<div class="result"><div class="big">${score}/${qPool.length}</div><div class="sub">${Math.round(score/qPool.length*100)}% — ${score/qPool.length>=.85?'Excellent work':score/qPool.length>=.65?'Solid — review the misses':(document.getElementById('q-sel').value==='quick'?'Good practice — the units below need another look':'Keep reviewing this unit')}</div>`+
       `<div class="q-session-stats">${xpEarned?`<span>+${xpEarned} XP</span>`:''}${qBestStreak>1?`<span>Best streak ${qBestStreak}</span>`:''}${elapsedStr?`<span>${elapsedStr}</span>`:''}</div>`+
       (qMissedUnits.size?`<div class="q-review">Review next: ${Array.from(qMissedUnits).map(function(u){const x=UNITS.find(function(y){return y.id===u;});return x?'<button type="button" class="chip" onclick="ssPracticeUnit('+u+')">Unit '+u+': '+x.name+'</button>':'';}).join(' ')}</div>`:'')+
-      `<button class="btn" onclick="loadQ()">${document.getElementById('q-sel').value==='quick'?'Another Quick 10':'Try Again'}</button></div>`;return;}
+      `<button class="btn" onclick="loadQ()">${document.getElementById('q-sel').value==='quick'?'Another Quick 10':'Try Again'}</button> <button class="btn" type="button" onclick="ssShareScore(${score},${qPool.length})">Share my score</button></div>`;return;}
   const q=qPool[qIdx];
   qHintTier=0;
   ssShuffleOptions(q);
