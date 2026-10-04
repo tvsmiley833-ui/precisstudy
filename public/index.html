@@ -298,6 +298,14 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 .spc-chart{margin-top:14px}.spc-chart svg{width:100%;max-width:460px;height:auto;display:block}
 .spc-chart-cap{font-size:12.5px;color:var(--text-muted);margin-top:4px}
 .cc-grade{display:inline-block;margin-left:8px;font-size:11.5px;font-weight:800;letter-spacing:.03em;padding:2px 8px;border-radius:999px;background:var(--chip-bg);color:var(--accent);vertical-align:1px}
+.class-card{position:relative}
+.ss-pin{position:absolute;top:10px;right:10px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:50%;color:var(--text-muted);cursor:pointer;opacity:.0;transition:opacity .15s ease,color .15s ease,background .15s ease}
+.class-card:hover .ss-pin,.class-card:focus-within .ss-pin,.ss-pin[aria-pressed="true"],.ss-pin:focus-visible{opacity:1}
+@media(hover:none){.ss-pin{opacity:.75}}
+.ss-pin:hover{background:var(--chip-bg);color:var(--accent)}
+.ss-pin[aria-pressed="true"]{color:#d99a1c}
+.ss-pin svg{width:18px;height:18px;pointer-events:none}
+.ss-pin[aria-pressed="true"] svg{fill:currentColor}
 .class-card-topics{margin:10px 0 0;font-size:13.5px;line-height:1.45;color:var(--text-muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .class-card-more{white-space:nowrap;opacity:.8}
 @media(max-width:640px){#category-pills{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;scrollbar-width:none;padding:0 16px 4px;margin-left:-16px;margin-right:-16px;max-width:none}#category-pills::-webkit-scrollbar{display:none}.cat-pill{flex-shrink:0}}
@@ -1292,6 +1300,50 @@ document.querySelectorAll('.cs-notify-form').forEach(function(form){
   update();
 })();
 
+
+
+/* Pin classes: pinned cards move into a "Pinned" group at the top; saved on this device. */
+(function(){
+  var KEY = 'ss_pins', grid = document.getElementById('classes-grid');
+  if(!grid) return;
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.class-card[data-subject-key]'));
+  cards.forEach(function(c, i){ c.dataset.idx = i; c._home = c.parentNode; });
+  function load(){ try{ return JSON.parse(localStorage.getItem(KEY) || '[]'); }catch(e){ return []; } }
+  var pins = load();
+  var group = document.createElement('div'); group.className = 'class-group'; group.dataset.group = 'Pinned'; group.hidden = true;
+  group.innerHTML = '<h3 class="class-group-h">Pinned</h3><div class="class-group-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;"></div>';
+  grid.insertBefore(group, grid.firstChild);
+  var pgrid = group.querySelector('.class-group-grid');
+  function place(card, pinned){
+    if(pinned){ pgrid.appendChild(card); return; }
+    var home = card._home, next = null;
+    Array.prototype.slice.call(home.children).some(function(o){ if(+o.dataset.idx > +card.dataset.idx){ next = o; return true; } });
+    home.insertBefore(card, next);
+  }
+  function refresh(){
+    cards.forEach(function(c){
+      var on = pins.indexOf(c.dataset.subjectKey) !== -1, b = c.querySelector('.ss-pin');
+      if(b){ b.setAttribute('aria-pressed', on ? 'true' : 'false'); b.setAttribute('aria-label', (on ? 'Unpin ' : 'Pin ') + c.dataset.name); }
+      if(on !== (c.parentNode === pgrid)) place(c, on);
+    });
+    group.hidden = !pgrid.children.length;
+    if(window.ssSyncClassGroups) ssSyncClassGroups();
+  }
+  function toggle(card){
+    var k = card.dataset.subjectKey, i = pins.indexOf(k);
+    if(i === -1) pins.push(k); else pins.splice(i, 1);
+    try{ localStorage.setItem(KEY, JSON.stringify(pins)); }catch(e){}
+    refresh();
+  }
+  cards.forEach(function(c){
+    var b = document.createElement('span'); b.className = 'ss-pin'; b.setAttribute('role', 'button'); b.tabIndex = 0;
+    b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>';
+    b.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); toggle(c); });
+    b.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); e.stopPropagation(); toggle(c); } });
+    c.appendChild(b);
+  });
+  refresh();
+})();
 
 /* Typical grade levels (a rough guide: schools differ). */
 (function(){
