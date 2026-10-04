@@ -715,7 +715,7 @@ html{scroll-behavior:smooth}
       } catch(err){ status.textContent = 'Could not save.'; }
     }
     if(e.target && e.target.id === 'google-disconnect-btn'){
-      if(!confirm('Disconnect Google? Your synced assignments will be removed from your list until you reconnect.')) return;
+      if(!(await ssConfirm('Disconnect Google? Your synced assignments will be removed from your list until you reconnect.'))) return;
       e.target.disabled = true;
       var status = qs('google-save-status');
       try {

@@ -24,6 +24,7 @@ const checks = [
   { path: "/api/avatar", status: 401 },
   { path: "/shared/account-menu.js", status: 200, contains: "ss-avatar-btn" },
   { path: "/shared/plan.js", status: 200, contains: "ssPlan" },
+  { path: "/shared/dialog.js", status: 200, contains: "ssConfirm" },
   { path: "/shared/class-counts.json", status: 200, contains: "geometry" },
 ];
 

@@ -165,7 +165,7 @@ async function ssShareGenerate(){
   }
 }
 async function ssShareRevoke(){
-  if(!confirm('Revoke your share link? Anyone with the old link will lose access immediately.')) return;
+  if(!(await ssConfirm('Revoke your share link? Anyone with the old link will lose access immediately.'))) return;
   var btn = document.getElementById('ss-share-revoke-btn');
   var status = document.getElementById('ss-share-status');
   btn.disabled = true;
@@ -221,7 +221,7 @@ async function ssCalendarGenerate(){
   }
 }
 async function ssCalendarRevoke(){
-  if(!confirm('Revoke your calendar link? Any calendar app subscribed to it will stop getting updates.')) return;
+  if(!(await ssConfirm('Revoke your calendar link? Any calendar app subscribed to it will stop getting updates.'))) return;
   var btn = document.getElementById('ss-cal-revoke-btn');
   var status = document.getElementById('ss-cal-status');
   btn.disabled = true;
@@ -313,7 +313,7 @@ async function ssShareCopy(){
   }
 }
 async function ssResetAllProgress(){
-  if(!confirm("Reset all progress? This wipes your mastery, quiz history, and flashcard ratings for every class back to 0% and can't be undone. Your account, classes, schedule, and streak are kept.")) return;
+  if(!(await ssConfirm("Reset all progress? This wipes your mastery, quiz history, and flashcard ratings for every class back to 0% and can't be undone. Your account, classes, schedule, and streak are kept."))) return;
   var btn = document.getElementById('reset-progress-btn');
   var status = document.getElementById('reset-progress-status');
   btn.disabled = true;
@@ -334,7 +334,7 @@ async function ssResetAllProgress(){
   }
 }
 async function ssSignOutEverywhere(){
-  if(!confirm('Sign out of all devices? Every browser currently signed in, including this one, will need to sign in again.')) return;
+  if(!(await ssConfirm('Sign out of all devices? Every browser currently signed in, including this one, will need to sign in again.'))) return;
   var btn = document.getElementById('sign-out-everywhere-btn');
   var status = document.getElementById('sign-out-everywhere-status');
   btn.disabled = true;
@@ -357,9 +357,9 @@ async function ssSignOutEverywhere(){
 async function ssDeleteAccount(){
   var who = (SS_SESSION && SS_SESSION.email) || '';
   if(who){
-    var typed = prompt('This permanently erases your saved progress, streak, classes, and connected accounts. To confirm, type your email address (' + who + '):');
+    var typed = await ssPrompt('This permanently erases your saved progress, streak, classes, and connected accounts. To confirm, type your email address (' + who + '):');
     if(!typed || typed.trim().toLowerCase() !== who.toLowerCase()) return;
-  }else if(!confirm('Delete your account? This permanently erases your saved progress, streak, classes, and connected accounts and cannot be undone.')) return;
+  }else if(!(await ssConfirm('Delete your account? This permanently erases your saved progress, streak, classes, and connected accounts and cannot be undone.'))) return;
   var btn = document.getElementById('delete-account-btn');
   var status = document.getElementById('delete-account-status');
   btn.disabled = true;
@@ -852,7 +852,7 @@ async function ssCanvasConnect(){
 }
 
 async function ssCanvasDisconnect(){
-  if(!confirm('Disconnect Canvas? Your synced assignments will be removed from your list until you reconnect.')) return;
+  if(!(await ssConfirm('Disconnect Canvas? Your synced assignments will be removed from your list until you reconnect.'))) return;
   var btn = document.getElementById('canvas-disconnect-btn');
   btn.disabled = true;
   try{
@@ -925,7 +925,7 @@ async function ssInitSessions(){
         li.appendChild(txt);
         if(!s.current){
           var b = document.createElement('button'); b.type = 'button'; b.className = 'ss-oauth-btn ss-danger'; b.style.cssText = 'width:auto;margin:0;padding:8px 14px'; b.textContent = 'Sign out';
-          b.addEventListener('click', async function(){ if(!confirm('Sign out ' + s.device + '?')) return; b.disabled = true; await fetch('/api/sessions/revoke', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: s.id }) }); load(); });
+          b.addEventListener('click', async function(){ if(!(await ssConfirm('Sign out ' + s.device + '?'))) return; b.disabled = true; await fetch('/api/sessions/revoke', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: s.id }) }); load(); });
           li.appendChild(b);
         }
         ul.appendChild(li);

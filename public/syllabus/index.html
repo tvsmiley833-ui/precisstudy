@@ -627,7 +627,7 @@ function sylIcsNextDay(d){
 function sylDownloadIcs(){
   var isoRe = /^\d{4}-\d{2}-\d{2}$/;
   var usable = sylLastKeyDates.filter(function(d){ return isoRe.test(d.date); });
-  if (!usable.length) { alert("None of these dates have a full year, so they can't be added to a calendar file — copy them manually."); return; }
+  if (!usable.length) { ssAlert("None of these dates have a full year, so they can't be added to a calendar file — copy them manually."); return; }
   var now = new Date().toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
   var events = usable.map(function(d, i){
     return ['BEGIN:VEVENT','UID:syllabus-'+i+'-'+d.date+'@precisstudy.com','DTSTAMP:'+now,

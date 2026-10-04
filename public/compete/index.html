@@ -617,14 +617,14 @@ function qsRender(){
 }
 
 async function qsSwap(scope, key){
-  if (!confirm('Swap this quest for a different one? You only get one swap ' + (scope==='daily'?'per day':'per week') + '.')) return;
+  if (!(await ssConfirm('Swap this quest for a different one? You only get one swap ' + (scope==='daily'?'per day':'per week') + '.'))) return;
   try {
     var data = await qsFetch('/api/quest/swap', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ scope: scope, key: key, localDate: qsLocalDate() }) });
     qsState = data.quest;
     await qsLoadLevel();
     qsRender();
   } catch (e) {
-    alert((e && e.message) || 'Could not swap that quest.');
+    ssAlert((e && e.message) || 'Could not swap that quest.');
   }
 }
 
@@ -635,7 +635,7 @@ async function qsClaim(scope, key){
     function(){ return qsFetch('/api/quest/claim', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ scope: scope, key: key, localDate: qsLocalDate() }) }); },
     function(){ qsRender(); }
   );
-  if (!result.ok) { alert((result.error && result.error.message) || 'Could not claim that quest.'); return; }
+  if (!result.ok) { ssAlert((result.error && result.error.message) || 'Could not claim that quest.'); return; }
   qsState = result.value.quest;
   await qsLoadLevel();
   qsRender();
@@ -648,7 +648,7 @@ async function qsClaimBonus(){
     function(){ return qsFetch('/api/quest/claim', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ scope: 'daily', key: 'bonus', localDate: qsLocalDate() }) }); },
     function(){ qsRender(); }
   );
-  if (!result.ok) { alert((result.error && result.error.message) || 'Could not claim the bonus.'); return; }
+  if (!result.ok) { ssAlert((result.error && result.error.message) || 'Could not claim the bonus.'); return; }
   qsState = result.value.quest;
   await qsLoadLevel();
   qsRender();
@@ -780,7 +780,7 @@ async function lbOptIn(){
 }
 
 async function lbOptOut(){
-  if (!confirm('Opt out of leaderboards? You will stop appearing on any board (existing cached boards may still show you until the next daily refresh).')) return;
+  if (!(await ssConfirm('Opt out of leaderboards? You will stop appearing on any board (existing cached boards may still show you until the next daily refresh).'))) return;
   var content = document.getElementById('lb-content');
   var optinCard = document.getElementById('lb-optin-card');
   var run = window.ssOptimistic || function(a,r){ a(); return Promise.resolve(r()).then(function(v){return {ok:true,value:v};}, function(e){return {ok:false,error:e};}); };
