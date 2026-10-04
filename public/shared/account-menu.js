@@ -7,7 +7,7 @@
   var css = ".ss-avatar{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:#1f6e46;color:#fff;font-weight:800;font-size:13px;font-family:inherit}"
     + ".ss-avatar-btn{display:flex;align-items:center;gap:8px;padding:4px 10px 4px 4px;border:1px solid var(--border,#d6dccf);border-radius:999px;background:var(--bg-card,#fff);color:var(--text,#1c2a24);font:inherit;font-size:14px;font-weight:700;cursor:pointer}"
     + ".ss-avatar-btn:hover{border-color:var(--accent-bright,#268a58)}"
-    + ".ss-acct-wrap{position:relative}.ss-acct-float{position:fixed;top:10px;right:12px;z-index:70}.ss-acct-float .ss-avatar-btn{padding:3px;gap:0}.ss-acct-float .ss-acct-name,.ss-acct-float .ss-acct-caret{display:none}"
+    + ".ss-acct-wrap{position:relative}.ss-acct-float{position:fixed;top:40px;right:12px;z-index:70}.ss-acct-float .ss-avatar-btn{padding:3px;gap:0}.ss-acct-float .ss-acct-name,.ss-acct-float .ss-acct-caret{display:none}"
     + "@media(max-width:640px){.ss-acct-name{display:none}}"
     + ".ss-acct-menu{position:absolute;right:0;top:calc(100% + 8px);min-width:170px;background:var(--bg-card,#fff);border:1px solid var(--border,#d6dccf);border-radius:12px;box-shadow:0 12px 28px rgba(0,0,0,.2);padding:6px;z-index:80;flex-direction:column;display:flex}"
     + ".ss-acct-menu[hidden]{display:none}"
