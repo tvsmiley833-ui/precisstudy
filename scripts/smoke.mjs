@@ -19,6 +19,7 @@ const checks = [
   { path: "/planner/", status: 200, contains: "sb-grid" },
   { path: "/sitemap.xml", status: 200, contains: "/tips/sohcahtoa/" },
   { path: "/api/profile", status: 401 },
+  { path: "/api/stats", status: 401 },
   { path: "/api/sessions", status: 401 },
   { path: "/api/avatar", status: 401 },
   { path: "/shared/account-menu.js", status: 200, contains: "ss-avatar-btn" },

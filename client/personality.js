@@ -249,15 +249,16 @@ async function statsPill() {
   w.__ssMe = w.__ssMe || fetch("/auth/me").then(r => (r.ok ? r.json() : null)).catch(() => null);
   const me = await w.__ssMe;
   if (!me || !me.loggedIn) return;
-  // /api/quest writes on every GET, so fetch it once per browser session.
+  // Same numbers as the dashboard (GET /api/stats); cached for the browser session.
   /** @type {{ streak: number, xp: number, level: number } | null} */
   let stats = null;
-  try { stats = JSON.parse(sessionStorage.getItem("ss-stats") || "null"); } catch (e) {}
+  try { stats = JSON.parse(sessionStorage.getItem("ss-stats2") || "null"); } catch (e) {}
   if (!stats) {
     try {
-      const [p, q] = await Promise.all([fetch("/api/progress").then(r => r.json()), fetch("/api/quest").then(r => r.json())]);
-      stats = { streak: p?.streak?.current || 0, xp: q?.quest?.xp || 0, level: q?.quest?.level?.level || 1 };
-      try { sessionStorage.setItem("ss-stats", JSON.stringify(stats)); } catch (e) {}
+      const s = await fetch("/api/stats").then(r => (r.ok ? r.json() : null));
+      if (!s) return;
+      stats = { streak: s.streak || 0, xp: s.xp || 0, level: s.level || 1 };
+      try { sessionStorage.setItem("ss-stats2", JSON.stringify(stats)); } catch (e) {}
     } catch (e) { return; }
   }
   const pill = document.createElement("a");

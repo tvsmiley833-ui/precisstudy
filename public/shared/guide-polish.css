@@ -675,3 +675,6 @@ body{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-ri
   html:root body .unit-hd .unit-progress-track { display: none; }
   html:root body .unit-hd { gap: 8px; }
 }
+
+/* Phones: keep the breadcrumb clear of the streak pill and account button in the hero's top-right corner. */
+@media (max-width: 560px) { html:root body .hero-inner .breadcrumb { padding-right: 176px; } }

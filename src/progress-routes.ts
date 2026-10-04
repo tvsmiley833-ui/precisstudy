@@ -614,6 +614,21 @@ export async function handleGetProgress(request: Request, env: Env): Promise<Res
   return json(blob);
 }
 
+/**
+ * GET /api/stats: streak, XP and level as the dashboard shows them, for the pill on guide pages. One KV read and no writes
+ * (the pill used to call /api/quest, which writes on every GET and reports the separate quest XP, so the two pages disagreed).
+ */
+export async function handleGetStats(request: Request, env: Env): Promise<Response> {
+  const session = await getSession(request, env);
+  if (!session) return json({ error: "Sign in required" }, 401);
+  if (!env.PROGRESS) return json({ error: "Progress sync isn't configured yet" }, 503);
+  const blob = await loadBlob(env, session.email, { history: false });
+  const xp = computeServerXP(blob);
+  let level = 1;
+  while (Math.round(100 * Math.pow(level, 1.6)) <= xp) level++; // same curve as the dashboard's levelFromXP
+  return json({ streak: effectiveStreak(blob.streak || { current: 0 }), xp, level });
+}
+
 export async function handlePostProgress(request: Request, env: Env): Promise<Response> {
   const session = await getSession(request, env);
   if (!session) return json({ error: "Sign in required" }, 401);

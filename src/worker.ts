@@ -23,7 +23,7 @@ import { handleFeedbackSubmit } from "./feedback.js";
 import { handleClientLogPost } from "./client-log-routes.js";
 import { handleAdminMe, handleAdminListGuideRequests, handleAdminDeleteGuideRequest, handleAdminUpdateGuideRequestStatus, handleAdminStats, handleAdminGetGuideRequestFile, handleAdminListFeedback, handleAdminDeleteFeedback, handleAdminUpdateFeedbackStatus } from "./admin-routes.js";
 import { readSnapshotState, writeSnapshotState } from "./progress-routes.js";
-import { handleGetExport, handleGetProgress, handlePostProgress, handlePostProgressReset, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak, handlePostNotificationPrefs, recordDailySnapshots, handlePostShareGenerate, handlePostShareRevoke, handleGetShare, handlePostCalendarGenerate, handlePostCalendarRevoke, handleGetCalendarFeed, handlePostInviteGenerate } from "./progress-routes.js";
+import { handleGetExport, handleGetProgress, handleGetStats, handlePostProgress, handlePostProgressReset, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak, handlePostNotificationPrefs, recordDailySnapshots, handlePostShareGenerate, handlePostShareRevoke, handleGetShare, handlePostCalendarGenerate, handlePostCalendarRevoke, handleGetCalendarFeed, handlePostInviteGenerate } from "./progress-routes.js";
 import { handleGenerateFlashcards, handleSaveFlashcards, handleDeleteFlashcards, handleReviewFlashcard } from "./flashcards-routes.js";
 import { handleSyllabusParse } from "./syllabus-routes.js";
 import { handleSaveSyllabusDates } from "./syllabus-dates.js";
@@ -757,6 +757,7 @@ async function handleFetch(request: Request, env: Env): Promise<Response> {
   }
 
   if (url.pathname === "/auth/dev-login" && request.method === "GET") return handleDevLogin(request, env, url);
+  if (url.pathname === "/api/stats" && request.method === "GET") return handleGetStats(request, env);
   if (url.pathname === "/api/profile") return handleProfile(request, env);
   if (url.pathname === "/api/sessions" || url.pathname === "/api/sessions/revoke") return handleSessions(request, env);
   if (url.pathname === "/api/avatar") return handleAvatar(request, env);
