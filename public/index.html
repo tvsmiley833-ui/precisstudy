@@ -206,7 +206,7 @@ html[data-signed-in] .sage-intro,html[data-signed-in] #how-it-works,html[data-si
 .class-card:not(.class-card-soon):hover{transform:translateY(-4px);box-shadow:0 16px 32px rgba(31,110,70,.14);border-color:var(--accent-bright)}
 .class-card:not(.class-card-soon):active{transform:translateY(-4px) scale(.98)}
 .ss-readiness{display:none;align-items:center;gap:8px;margin-top:12px;font-size:13px;font-weight:700;color:var(--text)}
-.ss-readiness-bar{flex:1;max-width:180px;height:8px;border-radius:999px;background:var(--border);overflow:hidden}
+.ss-readiness-bar{flex:1;height:8px;border-radius:999px;background:var(--border);overflow:hidden}
 .ss-readiness-bar-fill{height:100%;border-radius:999px;background:var(--badge-green);transition:width .4s ease}
 .class-card > div:first-child{transition:transform .25s cubic-bezier(.2,.8,.2,1)}
 .class-card:not(.class-card-soon):hover > div:first-child{transform:scale(1.12) rotate(-4deg)}
@@ -258,7 +258,7 @@ html[data-signed-in] .sage-intro,html[data-signed-in] #how-it-works,html[data-si
   .class-group-grid{transition:none}
 }
 
-.ss-reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.ss-reveal{opacity:0;transform:translateY(12px);transition:opacity .35s ease,transform .35s ease}
 .ss-reveal.in-view{opacity:1;transform:translateY(0)}
 
 .ss-skip-link:focus{left:16px!important;top:16px!important}
@@ -301,7 +301,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 .spc-chart-cap{font-size:12.5px;color:var(--text-muted);margin-top:4px}
 .cc-grade{display:inline-block;margin-left:8px;font-size:11.5px;font-weight:800;letter-spacing:.03em;padding:2px 8px;border-radius:999px;background:var(--chip-bg);color:var(--accent);vertical-align:1px}
 .class-card{position:relative}
-.ss-pin{position:absolute;top:10px;right:10px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:50%;color:var(--text-muted);cursor:pointer;opacity:.0;transition:opacity .15s ease,color .15s ease,background .15s ease}
+.ss-pin{position:absolute;top:10px;right:10px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:50%;color:var(--text-muted);cursor:pointer;opacity:.45;transition:opacity .15s ease,color .15s ease,background .15s ease}
 .class-card:hover .ss-pin,.class-card:focus-within .ss-pin,.ss-pin[aria-pressed="true"],.ss-pin:focus-visible{opacity:1}
 @media(hover:none){.ss-pin{opacity:.75}}
 .ss-pin:hover{background:var(--chip-bg);color:var(--accent)}
@@ -559,6 +559,13 @@ body > :where(:not(.chalkboard):not(script):not(style)){position:relative;z-inde
 .ss-hero-exam{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;margin:0 0 10px;padding:10px 18px;border-radius:14px;background:var(--bg-card);border:2px solid var(--accent-solid);color:var(--text);font-size:15px}.ss-hero-exam b{color:var(--accent)}.ss-hero-exam a{font-weight:700;color:var(--accent);text-underline-offset:3px}
 .st-more{margin-top:16px}.st-more summary{cursor:pointer;display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:999px;border:2px solid var(--border);color:var(--accent);font-weight:700;font-size:14px;margin-bottom:16px}.st-more summary:hover{border-color:var(--accent-bright)}
 .st-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
+/* Four-card rows: 4, 2, then 1 column, so no card sits alone on a second row. */
+.ss-four{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+@media(max-width:900px){.ss-four{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.ss-four{grid-template-columns:1fr}}
+.st-more .st-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:900px){.st-more .st-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.st-more .st-grid{grid-template-columns:1fr}}
 .st-card{display:flex;flex-direction:column;gap:6px;padding:18px 20px;border-radius:16px;background:var(--bg-card);border:2px solid var(--border);color:var(--text);text-decoration:none;transition:transform .2s ease,border-color .2s ease}
 a.st-card:hover{transform:translateY(-3px);border-color:var(--accent-bright)}
 a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px}
@@ -1068,7 +1075,7 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
       <button type="button" class="st-ghost" id="exam-clear" onclick="ssClearExam()" style="display:none">Clear</button>
       <div class="st-status" id="exam-status" role="status" aria-live="polite">Set a date and we'll count down the days here, and use it to fill in your study plan.</div>
     </form>
-    <div class="st-grid">
+    <div class="ss-four">
       <a class="st-card" href="#classes-section"><h3>5-minute diagnostic</h3><p>Pick a class and find your weak spots before you study. No sign-up needed.</p><span class="st-go">Pick a class &rarr;</span></a>
       <a class="st-card" href="#classes-section"><h3>Flashcards that come back on time</h3><p>Spaced repetition brings each card back just before you'd forget it. Cards due today show as a badge on the Flashcards tab.</p><span class="st-go">Pick a class &rarr;</span></a>
       <a class="st-card" href="/flashcards/"><h3>Make your own flashcards</h3><p>Paste or upload your notes and turn them into a deck you can study.</p><span class="st-go">Make a deck &rarr;</span></a>
@@ -1170,7 +1177,7 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
       <h2 style="font-weight:700;font-size:14px;color:var(--nav-text);text-transform:uppercase;letter-spacing:0.06em;margin:0;">Study tips</h2>
       <a href="/tips/" style="font-size:14px;font-weight:700;color:var(--accent);text-decoration:none;">All study tips &rarr;</a>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;">
+    <div class="ss-four">
       <a href="/tips/ser-vs-estar/" class="class-card" style="display:block"><b class="cc-name">Ser vs Estar</b><div class="cc-meta">Two memory tricks and worked examples</div></a>
       <a href="/tips/sohcahtoa/" class="class-card" style="display:block"><b class="cc-name">SOHCAHTOA</b><div class="cc-meta">Sine, cosine and tangent, step by step</div></a>
       <a href="/tips/mitosis-vs-meiosis/" class="class-card" style="display:block"><b class="cc-name">Mitosis vs Meiosis</b><div class="cc-meta">PMAT and the key differences</div></a>
@@ -1946,7 +1953,7 @@ if ('IntersectionObserver' in window) {
         ssRevealObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0, rootMargin: '0px 0px -10% 0px' });
+  }, { threshold: 0, rootMargin: '0px 0px 25% 0px' });
   document.querySelectorAll('.ss-reveal').forEach(function(el) { ssRevealObserver.observe(el); });
 } else {
   document.querySelectorAll('.ss-reveal').forEach(function(el) { el.classList.add('in-view'); });
