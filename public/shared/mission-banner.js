@@ -9,6 +9,18 @@
 (function () {
   var DISMISS_KEY = "ss-mission-banner-dismissed";
 
+  // The Worker normally writes the banner into the page (no layout shift); this script then only wires the close button.
+  // If a page was served without it, the script builds the same banner itself.
+  var existing = document.getElementById("mb-bar");
+  if (existing) {
+    var btn = existing.querySelector("#mb-close");
+    if (btn) btn.addEventListener("click", function () {
+      existing.remove();
+      try { localStorage.setItem(DISMISS_KEY, "1"); } catch (e) { /* ignore */ }
+    });
+    return;
+  }
+
   var dismissed = false;
   try { dismissed = localStorage.getItem(DISMISS_KEY) === "1"; } catch (e) { /* private mode etc -- just show it */ }
   if (dismissed) return;
