@@ -2183,7 +2183,17 @@ function ssBuildPlanIcs(o){
 }
 
 (function(){
-  var SS_TOTAL_Q=QUIZ.length, SS_UNIT_COUNT=UNITS.length, MIN_PER_Q=1.5;
+  var MIN_PER_Q=1.5;
+  // The nearest upcoming test for THIS class (saved in the planner) sets the days and, if it covers only some units, the scope.
+  var SS_EXAM=null,SS_SCOPE=null;
+  try{
+    var _now=new Date(),_today=_now.getFullYear()+'-'+String(_now.getMonth()+1).padStart(2,'0')+'-'+String(_now.getDate()).padStart(2,'0');
+    SS_EXAM=(JSON.parse(localStorage.getItem('ss-exams')||'null')||[]).filter(function(e){return e&&e.slug===SS_GUIDE.slug&&/^\d{4}-\d{2}-\d{2}$/.test(e.date)&&e.date>=_today;}).sort(function(a,b){return a.date<b.date?-1:1;})[0]||null;
+    if(SS_EXAM&&Array.isArray(SS_EXAM.units)&&SS_EXAM.units.length)SS_SCOPE=SS_EXAM.units.filter(function(id){return UNITS.some(function(u){return u.id===id;});});
+    if(SS_SCOPE&&!SS_SCOPE.length)SS_SCOPE=null;
+  }catch(e){/* no saved exams */}
+  var SS_UNITS=SS_SCOPE?UNITS.filter(function(u){return SS_SCOPE.indexOf(u.id)>=0;}):UNITS;
+  var SS_TOTAL_Q=SS_SCOPE?new Set(QUIZ.filter(function(q){return SS_SCOPE.indexOf(q.u)>=0;}).map(function(q){return q.q;})).size||QUIZ.length:QUIZ.length, SS_UNIT_COUNT=SS_UNITS.length;
   var daysEl=document.getElementById('spc-days');
   var minsEl=document.getElementById('spc-mins');
   if(!daysEl||!minsEl)return;
@@ -2191,7 +2201,7 @@ function ssBuildPlanIcs(o){
   var minsNum=document.getElementById('spc-mins-num');
   // A saved exam date (set in the planner) pre-fills "days until your exam".
   try{
-    var ex=JSON.parse(localStorage.getItem('ss-exam')||'null');
+    var ex=SS_EXAM||JSON.parse(localStorage.getItem('ss-exam')||'null');
     if(ex&&/^\d{4}-\d{2}-\d{2}$/.test(ex.date)){
       var t0=new Date();t0.setHours(0,0,0,0);
       var dl=Math.round((new Date(ex.date+'T00:00:00')-t0)/864e5);
@@ -2203,6 +2213,13 @@ function ssBuildPlanIcs(o){
     if(pm>=parseInt(minsEl.min,10)&&pm<=parseInt(minsEl.max,10)){minsEl.value=pm;if(minsNum)minsNum.value=pm;}
   }catch(e){/* no saved pace */}
   var DAYS_DEFAULT=daysEl.value, MINS_DEFAULT=minsEl.value;
+  if(SS_SCOPE){
+    var scopeNote=document.createElement('p');
+    scopeNote.className='spc-scope-note';scopeNote.style.cssText='margin:0 0 10px;font-size:13px;color:var(--text-muted)';
+    scopeNote.innerHTML='Counting only '+(SS_SCOPE.length===1?'unit ':'units ')+SS_SCOPE.slice().sort(function(a,b){return a-b;}).join(', ')+' for '+(SS_EXAM.label?SS_EXAM.label.replace(/[&<>"]/g,'')+', ':'your test, ')+'as set in the <a href="/planner/">planner</a>.';
+    var daysLabel=document.querySelector('label[for="spc-days"]');
+    if(daysLabel)daysLabel.parentNode.insertBefore(scopeNote,daysLabel);
+  }
   function setFill(el){
     var min=parseFloat(el.min),max=parseFloat(el.max),val=parseFloat(el.value);
     var pct=max>min?((val-min)/(max-min))*100:0;
@@ -2258,7 +2275,7 @@ function ssBuildPlanIcs(o){
   function buildPlanIcs(timeStr){
     return ssBuildPlanIcs({days:parseInt(daysEl.value,10),mins:parseInt(minsEl.value,10),perDayQ:Math.round(parseInt(minsEl.value,10)/MIN_PER_Q),
       timeStr:timeStr,now:new Date(),covered:Math.min(SS_UNIT_COUNT,Math.max(1,parseInt(document.getElementById('spc-units').textContent,10)||1)),
-      title:SS_GUIDE.title,slug:SS_GUIDE.slug,origin:location.origin,units:UNITS});
+      title:SS_GUIDE.title,slug:SS_GUIDE.slug,origin:location.origin,units:SS_UNITS});
   }
   var body=document.getElementById('spc-body');
   if(body&&resetBtn){

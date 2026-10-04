@@ -1135,14 +1135,23 @@ async function ssSaveTestGoal(e) {
   }
   return false;
 }
+// The nearest exam's class and the unit ids it covers (its chosen units, else every unit), when it names a class.
+function examScope(subjects) {
+  const e = window.ssPlan && window.ssPlan.getExam();
+  const s = e && e.slug ? subjects.find(x => x.href === '/' + e.slug) : null;
+  if (!s) return null;
+  const scoped = !!(e.units && e.units.length);
+  return { exam: e, subject: s, scoped, ids: scoped ? e.units : s.units.map(u => u.id) };
+}
 function renderTodayPlan(subjects, blob) {
   const el = document.getElementById('dash-focus');
   if (!el) return;
-  let worst = null; // weakest assessed unit across the student's classes
-  subjects.forEach(function (s) {
+  let worst = null; // weakest assessed unit across the student's classes (only the covered units while a unit-scoped test is next)
+  const scope = examScope(subjects);
+  (scope && scope.scoped ? [scope.subject] : subjects).forEach(function (s) {
     const unitNames = {};
     s.units.forEach(u => { unitNames[u.id] = u.name; });
-    const weak = topWeakUnits((blob[s.key] || {}).mastery || {}, s.units.map(u => u.id), unitNames, 1);
+    const weak = topWeakUnits((blob[s.key] || {}).mastery || {}, scope && scope.scoped ? scope.ids : s.units.map(u => u.id), unitNames, 1);
     if (weak.length && (!worst || weak[0].pct < worst.pct)) worst = Object.assign({ subject: s }, weak[0]);
   });
   const goal = blob.goal && blob.goal.days && blob.goal.minutesPerDay ? blob.goal : null;
@@ -1879,6 +1888,12 @@ function renderPlannerSummary(blob) {
   const exam = window.ssPlan && window.ssPlan.getExam();
   const n = exam ? window.ssPlan.daysUntil(exam.date) : -1;
   if (n >= 0) parts.push((exam.label || 'Exam') + ' ' + (n === 0 ? 'is today' : 'in ' + n + ' day' + (n === 1 ? '' : 's')));
+  const scope = n >= 0 ? examScope(SUBJECTS_FOR_SCHEDULE) : null;
+  if (scope) {
+    const r = computeReadiness(((blob && blob[scope.subject.key]) || {}).mastery || {}, scope.ids);
+    const what = scope.scoped ? (scope.ids.length === 1 ? 'Unit ' : 'Units ') + scope.ids.slice().sort((a, b) => a - b).join(', ') : 'whole course';
+    parts.push(scope.subject.label + ' (' + what + '): ' + (r.pct === null ? 'not assessed yet' : r.pct + '% ready'));
+  }
   if (blob && blob.goal && blob.goal.minutesPerDay) parts.push(blob.goal.minutesPerDay + ' min/day goal');
   const blocks = blob && blob.schedule && Array.isArray(blob.schedule.blocks) ? blob.schedule.blocks.length : 0;
   if (blocks) parts.push(blocks + ' study block' + (blocks === 1 ? '' : 's') + ' this week');
