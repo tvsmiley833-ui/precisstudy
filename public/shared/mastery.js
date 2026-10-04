@@ -399,12 +399,13 @@ export function createMastery(subject, unitIds, unitNames) {
     if (dirty) pushToServer();
   }
 
+  function ssProgressOnce(){var w=window;if(!w.__ssProgP||Date.now()-w.__ssProgT>2500){w.__ssProgT=Date.now();w.__ssProgP=fetch('/api/progress').then(function(r){return r.ok?r.json():null;}).catch(function(){return null;});}return w.__ssProgP.then(function(b){return b&&JSON.parse(JSON.stringify(b));});}
+
   async function mergeFromServer() {
     if (!(await isSignedIn())) return;
     try {
-      const res = await fetch("/api/progress");
-      if (!res.ok) return;
-      const blob = await res.json();
+      const blob = await progressOnce(); // one shared request per page load (see unit-order.js and guide-app.js)
+      if (!blob) return;
       const serverSubject = blob && blob[subject];
       if (serverSubject) {
         // The schedule merges per card (newest review wins) so a review done offline or on

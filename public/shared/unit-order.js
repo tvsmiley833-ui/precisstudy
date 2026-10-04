@@ -68,12 +68,21 @@ function isSignedIn() {
  * reorders anything on this load.
  * @param {string} subjectKey
  */
+/** One /api/progress request per page load, shared with mastery.js and guide-app.js through window.__ssProgP. */
+function progressOnce() {
+  const w = /** @type {any} */ (window);
+  if (!w.__ssProgP || Date.now() - w.__ssProgT > 2500) {
+    w.__ssProgT = Date.now();
+    w.__ssProgP = fetch("/api/progress").then(r => (r.ok ? r.json() : null)).catch(() => null);
+  }
+  return w.__ssProgP.then(/** @param {any} b */ b => b && JSON.parse(JSON.stringify(b)));
+}
+
 export async function refreshUnitOrder(subjectKey) {
   if (!(await isSignedIn())) return;
   try {
-    const res = await fetch("/api/progress");
-    if (!res.ok) return;
-    const blob = await res.json();
+    const blob = await progressOnce();
+    if (!blob) return;
     const unitOrder = blob && blob[subjectKey] && blob[subjectKey].unitOrder;
     if (!Array.isArray(unitOrder) || !unitOrder.length) return;
 

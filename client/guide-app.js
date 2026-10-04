@@ -457,9 +457,10 @@ function justStartUnit1(){
   ssEnrollInThisSubject();
   if(UNITS.length)jumpToUnit(UNITS[0].id);
 }
+function ssProgressOnce(){var w=window;if(!w.__ssProgP||Date.now()-w.__ssProgT>2500){w.__ssProgT=Date.now();w.__ssProgP=fetch('/api/progress').then(function(r){return r.ok?r.json():null;}).catch(function(){return null;});}return w.__ssProgP.then(function(b){return b&&JSON.parse(JSON.stringify(b));});}
 function ssEnrollInThisSubject(){
   if(!SS_SESSION||typeof SS_GUIDE==='undefined')return;
-  fetch('/api/progress').then(r=>r.ok?r.json():null).then(blob=>{
+  ssProgressOnce().then(blob=>{
     const cur=(blob&&Array.isArray(blob.enrolledSubjects))?blob.enrolledSubjects:[];
     if(cur.indexOf(SS_GUIDE.key)>=0)return;
     return fetch('/api/enrolled-subjects',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({subjects:cur.concat(SS_GUIDE.key)})});
