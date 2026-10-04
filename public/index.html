@@ -27,6 +27,9 @@
 <link rel="preload" href="/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="preload" href="/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <style>@font-face { font-family: 'Nunito'; font-style: normal; font-weight: 400 800; font-display: swap; src: url('/fonts/nunito-latin.woff2') format('woff2'); } @font-face { font-family: 'Fraunces'; font-style: normal; font-weight: 500 700; font-display: swap; src: url('/fonts/fraunces-latin.woff2') format('woff2'); }</style>
+<script>window.adsbygoogle = window.adsbygoogle || []; window.adsbygoogle.requestNonPersonalizedAds = 1;</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9710380778867118"
+     crossorigin="anonymous"></script>
 <script>
 (function(){
   // AdSense sets non-essential cookies (ad personalization/measurement), so
@@ -38,6 +41,7 @@
     // student. Asking /auth/me first means nothing from Google loads until we know the visitor is signed out.
     fetch('/auth/me').then(function(r){ return r.ok ? r.json() : { loggedIn: false }; }).catch(function(){ return { loggedIn: false }; }).then(function(me){
       if (me && me.loggedIn) return;
+      if (document.querySelector('script[src*="adsbygoogle.js"]')) return; // the tag in <head> already loaded it
       window.adsbygoogle = window.adsbygoogle || [];
       window.adsbygoogle.requestNonPersonalizedAds = 1;
       var s = document.createElement('script');

@@ -374,6 +374,7 @@ test("ads are non-personalized and never load for a signed-in student; the polic
   assert.match(h, /requestNonPersonalizedAds = 1/);
   assert.match(h, /fetch\('\/auth\/me'\)[\s\S]{0,400}me\.loggedIn\) return;/);
   assert.ok(h.indexOf("requestNonPersonalizedAds") < h.indexOf("adsbygoogle.js?client="));
+  assert.match(h, /<script async src="https:\/\/pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js\?client=ca-pub-9710380778867118"\s+crossorigin="anonymous"><\/script>/);
   assert.match(read("../public/privacy/index.html"), /non-personalized ads only/);
 });
 
