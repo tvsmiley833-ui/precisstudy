@@ -1124,6 +1124,7 @@ async function ssSaveTestGoal(e) {
   const form = e.target, btn = form.querySelector('button');
   btn.disabled = true; btn.textContent = 'Saving…';
   try {
+    if (window.ssPlan) { await window.ssPlan.setPace(Number(form.days.value), window.ssPlan.getMinutes()); location.reload(); return false; }
     const r = await fetch('/api/goal', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ days: Number(form.days.value), minutesPerDay: 20 }) });
     if (!r.ok) throw new Error();
     location.reload();
@@ -1202,7 +1203,7 @@ function renderTodayPlan(subjects, blob) {
   el.innerHTML = '<section class="ss-card today-plan" aria-labelledby="tp-h">'
     + '<div class="tp-top"><div><div class="tp-label">Up next' + (goal ? ' · ' + goal.minutesPerDay + ' min' : '') + '</div>'
     + '<h2 id="tp-h" class="tp-head">' + ssEscapeHtml(head) + '</h2></div>'
-    + (goal ? '' : '<form class="tp-set-form" onsubmit="return ssSaveTestGoal(event)"><label for="tp-days">My test is</label> <select id="tp-days" name="days"><option value="7">this week</option><option value="14">in 2 weeks</option><option value="30" selected>in a month</option><option value="90">later this year</option></select> <button class="tp-set" type="submit">Plan my study</button></form>') + '</div>'
+    + (goal || exam ? '<a class="tp-plan-link" href="/planner/">Change date or pace</a>' : '<form class="tp-set-form" onsubmit="return ssSaveTestGoal(event)"><label for="tp-days">My test is</label> <select id="tp-days" name="days"><option value="7">this week</option><option value="14">in 2 weeks</option><option value="30" selected>in a month</option><option value="90">later this year</option></select> <button class="tp-set" type="submit">Plan my study</button></form>') + '</div>'
     + progress
     + '<ol class="tp-tasks">' + tasks.map(t => '<li><a href="' + ssEscapeHtml(t.href) + '"><span><b>' + ssEscapeHtml(t.title) + '</b><small>' + ssEscapeHtml(t.sub) + '</small></span>' + ICON + '</a></li>').join('') + '</ol>'
     + '</section>';
