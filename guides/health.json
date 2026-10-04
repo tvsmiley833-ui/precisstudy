@@ -5780,5 +5780,38 @@
     "e": "Full argumentative architecture earns top marks."
    }
   ]
- }
+ },
+ "workedExamples": [
+  {
+   "u": 2,
+   "title": "Body mass index",
+   "prompt": "A person is 1.75 m tall and weighs 70 kg. Find the BMI.",
+   "steps": [
+    "BMI = weight (kg) / height (m)²",
+    "1.75² = 3.0625",
+    "70 / 3.0625"
+   ],
+   "answer": "≈ 22.9 (within the typical healthy range of 18.5–24.9)"
+  },
+  {
+   "u": 2,
+   "title": "Target heart rate",
+   "prompt": "For a 16-year-old, find the maximum heart rate (220 − age) and the 70–85% training zone.",
+   "steps": [
+    "Max = 220 − 16 = 204 beats per minute",
+    "70%: 0.70 × 204 = 142.8",
+    "85%: 0.85 × 204 = 173.4"
+   ],
+   "answer": "Max 204 bpm; target zone about 143–173 bpm"
+  },
+  {
+   "u": 2,
+   "title": "Calories from fat",
+   "prompt": "A snack has 12 g of fat. How many calories come from fat? (1 g of fat = 9 kcal)",
+   "steps": [
+    "12 g × 9 kcal/g"
+   ],
+   "answer": "108 kcal"
+  }
+ ]
 }

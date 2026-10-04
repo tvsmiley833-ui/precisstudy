@@ -3717,5 +3717,59 @@
     "e": "Full argumentative architecture earns top marks."
    }
   ]
- }
+ },
+ "workedExamples": [
+  {
+   "u": 2,
+   "title": "Time signature",
+   "prompt": "In 3/4 time, how many beats are in each measure and what note gets one beat?",
+   "steps": [
+    "The top number is beats per measure: 3",
+    "The bottom number tells which note gets the beat: 4 means a quarter note"
+   ],
+   "answer": "3 beats per measure; the quarter note gets one beat"
+  },
+  {
+   "u": 3,
+   "title": "Relative minor",
+   "prompt": "What is the relative minor of C major, and how many sharps or flats do they share?",
+   "steps": [
+    "The relative minor starts a minor third below the tonic (or on the 6th degree)",
+    "C D E F G A: the sixth note is A",
+    "C major and A minor share a key signature with no sharps or flats"
+   ],
+   "answer": "A minor; no sharps or flats"
+  },
+  {
+   "u": 3,
+   "title": "Key signature",
+   "prompt": "How many sharps are in the key of G major, and which one?",
+   "steps": [
+    "G major's scale: G A B C D E F♯ G",
+    "Only the seventh note is raised"
+   ],
+   "answer": "One sharp: F♯"
+  },
+  {
+   "u": 4,
+   "title": "Interval",
+   "prompt": "What is the interval from C up to G, and how many semitones does it span?",
+   "steps": [
+    "Count letter names: C D E F G is a fifth",
+    "C to G is 7 semitones, which makes it a perfect fifth"
+   ],
+   "answer": "A perfect fifth (7 semitones)"
+  },
+  {
+   "u": 5,
+   "title": "Building a triad",
+   "prompt": "Spell the C major triad and say how it is built.",
+   "steps": [
+    "Start with the root: C",
+    "Add a major third above (4 semitones): E",
+    "Add a minor third above that (3 semitones): G"
+   ],
+   "answer": "C – E – G"
+  }
+ ]
 }

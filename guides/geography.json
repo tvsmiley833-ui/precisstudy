@@ -5678,5 +5678,36 @@
     "e": "Full argumentative architecture earns top marks."
    }
   ]
- }
+ },
+ "workedExamples": [
+  {
+   "u": 1,
+   "title": "Map scale",
+   "prompt": "On a map with scale 1:50,000, two towns are 4 cm apart. What is the real distance?",
+   "steps": [
+    "1 cm on the map = 50,000 cm = 500 m",
+    "4 cm × 500 m = 2,000 m"
+   ],
+   "answer": "2 km"
+  },
+  {
+   "u": 1,
+   "title": "Time zones",
+   "prompt": "The Earth rotates 15° of longitude per hour. If two cities are 45° apart in longitude, what is the time difference?",
+   "steps": [
+    "45° ÷ 15° per hour"
+   ],
+   "answer": "3 hours"
+  },
+  {
+   "u": 3,
+   "title": "Temperature and elevation",
+   "prompt": "Air temperature drops about 6.5 °C per kilometer of elevation. If it is 20 °C at sea level, what is it on a mountain top 3 km high?",
+   "steps": [
+    "Drop = 6.5 × 3 = 19.5 °C",
+    "20 − 19.5"
+   ],
+   "answer": "About 0.5 °C"
+  }
+ ]
 }

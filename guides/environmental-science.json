@@ -4292,5 +4292,67 @@
     "e": "Full argumentative architecture earns top marks."
    }
   ]
- }
+ },
+ "workedExamples": [
+  {
+   "u": 1,
+   "title": "The 10% rule",
+   "prompt": "Producers in an ecosystem capture 10,000 kcal of energy. About how much reaches secondary consumers?",
+   "steps": [
+    "Only about 10% of energy passes to the next trophic level",
+    "Producers → primary consumers: 10,000 × 0.10 = 1,000 kcal",
+    "Primary → secondary consumers: 1,000 × 0.10 = 100 kcal"
+   ],
+   "answer": "About 100 kcal"
+  },
+  {
+   "u": 2,
+   "title": "Population growth rate",
+   "prompt": "A population of 1,000 has a birth rate of 30 per 1,000 and a death rate of 10 per 1,000 per year (no migration). Find the growth rate and doubling time.",
+   "steps": [
+    "Natural growth rate = (30 − 10)/1,000 = 0.02 = 2% per year",
+    "Rule of 70: doubling time ≈ 70 / 2"
+   ],
+   "answer": "2% per year; doubles in about 35 years"
+  },
+  {
+   "u": 5,
+   "title": "Power plant efficiency",
+   "prompt": "A coal power plant is 33% efficient. How much of 300 MJ of fuel energy becomes electricity, and what happens to the rest?",
+   "steps": [
+    "Useful output = 0.33 × 300 MJ ≈ 99 MJ",
+    "The other 201 MJ leaves as waste heat"
+   ],
+   "answer": "About 99 MJ of electricity; about 201 MJ is lost as heat"
+  },
+  {
+   "u": 5,
+   "title": "Energy cost",
+   "prompt": "A 100 W bulb runs for 10 hours. How many kWh is that, and what does it cost at $0.12 per kWh?",
+   "steps": [
+    "Energy = power × time = 0.1 kW × 10 h = 1 kWh",
+    "Cost = 1 kWh × $0.12"
+   ],
+   "answer": "1 kWh, $0.12"
+  },
+  {
+   "u": 6,
+   "title": "Acid rain pH",
+   "prompt": "Rain with a pH of 4.6 is how many times more acidic than normal rain at pH 5.6?",
+   "steps": [
+    "pH is logarithmic: each unit is a factor of 10 in [H⁺]",
+    "The difference is 1 pH unit"
+   ],
+   "answer": "10 times more acidic"
+  },
+  {
+   "u": 7,
+   "title": "Carbon from driving",
+   "prompt": "Burning one gallon of gasoline releases about 8.9 kg of CO₂. How much CO₂ is released by 20 gallons?",
+   "steps": [
+    "Multiply: 20 × 8.9 kg"
+   ],
+   "answer": "About 178 kg of CO₂"
+  }
+ ]
 }

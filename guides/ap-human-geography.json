@@ -3115,5 +3115,37 @@
     "e": "Strong responses anchor every claim in specific unit content and explain how the two concepts connect."
    }
   ]
- }
+ },
+ "workedExamples": [
+  {
+   "u": 2,
+   "title": "Natural increase rate",
+   "prompt": "A country has a crude birth rate of 24 and a crude death rate of 8 (per 1,000 people). Find the natural increase rate and doubling time.",
+   "steps": [
+    "NIR = (CBR − CDR)/10, as a percent = (24 − 8)/10 = 1.6%",
+    "Doubling time ≈ 70 / 1.6 ≈ 44 years"
+   ],
+   "answer": "NIR = 1.6%; doubling time ≈ 44 years"
+  },
+  {
+   "u": 2,
+   "title": "Population density",
+   "prompt": "A region has 3,000,000 people on 1,500 km², of which 300 km² is farmland. Find the arithmetic and physiological densities.",
+   "steps": [
+    "Arithmetic density = people / total land = 3,000,000 / 1,500",
+    "Physiological density = people / arable land = 3,000,000 / 300"
+   ],
+   "answer": "2,000 people/km² (arithmetic); 10,000 people/km² of farmland (physiological)"
+  },
+  {
+   "u": 2,
+   "title": "Dependency ratio",
+   "prompt": "A country has 25% of people under 15, 65% ages 15–64, and 10% over 64. Find the dependency ratio.",
+   "steps": [
+    "Dependents = under 15 + over 64 = 25 + 10 = 35",
+    "Ratio = dependents / working-age × 100 = 35/65 × 100"
+   ],
+   "answer": "≈ 53.8 dependents per 100 workers"
+  }
+ ]
 }
