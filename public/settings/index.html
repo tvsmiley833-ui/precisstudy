@@ -233,6 +233,40 @@ html{scroll-behavior:smooth}
 .ss-show-tok{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-muted);margin:0 0 12px;cursor:pointer}
 .ss-unsaved-discard{background:none;border:0;color:var(--text-muted);font:inherit;font-size:13.5px;font-weight:700;text-decoration:underline;cursor:pointer;padding:8px}
 @media(prefers-reduced-motion:no-preference){.ss-tabpanels [role="tabpanel"]:not([hidden]){animation:ssPanelIn .15s ease}@keyframes ssPanelIn{from{opacity:0}to{opacity:1}}}
+
+/* ---- button system: primary (solid), secondary (outline), danger (red), ghost (text) ---- */
+.ss-card button:not(.ss-density-btn):not(.ss-unsaved-discard),.ss-card .ss-oauth-btn,#ss-unsaved-save,#settings-signin-btn{
+  display:inline-flex!important;align-items:center;justify-content:center;gap:8px;box-sizing:border-box;min-height:44px;width:auto!important;margin:0!important;
+  padding:0 22px!important;border-radius:999px!important;font:inherit;font-size:14.5px!important;font-weight:700;line-height:1;text-decoration:none;white-space:nowrap;cursor:pointer;
+  border:2px solid transparent;transition:background .15s ease,border-color .15s ease,color .15s ease,box-shadow .15s ease,transform .1s ease}
+/* primary */
+#settings-save-btn,#google-save-btn,#profile-save-btn,#canvas-connect-btn,#ss-share-generate-btn,#ss-cal-generate-btn,#ss-invite-generate-btn,#ss-unsaved-save,#push-toggle-btn{
+  background:var(--accent-solid)!important;color:#fff!important;border-color:var(--accent-solid)!important}
+#settings-save-btn:hover,#google-save-btn:hover,#profile-save-btn:hover,#canvas-connect-btn:hover,#ss-share-generate-btn:hover,#ss-cal-generate-btn:hover,#ss-invite-generate-btn:hover,#ss-unsaved-save:hover,#push-toggle-btn:hover{
+  background:var(--accent-solid-hover)!important;border-color:var(--accent-solid-hover)!important;box-shadow:0 6px 16px rgba(31,110,70,.28)}
+/* secondary */
+.ss-card .ss-oauth-btn:not(.ss-danger),#export-data-btn,#push-test-btn,#canvas-sync-btn,#ss-share-copy-btn,#ss-cal-copy-btn,#ss-invite-copy-btn,#sign-out-everywhere-btn,#settings-signin-btn{
+  background:transparent!important;color:var(--text)!important;border-color:color-mix(in srgb,var(--text) 35%,transparent)!important}
+.ss-card .ss-oauth-btn:not(.ss-danger):hover,#export-data-btn:hover,#push-test-btn:hover,#canvas-sync-btn:hover,#ss-share-copy-btn:hover,#ss-cal-copy-btn:hover,#ss-invite-copy-btn:hover,#sign-out-everywhere-btn:hover,#settings-signin-btn:hover{
+  background:color-mix(in srgb,var(--accent-bright) 12%,transparent)!important;border-color:var(--accent-bright)!important;color:var(--accent)!important}
+/* danger: outline for reversible-ish actions, solid for the one that cannot be undone */
+.ss-card .ss-danger,#reset-progress-btn,#ss-share-revoke-btn,#ss-cal-revoke-btn,#google-disconnect-btn,#canvas-disconnect-btn{
+  background:transparent!important;color:#b3362c!important;border-color:#b3362c!important}
+[data-theme="dark"] .ss-card .ss-danger,[data-theme="dark"] #reset-progress-btn,[data-theme="dark"] #ss-share-revoke-btn,[data-theme="dark"] #ss-cal-revoke-btn{color:#ff8a80!important;border-color:#ff8a80!important}
+.ss-card .ss-danger:hover,#reset-progress-btn:hover,#ss-share-revoke-btn:hover,#ss-cal-revoke-btn:hover{background:color-mix(in srgb,#b3362c 14%,transparent)!important}
+#delete-account-btn{background:#b3362c!important;color:#fff!important;border-color:#b3362c!important}
+#delete-account-btn:hover{background:#8f2a22!important;border-color:#8f2a22!important}
+/* states */
+.ss-card button:disabled,#ss-unsaved-save:disabled{opacity:.55;cursor:not-allowed;box-shadow:none!important;transform:none!important}
+.ss-card button:focus-visible,.ss-card .ss-oauth-btn:focus-visible,#ss-unsaved-save:focus-visible{outline:3px solid var(--accent-bright);outline-offset:2px}
+.ss-card button:active:not(:disabled),.ss-card .ss-oauth-btn:active{transform:scale(.97)}
+.ss-card button[aria-busy="true"]::after{content:"";width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:ssSpin .7s linear infinite}
+@keyframes ssSpin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.ss-card button[aria-busy="true"]::after{animation:none}}
+/* small action rows: consistent spacing, wrap on narrow screens */
+.ss-card div[style*="display:flex"][style*="gap:10px"]{gap:10px}
+.ss-card .ss-oauth-btn[style*="padding:9px 16px"],.ss-card label.ss-oauth-btn{min-height:40px}
+@media(max-width:480px){#settings-save-btn,#google-save-btn,#profile-save-btn,#canvas-connect-btn{width:100%!important}}
 </style>
 <link rel="stylesheet" href="/shared/site-header.css"/>
 </head>
