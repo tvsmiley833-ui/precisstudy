@@ -57,6 +57,7 @@ input[type=text]{width:100%;padding:10px 12px;border-radius:10px;border:1px soli
 .deck-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
 .deck-row:last-child{border-bottom:none;}
 .deck-name{font-weight:700;}
+.fc-links{display:flex;flex-wrap:wrap;gap:6px 18px;margin:0 0 14px;font-size:14px;font-weight:700}.fc-links a{color:var(--text-muted);text-decoration:none;min-height:32px;display:inline-flex;align-items:center}.fc-links a:hover{color:var(--accent);text-decoration:underline}.fc-links a[aria-current="page"]{color:var(--accent)}
 .deck-count{font-size:13px;color:var(--text-muted);}
 .row-actions{display:flex;gap:8px;}
 .status{margin-top:10px;font-size:13px;color:var(--text-muted);}
@@ -88,9 +89,11 @@ input[type=text]{width:100%;padding:10px 12px;border-radius:10px;border:1px soli
     <div class="hd-menu" id="hd-menu" role="menu">
       <a href="/" role="menuitem">Home</a>
       <a href="/dashboard/" role="menuitem">Dashboard</a>
+      <a href="/planner/" role="menuitem">Planner</a>
       <a href="/settings/" role="menuitem">Settings</a>
     </div>
   </div>
+  <nav class="fc-links" aria-label="Site"><a href="/">Home</a><a href="/dashboard/">Dashboard</a><a href="/flashcards/" aria-current="page">Flashcards</a><a href="/planner/">Planner</a><a href="/settings/">Settings</a></nav>
   <h1>My Flashcards</h1>
   <p class="sub">Paste your notes, get an AI-generated deck, study with spaced repetition — cards you know well come back less often.</p>
 
