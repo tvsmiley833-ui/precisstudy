@@ -319,13 +319,15 @@ html{scroll-behavior:smooth}
   <div class="pl-wrap" style="display:grid;gap:24px;">
     <section class="pl-plan" aria-label="Exam date and pace">
       <div class="ss-card spc-card" style="max-width:none" id="pl-exam-card">
-        <h2 class="pl-h"><svg class="pl-ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>When is your exam?</h2>
-        <p class="pl-note" style="margin:4px 0 0">Set it once. The countdown, your pace, your dashboard and every guide use the same date.</p>
+        <h2 class="pl-h"><svg class="pl-ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>When are your exams?</h2>
+        <p class="pl-note" style="margin:4px 0 0">Add every test, for one class or several. The nearest one drives your countdown, pace and dashboard.</p>
         <div class="pl-count" id="pl-count" aria-live="polite"><span class="pl-badge" id="pl-badge"><b id="pl-days">&ndash;</b> <span id="pl-days-label">No date set</span></span></div>
+        <ul class="pl-exams" id="pl-exams" aria-label="Your exams"></ul>
         <form id="pl-exam-form" autocomplete="off">
+          <label class="pl-field" for="exam-class">Class<select id="exam-class"><option value="">Not tied to a class</option></select></label>
           <label class="pl-field" for="exam-date">Exam date<input type="date" id="exam-date" required></label>
-          <label class="pl-field" for="exam-label">What is it?<input type="text" id="exam-label" maxlength="40" placeholder="AP Lang exam"></label>
-          <div class="pl-actions"><button type="submit" class="pl-btn" id="pl-save-date">Save date</button><button type="button" class="pl-btn ghost" id="exam-clear" hidden>Clear</button></div>
+          <label class="pl-field" for="exam-label">What is it?<input type="text" id="exam-label" maxlength="40" placeholder="Unit 4 test, final, AP exam"></label>
+          <div class="pl-actions"><button type="submit" class="pl-btn" id="pl-save-date">Add exam</button></div>
         </form>
       </div>
       <div class="ss-card spc-card" style="max-width:none" id="pl-pace-card">

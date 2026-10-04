@@ -7,21 +7,33 @@
   function plural(n, w) { return n + ' ' + w + (n === 1 ? '' : 's'); }
 
   // ---- 1. Exam date
-  var saved = '';
+  var classTitles = {};
   function renderExam() {
-    var e = P.getExam(), n = e ? P.daysUntil(e.date) : null, dEl = $('exam-date');
+    var l = P.getExams(), e = P.getExam(), n = e ? P.daysUntil(e.date) : null, dEl = $('exam-date');
     dEl.min = P.isoToday();
-    if (e) { dEl.value = e.date; $('exam-label').value = e.label || ''; }
-    saved = e ? e.date + '|' + (e.label || '') : '|';
-    $('exam-clear').hidden = !e;
-    var on = !!e && n >= 0;
+    var on = !!e;
     $('pl-badge').classList.toggle('on', on);
     $('pl-days').textContent = on ? String(n) : '';
-    $('pl-days-label').textContent = !e ? 'No date set' : n < 0 ? 'That date has passed' : n === 0 ? 'Exam day' : (n === 1 ? 'day' : 'days') + ' until ' + (e.label || 'your exam');
-    markDirty();
+    $('pl-days-label').textContent = !e ? 'No upcoming exam' : n === 0 ? 'Exam day' : (n === 1 ? 'day' : 'days') + ' until ' + (e.label || classTitles[e.slug] || 'your next exam');
+    $('pl-exams').innerHTML = l.map(function (x) {
+      var d = P.daysUntil(x.date), past = d < 0, name = x.label || classTitles[x.slug] || 'Exam';
+      return '<li class="pl-exam' + (past ? ' past' : '') + '"><button type="button" class="pl-exam-main" data-id="' + x.id + '" title="Plan my pace for this exam"><b>' + esc(name) + '</b><span>' + (x.slug && classTitles[x.slug] && x.label ? esc(classTitles[x.slug]) + ' · ' : '') + x.date + ' · ' + (past ? 'passed' : d === 0 ? 'today' : plural(d, 'day')) + '</span></button>'
+        + '<button type="button" class="pl-exam-del" data-del="' + x.id + '" aria-label="Remove ' + esc(name) + '"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></li>';
+    }).join('');
   }
-  function markDirty() { $('pl-save-date').classList.toggle('dirty', $('exam-date').value + '|' + $('exam-label').value.trim() !== saved); }
-  ['input', 'change'].forEach(function (ev) { $('exam-date').addEventListener(ev, markDirty); $('exam-label').addEventListener(ev, markDirty); });
+  function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  $('pl-exams').addEventListener('click', function (ev) {
+    var del = ev.target.closest('[data-del]'), pick = ev.target.closest('[data-id]');
+    if (del) { P.removeExam(del.dataset.del); toast('Exam removed'); return; }
+    if (pick) {
+      var x = P.getExams().filter(function (q) { return q.id === pick.dataset.id; })[0];
+      if (!x) return;
+      var d = P.daysUntil(x.date);
+      if (x.slug && classes.some(function (c) { return c.slug === x.slug; })) { $('pl-class').value = x.slug; cur = classes.filter(function (c) { return c.slug === x.slug; })[0]; }
+      if (d >= 1) { unlocked = true; daysEl.disabled = false; $('pl-lock').hidden = true; daysEl.value = Math.min(d, +daysEl.max); }
+      update(); $('pl-pace-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
   // The whole date box opens the picker, not just the tiny icon.
   $('exam-date').addEventListener('click', function () { try { this.showPicker(); } catch (x) { /* unsupported */ } });
   function toast(msg, bad) {
@@ -31,11 +43,12 @@
   }
   $('pl-exam-form').addEventListener('submit', function (ev) {
     ev.preventDefault();
-    if ($('exam-date').value < P.isoToday()) { toast('Pick a date that is today or later', true); return; }
-    P.setExam($('exam-date').value, $('exam-label').value);
-    toast('Exam date saved');
+    var d = $('exam-date').value;
+    if (d < P.isoToday()) { toast('Pick a date that is today or later', true); return; }
+    P.addExam(d, $('exam-label').value, $('exam-class').value);
+    $('exam-date').value = ''; $('exam-label').value = '';
+    toast('Exam added');
   });
-  $('exam-clear').addEventListener('click', function () { $('exam-date').value = ''; $('exam-label').value = ''; P.clearExam(); });
 
   // ---- 2. Pace
   var daysEl = $('spc-days'), minsEl = $('spc-mins'), unlocked = false;
@@ -131,10 +144,13 @@
   document.head.appendChild(st);
   fetch('/shared/class-counts.json').then(function (r) { return r.json(); }).then(function (rows) {
     classes = rows;
+    rows.forEach(function (c) { classTitles[c.slug] = c.title; });
+    $('exam-class').innerHTML = '<option value="">Not tied to a class</option>' + rows.map(function (c) { return '<option value="' + c.slug + '">' + esc(c.title) + '</option>'; }).join('');
+    renderExam();
     var sel = $('pl-class'), saved = '', last = '';
     try { saved = localStorage.getItem('ss-plan-class') || ''; var l = JSON.parse(localStorage.getItem('ss-last-subject') || 'null'); last = l && l.href ? l.href.replace(/\//g, '') : ''; } catch (x) { /* none */ }
     sel.innerHTML = rows.map(function (c) { return '<option value="' + c.slug + '">' + c.title.replace(/&/g, '&amp;') + '</option>'; }).join('');
-    var want = [saved, last, 'geometry'].filter(function (s) { return rows.some(function (c) { return c.slug === s; }); })[0] || rows[0].slug;
+    var ne = P.getExam(), want = [ne && ne.slug, saved, last, 'geometry'].filter(function (s) { return rows.some(function (c) { return c.slug === s; }); })[0] || rows[0].slug;
     sel.value = want; cur = rows.filter(function (c) { return c.slug === want; })[0];
     sel.addEventListener('change', function () { cur = classes.filter(function (c) { return c.slug === sel.value; })[0]; try { localStorage.setItem('ss-plan-class', sel.value); } catch (x) { /* ignore */ } update(); });
     update();
