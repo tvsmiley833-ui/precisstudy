@@ -107,7 +107,7 @@ function buildUnitsStatic(units, diagrams) {
       unitDragHandleHtml(u.id) +
       `<h2 class="unit-h"><span class="unit-title">Unit ${u.id}: ${u.name}<span class="unit-meta">${u.concepts.length} concepts · ~${estMins} min</span></span></h2>` +
       `<span class="unit-progress" id="unit-progress-${u.id}" style="display:none"><span class="unit-progress-track"><span class="unit-progress-fill"></span></span><span class="unit-progress-label"></span></span>` +
-      `<button type="button" class="unit-tts-btn" data-unit="${u.id}" aria-label="Read this unit aloud" onclick="event.stopPropagation();ssReadUnitAloud(${u.id})">${TTS_SPEAKER_ICON_SVG}</button>` +
+      `<button type="button" class="unit-tts-btn" data-unit="${u.id}" aria-label="Read this unit aloud" title="Read this unit aloud" onclick="event.stopPropagation();ssReadUnitAloud(${u.id})">${TTS_SPEAKER_ICON_SVG}</button>` +
       `<span class="chevron">▾</span></div>`;
     return `<div class="unit" data-id="${u.id}">${hd}<div class="unit-body">${body}</div></div>`;
   }).join("");

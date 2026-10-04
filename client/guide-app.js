@@ -1651,7 +1651,7 @@ function ssOverallProgressUpdate(){
   }
   var pct=Math.max(0,Math.min(100,Math.round((answered/total)*100)));
   fill.style.width=pct+'%';
-  label.textContent=pct+'% of the question bank attempted';
+  label.textContent=pct?pct+'% of the question bank attempted':'Ready to start? '+total.toLocaleString()+' questions to practice';
 }
 
 let diagMode=false;

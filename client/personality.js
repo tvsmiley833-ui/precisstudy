@@ -213,7 +213,7 @@ function continueButton() {
   const btn = document.createElement("button");
   btn.type = "button";
   btn.className = "ss-continue";
-  btn.innerHTML = `<span>Continue where you left off</span><b></b><span aria-hidden="true">→</span>`;
+  btn.innerHTML = `<span>Continue where you left off</span><b></b><span class="ss-continue-go" aria-hidden="true">Resume <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>`;
   /** @type {HTMLElement} */ (btn.querySelector("b")).textContent = unitName(unit);
   btn.onclick = () => {
     if (!unit.classList.contains("open")) /** @type {HTMLElement | null} */ (unit.querySelector(".unit-hd"))?.click();
