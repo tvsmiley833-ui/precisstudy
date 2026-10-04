@@ -165,6 +165,16 @@ input[type=range].spc-slider::-moz-range-thumb{width:22px;height:22px;border-rad
 .ss-oauth-btn:hover{border-color:var(--accent-bright);background:var(--bg)}
 .ss-status{font-size:12.5px;color:var(--text-muted);margin-top:9px;min-height:16px}
 .ss-account{display:flex;align-items:center;gap:10px}
+.ss-account{position:relative}
+.ss-account .ss-avatar-btn{display:flex;align-items:center;gap:8px;padding:4px 10px 4px 4px;color:var(--text);background:var(--bg-card)}
+.ss-avatar{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--accent-solid);color:#fff;font-weight:800;font-size:13px}
+#ss-acct-menu{position:absolute;right:0;top:calc(100% + 8px);min-width:170px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;box-shadow:var(--card-shadow-hero);padding:6px;z-index:60;display:flex;flex-direction:column}
+#ss-acct-menu[hidden]{display:none}
+#ss-acct-menu a,#ss-acct-menu button{display:block;text-align:left;padding:9px 12px;border:0;border-radius:8px;background:none;color:var(--text);font:inherit;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer}
+#ss-acct-menu a:hover,#ss-acct-menu button:hover,#ss-acct-menu a:focus-visible,#ss-acct-menu button:focus-visible{background:var(--chip-bg);color:var(--accent)}
+.cat-pill::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--gc,var(--accent));margin-right:7px}
+.sage-dismiss{position:absolute;top:6px;right:8px;background:none;border:0;color:var(--text-muted);font-size:20px;line-height:1;padding:4px 8px;cursor:pointer;border-radius:8px}
+.sage-dismiss:hover{color:var(--text)}
 .ss-account-name{font-weight:700;color:var(--text);font-size:14px;white-space:nowrap}
 .ss-account button{background:none;border:1px solid var(--border);border-radius:999px;color:var(--text-muted);padding:6px 12px;
   font-size:13px;cursor:pointer;font-family:inherit}
@@ -281,6 +291,7 @@ html:not([data-theme="dark"]) .ss-demo .ss-lt{display:block}
 .class-card{border-width:1px!important;padding:22px 22px 20px!important;border-radius:16px!important;transition:border-color .15s ease,transform .15s ease,background .15s ease}
 .class-card:hover{border-color:var(--accent)!important;transform:translateY(-2px)}
 @media(prefers-reduced-motion:reduce){.class-card:hover{transform:none}}
+.sage-intro[hidden]{display:none}
 .sage-intro{display:flex;align-items:flex-end;gap:14px;max-width:520px;margin:40px auto 0;text-align:left}
 .sage-intro-owl{flex-shrink:0;width:104px}
 .sage-intro-bubble{position:relative;flex:1;background:var(--bg-card);border:1px solid var(--border);border-radius:18px;padding:16px 18px;margin-bottom:22px;box-shadow:var(--card-shadow-hero)}
@@ -551,20 +562,21 @@ a.st-card:focus-visible{outline:2px solid var(--accent-solid);outline-offset:3px
   </div>
   <div id="no-match-msg" style="display:none;max-width:480px;margin:12px auto 0;font-size:13px;color:var(--text-muted);">No classes match your search yet. <a id="no-match-req" href="/request/">Request this class &rarr;</a></div>
   <div id="category-pills" role="group" aria-label="Filter by category">
-    <button type="button" class="cat-pill" aria-pressed="false" onclick="ssJumpToCategory('Math', this)">Math</button>
-    <button type="button" class="cat-pill" aria-pressed="false" onclick="ssJumpToCategory('Science', this)">Science</button>
-    <button type="button" class="cat-pill" aria-pressed="false" onclick="ssJumpToCategory('History', this)">History</button>
-    <button type="button" class="cat-pill" aria-pressed="false" onclick="ssJumpToCategory('English', this)">English</button>
-    <button type="button" class="cat-pill" aria-pressed="false" onclick="ssJumpToCategory('Languages', this)">Languages</button>
-    <button type="button" class="cat-pill" aria-pressed="false" onclick="ssJumpToCategory('Technology', this)">Technology</button>
-    <button type="button" class="cat-pill" aria-pressed="false" onclick="ssJumpToCategory('Electives & Skills', this)">Electives</button>
-    <button type="button" class="cat-pill" aria-pressed="false" onclick="ssJumpToCategory('AP Courses', this)">AP Courses</button>
-    <button type="button" class="cat-pill" aria-pressed="false" onclick="ssJumpToCategory('Test Prep', this)">Test Prep</button>
+    <button type="button" class="cat-pill" aria-pressed="false" style="--gc:oklch(var(--gl) .13 250)" onclick="ssJumpToCategory('Math', this)">Math</button>
+    <button type="button" class="cat-pill" aria-pressed="false" style="--gc:oklch(var(--gl) .13 155)" onclick="ssJumpToCategory('Science', this)">Science</button>
+    <button type="button" class="cat-pill" aria-pressed="false" style="--gc:oklch(var(--gl) .13 75)" onclick="ssJumpToCategory('History', this)">History</button>
+    <button type="button" class="cat-pill" aria-pressed="false" style="--gc:oklch(var(--gl) .13 15)" onclick="ssJumpToCategory('English', this)">English</button>
+    <button type="button" class="cat-pill" aria-pressed="false" style="--gc:oklch(var(--gl) .13 310)" onclick="ssJumpToCategory('Languages', this)">Languages</button>
+    <button type="button" class="cat-pill" aria-pressed="false" style="--gc:oklch(var(--gl) .13 205)" onclick="ssJumpToCategory('Technology', this)">Technology</button>
+    <button type="button" class="cat-pill" aria-pressed="false" style="--gc:oklch(var(--gl) .13 40)" onclick="ssJumpToCategory('Electives & Skills', this)">Electives</button>
+    <button type="button" class="cat-pill" aria-pressed="false" style="--gc:oklch(var(--gl) .13 285)" onclick="ssJumpToCategory('AP Courses', this)">AP Courses</button>
+    <button type="button" class="cat-pill" aria-pressed="false" style="--gc:oklch(var(--gl) .13 100)" onclick="ssJumpToCategory('Test Prep', this)">Test Prep</button>
   </div>
 
   <div class="ss-hero-anim sage-intro" style="animation-delay:.32s">
     <div class="sage-intro-owl" id="sage-intro-owl" aria-hidden="true"></div>
     <div class="sage-intro-bubble">
+      <button type="button" class="sage-dismiss" aria-label="Hide Sage intro" onclick="ssDismissSage()">&times;</button>
       <b>Sage</b>
       <p>Hi, I'm Sage! Tell me your class and test date and I'll build your study plan. You earn XP for every step.</p>
       <div class="sage-intro-actions">
@@ -1577,13 +1589,38 @@ function ssRenderAccountUI(){
   var area = document.getElementById('ss-account-area');
   if(!area) return;
   if(SS_SESSION){
-    area.innerHTML = '<div class="ss-account"><span class="ss-account-name">' + ssEscapeHtml(SS_SESSION.name) + '</span>'
-      + '<button onclick="ssLogout()">Sign out</button></div>';
+    var nm = SS_SESSION.name || SS_SESSION.email || 'Account';
+    area.innerHTML = '<div class="ss-account"><button type="button" class="ss-avatar-btn" id="ss-avatar-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="ss-acct-menu" onclick="ssToggleAcctMenu()">'
+      + '<span class="ss-avatar" aria-hidden="true">' + ssEscapeHtml(nm.trim().charAt(0).toUpperCase()) + '</span>'
+      + '<span class="ss-account-name">' + ssEscapeHtml(nm) + '</span><span aria-hidden="true" style="font-size:10px">&#9662;</span></button>'
+      + '<div id="ss-acct-menu" role="menu" hidden><a role="menuitem" href="/dashboard/">Dashboard</a><a role="menuitem" href="/settings/">Settings</a>'
+      + '<button type="button" role="menuitem" onclick="ssLogout()">Sign out</button></div></div>';
   }else{
     area.innerHTML = '<button id="ss-signin-btn" onclick="ssToggleLoginPanel()">Sign In</button>'
       + '<div id="ss-login-panel"><div class="ss-login-box"></div></div>';
   }
 }
+
+function ssToggleAcctMenu(force){
+  var m = document.getElementById('ss-acct-menu'), b = document.getElementById('ss-avatar-btn');
+  if(!m || !b) return;
+  var open = typeof force === 'boolean' ? force : m.hidden;
+  m.hidden = !open; b.setAttribute('aria-expanded', open ? 'true' : 'false');
+  if(open){ var first = m.querySelector('a'); if(first) first.focus(); }
+}
+document.addEventListener('click', function(e){
+  var a = document.getElementById('ss-account-area');
+  if(a && !a.contains(e.target)) ssToggleAcctMenu(false);
+});
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape'){ var m = document.getElementById('ss-acct-menu'); if(m && !m.hidden){ ssToggleAcctMenu(false); var b = document.getElementById('ss-avatar-btn'); if(b) b.focus(); } }
+});
+
+function ssDismissSage(){
+  try{ localStorage.setItem('ss_sage_intro_hidden','1'); }catch(e){}
+  var el = document.querySelector('.sage-intro'); if(el) el.hidden = true;
+}
+try{ if(localStorage.getItem('ss_sage_intro_hidden')==='1'){ var si = document.querySelector('.sage-intro'); if(si) si.hidden = true; } }catch(e){}
 
 async function ssCheckSession(){
   try{
