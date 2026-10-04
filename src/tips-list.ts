@@ -49,6 +49,10 @@ export const TIPS: { slug: string; published: string }[] = [
     "published": "2026-10-04"
   },
   {
+    "slug": "log-rules",
+    "published": "2026-10-04"
+  },
+  {
     "slug": "mean-vs-median",
     "published": "2026-10-04"
   },
@@ -74,6 +78,10 @@ export const TIPS: { slug: string; published: string }[] = [
   },
   {
     "slug": "periodic-trends",
+    "published": "2026-10-04"
+  },
+  {
+    "slug": "ph-and-poh",
     "published": "2026-10-04"
   },
   {
@@ -126,6 +134,10 @@ export const TIPS: { slug: string; published: string }[] = [
   },
   {
     "slug": "speed-vs-velocity",
+    "published": "2026-10-04"
+  },
+  {
+    "slug": "standard-deviation-steps",
     "published": "2026-10-04"
   },
   {
