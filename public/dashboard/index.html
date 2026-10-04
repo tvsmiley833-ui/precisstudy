@@ -248,6 +248,14 @@ html{scroll-behavior:smooth}
 #dash-analytics-table [style*="overflow:hidden"]{background:color-mix(in srgb,var(--text) 18%,transparent)!important}
 #theme-toggle{width:40px!important;height:40px!important}
 #dash-badges::-webkit-scrollbar{height:6px}
+.hm-cell{width:16px;height:16px;border-radius:4px;border:0;padding:0;cursor:pointer;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--text) 10%,transparent)}
+.hm-cell:hover{outline:2px solid var(--accent-bright);outline-offset:1px}
+.hm-cell.hm-sel{outline:2px solid var(--text);outline-offset:1px}
+.hm-toggle{display:inline-flex;border:1px solid var(--border);border-radius:999px;padding:3px;margin-bottom:12px;gap:2px}
+.hm-tog{background:none;border:0;border-radius:999px;padding:5px 12px;font:inherit;font-size:12.5px;font-weight:700;color:var(--text-muted)}
+.hm-tog[aria-pressed="true"]{background:var(--accent-solid);color:#fff}
+.hm-detail{margin-top:12px;padding:12px 14px;border:1px solid var(--border);border-radius:12px;font-size:13.5px;color:var(--text)}
+.hm-detail-h{font-weight:800;margin-bottom:4px}.hm-detail p{margin:0 0 6px}.hm-detail ul{margin:0;padding-left:18px;color:var(--text-muted)}
 </style>
 <link rel="stylesheet" href="/shared/site-header.css"/>
 </head>

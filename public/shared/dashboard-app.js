@@ -17,6 +17,12 @@ const SUBJECT_CATEGORY = {
   'computer-science': 'electives', health: 'electives', 'music-theory': 'electives', 'study-skills': 'electives',
   'act-prep': 'testprep', 'sat-math': 'testprep', 'sat-reading': 'testprep'
 };
+// AP courses sit under the subject they belong to (AP Biology with Science) instead of one separate AP list.
+const AP_PARENT = { aplang: 'english', apbiology: 'science', apush: 'humanities', 'ap-chemistry': 'science', 'ap-csa': 'electives', 'ap-euro': 'humanities', 'ap-macro': 'humanities',
+  'ap-micro': 'humanities', 'ap-physics': 'science', 'ap-psych': 'humanities', 'ap-stats': 'math', 'ap-usgov': 'humanities', 'ap-world': 'humanities',
+  'ap-human-geography': 'humanities', 'calc-ab': 'math', 'calc-bc': 'math' };
+function groupCategory(key) { return AP_PARENT[key] || SUBJECT_CATEGORY[key] || 'electives'; }
+function apLast(a, b) { return (SUBJECT_CATEGORY[a.key] === 'ap') - (SUBJECT_CATEGORY[b.key] === 'ap'); }
 const CATEGORY_LABELS = { math: 'Math', science: 'Science', humanities: 'History', english: 'English', languages: 'Languages', electives: 'Electives & Skills', ap: 'AP Courses', testprep: 'Test Prep' };
 const CATEGORY_ORDER = ['math', 'science', 'humanities', 'english', 'languages', 'electives', 'ap', 'testprep'];
 
@@ -438,13 +444,13 @@ function sbRenderSubjects() {
   // same order, so subjects are easy to scan instead of one flat 50-item list.
   const byCat = {};
   SUBJECTS_FOR_SCHEDULE.forEach(function (s) {
-    const cat = SUBJECT_CATEGORY[s.key] || 'electives';
+    const cat = groupCategory(s.key);
     (byCat[cat] = byCat[cat] || []).push(s);
   });
 
   let html = '';
   CATEGORY_ORDER.forEach(function (catKey) {
-    const subjects = byCat[catKey];
+    const subjects = byCat[catKey] && byCat[catKey].slice().sort(apLast);
     if (!subjects || !subjects.length) return;
     const openCount = subjects.filter(function (s) {
       return sbSelectedSubjects.some(function (x) { return x.key === s.key; });
@@ -1036,7 +1042,11 @@ function renderTodayPlan(subjects, blob) {
     const d = e ? daysUntil(e.date) : null;
     if (d !== null && d >= 0) exam = { days: d, label: e.label || 'Exam' };
   } catch (x) { /* no saved exam date */ }
-  if (!goal && !dueSubject && !exam && (!worst || worst.pct >= 80)) { el.style.display = 'none'; el.innerHTML = ''; return; }
+  // "Continue where you left off" is part of this one list now (it used to be a separate card above it).
+  let last = null;
+  try { last = JSON.parse(localStorage.getItem('ss-last-subject') || 'null'); } catch (e) { last = null; }
+  if (last && !(last.key && last.href && subjects.some(s => s.key === last.key))) last = null;
+  if (!goal && !dueSubject && !exam && !last && (!worst || worst.pct >= 80)) { el.style.display = 'none'; el.innerHTML = ''; return; }
 
   const MIN_PER_Q = 1.5, CARDS_PER_MIN = 3;
   let head = '', tasks = [], progress = '';
@@ -1075,10 +1085,11 @@ function renderTodayPlan(subjects, blob) {
       sub: dueSubject.label + (due.best.n < due.total ? ' (most of them) · more in other classes' : '') + ' · due now'
     });
   }
+  if (last && !tasks.some(t => t.href === last.href)) tasks.push({ href: last.href, title: 'Continue ' + last.label, sub: 'Pick up where you left off' });
   const ICON = '<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
   el.style.display = 'block';
   el.innerHTML = '<section class="ss-card today-plan" aria-labelledby="tp-h">'
-    + '<div class="tp-top"><div><div class="tp-label">Today\'s plan' + (goal ? ' · ' + goal.minutesPerDay + ' min' : '') + '</div>'
+    + '<div class="tp-top"><div><div class="tp-label">Up next' + (goal ? ' · ' + goal.minutesPerDay + ' min' : '') + '</div>'
     + '<h2 id="tp-h" class="tp-head">' + ssEscapeHtml(head) + '</h2></div>'
     + (goal ? '' : '<form class="tp-set-form" onsubmit="return ssSaveTestGoal(event)"><label for="tp-days">My test is</label> <select id="tp-days" name="days"><option value="7">this week</option><option value="14">in 2 weeks</option><option value="30" selected>in a month</option><option value="90">later this year</option></select> <button class="tp-set" type="submit">Plan my study</button></form>') + '</div>'
     + progress
@@ -1086,26 +1097,10 @@ function renderTodayPlan(subjects, blob) {
     + '</section>';
 }
 
-function renderResumeBanner(availableSubjects) {
+// Folded into the "Up next" list in renderTodayPlan(); this only clears the old standalone card.
+function renderResumeBanner() {
   const el = document.getElementById('dash-resume');
-  if (!el) return;
-  let last;
-  try {
-    last = JSON.parse(localStorage.getItem('ss-last-subject') || 'null');
-  } catch (e) { last = null; }
-
-  if (!last || !last.key || !last.href) { el.style.display = 'none'; el.innerHTML = ''; return; }
-  // Only resume into a subject still visible on this dashboard (e.g. not
-  // removed from the student's class list since the last visit).
-  const stillAvailable = availableSubjects.some(s => s.key === last.key);
-  if (!stillAvailable) { el.style.display = 'none'; el.innerHTML = ''; return; }
-
-  el.style.display = 'block';
-  el.innerHTML = '<div class="ss-resume-card">'
-    + '<div><div style="font-size:12.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;">Continue where you left off</div>'
-    + '<div style="font-size:18px;font-weight:800;color:var(--text);margin-top:2px;">' + ssEscapeHtml(last.label) + '</div></div>'
-    + '<a href="' + ssEscapeHtml(last.href) + '" class="ss-cta-btn" style="background:var(--accent-solid);color:#fff;padding:10px 22px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:700;white-space:nowrap;">Resume →</a>'
-    + '</div>';
+  if (el) { el.style.display = 'none'; el.innerHTML = ''; }
 }
 
 // /planner/: just the weekly schedule builder. Same state and functions as the dashboard used to run inline.
@@ -1425,17 +1420,25 @@ async function loadDashboard() {
     if (!history.length) { card.style.display = 'none'; return; }
     card.style.display = 'block';
 
-    const deltaByDate = {};
+    // History only stores a cumulative question count and XP per day, so "minutes" is an estimate at the same 1.5 min per question the planner uses.
+    const MIN_PER_Q = 1.5;
+    let metric = 'questions';
+    try { if (localStorage.getItem('ss-heat-metric') === 'minutes') metric = 'minutes'; } catch (e) { /* default */ }
+
+    const byDate = {};
     history.forEach(function (entry, i) {
-      const prev = i > 0 ? (history[i - 1].totalAnswered || 0) : null;
-      deltaByDate[entry.date] = prev === null ? 0 : Math.max(0, (entry.totalAnswered || 0) - prev);
+      const prev = i > 0 ? history[i - 1] : null;
+      byDate[entry.date] = {
+        n: prev === null ? 0 : Math.max(0, (entry.totalAnswered || 0) - (prev.totalAnswered || 0)),
+        xp: prev === null ? 0 : Math.max(0, (entry.xp || 0) - (prev.xp || 0)),
+        subjects: entry.subjects || {}, prevSubjects: prev ? (prev.subjects || {}) : {}
+      };
     });
 
     const WEEKS = 14;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    // Start on the Sunday of the week 13 weeks ago, so the grid always ends
-    // on the current week's column regardless of what day today is.
+    // Start on the Sunday of the week 13 weeks ago, so the grid always ends on the current week's column.
     const start = new Date(today);
     start.setDate(start.getDate() - start.getDay() - (WEEKS - 1) * 7);
 
@@ -1453,22 +1456,22 @@ async function loadDashboard() {
       'color-mix(in srgb, var(--accent-bright, var(--accent)) 85%, var(--bg-card))',
       'var(--accent-solid, var(--accent-bright, var(--accent)))'
     ];
-
     const fmtDate = function (iso) { const p = iso.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }); };
+    const amount = function (n) { return metric === 'minutes' ? '~' + Math.round(n * MIN_PER_Q) + ' min' : n + ' question' + (n === 1 ? '' : 's'); };
+    const labels = Object.fromEntries(SUBJECTS_CONFIG.map(function (s) { return [s.key, s.label]; }));
+
     let cells = '';
     let totalQ = 0, activeDays = 0, bestN = 0, bestDate = '';
     for (let d = new Date(start); d <= today; d.setDate(d.getDate() + 1)) {
       const dateStr = d.toISOString().slice(0, 10);
-      const n = deltaByDate[dateStr] || 0;
+      const n = (byDate[dateStr] || {}).n || 0;
       totalQ += n; if (n) activeDays++; if (n > bestN) { bestN = n; bestDate = dateStr; }
-      const bg = BUCKET_BG[bucket(n)];
-      const label = n ? (n + ' question' + (n === 1 ? '' : 's') + ' on ' + fmtDate(dateStr)) : ('No activity on ' + fmtDate(dateStr));
-      cells += '<div title="' + ssEscapeHtml(label) + '" style="width:16px;height:16px;border-radius:4px;background:' + bg + ';box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--text) 10%,transparent);"></div>';
+      const label = n ? (amount(n) + ' on ' + fmtDate(dateStr)) : ('No activity on ' + fmtDate(dateStr));
+      cells += '<button type="button" class="hm-cell" data-date="' + dateStr + '" title="' + ssEscapeHtml(label) + '" aria-label="' + ssEscapeHtml(label) + '" style="background:' + BUCKET_BG[bucket(n)] + ';"></button>';
     }
 
-    // Colour alone can't carry this, so the grid gets a text summary that screen readers (and everyone else) can read.
     const summary = totalQ
-      ? totalQ + ' question' + (totalQ === 1 ? '' : 's') + ' answered on ' + activeDays + ' day' + (activeDays === 1 ? '' : 's') + ' in the last ' + WEEKS + ' weeks. Busiest day: ' + (bestDate ? fmtDate(bestDate) : '') + ' (' + bestN + ').'
+      ? (metric === 'minutes' ? 'About ' + Math.round(totalQ * MIN_PER_Q) + ' minutes of practice' : totalQ + ' question' + (totalQ === 1 ? '' : 's') + ' answered') + ' on ' + activeDays + ' day' + (activeDays === 1 ? '' : 's') + ' in the last ' + WEEKS + ' weeks. Busiest day: ' + fmtDate(bestDate) + ' (' + amount(bestN) + ').'
       : 'No questions answered in the last ' + WEEKS + ' weeks.';
     let monthsHtml = '', lastMonth = -1;
     for (let w = 0; w < WEEKS; w++) {
@@ -1478,15 +1481,45 @@ async function loadDashboard() {
       lastMonth = m;
     }
     const dayLabels = ['', 'Mon', '', 'Wed', '', 'Fri', ''].map(function (t) { return '<span style="height:16px;line-height:16px;">' + t + '</span>'; }).join('');
-    el.innerHTML = '<div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;">'
+    const tog = function (key, text) { return '<button type="button" class="hm-tog" data-metric="' + key + '" aria-pressed="' + (metric === key ? 'true' : 'false') + '">' + text + '</button>'; };
+    el.innerHTML = '<div class="hm-toggle" role="group" aria-label="Heatmap measure">' + tog('questions', 'Questions') + tog('minutes', 'Est. minutes') + '</div>'
+      + '<div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;">'
       + '<div aria-hidden="true" style="display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--text-muted);padding-top:18px;flex-shrink:0;">' + dayLabels + '</div>'
       + '<div><div aria-hidden="true" style="position:relative;height:14px;margin-bottom:4px;font-size:11px;color:var(--text-muted);width:' + (WEEKS * 20) + 'px;">' + monthsHtml + '</div>'
-      + '<div role="img" aria-label="' + ssEscapeHtml('Activity grid. ' + summary) + '" style="display:grid;grid-template-rows:repeat(7,16px);grid-auto-flow:column;gap:4px;">' + cells + '</div></div></div>'
+      + '<div role="group" aria-label="Activity by day. Select a day for details." style="display:grid;grid-template-rows:repeat(7,16px);grid-auto-flow:column;gap:4px;">' + cells + '</div></div></div>'
       + '<div style="display:flex;align-items:center;gap:5px;margin-top:10px;font-size:13px;color:var(--text-muted);">'
       + '<span>Less</span>'
       + BUCKET_BG.map(function (bg) { return '<span style="width:14px;height:14px;border-radius:3px;background:' + bg + ';display:inline-block;"></span>'; }).join('')
       + '<span>More</span></div>'
-      + '<p style="margin:8px 0 0;font-size:13px;color:var(--text-muted);">' + ssEscapeHtml(summary) + '</p>';
+      + '<p style="margin:8px 0 0;font-size:13px;color:var(--text-muted);">' + ssEscapeHtml(summary) + (metric === 'minutes' ? ' Minutes are estimated at 1.5 per question.' : '') + '</p>'
+      + '<div id="hm-detail" class="hm-detail" role="region" aria-live="polite" hidden></div>';
+
+    el.querySelectorAll('.hm-tog').forEach(function (b) {
+      b.addEventListener('click', function () {
+        try { localStorage.setItem('ss-heat-metric', b.dataset.metric); } catch (e) { /* ignore */ }
+        renderDashHeatmap(blob);
+      });
+    });
+    const detail = document.getElementById('hm-detail');
+    el.querySelectorAll('.hm-cell').forEach(function (c) {
+      c.addEventListener('click', function () {
+        const day = byDate[c.dataset.date];
+        el.querySelectorAll('.hm-cell.hm-sel').forEach(function (x) { x.classList.remove('hm-sel'); });
+        c.classList.add('hm-sel');
+        let html = '<div class="hm-detail-h">' + ssEscapeHtml(fmtDate(c.dataset.date)) + '</div>';
+        if (!day || !day.n) {
+          html += '<p>No practice was recorded this day.</p>';
+        } else {
+          html += '<p>' + ssEscapeHtml(day.n + ' question' + (day.n === 1 ? '' : 's') + ' answered (about ' + Math.round(day.n * MIN_PER_Q) + ' min)' + (day.xp ? ', +' + day.xp.toLocaleString() + ' XP' : '')) + '.</p>';
+          const moved = Object.keys(day.subjects).filter(function (k) { return day.prevSubjects[k] !== undefined && day.prevSubjects[k] !== day.subjects[k]; });
+          const added = Object.keys(day.subjects).filter(function (k) { return day.prevSubjects[k] === undefined; });
+          const rows = moved.map(function (k) { return (labels[k] || k) + ': ' + day.prevSubjects[k] + '% to ' + day.subjects[k] + '% readiness'; })
+            .concat(added.map(function (k) { return (labels[k] || k) + ': first assessed at ' + day.subjects[k] + '%'; }));
+          if (rows.length) html += '<ul>' + rows.map(function (r) { return '<li>' + ssEscapeHtml(r) + '</li>'; }).join('') + '</ul>';
+        }
+        detail.innerHTML = html; detail.hidden = false;
+      });
+    });
   }
 
   function renderDashAnalytics(blob) {
@@ -1601,7 +1634,7 @@ async function loadDashboard() {
     if (unassessed.length) {
       const byCategory = {};
       unassessed.forEach(s => {
-        const cat = SUBJECT_CATEGORY[s.key] || 'electives';
+        const cat = groupCategory(s.key);
         (byCategory[cat] = byCategory[cat] || []).push(s);
       });
       const heading = document.createElement('div');
@@ -1627,7 +1660,7 @@ async function loadDashboard() {
       unassessedEl.appendChild(heading);
 
       CATEGORY_ORDER.filter(cat => byCategory[cat]).forEach(cat => {
-        const group = byCategory[cat];
+        const group = byCategory[cat].slice().sort(apLast);
         const details = document.createElement('details');
         details.className = 'ss-card';
         details.style.cssText = 'padding:0;overflow:hidden;';
