@@ -1,0 +1,28 @@
+// Every quiz and hard-mode question must be answerable: two to five distinct, non-empty options, an answer index inside them,
+// a unit that exists, and an explanation. A broken question is worse than a missing one.
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import { readFileSync, readdirSync } from "node:fs";
+
+const guides = readdirSync(new URL("../guides/", import.meta.url)).filter(f => f.endsWith(".json"));
+
+for (const f of guides) {
+  test(`${f}: every question has distinct options, a valid answer and a real unit`, () => {
+    const d = JSON.parse(readFileSync(new URL(`../guides/${f}`, import.meta.url), "utf8"));
+    const units = new Set(d.units.map(u => u.id));
+    const bad = [];
+    for (const [bank, qs] of [["quiz", d.quiz || []], ["hardQuiz", d.hardQuiz || []]]) {
+      qs.forEach((q, i) => {
+        const where = `${bank}[${i}] "${String(q.q).slice(0, 50)}"`;
+        const o = q.o || [];
+        if (o.length < 2 || o.length > 5) bad.push(`${where}: ${o.length} options`);
+        if (o.some(x => !String(x).trim())) bad.push(`${where}: empty option`);
+        if (new Set(o.map(x => String(x).trim())).size !== o.length) bad.push(`${where}: duplicate options`);
+        if (!Number.isInteger(q.a) || q.a < 0 || q.a >= o.length) bad.push(`${where}: answer index ${q.a}`);
+        if (!units.has(q.u)) bad.push(`${where}: unknown unit ${q.u}`);
+        if (!String(q.e || "").trim()) bad.push(`${where}: no explanation`);
+      });
+    }
+    assert.deepEqual(bad.slice(0, 8), [], `${d.slug}: ${bad.length} broken question(s)`);
+  });
+}
