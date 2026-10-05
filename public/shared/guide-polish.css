@@ -777,3 +777,8 @@ html body .hero .hero-links a:hover { background: var(--accent-soft, rgba(127,12
 
 /* Phones: keep the flashcard hint clear of the floating Tools and chat buttons in the bottom-right corner. */
 @media (max-width: 560px) { html body #view-cards .hint { padding-inline: 60px; } }
+
+/* Signed-out quiz note: sign-in buttons side by side instead of stacked full-width, so the question starts higher. */
+html body #anon-quiz-note .ss-login-box { display: flex; flex-wrap: wrap; gap: 8px; }
+html body #anon-quiz-note .ss-oauth-btn { flex: 1 1 170px; min-height: 40px; margin: 0; }
+html body #anon-quiz-note .ss-status:empty { display: none; }

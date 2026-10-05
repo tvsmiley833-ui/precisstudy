@@ -156,3 +156,7 @@ body[data-page="planner"] [role="contentinfo"]{background:var(--bg-card);margin-
 .pl-units label{display:flex;gap:10px;align-items:center;padding:8px;border-radius:8px;font-size:14px;cursor:pointer}
 .pl-units label:hover{background:var(--chip-bg,rgba(127,127,127,.12))}
 .pl-units small{margin-left:auto;color:var(--text-muted);white-space:nowrap}
+
+/* Planner grid: every other hour row is lightly shaded so a row is easy to follow across the week. */
+.sb-grid-cell.sb-alt:not(.sb-grid-filled){background:color-mix(in srgb,var(--text) 5%,var(--bg))}
+.sb-grid-cell.sb-alt:not(.sb-grid-filled):hover{background:color-mix(in srgb,var(--accent-bright) 28%,var(--bg))}

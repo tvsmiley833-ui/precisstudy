@@ -283,12 +283,13 @@ function sbRenderGrid() {
   const grid = document.getElementById('sb-grid');
   if (!grid) return;
   let html = '<div></div>' + SB_DAYS.map(function (d) { return '<div class="sb-grid-hd">' + d.label + '</div>'; }).join('');
-  SB_GRID_HOURS.forEach(function (h) {
+  SB_GRID_HOURS.forEach(function (h, i) {
+    const alt = i % 2 ? ' sb-alt' : '';
     html += '<div class="sb-grid-time">' + sbHourLabel(h) + '</div>';
     SB_DAYS.forEach(function (d) {
       const key = d.key + '-' + h;
       const filled = sbGridCells.has(key) ? ' sb-grid-filled' : '';
-      html += '<div class="sb-grid-cell' + filled + '" data-cell="' + key + '" role="button" tabindex="0" aria-label="' + d.label + ' ' + sbHourLabel(h) + '"></div>';
+      html += '<div class="sb-grid-cell' + alt + filled + '" data-cell="' + key + '" role="button" tabindex="0" aria-label="' + d.label + ' ' + sbHourLabel(h) + '"></div>';
     });
   });
   grid.innerHTML = html;
