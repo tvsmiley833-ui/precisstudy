@@ -35,3 +35,14 @@ for (const f of guides) {
     assert.deepEqual(missing, [], `${d.slug}: units with no hard question: ${missing.join(", ")}`);
   });
 }
+
+test("no question explanation is generic filler", () => {
+  const filler = /core content taught in this unit|this is the correct answer\.?$/i;
+  const bad = [];
+  for (const f of guides) {
+    const d = JSON.parse(readFileSync(new URL(`../guides/${f}`, import.meta.url), "utf8"));
+    const all = [...(d.quiz || []), ...(d.hardQuiz || []), ...Object.values(d.examParts || {}).flat()];
+    all.forEach(q => { if (filler.test(String(q.e || ""))) bad.push(`${d.slug}: ${String(q.q).slice(0, 50)}`); });
+  }
+  assert.deepEqual(bad.slice(0, 8), [], `${bad.length} question(s) with filler explanations`);
+});
