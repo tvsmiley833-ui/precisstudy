@@ -144,6 +144,7 @@ a{color:var(--accent)}
 .ob-step:not([hidden]){animation:obStepIn .28s cubic-bezier(.2,.8,.2,1)}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
 
+.ob-grades{align-items:center}.ob-grade-label{font-size:13px;font-weight:700;color:var(--text-muted);margin-right:2px}
 </style>
 
 <style>
@@ -351,7 +352,7 @@ const TIMES = [
   { v: 30, t: "Serious", d: "A unit's worth of practice" },
   { v: 45, t: "Intense", d: "Deep study sessions" },
 ];
-const S = { step: 0, dir: 1, enrolled: [], cat: "all", q: "", days: null, minutes: null,
+const S = { step: 0, dir: 1, enrolled: [], cat: "all", q: "", grade: (function () { try { return localStorage.getItem("ss-grade") || ""; } catch (e) { return ""; } })(), days: null, minutes: null,
   prefs: { daily: true, streak: true, blocks: true }, xp: 0, earned: {} };
 
 const $ = (id) => document.getElementById(id);
@@ -436,6 +437,7 @@ const VIEWS = {
     return `${say(S.enrolled.length ? "happy" : "idle", S.enrolled.length ? "Nice! Add any others you're taking." : "Which classes are you taking? Tap all that apply.")}
       <h1 class="ob-h">Your classes</h1>
       <input class="ob-search" id="ob-q" type="search" placeholder="Search classes…" aria-label="Search classes" value="${esc(S.q)}">
+      <div class="ob-chips ob-grades" role="group" aria-label="Your grade"><span class="ob-grade-label">Grade</span>${GRADES.map((g) => `<button type="button" class="ob-chip ob-gr${S.grade === g ? " on" : ""}" data-g="${g}" aria-pressed="${S.grade === g}">${g}</button>`).join("")}</div>
       <div class="ob-chips" role="group" aria-label="Filter by category">${cats.map((c) => `<button type="button" class="ob-chip${S.cat === c.key ? " on" : ""}" data-cat="${c.key}">${esc(c.label)}</button>`).join("")}</div>
       <div class="ob-grid" id="ob-grid"></div>`;
   },
@@ -483,9 +485,24 @@ const VIEWS = {
   },
 };
 
+// Classes that cover the same course: picking one swaps out another from the same group.
+const SAME_COURSE = [
+  ["calculus", "calc-ab", "calc-bc"], ["biology", "apbiology"], ["chemistry", "ap-chemistry"], ["physics", "ap-physics"],
+  ["apush", "us-history"], ["world-history", "ap-world", "globalhistory"], ["statistics", "ap-stats"], ["psychology", "ap-psych"],
+  ["us-government", "ap-usgov"], ["english-9", "english-10", "aplang"], ["spanish-1", "spanish-2", "spanish-3"],
+  ["french-1", "french-2", "french-3"], ["economics", "ap-macro"], ["economics", "ap-micro"],
+];
+const GRADES = ["9", "10", "11", "12", "Other"];
+function loadGrade() { try { return localStorage.getItem("ss-grade") || ""; } catch (e) { return ""; } }
+// Juniors and seniors are the ones preparing for the ACT and SAT, so those classes go first for them.
+function orderForGrade(list) {
+  if (S.grade !== "11" && S.grade !== "12") return list;
+  return list.slice().sort((a, b) => (b.cat === "testprep") - (a.cat === "testprep"));
+}
+
 function renderGrid() {
   const q = S.q.trim().toLowerCase();
-  const list = SUBJECTS.filter((s) => (S.cat === "all" || s.cat === S.cat) && (!q || s.label.toLowerCase().includes(q)));
+  const list = orderForGrade(SUBJECTS.filter((s) => (S.cat === "all" || s.cat === S.cat) && (!q || s.label.toLowerCase().includes(q))));
   $("ob-grid").innerHTML = list.length ? list.map((s) => {
     const ic = getIcon && getIcon(s.key);
     return `<button type="button" class="ob-tile" data-k="${s.key}" aria-pressed="${S.enrolled.includes(s.key)}"><span class="ic" aria-hidden="true">${ic ? ic.svg : ""}</span>${esc(s.label)}</button>`;
@@ -503,14 +520,26 @@ const BIND = {
   classes: () => {
     renderGrid();
     $("ob-q").addEventListener("input", (e) => { S.q = e.target.value; renderGrid(); });
-    pick(".ob-chip", (b) => { S.cat = b.dataset.cat; document.querySelectorAll(".ob-chip").forEach((c) => c.classList.toggle("on", c === b)); renderGrid(); });
+    pick(".ob-gr", (b) => {
+      S.grade = S.grade === b.dataset.g ? "" : b.dataset.g;
+      try { localStorage.setItem("ss-grade", S.grade); } catch (e) { /* storage blocked */ }
+      document.querySelectorAll(".ob-gr").forEach((c) => { const on = c === b && S.grade !== ""; c.classList.toggle("on", on); c.setAttribute("aria-pressed", String(on)); });
+      renderGrid();
+    });
+    pick(".ob-chip:not(.ob-gr)", (b) => { S.cat = b.dataset.cat; document.querySelectorAll(".ob-chip").forEach((c) => c.classList.toggle("on", c === b)); renderGrid(); });
     $("ob-grid").addEventListener("click", (e) => {
       const t = e.target.closest(".ob-tile"); if (!t) return;
       const k = t.dataset.k, i = S.enrolled.indexOf(k);
       if (i === -1) S.enrolled.push(k); else S.enrolled.splice(i, 1);
       const subj = SUBJECTS.find((s) => s.key === k);
+      // Same course already picked? Swap it out instead of enrolling twice.
+      let swapped = null;
+      if (i === -1) SAME_COURSE.filter((g) => g.includes(k)).forEach((g) => g.forEach((o) => {
+        const at = S.enrolled.indexOf(o);
+        if (o !== k && at !== -1) { S.enrolled.splice(at, 1); swapped = SUBJECTS.find((s) => s.key === o); }
+      }));
       const bub = document.querySelector(".ob-bubble");
-      if (bub && i === -1 && subj) bub.innerHTML = "<small>Sage</small>" + (S.enrolled.length >= 5 ? S.enrolled.length + " classes? Ambitious. I like it." : "Ooh, " + esc(subj.label) + "! Good pick.");
+      if (bub && i === -1 && subj) bub.innerHTML = "<small>Sage</small>" + (swapped ? "Swapped " + esc(swapped.label) + " for " + esc(subj.label) + ", since they cover the same course." : S.enrolled.length >= 5 ? S.enrolled.length + " classes? Ambitious. I like it." : "Ooh, " + esc(subj.label) + "! Good pick.");
       renderGrid();
     });
     next(async () => {
