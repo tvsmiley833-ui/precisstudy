@@ -400,3 +400,13 @@ const CSS = `
 
 // Last, so every const above (GROUPS, CSS, …) is initialized first.
 if (hero && units && SLUG) init();
+
+// The hero's Menu closes on an outside click or Escape.
+document.addEventListener("click", e => {
+  document.querySelectorAll(".hero-menu[open]").forEach(m => { if (!m.contains(/** @type {Node} */ (e.target))) m.removeAttribute("open"); });
+});
+document.addEventListener("keydown", e => {
+  if (e.key !== "Escape") return;
+  const m = document.querySelector(".hero-menu[open]");
+  if (m) { m.removeAttribute("open"); /** @type {HTMLElement | null} */ (m.querySelector("summary"))?.focus(); }
+});

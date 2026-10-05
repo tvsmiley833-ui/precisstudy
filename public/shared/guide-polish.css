@@ -679,7 +679,7 @@ body{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-ri
 }
 
 /* Phones: keep the breadcrumb clear of the streak pill and account button in the hero's top-right corner. */
-@media (max-width: 560px) { html:root body .hero-inner .hero-links { padding-right: 176px; } }
+@media (max-width: 560px) { html:root body .hero-inner .hero-toprow { padding-right: 176px; } }
 
 /* Phones, Quiz tab: the question comes right after the quiz controls; the diagnostic buttons and the study-plan teaser move below it. */
 @media (max-width: 560px) {
@@ -757,11 +757,20 @@ html body #qbox .q-block > .q-hint-box { order: 3; }
 html body #qbox .q-block > .q-block-hd { margin-bottom: 12px; }
 
 /* Site links on every guide (the guides have no site header). */
-html body .hero .hero-links { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 0 0 6px; font-size: 13.5px; font-weight: 700; }
-html body .hero .hero-links a { color: var(--brand-ink, var(--brand-muted, inherit)); opacity: .88; text-decoration: none; min-height: 28px; display: inline-flex; align-items: center; }
-html body .hero .hero-links a:hover { color: var(--brand-green, var(--accent)); opacity: 1; text-decoration: underline; }
-html body .hero .hero-links a:focus-visible { outline: 2px solid var(--brand-green, var(--accent)); outline-offset: 2px; border-radius: 4px; }
-@media (max-width: 560px) { html:root body .hero-inner .breadcrumb { padding-right: 0; } }
 
 /* Keyboard focus on the hero's tool buttons (theme, reading modes, timer). */
 html body .hero button:not(.tab-btn):focus-visible { outline: 2px solid var(--brand-green, var(--accent)); outline-offset: 2px; }
+
+/* One row of site navigation: the breadcrumb, then a Menu button that holds Dashboard, Flashcards, Planner and Settings. */
+html body .hero .hero-toprow { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 16px; margin-bottom: 14px; }
+html:root body .hero.hero .hero-toprow .breadcrumb { margin-bottom: 0; }
+html body .hero .hero-menu { position: relative; }
+html body .hero .hero-menu summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; min-height: 28px; padding: 2px 12px; border: 1px solid var(--border); border-radius: 999px; font: 700 13px 'Inter', system-ui, sans-serif; color: var(--brand-ink, inherit); }
+html body .hero .hero-menu summary::-webkit-details-marker { display: none; }
+html body .hero .hero-menu summary::after { content: ""; width: 6px; height: 6px; border: solid currentColor; border-width: 0 2px 2px 0; transform: translateY(-2px) rotate(45deg); }
+html body .hero .hero-menu[open] summary::after { transform: translateY(1px) rotate(-135deg); }
+html body .hero .hero-menu summary:hover { border-color: var(--brand-green, var(--accent)); }
+html body .hero .hero-menu summary:focus-visible, html body .hero .hero-links a:focus-visible { outline: 2px solid var(--brand-green, var(--accent)); outline-offset: 2px; }
+html body .hero .hero-links { position: absolute; top: calc(100% + 6px); left: 0; z-index: 30; display: flex; flex-direction: column; min-width: 180px; padding: 6px; background: var(--surface-2, #1b2b22); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,.35); }
+html body .hero .hero-links a { color: var(--brand-ink, inherit); text-decoration: none; font: 600 14px 'Inter', system-ui, sans-serif; padding: 10px 12px; border-radius: 8px; }
+html body .hero .hero-links a:hover { background: var(--accent-soft, rgba(127,127,127,.15)); color: var(--brand-green, var(--accent)); }

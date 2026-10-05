@@ -112,7 +112,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 <a class="skip-link" href="#main-content">Skip to main content</a>
 <div class="hero">
   <div class="hero-inner">
-    <nav class="hero-links" aria-label="Site"><a href="/dashboard/">Dashboard</a><a href="/flashcards/">Flashcards</a><a href="/planner/">Planner</a><a href="/settings/">Settings</a></nav>
+    <div class="hero-toprow">
     <nav class="breadcrumb" aria-label="Breadcrumb" style="opacity:0;animation:fadein .5s ease forwards">
       <ol>
         <li><a href="/">PrecisStudy</a></li>
@@ -120,6 +120,8 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
         <li aria-current="page">US Government Study Guide</li>
       </ol>
     </nav>
+      <details class="hero-menu"><summary>Menu</summary><nav class="hero-links" aria-label="Site"><a href="/dashboard/">Dashboard</a><a href="/flashcards/">Flashcards</a><a href="/planner/">Planner</a><a href="/settings/">Settings</a></nav></details>
+    </div>
     <div class="kicker" style="opacity:0;animation:fadein .5s ease .06s forwards">
       <span>US Government</span>
     </div>
