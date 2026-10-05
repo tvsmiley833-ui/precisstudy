@@ -774,3 +774,6 @@ html body .hero .hero-menu summary:focus-visible, html body .hero .hero-links a:
 html body .hero .hero-links { position: absolute; top: calc(100% + 6px); left: 0; z-index: 30; display: flex; flex-direction: column; min-width: 180px; padding: 6px; background: var(--surface-2, #1b2b22); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,.35); }
 html body .hero .hero-links a { color: var(--brand-ink, inherit); text-decoration: none; font: 600 14px 'Inter', system-ui, sans-serif; padding: 10px 12px; border-radius: 8px; }
 html body .hero .hero-links a:hover { background: var(--accent-soft, rgba(127,127,127,.15)); color: var(--brand-green, var(--accent)); }
+
+/* Phones: keep the flashcard hint clear of the floating Tools and chat buttons in the bottom-right corner. */
+@media (max-width: 560px) { html body #view-cards .hint { padding-inline: 60px; } }
