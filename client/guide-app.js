@@ -3084,11 +3084,11 @@ function referencePanelKeydown(e){if(e.key==='Escape')referencePanelClose();}
 desmosInit();
 cbotPanelInit();
 toolkitInit();
-// The study-plan preview is about quizzing, so it lives at the top of the
-// Quiz tab rather than above every tab.
+// The study-plan preview is about quizzing, so it lives in the Quiz tab rather than above every tab.
+// It goes below the question area so it never pushes a question down the page.
 (function(){
   var spc=document.getElementById('spc-card'),quiz=document.getElementById('quiz-real');
-  if(spc&&quiz)quiz.prepend(spc);
+  if(spc&&quiz)quiz.append(spc);
 })();
 shortcutsModalInit();
 ssMakeDraggable(document.getElementById('qref-drawer'),'.qref-drawer-hd');
