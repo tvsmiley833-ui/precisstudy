@@ -26,3 +26,12 @@ for (const f of guides) {
     assert.deepEqual(bad.slice(0, 8), [], `${d.slug}: ${bad.length} broken question(s)`);
   });
 }
+
+for (const f of guides) {
+  test(`${f}: the hard-mode bank covers every unit`, () => {
+    const d = JSON.parse(readFileSync(new URL(`../guides/${f}`, import.meta.url), "utf8"));
+    const have = new Set((d.hardQuiz || []).map(q => q.u));
+    const missing = d.units.filter(u => !have.has(u.id)).map(u => u.id);
+    assert.deepEqual(missing, [], `${d.slug}: units with no hard question: ${missing.join(", ")}`);
+  });
+}
