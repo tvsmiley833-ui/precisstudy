@@ -5712,13 +5712,13 @@
   {
    "u": 1,
    "title": "Binary to decimal",
-   "prompt": "Convert 1101₂ to decimal, and 45 to binary.",
+   "prompt": "Convert the binary number 1101 to decimal.",
    "steps": [
-    "1101₂ = 8 + 4 + 0 + 1 = 13",
-    "45 = 32 + 8 + 4 + 1",
-    "Bits for 32, 16, 8, 4, 2, 1: 1 0 1 1 0 1"
+    "Write the place values from right to left: 1, 2, 4, 8.",
+    "Add the place values where the bit is 1: 8 + 4 + 1.",
+    "The sum is the decimal value."
    ],
-   "answer": "13; 101101₂"
+   "answer": "13"
   },
   {
    "u": 1,
@@ -5740,6 +5740,39 @@
     "So about 10 steps (plus one for the final check)"
    ],
    "answer": "About 10 comparisons"
+  },
+  {
+   "u": 2,
+   "title": "Tracing a loop",
+   "prompt": "What is printed? total = 0; for i from 1 to 3: total = total + i; print total.",
+   "steps": [
+    "Start with total = 0.",
+    "Loop: i=1 gives total 1, i=2 gives 3, i=3 gives 6.",
+    "After the loop ends, print total."
+   ],
+   "answer": "6"
+  },
+  {
+   "u": 4,
+   "title": "Using a stack",
+   "prompt": "Push 1, then 2, then 3 onto a stack and pop once. What is removed?",
+   "steps": [
+    "A stack is last in, first out.",
+    "The most recently pushed item is 3.",
+    "Pop removes the top item."
+   ],
+   "answer": "3"
+  },
+  {
+   "u": 5,
+   "title": "Searching a sorted list",
+   "prompt": "How many steps does binary search take on a sorted list of 16 items in the worst case?",
+   "steps": [
+    "Each step halves the remaining items: 16, 8, 4, 2, 1.",
+    "Count the halvings until one item is left: 4.",
+    "Add one comparison for the final item."
+   ],
+   "answer": "At most 5 comparisons (about log2 of 16 plus one)."
   }
  ],
  "hardQuiz": [

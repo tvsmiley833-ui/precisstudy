@@ -3324,18 +3324,6 @@
    "answer": "(0.511, 0.609)"
   },
   {
-   "u": 6,
-   "title": "Confidence interval for a mean",
-   "prompt": "A sample of 25 has mean 50 and standard deviation 10. Build a 95% t-interval for the mean.",
-   "steps": [
-    "Standard error = 10/√25 = 2",
-    "With df = 24, t* ≈ 2.064",
-    "Margin of error = 2.064 × 2 ≈ 4.13",
-    "Interval: 50 ± 4.13"
-   ],
-   "answer": "(45.87, 54.13)"
-  },
-  {
    "u": 7,
    "title": "A one-proportion z-test",
    "prompt": "A claim says 50% of voters support a measure. A random sample of 400 finds 56%. Test H₀: p = 0.5 against Hₐ: p ≠ 0.5.",
@@ -3357,6 +3345,18 @@
     "The same $25 change is a different percent because the base differs"
    ],
    "answer": "+50% up, then −33.3% down"
+  },
+  {
+   "u": 6,
+   "title": "Confidence interval for a mean",
+   "prompt": "A sample of 25 has mean 50 and standard deviation 10. Build a 95% t-interval for the mean.",
+   "steps": [
+    "Standard error = 10/√25 = 2",
+    "With df = 24, t* ≈ 2.064",
+    "Margin of error = 2.064 × 2 ≈ 4.13",
+    "Interval: 50 ± 4.13"
+   ],
+   "answer": "(45.87, 54.13)"
   }
  ],
  "hardQuiz": [

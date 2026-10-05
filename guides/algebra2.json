@@ -10529,18 +10529,6 @@
  "workedExamples": [
   {
    "u": 2,
-   "title": "Completing the Square (a = 1)",
-   "prompt": "Solve by completing the square: x² − 6x − 4 = 0",
-   "steps": [
-    "Move the constant to the right: x² − 6x = 4",
-    "Add (−6 ÷ 2)² = 9 to both sides: x² − 6x + 9 = 13",
-    "Factor the left side: (x − 3)² = 13",
-    "Take square roots: x − 3 = ±√13"
-   ],
-   "answer": "x = 3 ± √13"
-  },
-  {
-   "u": 2,
    "title": "Completing the Square (a ≠ 1)",
    "prompt": "Solve by completing the square: 2x² − 4x − 3 = 0",
    "steps": [
@@ -10553,18 +10541,6 @@
    "answer": "x = (2 ± √10)/2"
   },
   {
-   "u": 2,
-   "title": "Completing the Square with Fractions",
-   "prompt": "Solve by completing the square: 3x² + 4x − 6 = 0",
-   "steps": [
-    "Divide every term by 3: x² + (4/3)x = 2",
-    "Add (2/3)² = 4/9 to both sides: (x + 2/3)² = 22/9",
-    "Take roots: x + 2/3 = ±√22/3",
-    "Subtract 2/3 and combine: x = (−2 ± √22)/3"
-   ],
-   "answer": "x = (−2 ± √22)/3"
-  },
-  {
    "u": 3,
    "title": "Using the Remainder Theorem",
    "prompt": "Find P(3) for P(x) = x³ − 4x² + x + 2 using synthetic division, then verify with direct substitution.",
@@ -10574,18 +10550,6 @@
     "Check by direct substitution: P(3) = 27 − 36 + 3 + 2 = −4 ✓"
    ],
    "answer": "P(3) = −4"
-  },
-  {
-   "u": 4,
-   "title": "Solving a Rational Equation",
-   "prompt": "Solve: 4/(x+1) = 2/(x−1)",
-   "steps": [
-    "Cross multiply: 4(x−1) = 2(x+1)",
-    "Distribute: 4x − 4 = 2x + 2",
-    "Solve: 2x = 6 → x = 3",
-    "Check excluded values: x ≠ −1, 1 — x=3 is valid"
-   ],
-   "answer": "x = 3"
   },
   {
    "u": 5,
@@ -10924,6 +10888,42 @@
     "Interval notation: (2, 3] — a parenthesis at 2 (excluded) and a bracket at 3 (included)."
    ],
    "answer": "2 < n ≤ 3, or {n | 2 < n ≤ 3}, or (2, 3]."
+  },
+  {
+   "u": 2,
+   "title": "Completing the Square (a = 1)",
+   "prompt": "Solve by completing the square: x² − 6x − 4 = 0",
+   "steps": [
+    "Move the constant to the right: x² − 6x = 4",
+    "Add (−6 ÷ 2)² = 9 to both sides: x² − 6x + 9 = 13",
+    "Factor the left side: (x − 3)² = 13",
+    "Take square roots: x − 3 = ±√13"
+   ],
+   "answer": "x = 3 ± √13"
+  },
+  {
+   "u": 2,
+   "title": "Completing the Square with Fractions",
+   "prompt": "Solve by completing the square: 3x² + 4x − 6 = 0",
+   "steps": [
+    "Divide every term by 3: x² + (4/3)x = 2",
+    "Add (2/3)² = 4/9 to both sides: (x + 2/3)² = 22/9",
+    "Take roots: x + 2/3 = ±√22/3",
+    "Subtract 2/3 and combine: x = (−2 ± √22)/3"
+   ],
+   "answer": "x = (−2 ± √22)/3"
+  },
+  {
+   "u": 4,
+   "title": "Solving a Rational Equation",
+   "prompt": "Solve: 4/(x+1) = 2/(x−1)",
+   "steps": [
+    "Cross multiply: 4(x−1) = 2(x+1)",
+    "Distribute: 4x − 4 = 2x + 2",
+    "Solve: 2x = 6 → x = 3",
+    "Check excluded values: x ≠ −1, 1 — x=3 is valid"
+   ],
+   "answer": "x = 3"
   }
  ],
  "examParts": {

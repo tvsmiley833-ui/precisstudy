@@ -3375,28 +3375,6 @@
    "answer": "Vertical asymptote x = 2, horizontal asymptote y = 3"
   },
   {
-   "u": 3,
-   "title": "Solving an exponential equation",
-   "prompt": "Solve 5 · 2ˣ = 80.",
-   "steps": [
-    "Divide both sides by 5: 2ˣ = 16",
-    "Write 16 as a power of 2: 16 = 2⁴",
-    "Match exponents"
-   ],
-   "answer": "x = 4"
-  },
-  {
-   "u": 3,
-   "title": "Solving a logarithmic equation",
-   "prompt": "Solve log₃(x + 2) = 2.",
-   "steps": [
-    "Rewrite in exponential form: x + 2 = 3²",
-    "Simplify: x + 2 = 9",
-    "Subtract 2"
-   ],
-   "answer": "x = 7"
-  },
-  {
    "u": 4,
    "title": "Using the unit circle",
    "prompt": "Find the exact values of sin(2π/3) and cos(2π/3).",
@@ -3450,18 +3428,6 @@
     "Take the square root"
    ],
    "answer": "c = 7"
-  },
-  {
-   "u": 6,
-   "title": "Law of Sines",
-   "prompt": "In a triangle, A = 30°, B = 45° and a = 10. Find side b.",
-   "steps": [
-    "a/sin A = b/sin B",
-    "10/sin 30° = b/sin 45°",
-    "10/(1/2) = 20, so b = 20 · sin 45°",
-    "b = 20 · (√2/2)"
-   ],
-   "answer": "b = 10√2 ≈ 14.1"
   },
   {
    "u": 7,
@@ -3529,6 +3495,40 @@
     "(24 − 3)/(4 − 1) = 21/3"
    ],
    "answer": "7"
+  },
+  {
+   "u": 3,
+   "title": "Solving a logarithmic equation",
+   "prompt": "Solve log₃(x + 2) = 2.",
+   "steps": [
+    "Rewrite in exponential form: x + 2 = 3²",
+    "Simplify: x + 2 = 9",
+    "Subtract 2"
+   ],
+   "answer": "x = 7"
+  },
+  {
+   "u": 3,
+   "title": "Solving an exponential equation",
+   "prompt": "Solve 5 · 2ˣ = 80.",
+   "steps": [
+    "Divide both sides by 5: 2ˣ = 16",
+    "Write 16 as a power of 2: 16 = 2⁴",
+    "Match exponents"
+   ],
+   "answer": "x = 4"
+  },
+  {
+   "u": 6,
+   "title": "Law of Sines",
+   "prompt": "In a triangle, A = 30°, B = 45° and a = 10. Find side b.",
+   "steps": [
+    "a/sin A = b/sin B",
+    "10/sin 30° = b/sin 45°",
+    "10/(1/2) = 20, so b = 20 · sin 45°",
+    "b = 20 · (√2/2)"
+   ],
+   "answer": "b = 10√2 ≈ 14.1"
   }
  ],
  "examParts": {

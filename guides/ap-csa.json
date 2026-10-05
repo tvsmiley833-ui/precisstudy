@@ -5786,6 +5786,28 @@
     "Multiply back up: 4 × 3 × 2 × 1"
    ],
    "answer": "24"
+  },
+  {
+   "u": 2,
+   "title": "Writing a class",
+   "prompt": "Write a Point class with x and y coordinates.",
+   "steps": [
+    "Declare private int fields x and y.",
+    "Write a constructor Point(int x, int y) that assigns them using this.",
+    "Add getX() and getY() methods."
+   ],
+   "answer": "public class Point { private int x; private int y; public Point(int x, int y) { this.x = x; this.y = y; } public int getX() { return x; } public int getY() { return y; } }"
+  },
+  {
+   "u": 6,
+   "title": "ArrayList removal",
+   "prompt": "What is the list after remove(0) on [A, B, C]?",
+   "steps": [
+    "remove(int index) removes the element at that index.",
+    "Remaining elements shift one position to the left.",
+    "The list now contains B and C."
+   ],
+   "answer": "[B, C]"
   }
  ],
  "hardQuiz": [

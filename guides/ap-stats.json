@@ -6132,16 +6132,6 @@
   },
   {
    "u": 2,
-   "title": "Normal probability",
-   "prompt": "Heights are N(64, 2.5). Find P(X > 68).",
-   "steps": [
-    "z = (68 − 64)/2.5 = 1.6",
-    "P(Z > 1.6) = 1 − 0.9452 = 0.0548"
-   ],
-   "answer": "≈ 0.055"
-  },
-  {
-   "u": 2,
    "title": "Finding a percentile",
    "prompt": "Using N(64, 2.5), find the height at the 90th percentile.",
    "steps": [
@@ -6206,17 +6196,6 @@
   },
   {
    "u": 6,
-   "title": "Binomial probability",
-   "prompt": "A shooter makes 30% of free throws. In 5 independent shots, find P(exactly 2 makes).",
-   "steps": [
-    "Binomial: n = 5, p = 0.3",
-    "P(X = 2) = C(5,2)(0.3)²(0.7)³",
-    "= 10 × 0.09 × 0.343"
-   ],
-   "answer": "≈ 0.309"
-  },
-  {
-   "u": 6,
    "title": "Linear transformation",
    "prompt": "X has mean 1.1 and SD 0.7. Find the mean and SD of 2X + 3.",
    "steps": [
@@ -6259,6 +6238,27 @@
     "0.064 > 0.05, so we fail to reject H₀ at the 5% level"
    ],
    "answer": "t = 2.0, df = 15, p ≈ 0.064: fail to reject H₀"
+  },
+  {
+   "u": 2,
+   "title": "Normal probability",
+   "prompt": "Heights are N(64, 2.5). Find P(X > 68).",
+   "steps": [
+    "z = (68 − 64)/2.5 = 1.6",
+    "P(Z > 1.6) = 1 − 0.9452 = 0.0548"
+   ],
+   "answer": "≈ 0.055"
+  },
+  {
+   "u": 6,
+   "title": "Binomial probability",
+   "prompt": "A shooter makes 30% of free throws. In 5 independent shots, find P(exactly 2 makes).",
+   "steps": [
+    "Binomial: n = 5, p = 0.3",
+    "P(X = 2) = C(5,2)(0.3)²(0.7)³",
+    "= 10 × 0.09 × 0.343"
+   ],
+   "answer": "≈ 0.309"
   }
  ],
  "officialReferenceUrl": "https://apcentral.collegeboard.org/media/pdf/ap-statistics-formula-tables-sheet.pdf",

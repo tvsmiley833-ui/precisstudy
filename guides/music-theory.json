@@ -3741,16 +3741,6 @@
    "answer": "A minor; no sharps or flats"
   },
   {
-   "u": 3,
-   "title": "Key signature",
-   "prompt": "How many sharps are in the key of G major, and which one?",
-   "steps": [
-    "G major's scale: G A B C D E F♯ G",
-    "Only the seventh note is raised"
-   ],
-   "answer": "One sharp: F♯"
-  },
-  {
    "u": 4,
    "title": "Interval",
    "prompt": "What is the interval from C up to G, and how many semitones does it span?",
@@ -3762,14 +3752,35 @@
   },
   {
    "u": 5,
-   "title": "Building a triad",
-   "prompt": "Spell the C major triad and say how it is built.",
+   "title": "Building a minor triad",
+   "prompt": "Spell an A minor triad.",
    "steps": [
-    "Start with the root: C",
-    "Add a major third above (4 semitones): E",
-    "Add a minor third above that (3 semitones): G"
+    "A triad has a root, a third and a fifth.",
+    "The root is A; a minor third above A is C; a perfect fifth above is E.",
+    "Check: A to C is 3 half steps, which is a minor third."
    ],
-   "answer": "C – E – G"
+   "answer": "A, C, E"
+  },
+  {
+   "u": 3,
+   "title": "Key signature",
+   "prompt": "How many sharps are in the key of G major, and which one?",
+   "steps": [
+    "G major's scale: G A B C D E F♯ G",
+    "Only the seventh note is raised"
+   ],
+   "answer": "One sharp: F♯"
+  },
+  {
+   "u": 4,
+   "title": "Naming an interval",
+   "prompt": "What interval is from D up to A?",
+   "steps": [
+    "Count letter names: D, E, F, G, A is a fifth.",
+    "Count half steps: D to A is 7.",
+    "Seven half steps with a fifth is a perfect fifth."
+   ],
+   "answer": "A perfect fifth"
   }
  ],
  "hardQuiz": [
