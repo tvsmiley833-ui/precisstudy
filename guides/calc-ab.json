@@ -3414,5 +3414,163 @@
     "sa": "(a) d²y/dx² = (y − x·y')/y² = (y − x²/y)/y² = (y² − x²)/y³. (b) y dy = x dx → y²/2 = x²/2 + C; y(0) = 3 gives C = 9/2, so y = √(x² + 9). (c) At (0, 3), slope = 0/3 = 0, so y(0.2) ≈ 3."
    }
   ]
- }
+ },
+ "hardQuiz": [
+  {
+   "u": 1,
+   "q": "What is the limit as x approaches 0 of sin(3x)/x?",
+   "o": [
+    "1",
+    "0",
+    "3",
+    "Does not exist"
+   ],
+   "a": 2,
+   "e": "Rewrite as 3 times sin(3x)/(3x), which approaches 3 times 1."
+  },
+  {
+   "u": 1,
+   "q": "A function f is continuous at x = a if:",
+   "o": [
+    "f(a) exists",
+    "The limit as x approaches a exists and equals f(a)",
+    "The left limit exists",
+    "f is differentiable at a only"
+   ],
+   "a": 1,
+   "e": "All three conditions must hold: f(a) is defined, the limit exists, and they are equal."
+  },
+  {
+   "u": 2,
+   "q": "What is the derivative of x^3 - 2x at x = 2?",
+   "o": [
+    "6",
+    "10",
+    "8",
+    "12"
+   ],
+   "a": 1,
+   "e": "f'(x) = 3x^2 - 2, so f'(2) = 10."
+  },
+  {
+   "u": 2,
+   "q": "The derivative of e^(2x) is:",
+   "o": [
+    "2e^(2x)",
+    "e^(2x)",
+    "2xe^(2x)",
+    "e^(2x)/2"
+   ],
+   "a": 0,
+   "e": "Apply the chain rule."
+  },
+  {
+   "u": 3,
+   "q": "The derivative of sin(x^2) is:",
+   "o": [
+    "2x cos(x^2)",
+    "cos(x^2)",
+    "2x sin(x^2)",
+    "-2x cos(x^2)"
+   ],
+   "a": 0,
+   "e": "Chain rule: derivative of the outer function times derivative of the inner."
+  },
+  {
+   "u": 3,
+   "q": "If x^2 + y^2 = 25, then dy/dx is:",
+   "o": [
+    "x/y",
+    "-y/x",
+    "y/x",
+    "-x/y"
+   ],
+   "a": 3,
+   "e": "Differentiate implicitly: 2x + 2y dy/dx = 0."
+  },
+  {
+   "u": 4,
+   "q": "A particle's position is s(t) = t^3 - 6t^2. For t > 0, when is it momentarily at rest?",
+   "o": [
+    "t = 0",
+    "t = 2",
+    "t = 6",
+    "t = 4"
+   ],
+   "a": 3,
+   "e": "v(t) = 3t^2 - 12t = 3t(t - 4), which equals 0 at t = 4."
+  },
+  {
+   "u": 4,
+   "q": "The radius of a circle increases at 2 cm/s. How fast is the area changing when r = 5 cm?",
+   "o": [
+    "10 pi cm^2/s",
+    "50 pi cm^2/s",
+    "20 pi cm^2/s",
+    "5 pi cm^2/s"
+   ],
+   "a": 2,
+   "e": "dA/dt = 2 pi r dr/dt = 2 pi (5)(2) = 20 pi."
+  },
+  {
+   "u": 5,
+   "q": "If f'(x) = (x - 1)(x - 3), then f has a local maximum at:",
+   "o": [
+    "x = 3",
+    "x = 2",
+    "x = 1",
+    "No point"
+   ],
+   "a": 2,
+   "e": "f' changes from positive to negative at x = 1."
+  },
+  {
+   "u": 6,
+   "q": "The integral from 0 to 2 of 3x^2 dx equals:",
+   "o": [
+    "4",
+    "8",
+    "12",
+    "6"
+   ],
+   "a": 1,
+   "e": "The antiderivative is x^3, so 2^3 - 0 = 8."
+  },
+  {
+   "u": 6,
+   "q": "By the Fundamental Theorem of Calculus, d/dx of the integral from 1 to x of t^2 dt equals:",
+   "o": [
+    "x^2",
+    "x^3/3",
+    "2x",
+    "1"
+   ],
+   "a": 0,
+   "e": "The derivative of an accumulation function is the integrand evaluated at x."
+  },
+  {
+   "u": 7,
+   "q": "If dy/dx = 2y and y(0) = 3, then y =",
+   "o": [
+    "3e^(2x)",
+    "e^(2x)+3",
+    "3e^x",
+    "2e^(3x)"
+   ],
+   "a": 0,
+   "e": "Separate variables and integrate, then use the initial condition."
+  },
+  {
+   "u": 7,
+   "q": "In a slope field for dy/dx = x, slopes at points with the same x-value are:",
+   "o": [
+    "Different",
+    "Zero",
+    "Undefined",
+    "Equal"
+   ],
+   "a": 3,
+   "e": "The slope depends only on x."
+  }
+ ]
 }

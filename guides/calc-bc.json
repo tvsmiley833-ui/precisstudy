@@ -3391,5 +3391,187 @@
    ],
    "answer": "≈ 0.09533, error ≤ 0.000025"
   }
+ ],
+ "hardQuiz": [
+  {
+   "u": 1,
+   "q": "The limit as x approaches infinity of (3x^2 + 1)/(x^2 - 5) is:",
+   "o": [
+    "1",
+    "0",
+    "3",
+    "Infinity"
+   ],
+   "a": 2,
+   "e": "Divide by x^2: the ratio of leading coefficients is 3."
+  },
+  {
+   "u": 1,
+   "q": "The limit as x approaches 0 of (1 - cos x)/x^2 is:",
+   "o": [
+    "0",
+    "1/2",
+    "1",
+    "Does not exist"
+   ],
+   "a": 1,
+   "e": "This is a standard limit that equals 1/2."
+  },
+  {
+   "u": 2,
+   "q": "The derivative of ln(x^2 + 1) is:",
+   "o": [
+    "1/(x^2 + 1)",
+    "2x/(x^2 + 1)",
+    "2x",
+    "x/(x^2 + 1)"
+   ],
+   "a": 1,
+   "e": "Chain rule: 1/(inner) times the derivative of the inner."
+  },
+  {
+   "u": 2,
+   "q": "The derivative of arctan(x) is:",
+   "o": [
+    "1/(1 + x^2)",
+    "1/sqrt(1 - x^2)",
+    "-1/(1 + x^2)",
+    "x/(1 + x^2)"
+   ],
+   "a": 0,
+   "e": "This is a standard derivative."
+  },
+  {
+   "u": 3,
+   "q": "The integral of x e^x dx is:",
+   "o": [
+    "(x - 1)e^x + C",
+    "xe^x + C",
+    "e^x + C",
+    "(x + 1)e^x + C"
+   ],
+   "a": 0,
+   "e": "Integration by parts with u = x and dv = e^x dx."
+  },
+  {
+   "u": 3,
+   "q": "The integral of 1/(x^2 + 1) dx is:",
+   "o": [
+    "ln(x^2 + 1) + C",
+    "1/x + C",
+    "arcsin(x) + C",
+    "arctan(x) + C"
+   ],
+   "a": 3,
+   "e": "It is the reverse of the derivative of arctan."
+  },
+  {
+   "u": 4,
+   "q": "The volume of the solid formed by rotating y = x from x = 0 to 2 about the x-axis is:",
+   "o": [
+    "4 pi",
+    "2 pi",
+    "8 pi",
+    "8 pi/3"
+   ],
+   "a": 3,
+   "e": "Disk method: pi times the integral of x^2 from 0 to 2."
+  },
+  {
+   "u": 4,
+   "q": "The improper integral from 1 to infinity of 1/x^2 dx equals:",
+   "o": [
+    "Infinity",
+    "0",
+    "1",
+    "1/2"
+   ],
+   "a": 2,
+   "e": "The antiderivative is -1/x, which gives 0 - (-1) = 1."
+  },
+  {
+   "u": 5,
+   "q": "For x = t^2 and y = t^3, dy/dx at t = 2 is:",
+   "o": [
+    "12",
+    "6",
+    "3",
+    "1/3"
+   ],
+   "a": 2,
+   "e": "dy/dx = (3t^2)/(2t) = 3t/2, which equals 3 at t = 2."
+  },
+  {
+   "u": 5,
+   "q": "The area enclosed by the polar curve r = 2 for 0 <= theta <= 2 pi is:",
+   "o": [
+    "2 pi",
+    "4 pi",
+    "pi",
+    "8 pi"
+   ],
+   "a": 1,
+   "e": "Area = (1/2) times the integral of r^2, which is (1/2)(4)(2 pi)."
+  },
+  {
+   "u": 6,
+   "q": "Which series converges?",
+   "o": [
+    "The sum of 1/n",
+    "The sum of 1/n^2",
+    "The sum of 1/sqrt(n)",
+    "The sum of n"
+   ],
+   "a": 1,
+   "e": "A p-series converges when p > 1."
+  },
+  {
+   "u": 6,
+   "q": "The harmonic series (sum of 1/n):",
+   "o": [
+    "Diverges",
+    "Converges to 1",
+    "Converges to 2",
+    "Converges conditionally"
+   ],
+   "a": 0,
+   "e": "Although terms approach 0, the partial sums grow without bound."
+  },
+  {
+   "u": 7,
+   "q": "The radius of convergence of the series sum of x^n / n! is:",
+   "o": [
+    "1",
+    "0",
+    "e",
+    "Infinity"
+   ],
+   "a": 3,
+   "e": "By the ratio test the limit is 0 for every x."
+  },
+  {
+   "u": 8,
+   "q": "For a convergent alternating series, the error in using a partial sum is at most:",
+   "o": [
+    "The last included term",
+    "Twice the first omitted term",
+    "The sum of the omitted terms",
+    "The absolute value of the first omitted term"
+   ],
+   "a": 3,
+   "e": "This is the alternating series error bound."
+  },
+  {
+   "u": 8,
+   "q": "The second-degree Taylor polynomial for cos(x) about 0 is:",
+   "o": [
+    "1 + x^2/2",
+    "x - x^3/6",
+    "1 - x^2/2",
+    "1 - x"
+   ],
+   "a": 2,
+   "e": "cos(x) = 1 - x^2/2! + x^4/4! - ..."
+  }
  ]
 }

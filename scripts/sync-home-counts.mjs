@@ -2,7 +2,7 @@
 // Keep the homepage class cards' "N units · M practice questions" line in
 // step with each guide's real data (UNITS and the merged QUIZ bank).
 //   node scripts/sync-home-counts.mjs [--check]
-import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync, readdirSync } from "node:fs";
 import { extractArrayLiteral, extractMergedArray } from "./lib/extract-literals.mjs";
 
 const check = process.argv.includes("--check");
@@ -26,6 +26,22 @@ home = home.replace(/(<a href="\/([a-z0-9-]+)\/?" class="class-card"[\s\S]*?">)(
     return `${pre}${u} units · ${q} practice questions${post}`;
   });
 
+// The About page quotes a rounded-down question total (guide quiz + hard banks); keep it a true round-down.
+const ABOUT = "public/about/index.html";
+let about = readFileSync(ABOUT, "utf8");
+let total = 0;
+for (const f of readdirSync("guides").filter(f => f.endsWith(".json"))) {
+  const g = JSON.parse(readFileSync(`guides/${f}`, "utf8"));
+  total += (g.quiz || []).length + (g.hardQuiz || []).length;
+}
+const rounded = Math.floor(total / 1000) * 1000;
+const next = about.replace(/over ([\d,]+) questions across/, (whole, n) => {
+  if (Number(n.replace(/,/g, "")) === rounded) return whole;
+  changed++;
+  console.log(`about: over ${n} → over ${rounded.toLocaleString("en-US")} questions`);
+  return `over ${rounded.toLocaleString("en-US")} questions across`;
+});
+
 if (check && changed) process.exit(1);
-if (!check && changed) writeFileSync(HOME, home);
+if (!check && changed) { writeFileSync(HOME, home); writeFileSync(ABOUT, next); }
 console.log(`${changed} card(s) ${check ? "out of date" : "updated"}`);
