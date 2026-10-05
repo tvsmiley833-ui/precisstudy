@@ -5787,5 +5787,199 @@
    ],
    "answer": "24"
   }
+ ],
+ "hardQuiz": [
+  {
+   "u": 1,
+   "q": "What is the value of 7 / 2 in Java when both operands are int?",
+   "o": [
+    "3.5",
+    "4",
+    "3",
+    "3.0"
+   ],
+   "a": 2,
+   "e": "Integer division truncates the decimal part."
+  },
+  {
+   "u": 1,
+   "q": "After int x = 5; x += 3 * 2; the value of x is:",
+   "o": [
+    "16",
+    "11",
+    "10",
+    "13"
+   ],
+   "a": 1,
+   "e": "Multiplication happens first: 5 + 6 = 11."
+  },
+  {
+   "u": 2,
+   "q": "A constructor in Java:",
+   "o": [
+    "Must return an int",
+    "Has the same name as the class and no return type",
+    "Is named 'constructor'",
+    "Cannot take parameters"
+   ],
+   "a": 1,
+   "e": "It initializes the new object."
+  },
+  {
+   "u": 2,
+   "q": "Within an instance method, the keyword 'this' refers to:",
+   "o": [
+    "The current object",
+    "The superclass",
+    "The class itself",
+    "A static variable"
+   ],
+   "a": 0,
+   "e": "It is often used to distinguish fields from parameters."
+  },
+  {
+   "u": 3,
+   "q": "If a = true and b = false, what is the value of (a && b) || !a?",
+   "o": [
+    "false",
+    "true",
+    "null",
+    "Error"
+   ],
+   "a": 0,
+   "e": "(true && false) is false, and !a is false, so false || false is false."
+  },
+  {
+   "u": 3,
+   "q": "Which expression is equivalent to !(x > 5 && y < 3)?",
+   "o": [
+    "x <= 5 && y >= 3",
+    "x < 5 || y > 3",
+    "x > 5 || y < 3",
+    "x <= 5 || y >= 3"
+   ],
+   "a": 3,
+   "e": "De Morgan's laws: negate each condition and swap && with ||."
+  },
+  {
+   "u": 4,
+   "q": "How many times does the body execute in for (int i = 0; i < 5; i += 2)?",
+   "o": [
+    "2",
+    "5",
+    "4",
+    "3"
+   ],
+   "a": 3,
+   "e": "i takes the values 0, 2 and 4."
+  },
+  {
+   "u": 4,
+   "q": "If n starts at 8, how many times does the loop while (n > 0) { n = n / 2; } execute its body?",
+   "o": [
+    "3",
+    "8",
+    "4",
+    "Infinite"
+   ],
+   "a": 2,
+   "e": "n takes the values 8, 4, 2, 1 before reaching 0."
+  },
+  {
+   "u": 5,
+   "q": "For int[] a = new int[4];, the index of the last element is:",
+   "o": [
+    "4",
+    "0",
+    "3",
+    "5"
+   ],
+   "a": 2,
+   "e": "Indices run from 0 to length - 1."
+  },
+  {
+   "u": 5,
+   "q": "What prints? int[] a = {1, 2, 3}; a[1] = a[0] + a[2]; System.out.println(a[1]);",
+   "o": [
+    "2",
+    "4",
+    "3",
+    "6"
+   ],
+   "a": 1,
+   "e": "a[1] becomes 1 + 3 = 4."
+  },
+  {
+   "u": 6,
+   "q": "For ArrayList<Integer> list = [5, 6, 7], what does list.remove(1) leave?",
+   "o": [
+    "[6, 7]",
+    "[5, 7]",
+    "[5, 6]",
+    "[5, 6, 7]"
+   ],
+   "a": 1,
+   "e": "remove(int index) removes the element at index 1."
+  },
+  {
+   "u": 6,
+   "q": "Calling get(3) on an ArrayList of size 3 throws:",
+   "o": [
+    "IndexOutOfBoundsException",
+    "NullPointerException",
+    "ArithmeticException",
+    "ClassCastException"
+   ],
+   "a": 0,
+   "e": "Valid indices are 0 to 2."
+  },
+  {
+   "u": 7,
+   "q": "In a subclass constructor, super(...) is used to:",
+   "o": [
+    "Call a superclass constructor",
+    "Create a new subclass",
+    "Override a method",
+    "Declare a private field"
+   ],
+   "a": 0,
+   "e": "It must be the first statement in the constructor."
+  },
+  {
+   "u": 7,
+   "q": "For int[][] g = new int[3][4];, g.length is:",
+   "o": [
+    "4",
+    "12",
+    "7",
+    "3"
+   ],
+   "a": 3,
+   "e": "The outer array length is the number of rows."
+  },
+  {
+   "u": 8,
+   "q": "Every correct recursive method must have:",
+   "o": [
+    "A loop",
+    "Static variables",
+    "An array",
+    "A base case that stops the recursion"
+   ],
+   "a": 3,
+   "e": "Without a base case it recurses forever."
+  },
+  {
+   "u": 8,
+   "q": "Binary search requires that the array be:",
+   "o": [
+    "Unique",
+    "Of integers only",
+    "Sorted",
+    "Of even length"
+   ],
+   "a": 2,
+   "e": "It halves the search range by comparing with the middle element."
+  }
  ]
 }

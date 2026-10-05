@@ -3417,5 +3417,151 @@
     "sa": "(a) 2·(10 + 14)/2 + 2·(14 + 20)/2 + 2·(20 + 18)/2 = 24 + 34 + 38 = 96 gallons. (b) It is the total number of gallons that flow into the tank from t = 0 to t = 6 hours. (c) Not necessarily. R(4) ≠ R(6), and the MVT only says R'(c) = (18 − 20)/2 = −1 for some c in (4, 6); nothing forces R' = 0 there."
    }
   ]
- }
+ },
+ "hardQuiz": [
+  {
+   "u": 1,
+   "q": "What is the limit as x approaches 3 of (x^2 - 9)/(x - 3)?",
+   "o": [
+    "0",
+    "3",
+    "6",
+    "Undefined"
+   ],
+   "a": 2,
+   "e": "Factor to get x + 3, which approaches 6."
+  },
+  {
+   "u": 1,
+   "q": "For f to be continuous at x = a, which must be true?",
+   "o": [
+    "f is differentiable everywhere",
+    "The limit as x approaches a exists and equals f(a)",
+    "f(a) is zero",
+    "f has a vertical asymptote"
+   ],
+   "a": 1,
+   "e": "The function value, limit and their equality are all required."
+  },
+  {
+   "u": 2,
+   "q": "The derivative of x^4 is:",
+   "o": [
+    "x^3",
+    "4x^3",
+    "4x^4",
+    "x^5/5"
+   ],
+   "a": 1,
+   "e": "Use the power rule."
+  },
+  {
+   "u": 2,
+   "q": "The derivative of x^2 sin x is:",
+   "o": [
+    "2x sin x + x^2 cos x",
+    "2x cos x",
+    "x^2 cos x",
+    "2x sin x - x^2 cos x"
+   ],
+   "a": 0,
+   "e": "Use the product rule."
+  },
+  {
+   "u": 3,
+   "q": "The critical points of f(x) = x^3 - 3x occur at:",
+   "o": [
+    "x = 1 and x = -1",
+    "x = 0 only",
+    "x = 3",
+    "x = 0 and x = 3"
+   ],
+   "a": 0,
+   "e": "f'(x) = 3x^2 - 3 = 0."
+  },
+  {
+   "u": 3,
+   "q": "A function is concave up where:",
+   "o": [
+    "f'(x) > 0",
+    "f''(x) < 0",
+    "f(x) > 0",
+    "f''(x) > 0"
+   ],
+   "a": 3,
+   "e": "The slope is increasing."
+  },
+  {
+   "u": 4,
+   "q": "The integral of (3x^2 + 2) dx is:",
+   "o": [
+    "6x + C",
+    "x^3 + C",
+    "3x^3 + 2x + C",
+    "x^3 + 2x + C"
+   ],
+   "a": 3,
+   "e": "Integrate each term."
+  },
+  {
+   "u": 4,
+   "q": "The integral from 0 to 1 of x dx equals:",
+   "o": [
+    "1",
+    "0",
+    "1/2",
+    "2"
+   ],
+   "a": 2,
+   "e": "The antiderivative is x^2/2."
+  },
+  {
+   "u": 6,
+   "q": "The derivative of ln x is:",
+   "o": [
+    "x",
+    "1/x",
+    "ln x",
+    "e^x"
+   ],
+   "a": 1,
+   "e": "It is a standard derivative."
+  },
+  {
+   "u": 6,
+   "q": "The derivative of e^(3x) is:",
+   "o": [
+    "3e^(3x)",
+    "e^(3x)",
+    "3xe^(3x)",
+    "e^(3x)/3"
+   ],
+   "a": 0,
+   "e": "Apply the chain rule."
+  },
+  {
+   "u": 7,
+   "q": "For a sphere, dV/dt = 4 pi r^2 dr/dt because:",
+   "o": [
+    "V = 4 pi r^2",
+    "The radius is constant",
+    "A sphere has no volume",
+    "V = (4/3) pi r^3 is differentiated with respect to time"
+   ],
+   "a": 3,
+   "e": "Related rates use the chain rule."
+  },
+  {
+   "u": 8,
+   "q": "The sum of the geometric series 1 + 1/2 + 1/4 + ... is:",
+   "o": [
+    "1",
+    "Infinity",
+    "3",
+    "2"
+   ],
+   "a": 3,
+   "e": "a/(1 - r) = 1/(1 - 1/2)."
+  }
+ ]
 }
