@@ -195,7 +195,7 @@ const SUBJECT_COLORS = {
   aplang: '#8b2942', globalhistory: '#b5541f', apbiology: '#2e7d4f', apush: '#1e4d8b',
   'us-history': '#8a5a2b', physics: '#7a3ba8', biology: '#2e7d4f', precalc: '#0f6e73',
   'act-prep': '#b91c1c', anatomy: '#be123c', 'ap-chemistry': '#0369a1', 'ap-csa': '#1e40af',
-  'ap-euro': '#166534', 'ap-macro': '#065f46', 'ap-micro': '#9a3412', 'ap-physics': '#1d4ed8',
+  'ap-euro': '#166534', 'ap-macro': '#065f46', 'ap-micro': '#9a3412', 'ap-environmental-science': '#15803d', 'ap-physics': '#1d4ed8',
   'ap-psych': '#9333ea', 'ap-stats': '#c2410c', 'ap-usgov': '#1e3a8a', 'ap-world': '#a16207',
   'ap-human-geography': '#0e7490', 'art-history': '#9f1239', astronomy: '#4338ca',
   'computer-science': '#4338ca', 'creative-writing': '#db2777', 'earth-science': '#0e7490',

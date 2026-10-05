@@ -75,6 +75,12 @@ edit("public/shared/dashboard-app.js", src => {
   return n < 2 ? null : out;
 }, "category maps");
 
+edit("public/shared/dashboard-app.js", src => {
+  if (new RegExp(`'${esc(N.slug)}': '#[0-9a-fA-F]{6}'`).test(src)) return src;
+  const out = src.replace(new RegExp(`('${esc(S.slug)}': '#[0-9a-fA-F]{6}',)`), `$1 '${N.slug}': '${N.color}',`);
+  return out === src ? null : out;
+}, "dashboard subject colour");
+
 // ---- picker lists on other pages ----
 edit("public/syllabus/index.html", src => {
   if (src.includes(`{key:'${N.slug}'`)) return src;
@@ -126,7 +132,8 @@ edit("scripts/generate-guide.mjs", src => {
 for (const f of ["scripts/hero-patterns.mjs", "scripts/hero-patterns.cjs"]) {
   edit(f, src => {
     // add the slug to every family list that contains the sibling (a family is a quoted-slug array literal)
-    const out = src.replace(new RegExp(`(\\[(?:'[a-z0-9-]+',)*'${esc(S.slug)}')(,|\\])`, "g"), (m, a, b) => a.includes(`'${N.slug}'`) ? m : `${a},'${N.slug}'${b}`);
+    // the negative lookahead keeps this idempotent: skip a family list that already has the new slug right after the sibling
+    const out = src.replace(new RegExp(`(\\[(?:'[a-z0-9-]+',)*'${esc(S.slug)}')(?!,'${esc(N.slug)}')(,|\\])`, "g"), (m, a, b) => `${a},'${N.slug}'${b}`);
     return out === src ? (src.includes(`'${N.slug}'`) ? src : null) : out;
   }, "hero pattern family");
 }
