@@ -2,6 +2,7 @@ import { SELF } from "cloudflare:test";
 import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import { signSession, SESSION_COOKIE } from "../src/auth.js";
 import { handleGetProgress, handlePostProgress, handlePostGoal, handlePostEnrolledSubjects, handlePostSchedule, handlePostStreak, handlePostNotificationPrefs, recordDailySnapshots, handlePostShareGenerate, handlePostShareRevoke, handleGetShare, handlePostCalendarGenerate, handlePostCalendarRevoke, handleGetCalendarFeed, handlePostInviteGenerate, creditInviteIfAny } from "../src/progress-routes.js";
+import { SUBJECTS } from "../src/progress-routes.js";
 import { putGoogleToken } from "../src/google-token.js";
 import { handleGetQuest } from "../src/quest-routes.js";
 import { handlePushSubscribe } from "../src/push-routes.js";
@@ -43,6 +44,9 @@ function req(url, cookie, method, body) {
   return new Request(url, { method: method || "GET", headers, body: body ? JSON.stringify(body) : undefined });
 }
 
+// Every subject starts with empty progress; derived from the server's own subject list so adding a course never breaks this test.
+const emptySubjects = () => Object.fromEntries(SUBJECTS.map(k => [k, { mastery: {}, examples: {}, cardsKnown: [] }]));
+
 describe("handleGetProgress", () => {
   it("401s with no session", async () => {
     const res = await handleGetProgress(req("https://example.com/api/progress"), { SESSION_SECRET: SECRET, PROGRESS: fakeKV() });
@@ -55,63 +59,7 @@ describe("handleGetProgress", () => {
     expect(res.status).toBe(200);
     const data = await res.json();
     expect(data).toEqual({
-      geometry: { mastery: {}, examples: {}, cardsKnown: [] },
-      chemistry: { mastery: {}, examples: {}, cardsKnown: [] },
-      algebra1: { mastery: {}, examples: {}, cardsKnown: [] },
-      algebra2: { mastery: {}, examples: {}, cardsKnown: [] },
-      aplang: { mastery: {}, examples: {}, cardsKnown: [] },
-      globalhistory: { mastery: {}, examples: {}, cardsKnown: [] },
-      apbiology: { mastery: {}, examples: {}, cardsKnown: [] },
-      apush: { mastery: {}, examples: {}, cardsKnown: [] },
-      physics: { mastery: {}, examples: {}, cardsKnown: [] },
-      biology: { mastery: {}, examples: {}, cardsKnown: [] },
-      precalc: { mastery: {}, examples: {}, cardsKnown: [] },
-      "act-prep": { mastery: {}, examples: {}, cardsKnown: [] },
-      anatomy: { mastery: {}, examples: {}, cardsKnown: [] },
-      "ap-chemistry": { mastery: {}, examples: {}, cardsKnown: [] },
-      "ap-csa": { mastery: {}, examples: {}, cardsKnown: [] },
-      "ap-euro": { mastery: {}, examples: {}, cardsKnown: [] },
-      "ap-human-geography": { mastery: {}, examples: {}, cardsKnown: [] },
-      "ap-macro": { mastery: {}, examples: {}, cardsKnown: [] },
-      "ap-micro": { mastery: {}, examples: {}, cardsKnown: [] },
-      "ap-physics": { mastery: {}, examples: {}, cardsKnown: [] },
-      "ap-psych": { mastery: {}, examples: {}, cardsKnown: [] },
-      "ap-stats": { mastery: {}, examples: {}, cardsKnown: [] },
-      "ap-usgov": { mastery: {}, examples: {}, cardsKnown: [] },
-      "ap-world": { mastery: {}, examples: {}, cardsKnown: [] },
-      "art-history": { mastery: {}, examples: {}, cardsKnown: [] },
-      astronomy: { mastery: {}, examples: {}, cardsKnown: [] },
-      "computer-science": { mastery: {}, examples: {}, cardsKnown: [] },
-      "creative-writing": { mastery: {}, examples: {}, cardsKnown: [] },
-      "earth-science": { mastery: {}, examples: {}, cardsKnown: [] },
-      economics: { mastery: {}, examples: {}, cardsKnown: [] },
-      "english-10": { mastery: {}, examples: {}, cardsKnown: [] },
-      "english-9": { mastery: {}, examples: {}, cardsKnown: [] },
-      "environmental-science": { mastery: {}, examples: {}, cardsKnown: [] },
-      "french-1": { mastery: {}, examples: {}, cardsKnown: [] },
-      "french-2": { mastery: {}, examples: {}, cardsKnown: [] },
-      "french-3": { mastery: {}, examples: {}, cardsKnown: [] },
-      geography: { mastery: {}, examples: {}, cardsKnown: [] },
-      "german-1": { mastery: {}, examples: {}, cardsKnown: [] },
-      health: { mastery: {}, examples: {}, cardsKnown: [] },
-      journalism: { mastery: {}, examples: {}, cardsKnown: [] },
-      "music-theory": { mastery: {}, examples: {}, cardsKnown: [] },
-      psychology: { mastery: {}, examples: {}, cardsKnown: [] },
-      "sat-math": { mastery: {}, examples: {}, cardsKnown: [] },
-      "sat-reading": { mastery: {}, examples: {}, cardsKnown: [] },
-      sociology: { mastery: {}, examples: {}, cardsKnown: [] },
-      "spanish-1": { mastery: {}, examples: {}, cardsKnown: [] },
-      "spanish-2": { mastery: {}, examples: {}, cardsKnown: [] },
-      "spanish-3": { mastery: {}, examples: {}, cardsKnown: [] },
-      "speech-debate": { mastery: {}, examples: {}, cardsKnown: [] },
-      statistics: { mastery: {}, examples: {}, cardsKnown: [] },
-      "study-skills": { mastery: {}, examples: {}, cardsKnown: [] },
-      "us-government": { mastery: {}, examples: {}, cardsKnown: [] },
-      "world-history": { mastery: {}, examples: {}, cardsKnown: [] },
-      calculus: { mastery: {}, examples: {}, cardsKnown: [] },
-      "calc-ab": { mastery: {}, examples: {}, cardsKnown: [] },
-      "calc-bc": { mastery: {}, examples: {}, cardsKnown: [] },
-      "us-history": { mastery: {}, examples: {}, cardsKnown: [] },
+      ...emptySubjects(),
       goal: null,
       updatedAt: null,
       enrolledSubjects: [],
@@ -125,63 +73,8 @@ describe("handleGetProgress", () => {
   it("returns saved progress for a returning student", async () => {
     const cookie = await sessionCookieFor("student@example.com");
     const saved = {
+      ...emptySubjects(),
       geometry: { mastery: { "1": { correct: 3, total: 4 } }, examples: {}, cardsKnown: [] },
-      chemistry: { mastery: {}, examples: {}, cardsKnown: [] },
-      algebra1: { mastery: {}, examples: {}, cardsKnown: [] },
-      algebra2: { mastery: {}, examples: {}, cardsKnown: [] },
-      aplang: { mastery: {}, examples: {}, cardsKnown: [] },
-      globalhistory: { mastery: {}, examples: {}, cardsKnown: [] },
-      apbiology: { mastery: {}, examples: {}, cardsKnown: [] },
-      apush: { mastery: {}, examples: {}, cardsKnown: [] },
-      physics: { mastery: {}, examples: {}, cardsKnown: [] },
-      biology: { mastery: {}, examples: {}, cardsKnown: [] },
-      precalc: { mastery: {}, examples: {}, cardsKnown: [] },
-      "act-prep": { mastery: {}, examples: {}, cardsKnown: [] },
-      anatomy: { mastery: {}, examples: {}, cardsKnown: [] },
-      "ap-chemistry": { mastery: {}, examples: {}, cardsKnown: [] },
-      "ap-csa": { mastery: {}, examples: {}, cardsKnown: [] },
-      "ap-euro": { mastery: {}, examples: {}, cardsKnown: [] },
-      "ap-human-geography": { mastery: {}, examples: {}, cardsKnown: [] },
-      "ap-macro": { mastery: {}, examples: {}, cardsKnown: [] },
-      "ap-micro": { mastery: {}, examples: {}, cardsKnown: [] },
-      "ap-physics": { mastery: {}, examples: {}, cardsKnown: [] },
-      "ap-psych": { mastery: {}, examples: {}, cardsKnown: [] },
-      "ap-stats": { mastery: {}, examples: {}, cardsKnown: [] },
-      "ap-usgov": { mastery: {}, examples: {}, cardsKnown: [] },
-      "ap-world": { mastery: {}, examples: {}, cardsKnown: [] },
-      "art-history": { mastery: {}, examples: {}, cardsKnown: [] },
-      astronomy: { mastery: {}, examples: {}, cardsKnown: [] },
-      "computer-science": { mastery: {}, examples: {}, cardsKnown: [] },
-      "creative-writing": { mastery: {}, examples: {}, cardsKnown: [] },
-      "earth-science": { mastery: {}, examples: {}, cardsKnown: [] },
-      economics: { mastery: {}, examples: {}, cardsKnown: [] },
-      "english-10": { mastery: {}, examples: {}, cardsKnown: [] },
-      "english-9": { mastery: {}, examples: {}, cardsKnown: [] },
-      "environmental-science": { mastery: {}, examples: {}, cardsKnown: [] },
-      "french-1": { mastery: {}, examples: {}, cardsKnown: [] },
-      "french-2": { mastery: {}, examples: {}, cardsKnown: [] },
-      "french-3": { mastery: {}, examples: {}, cardsKnown: [] },
-      geography: { mastery: {}, examples: {}, cardsKnown: [] },
-      "german-1": { mastery: {}, examples: {}, cardsKnown: [] },
-      health: { mastery: {}, examples: {}, cardsKnown: [] },
-      journalism: { mastery: {}, examples: {}, cardsKnown: [] },
-      "music-theory": { mastery: {}, examples: {}, cardsKnown: [] },
-      psychology: { mastery: {}, examples: {}, cardsKnown: [] },
-      "sat-math": { mastery: {}, examples: {}, cardsKnown: [] },
-      "sat-reading": { mastery: {}, examples: {}, cardsKnown: [] },
-      sociology: { mastery: {}, examples: {}, cardsKnown: [] },
-      "spanish-1": { mastery: {}, examples: {}, cardsKnown: [] },
-      "spanish-2": { mastery: {}, examples: {}, cardsKnown: [] },
-      "spanish-3": { mastery: {}, examples: {}, cardsKnown: [] },
-      "speech-debate": { mastery: {}, examples: {}, cardsKnown: [] },
-      statistics: { mastery: {}, examples: {}, cardsKnown: [] },
-      "study-skills": { mastery: {}, examples: {}, cardsKnown: [] },
-      "us-government": { mastery: {}, examples: {}, cardsKnown: [] },
-      "world-history": { mastery: {}, examples: {}, cardsKnown: [] },
-      calculus: { mastery: {}, examples: {}, cardsKnown: [] },
-      "calc-ab": { mastery: {}, examples: {}, cardsKnown: [] },
-      "calc-bc": { mastery: {}, examples: {}, cardsKnown: [] },
-      "us-history": { mastery: {}, examples: {}, cardsKnown: [] },
       goal: null,
       updatedAt: "2026-08-14T00:00:00.000Z",
       enrolledSubjects: ["geometry"],
@@ -220,7 +113,6 @@ describe("handlePostProgress", () => {
     const cookie = await sessionCookieFor("student@example.com");
     const existing = {
       geometry: { mastery: { "1": { correct: 1, total: 2 } }, examples: {}, cardsKnown: [] },
-      chemistry: { mastery: {}, examples: {}, cardsKnown: [] },
       updatedAt: "2026-08-01T00:00:00.000Z"
     };
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify(existing) });
@@ -413,7 +305,6 @@ describe("handlePostEnrolledSubjects", () => {
     const cookie = await sessionCookieFor("student@example.com");
     const existing = {
       geometry: { mastery: { "1": { correct: 1, total: 2 } }, examples: {}, cardsKnown: [] },
-      chemistry: { mastery: {}, examples: {}, cardsKnown: [] },
       updatedAt: "2026-08-01T00:00:00.000Z"
     };
     const kv = fakeKV({ "progress:student@example.com": JSON.stringify(existing) });
@@ -580,7 +471,6 @@ describe("handlePostGoal", () => {
     const cookie = await sessionCookieFor("student@example.com");
     const existing = {
       geometry: { mastery: { "1": { correct: 1, total: 2 } }, examples: {}, cardsKnown: [] },
-      chemistry: { mastery: {}, examples: {}, cardsKnown: [] },
       goal: null,
       updatedAt: "2026-08-01T00:00:00.000Z"
     };

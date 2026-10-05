@@ -9,7 +9,7 @@
 // so every page picks it up. For a content-only edit, apply-guide-json.mjs is enough.
 // test/pages-match-generator.node.test.mjs fails if a page and the generator ever disagree,
 // so never hand-edit a guide page: change the template or the JSON, then run this.
-import { readFileSync, writeFileSync, readdirSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { generateGuide } from "./generate-guide.mjs";
@@ -30,7 +30,7 @@ for (const slug of slugs) {
   if (current === html) continue;
   changed++;
   console.log(`${check ? "drift" : "updated"}: ${slug}`);
-  if (!check) writeFileSync(path, html);
+  if (!check) { mkdirSync(dirname(path), { recursive: true }); writeFileSync(path, html); } // a brand-new guide has no folder yet
 }
 // Pages that look generated (they carry the guide wiring) but have no guides/<slug>.json are orphans: report them.
 const known = new Set(readdirSync(join(ROOT, "guides")).filter(f => f.endsWith(".json")).map(f => f.slice(0, -5)));

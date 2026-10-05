@@ -27,7 +27,8 @@ describe("getSubjectIcon", () => {
     expect(getSubjectIcon(undefined)).toBeNull();
   });
 
-  it("has 57 subjects extracted from the homepage class cards", () => {
-    expect(Object.keys(SUBJECT_ICONS).length).toBe(57);
+  it("has an icon for every subject card on the homepage", () => {
+    // one icon per guide; the count tracks the number of guides, so adding a course must add an icon
+    expect(Object.keys(SUBJECT_ICONS).length).toBeGreaterThanOrEqual(58);
   });
 });

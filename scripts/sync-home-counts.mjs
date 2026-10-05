@@ -34,14 +34,30 @@ for (const f of readdirSync("guides").filter(f => f.endsWith(".json"))) {
   const g = JSON.parse(readFileSync(`guides/${f}`, "utf8"));
   total += (g.quiz || []).length + (g.hardQuiz || []).length;
 }
+const guideCount = readdirSync("guides").filter(f => f.endsWith(".json")).length;
 const rounded = Math.floor(total / 1000) * 1000;
-const next = about.replace(/over ([\d,]+) questions across/, (whole, n) => {
+const next = about.replace(/across (\d+) subjects/, (whole, n) => {
+  if (Number(n) === guideCount) return whole;
+  changed++;
+  console.log(`about: across ${n} subjects → ${guideCount}`);
+  return `across ${guideCount} subjects`;
+}).replace(/over ([\d,]+) questions across/, (whole, n) => {
   if (Number(n.replace(/,/g, "")) === rounded) return whole;
   changed++;
   console.log(`about: over ${n} → over ${rounded.toLocaleString("en-US")} questions`);
   return `over ${rounded.toLocaleString("en-US")} questions across`;
 });
 
+// The educators page also quotes the subject count ("any of N subjects").
+const EDU = "public/educators/index.html";
+const eduSrc = readFileSync(EDU, "utf8");
+const eduNext = eduSrc.replace(/any of (\d+) subjects/, (whole, n) => {
+  if (Number(n) === guideCount) return whole;
+  changed++;
+  console.log(`educators: any of ${n} subjects → ${guideCount}`);
+  return `any of ${guideCount} subjects`;
+});
+
 if (check && changed) process.exit(1);
-if (!check && changed) { writeFileSync(HOME, home); writeFileSync(ABOUT, next); }
+if (!check && changed) { writeFileSync(HOME, home); writeFileSync(ABOUT, next); writeFileSync(EDU, eduNext); }
 console.log(`${changed} card(s) ${check ? "out of date" : "updated"}`);

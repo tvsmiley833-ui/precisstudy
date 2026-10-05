@@ -2,6 +2,10 @@
 """Sync all 50 guides into: chat.ts SUBJECTS, progress-routes SUBJECTS,
 shared/unit-titles.js exports, and dashboard SUBJECTS_CONFIG.
 Also generates camelCase keys matching existing conventions."""
+import sys
+if "--force" not in sys.argv:
+    sys.exit("sync-guides-registry.py is NOT idempotent: re-running it appends every unit export again and reshuffles server lists.\n"
+             "Use scripts/add-guide.mjs to register a new guide. Pass --force only if you are rebuilding the registry from scratch.")
 import json, glob, os, re
 
 BASE = "/Users/smiley/Claude/precisstudy"

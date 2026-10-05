@@ -37,6 +37,7 @@ const SUBJECT_LABELS: Record<string, string> = {
   "ap-euro": "AP European History",
   "ap-macro": "AP Macroeconomics",
   "ap-micro": "AP Microeconomics",
+  "ap-environmental-science": "AP Environmental Science",
   "ap-physics": "AP Physics 1",
   "ap-psych": "AP Psychology",
   "ap-stats": "AP Statistics",

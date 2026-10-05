@@ -230,6 +230,17 @@ export const SUBJECT_UNIT_NAMES: Record<string, Record<string, string>> = {
     "7": "Factor Markets",
     "8": "Government Intervention & Failures"
   },
+  "ap-environmental-science": {
+    "1": "The Living World: Ecosystems",
+    "2": "The Living World: Biodiversity",
+    "3": "Populations",
+    "4": "Earth Systems and Resources",
+    "5": "Land and Water Use",
+    "6": "Energy Resources and Consumption",
+    "7": "Atmospheric Pollution",
+    "8": "Aquatic and Terrestrial Pollution",
+    "9": "Global Change"
+  },
   "ap-physics": {
     "1": "Kinematics",
     "2": "Dynamics & Newton's Laws",

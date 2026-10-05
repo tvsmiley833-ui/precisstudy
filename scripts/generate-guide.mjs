@@ -303,7 +303,7 @@ const RELATED_GROUPS = [
   ["us-history", "apush", "world-history", "ap-world", "global-history", "ap-euro", "us-government", "ap-usgov", "geography", "ap-human-geography"],
   ["english-9", "english-10", "ap-lang", "sat-reading", "creative-writing", "journalism", "speech-debate", "act-prep"],
   ["spanish-1", "spanish-2", "spanish-3", "french-1", "french-2", "french-3", "german-1"],
-  ["economics", "ap-macro", "ap-micro", "psychology", "ap-psych", "sociology", "computer-science", "ap-csa", "music-theory", "art-history", "health", "study-skills"],
+  ["economics", "ap-macro", "ap-micro", "ap-environmental-science", "psychology", "ap-psych", "sociology", "computer-science", "ap-csa", "music-theory", "art-history", "health", "study-skills"],
 ];
 const GUIDE_TITLES = (() => {
   const out = {};

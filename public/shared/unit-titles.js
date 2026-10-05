@@ -285,6 +285,19 @@ export const apMicroUnits = [
 ];
 
 /** @type {Unit[]} */
+export const apEnvironmentalScienceUnits = [
+  { id: 1, name: "The Living World: Ecosystems" },
+  { id: 2, name: "The Living World: Biodiversity" },
+  { id: 3, name: "Populations" },
+  { id: 4, name: "Earth Systems and Resources" },
+  { id: 5, name: "Land and Water Use" },
+  { id: 6, name: "Energy Resources and Consumption" },
+  { id: 7, name: "Atmospheric Pollution" },
+  { id: 8, name: "Aquatic and Terrestrial Pollution" },
+  { id: 9, name: "Global Change" }
+];
+
+/** @type {Unit[]} */
 export const apPhysicsUnits = [
   { id: 1, name: "Kinematics" },
   { id: 2, name: "Dynamics & Newton's Laws" },

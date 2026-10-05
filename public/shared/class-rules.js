@@ -5,7 +5,7 @@
     ['calculus', 'calc-ab', 'calc-bc'], ['biology', 'apbiology'], ['chemistry', 'ap-chemistry'], ['physics', 'ap-physics'],
     ['apush', 'us-history'], ['world-history', 'ap-world', 'globalhistory'], ['statistics', 'ap-stats'], ['psychology', 'ap-psych'],
     ['us-government', 'ap-usgov'], ['english-9', 'english-10', 'aplang'], ['spanish-1', 'spanish-2', 'spanish-3'],
-    ['french-1', 'french-2', 'french-3'], ['economics', 'ap-macro'], ['economics', 'ap-micro']
+    ['french-1', 'french-2', 'french-3'], ['economics', 'ap-macro'], ['economics', 'ap-micro'], ['environmental-science', 'ap-environmental-science']
   ];
   var GRADES = ['9', '10', '11', '12', 'Other'];
   function getGrade() { try { return localStorage.getItem('ss-grade') || ''; } catch (e) { return ''; } }

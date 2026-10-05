@@ -265,6 +265,11 @@ export const FUN_FACTS = {
     "A Giffen good is a rare case where people buy more of something as its price rises.",
     "Firms maximize profit where marginal revenue equals marginal cost.",
   ],
+  "ap-environmental-science": [
+    "Only about ten percent of the energy at one trophic level reaches the next, which is why food chains are short.",
+    "Ozone high in the stratosphere protects us from ultraviolet light, but ozone at ground level is a pollutant.",
+    "The Montreal Protocol, which phased out CFCs, is often called the most successful environmental treaty ever.",
+  ],
   "psychology": [
     "Your brain uses about 20% of your body's energy while making up about 2% of its weight.",
     "Spacing out your study sessions helps you remember more than cramming.",
