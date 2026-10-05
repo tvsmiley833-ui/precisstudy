@@ -34,6 +34,7 @@ const SUBJECT_LABELS: Record<string, string> = {
   "anatomy": "Anatomy & Physiology",
   "ap-chemistry": "AP Chemistry",
   "ap-csa": "AP Computer Science A",
+  "ap-csp": "AP Computer Science Principles",
   "ap-euro": "AP European History",
   "ap-macro": "AP Macroeconomics",
   "ap-micro": "AP Microeconomics",

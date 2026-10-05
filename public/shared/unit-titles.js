@@ -249,6 +249,18 @@ export const apCsaUnits = [
 ];
 
 /** @type {Unit[]} */
+export const apCspUnits = [
+  { id: 1, name: "Creative Development" },
+  { id: 2, name: "Data Representation" },
+  { id: 3, name: "Data Analysis and Big Data" },
+  { id: 4, name: "Algorithms" },
+  { id: 5, name: "Programming" },
+  { id: 6, name: "Computer Systems and the Internet" },
+  { id: 7, name: "Cybersecurity and Privacy" },
+  { id: 8, name: "Impact of Computing" }
+];
+
+/** @type {Unit[]} */
 export const apEuroUnits = [
   { id: 1, name: "Renaissance & Exploration" },
   { id: 2, name: "Reformation & Wars of Religion" },

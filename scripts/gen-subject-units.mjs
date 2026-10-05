@@ -10,7 +10,7 @@ const SUBJECT_TO_EXPORT = {
   geometry: "geometryUnits", chemistry: "chemistryUnits", algebra1: "algebra1Units", algebra2: "algebra2Units",
   aplang: "aplangUnits", globalhistory: "globalHistoryUnits", apbiology: "apbiologyUnits", apush: "apushUnits",
   "us-history": "usHistoryUnits", physics: "physicsUnits", biology: "biologyUnits", precalc: "precalcUnits",
-  "act-prep": "actPrepUnits", anatomy: "anatomyUnits", "ap-chemistry": "apChemistryUnits", "ap-csa": "apCsaUnits",
+  "act-prep": "actPrepUnits", anatomy: "anatomyUnits", "ap-chemistry": "apChemistryUnits", "ap-csa": "apCsaUnits", "ap-csp": "apCspUnits",
   "ap-euro": "apEuroUnits", "ap-macro": "apMacroUnits", "ap-micro": "apMicroUnits", "ap-environmental-science": "apEnvironmentalScienceUnits", "ap-physics": "apPhysicsUnits",
   "ap-psych": "apPsychUnits", "ap-stats": "apStatsUnits", "ap-usgov": "apUsgovUnits", "ap-world": "apWorldUnits",
   "ap-human-geography": "apHumanGeographyUnits", "art-history": "artHistoryUnits", astronomy: "astronomyUnits",

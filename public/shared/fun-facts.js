@@ -120,6 +120,11 @@ export const FUN_FACTS = {
     "Array indexes start at 0 in Java because an index is an offset from the start of the array.",
     "Binary search can find an item among a million sorted items in about 20 steps.",
   ],
+  "ap-csp": [
+    "The Internet and the World Wide Web are not the same thing: the web is just one service that runs on the Internet.",
+    "With n bits you can represent 2 to the n different values, so 8 bits give 256 values.",
+    "Public-key encryption lets two people who have never met exchange secret messages.",
+  ],
   "global-history": [
     "The Great Wall of China was built and rebuilt over many centuries by different dynasties.",
     "The printing press, developed by Gutenberg around 1440, helped spread the Protestant Reformation.",

@@ -56,7 +56,7 @@ function heroPattern(slug, hex) {
   const sciFam=['biology','chemistry','earth-science','environmental-science','anatomy','ap-chemistry','psychology'];
   const histFam=['global-history','us-government','world-history','apush','ap-world','economics'];
   const engFam=['english-9','english-10','creative-writing','journalism','speech-debate','art-history'];
-  const techFam=['computer-science','ap-csa'];
+  const techFam=['computer-science','ap-csa','ap-csp'];
   const apFam=['ap-biology','ap-lang','ap-euro','ap-usgov','ap-macro','ap-micro','ap-environmental-science','ap-stats','ap-psych','ap-physics'];
   let key = M[slug] ? slug : null;
   if (!key) {
@@ -113,7 +113,7 @@ function bodyPattern(slug, hex){
   else if(sciFam.includes(slug)) key='_science';
   else if(histFam.includes(slug)) key='_history';
   else if(engFam.includes(slug)) key='_english';
-  else if(['computer-science','ap-csa'].includes(slug)) key='computer-science';
+  else if(['computer-science','ap-csa','ap-csp'].includes(slug)) key='computer-science';
   else if(['ap-lang','ap-euro','ap-usgov','ap-macro','ap-micro','ap-environmental-science','ap-stats','ap-psych','ap-physics'].includes(slug)) key='_ap';
   else if(['study-skills','sociology','health'].includes(slug)) key='_skills';
   else if(['spanish-1','spanish-2','spanish-3'].includes(slug)) key='_lang';

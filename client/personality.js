@@ -77,7 +77,7 @@ const SUBJECT_GROUP = {
   calculus: "calc", "calc-ab": "calc", "calc-bc": "calc", statistics: "stats", "ap-stats": "stats",
   physics: "physics", "ap-physics": "physics", chemistry: "chem", "ap-chemistry": "chem",
   biology: "bio", "ap-biology": "bio", anatomy: "bio", "earth-science": "earth", "environmental-science": "earth",
-  astronomy: "space", "computer-science": "cs", "ap-csa": "cs",
+  astronomy: "space", "computer-science": "cs", "ap-csa": "cs", "ap-csp": "cs",
   "global-history": "history", "world-history": "history", "ap-world": "history", "ap-euro": "history", apush: "history", "us-history": "history",
   "us-government": "gov", "ap-usgov": "gov", geography: "geo", "ap-human-geography": "geo",
   "english-9": "english", "english-10": "english", "ap-lang": "english", "sat-reading": "english", "creative-writing": "english", journalism: "english", "speech-debate": "english",

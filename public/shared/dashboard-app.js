@@ -1,12 +1,12 @@
 import { computeReadiness, recommendNext, topWeakUnits, buildSchedule, dueCards, daysUntil } from '/shared/mastery.js';
-import { geometryUnits, chemistryUnits, algebra1Units, algebra2Units, aplangUnits, globalHistoryUnits, apbiologyUnits, apushUnits, physicsUnits, biologyUnits, precalcUnits, usGovernmentUnits, actPrepUnits, anatomyUnits, apChemistryUnits, apCsaUnits, apEuroUnits, apMacroUnits, apMicroUnits, apEnvironmentalScienceUnits, apPhysicsUnits, apPsychUnits, apStatsUnits, apUsgovUnits, apWorldUnits, apHumanGeographyUnits, artHistoryUnits, astronomyUnits, computerScienceUnits, creativeWritingUnits, earthScienceUnits, economicsUnits, english10Units, english9Units, environmentalScienceUnits, french1Units, french2Units, french3Units, geographyUnits, german1Units, healthUnits, journalismUnits, musicTheoryUnits, psychologyUnits, satMathUnits, satReadingUnits, sociologyUnits, spanish1Units, spanish2Units, spanish3Units, speechDebateUnits, statisticsUnits, studySkillsUnits, worldHistoryUnits, calculusUnits, calcAbUnits, calcBcUnits, usHistoryUnits } from '/shared/unit-titles.js';
+import { geometryUnits, chemistryUnits, algebra1Units, algebra2Units, aplangUnits, globalHistoryUnits, apbiologyUnits, apushUnits, physicsUnits, biologyUnits, precalcUnits, usGovernmentUnits, actPrepUnits, anatomyUnits, apChemistryUnits, apCsaUnits, apCspUnits, apEuroUnits, apMacroUnits, apMicroUnits, apEnvironmentalScienceUnits, apPhysicsUnits, apPsychUnits, apStatsUnits, apUsgovUnits, apWorldUnits, apHumanGeographyUnits, artHistoryUnits, astronomyUnits, computerScienceUnits, creativeWritingUnits, earthScienceUnits, economicsUnits, english10Units, english9Units, environmentalScienceUnits, french1Units, french2Units, french3Units, geographyUnits, german1Units, healthUnits, journalismUnits, musicTheoryUnits, psychologyUnits, satMathUnits, satReadingUnits, sociologyUnits, spanish1Units, spanish2Units, spanish3Units, speechDebateUnits, statisticsUnits, studySkillsUnits, worldHistoryUnits, calculusUnits, calcAbUnits, calcBcUnits, usHistoryUnits } from '/shared/unit-titles.js';
 
 // Category grouping for the "unassessed classes" accordion below -- same
 // taxonomy used on the homepage and in Settings, so a class always lands in
 // the category a student already recognizes from elsewhere on the site.
 const SUBJECT_CATEGORY = {
   geometry: 'math', algebra1: 'math', algebra2: 'math', precalc: 'math', statistics: 'math', calculus: 'math',
-  aplang: 'ap', apbiology: 'ap', apush: 'ap', 'ap-chemistry': 'ap', 'ap-csa': 'ap', 'ap-euro': 'ap', 'ap-macro': 'ap',
+  aplang: 'ap', apbiology: 'ap', apush: 'ap', 'ap-chemistry': 'ap', 'ap-csa': 'ap', 'ap-csp': 'ap', 'ap-euro': 'ap', 'ap-macro': 'ap',
   'ap-micro': 'ap', 'ap-environmental-science': 'ap', 'ap-physics': 'ap', 'ap-psych': 'ap', 'ap-stats': 'ap', 'ap-usgov': 'ap', 'ap-world': 'ap',
   'ap-human-geography': 'ap', 'calc-ab': 'ap', 'calc-bc': 'ap',
   chemistry: 'science', physics: 'science', biology: 'science', anatomy: 'science', astronomy: 'science', 'earth-science': 'science', 'environmental-science': 'science',
@@ -18,7 +18,7 @@ const SUBJECT_CATEGORY = {
   'act-prep': 'testprep', 'sat-math': 'testprep', 'sat-reading': 'testprep'
 };
 // AP courses sit under the subject they belong to (AP Biology with Science) instead of one separate AP list.
-const AP_PARENT = { aplang: 'english', apbiology: 'science', apush: 'humanities', 'ap-chemistry': 'science', 'ap-csa': 'electives', 'ap-euro': 'humanities', 'ap-macro': 'humanities',
+const AP_PARENT = { aplang: 'english', apbiology: 'science', apush: 'humanities', 'ap-chemistry': 'science', 'ap-csa': 'electives', 'ap-csp': 'electives', 'ap-euro': 'humanities', 'ap-macro': 'humanities',
   'ap-micro': 'humanities', 'ap-environmental-science': 'science', 'ap-physics': 'science', 'ap-psych': 'humanities', 'ap-stats': 'math', 'ap-usgov': 'humanities', 'ap-world': 'humanities',
   'ap-human-geography': 'humanities', 'calc-ab': 'math', 'calc-bc': 'math' };
 function groupCategory(key) { return AP_PARENT[key] || SUBJECT_CATEGORY[key] || 'electives'; }
@@ -43,6 +43,7 @@ const SUBJECTS_CONFIG = [
   { key: 'anatomy', label: 'Anatomy & Physiology', href: '/anatomy', units: anatomyUnits },
   { key: 'ap-chemistry', label: 'AP Chemistry', href: '/ap-chemistry', units: apChemistryUnits },
   { key: 'ap-csa', label: 'AP Computer Science A', href: '/ap-csa', units: apCsaUnits },
+  { key: 'ap-csp', label: 'AP Computer Science Principles', href: '/ap-csp', units: apCspUnits },
   { key: 'ap-euro', label: 'AP European History', href: '/ap-euro', units: apEuroUnits },
   { key: 'ap-macro', label: 'AP Macroeconomics', href: '/ap-macro', units: apMacroUnits },
   { key: 'ap-micro', label: 'AP Microeconomics', href: '/ap-micro', units: apMicroUnits },
@@ -194,7 +195,7 @@ const SUBJECT_COLORS = {
   geometry: '#936e2a', chemistry: '#0f7a70', algebra1: '#2563a8', algebra2: '#1c7a4a',
   aplang: '#8b2942', globalhistory: '#b5541f', apbiology: '#2e7d4f', apush: '#1e4d8b',
   'us-history': '#8a5a2b', physics: '#7a3ba8', biology: '#2e7d4f', precalc: '#0f6e73',
-  'act-prep': '#b91c1c', anatomy: '#be123c', 'ap-chemistry': '#0369a1', 'ap-csa': '#1e40af',
+  'act-prep': '#b91c1c', anatomy: '#be123c', 'ap-chemistry': '#0369a1', 'ap-csa': '#1e40af', 'ap-csp': '#0f766e',
   'ap-euro': '#166534', 'ap-macro': '#065f46', 'ap-micro': '#9a3412', 'ap-environmental-science': '#15803d', 'ap-physics': '#1d4ed8',
   'ap-psych': '#9333ea', 'ap-stats': '#c2410c', 'ap-usgov': '#1e3a8a', 'ap-world': '#a16207',
   'ap-human-geography': '#0e7490', 'art-history': '#9f1239', astronomy: '#4338ca',

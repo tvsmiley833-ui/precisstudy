@@ -200,6 +200,16 @@ export const SUBJECT_UNIT_NAMES: Record<string, Record<string, string>> = {
     "7": "2D Arrays & Inheritance",
     "8": "Recursion & Algorithms"
   },
+  "ap-csp": {
+    "1": "Creative Development",
+    "2": "Data Representation",
+    "3": "Data Analysis and Big Data",
+    "4": "Algorithms",
+    "5": "Programming",
+    "6": "Computer Systems and the Internet",
+    "7": "Cybersecurity and Privacy",
+    "8": "Impact of Computing"
+  },
   "ap-euro": {
     "1": "Renaissance & Exploration",
     "2": "Reformation & Wars of Religion",
