@@ -63,7 +63,7 @@ export const LASTMOD: Record<string, string> = {
   "/request/": "2026-10-04",
   "/sat-math/": "2026-10-05",
   "/sat-reading/": "2026-10-05",
-  "/settings/": "2026-10-04",
+  "/settings/": "2026-10-05",
   "/share/": "2026-10-04",
   "/sociology/": "2026-10-05",
   "/spanish-1/": "2026-10-05",
