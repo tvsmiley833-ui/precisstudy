@@ -37,7 +37,7 @@ for (const f of guides) {
 }
 
 test("no question explanation is generic filler", () => {
-  const filler = /core content taught in this unit|this is the correct answer\.?$/i;
+  const filler = /core content taught in this unit|this is the correct answer\.?$|^(core [\w\/-]+ concept|[\w-]+ core grammar\/vocab|standard \w+ principle|style\/mechanics principle|demand\/supply determinants|foundational [\w\/ ]+ definitions|dystopia\/allegory concept)\.?$/i;
   const bad = [];
   for (const f of guides) {
     const d = JSON.parse(readFileSync(new URL(`../guides/${f}`, import.meta.url), "utf8"));
