@@ -442,7 +442,8 @@ function renderClassList(enrolled){
   var byCat = {};
   SUBJECTS.forEach(function(s){ (byCat[s.cat] = byCat[s.cat] || []).push(s); });
 
-  list.innerHTML = SUBJECT_CATEGORIES.map(function(cat){
+  var catOrder = window.ssClassRules ? window.ssClassRules.orderForGrade(SUBJECT_CATEGORIES.map(function(c){ return { key: c.key, label: c.label, cat: c.key }; }), window.ssClassRules.getGrade()) : SUBJECT_CATEGORIES;
+  list.innerHTML = catOrder.map(function(cat){
     var subjects = byCat[cat.key] || [];
     if(!subjects.length) return '';
     var openCount = subjects.filter(function(s){ return enrolledSet.has(s.key); }).length;
@@ -467,10 +468,43 @@ function renderClassList(enrolled){
   list.querySelectorAll('input[type="checkbox"]').forEach(function(cb){
     cb.addEventListener('change', function(){
       cb.closest('.class-row').classList.toggle('checked', cb.checked);
+      // Same course already ticked? Swap it out instead of enrolling twice.
+      if(cb.checked && window.ssClassRules){
+        window.ssClassRules.sameCourseAs(cb.dataset.key).forEach(function(other){
+          var o = list.querySelector('input[type="checkbox"][data-key="' + other + '"]');
+          if(o && o.checked){
+            o.checked = false;
+            o.closest('.class-row').classList.remove('checked');
+            ssShowToast('Swapped ' + o.closest('.class-row').querySelector('.name').textContent + ' for ' + cb.closest('.class-row').querySelector('.name').textContent + ' (same course).');
+          }
+        });
+      }
       ssUpdateUnsavedBar();
     });
   });
   ssUpdateUnsavedBar();
+}
+
+function ssRenderGradeRow(){
+  var row = document.getElementById('ss-grade-row');
+  if(!row || !window.ssClassRules) return;
+  var current = window.ssClassRules.getGrade();
+  row.querySelectorAll('.ss-grade-chip').forEach(function(c){ c.remove(); });
+  window.ssClassRules.GRADES.forEach(function(g){
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'ss-grade-chip'; b.textContent = g; b.setAttribute('aria-pressed', String(current === g));
+    b.addEventListener('click', function(){
+      window.ssClassRules.setGrade(current === g ? '' : g);
+      ssRenderGradeRow();
+      var checked = Array.prototype.slice.call(document.querySelectorAll('#class-list input[type="checkbox"]:checked')).map(function(c){ return c.dataset.key; });
+      // Re-render for the new order, but keep the saved baseline so the unsaved-changes bar stays correct.
+      var baseline = SS_ORIGINAL_ENROLLED;
+      renderClassList(checked);
+      SS_ORIGINAL_ENROLLED = baseline;
+      ssUpdateUnsavedBar();
+    });
+    row.appendChild(b);
+  });
 }
 
 function ssFilterClassList(query){
@@ -736,6 +770,7 @@ async function initSettings(){
     var res = await fetch('/api/progress');
     var blob = res.ok ? await res.json() : {};
     renderClassList(blob.enrolledSubjects || []);
+    ssRenderGradeRow();
     ssRenderShareState(blob.shareToken || null);
     ssRenderCalendarState(blob.calendarToken || null);
     ssRenderInviteState(blob.inviteToken || null, blob.invitesAccepted || 0);

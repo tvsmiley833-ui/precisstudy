@@ -268,6 +268,7 @@ html{scroll-behavior:smooth}
 .ss-card div[style*="display:flex"][style*="gap:10px"]{gap:10px}
 .ss-card .ss-oauth-btn[style*="padding:9px 16px"],.ss-card label.ss-oauth-btn{min-height:40px}
 @media(max-width:480px){#settings-save-btn,#google-save-btn,#profile-save-btn,#canvas-connect-btn{width:100%!important}}
+.ss-grade-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 10px}.ss-grade-label{font-size:13px;font-weight:700;color:var(--text-muted);margin-right:2px}.ss-grade-chip{min-height:36px;min-width:40px;padding:6px 12px;border:1px solid var(--border);border-radius:999px;background:var(--bg-card);color:var(--text);font:600 13.5px inherit;cursor:pointer}.ss-grade-chip[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--bg-card))}.ss-grade-chip:focus-visible{outline:2px solid var(--accent-bright);outline-offset:2px}
 </style>
 <link rel="stylesheet" href="/shared/site-header.css"/>
 </head>
@@ -346,6 +347,7 @@ html{scroll-behavior:smooth}
         <span class="ss-search-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         </span>
+        <div class="ss-grade-row" id="ss-grade-row" role="group" aria-label="Your grade"><span class="ss-grade-label">Grade</span></div>
         <input type="text" id="class-search" class="ss-search-input" placeholder="Search your classes…" aria-label="Search classes" autocomplete="off"/>
       </div>
       <div class="ss-density-row" role="group" aria-label="List density">
@@ -627,6 +629,7 @@ html{scroll-behavior:smooth}
 </div>
 <div id="ss-toast" role="status" aria-live="polite"></div>
 
+<script src="/shared/class-rules.js"></script>
 <script src="/shared/settings-app.js"></script>
 <script>
 (function(){
