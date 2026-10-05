@@ -312,7 +312,7 @@ label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-m
           <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 12px;">Join a small group of classmates with a shareable code, or create your own.</p>
           <div style="display:flex;gap:8px;flex-wrap:wrap;">
             <button class="ss-btn ss-btn-solid" onclick="lbCreateGroup()">Create a group</button>
-            <input id="lb-join-code" type="text" placeholder="Enter a code" style="max-width:160px;text-transform:uppercase;"/>
+            <input id="lb-join-code" type="text" aria-label="Group code" placeholder="Enter a code" style="max-width:160px;text-transform:uppercase;"/>
             <button class="ss-btn" onclick="lbJoinGroup()">Join</button>
           </div>
         </div>
@@ -334,7 +334,7 @@ label.ss-label{display:block;font-weight:700;font-size:13.5px;color:var(--text-m
           <button type="button" data-scope="group" onclick="lbSetScope('group')">My Group</button>
         </div>
         <div class="ss-field" id="lb-subject-field" style="display:none;">
-          <select id="lb-subject-select" onchange="lbLoadBoard()"></select>
+          <select id="lb-subject-select" aria-label="Class" onchange="lbLoadBoard()"></select>
         </div>
         <div class="ss-tab-toggle" id="lb-metric-toggle">
           <button type="button" data-metric="xp" class="on" onclick="lbSetMetric('xp')">XP this week</button>
