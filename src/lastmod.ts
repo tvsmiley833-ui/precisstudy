@@ -11,6 +11,7 @@ export const LASTMOD: Record<string, string> = {
   "/ap-biology/": "2026-10-05",
   "/ap-chemistry/": "2026-10-05",
   "/ap-csa/": "2026-10-05",
+  "/ap-csp/": "2026-10-05",
   "/ap-environmental-science/": "2026-10-05",
   "/ap-euro/": "2026-10-05",
   "/ap-human-geography/": "2026-10-05",

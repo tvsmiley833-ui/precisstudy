@@ -706,11 +706,11 @@ html:root body .hero.hero #sg-timer { margin: 0 0 0 8px !important; }
 html:root body .hero.hero .sgt-b { width: 36px; height: 36px; }
 html:root body .hero.hero .nav button[title]:hover::after { content: none; }
 
-/* Quiz choices: number badges (the 1-4 keys answer) and a clearer hover. */
+/* Quiz choices: letter badges A-F (the matching letter or 1-6 keys answer) and a clearer hover. */
 html body .q-opts { counter-reset: qo; }
 html body .q-opts > .q-opt::before {
   counter-increment: qo;
-  content: counter(qo);
+  content: counter(qo, upper-alpha);
   flex: none;
   display: inline-flex; align-items: center; justify-content: center;
   width: 26px; height: 26px; border-radius: 8px;

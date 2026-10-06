@@ -2095,8 +2095,10 @@ function ssQuizKeyboardShortcuts(e){
   if(!qb||!el||!qb.contains(el))return;
   var tag=el.tagName||'';
   if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT'||el.isContentEditable)return;
-  if(e.key>='1'&&e.key<='4'){
-    var idx=+e.key-1;
+  // A-F (or 1-6) answer the matching choice; modifier combos such as Ctrl+F keep their normal meaning.
+  var kidx=(!e.ctrlKey&&!e.metaKey&&!e.altKey&&e.key.length===1)?('abcdef'.indexOf(e.key.toLowerCase())>-1?'abcdef'.indexOf(e.key.toLowerCase()):(e.key>='1'&&e.key<='6'?+e.key-1:-1)):-1;
+  if(kidx>-1){
+    var idx=kidx;
     var opts=document.querySelectorAll('.q-opt');
     if(opts[idx]&&!opts[idx].disabled){opts[idx].click();e.preventDefault();}
   }else if(e.key==='Enter'){

@@ -353,7 +353,7 @@ export function generateGuide(config) {
       throw new Error(`workedExamples entry malformed: ${JSON.stringify(w).slice(0, 120)}`);
   }
   for (const q of hardQ) {
-    if (typeof q.u !== "number" || !q.q || !Array.isArray(q.o) || q.o.length !== 4 || !Number.isInteger(q.a) || q.a < 0 || q.a > 3)
+    if (typeof q.u !== "number" || !q.q || !Array.isArray(q.o) || q.o.length < 2 || q.o.length > 6 || !Number.isInteger(q.a) || q.a < 0 || q.a >= q.o.length)
       throw new Error(`hardQuiz entry malformed: ${JSON.stringify(q).slice(0, 120)}`);
   }
 
