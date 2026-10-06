@@ -15,7 +15,7 @@ export const LASTMOD: Record<string, string> = {
   "/ap-environmental-science/": "2026-10-05",
   "/ap-euro/": "2026-10-05",
   "/ap-human-geography/": "2026-10-05",
-  "/ap-lang/": "2026-10-04",
+  "/ap-lang/": "2026-10-05",
   "/ap-macro/": "2026-10-05",
   "/ap-micro/": "2026-10-05",
   "/ap-physics/": "2026-10-05",
@@ -78,6 +78,6 @@ export const LASTMOD: Record<string, string> = {
   "/terms/": "2026-10-05",
   "/tips/": "2026-10-05",
   "/us-government/": "2026-10-05",
-  "/us-history/": "2026-10-04",
+  "/us-history/": "2026-10-05",
   "/world-history/": "2026-10-05"
 };
