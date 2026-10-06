@@ -692,7 +692,8 @@
     "Int count = 0"
    ],
    "a": 0,
-   "e": "Java uses the lowercase primitive type 'int' and a single '=' for assignment, ending with a semicolon."
+   "e": "Java uses the lowercase primitive type 'int' and a single '=' for assignment, ending with a semicolon.",
+   "c": 2
   },
   {
    "u": 1,
@@ -752,7 +753,8 @@
     "Error: cannot mix int and String"
    ],
    "a": 0,
-   "e": "Addition is evaluated left to right, so 5 + 3 becomes 8 first, and then 8 is concatenated with the string to give \"8apples\"."
+   "e": "Addition is evaluated left to right, so 5 + 3 becomes 8 first, and then 8 is concatenated with the string to give \"8apples\".",
+   "c": 4
   },
   {
    "u": 1,
@@ -764,7 +766,8 @@
     "Error"
    ],
    "a": 1,
-   "e": "Once a String is concatenated, the '+' operator performs string concatenation left to right, appending 5 then 3 as text: \"apples53\"."
+   "e": "Once a String is concatenated, the '+' operator performs string concatenation left to right, appending 5 then 3 as text: \"apples53\".",
+   "c": 4
   },
   {
    "u": 1,
@@ -776,7 +779,8 @@
     "1"
    ],
    "a": 2,
-   "e": "The boolean literal must be the lowercase keyword true (or false) without quotes."
+   "e": "The boolean literal must be the lowercase keyword true (or false) without quotes.",
+   "c": 2
   },
   {
    "u": 1,
@@ -788,7 +792,8 @@
     "boolean"
    ],
    "a": 1,
-   "e": "double is the primitive type used for floating-point (decimal) numbers in Java."
+   "e": "double is the primitive type used for floating-point (decimal) numbers in Java.",
+   "c": 1
   },
   {
    "u": 1,
@@ -824,7 +829,8 @@
     "\"6 5\""
    ],
    "a": 2,
-   "e": "Post-increment a++ returns the original value 5 for the print, but then increments a to 6, so the output is \"5 6\"."
+   "e": "Post-increment a++ returns the original value 5 for the print, but then increments a to 6, so the output is \"5 6\".",
+   "c": 4
   },
   {
    "u": 1,
@@ -836,7 +842,8 @@
     "\"6 5\""
    ],
    "a": 1,
-   "e": "Pre-increment ++a increments a to 6 before it is used, so both printed values are 6."
+   "e": "Pre-increment ++a increments a to 6 before it is used, so both printed values are 6.",
+   "c": 4
   },
   {
    "u": 1,
@@ -896,7 +903,8 @@
     "Compile error"
    ],
    "a": 1,
-   "e": "Multiplication has higher precedence than addition, so 3 * 4 = 12 is computed first, then 2 + 12 = 14."
+   "e": "Multiplication has higher precedence than addition, so 3 * 4 = 12 is computed first, then 2 + 12 = 14.",
+   "c": 4
   },
   {
    "u": 1,
@@ -920,7 +928,8 @@
     "double, value 4.0"
    ],
    "a": 1,
-   "e": "Casting a double to int truncates (does not round) the decimal, so (int)(3.9) evaluates to the int 3."
+   "e": "Casting a double to int truncates (does not round) the decimal, so (int)(3.9) evaluates to the int 3.",
+   "c": 1
   },
   {
    "u": 1,
@@ -932,7 +941,8 @@
     "totalCount"
    ],
    "a": 2,
-   "e": "Java identifiers cannot begin with a digit, so 2total is illegal."
+   "e": "Java identifiers cannot begin with a digit, so 2total is illegal.",
+   "c": 2
   },
   {
    "u": 1,
@@ -956,7 +966,8 @@
     "int can store decimals but double cannot"
    ],
    "a": 0,
-   "e": "int is a whole-number (integer) primitive type, while double stores floating-point numbers with decimal precision."
+   "e": "int is a whole-number (integer) primitive type, while double stores floating-point numbers with decimal precision.",
+   "c": 1
   },
   {
    "u": 1,
@@ -980,7 +991,8 @@
     "0"
    ],
    "a": 0,
-   "e": "The || operator is true if at least one side is true; since 5 > 3 is true, the result is true."
+   "e": "The || operator is true if at least one side is true; since 5 > 3 is true, the result is true.",
+   "c": 2
   },
   {
    "u": 1,
@@ -1004,7 +1016,8 @@
     "\"10\""
    ],
    "a": 0,
-   "e": "Once concatenation starts with a String, subsequent '+' operations append text left to right, producing \"523\"."
+   "e": "Once concatenation starts with a String, subsequent '+' operations append text left to right, producing \"523\".",
+   "c": 4
   },
   {
    "u": 1,
@@ -1040,7 +1053,8 @@
     "<!-- comment -->"
    ],
    "a": 1,
-   "e": "Java uses /* ... */ to delimit multi-line (block) comments; // is for single-line comments."
+   "e": "Java uses /* ... */ to delimit multi-line (block) comments; // is for single-line comments.",
+   "c": 2
   },
   {
    "u": 1,
@@ -1052,7 +1066,8 @@
     "print(x);"
    ],
    "a": 1,
-   "e": "System.out.print() outputs text without appending a newline, unlike println()."
+   "e": "System.out.print() outputs text without appending a newline, unlike println().",
+   "c": 4
   },
   {
    "u": 1,
@@ -1064,7 +1079,8 @@
     "Compile error"
    ],
    "a": 0,
-   "e": "The ternary operator evaluates the condition x > 3 (true), so it returns the first result, \"big\"."
+   "e": "The ternary operator evaluates the condition x > 3 (true), so it returns the first result, \"big\".",
+   "c": 4
   },
   {
    "u": 1,
@@ -1100,7 +1116,8 @@
     "void"
    ],
    "a": 1,
-   "e": "The 'static' keyword designates a class-level member shared by all instances rather than belonging to one object."
+   "e": "The 'static' keyword designates a class-level member shared by all instances rather than belonging to one object.",
+   "c": 2
   },
   {
    "u": 1,
@@ -1196,7 +1213,8 @@
     "default (no modifier)"
    ],
    "a": 1,
-   "e": "Making instance variables private hides internal state from outside classes, which is the core idea of encapsulation."
+   "e": "Making instance variables private hides internal state from outside classes, which is the core idea of encapsulation.",
+   "c": 0
   },
   {
    "u": 2,
@@ -1232,7 +1250,8 @@
     "Using recursion"
    ],
    "a": 0,
-   "e": "Overloading means multiple methods share a name but differ in the number or types of parameters, letting Java pick the right one at compile time."
+   "e": "Overloading means multiple methods share a name but differ in the number or types of parameters, letting Java pick the right one at compile time.",
+   "c": 3
   },
   {
    "u": 2,
@@ -1256,7 +1275,8 @@
     "An empty String"
    ],
    "a": 2,
-   "e": "'void' indicates the method performs some action but does not return any value to the caller."
+   "e": "'void' indicates the method performs some action but does not return any value to the caller.",
+   "c": 3
   },
   {
    "u": 2,
@@ -1304,7 +1324,8 @@
     "Local variables can be accessed from any method without being passed"
    ],
    "a": 1,
-   "e": "Instance variables persist for the lifetime of the object, while local variables are created and destroyed within the method or block where they're declared."
+   "e": "Instance variables persist for the lifetime of the object, while local variables are created and destroyed within the method or block where they're declared.",
+   "c": 0
   },
   {
    "u": 2,
@@ -1328,7 +1349,8 @@
     "Java uses the constructor from the superclass only"
    ],
    "a": 1,
-   "e": "If no constructor is written, Java automatically supplies a default no-argument constructor that does nothing extra."
+   "e": "If no constructor is written, Java automatically supplies a default no-argument constructor that does nothing extra.",
+   "c": 1
   },
   {
    "u": 2,
@@ -1364,7 +1386,8 @@
     "A class can only have one object"
    ],
    "a": 1,
-   "e": "A class defines the structure and behavior (blueprint), while an object is a specific instance created from that class using 'new'."
+   "e": "A class defines the structure and behavior (blueprint), while an object is a specific instance created from that class using 'new'.",
+   "c": 0
   },
   {
    "u": 2,
@@ -1436,7 +1459,8 @@
     "A print statement instead of return"
    ],
    "a": 1,
-   "e": "Every code path of a method declared to return boolean must eventually return a value of type boolean."
+   "e": "Every code path of a method declared to return boolean must eventually return a value of type boolean.",
+   "c": 3
   },
   {
    "u": 2,
@@ -1460,7 +1484,8 @@
     "It removes the need for constructors"
    ],
    "a": 1,
-   "e": "Getters and setters let a class validate or restrict how its data is read or changed, protecting the object's internal state."
+   "e": "Getters and setters let a class validate or restrict how its data is read or changed, protecting the object's internal state.",
+   "c": 2
   },
   {
    "u": 2,
@@ -1472,7 +1497,8 @@
     "void"
    ],
    "a": 2,
-   "e": "Marking a method 'final' prevents any subclass from overriding it."
+   "e": "Marking a method 'final' prevents any subclass from overriding it.",
+   "c": 5
   },
   {
    "u": 2,
@@ -1568,7 +1594,8 @@
     "Recursion"
    ],
    "a": 2,
-   "e": "Encapsulation is the object-oriented principle of hiding internal state and exposing controlled access through methods."
+   "e": "Encapsulation is the object-oriented principle of hiding internal state and exposing controlled access through methods.",
+   "c": 2
   },
   {
    "u": 2,
@@ -1628,7 +1655,8 @@
     "To store data instead of a variable"
    ],
    "a": 1,
-   "e": "A private helper method supports the class's other methods internally and is not intended to be called from outside the class."
+   "e": "A private helper method supports the class's other methods internally and is not intended to be called from outside the class.",
+   "c": 0
   },
   {
    "u": 2,
@@ -1652,7 +1680,8 @@
     "Compile error"
    ],
    "a": 0,
-   "e": "Since x (5) is greater than 3, the condition is true, so the if-branch executes and prints \"A\"."
+   "e": "Since x (5) is greater than 3, the condition is true, so the if-branch executes and prints \"A\".",
+   "c": 1
   },
   {
    "u": 3,
@@ -1676,7 +1705,8 @@
     "Compile error"
    ],
    "a": 1,
-   "e": "7 % 2 evaluates to 1, which is not 0, so the else branch runs and prints \"odd\"."
+   "e": "7 % 2 evaluates to 1, which is not 0, so the else branch runs and prints \"odd\".",
+   "c": 1
   },
   {
    "u": 3,
@@ -1688,7 +1718,8 @@
     "Zero always"
    ],
    "a": 1,
-   "e": "Java evaluates conditions top to bottom and executes only the first branch found true, skipping the rest; else runs if none matched."
+   "e": "Java evaluates conditions top to bottom and executes only the first branch found true, skipping the rest; else runs if none matched.",
+   "c": 1
   },
   {
    "u": 3,
@@ -1700,7 +1731,8 @@
     "b"
    ],
    "a": 0,
-   "e": "a && b is false (since b is false), and negating false with ! gives true (De Morgan's law: !(a && b) equals !a || !b)."
+   "e": "a && b is false (since b is false), and negating false with ! gives true (De Morgan's law: !(a && b) equals !a || !b).",
+   "c": 2
   },
   {
    "u": 3,
@@ -1712,7 +1744,8 @@
     "x < 5 && y > 10"
    ],
    "a": 1,
-   "e": "De Morgan's law states !(A && B) is equivalent to !A || !B, and negating > 5 gives <= 5, negating < 10 gives >= 10."
+   "e": "De Morgan's law states !(A && B) is equivalent to !A || !B, and negating > 5 gives <= 5, negating < 10 gives >= 10.",
+   "c": 2
   },
   {
    "u": 3,
@@ -1736,7 +1769,8 @@
     "Nothing different happens"
    ],
    "a": 1,
-   "e": "Separate if statements are each evaluated on their own, so more than one block can run, unlike a single if/else if chain where only one branch executes."
+   "e": "Separate if statements are each evaluated on their own, so more than one block can run, unlike a single if/else if chain where only one branch executes.",
+   "c": 1
   },
   {
    "u": 3,
@@ -1760,7 +1794,8 @@
     "!(s = \"cat\")"
    ],
    "a": 1,
-   "e": "Strings should be compared with .equals() for content equality; !s.equals(\"cat\") correctly checks for inequality of content."
+   "e": "Strings should be compared with .equals() for content equality; !s.equals(\"cat\") correctly checks for inequality of content.",
+   "c": 3
   },
   {
    "u": 3,
@@ -1784,7 +1819,8 @@
     "Nested conditionals are illegal in Java"
    ],
    "a": 1,
-   "e": "Control only reaches a nested if-else block if the surrounding (outer) condition that contains it evaluates to true."
+   "e": "Control only reaches a nested if-else block if the surrounding (outer) condition that contains it evaluates to true.",
+   "c": 1
   },
   {
    "u": 3,
@@ -1808,7 +1844,8 @@
     "x < 5"
    ],
    "a": 1,
-   "e": "The semicolon after the if condition creates an empty statement as the if-body, so the following block always executes regardless of the condition—a classic bug."
+   "e": "The semicolon after the if condition creates an empty statement as the if-body, so the following block always executes regardless of the condition—a classic bug.",
+   "c": 1
   },
   {
    "u": 3,
@@ -1820,7 +1857,8 @@
     "Neither short-circuits"
    ],
    "a": 1,
-   "e": "&& and || are short-circuit operators: && skips the right side if the left is false, and || skips it if the left is true."
+   "e": "&& and || are short-circuit operators: && skips the right side if the left is false, and || skips it if the left is true.",
+   "c": 0
   },
   {
    "u": 3,
@@ -1868,7 +1906,8 @@
     "Compile error"
    ],
    "a": 1,
-   "e": "a (3) is not greater than b (5), but a is less than b, so the second condition is true and \"b\" prints."
+   "e": "a (3) is not greater than b (5), but a is less than b, so the second condition is true and \"b\" prints.",
+   "c": 1
   },
   {
    "u": 3,
@@ -1880,7 +1919,8 @@
     "Declaring variables"
    ],
    "a": 1,
-   "e": "A truth table enumerates every combination of boolean inputs and shows the resulting output of a logical expression, useful for verifying equivalences."
+   "e": "A truth table enumerates every combination of boolean inputs and shows the resulting output of a logical expression, useful for verifying equivalences.",
+   "c": 5
   },
   {
    "u": 3,
@@ -1892,7 +1932,8 @@
     "Compile error"
    ],
    "a": 1,
-   "e": "true || false is true, but true && false is false, so the overall expression is false."
+   "e": "true || false is true, but true && false is false, so the overall expression is false.",
+   "c": 0
   },
   {
    "u": 3,
@@ -1928,7 +1969,8 @@
     "It causes infinite loops"
    ],
    "a": 1,
-   "e": "In nested if statements without braces, Java's rule is that an else always pairs with the closest preceding if that lacks an else."
+   "e": "In nested if statements without braces, Java's rule is that an else always pairs with the closest preceding if that lacks an else.",
+   "c": 1
   },
   {
    "u": 3,
@@ -1940,7 +1982,8 @@
     "Nothing prints"
    ],
    "a": 1,
-   "e": "These are two independent if statements (not else if), so only the second condition (grade >= 60) is true, printing just \"Pass\"."
+   "e": "These are two independent if statements (not else if), so only the second condition (grade >= 60) is true, printing just \"Pass\".",
+   "c": 1
   },
   {
    "u": 3,
@@ -1988,7 +2031,8 @@
     "Doubles are compared using .equals() instead"
    ],
    "a": 1,
-   "e": "Because of how doubles are stored in binary, small rounding errors can make two 'equal' calculations differ slightly, so ranges or tolerances are used instead of ==."
+   "e": "Because of how doubles are stored in binary, small rounding errors can make two 'equal' calculations differ slightly, so ranges or tolerances are used instead of ==.",
+   "c": 3
   },
   {
    "u": 3,
@@ -2000,7 +2044,8 @@
     "Compile error"
    ],
    "a": 1,
-   "e": "grade equals 'B', which matches the second condition, so \"Good\" is printed."
+   "e": "grade equals 'B', which matches the second condition, so \"Good\" is printed.",
+   "c": 1
   },
   {
    "u": 3,
@@ -2024,7 +2069,8 @@
     "It compares string length only"
    ],
    "a": 1,
-   "e": "== on String objects checks reference identity, not content, so two strings with equal content created differently may compare as not equal with ==."
+   "e": "== on String objects checks reference identity, not content, so two strings with equal content created differently may compare as not equal with ==.",
+   "c": 3
   },
   {
    "u": 3,
@@ -2036,7 +2082,8 @@
     "Compile error"
    ],
    "a": 2,
-   "e": "15 is divisible by both 3 and 5, so the first condition is true and \"FizzBuzz\" is printed."
+   "e": "15 is divisible by both 3 and 5, so the first condition is true and \"FizzBuzz\" is printed.",
+   "c": 1
   },
   {
    "u": 3,
@@ -2072,7 +2119,8 @@
     "Whether both are zero"
    ],
    "a": 1,
-   "e": "!= is true when the two boolean sub-expressions differ, meaning exactly one of x, y is positive—i.e., they have different signs."
+   "e": "!= is true when the two boolean sub-expressions differ, meaning exactly one of x, y is positive—i.e., they have different signs.",
+   "c": 1
   },
   {
    "u": 3,
@@ -2120,7 +2168,8 @@
     "0"
    ],
    "a": 1,
-   "e": "Once the first condition evaluates to true, its branch executes and the remaining conditions in the chain are never evaluated."
+   "e": "Once the first condition evaluates to true, its branch executes and the remaining conditions in the chain are never evaluated.",
+   "c": 1
   },
   {
    "u": 4,
@@ -2156,7 +2205,8 @@
     "do-while cannot use boolean conditions"
    ],
    "a": 0,
-   "e": "A do-while loop checks its condition after executing the loop body, guaranteeing at least one execution, unlike a while loop which checks first."
+   "e": "A do-while loop checks its condition after executing the loop body, guaranteeing at least one execution, unlike a while loop which checks first.",
+   "c": 2
   },
   {
    "u": 4,
@@ -2168,7 +2218,8 @@
     "15"
    ],
    "a": 0,
-   "e": "The loop adds 1+2+3+4 to sum, resulting in 10."
+   "e": "The loop adds 1+2+3+4 to sum, resulting in 10.",
+   "c": 5
   },
   {
    "u": 4,
@@ -2180,7 +2231,8 @@
     "while loops cannot use less-than comparisons"
    ],
    "a": 1,
-   "e": "Because i is never incremented inside the loop body, i < 5 stays true forever, creating an infinite loop."
+   "e": "Because i is never incremented inside the loop body, i < 5 stays true forever, creating an infinite loop.",
+   "c": 0
   },
   {
    "u": 4,
@@ -2216,7 +2268,8 @@
     "exit"
    ],
    "a": 2,
-   "e": "'break' immediately terminates the nearest enclosing loop or switch statement."
+   "e": "'break' immediately terminates the nearest enclosing loop or switch statement.",
+   "c": 3
   },
   {
    "u": 4,
@@ -2228,7 +2281,8 @@
     "next"
    ],
    "a": 1,
-   "e": "'continue' jumps directly to the next iteration, skipping any remaining code in the current pass of the loop."
+   "e": "'continue' jumps directly to the next iteration, skipping any remaining code in the current pass of the loop.",
+   "c": 3
   },
   {
    "u": 4,
@@ -2240,7 +2294,8 @@
     "01"
    ],
    "a": 1,
-   "e": "When i equals 2, continue skips the print statement for that iteration only, so the output is 0, 1, 3, 4."
+   "e": "When i equals 2, continue skips the print statement for that iteration only, so the output is 0, 1, 3, 4.",
+   "c": 3
   },
   {
    "u": 4,
@@ -2276,7 +2331,8 @@
     "An error caused by using continue"
    ],
    "a": 1,
-   "e": "Off-by-one errors happen when loop bounds are set incorrectly (e.g., using < instead of <= or starting at the wrong index), causing one extra or missing iteration."
+   "e": "Off-by-one errors happen when loop bounds are set incorrectly (e.g., using < instead of <= or starting at the wrong index), causing one extra or missing iteration.",
+   "c": 4
   },
   {
    "u": 4,
@@ -2300,7 +2356,8 @@
     "Infinite loop"
    ],
    "a": 1,
-   "e": "A do-while loop always executes its body at least once, printing 5 before checking that x < 3 is false and stopping."
+   "e": "A do-while loop always executes its body at least once, printing 5 before checking that x < 3 is false and stopping.",
+   "c": 2
   },
   {
    "u": 4,
@@ -2312,7 +2369,8 @@
     "30"
    ],
    "a": 1,
-   "e": "The loop sums the squares of 1 through 5: 1+4+9+16+25 = 55."
+   "e": "The loop sums the squares of 1 through 5: 1+4+9+16+25 = 55.",
+   "c": 5
   },
   {
    "u": 4,
@@ -2360,7 +2418,8 @@
     "for-each only works with objects, not primitives"
    ],
    "a": 1,
-   "e": "Since the loop variable in a for-each loop is a copy of the primitive value, changing that variable does not affect the actual array element."
+   "e": "Since the loop variable in a for-each loop is a copy of the primitive value, changing that variable does not affect the actual array element.",
+   "c": 5
   },
   {
    "u": 4,
@@ -2372,7 +2431,8 @@
     "1"
    ],
    "a": 1,
-   "e": "product accumulates the factorial pattern: 1*1*2*3*4 = 24."
+   "e": "product accumulates the factorial pattern: 1*1*2*3*4 = 24.",
+   "c": 5
   },
   {
    "u": 4,
@@ -2408,7 +2468,8 @@
     "The loop runs zero times"
    ],
    "a": 1,
-   "e": "Without an update to i, the condition i < 5 never becomes false, so the loop runs forever (assuming i isn't changed inside the body)."
+   "e": "Without an update to i, the condition i < 5 never becomes false, so the loop runs forever (assuming i isn't changed inside the body).",
+   "c": 0
   },
   {
    "u": 4,
@@ -2456,7 +2517,8 @@
     "enhanced for loop"
    ],
    "a": 2,
-   "e": "A do-while loop executes its body once before ever checking the condition, so it always runs at least once."
+   "e": "A do-while loop executes its body once before ever checking the condition, so it always runs at least once.",
+   "c": 2
   },
   {
    "u": 4,
@@ -2480,7 +2542,8 @@
     "Loops cannot use accumulator variables"
    ],
    "a": 1,
-   "e": "Java requires local variables to be definitely assigned before use, and an accumulator needs a defined starting point (usually 0) to correctly sum values."
+   "e": "Java requires local variables to be definitely assigned before use, and an accumulator needs a defined starting point (usually 0) to correctly sum values.",
+   "c": 5
   },
   {
    "u": 4,
@@ -2504,7 +2567,8 @@
     "It only works for arrays of exactly size 10"
    ],
    "a": 1,
-   "e": "Using arr.length instead of a fixed number keeps the loop correct even if the array's size changes, preventing ArrayIndexOutOfBoundsException."
+   "e": "Using arr.length instead of a fixed number keeps the loop correct even if the array's size changes, preventing ArrayIndexOutOfBoundsException.",
+   "c": 4
   },
   {
    "u": 4,
@@ -2516,7 +2580,8 @@
     "The program crashes"
    ],
    "a": 1,
-   "e": "A plain break only exits the loop it is directly inside; the outer loop resumes normally on its own next iteration."
+   "e": "A plain break only exits the loop it is directly inside; the outer loop resumes normally on its own next iteration.",
+   "c": 3
   },
   {
    "u": 4,
@@ -2528,7 +2593,8 @@
     "6"
    ],
    "a": 1,
-   "e": "Multiples of 4 from 1 to 20 are 4, 8, 12, 16, 20 — five values, so count equals 5."
+   "e": "Multiples of 4 from 1 to 20 are 4, 8, 12, 16, 20 — five values, so count equals 5.",
+   "c": 5
   },
   {
    "u": 4,
@@ -2552,7 +2618,8 @@
     "0,1,2,3,4"
    ],
    "a": 1,
-   "e": "The comma prints only when i < 3, so it appears after 0,1,2 but not after the final value 3, yielding \"0,1,2,3\"."
+   "e": "The comma prints only when i < 3, so it appears after 0,1,2 but not after the final value 3, yielding \"0,1,2,3\".",
+   "c": 5
   },
   {
    "u": 4,
@@ -2576,7 +2643,8 @@
     "10000"
    ],
    "a": 2,
-   "e": "This loop sums all integers from 1 to 100, which by the well-known formula n(n+1)/2 equals 100*101/2 = 5050."
+   "e": "This loop sums all integers from 1 to 100, which by the well-known formula n(n+1)/2 equals 100*101/2 = 5050.",
+   "c": 5
   },
   {
    "u": 4,
@@ -2708,7 +2776,8 @@
     "Requires arr to be sorted first"
    ],
    "a": 0,
-   "e": "The for-each loop automatically iterates through every element of the array in order and assigns each to the loop variable."
+   "e": "The for-each loop automatically iterates through every element of the array in order and assigns each to the loop variable.",
+   "c": 1
   },
   {
    "u": 5,
@@ -2732,7 +2801,8 @@
     "max is always arr[arr.length - 1]"
    ],
    "a": 1,
-   "e": "The standard algorithm starts with the first element as a candidate maximum, then scans the rest, updating max whenever a bigger value is found."
+   "e": "The standard algorithm starts with the first element as a candidate maximum, then scans the rest, updating max whenever a bigger value is found.",
+   "c": 2
   },
   {
    "u": 5,
@@ -2756,7 +2826,8 @@
     "The array must be reversed first"
    ],
    "a": 0,
-   "e": "Binary search relies on repeatedly halving the search range based on comparisons, which only works correctly if the array is already sorted."
+   "e": "Binary search relies on repeatedly halving the search range based on comparisons, which only works correctly if the array is already sorted.",
+   "c": 5
   },
   {
    "u": 5,
@@ -2768,7 +2839,8 @@
     "Restart from the beginning"
    ],
    "a": 1,
-   "e": "If the target is greater than the middle element, it must be in the right half (since the array is sorted), so the search continues there."
+   "e": "If the target is greater than the middle element, it must be in the right half (since the array is sorted), so the search continues there.",
+   "c": 5
   },
   {
    "u": 5,
@@ -2792,7 +2864,8 @@
     "O(1) always"
    ],
    "a": 1,
-   "e": "Binary search halves the search space each step, leading to a logarithmic O(log n) time complexity."
+   "e": "Binary search halves the search space each step, leading to a logarithmic O(log n) time complexity.",
+   "c": 5
   },
   {
    "u": 5,
@@ -2816,7 +2889,8 @@
     "Merge sort"
    ],
    "a": 1,
-   "e": "Selection sort repeatedly selects the minimum element from the unsorted portion and swaps it into its correct sorted position."
+   "e": "Selection sort repeatedly selects the minimum element from the unsorted portion and swaps it into its correct sorted position.",
+   "c": 4
   },
   {
    "u": 5,
@@ -2840,7 +2914,8 @@
     "O(n log n)"
    ],
    "a": 2,
-   "e": "Both selection sort and bubble sort use nested loops that together perform roughly n^2 comparisons in the worst case."
+   "e": "Both selection sort and bubble sort use nested loops that together perform roughly n^2 comparisons in the worst case.",
+   "c": 4
   },
   {
    "u": 5,
@@ -2852,7 +2927,8 @@
     "{2,1,4,3}"
    ],
    "a": 1,
-   "e": "The loop swaps elements from the outside in (index i with index length-1-i), fully reversing the array to {4,3,2,1}."
+   "e": "The loop swaps elements from the outside in (index i with index length-1-i), fully reversing the array to {4,3,2,1}.",
+   "c": 1
   },
   {
    "u": 5,
@@ -2948,7 +3024,8 @@
     "To declare arr as a local variable only"
    ],
    "a": 1,
-   "e": "The method parameter receives a reference to the caller's array, allowing the method to read (and potentially modify) its elements."
+   "e": "The method parameter receives a reference to the caller's array, allowing the method to read (and potentially modify) its elements.",
+   "c": 3
   },
   {
    "u": 5,
@@ -3020,7 +3097,8 @@
     "7"
    ],
    "a": 1,
-   "e": "Binary search computes mid = (low + high) / 2 = (0 + 6) / 2 = 3 as the first index examined."
+   "e": "Binary search computes mid = (low + high) / 2 = (0 + 6) / 2 = 3 as the first index examined.",
+   "c": 5
   },
   {
    "u": 5,
@@ -3032,7 +3110,8 @@
     "12.0"
    ],
    "a": 0,
-   "e": "sum (12) divided by arr.length (3, an int) gives integer division result 4, but assigning to a double widens it to display as 4.0."
+   "e": "sum (12) divided by arr.length (3, an int) gives integer division result 4, but assigning to a double widens it to display as 4.0.",
+   "c": 2
   },
   {
    "u": 5,
@@ -3116,7 +3195,8 @@
     "list.append(\"hi\");"
    ],
    "a": 1,
-   "e": "The add() method appends an element to the end of an ArrayList."
+   "e": "The add() method appends an element to the end of an ArrayList.",
+   "c": 0
   },
   {
    "u": 6,
@@ -3152,7 +3232,8 @@
     "A gap remains at index 2 permanently"
    ],
    "a": 1,
-   "e": "Removing an element from an ArrayList shifts all subsequent elements one position earlier to keep the list contiguous."
+   "e": "Removing an element from an ArrayList shifts all subsequent elements one position earlier to keep the list contiguous.",
+   "c": 1
   },
   {
    "u": 6,
@@ -3224,7 +3305,8 @@
     "The number of times \"apple\" appears"
    ],
    "a": 1,
-   "e": "contains() returns a boolean indicating whether the list has at least one element equal (via equals()) to the specified value."
+   "e": "contains() returns a boolean indicating whether the list has at least one element equal (via equals()) to the specified value.",
+   "c": 1
   },
   {
    "u": 6,
@@ -3248,7 +3330,8 @@
     "Use recursion only"
    ],
    "a": 1,
-   "e": "Iterating backward means that removing an element only affects indices already processed, avoiding the skip issue that occurs when iterating forward."
+   "e": "Iterating backward means that removing an element only affects indices already processed, avoiding the skip issue that occurs when iterating forward.",
+   "c": 2
   },
   {
    "u": 6,
@@ -3344,7 +3427,8 @@
     "A type of loop"
    ],
    "a": 0,
-   "e": "Aliasing occurs when multiple reference variables point to the same object in memory, meaning modifications via any alias are visible through all of them."
+   "e": "Aliasing occurs when multiple reference variables point to the same object in memory, meaning modifications via any alias are visible through all of them.",
+   "c": 4
   },
   {
    "u": 6,
@@ -3356,7 +3440,8 @@
     "Throws a compile error"
    ],
    "a": 1,
-   "e": "Passing a collection to the ArrayList constructor creates a new list with the same elements, so structural changes (add/remove) to one don't affect the other."
+   "e": "Passing a collection to the ArrayList constructor creates a new list with the same elements, so structural changes (add/remove) to one don't affect the other.",
+   "c": 4
   },
   {
    "u": 6,
@@ -3416,7 +3501,8 @@
     "== always returns true for lists"
    ],
    "a": 1,
-   "e": "ArrayList overrides equals() to perform an element-by-element content comparison, whereas == only checks whether both variables reference the identical list object."
+   "e": "ArrayList overrides equals() to perform an element-by-element content comparison, whereas == only checks whether both variables reference the identical list object.",
+   "c": 4
   },
   {
    "u": 6,
@@ -3572,7 +3658,8 @@
     "int[] arr = new int[3][4];"
    ],
    "a": 1,
-   "e": "A 2D array uses double brackets in both the type and the 'new' expression: int[][] arr = new int[3][4];"
+   "e": "A 2D array uses double brackets in both the type and the 'new' expression: int[][] arr = new int[3][4];",
+   "c": 0
   },
   {
    "u": 7,
@@ -3596,7 +3683,8 @@
     "0"
    ],
    "a": 1,
-   "e": "For a 2D array, .length on the outer array gives the number of rows (the first dimension)."
+   "e": "For a 2D array, .length on the outer array gives the number of rows (the first dimension).",
+   "c": 0
   },
   {
    "u": 7,
@@ -3608,7 +3696,8 @@
     "0"
    ],
    "a": 1,
-   "e": "grid[0] is itself an array representing the first row, and its .length gives the number of columns in that row, which is 3."
+   "e": "grid[0] is itself an array representing the first row, and its .length gives the number of columns in that row, which is 3.",
+   "c": 0
   },
   {
    "u": 7,
@@ -3632,7 +3721,8 @@
     "A type of loop structure"
    ],
    "a": 0,
-   "e": "Inheritance allows a subclass to reuse and extend the fields and methods defined in a superclass, establishing an 'is-a' relationship."
+   "e": "Inheritance allows a subclass to reuse and extend the fields and methods defined in a superclass, establishing an 'is-a' relationship.",
+   "c": 2
   },
   {
    "u": 7,
@@ -3656,7 +3746,8 @@
     "Animal is a subclass of Dog"
    ],
    "a": 1,
-   "e": "Because Dog extends Animal, Dog is the subclass and Animal is the superclass, meaning Dog inherits Animal's non-private members."
+   "e": "Because Dog extends Animal, Dog is the subclass and Animal is the superclass, meaning Dog inherits Animal's non-private members.",
+   "c": 2
   },
   {
    "u": 7,
@@ -3668,7 +3759,8 @@
     "Creates a new subclass instance"
    ],
    "a": 1,
-   "e": "super() explicitly invokes the superclass's constructor, ensuring the inherited part of the object is properly initialized first."
+   "e": "super() explicitly invokes the superclass's constructor, ensuring the inherited part of the object is properly initialized first.",
+   "c": 2
   },
   {
    "u": 7,
@@ -3680,7 +3772,8 @@
     "This only compiles if Dog has no methods"
    ],
    "a": 1,
-   "e": "Polymorphism allows a superclass reference to point to a subclass object, and calling an overridden method uses the actual runtime type's version (dynamic method binding)."
+   "e": "Polymorphism allows a superclass reference to point to a subclass object, and calling an overridden method uses the actual runtime type's version (dynamic method binding).",
+   "c": 3
   },
   {
    "u": 7,
@@ -3692,7 +3785,8 @@
     "Both versions run"
    ],
    "a": 1,
-   "e": "Java uses dynamic (runtime) method dispatch for overridden instance methods, so the actual object's class (Dog) determines which version executes, regardless of the reference's declared type."
+   "e": "Java uses dynamic (runtime) method dispatch for overridden instance methods, so the actual object's class (Dog) determines which version executes, regardless of the reference's declared type.",
+   "c": 3
   },
   {
    "u": 7,
@@ -3716,7 +3810,8 @@
     "It must be declared private"
    ],
    "a": 1,
-   "e": "A valid override requires an identical method signature (name and parameters) to the superclass version, with a covariant or identical return type."
+   "e": "A valid override requires an identical method signature (name and parameters) to the superclass version, with a covariant or identical return type.",
+   "c": 3
   },
   {
    "u": 7,
@@ -3752,7 +3847,8 @@
     "This is only true for interfaces"
    ],
    "a": 1,
-   "e": "The is-a relationship means a subclass object can be used anywhere its superclass type is expected, since it inherits and extends that type's capabilities."
+   "e": "The is-a relationship means a subclass object can be used anywhere its superclass type is expected, since it inherits and extends that type's capabilities.",
+   "c": 2
   },
   {
    "u": 7,
@@ -3764,7 +3860,8 @@
     "overridden.methodName()"
    ],
    "a": 1,
-   "e": "The 'super' keyword lets a subclass explicitly call the superclass's version of a method it has overridden."
+   "e": "The 'super' keyword lets a subclass explicitly call the superclass's version of a method it has overridden.",
+   "c": 2
   },
   {
    "u": 7,
@@ -3788,7 +3885,8 @@
     "6"
    ],
    "a": 2,
-   "e": "In a jagged array, each row can have a different length; row index 2 is {4,5,6}, which has length 3."
+   "e": "In a jagged array, each row can have a different length; row index 2 is {4,5,6}, which has length 3.",
+   "c": 0
   },
   {
    "u": 7,
@@ -3800,7 +3898,8 @@
     "An array of only 2 elements"
    ],
    "a": 1,
-   "e": "Unlike a strictly rectangular 2D array, a jagged array allows each row (sub-array) to have its own independent length."
+   "e": "Unlike a strictly rectangular 2D array, a jagged array allows each row (sub-array) to have its own independent length.",
+   "c": 0
   },
   {
    "u": 7,
@@ -3812,7 +3911,8 @@
     "It prints null"
    ],
    "a": 1,
-   "e": "Even though the array is typed as Shape[], each element's actual runtime type (Circle) determines which overridden method executes."
+   "e": "Even though the array is typed as Shape[], each element's actual runtime type (Circle) determines which overridden method executes.",
+   "c": 3
   },
   {
    "u": 7,
@@ -3824,7 +3924,8 @@
     "final"
    ],
    "a": 2,
-   "e": "'protected' grants access to subclasses (even in different packages) and same-package classes, while blocking unrelated outside classes."
+   "e": "'protected' grants access to subclasses (even in different packages) and same-package classes, while blocking unrelated outside classes.",
+   "c": 2
   },
   {
    "u": 7,
@@ -3860,7 +3961,8 @@
     "'extends' cannot be used with abstract classes"
    ],
    "a": 1,
-   "e": "'implements' connects a class to an interface it must fully define the methods for, whereas 'extends' creates a superclass-subclass inheritance relationship."
+   "e": "'implements' connects a class to an interface it must fully define the methods for, whereas 'extends' creates a superclass-subclass inheritance relationship.",
+   "c": 4
   },
   {
    "u": 7,
@@ -3896,7 +3998,8 @@
     "It deletes the superclass fields"
    ],
    "a": 1,
-   "e": "Every subclass constructor's first action (implicit or explicit) is to invoke a superclass constructor, ensuring inherited fields are properly initialized."
+   "e": "Every subclass constructor's first action (implicit or explicit) is to invoke a superclass constructor, ensuring inherited fields are properly initialized.",
+   "c": 2
   },
   {
    "u": 7,
@@ -3908,7 +4011,8 @@
     "Only overloading exists in Java, not overriding"
    ],
    "a": 1,
-   "e": "Overriding must exactly match the signature so calls resolve polymorphically to the subclass version at runtime, while overloading depends on distinct parameter lists resolved at compile time."
+   "e": "Overriding must exactly match the signature so calls resolve polymorphically to the subclass version at runtime, while overloading depends on distinct parameter lists resolved at compile time.",
+   "c": 3
   },
   {
    "u": 7,
@@ -3920,7 +4024,8 @@
     "5"
    ],
    "a": 1,
-   "e": "The row lengths are 3, 1, and 2, which sum to 6."
+   "e": "The row lengths are 3, 1, and 2, which sum to 6.",
+   "c": 0
   },
   {
    "u": 7,
@@ -3944,7 +4049,8 @@
     "It prevents inheritance from working"
    ],
    "a": 1,
-   "e": "Dynamic dispatch is what allows a superclass-typed reference to correctly invoke a subclass's overridden method based on the object's real, runtime type."
+   "e": "Dynamic dispatch is what allows a superclass-typed reference to correctly invoke a subclass's overridden method based on the object's real, runtime type.",
+   "c": 3
   },
   {
    "u": 7,
@@ -3980,7 +4086,8 @@
     "It must override the superclass constructor"
    ],
    "a": 1,
-   "e": "If the superclass has no no-argument constructor, the subclass must explicitly invoke an existing superclass constructor via super(args) matching one of its signatures."
+   "e": "If the superclass has no no-argument constructor, the subclass must explicitly invoke an existing superclass constructor via super(args) matching one of its signatures.",
+   "c": 2
   },
   {
    "u": 7,
@@ -3992,7 +4099,8 @@
     "\"2,2\""
    ],
    "a": 0,
-   "e": "grid.length is the number of rows (2), and grid[0].length is the number of columns in row 0 (3), giving \"2,3\"."
+   "e": "grid.length is the number of rows (2), and grid[0].length is the number of columns in row 0 (3), giving \"2,3\".",
+   "c": 0
   },
   {
    "u": 7,
@@ -4004,7 +4112,8 @@
     "This is only legal for static methods"
    ],
    "a": 1,
-   "e": "Because overriding requires an identical parameter list, a differing parameter list makes this a new overloaded method rather than an override."
+   "e": "Because overriding requires an identical parameter list, a differing parameter list makes this a new overloaded method rather than an override.",
+   "c": 3
   },
   {
    "u": 7,
@@ -4028,7 +4137,8 @@
     "A class that must implement every method with a body"
    ],
    "a": 1,
-   "e": "An abstract class serves as a partial blueprint: it cannot be instantiated on its own, and it may declare abstract methods that concrete subclasses are required to override."
+   "e": "An abstract class serves as a partial blueprint: it cannot be instantiated on its own, and it may declare abstract methods that concrete subclasses are required to override.",
+   "c": 4
   },
   {
    "u": 7,
@@ -4052,7 +4162,8 @@
     "An error condition"
    ],
    "a": 1,
-   "e": "The base case is the simplest scenario in a recursive method that can be answered directly, halting further recursive calls and preventing infinite recursion."
+   "e": "The base case is the simplest scenario in a recursive method that can be answered directly, halting further recursive calls and preventing infinite recursion.",
+   "c": 0
   },
   {
    "u": 8,
@@ -4064,7 +4175,8 @@
     "It compiles but does nothing"
    ],
    "a": 1,
-   "e": "Without a base case that is eventually reached, recursive calls continue indefinitely, exhausting the call stack and causing a StackOverflowError."
+   "e": "Without a base case that is eventually reached, recursive calls continue indefinitely, exhausting the call stack and causing a StackOverflowError.",
+   "c": 0
   },
   {
    "u": 8,
@@ -4076,7 +4188,8 @@
     "10"
    ],
    "a": 2,
-   "e": "factorial(4) = 4 * factorial(3) = 4 * 3 * factorial(2) = ... = 4*3*2*1*1 = 24."
+   "e": "factorial(4) = 4 * factorial(3) = 4 * 3 * factorial(2) = ... = 4*3*2*1*1 = 24.",
+   "c": 0
   },
   {
    "u": 8,
@@ -4100,7 +4213,8 @@
     "Loops forever"
    ],
    "a": 1,
-   "e": "The recursive case reduces the problem to a smaller subproblem and calls the method recursively on that smaller input, progressing toward the base case."
+   "e": "The recursive case reduces the problem to a smaller subproblem and calls the method recursively on that smaller input, progressing toward the base case.",
+   "c": 0
   },
   {
    "u": 8,
@@ -4172,7 +4286,8 @@
     "It only works for even n"
    ],
    "a": 1,
-   "e": "Without memoization, the naive recursive approach recalculates identical fib(k) values many times, resulting in exponential $O(2^n)$ time complexity."
+   "e": "Without memoization, the naive recursive approach recalculates identical fib(k) values many times, resulting in exponential $O(2^n)$ time complexity.",
+   "c": 1
   },
   {
    "u": 8,
@@ -4196,7 +4311,8 @@
     "Iteration cannot use conditionals"
    ],
    "a": 1,
-   "e": "Recursion and iteration are both mechanisms for repetition, and many problems can be expressed with either approach, though efficiency and clarity may differ."
+   "e": "Recursion and iteration are both mechanisms for repetition, and many problems can be expressed with either approach, though efficiency and clarity may differ.",
+   "c": 3
   },
   {
    "u": 8,
@@ -4220,7 +4336,8 @@
     "\"tca\""
    ],
    "a": 1,
-   "e": "Recursively peeling off the first character and appending it at the end reverses the string: reverse(\"cat\") builds \"tac\"."
+   "e": "Recursively peeling off the first character and appending it at the end reverses the string: reverse(\"cat\") builds \"tac\".",
+   "c": 2
   },
   {
    "u": 8,
@@ -4256,7 +4373,8 @@
     "Reverse each half"
    ],
    "a": 0,
-   "e": "After recursively sorting each half, merge sort combines (merges) the two sorted halves into a single sorted array by comparing elements in order."
+   "e": "After recursively sorting each half, merge sort combines (merges) the two sorted halves into a single sorted array by comparing elements in order.",
+   "c": 5
   },
   {
    "u": 8,
@@ -4280,7 +4398,8 @@
     "Merge sort is always slower"
    ],
    "a": 0,
-   "e": "Because n log n grows much more slowly than n^2 as n increases, merge sort scales better and is generally faster than selection or bubble sort for large inputs."
+   "e": "Because n log n grows much more slowly than n^2 as n increases, merge sort scales better and is generally faster than selection or bubble sort for large inputs.",
+   "c": 5
   },
   {
    "u": 8,
@@ -4292,7 +4411,8 @@
     "1"
    ],
    "a": 0,
-   "e": "digitSum(123) = 3 + digitSum(12) = 3 + (2 + digitSum(1)) = 3 + 2 + 1 = 6."
+   "e": "digitSum(123) = 3 + digitSum(12) = 3 + (2 + digitSum(1)) = 3 + 2 + 1 = 6.",
+   "c": 0
   },
   {
    "u": 8,
@@ -4340,7 +4460,8 @@
     "5"
    ],
    "a": 1,
-   "e": "fib(3) = fib(2) + fib(1) = (fib(1)+fib(0)) + fib(1) = (1+0) + 1 = 2."
+   "e": "fib(3) = fib(2) + fib(1) = (fib(1)+fib(0)) + fib(1) = (1+0) + 1 = 2.",
+   "c": 1
   },
   {
    "u": 8,
@@ -4388,7 +4509,8 @@
     "2"
    ],
    "a": 1,
-   "e": "power(2,4) = 2 * power(2,3) = 2*2*power(2,2) = ... = 2*2*2*2*1 = 16."
+   "e": "power(2,4) = 2 * power(2,3) = 2*2*power(2,2) = ... = 2*2*2*2*1 = 16.",
+   "c": 0
   },
   {
    "u": 8,
@@ -4400,7 +4522,8 @@
     "exp == 1"
    ],
    "a": 0,
-   "e": "The base case exp == 0 (returning 1, matching the mathematical fact that $x^0 = 1$) is required to terminate the recursive calls that otherwise keep decrementing exp."
+   "e": "The base case exp == 0 (returning 1, matching the mathematical fact that $x^0 = 1$) is required to terminate the recursive calls that otherwise keep decrementing exp.",
+   "c": 0
   },
   {
    "u": 8,
@@ -4424,7 +4547,8 @@
     "There is never any downside"
    ],
    "a": 1,
-   "e": "Each recursive call adds a frame to the call stack, consuming memory and incurring function-call overhead, which can make recursion less efficient than an equivalent loop for simple tasks."
+   "e": "Each recursive call adds a frame to the call stack, consuming memory and incurring function-call overhead, which can make recursion less efficient than an equivalent loop for simple tasks.",
+   "c": 3
   },
   {
    "u": 8,
@@ -4448,7 +4572,8 @@
     "12"
    ],
    "a": 0,
-   "e": "Using the Euclidean algorithm: gcd(48,18)=gcd(18,12)=gcd(12,6)=gcd(6,0)=6."
+   "e": "Using the Euclidean algorithm: gcd(48,18)=gcd(18,12)=gcd(12,6)=gcd(6,0)=6.",
+   "c": 0
   },
   {
    "u": 8,
@@ -4460,7 +4585,8 @@
     "Only iterative methods can be verified"
    ],
    "a": 0,
-   "e": "Similar to mathematical induction, verifying a recursive method involves confirming the base case is correct and that each recursive step correctly builds on the assumption that smaller subproblems are already solved correctly."
+   "e": "Similar to mathematical induction, verifying a recursive method involves confirming the base case is correct and that each recursive step correctly builds on the assumption that smaller subproblems are already solved correctly.",
+   "c": 0
   },
   {
    "u": 8,
@@ -4484,7 +4610,8 @@
     "1, 2, \"Liftoff!\""
    ],
    "a": 1,
-   "e": "The method prints n (2) before recursing, then prints 1, and finally reaches the base case which prints \"Liftoff!\", in that order."
+   "e": "The method prints n (2) before recursing, then prints 1, and finally reaches the base case which prints \"Liftoff!\", in that order.",
+   "c": 0
   },
   {
    "u": 8,
@@ -4496,7 +4623,8 @@
     "Only the base case is required; the recursive case is optional"
    ],
    "a": 1,
-   "e": "A correctly designed recursive method needs a base case for direct termination and a recursive case that shrinks the problem toward that base case."
+   "e": "A correctly designed recursive method needs a base case for direct termination and a recursive case that shrinks the problem toward that base case.",
+   "c": 0
   },
   {
    "u": 8,
@@ -4520,7 +4648,8 @@
     "It causes an infinite loop"
    ],
    "a": 1,
-   "e": "When the search bounds cross (low exceeds high), there's nothing left to search, so the base case returns a sentinel like -1 to indicate the target isn't present."
+   "e": "When the search bounds cross (low exceeds high), there's nothing left to search, so the base case returns a sentinel like -1 to indicate the target isn't present.",
+   "c": 4
   }
  ],
  "flashcards": [
@@ -5881,7 +6010,8 @@
     "x <= 5 || y >= 3"
    ],
    "a": 3,
-   "e": "De Morgan's laws: negate each condition and swap && with ||."
+   "e": "De Morgan's laws: negate each condition and swap && with ||.",
+   "c": 2
   },
   {
    "u": 4,
@@ -5929,7 +6059,8 @@
     "6"
    ],
    "a": 1,
-   "e": "a[1] becomes 1 + 3 = 4."
+   "e": "a[1] becomes 1 + 3 = 4.",
+   "c": 3
   },
   {
    "u": 6,
@@ -5965,7 +6096,8 @@
     "Declare a private field"
    ],
    "a": 0,
-   "e": "It must be the first statement in the constructor."
+   "e": "It must be the first statement in the constructor.",
+   "c": 2
   },
   {
    "u": 7,
@@ -5977,7 +6109,8 @@
     "3"
    ],
    "a": 3,
-   "e": "The outer array length is the number of rows."
+   "e": "The outer array length is the number of rows.",
+   "c": 0
   },
   {
    "u": 8,
@@ -5989,7 +6122,8 @@
     "A base case that stops the recursion"
    ],
    "a": 3,
-   "e": "Without a base case it recurses forever."
+   "e": "Without a base case it recurses forever.",
+   "c": 0
   },
   {
    "u": 8,
