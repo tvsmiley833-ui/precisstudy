@@ -2458,7 +2458,8 @@ function cbotAddMsg(role,text,jumpFn,jumpLabel,historyText){
     div.appendChild(btn);
   }
   wrap.appendChild(div);
-  wrap.scrollTop=wrap.scrollHeight;
+  // A reply taller than the panel opens at its first line, so the student reads it from the top; short ones follow the bottom.
+  wrap.scrollTop=(role==='bot'&&div.offsetHeight>wrap.clientHeight*.8)?Math.max(0,div.offsetTop-wrap.offsetTop-8):wrap.scrollHeight;
   cbotHistory.push({role:role==='user'?'user':'assistant',content:historyText!==undefined?historyText:text});
 }
 
