@@ -286,6 +286,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
   <button type="button" class="diag-skip-btn" id="diag-skip-btn" onclick="justStartUnit1()">New to this course? Skip the diagnostic — just start with Unit 1 →</button>
   <div class="q-bar" id="q-bar">
     <select id="q-sel" aria-label="Choose a question set" onchange="loadQ()"></select>
+    <select id="q-concept" aria-label="Filter by concept" onchange="loadQ()" hidden></select>
     <button class="btn" type="button" onclick="quizShuffle()" style="font-size:14px;padding:7px 14px">⇄ Shuffle</button>
     <div class="diff-chips" role="group" aria-label="Filter by difficulty" style="display:flex;gap:6px">
       <button class="chip on diff-chip" type="button" data-diff="all" onclick="setDifficultyFilter('all')">All</button>

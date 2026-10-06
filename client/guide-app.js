@@ -1690,6 +1690,21 @@ function buildQSel(){
   ssRefreshBookmarkOption();
   loadQ();
 }
+// Optional concept filter: a question's c is an index into its unit's concepts. Shown only for a unit where at least two
+// concepts have enough tagged questions to practise with.
+let ssConceptRaw=null;
+function ssInitConceptSel(raw){
+  const cs=document.getElementById('q-concept');
+  if(!cs)return;
+  ssConceptRaw=raw;
+  const u=UNITS.find(x=>x.id===+raw);
+  const counts={};
+  if(u)QUIZ.concat(ssHardQ()).forEach(q=>{if(q.u===u.id&&typeof q.c==='number')counts[q.c]=(counts[q.c]||0)+1;});
+  const ids=Object.keys(counts).filter(k=>counts[k]>=5&&u.concepts[k]);
+  if(ids.length<2){cs.hidden=true;cs.innerHTML='';return;}
+  cs.innerHTML='<option value="all">All concepts</option>'+ids.map(k=>'<option value="'+k+'">'+ssEscHtml(u.concepts[k].l)+' ('+counts[k]+' Qs)</option>').join('');
+  cs.hidden=false;
+}
 let difficultyFilter='all';
 function setDifficultyFilter(d){
   difficultyFilter=d;
@@ -1709,6 +1724,9 @@ function loadQ(){
   else if(raw==='bookmarks')src=ssBookmarkedQuestions();
   else if(+raw===0)src=QUIZ.concat(HQ);
   else src=QUIZ.concat(HQ).filter(q=>q.u===+raw);
+  if(raw!==ssConceptRaw)ssInitConceptSel(raw);
+  const cv=document.getElementById('q-concept');
+  if(cv&&!cv.hidden&&cv.value!=='all')src=src.filter(q=>q.c===+cv.value);
   if(difficultyFilter!=='all')src=src.filter(q=>ssDiffOf(q)===difficultyFilter);
   qPool=raw==='quick'?src:src.sort(()=>Math.random()-.5);
   qIdx=0;score=0;qStreak=0;qBestStreak=0;qMissedUnits=new Set();requeueCounts=new WeakMap();qSessionStart=null;showQ();

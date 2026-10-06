@@ -20,6 +20,7 @@ for (const f of guides) {
         if (new Set(o.map(x => String(x).trim())).size !== o.length) bad.push(`${where}: duplicate options`);
         if (!Number.isInteger(q.a) || q.a < 0 || q.a >= o.length) bad.push(`${where}: answer index ${q.a}`);
         if (!units.has(q.u)) bad.push(`${where}: unknown unit ${q.u}`);
+        if (q.c !== undefined && !(Number.isInteger(q.c) && d.units.find(u => u.id === q.u)?.concepts?.[q.c])) bad.push(`${where}: concept tag ${q.c} is not a concept of unit ${q.u}`);
         if (!String(q.e || "").trim()) bad.push(`${where}: no explanation`);
       });
     }
