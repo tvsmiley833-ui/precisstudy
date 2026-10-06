@@ -2337,10 +2337,15 @@ function cbotBuildIndex(){
   const idx=[];
   UNITS.forEach(u=>{
     u.concepts.forEach(c=>{
-      const text=(c.intro||'')+' '+(c.b||[]).join(' ');
-      idx.push({label:c.l,unit:u.id,unitName:u.name,source:'Unit '+u.id+' — '+u.name,
-        text:text.replace(/<[^>]+>/g,''),tokens:cbotTokenize(c.l+' '+text),
-        jump:function(){cbotJumpGuide(u.id,c.l);}});
+      // One entry per intro/bullet, not per concept: a concept can run to thousands of characters, and the helper only
+      // sees a few hundred, so a fact deep inside a long concept (e.g. who wrote the Mad Trist) never reached it.
+      [c.intro].concat(c.b||[]).forEach(part=>{
+        const text=String(part||'').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
+        if(text.length<20)return;
+        idx.push({label:c.l,unit:u.id,unitName:u.name,source:'Unit '+u.id+' — '+u.name,
+          text:text,tokens:cbotTokenize(c.l+' '+text),
+          jump:function(){cbotJumpGuide(u.id,c.l);}});
+      });
     });
   });
   document.querySelectorAll('#view-memory .mem-card').forEach(card=>{
@@ -2376,6 +2381,17 @@ function cbotJumpGuide(unitId,conceptLabel){
   let target=unitDiv;
   unitDiv.querySelectorAll('.concept .c-label').forEach(el=>{if(el.textContent===conceptLabel)target=el.closest('.concept');});
   setTimeout(()=>target.scrollIntoView({behavior:ssScrollBehavior(),block:'start'}),80);
+}
+
+// The label plus the stretch of the note around the first word the student asked about, so a long note is cut where it matters.
+function cbotSnippet(entry,query,max){
+  const head=entry.label+': ',room=max-head.length,text=String(entry.text||'');
+  if(text.length<=room)return head+text;
+  const low=text.toLowerCase();
+  let at=-1;
+  cbotTokenize(query).some(function(t){const i=low.indexOf(t);if(i>=0){at=i;return true;}return false;});
+  const start=at>0?Math.max(0,Math.min(at-Math.floor(room/3),text.length-room)):0;
+  return head+(start?'… ':'')+text.slice(start,start+room-(start?2:0));
 }
 
 function cbotSearch(query){
@@ -2482,7 +2498,7 @@ function cbotContext(query){
     const open=document.querySelector('#units > .unit.open .unit-title');
     if(open&&open.firstChild)ctx.unit=open.firstChild.textContent.trim();
   }
-  try{ctx.notes=cbotSearch(query).map(function(r){return (r.entry.label+': '+strip(r.entry.text)).slice(0,600);}).filter(function(n,i,a){return a.indexOf(n)===i;}).slice(0,3);}catch(e){}
+  try{ctx.notes=cbotSearch(query).map(function(r){return cbotSnippet(r.entry,query,600);}).filter(function(n,i,a){return a.indexOf(n)===i;}).slice(0,3);}catch(e){}
   return ctx;
 }
 
