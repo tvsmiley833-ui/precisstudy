@@ -2935,6 +2935,31 @@ function ssMakeDraggable(panel,handleSelector){
   handle.addEventListener('pointerup',up);
   handle.addEventListener('pointercancel',up);
   panel.addEventListener('pointerdown',function(){ssBringToFront(panel);});
+  ssAddMinimize(panel,handle);
+}
+// Minimize / maximize: a button in the window header collapses the panel to just its header bar and restores it.
+function ssAddMinimize(panel,handle){
+  var btn=document.createElement('button');
+  btn.type='button';btn.className='ss-min-btn';
+  var ICON_MIN='<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="6" y1="18" x2="18" y2="18"/></svg>';
+  var ICON_MAX='<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="2"/></svg>';
+  function label(min){btn.innerHTML=min?ICON_MAX:ICON_MIN;btn.setAttribute('aria-label',min?'Maximize window':'Minimize window');btn.title=min?'Maximize':'Minimize';btn.setAttribute('aria-expanded',min?'false':'true');}
+  label(false);
+  var saved=null;
+  btn.addEventListener('click',function(e){
+    e.stopPropagation();
+    var min=!panel.classList.contains('ss-minimized');
+    Array.prototype.forEach.call(panel.children,function(c){
+      if(c===handle||c.contains(handle))return;
+      c.classList.toggle('ss-min-hide',min);
+    });
+    if(min){saved={h:panel.style.height,mh:panel.style.maxHeight};panel.style.height='auto';panel.style.maxHeight='none';}
+    else if(saved){panel.style.height=saved.h;panel.style.maxHeight=saved.mh;}
+    panel.classList.toggle('ss-minimized',min);
+    label(min);
+  });
+  var anchor=handle.querySelector('button:last-of-type');
+  if(anchor&&anchor.parentElement===handle)handle.insertBefore(btn,anchor);else handle.appendChild(btn);
 }
 
 function toolkitInit(){
@@ -3164,15 +3189,19 @@ async function challengeFromQuiz(){
     ssToast('Sign in to challenge a friend \u2014 use the sign-in options in the Quiz tab.');
     return;
   }
-  var pool=(qPool||[]).filter(function(q){return QUIZ.indexOf(q)!==-1;});
+  // Challenges address questions by their index in the whole bank (regular questions first, then Hard Mode), so Hard Mode
+  // and Quick 10 sets work too. If the current set is too small, fall back to the whole guide.
+  var bank=QUIZ.concat(ssHardQ());
+  var pool=(qPool||[]).filter(function(q){return bank.indexOf(q)!==-1;});
   if(pool.length<5){
-    ssToast('Load a bigger question set first (try "All Units", or a unit with at least 5 questions) to start a challenge.');
-    return;
+    if(bank.length<5){ssToast('This guide does not have enough questions for a challenge yet.');return;}
+    pool=bank.slice();
+    ssToast('That question set is small, so this challenge uses questions from the whole guide.');
   }
   var shuffled=pool.slice();
   for(var i=shuffled.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=shuffled[i];shuffled[i]=shuffled[j];shuffled[j]=t;}
   var picked=shuffled.slice(0,Math.min(8,shuffled.length));
-  var questionNumbers=picked.map(function(q){return QUIZ.indexOf(q);});
+  var questionNumbers=picked.map(function(q){return bank.indexOf(q);});
   var btn=document.getElementById('challenge-friend-btn');
   if(btn)btn.disabled=true;
   try{
@@ -3255,7 +3284,8 @@ async function ssFinishChallenge(){
     var myResult=data.role==='creator'?data.creatorResult:data.opponentResult;
     if(myResult){ssRenderChallengeResult(data);return;}
     var qns=data.questionNumbers||[];
-    var qs=qns.map(function(n){return QUIZ[n];}).filter(Boolean);
+    var bank=QUIZ.concat(ssHardQ());
+    var qs=qns.map(function(n){return bank[n];}).filter(Boolean);
     if(!qs.length){if(qb)qb.innerHTML='<div class="result"><div class="sub">Could not load this challenge\'s questions.</div></div>';return;}
     qPool=qs;qIdx=0;score=0;requeueCounts=new WeakMap();qSessionStart=Date.now();
     showQ();

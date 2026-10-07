@@ -782,3 +782,10 @@ html body .hero .hero-links a:hover { background: var(--accent-soft, rgba(127,12
 html body #anon-quiz-note .ss-login-box { display: flex; flex-wrap: wrap; gap: 8px; }
 html body #anon-quiz-note .ss-oauth-btn { flex: 1 1 170px; min-height: 40px; margin: 0; }
 html body #anon-quiz-note .ss-status:empty { display: none; }
+
+/* Toolkit window minimize/maximize */
+.ss-min-btn{background:none;border:none;color:var(--ink-muted);cursor:pointer;padding:4px 6px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;min-width:32px;min-height:32px;flex:none;margin-left:auto}
+.ss-min-btn:hover{color:var(--ink);background:var(--surface-hover)}
+.ss-min-btn:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.ss-min-hide{display:none!important}
+.ss-minimized{min-height:0!important;resize:none!important}

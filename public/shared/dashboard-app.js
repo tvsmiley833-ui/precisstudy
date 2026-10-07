@@ -1938,29 +1938,11 @@ function initScheduleBuilder(blob) {
 
 loadDashboard();
 
-// Same 'ss-density' localStorage key as /settings, so a preference set on
-// either page carries over to the other. Grid gap is set via JS (not CSS)
-// since #dash-subjects carries an inline style attribute that a class
-// selector alone can't override without !important.
+// Subject cards always use the spacious layout (the density switcher was removed). The gap is set via JS since
+// #dash-subjects carries an inline style attribute that a class selector alone cannot override without !important.
 (function () {
-  const KEY = 'ss-density';
   const grid = document.getElementById('dash-subjects');
-  const btns = document.querySelectorAll('#dash-density-row .ss-density-btn');
-  if (!grid || !btns.length) return;
-  const GAPS = { compact: '10px', comfortable: '20px', spacious: '28px' };
-  function apply(mode) {
-    grid.classList.remove('density-compact', 'density-comfortable', 'density-spacious');
-    grid.classList.add('density-' + mode);
-    grid.style.gap = GAPS[mode] || GAPS.comfortable;
-    btns.forEach(function (b) { b.classList.toggle('active', b.dataset.density === mode); });
-  }
-  let saved; try { saved = localStorage.getItem(KEY); } catch (e) { /* ignore */ }
-  apply(saved === 'compact' || saved === 'spacious' ? saved : 'comfortable');
-  btns.forEach(function (b) {
-    b.addEventListener('click', function () {
-      const mode = b.dataset.density;
-      apply(mode);
-      try { localStorage.setItem(KEY, mode); } catch (e) { /* ignore */ }
-    });
-  });
+  if (!grid) return;
+  grid.classList.add('density-spacious');
+  grid.style.gap = '28px';
 })();
