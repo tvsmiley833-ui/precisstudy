@@ -331,6 +331,24 @@
       "<b>Topics:</b> subsets of the real numbers; linear inequalities; number-line graphs; interval notation; set-builder notation; compound inequalities; multiplying polynomials; the greatest common factor; factoring (all techniques); literal equations; and higher-degree equations solved with the Zero Product Property.",
       "<b>Fast review plan:</b> redo one problem of every homework type from memory (classify a number, solve a compound inequality in both notations, multiply a trinomial by a binomial, factor completely, solve a literal equation, find all roots), then check against your notes."
      ]
+    },
+    {
+     "l": "Multistep factoring patterns",
+     "intro": "Most unit-test factoring problems need two or three techniques in a row. Recognize which pattern you are looking at, then follow its chain.",
+     "b": [
+      "<b>GCF → difference of squares:</b> $3x^3-48x=3x(x^2-16)=3x(x-4)(x+4)$.",
+      "<b>GCF → trinomial:</b> $2x^3+10x^2+12x=2x(x^2+5x+6)=2x(x+2)(x+3)$. With a leading coefficient other than 1, use the ac-method on what is left.",
+      "<b>GCF → perfect square:</b> $2x^2-28x+98=2(x^2-14x+49)=2(x-7)^2$.",
+      "<b>Grouping → difference of squares:</b> $x^3+3x^2-16x-48=(x+3)(x^2-16)=(x+3)(x-4)(x+4)$.",
+      "<b>GCF → grouping → difference of squares:</b> $6x^3+9x^2-24x-36=3(2x^3+3x^2-8x-12)=3(2x+3)(x^2-4)=3(2x+3)(x-2)(x+2)$.",
+      "<b>Difference of squares twice:</b> $x^4-16=(x^2+4)(x^2-4)=(x^2+4)(x-2)(x+2)$. The sum of squares stays.",
+      "<b>Quadratic in $x^2$:</b> $x^4-13x^2+36=(x^2-4)(x^2-9)=(x-2)(x+2)(x-3)(x+3)$.",
+      "<b>Cubes with a GCF:</b> $2x^3-54=2(x^3-27)=2(x-3)(x^2+3x+9)$.",
+      "<b>Binomial squared minus a square:</b> $(x+1)^2-9=(x+1-3)(x+1+3)=(x-2)(x+4)$. Simplify inside each factor.",
+      "<b>Two variables:</b> $3x^3y-12xy^3=3xy(x^2-4y^2)=3xy(x-2y)(x+2y)$.",
+      "<b>Negative leading term:</b> $-2x^2+18=-2(x^2-9)=-2(x-3)(x+3)$.",
+      "<b>Always finish with a check:</b> look at every factor you ended with. Any factor that still has a common number, or is a difference of squares or cubes, is not finished."
+     ]
     }
    ],
    "traps": [
@@ -9016,6 +9034,890 @@
    "a": 2,
    "e": "Factoring out the target turns it into a single product, so one division finishes the job.",
    "c": 29
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $2 x^{3} - 32 x$",
+   "o": [
+    "$2x(x^2-16)$",
+    "$2x(x-4)^2$",
+    "$2x(x-4)(x+4)$",
+    "$2x(x+4)^2$"
+   ],
+   "a": 2,
+   "e": "Take out the GCF $2x$ first, leaving $x^2-16$. That is a difference of squares, $(x-4)(x+4)$. Stopping at $2x(x^2-16)$ is not complete.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $3 x^{4} - 108 x^{2}$",
+   "o": [
+    "$3x^{2}(x^2-36)$",
+    "$3x^{2}(x-6)^2$",
+    "$3x^{2}(x-6)(x+6)$",
+    "$3x^{2}(x+6)^2$"
+   ],
+   "a": 2,
+   "e": "Take out the GCF $3x^{2}$ first, leaving $x^2-36$. That is a difference of squares, $(x-6)(x+6)$. Stopping at $3x^{2}(x^2-36)$ is not complete.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $6 x^{4} - 216 x^{2}$",
+   "o": [
+    "$6x^{2}(x^2-36)$",
+    "$6x^{2}(x-6)(x+6)$",
+    "$6x^{2}(x-6)^2$",
+    "$6x^{2}(x+6)^2$"
+   ],
+   "a": 1,
+   "e": "Take out the GCF $6x^{2}$ first, leaving $x^2-36$. That is a difference of squares, $(x-6)(x+6)$. Stopping at $6x^{2}(x^2-36)$ is not complete.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $6 x^{3} - 150 x$",
+   "o": [
+    "$6x(x^2-25)$",
+    "$6x(x-5)(x+5)$",
+    "$6x(x-5)^2$",
+    "$6x(x+5)^2$"
+   ],
+   "a": 1,
+   "e": "Take out the GCF $6x$ first, leaving $x^2-25$. That is a difference of squares, $(x-5)(x+5)$. Stopping at $6x(x^2-25)$ is not complete.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $2 x^{3} - 72 x$",
+   "o": [
+    "$2x(x^2-36)$",
+    "$2x(x-6)(x+6)$",
+    "$2x(x-6)^2$",
+    "$2x(x+6)^2$"
+   ],
+   "a": 1,
+   "e": "Take out the GCF $2x$ first, leaving $x^2-36$. That is a difference of squares, $(x-6)(x+6)$. Stopping at $2x(x^2-36)$ is not complete.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $5 x^{4} - 20 x^{2}$",
+   "o": [
+    "$5x^{2}(x-2)(x+2)$",
+    "$5x^{2}(x^2-4)$",
+    "$5x^{2}(x-2)^2$",
+    "$5x^{2}(x+2)^2$"
+   ],
+   "a": 0,
+   "e": "Take out the GCF $5x^{2}$ first, leaving $x^2-4$. That is a difference of squares, $(x-2)(x+2)$. Stopping at $5x^{2}(x^2-4)$ is not complete.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $7 x^{3} - 112 x$",
+   "o": [
+    "$7x(x^2-16)$",
+    "$7x(x-4)^2$",
+    "$7x(x-4)(x+4)$",
+    "$7x(x+4)^2$"
+   ],
+   "a": 2,
+   "e": "Take out the GCF $7x$ first, leaving $x^2-16$. That is a difference of squares, $(x-4)(x+4)$. Stopping at $7x(x^2-16)$ is not complete.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $5 x^{4} - 80 x^{2}$",
+   "o": [
+    "$5x^{2}(x^2-16)$",
+    "$5x^{2}(x-4)^2$",
+    "$5x^{2}(x+4)^2$",
+    "$5x^{2}(x-4)(x+4)$"
+   ],
+   "a": 3,
+   "e": "Take out the GCF $5x^{2}$ first, leaving $x^2-16$. That is a difference of squares, $(x-4)(x+4)$. Stopping at $5x^{2}(x^2-16)$ is not complete.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $4 x^{3} - 100 x$",
+   "o": [
+    "$4x(x^2-25)$",
+    "$4x(x-5)(x+5)$",
+    "$4x(x-5)^2$",
+    "$4x(x+5)^2$"
+   ],
+   "a": 1,
+   "e": "Take out the GCF $4x$ first, leaving $x^2-25$. That is a difference of squares, $(x-5)(x+5)$. Stopping at $4x(x^2-25)$ is not complete.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $7 x^{4} - 252 x^{2}$",
+   "o": [
+    "$7x^{2}(x^2-36)$",
+    "$7x^{2}(x-6)(x+6)$",
+    "$7x^{2}(x-6)^2$",
+    "$7x^{2}(x+6)^2$"
+   ],
+   "a": 1,
+   "e": "Take out the GCF $7x^{2}$ first, leaving $x^2-36$. That is a difference of squares, $(x-6)(x+6)$. Stopping at $7x^{2}(x^2-36)$ is not complete.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $2 x^{4} + 10 x^{3} - 12 x^{2}$",
+   "o": [
+    "$2x^{2}(x+6)(x-1)$",
+    "$2x^{2}(x^{2} + 5 x - 6)$",
+    "$2x^{2}(x-6)(x+1)$",
+    "$2x^{2}(x+6)(x+1)$"
+   ],
+   "a": 0,
+   "e": "GCF first: $2x^{2}$ leaves $x^{2} + 5 x - 6$. Find two numbers with product $-6$ and sum $5$: they are $6$ and $-1$, so the trinomial is $(x+6)(x-1)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $5 x^{4} - 20 x^{3} - 25 x^{2}$",
+   "o": [
+    "$5x^{2}(x^{2} - 4 x - 5)$",
+    "$5x^{2}(x-1)(x+5)$",
+    "$5x^{2}(x+1)(x-5)$",
+    "$5x^{2}(x+1)(x+5)$"
+   ],
+   "a": 2,
+   "e": "GCF first: $5x^{2}$ leaves $x^{2} - 4 x - 5$. Find two numbers with product $-5$ and sum $-4$: they are $1$ and $-5$, so the trinomial is $(x+1)(x-5)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $5 x^{4} + 5 x^{3} - 30 x^{2}$",
+   "o": [
+    "$5x^{2}(x+3)(x-2)$",
+    "$5x^{2}(x^{2} + x - 6)$",
+    "$5x^{2}(x-3)(x+2)$",
+    "$5x^{2}(x+3)(x+2)$"
+   ],
+   "a": 0,
+   "e": "GCF first: $5x^{2}$ leaves $x^{2} + x - 6$. Find two numbers with product $-6$ and sum $1$: they are $3$ and $-2$, so the trinomial is $(x+3)(x-2)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $2 x^{3} + 2 x^{2} - 24 x$",
+   "o": [
+    "$2x(x^{2} + x - 12)$",
+    "$2x(x-4)(x+3)$",
+    "$2x(x+4)(x+3)$",
+    "$2x(x+4)(x-3)$"
+   ],
+   "a": 3,
+   "e": "GCF first: $2x$ leaves $x^{2} + x - 12$. Find two numbers with product $-12$ and sum $1$: they are $4$ and $-3$, so the trinomial is $(x+4)(x-3)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $2 x^{3} + 18 x^{2} + 36 x$",
+   "o": [
+    "$2x(x^{2} + 9 x + 18)$",
+    "$2x(x+6)(x+3)$",
+    "$2x(x-6)(x-3)$",
+    "$2x(x+6)(x-3)$"
+   ],
+   "a": 1,
+   "e": "GCF first: $2x$ leaves $x^{2} + 9 x + 18$. Find two numbers with product $18$ and sum $9$: they are $6$ and $3$, so the trinomial is $(x+6)(x+3)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $5 x^{4} - 10 x^{3} - 40 x^{2}$",
+   "o": [
+    "$5x^{2}(x^{2} - 2 x - 8)$",
+    "$5x^{2}(x+2)(x-4)$",
+    "$5x^{2}(x-2)(x+4)$",
+    "$5x^{2}(x+2)(x+4)$"
+   ],
+   "a": 1,
+   "e": "GCF first: $5x^{2}$ leaves $x^{2} - 2 x - 8$. Find two numbers with product $-8$ and sum $-2$: they are $2$ and $-4$, so the trinomial is $(x+2)(x-4)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $5 x^{4} + 35 x^{3} + 50 x^{2}$",
+   "o": [
+    "$5x^{2}(x^{2} + 7 x + 10)$",
+    "$5x^{2}(x-5)(x-2)$",
+    "$5x^{2}(x+5)(x-2)$",
+    "$5x^{2}(x+5)(x+2)$"
+   ],
+   "a": 3,
+   "e": "GCF first: $5x^{2}$ leaves $x^{2} + 7 x + 10$. Find two numbers with product $10$ and sum $7$: they are $5$ and $2$, so the trinomial is $(x+5)(x+2)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $5 x^{4} + 15 x^{3} - 50 x^{2}$",
+   "o": [
+    "$5x^{2}(x^{2} + 3 x - 10)$",
+    "$5x^{2}(x+5)(x-2)$",
+    "$5x^{2}(x-5)(x+2)$",
+    "$5x^{2}(x+5)(x+2)$"
+   ],
+   "a": 1,
+   "e": "GCF first: $5x^{2}$ leaves $x^{2} + 3 x - 10$. Find two numbers with product $-10$ and sum $3$: they are $5$ and $-2$, so the trinomial is $(x+5)(x-2)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $5 x^{4} - 10 x^{3} - 15 x^{2}$",
+   "o": [
+    "$5x^{2}(x^{2} - 2 x - 3)$",
+    "$5x^{2}(x-1)(x+3)$",
+    "$5x^{2}(x+1)(x-3)$",
+    "$5x^{2}(x+1)(x+3)$"
+   ],
+   "a": 2,
+   "e": "GCF first: $5x^{2}$ leaves $x^{2} - 2 x - 3$. Find two numbers with product $-3$ and sum $-2$: they are $1$ and $-3$, so the trinomial is $(x+1)(x-3)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $3 x^{4} + 27 x^{3} + 60 x^{2}$",
+   "o": [
+    "$3x^{2}(x^{2} + 9 x + 20)$",
+    "$3x^{2}(x-5)(x-4)$",
+    "$3x^{2}(x+5)(x+4)$",
+    "$3x^{2}(x+5)(x-4)$"
+   ],
+   "a": 2,
+   "e": "GCF first: $3x^{2}$ leaves $x^{2} + 9 x + 20$. Find two numbers with product $20$ and sum $9$: they are $5$ and $4$, so the trinomial is $(x+5)(x+4)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $75 x^{3} + 35 x^{2} - 20 x$",
+   "o": [
+    "$5x(5x+4)(3x-1)$",
+    "$5x(15 x^{2} + 7 x - 4)$",
+    "$5x(5x-4)(3x+1)$",
+    "$5x(5x-1)(3x+4)$"
+   ],
+   "a": 0,
+   "e": "GCF $5x$ first, leaving $15 x^{2} + 7 x - 4$. Use the ac-method with ac = $-60$ to split the middle term and group, giving $(5x+4)(3x-1)$. Multiply back to check.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $24 x^{2} - 120 x + 150$",
+   "o": [
+    "$6(2x-5)^2$",
+    "$6(2x+5)^2$",
+    "$6(2x-5)(2x+5)$",
+    "$(12x-30)(2x-5)$"
+   ],
+   "a": 0,
+   "e": "GCF $6$ first. The trinomial $4 x^{2} - 20 x + 25$ is a perfect square: first and last terms are squares and the middle term is twice their product. So it is $(2x-5)^2$. The form $(12x-30)(2x-5)$ is equal but not complete.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $5 x^{2} + 50 x + 125$",
+   "o": [
+    "$5(x-5)^2$",
+    "$5(x+5)(x-5)$",
+    "$5(x+5)^2$",
+    "$(5x+25)(x+5)$"
+   ],
+   "a": 2,
+   "e": "GCF $5$ first. The trinomial $x^{2} + 10 x + 25$ is a perfect square: first and last terms are squares and the middle term is twice their product. So it is $(x+5)^2$. The form $(5x+25)(x+5)$ is equal but not complete.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $5 x^{2} - 10 x + 5$",
+   "o": [
+    "$5(x+1)^2$",
+    "$5(x-1)(x+1)$",
+    "$(5x-5)(x-1)$",
+    "$5(x-1)^2$"
+   ],
+   "a": 3,
+   "e": "GCF $5$ first. The trinomial $x^{2} - 2 x + 1$ is a perfect square: first and last terms are squares and the middle term is twice their product. So it is $(x-1)^2$. The form $(5x-5)(x-1)$ is equal but not complete.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $2 x^{2} - 12 x + 18$",
+   "o": [
+    "$2(x+3)^2$",
+    "$2(x-3)^2$",
+    "$2(x-3)(x+3)$",
+    "$(2x-6)(x-3)$"
+   ],
+   "a": 1,
+   "e": "GCF $2$ first. The trinomial $x^{2} - 6 x + 9$ is a perfect square: first and last terms are squares and the middle term is twice their product. So it is $(x-3)^2$. The form $(2x-6)(x-3)$ is equal but not complete.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $2 x^{2} - 20 x + 50$",
+   "o": [
+    "$2(x+5)^2$",
+    "$2(x-5)^2$",
+    "$2(x-5)(x+5)$",
+    "$(2x-10)(x-5)$"
+   ],
+   "a": 1,
+   "e": "GCF $2$ first. The trinomial $x^{2} - 10 x + 25$ is a perfect square: first and last terms are squares and the middle term is twice their product. So it is $(x-5)^2$. The form $(2x-10)(x-5)$ is equal but not complete.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $36 x^{2} - 72 x + 36$",
+   "o": [
+    "$4(3x+3)^2$",
+    "$4(3x-3)^2$",
+    "$4(3x-3)(3x+3)$",
+    "$(12x-12)(3x-3)$"
+   ],
+   "a": 1,
+   "e": "GCF $4$ first. The trinomial $9 x^{2} - 18 x + 9$ is a perfect square: first and last terms are squares and the middle term is twice their product. So it is $(3x-3)^2$. The form $(12x-12)(3x-3)$ is equal but not complete.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $4 x^{2} - 32 x + 64$",
+   "o": [
+    "$4(x-4)^2$",
+    "$4(x+4)^2$",
+    "$4(x-4)(x+4)$",
+    "$(4x-16)(x-4)$"
+   ],
+   "a": 0,
+   "e": "GCF $4$ first. The trinomial $x^{2} - 8 x + 16$ is a perfect square: first and last terms are squares and the middle term is twice their product. So it is $(x-4)^2$. The form $(4x-16)(x-4)$ is equal but not complete.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $54 x^{2} + 72 x + 24$",
+   "o": [
+    "$6(3x+2)^2$",
+    "$6(3x-2)^2$",
+    "$6(3x+2)(3x-2)$",
+    "$(18x+12)(3x+2)$"
+   ],
+   "a": 0,
+   "e": "GCF $6$ first. The trinomial $9 x^{2} + 12 x + 4$ is a perfect square: first and last terms are squares and the middle term is twice their product. So it is $(3x+2)^2$. The form $(18x+12)(3x+2)$ is equal but not complete.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $54 x^{2} - 72 x + 24$",
+   "o": [
+    "$6(3x+2)^2$",
+    "$6(3x-2)^2$",
+    "$6(3x-2)(3x+2)$",
+    "$(18x-12)(3x-2)$"
+   ],
+   "a": 1,
+   "e": "GCF $6$ first. The trinomial $9 x^{2} - 12 x + 4$ is a perfect square: first and last terms are squares and the middle term is twice their product. So it is $(3x-2)^2$. The form $(18x-12)(3x-2)$ is equal but not complete.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $24 x^{2} + 96 x + 96$",
+   "o": [
+    "$6(2x-4)^2$",
+    "$6(2x+4)(2x-4)$",
+    "$(12x+24)(2x+4)$",
+    "$6(2x+4)^2$"
+   ],
+   "a": 3,
+   "e": "GCF $6$ first. The trinomial $4 x^{2} + 16 x + 16$ is a perfect square: first and last terms are squares and the middle term is twice their product. So it is $(2x+4)^2$. The form $(12x+24)(2x+4)$ is equal but not complete.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $x^{3} - 4 x^{2} - 25 x + 100$",
+   "o": [
+    "$(x-4)(x-5)(x+5)$",
+    "$(x-4)(x^2-25)$",
+    "$(x+4)(x-5)(x+5)$",
+    "$(x-4)(x-5)^2$"
+   ],
+   "a": 0,
+   "e": "Group the four terms in pairs: $x^2(x-4)-25(x-4)$ with the common binomial $(x-4)$. That gives $(x-4)(x^2-25)$, and the difference of squares splits again: $(x-5)(x+5)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $x^{3} - 5 x^{2} - 9 x + 45$",
+   "o": [
+    "$(x-5)(x-3)(x+3)$",
+    "$(x-5)(x^2-9)$",
+    "$(x+5)(x-3)(x+3)$",
+    "$(x-5)(x-3)^2$"
+   ],
+   "a": 0,
+   "e": "Group the four terms in pairs: $x^2(x-5)-9(x-5)$ with the common binomial $(x-5)$. That gives $(x-5)(x^2-9)$, and the difference of squares splits again: $(x-3)(x+3)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $x^{3} - 3 x^{2} - 4 x + 12$",
+   "o": [
+    "$(x-3)(x^2-4)$",
+    "$(x-3)(x-2)(x+2)$",
+    "$(x+3)(x-2)(x+2)$",
+    "$(x-3)(x-2)^2$"
+   ],
+   "a": 1,
+   "e": "Group the four terms in pairs: $x^2(x-3)-4(x-3)$ with the common binomial $(x-3)$. That gives $(x-3)(x^2-4)$, and the difference of squares splits again: $(x-2)(x+2)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $x^{3} + 4 x^{2} - 4 x - 16$",
+   "o": [
+    "$(x+4)(x^2-4)$",
+    "$(x-4)(x-2)(x+2)$",
+    "$(x+4)(x-2)(x+2)$",
+    "$(x+4)(x-2)^2$"
+   ],
+   "a": 2,
+   "e": "Group the four terms in pairs: $x^2(x+4)-4(x+4)$ with the common binomial $(x+4)$. That gives $(x+4)(x^2-4)$, and the difference of squares splits again: $(x-2)(x+2)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $x^{3} + 3 x^{2} - 4 x - 12$",
+   "o": [
+    "$(x+3)(x-2)(x+2)$",
+    "$(x+3)(x^2-4)$",
+    "$(x-3)(x-2)(x+2)$",
+    "$(x+3)(x-2)^2$"
+   ],
+   "a": 0,
+   "e": "Group the four terms in pairs: $x^2(x+3)-4(x+3)$ with the common binomial $(x+3)$. That gives $(x+3)(x^2-4)$, and the difference of squares splits again: $(x-2)(x+2)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $x^{3} + 4 x^{2} - 9 x - 36$",
+   "o": [
+    "$(x+4)(x-3)(x+3)$",
+    "$(x+4)(x^2-9)$",
+    "$(x-4)(x-3)(x+3)$",
+    "$(x+4)(x-3)^2$"
+   ],
+   "a": 0,
+   "e": "Group the four terms in pairs: $x^2(x+4)-9(x+4)$ with the common binomial $(x+4)$. That gives $(x+4)(x^2-9)$, and the difference of squares splits again: $(x-3)(x+3)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $x^{3} + 2 x^{2} - 16 x - 32$",
+   "o": [
+    "$(x+2)(x^2-16)$",
+    "$(x-2)(x-4)(x+4)$",
+    "$(x+2)(x-4)^2$",
+    "$(x+2)(x-4)(x+4)$"
+   ],
+   "a": 3,
+   "e": "Group the four terms in pairs: $x^2(x+2)-16(x+2)$ with the common binomial $(x+2)$. That gives $(x+2)(x^2-16)$, and the difference of squares splits again: $(x-4)(x+4)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $4 x^{3} - 108$",
+   "o": [
+    "$4(x-3)(x^2+3x+9)$",
+    "$4(x-3)(x^2-3x+9)$",
+    "$4(x-3)^3$",
+    "$4(x+3)(x^2-3x+9)$"
+   ],
+   "a": 0,
+   "e": "Difference of cubes after taking out $4$: $a^3-b^3=(a-b)(a^2+ab+b^2)$ with $a=x$, $b=3$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $5 x^{3} - 5$",
+   "o": [
+    "$5(x-1)(x^2-1x+1)$",
+    "$5(x-1)^3$",
+    "$5(x-1)(x^2+1x+1)$",
+    "$5(x+1)(x^2-1x+1)$"
+   ],
+   "a": 2,
+   "e": "Difference of cubes after taking out $5$: $a^3-b^3=(a-b)(a^2+ab+b^2)$ with $a=x$, $b=1$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $2 x^{3} + 2$",
+   "o": [
+    "$2(x+1)(x^2-1x+1)$",
+    "$2(x+1)(x^2+1x+1)$",
+    "$2(x+1)^3$",
+    "$2(x-1)(x^2+1x+1)$"
+   ],
+   "a": 0,
+   "e": "Sum of cubes after taking out $2$: $a^3+b^3=(a+b)(a^2-ab+b^2)$ with $a=x$, $b=1$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $2 x^{3} - 2$",
+   "o": [
+    "$2(x-1)(x^2-1x+1)$",
+    "$2(x-1)^3$",
+    "$2(x+1)(x^2-1x+1)$",
+    "$2(x-1)(x^2+1x+1)$"
+   ],
+   "a": 3,
+   "e": "Difference of cubes after taking out $2$: $a^3-b^3=(a-b)(a^2+ab+b^2)$ with $a=x$, $b=1$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $4 x^{3} + 32$",
+   "o": [
+    "$4(x+2)(x^2+2x+4)$",
+    "$4(x+2)(x^2-2x+4)$",
+    "$4(x+2)^3$",
+    "$4(x-2)(x^2+2x+4)$"
+   ],
+   "a": 1,
+   "e": "Sum of cubes after taking out $4$: $a^3+b^3=(a+b)(a^2-ab+b^2)$ with $a=x$, $b=2$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $2 x^{3} + 16$",
+   "o": [
+    "$2(x+2)(x^2+2x+4)$",
+    "$2(x+2)(x^2-2x+4)$",
+    "$2(x+2)^3$",
+    "$2(x-2)(x^2+2x+4)$"
+   ],
+   "a": 1,
+   "e": "Sum of cubes after taking out $2$: $a^3+b^3=(a+b)(a^2-ab+b^2)$ with $a=x$, $b=2$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $4 x^{3} + 108$",
+   "o": [
+    "$4(x+3)(x^2+3x+9)$",
+    "$4(x+3)^3$",
+    "$4(x-3)(x^2+3x+9)$",
+    "$4(x+3)(x^2-3x+9)$"
+   ],
+   "a": 3,
+   "e": "Sum of cubes after taking out $4$: $a^3+b^3=(a+b)(a^2-ab+b^2)$ with $a=x$, $b=3$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $2 x^{3} - 54$",
+   "o": [
+    "$2(x-3)(x^2-3x+9)$",
+    "$2(x-3)^3$",
+    "$2(x+3)(x^2-3x+9)$",
+    "$2(x-3)(x^2+3x+9)$"
+   ],
+   "a": 3,
+   "e": "Difference of cubes after taking out $2$: $a^3-b^3=(a-b)(a^2+ab+b^2)$ with $a=x$, $b=3$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $3 x^{3} - 81$",
+   "o": [
+    "$3(x-3)(x^2-3x+9)$",
+    "$3(x-3)(x^2+3x+9)$",
+    "$3(x-3)^3$",
+    "$3(x+3)(x^2-3x+9)$"
+   ],
+   "a": 1,
+   "e": "Difference of cubes after taking out $3$: $a^3-b^3=(a-b)(a^2+ab+b^2)$ with $a=x$, $b=3$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $6 x^{3} + 6 x^{2} - 54 x - 54$",
+   "o": [
+    "$3(2x+2)(x^2-9)$",
+    "$3(2x-2)(x-3)(x+3)$",
+    "$(6x+6)(x-3)(x+3)$",
+    "$3(2x+2)(x-3)(x+3)$"
+   ],
+   "a": 3,
+   "e": "GCF $3$ first, then group the four terms: $x^2(2x+2)-9(2x+2)=(2x+2)(x^2-9)$. Finish with the difference of squares.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $6 x^{3} + 4 x^{2} - 24 x - 16$",
+   "o": [
+    "$2(3x+2)(x-2)(x+2)$",
+    "$2(3x+2)(x^2-4)$",
+    "$2(3x-2)(x-2)(x+2)$",
+    "$(6x+4)(x-2)(x+2)$"
+   ],
+   "a": 0,
+   "e": "GCF $2$ first, then group the four terms: $x^2(3x+2)-4(3x+2)=(3x+2)(x^2-4)$. Finish with the difference of squares.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $6 x^{3} + 4 x^{2} - 54 x - 36$",
+   "o": [
+    "$2(3x+2)(x^2-9)$",
+    "$2(3x-2)(x-3)(x+3)$",
+    "$2(3x+2)(x-3)(x+3)$",
+    "$(6x+4)(x-3)(x+3)$"
+   ],
+   "a": 2,
+   "e": "GCF $2$ first, then group the four terms: $x^2(3x+2)-9(3x+2)=(3x+2)(x^2-9)$. Finish with the difference of squares.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $4 x^{3} + 2 x^{2} - 16 x - 8$",
+   "o": [
+    "$2(2x+1)(x^2-4)$",
+    "$2(2x-1)(x-2)(x+2)$",
+    "$(4x+2)(x-2)(x+2)$",
+    "$2(2x+1)(x-2)(x+2)$"
+   ],
+   "a": 3,
+   "e": "GCF $2$ first, then group the four terms: $x^2(2x+1)-4(2x+1)=(2x+1)(x^2-4)$. Finish with the difference of squares.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $6 x^{3} + 2 x^{2} - 24 x - 8$",
+   "o": [
+    "$2(3x+1)(x-2)(x+2)$",
+    "$2(3x+1)(x^2-4)$",
+    "$2(3x-1)(x-2)(x+2)$",
+    "$(6x+2)(x-2)(x+2)$"
+   ],
+   "a": 0,
+   "e": "GCF $2$ first, then group the four terms: $x^2(3x+1)-4(3x+1)=(3x+1)(x^2-4)$. Finish with the difference of squares.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $9 x^{3} + 6 x^{2} - 36 x - 24$",
+   "o": [
+    "$3(3x+2)(x^2-4)$",
+    "$3(3x-2)(x-2)(x+2)$",
+    "$3(3x+2)(x-2)(x+2)$",
+    "$(9x+6)(x-2)(x+2)$"
+   ],
+   "a": 2,
+   "e": "GCF $3$ first, then group the four terms: $x^2(3x+2)-4(3x+2)=(3x+2)(x^2-4)$. Finish with the difference of squares.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $9 x^{3} + 9 x^{2} - 36 x - 36$",
+   "o": [
+    "$3(3x+3)(x^2-4)$",
+    "$3(3x-3)(x-2)(x+2)$",
+    "$(9x+9)(x-2)(x+2)$",
+    "$3(3x+3)(x-2)(x+2)$"
+   ],
+   "a": 3,
+   "e": "GCF $3$ first, then group the four terms: $x^2(3x+3)-4(3x+3)=(3x+3)(x^2-4)$. Finish with the difference of squares.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $- 3 x^{2} + 48$",
+   "o": [
+    "$-3(x-4)(x+4)$",
+    "$3(x-4)(x+4)$",
+    "$-3(x-4)^2$",
+    "$-3(x^2-16)$"
+   ],
+   "a": 0,
+   "e": "Factor out $-3$ so the leading term is positive: $-3(x^2-16)$. Then the difference of squares: $(x-4)(x+4)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $- 4 x^{2} + 64$",
+   "o": [
+    "$4(x-4)(x+4)$",
+    "$-4(x-4)^2$",
+    "$-4(x^2-16)$",
+    "$-4(x-4)(x+4)$"
+   ],
+   "a": 3,
+   "e": "Factor out $-4$ so the leading term is positive: $-4(x^2-16)$. Then the difference of squares: $(x-4)(x+4)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $- 3 x^{2} + 12$",
+   "o": [
+    "$-3(x-2)(x+2)$",
+    "$3(x-2)(x+2)$",
+    "$-3(x-2)^2$",
+    "$-3(x^2-4)$"
+   ],
+   "a": 0,
+   "e": "Factor out $-3$ so the leading term is positive: $-3(x^2-4)$. Then the difference of squares: $(x-2)(x+2)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $- 4 x^{2} + 16$",
+   "o": [
+    "$4(x-2)(x+2)$",
+    "$-4(x-2)(x+2)$",
+    "$-4(x-2)^2$",
+    "$-4(x^2-4)$"
+   ],
+   "a": 1,
+   "e": "Factor out $-4$ so the leading term is positive: $-4(x^2-4)$. Then the difference of squares: $(x-2)(x+2)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $x^{2} + 6 x - 16$",
+   "o": [
+    "$(x+2)(x-8)$",
+    "$(x+3-5)(x+3+5)$",
+    "$(x-2)(x+8)$",
+    "$(x+3)^2-25$"
+   ],
+   "a": 2,
+   "e": "Difference of squares with $a=x+3$ and $b=5$: $(a-b)(a+b)=(x+3-5)(x+3+5)$. Simplify each factor: $(x-2)(x+8)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $x^{2} + 6 x + 5$",
+   "o": [
+    "$(x+1)(x+5)$",
+    "$(x-1)(x-5)$",
+    "$(x+3-2)(x+3+2)$",
+    "$(x+3)^2-4$"
+   ],
+   "a": 0,
+   "e": "Difference of squares with $a=x+3$ and $b=2$: $(a-b)(a+b)=(x+3-2)(x+3+2)$. Simplify each factor: $(x+1)(x+5)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $x^{2} + 2 x - 3$",
+   "o": [
+    "$(x-1)(x+3)$",
+    "$(x+1)(x-3)$",
+    "$(x+1-2)(x+1+2)$",
+    "$(x+1)^2-4$"
+   ],
+   "a": 0,
+   "e": "Difference of squares with $a=x+1$ and $b=2$: $(a-b)(a+b)=(x+1-2)(x+1+2)$. Simplify each factor: $(x-1)(x+3)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $2 x^{3} y - 32 x y^{3}$",
+   "o": [
+    "$2xy(x^2-16y^2)$",
+    "$2xy(x-4y)^2$",
+    "$2(x-4y)(x+4y)$",
+    "$2xy(x-4y)(x+4y)$"
+   ],
+   "a": 3,
+   "e": "Take out the GCF $2xy$ first. What remains is $x^2-16y^2$, a difference of squares $(x-4y)(x+4y)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $3 x^{3} y - 48 x y^{3}$",
+   "o": [
+    "$3xy(x^2-16y^2)$",
+    "$3xy(x-4y)^2$",
+    "$3xy(x-4y)(x+4y)$",
+    "$3(x-4y)(x+4y)$"
+   ],
+   "a": 2,
+   "e": "Take out the GCF $3xy$ first. What remains is $x^2-16y^2$, a difference of squares $(x-4y)(x+4y)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $3 x^{3} y - 12 x y^{3}$",
+   "o": [
+    "$3xy(x^2-4y^2)$",
+    "$3xy(x-2y)^2$",
+    "$3(x-2y)(x+2y)$",
+    "$3xy(x-2y)(x+2y)$"
+   ],
+   "a": 3,
+   "e": "Take out the GCF $3xy$ first. What remains is $x^2-4y^2$, a difference of squares $(x-2y)(x+2y)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $5 x^{3} y - 80 x y^{3}$",
+   "o": [
+    "$5xy(x-4y)(x+4y)$",
+    "$5xy(x^2-16y^2)$",
+    "$5xy(x-4y)^2$",
+    "$5(x-4y)(x+4y)$"
+   ],
+   "a": 0,
+   "e": "Take out the GCF $5xy$ first. What remains is $x^2-16y^2$, a difference of squares $(x-4y)(x+4y)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $2 x^{3} y - 18 x y^{3}$",
+   "o": [
+    "$2xy(x-3y)(x+3y)$",
+    "$2xy(x^2-9y^2)$",
+    "$2xy(x-3y)^2$",
+    "$2(x-3y)(x+3y)$"
+   ],
+   "a": 0,
+   "e": "Take out the GCF $2xy$ first. What remains is $x^2-9y^2$, a difference of squares $(x-3y)(x+3y)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $5 x^{3} y - 45 x y^{3}$",
+   "o": [
+    "$5xy(x^2-9y^2)$",
+    "$5xy(x-3y)^2$",
+    "$5(x-3y)(x+3y)$",
+    "$5xy(x-3y)(x+3y)$"
+   ],
+   "a": 3,
+   "e": "Take out the GCF $5xy$ first. What remains is $x^2-9y^2$, a difference of squares $(x-3y)(x+3y)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $5 x^{3} y - 20 x y^{3}$",
+   "o": [
+    "$5xy(x^2-4y^2)$",
+    "$5xy(x-2y)(x+2y)$",
+    "$5xy(x-2y)^2$",
+    "$5(x-2y)(x+2y)$"
+   ],
+   "a": 1,
+   "e": "Take out the GCF $5xy$ first. What remains is $x^2-4y^2$, a difference of squares $(x-2y)(x+2y)$.",
+   "c": 27
   }
  ],
  "hardQuiz": [
@@ -11411,6 +12313,110 @@
    "a": 1,
    "e": "A root $r$ comes from the factor $(x-r)$; to keep integer coefficients write $x-\\frac12$ as $2x-1$. The signs of the roots are the opposite of the signs inside the factors.",
    "c": 28
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $5 x^{4} - 405$",
+   "o": [
+    "$5(x^2+9)(x-3)(x+3)$",
+    "$5(x^2+9)(x^2-9)$",
+    "$5(x-3)^2(x+3)^2$",
+    "$5(x^2-9)^2$"
+   ],
+   "a": 0,
+   "e": "Difference of squares twice: $x^4-81=(x^2+9)(x^2-9)$, then $x^2-9=(x-3)(x+3)$. The sum $x^2+9$ is prime and stays.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $5 x^{4} - 5$",
+   "o": [
+    "$5(x^2+1)(x-1)(x+1)$",
+    "$5(x^2+1)(x^2-1)$",
+    "$5(x-1)^2(x+1)^2$",
+    "$5(x^2-1)^2$"
+   ],
+   "a": 0,
+   "e": "Difference of squares twice: $x^4-1=(x^2+1)(x^2-1)$, then $x^2-1=(x-1)(x+1)$. The sum $x^2+1$ is prime and stays.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $5 x^{4} - 80$",
+   "o": [
+    "$5(x^2+4)(x^2-4)$",
+    "$5(x-2)^2(x+2)^2$",
+    "$5(x^2+4)(x-2)(x+2)$",
+    "$5(x^2-4)^2$"
+   ],
+   "a": 2,
+   "e": "Difference of squares twice: $x^4-16=(x^2+4)(x^2-4)$, then $x^2-4=(x-2)(x+2)$. The sum $x^2+4$ is prime and stays.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $2 x^{4} - 32$",
+   "o": [
+    "$2(x^2+4)(x^2-4)$",
+    "$2(x-2)^2(x+2)^2$",
+    "$2(x^2-4)^2$",
+    "$2(x^2+4)(x-2)(x+2)$"
+   ],
+   "a": 3,
+   "e": "Difference of squares twice: $x^4-16=(x^2+4)(x^2-4)$, then $x^2-4=(x-2)(x+2)$. The sum $x^2+4$ is prime and stays.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $x^{4} - 10 x^{2} + 9$",
+   "o": [
+    "$(x^2-1)(x^2-9)$",
+    "$(x-1)^2(x-3)^2$",
+    "$(x-1)(x+1)(x^2-9)$",
+    "$(x-1)(x+1)(x-3)(x+3)$"
+   ],
+   "a": 3,
+   "e": "Treat it as a quadratic in $x^2$: $(x^2-1)(x^2-9)$. Each factor is a difference of squares, so factor again.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $x^{4} - 5 x^{2} + 4$",
+   "o": [
+    "$(x-1)(x+1)(x-2)(x+2)$",
+    "$(x^2-1)(x^2-4)$",
+    "$(x-1)^2(x-2)^2$",
+    "$(x-1)(x+1)(x^2-4)$"
+   ],
+   "a": 0,
+   "e": "Treat it as a quadratic in $x^2$: $(x^2-1)(x^2-4)$. Each factor is a difference of squares, so factor again.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $x^{4} - 20 x^{2} + 64$",
+   "o": [
+    "$(x-2)(x+2)(x-4)(x+4)$",
+    "$(x^2-4)(x^2-16)$",
+    "$(x-2)^2(x-4)^2$",
+    "$(x-2)(x+2)(x^2-16)$"
+   ],
+   "a": 0,
+   "e": "Treat it as a quadratic in $x^2$: $(x^2-4)(x^2-16)$. Each factor is a difference of squares, so factor again.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $x^{4} - 17 x^{2} + 16$",
+   "o": [
+    "$(x-1)(x+1)(x-4)(x+4)$",
+    "$(x^2-1)(x^2-16)$",
+    "$(x-1)^2(x-4)^2$",
+    "$(x-1)(x+1)(x^2-16)$"
+   ],
+   "a": 0,
+   "e": "Treat it as a quadratic in $x^2$: $(x^2-1)(x^2-16)$. Each factor is a difference of squares, so factor again.",
+   "c": 27
   }
  ],
  "workedExamples": [
