@@ -1437,12 +1437,12 @@
    "u": 2,
    "q": "Does $f(x)=(x²+1)/(x−2)$ have a horizontal or slant asymptote?",
    "o": [
-    "Horizontal asymptote $y=0$",
-    "Slant asymptote (numerator degree exactly 1 more)",
-    "Horizontal asymptote $y=1$",
-    "No asymptote of either kind"
+    "Horizontal asymptote $y=0$ (denominator degree higher)",
+    "Horizontal asymptote $y=1$ (degrees are equal)",
+    "No asymptote of either kind (degrees differ by one)",
+    "Slant asymptote (numerator degree exactly 1 more)"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Numerator degree (2) is exactly one more than denominator degree (1) → a slant asymptote exists, found by long division.",
    "c": 3
   },
@@ -1565,12 +1565,12 @@
    "u": 2,
    "q": "A polynomial of degree 5 with a positive leading coefficient has which end behavior?",
    "o": [
-    "rises on both ends",
-    "falls on both ends",
+    "rises to the left and falls to the right",
     "falls to the left and rises to the right",
-    "rises to the left and falls to the right"
+    "falls to the left and falls to the right",
+    "rises to the left and rises to the right"
    ],
-   "a": 2,
+   "a": 1,
    "e": "Odd degree with a positive leading coefficient: down on the left, up on the right.",
    "c": 0
   },
@@ -2545,12 +2545,12 @@
    "u": 6,
    "q": "If cosC turns out to be negative when applying the Law of Cosines, what does this mean?",
    "o": [
-    "Angle C is obtuse (between 90° and 180°)",
-    "There is a calculation error",
-    "Angle C is acute",
-    "No triangle exists"
+    "Angle C is acute (between 0° and 90°)",
+    "Angle C is exactly 90° (a right angle)",
+    "The triangle is impossible (no such triangle)",
+    "Angle C is obtuse (between 90° and 180°)"
    ],
-   "a": 0,
+   "a": 3,
    "e": "A negative cosine value corresponds to an angle between 90° and 180° — this is a valid, expected result.",
    "c": 1
   },
@@ -2806,9 +2806,9 @@
    "q": "If Cramer's Rule gives $D=0$ for a system, what can be concluded?",
    "o": [
     "The system has no unique solution — either none or infinitely many",
-    "The solution is $x=0, y=0$",
-    "The system definitely has infinitely many solutions",
-    "The system definitely has no solution"
+    "The system has exactly one solution, at the point $(0,0)$ and nowhere else",
+    "The system has no solution at all, so it is always an inconsistent system",
+    "The system has exactly two solutions, one for each variable in the system"
    ],
    "a": 0,
    "e": "$D=0$ means Cramer's Rule cannot determine a unique solution — further analysis (or another method) is needed to tell no-solution from infinite-solutions.",
@@ -3083,12 +3083,12 @@
    "u": 8,
    "q": "Which conic is $x²/9+y²/25=1?$",
    "o": [
-    "An ellipse with major axis along the y-axis",
     "An ellipse with major axis along the x-axis",
-    "A hyperbola",
-    "A parabola"
+    "An ellipse with major axis along the y-axis",
+    "A hyperbola with vertices along the y-axis",
+    "A circle of radius 5 centered at the origin"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Both terms are added (ellipse) and the larger denominator (25) is under y², so the major axis is vertical.",
    "c": 4
   },
@@ -3222,12 +3222,12 @@
    "u": 9,
    "q": "If lim(x→1⁻) $f(x)=3$ and lim(x→1⁺) $f(x)=7$, what can be concluded about lim(x→1) f(x)?",
    "o": [
-    "It does not exist (jump discontinuity)",
-    "It equals 5 (the average)",
-    "It equals 3",
-    "It equals 7"
+    "It equals 5 (average of one-sided limits)",
+    "It equals 3 (the left-hand limit decides)",
+    "It equals 7 (the right-hand limit decides)",
+    "It does not exist (jump discontinuity)"
    ],
-   "a": 0,
+   "a": 3,
    "e": "The one-sided limits disagree, so the overall (two-sided) limit does not exist there.",
    "c": 0
   },
@@ -3261,12 +3261,12 @@
    "u": 9,
    "q": "What does the average rate of change of a function over [a,b] represent geometrically?",
    "o": [
-    "The slope of the secant line through (a,f(a)) and (b,f(b))",
-    "The slope of the tangent line at $x=a$",
-    "The y-intercept of the function",
-    "The area under the curve"
+    "The area under the curve between $x=a$ and $x=b$ on the graph",
+    "The slope of the tangent line at the single point $(a,f(a))$ only",
+    "The vertical distance between $f(a)$ and $f(b)$ on the y-axis",
+    "The slope of the secant line through (a,f(a)) and (b,f(b))"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Average rate of change is exactly the slope formula (y₂−y₁)/(x₂−x₁), which is the secant line's slope."
   },
   {
@@ -3350,9 +3350,9 @@
    "q": "Which situation describes a limit that does NOT exist as x→a?",
    "o": [
     "The left and right limits approach different values",
-    "f(a) is undefined but both one-sided limits agree",
-    "The function is continuous at a",
-    "$f(a)=0$"
+    "The left and right limits approach the same value",
+    "The function is undefined at $x=a$ but the limits agree",
+    "The function has a hole at $x=a$ with matching sides"
    ],
    "a": 0,
    "e": "When the left-hand and right-hand limits disagree, no single limiting value exists — this is the defining condition for the limit failing to exist.",
@@ -3376,9 +3376,9 @@
    "q": "What is the relationship between average rate of change and the derivative as the interval [a,b] shrinks (b→a)?",
    "o": [
     "Average rate of change approaches the instantaneous rate of change (the derivative) at a",
-    "They are always equal for any interval",
-    "Average rate of change becomes 0",
-    "There is no relationship"
+    "Average rate of change grows without bound and the derivative is undefined at $a$",
+    "Average rate of change approaches the total change in $f$ over the interval, not the derivative",
+    "Average rate of change always equals the derivative at $a$ no matter how large the interval"
    ],
    "a": 0,
    "e": "As the interval shrinks to a single point, the secant slope (average rate) approaches the tangent slope (derivative) — this limiting process is the foundation of differential calculus."
@@ -3423,12 +3423,12 @@
    "u": 9,
    "q": "The slope of the tangent line to a curve at a point is the:",
    "o": [
-    "average of the y-values",
-    "slope of the secant line",
+    "average of all nearby tangent slopes",
     "limit of the slopes of secant lines",
-    "y-intercept of the curve"
+    "limit of areas beneath the secant lines",
+    "value of the function at that point"
    ],
-   "a": 2,
+   "a": 1,
    "e": "As the second point approaches the first, secant slopes approach the tangent slope: the derivative.",
    "c": 3
   },
@@ -4569,12 +4569,12 @@
    "u": 6,
    "q": "The Law of Cosines is most useful when you are given:",
    "o": [
-    "Two angles and a side",
-    "Two sides and the included angle, or all three sides",
-    "Only one side",
-    "Only angles"
+    "Two angles and the side between them (ASA), or one side",
+    "Two sides and a non-included angle, or all three angles",
+    "Only one side and the right angle of a right triangle",
+    "Two sides and the included angle, or all three sides"
    ],
-   "a": 1,
+   "a": 3,
    "e": "These cases cannot be solved directly with the Law of Sines."
   },
   {

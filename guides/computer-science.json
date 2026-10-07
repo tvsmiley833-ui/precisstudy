@@ -1455,9 +1455,9 @@
    "q": "What is an 'edge case' in testing?",
    "o": [
     "An unusual or extreme input, like zero or an empty string, that might break code",
-    "A very common input that the program handles in normal use",
-    "A mistake in spelling that stops the program from compiling",
-    "A test that runs the same input many times to check speed"
+    "A bug that appears only on older hardware, like a slow processor or a small memory",
+    "A typical input that most users enter, like a common name or a usual number",
+    "A test written last that checks only the program's colors, fonts, and screen layout"
    ],
    "a": 0,
    "e": "Edge cases test boundary or unusual conditions that often reveal bugs.",
@@ -1557,12 +1557,12 @@
    "u": 2,
    "q": "What best describes 'concatenation' with strings?",
    "o": [
-    "Dividing one string by another",
+    "Splitting a string into separate pieces",
+    "Converting a string to all capitals",
     "Joining two or more strings together",
-    "Converting a string to binary",
-    "Deleting a string"
+    "Reversing the order of its characters"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Concatenation combines strings end-to-end, often using the + operator.",
    "c": 1
   },
@@ -1786,12 +1786,12 @@
    "u": 3,
    "q": "What is the difference between a parameter and an argument?",
    "o": [
-    "A parameter is the value passed at call time; an argument is the name in the definition",
-    "A parameter is used in functions; an argument is used only in loops",
-    "A parameter is the placeholder in a function's definition; an argument is the actual value passed in",
-    "A parameter is always a number; an argument is always a string"
+    "A parameter is the actual value passed in; an argument is the placeholder in a function's definition",
+    "A parameter is a variable defined outside any function; an argument is a variable defined inside one",
+    "A parameter is a value a function returns; an argument is the name given to a function when defined",
+    "A parameter is the placeholder in a function's definition; an argument is the actual value passed in"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Parameters are named in the function definition; arguments are the real values supplied when calling.",
    "c": 2
   },
@@ -1904,9 +1904,9 @@
    "q": "What is the 'accumulator pattern' commonly used for?",
    "o": [
     "Building up a result (like a sum or count) using a variable updated inside a loop",
-    "Splitting a large function into several smaller helper functions",
-    "Stopping a loop early once a certain condition has been met",
-    "Converting user input from one data type into another"
+    "Searching a list for the largest value by comparing every pair of items in turn",
+    "Storing a user's input in a fixed variable that is never changed after the program starts",
+    "Repeating a block of code a fixed number of times without any variable being updated"
    ],
    "a": 0,
    "e": "An accumulator variable (e.g., total = 0) updates each loop iteration to build a cumulative result.",
@@ -1942,12 +1942,12 @@
    "u": 3,
    "q": "If a function has no explicit return statement, what does it typically return (e.g., in Python)?",
    "o": [
-    "The last variable used",
-    "An error every time",
-    "A special 'nothing' value like None",
-    "The first parameter"
+    "The number 0, like an empty integer",
+    "The value of its last executed line",
+    "A syntax error, since return is required",
+    "A special 'nothing' value like None"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Without an explicit return, many languages return a null/None-like value by default.",
    "c": 2
   },
@@ -1955,12 +1955,12 @@
    "u": 3,
    "q": "What is a common cause of an accidental infinite loop?",
    "o": [
-    "Using a for loop instead of while",
-    "Forgetting to update the loop's condition variable so it never becomes false",
-    "Using too many functions",
-    "Declaring too many local variables"
+    "Using a variable name that is a reserved keyword so the loop cannot start properly",
+    "Running a for loop over a list with too many items for the computer's memory to hold",
+    "Declaring the loop variable before the loop begins rather than inside the loop body",
+    "Forgetting to update the loop's condition variable so it never becomes false"
    ],
-   "a": 1,
+   "a": 3,
    "e": "If nothing changes the value being tested, a while loop's condition may never become false."
   },
   {
@@ -2020,9 +2020,9 @@
    "q": "Which is a valid reason to use a while loop instead of a for loop?",
    "o": [
     "The number of iterations is unknown and depends on a condition, like waiting for valid input",
-    "You want to repeat exactly 10 times",
-    "You need to define a function",
-    "You want to avoid using variables"
+    "The number of iterations is fixed and known in advance, like processing exactly ten items",
+    "A while loop is the only type that can read each character of a string one at a time",
+    "A while loop avoids the need to initialize any variable, unlike a for loop that requires one"
    ],
    "a": 0,
    "e": "While loops suit situations where the stopping point depends on a runtime condition, not a fixed count.",
@@ -2058,12 +2058,12 @@
    "u": 3,
    "q": "Why might overusing global variables make debugging harder?",
    "o": [
-    "Global variables take longer to read, so programs become very slow",
-    "Global variables cannot be changed once the program has started",
-    "Global variables are hidden from the debugger by the interpreter",
-    "Any function could modify a global variable, making it hard to track where a bug originated"
+    "Any function could modify a global variable, making it hard to track where a bug originated",
+    "Global variables use more memory than locals, which causes programs to crash without error messages",
+    "Global variables cannot be read inside functions, so values must be copied in by hand each time",
+    "Global variables are deleted after each function call, so their values keep disappearing between runs"
    ],
-   "a": 3,
+   "a": 0,
    "e": "Because many parts of a program can alter a global variable, tracing unexpected changes becomes difficult.",
    "c": 3
   },
@@ -2083,12 +2083,12 @@
    "u": 3,
    "q": "What is the purpose of combining loops and conditionals together?",
    "o": [
-    "It is not possible in most languages",
     "To make decisions on each iteration of a repeated process, like checking each item in a list",
-    "To eliminate the need for functions",
-    "To avoid using variables entirely"
+    "To store a list of items in memory and give each item a name and a fixed location for later use",
+    "To repeat the same fixed action on every item without ever choosing differently based on its value",
+    "To make the computer run faster by skipping every conditional check after the first loop iteration"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Nesting a conditional inside a loop lets a program evaluate each item or step individually.",
    "c": 4
   },
@@ -2108,10 +2108,10 @@
    "u": 3,
    "q": "What does it mean when a variable defined inside a function 'shadows' a global variable of the same name?",
    "o": [
-    "The global variable is permanently deleted",
+    "The global variable is permanently overwritten, so its value changes everywhere after the function ends",
     "Inside the function, the local variable takes precedence over the global one with the same name",
-    "The program crashes immediately",
-    "Nothing changes"
+    "The program raises an error because two variables in the same program cannot share a single name",
+    "The global variable takes precedence inside the function, and the local one is ignored completely"
    ],
    "a": 1,
    "e": "A local variable with the same name as a global one takes priority within its own scope, without deleting the global.",
@@ -2381,9 +2381,9 @@
    "q": "What is a graph, in data structure terms?",
    "o": [
     "A structure of nodes (vertices) connected by edges, representing relationships",
-    "A diagram that plots data on x and y axes for a report",
-    "A list of values that are stored in a fixed order by index",
-    "A tree in which every node has a single parent above it"
+    "A chart that plots values on x and y axes to show how one quantity changes over time",
+    "A list of items stored in order, where each item can be reached only by its numeric index",
+    "A tree of nodes where every node has one parent and at most two children below it"
    ],
    "a": 0,
    "e": "Graphs model nodes and the connections (edges) between them, useful for networks.",
@@ -2493,10 +2493,10 @@
    "u": 4,
    "q": "Why might searching for a specific value in an unsorted array be slower than a dictionary lookup?",
    "o": [
-    "Arrays cannot store values",
+    "An array must be fully sorted before any lookup, while a dictionary sorts its keys automatically at each step",
     "An unsorted array may require checking each element one by one, while a dictionary can jump directly via hashing",
-    "Dictionaries are always smaller in size",
-    "There is no actual difference in speed"
+    "Dictionaries store fewer items than arrays do, so there is less data to scan through for each lookup",
+    "Arrays store values as text strings, which the computer must convert one by one before it can compare them"
    ],
    "a": 1,
    "e": "Linear search through an unsorted array can require checking every element, while hashing gives near-direct access."
@@ -2657,12 +2657,12 @@
    "u": 4,
    "q": "Which statement about hashing and collisions is most accurate?",
    "o": [
-    "Two different keys can never produce the same hash-based index",
+    "Collisions are impossible if the hash function is good, so hash maps never need a method to resolve them",
+    "Collisions happen only when a hash map is completely full, and then the whole table is erased and rebuilt",
     "Collisions (two keys mapping to the same index) can occur and hash maps have strategies to handle them",
-    "Hashing is only used for security, never for data structures",
-    "Collisions always break the whole hash map"
+    "Hashing encrypts each key so it cannot be recovered, and collisions are used as a security feature"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Hash maps use collision-handling strategies (like chaining) because different keys can occasionally map to the same index."
   },
   {
@@ -2850,12 +2850,12 @@
    "u": 5,
    "q": "What describes the general approach of merge sort?",
    "o": [
-    "Repeatedly compare neighbors and swap them until nothing moves",
-    "Divide the data in half repeatedly, sort each half, then merge the sorted halves",
-    "Repeatedly find the smallest value and move it to the front",
-    "Pick a pivot value and group items on either side of it"
+    "Pick a pivot, move smaller items left and larger items right, then repeat on both sides",
+    "Compare neighboring items and swap them if out of order, repeating until no swaps are needed",
+    "Repeatedly find the smallest remaining item and place it at the front of the sorted section",
+    "Divide the data in half repeatedly, sort each half, then merge the sorted halves"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Merge sort is a divide-and-conquer algorithm: split, sort recursively, then merge.",
    "c": 2
   },
@@ -2863,12 +2863,12 @@
    "u": 5,
    "q": "Why is Big-O notation useful for comparing algorithms?",
    "o": [
-    "It gives the exact running time in seconds for a given computer",
-    "It counts the number of lines of code in each algorithm",
-    "It tells how accurate the answer of an algorithm will be",
-    "It describes how runtime/memory use grows with input size, independent of hardware"
+    "It gives the exact number of seconds a program will take to run on any particular computer",
+    "It describes how runtime/memory use grows with input size, independent of hardware",
+    "It measures how many lines of code an algorithm needs, so shorter programs are rated as faster",
+    "It counts the bugs likely to appear in an algorithm as the amount of input data grows larger"
    ],
-   "a": 3,
+   "a": 1,
    "e": "Big-O abstracts away hardware specifics to describe growth trends as input size increases.",
    "c": 3
   },
@@ -2991,22 +2991,22 @@
    "u": 5,
    "q": "Which of these best illustrates a real-world use of binary search?",
    "o": [
+    "Sorting a shuffled deck of cards by repeatedly swapping neighboring cards until all are in order",
     "Looking up a word in a dictionary by flipping to a rough midpoint and narrowing down",
-    "Reading a book cover to cover",
-    "Randomly opening pages until you find the word",
-    "Sorting all words alphabetically first"
+    "Checking every name on a class roster from first to last to find a specific student's grade",
+    "Reading a book from page one onward until finding a particular sentence, page after page"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Flipping to an estimated midpoint and narrowing the range mirrors binary search's halving strategy."
   },
   {
    "u": 5,
    "q": "Why is sorting often a prerequisite for using binary search efficiently?",
    "o": [
-    "Binary search works equally well on unsorted data",
+    "Binary search requires every value in the data to be unique, which sorting guarantees by removing repeats",
     "Binary search's halving logic depends on the data being in order to correctly discard halves",
-    "Sorting has nothing to do with searching",
-    "Binary search doesn't require any particular data organization"
+    "Unsorted data is too large for the computer's memory, while sorted data is compressed to take less space",
+    "Binary search checks the first item and then each next one in order, so sorted data stops it early"
    ],
    "a": 1,
    "e": "Without a sorted order, you cannot reliably determine which half contains the target."
@@ -3053,12 +3053,12 @@
    "u": 5,
    "q": "Why might merge sort be preferred over bubble sort for large datasets?",
    "o": [
-    "Merge sort is always simpler to write",
-    "Merge sort's divide-and-conquer approach scales much better (typically O(n log n)) than bubble sort's O(n²)",
-    "Bubble sort requires more memory",
-    "There is no meaningful performance difference"
+    "Merge sort uses far less memory than bubble sort and sorts the data in place without any extra arrays",
+    "Bubble sort cannot handle duplicate values, but merge sort keeps equal items together while sorting them",
+    "Merge sort needs no comparisons between items, unlike bubble sort, which compares every pair of elements",
+    "Merge sort's divide-and-conquer approach scales much better (typically O(n log n)) than bubble sort's O(n²)"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Merge sort's better growth rate makes it far more efficient than bubble sort as data size increases."
   },
   {
@@ -3078,10 +3078,10 @@
    "u": 5,
    "q": "Which best explains why 'good enough and correct' is often favored over 'theoretically fastest but error-prone' in real engineering?",
    "o": [
-    "Correctness never matters in practice",
+    "Engineers value raw speed above everything else, so a solution that runs slower is rejected even if it is clear, tested, and correct",
     "A slower but reliable, well-understood solution often provides more overall value than a faster but buggy or hard-to-maintain one",
-    "Fast algorithms are always simple to implement correctly",
-    "Efficiency is never a practical concern"
+    "Fast code tends to be correct by nature, so a theoretically fastest approach needs fewer tests than a slower and more careful one",
+    "Users rarely notice small differences in speed, so engineers choose whichever approach is quickest to write, without checking its correctness"
    ],
    "a": 1,
    "e": "Correctness, maintainability, and reliability often outweigh marginal theoretical speed gains in practice.",
@@ -3103,24 +3103,24 @@
    "u": 5,
    "q": "Which best describes the relationship between an algorithm and a specific programming language?",
    "o": [
-    "An algorithm is a set of steps that works only in the language it was first written in",
     "An algorithm is a language-independent set of steps that could be implemented in many programming languages",
-    "An algorithm is the compiler that turns a language into machine code",
-    "An algorithm is the syntax of a language, such as its keywords and rules"
+    "An algorithm is the code written in one specific language, and it must be rewritten from scratch to run in another",
+    "An algorithm is the compiler that translates a programming language into the machine code a computer runs",
+    "An algorithm is a set of syntax rules that every programming language must follow in order to be valid"
    ],
-   "a": 1,
+   "a": 0,
    "e": "An algorithm describes the logic of a solution abstractly, separate from any one language's syntax."
   },
   {
    "u": 5,
    "q": "Why does testing with 'simple cases first, then edge cases' make sense as a strategy?",
    "o": [
+    "It saves time because simple cases are rarely worth running, so programmers can focus on large inputs",
     "It verifies basic correctness before checking tricky boundary conditions that often reveal bugs",
-    "Edge cases should always be tested before simple cases",
-    "Testing order never matters",
-    "Simple cases are irrelevant to correctness"
+    "It guarantees that a program with no bugs on simple tests will also pass every possible edge case later",
+    "It makes the test suite shorter, because edge cases already cover all the simple cases automatically"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Confirming the basic logic works first, then probing edge cases, helps isolate where issues arise.",
    "c": 4
   },
@@ -3129,9 +3129,9 @@
    "q": "What best distinguishes O(n) from O(n²) in practical terms for very large n?",
    "o": [
     "O(n²) grows much faster than O(n), often becoming impractically slow for large n",
-    "O(n) grows faster than O(n²), so it is slower for large n",
-    "Both grow at the same rate once n passes about one thousand",
-    "O(n²) is faster for large n, since it finishes in fewer steps"
+    "O(n) and O(n²) behave the same for large n, and differ only by a small constant factor",
+    "O(n²) grows more slowly than O(n) once n is large, so it scales better as inputs get bigger",
+    "O(n) grows much faster than O(n²), often becoming impractically slow for large values of n"
    ],
    "a": 0,
    "e": "Quadratic growth (O(n²)) scales far worse than linear growth (O(n)) as input size increases.",
@@ -3155,9 +3155,9 @@
    "q": "What is the best-case scenario for linear search?",
    "o": [
     "The target is the very first element checked",
-    "The target is always the last element",
-    "The target is never found",
-    "The list must be sorted first"
+    "The target is the last element in the list",
+    "The target is in the middle of the list",
+    "The target does not appear in the list"
    ],
    "a": 0,
    "e": "If the target is the first element, linear search finds it immediately, in O(1) time for that case.",
@@ -3180,12 +3180,12 @@
    "u": 5,
    "q": "Why is it important for pseudocode to be written before actual code?",
    "o": [
-    "Pseudocode replaces the need for testing",
-    "It helps clarify and plan the logic of a solution in a language-independent way before dealing with syntax",
-    "Pseudocode is required by all compilers",
-    "Pseudocode always runs faster than real code"
+    "It makes the code run faster by removing the need for the computer to compile the final program",
+    "It is required by compilers, which refuse to run a program that was not first drafted in pseudocode",
+    "It lets programmers skip testing, since logic written in plain English is checked by the language",
+    "It helps clarify and plan the logic of a solution in a language-independent way before dealing with syntax"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Pseudocode lets you focus on logic and structure without worrying about a specific language's syntax rules.",
    "c": 4
   },
@@ -3206,12 +3206,12 @@
    "u": 5,
    "q": "Which of the following is NOT typically a step in a good problem-solving process?",
    "o": [
-    "Understanding the problem before choosing a method",
-    "Planning a solution before coding",
     "Skipping testing once code compiles without errors",
-    "Testing with edge cases"
+    "Understanding the problem and what is being asked",
+    "Breaking a large problem into smaller subproblems",
+    "Testing the solution against several different inputs"
    ],
-   "a": 2,
+   "a": 0,
    "e": "Compiling without errors only confirms valid syntax — testing for correct behavior, including edge cases, is still essential."
   },
   {

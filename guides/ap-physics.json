@@ -2224,12 +2224,12 @@
    "u": 3,
    "q": "A student says 'centripetal force is a separate force that pushes objects outward in circular motion.' What is wrong with this statement?",
    "o": [
+    "Centripetal force points outward and is supplied by inertia itself, which is a real force acting on the object",
+    "The statement is correct because centripetal force is a separate outward push that balances gravity or tension exactly",
     "Centripetal force points inward and is supplied by real forces like tension or gravity, not a separate outward force",
-    "Centripetal force always points outward, which is correct",
-    "Centripetal force is not a real physical effect",
-    "Centripetal force only applies to satellites"
+    "Centripetal force points along the velocity and is supplied by the object's speed, not by tension or gravity"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Centripetal force is simply the name for the net inward force in circular motion, provided by real forces (tension, gravity, friction, normal force) — it is not a distinct outward-pushing force.",
    "c": 1
   },
@@ -2276,12 +2276,12 @@
    "u": 3,
    "q": "An astronaut in a stable circular orbit feels 'weightless.' What is the best physical explanation?",
    "o": [
+    "The astronaut is beyond the reach of Earth's gravity, so the pull on the astronaut and spacecraft is essentially zero",
+    "The spacecraft's engines produce an upward thrust that exactly cancels the astronaut's weight throughout the whole orbit",
     "The astronaut and spacecraft are both in free fall, accelerating together at the same rate due to gravity",
-    "There is no gravity in orbit",
-    "The astronaut has no mass in orbit",
-    "Air resistance cancels out gravity"
+    "The astronaut's mass drops sharply in orbit, so the gravitational force on the body falls to nearly nothing at altitude"
    ],
-   "a": 0,
+   "a": 2,
    "e": "In orbit, gravity is the only force acting, providing centripetal acceleration. Since the astronaut and spacecraft accelerate together, there's no relative normal force between them, producing apparent weightlessness — gravity itself has not vanished."
   },
   {
@@ -2350,9 +2350,9 @@
    "q": "Which best explains why astronauts train using apparent weightlessness in a diving aircraft ('vomit comet')?",
    "o": [
     "The aircraft is in free fall, so passengers and aircraft accelerate together under gravity alone, just like in orbit",
-    "The aircraft cancels gravity using engines",
-    "There is no air resistance at high altitude",
-    "The aircraft spins to create centrifugal force"
+    "The aircraft climbs steeply so that gravity is switched off inside the cabin, matching the absence of gravity in orbit",
+    "The cabin is pressurized to a very low pressure, so air resistance cancels gravity for passengers, just like in orbit",
+    "The aircraft flies far above the atmosphere where Earth's pull is nearly zero, so passengers float just like in orbit"
    ],
    "a": 0,
    "e": "During the dive, the aircraft's engines are cut so it free-falls under gravity alone, matching the acceleration of the passengers inside — the same effect as being in orbit."
@@ -2386,12 +2386,12 @@
    "u": 3,
    "q": "Why does a satellite not need fuel to maintain a stable circular orbit around Earth (ignoring atmospheric drag)?",
    "o": [
-    "Gravity alone provides exactly the centripetal force needed for the orbital speed and radius, requiring no additional thrust",
-    "Space has no gravity, so no force is needed",
-    "The satellite's engines fire continuously to balance gravity",
-    "Friction with the vacuum keeps it moving"
+    "The satellite's engines must fire continuously, but the fuel use is tiny because no friction acts on it in space",
+    "Gravity is balanced by an outward centrifugal force, so the net force is zero and the satellite coasts along a line",
+    "The satellite is so far from Earth that gravity vanishes, so its inertia alone carries it around in a circle for good",
+    "Gravity alone provides exactly the centripetal force needed for the orbital speed and radius, requiring no additional thrust"
    ],
-   "a": 0,
+   "a": 3,
    "e": "In a stable orbit, gravity supplies exactly the required centripetal force for that speed and radius, so the satellite continues in uniform circular motion with no need for propulsion, per Newton's first law along the tangential direction."
   },
   {
@@ -2702,12 +2702,12 @@
    "u": 4,
    "q": "When solving equilibrium problems, choosing the pivot point at the location of an unknown force is useful because:",
    "o": [
-    "It doubles the torque produced by that force in the equation",
-    "It forces all of the torques about that point to be equal",
-    "Newton's third law requires the pivot to sit at an unknown force",
-    "It eliminates that unknown force from the torque equation since its lever arm is zero"
+    "It sets the unknown force equal to the object's weight, so the torque equation simplifies",
+    "It eliminates that unknown force from the torque equation since its lever arm is zero",
+    "It guarantees the net force is zero at that pivot, so only the translational equations are needed",
+    "It doubles the lever arm of the unknown force, so its torque is easier to measure and compare"
    ],
-   "a": 3,
+   "a": 1,
    "e": "Since torque = rF sin(theta), a force acting exactly at the pivot has r = 0, so its torque about that pivot is zero, removing it from the equation and simplifying the algebra."
   },
   {
@@ -2803,9 +2803,9 @@
    "q": "A rolling ball has both translational and rotational kinetic energy. The total kinetic energy is correctly expressed as:",
    "o": [
     "KE = (1/2)$Mv_{cm}^2$ + (1/2)I*$omega^2$",
-    "KE = (1/2)$Mv_{cm}^2$ only",
-    "KE = (1/2)I*$omega^2$ only",
-    "KE = $Mv_{cm}^2 + I$*$omega^2$"
+    "KE = (1/2)$Mv_{cm}^2$ − (1/2)I*$omega^2$",
+    "KE = $Mv_{cm}^2$ + (1/2)I*$omega^2$",
+    "KE = (1/2)$Mv_{cm}$ + (1/2)I*$omega$"
    ],
    "a": 0,
    "e": "A rolling object's total KE is the sum of its translational KE (from center-of-mass motion) and rotational KE (from spinning about its center of mass).",
@@ -2828,12 +2828,12 @@
    "u": 4,
    "q": "Why does a rolling object without slipping lose no mechanical energy to friction, even though static friction acts on it?",
    "o": [
-    "Static friction is always exactly zero while an object rolls without slipping",
-    "There is no friction at all between a rolling object and the surface",
-    "Kinetic friction takes over from static friction and does no work on it",
-    "Static friction acts at the contact point which has zero instantaneous velocity, so it does no work"
+    "Static friction acts over the whole surface but converts the energy into rotation, so none is lost as heat",
+    "Static friction acts at the contact point which has zero instantaneous velocity, so it does no work",
+    "Static friction is always smaller than kinetic friction, so its work is too small to matter in the accounting",
+    "Static friction acts perpendicular to the motion at the contact point, so it removes energy only from the spin"
    ],
-   "a": 3,
+   "a": 1,
    "e": "In rolling without slipping, the contact point is instantaneously at rest relative to the surface, so the static friction force there does zero work (W = F*d*cos(theta), but d = 0 for that point over an instant)."
   },
   {
@@ -2854,9 +2854,9 @@
    "q": "A student claims 'if the net force on an object is zero, the net torque must also be zero.' Is this correct?",
    "o": [
     "No, an object can have zero net force but nonzero net torque (e.g., equal and opposite forces applied at different points)",
-    "Yes, zero net force always implies zero net torque",
-    "Yes, because force and torque are the same quantity",
-    "No, torque only exists when there is a net force"
+    "Yes, because torque is just force times distance, so zero net force always forces the net torque to be zero as well",
+    "Yes, since an object with zero net force is in equilibrium, and equilibrium requires both net force and net torque zero",
+    "No, zero net force makes the net torque undefined, so rotation can only be described by the energy of the object instead"
    ],
    "a": 0,
    "e": "A couple (two equal, opposite, non-collinear forces) has zero net force but produces a nonzero net torque, showing the two equilibrium conditions are independent."
@@ -2928,12 +2928,12 @@
    "u": 4,
    "q": "For a rigid body rotating about a fixed axis, which statement is TRUE?",
    "o": [
+    "All points have the same linear speed, but different angular velocities depending on their distance from the axis",
+    "Points farther from the axis have larger angular velocity, but all points have the same centripetal acceleration",
     "All points have the same angular velocity, but different linear speeds depending on their distance from the axis",
-    "All points have the same linear speed",
-    "All points have the same angular acceleration but different angular velocities",
-    "Points closer to the axis move faster than points farther away"
+    "Points near the axis rotate faster, so the angular velocity falls with distance while linear speed is the same everywhere"
    ],
-   "a": 0,
+   "a": 2,
    "e": "In rigid body rotation, every point shares the same angular velocity omega, but linear speed v = omega*r increases with distance from the axis."
   },
   {
@@ -3295,12 +3295,12 @@
    "u": 5,
    "q": "Which best explains why momentum, not kinetic energy, is the quantity always conserved in collisions?",
    "o": [
-    "Momentum conservation follows from Newton's Third Law regardless of the type of internal forces during collision",
-    "Kinetic energy is not a real physical quantity",
-    "Momentum is easier to measure",
-    "Kinetic energy only applies to elastic collisions by definition and cannot be tracked otherwise"
+    "Momentum conservation follows from conservation of energy, so it only holds when the collision is perfectly elastic",
+    "Momentum conservation follows from Newton's First Law, which only applies if the internal forces are all conservative",
+    "Momentum conservation depends on the colliding objects having equal masses, whatever internal forces act on them",
+    "Momentum conservation follows from Newton's Third Law regardless of the type of internal forces during collision"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Since collision forces are internal action-reaction pairs (Newton's Third Law), they cancel in the total system momentum calculation regardless of how much KE is dissipated."
   },
   {
@@ -3368,12 +3368,12 @@
    "u": 5,
    "q": "Which of these best describes a 'glancing' (2D) collision analysis approach?",
    "o": [
+    "Conserve kinetic energy only along the line of impact, and ignore momentum in the perpendicular direction",
     "Decompose velocities into x and y components and conserve momentum in each direction independently",
-    "Only conserve total speed",
-    "Ignore angles and use 1D formulas directly",
-    "Only consider the heavier object's momentum"
+    "Treat the collision as one dimensional along the initial velocity, and discard any sideways component",
+    "Add the speeds of the objects before and after the collision and set the two scalar sums equal to each other"
    ],
-   "a": 0,
+   "a": 1,
    "e": "2D collisions require resolving all velocities into perpendicular components and applying momentum conservation separately along each axis."
   },
   {
@@ -3554,12 +3554,12 @@
    "u": 6,
    "q": "A pendulum swings from its highest point (v=0) to its lowest point. Which energy transformation occurs (ignoring air resistance)?",
    "o": [
-    "Gravitational PE converts entirely to KE",
-    "KE converts entirely to PE",
-    "Both KE and PE decrease",
-    "Energy is lost to friction"
+    "Kinetic energy converts entirely into PE",
+    "Gravitational PE is lost to air as heat",
+    "Elastic PE converts entirely into heat",
+    "Gravitational PE converts entirely to KE"
    ],
-   "a": 0,
+   "a": 3,
    "e": "At the highest point all energy is gravitational PE; at the lowest point (reference height) all of it has converted to KE, conserving total mechanical energy."
   },
   {
@@ -4304,12 +4304,12 @@
    "u": 7,
    "q": "What does it mean for two points to be on the same equipotential surface?",
    "o": [
-    "They must be touching each other along the surface",
-    "The electric field is strongest at those points",
     "No work is required to move a charge between them along that surface",
-    "Current flows freely between them along the surface"
+    "The electric field strength is identical at every point on that surface",
+    "A charge placed there feels zero electric force and simply stays at rest",
+    "The source charges that create the field are located on that surface"
    ],
-   "a": 2,
+   "a": 0,
    "e": "Points on the same equipotential surface have the same electric potential, so moving a charge between them (along the surface) requires zero work, since W=qDeltaV=0.",
    "c": 2
   },
@@ -4380,12 +4380,12 @@
    "u": 7,
    "q": "Which statement correctly compares gravitational force and Coulomb's electric force?",
    "o": [
+    "Both follow an inverse-square law with distance, but gravity can be repulsive while Coulomb's force is always attractive in nature",
     "Both follow an inverse-square law with distance, but gravity is always attractive while Coulomb's force can be attractive or repulsive",
-    "Both can be attractive or repulsive",
-    "Gravity follows an inverse-square law but Coulomb's force does not",
-    "Coulomb's force is always attractive like gravity"
+    "Gravity falls off as 1/r while Coulomb's force falls off as 1/r² with distance, and both are always attractive forces in nature",
+    "Coulomb's force depends on distance but gravity does not, and both can be attractive or repulsive depending on the charges or masses"
    ],
-   "a": 0,
+   "a": 1,
    "e": "$F_g$ = Gm1m2/$r^2$ and $F_E$ = kq1q2/$r^2$ share the same inverse-square mathematical form, but gravity is only attractive (masses are always positive) while Coulomb's force can be attractive (opposite charges) or repulsive (like charges).",
    "c": 0
   },
@@ -4433,9 +4433,9 @@
    "q": "Why is charging by induction different from charging by direct contact?",
    "o": [
     "Induction separates charge on a nearby object without any direct transfer of charge between objects",
-    "Induction requires physical contact between the objects",
-    "Induction only works with insulators",
-    "Induction destroys charge rather than redistributing it"
+    "Induction moves electrons from one object to the other by rubbing them, which leaves them with opposite charges",
+    "Induction needs the objects to touch so that charge flows, which leaves the two with the same sign of charge",
+    "Induction works only on insulators, since conductors cannot polarize without touching a second charged object"
    ],
    "a": 0,
    "e": "Charging by induction uses the electric field of a nearby charged object to redistribute (polarize) charge on a second object, without any charge actually transferring between them via contact.",
@@ -4928,12 +4928,12 @@
    "u": 9,
    "q": "Sound cannot travel through a vacuum because:",
    "o": [
+    "Sound is a transverse electromagnetic wave that a vacuum absorbs fully",
     "Sound is a mechanical wave that requires a medium of particles to propagate",
-    "Sound travels too fast in a vacuum",
-    "Sound has no frequency in a vacuum",
-    "Sound waves are transverse and need a solid"
+    "Sound travels too fast to cross empty space, which has no pressure to slow it",
+    "Sound needs a magnetic field to carry its energy, which a vacuum lacks"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Sound is a longitudinal mechanical wave that propagates via particle-to-particle collisions; without a medium, there is nothing to transmit the vibration.",
    "c": 3
   },
@@ -5156,12 +5156,12 @@
    "u": 9,
    "q": "What best describes 'beats' in sound?",
    "o": [
-    "A periodic rise and fall in loudness caused by interference of two close but different frequencies",
-    "A constant loud tone from constructive interference",
-    "The Doppler shift of a moving source",
-    "Random noise with no pattern"
+    "A steady increase in pitch caused by a source moving toward a listener at a constant speed through the air",
+    "A repeating echo caused by sound reflecting between two walls that are separated by a fixed distance",
+    "A constant loudness produced when two waves of exactly the same frequency add up in phase at every point",
+    "A periodic rise and fall in loudness caused by interference of two close but different frequencies"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Beats arise from the superposition of two waves with slightly different frequencies, creating a periodic variation in amplitude (loudness) at the beat frequency |f1-f2|.",
    "c": 1
   },
@@ -5193,12 +5193,12 @@
    "u": 10,
    "q": "Why can't a virtual image formed by a plane mirror be projected onto a screen?",
    "o": [
+    "The image is too dim, since a plane mirror absorbs most of the light that reaches it",
+    "The reflected rays converge behind the mirror, but a screen there would block the light",
     "Light rays only appear to diverge from it; they don't actually pass through that location",
-    "Virtual images are too dim to register on a screen",
-    "Plane mirrors don't actually form any image",
-    "The image is moving too fast to capture"
+    "The image is reversed left to right, so a screen cannot show an image flipped by a mirror"
    ],
-   "a": 0,
+   "a": 2,
    "e": "A virtual image is a location where reflected rays appear to originate when traced backward — no light actually converges there, so it can't be projected."
   },
   {
@@ -5367,12 +5367,12 @@
    "u": 10,
    "q": "When white light passes through a glass prism, it separates into a spectrum of colors. What causes this dispersion?",
    "o": [
+    "All colors travel at the same speed in glass, but the prism's curved faces bend each color differently",
     "The index of refraction depends slightly on wavelength, so each color bends by a different amount",
-    "Only some colors of light can pass through glass at all",
-    "The prism absorbs some colors and re-emits others",
-    "Diffraction from the prism's flat surfaces"
+    "Glass absorbs some colors more than others, so each color is dimmed and then exits at its own angle",
+    "The prism adds color to white light as it passes through, and the added colors spread at a common angle"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Because n varies slightly with wavelength (higher n for shorter wavelengths like violet), each color refracts at a slightly different angle, spreading white light into a spectrum.",
    "c": 5
   },
@@ -5588,12 +5588,12 @@
    "u": 11,
    "q": "What is the essential difference between nuclear fission and nuclear fusion?",
    "o": [
-    "Fission splits a heavy nucleus into lighter ones; fusion combines light nuclei into a heavier one",
-    "Fission combines light nuclei into heavier ones; fusion splits heavy nuclei",
-    "Both split heavy nuclei, but fusion releases more energy per event",
-    "Fission occurs only in stars, and fusion occurs only in reactors"
+    "Fission combines light nuclei into a heavier one; fusion splits a heavy nucleus into lighter ones",
+    "Fission releases energy but fusion absorbs it, and both only work with elements heavier than iron",
+    "Fission needs extreme temperatures to occur, while fusion happens at room temperature using neutrons",
+    "Fission splits a heavy nucleus into lighter ones; fusion combines light nuclei into a heavier one"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Fission is the splitting of a heavy nucleus (e.g., uranium-235); fusion is the combining of light nuclei (e.g., hydrogen isotopes) — both release energy from a mass defect.",
    "c": 5
   }

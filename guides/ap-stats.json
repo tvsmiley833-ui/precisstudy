@@ -726,12 +726,12 @@
    "u": 1,
    "q": "A value is an outlier by the 1.5×IQR rule if it is:",
    "o": [
-    "Beyond 1.5 SD from the mean",
+    "Beyond Q1 − 3(IQR) or Q3 + 3(IQR)",
+    "Over 1.5 standard deviations from mean",
     "Beyond Q1 − 1.5(IQR) or Q3 + 1.5(IQR)",
-    "Beyond the range",
-    "Equal to the mode"
+    "Beyond the median ± 1.5(IQR) each way"
    ],
-   "a": 1,
+   "a": 2,
    "e": "The 1.5×IQR rule flags values more than 1.5 IQRs below Q1 or above Q3.",
    "c": 3
   },
@@ -1925,10 +1925,10 @@
    "u": 3,
    "q": "If r $=$ 0, this means:",
    "o": [
-    "No relationship of any kind exists between x and y",
-    "The regression line is undefined for these data entirely",
+    "No relationship of any kind exists (neither linear nor nonlinear)",
+    "A perfect linear relationship exists, with a slope of 0 for the line",
     "No LINEAR relationship exists (there could still be a strong nonlinear one)",
-    "All the x-values and y-values in the data are identical"
+    "A strong negative relationship exists, with a nearly straight pattern"
    ],
    "a": 2,
    "e": "$r=0$ rules out linear association but does not rule out other (e.g., curved) relationships."
@@ -2038,12 +2038,12 @@
    "u": 3,
    "q": "A 'lurking variable' is:",
    "o": [
-    "The response variable",
-    "The explanatory variable",
+    "A variable measured and controlled by the researchers to remove its effect on the response",
     "A variable not measured that influences both the explanatory and response variables",
-    "Always the cause of the outcome"
+    "A variable that causes the response but is unrelated to the explanatory variable",
+    "A variable that is identical for every subject, so it cannot influence the outcome"
    ],
-   "a": 2,
+   "a": 1,
    "e": "A lurking variable is unmeasured but affects the apparent relationship between the two studied variables.",
    "c": 0
   },
@@ -2051,10 +2051,10 @@
    "u": 3,
    "q": "Which of the following would make extrapolation especially risky?",
    "o": [
-    "Predicting for an x-value within the observed range of the data",
+    "Predicting for an x-value near the middle of the observed data, where the fit is strongest",
     "Predicting for an x-value far outside the observed range, where the relationship may change",
-    "Predicting for an x-value just beyond the data where the trend clearly continues",
-    "Using the regression equation exactly as it was calculated"
+    "Predicting from a large sample, where the regression line is accurate for any x you choose",
+    "Predicting for an x-value inside the observed range, where linearity has already been checked"
    ],
    "a": 1,
    "e": "Far outside the observed range, there's no evidence the same linear trend continues, making predictions unreliable."
@@ -2339,10 +2339,10 @@
    "u": 4,
    "q": "Blocking in experimental design is best described as:",
    "o": [
-    "Randomizing subjects with no grouping",
+    "Hiding which treatment each subject receives so neither subjects nor researchers can be influenced",
     "Grouping similar experimental units before randomly assigning treatments within each group",
-    "Assigning all similar subjects to the same treatment",
-    "Removing subjects that don't fit a pattern"
+    "Assigning treatments to whole groups at random and then ignoring differences within each group",
+    "Choosing the largest possible sample and giving every subject exactly the same treatment"
    ],
    "a": 1,
    "e": "Blocking groups similar units first, then randomizes treatment within each block to reduce variability.",
@@ -2402,10 +2402,10 @@
    "u": 4,
    "q": "Which of these best reduces response bias due to sensitive question wording?",
    "o": [
-    "Asking leading questions that suggest a preferred answer",
+    "Asking only volunteers to respond, since they answer more honestly",
     "Using neutral, clearly worded questions and possibly anonymous responses",
-    "Increasing the sample size to collect more responses",
-    "Surveying a larger population from the same area"
+    "Choosing a very large sample, since size alone removes wording bias",
+    "Using leading wording and requiring names so answers can be checked"
    ],
    "a": 1,
    "e": "Neutral wording and anonymity encourage more honest responses, reducing response bias."
@@ -2427,12 +2427,12 @@
    "u": 4,
    "q": "In a well-designed experiment, replication means:",
    "o": [
-    "Repeating the entire experiment in a different country or region",
-    "Applying each treatment to enough experimental units to reduce chance variation",
-    "Randomly assigning the subjects to treatments only one time",
-    "Blinding all of the subjects to their treatments"
+    "Repeating the study years later with a new random sample for comparison",
+    "Giving each subject every treatment in random order, as their own control",
+    "Using a placebo for one group so no one knows who got which treatment",
+    "Applying each treatment to enough experimental units to reduce chance variation"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Replication involves using enough subjects per treatment group so that observed differences aren't due to chance alone."
   },
   {
@@ -2488,12 +2488,12 @@
    "u": 4,
    "q": "Random sampling error refers to:",
    "o": [
-    "Bias from a poor sampling method",
+    "The bias caused by a poorly worded survey, which pushes the results in one direction regardless of sample size",
+    "The mistakes made when responses are recorded or entered, which are avoidable with careful data checking",
     "The natural variability between samples from the same population, expected even with proper random sampling",
-    "Mistakes made by researchers",
-    "Nonresponse in a survey"
+    "The tendency of nonrespondents to differ from respondents, which makes the sample unrepresentative of the group"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Sampling error is unavoidable natural variation among different random samples, not a mistake or bias."
   },
   {
@@ -2514,9 +2514,9 @@
    "q": "Which best distinguishes a completely randomized design from a randomized block design?",
    "o": [
     "CRD ignores any blocking variable; RBD groups similar units before randomizing",
-    "CRD is always larger than RBD",
-    "RBD never uses randomization",
-    "CRD is only for observational studies"
+    "CRD randomly assigns subjects within blocks; RBD assigns treatments with no grouping",
+    "CRD uses a control group and placebo; RBD uses neither when assigning experimental units",
+    "CRD is for observational studies only; RBD is for experiments with no random assignment"
    ],
    "a": 0,
    "e": "A completely randomized design assigns treatments to all units at random with no blocking, unlike a randomized block design.",
@@ -2526,12 +2526,12 @@
    "u": 4,
    "q": "Which best describes 'control' as an experimental design principle?",
    "o": [
-    "Controlling all subjects to receive the same treatment",
+    "Keeping the conditions the same for every subject so that no one knows which treatment they have received",
+    "Choosing subjects carefully by hand so that the treatment groups are the same on every possible variable",
     "Comparing treatment(s) against a baseline (like a control or placebo group) to isolate the treatment's effect",
-    "Selecting subjects randomly from the population",
-    "Repeating the study multiple times"
+    "Randomly assigning subjects to treatments so that lurking variables are spread evenly across the groups"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Control means comparing outcomes against a baseline group to attribute differences specifically to the treatment.",
    "c": 3
   },
@@ -2539,12 +2539,12 @@
    "u": 4,
    "q": "A study assigns treatments to whichever subjects volunteer for them first. This design has a problem because:",
    "o": [
-    "It has too many subjects",
-    "Lack of random assignment allows confounding between subject characteristics and treatment",
-    "It used blocking incorrectly",
-    "It is a census"
+    "The sample size is too small, so treatment results will show too much natural variability",
+    "The subjects are not blinded, so the placebo effect makes all treatments look equally good",
+    "The treatments are not compared to a control group, so the response cannot be measured",
+    "Lack of random assignment allows confounding between subject characteristics and treatment"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Without random assignment, subject characteristics can be linked to treatment choice, confounding the results."
   },
   {
@@ -2590,12 +2590,12 @@
    "u": 4,
    "q": "Why can't undercoverage be fixed simply by increasing the sample size?",
    "o": [
+    "Because it is a variability problem, so a larger n shrinks the error but the excluded groups are still counted",
     "Because it is a bias problem, not a sample-size problem, so excluded groups remain excluded regardless of n",
-    "Because larger samples always cost more",
-    "Because larger samples always increase bias",
-    "Because it is impossible to have undercoverage with SRS"
+    "Because larger samples are harder to randomize, so any extra subjects added will increase the other sources of bias",
+    "Because it only occurs with small samples, and once n passes 30 the sample becomes representative of the population"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Bias is a systematic error in method, not something averaged away by more observations of the same flawed process."
   },
   {
@@ -2639,12 +2639,12 @@
    "u": 4,
    "q": "Which of the following best describes 'generalizability' of a study's conclusions?",
    "o": [
+    "Whether the study had a large enough sample to produce statistically significant results",
     "Whether the conclusion applies only to the exact subjects studied or to a broader population",
-    "Whether the study used a placebo",
-    "Whether the p-value was small",
-    "Whether blocking was used"
+    "Whether the results can be repeated by other researchers using the same subjects",
+    "Whether researchers can show that the treatment caused the change in the response"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Generalizability concerns how broadly results can be extended, which depends on random sampling from the population of interest.",
    "c": 5
   },
@@ -2767,12 +2767,12 @@
    "u": 5,
    "q": "What does the Law of Large Numbers state?",
    "o": [
-    "Small samples are always accurate",
+    "As the number of trials increases, the actual number of successes gets closer to the expected number exactly",
+    "As the number of trials increases, a streak of failures makes success more likely on the next independent trial",
     "As the number of trials increases, the observed relative frequency approaches the true probability",
-    "Probabilities always equal 0.5 in large samples",
-    "Large samples always show bias"
+    "As the number of trials increases, the distribution of individual outcomes becomes more and more bell-shaped"
    ],
-   "a": 1,
+   "a": 2,
    "e": "The Law of Large Numbers describes convergence of observed frequency to the theoretical probability with more trials."
   },
   {
@@ -2854,12 +2854,12 @@
    "u": 5,
    "q": "A tree diagram is most useful for:",
    "o": [
-    "Finding the mean and standard deviation of a data set",
-    "Computing the correlation between two quantitative variables",
-    "Displaying the counts of a categorical variable as bars",
-    "Organizing sequential/conditional probabilities and multiplying along branches"
+    "Organizing sequential/conditional probabilities and multiplying along branches",
+    "Showing the five-number summary of a data set and spotting outliers in it",
+    "Displaying the shape and center of a distribution using frequency branches",
+    "Comparing two quantitative variables by plotting pairs and looking for a line"
    ],
-   "a": 3,
+   "a": 0,
    "e": "Tree diagrams visually break down multi-stage random processes, letting you multiply probabilities along each path.",
    "c": 3
   },
@@ -3032,12 +3032,12 @@
    "u": 5,
    "q": "Two events with P(A) $=$ 0.5 and P(A and B) $=$ 0.5 imply which relationship?",
    "o": [
-    "A and B are mutually exclusive",
+    "A and B are independent, because the probability of both equals the probability of A alone",
+    "A and B are mutually exclusive, so they cannot occur together and the probability of both is zero",
     "B must contain A entirely (A is a subset of B, in probability terms P(A|B) relates as such)",
-    "P(B) must be 0",
-    "A and B cannot both occur"
+    "B and A are disjoint events whose union covers the whole sample space, so their probabilities add to one"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Since P(A and B) equals P(A) fully, event A always occurs whenever considering the intersection, indicating A is essentially contained within the scenario of B occurring together with A fully."
   },
   {
@@ -3118,12 +3118,12 @@
    "u": 5,
    "q": "Which best explains why 'independent' and 'mutually exclusive' are often confused?",
    "o": [
-    "They are actually the same concept",
+    "Both involve two events, but independence concerns whether the events share outcomes, while mutual exclusivity concerns whether probabilities change at all",
+    "Both mean the events cannot be related, but independent events share some outcomes while mutually exclusive events never overlap with each other",
     "Both involve two events, but independence concerns whether probabilities change, while mutual exclusivity concerns whether both can occur at all",
-    "Mutually exclusive events always have equal probabilities",
-    "Independent events always have probability 0.5"
+    "Both are properties of a single event, with independence concerning how large its probability is and exclusivity concerning its complement"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Though both describe relationships between two events, they capture fundamentally different ideas: influence on probability vs. simultaneous occurrence.",
    "c": 1
   },
@@ -3518,9 +3518,9 @@
    "q": "Which best distinguishes a discrete random variable from a continuous random variable?",
    "o": [
     "Discrete variables take a countable list of values; continuous variables take any value in an interval",
-    "Discrete variables are always whole numbers between 0 and 1",
-    "Continuous variables never have a mean",
-    "Discrete variables cannot be graphed"
+    "Discrete variables take any value in an interval; continuous variables take a countable list of possible values",
+    "Discrete variables are always categorical in type; continuous variables are always measured in whole-number units",
+    "Discrete variables are found only in samples; continuous variables are found only in whole populations of subjects"
    ],
    "a": 0,
    "e": "Discrete RVs have countable/isolated outcomes; continuous RVs are measured over a continuum and use density curves.",
@@ -3866,12 +3866,12 @@
    "u": 7,
    "q": "Which best describes why the sampling distribution of a statistic matters in inference?",
    "o": [
+    "It lets us compute the exact value of the population parameter, which removes the need for margin of error or P-values",
+    "It describes how the individual values in our one sample are spread out, which gives the standard deviation we need",
     "It lets us describe how much a statistic would vary across repeated samples, which underlies margin of error and P-values",
-    "It tells us the exact value of the population parameter",
-    "It removes the need for random sampling",
-    "It guarantees zero bias in any study"
+    "It guarantees that the sample statistic equals the parameter once the sample is large enough, so inference is exact"
    ],
-   "a": 0,
+   "a": 2,
    "e": "The sampling distribution's spread describes sample-to-sample variability, which forms the basis for margins of error and P-value calculations in inference.",
    "c": 0
   },
@@ -3990,9 +3990,9 @@
    "q": "If two independent samples of size $n=30$ are drawn repeatedly from the same population, why will their sample means $x̄$ likely differ?",
    "o": [
     "Because of sampling variability — different random samples produce different statistics",
-    "Because the population mean changes between samples",
-    "Because $n=30$ is too small for a mean to be calculated",
-    "Because the CLT does not apply to means"
+    "Because the population mean changes each time we draw a sample, so the sample means follow it",
+    "Because one of the samples must be biased, since random samples give identical means",
+    "Because n=30 is too small for a Normal shape, so sample means are unrelated to the population"
    ],
    "a": 0,
    "e": "Sampling variability means different random samples naturally yield different statistic values, even from the same population."
@@ -4050,12 +4050,12 @@
    "u": 7,
    "q": "Which best explains why $σx̄ = σ/√n$ rather than $σ/n?$",
    "o": [
+    "The standard deviation of a sum of n independent observations is $nσ$, so dividing by n cancels out the root of the sample size",
+    "Variance of the mean grows with n, so dividing by n and taking a square root introduces a factor of n in the numerator",
     "Variance of the sum of n independent observations is $nσ²$, so dividing by n and taking a square root introduces √n in the denominator",
-    "It's simply a convention with no mathematical basis",
-    "$σ/n$ would overestimate the spread",
-    "$σ/√n$ is only an approximation used for convenience"
+    "The Central Limit Theorem sets the spread of $x̄$ at $σ/√n$ by definition, with no connection to the variance of the sum"
    ],
-   "a": 0,
+   "a": 2,
    "e": "$Var(x̄)=Var(ΣXi/n)=σ²/n$ by the properties of variance for independent RVs, so $σx̄=σ/√n$ follows by taking the square root."
   },
   {
@@ -4074,12 +4074,12 @@
    "u": 7,
    "q": "A confidence interval for a mean relies on knowing the sampling distribution of x̄ because:",
    "o": [
+    "It tells us the exact value of $μ$, which sets the margin of error once n is large",
+    "It guarantees that $x̄$ equals $μ$ in every sample, so the margin only reflects mistakes",
     "It tells us how much $x̄$ typically varies from $μ$, which determines the margin of error",
-    "It tells us the exact value of $μ$",
-    "It removes the need for a random sample",
-    "It guarantees the interval will always contain $μ$"
+    "It shows how the individual data values are spread in the sample, setting the margin directly"
    ],
-   "a": 0,
+   "a": 2,
    "e": "The sampling distribution's standard error quantifies how far $x̄$ typically falls from $μ$, which is the basis for the margin of error in a confidence interval."
   },
   {
@@ -4134,12 +4134,12 @@
    "u": 7,
    "q": "Which statement correctly compares bias and variability of a sampling distribution?",
    "o": [
+    "Bias measures how spread out the statistic's values are; variability measures how far their center is from the parameter",
+    "Bias is reduced by taking a larger sample; variability is reduced only by improving the way the sample is selected",
     "Bias measures how far the center is from the true parameter; variability measures the spread of the statistic's values",
-    "Bias and variability are the same concept described in two ways",
-    "Bias only matters for proportions; variability only matters for means",
-    "A statistic with high variability is automatically biased"
+    "Bias and variability are the same thing, and both describe how far each statistic lies from the true parameter"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Bias is about accuracy (center relative to the parameter); variability is about precision (spread of the sampling distribution).",
    "c": 0
   },
@@ -4147,12 +4147,12 @@
    "u": 8,
    "q": "What is the correct interpretation of a 95% confidence level?",
    "o": [
-    "95% of the population falls within the interval",
-    "If we repeated the sampling method many times, about 95% of the resulting intervals would capture the true parameter",
-    "There is a 95% probability the true parameter is in this specific interval",
-    "95% of sample statistics will equal the parameter"
+    "There is a 95% probability that the true parameter lies inside the one specific interval that we have just calculated",
+    "About 95% of the individual observations in the population fall inside the interval that we computed from the sample",
+    "The sample statistic has a 95% chance of being the same as the true parameter in any new sample that we might draw",
+    "If we repeated the sampling method many times, about 95% of the resulting intervals would capture the true parameter"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Confidence level describes the long-run success rate of the METHOD across repeated samples, not a probability statement about one specific interval.",
    "c": 0
   },
@@ -4185,12 +4185,12 @@
    "u": 8,
    "q": "Why do we use a t-distribution instead of a Normal distribution when constructing a confidence interval for a mean?",
    "o": [
-    "Because the population is always skewed",
+    "Because the population is not Normal, and t corrects for skewness regardless of sample size",
+    "Because we know $σ$ exactly but the sample is small, and only t adjusts for sample size",
     "Because we are estimating $σ$ with s, which adds extra uncertainty, especially with small samples",
-    "Because t-distributions always give narrower intervals",
-    "Because sample means are never Normally distributed"
+    "Because t-intervals are always narrower than z-intervals, giving a more precise estimate"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Using s to estimate the unknown $σ$ introduces additional variability, which the wider-tailed t-distribution accounts for.",
    "c": 1
   },
@@ -4223,10 +4223,10 @@
    "u": 8,
    "q": "All else being equal, increasing the confidence level from 90% to 99% will make the confidence interval:",
    "o": [
-    "Narrower, because higher confidence requires more precision",
+    "Narrower, because a larger confidence level needs fewer data values to be sure that the parameter is captured",
     "Wider, because a larger critical value is needed to be more confident of capturing the parameter",
-    "Exactly the same width",
-    "Impossible to determine without sample size"
+    "Unchanged, because the width of the interval depends only on the sample size and not on the confidence level",
+    "Narrower, because a higher confidence level shrinks the standard error of the sample mean by a bigger factor"
    ],
    "a": 1,
    "e": "Higher confidence levels require a larger critical value (z* or t*), which widens the interval, all else equal.",
@@ -4274,12 +4274,12 @@
    "u": 8,
    "q": "Which statement correctly describes what a P-value measures?",
    "o": [
-    "The probability that H0 is true",
-    "The probability of observing a test statistic at least as extreme as the one obtained, assuming H0 is true",
-    "The probability that Ha is true",
-    "The proportion of the population supporting Ha"
+    "The probability that H0 is true, given the test statistic that we obtained from the data in our sample",
+    "The probability that the alternative hypothesis is false, assuming that the sample was selected at random",
+    "The probability of making a Type I error, calculated from the significance level chosen before the test",
+    "The probability of observing a test statistic at least as extreme as the one obtained, assuming H0 is true"
    ],
-   "a": 1,
+   "a": 3,
    "e": "The P-value is a conditional probability: P(data this extreme or more | H0 is true) — never the probability that a hypothesis itself is true."
   },
   {
@@ -4488,12 +4488,12 @@
    "u": 8,
    "q": "Which is the correct order of steps in a full hypothesis testing procedure?",
    "o": [
-    "State hypotheses, check conditions, calculate test statistic and P-value, make a decision and conclusion in context",
-    "Calculate test statistic, state hypotheses, make a decision, check conditions",
-    "Make a conclusion, state hypotheses, check conditions, calculate P-value",
-    "Check conditions, make a conclusion, state hypotheses, calculate test statistic"
+    "State hypotheses, calculate test statistic and P-value, make a decision, then check conditions in context",
+    "Check conditions, make a decision, calculate test statistic and P-value, then state hypotheses in context",
+    "Calculate the P-value, state hypotheses, check conditions, then make a decision and conclusion in context",
+    "State hypotheses, check conditions, calculate test statistic and P-value, make a decision and conclusion in context"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Standard order: state hypotheses → check conditions → compute test statistic/P-value → state a decision and contextual conclusion.",
    "c": 2
   },
@@ -4550,12 +4550,12 @@
    "u": 8,
    "q": "A t-distribution with a very large number of degrees of freedom is best approximated by:",
    "o": [
+    "The chi-square distribution with 1 df",
     "The standard Normal (z) distribution",
-    "A chi-square distribution",
-    "A uniform distribution",
-    "A binomial distribution"
+    "The uniform distribution on an interval",
+    "The binomial distribution with large n"
    ],
-   "a": 0,
+   "a": 1,
    "e": "As df→∞, the t-distribution converges to the standard Normal distribution.",
    "c": 1
   },
@@ -4577,9 +4577,9 @@
    "q": "Why is 'fail to reject H0' preferred phrasing over 'accept H0'?",
    "o": [
     "Because the data may simply lack enough evidence to detect a real effect, not prove H0 is exactly true",
-    "Because H0 is always false in reality",
-    "Because P-values cannot be calculated for H0",
-    "Because accepting H0 is grammatically incorrect"
+    "Because a large P-value proves the alternative hypothesis is false, which is stronger than just failing to reject",
+    "Because H0 is always false in practice, so accepting it would be wrong no matter what the sample data show",
+    "Because the significance level is set before the test, which prevents us from ever concluding that H0 is true"
    ],
    "a": 0,
    "e": "A nonsignificant result may reflect low power or a true null, so we can't claim proof — only insufficient evidence against H0."
@@ -4588,12 +4588,12 @@
    "u": 8,
    "q": "A t* critical value for a 95% confidence interval with $df=10$ is approximately 2.228, while $z*=1.96$ for the same confidence level. Why is t* larger?",
    "o": [
+    "The t-distribution has a larger mean than the Normal distribution, which shifts the critical value to the right, especially at small df, so the interval is wider",
+    "The t-distribution is skewed to the right, so more of its area lies above 1.96 and a larger t* is needed to capture 95% of it, especially at small df",
     "The t-distribution has fatter tails than the Normal distribution to account for the extra uncertainty of estimating $σ$ with s, especially at small df",
-    "t* is always larger than z* regardless of df",
-    "This is a typo; they should be equal",
-    "Because $df=10$ is unusually large"
+    "The sample of 11 values is too large for a z interval, so the t-distribution widens the interval to correct for the sample size in use, especially at small df"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Smaller degrees of freedom mean more uncertainty from estimating $σ$, so the t-distribution (and its critical values) are wider than the Normal at low df.",
    "c": 1
   },
@@ -4602,9 +4602,9 @@
    "q": "When comparing two population proportions with a two-proportion z-test, the null hypothesis is typically:",
    "o": [
     "H0: p1 $=$ p2 (no difference between the two population proportions)",
-    "H0: p1 > p2",
-    "H0: $p̂1 = p̂2$ exactly in the sample",
-    "H0: n1 $=$ n2"
+    "H0: p1 ≠ p2 (a difference exists between the two proportions)",
+    "H0: $\\hat{p}_1$ = $\\hat{p}_2$ (no difference between sample proportions)",
+    "H0: p1 > p2 (the first proportion is greater than the second)"
    ],
    "a": 0,
    "e": "The null hypothesis for comparing two proportions states there is no difference between the true population proportions, $p1=p2$."
@@ -4625,24 +4625,24 @@
    "u": 8,
    "q": "Which is the correct interpretation of a P-value of 0.002 in a hypothesis test?",
    "o": [
+    "There is a 0.2% chance that H0 is true, so we can be 99.8% confident that the alternative hypothesis is true",
+    "There is a 99.8% chance that the sample result is correct, since the P-value is the probability that H0 is false",
     "If H0 were true, there is only a 0.2% chance of observing a test statistic this extreme or more extreme, by chance alone",
-    "There is a 0.2% chance H0 is true",
-    "There is a 99.8% chance Ha is true",
-    "The effect being tested is 0.2% strong"
+    "If H0 were false, there is a 0.2% chance of seeing a test statistic this extreme, so the effect is small in size"
    ],
-   "a": 0,
+   "a": 2,
    "e": "A P-value is a conditional probability of the observed (or more extreme) data, computed under the assumption that H0 is true — never a probability about the hypothesis itself."
   },
   {
    "u": 8,
    "q": "A researcher wants both a low Type I error rate AND a low Type II error rate for a fixed effect size. What must they do?",
    "o": [
-    "Increase the sample size, since this reduces standard error and improves both error rates simultaneously",
-    "Decrease $α$ only, since this fixes both errors",
-    "There is no way to influence both error rates",
-    "Only run a one-sided test instead of two-sided"
+    "Decrease the significance level, since a lower alpha reduces both error rates at once for any effect size",
+    "Increase the significance level, since a larger alpha reduces both error rates at once for any effect size",
+    "Switch to a one-sided test, since this lowers both error rates at once for any effect size of the study",
+    "Increase the sample size, since this reduces standard error and improves both error rates simultaneously"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Increasing sample size reduces standard error, which can lower $β$ (raising power) without increasing $α$ — the only lever that improves both error types together.",
    "c": 3
   },
@@ -6477,9 +6477,9 @@
    "q": "If r^2 = 0.64, then:",
    "o": [
     "64 percent of the variation in y is explained by its linear relationship with x",
-    "r = 0.64",
-    "64 percent of points are on the line",
-    "The slope is 0.64"
+    "64 percent of the data points lie exactly on the least-squares line drawn",
+    "64 percent of the variation in x is explained by its linear relationship with y",
+    "The correlation between x and y is 0.64, a moderate linear relationship"
    ],
    "a": 0,
    "e": "r squared is the coefficient of determination.",
@@ -6612,12 +6612,12 @@
    "u": 8,
    "q": "Which is a condition for a one-sample t-test?",
    "o": [
-    "The sample size must be exactly 30",
-    "The population standard deviation must be known",
-    "The data come from a random sample and the sampling distribution is approximately normal",
-    "The data must be categorical"
+    "The data come from a random sample and the population standard deviation is known in advance",
+    "The data come from a random sample and the sample size must be at least 100 values",
+    "The data come from a convenience sample and the sample mean is close to the population mean",
+    "The data come from a random sample and the sampling distribution is approximately normal"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Independence and approximate normality are needed.",
    "c": 4
   }

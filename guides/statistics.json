@@ -549,9 +549,9 @@
    "q": "A standard deviation of 0 means:",
    "o": [
     "Every value in the data set is identical",
-    "The mean is 0",
-    "The data are perfectly symmetric",
-    "There are no outliers but values differ"
+    "The data set has a mean equal to zero",
+    "Most values in the data set are close to zero",
+    "The data set is perfectly symmetric"
    ],
    "a": 0,
    "e": "Standard deviation measures spread around the mean. It is 0 only if every value equals the mean."
@@ -624,12 +624,12 @@
    "u": 1,
    "q": "Which statement about the standard deviation is true?",
    "o": [
+    "It measures the gap between the largest and smallest values",
     "It measures the typical distance of values from the mean",
-    "It is always the middle value",
-    "It can be negative",
-    "It is the largest value minus the smallest"
+    "It is always equal to the mean divided by the sample size",
+    "It can be negative when the data fall below the mean"
    ],
-   "a": 0,
+   "a": 1,
    "e": "The standard deviation summarizes spread around the mean and is never negative."
   },
   {
@@ -777,9 +777,9 @@
    "q": "When is the empirical rule appropriate?",
    "o": [
     "When the distribution is approximately normal",
-    "For any data set",
-    "Only for categorical data",
-    "Only when n > 1000"
+    "When the sample size is smaller than thirty values",
+    "When the distribution is strongly skewed right",
+    "When the data are categorical, like colors"
    ],
    "a": 0,
    "e": "The 68–95–99.7 percentages are properties of the normal curve specifically.",
@@ -826,12 +826,12 @@
    "u": 2,
    "q": "A z-score of −1.5 means the value is:",
    "o": [
-    "1.5 standard deviations below the mean",
-    "1.5 units below the mean",
-    "Below the 1st percentile",
-    "Exactly 1.5 below the median"
+    "1.5 standard deviations above the mean",
+    "1.5 units below the mean on the raw scale",
+    "1.5 percent below the mean of the data",
+    "1.5 standard deviations below the mean"
    ],
-   "a": 0,
+   "a": 3,
    "e": "z-scores count standard deviations from the mean, and the sign gives the direction.",
    "c": 2
   },
@@ -877,12 +877,12 @@
    "u": 3,
    "q": "Cities with more firefighters report more fire damage. The most likely explanation is:",
    "o": [
+    "Firefighters cause fires, and more of them cause more damage",
     "A confounding variable: bigger fires call for more firefighters",
-    "Firefighters cause fire damage",
-    "The correlation must be a calculation error",
-    "Fire damage causes cities to hire firefighters years later"
+    "Fire damage attracts firefighters, so damage causes more crews",
+    "Pure coincidence, since the two variables are not related at all"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Fire size affects both the number of firefighters sent and the damage, so it is a lurking variable.",
    "c": 2
   },
@@ -915,12 +915,12 @@
    "u": 3,
    "q": "r² = 0.64 for a regression of exam score on hours studied means:",
    "o": [
-    "64% of students studied",
-    "The correlation is 0.64",
-    "Each hour raises the score by 64%",
-    "64% of the variation in exam scores is explained by the linear relationship with hours studied"
+    "64% of the students who studied for the exam scored higher than the class average on it",
+    "64% of the variation in exam scores is explained by the linear relationship with hours studied",
+    "The score can be predicted exactly for 64% of the students from their hours studied",
+    "Each additional hour studied raises the exam score by 0.64 percent of the previous score"
    ],
-   "a": 3,
+   "a": 1,
    "e": "r² is the proportion of variation in the response explained by the model (here r = ±0.8).",
    "c": 1
   },
@@ -994,9 +994,9 @@
    "q": "In ŷ = 12 + 3x, what does the slope 3 mean?",
    "o": [
     "For each 1-unit increase in x, predicted y increases by 3",
-    "When x = 0, y = 3",
-    "y is 3 times x",
-    "The correlation is 3"
+    "For each 1-unit increase in y, predicted x increases by 3",
+    "When x is 0, the predicted value of y is exactly 3",
+    "For each 3-unit increase in x, predicted y rises by 12"
    ],
    "a": 0,
    "e": "The slope is the predicted change in y per one-unit increase in x.",
@@ -1018,12 +1018,12 @@
    "u": 3,
    "q": "Which statement about the correlation coefficient r is true?",
    "o": [
-    "It is measured in the units of y",
-    "It can equal 2",
-    "It has no units and ranges from −1 to 1",
-    "It proves causation"
+    "It has no units and ranges from 0 to 1",
+    "It has the units of x and any value above −1",
+    "It resists outliers and runs from 0 to 100",
+    "It has no units and ranges from −1 to 1"
    ],
-   "a": 2,
+   "a": 3,
    "e": "r is unitless and always between −1 and 1.",
    "c": 1
   },
@@ -1057,12 +1057,12 @@
    "u": 3,
    "q": "Ice cream sales and drowning deaths are strongly correlated. The best explanation is:",
    "o": [
-    "Ice cream causes drowning",
-    "A lurking variable such as hot weather",
-    "Drowning causes ice cream sales",
-    "A calculation error"
+    "Ice cream causes drowning among swimmers",
+    "Drowning leads people to buy ice cream",
+    "The data were most likely recorded wrongly",
+    "A lurking variable such as hot weather"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Both increase in summer, so temperature is a lurking variable that explains the association."
   },
   {
@@ -1235,12 +1235,12 @@
    "u": 4,
    "q": "In a block design comparing two fertilizers, fields are first grouped by soil type. The purpose is to:",
    "o": [
-    "Make the study observational",
-    "Avoid random assignment",
+    "Make both treatment groups the same size",
     "Reduce variability from a known source",
-    "Increase bias"
+    "Prove the fertilizers cause the yield gap",
+    "Remove the need for random assignment"
    ],
-   "a": 2,
+   "a": 1,
    "e": "Blocking compares treatments within similar units, removing soil-type variation from the comparison.",
    "c": 2
   },
@@ -1248,9 +1248,9 @@
    "u": 4,
    "q": "A simple random sample of size n means:",
    "o": [
-    "The first n people who volunteer",
-    "Every individual is chosen from the same neighborhood",
-    "The sample is stratified by age",
+    "Every individual has an equal chance, but groups of n may not be equally likely",
+    "The first n individuals on a list are chosen in the order listed",
+    "Individuals are chosen from each subgroup in proportion to its size",
     "Every possible group of n individuals has the same chance of being chosen"
    ],
    "a": 3,
@@ -1261,12 +1261,12 @@
    "u": 4,
    "q": "What is the main difference between stratified and cluster sampling?",
    "o": [
-    "They are the same",
-    "Stratified samples from every group; cluster samples whole groups",
-    "Cluster sampling is biased",
-    "Stratified sampling uses volunteers"
+    "Stratified samples whole groups; cluster samples from every group",
+    "Stratified uses volunteers; cluster uses randomly chosen people",
+    "Stratified needs a larger sample than cluster in all cases",
+    "Stratified samples from every group; cluster samples whole groups"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Stratified sampling takes a random sample from every stratum. Cluster sampling randomly selects whole groups and surveys all members.",
    "c": 1
   },
@@ -1274,12 +1274,12 @@
    "u": 4,
    "q": "Voluntary response samples, such as online polls, usually suffer from:",
    "o": [
-    "Too much randomization",
-    "Exact accuracy",
+    "Undercoverage because only rich people have computers",
     "Bias because people with strong opinions respond",
-    "Double blinding"
+    "Random error that gets smaller as more people respond",
+    "Bias because answers lean toward the middle"
    ],
-   "a": 2,
+   "a": 1,
    "e": "People who choose to respond tend to feel strongly, so the sample is not representative.",
    "c": 0
   },
@@ -1287,12 +1287,12 @@
    "u": 4,
    "q": "In a double-blind experiment:",
    "o": [
+    "Only the participants are unaware of which treatment they get",
+    "Everyone knows the treatments, but only the evaluators are unaware",
     "Neither participants nor evaluators know who gets which treatment",
-    "Only the participants know",
-    "Only the doctors know",
-    "There is no control group"
+    "Participants choose which treatment group they want to join"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Double blinding reduces bias from expectations of both participants and researchers.",
    "c": 2
   },
@@ -1439,12 +1439,12 @@
    "u": 5,
    "q": "The law of large numbers says:",
    "o": [
-    "The proportion of an outcome approaches its probability as trials increase",
-    "Short runs always match the true probability",
-    "Rare outcomes become impossible",
-    "Outcomes balance out after a streak"
+    "The count of an outcome becomes equal to its expected count after many trials",
+    "After a streak of one outcome, the opposite is due to occur next",
+    "A small sample's proportion is always exactly the true probability",
+    "The proportion of an outcome approaches its probability as trials increase"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Only in the long run does the relative frequency settle near the true probability.",
    "c": 0
   },
@@ -1586,10 +1586,10 @@
    "u": 6,
    "q": "A 95% confidence interval for mean sleep is (6.8, 7.4) hours. The correct interpretation is:",
    "o": [
-    "95% of students sleep between 6.8 and 7.4 hours",
-    "There is a 95% chance the sample mean is in the interval",
+    "95% of all sleep times in the population fall between 6.8 and 7.4 hours each night",
+    "There is a 95% chance that the sample mean falls between 6.8 and 7.4 hours of sleep",
     "We are 95% confident the interval from 6.8 to 7.4 hours captures the true mean sleep time",
-    "The true mean is definitely 7.1 hours"
+    "The mean sleep time for 95% of people in the sample is between 6.8 and 7.4 hours"
    ],
    "a": 2,
    "e": "The interval estimates the population mean, and the 95% describes the method's long-run capture rate."
@@ -1598,12 +1598,12 @@
    "u": 6,
    "q": "What does '95% confidence' refer to?",
    "o": [
-    "95% of the data lies in the interval",
-    "The parameter changes 95% of the time",
-    "The sample is 95% accurate",
-    "About 95% of intervals from repeated samples would capture the parameter"
+    "About 95% of intervals from repeated samples would capture the parameter",
+    "There is a 95% chance the parameter lies in this one particular interval",
+    "95% of the individual data values in the sample fall inside the interval",
+    "The sample statistic will be within 5% of the parameter's true value"
    ],
-   "a": 3,
+   "a": 0,
    "e": "Confidence is a property of the procedure over many samples.",
    "c": 2
   },
@@ -1650,12 +1650,12 @@
    "u": 6,
    "q": "An interval for a proportion requires n·p̂ ≥ 10 and n(1 − p̂) ≥ 10. This condition checks that:",
    "o": [
+    "The population is at least ten times larger than the sample",
+    "The sample was selected randomly from the whole population",
     "The sampling distribution of p̂ is approximately normal",
-    "The sample was random",
-    "Observations are independent",
-    "There is no bias"
+    "The sample proportion exactly equals the population proportion"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Large counts make the normal approximation to the sampling distribution reasonable."
   },
   {
@@ -1674,12 +1674,12 @@
    "u": 6,
    "q": "Why do we use t* instead of z* for a mean when σ is unknown?",
    "o": [
-    "t* is always smaller",
-    "z* only works for proportions",
+    "The t distribution is required only when the sample size is large and normal",
     "Estimating σ with s adds uncertainty, and the t distribution accounts for it",
-    "The sample must be small"
+    "The sample size is always below thirty, and only the t table covers small samples",
+    "The population must be skewed, so z* would give intervals that are too wide"
    ],
-   "a": 2,
+   "a": 1,
    "e": "The t distribution has heavier tails to reflect the extra uncertainty from using s."
   },
   {
@@ -1746,9 +1746,9 @@
    "u": 6,
    "q": "Which is a correct interpretation of a 95% confidence interval for a mean?",
    "o": [
-    "95% of the data lie in the interval",
-    "There is a 95% chance the sample mean is in the interval",
-    "95% of intervals contain the sample mean",
+    "95% of the individual values in the population lie in the interval",
+    "There is a 95% chance that the next sample mean falls inside it",
+    "95% of the sample data lie within the interval's endpoints",
     "We are 95% confident the interval captures the true population mean"
    ],
    "a": 3,
@@ -1759,12 +1759,12 @@
    "u": 6,
    "q": "Which condition is needed for a one-proportion confidence interval?",
    "o": [
-    "The data are skewed",
     "The sample is random and the success/failure counts are at least 10",
-    "The population must be small",
-    "The sample size must be exactly 30"
+    "The population is normal and the sample size exceeds thirty",
+    "The standard deviation of the population is already known",
+    "The sample is at least ten percent of the population size"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Random sampling and enough successes and failures (at least 10 each) are the key conditions."
   },
   {
@@ -1784,10 +1784,10 @@
    "u": 7,
    "q": "A P-value of 0.02 means:",
    "o": [
-    "There is a 2% chance H₀ is true",
+    "There is a 2% chance that the null hypothesis is true, given the results we observed",
     "If H₀ were true, there would be a 2% chance of results at least as extreme as observed",
-    "There is a 98% chance Hₐ is true",
-    "The effect size is 2%"
+    "The null hypothesis is false with a probability of 98%, given the sample result observed",
+    "If H₀ were true, 2% of the sample data points would fall in the extreme tail of the model"
    ],
    "a": 1,
    "e": "The P-value is computed assuming H₀ is true; it is not the probability H₀ is true.",
@@ -1861,12 +1861,12 @@
    "u": 7,
    "q": "A study of 1,000,000 people finds a new diet lowers weight by 0.1 kg, with P < 0.001. The best conclusion is:",
    "o": [
-    "The diet is very effective",
     "The result is statistically significant but probably not practically important",
-    "The result must be a Type I error",
-    "The sample was too small"
+    "The diet is clearly effective and everyone should adopt it right away",
+    "The result is not statistically significant because the effect is small",
+    "The sample is too large, so the P-value cannot be trusted and the study is invalid"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Huge samples detect tiny effects; significance doesn't mean the effect matters in practice.",
    "c": 2
   },
@@ -1874,12 +1874,12 @@
    "u": 7,
    "q": "A two-sided alternative is appropriate when:",
    "o": [
-    "You suspect an increase",
+    "You expect the mean to be greater than the null",
+    "You expect a decrease, based on earlier studies",
     "You suspect a difference but not its direction",
-    "You suspect a decrease",
-    "The P-value is small"
+    "You want a smaller P-value for the same data"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Hₐ: parameter ≠ null value tests for a difference in either direction.",
    "c": 0
   },
@@ -1887,12 +1887,12 @@
    "u": 7,
    "q": "The test statistic z = 2.5 means:",
    "o": [
-    "The P-value is 2.5",
-    "H₀ is 2.5 times more likely",
-    "The sample mean is 2.5",
-    "The sample result is 2.5 standard errors above the null value"
+    "The sample result is 2.5 percent above the null value",
+    "The sample result is 2.5 standard errors above the null value",
+    "There is a 2.5% chance that the null hypothesis is true",
+    "The sample result is 2.5 units away from the sample mean"
    ],
-   "a": 3,
+   "a": 1,
    "e": "A standardized test statistic measures distance from the null value in standard errors.",
    "c": 0
   },
@@ -1900,12 +1900,12 @@
    "u": 7,
    "q": "Failing to reject H₀ means:",
    "o": [
-    "H₀ is proven true",
-    "Hₐ is proven false",
-    "The data didn't give convincing evidence against H₀",
-    "A Type I error occurred"
+    "The data gave convincing evidence that H₀ is true",
+    "The null hypothesis has been proven correct by the sample",
+    "The alternative hypothesis was proven false by the data",
+    "The data didn't give convincing evidence against H₀"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Absence of evidence isn't proof; H₀ stays plausible.",
    "c": 1
   },
@@ -1976,12 +1976,12 @@
    "u": 7,
    "q": "A very small P-value in a huge study may show a result that is:",
    "o": [
-    "Always important",
-    "Impossible",
+    "Statistically significant and also certainly large in practice",
     "Statistically significant but not practically important",
-    "Proof of causation"
+    "Not statistically significant because the effect is too small",
+    "Caused by bias, since small P-values need small samples"
    ],
-   "a": 2,
+   "a": 1,
    "e": "With a large sample even tiny effects can be statistically significant, so consider effect size."
   },
   {
@@ -2027,10 +2027,10 @@
    "u": 8,
    "q": "Unemployment rises from 4% to 6%. Which statement is accurate?",
    "o": [
-    "It rose 2%",
-    "It rose 50 percentage points",
+    "It rose 2 percent, which is a 2 percentage point increase",
+    "It rose 2 percentage points, a 33% relative increase",
     "It rose 2 percentage points, a 50% relative increase",
-    "It tripled"
+    "It rose 50 percentage points, a 2% relative increase"
    ],
    "a": 2,
    "e": "6 − 4 = 2 percentage points; 2/4 = 50% relative increase.",
@@ -2040,12 +2040,12 @@
    "u": 8,
    "q": "A pictograph doubles both the height and width of a money-bag icon to show that savings doubled. Why is this misleading?",
    "o": [
-    "Money can't be shown with pictures",
-    "The height should triple",
-    "It understates the change",
-    "The area quadruples, exaggerating the change"
+    "The area quadruples, exaggerating the change",
+    "The width doubles, and so the area only doubles",
+    "The icon is too small to compare values clearly",
+    "The height should have stayed constant instead"
    ],
-   "a": 3,
+   "a": 0,
    "e": "Scaling both dimensions multiplies the area by 4, so the eye sees a fourfold increase."
   },
   {
@@ -2115,12 +2115,12 @@
    "u": 8,
    "q": "A town's mean household income is $250,000 but the median is $48,000. The most likely reason is:",
    "o": [
-    "Most households earn about $250,000",
-    "The median is miscalculated",
-    "Income is categorical",
-    "A few extremely high incomes skew the mean"
+    "A few very low incomes pull the mean upward",
+    "The sample used to find the median was too small",
+    "A few extremely high incomes skew the mean",
+    "Incomes are symmetric, so the two should agree"
    ],
-   "a": 3,
+   "a": 2,
    "e": "Right skew pulls the mean far above the typical (median) household.",
    "c": 1
   },
@@ -2128,12 +2128,12 @@
    "u": 8,
    "q": "An ad says '4 out of 5 dentists recommend' a toothpaste. The most useful follow-up question is:",
    "o": [
-    "What color is the toothpaste?",
-    "Is 4/5 more than half?",
-    "Were there exactly 5 dentists?",
-    "How were the dentists chosen and what exactly were they asked?"
+    "How were the dentists chosen and what exactly were they asked?",
+    "What is the dentists' average age and years of experience?",
+    "Which brand of toothpaste costs less than competitors?",
+    "How many people have used the toothpaste over the years?"
    ],
-   "a": 3,
+   "a": 0,
    "e": "Selection and wording determine whether the statistic means anything.",
    "c": 2
   },
@@ -3515,9 +3515,9 @@
    "q": "Ice cream sales and drowning deaths both rise in summer. This is best explained by:",
    "o": [
     "A lurking variable such as hot weather",
-    "Ice cream causing drowning",
-    "Drowning causing ice cream sales",
-    "Random chance only"
+    "Ice cream directly causing drowning deaths",
+    "Drowning making more people buy ice cream",
+    "Pure chance, since the pattern is not real"
    ],
    "a": 0,
    "e": "A common cause can create association without causation.",
@@ -3527,9 +3527,9 @@
    "u": 3,
    "q": "A correlation of r = 0.9 between two variables means:",
    "o": [
-    "One variable causes the other",
-    "90 percent of the data fit the line",
-    "No relationship",
+    "A weak linear association, so cause is unlikely at all",
+    "A strong negative linear association that proves causation",
+    "Exactly 90% of the variation in one variable is caused by the other",
     "A strong positive linear association, not proof of causation"
    ],
    "a": 3,
@@ -3539,12 +3539,12 @@
    "u": 4,
    "q": "Random assignment in an experiment helps:",
    "o": [
-    "Increase the sample size",
-    "Remove the need for a control group",
-    "Guarantee a large effect",
-    "Balance lurking variables across groups so causal conclusions are possible"
+    "Guarantee that the sample represents the whole population being studied",
+    "Balance lurking variables across groups so causal conclusions are possible",
+    "Remove the need for a control group or any comparison between treatments",
+    "Make the response data fit a normal distribution exactly in each group"
    ],
-   "a": 3,
+   "a": 1,
    "e": "It is the key difference from an observational study.",
    "c": 2
   },
@@ -3552,12 +3552,12 @@
    "u": 4,
    "q": "A voluntary response sample is biased because:",
    "o": [
-    "The sample is too small",
-    "Respondents are chosen randomly",
     "People with strong opinions are more likely to respond",
-    "It always favors the majority"
+    "The sample size is always too small to be useful",
+    "Researchers choose which individuals to include in it",
+    "Responses come from the whole population in equal shares"
    ],
-   "a": 2,
+   "a": 0,
    "e": "The sample does not represent the whole population.",
    "c": 0
   },
@@ -3627,10 +3627,10 @@
    "u": 8,
    "q": "Survivorship bias occurs when:",
    "o": [
-    "Everyone is surveyed",
-    "The sample is random",
+    "Only failures are recorded, so the results look too negative",
+    "The sample is chosen by the researcher who knows the outcomes",
     "Only successes are visible, so the sample misrepresents the whole",
-    "There are no outliers"
+    "People refuse to answer, so the sample is too small in size"
    ],
    "a": 2,
    "e": "Failures drop out of the data set.",

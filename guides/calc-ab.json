@@ -1162,12 +1162,12 @@
    "u": 4,
    "q": "W(t) is water in a tank (gallons) at t hours, and W'(2) = 15. This means:",
    "o": [
-    "There are 15 gallons at 2 hours",
-    "15 gallons were added in 2 hours",
-    "The tank fills in 15 hours",
-    "At 2 hours, water is increasing at 15 gallons per hour"
+    "At 2 hours, water is decreasing at 15 gallons per hour",
+    "At 2 hours, the tank holds a total of 15 gallons",
+    "At 2 hours, water is increasing at 15 gallons per hour",
+    "Over the first 2 hours, 15 gallons were added in total"
    ],
-   "a": 3,
+   "a": 2,
    "e": "The derivative is a rate in gallons per hour at that instant."
   },
   {
@@ -1365,12 +1365,12 @@
    "u": 4,
    "q": "If C(x) is the cost of producing x items and C′(100) = 4.5, this means that:",
    "o": [
-    "the total cost of 100 items is 4.5",
-    "producing the 101st item adds about 4.5 to the cost",
-    "the average cost of an item is 4.5",
-    "each item costs 4.5 less after 100 items"
+    "producing 100 items costs about 4.5 in total",
+    "cost rises by 100 for every 4.5 items produced",
+    "the average cost per item at 100 items is 4.5",
+    "producing the 101st item adds about 4.5 to the cost"
    ],
-   "a": 1,
+   "a": 3,
    "e": "The derivative is the instantaneous rate of change of cost, so C′(100) estimates the marginal cost of one more item.",
    "c": 0
   },
@@ -1466,9 +1466,9 @@
    "q": "If f'' > 0 on an interval, then on that interval:",
    "o": [
     "f' is increasing and f is concave up",
-    "f is increasing",
-    "f' is negative",
-    "f is concave down"
+    "f' is decreasing and f is concave down",
+    "f' is increasing and f is concave down",
+    "f is increasing and f' is concave up"
    ],
    "a": 0,
    "e": "f'' > 0 means f' increases, so the graph bends upward."
@@ -1716,12 +1716,12 @@
    "u": 6,
    "q": "Water flows into a tank at r(t) liters per minute. ∫_0^10 r(t) dt represents:",
    "o": [
-    "The flow rate at t = 10",
-    "The average flow rate",
-    "The tank's capacity",
-    "Liters added in the first 10 minutes"
+    "The rate of flow at the 10-minute mark",
+    "The average flow rate over ten minutes",
+    "Liters added in the first 10 minutes",
+    "The rate at which r changes at t = 10"
    ],
-   "a": 3,
+   "a": 2,
    "e": "Integrating a rate gives the net amount accumulated.",
    "c": 0
   },
@@ -1999,9 +1999,9 @@
    "q": "Newton's Law of Cooling says the rate of temperature change is proportional to:",
    "o": [
     "The difference between the object's and the room's temperature",
-    "The object's temperature",
-    "Time elapsed",
-    "The room's temperature"
+    "The object's absolute temperature at each moment in time",
+    "The square of the difference between the two temperatures",
+    "The total time elapsed since the object began to cool"
    ],
    "a": 0,
    "e": "dT/dt = k(T − T_room).",
@@ -2241,9 +2241,9 @@
    "u": 8,
    "q": "To find the area between two curves that cross inside [a, b], you should:",
    "o": [
-    "Integrate the difference once",
-    "Take the average of the curves",
-    "Use only the upper curve",
+    "Integrate the difference without splitting",
+    "Take the absolute value of one integral",
+    "Average the two functions before integrating",
     "Split the integral at the crossing point"
    ],
    "a": 3,
@@ -3567,12 +3567,12 @@
    "u": 1,
    "q": "A function f is continuous at x = a if:",
    "o": [
-    "f(a) exists",
+    "The limit exists, whether or not f(a) is defined",
+    "f(a) is defined, even if the limit fails to exist",
     "The limit as x approaches a exists and equals f(a)",
-    "The left limit exists",
-    "f is differentiable at a only"
+    "The derivative f'(a) exists and is a finite number"
    ],
-   "a": 1,
+   "a": 2,
    "e": "All three conditions must hold: f(a) is defined, the limit exists, and they are equal."
   },
   {
@@ -3731,12 +3731,12 @@
    "u": 8,
    "q": "The area between two curves is found by integrating:",
    "o": [
-    "The upper function minus the lower function",
     "The lower function minus the upper function",
-    "Their sum",
-    "Their product"
+    "The sum of the upper and lower functions",
+    "The product of the two functions' heights",
+    "The upper function minus the lower function"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Subtracting makes the integrand nonnegative.",
    "c": 1
   }

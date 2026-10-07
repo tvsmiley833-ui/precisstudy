@@ -1134,12 +1134,12 @@
    "u": 3,
    "q": "If f'' > 0 on an interval, then on that interval:",
    "o": [
-    "f' is increasing and f is concave up",
-    "f is increasing",
-    "f' is negative",
-    "f is concave down"
+    "f' is decreasing and f is concave down",
+    "f' is increasing and f is concave down",
+    "f is increasing and f' is concave up",
+    "f' is increasing and f is concave up"
    ],
-   "a": 0,
+   "a": 3,
    "e": "f'' > 0 means f' increases, so the graph bends upward."
   },
   {
@@ -1358,12 +1358,12 @@
    "u": 4,
    "q": "Water flows into a tank at r(t) liters per minute. ∫_0^10 r(t) dt represents:",
    "o": [
-    "The flow rate at t = 10",
-    "The average flow rate",
-    "The tank's capacity",
-    "Liters added in the first 10 minutes"
+    "Liters added in the first 10 minutes",
+    "The rate of flow at the 10-minute mark",
+    "The average flow rate over ten minutes",
+    "The rate at which r changes at t = 10"
    ],
-   "a": 3,
+   "a": 0,
    "e": "Integrating a rate gives the net amount accumulated.",
    "c": 0
   },
@@ -1604,12 +1604,12 @@
    "u": 5,
    "q": "To find the area between two curves that cross inside [a, b], you should:",
    "o": [
-    "Integrate the difference once",
-    "Take the average of the curves",
-    "Use only the upper curve",
-    "Split the integral at the crossing point"
+    "Split the integral at the crossing point",
+    "Integrate the difference without splitting",
+    "Take the absolute value of one integral",
+    "Average the two functions before integrating"
    ],
-   "a": 3,
+   "a": 0,
    "e": "Top and bottom swap at the crossing, so split to keep each piece positive.",
    "c": 1
   },
@@ -1998,12 +1998,12 @@
    "u": 7,
    "q": "W(t) is water in a tank (gallons) at t hours, and W'(2) = 15. This means:",
    "o": [
-    "There are 15 gallons at 2 hours",
-    "15 gallons were added in 2 hours",
-    "The tank fills in 15 hours",
-    "At 2 hours, water is increasing at 15 gallons per hour"
+    "At 2 hours, water is decreasing at 15 gallons per hour",
+    "At 2 hours, the tank holds a total of 15 gallons",
+    "At 2 hours, water is increasing at 15 gallons per hour",
+    "Over the first 2 hours, 15 gallons were added in total"
    ],
-   "a": 3,
+   "a": 2,
    "e": "The derivative is a rate in gallons per hour at that instant."
   },
   {
@@ -3529,10 +3529,10 @@
    "u": 1,
    "q": "For f to be continuous at x = a, which must be true?",
    "o": [
-    "f is differentiable everywhere",
+    "The limit exists, whether or not f(a) is defined",
     "The limit as x approaches a exists and equals f(a)",
-    "f(a) is zero",
-    "f has a vertical asymptote"
+    "f(a) is defined, even if the limit fails to exist",
+    "The derivative f'(a) exists and is a finite number"
    ],
    "a": 1,
    "e": "The function value, limit and their equality are all required."
@@ -3640,12 +3640,12 @@
    "u": 7,
    "q": "For a sphere, dV/dt = 4 pi r^2 dr/dt because:",
    "o": [
-    "V = 4 pi r^2",
-    "The radius is constant",
-    "A sphere has no volume",
-    "V = (4/3) pi r^3 is differentiated with respect to time"
+    "V = (4/3) pi r^3 is differentiated with respect to time",
+    "V = 4 pi r^2 is differentiated with respect to time",
+    "V = (4/3) pi r^3 is integrated with respect to time",
+    "V = (4/3) pi r^3 is differentiated with respect to r only"
    ],
-   "a": 3,
+   "a": 0,
    "e": "Related rates use the chain rule.",
    "c": 1
   },
@@ -3666,12 +3666,12 @@
    "u": 5,
    "q": "The average value of f on [a, b] is:",
    "o": [
-    "The integral of f from a to b",
     "(1/(b - a)) times the integral of f from a to b",
-    "f(a) + f(b)",
-    "(f(a) + f(b))/2 always"
+    "(1/(b - a)) times the derivative of f on [a, b]",
+    "(b - a) times the integral of f from a to b",
+    "(f(a) + f(b))/2, the mean of the endpoint values"
    ],
-   "a": 1,
+   "a": 0,
    "e": "It is the mean-value interpretation of an integral.",
    "c": 0
   }

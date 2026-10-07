@@ -1052,12 +1052,12 @@
    "u": 2,
    "q": "If f'' > 0 on an interval, then on that interval:",
    "o": [
+    "f' is decreasing and f is concave down",
+    "f' is increasing and f is concave down",
     "f' is increasing and f is concave up",
-    "f is increasing",
-    "f' is negative",
-    "f is concave down"
+    "f is increasing and f' is concave up"
    ],
-   "a": 0,
+   "a": 2,
    "e": "f'' > 0 means f' increases, so the graph bends upward."
   },
   {
@@ -1276,12 +1276,12 @@
    "u": 3,
    "q": "Water flows into a tank at r(t) liters per minute. ∫_0^10 r(t) dt represents:",
    "o": [
-    "The flow rate at t = 10",
-    "The average flow rate",
-    "The tank's capacity",
-    "Liters added in the first 10 minutes"
+    "The rate of flow at the 10-minute mark",
+    "Liters added in the first 10 minutes",
+    "The average flow rate over ten minutes",
+    "The rate at which r changes at t = 10"
    ],
-   "a": 3,
+   "a": 1,
    "e": "Integrating a rate gives the net amount accumulated.",
    "c": 0
   },
@@ -1455,12 +1455,12 @@
    "u": 3,
    "q": "Newton's Law of Cooling says the rate of temperature change is proportional to:",
    "o": [
+    "The object's absolute temperature at each moment in time",
     "The difference between the object's and the room's temperature",
-    "The object's temperature",
-    "Time elapsed",
-    "The room's temperature"
+    "The square of the difference between the two temperatures",
+    "The total time elapsed since the object began to cool"
    ],
-   "a": 0,
+   "a": 1,
    "e": "dT/dt = k(T − T_room).",
    "c": 0
   },
@@ -1695,9 +1695,9 @@
    "u": 4,
    "q": "To find the area between two curves that cross inside [a, b], you should:",
    "o": [
-    "Integrate the difference once",
-    "Take the average of the curves",
-    "Use only the upper curve",
+    "Integrate the difference without splitting",
+    "Take the absolute value of one integral",
+    "Average the two functions before integrating",
     "Split the integral at the crossing point"
    ],
    "a": 3,
@@ -2038,12 +2038,12 @@
    "u": 5,
    "q": "The slope of a polar curve r = f(θ) is found using:",
    "o": [
-    "dr/dθ",
-    "r/θ",
-    "dy/dx = (dy/dθ)/(dx/dθ) with x = r cos θ and y = r sin θ",
-    "dθ/dr"
+    "dy/dx = (dx/dθ)/(dy/dθ) with x = r cos θ and y = r sin θ",
+    "dy/dx = dr/dθ, the derivative of r with respect to θ",
+    "dy/dx = d/dθ(r sin θ) alone with no division by dx/dθ",
+    "dy/dx = (dy/dθ)/(dx/dθ) with x = r cos θ and y = r sin θ"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Convert to parametric form in θ, then divide the derivatives."
   },
   {
@@ -2705,12 +2705,12 @@
    "u": 8,
    "q": "For a convergent alternating series with decreasing terms, the error after n terms is at most:",
    "o": [
-    "the sum of all omitted terms",
+    "the absolute value of the last term included",
+    "half the absolute value of the first omitted term",
     "the absolute value of the first omitted term",
-    "the nth term squared",
-    "zero"
+    "twice the absolute value of the first omitted term"
    ],
-   "a": 1,
+   "a": 2,
    "e": "This is the alternating series error bound.",
    "c": 2
   },
@@ -3670,12 +3670,12 @@
    "u": 8,
    "q": "For a convergent alternating series, the error in using a partial sum is at most:",
    "o": [
-    "The last included term",
-    "Twice the first omitted term",
-    "The sum of the omitted terms",
-    "The absolute value of the first omitted term"
+    "The absolute value of the last term included",
+    "The absolute value of the first omitted term",
+    "Half the absolute value of the first omitted term",
+    "Twice the absolute value of the first omitted term"
    ],
-   "a": 3,
+   "a": 1,
    "e": "This is the alternating series error bound.",
    "c": 2
   },

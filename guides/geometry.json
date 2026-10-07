@@ -1154,10 +1154,10 @@
    "u": 4,
    "q": "In SAS, the angle used must be:",
    "o": [
-    "any angle",
+    "the non-included angle (opposite a side)",
     "the included angle (between the two sides)",
-    "a right angle",
-    "the largest angle"
+    "a right angle located at the first vertex",
+    "the largest angle of the triangle drawn"
    ],
    "a": 1,
    "e": "SAS requires the angle BETWEEN the two given sides (the included angle)."
@@ -3567,10 +3567,10 @@
    "u": 9,
    "q": "To prove a quadrilateral is a parallelogram using slopes, you must show",
    "o": [
-    "all four slopes are equal",
+    "both pairs of opposite sides have reciprocal slopes",
     "both pairs of opposite sides have equal slopes",
-    "the diagonals have equal slopes",
-    "adjacent sides have opposite slopes"
+    "only one pair of opposite sides has equal slopes",
+    "the diagonals have negative reciprocal slopes"
    ],
    "a": 1,
    "e": "Equal slopes on both pairs of opposite sides prove both pairs parallel → parallelogram.",
@@ -4062,12 +4062,12 @@
    "svg": "<svg viewBox='0 0 260 190'><line x1='130' y1='10' x2='130' y2='180' stroke='#857f72' stroke-width='1.5'/><line x1='15' y1='95' x2='245' y2='95' stroke='#857f72' stroke-width='1.5'/><circle cx='190' cy='55' r='5' fill='#e6bb55'/><text x='198' y='50' font-size='14' fill='#e6bb55'>P(3,2)</text><circle cx='90' cy='35' r='5' fill='#7fc98f'/><text x='24' y='32' font-size='14' fill='#7fc98f'>P'(−2,3)</text></svg>",
    "q": "Point P(3, 2) maps to P'(−2, 3). Which transformation occurred?",
    "o": [
-    "reflection over y = x",
     "rotation 90° counterclockwise about the origin",
     "rotation 90° clockwise about the origin",
-    "reflection over the y-axis"
+    "reflection across the line y = x (swap)",
+    "rotation 180° about the origin point"
    ],
-   "a": 1,
+   "a": 0,
    "e": "90° CCW rule: (x, y) → (−y, x): (3, 2) → (−2, 3) ✓."
   },
   {
@@ -4718,12 +4718,12 @@
    "u": 9,
    "q": "To prove a quadrilateral is a trapezoid using coordinates, it is sufficient to show",
    "o": [
-    "all sides congruent",
-    "exactly one pair of opposite sides with equal slopes",
-    "diagonals bisect each other",
-    "two pairs of parallel sides"
+    "exactly one pair of opposite sides with negative reciprocal slopes",
+    "two pairs of opposite sides with equal slopes",
+    "exactly one pair of opposite sides with equal lengths",
+    "exactly one pair of opposite sides with equal slopes"
    ],
-   "a": 1,
+   "a": 3,
    "e": "A trapezoid needs one pair of parallel sides — shown by equal slopes (and the other pair not parallel).",
    "c": 1
   },
