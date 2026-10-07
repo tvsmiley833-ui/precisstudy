@@ -3269,10 +3269,10 @@
    "u": 6,
    "q": "What does HTTPS add compared to plain HTTP?",
    "o": [
-    "Faster loading only",
+    "Compression of page files to cut download time",
     "Encryption of data in transit via SSL/TLS",
-    "Larger file sizes",
-    "Nothing meaningful"
+    "Automatic blocking of ads and tracking scripts",
+    "Caching of pages on the server for repeat visits"
    ],
    "a": 1,
    "e": "HTTPS secures the connection by encrypting data between browser and server.",
@@ -3282,12 +3282,12 @@
    "u": 6,
    "q": "What does a 404 HTTP status code indicate?",
    "o": [
-    "The request succeeded",
+    "The request was redirected to a new address",
+    "The client lacks permission to view the page",
     "The requested resource was not found",
-    "The server crashed entirely",
-    "The page loaded twice"
+    "The server took too long to send a reply"
    ],
-   "a": 1,
+   "a": 2,
    "e": "404 means the server couldn't find the resource at the requested URL.",
    "c": 3
   },
@@ -3308,12 +3308,12 @@
    "u": 6,
    "q": "What does a 500 HTTP status code indicate?",
    "o": [
-    "The request succeeded perfectly",
-    "An error occurred on the server's side while processing the request",
-    "The page was not found",
-    "The user's browser crashed"
+    "The requested page could not be found at the given address",
+    "The client sent a request the server could not understand",
+    "The client's login credentials were rejected by the server",
+    "An error occurred on the server's side while processing the request"
    ],
-   "a": 1,
+   "a": 3,
    "e": "500 Internal Server Error signals a problem on the server, not the client.",
    "c": 3
   },
@@ -3321,12 +3321,12 @@
    "u": 6,
    "q": "What is HTML primarily used for?",
    "o": [
-    "Styling colors and fonts",
+    "Controlling a webpage's appearance, like fonts and spacing around text",
+    "Running logic in the browser, like responding to button clicks",
     "Structuring a webpage's content, like headings and paragraphs",
-    "Adding interactivity to a page",
-    "Encrypting data"
+    "Storing a site's data on the server, like user accounts and orders"
    ],
-   "a": 1,
+   "a": 2,
    "e": "HTML provides the structural markup (tags) that defines webpage content.",
    "c": 4
   },
@@ -3334,12 +3334,12 @@
    "u": 6,
    "q": "What is CSS primarily used for?",
    "o": [
-    "Structuring webpage content",
+    "Defining a webpage's structure, like headings, lists and tables",
+    "Scripting a webpage's behavior, like reacting to clicks and form input",
     "Controlling a webpage's visual presentation, like colors and layout",
-    "Encrypting data in transit",
-    "Making HTTP requests"
+    "Storing a webpage's data, like user accounts and saved preferences"
    ],
-   "a": 1,
+   "a": 2,
    "e": "CSS handles the visual styling of HTML content.",
    "c": 4
   },
@@ -3347,12 +3347,12 @@
    "u": 6,
    "q": "What is JavaScript primarily used for on a webpage?",
    "o": [
-    "Styling the page only",
+    "Defining the headings, lists and layout structure of a webpage",
+    "Setting the colors, fonts and spacing used on a webpage",
     "Adding interactivity and dynamic behavior to a webpage",
-    "Assigning IP addresses",
-    "Structuring content"
+    "Securing the connection between a browser and a web server"
    ],
-   "a": 1,
+   "a": 2,
    "e": "JavaScript is a programming language that runs in the browser to make pages interactive.",
    "c": 4
   },
@@ -3360,22 +3360,22 @@
    "u": 6,
    "q": "What is the role of a 'client' in a client-server model?",
    "o": [
-    "It stores and provides resources to others",
-    "It requests resources or services, typically via a browser or app",
-    "It only manages IP addresses",
-    "It replaces the need for a server"
+    "It stores data and answers requests sent by other computers",
+    "It translates domain names into IP addresses for browsers",
+    "It routes packets between separate networks across the internet",
+    "It requests resources or services, typically via a browser or app"
    ],
-   "a": 1,
+   "a": 3,
    "e": "The client (e.g., a web browser) sends requests to a server for resources."
   },
   {
    "u": 6,
    "q": "What is the role of a 'server' in a client-server model?",
    "o": [
-    "It requests webpages from clients",
+    "It sends requests for pages and files, typically via a browser",
     "It stores data/resources and responds to client requests",
-    "It only displays content to users",
-    "It has no defined role"
+    "It translates domain names into numeric IP addresses for users",
+    "It displays rendered webpages and handles clicks on a user's device"
    ],
    "a": 1,
    "e": "A server stores resources and responds to client requests, such as serving a webpage."
@@ -3384,12 +3384,12 @@
    "u": 6,
    "q": "What is a URL?",
    "o": [
-    "A type of encryption",
-    "An address specifying the location of a resource, including protocol, domain, and path",
-    "A programming language",
-    "A hardware component"
+    "A protocol that encrypts data sent between a browser and a web server",
+    "A system that translates domain names into numeric IP addresses for devices",
+    "A small file a server stores in the browser to remember a user's session",
+    "An address specifying the location of a resource, including protocol, domain, and path"
    ],
-   "a": 1,
+   "a": 3,
    "e": "A URL (Uniform Resource Locator) is the full address used to locate a specific resource online.",
    "c": 2
   },
@@ -3423,12 +3423,12 @@
    "u": 6,
    "q": "What are cookies, in the context of web browsing?",
    "o": [
-    "A type of encryption algorithm",
     "Small pieces of data a server asks the browser to store, often for sessions or preferences",
-    "A programming language",
-    "A type of HTTP error"
+    "Small programs a website downloads and runs to speed up page loading for visitors",
+    "Security rules a firewall applies to block unwanted traffic from reaching a network",
+    "Encrypted files a browser creates to protect passwords while they are sent online"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Cookies let servers remember information about a user across requests, like login state.",
    "c": 3
   },
@@ -3436,12 +3436,12 @@
    "u": 6,
    "q": "What is a firewall used for?",
    "o": [
-    "Styling web content",
-    "Monitoring and controlling network traffic based on security rules",
-    "Translating domain names to IP addresses",
-    "Compiling source code"
+    "Translating domain names into IP addresses so browsers can find sites",
+    "Encrypting stored files so only users holding the key can read them",
+    "Describing a webpage's layout and visual style for the browser to show",
+    "Monitoring and controlling network traffic based on security rules"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Firewalls filter network traffic to block unauthorized or harmful connections.",
    "c": 5
   },
@@ -3449,12 +3449,12 @@
    "u": 6,
    "q": "What does encryption do to data?",
    "o": [
-    "Deletes it permanently",
+    "Permanently removes it so that nobody can ever read it again",
+    "Shrinks it into a smaller file that anyone can open normally",
     "Scrambles it so only someone with the correct key can read it",
-    "Compresses it to save space only",
-    "Converts it into HTML"
+    "Copies it to a second server so a backup always exists"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Encryption transforms readable data into a scrambled form that requires a key to decode.",
    "c": 5
   },
@@ -3462,10 +3462,10 @@
    "u": 6,
    "q": "What is bandwidth?",
    "o": [
-    "The physical size of a router",
+    "The maximum number of devices that can connect to a router at once",
     "A measure of how much data can be transferred over a connection in a given time",
-    "The number of devices on a network",
-    "A type of IP address"
+    "The delay between sending a request and receiving the first response",
+    "The total amount of storage space available on a device's hard drive"
    ],
    "a": 1,
    "e": "Bandwidth measures data transfer capacity over a network connection, often in bits per second.",
@@ -3475,10 +3475,10 @@
    "u": 6,
    "q": "Why is public Wi-Fi generally considered riskier than a private home network?",
    "o": [
-    "Public Wi-Fi is always slower",
+    "Public Wi-Fi hardware is more likely to overheat and corrupt downloaded files",
     "Data on shared public networks may be more easily intercepted by others",
-    "Public Wi-Fi uses a different, safer protocol",
-    "There is no actual difference in risk"
+    "Websites refuse to send any cookies to devices on shared networks",
+    "Public hotspots limit users to older browsers that cannot display webpages"
    ],
    "a": 1,
    "e": "Open or shared networks can make it easier for others to intercept unencrypted traffic.",
@@ -3488,12 +3488,12 @@
    "u": 6,
    "q": "What does 'front-end' web development generally focus on?",
    "o": [
-    "Database management only",
     "What users see and interact with directly in the browser",
-    "Server hardware maintenance",
-    "Domain name registration"
+    "Managing servers and databases that store a site's information",
+    "Writing the server logic that processes requests and returns data",
+    "Configuring the networks and hardware that host a website"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Front-end development covers the client-side experience: HTML, CSS, and JavaScript in the browser.",
    "c": 4
   },
@@ -3501,12 +3501,12 @@
    "u": 6,
    "q": "What does 'back-end' web development generally focus on?",
    "o": [
-    "Only visual styling",
-    "Servers, databases, and logic running behind the scenes",
-    "Only the browser's appearance",
-    "Domain name typography"
+    "What users see and click on directly in the browser window",
+    "Visual layouts and animations that load in a user's browser",
+    "Fonts, colors, and buttons that visitors see and click on",
+    "Servers, databases, and logic running behind the scenes"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Back-end development handles server-side logic, databases, and infrastructure.",
    "c": 4
   },
@@ -3514,12 +3514,12 @@
    "u": 6,
    "q": "What is a packet, in networking terms?",
    "o": [
-    "A type of virus",
+    "A unit of storage on a hard drive that holds one complete file",
+    "A security program that scans incoming traffic and blocks suspicious connections",
     "A small chunk of data that travels across a network and is reassembled at the destination",
-    "A physical cable",
-    "A web browser feature"
+    "A text file a website saves in the browser to remember who the visitor is"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Data is broken into packets for efficient transmission and reassembled upon arrival."
   },
   {
@@ -3527,9 +3527,9 @@
    "q": "Why was IPv6 developed?",
    "o": [
     "IPv4 addresses were running out as more devices connected to the internet",
-    "IPv4 was too secure",
-    "IPv6 replaced HTTP entirely",
-    "IPv6 is only used for email"
+    "IPv4 connections were too slow to load modern pages with images and video",
+    "Web browsers stopped supporting HTTP and needed a newer secure protocol",
+    "Hackers broke IPv4 encryption, so a stronger encrypted protocol was required"
    ],
    "a": 0,
    "e": "The limited number of IPv4 addresses couldn't keep up with the growing number of internet-connected devices.",
@@ -3539,12 +3539,12 @@
    "u": 6,
    "q": "What best describes the relationship between a domain name and DNS?",
    "o": [
-    "A domain name is stored inside cookies only",
-    "DNS translates a domain name into the IP address needed to locate the actual server",
-    "Domain names replace the need for IP addresses entirely",
-    "DNS and domain names are unrelated"
+    "DNS stores each domain name in a cookie so the browser can reload the site later",
+    "A domain name is converted by DNS into the web page's HTML so it can be displayed",
+    "DNS encrypts a domain name so that the traffic reaching the server cannot be read",
+    "DNS translates a domain name into the IP address needed to locate the actual server"
    ],
-   "a": 1,
+   "a": 3,
    "e": "DNS resolves the human-friendly domain name to the numeric IP address of the hosting server.",
    "c": 1
   },
@@ -3552,22 +3552,22 @@
    "u": 6,
    "q": "Which best explains why HTTPS uses SSL/TLS?",
    "o": [
-    "To make webpages load without any content",
+    "To compress webpage files so they download faster over slow network connections",
+    "To translate domain names into numeric IP addresses before the page is requested",
     "To encrypt data exchanged between browser and server, protecting it from interception",
-    "To replace domain names with IP addresses",
-    "To disable cookies"
+    "To store a visitor's login details in cookies so repeat visits load more quickly"
    ],
-   "a": 1,
+   "a": 2,
    "e": "SSL/TLS provides the encryption layer that HTTPS uses to secure communication."
   },
   {
    "u": 6,
    "q": "What is the internet best described as?",
    "o": [
-    "A single website",
+    "A single huge computer that stores every website in one place",
     "A 'network of networks' connecting devices worldwide",
-    "A programming language",
-    "A type of web browser"
+    "A collection of websites that are all reached through browsers",
+    "A software program that people install to view webpages"
    ],
    "a": 1,
    "e": "The internet is a vast, interconnected system of many individual networks working together.",
@@ -3577,12 +3577,12 @@
    "u": 6,
    "q": "If a webpage fails to load and shows a 404 error, what does this suggest?",
    "o": [
-    "The entire internet is down",
-    "The specific requested resource/page could not be found at that address",
-    "The user's computer has a virus",
-    "The webpage loaded successfully"
+    "The website's server hit an internal error while processing the request",
+    "The browser could not establish a secure connection to the server",
+    "The user is not logged in and lacks permission to view that page",
+    "The specific requested resource/page could not be found at that address"
    ],
-   "a": 1,
+   "a": 3,
    "e": "A 404 is specific to the requested URL, not a sign of a broader internet outage.",
    "c": 2
   },
@@ -3590,10 +3590,10 @@
    "u": 6,
    "q": "Which of the following best distinguishes HTML, CSS, and JavaScript?",
    "o": [
-    "They all do the exact same job",
+    "HTML styles content, CSS adds interactive behavior, and JavaScript structures the page",
     "HTML structures content, CSS styles it, and JavaScript adds interactive behavior",
-    "CSS structures content, HTML styles it, JavaScript is optional",
-    "JavaScript replaces the need for HTML and CSS entirely"
+    "CSS structures content, JavaScript styles it, and HTML adds interactive behavior",
+    "JavaScript structures content, HTML handles styling, and CSS adds server logic"
    ],
    "a": 1,
    "e": "Each of the three technologies plays a distinct, complementary role in building webpages."
@@ -3602,24 +3602,24 @@
    "u": 6,
    "q": "What might cause a website to show a 500 error but not a 404 error?",
    "o": [
-    "The URL is completely wrong",
+    "The URL points to a page that does not exist anywhere on the server",
+    "The domain name could not be resolved to an IP address by DNS at all",
     "The URL is valid, but something failed on the server while processing the request",
-    "The user's internet connection is off",
-    "The domain name doesn't exist"
+    "The page was moved permanently, so the server redirects to a new address"
    ],
-   "a": 1,
+   "a": 2,
    "e": "500 indicates the server found the resource/route but encountered an internal problem while handling it."
   },
   {
    "u": 6,
    "q": "What is the main purpose of a router in a home network?",
    "o": [
-    "To style webpages",
-    "To connect devices within a local network and link that network to the wider internet",
-    "To compile source code",
-    "To encrypt files on a hard drive"
+    "To translate domain names into IP addresses and store every website's files",
+    "To encrypt all traffic on the network and block any unauthorized visitors",
+    "To store files for the devices on a network and serve webpages to the world",
+    "To connect devices within a local network and link that network to the wider internet"
    ],
-   "a": 1,
+   "a": 3,
    "e": "A router directs traffic between devices on a local network and out to the internet.",
    "c": 5
   },
@@ -3627,10 +3627,10 @@
    "u": 6,
    "q": "Which best describes why the internet has 'no single owner'?",
    "o": [
-    "It's illegal to own the internet",
+    "A single international organization owns and licenses it, but it permits anyone to join freely",
     "It operates through many cooperating networks following shared standard protocols, rather than one central authority",
-    "Governments jointly own all internet infrastructure",
-    "Only one company controls global internet traffic"
+    "Each country owns the part of the internet within its borders and controls all traffic there",
+    "It is owned by the companies that built its first networks, who now share profits from it"
    ],
    "a": 1,
    "e": "The internet functions through decentralized, cooperating networks agreeing to common protocols.",
@@ -3640,10 +3640,10 @@
    "u": 6,
    "q": "Why might a website use cookies to remember a logged-in user?",
    "o": [
-    "Cookies are required by law for all websites",
+    "Cookies encrypt the user's password and store it on the server, so the server decrypts it with each new page request",
     "Cookies let the server recognize returning requests as part of the same session without re-entering credentials each time",
-    "Cookies replace the need for a server entirely",
-    "Cookies only work with HTTPS, never HTTP"
+    "Cookies let the browser keep a copy of the whole website, so logging in again is never required",
+    "Cookies store the user's password in plain text so that the browser can resend it automatically on every request"
    ],
    "a": 1,
    "e": "Session cookies allow a server to track logged-in state across multiple requests from the same browser."
@@ -3652,12 +3652,12 @@
    "u": 6,
    "q": "Which best describes what happens when you type a URL into a browser and press enter?",
    "o": [
-    "The browser immediately displays cached data with no network activity",
     "The browser resolves the domain via DNS, sends an HTTP(S) request to the server, and renders the returned content",
-    "The computer converts the URL into binary and stops there",
-    "Nothing happens until you refresh the page"
+    "The browser sends the request to the nearest router, which looks up the page and then displays its own copy",
+    "The server contacts the browser directly, chooses a page, and encrypts it before DNS translates the address",
+    "The browser asks the web server for its domain name, then downloads the site's IP address as the page"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Loading a page involves DNS resolution, an HTTP(S) request/response cycle, and rendering the received content."
   },
   {
@@ -3677,12 +3677,12 @@
    "u": 6,
    "q": "What is a 'network', in general computing terms?",
    "o": [
-    "A single isolated computer",
     "Any group of connected devices that can share data",
-    "A programming language",
-    "A type of encryption"
+    "A single computer running several programs at the same time",
+    "A collection of files stored together in one folder on disk",
+    "A program that protects a computer from outside attackers"
    ],
-   "a": 1,
+   "a": 0,
    "e": "A network is a set of interconnected devices capable of exchanging data.",
    "c": 0
   },
@@ -3690,10 +3690,10 @@
    "u": 6,
    "q": "Why does DNS make the internet easier for humans to use?",
    "o": [
-    "It removes the need for servers",
+    "It encrypts the data so that outsiders cannot read the information",
     "It lets people use memorable names instead of numeric IP addresses",
-    "It encrypts all web traffic automatically",
-    "It replaces HTTP with a faster protocol"
+    "It stores copies of every website so pages download much faster",
+    "It removes the need for IP addresses so servers can be found by name"
    ],
    "a": 1,
    "e": "DNS lets users type easy-to-remember domain names instead of numeric IP addresses.",
@@ -3703,12 +3703,12 @@
    "u": 6,
    "q": "What best describes the format of a typical IPv4 address?",
    "o": [
+    "Six pairs of hexadecimal digits separated by colons, like 00:1A:2B:3C",
     "Four numbers 0-255 separated by dots, like 192.168.1.1",
-    "A single long word",
-    "A hexadecimal color code",
-    "A domain name like example.com"
+    "Eight groups of hex digits separated by colons, like 2001:db8::1",
+    "Three numbers 0-999 separated by dashes, like 192-168-001"
    ],
-   "a": 0,
+   "a": 1,
    "e": "IPv4 addresses consist of four dot-separated numbers, each ranging from 0 to 255.",
    "c": 1
   },
@@ -3716,12 +3716,12 @@
    "u": 6,
    "q": "Which best explains why a domain name might point to a different IP address over time?",
    "o": [
-    "Domain names never change their target",
-    "Servers or hosting providers can change, and DNS records are updated to reflect the new IP address",
-    "IP addresses never change once assigned",
-    "This situation is impossible"
+    "Browsers cache IP addresses and slowly alter them, so the domain name drifts toward a new address",
+    "Internet providers randomly reassign domain names to different servers whenever a user's router restarts",
+    "Domain names are encrypted differently every day, so they point to a new IP address automatically",
+    "Servers or hosting providers can change, and DNS records are updated to reflect the new IP address"
    ],
-   "a": 1,
+   "a": 3,
    "e": "DNS records can be updated so a domain name resolves to a new server's IP address when hosting changes.",
    "c": 1
   },
@@ -3729,12 +3729,12 @@
    "u": 7,
    "q": "What is the key difference between encryption and hashing?",
    "o": [
+    "Encryption is one-way and cannot be undone; hashing can be reversed with a key",
     "Encryption is reversible with a key; hashing is one-way and cannot be reversed",
-    "Hashing is reversible; encryption is not",
-    "They are the same process with different names",
-    "Encryption only works on text; hashing only works on numbers"
+    "Encryption always produces a fixed-length output; hashing output length depends on the input",
+    "Encryption is used for stored files; hashing is used for data traveling over a network"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Encryption is designed to be decrypted with the correct key; hashing intentionally produces a one-way transformation used for verification, not recovery.",
    "c": 0
   },
@@ -3755,12 +3755,12 @@
    "u": 7,
    "q": "How does asymmetric encryption differ from symmetric encryption?",
    "o": [
-    "It uses a public key to encrypt and a private key to decrypt",
-    "It uses no keys at all",
-    "It is always faster than symmetric encryption",
-    "It cannot be used for secure web browsing"
+    "It uses one shared secret key for both encrypting and decrypting",
+    "It uses a private key to encrypt and a shared password to decrypt",
+    "It encrypts data by scrambling letters using a fixed rotation pattern",
+    "It uses a public key to encrypt and a private key to decrypt"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Asymmetric encryption uses a mathematically linked key pair: anyone can encrypt with the public key, but only the private key holder can decrypt.",
    "c": 0
   },
@@ -3769,9 +3769,9 @@
    "q": "Why does HTTPS use both asymmetric and symmetric encryption?",
    "o": [
     "Asymmetric encryption safely exchanges a session key, then symmetric encryption efficiently protects the ongoing data",
-    "Symmetric encryption is used only for the padlock icon",
-    "Asymmetric encryption is used for the entire session because it is faster",
-    "HTTPS does not use encryption at all"
+    "Symmetric encryption exchanges the session key safely, then asymmetric encryption quickly protects all the ongoing data",
+    "Asymmetric encryption is used for padlock verification, while symmetric encryption handles DNS lookups",
+    "Each encrypts a separate direction, asymmetric for browser requests and symmetric for server responses"
    ],
    "a": 0,
    "e": "Asymmetric encryption is slower but solves key exchange safely; the resulting shared key is then used with fast symmetric encryption for the actual traffic.",
@@ -3794,10 +3794,10 @@
    "u": 7,
    "q": "Which of these is a common cause of data breaches?",
    "o": [
-    "Using strong, unique passwords",
+    "Requiring multi-factor login for every employee account",
     "Phishing attacks that steal login credentials",
-    "Enabling two-factor authentication",
-    "Encrypting stored passwords"
+    "Storing customer passwords as salted hashes",
+    "Using a firewall configured to block unknown traffic"
    ],
    "a": 1,
    "e": "Phishing tricks users into handing over credentials directly, making it one of the most common breach vectors, alongside unpatched software and weak passwords.",
@@ -3807,12 +3807,12 @@
    "u": 7,
    "q": "Why do companies hash and salt stored passwords?",
    "o": [
+    "So login pages can compare passwords faster than plain text would allow",
     "So a stolen password database doesn't reveal usable plaintext passwords",
-    "To make passwords load faster on login pages",
-    "Because hashing is required by web browsers",
-    "To make passwords easier for employees to read"
+    "So the company can email users their original password if forgotten",
+    "So browsers can verify a site's identity before showing a login form"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Hashing (with salting) ensures that even if attackers steal the password database, they cannot easily recover the original passwords.",
    "c": 1
   },
@@ -3834,9 +3834,9 @@
    "q": "What is credential stuffing?",
    "o": [
     "Trying stolen username/password pairs from one breach on other websites",
-    "Encrypting credentials before storing them",
-    "A method for generating strong random passwords",
-    "A type of firewall configuration"
+    "Hashing and salting user passwords before saving them in a database",
+    "Generating long random passwords for every account with a manager",
+    "Locking an account after several failed login attempts in a row"
    ],
    "a": 0,
    "e": "Credential stuffing exploits password reuse: attackers take credentials leaked from one breach and try them on many other sites.",
@@ -3846,10 +3846,10 @@
    "u": 7,
    "q": "What is the main risk of reusing the same password across multiple sites?",
    "o": [
-    "It slows down your internet connection",
+    "It slows your connection whenever you log into several sites",
     "A breach at one site can be used to access your accounts elsewhere",
-    "It uses more storage space on your device",
-    "It makes two-factor authentication unnecessary"
+    "It makes each website store your password without hashing it",
+    "It lets browsers share your browsing history between those sites"
    ],
    "a": 1,
    "e": "If one site is breached, attackers can reuse the exposed password (via credential stuffing) to log into your other accounts that share it.",
@@ -3859,12 +3859,12 @@
    "u": 7,
    "q": "What is the difference between a first-party and third-party cookie?",
    "o": [
+    "First-party cookies are set by advertisers; third-party cookies are set by the site you're visiting",
     "First-party cookies are set by the site you're visiting; third-party cookies are set by other embedded domains",
-    "There is no functional difference between them",
-    "Third-party cookies are always more secure",
-    "First-party cookies can only store passwords"
+    "First-party cookies last only one session; third-party cookies remain stored forever on the device",
+    "First-party cookies are encrypted by the browser; third-party cookies are sent as plain text to servers"
    ],
-   "a": 0,
+   "a": 1,
    "e": "First-party cookies come from the site you're on (e.g. keeping you logged in); third-party cookies come from other domains embedded on the page, often ad networks.",
    "c": 2
   },
@@ -3872,12 +3872,12 @@
    "u": 7,
    "q": "How do third-party cookies enable cross-site tracking?",
    "o": [
-    "They physically transfer files between computers",
+    "The browser copies each site's own cookies to all other sites a user visits",
+    "The tracker logs in with the user's password on each site and records activity",
     "The same tracker can see visits to many different sites and build a behavior profile",
-    "They only work on government websites",
-    "They delete themselves after every page load"
+    "Each site shares its server logs with the browser, which forwards them to trackers"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Because the same ad network's cookie can be embedded on many sites, it can recognize the same browser across all of them and build a tracking profile.",
    "c": 2
   },
@@ -3885,12 +3885,12 @@
    "u": 7,
    "q": "What is the difference between a session cookie and a persistent cookie?",
    "o": [
+    "Session cookies last until a set expiration date; persistent cookies vanish when the browser closes",
     "Session cookies expire when the browser closes; persistent cookies last until a set expiration date",
-    "Persistent cookies expire instantly; session cookies never expire",
-    "They are identical in every way",
-    "Session cookies can only store images"
+    "Session cookies are stored on the server; persistent cookies are stored in the browser",
+    "Session cookies are sent over HTTPS; persistent cookies are sent over plain HTTP"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Session cookies are temporary and clear when you close the browser, while persistent cookies remain stored until they expire or are manually deleted.",
    "c": 2
   },
@@ -3924,12 +3924,12 @@
    "u": 7,
    "q": "Under GDPR, what is the 'right to erasure'?",
    "o": [
+    "The right to see a copy of the personal data a company holds",
     "The right to demand a company delete your personal data",
-    "The right to erase a company's public reviews",
-    "The right to unlimited free storage",
-    "The right to erase other users' data"
+    "The right to move your data to a competing company's service",
+    "The right to refuse every cookie on every website you visit"
    ],
-   "a": 0,
+   "a": 1,
    "e": "The right to erasure, or 'right to be forgotten,' lets individuals request that an organization delete the personal data it holds about them.",
    "c": 3
   },
@@ -3963,12 +3963,12 @@
    "u": 7,
    "q": "Why do many non-EU websites still show GDPR-style cookie consent banners?",
    "o": [
-    "GDPR applies to any company handling EU residents' data, regardless of where the company is based",
-    "It is purely a design trend with no legal basis",
-    "All websites are legally required to show ads",
-    "Cookie banners are unrelated to any privacy law"
+    "Browsers refuse to load any website that does not display a cookie banner to its visitors",
+    "The EU owns the domain registry, so every site with a .com address must follow its rules",
+    "Cookie banners are required by the US government for any website that uses third-party ads",
+    "GDPR applies to any company handling EU residents' data, regardless of where the company is based"
    ],
-   "a": 0,
+   "a": 3,
    "e": "GDPR's scope covers the personal data of EU residents no matter where the processing company is located, so global sites comply to serve EU visitors.",
    "c": 3
   },
@@ -3976,10 +3976,10 @@
    "u": 7,
    "q": "What is phishing?",
    "o": [
-    "A technique for encrypting emails",
+    "An attack that overloads a server with traffic until legitimate users cannot reach it",
     "A social engineering attack that impersonates a trusted source to steal credentials",
-    "A method of speeding up network traffic",
-    "A type of firewall rule"
+    "A flaw in software code that lets attackers run commands on a server remotely",
+    "A program that copies itself across networks and consumes bandwidth without any user action"
    ],
    "a": 1,
    "e": "Phishing exploits human trust by impersonating a legitimate sender (bank, coworker, service) to trick victims into revealing credentials or installing malware.",
@@ -3989,24 +3989,24 @@
    "u": 7,
    "q": "What distinguishes ransomware from other malware types?",
    "o": [
+    "It silently records keystrokes and sends passwords to an attacker",
+    "It floods a server with traffic until legitimate users cannot connect",
     "It encrypts a victim's files and demands payment for the decryption key",
-    "It only displays pop-up advertisements",
-    "It speeds up a computer's performance",
-    "It is not considered malicious software"
+    "It attaches itself to files and spreads by tricking users into opening them"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Ransomware specifically locks victims out of their own data by encrypting it, then demands payment (a ransom) for the key to decrypt it."
   },
   {
    "u": 7,
    "q": "What is the role of a firewall in cybersecurity?",
    "o": [
+    "It scans stored files for known malware signatures and quarantines infected ones",
     "It filters network traffic based on security rules to block unauthorized access",
-    "It encrypts all files on a hard drive automatically",
-    "It generates random passwords for users",
-    "It permanently deletes malware from a system"
+    "It verifies users' identities by requiring a code from a second device",
+    "It backs up important data to a remote server in case of a system failure"
    ],
-   "a": 0,
+   "a": 1,
    "e": "A firewall inspects incoming and outgoing network traffic against defined rules, blocking traffic that looks unauthorized while allowing legitimate traffic through.",
    "c": 4
   },
@@ -4014,12 +4014,12 @@
    "u": 7,
    "q": "What is the 'principle of least privilege'?",
    "o": [
-    "Giving every user full administrator access for convenience",
-    "Giving users and programs only the access they need to perform their task",
-    "Removing all access controls from a system",
-    "Only applying security rules to executives"
+    "Granting every employee broad access up front so work is never delayed",
+    "Requiring a separate password for every file a user opens",
+    "Limiting access for outside visitors while staff keep full control",
+    "Giving users and programs only the access they need to perform their task"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Least privilege limits each account or process to the minimum access required, so a compromised account causes less damage.",
    "c": 4
   },
@@ -4028,9 +4028,9 @@
    "q": "Why is social engineering considered a major cybersecurity threat despite not exploiting technical flaws?",
    "o": [
     "It exploits human trust and behavior rather than software vulnerabilities",
-    "It only affects outdated computer hardware",
-    "It cannot be used to steal any real information",
-    "It requires physical access to every target device"
+    "It uses malware to exploit unpatched flaws in an operating system",
+    "It overwhelms servers with traffic until they can no longer respond",
+    "It breaks encryption algorithms using powerful computing resources"
    ],
    "a": 0,
    "e": "Social engineering bypasses technical defenses entirely by manipulating people directly, which is why user awareness training is a critical complement to technical security.",
@@ -4040,12 +4040,12 @@
    "u": 7,
    "q": "Why is delaying software updates a security risk?",
    "o": [
+    "New patches slow down older devices, so skipping them keeps systems fast",
+    "Updates replace encryption keys, which locks users out of accounts",
     "Updates often fix known vulnerabilities that attackers can already exploit",
-    "Updates always remove useful features",
-    "Updates have no effect on system security",
-    "Older software is always more secure than newer software"
+    "Newer versions add features that attackers can exploit more easily"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Patches frequently close known security holes; once a vulnerability is public, unpatched systems become easy, well-documented targets.",
    "c": 4
   },
@@ -4053,12 +4053,12 @@
    "u": 7,
    "q": "What is a worm, in the context of malware?",
    "o": [
+    "Malware that attaches to a host file and needs a user to run it to spread",
+    "Malware that disguises itself as a useful program to trick users into installing it",
     "Malware that self-replicates and spreads across networks without needing a host file",
-    "A hardware component used to filter traffic",
-    "A type of encryption algorithm",
-    "A privacy regulation similar to GDPR"
+    "Malware that locks a victim's files and demands payment for the decryption key"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Unlike a virus, which attaches to files, a worm can spread on its own across a network, exploiting vulnerabilities to replicate.",
    "c": 4
   },
@@ -4066,10 +4066,10 @@
    "u": 7,
    "q": "Why is device fingerprinting a growing tracking method?",
    "o": [
-    "It requires cookies to be enabled to function at all",
+    "It stores a unique tracking file on the device, so it fails whenever cookies are cleared",
     "It identifies devices by unique settings/hardware traits, working even as third-party cookies decline",
-    "It only tracks government computers",
-    "It replaces the need for encryption"
+    "It identifies users through the passwords they type, so it works across any browser",
+    "It depends on the user logging in, so it tracks people who create accounts"
    ],
    "a": 1,
    "e": "As browsers block third-party cookies, advertisers increasingly rely on fingerprinting — combining browser/device characteristics — to keep identifying users across sites.",
@@ -4079,12 +4079,12 @@
    "u": 7,
    "q": "What is the main purpose of requiring 'informed consent' for data collection under privacy law?",
    "o": [
+    "To let companies share data with partners as long as the policy mentions it somewhere",
     "To make sure users clearly understand and agree to what data is collected and why",
-    "To let companies collect data without limits as long as a banner appears",
-    "To eliminate the need for any privacy policy",
-    "To speed up website loading times"
+    "To ensure companies encrypt all data they collect before storing it on servers",
+    "To make sure companies delete all collected data after every website visit"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Informed consent means users must be clearly told what's collected and why, and must actively agree — pre-checked boxes or buried terms don't satisfy this.",
    "c": 3
   },
@@ -4092,12 +4092,12 @@
    "u": 7,
    "q": "Which scenario best illustrates a data breach?",
    "o": [
-    "A user updates their own password voluntarily",
+    "A user's phone is locked after several incorrect password attempts",
+    "A company's website goes offline briefly during a planned maintenance window",
     "An attacker exploits an unpatched server flaw to download a customer database",
-    "A company deletes old customer records per its retention policy",
-    "A user enables two-factor authentication on their account"
+    "An employee sends a customer's data to a colleague who needs it for work"
    ],
-   "a": 1,
+   "a": 2,
    "e": "A breach involves unauthorized access to data — here, an attacker exploiting a vulnerability to steal a database is a textbook example.",
    "c": 1
   },
@@ -4105,12 +4105,12 @@
    "u": 7,
    "q": "What should a company do first after discovering a data breach?",
    "o": [
-    "Ignore it if fewer than 100 users are affected",
+    "Wait until the next audit, then quietly update software and avoid contacting anyone",
+    "Notify the press first and keep the vulnerability open to track the attackers",
     "Patch the vulnerability, notify affected users/regulators, and force password resets",
-    "Wait a year before telling anyone",
-    "Immediately shut down the company"
+    "Delete the affected records so there is nothing left for regulators to review"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Responsible breach response includes closing the security hole, notifying those affected and required regulators, and prompting credential resets to limit damage.",
    "c": 1
   },
@@ -4118,12 +4118,12 @@
    "u": 7,
    "q": "Why can outdated encryption algorithms become insecure over time?",
    "o": [
+    "Software developers deliberately weaken old algorithms with each new release",
     "Increasing computing power makes brute-force attacks against them feasible",
-    "Old algorithms stop working on new computers entirely",
-    "Encryption algorithms expire automatically after a fixed date",
-    "Outdated algorithms use no keys at all"
+    "Computers eventually lose the ability to store the long keys the algorithms need",
+    "Hackers can read the algorithm's secret key directly from the operating system"
    ],
-   "a": 0,
+   "a": 1,
    "e": "As computing power grows, algorithms once considered secure (like older DES) become crackable through brute force, which is why standards evolve toward stronger ones like AES.",
    "c": 0
   },
@@ -4145,9 +4145,9 @@
    "q": "What makes salting passwords more secure than hashing alone?",
    "o": [
     "Salting makes identical passwords produce different hashes, defeating precomputed lookup-table attacks",
-    "Salting encrypts the password so it can be reversed later",
-    "Salting removes the need for hashing entirely",
-    "Salting only works on numeric passwords"
+    "Salting encrypts each hash with a public key so only the website owner can decode it",
+    "Salting makes passwords longer for users, which prevents attackers from guessing them",
+    "Salting lets the same password produce the same hash on every site, speeding up logins"
    ],
    "a": 0,
    "e": "Without a salt, identical passwords hash to identical values, letting attackers use precomputed tables; a unique random salt per password defeats that shortcut."
@@ -4156,24 +4156,24 @@
    "u": 7,
    "q": "Which best explains why HTTPS matters for entering a credit card number online?",
    "o": [
+    "It verifies that the merchant is legitimate and has passed a financial audit",
     "It encrypts the data in transit so it can't be easily intercepted and read by eavesdroppers",
-    "It guarantees the merchant will not be hacked later",
-    "It automatically enrolls you in fraud protection",
-    "It replaces the need for a strong password"
+    "It stores the number in a secure vault so the merchant never has access to it",
+    "It blocks malware on your own device from recording the numbers as you type"
    ],
-   "a": 0,
+   "a": 1,
    "e": "HTTPS protects data as it travels between your browser and the server, preventing eavesdroppers on the network from reading sensitive information like card numbers."
   },
   {
    "u": 7,
    "q": "Why might a company be fined heavily under GDPR for a violation?",
    "o": [
+    "Fines are capped at a small fixed amount per violation, so large companies pay the same as small ones",
+    "Fines are set by each company's own board and are paid to affected users directly in full",
     "Fines are calculated as a percentage of global revenue, which can be very large for big companies",
-    "GDPR fines are always a fixed $10 regardless of company size",
-    "GDPR does not include any financial penalties",
-    "Fines only apply to individuals, never companies"
+    "Fines apply when data is stolen by hackers, and are based on the number of employees"
    ],
-   "a": 0,
+   "a": 2,
    "e": "GDPR penalties scale with a company's global annual revenue, which is designed to make noncompliance costly even for the largest corporations.",
    "c": 3
   },
@@ -4181,12 +4181,12 @@
    "u": 7,
    "q": "What is one key limitation of relying only on a firewall for security?",
    "o": [
+    "It cannot filter any incoming traffic unless every user installs the same antivirus",
+    "It slows traffic so much that it cannot be used on networks with several devices",
     "It cannot stop attacks that trick users directly, like phishing or social engineering",
-    "It makes all software updates unnecessary",
-    "It automatically encrypts every file on the network",
-    "It eliminates the need for strong passwords"
+    "It cannot block unwanted traffic from outside the network, only from inside it"
    ],
-   "a": 0,
+   "a": 2,
    "e": "A firewall filters network traffic but can't prevent a user from being tricked into handing over credentials directly, which is why layered defenses are needed.",
    "c": 4
   },
@@ -4194,12 +4194,12 @@
    "u": 7,
    "q": "Why is it misleading to think of encryption and privacy laws as solving the same problem?",
    "o": [
+    "Encryption is a legal framework regulating data handling, while privacy law is a technical tool that scrambles stored data",
+    "Encryption governs which companies may collect user data, while privacy law protects the data from interception in transit",
     "Encryption is a technical tool protecting data confidentiality; privacy law governs how organizations may collect, use, and share data",
-    "They are functionally identical and interchangeable",
-    "Privacy laws only apply to encrypted data",
-    "Encryption automatically ensures full legal compliance"
+    "Encryption protects data on devices owned by individuals, while privacy law covers data held by governments"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Encryption is a technical safeguard against unauthorized access to data, whereas privacy regulation addresses the separate question of what data may be collected and how it may be used, regardless of encryption."
   },
   {
@@ -4232,12 +4232,12 @@
    "u": 7,
    "q": "What is the practical difference between a virus and a worm?",
    "o": [
-    "A virus needs a host file to attach to and spread; a worm can self-replicate across a network independently",
-    "A virus only affects mobile devices; a worm only affects desktops",
-    "They are the same thing with different names",
-    "A worm is a defensive tool, while a virus is offensive"
+    "A virus spreads across networks on its own; a worm needs a host file and user action to spread",
+    "A virus only damages hardware components; a worm only damages software and files stored on a drive",
+    "A virus is always visible to the user as a pop-up, while a worm stays hidden in system memory",
+    "A virus needs a host file to attach to and spread; a worm can self-replicate across a network independently"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Viruses require a carrier file and often user action to spread, while worms can propagate autonomously across networked systems by exploiting vulnerabilities.",
    "c": 4
   },
@@ -4270,12 +4270,12 @@
    "u": 8,
    "q": "Why might a hiring algorithm trained on a company's past resumes produce biased results?",
    "o": [
-    "It will always be perfectly fair since it uses real data",
-    "It can learn to favor whatever demographics were historically hired, replicating past bias",
-    "Algorithms cannot use resume data at all",
-    "It automatically corrects for any historical bias"
+    "It will ignore past hiring outcomes and rank applicants by random chance instead",
+    "It can only learn grammar rules from resumes, so its results never reflect hiring history",
+    "It is programmed by law to weigh every demographic equally, so it cannot absorb past bias",
+    "It can learn to favor whatever demographics were historically hired, replicating past bias"
    ],
-   "a": 1,
+   "a": 3,
    "e": "If past hiring decisions were biased, a model trained on that history can learn and reproduce the same patterns, even without being told to consider demographics.",
    "c": 0
   },
@@ -4283,12 +4283,12 @@
    "u": 8,
    "q": "What is a proxy variable in the context of algorithmic bias?",
    "o": [
+    "A variable the model ignores during training and uses only to test its accuracy afterward",
     "A feature that indirectly encodes a sensitive attribute through correlation, like zip code standing in for race",
-    "A backup variable used only when a program crashes",
-    "A synonym for a randomly generated number",
-    "A type of encryption key"
+    "A feature that is deliberately hidden from users so the model's predictions remain confidential",
+    "A placeholder value that replaces missing data in a dataset so the model can still train"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Proxy variables let sensitive information leak into a model indirectly — zip code, for instance, can correlate strongly with race even if race itself is excluded.",
    "c": 0
   },
@@ -4296,12 +4296,12 @@
    "u": 8,
    "q": "Why doesn't removing a sensitive attribute like race from a dataset guarantee a fair model?",
    "o": [
-    "Because correlated proxy variables can still encode that same information indirectly",
-    "Because removing any column makes a model automatically less accurate",
-    "Because sensitive attributes cannot be removed by law",
-    "Because fairness is not affected by data at all"
+    "Because the model is retrained from scratch and automatically restores the removed column",
+    "Because removing a column only hides it from users, not from the model's training",
+    "Because fair outcomes depend entirely on the choice of algorithm, not on the data",
+    "Because correlated proxy variables can still encode that same information indirectly"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Other features correlated with the removed attribute (proxies) can still let the model reconstruct and act on that sensitive information.",
    "c": 0
   },
@@ -4309,12 +4309,12 @@
    "u": 8,
    "q": "What is a feedback loop in the context of a biased predictive model?",
    "o": [
+    "A cycle in which a model's training data is cleaned repeatedly until all bias is removed",
+    "A process where users review a model's outputs and correct each error before release",
     "A situation where a model's biased outputs generate new data that reinforces the original bias over time",
-    "A hardware component that improves processing speed",
-    "A method for encrypting model outputs",
-    "A required step in every open-source license"
+    "A technique where a model is retrained on its own random outputs to reduce bias over time"
    ],
-   "a": 0,
+   "a": 2,
    "e": "For example, a predictive policing model that over-patrols a neighborhood generates more arrests there, which is then used as 'evidence' to justify even more patrols — amplifying the original bias.",
    "c": 0
   },
@@ -4322,24 +4322,24 @@
    "u": 8,
    "q": "What does 'disparate impact' mean when auditing an algorithm?",
    "o": [
-    "A policy or algorithm that appears neutral but produces significantly worse outcomes for one group",
-    "A measure of how fast a model runs",
-    "The total number of users affected by a system",
-    "A type of software license violation"
+    "A model whose results differ every time it runs because of random initial settings",
+    "A rule that explicitly uses a protected characteristic to deny a group an opportunity",
+    "A gap between the model's accuracy on training data and its accuracy on new data",
+    "A policy or algorithm that appears neutral but produces significantly worse outcomes for one group"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Disparate impact analysis checks whether an outwardly neutral system's real-world outcomes are actually unequal across different groups."
   },
   {
    "u": 8,
    "q": "Why is overall model accuracy alone not enough to prove a system is fair?",
    "o": [
-    "Accuracy is impossible to measure in AI systems",
-    "A model can have high overall accuracy while performing far worse for specific subgroups",
-    "Accuracy always guarantees fairness across all groups",
-    "Fairness is a purely legal concept unrelated to data"
+    "Accuracy is calculated on the training data alone, which makes it unreliable for any evaluation",
+    "High accuracy proves a model is biased, since fair models must make errors evenly",
+    "Accuracy measures only the speed of predictions, so fast models are fairer than slow ones",
+    "A model can have high overall accuracy while performing far worse for specific subgroups"
    ],
-   "a": 1,
+   "a": 3,
    "e": "A model can achieve strong average performance while systematically failing a minority subgroup, which is why fairness requires checking outcomes across groups, not just an aggregate score.",
    "c": 0
   },
@@ -4347,12 +4347,12 @@
    "u": 8,
    "q": "What does 'accountability' mean in AI ethics?",
    "o": [
+    "The algorithm itself is treated as responsible and can be penalized for any harm it causes",
     "A person or organization is responsible for harm caused by an AI system, not the algorithm itself",
-    "Only the end user can be blamed for AI errors",
-    "AI systems are legally considered independent entities",
-    "Accountability only applies to open-source AI projects"
+    "Users who agree to terms of service accept all responsibility for errors the system makes",
+    "Responsibility is shared equally with every person whose data was used to train the system"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Accountability places responsibility for an AI system's real-world impact on the people and organizations who built and deployed it — 'the algorithm did it' isn't a valid excuse.",
    "c": 1
   },
@@ -4360,12 +4360,12 @@
    "u": 8,
    "q": "Why is explainability especially important in domains like healthcare or criminal justice?",
    "o": [
-    "Because wrong or opaque decisions in these domains have serious, high-stakes consequences for real people",
-    "Because explainability makes models run faster",
-    "Because these fields never use AI systems",
-    "Because explainable models are always more accurate"
+    "Because explainable models avoid using any personal data when reaching their conclusions",
+    "Because regulators ban any AI that cannot be explained in these two fields",
+    "Because explanations help engineers debug code, not the people affected by a decision",
+    "Because wrong or opaque decisions in these domains have serious, high-stakes consequences for real people"
    ],
-   "a": 0,
+   "a": 3,
    "e": "In high-stakes decisions affecting health, freedom, or finances, being able to explain why an AI reached a conclusion is critical for trust, correction, and due process.",
    "c": 1
   },
@@ -4373,12 +4373,12 @@
    "u": 8,
    "q": "What ethical concern is most directly raised by deepfake technology?",
    "o": [
+    "Higher storage costs, slower networks, and the need for faster hardware",
     "Consent, misinformation, and erosion of trust in audio/video evidence",
-    "Increased computing costs for video storage",
-    "Faster internet connection speeds",
-    "Reduced need for encryption"
+    "Software licensing, patent disputes, and ownership of the generated source code",
+    "Weak passwords, phishing emails, and unpatched servers across company networks"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Deepfakes can fabricate convincing but false depictions of real people, raising serious concerns about consent, spreading misinformation, and undermining trust in recorded media.",
    "c": 1
   },
@@ -4387,9 +4387,9 @@
    "q": "Why do AI systems trained on large personal datasets raise privacy concerns?",
    "o": [
     "Because the data may have been collected without full user awareness or consent",
-    "Because AI systems never use personal data",
-    "Because personal data cannot legally be stored digitally",
-    "Because training always deletes the underlying data afterward"
+    "Because models need personal data in a format that cannot be encrypted or stored",
+    "Because training works on data that users have already made public by law",
+    "Because the models are built to publish each person's private records for anyone"
    ],
    "a": 0,
    "e": "Many AI systems are trained on massive datasets scraped or collected in ways users may not have been fully informed about, raising consent and privacy issues.",
@@ -4399,12 +4399,12 @@
    "u": 8,
    "q": "What does copyright protect, and when does that protection begin?",
    "o": [
-    "Original creative or technical work, protected automatically the moment it is created",
-    "Only inventions, and only after a government application is approved",
-    "Nothing until a formal registration fee is paid",
-    "Only works published in physical print"
+    "Inventions approved by a patent office, with protection beginning on approval",
+    "Brand names and logos, with protection starting once a trademark is registered",
+    "Work that has been published or sold, with protection starting at first release",
+    "Original creative or technical work, protected automatically the moment it is created"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Copyright applies automatically upon creation of an original work (including code), giving the creator exclusive rights without needing to file anything, unlike a patent.",
    "c": 2
   },
@@ -4412,12 +4412,12 @@
    "u": 8,
    "q": "How does a patent differ from copyright?",
    "o": [
+    "A patent protects creative expression automatically at creation, while copyright protects inventions and requires a formal application",
     "A patent protects a novel invention or process and requires formal application/approval, while copyright protects creative expression automatically",
-    "A patent and copyright are two names for the same legal protection",
-    "Copyright requires a formal government application, but a patent does not",
-    "Patents only apply to open-source software"
+    "A patent lasts forever once granted, while copyright expires immediately after a work is first published",
+    "A patent covers physical products, while copyright covers software and requires registration to exist"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Patents cover inventions/processes and require applying to a patent office, while copyright covers original expression (including code) and attaches automatically at creation.",
    "c": 2
   },
@@ -4425,12 +4425,12 @@
    "u": 8,
    "q": "What is the key feature of a permissive open-source license like MIT?",
    "o": [
+    "It forces every product using the code to be released as open source under the same terms",
     "It allows broad reuse, even in closed-source commercial products, typically requiring only attribution",
-    "It requires all derivative works to also be open source",
-    "It prohibits any commercial use whatsoever",
-    "It only applies to code written in Python"
+    "It allows free reuse for non-commercial projects and requires a fee for company use",
+    "It lets the original author revoke permission at any time and demand removal from products"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Permissive licenses like MIT or Apache impose minimal restrictions — usually just keeping the original attribution — even when the code is used in proprietary software.",
    "c": 2
   },
@@ -4438,12 +4438,12 @@
    "u": 8,
    "q": "What is the defining feature of a copyleft license like the GPL?",
    "o": [
+    "It lets anyone reuse the code in closed products with only a credit line to the author",
+    "It bans modification of the code and permits unchanged copies to be shared",
     "Any derivative work using the code must also be released under the same open license",
-    "It grants no rights to use the code at all",
-    "It expires automatically after one year",
-    "It only applies to hardware designs"
+    "It limits use of the code to non-profit organizations and educational projects"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Copyleft licenses like the GPL require that anything built using the licensed code be distributed under the same license terms, which is why they're sometimes called 'viral.'",
    "c": 2
   },
@@ -4451,10 +4451,10 @@
    "u": 8,
    "q": "What legal risk can arise from including GPL-licensed code in a closed-source commercial product?",
    "o": [
-    "None — GPL code can always be used freely in any product",
+    "The company must pay royalties for every copy sold, but the product can stay closed",
     "It can create real legal liability, since GPL requires derivative works to also be open-sourced",
-    "It automatically converts the entire company to a nonprofit",
-    "It only affects the original GPL license holder, not the company using it"
+    "The original authors can take ownership of the product's entire codebase and its profits",
+    "The product must be rewritten in the same programming language as the original GPL code"
    ],
    "a": 1,
    "e": "Shipping GPL-licensed code inside closed-source software violates the license's copyleft terms and can expose the company to legal liability.",
@@ -4464,12 +4464,12 @@
    "u": 8,
    "q": "What primarily distinguishes a front-end developer's work from a back-end developer's?",
    "o": [
-    "Front-end focuses on the user-facing interface; back-end focuses on servers, databases, and APIs",
-    "Front-end developers never write any code",
-    "Back-end developers only design visual layouts",
-    "There is no meaningful difference between the two roles"
+    "Front-end builds servers, databases, and APIs; back-end focuses on the user-facing interface",
+    "Front-end developers write code for desktop apps, while back-end developers write code for mobile apps",
+    "Front-end focuses on network hardware and cables; back-end focuses on the browser's visuals",
+    "Front-end focuses on the user-facing interface; back-end focuses on servers, databases, and APIs"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Front-end work centers on what users see and interact with directly, while back-end work builds the underlying logic, data storage, and services that power it.",
    "c": 3
   },
@@ -4478,9 +4478,9 @@
    "q": "What does a data scientist typically do?",
    "o": [
     "Extract insights and build predictive models from data using statistics and programming",
-    "Only design the visual appearance of a website",
-    "Manage a company's physical server hardware exclusively",
-    "Write legal contracts for software licensing"
+    "Build and maintain the servers and networks that store a company's data and applications",
+    "Design interface layouts and visual styles based on user research and testing",
+    "Write legal and regulatory policies that govern how a company's data may be collected"
    ],
    "a": 0,
    "e": "Data scientists combine statistics, programming (often Python or SQL), and visualization to find patterns and build models from data.",
@@ -4490,12 +4490,12 @@
    "u": 8,
    "q": "What is the primary focus of a UX/UI designer's role?",
    "o": [
+    "Writing server-side code and database queries that make a product's features function",
     "How usable and intuitive a product feels, blending research and visual design",
-    "Writing the back-end database queries for an application",
-    "Managing network security certificates",
-    "Filing patents for a company's inventions"
+    "Protecting a product from attackers by finding and fixing security vulnerabilities",
+    "Building and training the models that power a product's predictions and recommendations"
    ],
-   "a": 0,
+   "a": 1,
    "e": "UX/UI design centers on usability and user experience — informed by research and psychology — rather than on writing the underlying production code.",
    "c": 3
   },
@@ -4504,9 +4504,9 @@
    "q": "What is a penetration tester hired to do?",
    "o": [
     "Deliberately attempt to break into systems to find vulnerabilities before real attackers do",
-    "Design a company's marketing website",
-    "Write end-user license agreements",
-    "Train machine learning models exclusively"
+    "Write secure code and install patches on a company's servers before attackers find them",
+    "Recover stolen data after an attack and report the culprits to law enforcement",
+    "Monitor network traffic around the clock and block suspicious connections automatically"
    ],
    "a": 0,
    "e": "Penetration testers simulate real attacks on a system with permission, uncovering security weaknesses so they can be fixed proactively.",
@@ -4516,12 +4516,12 @@
    "u": 8,
    "q": "Which statement about entering the tech industry is most accurate?",
    "o": [
-    "A four-year degree is the only legitimate path into a tech career",
+    "A four-year degree is mandatory for all roles, since employers do not recognize bootcamps or portfolios",
+    "Certifications and portfolios are accepted for entry-level jobs but not for software engineering roles",
     "Bootcamps, certifications, self-teaching, and project portfolios are all recognized alternative paths alongside a degree",
-    "Only self-taught programmers can become software engineers",
-    "Tech careers require no demonstrable skills, only a diploma"
+    "Self-teaching counts if a person also holds a degree, since portfolios have little weight with employers"
    ],
-   "a": 1,
+   "a": 2,
    "e": "The tech industry recognizes multiple valid entry paths, and many employers weigh demonstrated skills and portfolios alongside or instead of formal degrees.",
    "c": 3
   },
@@ -4529,12 +4529,12 @@
    "u": 8,
    "q": "A city deploys a predictive policing tool that sends more patrols to a neighborhood based on past arrest data, which then leads to more arrests there, reinforcing the pattern. What does this best illustrate?",
    "o": [
+    "A data breach exposing stored arrest records",
+    "A hardware fault corrupting the arrest data",
     "A feedback loop amplifying algorithmic bias",
-    "A copyleft license violation",
-    "A patent infringement case",
-    "A properly functioning, unbiased system"
+    "An open-source license conflict in the software"
    ],
-   "a": 0,
+   "a": 2,
    "e": "This is a classic feedback loop: biased historical data drives biased action, which generates new data that appears to confirm and reinforce the original bias.",
    "c": 0
   },
@@ -4543,9 +4543,9 @@
    "q": "A facial recognition system performs significantly worse on darker-skinned faces because its training set was overwhelmingly composed of lighter-skinned faces. What is this an example of?",
    "o": [
     "Bias from underrepresentation in training data",
-    "A copyright violation",
-    "A firewall misconfiguration",
-    "An intentional design goal of the system"
+    "A privacy breach exposing stored face photographs",
+    "A feedback loop from repeated police patrols",
+    "A software license conflict in the training code"
    ],
    "a": 0,
    "e": "When a dataset underrepresents certain groups, the resulting model tends to perform worse for those groups — a common and well-documented source of algorithmic bias.",
@@ -4555,24 +4555,24 @@
    "u": 8,
    "q": "A company blames 'the algorithm' when its automated loan-approval system unfairly denies qualified applicants from a certain group. Why is this response ethically inadequate?",
    "o": [
-    "Accountability requires that the people/organization behind the system take responsibility, not the algorithm itself",
-    "The algorithm is legally a separate entity that can be sued directly",
-    "Loan approval systems are not covered by AI ethics",
-    "This response is fully adequate and requires no follow-up"
+    "The algorithm should be sued as a separate legal entity, so blaming it is a valid way to assign fault",
+    "Loan decisions made by software are exempt from fairness rules, so the company bears no responsibility",
+    "Applicants can be held responsible, since they supplied the data the system used to decide",
+    "Accountability requires that the people/organization behind the system take responsibility, not the algorithm itself"
    ],
-   "a": 0,
+   "a": 3,
    "e": "In AI ethics, responsibility for an automated system's harms lies with the humans and organization who built, deployed, and maintained it — not with the software itself."
   },
   {
    "u": 8,
    "q": "A developer copies a large chunk of GPL-licensed code into their proprietary, closed-source app without releasing their source. What is the issue?",
    "o": [
+    "It likely violates a patent held by the original developer, which forbids any commercial use",
     "This likely violates the GPL's copyleft requirement that derivative works also be open-sourced",
-    "There is no issue since all code online is free to use however you want",
-    "This is only a problem if the original author never distributed the code",
-    "GPL only applies to hardware, not software"
+    "It is fine provided the original author is credited, since GPL requires attribution",
+    "It is a trade-secret violation, since GPL code may not be publicly viewed by other developers"
    ],
-   "a": 0,
+   "a": 1,
    "e": "The GPL is a copyleft license: using its code in a derivative work generally requires releasing that derivative under the same license, so closed-sourcing it breaches the terms.",
    "c": 2
   },
@@ -4580,24 +4580,24 @@
    "u": 8,
    "q": "A student says an AI chatbot 'decided' to give biased advice, so no person is at fault. Why does this reasoning fail under standard AI ethics principles?",
    "o": [
-    "Accountability holds the people/organization who built and deployed the system responsible for its outputs",
-    "AI systems are legally autonomous decision-makers with no human oversight",
-    "Bias in chatbots is always intentional and therefore blameless",
-    "This reasoning is correct and reflects the accepted standard"
+    "Chatbots are legally independent decision-makers, so responsibility lies with the system itself",
+    "Bias in a chatbot comes from the user's own prompt, so the developers are not accountable",
+    "Ethics principles assign blame to the algorithm once it is deployed publicly, not to its creators",
+    "Accountability holds the people/organization who built and deployed the system responsible for its outputs"
    ],
-   "a": 0,
+   "a": 3,
    "e": "AI ethics rejects treating the system as an autonomous, blameless actor; responsibility traces back to the humans and organizations who designed, trained, and deployed it."
   },
   {
    "u": 8,
    "q": "Which pairing correctly matches a role to its primary responsibility?",
    "o": [
-    "DevOps engineer — manages deployment pipelines and infrastructure reliability",
-    "UX/UI designer — writes back-end database queries",
-    "Data scientist — designs a company's network firewall",
-    "Front-end developer — files patents for company inventions"
+    "UX/UI designer — manages deployment pipelines and server infrastructure",
+    "Penetration tester — builds the front-end interface that users interact with",
+    "Data scientist — writes back-end APIs that serve web pages to browsers",
+    "DevOps engineer — manages deployment pipelines and infrastructure reliability"
    ],
-   "a": 0,
+   "a": 3,
    "e": "DevOps engineers focus on deployment automation, infrastructure, and keeping systems running reliably — the other pairings mismatch role and responsibility.",
    "c": 3
   },
@@ -4605,12 +4605,12 @@
    "u": 8,
    "q": "Why is 'can we build this AI system' a different kind of question from 'should we build this AI system'?",
    "o": [
-    "The first is a technical feasibility question; the second is an ethical judgment about consequences and values",
-    "They are exactly the same question phrased differently",
-    "Only the first question is ever relevant in engineering",
-    "AI ethics only concerns itself with technical feasibility"
+    "Both ask about technical limits, and ethics matters after a system has already been deployed",
+    "The first concerns legal approval from regulators, while the second concerns hardware and budget limits",
+    "The first is an ethical judgment about values, while the second is a technical feasibility question",
+    "The first is a technical feasibility question; the second is an ethical judgment about consequences and values"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Technical feasibility and ethical appropriateness are separate axes of evaluation — a system can be technically buildable while still raising serious ethical concerns about whether it should be built or deployed."
   },
   {
@@ -4629,12 +4629,12 @@
    "u": 8,
    "q": "Why might using someone else's code found online without checking its license create legal risk?",
    "o": [
+    "Licenses apply to code that is sold, so freely shared code can be reused without obligation or attribution of any kind",
     "Different licenses impose different obligations, and violating them (e.g. missing attribution or closed-sourcing copyleft code) can lead to liability",
-    "All code found online is automatically public domain",
-    "Licenses are only suggestions with no legal weight",
-    "Checking a license is only necessary for patented inventions"
+    "Using unlicensed code is risky because the license automatically transfers ownership of your project to the author",
+    "Most licenses forbid all reuse, so any copy of online code is infringement regardless of what the license says"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Every open-source license carries specific legal terms; ignoring them and not verifying compliance can expose a project or company to real legal consequences.",
    "c": 2
   }
@@ -6043,12 +6043,12 @@
    "u": 2,
    "q": "A variable is:",
    "o": [
-    "A function",
     "A named storage location for a value",
-    "A loop",
-    "A comment"
+    "A reusable block of code that performs a task",
+    "A repeated block that runs while a condition holds",
+    "A note in the code that the computer ignores"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Its value can change during a program.",
    "c": 0
   },
@@ -6145,10 +6145,10 @@
    "u": 6,
    "q": "DNS is used to:",
    "o": [
-    "Encrypt web traffic",
+    "Encrypt traffic between a browser and server",
     "Translate domain names into IP addresses",
-    "Store web pages",
-    "Send email"
+    "Store the files that make up a website",
+    "Route emails between mail servers worldwide"
    ],
    "a": 1,
    "e": "It acts like the internet's phone book.",
@@ -6170,24 +6170,24 @@
    "u": 7,
    "q": "Phishing is:",
    "o": [
+    "Infecting files with code that copies itself",
+    "Overloading a website with traffic to knock it offline",
     "Tricking people into revealing sensitive information",
-    "A type of encryption",
-    "A hardware failure",
-    "A programming language"
+    "Scrambling data so that only a key can read it"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Attackers often use fake emails or sites."
   },
   {
    "u": 7,
    "q": "Encryption:",
    "o": [
-    "Deletes data",
-    "Speeds up the network",
-    "Compresses files only",
-    "Converts data into an unreadable form without a key"
+    "Removes data permanently so nobody can read it again",
+    "Converts data into an unreadable form without a key",
+    "Shrinks data into a smaller file that anyone can open",
+    "Copies data to a second server for backup safety"
    ],
-   "a": 3,
+   "a": 1,
    "e": "Only someone with the key can read it.",
    "c": 0
   },
@@ -6195,9 +6195,9 @@
    "u": 8,
    "q": "Algorithmic bias can arise when:",
    "o": [
-    "Computers make random errors",
-    "Programs run too slowly",
-    "Code has comments",
+    "A program runs slowly because the server hardware is outdated",
+    "Computers make random errors that affect users unpredictably",
+    "Code contains too few comments for developers to understand it",
     "Training data or design leads to unfair outcomes for some groups"
    ],
    "a": 3,

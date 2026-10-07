@@ -349,6 +349,127 @@
       "<b>Negative leading term:</b> $-2x^2+18=-2(x^2-9)=-2(x-3)(x+3)$.",
       "<b>Always finish with a check:</b> look at every factor you ended with. Any factor that still has a common number, or is a difference of squares or cubes, is not finished."
      ]
+    },
+    {
+     "l": "Linear inequalities, level 2: distribute, collect, flip",
+     "intro": "Level 2 inequalities have parentheses to distribute and variables on both sides. The steps are the same as for equations, with one extra rule: reverse the inequality sign whenever you multiply or divide by a negative number.",
+     "b": [
+      "<b>Step order.</b> (1) Distribute and clear parentheses. (2) Combine like terms on each side. (3) Move the variable terms to one side and the numbers to the other. (4) Divide by the coefficient of the variable. (5) Flip the sign only at step 4 (or any step that multiplies/divides by a negative).",
+      "<b>Worked example (no flip).</b> $2(3x-4)-5\\ge4x+1$. Distribute: $6x-8-5\\ge4x+1$, so $6x-13\\ge4x+1$. Subtract $4x$: $2x-13\\ge1$. Add 13: $2x\\ge14$. Divide by 2: $x\\ge7$. Check: at $x=7$ both sides equal 29, and larger values make the left side larger.",
+      "<b>Worked example (flip).</b> $4-3(x+2)\\le2x-17$. Distribute: $4-3x-6\\le2x-17$, so $-3x-2\\le2x-17$. Subtract $2x$: $-5x-2\\le-17$. Add 2: $-5x\\le-15$. Divide by $-5$ and <b>flip</b>: $x\\ge3$. Check $x=4$: $-14\\le-9$ is true.",
+      "<b>Which side should the variable go on?</b> Either works. Keeping the variable's coefficient positive avoids a flip: $5x+3<2x+12$ gives $3x<9$ and $x<3$ with no flip. If you move the variable terms the other way you must flip when you divide by the negative coefficient, and you reach the same solution set.",
+      "<b>Common errors.</b> Forgetting to distribute to the second term ($3(x+2)=3x+6$, not $3x+2$); distributing a negative incorrectly ($-(x-4)=-x+4$); flipping when you add or subtract (only multiplication and division by a negative flips); not simplifying a fraction answer.",
+      "<b>Answer forms.</b> A solution like $x\\ge7$ means every number from 7 up. In interval notation it is $[7,\\infty)$, in set-builder notation it is $\\{x\\mid x\\ge7\\}$. If the variable ends up on the right ($7\\le x$), you may flip the whole statement to read $x\\ge7$.",
+      "<b>Special results.</b> If all variables cancel and the final statement is true (such as $3<5$), the solution is all real numbers. If it is false (such as $3>5$), there is no solution. The variable cancelling is not a mistake; it means the inequality does not depend on $x$.",
+      "<b>Watch:</b> <a href=\"https://www.youtube.com/watch?v=DrZJKdXlZ3I\" target=\"_blank\" rel=\"noopener\">The Organic Chemistry Tutor: How To Solve Linear Inequalities, Basic Introduction</a> · <a href=\"https://www.youtube.com/watch?v=eoSK2cuC3aw\" target=\"_blank\" rel=\"noopener\">Mathispower4u: variables on both sides</a> · <a href=\"https://www.youtube.com/watch?v=KiLcMkPCNOc\" target=\"_blank\" rel=\"noopener\">Prof. Redden: solve, graph and use interval notation</a>"
+     ]
+    },
+    {
+     "l": "Inequalities with fractions and decimals",
+     "intro": "Fractions and decimals do not change the rules. The cleanest approach is to clear them first by multiplying every term by a positive number, so the inequality sign stays the same.",
+     "b": [
+      "<b>Fractions: multiply by the LCD.</b> $\\frac23x-\\frac12\\le\\frac14x+\\frac56$. The LCD of 3, 2, 4 and 6 is 12. Multiply every term by 12: $8x-6\\le3x+10$. Then $5x\\le16$, so $x\\le\\frac{16}{5}$. Check $x=\\frac{16}{5}$: both sides are $\\frac{49}{30}$.",
+      "<b>Why the LCD is safe.</b> You multiply both sides by a <i>positive</i> number, so the inequality sign does not change. Multiplying by a negative number (for example $-12$) would flip the sign, so use the positive LCD.",
+      "<b>Fractional coefficients.</b> $-\\frac54x\\ge2(x+1)+3$ gives $-\\frac54x\\ge2x+5$. Multiply by 4: $-5x\\ge8x+20$, so $-13x\\ge20$ and, dividing by $-13$, $x\\le-\\frac{20}{13}$. The flip happens at the division by $-13$.",
+      "<b>Decimals: multiply by a power of 10.</b> $0.4x-1.2>0.9x+0.8$. Multiply by 10: $4x-12>9x+8$. Then $-5x>20$, so $x<-4$. Check $x=-5$: $-3.2>-3.7$ is true.",
+      "<b>Negatives in front of parentheses.</b> $6.3>-(-2.5x-6)-3x$ distributes as $6.3>2.5x+6-3x$, which is $6.3>-0.5x+6$. Subtract 6: $0.3>-0.5x$. Divide by $-0.5$ and flip: $-0.6<x$, i.e. $x>-0.6$.",
+      "<b>Common errors.</b> Multiplying only some terms by the LCD; clearing denominators on one side only; forgetting the flip when dividing by a negative fraction; dropping the decimal point when scaling by 10 or 100.",
+      "<b>Watch:</b> <a href=\"https://www.youtube.com/watch?v=ddXT9JUkHc8\" target=\"_blank\" rel=\"noopener\">Brian McLogan: solving a linear inequality with fractions</a> · <a href=\"https://www.youtube.com/watch?v=S761rWXWCoU\" target=\"_blank\" rel=\"noopener\">Eat Pi: linear inequalities with fractions</a> · <a href=\"https://www.youtube.com/watch?v=FIkMGPEt0OA\" target=\"_blank\" rel=\"noopener\">EHB Explains: linear inequalities with fractions</a> · <a href=\"https://www.youtube.com/watch?v=a6vL_2gGz3U\" target=\"_blank\" rel=\"noopener\">Mathispower4u: inequalities with decimals</a> · <a href=\"https://www.youtube.com/watch?v=Y50OlrKCmYE\" target=\"_blank\" rel=\"noopener\">Naomi Anderegg: inequalities with decimals</a>"
+     ]
+    },
+    {
+     "l": "Linear inequality and number line (level 2)",
+     "intro": "Solving an inequality is only half the job; level 2 problems also ask you to graph the solution on a number line and often to write it in notation.",
+     "b": [
+      "<b>Circles.</b> Use an <b>open</b> circle for $<$ and $>$ (the endpoint is not included). Use a <b>closed</b> (filled) circle for $\\le$ and $\\ge$ (the endpoint is included).",
+      "<b>Direction.</b> $x>k$ and $x\\ge k$ shade to the right of $k$ (toward $+\\infty$). $x<k$ and $x\\le k$ shade to the left. Always read the solution as <i>x ___ k</i> before drawing; if it is written $k<x$ it still means $x>k$.",
+      "<b>Worked example.</b> $2x-64\\ge-48$. Add 64: $2x\\ge16$. Divide by 2: $x\\ge8$. Graph: a closed circle at 8 with an arrow to the right. Interval notation: $[8,\\infty)$. Set-builder: $\\{x\\mid x\\ge8\\}$.",
+      "<b>Negative coefficient.</b> $-3x+5<-7$ gives $-3x<-12$. Dividing by $-3$ flips the sign: $x>4$. Graph an open circle at 4 shading to the right. A frequent error is to shade left because the original sign was $<$.",
+      "<b>Interval notation.</b> Use a parenthesis for open endpoints and for $\\infty$; use a bracket for closed endpoints. Examples: $x<3$ is $(-\\infty,3)$; $x\\ge-2$ is $[-2,\\infty)$.",
+      "<b>Check with a test point.</b> Pick a number in the shaded region, substitute it into the original inequality, and make sure it is true; pick one outside and make sure it is false.",
+      "<b>Watch:</b> <a href=\"https://www.youtube.com/watch?v=nyD263X_Wos\" target=\"_blank\" rel=\"noopener\">GoTutor Math: graphing on a number line and interval notation</a> · <a href=\"https://www.youtube.com/watch?v=KiLcMkPCNOc\" target=\"_blank\" rel=\"noopener\">Prof. Redden: solve, graph and interval notation</a> · <a href=\"https://www.youtube.com/watch?v=DrZJKdXlZ3I\" target=\"_blank\" rel=\"noopener\">The Organic Chemistry Tutor: introduction to linear inequalities</a>"
+     ]
+    },
+    {
+     "l": "Compound inequalities (level 2)",
+     "intro": "A compound inequality joins two conditions with <b>and</b> (both must be true: the overlap) or <b>or</b> (either may be true: the union). Level 2 asks you to solve, graph, and then simplify to a single inequality when possible.",
+     "b": [
+      "<b>Three-part inequalities.</b> $-7\\le2x-1<9$: add 1 to every part: $-6\\le2x<10$; divide every part by 2: $-3\\le x<5$. The graph is a closed circle at $-3$, an open circle at 5, and the segment between them. Interval: $[-3,5)$.",
+      "<b>Negative coefficient reverses both signs.</b> $-8<-2x+4\\le6$: subtract 4: $-12<-2x\\le2$; divide by $-2$: $6>x\\ge-1$. Rewrite in increasing order: $-1\\le x<6$.",
+      "<b>OR inequalities.</b> $x-3\\le-5$ or $2x+1>9$: the first gives $x\\le-2$, the second gives $x>4$. The solution is $x\\le-2$ or $x>4$, two separate rays; it cannot be written as one inequality.",
+      "<b>Simplifying to a single inequality.</b> AND: $x>3$ and $x>7$ keeps only the stronger one, $x>7$. OR: $x<2$ or $x<5$ becomes $x<5$. OR with overlapping opposite rays, such as $x>1$ or $x<4$, covers all real numbers.",
+      "<b>No solution.</b> $x<-1$ and $x>4$ has no overlap, so the answer is $\\varnothing$ and the number line is left blank. $x\\ge3$ and $x\\le3$ has exactly one solution, $x=3$.",
+      "<b>Common errors.</b> Using AND where the problem says OR; writing $4<x<-1$ (endpoints out of order); not reversing both signs after dividing by a negative; applying an operation to only the middle part of a three-part inequality.",
+      "<b>Watch:</b> <a href=\"https://www.youtube.com/watch?v=msiceXvwriE\" target=\"_blank\" rel=\"noopener\">The Organic Chemistry Tutor: how to solve compound inequalities</a> · <a href=\"https://www.youtube.com/watch?v=ivm-CsIeBHk\" target=\"_blank\" rel=\"noopener\">Brian McLogan: solve and graph a compound inequality</a> · <a href=\"https://www.youtube.com/watch?v=zJK2MHem8ds\" target=\"_blank\" rel=\"noopener\">Brian McLogan: compound inequality with OR</a> · <a href=\"https://www.youtube.com/watch?v=pD0M2vx1edk\" target=\"_blank\" rel=\"noopener\">larryschmidt: graphing compound inequalities on the number line</a> · <a href=\"https://www.youtube.com/watch?v=5mBcZ-3XjNA\" target=\"_blank\" rel=\"noopener\">Math and Science: solving and graphing compound inequalities</a>"
+     ]
+    },
+    {
+     "l": "Multiply polynomials (level 3)",
+     "intro": "Level 3 means trinomial times trinomial, three factors at once, and powers like $(ax+b)^3$. The rule never changes: every term of one polynomial multiplies every term of the other, and then you combine like terms.",
+     "b": [
+      "<b>Count your products.</b> A trinomial times a trinomial has $3\\times3=9$ products. Write them all before combining. If you get fewer than 9, something was skipped.",
+      "<b>Worked example.</b> $(x^2+2x-3)(x^2-x+4)$. Multiply by $x^2$: $x^4-x^3+4x^2$. Multiply by $2x$: $2x^3-2x^2+8x$. Multiply by $-3$: $-3x^2+3x-12$. Add: $x^4+(−1+2)x^3+(4−2−3)x^2+(8+3)x−12=x^4+x^3-x^2+11x-12$.",
+      "<b>Table (area) method.</b> Put one polynomial across the top and the other down the side. Fill each box with the product of its row and column. Terms of the same degree lie on the diagonals; add each diagonal. This keeps the 9 products organized.",
+      "<b>Leading coefficients that are not 1.</b> $(2x^2-3x+1)(x^2+4x-5)=2x^4+5x^3-21x^2+19x-5$. Check the first and last terms: $2x^2\\cdot x^2=2x^4$ and $1\\cdot(-5)=-5$.",
+      "<b>Three factors.</b> Multiply two factors first, then multiply the result by the third: $(x-1)(x+2)(x+3)$: $(x-1)(x+2)=x^2+x-2$; then $(x^2+x-2)(x+3)=x^3+4x^2+x-6$.",
+      "<b>Cubing a binomial.</b> $(x+2)^3=(x+2)(x+2)^2=(x+2)(x^2+4x+4)=x^3+6x^2+12x+8$. In general $(a+b)^3=a^3+3a^2b+3ab^2+b^3$, and $(2x-3)^3=8x^3-36x^2+54x-27$. It is <b>not</b> $a^3+b^3$.",
+      "<b>Checks.</b> Substitute $x=1$ into the original and the expanded form; the values must match. The degree of the product is the sum of the degrees, and the number of terms is at most that degree plus one.",
+      "<b>Watch:</b> <a href=\"https://www.youtube.com/watch?v=9BcEJD__ZPY\" target=\"_blank\" rel=\"noopener\">Eat Pi: multiply polynomials (monomials, binomials, trinomials)</a> · <a href=\"https://www.youtube.com/watch?v=x5Znt15b4Bw\" target=\"_blank\" rel=\"noopener\">Brian McLogan: trinomial times trinomial with the box method</a> · <a href=\"https://www.youtube.com/watch?v=C0ndDXM167s\" target=\"_blank\" rel=\"noopener\">CodeLucky: the general method for multiplying polynomials</a>"
+     ]
+    },
+    {
+     "l": "Squaring binomials (including higher powers)",
+     "intro": "Squaring a binomial is a special product: $(a+b)^2=a^2+2ab+b^2$ and $(a-b)^2=a^2-2ab+b^2$. In level 2 and 3 problems the terms have exponents and more than one variable.",
+     "b": [
+      "<b>The three terms.</b> Square the first, double the product of the two terms, square the last. The middle term is always present; $(a+b)^2\\ne a^2+b^2$.",
+      "<b>Powers of powers.</b> $(2x^5-y^3)^2=4x^{10}-4x^5y^3+y^6$. Square the coefficient and multiply exponents: $(x^5)^2=x^{10}$ and $(y^3)^2=y^6$. The middle term is $2\\cdot2x^5\\cdot y^3=4x^5y^3$ with a minus sign.",
+      "<b>Worked example.</b> $(3x^4-2y^3)^2=9x^8-12x^4y^3+4y^6$.",
+      "<b>Sign of the middle term.</b> It takes the sign inside the parentheses; the first and last terms are always positive.",
+      "<b>Difference of squares.</b> $(a-b)(a+b)=a^2-b^2$ has no middle term because the two cross products cancel. Do not confuse it with $(a-b)^2$.",
+      "<b>Going backwards.</b> $9x^8-12x^4y^3+4y^6$ is a perfect-square trinomial: first and last terms are squares and the middle term is twice their product, so it equals $(3x^4-2y^3)^2$.",
+      "<b>Watch:</b> <a href=\"https://www.youtube.com/watch?v=OQZBKWpJMI0\" target=\"_blank\" rel=\"noopener\">Felicity Rodda: squaring binomials, the perfect square</a> · <a href=\"https://www.youtube.com/watch?v=yCKE2476eBg\" target=\"_blank\" rel=\"noopener\">BroandSisMathClub: how to square a binomial</a> · <a href=\"https://www.youtube.com/watch?v=7cC3YxcvBrY\" target=\"_blank\" rel=\"noopener\">DSSM Education: binomial expansion, perfect squares</a>"
+     ]
+    },
+    {
+     "l": "Factor out the GCF (multivariable)",
+     "intro": "The greatest common factor of several terms includes the largest common number and each variable raised to the <b>smallest</b> exponent that appears in every term.",
+     "b": [
+      "<b>Method.</b> (1) Find the greatest common divisor of the coefficients. (2) For each variable, take the lowest exponent among the terms. (3) Write that product in front, and divide each term by it to get the parentheses.",
+      "<b>Worked example.</b> $18x^6y^8z^3-27x^4y^4z^6$. Coefficients: GCF of 18 and 27 is 9. Exponents: $x$: min(6, 4) = 4; $y$: min(8, 4) = 4; $z$: min(3, 6) = 3. GCF $=9x^4y^4z^3$. Inside: $\\frac{18x^6y^8z^3}{9x^4y^4z^3}=2x^2y^4$ and $\\frac{27x^4y^4z^6}{9x^4y^4z^3}=3z^3$. So $9x^4y^4z^3(2x^2y^4-3z^3)$.",
+      "<b>Check.</b> Multiply back. Each exponent in the parentheses is the original minus the GCF exponent, and a variable absent from a term has exponent 0.",
+      "<b>Common errors.</b> Using the largest exponent instead of the smallest; leaving a numeric factor (the parentheses should have no common number left); forgetting that the sign between terms stays the same.",
+      "<b>Factor completely.</b> After taking the GCF, check whether what remains factors further (difference of squares, trinomial, grouping).",
+      "<b>Watch:</b> <a href=\"https://www.youtube.com/watch?v=ynefQgfxZBs\" target=\"_blank\" rel=\"noopener\">The Organic Chemistry Tutor: factor the greatest common factor in a polynomial</a> · <a href=\"https://www.youtube.com/watch?v=yiE4_CxIExM\" target=\"_blank\" rel=\"noopener\">TabletClass Math: factor out the GCF</a> · <a href=\"https://www.youtube.com/watch?v=mXvt9OumKH8\" target=\"_blank\" rel=\"noopener\">The Organic Chemistry Tutor: factoring polynomials, all methods</a>"
+     ]
+    },
+    {
+     "l": "Factoring and solving cubic equations",
+     "intro": "A cubic equation has up to three roots. To solve one, set it equal to zero, factor it completely, and use the Zero Product Property. The tools are GCF, grouping, sum/difference of cubes, and trial roots.",
+     "b": [
+      "<b>1. GCF first.</b> $x^3-5x^2+6x=0$ gives $x(x-2)(x-3)=0$, so $x=0,2,3$. Never divide by $x$; you would lose the root 0.",
+      "<b>2. Four terms: group.</b> $x^3+3x^2-4x-12$: group as $x^2(x+3)-4(x+3)=(x+3)(x^2-4)=(x+3)(x-2)(x+2)$. Roots $-3,2,-2$. For $2x^3-3x^2-8x+12=x^2(2x-3)-4(2x-3)=(2x-3)(x-2)(x+2)$, the roots are $\\frac32,2,-2$.",
+      "<b>3. Sum/difference of cubes.</b> $x^3+27=(x+3)(x^2-3x+9)$. Roots: $x=-3$ and, from the quadratic formula, $x=\\frac{3\\pm3i\\sqrt3}{2}$. A cubic always has three roots counting non-real ones.",
+      "<b>4. Non-real roots from grouping.</b> $x^3-2x^2+9x-18=(x-2)(x^2+9)$ has roots $2$ and $\\pm3i$ because $x^2=-9$.",
+      "<b>5. Trial roots (rational root test).</b> For $x^3-7x+6$, try factors of the constant 6: $x=1$ gives $1-7+6=0$, so $(x-1)$ is a factor. Divide: $x^3-7x+6=(x-1)(x^2+x-6)=(x-1)(x-2)(x+3)$. Roots $1,2,-3$.",
+      "<b>Repeated roots.</b> $3x^3+12x^2+12x=3x(x+2)^2$ has roots 0 and $-2$ (a double root).",
+      "<b>Check.</b> Substitute each root. The sum of the roots equals $-b/a$ and the product equals $-d/a$ for $ax^3+bx^2+cx+d=0$ (useful for catching a missing root).",
+      "<b>Watch:</b> <a href=\"https://www.youtube.com/watch?v=rnAKWPM-YBc\" target=\"_blank\" rel=\"noopener\">The Organic Chemistry Tutor: factoring cubic polynomials</a> · <a href=\"https://www.youtube.com/watch?v=swSsKCeiANI\" target=\"_blank\" rel=\"noopener\">Mathispower4u: factor by grouping to solve cubic equations</a> · <a href=\"https://www.youtube.com/watch?v=8aPpFw_O-4o\" target=\"_blank\" rel=\"noopener\">Wendy: solve the cubic x³−2x²+9x−18=0 by grouping</a> · <a href=\"https://www.youtube.com/watch?v=ADj8sGSjewg\" target=\"_blank\" rel=\"noopener\">The Organic Chemistry Tutor: sums and differences of perfect cubes</a>"
+     ]
+    },
+    {
+     "l": "Video lessons for Unit 1 (all topics)",
+     "intro": "Free YouTube lessons that match the Unit 1 topics. Watch one, then do the practice questions for that topic.",
+     "b": [
+      "<b>Real numbers, notation:</b> <a href=\"https://www.youtube.com/watch?v=KiLcMkPCNOc\" target=\"_blank\" rel=\"noopener\">Prof. Redden: solve inequalities, graph and interval notation</a> · <a href=\"https://www.youtube.com/watch?v=nyD263X_Wos\" target=\"_blank\" rel=\"noopener\">GoTutor Math: number line and interval notation</a>",
+      "<b>Linear inequalities:</b> <a href=\"https://www.youtube.com/watch?v=DrZJKdXlZ3I\" target=\"_blank\" rel=\"noopener\">The Organic Chemistry Tutor: introduction</a> · <a href=\"https://www.youtube.com/watch?v=eoSK2cuC3aw\" target=\"_blank\" rel=\"noopener\">Mathispower4u: variables on both sides</a>",
+      "<b>Fractions and decimals:</b> <a href=\"https://www.youtube.com/watch?v=ddXT9JUkHc8\" target=\"_blank\" rel=\"noopener\">Brian McLogan: with fractions</a> · <a href=\"https://www.youtube.com/watch?v=S761rWXWCoU\" target=\"_blank\" rel=\"noopener\">Eat Pi: with fractions</a> · <a href=\"https://www.youtube.com/watch?v=a6vL_2gGz3U\" target=\"_blank\" rel=\"noopener\">Mathispower4u: with decimals</a>",
+      "<b>Compound inequalities:</b> <a href=\"https://www.youtube.com/watch?v=msiceXvwriE\" target=\"_blank\" rel=\"noopener\">The Organic Chemistry Tutor</a> · <a href=\"https://www.youtube.com/watch?v=zJK2MHem8ds\" target=\"_blank\" rel=\"noopener\">Brian McLogan: OR</a> · <a href=\"https://www.youtube.com/watch?v=-B-f9YNR04U\" target=\"_blank\" rel=\"noopener\">Mario's Math Tutoring: how to solve and graph</a>",
+      "<b>Multiplying polynomials:</b> <a href=\"https://www.youtube.com/watch?v=9BcEJD__ZPY\" target=\"_blank\" rel=\"noopener\">Eat Pi</a> · <a href=\"https://www.youtube.com/watch?v=x5Znt15b4Bw\" target=\"_blank\" rel=\"noopener\">Brian McLogan: box method</a>",
+      "<b>Squaring binomials:</b> <a href=\"https://www.youtube.com/watch?v=OQZBKWpJMI0\" target=\"_blank\" rel=\"noopener\">Felicity Rodda</a> · <a href=\"https://www.youtube.com/watch?v=yCKE2476eBg\" target=\"_blank\" rel=\"noopener\">BroandSisMathClub</a>",
+      "<b>GCF and factoring techniques:</b> <a href=\"https://www.youtube.com/watch?v=ynefQgfxZBs\" target=\"_blank\" rel=\"noopener\">The Organic Chemistry Tutor: GCF</a> · <a href=\"https://www.youtube.com/watch?v=mXvt9OumKH8\" target=\"_blank\" rel=\"noopener\">The Organic Chemistry Tutor: all factoring methods</a>",
+      "<b>Sum/difference of cubes and cubic equations:</b> <a href=\"https://www.youtube.com/watch?v=ADj8sGSjewg\" target=\"_blank\" rel=\"noopener\">The Organic Chemistry Tutor: sums and differences of cubes</a> · <a href=\"https://www.youtube.com/watch?v=rnAKWPM-YBc\" target=\"_blank\" rel=\"noopener\">The Organic Chemistry Tutor: factoring cubic polynomials</a> · <a href=\"https://www.youtube.com/watch?v=swSsKCeiANI\" target=\"_blank\" rel=\"noopener\">Mathispower4u: cubic equations by grouping</a>",
+      "<b>Tip:</b> pause the video before the instructor finishes each example, solve it yourself, then compare."
+     ]
     }
    ],
    "traps": [
@@ -1844,6 +1965,56 @@
    "u": 1,
    "t": "Unit 1 test checklist",
    "d": "Bring pencils, an eraser and a graphing calculator. Study class notes, HW #1–12 and Albert.io."
+  },
+  {
+   "u": 1,
+   "t": "Flip the inequality sign when…",
+   "d": "you multiply or divide both sides by a NEGATIVE number (not when you add or subtract)."
+  },
+  {
+   "u": 1,
+   "t": "Open vs closed circle",
+   "d": "Open circle for < and >; closed circle for ≤ and ≥. > and ≥ shade right; < and ≤ shade left."
+  },
+  {
+   "u": 1,
+   "t": "Clearing fractions in an inequality",
+   "d": "Multiply every term by the positive LCD; the sign stays the same."
+  },
+  {
+   "u": 1,
+   "t": "Clearing decimals in an inequality",
+   "d": "Multiply every term by a power of 10 (10, 100, …); the sign stays the same."
+  },
+  {
+   "u": 1,
+   "t": "AND vs OR compound inequality",
+   "d": "AND = overlap (both true), OR = union (either true). x>3 and x>7 → x>7; x<2 or x<5 → x<5."
+  },
+  {
+   "u": 1,
+   "t": "Compound inequality: no solution",
+   "d": "x<-1 and x>4 has no overlap, so the solution is the empty set ∅ and the number line stays blank."
+  },
+  {
+   "u": 1,
+   "t": "(a + b)³",
+   "d": "a³ + 3a²b + 3ab² + b³ — not a³ + b³."
+  },
+  {
+   "u": 1,
+   "t": "Squaring a binomial",
+   "d": "(a ± b)² = a² ± 2ab + b². The middle term is never missing."
+  },
+  {
+   "u": 1,
+   "t": "Multivariable GCF",
+   "d": "Largest common number × each variable to its SMALLEST exponent across the terms."
+  },
+  {
+   "u": 1,
+   "t": "Rational root test (cubics)",
+   "d": "Try ± factors of the constant over factors of the leading coefficient; a root r gives a factor (x − r)."
   }
  ],
  "quiz": [
@@ -9918,6 +10089,799 @@
    "a": 1,
    "e": "Take out the GCF $5xy$ first. What remains is $x^2-4y^2$, a difference of squares $(x-2y)(x+2y)$.",
    "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Solve for $d$ and write the answer in simplest form: $-1+5(6d-5)<2d+8-6$",
+   "o": [
+    "$d>1$",
+    "$d<1$",
+    "$d<\\frac{2}{7}$",
+    "$d<-1$"
+   ],
+   "a": 1,
+   "e": "Distribute the $5$: $-1+30d-25$ (combine the constants: $30d-26$). Collect the $d$ terms on one side and the numbers on the other: $28d<28$. Divide by $28$. Solution: $d<1$.",
+   "c": 32
+  },
+  {
+   "u": 1,
+   "q": "Solve for $d$ and write the answer in simplest form: $6-4(4d-3)>3d-6+8$",
+   "o": [
+    "$d>\\frac{16}{19}$",
+    "$d<\\frac{1}{19}$",
+    "$d<-\\frac{16}{19}$",
+    "$d<\\frac{16}{19}$"
+   ],
+   "a": 3,
+   "e": "Distribute the $-4$: $6-16d+12$ (combine the constants: $-16d+18$). Collect the $d$ terms on one side and the numbers on the other: $-19d>-16$. Divide by $-19$ and flip the inequality because -19 is negative. Solution: $d<\\frac{16}{19}$.",
+   "c": 32
+  },
+  {
+   "u": 1,
+   "q": "Solve for $d$ and write the answer in simplest form: $9-2(-3d+8)<3d-8-3$",
+   "o": [
+    "$d<-\\frac{4}{3}$",
+    "$d>-\\frac{4}{3}$",
+    "$d<-\\frac{28}{3}$",
+    "$d<\\frac{4}{3}$"
+   ],
+   "a": 0,
+   "e": "Distribute the $-2$: $9+6d-16$ (combine the constants: $6d-7$). Collect the $d$ terms on one side and the numbers on the other: $3d<-4$. Divide by $3$. Solution: $d<-\\frac{4}{3}$.",
+   "c": 32
+  },
+  {
+   "u": 1,
+   "q": "Solve for $d$ and write the answer in simplest form: $-8+4(-6d-8)<-5d-8+7$",
+   "o": [
+    "$d>-\\frac{39}{19}$",
+    "$d<-\\frac{39}{19}$",
+    "$d>-\\frac{15}{19}$",
+    "$d>\\frac{39}{19}$"
+   ],
+   "a": 0,
+   "e": "Distribute the $4$: $-8-24d-32$ (combine the constants: $-24d-40$). Collect the $d$ terms on one side and the numbers on the other: $-19d<39$. Divide by $-19$ and flip the inequality because -19 is negative. Solution: $d>-\\frac{39}{19}$.",
+   "c": 32
+  },
+  {
+   "u": 1,
+   "q": "Solve for $d$ and write the answer in simplest form: $5-3(3d+3)>2d+3-5$",
+   "o": [
+    "$d<-\\frac{2}{11}$",
+    "$d>-\\frac{2}{11}$",
+    "$d<\\frac{10}{11}$",
+    "$d<\\frac{2}{11}$"
+   ],
+   "a": 0,
+   "e": "Distribute the $-3$: $5-9d-9$ (combine the constants: $-9d-4$). Collect the $d$ terms on one side and the numbers on the other: $-11d>2$. Divide by $-11$ and flip the inequality because -11 is negative. Solution: $d<-\\frac{2}{11}$.",
+   "c": 32
+  },
+  {
+   "u": 1,
+   "q": "Solve for $d$ and write the answer in simplest form: $8+3(2d-5)\\le -5d+7+8$",
+   "o": [
+    "$d\\ge 2$",
+    "$d\\le 2$",
+    "$d\\le \\frac{12}{11}$",
+    "$d\\le -2$"
+   ],
+   "a": 1,
+   "e": "Distribute the $3$: $8+6d-15$ (combine the constants: $6d-7$). Collect the $d$ terms on one side and the numbers on the other: $11d\\le 22$. Divide by $11$. Solution: $d\\le 2$.",
+   "c": 32
+  },
+  {
+   "u": 1,
+   "q": "Solve for $d$ and write the answer in simplest form: $3+2(-6d+8)>-2d-8-9$",
+   "o": [
+    "$d<\\frac{18}{5}$",
+    "$d>\\frac{18}{5}$",
+    "$d<\\frac{14}{5}$",
+    "$d<-\\frac{18}{5}$"
+   ],
+   "a": 0,
+   "e": "Distribute the $2$: $3-12d+16$ (combine the constants: $-12d+19$). Collect the $d$ terms on one side and the numbers on the other: $-10d>-36$. Divide by $-10$ and flip the inequality because -10 is negative. Solution: $d<\\frac{18}{5}$.",
+   "c": 32
+  },
+  {
+   "u": 1,
+   "q": "Solve for $d$ and write the answer in simplest form: $1+3(-6d+6)\\le -5d-6-3$",
+   "o": [
+    "$d\\le \\frac{28}{13}$",
+    "$d\\ge \\frac{16}{13}$",
+    "$d\\ge -\\frac{28}{13}$",
+    "$d\\ge \\frac{28}{13}$"
+   ],
+   "a": 3,
+   "e": "Distribute the $3$: $1-18d+18$ (combine the constants: $-18d+19$). Collect the $d$ terms on one side and the numbers on the other: $-13d\\le -28$. Divide by $-13$ and flip the inequality because -13 is negative. Solution: $d\\ge \\frac{28}{13}$.",
+   "c": 32
+  },
+  {
+   "u": 1,
+   "q": "Solve for $d$ and write the answer in simplest form: $-6-4(4d-5)\\le 4d-4+7$",
+   "o": [
+    "$d\\ge \\frac{11}{20}$",
+    "$d\\le \\frac{11}{20}$",
+    "$d\\ge -\\frac{7}{10}$",
+    "$d\\ge -\\frac{11}{20}$"
+   ],
+   "a": 0,
+   "e": "Distribute the $-4$: $-6-16d+20$ (combine the constants: $-16d+14$). Collect the $d$ terms on one side and the numbers on the other: $-20d\\le -11$. Divide by $-20$ and flip the inequality because -20 is negative. Solution: $d\\ge \\frac{11}{20}$.",
+   "c": 32
+  },
+  {
+   "u": 1,
+   "q": "Solve: $-\\frac{7}{2}x<2(x-3)+5$",
+   "o": [
+    "$x<\\frac{2}{11}$",
+    "$x>\\frac{2}{11}$",
+    "$x>\\frac{2}{3}$",
+    "$x>\\frac{12}{11}$"
+   ],
+   "a": 1,
+   "e": "Multiply out the right side: $2x-6+5$. Move the $x$ terms: $\\left(-\\frac{7}{2}-2\\right)x<-1$, i.e. $-\\frac{11}{2}x<-1$. Divide by $-\\frac{11}{2}$ and flip the sign because it is negative. So $x>\\frac{2}{11}$. (Clearing the fractions first with the LCD gives the same answer.)",
+   "c": 33
+  },
+  {
+   "u": 1,
+   "q": "Solve: $-\\frac{1}{5}x\\ge -2(x-1)+6$",
+   "o": [
+    "$x\\le \\frac{40}{9}$",
+    "$x\\le -\\frac{40}{11}$",
+    "$x\\ge \\frac{10}{9}$",
+    "$x\\ge \\frac{40}{9}$"
+   ],
+   "a": 3,
+   "e": "Multiply out the right side: $-2x+2+6$. Move the $x$ terms: $\\left(-\\frac{1}{5}-(-2)\\right)x\\ge 8$, i.e. $\\frac{9}{5}x\\ge 8$. Divide by $\\frac{9}{5}$. So $x\\ge \\frac{40}{9}$. (Clearing the fractions first with the LCD gives the same answer.)",
+   "c": 33
+  },
+  {
+   "u": 1,
+   "q": "Solve: $-\\frac{7}{6}x<-2(x+5)-2$",
+   "o": [
+    "$x<-\\frac{72}{5}$",
+    "$x>-\\frac{72}{5}$",
+    "$x>\\frac{72}{19}$",
+    "$x<-12$"
+   ],
+   "a": 0,
+   "e": "Multiply out the right side: $-2x-10-2$. Move the $x$ terms: $\\left(-\\frac{7}{6}-(-2)\\right)x<-12$, i.e. $\\frac{5}{6}x<-12$. Divide by $\\frac{5}{6}$. So $x<-\\frac{72}{5}$. (Clearing the fractions first with the LCD gives the same answer.)",
+   "c": 33
+  },
+  {
+   "u": 1,
+   "q": "Solve: $-\\frac{7}{3}x\\le 2(x+1)-1$",
+   "o": [
+    "$x\\le -\\frac{3}{13}$",
+    "$x\\ge -\\frac{3}{13}$",
+    "$x\\ge -3$",
+    "$x\\ge -\\frac{6}{13}$"
+   ],
+   "a": 1,
+   "e": "Multiply out the right side: $2x+2-1$. Move the $x$ terms: $\\left(-\\frac{7}{3}-2\\right)x\\le 1$, i.e. $-\\frac{13}{3}x\\le 1$. Divide by $-\\frac{13}{3}$ and flip the sign because it is negative. So $x\\ge -\\frac{3}{13}$. (Clearing the fractions first with the LCD gives the same answer.)",
+   "c": 33
+  },
+  {
+   "u": 1,
+   "q": "Solve: $-\\frac{1}{5}x>-3(x-5)-2$",
+   "o": [
+    "$x>\\frac{65}{14}$",
+    "$x<\\frac{65}{14}$",
+    "$x<-\\frac{65}{16}$",
+    "$x>\\frac{75}{14}$"
+   ],
+   "a": 0,
+   "e": "Multiply out the right side: $-3x+15-2$. Move the $x$ terms: $\\left(-\\frac{1}{5}-(-3)\\right)x>13$, i.e. $\\frac{14}{5}x>13$. Divide by $\\frac{14}{5}$. So $x>\\frac{65}{14}$. (Clearing the fractions first with the LCD gives the same answer.)",
+   "c": 33
+  },
+  {
+   "u": 1,
+   "q": "Solve: $-\\frac{1}{3}x>2(x+5)-2$",
+   "o": [
+    "$x<-\\frac{24}{7}$",
+    "$x>-\\frac{24}{7}$",
+    "$x>\\frac{24}{5}$",
+    "$x<-\\frac{30}{7}$"
+   ],
+   "a": 0,
+   "e": "Multiply out the right side: $2x+10-2$. Move the $x$ terms: $\\left(-\\frac{1}{3}-2\\right)x>8$, i.e. $-\\frac{7}{3}x>8$. Divide by $-\\frac{7}{3}$ and flip the sign because it is negative. So $x<-\\frac{24}{7}$. (Clearing the fractions first with the LCD gives the same answer.)",
+   "c": 33
+  },
+  {
+   "u": 1,
+   "q": "Solve: $-\\frac{7}{6}x<3(x-5)+7$",
+   "o": [
+    "$x<\\frac{48}{25}$",
+    "$x>\\frac{48}{25}$",
+    "$x<-\\frac{48}{11}$",
+    "$x>\\frac{18}{5}$"
+   ],
+   "a": 1,
+   "e": "Multiply out the right side: $3x-15+7$. Move the $x$ terms: $\\left(-\\frac{7}{6}-3\\right)x<-8$, i.e. $-\\frac{25}{6}x<-8$. Divide by $-\\frac{25}{6}$ and flip the sign because it is negative. So $x>\\frac{48}{25}$. (Clearing the fractions first with the LCD gives the same answer.)",
+   "c": 33
+  },
+  {
+   "u": 1,
+   "q": "Solve: $-\\frac{2}{5}x<-2(x-5)+1$",
+   "o": [
+    "$x>\\frac{55}{8}$",
+    "$x<\\frac{55}{8}$",
+    "$x>-\\frac{55}{12}$",
+    "$x<\\frac{25}{4}$"
+   ],
+   "a": 1,
+   "e": "Multiply out the right side: $-2x+10+1$. Move the $x$ terms: $\\left(-\\frac{2}{5}-(-2)\\right)x<11$, i.e. $\\frac{8}{5}x<11$. Divide by $\\frac{8}{5}$. So $x<\\frac{55}{8}$. (Clearing the fractions first with the LCD gives the same answer.)",
+   "c": 33
+  },
+  {
+   "u": 1,
+   "q": "Solve: $6.3\\le -(2.5x+2)-0.5x$",
+   "o": [
+    "$x\\ge -\\frac{83}{30}$",
+    "$x\\le \\frac{83}{30}$",
+    "$x\\le -\\frac{83}{30}$",
+    "$x\\le -4.15$"
+   ],
+   "a": 2,
+   "e": "Distribute the negative: $6.3\\le -3x-2$ after combining the $x$ terms. Isolate $x$: $-3x\\ge 8.3$. Dividing by $-3$ (negative) flips the sign: $x\\le -\\frac{83}{30}$. Check with a number inside the solution set.",
+   "c": 33
+  },
+  {
+   "u": 1,
+   "q": "Solve: $3.9\\ge -(2x+3)-1x$",
+   "o": [
+    "$x\\le -2.3$",
+    "$x\\ge 2.3$",
+    "$x\\ge -6.9$",
+    "$x\\ge -2.3$"
+   ],
+   "a": 3,
+   "e": "Distribute the negative: $3.9\\ge -3x-3$ after combining the $x$ terms. Isolate $x$: $-3x\\le 6.9$. Dividing by $-3$ (negative) flips the sign: $x\\ge -2.3$. Check with a number inside the solution set.",
+   "c": 33
+  },
+  {
+   "u": 1,
+   "q": "Solve: $3.3\\ge -(1x+2)-0.5x$",
+   "o": [
+    "$x\\ge -\\frac{53}{15}$",
+    "$x\\le -\\frac{53}{15}$",
+    "$x\\ge \\frac{53}{15}$",
+    "$x\\ge -10.6$"
+   ],
+   "a": 0,
+   "e": "Distribute the negative: $3.3\\ge -1.5x-2$ after combining the $x$ terms. Isolate $x$: $-1.5x\\le 5.3$. Dividing by $-1.5$ (negative) flips the sign: $x\\ge -\\frac{53}{15}$. Check with a number inside the solution set.",
+   "c": 33
+  },
+  {
+   "u": 1,
+   "q": "Solve: $3.9>-(1.5x+5)-1.5x$",
+   "o": [
+    "$x<-\\frac{89}{30}$",
+    "$x>\\frac{89}{30}$",
+    "$x>-\\frac{89}{30}$",
+    "$x>\\frac{11}{30}$"
+   ],
+   "a": 2,
+   "e": "Distribute the negative: $3.9>-3x-5$ after combining the $x$ terms. Isolate $x$: $-3x<8.9$. Dividing by $-3$ (negative) flips the sign: $x>-\\frac{89}{30}$. Check with a number inside the solution set.",
+   "c": 33
+  },
+  {
+   "u": 1,
+   "q": "Solve: $3.9\\ge -(1x+2)-1.5x$",
+   "o": [
+    "$x\\ge -2.36$",
+    "$x\\le -2.36$",
+    "$x\\ge 2.36$",
+    "$x\\le 11.8$"
+   ],
+   "a": 0,
+   "e": "Distribute the negative: $3.9\\ge -2.5x-2$ after combining the $x$ terms. Isolate $x$: $-2.5x\\le 5.9$. Dividing by $-2.5$ (negative) flips the sign: $x\\ge -2.36$. Check with a number inside the solution set.",
+   "c": 33
+  },
+  {
+   "u": 1,
+   "q": "Solve: $6.3\\ge -(2.5x+2)-0.5x$",
+   "o": [
+    "$x\\le -\\frac{83}{30}$",
+    "$x\\ge -\\frac{83}{30}$",
+    "$x\\ge \\frac{83}{30}$",
+    "$x\\ge -4.15$"
+   ],
+   "a": 1,
+   "e": "Distribute the negative: $6.3\\ge -3x-2$ after combining the $x$ terms. Isolate $x$: $-3x\\le 8.3$. Dividing by $-3$ (negative) flips the sign: $x\\ge -\\frac{83}{30}$. Check with a number inside the solution set.",
+   "c": 33
+  },
+  {
+   "u": 1,
+   "q": "Solve: $3.9<-(4x+2)-1.5x$",
+   "o": [
+    "$x<-\\frac{59}{55}$",
+    "$x>-\\frac{59}{55}$",
+    "$x<\\frac{59}{55}$",
+    "$x<-2.36$"
+   ],
+   "a": 0,
+   "e": "Distribute the negative: $3.9<-5.5x-2$ after combining the $x$ terms. Isolate $x$: $-5.5x>5.9$. Dividing by $-5.5$ (negative) flips the sign: $x<-\\frac{59}{55}$. Check with a number inside the solution set.",
+   "c": 33
+  },
+  {
+   "u": 1,
+   "q": "Solve $6x+59<-12$ and choose the matching number-line graph.",
+   "o": [
+    "an open circle at $-\\frac{71}{6}$ with shading to the left",
+    "an open circle at $-\\frac{71}{6}$ with shading to the right",
+    "a closed circle at $-\\frac{71}{6}$ with shading to the left",
+    "an open circle at $\\frac{71}{6}$ with shading to the left"
+   ],
+   "a": 0,
+   "e": "Subtract $59$ and divide by $6$ to get $x<-\\frac{71}{6}$. A strict inequality uses an open circle and $\\le,\\ge$ use a closed circle; $>$ shades right and $<$ shades left.",
+   "c": 34
+  },
+  {
+   "u": 1,
+   "q": "Solve $6x-10<36$ and choose the matching number-line graph.",
+   "o": [
+    "an open circle at $\\frac{23}{3}$ with shading to the right",
+    "an open circle at $\\frac{23}{3}$ with shading to the left",
+    "a closed circle at $\\frac{23}{3}$ with shading to the left",
+    "an open circle at $-\\frac{23}{3}$ with shading to the left"
+   ],
+   "a": 1,
+   "e": "Add $10$ and divide by $6$ to get $x<\\frac{23}{3}$. A strict inequality uses an open circle and $\\le,\\ge$ use a closed circle; $>$ shades right and $<$ shades left.",
+   "c": 34
+  },
+  {
+   "u": 1,
+   "q": "Solve $6x+26>31$ and choose the matching number-line graph.",
+   "o": [
+    "an open circle at $\\frac{5}{6}$ with shading to the left",
+    "a closed circle at $\\frac{5}{6}$ with shading to the right",
+    "an open circle at $-\\frac{5}{6}$ with shading to the right",
+    "an open circle at $\\frac{5}{6}$ with shading to the right"
+   ],
+   "a": 3,
+   "e": "Subtract $26$ and divide by $6$ to get $x>\\frac{5}{6}$. A strict inequality uses an open circle and $\\le,\\ge$ use a closed circle; $>$ shades right and $<$ shades left.",
+   "c": 34
+  },
+  {
+   "u": 1,
+   "q": "Solve $2x-14<15$ and choose the matching number-line graph.",
+   "o": [
+    "an open circle at $\\frac{29}{2}$ with shading to the right",
+    "a closed circle at $\\frac{29}{2}$ with shading to the left",
+    "an open circle at $\\frac{29}{2}$ with shading to the left",
+    "an open circle at $-\\frac{29}{2}$ with shading to the left"
+   ],
+   "a": 2,
+   "e": "Add $14$ and divide by $2$ to get $x<\\frac{29}{2}$. A strict inequality uses an open circle and $\\le,\\ge$ use a closed circle; $>$ shades right and $<$ shades left.",
+   "c": 34
+  },
+  {
+   "u": 1,
+   "q": "Solve $-5x+50>33$ and choose the matching number-line graph.",
+   "o": [
+    "an open circle at $\\frac{17}{5}$ with shading to the right",
+    "a closed circle at $\\frac{17}{5}$ with shading to the left",
+    "an open circle at $-\\frac{17}{5}$ with shading to the left",
+    "an open circle at $\\frac{17}{5}$ with shading to the left"
+   ],
+   "a": 3,
+   "e": "Subtract $50$ and divide by $-5$ (flip the sign because $a<0$) to get $x<\\frac{17}{5}$. A strict inequality uses an open circle and $\\le,\\ge$ use a closed circle; $>$ shades right and $<$ shades left.",
+   "c": 34
+  },
+  {
+   "u": 1,
+   "q": "Solve $-4x+1<-21$ and choose the matching number-line graph.",
+   "o": [
+    "an open circle at $\\frac{11}{2}$ with shading to the left",
+    "a closed circle at $\\frac{11}{2}$ with shading to the right",
+    "an open circle at $\\frac{11}{2}$ with shading to the right",
+    "an open circle at $-\\frac{11}{2}$ with shading to the right"
+   ],
+   "a": 2,
+   "e": "Subtract $1$ and divide by $-4$ (flip the sign because $a<0$) to get $x>\\frac{11}{2}$. A strict inequality uses an open circle and $\\le,\\ge$ use a closed circle; $>$ shades right and $<$ shades left.",
+   "c": 34
+  },
+  {
+   "u": 1,
+   "q": "Solve the compound inequality: $-4<-4x-2\\le 6$",
+   "o": [
+    "$-1\\le x<\\frac{3}{2}$",
+    "$-2\\le x<\\frac{1}{2}$",
+    "$8\\le x<\\frac{1}{2}$",
+    "$-2\\le x<-2$"
+   ],
+   "a": 1,
+   "e": "Do the same operation to all three parts: add $2$, then divide by $-4$ and reverse both inequality signs (and the order of the endpoints) because ${a}$ is negative. Result: $-2\\le x<\\frac{1}{2}$.",
+   "c": 35
+  },
+  {
+   "u": 1,
+   "q": "Solve the compound inequality: $2\\le -4x+2<13$",
+   "o": [
+    "$-\\frac{11}{4}<x\\le 0$",
+    "$-\\frac{15}{4}<x\\le -1$",
+    "$11<x\\le 0$",
+    "$0\\le x<-\\frac{11}{4}$"
+   ],
+   "a": 0,
+   "e": "Do the same operation to all three parts: subtract $2$, then divide by $-4$ and reverse both inequality signs (and the order of the endpoints) because ${a}$ is negative. Result: $-\\frac{11}{4}<x\\le 0$.",
+   "c": 35
+  },
+  {
+   "u": 1,
+   "q": "Solve the compound inequality: $2\\le 2x-8\\le 8$",
+   "o": [
+    "$-3\\le x\\le 0$",
+    "$5\\le x\\le 16$",
+    "$10\\le x\\le 8$",
+    "$5\\le x\\le 8$"
+   ],
+   "a": 3,
+   "e": "Do the same operation to all three parts: add $8$, then divide by $2$. Result: $5\\le x\\le 8$.",
+   "c": 35
+  },
+  {
+   "u": 1,
+   "q": "Solve the compound inequality: $-5<4x-4<8$",
+   "o": [
+    "$-\\frac{9}{4}<x<1$",
+    "$-\\frac{1}{4}<x<12$",
+    "$-1<x<3$",
+    "$-\\frac{1}{4}<x<3$"
+   ],
+   "a": 3,
+   "e": "Do the same operation to all three parts: add $4$, then divide by $4$. Result: $-\\frac{1}{4}<x<3$.",
+   "c": 35
+  },
+  {
+   "u": 1,
+   "q": "Write the solution of $x>3 \\text{ and } x>7$ as a single inequality, or state if there is no solution or every real number works.",
+   "o": [
+    "$x>3$",
+    "$x>7$",
+    "$3<x<7$",
+    "no solution"
+   ],
+   "a": 1,
+   "e": "For AND, keep only values that satisfy both: x must be greater than 7 and so also greater than 3.",
+   "c": 35
+  },
+  {
+   "u": 1,
+   "q": "Write the solution of $x<2 \\text{ or } x<5$ as a single inequality, or state if there is no solution or every real number works.",
+   "o": [
+    "$x<2$",
+    "$2<x<5$",
+    "no solution",
+    "$x<5$"
+   ],
+   "a": 3,
+   "e": "For OR, take the union: everything below 5 already includes everything below 2.",
+   "c": 35
+  },
+  {
+   "u": 1,
+   "q": "Write the solution of $x\\ge3 \\text{ and } x\\le3$ as a single inequality, or state if there is no solution or every real number works.",
+   "o": [
+    "$x=3$",
+    "no solution",
+    "all real numbers",
+    "$x\\ne3$"
+   ],
+   "a": 0,
+   "e": "Both conditions are true only at x = 3.",
+   "c": 35
+  },
+  {
+   "u": 1,
+   "q": "Write the solution of $x\\le-3 \\text{ or } x\\ge5$ as a single inequality, or state if there is no solution or every real number works.",
+   "o": [
+    "$-3\\le x\\le5$",
+    "$5\\le x\\le-3$",
+    "$x\\le-3$ or $x\\ge5$",
+    "all real numbers"
+   ],
+   "a": 2,
+   "e": "The sets do not overlap, so the union stays as two separate pieces; it cannot be written as one inequality.",
+   "c": 35
+  },
+  {
+   "u": 1,
+   "q": "Expand: $(x+4)(x-3)(x-4)$",
+   "o": [
+    "$x^{3}-x^{2}-16x+48$",
+    "$x^{3}-3x^{2}-15x+48$",
+    "$x^{3}-3x^{2}-16x+48$",
+    "$x^{3}-3x^{2}-16x-48$"
+   ],
+   "a": 2,
+   "e": "Multiply two factors first: $(x+4)(x-3)=x^2+1x-12$. Then multiply that trinomial by $(x-4)$ and combine like terms: $x^{3}-3x^{2}-16x+48$.",
+   "c": 36
+  },
+  {
+   "u": 1,
+   "q": "Expand: $(x+1)(x+3)(x+2)$",
+   "o": [
+    "$x^{3}+6x^{2}+11x+6$",
+    "$x^{3}+2x^{2}+11x+6$",
+    "$x^{3}+6x^{2}+10x+6$",
+    "$x^{3}+6x^{2}+11x-6$"
+   ],
+   "a": 0,
+   "e": "Multiply two factors first: $(x+1)(x+3)=x^2+4x+3$. Then multiply that trinomial by $(x+2)$ and combine like terms: $x^{3}+6x^{2}+11x+6$.",
+   "c": 36
+  },
+  {
+   "u": 1,
+   "q": "Expand: $(x+2)(x-5)(x+5)$",
+   "o": [
+    "$x^{3}+2x^{2}-25x-50$",
+    "$x^{3}+3x^{2}-25x-50$",
+    "$x^{3}+2x^{2}-23x-50$",
+    "$x^{3}+2x^{2}-25x+50$"
+   ],
+   "a": 0,
+   "e": "Multiply two factors first: $(x+2)(x-5)=x^2-3x-10$. Then multiply that trinomial by $(x+5)$ and combine like terms: $x^{3}+2x^{2}-25x-50$.",
+   "c": 36
+  },
+  {
+   "u": 1,
+   "q": "Expand: $(x-4)(x+4)(x+2)$",
+   "o": [
+    "$x^{3}+4x^{2}-16x-32$",
+    "$x^{3}+2x^{2}-14x-32$",
+    "$x^{3}+2x^{2}-16x-32$",
+    "$x^{3}+2x^{2}-16x+32$"
+   ],
+   "a": 2,
+   "e": "Multiply two factors first: $(x-4)(x+4)=x^2+0x-16$. Then multiply that trinomial by $(x+2)$ and combine like terms: $x^{3}+2x^{2}-16x-32$.",
+   "c": 36
+  },
+  {
+   "u": 1,
+   "q": "Expand and write as a polynomial in standard form: $(2x^{3}+y^{4})^2$",
+   "o": [
+    "$4x^{6}+1y^{8}$",
+    "$4x^{6}-4x^{3}y^{4}+1y^{8}$",
+    "$4x^{6}+2x^{3}y^{4}+1y^{8}$",
+    "$4x^{6}+4x^{3}y^{4}+1y^{8}$"
+   ],
+   "a": 3,
+   "e": "Use $(p+q)^2=p^2+2pq+q^2$ with $p=2x^{3}$ and $q=y^{4}$. Square each part by multiplying exponents: $(2x^{3})^2=4x^{6}$, middle term $2pq=4x^{3}y^{4}$, last term $1y^{8}$. Never drop the middle term.",
+   "c": 37
+  },
+  {
+   "u": 1,
+   "q": "Expand and write as a polynomial in standard form: $(4x^{5}-3y^{4})^2$",
+   "o": [
+    "$16x^{10}+9y^{8}$",
+    "$16x^{10}+24x^{5}y^{4}+9y^{8}$",
+    "$16x^{10}-24x^{5}y^{4}+9y^{8}$",
+    "$16x^{10}-12x^{5}y^{4}+9y^{8}$"
+   ],
+   "a": 2,
+   "e": "Use $(p-q)^2=p^2-2pq+q^2$ with $p=4x^{5}$ and $q=3y^{4}$. Square each part by multiplying exponents: $(4x^{5})^2=16x^{10}$, middle term $2pq=24x^{5}y^{4}$, last term $9y^{8}$. Never drop the middle term.",
+   "c": 37
+  },
+  {
+   "u": 1,
+   "q": "Expand and write as a polynomial in standard form: $(2x^{2}-4y^{4})^2$",
+   "o": [
+    "$4x^{4}+16y^{8}$",
+    "$4x^{4}+16x^{2}y^{4}+16y^{8}$",
+    "$4x^{4}-8x^{2}y^{4}+16y^{8}$",
+    "$4x^{4}-16x^{2}y^{4}+16y^{8}$"
+   ],
+   "a": 3,
+   "e": "Use $(p-q)^2=p^2-2pq+q^2$ with $p=2x^{2}$ and $q=4y^{4}$. Square each part by multiplying exponents: $(2x^{2})^2=4x^{4}$, middle term $2pq=16x^{2}y^{4}$, last term $16y^{8}$. Never drop the middle term.",
+   "c": 37
+  },
+  {
+   "u": 1,
+   "q": "Expand and write as a polynomial in standard form: $(5x^{4}+4y^{2})^2$",
+   "o": [
+    "$25x^{8}+16y^{4}$",
+    "$25x^{8}-40x^{4}y^{2}+16y^{4}$",
+    "$25x^{8}+20x^{4}y^{2}+16y^{4}$",
+    "$25x^{8}+40x^{4}y^{2}+16y^{4}$"
+   ],
+   "a": 3,
+   "e": "Use $(p+q)^2=p^2+2pq+q^2$ with $p=5x^{4}$ and $q=4y^{2}$. Square each part by multiplying exponents: $(5x^{4})^2=25x^{8}$, middle term $2pq=40x^{4}y^{2}$, last term $16y^{4}$. Never drop the middle term.",
+   "c": 37
+  },
+  {
+   "u": 1,
+   "q": "Expand and write as a polynomial in standard form: $(2x^{3}-4y^{3})^2$",
+   "o": [
+    "$4x^{6}+16y^{6}$",
+    "$4x^{6}+16x^{3}y^{3}+16y^{6}$",
+    "$4x^{6}-8x^{3}y^{3}+16y^{6}$",
+    "$4x^{6}-16x^{3}y^{3}+16y^{6}$"
+   ],
+   "a": 3,
+   "e": "Use $(p-q)^2=p^2-2pq+q^2$ with $p=2x^{3}$ and $q=4y^{3}$. Square each part by multiplying exponents: $(2x^{3})^2=4x^{6}$, middle term $2pq=16x^{3}y^{3}$, last term $16y^{6}$. Never drop the middle term.",
+   "c": 37
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $36x^{7}y^{7}z^{2}+8x^{6}y^{6}z^{6}$",
+   "o": [
+    "$4x^{6}y^{6}z^{2}(9xy-2z^{4})$",
+    "$4x^{6}y^{6}z^{2}(9xy+2z^{4})$",
+    "$x^{6}y^{6}z^{2}(36xy+8z^{4})$",
+    "$4x^{7}y^{7}z^{3}(9xy+2z^{4})$"
+   ],
+   "a": 1,
+   "e": "GCF of the coefficients: 4. For each variable take the smaller exponent: $x^{6}$, $y^{6}$, $z^{2}$. So the GCF is $4x^{6}y^{6}z^{2}$. Divide each term by it to get the parentheses, then check by multiplying back.",
+   "c": 38
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $12x^{4}y^{6}z^{3}+27x^{7}y^{8}z^{5}$",
+   "o": [
+    "$3x^{4}y^{6}z^{3}(4+9x^{3}y^{2}z^{2})$",
+    "$3x^{4}y^{6}z^{3}(4-9x^{3}y^{2}z^{2})$",
+    "$x^{4}y^{6}z^{3}(12+27x^{3}y^{2}z^{2})$",
+    "$3x^{5}y^{7}z^{4}(4+9x^{3}y^{2}z^{2})$"
+   ],
+   "a": 0,
+   "e": "GCF of the coefficients: 3. For each variable take the smaller exponent: $x^{4}$, $y^{6}$, $z^{3}$. So the GCF is $3x^{4}y^{6}z^{3}$. Divide each term by it to get the parentheses, then check by multiplying back.",
+   "c": 38
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $30x^{3}y^{8}z^{5}+9x^{5}y^{8}z^{3}$",
+   "o": [
+    "$3x^{3}y^{8}z^{3}(10z^{2}-3x^{2})$",
+    "$3x^{3}y^{8}z^{3}(10z^{2}+3x^{2})$",
+    "$x^{3}y^{8}z^{3}(30z^{2}+9x^{2})$",
+    "$3x^{4}y^{9}z^{4}(10z^{2}+3x^{2})$"
+   ],
+   "a": 1,
+   "e": "GCF of the coefficients: 3. For each variable take the smaller exponent: $x^{3}$, $y^{8}$, $z^{3}$. So the GCF is $3x^{3}y^{8}z^{3}$. Divide each term by it to get the parentheses, then check by multiplying back.",
+   "c": 38
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $48x^{2}y^{6}z^{4}+9x^{4}y^{7}z$",
+   "o": [
+    "$3x^{2}y^{6}z(16z^{3}-3x^{2}y)$",
+    "$3x^{2}y^{6}z(16z^{3}+3x^{2}y)$",
+    "$x^{2}y^{6}z(48z^{3}+9x^{2}y)$",
+    "$3x^{3}y^{7}z^{2}(16z^{3}+3x^{2}y)$"
+   ],
+   "a": 1,
+   "e": "GCF of the coefficients: 3. For each variable take the smaller exponent: $x^{2}$, $y^{6}$, $z^{1}$. So the GCF is $3x^{2}y^{6}z$. Divide each term by it to get the parentheses, then check by multiplying back.",
+   "c": 38
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $30x^{4}y^{6}z^{5}+18x^{2}y^{3}z$",
+   "o": [
+    "$6x^{2}y^{3}z(5x^{2}y^{3}z^{4}+3)$",
+    "$6x^{2}y^{3}z(5x^{2}y^{3}z^{4}-3)$",
+    "$x^{2}y^{3}z(30x^{2}y^{3}z^{4}+18)$",
+    "$6x^{3}y^{4}z^{2}(5x^{2}y^{3}z^{4}+3)$"
+   ],
+   "a": 0,
+   "e": "GCF of the coefficients: 6. For each variable take the smaller exponent: $x^{2}$, $y^{3}$, $z^{1}$. So the GCF is $6x^{2}y^{3}z$. Divide each term by it to get the parentheses, then check by multiplying back.",
+   "c": 38
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $12x^{8}y^{4}z^{5}-36x^{6}y^{4}z^{2}$",
+   "o": [
+    "$12x^{6}y^{4}z^{2}(x^{2}z^{3}+3)$",
+    "$x^{6}y^{4}z^{2}(12x^{2}z^{3}-36)$",
+    "$12x^{7}y^{5}z^{3}(x^{2}z^{3}-3)$",
+    "$12x^{6}y^{4}z^{2}(x^{2}z^{3}-3)$"
+   ],
+   "a": 3,
+   "e": "GCF of the coefficients: 12. For each variable take the smaller exponent: $x^{6}$, $y^{4}$, $z^{2}$. So the GCF is $12x^{6}y^{4}z^{2}$. Divide each term by it to get the parentheses, then check by multiplying back.",
+   "c": 38
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $48x^{8}y^{8}z^{2}-36x^{7}y^{8}z^{2}$",
+   "o": [
+    "$12x^{7}y^{8}z^{2}(4x+3)$",
+    "$x^{7}y^{8}z^{2}(48x-36)$",
+    "$12x^{7}y^{8}z^{2}(4x-3)$",
+    "$12x^{8}y^{9}z^{3}(4x-3)$"
+   ],
+   "a": 2,
+   "e": "GCF of the coefficients: 12. For each variable take the smaller exponent: $x^{7}$, $y^{8}$, $z^{2}$. So the GCF is $12x^{7}y^{8}z^{2}$. Divide each term by it to get the parentheses, then check by multiplying back.",
+   "c": 38
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $36x^{2}y^{7}z^{4}-40x^{8}y^{3}z^{2}$",
+   "o": [
+    "$4x^{2}y^{3}z^{2}(9y^{4}z^{2}+10x^{6})$",
+    "$x^{2}y^{3}z^{2}(36y^{4}z^{2}-40x^{6})$",
+    "$4x^{2}y^{3}z^{2}(9y^{4}z^{2}-10x^{6})$",
+    "$4x^{3}y^{4}z^{3}(9y^{4}z^{2}-10x^{6})$"
+   ],
+   "a": 2,
+   "e": "GCF of the coefficients: 4. For each variable take the smaller exponent: $x^{2}$, $y^{3}$, $z^{2}$. So the GCF is $4x^{2}y^{3}z^{2}$. Divide each term by it to get the parentheses, then check by multiplying back.",
+   "c": 38
+  },
+  {
+   "u": 1,
+   "q": "Find all roots (real and non-real): $x^3-5x^2+6x=0$",
+   "o": [
+    "$x=0,\\ 2,\\ 3$",
+    "$x=2,\\ 3$",
+    "$x=0,\\ -2,\\ -3$",
+    "$x=0,\\ 5,\\ 6$"
+   ],
+   "a": 0,
+   "e": "Factor out $x$: $x(x^2-5x+6)=x(x-2)(x-3)=0$. Dividing by $x$ would lose the root $x=0$.",
+   "c": 39
+  },
+  {
+   "u": 1,
+   "q": "Find all roots (real and non-real): $x^3+4x^2-9x-36=0$",
+   "o": [
+    "$x=4,\\ 3,\\ -3$",
+    "$x=-4,\\ 3,\\ -3$",
+    "$x=-4,\\ 9$",
+    "$x=-4,\\ 3$"
+   ],
+   "a": 1,
+   "e": "Group: $x^2(x+4)-9(x+4)=(x+4)(x^2-9)=(x+4)(x-3)(x+3)$.",
+   "c": 39
+  },
+  {
+   "u": 1,
+   "q": "Find all roots (real and non-real): $2x^3-8x=0$",
+   "o": [
+    "$x=2,\\ -2$",
+    "$x=0,\\ 2,\\ -2$",
+    "$x=0,\\ 4,\\ -4$",
+    "$x=0,\\ 2$"
+   ],
+   "a": 1,
+   "e": "GCF $2x$: $2x(x^2-4)=2x(x-2)(x+2)=0$.",
+   "c": 39
+  },
+  {
+   "u": 1,
+   "q": "Find all roots (real and non-real): $x^3-3x^2-4x+12=0$",
+   "o": [
+    "$x=3,\\ 2,\\ -2$",
+    "$x=-3,\\ 2,\\ -2$",
+    "$x=3,\\ 4$",
+    "$x=3,\\ 2$"
+   ],
+   "a": 0,
+   "e": "Group: $x^2(x-3)-4(x-3)=(x-3)(x^2-4)=(x-3)(x-2)(x+2)$.",
+   "c": 39
+  },
+  {
+   "u": 1,
+   "q": "Find all roots (real and non-real): $x^3+x^2-16x-16=0$",
+   "o": [
+    "$x=1,\\ 4,\\ -4$",
+    "$x=-1,\\ 16$",
+    "$x=-1,\\ 4$",
+    "$x=-1,\\ 4,\\ -4$"
+   ],
+   "a": 3,
+   "e": "Group: $x^2(x+1)-16(x+1)=(x+1)(x^2-16)=(x+1)(x-4)(x+4)$.",
+   "c": 39
+  },
+  {
+   "u": 1,
+   "q": "Find all roots (real and non-real): $x^3-4x^2-x+4=0$",
+   "o": [
+    "$x=4,\\ 1,\\ -1$",
+    "$x=-4,\\ 1,\\ -1$",
+    "$x=4,\\ 1$",
+    "$x=4,\\ 2,\\ -2$"
+   ],
+   "a": 0,
+   "e": "Group: $x^2(x-4)-1(x-4)=(x-4)(x^2-1)=(x-4)(x-1)(x+1)$.",
+   "c": 39
   }
  ],
  "hardQuiz": [
@@ -12417,6 +13381,903 @@
    "a": 0,
    "e": "Treat it as a quadratic in $x^2$: $(x^2-1)(x^2-16)$. Each factor is a difference of squares, so factor again.",
    "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Solve for $d$ and write the answer in simplest form: $-2+5(6d+2)<-5d+9$",
+   "o": [
+    "$d>\\frac{1}{35}$",
+    "$d<\\frac{9}{35}$",
+    "$d<\\frac{1}{35}$",
+    "$d<-\\frac{1}{35}$"
+   ],
+   "a": 2,
+   "e": "Distribute the $5$: $-2+30d+10$ (combine the constants: $30d+8$). Collect the $d$ terms on one side and the numbers on the other: $35d<1$. Divide by $35$. Solution: $d<\\frac{1}{35}$.",
+   "c": 32
+  },
+  {
+   "u": 1,
+   "q": "Solve for $d$ and write the answer in simplest form: $-4-4(-3d-3)<-3d+6-2$",
+   "o": [
+    "$d<-\\frac{4}{15}$",
+    "$d>-\\frac{4}{15}$",
+    "$d<\\frac{11}{15}$",
+    "$d<\\frac{4}{15}$"
+   ],
+   "a": 0,
+   "e": "Distribute the $-4$: $-4+12d+12$ (combine the constants: $12d+8$). Collect the $d$ terms on one side and the numbers on the other: $15d<-4$. Divide by $15$. Solution: $d<-\\frac{4}{15}$.",
+   "c": 32
+  },
+  {
+   "u": 1,
+   "q": "Solve for $d$ and write the answer in simplest form: $5-4(4d)<-5d+1-8$",
+   "o": [
+    "$d<\\frac{12}{11}$",
+    "$d>-\\frac{12}{11}$",
+    "$d>\\frac{12}{11}$",
+    "$d>\\frac{4}{7}$"
+   ],
+   "a": 2,
+   "e": "Distribute the $-4$: $5-16d$ (combine the constants: $-16d+5$). Collect the $d$ terms on one side and the numbers on the other: $-11d<-12$. Divide by $-11$ and flip the inequality because -11 is negative. Solution: $d>\\frac{12}{11}$.",
+   "c": 32
+  },
+  {
+   "u": 1,
+   "q": "Solve for $d$ and write the answer in simplest form: $2+4(6d-2)\\le -2d+6-3$",
+   "o": [
+    "$d\\le \\frac{9}{26}$",
+    "$d\\ge \\frac{9}{26}$",
+    "$d\\le \\frac{3}{26}$",
+    "$d\\le -\\frac{9}{26}$"
+   ],
+   "a": 0,
+   "e": "Distribute the $4$: $2+24d-8$ (combine the constants: $24d-6$). Collect the $d$ terms on one side and the numbers on the other: $26d\\le 9$. Divide by $26$. Solution: $d\\le \\frac{9}{26}$.",
+   "c": 32
+  },
+  {
+   "u": 1,
+   "q": "Solve for $d$ and write the answer in simplest form: $2-4(6d+7)>-3d-8$",
+   "o": [
+    "$d>-\\frac{6}{7}$",
+    "$d<\\frac{17}{21}$",
+    "$d<\\frac{6}{7}$",
+    "$d<-\\frac{6}{7}$"
+   ],
+   "a": 3,
+   "e": "Distribute the $-4$: $2-24d-28$ (combine the constants: $-24d-26$). Collect the $d$ terms on one side and the numbers on the other: $-21d>18$. Divide by $-21$ and flip the inequality because -21 is negative. Solution: $d<-\\frac{6}{7}$.",
+   "c": 32
+  },
+  {
+   "u": 1,
+   "q": "Solve: $-\\frac{1}{3}x<4(x-1)-1$",
+   "o": [
+    "$x>\\frac{15}{13}$",
+    "$x<\\frac{15}{13}$",
+    "$x<-\\frac{15}{11}$",
+    "$x>\\frac{12}{13}$"
+   ],
+   "a": 0,
+   "e": "Multiply out the right side: $4x-4-1$. Move the $x$ terms: $\\left(-\\frac{1}{3}-4\\right)x<-5$, i.e. $-\\frac{13}{3}x<-5$. Divide by $-\\frac{13}{3}$ and flip the sign because it is negative. So $x>\\frac{15}{13}$. (Clearing the fractions first with the LCD gives the same answer.)",
+   "c": 33
+  },
+  {
+   "u": 1,
+   "q": "Solve: $-\\frac{1}{4}x\\ge -3(x-1)+4$",
+   "o": [
+    "$x\\ge \\frac{28}{11}$",
+    "$x\\le \\frac{28}{11}$",
+    "$x\\le -\\frac{28}{13}$",
+    "$x\\ge \\frac{12}{11}$"
+   ],
+   "a": 0,
+   "e": "Multiply out the right side: $-3x+3+4$. Move the $x$ terms: $\\left(-\\frac{1}{4}-(-3)\\right)x\\ge 7$, i.e. $\\frac{11}{4}x\\ge 7$. Divide by $\\frac{11}{4}$. So $x\\ge \\frac{28}{11}$. (Clearing the fractions first with the LCD gives the same answer.)",
+   "c": 33
+  },
+  {
+   "u": 1,
+   "q": "Solve: $-\\frac{5}{4}x\\ge -2(x-1)+8$",
+   "o": [
+    "$x\\le \\frac{40}{3}$",
+    "$x\\le -\\frac{40}{13}$",
+    "$x\\ge \\frac{8}{3}$",
+    "$x\\ge \\frac{40}{3}$"
+   ],
+   "a": 3,
+   "e": "Multiply out the right side: $-2x+2+8$. Move the $x$ terms: $\\left(-\\frac{5}{4}-(-2)\\right)x\\ge 10$, i.e. $\\frac{3}{4}x\\ge 10$. Divide by $\\frac{3}{4}$. So $x\\ge \\frac{40}{3}$. (Clearing the fractions first with the LCD gives the same answer.)",
+   "c": 33
+  },
+  {
+   "u": 1,
+   "q": "Solve: $-\\frac{7}{3}x\\le -3(x+2)+1$",
+   "o": [
+    "$x\\le -\\frac{15}{2}$",
+    "$x\\ge -\\frac{15}{2}$",
+    "$x\\ge \\frac{15}{16}$",
+    "$x\\le -9$"
+   ],
+   "a": 0,
+   "e": "Multiply out the right side: $-3x-6+1$. Move the $x$ terms: $\\left(-\\frac{7}{3}-(-3)\\right)x\\le -5$, i.e. $\\frac{2}{3}x\\le -5$. Divide by $\\frac{2}{3}$. So $x\\le -\\frac{15}{2}$. (Clearing the fractions first with the LCD gives the same answer.)",
+   "c": 33
+  },
+  {
+   "u": 1,
+   "q": "Solve: $1.7>-(3.5x+3)-2x$",
+   "o": [
+    "$x<-\\frac{47}{55}$",
+    "$x>-\\frac{47}{55}$",
+    "$x>\\frac{47}{55}$",
+    "$x>-\\frac{47}{15}$"
+   ],
+   "a": 1,
+   "e": "Distribute the negative: $1.7>-5.5x-3$ after combining the $x$ terms. Isolate $x$: $-5.5x<4.7$. Dividing by $-5.5$ (negative) flips the sign: $x>-\\frac{47}{55}$. Check with a number inside the solution set.",
+   "c": 33
+  },
+  {
+   "u": 1,
+   "q": "Solve: $1.7<-(2.5x+6)-3x$",
+   "o": [
+    "$x>-1.4$",
+    "$x<-1.4$",
+    "$x<1.4$",
+    "$x>15.4$"
+   ],
+   "a": 1,
+   "e": "Distribute the negative: $1.7<-5.5x-6$ after combining the $x$ terms. Isolate $x$: $-5.5x>7.7$. Dividing by $-5.5$ (negative) flips the sign: $x<-1.4$. Check with a number inside the solution set.",
+   "c": 33
+  },
+  {
+   "u": 1,
+   "q": "Solve: $2.1<-(2x+3)-0.5x$",
+   "o": [
+    "$x>-2.04$",
+    "$x<2.04$",
+    "$x<-2.04$",
+    "$x<-3.4$"
+   ],
+   "a": 2,
+   "e": "Distribute the negative: $2.1<-2.5x-3$ after combining the $x$ terms. Isolate $x$: $-2.5x>5.1$. Dividing by $-2.5$ (negative) flips the sign: $x<-2.04$. Check with a number inside the solution set.",
+   "c": 33
+  },
+  {
+   "u": 1,
+   "q": "Solve $-2x+29>2$ and choose the matching number-line graph.",
+   "o": [
+    "an open circle at $\\frac{27}{2}$ with shading to the left",
+    "an open circle at $\\frac{27}{2}$ with shading to the right",
+    "a closed circle at $\\frac{27}{2}$ with shading to the left",
+    "an open circle at $-\\frac{27}{2}$ with shading to the left"
+   ],
+   "a": 0,
+   "e": "Subtract $29$ and divide by $-2$ (flip the sign because $a<0$) to get $x<\\frac{27}{2}$. A strict inequality uses an open circle and $\\le,\\ge$ use a closed circle; $>$ shades right and $<$ shades left.",
+   "c": 34
+  },
+  {
+   "u": 1,
+   "q": "Solve $2x+30<-52$ and choose the matching number-line graph.",
+   "o": [
+    "an open circle at $-41$ with shading to the right",
+    "a closed circle at $-41$ with shading to the left",
+    "an open circle at $41$ with shading to the left",
+    "an open circle at $-41$ with shading to the left"
+   ],
+   "a": 3,
+   "e": "Subtract $30$ and divide by $2$ to get $x<-41$. A strict inequality uses an open circle and $\\le,\\ge$ use a closed circle; $>$ shades right and $<$ shades left.",
+   "c": 34
+  },
+  {
+   "u": 1,
+   "q": "Solve $6x<31$ and choose the matching number-line graph.",
+   "o": [
+    "an open circle at $\\frac{31}{6}$ with shading to the right",
+    "a closed circle at $\\frac{31}{6}$ with shading to the left",
+    "an open circle at $-\\frac{31}{6}$ with shading to the left",
+    "an open circle at $\\frac{31}{6}$ with shading to the left"
+   ],
+   "a": 3,
+   "e": "Subtract $0$ and divide by $6$ to get $x<\\frac{31}{6}$. A strict inequality uses an open circle and $\\le,\\ge$ use a closed circle; $>$ shades right and $<$ shades left.",
+   "c": 34
+  },
+  {
+   "u": 1,
+   "q": "Solve $4x+11<58$ and choose the matching number-line graph.",
+   "o": [
+    "an open circle at $\\frac{47}{4}$ with shading to the right",
+    "a closed circle at $\\frac{47}{4}$ with shading to the left",
+    "an open circle at $\\frac{47}{4}$ with shading to the left",
+    "an open circle at $-\\frac{47}{4}$ with shading to the left"
+   ],
+   "a": 2,
+   "e": "Subtract $11$ and divide by $4$ to get $x<\\frac{47}{4}$. A strict inequality uses an open circle and $\\le,\\ge$ use a closed circle; $>$ shades right and $<$ shades left.",
+   "c": 34
+  },
+  {
+   "u": 1,
+   "q": "Solve the compound inequality: $-5\\le 2x-9<3$",
+   "o": [
+    "$-7\\le x<-3$",
+    "$2\\le x<6$",
+    "$2\\le x<12$",
+    "$4\\le x<6$"
+   ],
+   "a": 1,
+   "e": "Do the same operation to all three parts: add $9$, then divide by $2$. Result: $2\\le x<6$.",
+   "c": 35
+  },
+  {
+   "u": 1,
+   "q": "Solve the compound inequality: $-14<4x-4\\le -1$",
+   "o": [
+    "$-\\frac{9}{2}<x\\le -\\frac{5}{4}$",
+    "$-\\frac{5}{2}<x\\le \\frac{3}{4}$",
+    "$-\\frac{5}{2}<x\\le 3$",
+    "$-10<x\\le \\frac{3}{4}$"
+   ],
+   "a": 1,
+   "e": "Do the same operation to all three parts: add $4$, then divide by $4$. Result: $-\\frac{5}{2}<x\\le \\frac{3}{4}$.",
+   "c": 35
+  },
+  {
+   "u": 1,
+   "q": "Solve the compound inequality: $-14<4x+3<-4$",
+   "o": [
+    "$-\\frac{11}{4}<x<-\\frac{1}{4}$",
+    "$-\\frac{17}{4}<x<-7$",
+    "$-\\frac{17}{4}<x<-\\frac{7}{4}$",
+    "$-17<x<-\\frac{7}{4}$"
+   ],
+   "a": 2,
+   "e": "Do the same operation to all three parts: subtract $3$, then divide by $4$. Result: $-\\frac{17}{4}<x<-\\frac{7}{4}$.",
+   "c": 35
+  },
+  {
+   "u": 1,
+   "q": "Solve the compound inequality: $-11\\le 3x-4\\le 2$",
+   "o": [
+    "$-5\\le x\\le -\\frac{2}{3}$",
+    "$-\\frac{7}{3}\\le x\\le 6$",
+    "$-\\frac{7}{3}\\le x\\le 2$",
+    "$-7\\le x\\le 2$"
+   ],
+   "a": 2,
+   "e": "Do the same operation to all three parts: add $4$, then divide by $3$. Result: $-\\frac{7}{3}\\le x\\le 2$.",
+   "c": 35
+  },
+  {
+   "u": 1,
+   "q": "Solve: $4x-1\\le4$ or $-5x-8\\ge-1$",
+   "o": [
+    "no solution",
+    "all real numbers",
+    "$x\\le\\frac{5}{4}$",
+    "$x\\le-\\frac{7}{5}$ or $x\\ge\\frac{5}{4}$"
+   ],
+   "a": 2,
+   "e": "Solve each piece: the first gives $x\\le\\frac{5}{4}$ and the second gives $x\\le -\\frac{7}{5}$. For an OR statement take the union of the two solution sets and simplify if one set contains the other. Answer: $x\\le\\frac{5}{4}$.",
+   "c": 35
+  },
+  {
+   "u": 1,
+   "q": "Solve: $x\\le5$ or $2x+3\\ge8$",
+   "o": [
+    "all real numbers",
+    "no solution",
+    "$x\\le\\frac{5}{2}$ or $x\\ge5$",
+    "$5\\le x\\ge \\frac{5}{2}$"
+   ],
+   "a": 0,
+   "e": "Solve each piece: the first gives $x\\le5$ and the second gives $x\\ge \\frac{5}{2}$. For an OR statement take the union of the two solution sets and simplify if one set contains the other. Answer: all real numbers.",
+   "c": 35
+  },
+  {
+   "u": 1,
+   "q": "Solve: $x\\le-3$ or $3x-3\\ge4$",
+   "o": [
+    "$x\\le-3$ or $x\\ge \\frac{7}{3}$",
+    "no solution",
+    "all real numbers",
+    "$x\\le\\frac{7}{3}$ or $x\\ge-3$"
+   ],
+   "a": 0,
+   "e": "Solve each piece: the first gives $x\\le-3$ and the second gives $x\\ge \\frac{7}{3}$. For an OR statement take the union of the two solution sets and simplify if one set contains the other. Answer: $x\\le-3$ or $x\\ge \\frac{7}{3}$.",
+   "c": 35
+  },
+  {
+   "u": 1,
+   "q": "Solve: $x-3\\le0$ or $-3x-6\\ge-1$",
+   "o": [
+    "no solution",
+    "all real numbers",
+    "$x\\le-\\frac{5}{3}$ or $x\\ge3$",
+    "$x\\le3$"
+   ],
+   "a": 3,
+   "e": "Solve each piece: the first gives $x\\le3$ and the second gives $x\\le -\\frac{5}{3}$. For an OR statement take the union of the two solution sets and simplify if one set contains the other. Answer: $x\\le3$.",
+   "c": 35
+  },
+  {
+   "u": 1,
+   "q": "Solve: $3x+5\\le-6$ or $-2x+7\\ge-1$",
+   "o": [
+    "no solution",
+    "$x\\le 4$",
+    "all real numbers",
+    "$x\\le4$ or $x\\ge-\\frac{11}{3}$"
+   ],
+   "a": 1,
+   "e": "Solve each piece: the first gives $x\\le-\\frac{11}{3}$ and the second gives $x\\le 4$. For an OR statement take the union of the two solution sets and simplify if one set contains the other. Answer: $x\\le 4$.",
+   "c": 35
+  },
+  {
+   "u": 1,
+   "q": "Solve: $2x+6\\le-6$ or $-5x+5\\ge6$",
+   "o": [
+    "no solution",
+    "all real numbers",
+    "$x\\le -\\frac{1}{5}$",
+    "$x\\le-\\frac{1}{5}$ or $x\\ge-6$"
+   ],
+   "a": 2,
+   "e": "Solve each piece: the first gives $x\\le-6$ and the second gives $x\\le -\\frac{1}{5}$. For an OR statement take the union of the two solution sets and simplify if one set contains the other. Answer: $x\\le -\\frac{1}{5}$.",
+   "c": 35
+  },
+  {
+   "u": 1,
+   "q": "Write the solution of $x<-1 \\text{ and } x>4$ as a single inequality, or state if there is no solution or every real number works.",
+   "o": [
+    "$-1<x<4$",
+    "$x<-1$",
+    "all real numbers",
+    "no solution"
+   ],
+   "a": 3,
+   "e": "No number is both less than −1 and greater than 4, so the solution set is empty (∅).",
+   "c": 35
+  },
+  {
+   "u": 1,
+   "q": "Write the solution of $x>1 \\text{ or } x<4$ as a single inequality, or state if there is no solution or every real number works.",
+   "o": [
+    "all real numbers",
+    "$1<x<4$",
+    "$x>4$",
+    "no solution"
+   ],
+   "a": 0,
+   "e": "The two rays overlap, and together they cover the entire number line.",
+   "c": 35
+  },
+  {
+   "u": 1,
+   "q": "Write the solution of $x<4 \\text{ and } x\\ge-2$ as a single inequality, or state if there is no solution or every real number works.",
+   "o": [
+    "$x<4$ or $x\\ge-2$",
+    "$-2<x\\le4$",
+    "$-2\\le x<4$",
+    "$x\\le-2$ or $x>4$"
+   ],
+   "a": 2,
+   "e": "Overlap of the two sets: from −2 (included) up to 4 (not included).",
+   "c": 35
+  },
+  {
+   "u": 1,
+   "q": "Write the solution of $2x>8 \\text{ and } x-3<10$ as a single inequality, or state if there is no solution or every real number works.",
+   "o": [
+    "$x>4$ or $x<13$",
+    "$x>13$",
+    "$4<x<13$",
+    "$x<4$"
+   ],
+   "a": 2,
+   "e": "Solve each: x > 4 and x < 13. AND means both, so 4 < x < 13.",
+   "c": 35
+  },
+  {
+   "u": 1,
+   "q": "Expand and write in standard form: $(-x^{2}-3x-5)(-2x^{2}-x-6)$",
+   "o": [
+    "$2x^{4}+5x^{3}+19x^{2}+23x+30$",
+    "$2x^{4}+7x^{3}+20x^{2}+23x+30$",
+    "$2x^{4}+7x^{3}+19x^{2}+27x+30$",
+    "$2x^{4}+7x^{3}+19x^{2}+23x+30$"
+   ],
+   "a": 3,
+   "e": "Distribute each term of the first trinomial across the second (or use a 3×3 table), then combine like terms: $2x^{4}+7x^{3}+19x^{2}+23x+30$. The $x^2$ and $x$ coefficients each collect three products.",
+   "c": 36
+  },
+  {
+   "u": 1,
+   "q": "Expand and write in standard form: $(-x^{2}+4x+3)(x^{2}-4x+5)$",
+   "o": [
+    "$-x^{4}+12x^{3}-18x^{2}+8x+15$",
+    "$-x^{4}+8x^{3}-20x^{2}+8x+15$",
+    "$-x^{4}+8x^{3}-18x^{2}+12x+15$",
+    "$-x^{4}+8x^{3}-18x^{2}+8x+15$"
+   ],
+   "a": 3,
+   "e": "Distribute each term of the first trinomial across the second (or use a 3×3 table), then combine like terms: $-x^{4}+8x^{3}-18x^{2}+8x+15$. The $x^2$ and $x$ coefficients each collect three products.",
+   "c": 36
+  },
+  {
+   "u": 1,
+   "q": "Expand and write in standard form: $(x^{2}-2x-2)(3x^{2}-4x-6)$",
+   "o": [
+    "$3x^{4}-10x^{3}-4x^{2}+20x+12$",
+    "$3x^{4}-11x^{3}-4x^{2}+20x+12$",
+    "$3x^{4}-10x^{3}-2x^{2}+20x+12$",
+    "$3x^{4}-10x^{3}-4x^{2}+22x+12$"
+   ],
+   "a": 0,
+   "e": "Distribute each term of the first trinomial across the second (or use a 3×3 table), then combine like terms: $3x^{4}-10x^{3}-4x^{2}+20x+12$. The $x^2$ and $x$ coefficients each collect three products.",
+   "c": 36
+  },
+  {
+   "u": 1,
+   "q": "Expand and write in standard form: $(-3x^{2}+2x-5)(2x^{2}-x+3)$",
+   "o": [
+    "$-6x^{4}+7x^{3}-21x^{2}+11x-15$",
+    "$-6x^{4}+8x^{3}-21x^{2}+11x-15$",
+    "$-6x^{4}+7x^{3}-23x^{2}+11x-15$",
+    "$-6x^{4}+7x^{3}-21x^{2}+13x-15$"
+   ],
+   "a": 0,
+   "e": "Distribute each term of the first trinomial across the second (or use a 3×3 table), then combine like terms: $-6x^{4}+7x^{3}-21x^{2}+11x-15$. The $x^2$ and $x$ coefficients each collect three products.",
+   "c": 36
+  },
+  {
+   "u": 1,
+   "q": "Expand and write in standard form: $(-3x^{2}+4x+3)(3x^{2}-4x+5)$",
+   "o": [
+    "$-9x^{4}+25x^{3}-22x^{2}+8x+15$",
+    "$-9x^{4}+24x^{3}-26x^{2}+8x+15$",
+    "$-9x^{4}+24x^{3}-22x^{2}+8x+15$",
+    "$-9x^{4}+24x^{3}-22x^{2}+9x+15$"
+   ],
+   "a": 2,
+   "e": "Distribute each term of the first trinomial across the second (or use a 3×3 table), then combine like terms: $-9x^{4}+24x^{3}-22x^{2}+8x+15$. The $x^2$ and $x$ coefficients each collect three products.",
+   "c": 36
+  },
+  {
+   "u": 1,
+   "q": "Expand and write in standard form: $(-3x^{2}-x-5)(3x^{2}-x-4)$",
+   "o": [
+    "$-9x^{4}+4x^{3}-2x^{2}+9x+20$",
+    "$-9x^{4}+9x+20$",
+    "$-9x^{4}-2x^{2}+5x+20$",
+    "$-9x^{4}-2x^{2}+9x+20$"
+   ],
+   "a": 3,
+   "e": "Distribute each term of the first trinomial across the second (or use a 3×3 table), then combine like terms: $-9x^{4}-2x^{2}+9x+20$. The $x^2$ and $x$ coefficients each collect three products.",
+   "c": 36
+  },
+  {
+   "u": 1,
+   "q": "Expand and write in standard form: $(3x^{2}-2x+2)(3x^{2}-x+3)$",
+   "o": [
+    "$9x^{4}-9x^{3}+17x^{2}-8x+6$",
+    "$9x^{4}-11x^{3}+17x^{2}-8x+6$",
+    "$9x^{4}-9x^{3}+15x^{2}-8x+6$",
+    "$9x^{4}-9x^{3}+17x^{2}-12x+6$"
+   ],
+   "a": 0,
+   "e": "Distribute each term of the first trinomial across the second (or use a 3×3 table), then combine like terms: $9x^{4}-9x^{3}+17x^{2}-8x+6$. The $x^2$ and $x$ coefficients each collect three products.",
+   "c": 36
+  },
+  {
+   "u": 1,
+   "q": "Expand and write in standard form: $(-3x^{2}-5x-7)(3x^{2}-3x-3)$",
+   "o": [
+    "$-9x^{4}-6x^{3}+3x^{2}+36x+21$",
+    "$-9x^{4}-4x^{3}+3x^{2}+36x+21$",
+    "$-9x^{4}-6x^{3}+5x^{2}+36x+21$",
+    "$-9x^{4}-6x^{3}+3x^{2}+40x+21$"
+   ],
+   "a": 0,
+   "e": "Distribute each term of the first trinomial across the second (or use a 3×3 table), then combine like terms: $-9x^{4}-6x^{3}+3x^{2}+36x+21$. The $x^2$ and $x$ coefficients each collect three products.",
+   "c": 36
+  },
+  {
+   "u": 1,
+   "q": "Expand and write in standard form: $(-2x^{2}-2x+2)(-3x^{2}+4x+5)$",
+   "o": [
+    "$6x^{4}-24x^{2}-2x+10$",
+    "$6x^{4}-2x^{3}-20x^{2}-2x+10$",
+    "$6x^{4}-2x^{3}-24x^{2}-2x+10$",
+    "$6x^{4}-2x^{3}-24x^{2}-x+10$"
+   ],
+   "a": 2,
+   "e": "Distribute each term of the first trinomial across the second (or use a 3×3 table), then combine like terms: $6x^{4}-2x^{3}-24x^{2}-2x+10$. The $x^2$ and $x$ coefficients each collect three products.",
+   "c": 36
+  },
+  {
+   "u": 1,
+   "q": "Expand and write in standard form: $(-3x^{2}+4x-7)(2x^{2}+4x+2)$",
+   "o": [
+    "$-6x^{4}-2x^{3}-4x^{2}-20x-14$",
+    "$-6x^{4}-4x^{3}-2x^{2}-20x-14$",
+    "$-6x^{4}-4x^{3}-4x^{2}-18x-14$",
+    "$-6x^{4}-4x^{3}-4x^{2}-20x-14$"
+   ],
+   "a": 3,
+   "e": "Distribute each term of the first trinomial across the second (or use a 3×3 table), then combine like terms: $-6x^{4}-4x^{3}-4x^{2}-20x-14$. The $x^2$ and $x$ coefficients each collect three products.",
+   "c": 36
+  },
+  {
+   "u": 1,
+   "q": "Expand and write in standard form: $(-3x^{2}+x+3)(-2x^{2}-4x-3)$",
+   "o": [
+    "$6x^{4}+11x^{3}-x^{2}-15x-9$",
+    "$6x^{4}+10x^{3}+x^{2}-15x-9$",
+    "$6x^{4}+10x^{3}-x^{2}-15x-9$",
+    "$6x^{4}+10x^{3}-x^{2}-19x-9$"
+   ],
+   "a": 2,
+   "e": "Distribute each term of the first trinomial across the second (or use a 3×3 table), then combine like terms: $6x^{4}+10x^{3}-x^{2}-15x-9$. The $x^2$ and $x$ coefficients each collect three products.",
+   "c": 36
+  },
+  {
+   "u": 1,
+   "q": "Expand and write in standard form: $(-x^{2}+4x+7)(2x^{2}+4x-4)$",
+   "o": [
+    "$-2x^{4}+3x^{3}+34x^{2}+12x-28$",
+    "$-2x^{4}+4x^{3}+33x^{2}+12x-28$",
+    "$-2x^{4}+4x^{3}+34x^{2}+13x-28$",
+    "$-2x^{4}+4x^{3}+34x^{2}+12x-28$"
+   ],
+   "a": 3,
+   "e": "Distribute each term of the first trinomial across the second (or use a 3×3 table), then combine like terms: $-2x^{4}+4x^{3}+34x^{2}+12x-28$. The $x^2$ and $x$ coefficients each collect three products.",
+   "c": 36
+  },
+  {
+   "u": 1,
+   "q": "Expand and write in standard form: $(-x^{2}-2x+3)(3x^{2}-x-3)$",
+   "o": [
+    "$-3x^{4}-3x^{3}+14x^{2}+3x-9$",
+    "$-3x^{4}-5x^{3}+18x^{2}+3x-9$",
+    "$-3x^{4}-5x^{3}+14x^{2}+3x-9$",
+    "$-3x^{4}-5x^{3}+14x^{2}+2x-9$"
+   ],
+   "a": 2,
+   "e": "Distribute each term of the first trinomial across the second (or use a 3×3 table), then combine like terms: $-3x^{4}-5x^{3}+14x^{2}+3x-9$. The $x^2$ and $x$ coefficients each collect three products.",
+   "c": 36
+  },
+  {
+   "u": 1,
+   "q": "Expand and write in standard form: $(2x^{2}+x-5)(2x^{2}-4x+2)$",
+   "o": [
+    "$4x^{4}-6x^{3}-10x^{2}+22x-10$",
+    "$4x^{4}-8x^{3}-10x^{2}+22x-10$",
+    "$4x^{4}-6x^{3}-11x^{2}+22x-10$",
+    "$4x^{4}-6x^{3}-10x^{2}+26x-10$"
+   ],
+   "a": 0,
+   "e": "Distribute each term of the first trinomial across the second (or use a 3×3 table), then combine like terms: $4x^{4}-6x^{3}-10x^{2}+22x-10$. The $x^2$ and $x$ coefficients each collect three products.",
+   "c": 36
+  },
+  {
+   "u": 1,
+   "q": "Expand: $(x+3)(x+5)(x+3)$",
+   "o": [
+    "$x^{3}+9x^{2}+39x+45$",
+    "$x^{3}+11x^{2}+40x+45$",
+    "$x^{3}+11x^{2}+39x-45$",
+    "$x^{3}+11x^{2}+39x+45$"
+   ],
+   "a": 3,
+   "e": "Multiply two factors first: $(x+3)(x+5)=x^2+8x+15$. Then multiply that trinomial by $(x+3)$ and combine like terms: $x^{3}+11x^{2}+39x+45$.",
+   "c": 36
+  },
+  {
+   "u": 1,
+   "q": "Expand: $(x-2)(x-5)(x+3)$",
+   "o": [
+    "$x^{3}-2x^{2}-11x+30$",
+    "$x^{3}-4x^{2}-11x+30$",
+    "$x^{3}-4x^{2}-7x+30$",
+    "$x^{3}-4x^{2}-11x-30$"
+   ],
+   "a": 1,
+   "e": "Multiply two factors first: $(x-2)(x-5)=x^2-7x+10$. Then multiply that trinomial by $(x+3)$ and combine like terms: $x^{3}-4x^{2}-11x+30$.",
+   "c": 36
+  },
+  {
+   "u": 1,
+   "q": "Expand: $(x-3)(x+3)(x-2)$",
+   "o": [
+    "$x^{3}-3x^{2}-9x+18$",
+    "$x^{3}-2x^{2}-7x+18$",
+    "$x^{3}-2x^{2}-9x-18$",
+    "$x^{3}-2x^{2}-9x+18$"
+   ],
+   "a": 3,
+   "e": "Multiply two factors first: $(x-3)(x+3)=x^2+0x-9$. Then multiply that trinomial by $(x-2)$ and combine like terms: $x^{3}-2x^{2}-9x+18$.",
+   "c": 36
+  },
+  {
+   "u": 1,
+   "q": "Expand: $(x-1)(x+1)(x-3)$",
+   "o": [
+    "$x^{3}+x^{2}-x+3$",
+    "$x^{3}-3x^{2}-x+3$",
+    "$x^{3}-3x^{2}+3x+3$",
+    "$x^{3}-3x^{2}-x-3$"
+   ],
+   "a": 1,
+   "e": "Multiply two factors first: $(x-1)(x+1)=x^2+0x-1$. Then multiply that trinomial by $(x-3)$ and combine like terms: $x^{3}-3x^{2}-x+3$.",
+   "c": 36
+  },
+  {
+   "u": 1,
+   "q": "Expand: $(3x-3)^3$",
+   "o": [
+    "$27x^{3}-27$",
+    "$27x^{3}-81x^{2}+81x-27$",
+    "$27x^{3}-81x^{2}-81x-27$",
+    "$27x^{3}-27x^{2}+81x-27$"
+   ],
+   "a": 1,
+   "e": "Write $(ax+b)^3$ as $(ax+b)(ax+b)^2$. First square: $(3x-3)^2=9x^{2}-18x+9$. Then multiply by $(3x-3)$: $27x^{3}-81x^{2}+81x-27$. Remember $(a+b)^3\\ne a^3+b^3$.",
+   "c": 36
+  },
+  {
+   "u": 1,
+   "q": "Expand: $(2x+2)^3$",
+   "o": [
+    "$8x^{3}+8$",
+    "$8x^{3}+24x^{2}+24x+8$",
+    "$8x^{3}+24x^{2}-24x+8$",
+    "$8x^{3}+8x^{2}+24x+8$"
+   ],
+   "a": 1,
+   "e": "Write $(ax+b)^3$ as $(ax+b)(ax+b)^2$. First square: $(2x+2)^2=4x^{2}+8x+4$. Then multiply by $(2x+2)$: $8x^{3}+24x^{2}+24x+8$. Remember $(a+b)^3\\ne a^3+b^3$.",
+   "c": 36
+  },
+  {
+   "u": 1,
+   "q": "Expand: $(3x-2)^3$",
+   "o": [
+    "$27x^{3}-8$",
+    "$27x^{3}-54x^{2}-36x-8$",
+    "$27x^{3}-18x^{2}+36x-8$",
+    "$27x^{3}-54x^{2}+36x-8$"
+   ],
+   "a": 3,
+   "e": "Write $(ax+b)^3$ as $(ax+b)(ax+b)^2$. First square: $(3x-2)^2=9x^{2}-12x+4$. Then multiply by $(3x-2)$: $27x^{3}-54x^{2}+36x-8$. Remember $(a+b)^3\\ne a^3+b^3$.",
+   "c": 36
+  },
+  {
+   "u": 1,
+   "q": "Expand: $(3x-4)^3$",
+   "o": [
+    "$27x^{3}-64$",
+    "$27x^{3}-108x^{2}-144x-64$",
+    "$27x^{3}-36x^{2}+144x-64$",
+    "$27x^{3}-108x^{2}+144x-64$"
+   ],
+   "a": 3,
+   "e": "Write $(ax+b)^3$ as $(ax+b)(ax+b)^2$. First square: $(3x-4)^2=9x^{2}-24x+16$. Then multiply by $(3x-4)$: $27x^{3}-108x^{2}+144x-64$. Remember $(a+b)^3\\ne a^3+b^3$.",
+   "c": 36
+  },
+  {
+   "u": 1,
+   "q": "Expand: $(x+4)^3$",
+   "o": [
+    "$x^{3}+12x^{2}+48x+64$",
+    "$x^{3}+64$",
+    "$x^{3}+12x^{2}-48x+64$",
+    "$x^{3}+4x^{2}+48x+64$"
+   ],
+   "a": 0,
+   "e": "Write $(ax+b)^3$ as $(ax+b)(ax+b)^2$. First square: $(x+4)^2=x^{2}+8x+16$. Then multiply by $(x+4)$: $x^{3}+12x^{2}+48x+64$. Remember $(a+b)^3\\ne a^3+b^3$.",
+   "c": 36
+  },
+  {
+   "u": 1,
+   "q": "Expand and write as a polynomial in standard form: $(x^{5}-y^{2})^2$",
+   "o": [
+    "$x^{10}+1y^{4}$",
+    "$x^{10}-2x^{5}y^{2}+1y^{4}$",
+    "$x^{10}+2x^{5}y^{2}+1y^{4}$",
+    "$x^{10}-1x^{5}y^{2}+1y^{4}$"
+   ],
+   "a": 1,
+   "e": "Use $(p-q)^2=p^2-2pq+q^2$ with $p=x^{5}$ and $q=y^{2}$. Square each part by multiplying exponents: $(x^{5})^2=x^{10}$, middle term $2pq=2x^{5}y^{2}$, last term $1y^{4}$. Never drop the middle term.",
+   "c": 37
+  },
+  {
+   "u": 1,
+   "q": "Expand and write as a polynomial in standard form: $(4x^{3}+4y^{5})^2$",
+   "o": [
+    "$16x^{6}+16y^{10}$",
+    "$16x^{6}-32x^{3}y^{5}+16y^{10}$",
+    "$16x^{6}+16x^{3}y^{5}+16y^{10}$",
+    "$16x^{6}+32x^{3}y^{5}+16y^{10}$"
+   ],
+   "a": 3,
+   "e": "Use $(p+q)^2=p^2+2pq+q^2$ with $p=4x^{3}$ and $q=4y^{5}$. Square each part by multiplying exponents: $(4x^{3})^2=16x^{6}$, middle term $2pq=32x^{3}y^{5}$, last term $16y^{10}$. Never drop the middle term.",
+   "c": 37
+  },
+  {
+   "u": 1,
+   "q": "Expand and write as a polynomial in standard form: $(2x^{5}+4y^{5})^2$",
+   "o": [
+    "$4x^{10}+16y^{10}$",
+    "$4x^{10}+16x^{5}y^{5}+16y^{10}$",
+    "$4x^{10}-16x^{5}y^{5}+16y^{10}$",
+    "$4x^{10}+8x^{5}y^{5}+16y^{10}$"
+   ],
+   "a": 1,
+   "e": "Use $(p+q)^2=p^2+2pq+q^2$ with $p=2x^{5}$ and $q=4y^{5}$. Square each part by multiplying exponents: $(2x^{5})^2=4x^{10}$, middle term $2pq=16x^{5}y^{5}$, last term $16y^{10}$. Never drop the middle term.",
+   "c": 37
+  },
+  {
+   "u": 1,
+   "q": "Expand and write as a polynomial in standard form: $(4x^{2}-4y^{2})^2$",
+   "o": [
+    "$16x^{4}+16y^{4}$",
+    "$16x^{4}+32x^{2}y^{2}+16y^{4}$",
+    "$16x^{4}-32x^{2}y^{2}+16y^{4}$",
+    "$16x^{4}-16x^{2}y^{2}+16y^{4}$"
+   ],
+   "a": 2,
+   "e": "Use $(p-q)^2=p^2-2pq+q^2$ with $p=4x^{2}$ and $q=4y^{2}$. Square each part by multiplying exponents: $(4x^{2})^2=16x^{4}$, middle term $2pq=32x^{2}y^{2}$, last term $16y^{4}$. Never drop the middle term.",
+   "c": 37
+  },
+  {
+   "u": 1,
+   "q": "Expand and write as a polynomial in standard form: $(4x^{3}-y^{5})^2$",
+   "o": [
+    "$16x^{6}+1y^{10}$",
+    "$16x^{6}+8x^{3}y^{5}+1y^{10}$",
+    "$16x^{6}-8x^{3}y^{5}+1y^{10}$",
+    "$16x^{6}-4x^{3}y^{5}+1y^{10}$"
+   ],
+   "a": 2,
+   "e": "Use $(p-q)^2=p^2-2pq+q^2$ with $p=4x^{3}$ and $q=y^{5}$. Square each part by multiplying exponents: $(4x^{3})^2=16x^{6}$, middle term $2pq=8x^{3}y^{5}$, last term $1y^{10}$. Never drop the middle term.",
+   "c": 37
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $48x^{6}y^{7}z^{3}+40x^{3}y^{3}z^{7}$",
+   "o": [
+    "$8x^{3}y^{3}z^{3}(6x^{3}y^{4}-5z^{4})$",
+    "$8x^{3}y^{3}z^{3}(6x^{3}y^{4}+5z^{4})$",
+    "$x^{3}y^{3}z^{3}(48x^{3}y^{4}+40z^{4})$",
+    "$8x^{4}y^{4}z^{4}(6x^{3}y^{4}+5z^{4})$"
+   ],
+   "a": 1,
+   "e": "GCF of the coefficients: 8. For each variable take the smaller exponent: $x^{3}$, $y^{3}$, $z^{3}$. So the GCF is $8x^{3}y^{3}z^{3}$. Divide each term by it to get the parentheses, then check by multiplying back.",
+   "c": 38
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $30x^{5}y^{4}z-20x^{3}y^{5}z^{5}$",
+   "o": [
+    "$10x^{3}y^{4}z(3x^{2}+2yz^{4})$",
+    "$10x^{3}y^{4}z(3x^{2}-2yz^{4})$",
+    "$x^{3}y^{4}z(30x^{2}-20yz^{4})$",
+    "$10x^{4}y^{5}z^{2}(3x^{2}-2yz^{4})$"
+   ],
+   "a": 1,
+   "e": "GCF of the coefficients: 10. For each variable take the smaller exponent: $x^{3}$, $y^{4}$, $z^{1}$. So the GCF is $10x^{3}y^{4}z$. Divide each term by it to get the parentheses, then check by multiplying back.",
+   "c": 38
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $30x^{2}y^{4}z^{4}+15x^{5}y^{5}z^{4}$",
+   "o": [
+    "$15x^{2}y^{4}z^{4}(2-x^{3}y)$",
+    "$15x^{2}y^{4}z^{4}(2+x^{3}y)$",
+    "$x^{2}y^{4}z^{4}(30+15x^{3}y)$",
+    "$15x^{3}y^{5}z^{5}(2+x^{3}y)$"
+   ],
+   "a": 1,
+   "e": "GCF of the coefficients: 15. For each variable take the smaller exponent: $x^{2}$, $y^{4}$, $z^{4}$. So the GCF is $15x^{2}y^{4}z^{4}$. Divide each term by it to get the parentheses, then check by multiplying back.",
+   "c": 38
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $18x^{2}y^{5}z^{5}-9x^{6}y^{2}z^{6}$",
+   "o": [
+    "$9x^{2}y^{2}z^{5}(2y^{3}+x^{4}z)$",
+    "$9x^{2}y^{2}z^{5}(2y^{3}-x^{4}z)$",
+    "$x^{2}y^{2}z^{5}(18y^{3}-9x^{4}z)$",
+    "$9x^{3}y^{3}z^{6}(2y^{3}-x^{4}z)$"
+   ],
+   "a": 1,
+   "e": "GCF of the coefficients: 9. For each variable take the smaller exponent: $x^{2}$, $y^{2}$, $z^{5}$. So the GCF is $9x^{2}y^{2}z^{5}$. Divide each term by it to get the parentheses, then check by multiplying back.",
+   "c": 38
+  },
+  {
+   "u": 1,
+   "q": "Find all roots (real and non-real): $x^3-2x^2+9x-18=0$",
+   "o": [
+    "$x=2,\\ 3,\\ -3$",
+    "$x=2$ only",
+    "$x=-2,\\ 3i,\\ -3i$",
+    "$x=2,\\ 3i,\\ -3i$"
+   ],
+   "a": 3,
+   "e": "Group: $x^2(x-2)+9(x-2)=(x-2)(x^2+9)$. Then $x^2=-9$ gives $x=\\pm3i$.",
+   "c": 39
+  },
+  {
+   "u": 1,
+   "q": "Find all roots (real and non-real): $x^3+27=0$",
+   "o": [
+    "$x=-3$ only",
+    "$x=3,\\ \\dfrac{-3\\pm3i\\sqrt3}{2}$",
+    "$x=-3,\\ \\dfrac{3\\pm3i\\sqrt3}{2}$",
+    "$x=-3,\\ \\dfrac{-3\\pm3i\\sqrt3}{2}$"
+   ],
+   "a": 2,
+   "e": "Sum of cubes: $(x+3)(x^2-3x+9)=0$. The quadratic formula gives $x=\\frac{3\\pm\\sqrt{-27}}{2}=\\frac{3\\pm3i\\sqrt3}{2}$.",
+   "c": 39
+  },
+  {
+   "u": 1,
+   "q": "Find all roots (real and non-real): $x^3-8=0$",
+   "o": [
+    "$x=2$ only",
+    "$x=-2,\\ 1\\pm i\\sqrt3$",
+    "$x=2,\\ -1\\pm i\\sqrt3$",
+    "$x=2,\\ 1\\pm i\\sqrt3$"
+   ],
+   "a": 2,
+   "e": "Difference of cubes: $(x-2)(x^2+2x+4)=0$. The quadratic gives $x=\\frac{-2\\pm\\sqrt{-12}}{2}=-1\\pm i\\sqrt3$.",
+   "c": 39
+  },
+  {
+   "u": 1,
+   "q": "Find all roots (real and non-real): $3x^3+12x^2+12x=0$",
+   "o": [
+    "$x=0,\\ 2$ (double root)",
+    "$x=-2$ only",
+    "$x=0,\\ -2,\\ 2$",
+    "$x=0,\\ -2$ (double root)"
+   ],
+   "a": 3,
+   "e": "GCF $3x$: $3x(x^2+4x+4)=3x(x+2)^2=0$. The factor $(x+2)^2$ makes $-2$ a double root.",
+   "c": 39
+  },
+  {
+   "u": 1,
+   "q": "Find all roots (real and non-real): $x^3-6x^2+11x-6=0$",
+   "o": [
+    "$x=-1,\\ -2,\\ -3$",
+    "$x=1,\\ 6$",
+    "$x=1,\\ 2,\\ 6$",
+    "$x=1,\\ 2,\\ 3$"
+   ],
+   "a": 3,
+   "e": "Try $x=1$: $1-6+11-6=0$, so $(x-1)$ is a factor. Divide: $x^3-6x^2+11x-6=(x-1)(x^2-5x+6)=(x-1)(x-2)(x-3)$.",
+   "c": 39
+  },
+  {
+   "u": 1,
+   "q": "Find all roots (real and non-real): $x^3+2x^2-5x-6=0$",
+   "o": [
+    "$x=-2,\\ 1,\\ 3$",
+    "$x=2,\\ 3$",
+    "$x=-1,\\ 6$",
+    "$x=2,\\ -1,\\ -3$"
+   ],
+   "a": 3,
+   "e": "Test $x=2$: $8+8-10-6=0$. So $(x-2)$ is a factor: $(x-2)(x^2+4x+3)=(x-2)(x+1)(x+3)$.",
+   "c": 39
+  },
+  {
+   "u": 1,
+   "q": "Find all roots (real and non-real): $8x^3-27=0$",
+   "o": [
+    "$x=\\dfrac23,\\ \\dfrac{-2\\pm2i\\sqrt3}{3}$",
+    "$x=\\dfrac32,\\ \\dfrac{-3\\pm3i\\sqrt3}{4}$",
+    "$x=-\\dfrac32,\\ \\dfrac{3\\pm3i\\sqrt3}{4}$",
+    "$x=\\dfrac32,\\ \\dfrac{3\\pm3i\\sqrt3}{4}$"
+   ],
+   "a": 1,
+   "e": "Difference of cubes with $a=2x,b=3$: $(2x-3)(4x^2+6x+9)=0$. Then $x=\\frac32$ and $x=\\frac{-6\\pm\\sqrt{-108}}{8}=\\frac{-3\\pm3i\\sqrt3}{4}$.",
+   "c": 39
   }
  ],
  "workedExamples": [
@@ -12854,6 +14715,68 @@
     "P = A / (1 + rt)"
    ],
    "answer": "P = A / (1 + rt)"
+  },
+  {
+   "u": 1,
+   "title": "Level 2 Linear Inequality with a Flip",
+   "prompt": "Solve 4 − 3(x + 2) ≤ 2x − 17 and graph the solution",
+   "steps": [
+    "Distribute: 4 − 3x − 6 ≤ 2x − 17",
+    "Combine: −3x − 2 ≤ 2x − 17",
+    "Subtract 2x: −5x − 2 ≤ −17",
+    "Add 2: −5x ≤ −15",
+    "Divide by −5 and FLIP the sign: x ≥ 3",
+    "Graph: closed circle at 3, shade right. Interval: [3, ∞)"
+   ],
+   "answer": "x ≥ 3"
+  },
+  {
+   "u": 1,
+   "title": "Compound Inequality with a Negative Coefficient",
+   "prompt": "Solve −8 < −2x + 4 ≤ 6",
+   "steps": [
+    "Subtract 4 from all three parts: −12 < −2x ≤ 2",
+    "Divide all parts by −2 and reverse BOTH signs: 6 > x ≥ −1",
+    "Write in increasing order: −1 ≤ x < 6",
+    "Graph: closed circle at −1, open circle at 6, shade between. Interval: [−1, 6)"
+   ],
+   "answer": "−1 ≤ x < 6"
+  },
+  {
+   "u": 1,
+   "title": "Multiplying a Trinomial by a Trinomial",
+   "prompt": "Expand (x² + 2x − 3)(x² − x + 4)",
+   "steps": [
+    "x²·(x² − x + 4) = x⁴ − x³ + 4x²",
+    "2x·(x² − x + 4) = 2x³ − 2x² + 8x",
+    "−3·(x² − x + 4) = −3x² + 3x − 12",
+    "Add and combine like terms: x⁴ + x³ − x² + 11x − 12"
+   ],
+   "answer": "x⁴ + x³ − x² + 11x − 12"
+  },
+  {
+   "u": 1,
+   "title": "Factoring Out a Multivariable GCF",
+   "prompt": "Factor completely: 18x⁶y⁸z³ − 27x⁴y⁴z⁶",
+   "steps": [
+    "GCF of 18 and 27 is 9",
+    "Smallest exponents: x⁴, y⁴, z³",
+    "GCF = 9x⁴y⁴z³",
+    "Divide: 18x⁶y⁸z³ ÷ 9x⁴y⁴z³ = 2x²y⁴ and 27x⁴y⁴z⁶ ÷ 9x⁴y⁴z³ = 3z³"
+   ],
+   "answer": "9x⁴y⁴z³(2x²y⁴ − 3z³)"
+  },
+  {
+   "u": 1,
+   "title": "Solving a Cubic with a Trial Root",
+   "prompt": "Find all roots of x³ − 7x + 6 = 0",
+   "steps": [
+    "Test factors of 6: x = 1 gives 1 − 7 + 6 = 0, so (x − 1) is a factor",
+    "Divide: x³ − 7x + 6 = (x − 1)(x² + x − 6)",
+    "Factor the quadratic: (x − 1)(x − 2)(x + 3)",
+    "Set each factor to zero"
+   ],
+   "answer": "x = 1, 2, −3"
   }
  ],
  "examParts": {

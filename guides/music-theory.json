@@ -633,24 +633,24 @@
    "u": 1,
    "q": "Where does middle C sit on the grand staff?",
    "o": [
-    "On the first ledger line between the treble and bass staves",
-    "On the top line of the treble staff",
-    "On the bottom line of the bass staff",
-    "In the third space of the treble staff"
+    "On the top ledger line above the treble staff, far above the staves",
+    "On the middle line of the bass staff, directly below the treble staff",
+    "On the second line of the treble staff, where the G clef curls",
+    "On the first ledger line between the treble and bass staves"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Middle C sits on the first ledger line below the treble staff and the first ledger line above the bass staff."
   },
   {
    "u": 1,
    "q": "What is a ledger line?",
    "o": [
-    "A short extra line added above or below the staff for pitches outside its range",
-    "A line that separates measures",
-    "A symbol indicating repeat",
-    "A line used only in bass clef"
+    "A vertical line drawn through the staff to divide the music into equal measures",
+    "A curved line joining two notes of the same pitch to extend one sound",
+    "A short line added to the staff only when writing for the bass clef",
+    "A short extra line added above or below the staff for pitches outside its range"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Ledger lines extend the staff's range up or down for notes that fall outside the five lines.",
    "c": 0
   },
@@ -671,12 +671,12 @@
    "u": 1,
    "q": "As you move from one line to the adjacent space, how does the note name change?",
    "o": [
-    "It moves to the next letter name in the musical alphabet",
-    "It repeats the same letter",
-    "It skips two letter names",
-    "It becomes a sharp"
+    "It stays on the same letter name but gains a sharp or flat as it rises",
+    "It skips ahead two letter names in the musical alphabet each time",
+    "It moves back to the previous letter only when the clef changes",
+    "It moves to the next letter name in the musical alphabet"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Consecutive note names alternate line-space-line as you move up or down the staff.",
    "c": 3
   },
@@ -710,12 +710,12 @@
    "u": 1,
    "q": "What does an accidental do to a note?",
    "o": [
-    "Temporarily raises or lowers its pitch by a half step or more within a measure",
-    "Changes its rhythmic duration",
-    "Moves it to a different staff",
-    "Changes the tempo"
+    "Permanently changes its rhythmic value by a half beat or more for the whole piece",
+    "Moves it into a different octave register for the rest of the movement",
+    "Slows or speeds the tempo by a small amount for a few beats afterward",
+    "Temporarily raises or lowers its pitch by a half step or more within a measure"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Accidentals (sharp, flat, natural, double sharp, double flat) alter pitch for the remainder of the measure unless tied.",
    "c": 4
   },
@@ -723,12 +723,12 @@
    "u": 1,
    "q": "What does a natural sign do?",
    "o": [
+    "Raises a note by a half step and holds the change for the rest of the piece",
+    "Lowers a note by a half step and holds the change through the key signature",
     "Cancels a previous sharp or flat, returning the note to its unaltered pitch",
-    "Raises a note by a whole step",
-    "Lowers a note by a whole step",
-    "Indicates a rest"
+    "Marks a short silence in the measure where the note would normally sound"
    ],
-   "a": 0,
+   "a": 2,
    "e": "A natural sign cancels any active sharp or flat, restoring the note's letter-name pitch.",
    "c": 4
   },
@@ -736,12 +736,12 @@
    "u": 1,
    "q": "What is enharmonic equivalence?",
    "o": [
-    "Two different note names that sound the same pitch, like C# and Db",
-    "Two notes that are a perfect fifth apart",
-    "Two clefs that read the same staff",
-    "Two rhythms with the same duration"
+    "Two notes with different pitches that sit a perfect fifth apart on the staff",
+    "Two clefs that place the same note names on different lines of the staff",
+    "Two rhythmic values that share one duration, like a dotted quarter and a tied pair",
+    "Two different note names that sound the same pitch, like C# and Db"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Enharmonic notes share the same sounding pitch but are spelled differently depending on context."
   },
   {
@@ -772,12 +772,12 @@
    "u": 1,
    "q": "What is the purpose of a clef at the start of a staff?",
    "o": [
+    "It sets the speed of the piece, telling the performer how fast to play each beat",
     "It fixes the pitch identity of one staff line, determining all other pitches",
-    "It sets the tempo",
-    "It indicates the key signature",
-    "It marks the end of a piece"
+    "It lists the sharps or flats that apply to the key of the piece throughout",
+    "It shows how many beats fill each measure and which note gets the beat"
    ],
-   "a": 0,
+   "a": 1,
    "e": "A clef anchors one line to a specific pitch, from which every other line and space is determined."
   },
   {
@@ -811,9 +811,9 @@
    "q": "What octave register does the alto clef center on relative to the staff?",
    "o": [
     "It fixes middle C on the center line of the staff",
-    "It fixes G4 on the second line",
-    "It fixes F3 on the fourth line",
-    "It has no fixed pitch"
+    "It places G4 on the second line of the staff, curling around that line",
+    "It places F3 on the fourth line of the staff, between the two dots",
+    "It places middle C on the top line of the staff, as in tenor parts"
    ],
    "a": 0,
    "e": "The alto (C) clef centers middle C on the middle staff line, commonly used for viola."
@@ -884,12 +884,12 @@
    "u": 2,
    "q": "What is the effect of a dot placed after a note?",
    "o": [
-    "It adds half the note's original value to its duration",
-    "It doubles the note's duration",
-    "It cuts the note's duration in half",
-    "It silences the note"
+    "It doubles the note's original value, so a dotted quarter equals a half note",
+    "It reduces the note's original value by half, making the sound shorter and crisper",
+    "It tells the performer to detach the note and play it staccato",
+    "It adds half the note's original value to its duration"
    ],
-   "a": 0,
+   "a": 3,
    "e": "A dot increases a note's duration by half of its original value (e.g., a dotted quarter = quarter + eighth).",
    "c": 0
   },
@@ -935,9 +935,9 @@
    "q": "What does a tie between two notes of the same pitch do?",
    "o": [
     "Combines their durations into one continuous sound",
-    "Creates a new pitch between them",
-    "Silences the second note",
-    "Adds an accent"
+    "Raises the second note by a half step to create a smooth gliding sound",
+    "Makes the second note quieter while keeping both notes sounding separately",
+    "Marks both notes to be played louder as an emphasis on the beat"
    ],
    "a": 0,
    "e": "A tie joins two notes of identical pitch across beats or measures into a single sustained duration.",
@@ -947,12 +947,12 @@
    "u": 2,
    "q": "What does a slur indicate to performers?",
    "o": [
+    "Notes should be played short and detached, with space between each one",
+    "Notes should be played louder at the start and then die away quickly",
     "Notes should be played smoothly connected (legato)",
-    "Notes should be accented",
-    "Notes should be played staccato",
-    "Notes should be repeated"
+    "Notes should be played at a gradually slower speed through the phrase"
    ],
-   "a": 0,
+   "a": 2,
    "e": "A slur is a curved line over notes of different pitches indicating smooth, connected phrasing.",
    "c": 4
   },
@@ -960,12 +960,12 @@
    "u": 2,
    "q": "What is syncopation?",
    "o": [
+    "Emphasis placed on the strong downbeat so every beat sounds perfectly even",
     "Emphasis placed on normally weak beats or off-beats",
-    "Playing exactly on the beat at all times",
-    "A type of key signature",
-    "A tempo marking meaning slow"
+    "A pattern of gradually speeding up the tempo across a phrase or section",
+    "A marking telling the performer to hold a note beyond its written length"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Syncopation shifts rhythmic emphasis away from the expected strong beats, creating rhythmic tension.",
    "c": 4
   },
@@ -1010,12 +1010,12 @@
    "u": 2,
    "q": "What is the function of a metronome marking such as quarter note = 120?",
    "o": [
-    "It specifies tempo as 120 quarter-note beats per minute",
-    "It specifies the key signature",
-    "It specifies the number of measures",
-    "It specifies dynamics"
+    "It specifies the loudness as 120 on a scale from very soft to very loud",
+    "It specifies the number of quarter-note beats in each measure as 120",
+    "It specifies a speed of 120 measures per minute across the whole piece",
+    "It specifies tempo as 120 quarter-note beats per minute"
    ],
-   "a": 0,
+   "a": 3,
    "e": "A metronome marking gives an exact tempo, here 120 quarter-note beats per minute.",
    "c": 3
   },
@@ -1023,12 +1023,12 @@
    "u": 2,
    "q": "What does 'anacrusis' (pickup note) refer to?",
    "o": [
+    "The last few notes after the final full measure, closing out the piece",
     "One or more notes before the first full measure of a piece",
-    "The final note of a piece",
-    "A rest at the end of a phrase",
-    "A repeated section"
+    "A pause or rest placed in the middle of a piece before a new section",
+    "A section of music that returns after a contrasting middle section"
    ],
-   "a": 0,
+   "a": 1,
    "e": "An anacrusis, or pickup, is an incomplete measure of notes leading into the first downbeat.",
    "c": 4
   },
@@ -1036,12 +1036,12 @@
    "u": 2,
    "q": "What is a triplet?",
    "o": [
+    "Three notes played in the time of four of the same value, like a quadruplet",
+    "Three chords grouped together to form a short progression in a measure",
     "Three notes played in the time normally occupied by two of the same value",
-    "Three measures grouped together",
-    "A chord of three notes",
-    "A three-beat rest"
+    "Three different pitches played together at once to form a simple triad"
    ],
-   "a": 0,
+   "a": 2,
    "e": "A triplet squeezes three equal notes into the duration a simple meter would normally give two."
   },
   {
@@ -1062,9 +1062,9 @@
    "q": "What defines a downbeat?",
    "o": [
     "The first, typically strongest beat of a measure",
-    "The last beat of a measure",
-    "Any off-beat accent",
-    "A rest at the start of a phrase"
+    "The weakest, unaccented beat that falls just before the next measure begins",
+    "The beat where a pickup note is placed before the first bar line",
+    "The beat that falls between two main pulses, sometimes called the off-beat"
    ],
    "a": 0,
    "e": "The downbeat is the first and usually most emphasized beat in a measure.",
@@ -1075,9 +1075,9 @@
    "q": "What is polyrhythm?",
    "o": [
     "The simultaneous use of two or more conflicting rhythmic patterns",
-    "A rhythm played only by percussion",
-    "A rhythm with no time signature",
-    "A slow, free rhythm"
+    "Two or more melodies played in succession, each one following the previous",
+    "The repetition of a single steady beat pattern throughout every measure",
+    "A rhythm that changes time signature at every bar line in the piece"
    ],
    "a": 0,
    "e": "Polyrhythm layers contrasting rhythmic groupings (e.g., three against two) at the same time."
@@ -1198,9 +1198,9 @@
    "q": "What is the Circle of Fifths used for?",
    "o": [
     "Organizing keys by their number of sharps or flats in fifth-related order",
-    "Naming chord qualities",
-    "Measuring rhythmic duration",
-    "Identifying clefs"
+    "Grouping chords by their rhythmic duration in order of increasing note values",
+    "Arranging scales by tempo from slowest to fastest around a closed circle",
+    "Ordering the clefs by pitch range from the lowest bass to the highest treble"
    ],
    "a": 0,
    "e": "The Circle of Fifths arranges all 12 keys by ascending or descending perfect fifths, showing key signature relationships.",
@@ -1260,12 +1260,12 @@
    "u": 3,
    "q": "What is a key signature?",
    "o": [
+    "A number at the start of a staff that tells how many beats fill each measure",
     "A set of sharps or flats placed at the start of a staff to indicate a piece's key",
-    "A number showing the tempo",
-    "A symbol showing the time signature",
-    "A marking for dynamics"
+    "A symbol at the end of a piece that tells the performer where to stop",
+    "A marking at the start of a staff that tells the performer how loud to play"
    ],
-   "a": 0,
+   "a": 1,
    "e": "The key signature groups the sharps or flats that apply throughout a piece unless altered by accidentals.",
    "c": 2
   },
@@ -1285,12 +1285,12 @@
    "u": 3,
    "q": "What is a chromatic scale?",
    "o": [
-    "A scale made of all 12 half steps within an octave",
-    "A scale of only whole steps",
-    "A 5-note scale",
-    "A scale with no fixed pattern"
+    "A scale made of seven notes arranged in a pattern of whole and half steps",
+    "A scale made of all whole steps, dividing the octave into six equal parts",
+    "A scale that uses only the white keys of the piano from C to the next C",
+    "A scale made of all 12 half steps within an octave"
    ],
-   "a": 0,
+   "a": 3,
    "e": "The chromatic scale includes every half step, all 12 pitches within an octave.",
    "c": 0
   },
@@ -1299,9 +1299,9 @@
    "q": "What is a pentatonic scale?",
    "o": [
     "A 5-note scale, often omitting half-step-adjacent tones",
-    "A 7-note scale with two half steps",
-    "A 12-tone scale",
-    "A scale used only for minor keys"
+    "A 7-note scale with whole steps and two half steps, like the major scale",
+    "A 12-note scale including every half step within one octave",
+    "A 6-note scale built entirely from whole steps spanning one octave"
    ],
    "a": 0,
    "e": "Pentatonic scales use 5 notes per octave and are common across many musical traditions."
@@ -1322,12 +1322,12 @@
    "u": 3,
    "q": "What determines whether a key signature belongs to a major key or its relative minor?",
    "o": [
+    "The number of sharps or flats in the key signature, which is different for each one",
     "The context of the piece, especially its tonic and cadences",
-    "The number of sharps only",
-    "The clef used",
-    "The time signature"
+    "The clef at the start of the staff, which changes for major and minor keys",
+    "The time signature of the piece, which is different for major and minor"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Since relative major/minor pairs share a key signature, the piece's tonal center and cadences reveal which one applies.",
    "c": 3
   },
@@ -1432,9 +1432,9 @@
    "q": "What does 'inverting' an interval mean?",
    "o": [
     "Moving the lower note up an octave (or the upper note down) to flip which note is on top",
-    "Reversing the rhythm of two notes",
-    "Changing the key signature",
-    "Changing the clef"
+    "Reversing the order of the rhythm so the last duration is played first in the measure",
+    "Changing a major interval into a minor one by lowering the top note a half step",
+    "Moving both notes up an octave at once so the interval stays the same"
    ],
    "a": 0,
    "e": "Inversion flips the interval by moving one note an octave, which changes its number and often its quality.",
@@ -1519,12 +1519,12 @@
    "u": 4,
    "q": "What is a tritone?",
    "o": [
+    "An interval of 7 half steps, either a perfect fifth or a diminished sixth",
+    "An interval of 4 half steps, either a major third or a diminished fourth",
     "An interval of 6 half steps, either an augmented 4th or diminished 5th",
-    "An interval of 3 half steps",
-    "An interval of 9 half steps",
-    "An interval spanning three octaves"
+    "An interval of 12 half steps, spanning exactly one full octave above the root"
    ],
-   "a": 0,
+   "a": 2,
    "e": "The tritone divides the octave exactly in half at 6 half steps and historically was called 'the devil in music.'"
   },
   {
@@ -1592,9 +1592,9 @@
    "q": "What intervals make up a major triad?",
    "o": [
     "Major third + minor third (root to third to fifth)",
-    "Minor third + major third",
-    "Two major thirds",
-    "Two minor thirds"
+    "Minor third + major third (root to third to fifth), giving a darker sound",
+    "Major third + major third (root to third to fifth), giving an augmented fifth",
+    "Minor third + minor third (root to third to fifth), giving a diminished fifth"
    ],
    "a": 0,
    "e": "A major triad stacks a major third then a minor third on top, giving a perfect fifth overall (e.g., C-E-G).",
@@ -1642,12 +1642,12 @@
    "u": 5,
    "q": "What is a chord inversion?",
    "o": [
+    "A rearrangement of a chord so the notes are played one at a time in reverse order",
+    "A change of a chord's quality from major to minor by lowering its third",
     "A rearrangement of a chord so a note other than the root is in the bass",
-    "A chord played backward in time",
-    "A chord transposed to a new key",
-    "A chord with an added seventh"
+    "A rearrangement of a chord so the root is moved up an octave to the soprano"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Inversions keep the same chord tones but change which one sits in the lowest voice.",
    "c": 2
   },
@@ -1682,9 +1682,9 @@
    "q": "What is a seventh chord?",
    "o": [
     "A triad with an added note a seventh above the root",
-    "A triad transposed up a seventh",
-    "Any chord with seven notes",
-    "A chord built entirely of sevenths"
+    "A chord built by stacking seven different notes in thirds above the root",
+    "A triad whose root is moved up by a seventh to a new starting pitch",
+    "A chord with an added note a second above the root, like an added ninth"
    ],
    "a": 0,
    "e": "Seventh chords extend a triad by stacking a fourth chord tone a seventh above the root."
@@ -1743,12 +1743,12 @@
    "u": 5,
    "q": "What is a cadence?",
    "o": [
+    "A repeating rhythmic pattern that gives a piece its steady pulse and groove",
+    "A scale pattern of whole and half steps that defines the key of a piece",
     "A harmonic progression that creates a sense of resolution or pause",
-    "A type of scale",
-    "A rhythmic pattern only",
-    "A dynamic marking"
+    "A marking that tells the performer to gradually change the loudness"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Cadences are chord progressions, like V-I or IV-I, that punctuate phrases with resolution or pause.",
    "c": 4
   },
@@ -1756,12 +1756,12 @@
    "u": 5,
    "q": "What is an authentic cadence?",
    "o": [
+    "A IV-I progression, giving a gentler and softer feeling of closure at the end",
     "A V-I (or V7-I) progression giving strong resolution",
-    "A IV-I progression",
-    "A I-V progression",
-    "A ii-V progression without resolving to I"
+    "A I-V progression, ending on the dominant with a feeling of suspension",
+    "A V-vi progression, resolving to a chord other than the expected tonic"
    ],
-   "a": 0,
+   "a": 1,
    "e": "The authentic cadence (V-I) is the strongest, most conclusive harmonic close in tonal music.",
    "c": 4
   },
@@ -1769,12 +1769,12 @@
    "u": 5,
    "q": "What is a plagal cadence?",
    "o": [
+    "A V-I progression, giving the strongest and most conclusive close in tonal music",
     "A IV-I progression, sometimes called the 'Amen cadence'",
-    "A V-I progression",
-    "A I-vi progression",
-    "A ii-V progression"
+    "A I-V progression, ending on the dominant to leave the phrase open-ended",
+    "A ii-V progression, setting up tension before a resolution to the tonic"
    ],
-   "a": 0,
+   "a": 1,
    "e": "The plagal cadence (IV-I) is often heard at the end of hymns, earning the nickname 'Amen cadence.'",
    "c": 4
   },
@@ -1782,12 +1782,12 @@
    "u": 5,
    "q": "What is a deceptive cadence?",
    "o": [
-    "A V chord resolving to vi instead of the expected I",
-    "A I chord resolving to V",
-    "A IV chord resolving to I",
-    "Any cadence ending on the dominant"
+    "A I chord moving to V at the end of a phrase, leaving the music feeling open",
+    "A IV chord moving to I at the end of a phrase, like the 'Amen' ending",
+    "A V chord moving to I at the end of a phrase, giving a firm resolution",
+    "A V chord resolving to vi instead of the expected I"
    ],
-   "a": 0,
+   "a": 3,
    "e": "A deceptive cadence sets up dominant-to-tonic resolution expectations but resolves to vi instead, avoiding closure.",
    "c": 4
   },
@@ -1795,12 +1795,12 @@
    "u": 5,
    "q": "What is a half cadence?",
    "o": [
+    "A phrase ending on the I chord, sounding fully resolved and complete",
+    "A phrase ending on the vi chord, sounding surprising and somewhat sad",
     "A phrase ending on the V chord, sounding unresolved",
-    "A phrase ending on the I chord",
-    "A phrase ending on the vi chord",
-    "A phrase with no chords"
+    "A phrase ending on the IV chord, sounding gentle like a closing 'Amen'"
    ],
-   "a": 0,
+   "a": 2,
    "e": "A half cadence ends on the dominant (V), creating a pause that feels incomplete, like a question.",
    "c": 4
   },
@@ -1808,12 +1808,12 @@
    "u": 5,
    "q": "What does the term 'voice leading' refer to?",
    "o": [
+    "The order in which different dynamics are applied across the phrases of a vocal piece",
+    "The choice of clef and range used for each vocal part in a choral score",
     "The smooth, logical movement of individual chord tones from one chord to the next",
-    "The order of dynamics in a phrase",
-    "The clef used for vocal parts",
-    "The tempo of a vocal line"
+    "The way a singer's tempo is adjusted to follow the conductor's baton"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Voice leading concerns how individual notes within chords move stepwise or smoothly between successive chords.",
    "c": 2
   },
@@ -1821,12 +1821,12 @@
    "u": 5,
    "q": "What is a secondary dominant?",
    "o": [
-    "A dominant-function chord that temporarily tonicizes a scale degree other than the tonic",
-    "Any minor chord in a progression",
-    "The dominant of the relative minor only",
-    "A chord built on the subdominant"
+    "A minor chord built on the second scale degree that leads into the dominant",
+    "A chord built on the fifth degree of the relative minor key, used in every minor piece",
+    "A chord built on the subdominant that briefly replaces the tonic in a phrase",
+    "A dominant-function chord that temporarily tonicizes a scale degree other than the tonic"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Secondary dominants (like V/V) borrow dominant function to briefly emphasize a non-tonic scale degree.",
    "c": 4
   },
@@ -1859,12 +1859,12 @@
    "u": 6,
    "q": "What defines 'verse-chorus form' in popular music?",
    "o": [
-    "Alternating verse sections (changing lyrics) with a repeating chorus (same lyrics and music)",
-    "A single repeated section with no variation",
-    "Four independent movements",
-    "A through-composed structure with no repeats"
+    "Alternating verses and choruses where the lyrics change in both sections but the music repeats",
+    "A single repeated section played over and over with new instruments entering each time",
+    "Three contrasting sections that never return, each with its own new lyrics and melody",
+    "Alternating verse sections (changing lyrics) with a repeating chorus (same lyrics and music)"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Verse-chorus form alternates narrative verses with a consistent, memorable chorus.",
    "c": 0
   },
@@ -1872,12 +1872,12 @@
    "u": 6,
    "q": "What is a 'bridge' in song form?",
    "o": [
+    "A repeated section that returns after each verse with the same lyrics and melody",
+    "A short opening passage that sets the mood before the first verse begins",
     "A contrasting section that provides relief from repeated verse/chorus material",
-    "The introduction of a song",
-    "The final chord of a piece",
-    "A repeated chorus"
+    "A closing passage added at the end that repeats the final chorus until fade-out"
    ],
-   "a": 0,
+   "a": 2,
    "e": "The bridge offers new melodic or harmonic material to break up repetition, often before a final chorus.",
    "c": 0
   },
@@ -1885,12 +1885,12 @@
    "u": 6,
    "q": "What is 'through-composed' form?",
    "o": [
-    "Music that continuously develops new material without repeating earlier sections",
-    "Music built entirely on one repeated phrase",
-    "A strict A-B-A structure",
-    "A 12-bar blues pattern"
+    "Music built around one repeated phrase that returns unchanged in every section",
+    "A strict A-B-A structure where the opening section returns exactly at the end",
+    "A repeating twelve-measure pattern based on the I, IV, and V chords",
+    "Music that continuously develops new material without repeating earlier sections"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Through-composed pieces avoid large-scale repetition, continuously introducing new music as the piece unfolds.",
    "c": 0
   },
@@ -1911,9 +1911,9 @@
    "q": "What is 'strophic form'?",
    "o": [
     "The same music repeated for each verse with different lyrics, as in many hymns and folk songs",
-    "A form with a different melody every verse",
-    "A form using only instrumental sections",
-    "A three-movement symphonic form"
+    "A form with new music written for each verse, so the melody changes every time",
+    "A form that uses a returning chorus between verses that contrast with each other",
+    "A form with a repeated section and a contrasting section, then a return to the first"
    ],
    "a": 0,
    "e": "Strophic form reuses one musical setting across multiple verses of text.",
@@ -1923,12 +1923,12 @@
    "u": 6,
    "q": "What is a 'coda'?",
    "o": [
+    "An opening section placed before the main structure to introduce the key and mood",
+    "A contrasting section in the middle that gives relief from repeated verses",
     "A concluding section added after the main structure to bring the piece to a close",
-    "The opening section of a piece",
-    "A repeated verse",
-    "A key change in the middle of a song"
+    "A repeated chorus at the end of a song, played over and over until it fades out"
    ],
-   "a": 0,
+   "a": 2,
    "e": "The coda is a closing passage, often building energy or providing final resolution."
   },
   {
@@ -1936,9 +1936,9 @@
    "q": "What is an 'introduction' (intro) in song form?",
    "o": [
     "An opening section that sets up the song before the first verse",
-    "The final cadence of a piece",
-    "A modulation to a new key",
-    "A form label for classical minuets"
+    "A closing section that winds the song down after the final chorus has ended",
+    "A contrasting middle section that gives relief before the last chorus returns",
+    "A repeated pattern that sustains the groove between two main sections of a song"
    ],
    "a": 0,
    "e": "The intro establishes mood, tempo, and often a signature riff before the main song content begins.",
@@ -1961,12 +1961,12 @@
    "u": 6,
    "q": "In sonata form, what happens in the 'development' section?",
    "o": [
-    "Themes from the exposition are fragmented, transformed, and explored harmonically",
-    "The main themes are stated for the first time",
-    "The piece ends with a coda",
-    "A new key signature is permanently established"
+    "The main themes are stated in their original form and in contrasting keys for the first time",
+    "The themes return in the home key to bring the movement to a close",
+    "A closing section is added after the main structure to finish the piece",
+    "Themes from the exposition are fragmented, transformed, and explored harmonically"
    ],
-   "a": 0,
+   "a": 3,
    "e": "The development section manipulates and explores exposition themes, often moving through several keys.",
    "c": 3
   },
@@ -1975,9 +1975,9 @@
    "q": "In sonata form, what happens in the 'recapitulation'?",
    "o": [
     "The exposition's themes return, typically all in the tonic key",
-    "New themes are introduced for the first time",
-    "The piece modulates away from the tonic permanently",
-    "Nothing; it is a repeat sign only"
+    "The themes are fragmented and moved through several distant keys in new combinations",
+    "The main themes are stated for the first time in the tonic and a contrasting key",
+    "The themes return, but the second theme stays in the contrasting key to the end"
    ],
    "a": 0,
    "e": "The recapitulation restates the exposition's material, resolving key tensions by keeping themes in the tonic.",
@@ -1987,12 +1987,12 @@
    "u": 6,
    "q": "What is a 'rondo' form pattern?",
    "o": [
-    "A recurring main theme alternating with contrasting episodes, e.g. A-B-A-C-A",
-    "A single theme with no contrast",
-    "Two themes alternating with no return",
-    "A strictly improvised structure"
+    "A single main theme that never returns after it is first stated in the opening",
+    "Two contrasting themes that alternate with each other and then end without any return",
+    "A series of contrasting sections that never repeat, like A-B-C-D-E in order",
+    "A recurring main theme alternating with contrasting episodes, e.g. A-B-A-C-A"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Rondo form keeps returning to a central theme (A) between contrasting episodes (B, C, etc.).",
    "c": 3
   },
@@ -2000,12 +2000,12 @@
    "u": 6,
    "q": "What is 'call and response' in song structure?",
    "o": [
+    "A single performer playing a melody and then repeating it with added ornaments",
+    "A closing cadence in which the dominant is followed by a resolving tonic chord",
     "A musical phrase (call) answered by another phrase or group (response)",
-    "A form with only one performer",
-    "A cadence type",
-    "A time signature change"
+    "A change of tempo between two sections, with the second part faster than the first"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Call and response alternates a lead phrase with an answering phrase, common in blues, gospel, and folk traditions."
   },
   {
@@ -2013,9 +2013,9 @@
    "q": "What is a 'refrain'?",
    "o": [
     "A recurring line or section, similar to a chorus, repeated between verses",
-    "The opening instrumental section",
-    "A single unrepeated phrase",
-    "A key change section"
+    "An opening instrumental passage that sets up the song before the first verse starts",
+    "A single phrase that appears once and never returns anywhere else in the song",
+    "A contrasting section that modulates to a new key before the last chorus"
    ],
    "a": 0,
    "e": "A refrain is a repeated line or short passage that returns between verses, reinforcing the song's hook."
@@ -2025,9 +2025,9 @@
    "q": "What is a 'pre-chorus'?",
    "o": [
     "A transitional section that builds tension leading into the chorus",
-    "The final section of a song",
-    "An instrumental solo",
-    "A form used only in classical symphonies"
+    "A closing section that winds the song down after the final chorus is over",
+    "An instrumental solo that replaces the second verse in the middle of the song",
+    "A form used only in jazz standards that follows an AABA pattern"
    ],
    "a": 0,
    "e": "The pre-chorus bridges the verse and chorus, raising energy and anticipation.",
@@ -2037,60 +2037,60 @@
    "u": 6,
    "q": "What does 'AABA' form typically describe (as in many jazz standards)?",
    "o": [
+    "Four different sections that never repeat, played one after the other without return",
+    "One main section repeated four times with small changes in the lyrics each time",
     "Two A sections, a contrasting B section (bridge), then a final A section",
-    "A four-verse strophic song",
-    "A through-composed piece",
-    "A 12-bar blues variant"
+    "A repeating 12-measure pattern built on the I, IV, and V chords"
    ],
-   "a": 0,
+   "a": 2,
    "e": "AABA form presents a main theme (A) twice, a contrasting bridge (B), then returns to A."
   },
   {
    "u": 6,
    "q": "What is the function of an 'outro'?",
    "o": [
+    "An opening section that sets up the mood and key before the first verse begins",
+    "A contrasting middle section that gives relief from repeated verse and chorus material",
     "A closing section that winds the song down after the main content",
-    "The opening theme of a symphony",
-    "A repeated verse",
-    "A key signature change mid-song"
+    "A transitional passage that builds tension before leading into the chorus"
    ],
-   "a": 0,
+   "a": 2,
    "e": "The outro provides closure, often fading out or resolving the song's final harmonic motion."
   },
   {
    "u": 6,
    "q": "What distinguishes a 'movement' in a larger classical work?",
    "o": [
-    "A self-contained section with its own tempo and character within a larger multi-part piece",
-    "A single measure",
-    "A repeated chorus",
-    "An improvised cadenza only"
+    "A short passage of a few measures that repeats as a building block within a theme",
+    "A closing section that finishes a piece with a final chord progression",
+    "A transitional section that builds tension into the next chorus of a song",
+    "A self-contained section with its own tempo and character within a larger multi-part piece"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Movements are complete musical sections (e.g., in a symphony or sonata) that combine to form the whole work."
   },
   {
    "u": 6,
    "q": "What is a 'vamp' in song arrangement?",
    "o": [
+    "A contrasting section that offers new material to break up the verse and chorus",
+    "A long closing section that slowly fades out until the song finishes",
     "A short repeated section, often instrumental, used to sustain energy or transition between sections",
-    "The main melody of a chorus",
-    "A key signature change",
-    "A slow, unmetered introduction"
+    "A fast, improvised solo passage played over a changing set of chords"
    ],
-   "a": 0,
+   "a": 2,
    "e": "A vamp repeats a short chord pattern or riff, commonly used to extend a groove or bridge between sections."
   },
   {
    "u": 7,
    "q": "What is 'solfège' used for in ear training?",
    "o": [
+    "Naming rhythmic durations with spoken syllables such as ta and ti-ti in a steady beat",
+    "Labeling the notes of a chord by its roman numeral to show harmonic function",
     "Assigning syllables (do, re, mi...) to scale degrees to internalize pitch relationships",
-    "Naming rhythmic durations",
-    "Labeling dynamics",
-    "Identifying instruments by timbre"
+    "Marking the dynamics of a passage with syllables that show loud and soft sections"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Solfège syllables map onto scale degrees, helping singers and listeners internalize relative pitch.",
    "c": 0
   },
@@ -2124,12 +2124,12 @@
    "u": 7,
    "q": "When ear-training to identify a major third by ear, what is a common reference melody?",
    "o": [
-    "The opening of 'Kumbaya' or similar major-third based tunes",
-    "Any minor scale passage",
-    "A tritone-based fanfare",
-    "A chromatic scale run"
+    "The opening of 'Twinkle, Twinkle, Little Star,' which begins with a perfect fifth leap",
+    "The opening of the 'Jaws' theme, which moves by a single half step",
+    "The opening of 'Here Comes the Bride,' which leaps up a perfect fourth",
+    "The opening of 'Kumbaya' or similar major-third based tunes"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Familiar tunes with a recognizable opening interval (like a major third) are commonly used as aural reference points."
   },
   {
@@ -2149,12 +2149,12 @@
    "u": 7,
    "q": "What is 'relative pitch'?",
    "o": [
-    "The ability to identify or produce a note by comparing it to a known reference pitch",
-    "The ability to name any pitch with no reference",
-    "A fixed tuning standard",
-    "A specific note frequency"
+    "The ability to name any note you hear immediately, with no reference note given",
+    "The ability to sing a melody in the key it was written without any reference",
+    "The ability to tune an instrument exactly to a fixed frequency like 440 Hz from memory",
+    "The ability to identify or produce a note by comparing it to a known reference pitch"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Relative pitch relies on comparing intervals to a reference, unlike absolute (perfect) pitch.",
    "c": 1
   },
@@ -2162,12 +2162,12 @@
    "u": 7,
    "q": "What is 'perfect pitch' (absolute pitch)?",
    "o": [
-    "The rare ability to identify or produce an exact pitch without any reference note",
-    "The ability to sing any interval accurately",
-    "A style of ear training exercise",
-    "The ability to read rhythms instantly"
+    "The ability to find a pitch by comparing it to a known reference note",
+    "A way of tuning an instrument by matching it with a fixed standard frequency",
+    "The skill of singing an interval accurately by first hearing the starting note",
+    "The rare ability to identify or produce an exact pitch without any reference note"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Perfect pitch allows identifying or singing exact pitches from memory alone, without comparison.",
    "c": 4
   },
@@ -2175,12 +2175,12 @@
    "u": 7,
    "q": "When practicing chord-quality ear training, what distinguishes a major chord's sound from a minor chord's?",
    "o": [
-    "The major chord sounds brighter due to its major third; the minor sounds darker due to its minor third",
-    "Major chords are always louder",
-    "Minor chords always use more notes",
-    "There is no audible difference"
+    "The major chord has a lower root, while the minor chord has a higher root pitch",
+    "The major chord uses more notes, while the minor chord uses fewer notes",
+    "The major chord is played faster, while the minor chord is usually played slower",
+    "The major chord sounds brighter due to its major third; the minor sounds darker due to its minor third"
    ],
-   "a": 0,
+   "a": 3,
    "e": "The quality of the third (major vs. minor) is the primary factor giving triads their bright or dark color.",
    "c": 2
   },
@@ -2188,12 +2188,12 @@
    "u": 7,
    "q": "What does rhythmic dictation typically ask a listener to do?",
    "o": [
+    "Name the intervals between pairs of notes played one after another by ear",
     "Notate a rhythm accurately after hearing it played",
-    "Identify chord qualities by ear",
-    "Sing back a melody in a different key",
-    "Name the composer of a piece"
+    "Sing back a short rhythm using syllables after hearing it a single time",
+    "Identify the chord qualities of a progression after hearing it played slowly"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Rhythmic dictation trains the ability to hear and transcribe rhythmic patterns accurately.",
    "c": 3
   },
@@ -2215,9 +2215,9 @@
    "q": "What ear-training technique helps identify chord progressions like I-IV-V?",
    "o": [
     "Listening for functional motion: tonic stability, subdominant departure, dominant tension",
-    "Counting the number of notes played",
-    "Watching the performer's hand position",
-    "Reading the lyrics"
+    "Counting the number of beats in each measure to find the time signature",
+    "Listening to the tempo and noting how fast the chords are played",
+    "Following the loudest instrument to find which chord is played in each bar"
    ],
    "a": 0,
    "e": "Recognizing functional harmony (tonic, subdominant, dominant roles) helps identify common progressions by ear."
@@ -2226,24 +2226,24 @@
    "u": 7,
    "q": "What is the purpose of interval ear training drills?",
    "o": [
-    "To build the ability to recognize and label the distance between two pitches by ear",
-    "To memorize key signatures",
-    "To learn rhythmic notation",
-    "To identify instrument timbres"
+    "To memorize the sharps and flats of each key signature in the circle of fifths",
+    "To learn to read and write rhythmic patterns after hearing them played once",
+    "To recognize the sound of different instruments by their tone color and attack",
+    "To build the ability to recognize and label the distance between two pitches by ear"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Interval drills train recognition of specific pitch distances (e.g., major third, perfect fifth) purely by ear."
   },
   {
    "u": 7,
    "q": "When identifying a cadence by ear, what cue signals an authentic cadence (V-I)?",
    "o": [
+    "A strong feeling of suspension and an open ending, as if a question was left unanswered",
+    "A feeling of surprise, because the final chord is a vi chord instead of the tonic",
     "A strong sense of resolution and finality as the dominant resolves to tonic",
-    "A feeling of suspension with no resolution",
-    "A sudden change of tempo",
-    "A shift to a new time signature"
+    "A gentle, hymn-like close as the subdominant moves to the tonic chord"
    ],
-   "a": 0,
+   "a": 2,
    "e": "The V-I authentic cadence produces the strongest sense of harmonic closure, easily recognized by ear."
   },
   {
@@ -2251,9 +2251,9 @@
    "q": "What does 'audiation' mean in music education?",
    "o": [
     "Hearing and comprehending music internally without it being physically present",
-    "Reading a score silently",
-    "Playing an instrument from memory",
-    "Composing by trial and error"
+    "Reading a score silently and following the notation with the eyes alone",
+    "Performing a piece on an instrument from memory without a printed score",
+    "Writing down a melody by trial and error while sitting at a piano"
    ],
    "a": 0,
    "e": "Audiation is the internal mental process of hearing and understanding music, even without sound present.",
@@ -2264,9 +2264,9 @@
    "q": "What is a common method for practicing sight-singing?",
    "o": [
     "Using solfège or numbers to sing pitches from notation before hearing them played",
-    "Memorizing recordings only",
-    "Only playing the piece on an instrument first",
-    "Avoiding any notation and improvising"
+    "Memorizing a recording first and then singing along with it without reading the notation",
+    "Playing the piece on an instrument first so the pitches are heard before singing",
+    "Improvising a melody over the chords without looking at any notation at all"
    ],
    "a": 0,
    "e": "Sight-singing trains reading notation directly into pitch, often using solfège syllables or scale-degree numbers."
@@ -2275,36 +2275,36 @@
    "u": 7,
    "q": "How does the ear typically distinguish a perfect fifth from a tritone?",
    "o": [
+    "Both sound equally stable and restful, differing only in the loudness of the top note",
+    "The tritone sounds more stable and consonant, while the perfect fifth sounds tense and unresolved",
     "The perfect fifth sounds stable and consonant, while the tritone sounds tense and dissonant",
-    "They sound the same but at different volumes",
-    "The tritone is always played faster",
-    "The perfect fifth is always higher in pitch"
+    "The perfect fifth is always played faster, which makes it sound more energetic"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Consonance versus dissonance is a key perceptual cue: perfect fifths are stable, tritones are tense."
   },
   {
    "u": 7,
    "q": "What skill does 'chord quality identification' by ear develop?",
    "o": [
+    "Naming the notes of a key signature from a printed score without playing them",
     "Recognizing whether a chord is major, minor, diminished, or augmented from its sound alone",
-    "Naming the key signature from a score",
-    "Reading rhythmic notation",
-    "Identifying instrument families"
+    "Writing down rhythmic patterns after hearing them played at a steady tempo",
+    "Telling apart the sounds of the instrument families in a full orchestra"
    ],
-   "a": 0,
+   "a": 1,
    "e": "This skill trains the ear to classify triad quality purely from its characteristic sound."
   },
   {
    "u": 7,
    "q": "What is a benefit of practicing scale degree recognition with numbers (1-2-3...) instead of note names?",
    "o": [
+    "It works only in C major, because scale degree numbers change in every other key",
     "It reinforces relationships within any key, since scale degree numbers stay consistent regardless of key",
-    "It only works in C major",
-    "It eliminates the need to learn intervals",
-    "It replaces the need for a tonic reference"
+    "It removes the need to learn intervals, since each number gives the exact pitch",
+    "It makes a tonic reference unnecessary, since the numbers name each pitch directly"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Scale-degree numbers describe function relative to the tonic, transferable to any key, just like movable-do.",
    "c": 0
   },
@@ -2313,9 +2313,9 @@
    "q": "What does 'error detection' training involve in ear training practice?",
    "o": [
     "Listening to a performance against a score and identifying where mistakes occur",
-    "Composing new melodies from memory",
-    "Naming chord qualities in isolation",
-    "Identifying instrument timbres only"
+    "Writing new melodies from memory and checking them against a printed score afterward",
+    "Naming the quality of chords played in isolation, such as major or diminished",
+    "Telling apart instruments by timbre in a recording of a full ensemble"
    ],
    "a": 0,
    "e": "Error detection trains critical listening by comparing a heard performance to the written score to catch discrepancies.",
@@ -2325,36 +2325,36 @@
    "u": 7,
    "q": "What is the benefit of practicing with a drone (sustained tonic pitch) during ear training?",
    "o": [
+    "It removes the need to learn intervals, since the drone names each pitch for you",
     "It reinforces the sense of tonal center, making scale degree relationships easier to hear",
-    "It eliminates the need to learn intervals",
-    "It only helps with rhythm training",
-    "It replaces the need for solfège"
+    "It helps only with rhythm training, since the drone keeps a steady pulse",
+    "It replaces the need for solfège, since the drone names every scale degree"
    ],
-   "a": 0,
+   "a": 1,
    "e": "A drone gives a constant tonic reference against which scale degrees and their pull toward resolution become clearer."
   },
   {
    "u": 8,
    "q": "What is the first step in harmonic analysis of a passage?",
    "o": [
+    "Counting the total number of measures and noting the time signature of the passage",
+    "Measuring the tempo and writing down the dynamic markings for each phrase",
     "Identifying the key and labeling chords with roman numerals",
-    "Counting the total number of notes",
-    "Measuring the tempo",
-    "Identifying the instrumentation only"
+    "Identifying the instrumentation and the range of each part in the score"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Harmonic analysis begins by establishing the key, then labeling each chord's roman numeral function."
   },
   {
    "u": 8,
    "q": "What does roman numeral analysis reveal about a chord progression?",
    "o": [
+    "The exact instruments used and how the parts are divided among the players",
     "The function and relationship of each chord to the tonic key",
-    "The exact instrumentation used",
-    "The dynamics of the passage",
-    "The composer's biography"
+    "The dynamics and tempo changes that shape each phrase of the passage",
+    "The composer's life and the historical period in which the piece was written"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Roman numerals show each chord's scale-degree root and quality, revealing harmonic function and motion.",
    "c": 4
   },
@@ -2362,12 +2362,12 @@
    "u": 8,
    "q": "What is a 'motif' in composition?",
    "o": [
-    "A short, recognizable musical idea that recurs and can be developed throughout a piece",
-    "A complete movement",
-    "A single unrepeated note",
-    "A time signature change"
+    "A complete section of a piece that has its own tempo and a full cadence",
+    "A single long note held through several measures as a pedal under the harmony",
+    "A change of time signature that happens at the start of a new section",
+    "A short, recognizable musical idea that recurs and can be developed throughout a piece"
    ],
-   "a": 0,
+   "a": 3,
    "e": "A motif is a brief musical cell (rhythmic and/or melodic) used as a building block for larger development.",
    "c": 3
   },
@@ -2388,12 +2388,12 @@
    "u": 8,
    "q": "What is melodic 'inversion' as a compositional device?",
    "o": [
-    "Flipping a melody's intervals upside down (ascending becomes descending and vice versa)",
-    "Playing a melody backward in time",
-    "Playing a melody twice as fast",
-    "Transposing a melody to a new key"
+    "Playing a melody backward in time, starting with the last note and ending with the first",
+    "Playing a melody at twice the original speed while keeping the same pitches",
+    "Moving a melody to a new key while keeping the direction of every interval",
+    "Flipping a melody's intervals upside down (ascending becomes descending and vice versa)"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Melodic inversion mirrors the contour of a theme, turning each upward interval into an equivalent downward one.",
    "c": 3
   },
@@ -2439,24 +2439,24 @@
    "u": 8,
    "q": "When analyzing form, what should you identify first?",
    "o": [
-    "The large-scale sections and how they relate (e.g., A-B-A)",
-    "The exact pitch of every note",
-    "The dynamics of every measure",
-    "The fingerings used by the performer"
+    "The exact pitch and rhythm of every single note in the first few measures",
+    "The dynamics and tempo markings that appear in each measure of the piece",
+    "The fingerings and bowings that the performer would use in the passage",
+    "The large-scale sections and how they relate (e.g., A-B-A)"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Formal analysis starts by mapping out large sections and their relationships before drilling into detail."
   },
   {
    "u": 8,
    "q": "What is 'texture' in music analysis?",
    "o": [
+    "The speed of a piece and how it changes as the music moves from one section to another",
+    "The set of sharps or flats that tells the performer which key the piece is in",
     "The layering and relationship of musical lines, such as monophonic, homophonic, or polyphonic",
-    "The tempo of a piece",
-    "The key signature",
-    "The dynamic range"
+    "The range of loud and soft playing from the quietest passage to the loudest"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Texture describes how many lines are present and how they interact (single line, melody+accompaniment, independent lines).",
    "c": 2
   },
@@ -2477,12 +2477,12 @@
    "u": 8,
    "q": "What is 'polyphonic' texture?",
    "o": [
-    "Multiple independent melodic lines occurring simultaneously",
-    "A single melody with chordal accompaniment",
-    "A single unaccompanied line",
-    "Music with no rhythmic variation"
+    "One melody supported by chords underneath, with the other parts providing harmony",
+    "One melody line performed alone with no accompaniment from any other part",
+    "A steady rhythm played with no change in the pattern from start to finish",
+    "Multiple independent melodic lines occurring simultaneously"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Polyphonic (contrapuntal) texture layers two or more independent melodic lines of comparable importance.",
    "c": 2
   },
@@ -2503,12 +2503,12 @@
    "u": 8,
    "q": "When composing a short piece, why is establishing a clear tonic early important?",
    "o": [
+    "It has little effect on the listener, who hears each chord on its own terms",
     "It orients the listener's sense of key before any harmonic departure or tension is introduced",
-    "It has no effect on the listener",
-    "It is only relevant for atonal music",
-    "It determines the tempo automatically"
+    "It matters only in atonal music, where the key is not clearly established",
+    "It fixes the tempo automatically, so no marking is needed in the score"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Establishing the tonic early gives listeners a stable reference point for later harmonic motion and contrast.",
    "c": 4
   },
@@ -2516,12 +2516,12 @@
    "u": 8,
    "q": "What analytical clue suggests a phrase is a 'question' (antecedent) rather than an 'answer' (consequent)?",
    "o": [
+    "It ends on the tonic chord with a perfect authentic cadence, sounding finished",
     "It ends with a less conclusive cadence, such as a half cadence",
-    "It always ends on the tonic chord",
-    "It is always longer than the answering phrase",
-    "It contains no cadence at all"
+    "It is longer than the answering phrase and contains a full authentic cadence",
+    "It contains no melody of its own and simply repeats the answering phrase"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Antecedent phrases often end with a half cadence, creating tension that the consequent phrase resolves."
   },
   {
@@ -2541,24 +2541,24 @@
    "u": 8,
    "q": "What is a 'passing tone'?",
    "o": [
-    "A non-chord tone that fills the gap stepwise between two chord tones",
-    "A chord tone that is emphasized with an accent",
-    "A tone that is always dissonant with no resolution",
-    "A tone used only in cadences"
+    "A note that leaps away from a chord tone and does not return to the original pitch",
+    "A chord tone that is held over from the previous chord and then resolves down",
+    "A note that appears only at the end of a phrase to mark a cadence",
+    "A non-chord tone that fills the gap stepwise between two chord tones"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Passing tones move stepwise between two chord tones, connecting them melodically without being part of the harmony."
   },
   {
    "u": 8,
    "q": "What is a 'neighbor tone'?",
    "o": [
+    "A non-chord tone that moves by step from one chord tone to a different chord tone",
     "A non-chord tone that steps away from and back to the same chord tone",
-    "A tone that leaps to a new chord tone",
-    "A tone sustained across a bar line",
-    "A tone that starts a new phrase"
+    "A non-chord tone held over from the previous chord, then resolved down by step",
+    "A chord tone that is repeated across a bar line to join two phrases"
    ],
-   "a": 0,
+   "a": 1,
    "e": "A neighbor tone departs from a chord tone by step and returns to the same tone immediately after.",
    "c": 0
   },
@@ -2566,12 +2566,12 @@
    "u": 8,
    "q": "When starting a short composition exercise, what is a practical first step?",
    "o": [
+    "Writing the final measure first and then composing backward toward the opening",
+    "Choosing the instruments and tempo first and leaving the harmony until the end",
     "Sketching a basic harmonic plan (e.g., I-IV-V-I) before adding melody and rhythm",
-    "Writing the final measure first",
-    "Choosing instrumentation only, with no plan for harmony",
-    "Selecting a tempo with no other planning"
+    "Writing out a complete melody first and adding the chords only afterward"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Planning a simple harmonic skeleton first gives structure to guide melodic and rhythmic composition choices.",
    "c": 4
   },
@@ -2579,12 +2579,12 @@
    "u": 8,
    "q": "What is 'phrase analysis' concerned with?",
    "o": [
+    "Counting the total number of measures and the length of each section in a piece",
+    "Naming the instruments used in each phrase and how they are paired",
     "Identifying where musical phrases begin and end, and how they relate as questions and answers",
-    "Counting total measures in a piece only",
-    "Naming the instruments used",
-    "Determining the tempo marking"
+    "Determining the tempo marking and how it changes from one phrase to another"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Phrase analysis maps the natural breathing points of music and how antecedent/consequent phrases pair together.",
    "c": 2
   }
@@ -4001,12 +4001,12 @@
    "u": 6,
    "q": "AABA form is made up of:",
    "o": [
+    "Four different sections, each with new material and none of them repeated",
+    "One section repeated several times with only small changes in the lyrics",
     "Two matching sections, a contrasting bridge, and a return",
-    "Four different sections",
-    "One repeating section",
-    "Two sections only"
+    "Two contrasting sections that alternate once and then end without a return"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Common in jazz standards.",
    "c": 1
   },
