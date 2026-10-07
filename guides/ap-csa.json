@@ -1086,12 +1086,12 @@
    "u": 1,
    "q": "Which of the following best explains why 0.1 + 0.2 may not exactly equal 0.3 when using double in Java?",
    "o": [
-    "Java has a bug in addition",
     "Doubles use binary floating-point representation, which cannot exactly represent all decimal fractions",
-    "Doubles round all results to whole numbers",
-    "The + operator does not work on doubles"
+    "Doubles are stored as exact decimal values, but the Java compiler rounds each result to the nearest tenth",
+    "Java evaluates double addition with integer arithmetic, which truncates the fractional part of each sum",
+    "Doubles have too few bits to hold any number smaller than one, so 0.1 and 0.2 are stored as zero"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Floating-point numbers are stored in binary, and many decimal fractions like 0.1 cannot be represented exactly, causing small rounding errors."
   },
   {
@@ -1195,12 +1195,12 @@
    "u": 2,
    "q": "Given: public class Dog { private String name; public Dog(String name) { this.name = name; } } What does 'this.name' refer to?",
    "o": [
-    "The instance variable name, distinguishing it from the parameter",
-    "The constructor parameter name, not the field",
-    "A static variable shared by every Dog object",
-    "A compile error because the names are identical"
+    "The parameter name, since it shadows the field in the constructor",
+    "A static variable shared by every Dog object created by the class",
+    "The Dog class itself, so that all dogs receive the same name",
+    "The instance variable name, distinguishing it from the parameter"
    ],
-   "a": 0,
+   "a": 3,
    "e": "'this.name' explicitly refers to the object's instance variable, which is otherwise shadowed by the parameter also named 'name'."
   },
   {
@@ -1244,12 +1244,12 @@
    "u": 2,
    "q": "What is method overloading?",
    "o": [
+    "Defining a method with the same name and parameter list in a subclass to replace the inherited one",
+    "Writing a single method so long that it performs several tasks instead of using helper methods",
     "Defining two methods with the same name but different parameter lists in the same class",
-    "Calling a method too many times",
-    "Overriding a method in a subclass",
-    "Using recursion"
+    "Creating two classes with the same name but different method bodies in the same package folder"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Overloading means multiple methods share a name but differ in the number or types of parameters, letting Java pick the right one at compile time.",
    "c": 3
   },
@@ -1318,10 +1318,10 @@
    "u": 2,
    "q": "Which of the following is true about instance variables versus local variables?",
    "o": [
-    "Instance variables are declared inside a method and exist only during that call",
+    "Instance variables exist only within their method or block; local variables belong to the object and last as long as it does",
     "Instance variables belong to the object and exist as long as the object does; local variables exist only within their method/block",
-    "They are the same thing",
-    "Local variables can be accessed from any method without being passed"
+    "Instance variables are shared by all objects of the class and exist once; local variables are created once for each object",
+    "Both are created when the object is built and are given default values automatically; neither one has any limit on its scope"
    ],
    "a": 1,
    "e": "Instance variables persist for the lifetime of the object, while local variables are created and destroyed within the method or block where they're declared.",
@@ -1356,10 +1356,10 @@
    "u": 2,
    "q": "Which of these best demonstrates encapsulation in a BankAccount class?",
    "o": [
-    "public double balance;",
+    "public double balance; public void setBalance(double b) { balance = b; }",
     "private double balance; public double getBalance() { return balance; }",
-    "static double balance;",
-    "void balance() {}"
+    "double balance; static double getBalance() { return balance; }",
+    "public static double balance; public double getBalance() { return balance; }"
    ],
    "a": 1,
    "e": "Making balance private and exposing a public getBalance() method controls how the field is accessed, which is encapsulation."
@@ -1380,10 +1380,10 @@
    "u": 2,
    "q": "What is the difference between a class and an object?",
    "o": [
-    "They are identical concepts",
+    "A class is a specific instance holding data; an object is the template used to create classes",
     "A class is a blueprint/template; an object is an instance created from that blueprint",
-    "An object defines methods; a class stores data",
-    "A class can only have one object"
+    "A class holds the variables of a program, while an object holds the methods that act on them",
+    "A class is created at runtime by the new keyword; an object is declared in the source code file"
    ],
    "a": 1,
    "e": "A class defines the structure and behavior (blueprint), while an object is a specific instance created from that class using 'new'.",
@@ -1405,12 +1405,12 @@
    "u": 2,
    "q": "What is method overriding?",
    "o": [
-    "A subclass providing a new implementation for a method inherited from its superclass",
-    "Defining several methods with the same name but different parameters in one class",
-    "Deleting an inherited method from the subclass",
-    "Reusing a method name in classes that are unrelated"
+    "A class defining a second method with the same name but a different parameter list within itself",
+    "A subclass calling its superclass constructor with super to set up inherited fields",
+    "A superclass replacing a method defined in its subclass with a new, more general implementation",
+    "A subclass providing a new implementation for a method inherited from its superclass"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Overriding occurs when a subclass redefines a method with the exact same signature as one in its superclass."
   },
   {
@@ -1478,12 +1478,12 @@
    "u": 2,
    "q": "What is the benefit of writing accessor (getter) and mutator (setter) methods instead of making fields public?",
    "o": [
-    "It makes the code run faster",
     "It allows validation and controlled access to an object's internal state",
-    "It is required by the Java compiler",
-    "It removes the need for constructors"
+    "It speeds up execution because method calls are faster than direct field access",
+    "It lets any class change the fields freely without knowing how they're stored",
+    "It removes the need for a constructor because fields are set after creation"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Getters and setters let a class validate or restrict how its data is read or changed, protecting the object's internal state.",
    "c": 2
   },
@@ -1528,10 +1528,10 @@
    "u": 2,
    "q": "Which statement about static methods is true?",
    "o": [
-    "They can access instance variables directly without an object",
+    "They belong to each individual object and can directly access instance variables without needing a reference",
     "They belong to the class rather than any instance and cannot directly access instance variables",
-    "They must always return void",
-    "They cannot take parameters"
+    "They can only be called after an object of the class has been created with the new keyword",
+    "They can be overridden by subclasses to give different behavior depending on the object's actual type"
    ],
    "a": 1,
    "e": "Static methods belong to the class itself, so they cannot directly reference instance variables without an object reference."
@@ -1540,12 +1540,12 @@
    "u": 2,
    "q": "What is the output of the following, given a Circle class with getArea() but no toString() override? System.out.println(new Circle(1));",
    "o": [
-    "A meaningful description of the circle",
-    "The class name followed by an @ symbol and a hash code, e.g. Circle@1b6d3586",
-    "1.0",
-    "Compile error"
+    "The area of the circle, 3.14159..., because getArea() is called automatically",
+    "A compile error, since println requires the object's class to define toString()",
+    "The text Circle[radius=1.0], showing each field name and its current value",
+    "The class name followed by an @ symbol and a hash code, e.g. Circle@1b6d3586"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Without a toString() override, Java uses Object's default, which prints the class name and a hexadecimal hash code."
   },
   {
@@ -1564,12 +1564,12 @@
    "u": 2,
    "q": "What happens if a subclass constructor does not explicitly call super(...)? ",
    "o": [
-    "A compile error always occurs",
+    "The compiler rejects the subclass because every constructor must call super explicitly",
+    "Java skips the superclass constructor and leaves the inherited fields uninitialized entirely",
     "Java automatically inserts a call to the superclass's no-argument constructor first",
-    "The object is created without calling any superclass constructor",
-    "It calls the subclass's own constructor twice"
+    "Java calls the superclass's copy constructor using the subclass object as its argument"
    ],
-   "a": 1,
+   "a": 2,
    "e": "If super(...) is not written explicitly, Java automatically inserts a call to the no-argument superclass constructor as the first statement."
   },
   {
@@ -1649,10 +1649,10 @@
    "u": 2,
    "q": "What is the purpose of a class's private helper method?",
    "o": [
-    "To be called only from outside the class",
+    "To let outside classes call a simplified version of the class's public methods directly",
     "To break a complex task into a smaller piece used internally by the class's own methods",
-    "To replace the constructor",
-    "To store data instead of a variable"
+    "To override a method inherited from the superclass so that subclasses cannot change it",
+    "To hold the class's instance variables so that they stay hidden from the class's own methods"
    ],
    "a": 1,
    "e": "A private helper method supports the class's other methods internally and is not intended to be called from outside the class.",
@@ -1712,12 +1712,12 @@
    "u": 3,
    "q": "In a chain of if / else if / else statements, how many branches can execute?",
    "o": [
-    "All branches whose condition is true",
     "Exactly one branch: the first one whose condition is true, or the else if none match",
-    "Only the last branch",
-    "Zero always"
+    "Every branch whose condition is true, checked in order from the top to the bottom of the chain",
+    "Exactly one branch: the last one whose condition is true, or the else if none match",
+    "At least two branches, since the else always runs after the first true condition's block ends"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Java evaluates conditions top to bottom and executes only the first branch found true, skipping the rest; else runs if none matched.",
    "c": 1
   },
@@ -1763,12 +1763,12 @@
    "u": 3,
    "q": "What is a common logic error when using if statements with multiple independent conditions instead of else if?",
    "o": [
-    "The code won't compile",
-    "Multiple blocks may execute when only one was intended, since each if is checked independently",
-    "It always throws a runtime error",
-    "Nothing different happens"
+    "The compiler reports a syntax error because each if must be followed by its own matching else",
+    "Only the first true condition runs, so later independent conditions are silently skipped over",
+    "The conditions are evaluated from the bottom up, so the final if always overrides the earlier ones",
+    "Multiple blocks may execute when only one was intended, since each if is checked independently"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Separate if statements are each evaluated on their own, so more than one block can run, unlike a single if/else if chain where only one branch executes.",
    "c": 1
   },
@@ -1838,12 +1838,12 @@
    "u": 3,
    "q": "What is printed by: int x = 10; if (x < 5); { System.out.println(\"here\"); }",
    "o": [
-    "Nothing is printed",
+    "Nothing is printed, because the condition x < 5 is false so the block is skipped entirely",
+    "A compile-time error occurs, because a semicolon cannot directly follow an if condition in Java",
     "\"here\" is printed unconditionally, because of the stray semicolon after the if condition",
-    "Compile error",
-    "x < 5"
+    "\"here\" is printed only when x is less than 5, because the braces form the body of the if"
    ],
-   "a": 1,
+   "a": 2,
    "e": "The semicolon after the if condition creates an empty statement as the if-body, so the following block always executes regardless of the condition—a classic bug.",
    "c": 1
   },
@@ -1913,10 +1913,10 @@
    "u": 3,
    "q": "What is a truth table used for in boolean logic?",
    "o": [
-    "Storing string values",
+    "Converting a decimal number into its binary equivalent by repeated division by two",
     "Listing all possible input combinations and their resulting boolean output",
-    "Sorting arrays",
-    "Declaring variables"
+    "Measuring how many times a boolean expression is evaluated during program execution",
+    "Tracing the values of variables line by line as a program runs through its statements"
    ],
    "a": 1,
    "e": "A truth table enumerates every combination of boolean inputs and shows the resulting output of a logical expression, useful for verifying equivalences.",
@@ -1963,12 +1963,12 @@
    "u": 3,
    "q": "What does dangling if-else ambiguity refer to, and how does Java resolve it?",
    "o": [
-    "Java disallows nested if statements entirely",
-    "When an else could match multiple if statements; Java binds it to the nearest unmatched if",
-    "It causes a runtime exception",
-    "It causes infinite loops"
+    "When an if has two else clauses; Java reports a compile error and requires braces to fix it",
+    "When an else could match several ifs; Java binds it to the outermost if in the nesting",
+    "When two ifs share the same condition; Java runs only the first and ignores the duplicate one",
+    "When an else could match multiple if statements; Java binds it to the nearest unmatched if"
    ],
-   "a": 1,
+   "a": 3,
    "e": "In nested if statements without braces, Java's rule is that an else always pairs with the closest preceding if that lacks an else.",
    "c": 1
   },
@@ -2025,10 +2025,10 @@
    "u": 3,
    "q": "Why should floating-point numbers generally not be compared for exact equality using ==?",
    "o": [
-    "== does not work on doubles at all",
+    "Floating-point numbers are stored as exact decimals, but == only works on integer types in Java",
     "Floating-point rounding errors can make mathematically equal values differ slightly in representation",
-    "It always causes a compile error",
-    "Doubles are compared using .equals() instead"
+    "The == operator on doubles compares object references, so two equal values are always different",
+    "Doubles can only hold whole numbers, so any fractional value is silently truncated before comparison"
    ],
    "a": 1,
    "e": "Because of how doubles are stored in binary, small rounding errors can make two 'equal' calculations differ slightly, so ranges or tolerances are used instead of ==.",
@@ -2063,12 +2063,12 @@
    "u": 3,
    "q": "What happens if you compare two String objects with == instead of .equals()?",
    "o": [
-    "It always works correctly for content comparison",
-    "It compares whether both variables reference the same object in memory, which can give unexpected false results",
-    "It throws a compile error",
-    "It compares string length only"
+    "It compares the characters in both strings, which gives the same result as .equals() but runs a bit slower",
+    "It throws a ClassCastException at runtime because == cannot be used with two reference types at once",
+    "It compares the string lengths only, so strings with different text but equal length may appear equal",
+    "It compares whether both variables reference the same object in memory, which can give unexpected false results"
    ],
-   "a": 1,
+   "a": 3,
    "e": "== on String objects checks reference identity, not content, so two strings with equal content created differently may compare as not equal with ==.",
    "c": 3
   },
@@ -2089,12 +2089,12 @@
    "u": 3,
    "q": "Which statement about else-if chains is correct regarding readability compared to nested if statements?",
    "o": [
-    "They function identically but else-if often reads more clearly for mutually exclusive conditions",
-    "Nested ifs always execute faster",
-    "else-if chains cannot use boolean expressions",
-    "They cannot include a final else"
+    "Else-if chains run slower because every condition is checked even after an earlier one has been true",
+    "Nested ifs are required for mutually exclusive conditions because else-if cannot be combined with else",
+    "They behave differently, since else-if lets several branches run while nested if runs just one branch",
+    "They function identically but else-if often reads more clearly for mutually exclusive conditions"
    ],
-   "a": 0,
+   "a": 3,
    "e": "else-if chains and equivalent nested if-else structures behave the same, but else-if is usually clearer for a sequence of mutually exclusive conditions."
   },
   {
@@ -2126,12 +2126,12 @@
    "u": 3,
    "q": "What is the output of: int x = 5; if (x = 10) { } — assuming this were legal for int? (Note: in Java this specific case)",
    "o": [
-    "It compiles and sets x to 10",
+    "The condition is true because 10 is nonzero, so the empty block runs and x stays equal to 5",
+    "It compiles and assigns 10 to x, then the empty block executes only if x equals the value 5",
     "It causes a compile-time error because an int cannot be used where a boolean is required",
-    "It always evaluates to false",
-    "x becomes a boolean"
+    "It compiles but throws an ArithmeticException at runtime because an int is used as a condition"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Unlike C, Java requires if conditions to be boolean expressions; assigning an int inside the condition produces a compile-time type error."
   },
   {
@@ -2199,12 +2199,12 @@
    "u": 4,
    "q": "What is the key difference between a while loop and a do-while loop?",
    "o": [
-    "A do-while loop always executes its body at least once, checking the condition after the first pass",
-    "A while loop always executes at least once",
-    "They are functionally identical in all cases",
-    "do-while cannot use boolean conditions"
+    "A while loop always executes its body at least once, checking its condition after the first pass",
+    "A do-while loop can only be used with counters, while a while loop can test any boolean expression",
+    "A do-while loop runs exactly one time more than the equivalent while loop does for every possible input",
+    "A do-while loop always executes its body at least once, checking the condition after the first pass"
    ],
-   "a": 0,
+   "a": 3,
    "e": "A do-while loop checks its condition after executing the loop body, guaranteeing at least one execution, unlike a while loop which checks first.",
    "c": 2
   },
@@ -2325,12 +2325,12 @@
    "u": 4,
    "q": "What is an off-by-one error in loop design?",
    "o": [
-    "A syntax error that prevents compilation",
+    "A syntax error where the loop header is missing one semicolon, so the compiler cannot decide how many times to run",
+    "A logic error where the loop variable is incremented twice in each iteration, often due to a stray i++ in the body",
     "A logic error where a loop runs one time too many or too few iterations, often due to boundary conditions like < vs <=",
-    "An error only in while loops",
-    "An error caused by using continue"
+    "An error where a loop never ends because the condition can never become false, often due to a missing update"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Off-by-one errors happen when loop bounds are set incorrectly (e.g., using < instead of <= or starting at the wrong index), causing one extra or missing iteration.",
    "c": 4
   },
@@ -2412,12 +2412,12 @@
    "u": 4,
    "q": "Why can't you use a for-each loop to modify the original elements of an int array?",
    "o": [
-    "for-each loops cannot iterate over arrays",
+    "The loop variable is declared final by the compiler, so any assignment to it is rejected as a compile error",
+    "For-each loops traverse arrays in read-only mode, so Java throws an exception when elements are reassigned",
     "The loop variable holds a copy of each primitive value, so reassigning it does not change the array",
-    "It is a syntax error to try",
-    "for-each only works with objects, not primitives"
+    "The loop variable refers to the array object itself, so reassigning it replaces the whole array reference"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Since the loop variable in a for-each loop is a copy of the primitive value, changing that variable does not affect the actual array element.",
    "c": 5
   },
@@ -2450,12 +2450,12 @@
    "u": 4,
    "q": "What is a sentinel value in a loop context?",
    "o": [
-    "A special value used to signal the end of input or looping, checked as the loop's stopping condition",
-    "The first element processed",
-    "A syntax keyword",
-    "An error code"
+    "A variable that counts how many times the loop body has run, compared with a fixed upper limit each time",
+    "A temporary value used to swap two variables inside the loop, discarded once the loop body has finished",
+    "A special keyword in Java that forces the loop to skip the current iteration and begin the next one",
+    "A special value used to signal the end of input or looping, checked as the loop's stopping condition"
    ],
-   "a": 0,
+   "a": 3,
    "e": "A sentinel value is a predetermined value (like -1 or an empty string) used to signal that a loop reading input should stop."
   },
   {
@@ -2475,22 +2475,22 @@
    "u": 4,
    "q": "What best describes the purpose of a loop invariant when reasoning about loop correctness?",
    "o": [
-    "A value that changes every iteration",
-    "A condition that remains true before and after each iteration, helping verify the loop behaves correctly",
-    "The loop's final output",
-    "A syntax requirement in Java"
+    "A value that changes on every iteration, helping the programmer predict how many times the loop will repeat",
+    "A variable declared with the final keyword inside the loop header so that the loop counter cannot be changed",
+    "A condition checked only once after the loop finishes, helping confirm that the output matches the input data",
+    "A condition that remains true before and after each iteration, helping verify the loop behaves correctly"
    ],
-   "a": 1,
+   "a": 3,
    "e": "A loop invariant is a property that holds true at the start and end of every iteration, useful for proving a loop achieves its intended purpose."
   },
   {
    "u": 4,
    "q": "What is the output of: for (int i = 1; i <= 3; i++) { for (int j = 1; j <= i; j++) { System.out.print(\"*\"); } System.out.println(); }",
    "o": [
-    "A single row of 3 stars printed on one line",
+    "An inverted triangle: 3 stars, then 2, then 1 star on separate lines",
     "A triangle: 1 star, then 2 stars, then 3 stars on separate lines",
-    "A square made of 3 rows with 3 stars in each",
-    "A triangle of 6 stars all printed together on one line"
+    "A square: 3 stars on each of 3 separate lines, for 9 stars in all",
+    "A single row of 6 stars, printed together on one line with no breaks"
    ],
    "a": 1,
    "e": "The inner loop's bound depends on i, so it prints 1 star on the first line, 2 on the second, and 3 on the third, forming a triangle pattern."
@@ -2536,12 +2536,12 @@
    "u": 4,
    "q": "When accumulating a sum in a loop, why must the accumulator variable be initialized before the loop begins?",
    "o": [
-    "Java automatically initializes all variables to 0",
     "Using an uninitialized local variable causes a compile-time error, and the accumulator needs a known starting value",
-    "It is only a style preference, not a requirement",
-    "Loops cannot use accumulator variables"
+    "Java automatically sets local variables to 0, but the accumulator must still be initialized for the loop to run",
+    "The loop header requires the accumulator to be declared there, and a variable declared later cannot be seen",
+    "Without initialization the accumulator becomes null, and adding to null throws a NullPointerException at runtime"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Java requires local variables to be definitely assigned before use, and an accumulator needs a defined starting point (usually 0) to correctly sum values.",
    "c": 5
   },
@@ -2561,12 +2561,12 @@
    "u": 4,
    "q": "What does 'for (int i = 0; i < arr.length; i++)' guard against, compared to hardcoding a specific number like 10?",
    "o": [
-    "Nothing, they behave identically",
-    "It ensures the loop correctly adapts to arrays of any size, avoiding out-of-bounds errors if the array length changes",
-    "It runs the loop faster",
-    "It only works for arrays of exactly size 10"
+    "It makes the loop run faster, since arr.length is converted into a compile-time constant unlike a hardcoded 10",
+    "It prevents the array from being modified during the loop, so its elements cannot change while being traversed",
+    "It ensures the loop only visits positions that hold nonzero values, skipping any slots left at their default value",
+    "It ensures the loop correctly adapts to arrays of any size, avoiding out-of-bounds errors if the array length changes"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Using arr.length instead of a fixed number keeps the loop correct even if the array's size changes, preventing ArrayIndexOutOfBoundsException.",
    "c": 4
   },
@@ -2574,10 +2574,10 @@
    "u": 4,
    "q": "In nested loops, if a break statement is executed inside the inner loop, what happens?",
    "o": [
-    "Both the inner and outer loops terminate immediately",
+    "Both loops end at once, and execution resumes after the outer loop's closing brace",
     "Only the inner loop terminates; the outer loop continues to its next iteration",
-    "Nothing happens; break only works in switch statements",
-    "The program crashes"
+    "The inner loop ends and the outer loop also ends after finishing its current iteration",
+    "Only the current inner pass is skipped; the inner loop keeps running with the next value"
    ],
    "a": 1,
    "e": "A plain break only exits the loop it is directly inside; the outer loop resumes normally on its own next iteration.",
@@ -2600,12 +2600,12 @@
    "u": 4,
    "q": "What is a common purpose of using a boolean flag variable in a while loop?",
    "o": [
-    "To store the loop counter",
-    "To control when the loop should stop based on some event detected inside the loop, rather than a simple counter",
-    "To replace the need for any condition",
-    "To make the loop run infinitely"
+    "To count how many times the loop body has executed so that the loop can run a fixed number of times, like a for loop",
+    "To make the loop run once for every element in an array without using an index variable or a counter",
+    "To tell the compiler that the loop will end eventually, so that it does not report an infinite loop error",
+    "To control when the loop should stop based on some event detected inside the loop, rather than a simple counter"
    ],
-   "a": 1,
+   "a": 3,
    "e": "A flag variable can be set to true/false based on some condition discovered during loop execution, and then checked to decide whether to continue looping."
   },
   {
@@ -2625,12 +2625,12 @@
    "u": 4,
    "q": "Which statement about the scope of a for loop's control variable (e.g., i in for (int i...)) is correct?",
    "o": [
-    "i is accessible after the loop finishes",
+    "i stays accessible after the loop ends, holding the first value that made the loop condition false",
+    "i is accessible anywhere in the same method, but only after the loop has finished executing completely",
     "i is only accessible within the for loop's own block and cannot be used after the loop ends",
-    "i must be declared outside the loop",
-    "i is a static variable"
+    "i is only accessible within the loop header, and cannot be used inside the body's braces"
    ],
-   "a": 1,
+   "a": 2,
    "e": "A variable declared in the for loop's initialization is scoped only to that loop; it cannot be referenced once the loop has ended."
   },
   {
@@ -2650,10 +2650,10 @@
    "u": 4,
    "q": "Which of the following best explains why 'while (true) { ... break; ... }' is sometimes used intentionally?",
    "o": [
-    "It always creates a bug",
+    "It creates a loop that is guaranteed to run exactly once, which is useful when the program needs to repeat a task a single time only",
     "It creates a loop that runs until an internal condition triggers a break, useful when the exit condition is easier to check mid-loop than at the top",
-    "It never terminates",
-    "It replaces for loops entirely"
+    "It produces an infinite loop that Java allows because the compiler cannot detect it, which is useful for programs that are meant to keep running forever",
+    "It makes the loop skip its condition check on the first pass only, which is useful when the condition depends on user input read inside the body"
    ],
    "a": 1,
    "e": "This pattern is used when the natural place to check for the stopping condition is in the middle of the loop body rather than at the very start."
@@ -2771,9 +2771,9 @@
    "q": "What does the enhanced for-each loop 'for (int x : arr)' do?",
    "o": [
     "Iterates over each element of arr in order, assigning it to x, without needing an index",
-    "Iterates in reverse order",
-    "Only works with the first element",
-    "Requires arr to be sorted first"
+    "Counts from 0 up to arr.length, assigning each index number to x, so that elements can be reassigned",
+    "Copies the entire array arr into the single variable x, then runs the loop body once for that copy",
+    "Loops over arr while x is true, stopping at the first element that is zero or a negative value"
    ],
    "a": 0,
    "e": "The for-each loop automatically iterates through every element of the array in order and assigns each to the loop variable.",
@@ -2783,24 +2783,24 @@
    "u": 5,
    "q": "What is the result of trying to change an array element using a for-each loop, e.g. for (int x : arr) { x = 0; }?",
    "o": [
-    "It sets every element of arr to 0",
-    "It has no effect on the original array, since x is a copy of each element's value",
-    "It throws a runtime exception",
-    "It only changes the first element"
+    "It sets every element of arr to 0, since the loop visits each position in order",
+    "It throws a runtime exception, because arrays cannot be changed inside a for-each loop",
+    "It sets only the first element of arr to 0, because x refers to the array's starting position",
+    "It has no effect on the original array, since x is a copy of each element's value"
    ],
-   "a": 1,
+   "a": 3,
    "e": "In a for-each loop, the loop variable is a copy of the primitive value, so modifying it does not change the actual array."
   },
   {
    "u": 5,
    "q": "How do you find the maximum value in an int[] arr assuming it's non-empty?",
    "o": [
-    "Sort arr and take arr[0]",
+    "Sort the array in descending order first, then return arr[arr.length - 1] as the largest element found",
+    "Initialize max = Integer.MAX_VALUE, then loop through comparing and updating max when a larger element is found",
     "Initialize max = arr[0], then loop through comparing and updating max when a larger element is found",
-    "max = arr.length",
-    "max is always arr[arr.length - 1]"
+    "Add every element into max, then divide by arr.length to obtain the largest value in the array"
    ],
-   "a": 1,
+   "a": 2,
    "e": "The standard algorithm starts with the first element as a candidate maximum, then scans the rest, updating max whenever a bigger value is found.",
    "c": 2
   },
@@ -2808,12 +2808,12 @@
    "u": 5,
    "q": "What is a linear search algorithm used for with arrays?",
    "o": [
-    "Sorting an array in ascending order",
+    "Repeatedly halving the sorted array by checking the middle element until the target value is located",
+    "Sorting the array into ascending order by comparing each pair of neighboring elements in turn",
     "Checking each element sequentially from the start until the target is found or the array ends",
-    "Only works on already-sorted arrays",
-    "Reversing the array"
+    "Counting how many elements are stored by moving through the array and stopping at the first null"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Linear search checks each element one at a time in order, comparing to the target value, and works regardless of whether the array is sorted."
   },
   {
@@ -2971,9 +2971,9 @@
    "q": "What is a common off-by-one bug when initializing an array using its length as a bound, such as new int[arr.length + 1] versus new int[arr.length]?",
    "o": [
     "Choosing the wrong size can leave an extra unused 0-valued slot or cause an index out-of-bounds error elsewhere",
-    "There is no possible bug here",
-    "Arrays cannot use .length in initialization",
-    "It always causes a compile error"
+    "Choosing the wrong size makes Java throw a compile error, since the length of arrays must be a literal constant",
+    "Using arr.length + 1 creates an array whose last index is arr.length + 1, so every access is shifted by one position",
+    "The new array is filled with random values rather than zeros, so the extra slot can hold unpredictable leftover data"
    ],
    "a": 0,
    "e": "Miscounting the required size by one (e.g., forgetting +1 or adding an unnecessary +1) is a classic source of bugs involving unused slots or missing space."
@@ -3006,24 +3006,24 @@
    "u": 5,
    "q": "What causes a NullPointerException when working with an array of objects, e.g. String[] names = new String[3]; System.out.println(names[0].length());?",
    "o": [
-    "Array indices out of bounds",
+    "Arrays of objects are created with zero length, and accessing names[0] throws an exception because index 0 is missing",
+    "Each element defaults to an empty string, and calling length() on an empty string throws this exception at runtime",
     "Each element defaults to null for object arrays, and calling a method on a null reference throws this exception",
-    "Strings cannot be stored in arrays",
-    "The array was never created"
+    "The array was declared but never assigned, so the variable names itself is null and no elements exist yet"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Object array elements (like String) default to null, not empty values, so calling .length() on an unassigned element throws a NullPointerException."
   },
   {
    "u": 5,
    "q": "What is the purpose of the parameter in a method like public static int sum(int[] arr)?",
    "o": [
-    "To return a copy of arr",
     "To accept a reference to an existing array so the method can process its elements",
-    "To create a brand-new array named arr",
-    "To declare arr as a local variable only"
+    "To make a separate copy of the array inside the method so the caller's array stays intact",
+    "To tell the method how many integers to read from the keyboard before it adds them together",
+    "To hold the final sum that the method returns, since a method cannot return values directly"
    ],
-   "a": 1,
+   "a": 0,
    "e": "The method parameter receives a reference to the caller's array, allowing the method to read (and potentially modify) its elements.",
    "c": 3
   },
@@ -3043,12 +3043,12 @@
    "u": 5,
    "q": "Which statement about multi-declaration array literals like int[] arr = {1, 2, 3}; is true?",
    "o": [
+    "This syntax can be used to reassign the array at any later point, as in arr = {4, 5, 6};",
+    "This syntax needs the size inside the brackets, as in int[3] arr = {1, 2, 3};",
     "This syntax is only valid at the point of declaration, not for later assignment",
-    "This creates an array of length 4",
-    "This requires the 'new' keyword explicitly",
-    "This is a syntax error in Java"
+    "This syntax creates a resizable list that can be extended later with the add method"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Array initializer syntax like {1, 2, 3} can only be used when declaring the array; you cannot use it later with arr = {1,2,3};, you would need new int[]{1,2,3}."
   },
   {
@@ -3067,24 +3067,24 @@
    "u": 5,
    "q": "What does it mean for an algorithm to be in-place, like many array-based sorts?",
    "o": [
-    "It requires creating an entirely new array for output",
+    "It builds a second sorted array alongside the original, using extra memory proportional to the array's length",
+    "It runs in constant time regardless of the array's size, because the elements are never examined or moved",
     "It rearranges elements within the original array using only a small constant amount of extra memory",
-    "It only works on sorted input",
-    "It cannot use swapping"
+    "It sorts only a part of the array, leaving the remaining elements in the positions where they started"
    ],
-   "a": 1,
+   "a": 2,
    "e": "In-place algorithms modify the original data structure directly, without needing significant additional storage proportional to input size."
   },
   {
    "u": 5,
    "q": "What happens when linear search is used to find a value that does not exist in an array?",
    "o": [
-    "It throws an exception",
+    "It throws an ArrayIndexOutOfBoundsException when the search reaches the end without locating the target",
+    "It stops after checking half of the elements and returns 0 to show that nothing was found",
     "It examines every element without finding a match, and typically returns a sentinel like -1",
-    "It returns the first element",
-    "It causes an infinite loop"
+    "It loops back to the first element and begins checking again, continuing until the program is stopped"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Linear search checks every element; when the target isn't present, the search completes the whole array and conventionally signals failure with a value like -1."
   },
   {
@@ -3129,12 +3129,12 @@
    "u": 5,
    "q": "What is a key limitation of using a fixed-size array to store a growing collection of data?",
    "o": [
-    "Arrays automatically resize when full",
-    "Once created, an array's size cannot change; a larger array must be created and elements copied over to add more room",
-    "Arrays can only store primitives",
-    "Arrays cannot be passed to methods"
+    "Arrays can only store primitive values, so a growing collection of objects such as Strings cannot be kept in them",
+    "An array's size is fixed when the program is compiled, so its length must be given as a literal number in the code",
+    "Elements added past the end are silently dropped by Java, so the extra data is lost without any error message",
+    "Once created, an array's size cannot change; a larger array must be created and elements copied over to add more room"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Arrays have a fixed length once created; increasing capacity requires allocating a new, larger array and copying the existing elements into it."
   },
   {
@@ -3165,12 +3165,12 @@
    "u": 6,
    "q": "What is stored in an ArrayList<Integer> versus an int[] array in terms of flexibility?",
    "o": [
-    "Both have fixed size after creation",
+    "An ArrayList has a fixed size, while a plain array can grow and shrink as needed",
+    "An ArrayList<Integer> can mix Strings and ints freely, while a plain int[] holds only ints",
     "An ArrayList can grow and shrink dynamically, while a plain array has a fixed size",
-    "Arrays can grow dynamically but ArrayLists cannot",
-    "They are functionally identical"
+    "An ArrayList is indexed starting at 1, while a plain array is indexed starting at 0"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Unlike arrays, ArrayList automatically resizes itself as elements are added or removed, offering more flexibility."
   },
   {
@@ -3226,12 +3226,12 @@
    "u": 6,
    "q": "What happens to the indices of elements after list.remove(2) is called on an ArrayList?",
    "o": [
-    "Nothing changes for the elements that come after it",
+    "All elements before index 2 shift up by one index to make room",
+    "Index 2 is left empty as null, and every other element keeps its index",
     "All elements after index 2 shift down by one index to fill the gap",
-    "The whole list becomes null after the removal",
-    "A gap stays at index 2 until it is filled in later"
+    "The remaining elements are renumbered starting from 1 after the removal"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Removing an element from an ArrayList shifts all subsequent elements one position earlier to keep the list contiguous.",
    "c": 1
   },
@@ -3239,22 +3239,22 @@
    "u": 6,
    "q": "What is autoboxing in the context of ArrayList<Integer>?",
    "o": [
-    "Manually converting int to Integer using a cast",
+    "The conversion of an object into a string that Java performs whenever the object is printed or concatenated",
+    "The process by which Java automatically resizes the underlying array of an ArrayList when it becomes full",
     "The automatic conversion Java performs between a primitive type (like int) and its wrapper class (like Integer)",
-    "A method for sorting lists",
-    "A type of loop"
+    "The conversion of an ArrayList<Integer> into a plain int[] array that Java performs when the list is passed"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Autoboxing is Java's automatic conversion of primitive values to their corresponding wrapper objects (e.g., int to Integer) when needed, such as when adding to an ArrayList<Integer>."
   },
   {
    "u": 6,
    "q": "Why can't you create an ArrayList<int> in Java?",
    "o": [
-    "int is misspelled",
+    "ArrayList only supports String elements, and primitives such as int must be converted to String before adding",
     "Generic type parameters must be reference (wrapper) types, not primitives; use ArrayList<Integer> instead",
-    "ArrayLists only store Strings",
-    "It is legal in Java"
+    "The int type is too small for generics, so ArrayList<long> or ArrayList<double> would be required instead",
+    "ArrayList<int> is legal, but it requires the import java.util.* and a constructor argument giving its capacity"
    ],
    "a": 1,
    "e": "Java generics require object types, so primitives like int cannot be used directly as type parameters; the wrapper class Integer is used instead."
@@ -3299,12 +3299,12 @@
    "u": 6,
    "q": "What does list.contains(\"apple\") return for an ArrayList<String>?",
    "o": [
-    "The index of \"apple\" if present",
     "true if the list contains an element equal to \"apple\", false otherwise",
-    "Always true",
-    "The number of times \"apple\" appears"
+    "The index position of \"apple\" if it is in the list, or -1 if it is absent",
+    "The number of times \"apple\" appears in the list, or 0 if it is not present",
+    "true if \"apple\" is the first element of the list, false for any other spot"
    ],
-   "a": 1,
+   "a": 0,
    "e": "contains() returns a boolean indicating whether the list has at least one element equal (via equals()) to the specified value.",
    "c": 1
   },
@@ -3312,12 +3312,12 @@
    "u": 6,
    "q": "What is a common bug when removing elements from an ArrayList while iterating forward with a for loop, such as removing based on a condition?",
    "o": [
-    "No bug occurs",
-    "Elements shift down after removal, so the next index may skip an element that should also be checked",
-    "It always throws a compile error",
-    "ArrayLists cannot have elements removed"
+    "The loop throws an exception on the first removal, since the list size changes while it is looping",
+    "Removed elements stay in memory as null, so the loop must test each position for null before using it",
+    "Elements before the removed index shift up by one, so the previous index may be checked a second time",
+    "Elements shift down after removal, so the next index may skip an element that should also be checked"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Because remaining elements shift to fill the gap after a removal, continuing to increment the index can cause the loop to skip over the next element."
   },
   {
@@ -3337,12 +3337,12 @@
    "u": 6,
    "q": "Which best explains the concept of an object reference in Java, as opposed to a primitive value?",
    "o": [
-    "A reference stores the actual object data directly, like a primitive",
+    "A reference stores a full copy of the object's data directly inside the variable, just like a primitive value",
+    "A reference stores the object's class name as text, which Java looks up whenever a method is called",
     "A reference stores the memory location (address) that points to where the actual object data is stored",
-    "References only exist for arrays",
-    "References are the same as primitives"
+    "A reference stores only the object's first field value, and the other fields are looked up as needed"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Unlike primitives which hold their value directly, reference variables hold an address pointing to the object's data stored elsewhere in memory."
   },
   {
@@ -3385,12 +3385,12 @@
    "u": 6,
    "q": "What is the difference between remove(int index) and remove(Object o) for ArrayList<Integer>?",
    "o": [
-    "They behave identically",
+    "remove(int) removes the first element equal to that value; remove(Object) removes the element at that index position",
+    "remove(int) shifts elements and returns the removed element, but remove(Object) leaves a null gap where it was removed",
     "remove(int) removes the element at that index; remove(Object) removes the first element equal to that object's value",
-    "remove(Object) is illegal for ArrayList",
-    "remove(int) removes by value, not index"
+    "They behave the same, because Java converts every int argument into an Integer object before choosing the method"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Due to overloading, remove(int) treats its argument as an index, while remove(Object) (e.g., remove(Integer.valueOf(5))) searches for and removes a matching value."
   },
   {
@@ -3409,24 +3409,24 @@
    "u": 6,
    "q": "Which of the following describes how ArrayList achieves its dynamic resizing internally?",
    "o": [
-    "It uses linked nodes exclusively",
+    "It is backed by a linked chain of nodes, and Java simply attaches a new node whenever another element is added",
+    "It is backed by an array whose size is doubled by the programmer calling ensureCapacity before each element is added",
     "It is backed by an array that Java automatically replaces with a larger array (copying elements) when capacity is exceeded",
-    "It uses a HashMap internally",
-    "It cannot resize, hence the fixed-size limitation"
+    "It is backed by an array that Java shrinks and grows by one slot every time an element is added or removed"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Internally, ArrayList maintains a backing array; when it becomes full, a new larger array is created and existing elements are copied over automatically."
   },
   {
    "u": 6,
    "q": "What is aliasing in the context of Java references?",
    "o": [
-    "Two different variables referring to the same underlying object, so changes through one affect the other",
-    "Renaming a variable",
-    "Copying an object's contents",
-    "A type of loop"
+    "Giving a variable a second name by declaring it twice in the same method, which causes a compile-time error",
+    "Copying an object field by field into a new object, so changes through one variable do not affect the other",
+    "Two different objects that hold equal values, so that .equals() returns true even though they are separate",
+    "Two different variables referring to the same underlying object, so changes through one affect the other"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Aliasing occurs when multiple reference variables point to the same object in memory, meaning modifications via any alias are visible through all of them.",
    "c": 4
   },
@@ -3434,12 +3434,12 @@
    "u": 6,
    "q": "What does 'ArrayList<Integer> copy = new ArrayList<Integer>(original);' do?",
    "o": [
-    "Makes copy an alias of original",
+    "Creates a new ArrayList that is only another name for original, so adding to either list changes both of them equally",
+    "Creates a new empty ArrayList with the same capacity as original, but none of its elements are copied over",
     "Creates a new ArrayList containing copies of the references/values from original, independent of the original list structure",
-    "Deletes original",
-    "Throws a compile error"
+    "Causes a compile-time error, because the ArrayList constructor cannot accept another ArrayList and only accepts an int capacity"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Passing a collection to the ArrayList constructor creates a new list with the same elements, so structural changes (add/remove) to one don't affect the other.",
    "c": 4
   },
@@ -3471,36 +3471,36 @@
    "u": 6,
    "q": "Which statement about wrapper classes like Integer, Double, and Boolean is true?",
    "o": [
-    "They are primitives just like int, double, boolean",
+    "They are special primitive types that can hold null, needed whenever a variable must be stored in an array",
+    "They are subclasses of String that convert numbers to text, needed for printing primitive values to the console",
     "They are object representations of primitive types, needed for use in generic collections like ArrayList",
-    "They cannot store any numeric value",
-    "They replace the need for primitives entirely"
+    "They are faster versions of the primitive types, needed whenever a calculation uses very large numbers"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Wrapper classes wrap a primitive value in an object, which is required because Java generics only work with reference types."
   },
   {
    "u": 6,
    "q": "What is the output of comparing two Integer objects using ==, e.g. Integer a = new Integer(100); Integer b = new Integer(100); System.out.println(a == b);?",
    "o": [
-    "true",
+    "true, because Java compares the numeric values stored in the two Integer objects when using ==",
+    "true, because both objects were built from the same literal 100 and share one memory spot",
     "false, because == compares object references, not values, for these Integer objects",
-    "Compile error",
-    "100"
+    "A compile-time error, because == cannot be applied to two Integer objects, only to int values"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Since a and b are separate Integer objects (not the same reference), == returns false even though their wrapped values are equal; .equals() should be used instead."
   },
   {
    "u": 6,
    "q": "What does the .equals() method do differently from == when comparing two ArrayList<String> objects with the same elements in the same order?",
    "o": [
-    "Nothing different; they behave the same",
+    "== checks whether the two lists have equal contents; .equals() checks whether they are the same object in memory",
+    "== compares the first elements of each list only; .equals() compares every element but ignores their order",
     "== checks if they are the same object in memory; .equals() checks whether their contents (elements, order) are equal",
-    "equals() is not defined for ArrayList",
-    "== always returns true for lists"
+    "Both check that the lists are the same object in memory, but .equals() also compares the lists' capacities"
    ],
-   "a": 1,
+   "a": 2,
    "e": "ArrayList overrides equals() to perform an element-by-element content comparison, whereas == only checks whether both variables reference the identical list object.",
    "c": 4
   },
@@ -3520,12 +3520,12 @@
    "u": 6,
    "q": "When a method has a parameter ArrayList<Integer> list and modifies it by calling list.add(5), what happens to the original list passed by the caller?",
    "o": [
-    "Nothing; it's unaffected since Java is pass by value",
+    "The original list is unchanged, since Java passes a separate copy of the whole list to the method",
+    "A runtime error occurs, because a method is not allowed to change a list that the caller created",
     "The original list is also modified, since the reference passed points to the same object",
-    "A compile error occurs",
-    "A new list is created"
+    "Only the size of the original list changes, while its existing elements stay as they were before"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Because the reference (not a copy of the object) is passed, calling mutating methods like add() on the parameter affects the same object the caller has."
   },
   {
@@ -3556,24 +3556,24 @@
    "u": 6,
    "q": "How does traversing an ArrayList with an index-based for loop differ syntactically from traversing an array?",
    "o": [
-    "It is identical, using list[i] just like arr[i]",
-    "It uses list.get(i) instead of bracket notation, since ArrayList doesn't overload the [] operator",
-    "ArrayLists cannot be traversed with a for loop",
-    "list.i is used instead"
+    "It uses list[i] with brackets exactly as arrays do, since ArrayList supports the bracket operator",
+    "It uses list.length to get the number of elements, then reads each element with list.get(i)",
+    "It must use a while loop, because ArrayList cannot be traversed with an index-based for loop",
+    "It uses list.get(i) instead of bracket notation, since ArrayList doesn't overload the [] operator"
    ],
-   "a": 1,
+   "a": 3,
    "e": "ArrayList does not support array bracket syntax; elements must be accessed with the get(i) method inside an index-based loop."
   },
   {
    "u": 6,
    "q": "Which scenario is a strong reason to prefer ArrayList over a plain array?",
    "o": [
-    "You know the exact fixed size in advance and need maximum performance",
+    "The program stores a fixed set of values whose count is known when the code is written",
+    "The program needs to store primitive values like int, since a plain array cannot hold primitives",
     "The number of elements will change frequently during the program's execution (adding/removing)",
-    "You are storing primitive types only",
-    "You need multidimensional data only"
+    "The program must access elements by index as quickly as possible with the smallest memory use"
    ],
-   "a": 1,
+   "a": 2,
    "e": "ArrayList's dynamic resizing and built-in add/remove methods make it well-suited for situations where the collection size changes over time."
   },
   {
@@ -3616,10 +3616,10 @@
    "u": 6,
    "q": "What is a key advantage of using generics, such as ArrayList<String>, over a raw ArrayList without a type parameter?",
    "o": [
-    "Generics make the list slower",
+    "Generics make the program run faster at runtime, because Java skips type checks completely once a type parameter is given in the declaration",
     "Generics provide compile-time type checking, preventing accidental insertion of the wrong type and avoiding manual casting when retrieving elements",
-    "Generics remove the need for the add method",
-    "Generics only work with numbers"
+    "Generics allow the list to hold values of any type mixed together while still being checked, so casting is needed only when reading elements",
+    "Generics let ArrayList store primitive values such as int directly, which saves memory compared with the raw version holding only object references"
    ],
    "a": 1,
    "e": "Specifying a type parameter lets the compiler catch type errors early and removes the need to cast objects retrieved from the list."
@@ -3640,12 +3640,12 @@
    "u": 6,
    "q": "Which is true about passing an ArrayList to a method versus passing an int to a method?",
    "o": [
-    "Both are always copied fully",
-    "The ArrayList reference is copied, but it points to the same underlying object, so mutations are visible to the caller; the int is copied by value and changes inside the method don't affect the caller's variable",
-    "Neither can be passed to methods",
-    "int is passed by reference in Java"
+    "The ArrayList is copied entirely into the method, so changes inside are invisible to the caller, while the int is passed by reference, so changes inside the method do change the caller's variable",
+    "Both are passed by reference, so any change made to the ArrayList or to the int inside the method is visible to the caller afterward, since Java does not copy arguments when calling methods",
+    "Both are copied by value, and the ArrayList copy is a separate list, so adding elements inside the method cannot change the caller's list, and the int is likewise unaffected by any change",
+    "The ArrayList reference is copied, but it points to the same underlying object, so mutations are visible to the caller; the int is copied by value and changes inside the method don't affect the caller's variable"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Java is pass-by-value for everything, but for reference types like ArrayList, the value passed is the reference itself, so both caller and method see the same object; primitives like int are copied as independent values."
   },
   {
@@ -3715,12 +3715,12 @@
    "u": 7,
    "q": "What is inheritance in object-oriented programming?",
    "o": [
+    "A mechanism where a class bundles its fields and hides them from other classes behind public getter methods",
+    "A mechanism where several methods in one class share the same name but have different parameter lists",
     "A mechanism where one class (subclass) acquires fields and methods from another class (superclass)",
-    "A way to declare multiple constructors",
-    "A method for sorting objects",
-    "A type of loop structure"
+    "A mechanism where a method calls itself with a smaller input until it reaches a condition that stops it"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Inheritance allows a subclass to reuse and extend the fields and methods defined in a superclass, establishing an 'is-a' relationship.",
    "c": 2
   },
@@ -3753,12 +3753,12 @@
    "u": 7,
    "q": "What does calling super() as the first line of a subclass constructor do?",
    "o": [
-    "Calls a method named super",
+    "Creates a brand new superclass object in memory that the subclass object then refers to as a separate parent",
+    "Overrides the superclass's methods so that the subclass's own versions run in place of the inherited ones",
     "Invokes the superclass's constructor to initialize inherited fields before the subclass's own initialization runs",
-    "Deletes the superclass",
-    "Creates a new subclass instance"
+    "Calls the subclass's other constructor so that its fields are set before the superclass part is created"
    ],
-   "a": 1,
+   "a": 2,
    "e": "super() explicitly invokes the superclass's constructor, ensuring the inherited part of the object is properly initialized first.",
    "c": 2
   },
@@ -3766,10 +3766,10 @@
    "u": 7,
    "q": "What is polymorphism in the context of inheritance, as demonstrated by 'Animal a = new Dog();'?",
    "o": [
-    "A syntax error, since Dog and Animal are different types",
+    "A method in a class can be declared several times with different parameter lists, so the compiler picks which one to run based on the reference's declared type",
     "A reference of the supertype can refer to an object of a subtype, allowing overridden methods to run based on the object's actual (dynamic) type",
-    "Casting always required for this to work",
-    "This only compiles if Dog has no methods"
+    "A subclass reference can refer to a superclass object without any cast, allowing the superclass's methods to run based on the variable's declared type",
+    "An object can hide its fields from other classes, allowing only its own methods to read them based on the access modifier declared for each"
    ],
    "a": 1,
    "e": "Polymorphism allows a superclass reference to point to a subclass object, and calling an overridden method uses the actual runtime type's version (dynamic method binding).",
@@ -3779,10 +3779,10 @@
    "u": 7,
    "q": "If Dog overrides Animal's makeSound() method, what happens when you call a.makeSound() where Animal a = new Dog();?",
    "o": [
-    "Animal's version always runs, since a is declared as Animal",
+    "Animal's version runs, because Java uses the reference variable's declared type to decide which method to call",
     "Dog's overridden version runs, because Java uses the object's actual runtime type to decide which method to call",
-    "A compile error occurs",
-    "Both versions run"
+    "A compile-time error occurs, because the Animal class does not know about the Dog class's version of makeSound()",
+    "Both versions run, Animal's first and then Dog's, because Java calls every makeSound() found in the hierarchy"
    ],
    "a": 1,
    "e": "Java uses dynamic (runtime) method dispatch for overridden instance methods, so the actual object's class (Dog) determines which version executes, regardless of the reference's declared type.",
@@ -3804,10 +3804,10 @@
    "u": 7,
    "q": "What must be true for a subclass method to properly override a superclass method?",
    "o": [
-    "It must have a different name",
+    "It must have the same name and a different parameter list, along with a return type compatible with the original",
     "It must have the same name, same parameter list, and a compatible return type as the superclass method",
-    "It must have a different return type",
-    "It must be declared private"
+    "It must have the same name and parameter list, and be declared with a more restrictive access level such as private",
+    "It must have the same parameter list and a different name, plus the static keyword so it replaces the original method"
    ],
    "a": 1,
    "e": "A valid override requires an identical method signature (name and parameters) to the superclass version, with a covariant or identical return type.",
@@ -3829,24 +3829,24 @@
    "u": 7,
    "q": "Which of the following correctly sums all elements of a 2D int array using nested loops?",
    "o": [
-    "int sum=0; for(int i=0;i<grid.length;i++) sum+=grid[i];",
+    "int sum=0; for(int i=0;i<grid.length;i++) for(int j=0;j<grid[i].length;j++) sum=grid[i][j];",
+    "int sum=0; for(int i=0;i<=grid.length;i++) for(int j=0;j<grid[i].length;j++) sum+=grid[i][j];",
     "int sum=0; for(int i=0;i<grid.length;i++) for(int j=0;j<grid[i].length;j++) sum+=grid[i][j];",
-    "int sum=grid.length;",
-    "int sum=0; for(int j=0;j<grid.length;j++) sum+=grid[j];"
+    "int sum=0; for(int i=0;i<grid.length;i++) for(int j=0;j<grid[i].length;j++) sum+=grid[i][0];"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Correctly summing a 2D array requires a nested loop: the outer loop over rows and the inner loop over each row's columns, adding grid[i][j] each time."
   },
   {
    "u": 7,
    "q": "What does it mean if a subclass 'is-a' type of its superclass, e.g. a Dog is-a Animal?",
    "o": [
-    "Dog and Animal share no relationship",
-    "Every Dog object can also be treated as an Animal object due to inheritance, satisfying the substitution principle",
-    "Animal objects can be treated as Dog objects",
-    "This is only true for interfaces"
+    "Every Animal object can also be treated as a Dog object, since the superclass inherits from the subclass and so substitutes for it",
+    "A Dog object contains an Animal object as a field, which it uses to forward method calls to the superclass",
+    "Dog and Animal must share the same constructor parameters, so that either one can be created from the other",
+    "Every Dog object can also be treated as an Animal object due to inheritance, satisfying the substitution principle"
    ],
-   "a": 1,
+   "a": 3,
    "e": "The is-a relationship means a subclass object can be used anywhere its superclass type is expected, since it inherits and extends that type's capabilities.",
    "c": 2
   },
@@ -3931,12 +3931,12 @@
    "u": 7,
    "q": "What is the effect of declaring a superclass method as 'private'?",
    "o": [
-    "It can be overridden normally by subclasses",
+    "It can be inherited by subclasses but not overridden, because private methods act like final ones",
+    "It is inherited by subclasses and can be overridden, but only from classes in the same package",
     "It cannot be inherited or overridden by subclasses at all, since subclasses can't even see it",
-    "It becomes accessible to all classes",
-    "It must be static"
+    "It can be overridden by subclasses, but the subclass version must also be declared private to match"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Private members are not inherited in the usual sense—subclasses cannot see or override them because they are not visible outside the declaring class."
   },
   {
@@ -3955,12 +3955,12 @@
    "u": 7,
    "q": "Which of the following best describes the relationship established using 'implements' with an interface, compared to 'extends' with a class?",
    "o": [
-    "They are functionally identical in every way",
     "'implements' is used for a class to fulfill an interface's contract (method signatures), while 'extends' establishes a class inheritance hierarchy",
-    "'implements' is only for primitive types",
-    "'extends' cannot be used with abstract classes"
+    "'implements' lets a class extend only one parent class and inherit its code, while 'extends' lets it fulfill many interface contracts at once",
+    "'implements' copies an interface's method bodies into the class automatically, while 'extends' requires the class to write every method itself",
+    "'implements' creates a class inheritance hierarchy where fields are inherited, while 'extends' fulfills an interface's contract of signatures"
    ],
-   "a": 1,
+   "a": 0,
    "e": "'implements' connects a class to an interface it must fully define the methods for, whereas 'extends' creates a superclass-subclass inheritance relationship.",
    "c": 4
   },
@@ -3968,36 +3968,36 @@
    "u": 7,
    "q": "What is the output of using the .equals() method versus overriding toString() when printing a subclass object that inherits Object's default equals but overrides toString?",
    "o": [
-    "Both use the inherited default automatically",
-    "println uses the overridden toString() for the object's text representation, while equals() (not overridden) still compares object references",
-    "toString overrides equals automatically",
-    "Neither can be customized"
+    "println uses equals() to produce the object's text representation, while the overridden toString() decides whether two objects hold the same data",
+    "println prints the object's memory address because equals() is not overridden, and the overridden toString() is used only when comparing objects",
+    "Both methods must be overridden together for println to work, otherwise the compiler reports an error when the subclass object is printed",
+    "println uses the overridden toString() for the object's text representation, while equals() (not overridden) still compares object references"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Overriding only toString() customizes what gets printed, while equals() retains the inherited (default) reference-comparison behavior unless it's separately overridden."
   },
   {
    "u": 7,
    "q": "When traversing a rectangular 2D array to print it row by row, what is a correct approach?",
    "o": [
+    "for (int i=0;i<grid.length;i++){ for(int j=0;j<grid[i].length;j++){ System.out.print(grid[i][j]+\" \"); System.out.println(); } }",
     "for (int i=0;i<grid.length;i++){ for(int j=0;j<grid[i].length;j++) System.out.print(grid[i][j]+\" \"); System.out.println(); }",
-    "for (int i=0;i<grid.length;i++) System.out.println(grid[i]);",
-    "for (int j=0;j<grid.length;j++) System.out.print(grid);",
-    "System.out.println(grid);"
+    "for (int i=0;i<=grid.length;i++){ for(int j=0;j<=grid[i].length;j++) System.out.print(grid[i][j]+\" \"); System.out.println(); }",
+    "for (int i=0;i<grid.length;i++){ for(int j=0;j<grid[i].length;j++) System.out.print(grid[i]+\" \"); System.out.println(); }"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Printing a 2D array row by row requires nested loops: an outer loop for rows and an inner loop to print each column value, with a newline after each row."
   },
   {
    "u": 7,
    "q": "What does calling a constructor of a subclass automatically do regarding the superclass?",
    "o": [
-    "Nothing related to the superclass happens",
-    "It implicitly or explicitly invokes a superclass constructor (via super() or an automatic default call) before running its own body",
-    "It skips superclass initialization entirely",
-    "It deletes the superclass fields"
+    "It does nothing with the superclass unless the programmer writes super(), because Java does not build the superclass part of an object by itself",
+    "It runs the superclass constructor after its own body has finished, so inherited fields are set up only once subclass code is done",
+    "It creates a separate superclass object and stores a reference to it inside the subclass object, which is then used for inherited fields",
+    "It implicitly or explicitly invokes a superclass constructor (via super() or an automatic default call) before running its own body"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Every subclass constructor's first action (implicit or explicit) is to invoke a superclass constructor, ensuring inherited fields are properly initialized.",
    "c": 2
   },
@@ -4005,12 +4005,12 @@
    "u": 7,
    "q": "Which best explains why overriding requires the exact same parameter list as the superclass method, while overloading requires a different one?",
    "o": [
-    "Overriding is about the compiler picking a version at compile time; overloading is dynamic",
+    "Overriding defines several methods with different parameters in the same class so the compiler picks one; overloading replaces the inherited behavior for the same method signature in a subclass",
+    "Overriding requires a different return type so subclass objects can be told apart at runtime, while overloading requires the same parameters so the compiler can tell which method was called",
     "Overriding replaces the inherited behavior for the same method signature so it's substitutable at runtime; overloading defines distinct methods differentiated by their parameters",
-    "They actually behave identically",
-    "Only overloading exists in Java, not overriding"
+    "Overriding only works for static methods that are resolved when the code compiles; overloading works for instance methods whose version is chosen from the object's actual class at runtime"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Overriding must exactly match the signature so calls resolve polymorphically to the subclass version at runtime, while overloading depends on distinct parameter lists resolved at compile time.",
    "c": 3
   },
@@ -4043,12 +4043,12 @@
    "u": 7,
    "q": "Why is dynamic method binding (also called dynamic dispatch) important for polymorphism to work correctly?",
    "o": [
-    "It ensures the compiler always picks the superclass method",
+    "It ensures that at compile time, the reference's declared type determines which overridden method executes, not the actual object's class",
+    "It lets the compiler replace every method call with the method's body ahead of time, so no lookup of the object's class is needed",
     "It ensures that at runtime, the actual object's class determines which overridden method executes, not the reference's declared type",
-    "It only matters for static methods",
-    "It prevents inheritance from working"
+    "It makes Java create a new object of the subclass for each method call, so that the overridden version has its own fresh fields"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Dynamic dispatch is what allows a superclass-typed reference to correctly invoke a subclass's overridden method based on the object's real, runtime type.",
    "c": 3
   },
@@ -4080,12 +4080,12 @@
    "u": 7,
    "q": "What must a subclass constructor do if its superclass has no no-argument constructor (only a constructor requiring parameters)?",
    "o": [
-    "Nothing special is needed",
     "It must explicitly call super(args) with matching arguments as its first statement, since Java cannot supply a default no-arg call",
-    "It cannot extend that class",
-    "It must override the superclass constructor"
+    "It can leave out the call to super entirely, because Java will create the missing no-argument constructor for the superclass automatically",
+    "It must call this() with no arguments as its first statement, which makes the compiler supply the missing superclass constructor",
+    "It must call super() with no arguments after its own body finishes, so the superclass fields are filled with their default values"
    ],
-   "a": 1,
+   "a": 0,
    "e": "If the superclass has no no-argument constructor, the subclass must explicitly invoke an existing superclass constructor via super(args) matching one of its signatures.",
    "c": 2
   },
@@ -4131,10 +4131,10 @@
    "u": 7,
    "q": "Which of the following best describes an abstract class in relation to inheritance?",
    "o": [
-    "A class that cannot be extended by any subclass",
+    "A class that can be instantiated directly but whose methods cannot be overridden by any of its subclasses",
     "A class that cannot be instantiated directly and may contain abstract methods that subclasses must implement",
-    "A class with only static methods",
-    "A class that must implement every method with a body"
+    "A class that cannot be extended by other classes and may contain final methods that subclasses must keep unchanged",
+    "A class that has only constants and method signatures, which another class must implement using the implements keyword"
    ],
    "a": 1,
    "e": "An abstract class serves as a partial blueprint: it cannot be instantiated on its own, and it may declare abstract methods that concrete subclasses are required to override.",
@@ -4156,10 +4156,10 @@
    "u": 8,
    "q": "What is a base case in a recursive method?",
    "o": [
-    "The case that causes infinite recursion",
+    "A condition that makes the method call itself again with a larger input, repeating until memory is used up",
     "A condition that stops the recursive calls and returns a result directly, without further recursion",
-    "The first recursive call made",
-    "An error condition"
+    "The first call made to the recursive method from main, which begins the chain of calls that follow it",
+    "A loop inside the recursive method that repeats the same steps until the input has been fully processed"
    ],
    "a": 1,
    "e": "The base case is the simplest scenario in a recursive method that can be answered directly, halting further recursive calls and preventing infinite recursion.",
@@ -4169,12 +4169,12 @@
    "u": 8,
    "q": "What is the most likely result of a recursive method that has no base case, or whose base case is never reached?",
    "o": [
-    "It eventually causes a StackOverflowError due to infinite recursive calls",
-    "It runs faster because it never stops to check a condition",
-    "It returns 0 automatically once the calls become too deep",
-    "It compiles but does nothing when it is called"
+    "It returns 0 once the first call ends, because the method never reaches a return",
+    "A compile-time error, because Java detects that the base case cannot be reached",
+    "It loops indefinitely without any error, because Java grows the stack as needed",
+    "It eventually causes a StackOverflowError due to infinite recursive calls"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Without a base case that is eventually reached, recursive calls continue indefinitely, exhausting the call stack and causing a StackOverflowError.",
    "c": 0
   },
@@ -4207,10 +4207,10 @@
    "u": 8,
    "q": "What does the recursive case of a recursive method typically do?",
    "o": [
-    "Directly returns a final answer",
+    "Returns a final value directly when the input is small enough, without making any further calls to the method",
     "Breaks the problem into a smaller version of itself and calls the method again on that smaller version",
-    "Always causes an error",
-    "Loops forever"
+    "Repeats the same problem at its original size and calls the method again, hoping the input will change itself",
+    "Uses a loop to process the input one piece at a time and then calls the method once after the loop ends"
    ],
    "a": 1,
    "e": "The recursive case reduces the problem to a smaller subproblem and calls the method recursively on that smaller input, progressing toward the base case.",
@@ -4280,10 +4280,10 @@
    "u": 8,
    "q": "What is a key inefficiency of the naive recursive Fibonacci implementation for larger n?",
    "o": [
-    "It uses too little memory",
+    "It uses a loop inside every call, which makes the running time grow linearly with the value of n",
     "It recomputes the same subproblems repeatedly, leading to exponential time complexity",
-    "It cannot compute fib(0)",
-    "It only works for even n"
+    "It stores every Fibonacci value in a large array first, which uses too much memory for larger n",
+    "It runs out of base cases for large n, so the recursion never ends and Java throws an error"
    ],
    "a": 1,
    "e": "Without memoization, the naive recursive approach recalculates identical fib(k) values many times, resulting in exponential $O(2^n)$ time complexity.",
@@ -4293,10 +4293,10 @@
    "u": 8,
    "q": "How can recursion be used to implement binary search on a sorted array?",
    "o": [
-    "It's impossible; binary search must be iterative",
+    "The method calls itself on the entire array again after comparing the target to the first element, repeating the same call until the base case (found or empty range) is reached",
     "The method calls itself on either the left or right half of the array (a smaller subarray) based on comparing the target to the middle element, until the base case (found or empty range) is reached",
-    "Recursion sorts the array first",
-    "Binary search doesn't use comparisons"
+    "The method loops through every element from left to right, calling itself once for each element that does not match the target, until the base case (target found or end of array) is reached",
+    "The method calls itself on the left half and then on the right half, searching both halves every time, until the base case (a single element) is reached and compared to the target"
    ],
    "a": 1,
    "e": "A recursive binary search reduces the search range by half each call, recursing into the appropriate half until the target is found or the range becomes empty (base case)."
@@ -4305,12 +4305,12 @@
    "u": 8,
    "q": "What is the relationship between recursion and iteration (loops)?",
    "o": [
-    "They can never solve the same problems",
     "Many problems solvable by loops can also be solved recursively, and vice versa, though one approach may be more natural or efficient for a given problem",
-    "Recursion is always faster than loops",
-    "Iteration cannot use conditionals"
+    "Recursion and iteration solve completely different kinds of problems, so a problem solved by a loop cannot be rewritten recursively, and the reverse is also true",
+    "Recursion is faster and uses less memory than iteration, so loops should be replaced by recursive methods whenever a problem allows it",
+    "Every recursive method must be rewritten as a loop before it can compile, because Java cannot run methods that call themselves directly"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Recursion and iteration are both mechanisms for repetition, and many problems can be expressed with either approach, though efficiency and clarity may differ.",
    "c": 3
   },
@@ -4318,12 +4318,12 @@
    "u": 8,
    "q": "What is the base case for a recursive method that reverses a String, such as public static String reverse(String s) { if (s.length() <= 1) return s; return reverse(s.substring(1)) + s.charAt(0); }?",
    "o": [
-    "s.length() <= 1, returning s directly since a string of length 0 or 1 is already its own reverse",
-    "There is no base case",
-    "reverse(s.substring(1))",
-    "s.charAt(0)"
+    "s.length() >= 1, returning s directly since any string with at least one character is its own reverse",
+    "s.charAt(0) == s.charAt(s.length() - 1), returning true because a palindrome is its own reverse",
+    "s.substring(1).length() > 1, returning the first character because it cannot be reversed further",
+    "s.length() <= 1, returning s directly since a string of length 0 or 1 is already its own reverse"
    ],
-   "a": 0,
+   "a": 3,
    "e": "A string of length 0 or 1 reversed is itself, so this condition directly returns the answer without further recursive calls."
   },
   {
@@ -4343,10 +4343,10 @@
    "u": 8,
    "q": "What is meant by an algorithm's 'divide and conquer' strategy, often implemented recursively?",
    "o": [
-    "Solving a problem entirely with one large computation",
+    "Trying every possible solution one after another and keeping the best result found after checking them all",
     "Breaking a problem into smaller subproblems, solving each recursively, and combining their results",
-    "Avoiding recursion entirely",
-    "Running two programs simultaneously"
+    "Storing the results of earlier subproblems in a table so that each one is calculated only a single time",
+    "Repeating a single loop over the whole input, discarding part of the data after each pass through it"
    ],
    "a": 1,
    "e": "Divide and conquer algorithms (like merge sort or recursive binary search) split a problem into smaller pieces, solve them (often recursively), and merge the results."
@@ -4392,12 +4392,12 @@
    "u": 8,
    "q": "How does merge sort's time complexity compare to selection sort's or bubble sort's $O(n^2)$ for large arrays?",
    "o": [
+    "Merge sort is less efficient for large n, since n log n grows faster than n^2 for big arrays",
     "Merge sort is generally more efficient for large n, since n log n grows slower than n^2",
-    "They are identical in efficiency",
-    "Selection sort is always faster",
-    "Merge sort is always slower"
+    "Merge sort is equally efficient, since all comparison sorts need about n^2 steps for large arrays",
+    "Merge sort is faster for small n but slower for large n, since n log n overtakes n^2 as n grows"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Because n log n grows much more slowly than n^2 as n increases, merge sort scales better and is generally faster than selection or bubble sort for large inputs.",
    "c": 5
   },
@@ -4418,22 +4418,22 @@
    "u": 8,
    "q": "What must be true about each recursive call's argument relative to the base case for the recursion to eventually terminate?",
    "o": [
-    "The argument can be anything, including a value that stays unchanged",
-    "The argument must always increase with each successive call",
-    "Recursion always terminates, no matter what the argument is",
-    "The argument must progress (get closer) toward the base case with each successive call"
+    "The argument must progress (get closer) toward the base case with each successive call",
+    "The argument must grow larger with each successive call so the recursion moves away from base",
+    "The argument must stay equal to its starting value so each call repeats the same step as before",
+    "The argument must be doubled on each successive call so the base case is reached in fewer calls"
    ],
-   "a": 3,
+   "a": 0,
    "e": "For recursion to terminate correctly, each call must move the input closer to a base case (e.g., decreasing n, or shrinking an array), otherwise infinite recursion results."
   },
   {
    "u": 8,
    "q": "What is the output of: public static int mystery(int n) { if (n == 1) return 1; if (n % 2 == 0) return mystery(n / 2); else return mystery(3 * n + 1); } (conceptually, what recursive process does this resemble?)",
    "o": [
-    "The factorial sequence",
+    "The Fibonacci sequence, where each new number is formed by adding the previous two numbers until reaching 1",
     "The Collatz conjecture sequence, repeatedly halving even numbers or applying 3n+1 to odd numbers until reaching 1",
-    "A simple counting loop",
-    "Binary search"
+    "The binary search process, which repeatedly halves the range of values until the target value 1 is found",
+    "The factorial calculation, multiplying n by each smaller positive integer in turn until the value reaches 1"
    ],
    "a": 1,
    "e": "This recursive pattern—halving even numbers or computing 3n+1 for odd numbers until reaching 1—is the classic Collatz conjecture sequence."
@@ -4442,12 +4442,12 @@
    "u": 8,
    "q": "Why is it generally considered good practice to check the base case before making the recursive call in a recursive method?",
    "o": [
-    "It's not important where the base case check is placed",
     "Checking it first ensures the method returns immediately for the simplest cases, preventing unnecessary or infinite recursive calls",
-    "It makes the method run in a loop instead",
-    "It only matters for void methods"
+    "Checking it first lets Java compile the method, since a recursive call that appears before the base case is a syntax error",
+    "Checking it first ensures the method keeps recursing a minimum number of times, so the stack is built up before the first value is returned",
+    "Checking it first allows the recursive call to change the arguments before the simple case is tested, giving the method more accurate results"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Placing the base case check first avoids making the recursive call when it's unnecessary, correctly stopping the recursion right when the terminal condition is met."
   },
   {
@@ -4642,12 +4642,12 @@
    "u": 8,
    "q": "In a recursive binary search, what does the base case return when the target is not found (i.e., low > high)?",
    "o": [
-    "The middle index",
+    "The index of the middle element, showing where the search stopped",
+    "The value 0, which tells the caller that the range was empty",
     "A signal value such as -1 indicating the target was not found",
-    "The first index of the array",
-    "It causes an infinite loop"
+    "An exception thrown to the caller, since the range has no elements"
    ],
-   "a": 1,
+   "a": 2,
    "e": "When the search bounds cross (low exceeds high), there's nothing left to search, so the base case returns a sentinel like -1 to indicate the target isn't present.",
    "c": 4
   }

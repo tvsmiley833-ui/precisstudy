@@ -1583,12 +1583,12 @@
    "u": 2,
    "q": "An astronaut in deep space (negligible gravity) pushes off a space station. Why does she accelerate away?",
    "o": [
+    "Newton's First Law: objects at rest stay at rest, so the station's inertia moves her",
+    "Newton's Third Law: she pushes harder on the station than it pushes back on her",
     "Newton's Third Law: the station pushes back on her with equal, opposite force",
-    "She has no inertia in space",
-    "Gravity is pulling her away",
-    "Friction propels her"
+    "Centripetal force: the station's rotation flings her outward when she pushes off it"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Her push on the station is met by an equal and opposite reaction force from the station on her, accelerating her (F=ma with her much smaller mass).",
    "c": 2
   },
@@ -2225,11 +2225,11 @@
    "q": "A student says 'centripetal force is a separate force that pushes objects outward in circular motion.' What is wrong with this statement?",
    "o": [
     "Centripetal force points outward and is supplied by inertia itself, which is a real force acting on the object",
-    "The statement is correct because centripetal force is a separate outward push that balances gravity or tension exactly",
     "Centripetal force points inward and is supplied by real forces like tension or gravity, not a separate outward force",
+    "The statement is correct because centripetal force is a separate outward push that balances gravity or tension exactly",
     "Centripetal force points along the velocity and is supplied by the object's speed, not by tension or gravity"
    ],
-   "a": 2,
+   "a": 1,
    "e": "Centripetal force is simply the name for the net inward force in circular motion, provided by real forces (tension, gravity, friction, normal force) — it is not a distinct outward-pushing force.",
    "c": 1
   },
@@ -2349,12 +2349,12 @@
    "u": 3,
    "q": "Which best explains why astronauts train using apparent weightlessness in a diving aircraft ('vomit comet')?",
    "o": [
-    "The aircraft is in free fall, so passengers and aircraft accelerate together under gravity alone, just like in orbit",
     "The aircraft climbs steeply so that gravity is switched off inside the cabin, matching the absence of gravity in orbit",
     "The cabin is pressurized to a very low pressure, so air resistance cancels gravity for passengers, just like in orbit",
-    "The aircraft flies far above the atmosphere where Earth's pull is nearly zero, so passengers float just like in orbit"
+    "The aircraft flies far above the atmosphere where Earth's pull is nearly zero, so passengers float just like in orbit",
+    "The aircraft is in free fall, so passengers and aircraft accelerate together under gravity alone, just like in orbit"
    ],
-   "a": 0,
+   "a": 3,
    "e": "During the dive, the aircraft's engines are cut so it free-falls under gravity alone, matching the acceleration of the passengers inside — the same effect as being in orbit."
   },
   {
@@ -2703,11 +2703,11 @@
    "q": "When solving equilibrium problems, choosing the pivot point at the location of an unknown force is useful because:",
    "o": [
     "It sets the unknown force equal to the object's weight, so the torque equation simplifies",
-    "It eliminates that unknown force from the torque equation since its lever arm is zero",
     "It guarantees the net force is zero at that pivot, so only the translational equations are needed",
-    "It doubles the lever arm of the unknown force, so its torque is easier to measure and compare"
+    "It doubles the lever arm of the unknown force, so its torque is easier to measure and compare",
+    "It eliminates that unknown force from the torque equation since its lever arm is zero"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Since torque = rF sin(theta), a force acting exactly at the pivot has r = 0, so its torque about that pivot is zero, removing it from the equation and simplifying the algebra."
   },
   {
@@ -2802,12 +2802,12 @@
    "u": 4,
    "q": "A rolling ball has both translational and rotational kinetic energy. The total kinetic energy is correctly expressed as:",
    "o": [
-    "KE = (1/2)$Mv_{cm}^2$ + (1/2)I*$omega^2$",
     "KE = (1/2)$Mv_{cm}^2$ − (1/2)I*$omega^2$",
+    "KE = (1/2)$Mv_{cm}^2$ + (1/2)I*$omega^2$",
     "KE = $Mv_{cm}^2$ + (1/2)I*$omega^2$",
     "KE = (1/2)$Mv_{cm}$ + (1/2)I*$omega$"
    ],
-   "a": 0,
+   "a": 1,
    "e": "A rolling object's total KE is the sum of its translational KE (from center-of-mass motion) and rotational KE (from spinning about its center of mass).",
    "c": 5
   },
@@ -2829,11 +2829,11 @@
    "q": "Why does a rolling object without slipping lose no mechanical energy to friction, even though static friction acts on it?",
    "o": [
     "Static friction acts over the whole surface but converts the energy into rotation, so none is lost as heat",
-    "Static friction acts at the contact point which has zero instantaneous velocity, so it does no work",
     "Static friction is always smaller than kinetic friction, so its work is too small to matter in the accounting",
-    "Static friction acts perpendicular to the motion at the contact point, so it removes energy only from the spin"
+    "Static friction acts perpendicular to the motion at the contact point, so it removes energy only from the spin",
+    "Static friction acts at the contact point which has zero instantaneous velocity, so it does no work"
    ],
-   "a": 1,
+   "a": 3,
    "e": "In rolling without slipping, the contact point is instantaneously at rest relative to the surface, so the static friction force there does zero work (W = F*d*cos(theta), but d = 0 for that point over an instant)."
   },
   {
@@ -2853,12 +2853,12 @@
    "u": 4,
    "q": "A student claims 'if the net force on an object is zero, the net torque must also be zero.' Is this correct?",
    "o": [
-    "No, an object can have zero net force but nonzero net torque (e.g., equal and opposite forces applied at different points)",
     "Yes, because torque is just force times distance, so zero net force always forces the net torque to be zero as well",
     "Yes, since an object with zero net force is in equilibrium, and equilibrium requires both net force and net torque zero",
+    "No, an object can have zero net force but nonzero net torque (e.g., equal and opposite forces applied at different points)",
     "No, zero net force makes the net torque undefined, so rotation can only be described by the energy of the object instead"
    ],
-   "a": 0,
+   "a": 2,
    "e": "A couple (two equal, opposite, non-collinear forces) has zero net force but produces a nonzero net torque, showing the two equilibrium conditions are independent."
   },
   {
@@ -2930,10 +2930,10 @@
    "o": [
     "All points have the same linear speed, but different angular velocities depending on their distance from the axis",
     "Points farther from the axis have larger angular velocity, but all points have the same centripetal acceleration",
-    "All points have the same angular velocity, but different linear speeds depending on their distance from the axis",
-    "Points near the axis rotate faster, so the angular velocity falls with distance while linear speed is the same everywhere"
+    "Points near the axis rotate faster, so the angular velocity falls with distance while linear speed is the same everywhere",
+    "All points have the same angular velocity, but different linear speeds depending on their distance from the axis"
    ],
-   "a": 2,
+   "a": 3,
    "e": "In rigid body rotation, every point shares the same angular velocity omega, but linear speed v = omega*r increases with distance from the axis."
   },
   {
@@ -3369,11 +3369,11 @@
    "q": "Which of these best describes a 'glancing' (2D) collision analysis approach?",
    "o": [
     "Conserve kinetic energy only along the line of impact, and ignore momentum in the perpendicular direction",
-    "Decompose velocities into x and y components and conserve momentum in each direction independently",
     "Treat the collision as one dimensional along the initial velocity, and discard any sideways component",
-    "Add the speeds of the objects before and after the collision and set the two scalar sums equal to each other"
+    "Add the speeds of the objects before and after the collision and set the two scalar sums equal to each other",
+    "Decompose velocities into x and y components and conserve momentum in each direction independently"
    ],
-   "a": 1,
+   "a": 3,
    "e": "2D collisions require resolving all velocities into perpendicular components and applying momentum conservation separately along each axis."
   },
   {
@@ -3555,11 +3555,11 @@
    "q": "A pendulum swings from its highest point (v=0) to its lowest point. Which energy transformation occurs (ignoring air resistance)?",
    "o": [
     "Kinetic energy converts entirely into PE",
+    "Gravitational PE converts entirely to KE",
     "Gravitational PE is lost to air as heat",
-    "Elastic PE converts entirely into heat",
-    "Gravitational PE converts entirely to KE"
+    "Elastic PE converts entirely into heat"
    ],
-   "a": 3,
+   "a": 1,
    "e": "At the highest point all energy is gravitational PE; at the lowest point (reference height) all of it has converted to KE, conserving total mechanical energy."
   },
   {
@@ -4304,12 +4304,12 @@
    "u": 7,
    "q": "What does it mean for two points to be on the same equipotential surface?",
    "o": [
-    "No work is required to move a charge between them along that surface",
     "The electric field strength is identical at every point on that surface",
     "A charge placed there feels zero electric force and simply stays at rest",
+    "No work is required to move a charge between them along that surface",
     "The source charges that create the field are located on that surface"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Points on the same equipotential surface have the same electric potential, so moving a charge between them (along the surface) requires zero work, since W=qDeltaV=0.",
    "c": 2
   },
@@ -4381,11 +4381,11 @@
    "q": "Which statement correctly compares gravitational force and Coulomb's electric force?",
    "o": [
     "Both follow an inverse-square law with distance, but gravity can be repulsive while Coulomb's force is always attractive in nature",
-    "Both follow an inverse-square law with distance, but gravity is always attractive while Coulomb's force can be attractive or repulsive",
     "Gravity falls off as 1/r while Coulomb's force falls off as 1/r² with distance, and both are always attractive forces in nature",
+    "Both follow an inverse-square law with distance, but gravity is always attractive while Coulomb's force can be attractive or repulsive",
     "Coulomb's force depends on distance but gravity does not, and both can be attractive or repulsive depending on the charges or masses"
    ],
-   "a": 1,
+   "a": 2,
    "e": "$F_g$ = Gm1m2/$r^2$ and $F_E$ = kq1q2/$r^2$ share the same inverse-square mathematical form, but gravity is only attractive (masses are always positive) while Coulomb's force can be attractive (opposite charges) or repulsive (like charges).",
    "c": 0
   },
@@ -4432,12 +4432,12 @@
    "u": 7,
    "q": "Why is charging by induction different from charging by direct contact?",
    "o": [
-    "Induction separates charge on a nearby object without any direct transfer of charge between objects",
     "Induction moves electrons from one object to the other by rubbing them, which leaves them with opposite charges",
     "Induction needs the objects to touch so that charge flows, which leaves the two with the same sign of charge",
-    "Induction works only on insulators, since conductors cannot polarize without touching a second charged object"
+    "Induction works only on insulators, since conductors cannot polarize without touching a second charged object",
+    "Induction separates charge on a nearby object without any direct transfer of charge between objects"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Charging by induction uses the electric field of a nearby charged object to redistribute (polarize) charge on a second object, without any charge actually transferring between them via contact.",
    "c": 0
   },
@@ -4929,11 +4929,11 @@
    "q": "Sound cannot travel through a vacuum because:",
    "o": [
     "Sound is a transverse electromagnetic wave that a vacuum absorbs fully",
-    "Sound is a mechanical wave that requires a medium of particles to propagate",
     "Sound travels too fast to cross empty space, which has no pressure to slow it",
+    "Sound is a mechanical wave that requires a medium of particles to propagate",
     "Sound needs a magnetic field to carry its energy, which a vacuum lacks"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Sound is a longitudinal mechanical wave that propagates via particle-to-particle collisions; without a medium, there is nothing to transmit the vibration.",
    "c": 3
   },
@@ -5193,12 +5193,12 @@
    "u": 10,
    "q": "Why can't a virtual image formed by a plane mirror be projected onto a screen?",
    "o": [
+    "Light rays only appear to diverge from it; they don't actually pass through that location",
     "The image is too dim, since a plane mirror absorbs most of the light that reaches it",
     "The reflected rays converge behind the mirror, but a screen there would block the light",
-    "Light rays only appear to diverge from it; they don't actually pass through that location",
     "The image is reversed left to right, so a screen cannot show an image flipped by a mirror"
    ],
-   "a": 2,
+   "a": 0,
    "e": "A virtual image is a location where reflected rays appear to originate when traced backward — no light actually converges there, so it can't be projected."
   },
   {
@@ -5368,11 +5368,11 @@
    "q": "When white light passes through a glass prism, it separates into a spectrum of colors. What causes this dispersion?",
    "o": [
     "All colors travel at the same speed in glass, but the prism's curved faces bend each color differently",
-    "The index of refraction depends slightly on wavelength, so each color bends by a different amount",
     "Glass absorbs some colors more than others, so each color is dimmed and then exits at its own angle",
+    "The index of refraction depends slightly on wavelength, so each color bends by a different amount",
     "The prism adds color to white light as it passes through, and the added colors spread at a common angle"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Because n varies slightly with wavelength (higher n for shorter wavelengths like violet), each color refracts at a slightly different angle, spreading white light into a spectrum.",
    "c": 5
   },
@@ -5590,10 +5590,10 @@
    "o": [
     "Fission combines light nuclei into a heavier one; fusion splits a heavy nucleus into lighter ones",
     "Fission releases energy but fusion absorbs it, and both only work with elements heavier than iron",
-    "Fission needs extreme temperatures to occur, while fusion happens at room temperature using neutrons",
-    "Fission splits a heavy nucleus into lighter ones; fusion combines light nuclei into a heavier one"
+    "Fission splits a heavy nucleus into lighter ones; fusion combines light nuclei into a heavier one",
+    "Fission needs extreme temperatures to occur, while fusion happens at room temperature using neutrons"
    ],
-   "a": 3,
+   "a": 2,
    "e": "Fission is the splitting of a heavy nucleus (e.g., uranium-235); fusion is the combining of light nuclei (e.g., hydrogen isotopes) — both release energy from a mass defect.",
    "c": 5
   }

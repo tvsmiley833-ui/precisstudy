@@ -1163,11 +1163,11 @@
    "q": "W(t) is water in a tank (gallons) at t hours, and W'(2) = 15. This means:",
    "o": [
     "At 2 hours, water is decreasing at 15 gallons per hour",
-    "At 2 hours, the tank holds a total of 15 gallons",
     "At 2 hours, water is increasing at 15 gallons per hour",
+    "At 2 hours, the tank holds a total of 15 gallons",
     "Over the first 2 hours, 15 gallons were added in total"
    ],
-   "a": 2,
+   "a": 1,
    "e": "The derivative is a rate in gallons per hour at that instant."
   },
   {
@@ -1366,11 +1366,11 @@
    "q": "If C(x) is the cost of producing x items and C′(100) = 4.5, this means that:",
    "o": [
     "producing 100 items costs about 4.5 in total",
+    "producing the 101st item adds about 4.5 to the cost",
     "cost rises by 100 for every 4.5 items produced",
-    "the average cost per item at 100 items is 4.5",
-    "producing the 101st item adds about 4.5 to the cost"
+    "the average cost per item at 100 items is 4.5"
    ],
-   "a": 3,
+   "a": 1,
    "e": "The derivative is the instantaneous rate of change of cost, so C′(100) estimates the marginal cost of one more item.",
    "c": 0
   },
@@ -1718,10 +1718,10 @@
    "o": [
     "The rate of flow at the 10-minute mark",
     "The average flow rate over ten minutes",
-    "Liters added in the first 10 minutes",
-    "The rate at which r changes at t = 10"
+    "The rate at which r changes at t = 10",
+    "Liters added in the first 10 minutes"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Integrating a rate gives the net amount accumulated.",
    "c": 0
   },
@@ -1998,12 +1998,12 @@
    "u": 7,
    "q": "Newton's Law of Cooling says the rate of temperature change is proportional to:",
    "o": [
-    "The difference between the object's and the room's temperature",
     "The object's absolute temperature at each moment in time",
+    "The difference between the object's and the room's temperature",
     "The square of the difference between the two temperatures",
     "The total time elapsed since the object began to cool"
    ],
-   "a": 0,
+   "a": 1,
    "e": "dT/dt = k(T − T_room).",
    "c": 2
   },
@@ -2241,12 +2241,12 @@
    "u": 8,
    "q": "To find the area between two curves that cross inside [a, b], you should:",
    "o": [
+    "Split the integral at the crossing point",
     "Integrate the difference without splitting",
     "Take the absolute value of one integral",
-    "Average the two functions before integrating",
-    "Split the integral at the crossing point"
+    "Average the two functions before integrating"
    ],
-   "a": 3,
+   "a": 0,
    "e": "Top and bottom swap at the crossing, so split to keep each piece positive.",
    "c": 1
   },
@@ -3569,10 +3569,10 @@
    "o": [
     "The limit exists, whether or not f(a) is defined",
     "f(a) is defined, even if the limit fails to exist",
-    "The limit as x approaches a exists and equals f(a)",
-    "The derivative f'(a) exists and is a finite number"
+    "The derivative f'(a) exists and is a finite number",
+    "The limit as x approaches a exists and equals f(a)"
    ],
-   "a": 2,
+   "a": 3,
    "e": "All three conditions must hold: f(a) is defined, the limit exists, and they are equal."
   },
   {
@@ -3732,11 +3732,11 @@
    "q": "The area between two curves is found by integrating:",
    "o": [
     "The lower function minus the upper function",
+    "The upper function minus the lower function",
     "The sum of the upper and lower functions",
-    "The product of the two functions' heights",
-    "The upper function minus the lower function"
+    "The product of the two functions' heights"
    ],
-   "a": 3,
+   "a": 1,
    "e": "Subtracting makes the integrand nonnegative.",
    "c": 1
   }

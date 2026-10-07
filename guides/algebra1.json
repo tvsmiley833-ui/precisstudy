@@ -1351,10 +1351,10 @@
    "u": 3,
    "q": "How do you determine which side of a boundary line to shade?",
    "o": [
-    "Always shade above the line",
+    "Shade above the line when the symbol is greater than",
     "Test a point not on the line in the original inequality",
-    "Shade toward the y-axis",
-    "Shade the larger-looking region"
+    "Test the origin in the equation of the boundary line itself",
+    "Shade the side containing the y-intercept of the line"
    ],
    "a": 1,
    "e": "Plug a test point (often the origin) into the original inequality — if true, shade that side.",
@@ -1364,12 +1364,12 @@
    "u": 3,
    "q": "The solution region for a system of two linear inequalities is:",
    "o": [
-    "The union of both shaded regions",
-    "The region where both shaded areas overlap",
-    "The boundary lines only",
-    "Always the entire plane"
+    "The region where either shaded area appears",
+    "The point where the two boundary lines meet",
+    "The region that is left unshaded by both graphs",
+    "The region where both shaded areas overlap"
    ],
-   "a": 1,
+   "a": 3,
    "e": "A system's solution must satisfy BOTH inequalities — only the overlap works.",
    "c": 3
   },
@@ -1875,12 +1875,12 @@
    "u": 6,
    "q": "The vertex of a parabola is:",
    "o": [
-    "Where it crosses the x-axis twice",
     "The highest or lowest point on the curve",
-    "Always at the origin",
-    "The y-intercept"
+    "The point where the curve crosses the y-axis",
+    "The point where the curve crosses the x-axis",
+    "The point where the curve is steepest"
    ],
-   "a": 1,
+   "a": 0,
    "e": "The vertex is the maximum point (if it opens down) or minimum point (if it opens up).",
    "c": 2
   },
@@ -2052,12 +2052,12 @@
    "u": 7,
    "q": "Why must you check solutions to radical equations in the original equation?",
    "o": [
+    "Dividing both sides by the radical can lose valid solutions",
     "Squaring both sides can introduce extraneous solutions",
-    "Radicals are always negative",
-    "You might divide by zero",
-    "It isn't necessary if you show work"
+    "Calculators round radicals, so exact answers must be rechecked",
+    "Square roots of negative numbers produce complex solutions"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Squaring both sides can create solutions that don't actually satisfy the original equation.",
    "c": 3
   },
@@ -2199,12 +2199,12 @@
    "u": 8,
    "q": "Which grows faster in the long run: linear growth or exponential growth?",
    "o": [
-    "Linear always",
     "Exponential eventually overtakes linear",
-    "They grow at the same rate",
-    "It depends only on the y-intercept"
+    "Linear eventually overtakes exponential",
+    "They grow at the same rate over time",
+    "Linear stays ahead once the slope is large"
    ],
-   "a": 1,
+   "a": 0,
    "e": "No matter the starting values, exponential growth eventually outpaces linear growth."
   },
   {
@@ -2414,12 +2414,12 @@
    "u": 10,
    "q": "A correlation coefficient of r = 0.95 indicates:",
    "o": [
+    "A weak positive linear correlation",
     "A strong positive linear correlation",
-    "A strong negative linear correlation",
-    "Almost no correlation",
-    "Causation"
+    "A perfect positive linear correlation",
+    "A strong negative linear correlation"
    ],
-   "a": 0,
+   "a": 1,
    "e": "r close to +1 means a strong positive linear correlation.",
    "c": 2
   },
@@ -2427,12 +2427,12 @@
    "u": 10,
    "q": "A correlation coefficient of r = −0.88 indicates:",
    "o": [
+    "A weak negative linear correlation",
+    "A perfect negative linear correlation",
     "A strong positive linear correlation",
-    "A strong negative linear correlation",
-    "No correlation",
-    "A weak correlation"
+    "A strong negative linear correlation"
    ],
-   "a": 1,
+   "a": 3,
    "e": "r close to −1 means a strong negative linear correlation.",
    "c": 2
   },
@@ -2478,12 +2478,12 @@
    "u": 10,
    "q": "A residual is:",
    "o": [
-    "The slope of the regression line",
+    "The difference between the mean value and the predicted value",
+    "The slope of the line connecting actual and predicted values",
     "The difference between an actual value and the predicted value",
-    "The correlation coefficient",
-    "The y-intercept of the line"
+    "The difference between the largest and smallest actual value"
    ],
-   "a": 1,
+   "a": 2,
    "e": "A residual = actual y − predicted y for a given data point."
   },
   {
@@ -2516,12 +2516,12 @@
    "u": 10,
    "q": "If r = 1 exactly, the data points:",
    "o": [
-    "Lie exactly on a line with positive slope",
     "Lie exactly on a line with negative slope",
-    "Are randomly scattered",
-    "Form a curve, not a line"
+    "Lie exactly on a line with positive slope",
+    "Lie close to a line but not exactly on it",
+    "Lie exactly on a line with zero slope"
    ],
-   "a": 0,
+   "a": 1,
    "e": "r = 1 is a perfect positive linear correlation — every point lies exactly on the line."
   },
   {
@@ -2589,12 +2589,12 @@
    "u": 11,
    "q": "What does f(x) mean?",
    "o": [
-    "f multiplied by x",
-    "The output of function f for input x",
-    "The slope of f",
-    "The x-intercept of f"
+    "The product of the number f and the x",
+    "The input of function f for output x",
+    "The slope of function f at the input x",
+    "The output of function f for input x"
    ],
-   "a": 1,
+   "a": 3,
    "e": "f(x) is notation for 'the output of f when the input is x' — not multiplication.",
    "c": 0
   },
@@ -2641,10 +2641,10 @@
    "u": 11,
    "q": "A relation contains the points (2, 3), (2, 5), (4, 7). Is this a function?",
    "o": [
-    "Yes, it's a function",
+    "Yes, each point has its own y-value",
     "No, x = 2 has two different outputs",
-    "No, because 7 repeats",
-    "Yes, because the y-values differ"
+    "No, x = 4 has two different outputs",
+    "Yes, since all three y-values differ"
    ],
    "a": 1,
    "e": "x = 2 maps to both 3 and 5 — a function cannot have one input with two different outputs.",
@@ -2869,9 +2869,9 @@
    "q": "Write the equation, in slope-intercept form, of the line through (4, 5) and (4, −1)",
    "o": [
     "x = 4 (undefined slope, no slope-intercept form)",
-    "y = 4",
-    "y = 5x − 15",
-    "x = 5"
+    "y = 4 (zero slope, slope-intercept form y = 0x + 4)",
+    "y = −1 (zero slope, equation of a horizontal line)",
+    "x = 5 (undefined slope, vertical through y-value 5)"
    ],
    "a": 0,
    "e": "Both points share x=4, making this a vertical line — it has no slope-intercept form."
@@ -3187,12 +3187,12 @@
    "u": 6,
    "q": "A quadratic has discriminant = 0. Describe its graph.",
    "o": [
+    "It crosses the x-axis at exactly two distinct points",
     "It touches the x-axis at exactly one point (the vertex)",
-    "It crosses the x-axis twice",
-    "It never touches the x-axis",
-    "It is a straight line"
+    "It never touches the x-axis and lies entirely above it",
+    "It opens downward and touches the x-axis at the origin"
    ],
-   "a": 0,
+   "a": 1,
    "e": "A zero discriminant means one repeated real solution — the vertex sits exactly on the x-axis.",
    "c": 3
   },
@@ -3562,12 +3562,12 @@
    "u": 10,
    "q": "Two variables have r = 0.91. What can you conclude?",
    "o": [
-    "They have a strong positive linear relationship, but not necessarily causation",
-    "One variable definitely causes the other",
-    "There is no relationship",
-    "The relationship is negative"
+    "They have a strong positive linear relationship, proving one variable causes the other",
+    "They have a weak positive linear relationship, and one variable cannot cause the other",
+    "They have a strong negative linear relationship, but not necessarily causation",
+    "They have a strong positive linear relationship, but not necessarily causation"
    ],
-   "a": 0,
+   "a": 3,
    "e": "A strong r shows correlation, not proof of causation."
   },
   {
@@ -4336,10 +4336,10 @@
    "u": 10,
    "q": "A correlation coefficient near -1 indicates:",
    "o": [
-    "No relationship",
+    "A strong positive linear relationship",
     "A strong negative linear relationship",
-    "A strong positive relationship",
-    "A weak relationship"
+    "A weak negative linear relationship",
+    "No linear relationship at all, only noise"
    ],
    "a": 1,
    "e": "As x increases, y tends to decrease along a line."
@@ -4348,12 +4348,12 @@
    "u": 10,
    "q": "In the regression line y = 2.5x + 10, the slope 2.5 means:",
    "o": [
+    "Predicted y is 2.5 units when x equals zero on the graph",
     "Predicted y increases by 2.5 for each one-unit increase in x",
-    "y is always 2.5",
-    "x increases by 2.5",
-    "The data have no error"
+    "Predicted x increases by 2.5 for each one-unit increase in y",
+    "Predicted y increases by 10 for each one-unit increase in x"
    ],
-   "a": 0,
+   "a": 1,
    "e": "The slope gives the predicted change in y per unit x."
   },
   {

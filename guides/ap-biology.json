@@ -1246,12 +1246,12 @@
    "u": 1,
    "q": "Which interaction mainly holds together the alpha helix and beta pleated sheet of a protein?",
    "o": [
+    "Disulfide bonds between cysteine R groups",
+    "Peptide bonds linking adjacent amino acids",
     "Hydrogen bonds between backbone atoms",
-    "Disulfide bridges between R groups",
-    "Ionic bonds between R groups",
-    "Peptide bonds"
+    "Ionic bonds between charged side chains"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Secondary structure comes from hydrogen bonds between the backbone N-H and C=O groups, not from the R groups.",
    "c": 3
   },
@@ -1516,12 +1516,12 @@
    "u": 2,
    "q": "Cholesterol embedded in the animal cell membrane functions to:",
    "o": [
+    "Anchor the membrane to the cytoskeleton, giving the cell a fixed shape that stays rigid at all temperatures",
+    "Form channels that let polar molecules and ions cross the bilayer freely without using any cellular energy",
     "Buffer membrane fluidity, preventing it from becoming too fluid at high temperatures or too rigid at low temperatures",
-    "Only increase membrane rigidity at all temperatures",
-    "Actively transport ions across the membrane",
-    "Replace phospholipids entirely"
+    "Act as receptor proteins on the outer surface, binding signal molecules and relaying the message into the cell"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Cholesterol has a dual buffering role — it restrains excess fluidity at high temperatures and prevents excess rigidity at low temperatures."
   },
   {
@@ -1946,12 +1946,12 @@
    "u": 3,
    "q": "Which statement about ATP is correct?",
    "o": [
+    "It stores energy in its adenine base, which is released when the base is broken off the molecule",
+    "It carries genetic information from the nucleus to ribosomes, where it directs protein building",
     "It couples exergonic reactions to endergonic reactions by transferring a phosphate group",
-    "It is a permanent energy storage molecule",
-    "It contains deoxyribose",
-    "It is made only in chloroplasts"
+    "It is made in chloroplasts and is consumed completely in each reaction without being regenerated"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Phosphorylation by ATP transfers energy to drive endergonic reactions. Cells constantly recycle ATP and ADP.",
    "c": 0
   },
@@ -2193,12 +2193,12 @@
    "u": 4,
    "q": "What happens at the G1 checkpoint in a healthy cell?",
    "o": [
+    "Spindle attachment to every chromosome is verified",
     "The cell decides whether to commit to dividing",
-    "Chromosomes are pulled apart",
-    "Spindle fibers attach to kinetochores",
-    "DNA is replicated"
+    "The cell confirms that DNA replication is complete",
+    "Cytoplasm is divided between two daughter cells"
    ],
-   "a": 0,
+   "a": 1,
    "e": "The G1 checkpoint checks cell size, nutrients and DNA damage before committing the cell to the cycle.",
    "c": 2
   },
@@ -2386,12 +2386,12 @@
    "u": 5,
    "q": "Two genes located very close together on the same chromosome will:",
    "o": [
-    "Always assort independently",
     "Tend to be inherited together, violating independent assortment, unless separated by crossing over",
-    "Never be separated by any mechanism",
-    "Always produce a 9:3:3:1 ratio when crossed"
+    "Tend to assort independently of each other, following Mendel's law, unless a mutation joins them together",
+    "Tend to be inherited separately, because the chromosome is split into pieces at the start of meiosis",
+    "Tend to produce more recombinant offspring than nonrecombinant offspring, since nearby genes cross over often"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Linked genes tend to travel together during meiosis; only crossing over can separate them, and this happens more often the farther apart the genes are.",
    "c": 3
   },
@@ -2425,10 +2425,10 @@
    "u": 5,
    "q": "Which is a source of genetic variation unique to meiosis (not mitosis)?",
    "o": [
-    "DNA replication",
+    "Spindle formation and DNA replication",
     "Crossing over and independent assortment",
-    "Cytokinesis",
-    "Spindle fiber formation"
+    "Point mutations and DNA replication errors",
+    "Cytokinesis and chromosome condensation"
    ],
    "a": 1,
    "e": "Crossing over (prophase I) and independent assortment (metaphase I) are meiosis-specific processes generating genetic variation.",
@@ -2631,12 +2631,12 @@
    "u": 6,
    "q": "Why is the lagging strand synthesized in short (Okazaki) fragments?",
    "o": [
+    "DNA polymerase can only add nucleotides in the 3'→5' direction, opposite to the movement of the replication fork",
+    "Helicase can unwind only short stretches of the template at a time, so the new strand must be built in pieces",
     "DNA polymerase can only add nucleotides in the 5'→3' direction, opposite to the replication fork's movement on that strand",
-    "DNA polymerase works faster on the lagging strand",
-    "The lagging strand template has no primers",
-    "Ligase cannot join DNA fragments"
+    "The lagging strand lacks a primer, so RNA polymerase must restart synthesis each time the fork moves forward"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Since DNA polymerase synthesizes only 5'→3', the lagging strand (running away from the fork direction) must be made discontinuously.",
    "c": 0
   },
@@ -2644,12 +2644,12 @@
    "u": 6,
    "q": "A mutation that inserts 1 nucleotide into a gene's coding sequence would most likely:",
    "o": [
-    "Cause a frameshift, altering every amino acid downstream of the insertion",
-    "Have no effect on the protein because the code is redundant",
-    "Change only a single amino acid in the protein chain",
-    "Affect only the stop codon at the end of the gene"
+    "Swap one amino acid for another and leave the rest of the protein unchanged",
+    "Alter only the one codon where it is inserted, leaving all later codons unaffected",
+    "Be corrected by the ribosome during translation, giving the normal protein",
+    "Cause a frameshift, altering every amino acid downstream of the insertion"
    ],
-   "a": 0,
+   "a": 3,
    "e": "A single nucleotide insertion (not a multiple of 3) shifts the reading frame for all codons downstream, typically producing a nonfunctional protein.",
    "c": 2
   },
@@ -2657,10 +2657,10 @@
    "u": 6,
    "q": "A silent mutation has no effect on the protein produced because:",
    "o": [
-    "It occurs outside the gene",
+    "The new codon codes for a different amino acid with similar properties, so the protein folds",
     "The new codon still codes for the same amino acid, due to the redundancy of the genetic code",
-    "It always occurs in introns",
-    "It changes the start codon"
+    "The ribosome detects and replaces the changed codon with the original one before the amino acid is added",
+    "The mutation changes a single base on the template but is reversed by DNA repair before transcription"
    ],
    "a": 1,
    "e": "The genetic code is degenerate — several codons can specify the same amino acid, so some substitutions don't change the protein."
@@ -2682,12 +2682,12 @@
    "u": 6,
    "q": "In gel electrophoresis, DNA fragments migrate toward the positive electrode because:",
    "o": [
-    "DNA is positively charged",
     "DNA's phosphate backbone gives it a negative charge",
-    "Smaller fragments are positively charged",
-    "The gel matrix repels the negative electrode"
+    "DNA's nitrogenous bases give it a positive charge",
+    "Heavier DNA fragments are pulled by gravity to the bottom",
+    "The loading dye pushes DNA toward the positive end"
    ],
-   "a": 1,
+   "a": 0,
    "e": "DNA's phosphate groups give it an overall negative charge, so it migrates toward the positive electrode in an electric field.",
    "c": 4
   },
@@ -2695,12 +2695,12 @@
    "u": 6,
    "q": "Which best describes the role of DNA polymerase's proofreading function?",
    "o": [
-    "It methylates DNA to silence genes and change chromatin structure",
-    "It splices introns out of pre-mRNA to produce the mature transcript",
     "It detects and corrects mismatched nucleotides during replication, increasing fidelity",
-    "It attaches ribosomes to mRNA so translation can begin"
+    "It seals gaps between Okazaki fragments by joining the sugar-phosphate backbone of the new strand",
+    "It unwinds the double helix ahead of the fork and separates the strands to prepare for replication",
+    "It lays down short RNA primers that provide a starting point for the synthesis of new DNA strands"
    ],
-   "a": 2,
+   "a": 0,
    "e": "DNA polymerase proofreads newly added nucleotides, removing errors to keep the mutation rate very low.",
    "c": 0
   },
@@ -2721,12 +2721,12 @@
    "u": 6,
    "q": "DNA methylation is an example of:",
    "o": [
-    "A point mutation",
-    "An epigenetic change that typically silences gene expression without altering the DNA sequence",
-    "A frameshift mutation",
-    "A step in PCR"
+    "An epigenetic change that typically activates gene expression by changing the DNA base sequence itself",
+    "A point mutation that typically silences gene expression by replacing one base with another in a gene",
+    "A post-translational modification that typically adds sugar groups to proteins after they are made",
+    "An epigenetic change that typically silences gene expression without altering the DNA sequence"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Epigenetic modifications like DNA methylation alter gene expression heritably without changing the underlying DNA sequence.",
    "c": 3
   },
@@ -2874,12 +2874,12 @@
    "u": 6,
    "q": "Transcription factors regulate gene expression by:",
    "o": [
-    "Replicating DNA",
-    "Translating mRNA",
-    "Digesting introns",
-    "Binding DNA and affecting whether RNA polymerase can transcribe a gene"
+    "Binding DNA and affecting whether RNA polymerase can transcribe a gene",
+    "Cutting the DNA at specific sequences to give RNA polymerase shorter pieces",
+    "Binding mRNA at the ribosome and controlling how fast proteins are built",
+    "Unwinding the DNA at origins so that DNA polymerase can copy the genome"
    ],
-   "a": 3,
+   "a": 0,
    "e": "Activators and repressors bind regulatory sequences and control the rate of transcription.",
    "c": 3
   },
@@ -3053,10 +3053,10 @@
    "u": 7,
    "q": "On a phylogenetic tree, a node represents:",
    "o": [
-    "A single living species",
+    "The end of a branch where a living species is placed on the tree",
     "The most recent common ancestor of the lineages branching from that point",
-    "A mutation event only",
-    "The oldest fossil discovered"
+    "The amount of genetic change that has occurred along one lineage over time",
+    "A complete group consisting of one ancestor and all of its descendants"
    ],
    "a": 1,
    "e": "Each node/branch point on a cladogram represents the most recent common ancestor shared by the descendant lineages.",
@@ -3364,12 +3364,12 @@
    "u": 8,
    "q": "An r-selected species is most likely to:",
    "o": [
-    "Produce few offspring with high parental investment",
+    "Produce few offspring, provide extensive parental care, and mature slowly",
+    "Live near carrying capacity, with stable populations and long life spans",
     "Produce many offspring, provide little parental care, and mature quickly",
-    "Only live near carrying capacity",
-    "Have a long lifespan and slow reproduction"
+    "Invest heavily in each offspring, grow large, and delay reproduction"
    ],
-   "a": 1,
+   "a": 2,
    "e": "r-selected species prioritize rapid reproduction (many offspring, minimal care) suited to unstable or resource-rich environments.",
    "c": 0
   },
@@ -3442,12 +3442,12 @@
    "u": 8,
    "q": "The competitive exclusion principle states that:",
    "o": [
-    "Two species can indefinitely share the exact same ecological niche",
+    "Two species with identical niches can coexist indefinitely in the same habitat as long as resources are abundant",
+    "Two species that share a habitat will compete until one goes extinct, even if their niches clearly differ from each other",
     "Two species cannot indefinitely occupy the exact same niche in the same habitat — one will be excluded or niches will diverge",
-    "Competition always benefits both species",
-    "Predation is a form of competition"
+    "Predators limit the number of competing species so that no single prey species can dominate the whole community over time"
    ],
-   "a": 1,
+   "a": 2,
    "e": "When two species compete for the identical niche and resources, one typically outcompetes the other, or resource partitioning allows coexistence.",
    "c": 1
   },
@@ -3481,12 +3481,12 @@
    "u": 8,
    "q": "A keystone species is one that:",
    "o": [
-    "Has a disproportionately large effect on its ecosystem relative to its abundance",
-    "Is the most abundant species",
-    "Is always a producer",
-    "Eats only plants"
+    "Is the most abundant species in the community and makes up most of its biomass",
+    "Is the top predator in a food chain and has no natural predators of its own",
+    "Is introduced from another region and spreads rapidly, outcompeting the native species",
+    "Has a disproportionately large effect on its ecosystem relative to its abundance"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Removing a keystone species, such as a sea star in a tide pool, can reorganize the community."
   },
   {
@@ -4530,9 +4530,9 @@
    "u": 3,
    "q": "Which change would most directly decrease ATP production by oxidative phosphorylation?",
    "o": [
-    "Adding more NADH",
-    "Increasing oxygen",
-    "Adding more ADP",
+    "A mutation that increases the activity of ATP synthase in the inner mitochondrial membrane",
+    "Providing the cell with more oxygen so the electron transport chain can pass electrons faster",
+    "A higher concentration of NADH delivered to the electron transport chain from the citric acid cycle",
     "An uncoupler that dissipates the proton gradient across the inner mitochondrial membrane"
    ],
    "a": 3,
@@ -4595,10 +4595,10 @@
    "u": 6,
    "q": "A nonsense mutation most likely results in:",
    "o": [
-    "A silent change",
+    "A single amino acid change in the protein",
     "A premature stop codon and a truncated protein",
-    "A different amino acid",
-    "No change in the protein"
+    "A shifted reading frame for all later codons",
+    "No change in the amino acid sequence at all"
    ],
    "a": 1,
    "e": "The mutation converts an amino acid codon into a stop codon."

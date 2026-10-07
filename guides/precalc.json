@@ -1438,11 +1438,11 @@
    "q": "Does $f(x)=(x²+1)/(x−2)$ have a horizontal or slant asymptote?",
    "o": [
     "Horizontal asymptote $y=0$ (denominator degree higher)",
+    "Slant asymptote (numerator degree exactly 1 more)",
     "Horizontal asymptote $y=1$ (degrees are equal)",
-    "No asymptote of either kind (degrees differ by one)",
-    "Slant asymptote (numerator degree exactly 1 more)"
+    "No asymptote of either kind (degrees differ by one)"
    ],
-   "a": 3,
+   "a": 1,
    "e": "Numerator degree (2) is exactly one more than denominator degree (1) → a slant asymptote exists, found by long division.",
    "c": 3
   },
@@ -1565,12 +1565,12 @@
    "u": 2,
    "q": "A polynomial of degree 5 with a positive leading coefficient has which end behavior?",
    "o": [
-    "rises to the left and falls to the right",
     "falls to the left and rises to the right",
+    "rises to the left and falls to the right",
     "falls to the left and falls to the right",
     "rises to the left and rises to the right"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Odd degree with a positive leading coefficient: down on the left, up on the right.",
    "c": 0
   },
@@ -2805,12 +2805,12 @@
    "u": 7,
    "q": "If Cramer's Rule gives $D=0$ for a system, what can be concluded?",
    "o": [
-    "The system has no unique solution — either none or infinitely many",
     "The system has exactly one solution, at the point $(0,0)$ and nowhere else",
     "The system has no solution at all, so it is always an inconsistent system",
-    "The system has exactly two solutions, one for each variable in the system"
+    "The system has exactly two solutions, one for each variable in the system",
+    "The system has no unique solution — either none or infinitely many"
    ],
-   "a": 0,
+   "a": 3,
    "e": "$D=0$ means Cramer's Rule cannot determine a unique solution — further analysis (or another method) is needed to tell no-solution from infinite-solutions.",
    "c": 4
   },
@@ -3084,11 +3084,11 @@
    "q": "Which conic is $x²/9+y²/25=1?$",
    "o": [
     "An ellipse with major axis along the x-axis",
-    "An ellipse with major axis along the y-axis",
     "A hyperbola with vertices along the y-axis",
-    "A circle of radius 5 centered at the origin"
+    "A circle of radius 5 centered at the origin",
+    "An ellipse with major axis along the y-axis"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Both terms are added (ellipse) and the larger denominator (25) is under y², so the major axis is vertical.",
    "c": 4
   },
@@ -3261,12 +3261,12 @@
    "u": 9,
    "q": "What does the average rate of change of a function over [a,b] represent geometrically?",
    "o": [
+    "The slope of the secant line through (a,f(a)) and (b,f(b))",
     "The area under the curve between $x=a$ and $x=b$ on the graph",
     "The slope of the tangent line at the single point $(a,f(a))$ only",
-    "The vertical distance between $f(a)$ and $f(b)$ on the y-axis",
-    "The slope of the secant line through (a,f(a)) and (b,f(b))"
+    "The vertical distance between $f(a)$ and $f(b)$ on the y-axis"
    ],
-   "a": 3,
+   "a": 0,
    "e": "Average rate of change is exactly the slope formula (y₂−y₁)/(x₂−x₁), which is the secant line's slope."
   },
   {
@@ -3349,12 +3349,12 @@
    "u": 9,
    "q": "Which situation describes a limit that does NOT exist as x→a?",
    "o": [
-    "The left and right limits approach different values",
     "The left and right limits approach the same value",
+    "The left and right limits approach different values",
     "The function is undefined at $x=a$ but the limits agree",
     "The function has a hole at $x=a$ with matching sides"
    ],
-   "a": 0,
+   "a": 1,
    "e": "When the left-hand and right-hand limits disagree, no single limiting value exists — this is the defining condition for the limit failing to exist.",
    "c": 0
   },
@@ -3375,12 +3375,12 @@
    "u": 9,
    "q": "What is the relationship between average rate of change and the derivative as the interval [a,b] shrinks (b→a)?",
    "o": [
-    "Average rate of change approaches the instantaneous rate of change (the derivative) at a",
     "Average rate of change grows without bound and the derivative is undefined at $a$",
     "Average rate of change approaches the total change in $f$ over the interval, not the derivative",
+    "Average rate of change approaches the instantaneous rate of change (the derivative) at a",
     "Average rate of change always equals the derivative at $a$ no matter how large the interval"
    ],
-   "a": 0,
+   "a": 2,
    "e": "As the interval shrinks to a single point, the secant slope (average rate) approaches the tangent slope (derivative) — this limiting process is the foundation of differential calculus."
   },
   {
@@ -4571,10 +4571,10 @@
    "o": [
     "Two angles and the side between them (ASA), or one side",
     "Two sides and a non-included angle, or all three angles",
-    "Only one side and the right angle of a right triangle",
-    "Two sides and the included angle, or all three sides"
+    "Two sides and the included angle, or all three sides",
+    "Only one side and the right angle of a right triangle"
    ],
-   "a": 3,
+   "a": 2,
    "e": "These cases cannot be solved directly with the Law of Sines."
   },
   {

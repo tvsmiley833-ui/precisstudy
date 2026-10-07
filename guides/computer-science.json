@@ -1454,12 +1454,12 @@
    "u": 2,
    "q": "What is an 'edge case' in testing?",
    "o": [
-    "An unusual or extreme input, like zero or an empty string, that might break code",
     "A bug that appears only on older hardware, like a slow processor or a small memory",
     "A typical input that most users enter, like a common name or a usual number",
+    "An unusual or extreme input, like zero or an empty string, that might break code",
     "A test written last that checks only the program's colors, fonts, and screen layout"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Edge cases test boundary or unusual conditions that often reveal bugs.",
    "c": 4
   },
@@ -1558,11 +1558,11 @@
    "q": "What best describes 'concatenation' with strings?",
    "o": [
     "Splitting a string into separate pieces",
-    "Converting a string to all capitals",
     "Joining two or more strings together",
+    "Converting a string to all capitals",
     "Reversing the order of its characters"
    ],
-   "a": 2,
+   "a": 1,
    "e": "Concatenation combines strings end-to-end, often using the + operator.",
    "c": 1
   },
@@ -1786,12 +1786,12 @@
    "u": 3,
    "q": "What is the difference between a parameter and an argument?",
    "o": [
+    "A parameter is the placeholder in a function's definition; an argument is the actual value passed in",
     "A parameter is the actual value passed in; an argument is the placeholder in a function's definition",
     "A parameter is a variable defined outside any function; an argument is a variable defined inside one",
-    "A parameter is a value a function returns; an argument is the name given to a function when defined",
-    "A parameter is the placeholder in a function's definition; an argument is the actual value passed in"
+    "A parameter is a value a function returns; an argument is the name given to a function when defined"
    ],
-   "a": 3,
+   "a": 0,
    "e": "Parameters are named in the function definition; arguments are the real values supplied when calling.",
    "c": 2
   },
@@ -1903,12 +1903,12 @@
    "u": 3,
    "q": "What is the 'accumulator pattern' commonly used for?",
    "o": [
-    "Building up a result (like a sum or count) using a variable updated inside a loop",
     "Searching a list for the largest value by comparing every pair of items in turn",
     "Storing a user's input in a fixed variable that is never changed after the program starts",
-    "Repeating a block of code a fixed number of times without any variable being updated"
+    "Repeating a block of code a fixed number of times without any variable being updated",
+    "Building up a result (like a sum or count) using a variable updated inside a loop"
    ],
-   "a": 0,
+   "a": 3,
    "e": "An accumulator variable (e.g., total = 0) updates each loop iteration to build a cumulative result.",
    "c": 5
   },
@@ -1943,11 +1943,11 @@
    "q": "If a function has no explicit return statement, what does it typically return (e.g., in Python)?",
    "o": [
     "The number 0, like an empty integer",
+    "A special 'nothing' value like None",
     "The value of its last executed line",
-    "A syntax error, since return is required",
-    "A special 'nothing' value like None"
+    "A syntax error, since return is required"
    ],
-   "a": 3,
+   "a": 1,
    "e": "Without an explicit return, many languages return a null/None-like value by default.",
    "c": 2
   },
@@ -1955,12 +1955,12 @@
    "u": 3,
    "q": "What is a common cause of an accidental infinite loop?",
    "o": [
+    "Forgetting to update the loop's condition variable so it never becomes false",
     "Using a variable name that is a reserved keyword so the loop cannot start properly",
     "Running a for loop over a list with too many items for the computer's memory to hold",
-    "Declaring the loop variable before the loop begins rather than inside the loop body",
-    "Forgetting to update the loop's condition variable so it never becomes false"
+    "Declaring the loop variable before the loop begins rather than inside the loop body"
    ],
-   "a": 3,
+   "a": 0,
    "e": "If nothing changes the value being tested, a while loop's condition may never become false."
   },
   {
@@ -2058,12 +2058,12 @@
    "u": 3,
    "q": "Why might overusing global variables make debugging harder?",
    "o": [
-    "Any function could modify a global variable, making it hard to track where a bug originated",
     "Global variables use more memory than locals, which causes programs to crash without error messages",
     "Global variables cannot be read inside functions, so values must be copied in by hand each time",
-    "Global variables are deleted after each function call, so their values keep disappearing between runs"
+    "Global variables are deleted after each function call, so their values keep disappearing between runs",
+    "Any function could modify a global variable, making it hard to track where a bug originated"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Because many parts of a program can alter a global variable, tracing unexpected changes becomes difficult.",
    "c": 3
   },
@@ -2083,12 +2083,12 @@
    "u": 3,
    "q": "What is the purpose of combining loops and conditionals together?",
    "o": [
-    "To make decisions on each iteration of a repeated process, like checking each item in a list",
     "To store a list of items in memory and give each item a name and a fixed location for later use",
     "To repeat the same fixed action on every item without ever choosing differently based on its value",
+    "To make decisions on each iteration of a repeated process, like checking each item in a list",
     "To make the computer run faster by skipping every conditional check after the first loop iteration"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Nesting a conditional inside a loop lets a program evaluate each item or step individually.",
    "c": 4
   },
@@ -2108,12 +2108,12 @@
    "u": 3,
    "q": "What does it mean when a variable defined inside a function 'shadows' a global variable of the same name?",
    "o": [
-    "The global variable is permanently overwritten, so its value changes everywhere after the function ends",
     "Inside the function, the local variable takes precedence over the global one with the same name",
+    "The global variable is permanently overwritten, so its value changes everywhere after the function ends",
     "The program raises an error because two variables in the same program cannot share a single name",
     "The global variable takes precedence inside the function, and the local one is ignored completely"
    ],
-   "a": 1,
+   "a": 0,
    "e": "A local variable with the same name as a global one takes priority within its own scope, without deleting the global.",
    "c": 3
   },
@@ -2380,12 +2380,12 @@
    "u": 4,
    "q": "What is a graph, in data structure terms?",
    "o": [
-    "A structure of nodes (vertices) connected by edges, representing relationships",
     "A chart that plots values on x and y axes to show how one quantity changes over time",
     "A list of items stored in order, where each item can be reached only by its numeric index",
-    "A tree of nodes where every node has one parent and at most two children below it"
+    "A tree of nodes where every node has one parent and at most two children below it",
+    "A structure of nodes (vertices) connected by edges, representing relationships"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Graphs model nodes and the connections (edges) between them, useful for networks.",
    "c": 4
   },
@@ -2850,12 +2850,12 @@
    "u": 5,
    "q": "What describes the general approach of merge sort?",
    "o": [
+    "Divide the data in half repeatedly, sort each half, then merge the sorted halves",
     "Pick a pivot, move smaller items left and larger items right, then repeat on both sides",
     "Compare neighboring items and swap them if out of order, repeating until no swaps are needed",
-    "Repeatedly find the smallest remaining item and place it at the front of the sorted section",
-    "Divide the data in half repeatedly, sort each half, then merge the sorted halves"
+    "Repeatedly find the smallest remaining item and place it at the front of the sorted section"
    ],
-   "a": 3,
+   "a": 0,
    "e": "Merge sort is a divide-and-conquer algorithm: split, sort recursively, then merge.",
    "c": 2
   },
@@ -2864,11 +2864,11 @@
    "q": "Why is Big-O notation useful for comparing algorithms?",
    "o": [
     "It gives the exact number of seconds a program will take to run on any particular computer",
-    "It describes how runtime/memory use grows with input size, independent of hardware",
     "It measures how many lines of code an algorithm needs, so shorter programs are rated as faster",
+    "It describes how runtime/memory use grows with input size, independent of hardware",
     "It counts the bugs likely to appear in an algorithm as the amount of input data grows larger"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Big-O abstracts away hardware specifics to describe growth trends as input size increases.",
    "c": 3
   },
@@ -3055,10 +3055,10 @@
    "o": [
     "Merge sort uses far less memory than bubble sort and sorts the data in place without any extra arrays",
     "Bubble sort cannot handle duplicate values, but merge sort keeps equal items together while sorting them",
-    "Merge sort needs no comparisons between items, unlike bubble sort, which compares every pair of elements",
-    "Merge sort's divide-and-conquer approach scales much better (typically O(n log n)) than bubble sort's O(n²)"
+    "Merge sort's divide-and-conquer approach scales much better (typically O(n log n)) than bubble sort's O(n²)",
+    "Merge sort needs no comparisons between items, unlike bubble sort, which compares every pair of elements"
    ],
-   "a": 3,
+   "a": 2,
    "e": "Merge sort's better growth rate makes it far more efficient than bubble sort as data size increases."
   },
   {
@@ -3079,11 +3079,11 @@
    "q": "Which best explains why 'good enough and correct' is often favored over 'theoretically fastest but error-prone' in real engineering?",
    "o": [
     "Engineers value raw speed above everything else, so a solution that runs slower is rejected even if it is clear, tested, and correct",
-    "A slower but reliable, well-understood solution often provides more overall value than a faster but buggy or hard-to-maintain one",
     "Fast code tends to be correct by nature, so a theoretically fastest approach needs fewer tests than a slower and more careful one",
-    "Users rarely notice small differences in speed, so engineers choose whichever approach is quickest to write, without checking its correctness"
+    "Users rarely notice small differences in speed, so engineers choose whichever approach is quickest to write, without checking its correctness",
+    "A slower but reliable, well-understood solution often provides more overall value than a faster but buggy or hard-to-maintain one"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Correctness, maintainability, and reliability often outweigh marginal theoretical speed gains in practice.",
    "c": 5
   },
@@ -3103,12 +3103,12 @@
    "u": 5,
    "q": "Which best describes the relationship between an algorithm and a specific programming language?",
    "o": [
-    "An algorithm is a language-independent set of steps that could be implemented in many programming languages",
     "An algorithm is the code written in one specific language, and it must be rewritten from scratch to run in another",
     "An algorithm is the compiler that translates a programming language into the machine code a computer runs",
+    "An algorithm is a language-independent set of steps that could be implemented in many programming languages",
     "An algorithm is a set of syntax rules that every programming language must follow in order to be valid"
    ],
-   "a": 0,
+   "a": 2,
    "e": "An algorithm describes the logic of a solution abstractly, separate from any one language's syntax."
   },
   {
@@ -3116,11 +3116,11 @@
    "q": "Why does testing with 'simple cases first, then edge cases' make sense as a strategy?",
    "o": [
     "It saves time because simple cases are rarely worth running, so programmers can focus on large inputs",
-    "It verifies basic correctness before checking tricky boundary conditions that often reveal bugs",
     "It guarantees that a program with no bugs on simple tests will also pass every possible edge case later",
+    "It verifies basic correctness before checking tricky boundary conditions that often reveal bugs",
     "It makes the test suite shorter, because edge cases already cover all the simple cases automatically"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Confirming the basic logic works first, then probing edge cases, helps isolate where issues arise.",
    "c": 4
   },
@@ -3180,12 +3180,12 @@
    "u": 5,
    "q": "Why is it important for pseudocode to be written before actual code?",
    "o": [
+    "It helps clarify and plan the logic of a solution in a language-independent way before dealing with syntax",
     "It makes the code run faster by removing the need for the computer to compile the final program",
     "It is required by compilers, which refuse to run a program that was not first drafted in pseudocode",
-    "It lets programmers skip testing, since logic written in plain English is checked by the language",
-    "It helps clarify and plan the logic of a solution in a language-independent way before dealing with syntax"
+    "It lets programmers skip testing, since logic written in plain English is checked by the language"
    ],
-   "a": 3,
+   "a": 0,
    "e": "Pseudocode lets you focus on logic and structure without worrying about a specific language's syntax rules.",
    "c": 4
   },

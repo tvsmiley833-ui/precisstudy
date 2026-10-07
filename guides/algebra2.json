@@ -2307,9 +2307,9 @@
    "q": "What must you always check after solving a rational equation?",
    "o": [
     "That the solution doesn't make any original denominator zero",
-    "That the solution isn't negative",
-    "That the solution is a whole number",
-    "That the solution is less than 10"
+    "That the solution makes every original numerator equal zero",
+    "That the solution is a whole number greater than zero",
+    "That the solution doesn't make the original numerator zero"
    ],
    "a": 0,
    "e": "Solutions that create a zero denominator in the original equation must be rejected as extraneous.",
@@ -2768,9 +2768,9 @@
    "q": "What does Sₙ = n/2·(a₁+aₙ) represent for an arithmetic series?",
    "o": [
     "n times the average of the first and last term",
-    "The product of all terms",
-    "The common difference times n",
-    "The nth term alone"
+    "n divided by the sum of the first and last term",
+    "The average of the first term and the n-th term",
+    "n times the difference of the first and last term"
    ],
    "a": 0,
    "e": "Pairing the first and last term (and so on) always gives the same average, times n terms.",
@@ -3304,12 +3304,12 @@
    "u": 10,
    "q": "What is the discriminant of x² + 2x + 5 = 0, and what does it indicate?",
    "o": [
+    "−16; two distinct real solutions",
     "−16; two complex conjugate solutions",
-    "16; two real solutions",
-    "−16; no solutions exist",
-    "4; one real solution"
+    "0; exactly one repeated real solution",
+    "16; two distinct rational solutions"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Discriminant = 4 − 20 = −16, which is negative, meaning two complex conjugate solutions."
   },
   {
@@ -3551,12 +3551,12 @@
    "u": 12,
    "q": "A z-score of −2 means the value is:",
    "o": [
-    "2 standard deviations below the mean",
     "2 standard deviations above the mean",
-    "2 units below zero",
-    "The mean minus 2"
+    "2 standard deviations below the mean",
+    "Exactly 2 points below the mean score",
+    "Below the mean by a variance of 2 units"
    ],
-   "a": 0,
+   "a": 1,
    "e": "A negative z-score means the value is below the mean, by that many standard deviations.",
    "c": 1
   },
@@ -3576,12 +3576,12 @@
    "u": 12,
    "q": "A 95% confidence interval means:",
    "o": [
+    "There is a 95% probability that the sample mean lies inside the interval you computed",
     "About 95% of intervals built this way would contain the true population value",
-    "There's a 95% chance this specific interval is correct",
-    "95% of the data falls in this interval",
-    "The sample is 95% accurate"
+    "95% of the individual data values in the population fall inside this one interval",
+    "The true population value changes and falls inside the interval 95% of the time"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Confidence level describes the long-run reliability of the METHOD, not one specific interval.",
    "c": 2
   },
@@ -3602,24 +3602,24 @@
    "u": 12,
    "q": "A larger sample size directly fixes which problem?",
    "o": [
+    "Selection bias caused by a non-random sample method",
     "High sampling variability (reduces margin of error)",
-    "A biased sampling method",
-    "An incorrect hypothesis",
-    "Missing data"
+    "Measurement bias from poorly worded survey questions",
+    "Nonresponse bias because many people refuse to reply"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Sample size affects precision (variability), but does NOT fix a biased collection method."
   },
   {
    "u": 12,
    "q": "What is a stratified sample?",
    "o": [
+    "The population is divided into clusters, then a few whole clusters are chosen at random",
+    "Every nth person on a list is chosen after a random starting point is selected",
     "The population is divided into subgroups, then randomly sampled from each proportionally",
-    "Only volunteers are surveyed",
-    "Every 10th person is surveyed",
-    "Only the largest subgroup is surveyed"
+    "The population is divided into subgroups, then only the largest subgroup is surveyed in full"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Stratified sampling ensures proportional representation from each subgroup.",
    "c": 0
   },
@@ -3967,12 +3967,12 @@
    "u": 4,
    "q": "Solve: (x+2)/(x−4) = 6/(x−4)",
    "o": [
+    "x = 4 (the single solution to the equation)",
+    "x = 8 (found after clearing the denominators)",
     "No solution (x=4 is required but excluded)",
-    "x = 4",
-    "x = 6",
-    "x = −2"
+    "All real numbers except x = 4 (identity)"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Multiplying by (x−4): x+2=6 → x=4, but x=4 makes the original denominator zero — no solution."
   },
   {
@@ -4491,12 +4491,12 @@
    "u": 10,
    "q": "For x² − 6x + 25 = 0, find the discriminant and describe the solutions",
    "o": [
+    "−64; two distinct real solutions",
     "−64; two complex conjugate solutions",
-    "64; two real solutions",
-    "−64; one real solution",
-    "36; two real solutions"
+    "136; two distinct real solutions",
+    "0; exactly one repeated real solution"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Discriminant = 36 − 100 = −64, negative, so two complex conjugate solutions."
   },
   {
@@ -4516,12 +4516,12 @@
    "u": 11,
    "q": "If f(x) = x² (for x ≥ 0) and g(x) = √x, are f and g inverses of each other?",
    "o": [
+    "No, f(g(x)) and g(f(x)) both equal x²",
     "Yes, f(g(x))=x and g(f(x))=x for x≥0",
-    "No, they are not related",
-    "Only f(g(x))=x works",
-    "Only g(f(x))=x works"
+    "No, since f(g(x))=x² while g(f(x))=√x",
+    "No, since f is not one-to-one for x≥0"
    ],
-   "a": 0,
+   "a": 1,
    "e": "f(g(x)) = (√x)² = x and g(f(x)) = √(x²) = x for x≥0 — both checks pass.",
    "c": 2
   },
@@ -4592,12 +4592,12 @@
    "u": 12,
    "q": "Which of these is an example of a stratified sample?",
    "o": [
+    "Randomly choosing whole homerooms and surveying every student in them",
     "Randomly sampling proportionally from each grade level in a school",
-    "Surveying only the first 20 students who arrive",
-    "Asking for volunteers over social media",
-    "Surveying every student in one classroom"
+    "Surveying the first fifty students who arrive at school each morning",
+    "Picking every tenth student from an alphabetical list of the school"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Stratified sampling divides the population into subgroups (like grade levels) then samples proportionally from each."
   },
   {
@@ -4643,12 +4643,12 @@
    "u": 12,
    "q": "A result from a simulation falls far outside the range typically produced by random chance. What does this suggest?",
    "o": [
+    "The result is almost surely due to random chance",
     "The result is likely NOT due to random chance alone",
-    "The simulation was run incorrectly",
-    "The result must be an error",
-    "Nothing can be concluded"
+    "The result is typical and occurs about half of the time",
+    "The simulation is guaranteed to be invalid or biased"
    ],
-   "a": 0,
+   "a": 1,
    "e": "An unusually extreme result compared to the simulated random-chance distribution is evidence against pure chance.",
    "c": 3
   },
@@ -4669,12 +4669,12 @@
    "u": 12,
    "q": "Which best describes a census, as opposed to a sample?",
    "o": [
-    "Collecting data from every member of the population",
-    "Collecting data from a random subset",
-    "Collecting data only from volunteers",
-    "Estimating data using a formula"
+    "Collecting data from a random part of the population",
+    "Collecting data from the first few members you can reach",
+    "Collecting data from every member of a selected subgroup",
+    "Collecting data from every member of the population"
    ],
-   "a": 0,
+   "a": 3,
    "e": "A census surveys the ENTIRE population, not just a sample of it."
   },
   {
@@ -6012,12 +6012,12 @@
    "u": 12,
    "q": "A simulation is repeated 1000 times to estimate a probability. This approach uses:",
    "o": [
+    "the theoretical ratio of favorable to all outcomes",
+    "the result of one trial to predict the next",
     "the long-run relative frequency of an outcome",
-    "a theoretical formula only",
-    "a stratified sample",
-    "a confidence interval for the mean"
+    "the subjective judgment of an experienced expert"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Simulation estimates probability as the fraction of trials in which the outcome occurs."
   },
   {
@@ -6163,9 +6163,9 @@
    "q": "Classify -7. Which set(s) does it belong to?",
    "o": [
     "Integer, rational, real (not natural or whole)",
-    "Natural, whole, integer, rational, real",
-    "Irrational and real only",
-    "Whole, rational, real (not integer)"
+    "Natural, whole, integer, rational, real number",
+    "Rational and real only (not an integer at all)",
+    "Integer, irrational, real (not natural or whole)"
    ],
    "a": 0,
    "e": "-7 has no fractional part, so it's an integer. Since -7 = -7/1, it's also rational and real. It's negative, so it's not natural or whole.",
@@ -6223,12 +6223,12 @@
    "u": 1,
    "q": "Which best describes the relationship between the rational and irrational numbers?",
    "o": [
+    "They overlap only on the integers; together they make all reals",
+    "Irrational numbers are a subset of the rational numbers",
     "They never overlap; together they make up all real numbers",
-    "Every irrational number is also rational",
-    "Irrational numbers are a subset of the integers",
-    "They overlap only at 0"
+    "Rational numbers are a subset of the irrational numbers"
    ],
-   "a": 0,
+   "a": 2,
    "e": "By definition, a real number is either rational or irrational, never both, and there's no other option — the two sets partition the real numbers completely."
   },
   {
@@ -6679,12 +6679,12 @@
    "u": 1,
    "q": "When factoring out a negative GCF, what must you also do?",
    "o": [
-    "Flip the sign of every remaining term inside the parentheses",
-    "Nothing extra — factor normally",
-    "Flip only the last term's sign",
-    "Divide every term by −1 twice"
+    "Keep every remaining term inside the parentheses unchanged",
+    "Flip only the sign of the first term inside the parentheses",
+    "Flip the sign of the constant term but not the variable terms",
+    "Flip the sign of every remaining term inside the parentheses"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Factoring out a negative GCF flips the sign of every term left inside the parentheses, since you divided each by a negative."
   },
   {
@@ -7067,12 +7067,12 @@
    "u": 1,
    "q": "Classify 0.",
    "o": [
+    "Natural, whole, integer, rational, real (all of them)",
     "Whole, integer, rational, real (but NOT natural)",
-    "Natural, whole, integer, rational, real",
-    "Integer and real only",
-    "Irrational"
+    "Integer, rational, real (but NOT whole or natural)",
+    "Whole, integer, irrational, real (but NOT natural)"
    ],
-   "a": 0,
+   "a": 1,
    "e": "0 is whole, an integer, rational, and real — but it is NOT a natural number, since natural numbers start at 1.",
    "c": 5
   },
@@ -7209,12 +7209,12 @@
    "u": 1,
    "q": "Which best describes √16?",
    "o": [
+    "Irrational, since the square root of 16 never terminates",
     "Rational (and an integer), since √16 simplifies to 4",
-    "Irrational, since it involves a square root",
-    "Whole but not an integer",
-    "Not a real number"
+    "Irrational, since √16 is a root and not a fraction",
+    "Rational but not an integer, since √16 is a fraction"
    ],
-   "a": 0,
+   "a": 1,
    "e": "√16 = 4 exactly, a whole number — taking a square root doesn't automatically make a number irrational."
   },
   {
@@ -7551,12 +7551,12 @@
    "u": 1,
    "q": "An 'and' compound inequality a < x < b is true when which condition(s) hold?",
    "o": [
+    "x is greater than a OR less than b, either one works",
+    "x is less than a AND greater than b, both at once",
     "x is greater than a AND less than b, both at once",
-    "x is greater than a OR less than b",
-    "x equals a or b",
-    "Only x = a"
+    "x is greater than a only, with b not mattering at all"
    ],
-   "a": 0,
+   "a": 2,
    "e": "The squeezed form a < x < b is shorthand for 'x > a AND x < b' — both conditions must be true simultaneously."
   },
   {
@@ -7588,9 +7588,9 @@
    "q": "When solving an AND compound inequality like a < x + c < b, what must you do to all three parts?",
    "o": [
     "Perform the exact same operation on all three parts at once",
-    "Only operate on the middle part",
-    "Solve the left and right separately, then average them",
-    "Convert it to an OR statement first"
+    "Perform the operation on the left and right parts only",
+    "Apply different operations to the two ends than the middle",
+    "Perform the operation on only the middle expression itself"
    ],
    "a": 0,
    "e": "Because all three parts are linked by the same variable expression, whatever operation you apply must be applied to all three parts simultaneously to keep the inequality valid."
@@ -7611,12 +7611,12 @@
    "u": 1,
    "q": "A student solves an AND compound inequality and gets the 'solution' x > 5 and x < 2. What does this actually mean?",
    "o": [
+    "The solution is all numbers that are greater than 5 or less than 2",
+    "The solution is the interval between 2 and 5, since x lies in that gap",
     "There is no solution — no number is both greater than 5 and less than 2",
-    "x can be any number between 2 and 5",
-    "x must equal 3.5, the midpoint",
-    "The student should switch to an OR statement"
+    "The student made an error because the answer must be a single number"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Since no real number is simultaneously greater than 5 and less than 2, this AND compound inequality has no solution (the empty set)."
   },
   {
@@ -7647,12 +7647,12 @@
    "u": 1,
    "q": "True or False: The graph of an OR compound inequality is always two disjoint (non-touching) pieces.",
    "o": [
+    "True — the two rays point in opposite directions, so they can never touch or overlap",
+    "True — an OR inequality needs two separate shaded pieces, otherwise it is an AND inequality",
     "False — if the two pieces overlap, the union can cover all real numbers or merge into one piece",
-    "True, always without exception",
-    "False, it's always one continuous piece",
-    "True, but only when both symbols are strict"
+    "True — each part of an OR inequality points in its own direction, so the graph has a gap"
    ],
-   "a": 0,
+   "a": 2,
    "e": "If the two OR conditions overlap (e.g., x < 5 or x > 1), their union can merge into a single continuous piece, or even all real numbers."
   },
   {
@@ -7808,9 +7808,9 @@
    "q": "Why does plugging x = 10 into (x - 9)(x⁷+x⁶+...+x+1) happen to equal the value of x⁷+x⁶+...+x+1 at x = 10?",
    "o": [
     "Because (x-9) equals exactly 1 when x=10, which is a one-time numerical coincidence, not a general identity",
-    "Because (x-9) always equals 1 for any x",
-    "Because multiplying by (x-9) never changes a polynomial's value",
-    "Because the two expressions are actually identical polynomials"
+    "Because (x-9) equals 0 when x=10, so the product collapses and matches the other factor for every x",
+    "Because the product is an identity for all x, since multiplying by (x-9) leaves any polynomial's value unchanged",
+    "Because x=10 is a root of the second factor, which forces the whole product to equal that second factor exactly"
    ],
    "a": 0,
    "e": "At x=10, (x-9)=1, so the product happens to numerically match the second factor — but the two polynomials are NOT equal for other values of x."
@@ -7832,12 +7832,12 @@
    "u": 1,
    "q": "To multiply three or more polynomial factors, what is the standard approach?",
    "o": [
+    "Multiply all of the factors' first terms together, then add the products of the remaining terms at the end",
+    "Add the three factors together first, then multiply the resulting sum by the largest remaining factor",
     "Multiply any two factors first, then multiply that result by what's left, repeating until done",
-    "Multiply all factors' leading terms only",
-    "Add the factors together first",
-    "It cannot be done without a calculator"
+    "Expand each factor into its own separate polynomial, then simply add the expanded results together"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Multiply two factors at a time, then multiply the running product by the next factor, continuing until every factor has been used."
   },
   {
@@ -7845,9 +7845,9 @@
    "q": "Expand (x + 4)(x - 4)(x + 1).",
    "o": [
     "(x² - 16)(x + 1) = x³ + x² - 16x - 16",
-    "x³ - 16x - 16",
-    "x³ + x² + 16x + 16",
-    "x² - 16x - 16"
+    "(x² - 16)(x + 1) = x³ - x² - 16x + 16",
+    "(x² + 16)(x + 1) = x³ + x² + 16x + 16",
+    "(x² - 8)(x + 1) = x³ + x² - 8x - 8"
    ],
    "a": 0,
    "e": "First multiply the difference of squares: (x+4)(x-4) = x²-16. Then distribute: (x²-16)(x+1) = x³+x²-16x-16."
@@ -7868,12 +7868,12 @@
    "u": 1,
    "q": "A quick way to check that you multiplied two polynomials correctly is to:",
    "o": [
+    "Count the number of terms in the original product and confirm the expanded form has exactly the same number",
+    "Check that the highest power in the expansion equals the largest exponent found in any single original factor",
     "Substitute a simple number (like x=1) into both the original and expanded forms and confirm they match",
-    "Assume it's correct if the degree looks right",
-    "Only check the first term",
-    "Multiply again in your head without writing anything down"
+    "Add up all of the coefficients in the original factors and make sure the total equals the constant term"
    ],
-   "a": 0,
+   "a": 2,
    "e": "If the original unexpanded expression and your expanded answer give the same numeric value for a test input, that's strong evidence the expansion is correct."
   },
   {
@@ -7893,12 +7893,12 @@
    "u": 1,
    "q": "When multiplying (x - 9)(x⁷+x⁶+x⁵+x⁴+x³+x²+x+1) out completely, what is the coefficient pattern of the middle terms (x⁶ through x)?",
    "o": [
+    "Each coefficient becomes 10 (1 from x·term plus 9 from -9·term)",
+    "Each coefficient stays 1 (the -9 term only affects the constant)",
     "Each coefficient becomes -8 (1 from x·term minus 9 from -9·term)",
-    "Each coefficient stays +1",
-    "Each coefficient becomes -9",
-    "The middle terms all cancel to 0"
+    "Each coefficient becomes -9 (only the -9·term contributes to it)"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Each middle term gets a contribution of +1 (from multiplying by x) and -9 (from multiplying by -9), combining to -8 for every term except the very first and last."
   },
   {
@@ -7954,12 +7954,12 @@
    "u": 1,
    "q": "When factoring out a negative GCF, what must also happen?",
    "o": [
+    "Every remaining term inside the parentheses keeps its sign",
+    "Only the leading term inside the parentheses flips its sign",
     "Every remaining term inside the parentheses flips sign",
-    "Nothing changes inside the parentheses",
-    "Only the last term flips sign",
-    "The GCF itself becomes positive automatically"
+    "Only the constant term inside the parentheses flips its sign"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Dividing each term by a negative number flips its sign, so factoring out a negative GCF flips the sign of every term left inside the parentheses."
   },
   {
@@ -8062,12 +8062,12 @@
    "u": 1,
    "q": "Once you factor x² + bx + c into (x + p)(x + q), how can you verify your answer?",
    "o": [
-    "Multiply the factors back out with FOIL and check you get the original trinomial",
-    "Just check that p + q looks reasonable",
-    "Assume it's correct since GCF was applied first",
-    "Divide the trinomial by x"
+    "Add the two numbers p and q and check they equal c, the constant term of the trinomial",
+    "Plug x = 0 into the factors and check the result equals the middle coefficient b",
+    "Divide the original trinomial by the leading term and check that the quotient is p plus q",
+    "Multiply the factors back out with FOIL and check you get the original trinomial"
    ],
-   "a": 0,
+   "a": 3,
    "e": "The most reliable check is to FOIL your factored answer and confirm it matches the original trinomial exactly.",
    "c": 21
   },
@@ -8330,12 +8330,12 @@
    "u": 1,
    "q": "Why can't you factor ax² + bx + c with a ≠ 1 by simply guessing two numbers that add to b, the way you would when a=1?",
    "o": [
+    "Because the two numbers must add to a·c, not just b, since a is not equal to 1",
+    "Because trinomials with a leading coefficient above 1 are generally not factorable",
     "Because the two numbers must multiply to a·c, not just c, when a isn't 1",
-    "Because trinomials with a≠1 can never be factored",
-    "Because you must always complete the square instead",
-    "Because the ac-method only works when a is negative"
+    "Because the two numbers must multiply to b, not c, once a is different from 1"
    ],
-   "a": 0,
+   "a": 2,
    "e": "When a=1, the two numbers multiply to c; but when a≠1, they must multiply to a·c to correctly split the middle term for grouping."
   },
   {
@@ -8426,12 +8426,12 @@
    "u": 1,
    "q": "When two pairs of terms don't share the SAME binomial factor after factoring out each pair's GCF, what does that mean?",
    "o": [
+    "The polynomial is prime and cannot be factored, so the factoring process should stop",
     "The grouping (or the order of terms) needs to be rearranged and tried again",
-    "The polynomial cannot be factored at all",
-    "You should give up and use the quadratic formula",
-    "The expression is already fully factored"
+    "You should add the two different binomials together to form the final factor",
+    "The expression is already fully factored as the product of the two group GCFs"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Grouping only works when both pairs reveal the same binomial factor; if they don't, try re-pairing the terms in a different order.",
    "c": 23
   },
@@ -8439,9 +8439,9 @@
    "u": 1,
    "q": "Factor x³ - 2x² - 9x + 18 by grouping.",
    "o": [
-    "(x² - 9)(x - 2)",
-    "(x - 9)(x² - 2)",
-    "(x + 3)(x - 3)(x - 2)",
+    "(x - 9)(x² - 2), fully factored over the integers",
+    "(x² - 9)(x - 2), which cannot be factored further",
+    "(x + 3)(x - 3)(x + 2), the fully factored form",
     "Both A and C are equivalent, fully factored forms"
    ],
    "a": 3,
@@ -8475,12 +8475,12 @@
    "u": 1,
    "q": "Factor 2x³ - 3x² - 8x + 12 by grouping.",
    "o": [
-    "(2x - 3)(x² - 4) = (2x-3)(x-2)(x+2)",
-    "(2x + 3)(x² - 4)",
-    "(x - 3)(2x² - 8)",
-    "(2x - 3)(x + 4)(x - 4)"
+    "(2x + 3)(x² - 4) = (2x+3)(x-2)(x+2)",
+    "(x - 3)(2x² - 8) = 2(x-3)(x-2)(x+2)",
+    "(2x - 3)(x² - 4) = (2x-3)(x-4)(x+1)",
+    "(2x - 3)(x² - 4) = (2x-3)(x-2)(x+2)"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Group as (2x³-3x²)+(-8x+12) = x²(2x-3) - 4(2x-3) = (2x-3)(x²-4), and x²-4 factors further to (x-2)(x+2)."
   },
   {
@@ -8499,12 +8499,12 @@
    "u": 1,
    "q": "After grouping (12x³+8x²)+(15x+10), why must the two group-GCFs (4x² and 5) leave the SAME binomial (3x+2) behind?",
    "o": [
+    "Because the two group-GCFs must be equal to each other for the polynomial to expand correctly",
     "Because that's what makes the whole expression factorable by pulling out the shared binomial",
-    "It's a coincidence and doesn't need to match",
-    "Because 4x² and 5 are themselves factors of the binomial",
-    "It only matters for the first group, not the second"
+    "Because the shared binomial must equal the sum of the group GCFs before any factoring can occur",
+    "Because leaving different binomials behind would make the original polynomial a perfect square instead"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Grouping only succeeds when both pairs reduce to an identical leftover binomial — that shared binomial is what finally gets factored out of the whole expression.",
    "c": 23
   },
@@ -8600,9 +8600,9 @@
    "q": "When solving a literal equation, what should you do first if the target variable is in a denominator, like solving $\\frac{a}{x}=b$ for $x$?",
    "o": [
     "Multiply both sides by $x$ to clear the fraction",
-    "Divide both sides by $a$",
-    "Square both sides",
-    "Add $x$ to both sides"
+    "Add $x$ to both sides to move it out of the denominator",
+    "Divide both sides by $a$ so the $x$ is left alone",
+    "Subtract $b$ from both sides to isolate the fraction"
    ],
    "a": 0,
    "e": "Clear the denominator first by multiplying both sides by $x$, giving $a=bx$, then divide by $b$: $x=\\frac{a}{b}$.",
@@ -8758,12 +8758,12 @@
    "u": 2,
    "q": "A student turns $(x+4)^2=7$ into $x+4=\\sqrt{7}$. What did they leave out?",
    "o": [
+    "The 4: the step should be $x-4=\\sqrt{7}$ with a flipped sign",
+    "Nothing, because $x+4=\\sqrt{7}$ is already the full solution",
     "The $\\pm$ sign: $x+4=\\pm\\sqrt{7}$ gives two solutions",
-    "Squaring both sides again",
-    "Dividing by 4",
-    "Adding $16$ to both sides"
+    "The root index: it should be a cube root, $x+4=\\sqrt[3]{7}$"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Taking a square root gives two values, positive and negative: $x=-4\\pm\\sqrt{7}$."
   },
   {
@@ -8771,9 +8771,9 @@
    "q": "Is $\\frac{2\\pm\\sqrt{10}}{2}$ the same as $1\\pm\\sqrt{10}$?",
    "o": [
     "No, the 2 divides the whole numerator, so it is $1\\pm\\frac{\\sqrt{10}}{2}$",
-    "Yes, cancel the 2s",
-    "Yes, because $\\sqrt{10}\\div2=\\sqrt{10}$",
-    "No, the first one has no real solutions"
+    "Yes, cancel the 2s in the numerator and denominator, leaving $1\\pm\\sqrt{10}$",
+    "Yes, because dividing by 2 leaves $\\sqrt{10}$ unchanged and turns 2 into 1",
+    "No, it equals $2\\pm\\frac{\\sqrt{10}}{2}$ because only the radical gets divided by 2"
    ],
    "a": 0,
    "e": "You can only cancel a factor common to every term. Splitting correctly gives $\\frac{2}{2}\\pm\\frac{\\sqrt{10}}{2}=1\\pm\\frac{\\sqrt{10}}{2}$."
@@ -10941,12 +10941,12 @@
    "u": 3,
    "q": "The graph of $P(x) = (x - 2)^3(x + 1)$ at x = 2:",
    "o": [
+    "touches the x-axis and turns around (even multiplicity 2)",
+    "has a vertical asymptote because the factor is repeated",
     "crosses the x-axis with an inflection (odd multiplicity 3)",
-    "touches and turns around (even multiplicity)",
-    "has a vertical asymptote",
-    "is undefined"
+    "has a hole in the graph at that point (cancelled factor)"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Multiplicity 3 is odd, so the graph crosses, flattening as it passes through.",
    "c": 3
   },
@@ -12481,12 +12481,12 @@
    "u": 11,
    "q": "y = f(x) becomes y = f(2x). Compared with the original, the graph is:",
    "o": [
-    "horizontally compressed by a factor of 1/2",
-    "horizontally stretched by 2",
-    "vertically compressed",
-    "shifted left"
+    "horizontally stretched by a factor of 2",
+    "vertically stretched by a factor of exactly 2",
+    "horizontally shifted to the left by 2 units",
+    "horizontally compressed by a factor of 1/2"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Multiplying the input by 2 compresses the graph horizontally toward the y-axis by 1/2."
   },
   {
@@ -12633,9 +12633,9 @@
    "q": "A test statistic falls in the tail region beyond the critical value. The result is:",
    "o": [
     "statistically significant (reject the null hypothesis)",
-    "not significant",
-    "biased",
-    "a Type II error by definition"
+    "not statistically significant (fail to reject the null)",
+    "statistically significant (accept the null hypothesis)",
+    "proof that the null hypothesis is true in the population"
    ],
    "a": 0,
    "e": "Beyond the critical value the observed result is unlikely under the null hypothesis, so it is rejected.",
@@ -12645,12 +12645,12 @@
    "u": 12,
    "q": "Increasing sample size affects a poll by:",
    "o": [
-    "reducing sampling variability but not correcting bias",
-    "reducing bias",
-    "increasing the margin of error",
-    "changing the population mean"
+    "correcting bias but not reducing sampling variability",
+    "eliminating both sampling variability and all bias",
+    "increasing sampling variability while also reducing bias",
+    "reducing sampling variability but not correcting bias"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Bigger samples are more precise, but a biased method stays biased at any size."
   },
   {
@@ -12879,12 +12879,12 @@
    "u": 1,
    "q": "A student says 0.101001000100001... (the pattern of zeros keeps growing, never repeating exactly) is rational because it 'looks like a pattern.' Is the student correct?",
    "o": [
+    "Yes — any decimal that follows a clear, describable pattern is rational, and the growing zeros are such a pattern, so it is rational",
+    "Yes — every decimal that can be written out with a rule for the next digit is rational, since the rule works like a fraction",
     "No — a repeating decimal must repeat the SAME block forever; this one never locks into a fixed repeating block, so it's irrational",
-    "Yes, any decimal with a visible pattern is rational",
-    "No, because it doesn't terminate, all non-terminating decimals are irrational",
-    "Yes, because it only contains 0s and 1s"
+    "Yes — it is rational because it can be approximated to any accuracy by terminating decimals, which are all rational"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Being rational requires the decimal to either terminate or repeat the exact same finite block of digits forever. A growing gap between 1s (not a fixed repeating block) means it never repeats — so it's irrational, even though it looks patterned."
   },
   {
@@ -12903,12 +12903,12 @@
    "u": 1,
    "q": "A student solves -4x + 1 < 9 and gets x < -2. What error did they make, and what is the correct answer?",
    "o": [
-    "They forgot to flip the sign when dividing by -4; the correct answer is x > -2",
-    "They subtracted incorrectly; the correct answer is x < 2",
-    "They made no error; x < -2 is correct",
-    "They forgot to flip the sign; the correct answer is x > 2"
+    "They flipped the sign when they should not have; the correct answer is x < 2",
+    "They divided 8 by 4 incorrectly; the correct answer is x < -4, after flipping the sign",
+    "They made no error because dividing by a negative keeps the sign; x < -2 is correct",
+    "They forgot to flip the sign when dividing by -4; the correct answer is x > -2"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Subtract 1: -4x < 8. Dividing by -4 requires flipping the inequality: x > -2. The student divided correctly but forgot to flip the symbol."
   },
   {
@@ -12928,9 +12928,9 @@
    "q": "A student claims (x−9)(x⁷+x⁶+x⁵+x⁴+x³+x²+x+1) = x⁷+x⁶+x⁵+x⁴+x³+x²+x+1, reasoning that plugging in x=10 makes (x−9) equal 1. Why is this reasoning flawed?",
    "o": [
     "The two expressions only happen to be equal in VALUE at x=10 — that's a numerical coincidence, not proof the polynomials are identical for every x",
-    "The student is completely correct — any factor that equals 1 at a value can be dropped",
-    "x=10 is not allowed in this expression, so the comparison is meaningless",
-    "(x−9) can never equal 1, so the student made an arithmetic error"
+    "Plugging in x=10 proves the identity for every x, because a polynomial of degree 7 is determined by its value at a single point on the number line",
+    "Substituting x=10 is not allowed because x−9 would equal 1, and a factor equal to 1 cannot be used when comparing the two polynomials in this problem",
+    "The claim is actually true for every x, since multiplying any polynomial by a factor that equals 1 at x=10 leaves the entire polynomial unchanged"
    ],
    "a": 0,
    "e": "Two different polynomials can still agree at one specific input. Proving f(10)=g(10) says nothing about f(x)=g(x) for other values of x — you'd have to expand and compare every term to prove a true polynomial identity."
@@ -13000,12 +13000,12 @@
    "u": 1,
    "q": "To prove x = 1.2666... (only the 6 repeats) is rational, what is the most efficient first move?",
    "o": [
-    "Multiply by 10 to get 12.666..., shifting past the non-repeating digit before setting up the subtraction",
-    "Multiply by 100 immediately, since there are two digits shown after the decimal point",
-    "Multiply by 3 to clear the repeating block",
-    "Round to 1.27 and treat it as already rational"
+    "Multiply by 1000 to get 1266.666..., which moves every digit left of the decimal point before any subtraction",
+    "Round the decimal to 1.267, write it as 1267/1000, and note that this fraction equals the original value",
+    "Multiply by 10 to get 12.666..., then add the original equation so the repeating sixes line up and can be doubled",
+    "Multiply by 10 to get 12.666..., shifting past the non-repeating digit before setting up the subtraction"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Since only the '6' repeats (the '2' doesn't), first multiply by 10 to shift past the non-repeating digit: 10x = 12.666.... From there, a second multiplication by 10 and subtraction eliminates the repeating part, same as usual."
   },
   {
@@ -13025,9 +13025,9 @@
    "q": "Which sign pattern must the two numbers have when factoring x² + bx + c if c is negative?",
    "o": [
     "Opposite signs, with the larger-magnitude number matching the sign of b",
-    "Both negative, regardless of b",
-    "Both positive, regardless of b",
-    "Same sign as c"
+    "Opposite signs, with the smaller-magnitude number matching the sign of b",
+    "Both negative, so that their sum equals b and their product equals c",
+    "Opposite signs, with the larger-magnitude number being the negative one"
    ],
    "a": 0,
    "e": "A negative product (c) only comes from one positive and one negative number. Since their sum must equal b, the number with the larger absolute value takes the sign of b."
@@ -13192,12 +13192,12 @@
    "u": 2,
    "q": "A student solves $x^2-6x=7$ and writes $x^2-6x+3=7+3$. What went wrong?",
    "o": [
+    "They forgot to change the sign of $b$ before halving it",
     "They added $\\frac{b}{2}=3$ instead of $(\\frac{b}{2})^2=9$",
-    "They should have subtracted from both sides",
-    "Nothing, $+3$ completes the square",
-    "They forgot to divide by $a$"
+    "They should have added $9$ to the left side alone, not both sides",
+    "They moved the constant $7$ to the left side with the wrong sign"
    ],
-   "a": 0,
+   "a": 1,
    "e": "The constant to add is the SQUARE of half of $b$: $(\\frac{-6}{2})^2=9$. Adding 3 does not make a perfect square. Correct: $(x-3)^2=16$, so $x=7$ or $x=-1$."
   },
   {
