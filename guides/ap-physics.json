@@ -1118,12 +1118,12 @@
    "u": 1,
    "q": "During the rise of a projectile, which statement about vertical acceleration is true?",
    "o": [
-    "It is zero at the peak",
     "It is constant and equal to −g throughout",
-    "It changes sign only at launch",
-    "It increases as height increases"
+    "It drops to zero at the very top of the path",
+    "It reverses sign once the projectile begins falling",
+    "It decreases steadily as the upward speed decreases"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Gravity acts continuously; vertical acceleration is −g at every point of the trajectory, including the peak.",
    "c": 3
   },
@@ -1209,9 +1209,9 @@
    "q": "What does a negative slope on an acceleration-time graph physically represent?",
    "o": [
     "Acceleration is decreasing over time",
-    "Velocity is decreasing",
-    "Position is decreasing",
-    "Speed is negative"
+    "Velocity is decreasing at a steady rate",
+    "Position is decreasing as time passes",
+    "The object's speed is necessarily negative"
    ],
    "a": 0,
    "e": "The slope of an a-t graph is the rate of change of acceleration (jerk); negative slope means acceleration is decreasing."
@@ -1319,9 +1319,9 @@
    "q": "Which of the following best describes average speed vs average velocity for a round trip?",
    "o": [
     "Average speed > average velocity in general",
-    "They are always equal",
-    "Average velocity > average speed always",
-    "Both are always zero"
+    "They are always equal in magnitude for any trip",
+    "Average velocity > average speed in general",
+    "Both are zero because the net displacement is zero"
    ],
    "a": 0,
    "e": "For a round trip, displacement (hence average velocity magnitude) is less than or equal to distance (hence average speed), and often strictly less.",
@@ -1369,9 +1369,9 @@
    "q": "When solving 2D projectile problems, why can horizontal and vertical motions be treated independently?",
    "o": [
     "Gravity has no horizontal component and there is no horizontal acceleration force",
-    "Time runs differently in each direction",
-    "Horizontal and vertical velocities are always equal",
-    "Only vertical motion follows kinematics equations"
+    "Time passes at different rates along the horizontal and vertical axes",
+    "Horizontal and vertical velocity components are always equal in size",
+    "Only vertical motion obeys the kinematics equations, so horizontal is ignored"
    ],
    "a": 0,
    "e": "Since gravity acts only vertically, the horizontal and vertical components of motion are independent, connected only through shared time.",
@@ -1394,9 +1394,9 @@
    "q": "An object undergoes constant negative acceleration while moving in the positive direction. Its speed-time graph will show:",
    "o": [
     "A straight line decreasing to zero then increasing (as speed) after reversing",
-    "A straight line increasing the whole time",
-    "A horizontal line",
-    "An exponential decay curve"
+    "A straight line increasing the whole time without ever reaching zero",
+    "A horizontal line at the initial speed throughout the motion",
+    "An exponentially decaying curve that approaches zero but never reverses"
    ],
    "a": 0,
    "e": "Speed decreases to zero as velocity approaches zero, then as the object reverses, speed increases again — giving a V-shaped speed graph even though velocity itself is linear."
@@ -1405,12 +1405,12 @@
    "u": 1,
    "q": "Which statement about instantaneous velocity is correct?",
    "o": [
-    "It equals the slope of the tangent line to the x-t curve at that instant",
-    "It always equals average velocity",
-    "It is always positive",
-    "It cannot be zero if acceleration is nonzero"
+    "It always equals the average velocity over the whole trip",
+    "It is always positive for any moving object",
+    "It cannot be zero at any instant when acceleration is nonzero",
+    "It equals the slope of the tangent line to the x-t curve at that instant"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Instantaneous velocity is defined as the slope of the tangent to the position-time graph at a given instant."
   },
   {
@@ -1545,12 +1545,12 @@
    "u": 2,
    "q": "Which statement correctly describes inertia?",
    "o": [
+    "A force that pushes moving objects until they come to rest",
     "The tendency of an object to resist changes in its state of motion",
-    "A force that pushes objects to rest",
-    "The force of gravity on an object",
-    "The rate of change of momentum"
+    "The gravitational force exerted on an object by the Earth",
+    "The rate at which an object's momentum changes with time"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Inertia is the resistance to changes in velocity, quantified by mass.",
    "c": 0
   },
@@ -1621,12 +1621,12 @@
    "u": 2,
    "q": "Which of the following is an example of a Newton's First Law scenario?",
    "o": [
+    "A car accelerating forward from rest at a stoplight",
     "A hockey puck sliding at constant velocity on frictionless ice",
-    "A car accelerating from a stoplight",
-    "A ball falling under gravity",
-    "A rocket launching upward"
+    "A ball speeding up as it falls under gravity",
+    "A rocket accelerating upward as its engines fire"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Constant velocity with zero net force (frictionless ice) exemplifies Newton's First Law (inertia).",
    "c": 0
   },
@@ -1710,9 +1710,9 @@
    "q": "Which best describes static equilibrium?",
    "o": [
     "The net force and net torque on an object are both zero",
-    "The object has zero velocity only",
-    "The object has zero mass",
-    "The object experiences only one force"
+    "The object's velocity is zero, whatever forces act on it",
+    "The object's mass is so small that forces have no effect",
+    "The object has only one force acting, which is balanced by inertia"
    ],
    "a": 0,
    "e": "Static equilibrium requires ΣF=0 and Στ=0, meaning no linear or rotational acceleration."
@@ -1784,24 +1784,24 @@
    "u": 2,
    "q": "A 1500 kg car takes a turn while maintaining constant speed on a flat road. Is there a net force acting on it?",
    "o": [
+    "No, because its speed is constant, so nothing accelerates it",
     "Yes, directed toward the center of the turn",
-    "No, since speed is constant",
-    "Yes, directed away from the center",
-    "No, since it's Newton's First Law"
+    "Yes, directed away from the center of the turn",
+    "No, because Newton's First Law applies to constant speed"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Even at constant speed, changing direction requires centripetal (net) force directed toward the center of the curve."
   },
   {
    "u": 2,
    "q": "An object of mass m is pushed with force F at angle θ above horizontal across a surface with friction coefficient μ. Which term reduces the normal force?",
    "o": [
+    "The horizontal component of the applied force, F cosθ",
+    "The weight of the object, mg, which acts downward",
     "The vertical component of the applied force, F sinθ",
-    "The horizontal component of the applied force",
-    "The weight of the object",
-    "The coefficient of friction"
+    "The coefficient of friction, μ, between the surfaces"
    ],
-   "a": 0,
+   "a": 2,
    "e": "When pushing at an upward angle, N = mg − F sinθ, since the vertical component of the push partially supports the object's weight."
   },
   {
@@ -1820,24 +1820,24 @@
    "u": 2,
    "q": "Why does a heavier object not accelerate faster than a lighter one in free fall, despite experiencing greater gravitational force?",
    "o": [
-    "Greater weight is exactly offset by greater inertia (mass) in F=ma",
-    "Air resistance always cancels the difference",
-    "Heavier objects have less gravity acting on them",
-    "This is only true on the Moon"
+    "Air resistance cancels the difference in force between the two objects",
+    "Heavier objects feel a weaker gravitational pull from Earth",
+    "This only holds on the Moon, where there is no atmosphere",
+    "Greater weight is exactly offset by greater inertia (mass) in F=ma"
    ],
-   "a": 0,
+   "a": 3,
    "e": "F=mg and a=F/m=g; the mass cancels out, so acceleration is independent of mass despite larger force on more massive objects."
   },
   {
    "u": 2,
    "q": "A block is being pulled at constant velocity across a rough floor by a horizontal rope. What must be true about the forces?",
    "o": [
-    "Applied force equals friction force, and normal force equals weight",
-    "Applied force is greater than friction",
-    "There is no friction acting",
-    "Normal force exceeds weight"
+    "Applied force exceeds friction, and normal force equals weight",
+    "Friction is zero, and the normal force equals the weight",
+    "Applied force equals friction, and normal force exceeds weight",
+    "Applied force equals friction force, and normal force equals weight"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Constant velocity means zero net force, so applied force = friction and normal force = weight (no vertical acceleration)."
   },
   {
@@ -1881,12 +1881,12 @@
    "u": 2,
    "q": "Which best explains why pushing a heavy box is harder to start moving than to keep moving?",
    "o": [
+    "Kinetic friction coefficient is typically greater than static friction coefficient",
     "Static friction coefficient is typically greater than kinetic friction coefficient",
-    "Kinetic friction always exceeds static friction",
-    "Mass increases once moving",
-    "Normal force decreases once moving"
+    "The box gains mass once it begins moving across the floor",
+    "The normal force on the box decreases once it is in motion"
    ],
-   "a": 0,
+   "a": 1,
    "e": "$μ_s$ is generally greater than or equal to $μ_k$, so more force is needed to overcome static friction and initiate motion than to sustain it.",
    "c": 3
   },
@@ -1907,12 +1907,12 @@
    "u": 2,
    "q": "A crate is in equilibrium on an incline due to friction. Which relationship must hold?",
    "o": [
+    "$N = mg$ sinθ (normal force balances the gravity component along the incline)",
+    "$f_k = mg$ cosθ (kinetic friction balances the gravity component into the incline)",
     "$f_s = mg$ sinθ (static friction balances the gravity component along the incline)",
-    "N = mg sinθ",
-    "$f_k = mg$ cosθ",
-    "T = mg"
+    "$T = mg$ (tension in the crate balances the full weight on the incline)"
    ],
-   "a": 0,
+   "a": 2,
    "e": "For equilibrium on an incline (no applied force besides gravity and friction), static friction must equal the component of gravity along the slope, mg sinθ.",
    "c": 4
   },
@@ -1995,12 +1995,12 @@
    "u": 3,
    "q": "If the centripetal force on an object in circular motion suddenly disappears, the object will:",
    "o": [
-    "Move in a straight line tangent to the circle",
-    "Fly directly outward, away from the center",
-    "Continue in the same circle",
-    "Stop immediately"
+    "Fly directly outward along the radius, away from the center",
+    "Continue moving along the same circle at constant speed",
+    "Come to a stop immediately because the force is gone",
+    "Move in a straight line tangent to the circle"
    ],
-   "a": 0,
+   "a": 3,
    "e": "With no net force, Newton's first law says the object moves in a straight line in the direction of its instantaneous velocity, which is tangent to the circle."
   },
   {
@@ -2410,12 +2410,12 @@
    "u": 3,
    "q": "Which statement about the Moon's orbit around Earth is most accurate based on Kepler's laws?",
    "o": [
+    "The Moon moves at constant speed throughout its entire orbit around Earth",
     "The Moon moves faster when it is closer to Earth (perigee) than when farther away (apogee)",
-    "The Moon moves at constant speed throughout its orbit",
-    "The Moon moves slower when closer to Earth",
-    "The Moon's speed is unrelated to its distance from Earth"
+    "The Moon moves slower when it is closer to Earth than when it is farther",
+    "The Moon's orbital speed does not depend on its distance from Earth"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Kepler's Second Law (equal areas in equal times) implies the Moon sweeps through its orbit faster when nearer Earth (perigee) and slower when farther away (apogee), for its slightly elliptical orbit.",
    "c": 5
   },
@@ -2702,12 +2702,12 @@
    "u": 4,
    "q": "When solving equilibrium problems, choosing the pivot point at the location of an unknown force is useful because:",
    "o": [
-    "It eliminates that unknown force from the torque equation since its lever arm is zero",
-    "It doubles the torque from that force",
-    "It makes all torques equal",
-    "It is required by Newton's third law"
+    "It doubles the torque produced by that force in the equation",
+    "It forces all of the torques about that point to be equal",
+    "Newton's third law requires the pivot to sit at an unknown force",
+    "It eliminates that unknown force from the torque equation since its lever arm is zero"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Since torque = rF sin(theta), a force acting exactly at the pivot has r = 0, so its torque about that pivot is zero, removing it from the equation and simplifying the algebra."
   },
   {
@@ -2751,12 +2751,12 @@
    "u": 4,
    "q": "Which of the following best explains why a long wrench makes it easier to loosen a tight bolt than a short one, using the same applied force?",
    "o": [
+    "A longer wrench weighs more, which adds extra force on the bolt",
+    "The bolt experiences less friction when a longer wrench is used",
     "A longer lever arm (r) produces greater torque for the same force",
-    "A longer wrench weighs more, adding force",
-    "The bolt experiences less friction with a longer wrench",
-    "Torque is independent of the wrench's length"
+    "Torque does not depend on the length of the wrench at all"
    ],
-   "a": 0,
+   "a": 2,
    "e": "tau = rF sin(theta); increasing r (the length of the wrench, i.e., the lever arm) directly increases torque for the same applied force.",
    "c": 1
   },
@@ -2777,12 +2777,12 @@
    "u": 4,
    "q": "Angular momentum is best defined as:",
    "o": [
-    "The rotational analogue of linear momentum, L = I*omega",
-    "The rotational analogue of force",
-    "The same thing as torque",
-    "Energy stored in rotation"
+    "The rotational analogue of force, with the symbol L = r*F",
+    "The same quantity as torque, measured in newton-meters",
+    "The energy stored in a rotating object, equal to (1/2)I*omega^2",
+    "The rotational analogue of linear momentum, L = I*omega"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Angular momentum L = I*omega is the rotational counterpart to linear momentum p = mv, describing the 'quantity of rotation' an object has."
   },
   {
@@ -2828,12 +2828,12 @@
    "u": 4,
    "q": "Why does a rolling object without slipping lose no mechanical energy to friction, even though static friction acts on it?",
    "o": [
-    "Static friction acts at the contact point which has zero instantaneous velocity, so it does no work",
-    "Static friction is always zero during rolling",
-    "There is no friction between the object and the surface",
-    "Kinetic friction replaces static friction and does no work"
+    "Static friction is always exactly zero while an object rolls without slipping",
+    "There is no friction at all between a rolling object and the surface",
+    "Kinetic friction takes over from static friction and does no work on it",
+    "Static friction acts at the contact point which has zero instantaneous velocity, so it does no work"
    ],
-   "a": 0,
+   "a": 3,
    "e": "In rolling without slipping, the contact point is instantaneously at rest relative to the surface, so the static friction force there does zero work (W = F*d*cos(theta), but d = 0 for that point over an instant)."
   },
   {
@@ -2865,12 +2865,12 @@
    "u": 4,
    "q": "Which combination correctly matches a linear quantity to its rotational analogue?",
    "o": [
+    "Force <-> Moment of inertia, Mass <-> Torque, Momentum <-> Angular momentum",
+    "Velocity <-> Torque, Acceleration <-> Angular momentum, Mass <-> Moment of inertia",
     "Force <-> Torque, Mass <-> Moment of inertia, Momentum <-> Angular momentum",
-    "Force <-> Moment of inertia, Mass <-> Torque",
-    "Velocity <-> Torque, Acceleration <-> Angular momentum",
-    "Momentum <-> Torque, Force <-> Angular momentum"
+    "Momentum <-> Torque, Force <-> Angular momentum, Mass <-> Moment of inertia"
    ],
-   "a": 0,
+   "a": 2,
    "e": "The correct rotational analogues are: force -> torque, mass -> moment of inertia, linear momentum -> angular momentum, and linear velocity/acceleration -> angular velocity/acceleration."
   },
   {
@@ -2902,12 +2902,12 @@
    "u": 4,
    "q": "A gymnast performing a somersault tucks into a ball shape mid-air to spin faster. What principle explains this?",
    "o": [
+    "Conservation of linear momentum, because the gymnast's center of mass keeps moving",
+    "Conservation of energy alone, since tucking requires no momentum principle",
     "Conservation of angular momentum: decreasing moment of inertia increases angular velocity",
-    "Conservation of linear momentum",
-    "Conservation of energy alone, without any momentum principle",
-    "Newton's third law"
+    "Newton's third law, because the air pushes back on the gymnast's body"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Tucking reduces the gymnast's moment of inertia. Since no external torque acts on the free-falling body, angular momentum L = I*omega is conserved, so omega must increase.",
    "c": 4
   },
@@ -3026,12 +3026,12 @@
    "u": 5,
    "q": "Why do airbags reduce injury during a car crash?",
    "o": [
-    "They increase the time over which momentum changes, reducing the average force",
-    "They increase the force needed to stop a passenger",
-    "They reduce the passenger's momentum change",
-    "They eliminate impulse entirely"
+    "They increase the force needed to stop the passenger, which cushions the impact",
+    "They reduce the passenger's total change in momentum during the crash",
+    "They eliminate the impulse on the passenger by absorbing all the force",
+    "They increase the time over which momentum changes, reducing the average force"
    ],
-   "a": 0,
+   "a": 3,
    "e": "By extending Δt for the same Δp (impulse), airbags reduce the average force experienced by the passenger (F=Δp/Δt)."
   },
   {
@@ -3074,24 +3074,24 @@
    "u": 5,
    "q": "Which of these best defines impulse?",
    "o": [
+    "The total momentum of a system, equal to mass times velocity",
     "The change in momentum of an object, equal to net force times time interval",
-    "The total momentum of a system",
-    "The force acting on an object at one instant",
-    "The change in kinetic energy of an object"
+    "The force acting on an object at a single instant in time",
+    "The change in kinetic energy of an object, equal to net work done"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Impulse J = FΔt = Δp, the change in momentum caused by a net force applied over a time interval."
   },
   {
    "u": 5,
    "q": "In a perfectly inelastic collision between two objects, what happens to kinetic energy?",
    "o": [
-    "Some kinetic energy is converted to other forms (heat, sound, deformation)",
-    "Kinetic energy is fully conserved",
-    "Kinetic energy doubles",
-    "Momentum is lost instead of kinetic energy"
+    "Kinetic energy is fully conserved while momentum is converted to other forms",
+    "Kinetic energy doubles because the two objects move together afterward",
+    "Momentum is lost to heat and sound instead of kinetic energy",
+    "Some kinetic energy is converted to other forms (heat, sound, deformation)"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Perfectly inelastic collisions conserve momentum but not kinetic energy; the objects sticking together dissipates some KE as heat/sound/deformation.",
    "c": 2
   },
@@ -3161,12 +3161,12 @@
    "u": 5,
    "q": "For a system's center of mass to remain at constant velocity, what condition must be met?",
    "o": [
+    "No internal forces act between the parts of the system",
     "No net external force acts on the system",
-    "No internal forces exist",
-    "All objects must have equal mass",
-    "The system must be at rest"
+    "All objects in the system must have exactly equal mass",
+    "The system as a whole must be at rest to begin with"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Internal forces (collisions, explosions) do not affect the center of mass motion; only a net external force changes it.",
    "c": 4
   },
@@ -3186,12 +3186,12 @@
    "u": 5,
    "q": "Which scenario best demonstrates the impulse-momentum theorem in real life?",
    "o": [
+    "A ball resting on a table, with gravity and the normal force balanced",
+    "A car moving at constant velocity along a straight, level highway",
     "A catcher moving their glove backward while catching a fast ball to reduce force",
-    "A ball resting on a table",
-    "A car moving at constant velocity on a highway",
-    "A book sitting still on a shelf"
+    "A book sitting still on a shelf, with no motion over time"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Moving the glove back increases the time (Δt) over which the ball's momentum changes, reducing the force felt by the catcher, per J=FΔt=Δp."
   },
   {
@@ -3223,12 +3223,12 @@
    "u": 5,
    "q": "In a 2D collision between two pucks on ice, which quantities must be separately conserved?",
    "o": [
+    "Only the x-component of the total momentum, since y changes freely",
     "The x-component and y-component of total momentum",
-    "Only the x-component of momentum",
-    "Only the total speed",
-    "Only the total kinetic energy"
+    "Only the total speed of the two pucks, summed over both",
+    "Only the total kinetic energy, since the collision is on ice"
    ],
-   "a": 0,
+   "a": 1,
    "e": "In 2D, momentum conservation applies independently to each perpendicular component (x and y)."
   },
   {
@@ -3247,12 +3247,12 @@
    "u": 5,
    "q": "Which of the following is true about a perfectly elastic collision?",
    "o": [
-    "Both total momentum and total kinetic energy are conserved",
-    "Only momentum is conserved",
-    "Only kinetic energy is conserved",
-    "Neither momentum nor kinetic energy is conserved"
+    "Only total momentum is conserved, while kinetic energy is lost",
+    "Only total kinetic energy is conserved, while momentum is lost",
+    "Neither total momentum nor total kinetic energy is conserved",
+    "Both total momentum and total kinetic energy are conserved"
    ],
-   "a": 0,
+   "a": 3,
    "e": "By definition, an elastic collision conserves both total momentum and total kinetic energy."
   },
   {
@@ -3271,12 +3271,12 @@
    "u": 5,
    "q": "A tennis ball bounces off a racket. Which factor increases the impulse delivered to the ball for a given change in the racket's force profile?",
    "o": [
+    "A shorter contact time between the racket and the ball",
+    "A lighter racket moving at the same swing speed",
     "A longer contact time between racket and ball",
-    "A shorter contact time",
-    "A lighter racket",
-    "A slower swing"
+    "A slower swing of the racket through the contact"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Impulse = FΔt; for a similar average force, a longer contact time increases the total impulse (and thus momentum change) delivered."
   },
   {
@@ -3405,12 +3405,12 @@
    "u": 5,
    "q": "A 2 kg ball moving at 3 m/s east collides head-on elastically with an identical stationary 2 kg ball. What happens to the velocities (equal mass elastic collision)?",
    "o": [
-    "The velocities are exchanged: the first stops, the second moves at 3 m/s east",
-    "Both move at 1.5 m/s east",
-    "The first ball reverses direction",
-    "Both balls stop"
+    "Both balls move together at 1.5 m/s east after the collision",
+    "The first ball reverses direction and the second moves east at 3 m/s",
+    "Both balls come to rest after the collision, losing all their energy",
+    "The velocities are exchanged: the first stops, the second moves at 3 m/s east"
    ],
-   "a": 0,
+   "a": 3,
    "e": "For an elastic collision between equal masses with one at rest, the moving object transfers all its velocity to the stationary one."
   },
   {
@@ -3729,12 +3729,12 @@
    "u": 6,
    "q": "A block on a frictionless surface is attached to a spring, oscillating back and forth. At maximum compression, what is true?",
    "o": [
+    "KE is maximum and spring PE is zero at that moment",
+    "Both the KE and the spring PE are zero at that moment",
     "KE is minimum (zero) and spring PE is maximum",
-    "KE is maximum and spring PE is zero",
-    "Both KE and PE are zero",
-    "Total energy is at its lowest"
+    "The total mechanical energy is at its lowest at that moment"
    ],
-   "a": 0,
+   "a": 2,
    "e": "At maximum compression, the block momentarily stops (KE=0), and all mechanical energy is stored as spring potential energy.",
    "c": 2
   },
@@ -3742,12 +3742,12 @@
    "u": 6,
    "q": "A person does 200 J of work lifting a box, but the box's PE only increases by 150 J. Where did the other 50 J likely go?",
    "o": [
+    "It was destroyed, since work done can exceed the stored energy",
+    "It became extra mass added to the box as it was lifted",
     "Kinetic energy of the box and/or heat from friction/inefficiency",
-    "It was destroyed",
-    "It became mass",
-    "It is stored as normal force"
+    "It is stored as additional normal force on the box"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Energy is conserved; the remaining 50 J likely went into kinetic energy of the box or was lost to friction/heat, not destroyed."
   },
   {
@@ -3767,12 +3767,12 @@
    "u": 6,
    "q": "In an ideal (frictionless) pendulum, mechanical energy is conserved. What happens to KE and PE as the pendulum swings from the bottom to the side?",
    "o": [
+    "KE increases, PE decreases, sum constant",
+    "Both KE and PE increase together, sum increasing",
     "KE decreases, PE increases, sum constant",
-    "KE increases, PE decreases",
-    "Both increase",
-    "Both decrease"
+    "Both KE and PE decrease together, sum decreasing"
    ],
-   "a": 0,
+   "a": 2,
    "e": "As height increases (swinging outward), PE increases and KE decreases correspondingly, keeping total mechanical energy constant.",
    "c": 3
   },
@@ -3856,12 +3856,12 @@
    "u": 6,
    "q": "How does doubling an object's speed affect the work needed to stop it (via friction)?",
    "o": [
-    "Quadruples the stopping work needed",
     "Doubles the stopping work needed",
     "Halves the stopping work needed",
-    "No change"
+    "Quadruples the stopping work needed",
+    "Leaves the stopping work needed unchanged"
    ],
-   "a": 0,
+   "a": 2,
    "e": "KE∝v², so doubling speed quadruples KE, requiring four times the (negative) work to bring it to rest."
   },
   {
@@ -3904,12 +3904,12 @@
    "u": 6,
    "q": "Which best describes the relationship between conservative forces and potential energy?",
    "o": [
+    "Every force has an associated potential energy, including friction",
     "Potential energy can only be defined for conservative forces",
-    "All forces have an associated potential energy",
-    "Potential energy applies to friction as well",
-    "Conservative forces cannot store energy"
+    "Potential energy applies to friction just as it applies to gravity",
+    "Conservative forces cannot store energy in any form"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Potential energy is defined only for conservative forces (like gravity and springs) because their work is path-independent.",
    "c": 2
   },
@@ -4001,12 +4001,12 @@
    "u": 7,
    "q": "Electric field lines around an isolated positive point charge:",
    "o": [
+    "Point radially inward, toward the charge at the center",
+    "Form closed loops that circle around the charge",
     "Point radially outward, away from the charge",
-    "Point radially inward, toward the charge",
-    "Form closed loops",
-    "Are parallel straight lines"
+    "Are parallel straight lines running in one direction"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Field lines emanate outward from positive charges (the direction a positive test charge would be pushed) and converge into negative charges.",
    "c": 1
   },
@@ -4152,12 +4152,12 @@
    "u": 7,
    "q": "The same three resistors (2.0, 3.0, 5.0 Ohm) are instead connected in parallel. Which statement about the equivalent resistance is true?",
    "o": [
+    "It equals 10 Ohm (the sum of the three resistances)",
     "It is less than 2.0 Ohm (less than the smallest individual resistor)",
-    "It equals 10 Ohm (the sum)",
-    "It equals the average, about 3.3 Ohm",
-    "It is greater than 5.0 Ohm"
+    "It equals the average of the three, about 3.3 Ohm",
+    "It is greater than 5.0 Ohm (greater than the largest resistor)"
    ],
-   "a": 0,
+   "a": 1,
    "e": "For parallel resistors, 1/$R_{eq} = 1/2.0 + 1/3.0 + 1/5.0 = 0.5+0.333+0.2 = 1.033$, so $R_{eq} = 0.97$ Ohm, which is less than the smallest individual resistor (2.0 Ohm) — always true for parallel combinations.",
    "c": 4
   },
@@ -4279,12 +4279,12 @@
    "u": 7,
    "q": "Charge is best described as:",
    "o": [
+    "A continuous, non-quantized quantity that can take any value",
+    "Found only in conductors and conserved in a closed system",
     "Quantized in units of e = 1.6x10^-19 C and conserved in a closed system",
-    "A continuous, non-quantized quantity",
-    "Only found in conductors",
-    "Always positive"
+    "Always positive and conserved in a closed system"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Electric charge comes in discrete multiples of the elementary charge e = 1.6x10^-19 C, and total charge is conserved in any isolated system.",
    "c": 0
   },
@@ -4293,9 +4293,9 @@
    "q": "A conductor differs from an insulator in that a conductor:",
    "o": [
     "Allows charges to move freely through it",
-    "Cannot hold any charge",
-    "Always has zero resistance",
-    "Repels all electric fields"
+    "Cannot hold any net charge, unlike an insulator",
+    "Always has exactly zero resistance to any current",
+    "Repels all electric fields from passing through it"
    ],
    "a": 0,
    "e": "Conductors have free (mobile) charge carriers, typically electrons, that can move easily through the material, unlike insulators where charges are tightly bound."
@@ -4304,12 +4304,12 @@
    "u": 7,
    "q": "What does it mean for two points to be on the same equipotential surface?",
    "o": [
+    "They must be touching each other along the surface",
+    "The electric field is strongest at those points",
     "No work is required to move a charge between them along that surface",
-    "They must be touching",
-    "The electric field is strongest there",
-    "Current flows freely between them"
+    "Current flows freely between them along the surface"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Points on the same equipotential surface have the same electric potential, so moving a charge between them (along the surface) requires zero work, since W=qDeltaV=0.",
    "c": 2
   },
@@ -4368,9 +4368,9 @@
    "q": "Why does adding another resistor in parallel to an existing parallel combination always decrease the equivalent resistance?",
    "o": [
     "It provides an additional path for current to flow, increasing total conductance",
-    "It increases the total length of wire",
-    "It increases the total resistivity of the circuit",
-    "Parallel resistors always add directly like series resistors"
+    "It increases the total length of wire that the current must cross",
+    "It increases the total resistivity of the circuit's material",
+    "Parallel resistors add directly, exactly as series resistors do"
    ],
    "a": 0,
    "e": "Adding a parallel branch adds another path for current, increasing total conductance (1/$R_{eq}$), which always decreases the equivalent resistance, regardless of the new resistor's value.",
@@ -4406,12 +4406,12 @@
    "u": 7,
    "q": "Resistivity of most metals generally does what as temperature increases?",
    "o": [
+    "Decreases, due to fewer collisions of electrons with the lattice",
+    "Stays exactly constant, since it is a fixed property of the metal",
     "Increases, due to more frequent electron collisions",
-    "Decreases",
-    "Stays exactly constant",
-    "Becomes negative"
+    "Becomes negative, due to electrons moving against the field"
    ],
-   "a": 0,
+   "a": 2,
    "e": "As temperature rises, atoms vibrate more, causing more frequent collisions with charge carriers, which increases resistivity (and thus resistance) in most metals.",
    "c": 3
   },
@@ -4583,12 +4583,12 @@
    "u": 8,
    "q": "A loop of wire sits in a magnetic field that is increasing in strength over time. According to Lenz's Law, the induced current in the loop will:",
    "o": [
-    "Flow in a direction that creates a magnetic field opposing the increase",
-    "Flow in a direction that reinforces the increasing field",
-    "Not flow at all, since flux is not zero",
-    "Flow only if the loop is made of iron"
+    "Flow in a direction that creates a field reinforcing the increase",
+    "Not flow at all, since the flux through the loop is nonzero",
+    "Flow only if the loop is made of iron or another magnetic metal",
+    "Flow in a direction that creates a magnetic field opposing the increase"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Lenz's Law: the induced current always opposes the change in flux that caused it, so here it opposes the increasing field.",
    "c": 5
   },
@@ -4622,12 +4622,12 @@
    "u": 8,
    "q": "What is the fundamental difference between how a generator and a motor operate?",
    "o": [
-    "A generator converts mechanical energy to electrical energy; a motor does the reverse",
     "A generator converts electrical energy to mechanical energy; a motor does the reverse",
-    "Both convert mechanical energy to electrical energy",
-    "Both convert electrical energy to mechanical energy"
+    "A generator converts mechanical energy to electrical energy; a motor does the reverse",
+    "Both devices convert mechanical energy into electrical energy",
+    "Both devices convert electrical energy into mechanical energy"
    ],
-   "a": 0,
+   "a": 1,
    "e": "A generator uses mechanical rotation to induce an EMF (mechanical → electrical); a motor uses current in a field to produce rotation (electrical → mechanical).",
    "c": 5
   },
@@ -4659,12 +4659,12 @@
    "u": 8,
    "q": "Which statement about magnetic monopoles is correct based on current experimental evidence?",
    "o": [
-    "No isolated magnetic monopole (single N or S pole) has ever been observed",
-    "Magnetic monopoles are common and easy to isolate",
-    "Every bar magnet is itself a magnetic monopole",
-    "Electrons behave as magnetic monopoles"
+    "Magnetic monopoles are common and easy to isolate from magnets",
+    "Every bar magnet is itself a single magnetic monopole",
+    "Electrons behave as magnetic monopoles in a magnetic field",
+    "No isolated magnetic monopole (single N or S pole) has ever been observed"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Unlike electric charge, which can be isolated as + or −, magnetic poles always occur in N-S pairs; no isolated monopole has been observed.",
    "c": 0
   },
@@ -4748,9 +4748,9 @@
    "q": "Two waves meet such that a crest aligns with a trough of equal amplitude. What results?",
    "o": [
     "Complete destructive interference (cancellation at that point)",
-    "Constructive interference",
-    "Diffraction",
-    "No interference occurs"
+    "Constructive interference (doubling of the amplitude at that point)",
+    "Diffraction (bending of the waves around that point)",
+    "No interference occurs, since the waves are out of step"
    ],
    "a": 0,
    "e": "When a crest meets a trough of equal amplitude, the displacements are opposite and cancel, producing complete destructive interference at that instant/location.",
@@ -4825,12 +4825,12 @@
    "u": 9,
    "q": "A pipe closed at one end has length 1.0 m. Which harmonics can it support?",
    "o": [
-    "Only odd harmonics (1st, 3rd, 5th,...)",
-    "Only even harmonics",
-    "All integer harmonics",
-    "Only the fundamental"
+    "Only even harmonics (2nd, 4th, 6th,...)",
+    "All integer harmonics (1st, 2nd, 3rd,...)",
+    "Only the fundamental, with no higher harmonics at all",
+    "Only odd harmonics (1st, 3rd, 5th,...)"
    ],
-   "a": 0,
+   "a": 3,
    "e": "A pipe closed at one end (open at the other) only supports odd harmonics because a node must exist at the closed end and an antinode at the open end.",
    "c": 2
   },
@@ -5017,12 +5017,12 @@
    "u": 9,
    "q": "Which best describes diffraction of waves?",
    "o": [
+    "The change in wave speed as the wave enters a new medium",
     "The bending/spreading of waves around obstacles or through openings",
-    "The change in wave speed when entering a new medium",
-    "The addition of two overlapping waves",
-    "The reflection of a wave off a boundary"
+    "The addition of two overlapping waves at the same point",
+    "The reflection of a wave off a boundary between two media"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Diffraction is the spreading of waves as they pass through an opening or around an obstacle, most noticeable when the opening/obstacle size is comparable to the wavelength.",
    "c": 5
   },
@@ -5131,12 +5131,12 @@
    "u": 9,
    "q": "Which statement correctly compares an open-open pipe and a closed-open pipe of the same length L?",
    "o": [
-    "The closed-open pipe has a lower fundamental frequency (only half as many wavelengths fit)",
-    "The open-open pipe has a lower fundamental frequency",
-    "Both have identical fundamental frequencies",
-    "The closed-open pipe supports more harmonics"
+    "The open-open pipe has a lower fundamental frequency (twice as many wavelengths fit)",
+    "Both pipes have identical fundamental frequencies when the length is the same",
+    "The closed-open pipe supports more harmonics than the open-open pipe",
+    "The closed-open pipe has a lower fundamental frequency (only half as many wavelengths fit)"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Open-open: $f_1 = v$/(2L). Closed-open: $f_1 = v$/(4L), which is half the open-open fundamental — the closed-open pipe has a lower fundamental frequency and only odd harmonics.",
    "c": 2
   },
@@ -5145,9 +5145,9 @@
    "q": "A guitarist presses a string to shorten its vibrating length. What happens to the fundamental frequency?",
    "o": [
     "It increases (shorter length raises frequency)",
-    "It decreases",
-    "It stays the same",
-    "Frequency becomes undefined"
+    "It decreases (shorter length lowers the frequency)",
+    "It stays the same (length has no effect on frequency)",
+    "It becomes undefined (a shortened string cannot vibrate)"
    ],
    "a": 0,
    "e": "$f_1 = v$/(2L), so decreasing the vibrating length L increases the fundamental frequency, producing a higher-pitched note."
@@ -5317,12 +5317,12 @@
    "u": 10,
    "q": "Total internal reflection can occur when light travels:",
    "o": [
-    "From a higher-index medium toward a lower-index medium, above the critical angle",
     "From a lower-index medium toward a higher-index medium, above the critical angle",
-    "In any direction between two media, at any angle",
-    "Only in a vacuum"
+    "Between any two media, at any angle of incidence",
+    "Only in a vacuum, where there is no medium to absorb the light",
+    "From a higher-index medium toward a lower-index medium, above the critical angle"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Total internal reflection requires going from higher n to lower n and exceeding the critical angle; it cannot occur going into a denser medium.",
    "c": 4
   },
@@ -5406,12 +5406,12 @@
    "u": 11,
    "q": "In the photoelectric effect, increasing the INTENSITY of light (at a fixed frequency above threshold) increases:",
    "o": [
-    "The number of photoelectrons ejected per second, not their maximum kinetic energy",
-    "The maximum kinetic energy of each photoelectron",
+    "The maximum kinetic energy of each photoelectron, but not their number",
     "Both the number of electrons and their maximum kinetic energy equally",
-    "Neither; intensity has no effect on the photoelectric effect"
+    "Neither the number nor the energy; intensity has no effect on the effect",
+    "The number of photoelectrons ejected per second, not their maximum kinetic energy"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Each photon can eject at most one electron; more intensity means more photons per second, hence more electrons, but each electron's KEmax is set only by photon energy hf minus the work function.",
    "c": 0
   },
@@ -5471,12 +5471,12 @@
    "u": 11,
    "q": "Why do everyday macroscopic objects (like a thrown ball) not show observable wave behavior?",
    "o": [
+    "They move too slowly for de Broglie's equation to apply to them",
     "Their mass is so large that their de Broglie wavelength is immeasurably small",
-    "They move too slowly for de Broglie's equation to apply",
-    "Only charged particles have a de Broglie wavelength",
-    "Macroscopic objects violate the de Broglie relation"
+    "Only charged particles have a de Broglie wavelength at all",
+    "Macroscopic objects are exempt from the de Broglie relation"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Since λ = h/(mv) and h is extremely small, the large mass of everyday objects gives them a de Broglie wavelength far too small to observe.",
    "c": 1
   },
@@ -5589,9 +5589,9 @@
    "q": "What is the essential difference between nuclear fission and nuclear fusion?",
    "o": [
     "Fission splits a heavy nucleus into lighter ones; fusion combines light nuclei into a heavier one",
-    "Fission combines nuclei; fusion splits them",
-    "Both split heavy nuclei, but fusion releases more energy",
-    "Fission only occurs in stars; fusion only occurs in reactors"
+    "Fission combines light nuclei into heavier ones; fusion splits heavy nuclei",
+    "Both split heavy nuclei, but fusion releases more energy per event",
+    "Fission occurs only in stars, and fusion occurs only in reactors"
    ],
    "a": 0,
    "e": "Fission is the splitting of a heavy nucleus (e.g., uranium-235); fusion is the combining of light nuclei (e.g., hydrogen isotopes) — both release energy from a mass defect.",
@@ -7102,12 +7102,12 @@
    "u": 1,
    "q": "At the top of its path, a ball thrown straight up has:",
    "o": [
-    "Zero velocity and zero acceleration",
-    "Upward acceleration",
     "Zero velocity and downward acceleration of 9.8 m/s^2",
-    "Maximum acceleration"
+    "Zero velocity and zero acceleration at that instant",
+    "Zero velocity and an upward acceleration of 9.8 m/s^2",
+    "Zero velocity and maximum acceleration for the whole flight"
    ],
-   "a": 2,
+   "a": 0,
    "e": "Gravity continues to act, so acceleration is constant."
   },
   {
@@ -7139,12 +7139,12 @@
    "u": 2,
    "q": "A book rests on a table. The normal force and the gravitational force on the book are:",
    "o": [
-    "Equal in magnitude, but not an action-reaction pair",
-    "An action-reaction pair",
-    "Unequal",
-    "Both zero"
+    "An action-reaction pair, equal in magnitude and opposite in direction",
+    "Unequal, since the table pushes harder than gravity pulls",
+    "Both zero, since the book is not accelerating at all",
+    "Equal in magnitude, but not an action-reaction pair"
    ],
-   "a": 0,
+   "a": 3,
    "e": "The third-law pair of the book's weight is the pull of the book on Earth.",
    "c": 2
   },
@@ -7290,36 +7290,36 @@
    "u": 8,
    "q": "The magnetic force on a moving charge is directed:",
    "o": [
-    "Parallel to the magnetic field",
-    "Along the velocity",
+    "Parallel to the magnetic field and perpendicular to the velocity",
     "Perpendicular to both the velocity and the magnetic field",
-    "Opposite to the electric field"
+    "Along the direction of the velocity of the charge",
+    "Opposite to the direction of the electric field in the region"
    ],
-   "a": 2,
+   "a": 1,
    "e": "The force changes direction but does no work."
   },
   {
    "u": 9,
    "q": "When a wave passes into a medium where it travels more slowly, its frequency:",
    "o": [
-    "Decreases and its wavelength stays the same",
-    "Increases",
     "Stays the same and its wavelength decreases",
+    "Decreases and its wavelength stays the same",
+    "Increases and its wavelength decreases",
     "Stays the same and its wavelength increases"
    ],
-   "a": 2,
+   "a": 0,
    "e": "Frequency is set by the source; v = f x wavelength."
   },
   {
    "u": 9,
    "q": "Beats are produced by:",
    "o": [
-    "Reflection of one wave",
     "Interference of two waves with slightly different frequencies",
-    "Diffraction through a slit",
-    "Doppler shift"
+    "Reflection of a single wave off a boundary surface",
+    "Diffraction of a wave through a narrow slit",
+    "Doppler shift of a wave from a moving source"
    ],
-   "a": 1,
+   "a": 0,
    "e": "The beat frequency is the difference between the two frequencies.",
    "c": 1
   },
@@ -7340,9 +7340,9 @@
    "q": "In the photoelectric effect, increasing the intensity of light above the threshold frequency increases the:",
    "o": [
     "Number of electrons emitted per second",
-    "Maximum kinetic energy of electrons",
-    "Work function",
-    "Threshold frequency"
+    "Maximum kinetic energy of the emitted electrons",
+    "Work function of the metal surface",
+    "Threshold frequency of the metal surface"
    ],
    "a": 0,
    "e": "Maximum kinetic energy depends on frequency, not intensity.",

@@ -777,12 +777,12 @@
    "u": 1,
    "q": "A z-score tells you:",
    "o": [
-    "The percentile rank exactly",
+    "The exact percentile rank of the value within the data set",
+    "The probability that the value occurs in the distribution",
     "How many standard deviations a value is from the mean",
-    "The probability of the value",
-    "The range of the data"
+    "The distance between the value and the median in raw units"
    ],
-   "a": 1,
+   "a": 2,
    "e": "z-scores measure distance from the mean in standard deviation units."
   },
   {
@@ -825,12 +825,12 @@
    "u": 1,
    "q": "In a boxplot, whiskers extend to:",
    "o": [
-    "The mean",
-    "The most extreme values that are not outliers",
-    "Exactly 1.5 IQR from the box always",
-    "The median"
+    "The mean and the median of the data on each side",
+    "Exactly 1.5 IQR beyond the box in every boxplot, always",
+    "The first and third quartiles of the data set",
+    "The most extreme values that are not outliers"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Whiskers reach the most extreme data points within the fences (non-outliers).",
    "c": 3
   },
@@ -838,12 +838,12 @@
    "u": 1,
    "q": "When comparing two groups' distributions, you should:",
    "o": [
-    "Describe each group separately with no comparison",
     "Use comparative language like 'greater than' in context",
-    "Only compare their means",
-    "Only compare their ranges"
+    "Describe each group's distribution separately without comparing them",
+    "Compare only the means of the two groups in context",
+    "Compare only the ranges of the two groups in context"
    ],
-   "a": 1,
+   "a": 0,
    "e": "AP scoring requires explicit comparative statements in context, e.g., 'Group A has a higher median than Group B.'",
    "c": 5
   },
@@ -864,12 +864,12 @@
    "u": 1,
    "q": "Which plot is best for comparing the shapes of two large data sets side-by-side?",
    "o": [
-    "Pie chart",
     "Back-to-back stemplot or parallel boxplots",
-    "Single bar chart",
-    "Frequency table only"
+    "A pie chart of each data set drawn separately",
+    "A single bar chart combining both data sets",
+    "A frequency table with only the counts listed"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Parallel boxplots or back-to-back stemplots allow visual comparison of shape, center, and spread."
   },
   {
@@ -1001,12 +1001,12 @@
    "u": 1,
    "q": "If a distribution is uniform, its shape is:",
    "o": [
-    "One tall peak",
+    "A single tall peak with symmetric tails on both sides",
+    "Two distinct peaks separated by a gap in the middle",
     "Flat, roughly equal frequency across values",
-    "Two peaks",
-    "Highly skewed"
+    "Strongly skewed with a long tail toward one side"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Uniform distributions have roughly constant frequency/density across the range."
   },
   {
@@ -1063,10 +1063,10 @@
    "u": 1,
    "q": "A pie chart is appropriate for:",
    "o": [
-    "Quantitative data with many values",
+    "Quantitative data with many distinct values to compare",
     "Categorical data showing parts of a whole",
-    "Comparing spread",
-    "Showing correlation"
+    "Comparing the spread of two quantitative distributions",
+    "Showing the correlation between two quantitative variables"
    ],
    "a": 1,
    "e": "Pie charts represent proportions of categories, not quantitative distributions."
@@ -1125,10 +1125,10 @@
    "u": 1,
    "q": "A z-score of -2.5 for a value means:",
    "o": [
-    "The value is 2.5 units above the mean",
+    "The value is 2.5 units above the mean in raw terms",
     "The value is 2.5 standard deviations below the mean",
-    "The value is impossible",
-    "The value equals the mean"
+    "The value is impossible because z-scores cannot be negative",
+    "The value is 2.5 standard deviations above the median"
    ],
    "a": 1,
    "e": "Negative z-scores indicate the value lies below the mean, here by 2.5 SDs.",
@@ -1524,12 +1524,12 @@
    "u": 2,
    "q": "Which is true about comparing z-scores from two different Normal distributions?",
    "o": [
-    "They cannot be compared",
-    "A higher z-score always means a higher raw score in both distributions and standardized comparisons are valid",
-    "z-scores are meaningless across distributions",
-    "Only means can be compared, not z-scores"
+    "z-scores from different distributions cannot be compared because each has its own units and spread",
+    "A higher z-score means a lower raw score whenever the two distributions have different standard deviations",
+    "z-scores can be compared only if both distributions share the same mean and standard deviation",
+    "A higher z-score always means a higher raw score in both distributions and standardized comparisons are valid"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Standardizing puts values on a common scale, so z-scores can be validly compared across different Normal distributions.",
    "c": 2
   },
@@ -1537,12 +1537,12 @@
    "u": 2,
    "q": "Which best describes 'proportion of area under a density curve between a and b'?",
    "o": [
-    "The count of values between a and b",
-    "The proportion of observations between a and b",
-    "The mean of values between a and b",
-    "The SD between a and b"
+    "The number of observations that fall between a and b",
+    "The average value of the observations between a and b",
+    "The standard deviation of observations between a and b",
+    "The proportion of observations between a and b"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Area under a density curve directly represents the proportion of the distribution in that interval.",
    "c": 0
   },
@@ -1713,12 +1713,12 @@
    "u": 3,
    "q": "If r $=$ 0.8, what is r² and its interpretation?",
    "o": [
-    "0.64; 64% of variation in y explained by x",
-    "0.8; 80% of variation in y explained by x",
-    "0.64; 64% correlation",
-    "1.6; not meaningful"
+    "0.8; 80% of variation in y is explained by x",
+    "0.64; 64% of the points lie exactly on the line",
+    "1.6; 80% of variation in y is explained by x",
+    "0.64; 64% of variation in y explained by x"
    ],
-   "a": 0,
+   "a": 3,
    "e": "r² $=$ 0.8² $=$ 0.64, meaning 64% of the variation in y is explained by the linear relationship with x.",
    "c": 4
   },
@@ -1738,24 +1738,24 @@
    "u": 3,
    "q": "A residual plot shows a clear curved (U-shaped) pattern. This suggests:",
    "o": [
-    "The linear model is appropriate",
     "The linear model is NOT appropriate; relationship may be nonlinear",
-    "r must be 0",
-    "There are no outliers"
+    "The linear model is appropriate; the pattern shows a strong fit",
+    "r must equal 0, so no relationship of any kind exists",
+    "There are no outliers; the data follow a linear form"
    ],
-   "a": 1,
+   "a": 0,
    "e": "A curved residual pattern indicates the data have a nonlinear relationship not captured by the line."
   },
   {
    "u": 3,
    "q": "An influential point in regression is one that:",
    "o": [
-    "Has a small residual",
+    "Has a small residual and lies close to the line",
+    "Is always the point with the largest y-value in the data",
     "Substantially changes the regression line if removed",
-    "Is always the point with the largest y-value",
-    "Cannot exist in real data"
+    "Cannot occur in real data sets with many points"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Influential points, often with extreme x-values, significantly alter the slope/intercept when removed.",
    "c": 5
   },
@@ -1811,10 +1811,10 @@
    "u": 3,
    "q": "Extrapolation refers to:",
    "o": [
-    "Predicting y for x-values within the observed range",
+    "Predicting y for x-values inside the observed range of the data",
     "Predicting y for x-values far outside the observed range",
-    "Calculating residuals",
-    "Computing correlation"
+    "Calculating the residuals for the observed data points",
+    "Computing the correlation between the two variables"
    ],
    "a": 1,
    "e": "Extrapolation is predicting outside the range of observed x-values, which is unreliable.",
@@ -1824,12 +1824,12 @@
    "u": 3,
    "q": "A study finds ice cream sales and drowning deaths are positively correlated. The best explanation is:",
    "o": [
-    "Ice cream causes drowning",
-    "Drowning causes ice cream sales",
     "A lurking variable (hot weather) causes both to increase",
-    "The correlation is definitely due to chance"
+    "Ice cream consumption causes people to drown more often",
+    "Drowning deaths cause ice cream sales to rise in response",
+    "The correlation is almost certainly due to random chance alone"
    ],
-   "a": 2,
+   "a": 0,
    "e": "Both variables increase in summer due to a lurking (confounding) variable: warm weather.",
    "c": 0
   },
@@ -1862,12 +1862,12 @@
    "u": 3,
    "q": "If the standard deviation of residuals (s) is small, this suggests:",
    "o": [
-    "Poor predictions using the regression line",
     "Good predictions; points are close to the line",
-    "r must be 0",
-    "The line has a negative slope"
+    "Poor predictions; points are far from the regression line",
+    "r must equal 0; no linear relationship exists",
+    "The line must have a negative slope with a weak fit"
    ],
-   "a": 1,
+   "a": 0,
    "e": "A small s means the observed values are, on average, close to their predicted values."
   },
   {
@@ -1900,12 +1900,12 @@
    "u": 3,
    "q": "Which best describes 'strength' in a scatterplot?",
    "o": [
+    "Whether the slope of the pattern is positive or negative",
     "How closely points follow the pattern/form",
-    "Whether the slope is positive or negative",
-    "The units of the y-axis",
-    "The number of data points"
+    "The units used to measure the y-axis variable",
+    "The total number of points plotted in the display"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Strength refers to how tightly the points cluster around the trend (form).",
    "c": 0
   },
@@ -1913,36 +1913,36 @@
    "u": 3,
    "q": "A negative residual means:",
    "o": [
-    "The observed value is above the regression line",
     "The observed value is below the regression line",
-    "r is negative",
-    "The slope is negative"
+    "The observed value is above the regression line",
+    "The correlation r is negative for the data set",
+    "The slope of the regression line is negative"
    ],
-   "a": 1,
+   "a": 0,
    "e": "A negative residual (y − ŷ < 0) means the actual value fell below the predicted value."
   },
   {
    "u": 3,
    "q": "If r $=$ 0, this means:",
    "o": [
-    "No relationship of any kind exists",
+    "No relationship of any kind exists between x and y",
+    "The regression line is undefined for these data entirely",
     "No LINEAR relationship exists (there could still be a strong nonlinear one)",
-    "The regression line is undefined",
-    "The data are identical"
+    "All the x-values and y-values in the data are identical"
    ],
-   "a": 1,
+   "a": 2,
    "e": "$r=0$ rules out linear association but does not rule out other (e.g., curved) relationships."
   },
   {
    "u": 3,
    "q": "Which point would most likely be influential in a regression?",
    "o": [
-    "A point near x̄ with a small residual",
     "A point with an extreme x-value far from the rest",
-    "A point exactly on the regression line",
-    "A point with y $=$ ȳ"
+    "A point near x̄ that has a small residual",
+    "A point lying exactly on the regression line",
+    "A point whose y-value equals ȳ near the middle"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Points with extreme (high-leverage) x-values have the most potential to influence the slope.",
    "c": 5
   },
@@ -1950,36 +1950,36 @@
    "u": 3,
    "q": "What does the coefficient of determination NOT tell you?",
    "o": [
-    "The proportion of variation in y explained by x",
+    "The proportion of variation in y that is explained by x",
+    "That its value is a percentage between 0% and 100%",
     "Whether the relationship is linear (must check residual plot too)",
-    "A percentage between 0% and 100%",
-    "How well the model fits compared to using ȳ alone"
+    "How well the model fits compared to predicting with ȳ alone"
    ],
-   "a": 1,
+   "a": 2,
    "e": "r² alone doesn't confirm linearity — you must examine the residual plot to check the linear model is appropriate."
   },
   {
    "u": 3,
    "q": "Correlation is unitless because:",
    "o": [
+    "It is calculated using only the x-values of the data",
     "It is calculated using standardized (z-score) values",
-    "It only uses x-values",
-    "It only uses y-values",
-    "It equals the slope"
+    "It is calculated using only the y-values of the data",
+    "It always equals the slope of the regression line"
    ],
-   "a": 0,
+   "a": 1,
    "e": "r is computed from the average product of standardized x and y values, removing units."
   },
   {
    "u": 3,
    "q": "A regression's residual plot shows random scatter around zero with no pattern. This means:",
    "o": [
-    "The linear model is a poor fit",
+    "The linear model is a poor fit and a curve is needed",
+    "r must equal 1 because the points are on a line",
     "The linear model is a reasonable fit",
-    "r must equal 1",
-    "There are influential points"
+    "There are influential points that distort the line"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Random, patternless residuals support that a linear model is appropriate for the data.",
    "c": 3
   },
@@ -1999,12 +1999,12 @@
    "u": 3,
    "q": "Which measure describes the typical prediction error of a regression in the units of y?",
    "o": [
-    "r",
-    "r²",
-    "s (standard deviation of residuals)",
-    "Slope b"
+    "r (the correlation coefficient between x and y)",
+    "r² (the coefficient of determination of the model)",
+    "b (the slope of the least-squares regression line)",
+    "s (standard deviation of residuals)"
    ],
-   "a": 2,
+   "a": 3,
    "e": "s, the standard deviation of the residuals, estimates the typical size of prediction errors.",
    "c": 4
   },
@@ -2051,24 +2051,24 @@
    "u": 3,
    "q": "Which of the following would make extrapolation especially risky?",
    "o": [
-    "Predicting for an x-value within the data range",
-    "Predicting for an x-value slightly outside the data range where the trend clearly continues",
+    "Predicting for an x-value within the observed range of the data",
     "Predicting for an x-value far outside the observed range, where the relationship may change",
-    "Using the regression equation as given"
+    "Predicting for an x-value just beyond the data where the trend clearly continues",
+    "Using the regression equation exactly as it was calculated"
    ],
-   "a": 2,
+   "a": 1,
    "e": "Far outside the observed range, there's no evidence the same linear trend continues, making predictions unreliable."
   },
   {
    "u": 3,
    "q": "What is the primary purpose of a residual plot?",
    "o": [
-    "To calculate r directly",
-    "To assess whether a linear model is appropriate for the data",
-    "To find the y-intercept",
-    "To find outliers in x only"
+    "To calculate the correlation r directly from the data",
+    "To find the y-intercept of the regression line",
+    "To find outliers in the x-values only",
+    "To assess whether a linear model is appropriate for the data"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Residual plots reveal patterns (curvature, changing spread) that indicate whether linear regression is suitable."
   },
   {
@@ -2088,12 +2088,12 @@
    "u": 3,
    "q": "In the equation ŷ $=$ 60 + 3x for study hours and test scores, the intercept 60 means:",
    "o": [
+    "The maximum possible score on the test",
     "The predicted score with 0 hours studied",
-    "The maximum possible score",
-    "The correlation coefficient",
-    "The slope of the line"
+    "The correlation between hours studied and test scores",
+    "The slope of the line, the gain per hour studied"
    ],
-   "a": 0,
+   "a": 1,
    "e": "The y-intercept is the predicted y-value when x $=$ 0, here 0 hours of studying.",
    "c": 2
   },
@@ -2138,12 +2138,12 @@
    "u": 3,
    "q": "A residual plot shows increasing spread of points as x increases (a 'fan' shape). This indicates:",
    "o": [
-    "Constant variability, model is fine",
     "Non-constant variability (heteroscedasticity)",
-    "r $=$ 1",
-    "The slope must be negative"
+    "Constant variability, so the linear model is fine",
+    "r equals 1, a perfect linear relationship",
+    "The slope of the line must be negative"
    ],
-   "a": 1,
+   "a": 0,
    "e": "A fan-shaped residual plot shows that variability in y is not constant across x, violating a key regression assumption.",
    "c": 3
   },
@@ -2214,10 +2214,10 @@
    "u": 4,
    "q": "Which best allows researchers to conclude cause-and-effect?",
    "o": [
-    "A large observational study",
+    "A large observational study with many subjects",
     "Random assignment in a controlled experiment",
-    "A voluntary response survey",
-    "A convenience sample"
+    "A voluntary response survey with a high response rate",
+    "A convenience sample drawn from the population"
    ],
    "a": 1,
    "e": "Random assignment in a well-designed experiment is the key tool for establishing causation."
@@ -2239,12 +2239,12 @@
    "u": 4,
    "q": "Which is a potential confounding variable in an observational study linking coffee drinking to heart disease?",
    "o": [
-    "The type of coffee cup used",
-    "Smoking, if smokers also tend to drink more coffee",
-    "The researcher's opinion",
-    "The p-value"
+    "The type of coffee cup that people use",
+    "The researcher's opinion about coffee and health",
+    "The p-value reported for the association",
+    "Smoking, if smokers also tend to drink more coffee"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Smoking could independently affect heart disease and also correlate with coffee drinking, confounding the relationship.",
    "c": 2
   },
@@ -2265,12 +2265,12 @@
    "u": 4,
    "q": "A placebo is used in an experiment to:",
    "o": [
-    "Increase the sample size",
     "Control for the placebo effect (response to any treatment)",
-    "Ensure random sampling",
-    "Eliminate the need for a control group"
+    "Increase the sample size of the experiment",
+    "Ensure that subjects are randomly sampled from the population",
+    "Eliminate the need for a control group entirely"
    ],
-   "a": 1,
+   "a": 0,
    "e": "A placebo lets researchers separate the treatment's real effect from psychological response to receiving any treatment.",
    "c": 3
   },
@@ -2278,12 +2278,12 @@
    "u": 4,
    "q": "In a double-blind experiment:",
    "o": [
-    "Only subjects don't know their treatment",
-    "Only researchers don't know the treatments",
+    "Only the subjects are unaware of which treatment they got",
     "Neither subjects nor those assessing outcomes know which treatment was given",
-    "No one knows the study is happening"
+    "Only the researchers assessing outcomes are unaware of the treatments",
+    "No one knows that the study is even taking place"
    ],
-   "a": 2,
+   "a": 1,
    "e": "Double-blind means both the subjects and the evaluators are unaware of treatment assignment, reducing bias.",
    "c": 3
   },
@@ -2291,12 +2291,12 @@
    "u": 4,
    "q": "Random assignment in an experiment primarily helps to:",
    "o": [
-    "Guarantee a representative sample of the population",
-    "Balance out lurking variables between treatment groups",
-    "Increase the response rate",
-    "Eliminate the need for a control group"
+    "Guarantee that the sample represents the population well",
+    "Increase the response rate among the subjects chosen",
+    "Eliminate the need for a control or comparison group",
+    "Balance out lurking variables between treatment groups"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Randomly assigning subjects balances known and unknown lurking variables across groups on average."
   },
   {
@@ -2315,24 +2315,24 @@
    "u": 4,
    "q": "A study uses random sampling but not random assignment. What can it conclude?",
    "o": [
-    "Cause and effect for the population",
+    "Cause and effect, generalizable to the entire population",
+    "Nothing at all about any relationship between the variables",
     "Association only, generalizable to the population",
-    "Nothing at all",
-    "Cause and effect, but only for the sample"
+    "Cause and effect, but only for the sampled individuals"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Random sampling allows generalization, but without random assignment causation cannot be established — only association."
   },
   {
    "u": 4,
    "q": "A study uses random assignment but the subjects were a convenience sample (not randomly selected). What can it conclude?",
    "o": [
+    "Causation, generalizable to the whole population of interest",
     "Causation, but only for the subjects studied (not generalizable)",
-    "Causation, generalizable to the whole population",
-    "Nothing about the treatment's effect",
-    "Association only, no causation"
+    "Nothing about the treatment's effect on the subjects",
+    "Association only, with no conclusion about causation"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Random assignment supports causal conclusions, but without random sampling, results can't be generalized beyond the subjects studied."
   },
   {
@@ -2365,22 +2365,22 @@
    "u": 4,
    "q": "Which scenario best fits a matched-pairs design?",
    "o": [
-    "Randomly assigning 100 unrelated subjects to two treatments",
-    "Measuring each subject's response under both treatment A and treatment B",
-    "Cluster sampling of hospitals",
-    "Taking an SRS of a population"
+    "Randomly assigning 100 unrelated subjects to one of two treatments",
+    "Cluster sampling of hospitals, then surveying everyone in them",
+    "Taking an SRS of a population and measuring each person once",
+    "Measuring each subject's response under both treatment A and treatment B"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Testing both treatments on the same subject (or matched subjects) forms natural pairs — a matched-pairs design."
   },
   {
    "u": 4,
    "q": "A study on plant growth uses different levels of sunlight and water as separate factors. This describes:",
    "o": [
-    "A completely randomized design with one factor",
-    "A randomized block design",
+    "A completely randomized design with a single factor",
+    "A randomized block design using sunlight as the blocking variable",
     "A factorial (multi-factor) experimental design",
-    "A retrospective study"
+    "A retrospective observational study of plant growth"
    ],
    "a": 2,
    "e": "Studying two or more factors (sunlight and water) simultaneously is a factorial design.",
@@ -2390,22 +2390,22 @@
    "u": 4,
    "q": "Undercoverage in a sampling method means:",
    "o": [
-    "The response rate is too low",
-    "Certain groups are systematically excluded from the sampling frame",
-    "Too many subjects were surveyed",
-    "The sample is too small"
+    "The response rate is too low among those sampled",
+    "Too many subjects were surveyed relative to the population",
+    "The sample is too small to be representative",
+    "Certain groups are systematically excluded from the sampling frame"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Undercoverage happens when part of the population has no chance of being selected, e.g., a phone survey missing those without phones."
   },
   {
    "u": 4,
    "q": "Which of these best reduces response bias due to sensitive question wording?",
    "o": [
-    "Asking leading questions",
+    "Asking leading questions that suggest a preferred answer",
     "Using neutral, clearly worded questions and possibly anonymous responses",
-    "Increasing sample size",
-    "Using a larger population"
+    "Increasing the sample size to collect more responses",
+    "Surveying a larger population from the same area"
    ],
    "a": 1,
    "e": "Neutral wording and anonymity encourage more honest responses, reducing response bias."
@@ -2414,10 +2414,10 @@
    "u": 4,
    "q": "A census differs from a sample because a census:",
    "o": [
-    "Selects a random subset of the population",
+    "Selects a random subset of the population to study",
     "Attempts to collect data from every individual in the population",
-    "Only uses voluntary response",
-    "Always uses stratification"
+    "Relies only on voluntary response from the population",
+    "Always uses stratification to divide the population"
    ],
    "a": 1,
    "e": "A census surveys the entire population, not just a subset.",
@@ -2427,10 +2427,10 @@
    "u": 4,
    "q": "In a well-designed experiment, replication means:",
    "o": [
-    "Repeating the entire experiment in another country",
+    "Repeating the entire experiment in a different country or region",
     "Applying each treatment to enough experimental units to reduce chance variation",
-    "Randomly assigning subjects once",
-    "Blinding all subjects"
+    "Randomly assigning the subjects to treatments only one time",
+    "Blinding all of the subjects to their treatments"
    ],
    "a": 1,
    "e": "Replication involves using enough subjects per treatment group so that observed differences aren't due to chance alone."
@@ -2463,24 +2463,24 @@
    "u": 4,
    "q": "Which design would best control for a strong age effect on a health outcome when comparing two treatments?",
    "o": [
-    "Ignore age entirely",
     "Block by age group, then randomize treatment within each block",
-    "Only study young subjects",
-    "Only study old subjects"
+    "Ignore age entirely and randomize all subjects together",
+    "Study only young subjects so age cannot matter",
+    "Study only older subjects so age cannot vary"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Blocking by age removes age as a source of variability, letting researchers isolate the treatment effect more clearly."
   },
   {
    "u": 4,
    "q": "Which of the following is true about observational studies?",
    "o": [
-    "They can never provide useful information",
+    "They can never provide any useful information about relationships",
+    "They always use random assignment to the treatments",
     "They can suggest associations that experiments might later test causally",
-    "They always use random assignment",
-    "They eliminate all confounding automatically"
+    "They automatically eliminate all confounding variables"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Observational studies are valuable for identifying associations for further experimental investigation, but not causation on their own.",
    "c": 2
   },
@@ -2577,12 +2577,12 @@
    "u": 4,
    "q": "A study is retrospective if it:",
    "o": [
-    "Looks back at existing records or historical data to find associations",
-    "Randomly assigns subjects to treatments going forward",
-    "Uses a completely randomized design",
-    "Follows the same subjects forward in time"
+    "Randomly assigns subjects to treatments and follows them going forward",
+    "Uses a completely randomized design with a control group",
+    "Follows the same subjects forward in time to record outcomes",
+    "Looks back at existing records or historical data to find associations"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Retrospective (case-control) studies look backward at existing data, unlike prospective (cohort) studies that follow subjects forward.",
    "c": 2
   },
@@ -2614,12 +2614,12 @@
    "u": 4,
    "q": "Which of the following would most improve a poorly designed observational study?",
    "o": [
-    "Increasing the sample size only",
+    "Increasing the sample size without changing anything else",
+    "Removing the random sampling from the study design",
     "Identifying and measuring potential confounding variables",
-    "Removing random sampling",
-    "Removing the response variable"
+    "Removing the response variable from the study"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Measuring potential confounders lets researchers statistically account for them, even though causation still cannot be proven.",
    "c": 2
   },
@@ -2627,12 +2627,12 @@
    "u": 4,
    "q": "A weight-loss study assigns the first 20 volunteers to Diet A and the next 20 to Diet B (not randomly). This design flaw is called:",
    "o": [
-    "Blocking",
     "Lack of random assignment, risking confounding (e.g., time-related factors)",
-    "Voluntary response bias",
-    "Systematic sampling"
+    "Blocking, since volunteers were grouped by time of entry",
+    "Voluntary response bias, since subjects chose their diets",
+    "Systematic sampling, since every 20th person was chosen"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Non-random assignment by arrival order can introduce confounding, since early vs. late volunteers might differ systematically."
   },
   {
@@ -2728,10 +2728,10 @@
    "u": 5,
    "q": "A bag has 5 red and 3 blue marbles. Two are drawn without replacement. Are the draws independent?",
    "o": [
-    "Yes",
+    "Yes, because each draw is chosen at random from the bag",
     "No, probabilities change after each draw",
-    "Cannot be determined",
-    "Yes, because it's random"
+    "Cannot be determined without knowing the order of the draws",
+    "Yes, because there are more red marbles than blue ones"
    ],
    "a": 1,
    "e": "Removing a marble changes the composition of the bag, so the probability of the second draw depends on the first (dependent events).",
@@ -2779,12 +2779,12 @@
    "u": 5,
    "q": "In a simulation, more trials generally lead to:",
    "o": [
-    "Less accurate estimates",
+    "Less accurate estimates of the true probability",
+    "No change in the accuracy of the estimates",
     "More accurate estimates of the true probability",
-    "No change in accuracy",
-    "Guaranteed exact probability"
+    "An exactly correct value of the true probability"
    ],
-   "a": 1,
+   "a": 2,
    "e": "By the Law of Large Numbers, increasing trials improves the accuracy of a simulation's estimate.",
    "c": 4
   },
@@ -2792,12 +2792,12 @@
    "u": 5,
    "q": "Which is the correct order of steps in designing a simulation?",
    "o": [
-    "Run trials, then state assumptions, then assign digits",
     "State assumptions, assign digits/outcomes, run many trials, compute results",
-    "Compute results, then run trials",
-    "Assign digits, then compute results, then state assumptions"
+    "Run trials, then state assumptions, then assign digits to outcomes",
+    "Compute results, then run many trials of the simulation",
+    "Assign digits, compute results, then state the assumptions made"
    ],
-   "a": 1,
+   "a": 0,
    "e": "The proper simulation process starts with stating assumptions, then assigning digits/outcomes, running trials, then analyzing results.",
    "c": 4
   },
@@ -2841,12 +2841,12 @@
    "u": 5,
    "q": "In the same table (40 males, 60 females; 30 male car owners, 45 female car owners), is car ownership independent of gender?",
    "o": [
+    "No, since the counts of owners are not proportional to totals",
     "Yes, since 30/40 $=$ 45/60 $=$ 0.75 for both",
-    "No, since they're not proportional",
-    "Cannot determine",
-    "Yes, because sample size is large"
+    "Cannot be determined without knowing the total number of cars",
+    "Yes, because the overall sample size is large enough"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Since P(car|male) $=$ P(car|female) $=$ 0.75, matching the overall marginal probability, ownership is independent of gender here.",
    "c": 5
   },
@@ -2854,12 +2854,12 @@
    "u": 5,
    "q": "A tree diagram is most useful for:",
    "o": [
-    "Finding the mean of a data set",
-    "Organizing sequential/conditional probabilities and multiplying along branches",
-    "Computing correlation",
-    "Displaying categorical bar charts"
+    "Finding the mean and standard deviation of a data set",
+    "Computing the correlation between two quantitative variables",
+    "Displaying the counts of a categorical variable as bars",
+    "Organizing sequential/conditional probabilities and multiplying along branches"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Tree diagrams visually break down multi-stage random processes, letting you multiply probabilities along each path.",
    "c": 3
   },
@@ -2944,10 +2944,10 @@
    "u": 5,
    "q": "Which best describes 'independent trials' in a simulation of coin flips?",
    "o": [
-    "Each flip's outcome affects the next flip",
+    "Each flip's outcome changes the probability of the next flip",
     "Each flip has no effect on the probability of the next flip",
-    "Flips must alternate heads and tails",
-    "Only the first flip matters"
+    "Flips must alternate between heads and tails in order",
+    "Only the result of the first flip matters for the rest"
    ],
    "a": 1,
    "e": "Independent trials mean prior outcomes don't change the probability of future outcomes, as with fair coin flips.",
@@ -2969,12 +2969,12 @@
    "u": 5,
    "q": "Which statement about conditional probability is TRUE?",
    "o": [
-    "P(A|B) always equals P(B|A)",
     "P(A|B) restricts the sample space to only outcomes where B occurred",
-    "P(A|B) is undefined if P(A) $=$ 0",
-    "Conditional probability cannot be computed from two-way tables"
+    "P(A|B) always equals P(B|A) for any two events",
+    "P(A|B) is undefined whenever P(A) equals 0 for the events",
+    "It cannot be computed from the entries of a two-way table"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Conditioning on B narrows focus to only the B outcomes, from which we then find the proportion that are also A.",
    "c": 2
   },
@@ -3317,12 +3317,12 @@
    "u": 6,
    "q": "A quality control inspector checks 15 items from a large shipment where 4% are defective. She samples without replacement. Can this be modeled as approximately binomial?",
    "o": [
-    "No, sampling without replacement is never binomial",
-    "Yes, since 15 is less than 10% of a large shipment, dependence is negligible",
-    "No, because p is too small",
-    "Yes, but only if she replaces each item after checking"
+    "No, because sampling without replacement can never be binomial",
+    "No, because p = 4% is too small for a binomial model",
+    "Yes, but only if she replaces each item after checking it",
+    "Yes, since 15 is less than 10% of a large shipment, dependence is negligible"
    ],
-   "a": 1,
+   "a": 3,
    "e": "The 10% condition says sampling without replacement is approximately independent (binomial-like) when the sample is less than 10% of the population.",
    "c": 4
   },
@@ -3580,12 +3580,12 @@
    "u": 6,
    "q": "Which statement about E(X) for a random variable is TRUE?",
    "o": [
+    "E(X) must always be equal to one of the possible values of X",
     "E(X) is a weighted average and need not equal any value X can actually take",
-    "E(X) must always be one of the possible values of X",
-    "E(X) is always equal to the median of X",
-    "E(X) is always positive"
+    "E(X) is always equal to the median of the distribution of X",
+    "E(X) is always positive when X takes positive values"
    ],
-   "a": 0,
+   "a": 1,
    "e": "E(X) is a probability-weighted average, e.g. an average of 2.3 children, which is not itself an achievable outcome.",
    "c": 1
   },
@@ -3643,12 +3643,12 @@
    "u": 6,
    "q": "Which condition would violate the independence requirement in a binomial setting?",
    "o": [
-    "Drawing cards without replacement from a small deck",
-    "Flipping a fair coin repeatedly",
-    "Rolling a die repeatedly",
-    "Drawing with replacement from a large population"
+    "Flipping a fair coin repeatedly with fixed probability each time",
+    "Rolling a fair die repeatedly with the same probabilities",
+    "Drawing with replacement from a large population each time",
+    "Drawing cards without replacement from a small deck"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Drawing without replacement from a SMALL deck changes probabilities substantially from draw to draw, violating independence (and the 10% condition).",
    "c": 4
   },
@@ -3669,10 +3669,10 @@
    "u": 7,
    "q": "An estimator is described as 'unbiased' when:",
    "o": [
-    "It always gives the exact parameter value in every sample",
+    "It gives the exact parameter value in every single sample drawn",
     "The mean of its sampling distribution equals the true parameter value",
-    "It has the smallest possible standard deviation",
-    "It only works for large sample sizes"
+    "It has the smallest possible standard deviation of any estimator",
+    "It works properly only when the sample size is large"
    ],
    "a": 1,
    "e": "Unbiased means the sampling distribution is centered at the true parameter value, not that any single sample is exact.",
@@ -3767,12 +3767,12 @@
    "u": 7,
    "q": "Which statement about the Central Limit Theorem is FALSE?",
    "o": [
-    "It applies regardless of the shape of the original population",
     "It changes the mean of the sampling distribution of $x̄$ to be different from $μ$",
-    "It justifies Normal-based inference procedures for means with large samples",
-    "The typical rule of thumb threshold is n≥30"
+    "It applies regardless of the shape of the original population",
+    "It justifies Normal-based inference for means when samples are large",
+    "It leads to a common rule of thumb of n≥30 for roughly Normal x̄"
    ],
-   "a": 1,
+   "a": 0,
    "e": "The CLT affects only the SHAPE of the sampling distribution of $x̄$; the mean remains $μx̄=μ$ exactly, unaffected by the theorem.",
    "c": 3
   },
@@ -3817,10 +3817,10 @@
    "u": 7,
    "q": "Which condition ensures that observations can be treated as approximately independent when sampling without replacement?",
    "o": [
-    "The Large Counts condition",
+    "The Large Counts condition: np and n(1−p) are both at least 10",
     "The 10% condition: sample size is less than 10% of the population",
-    "The Central Limit Theorem",
-    "The Law of Large Numbers"
+    "The Central Limit Theorem applied to the sample statistic",
+    "The Law of Large Numbers applied to the sample of trials"
    ],
    "a": 1,
    "e": "The 10% condition allows sampling without replacement to be treated as approximately independent when n<0.10N."
@@ -3854,12 +3854,12 @@
    "u": 7,
    "q": "For $p=0.5$ and $n=100$, find $σp̂$ and check whether the Large Counts condition holds.",
    "o": [
-    "$σp̂≈0.050$; condition holds since $np=50≥10$ and $n(1−p)=50≥10$",
-    "$σp̂≈0.50$; condition fails",
-    "$σp̂≈0.50$; condition holds",
-    "$σp̂≈0.050$; condition fails since $p=0.5$"
+    "$σp̂≈0.50$; condition fails since $p=0.5$ is too large",
+    "$σp̂≈0.50$; condition holds since $np=50≥10$ and $n(1−p)=50≥10$",
+    "$σp̂≈0.050$; condition fails since $np=50$ is greater than 10",
+    "$σp̂≈0.050$; condition holds since $np=50≥10$ and $n(1−p)=50≥10$"
    ],
-   "a": 0,
+   "a": 3,
    "e": "$σp̂=√(0.5×0.5/100)=√0.0025=0.050; np=n(1−p)=50$, both ≥10, so condition holds."
   },
   {
@@ -3942,9 +3942,9 @@
    "q": "A study samples 15 out of 10,000 factory items. Is the 10% condition satisfied?",
    "o": [
     "Yes, since 15 is far less than 10% of 10,000 (which is 1000)",
-    "No, since 15 is a very small number",
-    "No, unless every item is sampled",
-    "Yes, but only if sampling is with replacement"
+    "No, since 15 is a very small number compared to the sample",
+    "No, unless every one of the 10,000 items is sampled",
+    "Yes, but only if the sampling is done with replacement"
    ],
    "a": 0,
    "e": "10% of 10,000 is 1000; a sample of 15 is well under that threshold, so the 10% condition is satisfied."
@@ -4261,12 +4261,12 @@
    "u": 8,
    "q": "A hypothesis test produces a P-value of 0.12. Using $α=0.05$, what is the correct conclusion?",
    "o": [
-    "Reject H0",
-    "Fail to reject H0; there is not convincing evidence for Ha",
-    "Accept H0 as definitely true",
-    "Increase $α$ to make the result significant"
+    "Reject H0; there is convincing evidence for the alternative Ha",
+    "Accept H0 as definitely true, since the P-value is large",
+    "Increase α to 0.15 so that the result becomes significant",
+    "Fail to reject H0; there is not convincing evidence for Ha"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Since P-value (0.12) > $α$ (0.05), we fail to reject H0 — insufficient evidence to support Ha.",
    "c": 2
   },
@@ -4363,12 +4363,12 @@
    "u": 8,
    "q": "A chi-square goodness-of-fit test is most appropriate for:",
    "o": [
+    "Comparing the means of two populations using a two-sample test",
     "Comparing one categorical variable's observed counts to a hypothesized distribution",
-    "Comparing two population means",
-    "Estimating a population proportion with a confidence interval",
-    "Comparing two population proportions with a z-test"
+    "Estimating one population proportion with a confidence interval",
+    "Comparing two population proportions with a two-sample z-test"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Goodness-of-fit tests compare the observed distribution of ONE categorical variable to a hypothesized (expected) distribution.",
    "c": 4
   },
@@ -4389,12 +4389,12 @@
    "u": 8,
    "q": "A chi-square test for independence examines:",
    "o": [
+    "The difference between the means of two groups using a t-test",
+    "The correlation between two quantitative variables on a scatterplot",
     "The relationship between two categorical variables using a two-way table",
-    "The mean difference between two groups",
-    "The correlation between two quantitative variables",
-    "Whether a single proportion equals a hypothesized value"
+    "Whether one proportion equals a hypothesized value using a z-test"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Chi-square tests for independence/association assess whether two categorical variables are related, using a two-way table of counts.",
    "c": 4
   },
@@ -4402,12 +4402,12 @@
    "u": 8,
    "q": "Which set of conditions must be checked before constructing a confidence interval or running a hypothesis test?",
    "o": [
+    "Random, Correlation, Causation (all three checked before inference)",
+    "Bias, Variance, Skewness (all three of the sample statistics)",
     "Random, Normal/Large Counts, Independent (10% condition)",
-    "Random, Correlation, Causation",
-    "Bias, Variance, Skewness",
-    "Type I, Type II, Power"
+    "Type I, Type II, Power (all three error and power values)"
    ],
-   "a": 0,
+   "a": 2,
    "e": "All standard inference procedures require checking Random (sampling/assignment), Normal or Large Counts (shape), and Independent (10% condition)."
   },
   {
@@ -4450,12 +4450,12 @@
    "u": 8,
    "q": "In a hypothesis test, what does 'statistically significant at $α=0.05$' mean?",
    "o": [
-    "The P-value is less than 0.05, giving convincing evidence against H0",
-    "The result is important in a real-world sense",
-    "H0 has a 5% chance of being true",
-    "The effect size is large"
+    "The result is important in a practical, real-world sense",
+    "H0 has only a 5% chance of being true given the data",
+    "The effect size observed in the sample is large",
+    "The P-value is less than 0.05, giving convincing evidence against H0"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Statistical significance at $α=0.05$ means P-value<0.05, i.e., strong enough evidence to reject H0 — it says nothing about practical importance.",
    "c": 2
   },
@@ -4526,9 +4526,9 @@
    "q": "Which best describes the relationship between confidence intervals and two-sided hypothesis tests at the same significance level?",
    "o": [
     "If the hypothesized value falls outside a C% confidence interval, a two-sided test at $α=1−C$ would reject H0",
-    "Confidence intervals and hypothesis tests are unrelated procedures",
-    "A confidence interval can replace checking Random/Normal/Independent conditions",
-    "Hypothesis tests always give wider margins of error than confidence intervals"
+    "Confidence intervals and hypothesis tests are completely unrelated procedures",
+    "A confidence interval can replace checking the Random, Normal and Independent conditions",
+    "Hypothesis tests always give wider margins of error than confidence intervals do"
    ],
    "a": 0,
    "e": "A two-sided test's rejection region corresponds exactly to values falling outside the confidence interval built at the matching confidence level (e.g., 95% CI ↔ $α=0.05$)."
@@ -4538,9 +4538,9 @@
    "q": "A study wants to detect a smaller effect size than before while keeping $α$ and sample size fixed. What happens to the power of the test?",
    "o": [
     "Power decreases, since smaller effects are harder to detect",
-    "Power increases automatically",
-    "Power is unaffected by effect size",
-    "Power becomes exactly 1"
+    "Power increases automatically, since smaller effects are easier to detect",
+    "Power is unaffected by the size of the effect being detected",
+    "Power becomes exactly 1, since α and n are fixed"
    ],
    "a": 0,
    "e": "Smaller true effects are harder to distinguish from H0, so for fixed $α$ and n, power decreases as the effect size shrinks.",
@@ -4563,12 +4563,12 @@
    "u": 8,
    "q": "Which scenario calls for a chi-square test rather than a t-test?",
    "o": [
+    "Comparing the average test score between two different classes",
     "Comparing the distribution of eye color across two different schools using counts",
-    "Comparing the average test score between two classes",
-    "Estimating the mean height of a population",
+    "Estimating the mean height of a population from a sample",
     "Testing whether a sample mean differs from a hypothesized value"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Comparing categorical count data (eye color) across groups calls for a chi-square test, not a t-test (which is for quantitative means).",
    "c": 4
   },
@@ -6440,10 +6440,10 @@
    "u": 1,
    "q": "If 5 is added to every value in a data set, the mean and standard deviation:",
    "o": [
-    "Both increase by 5",
-    "Both are unchanged",
+    "Both the mean and the standard deviation increase by 5",
+    "Both the mean and the standard deviation are unchanged",
     "The mean increases by 5 and the standard deviation is unchanged",
-    "The mean is unchanged and the standard deviation increases"
+    "The mean is unchanged but the standard deviation increases by 5"
    ],
    "a": 2,
    "e": "Shifting data does not change spread."
@@ -6452,12 +6452,12 @@
    "u": 1,
    "q": "The interquartile range is considered resistant because it:",
    "o": [
-    "Uses all the data",
+    "Uses all of the data values in its calculation",
+    "Always equals the range of the data set",
     "Is not affected much by extreme values",
-    "Equals the range",
-    "Is always the largest measure"
+    "Is always the largest measure of spread available"
    ],
-   "a": 1,
+   "a": 2,
    "e": "It depends only on the quartiles."
   },
   {
@@ -6489,21 +6489,21 @@
    "u": 3,
    "q": "A residual is:",
    "o": [
+    "The observed value minus the predicted value",
     "The predicted value minus the observed value",
-    "The slope",
-    "The correlation",
-    "The observed value minus the predicted value"
+    "The slope of the least-squares regression line",
+    "The correlation between x and y"
    ],
-   "a": 3,
+   "a": 0,
    "e": "Residual = y - y-hat."
   },
   {
    "u": 4,
    "q": "Blocking in an experiment is used to:",
    "o": [
-    "Eliminate the control group",
-    "Avoid random assignment",
-    "Increase bias",
+    "Eliminate the control group from the experiment",
+    "Avoid random assignment of treatments to units",
+    "Increase bias to make groups easier to compare",
     "Reduce variability by grouping similar experimental units"
    ],
    "a": 3,
@@ -6539,12 +6539,12 @@
    "u": 5,
    "q": "The law of large numbers says that as the number of trials increases:",
    "o": [
-    "The count of successes equals the probability",
-    "The relative frequency approaches the true probability",
-    "Outcomes become more predictable in the short run",
-    "Probability changes"
+    "The count of successes eventually equals the true probability",
+    "Outcomes become more predictable in the short run of trials",
+    "The true probability itself changes toward the observed results",
+    "The relative frequency approaches the true probability"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Long-run behavior stabilizes."
   },
   {
@@ -6575,12 +6575,12 @@
    "u": 7,
    "q": "The Central Limit Theorem states that the sampling distribution of the sample mean is approximately normal when:",
    "o": [
+    "The population is skewed and the sample size is small",
+    "The standard deviation of the population is exactly zero",
     "The sample size is large, or the population is normal",
-    "The population is skewed and the sample is small",
-    "The standard deviation is zero",
-    "The sample is biased"
+    "The sample has been chosen in a biased way"
    ],
-   "a": 0,
+   "a": 2,
    "e": "The approximation improves as n increases."
   },
   {

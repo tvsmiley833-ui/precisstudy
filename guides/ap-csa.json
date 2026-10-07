@@ -861,12 +861,12 @@
    "u": 1,
    "q": "What happens when you divide an int by 0 in Java, e.g. int x = 5 / 0;?",
    "o": [
+    "It silently returns 0 and continues running",
+    "It returns Infinity and the program keeps going",
     "It throws an ArithmeticException at runtime",
-    "It returns 0",
-    "It returns Infinity",
-    "It compiles to 5"
+    "It fails at compile time with a syntax error"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Integer division by zero throws an ArithmeticException at runtime because there is no valid integer result."
   },
   {
@@ -897,12 +897,12 @@
    "u": 1,
    "q": "What is the order of operations in: int result = 2 + 3 * 4;",
    "o": [
-    "result = 20 because addition happens first",
     "result = 14 because multiplication happens first",
-    "result = 24",
-    "Compile error"
+    "result = 20 because addition happens first, left to right",
+    "result = 24 because the operators are grouped from the right",
+    "The code fails to compile due to mixed operators"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Multiplication has higher precedence than addition, so 3 * 4 = 12 is computed first, then 2 + 12 = 14.",
    "c": 4
   },
@@ -960,12 +960,12 @@
    "u": 1,
    "q": "Which statement best describes the difference between int and double in Java?",
    "o": [
+    "int and double are interchangeable in every context",
     "int stores whole numbers; double stores numbers with a fractional part",
-    "int and double are interchangeable",
-    "double is used only for boolean logic",
-    "int can store decimals but double cannot"
+    "double is a type reserved for true/false boolean logic",
+    "int stores decimal values while double holds only whole numbers"
    ],
-   "a": 0,
+   "a": 1,
    "e": "int is a whole-number (integer) primitive type, while double stores floating-point numbers with decimal precision.",
    "c": 1
   },
@@ -1023,12 +1023,12 @@
    "u": 1,
    "q": "Which of the following correctly represents integer overflow behavior for int in Java?",
    "o": [
-    "It throws an exception",
-    "It wraps around to a very negative number",
-    "It automatically becomes a long",
-    "It rounds to the nearest valid int"
+    "It throws an ArithmeticException at runtime",
+    "It is automatically promoted to a long value",
+    "It rounds to the largest valid int value",
+    "It wraps around to a very negative number"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Java ints use 32-bit two's complement representation and silently wrap around (overflow) rather than throwing an exception."
   },
   {
@@ -1183,10 +1183,10 @@
    "u": 2,
    "q": "What is the purpose of a constructor in a Java class?",
    "o": [
-    "To destroy an object",
+    "To destroy an object and free its memory",
     "To initialize a newly created object's instance variables",
-    "To print object information",
-    "To define static methods only"
+    "To print out information about an existing object",
+    "To define only the static methods of a class"
    ],
    "a": 1,
    "e": "A constructor runs when an object is created with 'new' and is used to initialize the object's instance variables."
@@ -1195,12 +1195,12 @@
    "u": 2,
    "q": "Given: public class Dog { private String name; public Dog(String name) { this.name = name; } } What does 'this.name' refer to?",
    "o": [
-    "The parameter name",
     "The instance variable name, distinguishing it from the parameter",
-    "A static variable",
-    "An error"
+    "The constructor parameter name, not the field",
+    "A static variable shared by every Dog object",
+    "A compile error because the names are identical"
    ],
-   "a": 1,
+   "a": 0,
    "e": "'this.name' explicitly refers to the object's instance variable, which is otherwise shadowed by the parameter also named 'name'."
   },
   {
@@ -1220,10 +1220,10 @@
    "u": 2,
    "q": "Which method is automatically called when an object is created using the 'new' keyword?",
    "o": [
-    "toString()",
-    "main()",
+    "The toString method that prints the object",
+    "The main method of the class's program",
     "The constructor matching the arguments given",
-    "finalize()"
+    "The finalize method that cleans up the object"
    ],
    "a": 2,
    "e": "'new ClassName(args)' allocates memory and invokes the constructor whose parameter list matches the arguments."
@@ -1232,12 +1232,12 @@
    "u": 2,
    "q": "What does a 'getter' method typically do in a class that follows encapsulation?",
    "o": [
-    "Sets an instance variable's value",
-    "Returns the value of a private instance variable",
-    "Deletes an instance variable",
-    "Creates a new object"
+    "Sets an instance variable to a new value",
+    "Deletes an instance variable from the object",
+    "Creates a brand-new object of the class",
+    "Returns the value of a private instance variable"
    ],
-   "a": 1,
+   "a": 3,
    "e": "A getter (accessor) method returns the current value of a private field so outside code can read it safely."
   },
   {
@@ -1269,12 +1269,12 @@
    "u": 2,
    "q": "What is returned by a method declared with return type void?",
    "o": [
-    "null",
-    "0",
     "Nothing; it performs an action but returns no value",
-    "An empty String"
+    "It returns null as its default result value",
+    "It returns 0 as its default result value",
+    "It returns an empty String to the caller"
    ],
-   "a": 2,
+   "a": 0,
    "e": "'void' indicates the method performs some action but does not return any value to the caller.",
    "c": 3
   },
@@ -1294,24 +1294,24 @@
    "u": 2,
    "q": "In the class Rectangle with private int width, height; what is the effect of a 'setWidth' mutator method?",
    "o": [
-    "It returns the width",
     "It changes (mutates) the value of the width instance variable",
-    "It creates a new Rectangle",
-    "It compares widths"
+    "It returns the current value of width to the caller",
+    "It creates and returns a new Rectangle object",
+    "It compares the width with another rectangle's width"
    ],
-   "a": 1,
+   "a": 0,
    "e": "A mutator (setter) method changes the value of a private instance variable, typically after validating the new value."
   },
   {
    "u": 2,
    "q": "What does the keyword 'this' refer to inside an instance method?",
    "o": [
-    "The class itself",
-    "The current object on which the method was called",
-    "A static variable",
-    "The superclass"
+    "The class itself that contains the method",
+    "A static variable shared by all instances",
+    "The superclass of the current object's class",
+    "The current object on which the method was called"
    ],
-   "a": 1,
+   "a": 3,
    "e": "'this' is a reference to the current object instance, useful for distinguishing fields from parameters or passing itself along."
   },
   {
@@ -1405,12 +1405,12 @@
    "u": 2,
    "q": "What is method overriding?",
    "o": [
-    "Defining multiple methods with the same name in one class",
     "A subclass providing a new implementation for a method inherited from its superclass",
-    "Deleting a method",
-    "Using the same method name in unrelated classes"
+    "Defining several methods with the same name but different parameters in one class",
+    "Deleting an inherited method from the subclass",
+    "Reusing a method name in classes that are unrelated"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Overriding occurs when a subclass redefines a method with the exact same signature as one in its superclass."
   },
   {
@@ -1453,12 +1453,12 @@
    "u": 2,
    "q": "What value does a method with return type boolean need to include?",
    "o": [
-    "No return statement is needed",
-    "A return statement returning a boolean expression, on every code path",
-    "A return statement returning any type",
-    "A print statement instead of return"
+    "No return statement is needed if it prints the result",
+    "A return statement returning a value of any type",
+    "A print statement that displays the boolean instead of returning it",
+    "A return statement returning a boolean expression, on every code path"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Every code path of a method declared to return boolean must eventually return a value of type boolean.",
    "c": 3
   },
@@ -1516,12 +1516,12 @@
    "u": 2,
    "q": "What does calling obj.equals(other) typically check for objects, if equals() has not been overridden?",
    "o": [
-    "Whether the two objects have the same field values",
-    "Whether the two references point to the exact same object in memory",
-    "Whether the objects are of the same class only",
-    "Always returns true"
+    "Whether the two objects have equal values in all their fields",
+    "Whether the two objects belong to the same class only",
+    "It always returns true for any two non-null objects",
+    "Whether the two references point to the exact same object in memory"
    ],
-   "a": 1,
+   "a": 3,
    "e": "The default Object.equals() checks reference equality (same memory location) unless the class overrides equals() to compare field values."
   },
   {
@@ -1637,12 +1637,12 @@
    "u": 2,
    "q": "Which statement about objects being compared with == is TRUE?",
    "o": [
-    "== compares the values inside the objects",
     "== compares whether two references point to the same object in memory",
-    "== always returns true for objects of the same class",
-    "== cannot be used with objects"
+    "== compares whether the contents of two objects are equal",
+    "== always returns true for any two objects of the same class",
+    "== cannot be applied to objects, only to primitives"
    ],
-   "a": 1,
+   "a": 0,
    "e": "For reference types like objects, == checks whether both variables refer to the identical object in memory, not whether their contents are equal."
   },
   {
@@ -1813,12 +1813,12 @@
    "u": 3,
    "q": "Given nested conditionals, what determines which inner if-else executes?",
    "o": [
-    "Only the outer condition matters",
     "The inner if-else only executes if its enclosing (outer) condition is true",
-    "Inner conditions are always checked first",
-    "Nested conditionals are illegal in Java"
+    "Only the outer condition matters, so the inner one always runs",
+    "The inner conditions are always evaluated before the outer one",
+    "Nested conditionals are not allowed in Java at all"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Control only reaches a nested if-else block if the surrounding (outer) condition that contains it evaluates to true.",
    "c": 1
   },
@@ -2225,12 +2225,12 @@
    "u": 4,
    "q": "What causes an infinite loop in: int i = 0; while (i < 5) { System.out.println(i); }",
    "o": [
-    "The condition i < 5 is always false",
     "i is never modified inside the loop, so the condition remains true forever",
-    "The loop body is empty",
-    "while loops cannot use less-than comparisons"
+    "The condition i < 5 is false from the start, so it never ends",
+    "The loop body is empty, so there is nothing to repeat",
+    "A while loop is not allowed to use a less-than comparison"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Because i is never incremented inside the loop body, i < 5 stays true forever, creating an infinite loop.",
    "c": 0
   },
@@ -2400,10 +2400,10 @@
    "u": 4,
    "q": "In the enhanced for-each loop 'for (int num : arr)', what does 'num' represent on each iteration?",
    "o": [
-    "The index of the current element",
+    "The index position of the current element in arr",
     "A copy of the value of the current element in arr",
-    "A reference to the entire array",
-    "The last element of arr"
+    "A reference to the entire array arr",
+    "The final element stored at the end of arr"
    ],
    "a": 1,
    "e": "The for-each loop assigns 'num' the value of each element of arr in turn, from first to last, without exposing the index."
@@ -2462,12 +2462,12 @@
    "u": 4,
    "q": "What happens if the update statement of a for loop, like i++, is accidentally omitted, e.g. for (int i = 0; i < 5;) { System.out.print(i); }?",
    "o": [
-    "The loop runs 5 times normally",
     "The loop runs infinitely because i never changes",
-    "A compile error occurs",
-    "The loop runs zero times"
+    "The loop runs exactly 5 times and then stops normally",
+    "A compile error occurs because the update is missing",
+    "The loop body never runs because i is not updated"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Without an update to i, the condition i < 5 never becomes false, so the loop runs forever (assuming i isn't changed inside the body).",
    "c": 0
   },
@@ -2487,10 +2487,10 @@
    "u": 4,
    "q": "What is the output of: for (int i = 1; i <= 3; i++) { for (int j = 1; j <= i; j++) { System.out.print(\"*\"); } System.out.println(); }",
    "o": [
-    "A single row of 3 stars",
+    "A single row of 3 stars printed on one line",
     "A triangle: 1 star, then 2 stars, then 3 stars on separate lines",
-    "A square of 9 stars",
-    "A triangle of 6 stars total on one line"
+    "A square made of 3 rows with 3 stars in each",
+    "A triangle of 6 stars all printed together on one line"
    ],
    "a": 1,
    "e": "The inner loop's bound depends on i, so it prints 1 star on the first line, 2 on the second, and 3 on the third, forming a triangle pattern."
@@ -2946,12 +2946,12 @@
    "u": 5,
    "q": "What is the correct way to make an independent copy of an array arr so that changes to the copy don't affect the original?",
    "o": [
-    "int[] copy = arr;",
+    "int[] copy = arr; which makes a separate array",
+    "int[] copy = new int[arr]; which copies the elements",
     "int[] copy = Arrays.copyOf(arr, arr.length);",
-    "int[] copy = new int[arr];",
-    "int[] copy = arr.clone;"
+    "int[] copy = arr.clone; which duplicates the array"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Arrays.copyOf(arr, arr.length) creates a genuinely new array with the same elements, unlike simple assignment which just copies the reference."
   },
   {
@@ -3226,10 +3226,10 @@
    "u": 6,
    "q": "What happens to the indices of elements after list.remove(2) is called on an ArrayList?",
    "o": [
-    "Nothing changes for other elements",
+    "Nothing changes for the elements that come after it",
     "All elements after index 2 shift down by one index to fill the gap",
-    "The list becomes null",
-    "A gap remains at index 2 permanently"
+    "The whole list becomes null after the removal",
+    "A gap stays at index 2 until it is filled in later"
    ],
    "a": 1,
    "e": "Removing an element from an ArrayList shifts all subsequent elements one position earlier to keep the list contiguous.",
@@ -3324,12 +3324,12 @@
    "u": 6,
    "q": "What is the safest general approach to avoid skipping elements when removing items from an ArrayList during iteration?",
    "o": [
-    "Iterate forward and increment normally",
     "Iterate backward from the end of the list toward the beginning",
-    "Never remove elements from an ArrayList",
-    "Use recursion only"
+    "Iterate forward through the list and increment the index normally",
+    "Never remove elements from an ArrayList while looping",
+    "Use recursion in place of any loop at all"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Iterating backward means that removing an element only affects indices already processed, avoiding the skip issue that occurs when iterating forward.",
    "c": 2
   },
@@ -3532,10 +3532,10 @@
    "u": 6,
    "q": "What is the best way to check if an ArrayList<Integer> list is empty before calling list.get(0)?",
    "o": [
-    "Just call list.get(0) directly",
+    "Just call list.get(0) directly without checking anything",
     "Check if (!list.isEmpty()) or (list.size() > 0) before accessing elements",
-    "Always assume it has elements",
-    "Use list.length == 0"
+    "Always assume that the list has at least one element",
+    "Check whether list.length == 0 before reading the element"
    ],
    "a": 1,
    "e": "Checking isEmpty() or size() > 0 before accessing an element avoids an IndexOutOfBoundsException on an empty list."
@@ -3703,12 +3703,12 @@
    "u": 7,
    "q": "Which nested loop structure correctly visits every element of a 2D array int[][] grid with R rows and C columns?",
    "o": [
-    "for (int i = 0; i < R; i++) for (int j = 0; j < C; j++) grid[i][j]...",
     "for (int i = 0; i < C; i++) for (int j = 0; j < R; j++) grid[i][j]...",
-    "for (int i = 0; i < R; i++) grid[i]...",
-    "while (true) grid[i][j]..."
+    "for (int i = 0; i < R; i++) grid[i]... with no inner loop",
+    "for (int i = 0; i < R; i++) for (int j = 0; j < C; j++) grid[i][j]...",
+    "while (true) grid[i][j]... with no declared indices"
    ],
-   "a": 0,
+   "a": 2,
    "e": "The outer loop iterates over rows (0 to R-1) and the inner loop iterates over columns (0 to C-1), accessing grid[i][j] correctly."
   },
   {
@@ -3740,12 +3740,12 @@
    "u": 7,
    "q": "Given: public class Animal { ... } public class Dog extends Animal { ... } what is Dog considered relative to Animal?",
    "o": [
-    "Dog is the superclass of Animal",
+    "Dog is the superclass of Animal, passing its members down",
+    "Dog and Animal are unrelated classes with no inheritance",
     "Dog is a subclass of Animal, inheriting its members",
-    "Dog and Animal are unrelated",
-    "Animal is a subclass of Dog"
+    "Animal is a subclass of Dog, inheriting its members"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Because Dog extends Animal, Dog is the subclass and Animal is the superclass, meaning Dog inherits Animal's non-private members.",
    "c": 2
   },
@@ -3792,10 +3792,10 @@
    "u": 7,
    "q": "What is the purpose of the 'protected' access modifier?",
    "o": [
-    "Only accessible within the exact same class",
+    "Accessible only within the exact same class that declares it",
     "Accessible within the same class, subclasses, and the same package",
-    "Accessible from any class anywhere",
-    "Not accessible at all"
+    "Accessible from any class located anywhere in the program",
+    "Not accessible from any class, including the declaring class"
    ],
    "a": 1,
    "e": "'protected' members are accessible within the declaring class, its subclasses (even in other packages), and other classes in the same package."
@@ -3867,10 +3867,10 @@
    "u": 7,
    "q": "What happens if a class extends another class but does not override any of its methods?",
    "o": [
-    "The subclass cannot be instantiated",
+    "The subclass cannot be instantiated until it overrides something",
     "The subclass simply inherits and uses the superclass's implementations as-is",
-    "A compile error occurs",
-    "All inherited methods become private"
+    "A compile error occurs since nothing was overridden",
+    "All of the inherited methods become private in the subclass"
    ],
    "a": 1,
    "e": "Without any overrides, calling an inherited method on the subclass object simply runs the superclass's original implementation."
@@ -3892,12 +3892,12 @@
    "u": 7,
    "q": "Which best describes a jagged 2D array in Java?",
    "o": [
-    "A 2D array where every row must have the same number of columns",
     "A 2D array where different rows can have different numbers of columns",
-    "An array that cannot be used with loops",
-    "An array of only 2 elements"
+    "A 2D array in which every row must have the same number of columns",
+    "An array that cannot be traversed by using loops",
+    "An array that holds exactly two elements"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Unlike a strictly rectangular 2D array, a jagged array allows each row (sub-array) to have its own independent length.",
    "c": 0
   },
@@ -3905,12 +3905,12 @@
    "u": 7,
    "q": "Given a superclass Shape with method double getArea() and subclass Circle overriding getArea(), what does the following print? Shape[] shapes = { new Circle(2) }; System.out.println(shapes[0].getArea());",
    "o": [
-    "It calls Shape's version of getArea()",
     "It calls Circle's overridden version of getArea(), due to dynamic dispatch",
-    "It causes a compile error",
-    "It prints null"
+    "It calls Shape's version of getArea(), since the array is of type Shape[]",
+    "It causes a compile error because Circle is not a Shape",
+    "It prints null because no area was stored in the array"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Even though the array is typed as Shape[], each element's actual runtime type (Circle) determines which overridden method executes.",
    "c": 3
   },
@@ -4106,12 +4106,12 @@
    "u": 7,
    "q": "Which of the following is true when a subclass method has the same name as a superclass method but a different parameter list?",
    "o": [
-    "This is overriding",
+    "This is overriding, since the method name is the same",
+    "This causes a compile error because the signatures differ",
     "This is overloading, not overriding, since the parameter lists differ",
-    "This causes a compile error",
-    "This is only legal for static methods"
+    "This is legal only when the methods are declared static"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Because overriding requires an identical parameter list, a differing parameter list makes this a new overloaded method rather than an override.",
    "c": 3
   },
@@ -4169,12 +4169,12 @@
    "u": 8,
    "q": "What is the most likely result of a recursive method that has no base case, or whose base case is never reached?",
    "o": [
-    "It runs faster",
     "It eventually causes a StackOverflowError due to infinite recursive calls",
-    "It returns 0 automatically",
-    "It compiles but does nothing"
+    "It runs faster because it never stops to check a condition",
+    "It returns 0 automatically once the calls become too deep",
+    "It compiles but does nothing when it is called"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Without a base case that is eventually reached, recursive calls continue indefinitely, exhausting the call stack and causing a StackOverflowError.",
    "c": 0
   },
@@ -4355,10 +4355,10 @@
    "u": 8,
    "q": "In merge sort, what is the base case for the recursive sorting of a sub-array?",
    "o": [
-    "The sub-array is always length 10",
+    "The sub-array is always of length 10 when it is reached",
     "A sub-array of length 0 or 1, which is already trivially sorted",
-    "The sub-array must be sorted manually first",
-    "There is no base case"
+    "The sub-array must be sorted manually before recursion starts",
+    "There is no base case, so the recursion ends on its own"
    ],
    "a": 1,
    "e": "A sub-array with 0 or 1 elements is inherently already sorted, so merge sort's recursion stops there and begins merging results back together."
@@ -4367,12 +4367,12 @@
    "u": 8,
    "q": "What two main steps does merge sort perform after dividing an array into two halves recursively?",
    "o": [
+    "Print each half separately and then discard the originals",
+    "Discard one half and keep sorting only the other half",
     "Sort each half and merge the two sorted halves into one sorted array",
-    "Print each half separately",
-    "Discard one half",
-    "Reverse each half"
+    "Reverse each half and then join the two reversed halves"
    ],
-   "a": 0,
+   "a": 2,
    "e": "After recursively sorting each half, merge sort combines (merges) the two sorted halves into a single sorted array by comparing elements in order.",
    "c": 5
   },
@@ -4418,12 +4418,12 @@
    "u": 8,
    "q": "What must be true about each recursive call's argument relative to the base case for the recursion to eventually terminate?",
    "o": [
-    "The argument can be anything, including unchanged values",
-    "The argument must progress (get closer) toward the base case with each successive call",
-    "The argument must always increase",
-    "Recursion always terminates regardless of the argument"
+    "The argument can be anything, including a value that stays unchanged",
+    "The argument must always increase with each successive call",
+    "Recursion always terminates, no matter what the argument is",
+    "The argument must progress (get closer) toward the base case with each successive call"
    ],
-   "a": 1,
+   "a": 3,
    "e": "For recursion to terminate correctly, each call must move the input closer to a base case (e.g., decreasing n, or shrinking an array), otherwise infinite recursion results."
   },
   {
@@ -4467,12 +4467,12 @@
    "u": 8,
    "q": "Which of the following problems is naturally well-suited to a recursive solution because of its self-similar substructure?",
    "o": [
-    "Printing 'Hello World' once",
+    "Swapping the values of two variables, since a temporary variable holds one value while the other is reassigned",
+    "Checking whether a single integer is positive, since one comparison directly produces the final true or false result",
     "Computing the nth Fibonacci number, since fib(n) is defined in terms of fib(n-1) and fib(n-2)",
-    "Reading a single integer from input",
-    "Declaring a constant variable"
+    "Adding two integers together, since the sum comes from one arithmetic operation on the two given inputs"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Fibonacci numbers are naturally defined recursively (fib(n) depends on the two prior Fibonacci numbers), making a recursive solution a direct match to the problem's structure."
   },
   {
@@ -4491,12 +4491,12 @@
    "u": 8,
    "q": "What does the expression 'binary search reduces the problem size by half with each recursive call' imply about its recursion depth for an array of size n?",
    "o": [
-    "The recursion depth is n",
     "The recursion depth is approximately log2(n)",
-    "The recursion depth is n^2",
-    "The recursion depth is always 1"
+    "The recursion depth is approximately n/2",
+    "The recursion depth is approximately n log2(n)",
+    "The recursion depth is approximately sqrt(n)"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Since each call halves the remaining search space, the maximum number of recursive calls before reaching a base case is about log2(n)."
   },
   {
@@ -4516,12 +4516,12 @@
    "u": 8,
    "q": "In the recursive power method above, what is the base case and why is it necessary?",
    "o": [
-    "exp == 0, returning 1, since any base raised to the 0th power is 1, and this stops further recursive multiplication",
-    "base == 0",
-    "There is no base case needed",
-    "exp == 1"
+    "exp == 0, returning 0, since any base multiplied by zero is 0, and this stops further recursive multiplication",
+    "base == 1, returning 1, since 1 raised to any power is 1, and this is what stops the recursive calls from continuing",
+    "exp < 0, returning -1, since negative exponents are invalid for this method, and this prevents any further recursion",
+    "exp == 0, returning 1, since any base raised to the 0th power is 1, and this stops further recursive multiplication"
    ],
-   "a": 0,
+   "a": 3,
    "e": "The base case exp == 0 (returning 1, matching the mathematical fact that $x^0 = 1$) is required to terminate the recursive calls that otherwise keep decrementing exp.",
    "c": 0
   },
@@ -4529,24 +4529,24 @@
    "u": 8,
    "q": "Which of these best describes recursive backtracking, such as used to explore all subsets or permutations?",
    "o": [
+    "A method that tries every possible choice in a fixed order without ever undoing any of them, then reports the first result it reaches",
+    "A technique that splits a problem into two halves, solves each half separately, and merges the results, without undoing any earlier choice",
     "A method that explores possible choices recursively, undoing (backtracking) a choice if it doesn't lead to a solution, to try another",
-    "A single loop that never checks conditions",
-    "A sorting algorithm only",
-    "A method with no base case"
+    "A method that stores answers to overlapping subproblems in a table so that each one is computed only once and never revisited"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Backtracking recursively tries a choice, recurses further, and if that path fails or after exploring it, undoes the choice and tries alternative options."
   },
   {
    "u": 8,
    "q": "What is a potential downside of using recursion instead of iteration for simple repetitive tasks?",
    "o": [
-    "Recursion is always illegal in Java",
-    "Recursion can use more memory (call stack space) and may be less efficient due to function call overhead, compared to a straightforward loop",
-    "Recursion cannot use if statements",
-    "There is never any downside"
+    "Recursion can use less memory than a loop but always runs slower, because each call must be compiled again at runtime each time",
+    "Recursion makes it impossible to return values from a method, so results must be stored in static variables instead of returned",
+    "Recursion forces every variable in the method to become global, which can cause naming conflicts compared to a straightforward loop",
+    "Recursion can use more memory (call stack space) and may be less efficient due to function call overhead, compared to a straightforward loop"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Each recursive call adds a frame to the call stack, consuming memory and incurring function-call overhead, which can make recursion less efficient than an equivalent loop for simple tasks.",
    "c": 3
   },
@@ -4554,12 +4554,12 @@
    "u": 8,
    "q": "Consider a recursive method to check if an array is sorted: public static boolean isSorted(int[] arr, int index) { if (index >= arr.length - 1) return true; if (arr[index] > arr[index+1]) return false; return isSorted(arr, index + 1); } What does the base case index >= arr.length - 1 represent?",
    "o": [
-    "An error condition",
+    "Finding a pair of adjacent elements out of order, meaning the loop must stop immediately and the array is considered unsorted",
+    "Reaching the first element of the array, meaning the comparisons are about to begin and the array is considered unsorted so far",
     "Reaching the last element (or beyond), meaning there are no more adjacent pairs left to compare, so the array is considered sorted",
-    "The array is definitely unsorted",
-    "The array is empty only"
+    "Reaching an index beyond the array bounds by mistake, meaning an ArrayIndexOutOfBoundsException must be thrown to signal the error"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Once index reaches or passes the second-to-last position, there are no more adjacent pairs to check, so if no violation has been found, the array must be sorted."
   },
   {
@@ -4579,12 +4579,12 @@
    "u": 8,
    "q": "What principle underlies the correctness of well-designed recursive methods, often proven using induction?",
    "o": [
+    "If the recursive case is correct on a few sample inputs that have been tested, then the whole method is guaranteed correct for all inputs",
     "If the base case is correct and each recursive case correctly reduces to a valid smaller instance whose correctness is assumed, then the whole method is correct for all valid inputs",
-    "Recursion is always correct by definition",
-    "Recursive methods cannot be proven correct",
-    "Only iterative methods can be verified"
+    "If the method terminates without throwing an exception on large inputs, then each recursive call is automatically proven correct for every input",
+    "If the recursive case calls the method on a smaller input, then the base case is unnecessary because shrinking inputs guarantee correctness"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Similar to mathematical induction, verifying a recursive method involves confirming the base case is correct and that each recursive step correctly builds on the assumption that smaller subproblems are already solved correctly.",
    "c": 0
   },
@@ -4617,12 +4617,12 @@
    "u": 8,
    "q": "Which statement best distinguishes 'recursive case' from 'base case' in a recursive method's design?",
    "o": [
-    "The base case makes the recursive call; the recursive case terminates it",
+    "The recursive case directly handles the simplest input(s) and stops; the base case shrinks the problem and calls the method again",
+    "The base case runs first on every call and always makes a recursive call; the recursive case runs only once at the very end",
     "The base case directly handles the simplest input(s) without further recursion; the recursive case reduces the problem and calls the method again",
-    "They are the same thing",
-    "Only the base case is required; the recursive case is optional"
+    "The base case handles every large input by looping over it; the recursive case handles only the smallest input by returning a constant"
    ],
-   "a": 1,
+   "a": 2,
    "e": "A correctly designed recursive method needs a base case for direct termination and a recursive case that shrinks the problem toward that base case.",
    "c": 0
   },
@@ -4630,10 +4630,10 @@
    "u": 8,
    "q": "What would likely happen if the recursive case in a Fibonacci method called fib(n-1) and fib(n+1) instead of fib(n-1) and fib(n-2)?",
    "o": [
-    "It would still terminate correctly",
+    "It would still terminate correctly, since the fib(n-1) branch reaches the base case and the fib(n+1) branch is simply ignored",
     "It would likely never reach the base case in the fib(n+1) branch, causing infinite recursion and a StackOverflowError",
-    "It would compute fib faster",
-    "It would only affect even n"
+    "It would compute the same Fibonacci values but return them in reverse order because n+1 is evaluated before the n-1 call",
+    "It would reach the base case quickly in both branches, causing a compile-time error because n+1 exceeds the declared parameter"
    ],
    "a": 1,
    "e": "Calling fib(n+1) moves away from the base case rather than toward it, so that branch of recursion would never terminate, leading to a stack overflow."
@@ -5968,12 +5968,12 @@
    "u": 2,
    "q": "A constructor in Java:",
    "o": [
-    "Must return an int",
     "Has the same name as the class and no return type",
-    "Is named 'constructor'",
-    "Cannot take parameters"
+    "Has the same name as the class and returns void",
+    "Has the name 'new' and returns the class type",
+    "Must be declared static and has no parameters"
    ],
-   "a": 1,
+   "a": 0,
    "e": "It initializes the new object."
   },
   {
@@ -6116,12 +6116,12 @@
    "u": 8,
    "q": "Every correct recursive method must have:",
    "o": [
-    "A loop",
-    "Static variables",
-    "An array",
-    "A base case that stops the recursion"
+    "A loop that repeats the method call",
+    "A static counter variable for tracking calls",
+    "A base case that stops the recursion",
+    "An array to store the earlier results"
    ],
-   "a": 3,
+   "a": 2,
    "e": "Without a base case it recurses forever.",
    "c": 0
   },

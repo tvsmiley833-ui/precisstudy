@@ -731,10 +731,10 @@
    "u": 1,
    "q": "What is the celestial equator?",
    "o": [
-    "The Moon's orbital path",
+    "The projection of the Moon's orbit onto the sky",
     "The projection of Earth's equator onto the sky",
-    "The path the Sun follows through the zodiac",
-    "The boundary of the Milky Way"
+    "The apparent path of the Sun across the sky through a year",
+    "The projection of Earth's orbit around the Sun onto the stars"
    ],
    "a": 1,
    "e": "The celestial equator is Earth's equator projected outward onto the imaginary celestial sphere.",
@@ -744,12 +744,12 @@
    "u": 1,
    "q": "Why is a sidereal day about 4 minutes shorter than a solar day?",
    "o": [
-    "Earth's rotation is slowing down",
-    "Earth must rotate slightly more than 360 degrees for the Sun to return to the same spot due to orbital motion",
-    "The Moon's gravity distorts time",
-    "Sidereal days only occur in winter"
+    "Earth must rotate slightly less than 360 degrees for a star to return overhead because its spin gradually slows",
+    "The Moon's gravity pulls on Earth's oceans so that each star crossing is delayed by about four minutes",
+    "Stars lie so far away that their light takes several extra minutes to reach the meridian each night",
+    "Earth must rotate slightly more than 360 degrees for the Sun to return to the same spot due to orbital motion"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Because Earth also moves along its orbit, it must rotate a bit extra for the Sun to appear in the same position, making the solar day longer than the sidereal day.",
    "c": 1
   },
@@ -822,12 +822,12 @@
    "u": 1,
    "q": "Why do planets twinkle less than stars?",
    "o": [
-    "Planets are much farther away",
-    "Planets emit their own steady light",
-    "Planets present a small resolvable disk rather than a point source",
-    "Planets are not affected by atmosphere"
+    "Planets are so close that their light is always bright enough to wash out atmospheric effects",
+    "Planets shine by their own steady nuclear fusion rather than reflecting any sunlight",
+    "Planets orbit above the atmosphere so their light is never bent by turbulent air",
+    "Planets present a small resolvable disk rather than a point source"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Because planets appear as tiny disks rather than perfect points, atmospheric distortions average out more, reducing twinkling.",
    "c": 5
   },
@@ -835,24 +835,24 @@
    "u": 1,
    "q": "What is the ecliptic?",
    "o": [
-    "Earth's equator",
-    "The Sun's apparent annual path against the stars",
-    "The Moon's orbital plane",
-    "The boundary of the celestial sphere"
+    "The projection of Earth's equator onto the celestial sphere",
+    "The Moon's apparent monthly path against the background stars",
+    "The imaginary line dividing the sky into northern and southern halves",
+    "The Sun's apparent annual path against the stars"
    ],
-   "a": 1,
+   "a": 3,
    "e": "The ecliptic is the apparent path the Sun traces across the celestial sphere over the course of a year, tilted 23.5 degrees from the celestial equator."
   },
   {
    "u": 1,
    "q": "What are circumpolar stars?",
    "o": [
-    "Stars only visible during a solar eclipse",
-    "Stars near the celestial pole that never set from a given latitude",
-    "The brightest stars in each constellation",
-    "Stars located in the asteroid belt"
+    "Stars near the ecliptic that are hidden whenever the Sun passes in front",
+    "Stars that rise and set at exactly the same time at every latitude",
+    "Stars close to the celestial equator that are visible all night long",
+    "Stars near the celestial pole that never set from a given latitude"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Circumpolar stars are close enough to the celestial pole that, from a given latitude, they remain above the horizon at all times.",
    "c": 0
   },
@@ -860,10 +860,10 @@
    "u": 1,
    "q": "What does right ascension measure in the equatorial coordinate system?",
    "o": [
-    "Angle above the horizon",
-    "Distance from the observer",
+    "Angular height above the local horizon, measured in degrees",
+    "Angular distance north or south of the celestial equator, in degrees",
     "Position measured eastward from the vernal equinox, in hours",
-    "Compass direction"
+    "Compass bearing of the star measured clockwise from true north"
    ],
    "a": 2,
    "e": "Right ascension is the equatorial system's analog to longitude, measured in hours (0-24) eastward from the vernal equinox.",
@@ -873,12 +873,12 @@
    "u": 1,
    "q": "What does declination measure?",
    "o": [
-    "Compass direction from the observer",
+    "Position measured eastward from the vernal equinox, in hours",
+    "Angular height of a star above the observer's local horizon",
     "Angular distance north or south of the celestial equator",
-    "The brightness of a star",
-    "Distance in light-years"
+    "The apparent brightness of a star compared with a reference star"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Declination is analogous to latitude, measuring angular position north (+) or south (-) of the celestial equator."
   },
   {
@@ -898,12 +898,12 @@
    "u": 1,
    "q": "What is local sidereal time equal to?",
    "o": [
-    "The current clock time everywhere",
-    "The right ascension of objects currently on the observer's meridian",
-    "Universal Time minus 12 hours",
-    "The declination of the zenith"
+    "The current clock time on the Greenwich meridian at that moment",
+    "The declination of objects currently on the observer's meridian",
+    "The hour angle of the Sun measured from local noon",
+    "The right ascension of objects currently on the observer's meridian"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Local sidereal time matches the right ascension of whatever is crossing the observer's meridian at that moment.",
    "c": 4
   },
@@ -911,12 +911,12 @@
    "u": 1,
    "q": "What is the Bortle scale used for?",
    "o": [
-    "Measuring star temperature",
     "Measuring the darkness/brightness of the night sky due to light pollution",
-    "Ranking telescope aperture sizes",
-    "Classifying galaxy shapes"
+    "Rating the surface temperature and spectral class of stars",
+    "Ranking telescope mirrors by their light-gathering aperture and focal ratio",
+    "Classifying the seeing conditions caused by atmospheric turbulence"
    ],
-   "a": 1,
+   "a": 0,
    "e": "The Bortle scale ranks sky darkness from 1 (pristine, no light pollution) to 9 (inner-city sky), helping observers gauge viewing conditions.",
    "c": 5
   },
@@ -924,12 +924,12 @@
    "u": 1,
    "q": "Why are astronomical observatories often built at high altitude in dry climates?",
    "o": [
-    "To be closer to the stars",
-    "To reduce atmospheric turbulence, water vapor absorption, and light pollution",
-    "Because telescopes work better in the cold",
-    "To avoid magnetic interference"
+    "To get closer to the stars and shorten the path their light travels",
+    "To avoid cloud cover, magnetic interference, and nearby radio signals",
+    "To benefit from colder metal that contracts and improves mirror shape and focus",
+    "To reduce atmospheric turbulence, water vapor absorption, and light pollution"
    ],
-   "a": 1,
+   "a": 3,
    "e": "High, dry sites minimize atmospheric distortion, water vapor absorption of certain wavelengths, and are typically farther from city light pollution.",
    "c": 5
   },
@@ -938,9 +938,9 @@
    "q": "What causes atmospheric extinction?",
    "o": [
     "Objects low on the horizon have their light dimmed and reddened by passing through more air",
-    "Solar flares interfering with light",
-    "The Moon blocking starlight",
-    "Magnetic fields bending light"
+    "Objects high overhead are dimmed and reddened by the extra thickness of the upper atmosphere",
+    "Light from objects near the horizon is bent by magnetic fields before it reaches the eye",
+    "Dust from solar flares scatters starlight and makes distant objects look dimmer and redder"
    ],
    "a": 0,
    "e": "Light from objects near the horizon travels through a longer path of atmosphere, causing more scattering, dimming, and reddening.",
@@ -950,12 +950,12 @@
    "u": 1,
    "q": "What is adaptive optics used for in ground-based telescopes?",
    "o": [
-    "Increasing telescope size virtually",
-    "Correcting for atmospheric turbulence in real time to sharpen images",
-    "Filtering out light pollution",
-    "Automatically pointing telescopes at targets"
+    "Combining several telescopes to simulate one much larger mirror",
+    "Filtering out city light pollution to darken the background sky automatically",
+    "Tracking a target as Earth rotates so long exposures stay centered",
+    "Correcting for atmospheric turbulence in real time to sharpen images"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Adaptive optics systems use deformable mirrors adjusted many times per second to counteract atmospheric distortion.",
    "c": 5
   },
@@ -989,12 +989,12 @@
    "u": 1,
    "q": "What is precession of the equinoxes?",
    "o": [
-    "The yearly wobble of the Moon's orbit",
-    "A slow, roughly 26,000-year wobble of Earth's rotation axis that shifts the pole star over time",
-    "The daily rotation of Earth",
-    "A seasonal change in day length"
+    "A rapid, roughly 26-day wobble of the Moon's orbit that shifts the pole star over time",
+    "A slow, roughly 26,000-year drift of Earth's orbit that changes the length of the year",
+    "A yearly shift of the Sun's position against the stars caused by Earth's orbital speed",
+    "A slow, roughly 26,000-year wobble of Earth's rotation axis that shifts the pole star over time"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Precession is a slow gravitational wobble of Earth's spin axis with a roughly 26,000-year cycle, meaning the north celestial pole gradually shifts among different stars.",
    "c": 1
   },
@@ -1065,12 +1065,12 @@
    "u": 1,
    "q": "The zodiac constellations are defined by which criterion?",
    "o": [
-    "Constellations visible only in summer",
     "Constellations the Sun appears to pass through along the ecliptic",
-    "The 12 brightest constellations",
-    "Constellations near the celestial poles"
+    "Constellations that lie along the celestial equator and are visible all year",
+    "The twelve constellations that contain the brightest stars in the sky",
+    "Constellations that the Moon alone passes through during its monthly cycle"
    ],
-   "a": 1,
+   "a": 0,
    "e": "The zodiac consists of the constellations that lie along the ecliptic, the Sun's apparent yearly path.",
    "c": 1
   },
@@ -1078,10 +1078,10 @@
    "u": 1,
    "q": "What best describes absolute magnitude?",
    "o": [
-    "How bright a star looks from Earth",
+    "How bright a star appears from Earth after correcting for atmospheric absorption and dimming",
     "A star's true luminosity as it would appear at a standard distance of 10 parsecs",
-    "A star's color temperature",
-    "A star's angular diameter"
+    "A star's surface temperature as inferred from its color and its spectrum",
+    "A star's apparent brightness as it would look if viewed from 1 astronomical unit"
    ],
    "a": 1,
    "e": "Absolute magnitude standardizes brightness by placing every star at the same reference distance (10 parsecs), removing the distance factor.",
@@ -1104,12 +1104,12 @@
    "u": 1,
    "q": "Why do different constellations become visible at night as the year progresses?",
    "o": [
-    "Stars physically move closer and farther from Earth",
+    "Stars gradually drift across the sky as they move through space over each year",
+    "The Moon's changing position hides different star fields from view each month",
     "Earth's revolution around the Sun changes which stars are on the night side",
-    "The Moon blocks different stars each month",
-    "Stars change brightness seasonally"
+    "The Sun's gravity bends starlight so different constellations rise in each season"
    ],
-   "a": 1,
+   "a": 2,
    "e": "As Earth orbits the Sun, the night side of Earth faces different directions in space throughout the year, revealing different star fields.",
    "c": 1
   },
@@ -1154,12 +1154,12 @@
    "u": 1,
    "q": "A Bortle scale rating of 1 indicates what kind of sky?",
    "o": [
-    "A heavily light-polluted inner-city sky",
     "A pristine, extremely dark sky with minimal light pollution",
-    "A cloudy sky",
-    "A sky during a full moon"
+    "A moderately dark rural sky with a faintly visible Milky Way",
+    "A bright suburban sky with a washed-out Milky Way",
+    "A hazy sky where thin clouds block most of the starlight"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Bortle class 1 represents the darkest, most pristine skies with essentially no light pollution.",
    "c": 5
   },
@@ -1167,12 +1167,12 @@
    "u": 1,
    "q": "Why can't ground-based telescopes observe most X-ray sources directly?",
    "o": [
-    "X-rays are too faint to matter",
+    "X-rays are produced mostly by distant objects that are too dim to reach the ground",
+    "X-rays travel so fast that ground-based mirrors cannot focus them onto a detector",
     "Earth's atmosphere absorbs X-rays before they reach the ground",
-    "Telescopes cannot be built to detect X-rays",
-    "X-rays only exist in space"
+    "Ground telescopes can see X-rays but cloud cover and city lights wash them out"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Earth's atmosphere strongly absorbs X-rays, so X-ray astronomy requires space-based observatories like the Chandra X-ray Observatory.",
    "c": 5
   },
@@ -1206,10 +1206,10 @@
    "u": 1,
    "q": "How does the ecliptic relate to the celestial equator?",
    "o": [
-    "They are identical",
+    "The ecliptic is tilted about 5 degrees relative to the celestial equator",
     "The ecliptic is tilted about 23.5 degrees relative to the celestial equator",
-    "The ecliptic is perpendicular to the celestial equator",
-    "They never intersect"
+    "The ecliptic lies exactly along the celestial equator at the equinoxes only",
+    "The ecliptic is tilted about 66 degrees relative to the celestial equator"
    ],
    "a": 1,
    "e": "The ecliptic is tilted 23.5 degrees to the celestial equator due to Earth's axial tilt, and they intersect at the two equinox points."
@@ -1218,22 +1218,22 @@
    "u": 1,
    "q": "What is the primary reason the Moon's full phase has an apparent magnitude of about -12.7 while the Sun is about -26.7?",
    "o": [
-    "The Moon is much larger than the Sun",
     "The Moon only reflects a fraction of the Sun's light and is farther from an intrinsic source",
-    "The Sun is closer to Earth",
-    "There is no real brightness difference"
+    "The Moon is much farther from Earth than the Sun and is also much smaller in true size",
+    "The Moon is dark by nature and shines only when Earth's atmosphere scatters sunlight onto it",
+    "The Moon emits its own faint glow that is far weaker than the glow of the Sun"
    ],
-   "a": 1,
+   "a": 0,
    "e": "The Moon merely reflects sunlight and is not itself a light source, making it vastly dimmer than the Sun despite being much closer to Earth than the Sun's photosphere output would suggest."
   },
   {
    "u": 1,
    "q": "If a star's apparent magnitude is +11, could it be seen with the unaided eye?",
    "o": [
-    "Yes, easily",
+    "Yes, it would be faintly visible under dark skies without any optical aid",
     "No, it is fainter than the naked-eye limit of about magnitude 6",
-    "Only during a new moon",
-    "Only from the Southern Hemisphere"
+    "Yes, but only when the Moon is below the horizon and the sky is very dark",
+    "No, it is brighter than the limit and would be seen even in city skies"
    ],
    "a": 1,
    "e": "Magnitude +11 is well beyond the roughly +6 limit of unaided human vision under dark skies, requiring a telescope.",
@@ -1243,12 +1243,12 @@
    "u": 2,
    "q": "What is the primary cause of Earth's seasons?",
    "o": [
-    "Earth's changing distance from the Sun",
-    "Earth's axial tilt relative to its orbital plane",
-    "The Moon's gravitational pull",
-    "Solar flares"
+    "Earth's changing distance from the Sun along its elliptical orbit",
+    "The Moon's gravitational pull on Earth's oceans and atmosphere",
+    "Variations in the Sun's energy output throughout the year",
+    "Earth's axial tilt relative to its orbital plane"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Seasons result from Earth's 23.5-degree axial tilt, which changes how directly sunlight hits each hemisphere throughout the year.",
    "c": 0
   },
@@ -1256,12 +1256,12 @@
    "u": 2,
    "q": "When is Earth closest to the Sun (perihelion)?",
    "o": [
-    "June, during Northern Hemisphere summer",
-    "January, during Northern Hemisphere winter",
-    "March, during the equinox",
-    "September, during the equinox"
+    "July, during Northern Hemisphere summer",
+    "March, during the spring equinox",
+    "October, during the autumn equinox",
+    "January, during Northern Hemisphere winter"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Earth reaches perihelion in early January, showing that seasons are not caused by orbital distance.",
    "c": 0
   },
@@ -1269,10 +1269,10 @@
    "u": 2,
    "q": "What happens during an equinox?",
    "o": [
-    "One hemisphere gets 24-hour daylight",
+    "The Sun reaches its greatest distance north or south of the celestial equator",
     "Neither hemisphere is tilted toward the Sun, giving roughly equal day and night",
-    "Earth is farthest from the Sun",
-    "A solar eclipse always occurs"
+    "One hemisphere is tilted fully toward the Sun, giving it nearly 24 hours of daylight",
+    "Earth is at its closest point to the Sun, giving worldwide equal warmth"
    ],
    "a": 1,
    "e": "At the equinoxes, Earth's axis is tilted neither toward nor away from the Sun, so day and night are nearly equal worldwide.",
@@ -1282,10 +1282,10 @@
    "u": 2,
    "q": "Why does the Moon go through phases?",
    "o": [
-    "Earth's shadow covers part of the Moon",
+    "Earth's shadow falls across different portions of the Moon as it orbits Earth each month",
     "The changing angle between the Sun, Earth, and Moon changes how much of the sunlit half we see",
-    "The Moon's own light output varies",
-    "Clouds block parts of the Moon"
+    "The Moon's own brightness rises and falls as it moves closer to and farther from Earth",
+    "Clouds in the upper atmosphere hide different portions of the Moon each night"
    ],
    "a": 1,
    "e": "Phases arise purely from geometry: as the Moon orbits Earth, we see varying amounts of its sunlit hemisphere."
@@ -1307,22 +1307,22 @@
    "u": 2,
    "q": "Why is the synodic month longer than the sidereal month?",
    "o": [
-    "The Moon speeds up during its orbit",
+    "The Moon slows down in its orbit, so it needs extra time to complete each full circle",
+    "The Moon's orbit is slightly elliptical, so its speed varies during each trip around Earth",
     "Earth also orbits the Sun, so the Moon must travel a bit farther to realign with the Sun as seen from Earth",
-    "The sidereal month is measured incorrectly",
-    "There is no real difference"
+    "Earth's rotation drags the Moon, which means it must travel less than a full circle"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Because Earth moves along its orbit while the Moon orbits Earth, the Moon needs extra time to catch up to the same Sun-Earth-Moon alignment."
   },
   {
    "u": 2,
    "q": "What causes a solar eclipse?",
    "o": [
-    "Earth's shadow falls on the Moon",
+    "Earth passes directly between the Sun and the Moon, casting a shadow",
     "The Moon passes directly between the Sun and Earth",
-    "The Sun temporarily stops emitting light",
-    "Venus transits the Sun"
+    "The Moon moves into the Sun's outer atmosphere and heats up",
+    "The Sun passes behind a planet such as Mercury, dimming daylight on Earth"
    ],
    "a": 1,
    "e": "A solar eclipse occurs when the Moon, at new moon phase, passes directly between the Sun and Earth, blocking sunlight."
@@ -1331,12 +1331,12 @@
    "u": 2,
    "q": "What causes a lunar eclipse?",
    "o": [
-    "The Moon enters the Sun's corona",
     "Earth passes directly between the Sun and Moon, casting its shadow on the Moon",
-    "The Moon's orbit temporarily stops",
-    "Solar flares block moonlight"
+    "The Moon passes directly between the Sun and Earth, blocking sunlight over a narrow track",
+    "The Moon moves into the Sun's corona and loses its reflected sunlight",
+    "Dust and clouds from the upper atmosphere block moonlight and hide it from view"
    ],
-   "a": 1,
+   "a": 0,
    "e": "A lunar eclipse occurs at full moon, when Earth blocks sunlight from reaching the Moon, casting Earth's shadow onto it.",
    "c": 2
   },
@@ -1344,12 +1344,12 @@
    "u": 2,
    "q": "Why don't eclipses happen every new and full moon?",
    "o": [
-    "The Moon is too far from Earth most months",
+    "The Moon's orbit is tilted about 23.5 degrees relative to the ecliptic, so alignment is rare",
+    "The Moon's distance from Earth varies so much that its shadow usually misses Earth",
     "The Moon's orbit is tilted about 5 degrees relative to the ecliptic, so alignment is rare",
-    "Eclipses require a specific season",
-    "The Sun blocks them most months"
+    "Eclipses need the Moon to be near perigee, which happens only a few times a decade"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Because the Moon's orbital plane is tilted relative to the ecliptic, exact alignment (needed for eclipses) only happens near the orbital nodes.",
    "c": 2
   },
@@ -1357,10 +1357,10 @@
    "u": 2,
    "q": "Why does the Moon often appear reddish during a total lunar eclipse?",
    "o": [
-    "Moon dust naturally has a red tint",
+    "Sunlight reflects off red dust on the lunar surface and is scattered by Earth's atmosphere",
     "Sunlight is refracted and filtered through Earth's atmosphere, scattering blue light and letting red light through",
-    "The Sun turns red during the eclipse",
-    "Mars's reflection colors the Moon"
+    "The Moon heats up inside Earth's shadow and glows red like hot metal",
+    "Light from Mars and Venus reflects onto the Moon and tints it red during the eclipse"
    ],
    "a": 1,
    "e": "Earth's atmosphere bends (refracts) sunlight into its shadow, scattering blue wavelengths more and letting reddish light illuminate the Moon, similar to a sunset.",
@@ -1370,12 +1370,12 @@
    "u": 2,
    "q": "What allows total solar eclipses to occur despite the vast size difference between the Sun and Moon?",
    "o": [
-    "The Moon is actually larger than the Sun",
     "The Sun is about 400 times larger and about 400 times farther away, making apparent sizes nearly match",
-    "The Sun's light bends around the Moon",
-    "Total eclipses are actually optical illusions"
+    "The Sun is about 400 times larger and about 100 times farther away, so the Moon covers it",
+    "The Moon is about 400 times larger than the Sun and about 400 times closer to Earth",
+    "The Sun's light is dimmed by Earth's atmosphere, which makes it appear smaller than the Moon"
    ],
-   "a": 1,
+   "a": 0,
    "e": "This coincidental ratio means the Sun and Moon appear almost the same angular size in Earth's sky, allowing the Moon to just barely cover the Sun.",
    "c": 2
   },
@@ -1383,12 +1383,12 @@
    "u": 2,
    "q": "What primarily causes ocean tides on Earth?",
    "o": [
-    "Wind patterns alone",
     "The Moon's (and to a lesser extent the Sun's) differential gravitational pull on Earth",
-    "Earth's rotation alone",
-    "Ocean currents"
+    "Strong winds and storm systems pushing water toward the coastlines",
+    "The spin of Earth flinging ocean water outward toward the equator",
+    "Large ocean currents that carry warm water between the tropics and the poles"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Tides result mainly from the Moon's gravity pulling more strongly on the near side of Earth than the far side, creating two tidal bulges.",
    "c": 3
   },
@@ -1396,10 +1396,10 @@
    "u": 2,
    "q": "When do spring tides occur?",
    "o": [
-    "Only during spring season",
+    "At first and third quarter moon, when solar and lunar pulls partly cancel each other",
     "At new and full moon, when the Sun and Moon align and their tidal forces combine",
-    "At first and third quarter moon",
-    "Only during eclipses"
+    "Only during the spring equinox, when the Sun is directly above the equator",
+    "At the Moon's perigee, regardless of its phase and its alignment with the Sun"
    ],
    "a": 1,
    "e": "Spring tides (larger tidal range) happen at new and full moons when the Sun and Moon's gravitational pulls reinforce each other.",
@@ -1409,12 +1409,12 @@
    "u": 2,
    "q": "When do neap tides occur?",
    "o": [
-    "At new and full moon",
-    "At first and third quarter moon, when solar and lunar tidal forces partly cancel",
-    "During a total solar eclipse only",
-    "Only in winter"
+    "At new and full moon, when the Sun and Moon align and their tidal forces combine",
+    "Only during the winter solstice, when the Sun is farthest from the equator",
+    "At the Moon's apogee, regardless of its phase and its alignment with the Sun",
+    "At first and third quarter moon, when solar and lunar tidal forces partly cancel"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Neap tides (smaller tidal range) occur at quarter moons when the Sun's and Moon's tidal pulls are roughly perpendicular and partly offset.",
    "c": 3
   },
@@ -1422,12 +1422,12 @@
    "u": 2,
    "q": "Why does the Moon contribute more to tides than the Sun despite the Sun's far greater mass?",
    "o": [
-    "The Moon is denser than the Sun",
+    "The Moon is denser than the Sun, so its gravity at Earth's surface is stronger",
+    "The Sun's gravity affects only Earth's land and does not pull on the oceans",
     "Tidal force depends strongly on distance, and the Moon is much closer to Earth",
-    "The Sun has no gravitational pull on Earth",
-    "This statement is false; the Sun dominates tides"
+    "The Sun actually dominates tides, but local coastal shapes make the Moon seem stronger"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Tidal force falls off with the cube of distance, so the much closer Moon exerts a larger tidal effect than the far more massive but distant Sun.",
    "c": 3
   },
@@ -1435,10 +1435,10 @@
    "u": 2,
    "q": "What long-term effect do tidal forces have on the Earth-Moon system?",
    "o": [
-    "The Moon is spiraling inward toward Earth",
-    "Earth's rotation is speeding up",
+    "The Moon is slowly spiraling closer to Earth (~3.8 cm/year) while Earth's rotation gradually speeds up",
+    "The Moon is slowly moving away from Earth while Earth's rotation speeds up and the day shortens",
     "The Moon is slowly moving away from Earth (~3.8 cm/year) while Earth's rotation gradually slows",
-    "No long-term effects occur"
+    "The Moon stays at a fixed distance while Earth's rotation slows gradually over millions of years"
    ],
    "a": 2,
    "e": "Tidal friction transfers angular momentum from Earth's rotation to the Moon's orbit, causing the Moon to recede and Earth's day to lengthen very slowly.",
@@ -1448,12 +1448,12 @@
    "u": 2,
    "q": "What is axial precession?",
    "o": [
-    "Earth's daily rotation",
     "A slow, roughly 26,000-year wobble of Earth's rotation axis caused by gravitational torques from the Moon and Sun",
-    "The Moon's monthly phase cycle",
-    "Earth's yearly orbit around the Sun"
+    "A rapid, roughly 26-day wobble of the Moon's orbit caused by gravity from the Sun and Earth",
+    "A slow, roughly 26,000-year change in the shape of Earth's orbit caused by the other planets",
+    "A roughly 26,000-year reversal of Earth's magnetic field caused by motion in the molten core"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Precession is a slow conical wobble of Earth's spin axis, driven by gravitational tugs on Earth's equatorial bulge, completing one cycle in about 26,000 years.",
    "c": 4
   },
@@ -1461,12 +1461,12 @@
    "u": 2,
    "q": "Why won't Polaris always be the north pole star?",
    "o": [
-    "Polaris will burn out soon",
+    "Polaris will run out of fuel and fade over the next few thousand years",
+    "Polaris is moving rapidly through space and will soon leave the northern sky",
     "Earth's axial precession slowly changes which star aligns with the north celestial pole",
-    "Polaris is moving away from the solar system",
-    "The Moon's orbit is shifting"
+    "Earth's orbit around the Sun slowly shifts and changes which star lies at the pole"
    ],
-   "a": 1,
+   "a": 2,
    "e": "As Earth's axis precesses over thousands of years, the point it points to in the sky traces a large circle, meaning different stars serve as the pole star over time.",
    "c": 4
   },
@@ -1487,12 +1487,12 @@
    "u": 2,
    "q": "What process generates the Sun's energy?",
    "o": [
-    "Chemical combustion",
     "Nuclear fusion of hydrogen into helium in its core",
-    "Gravitational contraction alone",
-    "Radioactive decay"
+    "Chemical burning of hydrogen and oxygen in its outer layers",
+    "Gravitational contraction that turns the Sun's weight into heat",
+    "Radioactive decay of heavy elements such as uranium inside its core"
    ],
-   "a": 1,
+   "a": 0,
    "e": "The Sun produces energy through nuclear fusion, primarily via the proton-proton chain, converting hydrogen into helium in its core.",
    "c": 5
   },
@@ -1500,12 +1500,12 @@
    "u": 2,
    "q": "What are sunspots?",
    "o": [
-    "Craters on the Sun's surface",
-    "Cooler, darker regions caused by concentrated magnetic fields",
-    "Reflections of Earth on the Sun",
-    "Solar eclipses viewed from space"
+    "Hotter, brighter regions caused by the eruption of magnetic loops",
+    "Cooler, darker regions caused by clouds of dust drifting through the corona",
+    "Craters left by comets and asteroids that struck the Sun's surface",
+    "Cooler, darker regions caused by concentrated magnetic fields"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Sunspots are areas where strong magnetic fields inhibit convection, making them cooler and darker than surrounding photosphere.",
    "c": 5
   },
@@ -1526,12 +1526,12 @@
    "u": 2,
    "q": "What is a coronal mass ejection?",
    "o": [
-    "A type of lunar eclipse",
     "A burst of charged particles and magnetic field ejected from the Sun's corona",
-    "A meteor shower",
-    "A type of sunspot"
+    "A burst of neutrinos and gamma rays released by fusion in the Sun's core",
+    "A stream of charged particles that flows steadily outward from the Sun",
+    "A bright flash of X-rays released from the Sun's photosphere over sunspots"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Coronal mass ejections are massive bursts of plasma and magnetic field from the Sun's corona that can affect satellites and power grids when directed at Earth.",
    "c": 5
   },
@@ -1577,12 +1577,12 @@
    "u": 2,
    "q": "Why does the Moon always show the same face to Earth?",
    "o": [
-    "It doesn't rotate at all",
     "It is tidally locked, rotating once per orbit due to Earth's gravity",
-    "It's an optical illusion",
-    "The Moon has no rotation axis"
+    "It does not rotate at all, so the same side always faces Earth",
+    "It rotates once per day, matching Earth's own rotation period exactly",
+    "It rotates so quickly that surface features blur into an unchanging pattern"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Tidal locking means the Moon's rotation period exactly matches its orbital period around Earth, so the same hemisphere always faces us.",
    "c": 1
   },
@@ -1590,12 +1590,12 @@
    "u": 2,
    "q": "What is the path of totality during a solar eclipse?",
    "o": [
-    "The Moon's entire orbit",
     "The narrow region on Earth where the Moon's umbra creates a total eclipse",
-    "The area affected by a lunar eclipse",
-    "The Sun's corona"
+    "The wide region on Earth where the Moon's penumbra creates a partial eclipse",
+    "The path the Moon follows across the sky during a total lunar eclipse",
+    "The narrow region of Earth where the Sun's corona is bright enough to see"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Only within the narrow path traced by the Moon's umbral shadow on Earth's surface can observers see a total solar eclipse.",
    "c": 2
   },
@@ -1603,12 +1603,12 @@
    "u": 2,
    "q": "What is the difference between waxing and waning Moon phases?",
    "o": [
+    "Waxing means decreasing illumination; waning means increasing illumination",
     "Waxing means increasing illumination; waning means decreasing illumination",
-    "Waxing only happens in summer",
-    "Waning refers to lunar eclipses",
-    "There is no real difference"
+    "Waxing refers to the Moon's eastward drift; waning refers to its westward drift",
+    "Waxing is the Moon rising in the evening; waning is the Moon rising after midnight"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Waxing describes the Moon's illuminated fraction growing (toward full), while waning describes it shrinking (toward new).",
    "c": 1
   },
@@ -1629,12 +1629,12 @@
    "u": 2,
    "q": "What is nutation?",
    "o": [
-    "A synonym for precession",
     "A smaller, shorter-period wobble superimposed on Earth's larger precessional motion",
-    "The Moon's tidal locking",
-    "The Sun's 11-year cycle"
+    "A larger, longer-period wobble that replaces Earth's precessional motion",
+    "A small, regular tilt of Earth's axis caused by the Sun's 11-year cycle",
+    "A shorter-period wobble in the Moon's orbit that drives the tides"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Nutation is a smaller nodding motion in Earth's axial orientation layered on top of the slower, larger precession cycle.",
    "c": 4
   },
@@ -1642,24 +1642,24 @@
    "u": 2,
    "q": "During a new moon, where is the Moon positioned relative to the Sun and Earth?",
    "o": [
-    "Directly opposite the Sun from Earth",
+    "Opposite the Sun from Earth, with its bright side facing Earth",
+    "At a right angle to the Sun-Earth line, with half its face lit",
     "Between the Earth and Sun, with its dark side facing Earth",
-    "At a 90-degree angle to the Sun-Earth line",
-    "There is no fixed position"
+    "Between the Earth and Sun, with its bright side facing Earth"
    ],
-   "a": 1,
+   "a": 2,
    "e": "At new moon, the Moon lies between Earth and the Sun, so its unlit far side faces Earth, making the Moon effectively invisible."
   },
   {
    "u": 2,
    "q": "What determines the intensity of sunlight reaching a given location on Earth's surface?",
    "o": [
-    "Only the time of day",
-    "The angle at which sunlight strikes the surface — more direct angles deliver more energy per unit area",
-    "Only the season",
-    "The phase of the Moon"
+    "The distance from the Sun, because Earth's orbit changes the energy received",
+    "The amount of ozone in the atmosphere, regardless of the angle of sunlight",
+    "The time of day alone, since the Sun is brightest at noon everywhere on Earth",
+    "The angle at which sunlight strikes the surface — more direct angles deliver more energy per unit area"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Sunlight striking a surface at a steeper (more direct) angle concentrates its energy over a smaller area, delivering more energy per unit area than glancing light.",
    "c": 0
   },
@@ -1667,10 +1667,10 @@
    "u": 2,
    "q": "What is aphelion?",
    "o": [
-    "Earth's closest point to the Sun",
+    "Earth's closest point to the Sun in its orbit, around January 3",
     "Earth's farthest point from the Sun in its orbit, around July 4",
-    "The point where lunar eclipses occur",
-    "The Moon's closest approach to Earth"
+    "Earth's farthest point from the Sun in its orbit, around January 3",
+    "Earth's closest point to the Sun in its orbit, around July 4"
    ],
    "a": 1,
    "e": "Aphelion is the point in Earth's elliptical orbit where it is farthest from the Sun, occurring around early July."
@@ -1679,10 +1679,10 @@
    "u": 2,
    "q": "How many high tides does a typical coastal location experience per day, and why?",
    "o": [
-    "One, because of a single tidal bulge",
+    "One, because a single bulge faces the Moon and Earth's far side has no tidal bulge",
     "Two, because tidal bulges form on both the near and far sides of Earth relative to the Moon",
-    "Four, one for each cardinal direction",
-    "Zero; tides occur only during eclipses"
+    "Four, because the Moon and Sun each produce a bulge on both sides of Earth",
+    "Two, because the Sun and Moon each produce one bulge, on the same side of Earth"
    ],
    "a": 1,
    "e": "Two tidal bulges (one facing the Moon, one on the opposite side) sweep past a location as Earth rotates, producing roughly two high tides per day.",
@@ -1692,12 +1692,12 @@
    "u": 2,
    "q": "How is the Sun classified in terms of stellar type?",
    "o": [
-    "A red giant",
     "An ordinary main-sequence (dwarf) star",
-    "A neutron star",
-    "A white dwarf"
+    "An aging red giant that has run out of core hydrogen",
+    "A very hot, small white dwarf that has stopped fusion",
+    "A massive blue supergiant much larger than most stars"
    ],
-   "a": 1,
+   "a": 0,
    "e": "The Sun is a G-type main-sequence star, an ordinary hydrogen-fusing star neither unusually large nor small among stars.",
    "c": 5
   },
@@ -1705,12 +1705,12 @@
    "u": 2,
    "q": "What is the difference between rotation and revolution as applied to Earth?",
    "o": [
-    "They are the same thing",
+    "Rotation is Earth orbiting the Sun (yearly); revolution is Earth spinning on its axis (daily)",
+    "Rotation is Earth's tilt over the year; revolution is Earth's wobble every 26,000 years",
     "Rotation is Earth spinning on its axis (daily); revolution is Earth orbiting the Sun (yearly)",
-    "Rotation refers to the Moon; revolution refers to Earth",
-    "Revolution only applies to comets"
+    "Rotation is Earth spinning on its axis (yearly); revolution is Earth orbiting the Sun (daily)"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Rotation describes Earth's daily spin on its axis, while revolution describes its yearly orbit around the Sun.",
    "c": 4
   },
@@ -1757,12 +1757,12 @@
    "u": 3,
    "q": "Why does Mercury experience such extreme temperature swings?",
    "o": [
-    "It has a thick insulating atmosphere",
     "It has almost no atmosphere to retain or distribute heat, and rotates slowly",
-    "It is covered in ice",
-    "It has a runaway greenhouse effect"
+    "It has a thick atmosphere that traps heat on its day side and cools its night side quickly",
+    "It is tilted so far on its axis that one pole always faces the Sun",
+    "It has a runaway greenhouse effect on its day side and ice caps on its night side"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Mercury's very thin exosphere cannot trap or redistribute heat, so its sunlit side gets extremely hot while its dark side gets extremely cold.",
    "c": 0
   },
@@ -1770,12 +1770,12 @@
    "u": 3,
    "q": "What is unusual about Venus's rotation?",
    "o": [
-    "It rotates faster than any other planet",
-    "It rotates retrograde (backward) and very slowly, taking 243 Earth days",
-    "It doesn't rotate at all",
-    "It rotates on its side like Uranus"
+    "It rotates prograde but faster than any other planet, taking only a few Earth hours",
+    "It rotates retrograde (backward) but rapidly, taking about 10 Earth hours",
+    "It rotates prograde but extremely slowly, taking about 243 Earth years",
+    "It rotates retrograde (backward) and very slowly, taking 243 Earth days"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Venus rotates backward (retrograde) compared to most planets, and very slowly — one rotation takes longer than one Venusian year.",
    "c": 0
   },
@@ -1783,12 +1783,12 @@
    "u": 3,
    "q": "What is Olympus Mons?",
    "o": [
-    "A crater on the Moon",
-    "The largest volcano in the solar system, located on Mars",
-    "A moon of Jupiter",
-    "A mountain range on Venus"
+    "The largest impact crater in the solar system, located on the Moon",
+    "The tallest mountain range in the solar system, located on Venus",
+    "The largest canyon system in the solar system, located on Mars",
+    "The largest volcano in the solar system, located on Mars"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Olympus Mons on Mars stands about 22 km tall, making it the largest known volcano in the solar system.",
    "c": 0
   },
@@ -1796,12 +1796,12 @@
    "u": 3,
    "q": "What evidence suggests Mars once had liquid water?",
    "o": [
-    "Active rainfall observed today",
     "Dry riverbeds, mineral deposits, and evidence of ancient lakes",
-    "Mars's current thick atmosphere",
-    "Direct observation of oceans"
+    "Active rainfall and flowing rivers observed by rovers on the surface today",
+    "A thick present-day atmosphere that allows liquid water to pool on the surface",
+    "Seas and oceans directly seen by orbiting spacecraft in recent decades"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Orbital and rover imagery reveal dry riverbeds, deltas, and hydrated minerals pointing to a wetter Martian past.",
    "c": 0
   },
@@ -1822,12 +1822,12 @@
    "u": 3,
    "q": "What is the Great Red Spot?",
    "o": [
-    "A crater on Mars",
     "A massive, centuries-old storm on Jupiter, larger than Earth",
-    "A volcanic feature on Io",
-    "A dust storm on Venus"
+    "A massive, centuries-old storm on Saturn, larger than Earth",
+    "A giant volcanic crater on Mars, larger than the state of Texas",
+    "A recent, short-lived storm on Jupiter, about the size of Earth's moon"
    ],
-   "a": 1,
+   "a": 0,
    "e": "The Great Red Spot is a giant anticyclonic storm on Jupiter that has persisted for at least several centuries.",
    "c": 1
   },
@@ -1848,12 +1848,12 @@
    "u": 3,
    "q": "What is unusual about Uranus's axial tilt?",
    "o": [
-    "It has no axial tilt",
     "It is tilted about 98 degrees, essentially rotating on its side",
-    "It matches Earth's tilt exactly",
-    "It changes randomly"
+    "It has almost no tilt, so it spins nearly upright with respect to its orbit",
+    "It is tilted about 23 degrees, almost the same as Earth, giving similar seasons",
+    "It is tilted about 177 degrees, spinning upside down and backward compared with most planets"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Uranus's axis is tilted roughly 98 degrees, likely the result of an ancient massive collision, causing it to roll along its orbit.",
    "c": 1
   },
@@ -1861,12 +1861,12 @@
    "u": 3,
    "q": "How was Neptune discovered?",
    "o": [
-    "By accident during a routine sky survey",
+    "By accident when astronomers noticed a faint moving point during a routine sky survey",
+    "Through direct observation by the Voyager 2 spacecraft during its flyby of the planet",
     "Through mathematical prediction based on irregularities in Uranus's orbit",
-    "By the New Horizons spacecraft",
-    "Using radio telescopes"
+    "By detecting radio emissions from a distant blue planet with early radio telescopes"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Neptune's existence and position were predicted mathematically from gravitational perturbations in Uranus's orbit before it was directly observed in 1846."
   },
   {
@@ -1886,10 +1886,10 @@
    "u": 3,
    "q": "What makes Io unique among solar system moons?",
    "o": [
-    "It has Earth-like oceans",
+    "It is the only moon with liquid water oceans on its surface, heated by sunlight",
     "It is the most volcanically active body in the solar system due to tidal heating",
-    "It has permanent ice caps",
-    "It has a thick nitrogen atmosphere"
+    "It is the only moon with permanent ice caps and a thick atmosphere of nitrogen",
+    "It is the largest moon in the solar system, with the most craters of any body"
    ],
    "a": 1,
    "e": "Io's intense volcanism results from tidal flexing caused by Jupiter's gravity and the gravitational pull of neighboring moons.",
@@ -1899,12 +1899,12 @@
    "u": 3,
    "q": "What is distinctive about Saturn's moon Titan?",
    "o": [
-    "It has no atmosphere",
+    "It has a thin carbon dioxide atmosphere and frozen water lakes at its poles",
+    "It is the largest moon in the solar system and has a strong magnetic field",
     "It has a thick nitrogen atmosphere and stable liquid methane/ethane lakes",
-    "It is the smallest moon in the solar system",
-    "It orbits retrograde"
+    "It has a thick hydrogen atmosphere and lakes of liquid water below its icy crust"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Titan is the only body besides Earth known to have stable liquid on its surface, in the form of methane and ethane lakes, under a thick nitrogen atmosphere.",
    "c": 2
   },
@@ -1937,24 +1937,24 @@
    "u": 3,
    "q": "What is Ceres?",
    "o": [
-    "A comet",
+    "A short-period comet that orbits between Mars and Jupiter",
+    "The largest moon of Jupiter, orbiting beyond the asteroid belt",
     "The largest object in the asteroid belt, classified as a dwarf planet",
-    "A moon of Jupiter",
-    "A gas giant"
+    "A small gas giant in the outer asteroid belt"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Ceres is the largest body in the asteroid belt and is classified as a dwarf planet due to its round shape."
   },
   {
    "u": 3,
    "q": "Why does a comet's tail always point away from the Sun?",
    "o": [
-    "Gravity pulls it in that direction",
     "Solar wind and radiation pressure push gas and dust away from the Sun",
-    "It's an optical illusion",
-    "The tail follows the comet's direction of motion"
+    "Gravity from the Sun pulls the gas and dust of the tail toward its direction of travel",
+    "The tail trails behind the comet, following the direction of the comet's motion through space",
+    "The tail points toward the Sun, because heated gas is drawn in by solar gravity"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Regardless of the comet's trajectory, solar wind and radiation pressure consistently push its released gas and dust away from the Sun.",
    "c": 3
   },
@@ -1962,12 +1962,12 @@
    "u": 3,
    "q": "What are the Kuiper Belt and Oort Cloud believed to be sources of?",
    "o": [
-    "Asteroids only",
     "Many of the comets that enter the inner solar system",
-    "Solar flares",
-    "Meteor showers on Venus"
+    "Most of the asteroids that cross Earth's orbit and cause meteor showers",
+    "Most of the planets and moons that formed during the solar system's early history",
+    "The solar wind and flares that produce auroras on Earth and other planets"
    ],
-   "a": 1,
+   "a": 0,
    "e": "These distant icy reservoirs are thought to supply short-period comets (Kuiper Belt) and long-period comets (Oort Cloud).",
    "c": 3
   },
@@ -1975,12 +1975,12 @@
    "u": 3,
    "q": "What criteria did the IAU establish in 2006 for a full 'planet' classification?",
    "o": [
-    "Must be round and have a moon",
+    "Must orbit the Sun, be round due to self-gravity, and have at least one moon",
+    "Must orbit the Sun, have an atmosphere, and be larger than every nearby object",
     "Must orbit the Sun, be round due to self-gravity, and have cleared its orbital neighborhood",
-    "Must be larger than Earth",
-    "Must have an atmosphere"
+    "Must be round, have a solid surface, and be at least as large as Mercury"
    ],
-   "a": 1,
+   "a": 2,
    "e": "The 2006 IAU definition requires all three conditions; bodies meeting only the first two are classified as dwarf planets.",
    "c": 4
   },
@@ -1988,12 +1988,12 @@
    "u": 3,
    "q": "Why was Pluto reclassified as a dwarf planet in 2006?",
    "o": [
-    "It was found to be too small to be round",
+    "It was found to be too small to be round, so it fails the shape criterion",
+    "It was discovered to be a captured comet that formed outside the solar system",
     "It has not cleared its orbital neighborhood of other Kuiper Belt objects",
-    "It was found to be a comet",
-    "It no longer orbits the Sun"
+    "Its orbit was found to cross Neptune's orbit, so it was removed from the planet list"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Pluto shares its orbital region with numerous other Kuiper Belt objects, failing the 'cleared its neighborhood' criterion for full planet status.",
    "c": 4
   },
@@ -2027,12 +2027,12 @@
    "u": 3,
    "q": "What is the nebular hypothesis?",
    "o": [
-    "The idea that planets were captured from interstellar space",
-    "The theory that the solar system formed from the gravitational collapse of a rotating cloud of gas and dust",
-    "The idea that the Sun formed after the planets",
-    "A now-disproven theory of planet formation"
+    "The theory that the solar system formed when planets were captured one by one by a young Sun",
+    "The theory that the Sun formed first and later threw off material that cooled into planets",
+    "The theory that the solar system formed from the collision of two stars in an ancient cluster",
+    "The theory that the solar system formed from the gravitational collapse of a rotating cloud of gas and dust"
    ],
-   "a": 1,
+   "a": 3,
    "e": "The nebular hypothesis explains solar system formation as the collapse and flattening of a rotating molecular cloud into a protoplanetary disk around the young Sun.",
    "c": 5
   },
@@ -2040,12 +2040,12 @@
    "u": 3,
    "q": "Why did the collapsing solar nebula flatten into a disk?",
    "o": [
-    "Magnetic fields forced it flat",
     "Conservation of angular momentum caused it to spin faster and flatten, similar to a skater pulling in their arms",
-    "Solar wind pushed it flat",
-    "Gravity has no effect on gas clouds"
+    "Conservation of energy caused it to heat up and spread out, similar to a pizza chef stretching dough",
+    "Magnetic fields from the young Sun pushed the material into a thin flat plane around it",
+    "Collisions among particles canceled out motion in the vertical direction, with no need for rotation"
    ],
-   "a": 1,
+   "a": 0,
    "e": "As the cloud contracted, conservation of angular momentum sped up its rotation, flattening it into a disk shape.",
    "c": 5
   },
@@ -2053,24 +2053,24 @@
    "u": 3,
    "q": "What is the 'frost line' in solar system formation, and why does it matter?",
    "o": [
-    "The boundary of the asteroid belt",
+    "The distance beyond which the Sun's heat was too weak to form any planets at all",
+    "The distance within which water vapor condensed to form oceans on the terrestrial planets",
     "The distance beyond which it was cold enough for ices to condense, allowing giant planets to form there",
-    "The edge of the Kuiper Belt",
-    "The orbit of Mars"
+    "The distance at which the solar wind first blew away gas to leave only rocky planets"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Beyond the frost line, temperatures were low enough for water, ammonia, and methane ices to condense, providing the extra material needed to build giant planet cores."
   },
   {
    "u": 3,
    "q": "How do scientists determine the solar system's age of about 4.6 billion years?",
    "o": [
-    "Counting craters on the Moon",
     "Radiometric dating of ancient meteorites largely unchanged since formation",
-    "Measuring the Sun's current brightness",
-    "Observing planetary orbits"
+    "Counting craters on the Moon and applying a standard impact rate to estimate its age",
+    "Measuring the Sun's fusion rate and calculating how long it has been burning hydrogen",
+    "Observing planetary orbits and calculating how long the planets have been moving around the Sun"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Meteorites, remnants from the earliest solar system, can be radiometrically dated to reveal the solar system's age.",
    "c": 5
   },
@@ -2078,12 +2078,12 @@
    "u": 3,
    "q": "What is a planetesimal?",
    "o": [
-    "A moon of a gas giant",
-    "A small rocky or icy body that collided and merged with others to help build planets",
-    "A type of comet tail",
-    "A dwarf star"
+    "A large moon that was captured by a giant planet during the early solar system",
+    "A mass of gas and dust surrounding a newly formed protostar",
+    "A fragment of rock and metal ejected from a planet by an impact",
+    "A small rocky or icy body that collided and merged with others to help build planets"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Planetesimals were the building blocks of planets, growing through repeated collisions and mergers (accretion) in the early solar system.",
    "c": 5
   },
@@ -2091,12 +2091,12 @@
    "u": 3,
    "q": "Which planets, besides Saturn, are known to have ring systems?",
    "o": [
-    "None; only Saturn has rings",
-    "Jupiter, Uranus, and Neptune all have fainter ring systems",
-    "Only Mars has a faint ring",
-    "Only Venus has rings"
+    "Only Mars and Venus, which have faint rings of dust made by their moons",
+    "Only Jupiter, which has a faint ring, while Uranus and Neptune have none",
+    "Mars, Venus, and Mercury, all of which have faint rings of dust and ice",
+    "Jupiter, Uranus, and Neptune all have fainter ring systems"
    ],
-   "a": 1,
+   "a": 3,
    "e": "All four giant planets have rings, but Saturn's are by far the most extensive and visible.",
    "c": 1
   },
@@ -2104,12 +2104,12 @@
    "u": 3,
    "q": "What discovery did Galileo make in 1610 regarding Jupiter?",
    "o": [
-    "Jupiter's Great Red Spot",
-    "Jupiter's four largest moons (Io, Europa, Ganymede, Callisto)",
-    "Jupiter's rings",
-    "Jupiter's magnetic field"
+    "Four large moons of Saturn (Titan, Rhea, Iapetus, Dione)",
+    "The rings and the Great Red Spot, seen through his first telescope",
+    "Dark bands in Jupiter's atmosphere and a strong magnetic field",
+    "Jupiter's four largest moons (Io, Europa, Ganymede, Callisto)"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Galileo's observations of the four largest moons orbiting Jupiter provided key evidence against a strictly Earth-centered universe.",
    "c": 2
   },
@@ -2117,24 +2117,24 @@
    "u": 3,
    "q": "How did Earth's Moon most likely form?",
    "o": [
-    "It was captured from the asteroid belt",
+    "From a captured asteroid-belt body pulled into orbit around early Earth by its gravity",
+    "From material that formed independently in orbit around Earth, alongside the planet itself",
     "From debris ejected by a giant impact between early Earth and a Mars-sized body, about 4.5 billion years ago",
-    "It formed independently in a separate part of the solar system",
-    "It condensed from Earth's ocean water"
+    "From a piece of Earth that was flung off when the young planet was spinning very fast"
    ],
-   "a": 1,
+   "a": 2,
    "e": "The giant-impact hypothesis proposes a Mars-sized protoplanet (sometimes called Theia) collided with early Earth, and debris from the collision coalesced into the Moon."
   },
   {
    "u": 3,
    "q": "What are near-Earth objects (NEOs)?",
    "o": [
-    "Satellites in Earth orbit",
+    "Artificial satellites and spacecraft that orbit Earth and are tracked by space agencies",
+    "Small moons that orbit Earth and are monitored for changes in their orbits",
     "Asteroids or comets whose orbits bring them close to Earth, monitored for impact risk",
-    "Moons of Earth",
-    "Space debris from human missions"
+    "Fragments of old rockets and satellites that orbit close to Earth and threaten spacecraft"
    ],
-   "a": 1,
+   "a": 2,
    "e": "NEOs are natural bodies with orbits that pass near Earth's, and astronomers track them to assess potential collision hazards.",
    "c": 3
   },
@@ -2155,12 +2155,12 @@
    "u": 3,
    "q": "Why do Jupiter and Saturn, despite being made mostly of hydrogen and helium like the Sun, not undergo nuclear fusion?",
    "o": [
-    "They lack hydrogen entirely",
+    "They are made mostly of heavier elements and have too little hydrogen to sustain fusion",
+    "Their surfaces are too cold, so fusion cannot start in their atmospheres",
     "They never reached the mass required to reach core pressures and temperatures sufficient for fusion",
-    "They are too cold on the surface",
-    "They actually do undergo fusion"
+    "They do undergo fusion, but only at a very slow rate that is hard to detect"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Even though composed of similar material to the Sun, gas giants like Jupiter are far too low in mass to reach the core conditions needed to ignite hydrogen fusion.",
    "c": 1
   },
@@ -2193,12 +2193,12 @@
    "u": 3,
    "q": "What happens to a comet as it approaches the Sun?",
    "o": [
-    "It cools down and shrinks",
     "Solar heating vaporizes its ices, creating a glowing coma and tail",
-    "It becomes a meteor",
-    "Nothing changes"
+    "It cools and shrinks, with its ices freezing into a hard shell around the nucleus",
+    "It breaks into meteors as solar heat shatters its rocky core before it reaches the planets",
+    "It sheds its dust and ice, forming a tail that points along its direction of travel"
    ],
-   "a": 1,
+   "a": 0,
    "e": "As a comet nears the Sun, heat vaporizes its surface ices, releasing gas and dust that form a glowing coma and one or more tails.",
    "c": 3
   },
@@ -2231,10 +2231,10 @@
    "u": 3,
    "q": "What role did accretion play in planet formation?",
    "o": [
-    "It caused planets to break apart",
+    "It was the process by which planets broke apart in violent collisions, creating many small bodies",
     "It was the process by which planetesimals collided and merged to gradually build larger bodies, eventually forming planets",
-    "It only applies to comet formation",
-    "It describes atmospheric loss"
+    "It was the process by which gas giants lost their atmospheres to the solar wind and shrank",
+    "It was the process by which the Sun's heat caused planetary atmospheres to escape into space"
    ],
    "a": 1,
    "e": "Accretion describes the gradual buildup of planets from smaller bodies (planetesimals) through repeated collisions and mergers.",
@@ -2283,12 +2283,12 @@
    "u": 4,
    "q": "Which type of astronomical phenomena tend to emit high-energy X-rays and gamma rays?",
    "o": [
-    "Cold gas clouds",
+    "Cool, dense phenomena, such as dust clouds and young protostars",
+    "Low-energy phenomena, such as old red giants and dim brown dwarfs",
     "Extremely hot or energetic phenomena, such as black holes and supernovae",
-    "Comets",
-    "Cool red dwarf stars"
+    "Very cold phenomena, such as interstellar gas clouds and distant comets"
    ],
-   "a": 1,
+   "a": 2,
    "e": "X-rays and gamma rays are produced by extremely energetic processes, such as material falling into black holes or the explosive deaths of massive stars.",
    "c": 0
   },
@@ -2296,24 +2296,24 @@
    "u": 4,
    "q": "Why must many astronomical observations be made from space rather than the ground?",
    "o": [
-    "Space telescopes are always cheaper",
-    "Earth's atmosphere blocks most wavelengths except visible light and radio, requiring space telescopes for other bands",
-    "Ground telescopes cannot be pointed accurately",
-    "There is no reason; ground telescopes are always sufficient"
+    "Space telescopes are always more powerful because they can be built larger than ground telescopes",
+    "Ground telescopes cannot track objects accurately as Earth rotates beneath them",
+    "Earth's atmosphere blocks visible light and radio waves but passes infrared, UV, and X-rays",
+    "Earth's atmosphere blocks most wavelengths except visible light and radio, requiring space telescopes for other bands"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Earth's atmosphere has only a few 'windows' of transparency (mainly visible and radio); most infrared, UV, X-ray, and gamma-ray observations require space telescopes."
   },
   {
    "u": 4,
    "q": "What is the main disadvantage of refracting telescopes that reflecting telescopes avoid?",
    "o": [
-    "Refractors cannot be made portable",
+    "Spherical aberration, where light from the edge of the lens and the center focus at different points",
+    "Coma, where stars far from the center of the field appear stretched into tails",
     "Chromatic aberration, where different wavelengths focus at different points",
-    "Refractors cannot see faint objects",
-    "Refractors require electricity"
+    "Diffraction by the secondary mirror support, which produces spikes around bright stars"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Refracting telescopes suffer from chromatic aberration due to lenses bending different wavelengths by different amounts; mirrors in reflectors avoid this entirely.",
    "c": 1
   },
@@ -2347,12 +2347,12 @@
    "u": 4,
    "q": "What primarily determines a telescope's light-gathering power?",
    "o": [
-    "Magnification",
+    "Magnification provided by the eyepiece and the focal length of the primary",
+    "Focal length of the primary mirror or lens combined with the eyepiece quality",
     "Aperture (diameter) of the primary lens or mirror",
-    "Eyepiece quality",
-    "Focal length alone"
+    "The length of the telescope tube and the quality of its mount"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Light-gathering power scales with the square of the aperture diameter; a wider telescope collects dramatically more light.",
    "c": 2
   },
@@ -2373,12 +2373,12 @@
    "u": 4,
    "q": "Why is high magnification alone not useful for a small telescope?",
    "o": [
-    "It produces a dim, blurry image because the telescope cannot resolve fine detail or gather enough light",
-    "Magnification always improves image quality regardless of aperture",
-    "Small telescopes cannot be magnified at all",
-    "Magnification only works on planets"
+    "It makes the image brighter and sharper, as long as the eyepiece is of high quality",
+    "It only works well on planets, which are bright enough to withstand high magnification",
+    "It causes the telescope's mirror to heat up and distort the incoming light",
+    "It produces a dim, blurry image because the telescope cannot resolve fine detail or gather enough light"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Without sufficient aperture, high magnification just enlarges a dim and blurry image, since resolving power and light-gathering depend on aperture, not eyepiece magnification.",
    "c": 2
   },
@@ -2399,12 +2399,12 @@
    "u": 4,
    "q": "What is interferometry used for in astronomy?",
    "o": [
-    "Cooling telescope mirrors",
     "Combining signals from multiple telescopes to achieve the resolving power of a much larger single telescope",
-    "Filtering out light pollution",
-    "Increasing a telescope's magnification"
+    "Cooling telescope mirrors to reduce thermal noise in infrared observations",
+    "Combining signals from several telescopes to collect as much light as a single giant mirror",
+    "Filtering the atmosphere's turbulence by comparing images taken at different times"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Interferometry links multiple telescopes together so their combined data mimics the resolution of a single telescope as large as the separation between them, as used by the Event Horizon Telescope.",
    "c": 2
   },
@@ -2424,12 +2424,12 @@
    "u": 4,
    "q": "Where does the James Webb Space Telescope orbit?",
    "o": [
-    "Low Earth orbit, like Hubble",
     "The Sun-Earth L2 Lagrange point, about 1.5 million km from Earth",
-    "The Moon's orbit",
-    "Geostationary orbit"
+    "Low Earth orbit about 540 km above Earth, like the Hubble Space Telescope",
+    "Geostationary orbit about 36,000 km above Earth, staying over one longitude",
+    "A trailing orbit around the Sun, about 150 million km behind Earth"
    ],
-   "a": 1,
+   "a": 0,
    "e": "JWST orbits the Sun-Earth L2 point, where its sunshield can keep its instruments extremely cold for sensitive infrared observations.",
    "c": 3
   },
@@ -2450,12 +2450,12 @@
    "u": 4,
    "q": "What does the Chandra X-ray Observatory study?",
    "o": [
-    "Cool star-forming clouds",
-    "High-energy phenomena such as black holes and supernova remnants using X-ray observations",
-    "Visible light from nearby stars",
-    "Radio emissions from pulsars"
+    "Cool, dusty star-forming clouds, using far-infrared observations of newborn stars",
+    "Visible light from sun-like stars, using sensitive detectors in low Earth orbit",
+    "Radio emissions from pulsars and quasars, using a large dish above the atmosphere",
+    "High-energy phenomena such as black holes and supernova remnants using X-ray observations"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Chandra uses specialized grazing-incidence mirrors to detect X-rays from extremely energetic cosmic phenomena.",
    "c": 3
   },
@@ -2463,10 +2463,10 @@
    "u": 4,
    "q": "What is a continuous spectrum, and what typically produces it?",
    "o": [
-    "A spectrum with only dark lines, produced by cool gas",
+    "A spectrum with bright lines only, typically produced by a hot, low-density gas cloud",
     "An unbroken rainbow of all wavelengths, typically produced by a hot, dense object like a star's interior",
-    "A spectrum with only bright emission lines",
-    "A spectrum that only radio telescopes can detect"
+    "A spectrum with dark lines on a bright background, produced by a cool gas in front of a star",
+    "A spectrum of only a single color, typically produced by a laser or a sodium lamp"
    ],
    "a": 1,
    "e": "A continuous spectrum shows all wavelengths without gaps, typically emitted by hot, dense sources such as a star's photosphere.",
@@ -2476,10 +2476,10 @@
    "u": 4,
    "q": "What produces an absorption spectrum (dark lines on a continuous background)?",
    "o": [
-    "Hot, low-density gas emitting light",
+    "Hot, low-density gas emitting light at specific wavelengths, forming bright lines",
     "Cooler gas absorbing specific wavelengths from light passing through it",
-    "A telescope malfunction",
-    "Only occurs in radio astronomy"
+    "A hot, dense object such as a star's core emitting all wavelengths in an unbroken band",
+    "Dust in space scattering blue light more than red, leaving dark gaps in the spectrum"
    ],
    "a": 1,
    "e": "An absorption spectrum forms when cooler gas in front of a light source absorbs certain wavelengths, leaving dark lines at those specific wavelengths.",
@@ -2489,12 +2489,12 @@
    "u": 4,
    "q": "What produces an emission spectrum (bright lines against a dark background)?",
    "o": [
-    "Cool, dense gas blocking light",
-    "Hot, low-density gas emitting light at specific wavelengths",
-    "A telescope's internal reflections",
-    "Cosmic microwave background radiation only"
+    "Cooler gas absorbing specific wavelengths from light passing through it, forming dark lines",
+    "A hot, dense object such as a star's core emitting an unbroken band of colors",
+    "Dust in space scattering blue light and leaving a reddened background across the spectrum",
+    "Hot, low-density gas emitting light at specific wavelengths"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Emission spectra arise from hot, low-density gas (like in nebulae) emitting light only at specific wavelengths characteristic of its elements.",
    "c": 4
   },
@@ -2502,10 +2502,10 @@
    "u": 4,
    "q": "Why can spectral lines be used to identify the chemical composition of stars?",
    "o": [
-    "All elements produce identical spectral patterns",
+    "Every element produces the same lines, but their brightness differs between stars",
     "Each element produces a unique, characteristic pattern of spectral lines, like a fingerprint",
-    "Spectral lines only reveal temperature, not composition",
-    "Composition cannot be determined from light alone"
+    "Spectral lines reveal a star's motion and temperature, while chemical composition must be found by sampling it",
+    "Different elements shift lines to different colors depending on how fast the star is moving"
    ],
    "a": 1,
    "e": "Every chemical element absorbs and emits light at specific, unique wavelengths, allowing astronomers to identify elements present in stars and nebulae from their spectra.",
@@ -2554,12 +2554,12 @@
    "u": 4,
    "q": "What do radio telescopes primarily detect?",
    "o": [
-    "Visible starlight",
+    "Short-wavelength ultraviolet emissions from hot young stars and quasars",
+    "Visible starlight from nearby stars and galaxies, using very large mirrors",
     "Long-wavelength radio emissions from sources like cold gas, pulsars, and active galactic nuclei",
-    "Gamma rays from black holes",
-    "Neutrinos from the Sun"
+    "High-energy gamma rays from supernovae and black holes, using dishes in orbit"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Radio telescopes use large dishes to capture long-wavelength radio emissions from a variety of cold and energetic astrophysical sources.",
    "c": 5
   },
@@ -2567,12 +2567,12 @@
    "u": 4,
    "q": "What are ALMA and the VLA examples of?",
    "o": [
-    "Space telescopes",
     "Radio/millimeter-wave interferometer arrays",
-    "Gravitational wave detectors",
-    "Neutrino observatories"
+    "Space-based optical telescopes that avoid atmospheric distortion",
+    "Gravitational wave detectors that use laser beams in long tunnels",
+    "Neutrino observatories built deep underground or buried in ice"
    ],
-   "a": 1,
+   "a": 0,
    "e": "The Atacama Large Millimeter Array (ALMA) and the Very Large Array (VLA) are ground-based interferometer arrays used for detailed radio/millimeter imaging.",
    "c": 5
   },
@@ -2593,10 +2593,10 @@
    "u": 4,
    "q": "What do gravitational wave detectors like LIGO detect?",
    "o": [
-    "Visible light from distant galaxies",
+    "Faint infrared light from newly formed stars in distant dusty galaxies",
     "Ripples in spacetime caused by events like merging black holes or neutron stars",
-    "Radio signals from pulsars",
-    "X-rays from the Sun"
+    "Bursts of neutrinos and high-energy particles from supernovae and active galaxies",
+    "Very long radio waves from pulsars and the early universe"
    ],
    "a": 1,
    "e": "LIGO and similar detectors sense tiny distortions in spacetime caused by cataclysmic events such as merging compact objects.",
@@ -2606,10 +2606,10 @@
    "u": 4,
    "q": "What is multi-messenger astronomy?",
    "o": [
-    "Using only optical telescopes for observation",
+    "Combining radio, infrared, and optical images of the same galaxy to produce a color picture",
     "Combining electromagnetic, gravitational-wave, and particle observations of the same astronomical event",
-    "Sending messages to other star systems",
-    "A method for calibrating telescopes"
+    "Using several telescopes at once on different continents to observe the same object",
+    "Relaying observations from many spacecraft to Earth through a network of messenger satellites"
    ],
    "a": 1,
    "e": "Multi-messenger astronomy integrates different types of signals (light, gravitational waves, neutrinos) from the same cosmic event, as demonstrated by the 2017 neutron star merger GW170817.",
@@ -2619,12 +2619,12 @@
    "u": 4,
    "q": "What do neutrino observatories such as IceCube detect?",
    "o": [
-    "Visible starlight",
     "Nearly massless particles from sources like supernovae and the Sun",
-    "Gravitational waves",
-    "Radio waves from galaxies"
+    "Heavy, slow-moving particles produced by dark matter in the halos of galaxies",
+    "Gravitational waves from merging black holes and neutron stars deep in the universe",
+    "Cosmic ray protons and electrons that are accelerated by supernova shock waves"
    ],
-   "a": 1,
+   "a": 0,
    "e": "IceCube and similar observatories detect neutrinos, elusive particles produced by nuclear processes in the Sun, supernovae, and other high-energy sources.",
    "c": 5
   },
@@ -2645,12 +2645,12 @@
    "u": 4,
    "q": "What was significant about Hubble's serviceability compared to most space telescopes?",
    "o": [
-    "Hubble could never be repaired",
+    "Hubble was the only telescope launched with a mirror that could be adjusted from Earth, unlike every other space telescope",
+    "Hubble was repaired and upgraded by robotic spacecraft sent to dock with it during several missions",
     "Hubble was serviced multiple times by Space Shuttle astronauts, unlike most space telescopes which cannot be repaired after launch",
-    "Hubble repairs itself automatically",
-    "Hubble was serviced by robots only"
+    "Hubble was serviced just once, shortly after launch, and has been left alone since then"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Space Shuttle missions performed several servicing missions on Hubble, upgrading instruments and fixing its initially flawed mirror — a rare capability among space telescopes.",
    "c": 3
   },
@@ -2658,24 +2658,24 @@
    "u": 4,
    "q": "Why does JWST need to operate at extremely cold temperatures?",
    "o": [
-    "Cold temperatures increase the telescope's magnification",
-    "Its own heat would otherwise interfere with detecting faint infrared signals from distant objects",
-    "Cold prevents micrometeorite damage",
-    "It has no actual need to be cold"
+    "Cold temperatures increase the sensitivity of its mirrors and make them reflect more visible light",
+    "Its instruments would otherwise be damaged by the intense sunlight at its orbit location",
+    "Cold temperatures allow its superconducting detectors to measure gravitational waves",
+    "Its own heat would otherwise interfere with detecting faint infrared signals from distant objects"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Because JWST detects infrared (heat) radiation, its own instruments must be kept extremely cold to avoid swamping faint cosmic infrared signals with its own thermal emission."
   },
   {
    "u": 4,
    "q": "What does the diffraction limit describe?",
    "o": [
-    "The maximum weight a telescope mount can support",
-    "The fundamental limit on a telescope's angular resolution set by aperture size and wavelength",
-    "The speed at which telescopes can be repositioned",
-    "The maximum magnification of any eyepiece"
+    "The fundamental limit on a telescope's brightness set by its mirror coating and wavelength",
+    "The limit on image sharpness caused by turbulence in Earth's atmosphere above the telescope",
+    "The limit on how faint an object a telescope can detect, set by the mirror and detector",
+    "The fundamental limit on a telescope's angular resolution set by aperture size and wavelength"
    ],
-   "a": 1,
+   "a": 3,
    "e": "The diffraction limit defines the finest angular detail a telescope can resolve, improving with larger aperture and shorter wavelength.",
    "c": 2
   },
@@ -2683,12 +2683,12 @@
    "u": 4,
    "q": "What is adaptive optics designed to correct for?",
    "o": [
-    "Chromatic aberration in lenses",
-    "Real-time distortions caused by atmospheric turbulence",
-    "Light pollution from cities",
-    "Telescope focus drift due to temperature"
+    "Spherical aberration and coma that blur images formed by large mirrors",
+    "Light pollution and sky glow caused by lamps in nearby cities and towns",
+    "Slow drift of the mount's tracking as Earth rotates under the telescope",
+    "Real-time distortions caused by atmospheric turbulence"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Adaptive optics systems rapidly adjust a deformable mirror to compensate for atmospheric turbulence, sharpening ground-based telescope images."
   },
   {
@@ -2733,12 +2733,12 @@
    "u": 5,
    "q": "Where do stars form?",
    "o": [
-    "In the vacuum of empty space",
+    "Within hot, thin gas near galaxies' centers where black holes are pulling in matter",
+    "Inside the cores of planets, where heat and pressure pull hydrogen into new stars",
     "Within dense regions of giant molecular clouds composed of gas and dust",
-    "Only inside existing star clusters",
-    "On the surfaces of planets"
+    "Along the edges of galaxies, where the density of gas is the highest"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Stars form from the gravitational collapse of dense clumps within giant molecular clouds of gas and dust.",
    "c": 0
   },
@@ -2758,24 +2758,24 @@
    "u": 5,
    "q": "What does it mean for a star to be 'on the main sequence'?",
    "o": [
-    "It is dying and shedding its outer layers",
     "It is stably fusing hydrogen into helium in its core",
-    "It is a newly formed protostar",
-    "It has already become a white dwarf"
+    "It is stably fusing helium into carbon and oxygen in its core",
+    "It is collapsing under gravity as a young protostar before fusion has begun",
+    "It has expanded into a red giant and is burning hydrogen in a shell"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Main-sequence stars are in the long, stable phase of fusing hydrogen into helium in their cores; the Sun is currently in this phase."
   },
   {
    "u": 5,
    "q": "On the Hertzsprung-Russell diagram, where are hot, blue stars typically located?",
    "o": [
-    "Upper right",
-    "Lower left",
-    "On the left side (higher temperature)",
-    "Only in the lower right"
+    "On the right side (lower temperature)",
+    "On the lower right (cool and faint)",
+    "At the top only (bright but cool)",
+    "On the left side (higher temperature)"
    ],
-   "a": 2,
+   "a": 3,
    "e": "The H-R diagram places hotter, bluer stars toward the left, with temperature decreasing to the right.",
    "c": 1
   },
@@ -2822,10 +2822,10 @@
    "u": 5,
    "q": "Why are giant and supergiant stars found in the upper right of the H-R diagram despite being relatively cool?",
    "o": [
-    "They are actually very hot",
+    "They are extremely hot, and that heat makes them very bright despite their size",
     "Their enormous size makes them extremely luminous despite lower surface temperature",
-    "They emit only infrared light",
-    "They are closer to Earth than other stars"
+    "They are very small and dense, which concentrates their light output",
+    "They are so close to Earth that they seem much brighter than other stars"
    ],
    "a": 1,
    "e": "Luminosity depends on both temperature and surface area; giants and supergiants are cool but so large that their total light output is very high.",
@@ -2861,12 +2861,12 @@
    "u": 5,
    "q": "Why do more massive stars have shorter lifespans despite having more hydrogen fuel?",
    "o": [
-    "They actually have less fuel than smaller stars",
-    "They burn through fuel far faster due to much higher core temperatures and fusion rates",
-    "They convert mass to energy less efficiently",
-    "Lifespan is unrelated to mass"
+    "They actually have less hydrogen than smaller stars, so they run out of fuel sooner",
+    "They fuse hydrogen less efficiently, which wastes most of their fuel as heat",
+    "Their fuel supply is the same as smaller stars, so they last the same time",
+    "They burn through fuel far faster due to much higher core temperatures and fusion rates"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Massive stars have disproportionately higher core temperatures and pressures, fusing hydrogen at a much faster rate that outpaces their larger fuel supply."
   },
   {
@@ -2885,10 +2885,10 @@
    "u": 5,
    "q": "What are Cepheid variable stars useful for in astronomy?",
    "o": [
-    "Detecting black holes directly",
+    "Serving as 'standard rulers' to measure the sizes of galaxies, since their color relates to their diameter",
     "Serving as 'standard candles' to measure cosmic distances, since their pulsation period relates to their luminosity",
-    "Measuring the temperature of the Sun",
-    "Detecting gravitational waves"
+    "Measuring the speed of gravitational waves, since their pulsation period depends on their mass",
+    "Detecting exoplanets, since their brightness dips when a planet passes in front of them"
    ],
    "a": 1,
    "e": "Cepheids pulsate with a period directly related to their true luminosity, allowing astronomers to calculate distances by comparing apparent and true brightness.",
@@ -2898,12 +2898,12 @@
    "u": 5,
    "q": "What happens to a Sun-like star after it exhausts hydrogen fuel in its core?",
    "o": [
-    "It immediately becomes a black hole",
-    "Its core contracts and heats while outer layers expand and cool, becoming a red giant",
-    "It explodes instantly as a supernova",
-    "It stays the same forever"
+    "Its core expands and cools while outer layers contract and heat, becoming a blue giant",
+    "Its core collapses abruptly while outer layers are blown off in a supernova explosion",
+    "Its outer layers are shed at once, leaving a bare core that becomes a black hole",
+    "Its core contracts and heats while outer layers expand and cool, becoming a red giant"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Core hydrogen exhaustion causes core contraction and heating, while outer layers expand and cool, transforming the star into a red giant.",
    "c": 3
   },
@@ -2911,10 +2911,10 @@
    "u": 5,
    "q": "What is the triple-alpha process?",
    "o": [
-    "The process of hydrogen fusion in the core",
+    "The fusion of hydrogen into helium in a star's core once temperatures reach about 10 million Kelvin",
     "The fusion of helium into carbon and oxygen once core temperatures reach about 100 million Kelvin",
-    "A type of supernova explosion",
-    "The formation of planetary nebulae"
+    "The collapse of a massive star's iron core into a neutron star once temperatures pass 100 million Kelvin",
+    "The fusion of carbon into neon and magnesium once core temperatures climb to about 600 million Kelvin"
    ],
    "a": 1,
    "e": "The triple-alpha process fuses three helium nuclei into carbon (and further into oxygen), igniting once a star's core reaches roughly 100 million Kelvin."
@@ -2923,10 +2923,10 @@
    "u": 5,
    "q": "What is a planetary nebula?",
    "o": [
-    "A nebula where new planets are forming",
+    "A dense cloud of gas and dust in which new planets are forming around a young protostar",
     "The glowing shell of gas expelled by a low- to medium-mass star near the end of its life",
-    "A cloud of gas that will never form stars",
-    "A synonym for a supernova remnant"
+    "The expanding debris cloud left behind when a massive star explodes as a core-collapse supernova",
+    "A bright region of ionized hydrogen lit by hot, young, massive stars inside a star-forming cloud"
    ],
    "a": 1,
    "e": "Despite the name (a historical misnomer), a planetary nebula is the outer layers shed by a dying low- to medium-mass star, unrelated to planet formation.",
@@ -2936,12 +2936,12 @@
    "u": 5,
    "q": "What is left behind after a Sun-like star sheds a planetary nebula?",
    "o": [
-    "A neutron star",
-    "A black hole",
+    "A neutron star: the collapsed core supported by neutron degeneracy pressure",
     "A white dwarf: the exposed, dense core of the former star",
-    "Nothing remains"
+    "A black hole: the core collapsed past its event horizon after the envelope was lost",
+    "A brown dwarf: a failed star that never began hydrogen fusion in its core"
    ],
-   "a": 2,
+   "a": 1,
    "e": "The hot, exposed core left behind becomes a white dwarf, supported against further collapse by electron degeneracy pressure.",
    "c": 3
   },
@@ -2961,24 +2961,24 @@
    "u": 5,
    "q": "What is the Chandrasekhar limit?",
    "o": [
-    "The minimum mass needed to form a star",
-    "The maximum mass (~1.4 solar masses) a white dwarf can have before collapsing further",
-    "The maximum size of a black hole",
-    "The distance light travels in one year"
+    "The minimum mass (~0.08 solar masses) an object needs before hydrogen fusion can begin in its core",
+    "The maximum mass (~3 solar masses) a neutron star can have before collapsing into a black hole",
+    "The maximum luminosity a star can reach before its radiation pressure blows off its outer layers",
+    "The maximum mass (~1.4 solar masses) a white dwarf can have before collapsing further"
    ],
-   "a": 1,
+   "a": 3,
    "e": "The Chandrasekhar limit, about 1.4 solar masses, is the maximum mass a white dwarf can sustain via electron degeneracy pressure before further collapse."
   },
   {
    "u": 5,
    "q": "Why can't iron be fused to release energy in a star's core?",
    "o": [
-    "Iron is too rare to fuse",
     "Iron fusion requires energy input rather than releasing it, since iron has the most stable nucleus",
-    "Iron doesn't exist inside stars",
-    "Iron fusion happens too quickly to matter"
+    "Iron nuclei are so unstable that they break apart before fusing, since iron has the least bound nucleus",
+    "The temperature needed to fuse iron is never reached, because stellar cores cannot get hotter than 100 million Kelvin",
+    "Iron fusion releases too little energy per reaction, so it proceeds only slowly in the cores of low-mass stars"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Iron-56 sits at the peak of nuclear binding energy, meaning fusing it further would consume energy rather than release it, halting a massive star's ability to support itself.",
    "c": 4
   },
@@ -2986,12 +2986,12 @@
    "u": 5,
    "q": "What triggers a core-collapse (Type II) supernova?",
    "o": [
-    "A slow, gentle fading of a star's light",
+    "The ignition of runaway carbon fusion in a white dwarf that has accreted too much matter from its companion",
+    "The merger of two orbiting neutron stars, which releases a burst of gravitational waves and heavy elements",
     "The sudden collapse of an iron core that can no longer be supported by fusion, followed by a violent rebound",
-    "A collision between two stars",
-    "The explosion of a planetary nebula"
+    "The sudden shedding of a red giant's outer layers, leaving a hot core that heats the surrounding gas"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Once a massive star's core turns to iron, fusion can no longer support it against gravity, leading to a catastrophic collapse and explosive rebound.",
    "c": 4
   },
@@ -3012,12 +3012,12 @@
    "u": 5,
    "q": "What remnant results from a core-collapse supernova if the remaining core exceeds about 3 solar masses?",
    "o": [
-    "A white dwarf",
-    "A neutron star",
+    "A neutron star, since neutron degeneracy pressure halts the collapse",
     "A black hole, since gravity overwhelms all known forces",
-    "A planetary nebula"
+    "A white dwarf, since electron degeneracy pressure halts the collapse",
+    "A magnetar, since extreme magnetic fields stop the collapse"
    ],
-   "a": 2,
+   "a": 1,
    "e": "Above about 3 solar masses, no known force can halt the collapse, and the remnant becomes a black hole.",
    "c": 4
   },
@@ -3025,12 +3025,12 @@
    "u": 5,
    "q": "What is a pulsar?",
    "o": [
-    "A star that pulses in brightness due to internal fusion changes",
-    "A rapidly rotating neutron star emitting beams of radiation from its magnetic poles, appearing to pulse as the beam sweeps past Earth",
-    "A type of white dwarf",
-    "A newly forming protostar"
+    "A massive star whose brightness pulses regularly because its outer layers swell and shrink, so its luminosity varies with time",
+    "A white dwarf in a binary system that periodically flares as it pulls hydrogen from a companion, brightening in repeated eruptions",
+    "A black hole whose accretion disk sends out jets that appear to flash as the jets precess across our line of sight",
+    "A rapidly rotating neutron star emitting beams of radiation from its magnetic poles, appearing to pulse as the beam sweeps past Earth"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Pulsars are neutron stars whose beamed radiation appears to pulse on and off as the star's rapid rotation sweeps the beam across our line of sight.",
    "c": 5
   },
@@ -3051,12 +3051,12 @@
    "u": 5,
    "q": "What defines a black hole's event horizon?",
    "o": [
-    "The visible surface of the black hole",
+    "The surface of the dense central singularity, where all of the black hole's mass is concentrated",
+    "The innermost orbit at which matter in the accretion disk can stably circle the black hole",
     "The boundary beyond which not even light can escape the black hole's gravity",
-    "The outermost ring of a black hole's accretion disk",
-    "The point where a star begins to collapse"
+    "The distance at which a black hole's gravity becomes strong enough to begin pulling in nearby stars"
    ],
-   "a": 1,
+   "a": 2,
    "e": "The event horizon marks the boundary within which the escape velocity exceeds the speed of light, so nothing, including light, can escape.",
    "c": 5
   },
@@ -3064,12 +3064,12 @@
    "u": 5,
    "q": "What causes a Type Ia supernova, distinct from a core-collapse supernova?",
    "o": [
-    "A massive single star running out of fuel",
     "A white dwarf in a binary system accreting matter from a companion until it exceeds the Chandrasekhar limit, triggering a thermonuclear explosion",
-    "The merger of two neutron stars",
-    "A star's core suddenly turning to iron"
+    "A massive star exhausting its fuel and forming an iron core that collapses, with the outer layers rebounding in a violent explosion",
+    "Two neutron stars in a binary spiraling together and merging, releasing a burst of gravitational waves and a brilliant flash of light",
+    "A red giant in a binary system shedding its outer layers onto a companion until the shell ignites in a brief, repeating outburst"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Type Ia supernovae occur when a white dwarf accretes enough companion material to exceed the Chandrasekhar limit, causing a runaway thermonuclear explosion that destroys the white dwarf.",
    "c": 5
   },
@@ -3077,10 +3077,10 @@
    "u": 5,
    "q": "Why are Type Ia supernovae useful as 'standard candles'?",
    "o": [
-    "They always occur in the same galaxy",
+    "They always occur in the same nearby galaxy, so their known location gives a fixed reference distance",
     "They have remarkably consistent peak luminosities, letting distance be calculated from apparent brightness",
-    "They can be seen with the naked eye",
-    "They occur too rarely to be useful"
+    "They are bright enough to be seen with the naked eye, letting observers compare them directly to nearby stars",
+    "They happen at regular, predictable intervals, so the timing between explosions tells astronomers how far away they are"
    ],
    "a": 1,
    "e": "Because Type Ia supernovae reliably reach nearly the same peak brightness, comparing that known luminosity to observed brightness reveals distance, crucial for cosmology."
@@ -3089,24 +3089,24 @@
    "u": 5,
    "q": "What major cosmological discovery came from studying distant Type Ia supernovae?",
    "o": [
-    "The existence of dark matter",
-    "The accelerating expansion of the universe",
-    "The age of the solar system",
-    "The existence of exoplanets"
+    "The presence of dark matter around galaxies",
+    "The cosmic microwave background radiation",
+    "The first planets orbiting other stars",
+    "The accelerating expansion of the universe"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Observations of distant Type Ia supernovae in the late 1990s revealed the universe's expansion is accelerating, attributed to dark energy."
   },
   {
    "u": 5,
    "q": "What role do supernovae play in the broader universe beyond destroying a star?",
    "o": [
-    "They have no lasting effect",
     "They disperse heavy elements into space, seeding future star and planet formation",
-    "They only destroy nearby planets",
-    "They create new black holes exclusively"
+    "They lock heavy elements inside their remnants, so those elements cannot form new stars",
+    "They heat the surrounding gas so much that no new stars can ever form in the same galaxy",
+    "They produce only hydrogen and helium, which refill the interstellar medium but add nothing new for planets"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Supernovae scatter heavy elements forged during the star's life and the explosion itself into the interstellar medium, providing raw material for new stars, planets, and eventually life.",
    "c": 4
   },
@@ -3114,10 +3114,10 @@
    "u": 5,
    "q": "What eventually happens to a white dwarf if left undisturbed over an extremely long time?",
    "o": [
-    "It explodes as a supernova",
+    "It gradually collapses further under its own gravity and becomes a neutron star within a few million years",
     "It slowly cools and fades, theoretically becoming a cold 'black dwarf'",
-    "It becomes a neutron star",
-    "It expands into a red giant again"
+    "It slowly swells and brightens, eventually becoming a red giant once more as it restarts hydrogen fusion",
+    "It accretes interstellar gas until it explodes as a Type Ia supernova, even without a binary companion"
    ],
    "a": 1,
    "e": "With no further fusion, an isolated white dwarf simply radiates away its heat over billions to trillions of years, eventually (in theory) becoming a black dwarf.",
@@ -3127,12 +3127,12 @@
    "u": 5,
    "q": "How does binary star research help astronomers measure stellar masses?",
    "o": [
-    "It doesn't; masses can't be measured directly",
+    "By measuring each star's surface temperature and color, then converting those readings directly into mass using a temperature table",
+    "By counting how many sunspots and flares each star produces, which scales with the star's total mass",
     "By observing the orbital motion of stars around their common center of mass, applying Kepler's laws",
-    "By measuring surface temperature only",
-    "By counting the number of sunspots"
+    "By observing how often one star eclipses the other, since the eclipse count depends only on the stars' masses"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Applying Kepler's laws to the observed orbits of stars in binary systems allows direct calculation of their masses.",
    "c": 2
   },
@@ -3140,22 +3140,22 @@
    "u": 5,
    "q": "What does a star's color reveal about it?",
    "o": [
-    "Its distance from Earth",
-    "Its surface temperature: blue-white stars are hottest, red stars are coolest",
-    "Its exact age",
-    "Its chemical composition exclusively"
+    "Its distance: bluer stars are closer to Earth, while redder stars are farther away",
+    "Its age: blue stars are the oldest, while red stars have only just formed",
+    "Its size: blue stars are the smallest in the sky, while red stars are the largest",
+    "Its surface temperature: blue-white stars are hottest, red stars are coolest"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Color directly correlates with surface temperature — hot stars glow blue-white, while cooler stars glow red."
   },
   {
    "u": 5,
    "q": "What relationship does the Stefan-Boltzmann law describe for stars?",
    "o": [
-    "The relationship between a star's mass and age",
+    "How a star's pulsation period relates to its average luminosity",
     "How luminosity relates to a star's temperature and surface area/radius",
-    "The chemical composition of stars",
-    "The distance to a star based on parallax"
+    "How a star's color changes as it moves from the main sequence to the giant branch",
+    "How a star's observed wavelength shifts according to its speed toward or away from us"
    ],
    "a": 1,
    "e": "The Stefan-Boltzmann law shows that a star's luminosity depends on its temperature and radius, meaning more luminous stars are hotter, larger, or both.",
@@ -3190,12 +3190,12 @@
    "u": 5,
    "q": "What forms around a young protostar that can later give rise to planets?",
    "o": [
+    "A planetary nebula of gas shed by its outer layers",
     "A protoplanetary disk of leftover gas and dust",
-    "A ring of ice only",
-    "An asteroid belt exclusively",
-    "Nothing forms around protostars"
+    "A halo of dark matter that holds the star together",
+    "A shell of ionized gas blown out by stellar winds"
    ],
-   "a": 0,
+   "a": 1,
    "e": "The rotating disk of gas and dust surrounding a young protostar, the protoplanetary disk, provides the raw material from which planets can eventually form.",
    "c": 0
   },
@@ -3203,12 +3203,12 @@
    "u": 6,
    "q": "What shape distinguishes a spiral galaxy from an elliptical galaxy?",
    "o": [
+    "A smooth spherical or football shape, versus a flat rotating disk with spiral arms",
     "A flat rotating disk with spiral arms, versus a smooth spherical or football shape",
-    "Both have identical shapes",
-    "Elliptical galaxies have spiral arms, spirals do not",
-    "Spirals have no stars"
+    "A central bar of stars crossing the disk, versus a ring-shaped arrangement of stars with a hollow center",
+    "A thin disk with no central bulge, versus a bulge of stars surrounded by a spherical halo of gas"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Spiral galaxies are flat rotating disks with arms; ellipticals are smooth, roughly spherical collections of older stars.",
    "c": 0
   },
@@ -3229,9 +3229,9 @@
    "q": "What object lies at the center of the Milky Way?",
    "o": [
     "A supermassive black hole called Sagittarius A*",
-    "A neutron star",
-    "A white dwarf",
-    "A giant molecular cloud"
+    "A dense star cluster named Omega Centauri",
+    "A giant red supergiant named Betelgeuse",
+    "A stellar-mass black hole called Cygnus X-1"
    ],
    "a": 0,
    "e": "Sagittarius A*, a supermassive black hole of about 4 million solar masses, sits at the Milky Way's center.",
@@ -3241,12 +3241,12 @@
    "u": 6,
    "q": "What does Hubble's Law state?",
    "o": [
+    "A galaxy's recession velocity is inversely proportional to its distance from us",
+    "A galaxy's brightness is proportional to the square of its distance from us",
     "A galaxy's recession velocity is proportional to its distance from us",
-    "All galaxies orbit the Milky Way",
-    "Galaxies closer to us recede faster",
-    "Galaxy distances cannot be measured"
+    "A galaxy's rotation speed is proportional to its total visible mass"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Hubble's Law (v = H0 x d) states recession velocity increases proportionally with distance.",
    "c": 2
   },
@@ -3254,12 +3254,12 @@
    "u": 6,
    "q": "What does the redshift of distant galaxies indicate?",
    "o": [
+    "That the galaxies are moving through static space away from a central point of explosion",
     "That space itself is expanding, stretching the light's wavelength",
-    "That the galaxies are getting hotter",
-    "That the galaxies are moving toward us",
-    "That the galaxies are shrinking"
+    "That the galaxies are cooling, so their emitted light shifts to longer wavelengths over time",
+    "That intervening dust is scattering the blue light, making the galaxies look redder than they are"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Redshift results from the expansion of space stretching light to longer wavelengths as it travels, not motion through static space.",
    "c": 2
   },
@@ -3279,12 +3279,12 @@
    "u": 6,
    "q": "How is dark matter's presence primarily detected?",
    "o": [
+    "Through the faint infrared glow it emits as it slowly cools inside the halos of galaxies",
+    "Through the dark shadows it casts when it passes in front of bright background stars",
     "Through its gravitational effects, such as galaxy rotation curves and lensing",
-    "By direct visual observation",
-    "By its bright emission of light",
-    "By radio telescope images"
+    "Through its strong magnetic fields, which radio telescopes can measure in galaxy clusters"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Dark matter does not emit or absorb light; it is inferred from gravitational effects like rotation curves and gravitational lensing.",
    "c": 3
   },
@@ -3292,12 +3292,12 @@
    "u": 6,
    "q": "What discovery in 1998 revealed dark energy's existence?",
    "o": [
+    "The cosmic microwave background was measured as slightly warmer than expected, showing the universe is cooling faster",
+    "Galaxy rotation curves showed outer stars orbiting faster than expected, revealing unseen mass in galactic halos",
     "Distant Type Ia supernovae appeared dimmer (farther) than expected, showing accelerating expansion",
-    "The detection of the CMB",
-    "The discovery of the first exoplanet",
-    "The measurement of galaxy rotation curves"
+    "Distant galaxies appeared redshifted in proportion to distance, showing that the universe is expanding"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Observations of distant Type Ia supernovae in 1998 showed the universe's expansion is accelerating, evidence for dark energy.",
    "c": 4
   },
@@ -3305,12 +3305,12 @@
    "u": 6,
    "q": "What is the cosmic microwave background (CMB)?",
    "o": [
+    "Leftover radiation from the first stars lighting up about 100 million years after the Big Bang",
+    "Faint light from the first galaxies stretched to microwave wavelengths over billions of years",
     "Leftover radiation from about 380,000 years after the Big Bang",
-    "Radiation emitted by the Sun today",
-    "Light from the nearest galaxy",
-    "Radio signals from pulsars"
+    "Heat radiation from the hot gas in galaxy clusters, detectable at microwave frequencies"
    ],
-   "a": 0,
+   "a": 2,
    "e": "The CMB is radiation released when the early universe cooled enough for atoms to form, about 380,000 years after the Big Bang.",
    "c": 5
   },
@@ -3370,12 +3370,12 @@
    "u": 6,
    "q": "What are irregular galaxies?",
    "o": [
+    "Galaxies with a bright bulge and loosely wound arms, usually from a barred central region",
     "Galaxies lacking a defined shape, often from gravitational interactions",
-    "Galaxies with perfectly circular disks",
-    "The most common galaxy type in the universe",
-    "Galaxies with no dark matter"
+    "Galaxies with smooth elliptical shapes and no young stars, formed from ancient mergers",
+    "Galaxies with only a flat disk and no gas, produced by long periods of isolation"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Irregular galaxies have no clear structure, often as a result of interactions or collisions with other galaxies.",
    "c": 0
   },
@@ -3383,12 +3383,12 @@
    "u": 6,
    "q": "What did Big Bang nucleosynthesis produce in the first few minutes of the universe?",
    "o": [
-    "Light elements like hydrogen, helium, and trace lithium",
-    "Heavy elements like iron and gold",
-    "Fully formed stars",
-    "The first galaxies"
+    "Heavy elements like iron, silver, and gold in large quantities",
+    "Carbon, nitrogen, and oxygen, in trace amounts",
+    "Neutral atoms of hydrogen and helium as electrons joined nuclei",
+    "Light elements like hydrogen, helium, and trace lithium"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Big Bang nucleosynthesis explains the observed abundances of light elements formed within minutes of the Big Bang.",
    "c": 5
   },
@@ -3409,12 +3409,12 @@
    "u": 6,
    "q": "What evidence do galaxy rotation curves provide?",
    "o": [
+    "Stars far from a galaxy's center orbit more slowly than visible mass predicts, implying the galaxy is losing mass",
+    "Stars near a galaxy's center orbit faster than outer ones, matching what the visible mass alone predicts",
     "Stars far from a galaxy's center orbit faster than visible mass alone predicts, implying dark matter",
-    "Galaxies do not rotate at all",
-    "All stars in a galaxy orbit at the same fixed speed regardless of mass",
-    "Galaxies are shrinking over time"
+    "Galaxies rotate as solid bodies, with outer stars lagging behind, implying that dark energy drives the spin"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Flat rotation curves show outer stars orbiting faster than expected from visible matter, implying substantial unseen (dark) mass.",
    "c": 3
   },
@@ -3448,12 +3448,12 @@
    "u": 6,
    "q": "What is a lenticular galaxy?",
    "o": [
-    "A transitional type with a disk but little gas and no spiral arms",
-    "A galaxy made entirely of dark matter",
-    "The smallest possible galaxy type",
-    "A galaxy found only near black holes"
+    "A galaxy with a bar of stars and loosely wound spiral arms but a faint central bulge",
+    "A galaxy with an irregular shape and abundant gas, actively forming stars from recent mergers",
+    "A galaxy with a spherical shape and old stars, but no disk and no gas",
+    "A transitional type with a disk but little gas and no spiral arms"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Lenticular galaxies have a disk shape like spirals but lack the gas and spiral arms, resembling a smooth disk galaxy.",
    "c": 0
   },
@@ -3513,12 +3513,12 @@
    "u": 6,
    "q": "What does the cosmological constant represent in one leading dark energy hypothesis?",
    "o": [
+    "The combined gravitational pull of all matter",
+    "A repulsive force from dark matter particles",
     "An energy inherent to empty space itself",
-    "The mass of all visible galaxies",
-    "The speed of light",
-    "The age of the oldest stars"
+    "The leftover heat from the Big Bang"
    ],
-   "a": 0,
+   "a": 2,
    "e": "The cosmological constant treats dark energy as an intrinsic property of space itself, as allowed by Einstein's equations.",
    "c": 4
   },
@@ -3526,12 +3526,12 @@
    "u": 6,
    "q": "What did the 2011 Nobel Prize in Physics recognize?",
    "o": [
+    "The discovery of gravitational waves from merging black holes",
     "The discovery of the accelerating expansion of the universe",
-    "The discovery of the cosmic microwave background",
-    "The discovery of the first exoplanet",
-    "The invention of the telescope"
+    "The discovery of dark matter through galaxy rotation curves",
+    "The detection of the Higgs boson at the Large Hadron Collider"
    ],
-   "a": 0,
+   "a": 1,
    "e": "The 2011 Nobel Prize honored the discovery, via distant supernovae, that the universe's expansion is accelerating.",
    "c": 4
   },
@@ -3539,12 +3539,12 @@
    "u": 6,
    "q": "What kind of stars dominate elliptical galaxies?",
    "o": [
-    "Older stars, with little ongoing star formation",
-    "Young, hot blue stars only",
-    "Only red dwarf stars",
-    "No stars, only gas and dust"
+    "Young, blue stars, with intense ongoing star formation",
+    "A mix of newly born stars forming in spiral arms",
+    "Mainly neutron stars, with no normal stars left",
+    "Older stars, with little ongoing star formation"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Elliptical galaxies are dominated by older stellar populations and have little gas for new star formation.",
    "c": 0
   },
@@ -3578,12 +3578,12 @@
    "u": 6,
    "q": "Why does Hubble's Law imply the universe has no center of expansion?",
    "o": [
-    "Because every point in space sees all others receding proportionally to distance",
-    "Because only Earth sees galaxies receding",
-    "Because the Milky Way is at the exact center",
-    "Because distant galaxies are stationary"
+    "Because the Milky Way sits at the center and all other galaxies move away from it",
+    "Because galaxies farther away recede more slowly, so distant regions are nearly stationary",
+    "Because the expansion began at a single point in space that we can no longer observe",
+    "Because every point in space sees all others receding proportionally to distance"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Since recession velocity scales with distance from any vantage point, no single location can be identified as the center.",
    "c": 2
   },
@@ -3591,12 +3591,12 @@
    "u": 6,
    "q": "What best describes gravitational lensing as evidence for dark matter?",
    "o": [
+    "Massive clusters make background galaxies look brighter and bluer, revealing hot gas in the foreground",
+    "Dark matter particles absorb background light, leaving dark patches that map where the unseen mass lies",
     "Massive objects bend light from background galaxies in ways that reveal unseen mass",
-    "It is a direct photograph of dark matter particles",
-    "It only detects visible matter",
-    "It measures a star's temperature"
+    "Light from background galaxies is redshifted by the cluster's motion, revealing how fast the dark matter spins"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Gravitational lensing shows how mass (including invisible dark matter) bends and distorts light from more distant sources.",
    "c": 3
   },
@@ -3618,9 +3618,9 @@
    "q": "What do tiny temperature fluctuations in the CMB reveal?",
    "o": [
     "The seeds of structure that grew into galaxies and galaxy clusters",
-    "The exact age of the Sun",
-    "The location of black holes",
-    "The composition of Earth's atmosphere"
+    "The first stars that ignited and reionized the universe",
+    "The pattern of stars that later formed the Milky Way's spiral arms",
+    "The density of dark energy in each region of space"
    ],
    "a": 0,
    "e": "Small CMB temperature variations mark the density fluctuations that later grew into cosmic structure.",
@@ -3657,9 +3657,9 @@
    "q": "What makes ordinary (baryonic) matter distinct from dark matter?",
    "o": [
     "Ordinary matter interacts with light and makes up about 5% of the universe",
-    "Ordinary matter makes up 95% of the universe",
-    "Ordinary matter has no gravity",
-    "Ordinary matter cannot form stars"
+    "Ordinary matter emits no light and makes up about 27% of the universe",
+    "Ordinary matter interacts with light and makes up about 68% of the universe",
+    "Ordinary matter is invisible to telescopes and makes up about 95% of the universe"
    ],
    "a": 0,
    "e": "Baryonic (ordinary) matter, which interacts with light, is only about 5% of the universe's total mass-energy."
@@ -3668,12 +3668,12 @@
    "u": 6,
    "q": "Does dark matter clump together or spread evenly through space?",
    "o": [
+    "It spreads evenly through intergalactic space with no halos",
     "It clumps into halos around galaxies due to gravity",
-    "It spreads perfectly evenly everywhere",
-    "It exists only inside stars",
-    "It repels other matter"
+    "It collects inside stars, increasing their core temperatures",
+    "It collapses into thin, dense disks within galaxies"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Dark matter forms large, roughly spherical halos around galaxies due to its gravitational pull.",
    "c": 3
   },
@@ -3682,9 +3682,9 @@
    "q": "What does the term 'standard candle' refer to in cosmology?",
    "o": [
     "An object of known luminosity used to measure cosmic distances, such as a Type Ia supernova",
-    "A physical candle used in telescopes",
-    "A type of star cluster",
-    "A unit of stellar temperature"
+    "An object of known size used to measure cosmic distances, such as a distant galaxy cluster",
+    "A source of known redshift used to calibrate telescope instruments, such as a quasar's spectrum",
+    "A star whose spectrum is used to calibrate the temperature scale, such as a main-sequence star"
    ],
    "a": 0,
    "e": "Standard candles, like Type Ia supernovae, have known luminosities that let astronomers calculate distance from observed brightness."
@@ -3693,12 +3693,12 @@
    "u": 6,
    "q": "What is the defining feature that separates a barred spiral from an ordinary spiral galaxy?",
    "o": [
-    "A straight bar of stars through the center from which spiral arms emerge",
-    "The complete absence of a disk",
-    "No central bulge at all",
-    "A perfectly spherical shape"
+    "A ring of gas and dust circling the center, from which the spiral arms emerge",
+    "A thin line of young blue stars along one arm, from which star formation spreads",
+    "A dense spherical halo of stars around the nucleus, from which the arms wind outward",
+    "A straight bar of stars through the center from which spiral arms emerge"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Barred spirals have a central bar structure from which the spiral arms extend, unlike ordinary spirals."
   },
   {
@@ -3706,9 +3706,9 @@
    "q": "Why is the discovery of the accelerating universe considered surprising?",
    "o": [
     "Scientists expected gravity to slow the expansion, not accelerate it",
-    "Scientists expected the universe to not be expanding at all",
-    "Scientists expected galaxies to collide immediately",
-    "Scientists expected the CMB to disappear"
+    "Scientists expected the expansion to continue at a constant speed forever",
+    "Scientists expected distant supernovae to look brighter than nearby ones",
+    "Scientists expected the expansion to have stopped by now and reversed"
    ],
    "a": 0,
    "e": "Before 1998, most cosmologists expected gravitational attraction to slow the expansion over time, not accelerate it.",
@@ -3718,12 +3718,12 @@
    "u": 7,
    "q": "What event is considered the start of the Space Race?",
    "o": [
+    "The U.S. launch of Explorer 1 in 1958",
+    "The creation of NASA by Congress in 1958",
     "The Soviet launch of Sputnik 1 in 1957",
-    "The founding of NASA",
-    "The Apollo 11 Moon landing",
-    "The launch of the Space Shuttle"
+    "The first Moon landing by Apollo 11 in 1969"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Sputnik 1's launch on October 4, 1957 triggered the Space Race and led to NASA's creation.",
    "c": 0
   },
@@ -3770,12 +3770,12 @@
    "u": 7,
    "q": "What went wrong on the Apollo 13 mission?",
    "o": [
+    "The lander's engine failed during descent, forcing the crew to abort the landing",
+    "A fire in the cabin during a ground test killed the crew",
     "An oxygen tank exploded, forcing the crew to abort the Moon landing",
-    "The rocket failed to launch",
-    "The capsule burned up on reentry",
-    "The crew ran out of food"
+    "A guidance computer failed, forcing the crew to return early from orbit"
    ],
-   "a": 0,
+   "a": 2,
    "e": "An oxygen tank explosion during Apollo 13 forced an abort of the lunar landing; the crew returned safely.",
    "c": 1
   },
@@ -3822,12 +3822,12 @@
    "u": 7,
    "q": "What is notable about Voyager 1's current status?",
    "o": [
+    "It is the fastest object ever launched and has reached the edge of the Oort cloud",
+    "It is the first probe to visit all four giant planets and is still inside the heliosphere",
     "It is the most distant human-made object and has entered interstellar space",
-    "It has returned to Earth",
-    "It crashed into Jupiter",
-    "It is orbiting Mars"
+    "It is the first spacecraft to have landed on Pluto and sent images back"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Voyager 1 entered interstellar space in 2012 and remains the most distant human-made object.",
    "c": 2
   },
@@ -3861,12 +3861,12 @@
    "u": 7,
    "q": "What was the Space Shuttle?",
    "o": [
+    "The first crewed lunar spacecraft, flown 1968-1972",
+    "The first reusable uncrewed cargo rocket, flown 1990-2010",
     "The first reusable crewed orbital spacecraft, flown 1981-2011",
-    "An uncrewed cargo rocket",
-    "The first satellite in orbit",
-    "A robotic Mars rover"
+    "The first space station crew ferry, flown 1971-1991"
    ],
-   "a": 0,
+   "a": 2,
    "e": "The Space Shuttle was the first partially reusable crewed orbital spacecraft, flying missions from 1981 to 2011.",
    "c": 3
   },
@@ -3874,12 +3874,12 @@
    "u": 7,
    "q": "Which two Space Shuttle disasters killed all crew members aboard?",
    "o": [
+    "Challenger (1983) and Discovery (1999)",
+    "Atlantis (1986) and Columbia (2011)",
     "Challenger (1986) and Columbia (2003)",
-    "Discovery and Atlantis",
-    "Apollo 1 and Apollo 13",
-    "Endeavour and Enterprise"
+    "Enterprise (1977) and Endeavour (2003)"
    ],
-   "a": 0,
+   "a": 2,
    "e": "The Challenger (1986) and Columbia (2003) disasters each killed all seven crew members.",
    "c": 3
   },
@@ -3900,12 +3900,12 @@
    "u": 7,
    "q": "What was the first space station in history?",
    "o": [
-    "Salyut 1, launched by the Soviet Union in 1971",
-    "The International Space Station",
-    "Skylab",
-    "Mir"
+    "Skylab, launched by the United States in 1973",
+    "Mir, launched by the Soviet Union in 1986",
+    "Tiangong-1, launched by China in 2011",
+    "Salyut 1, launched by the Soviet Union in 1971"
    ],
-   "a": 0,
+   "a": 3,
    "e": "The Soviet Union launched Salyut 1, the first space station, in 1971."
   },
   {
@@ -3939,9 +3939,9 @@
    "q": "Who holds the record for the longest single continuous spaceflight?",
    "o": [
     "Valeri Polyakov, about 437 days aboard Mir",
-    "Yuri Gagarin",
-    "Scott Kelly",
-    "Neil Armstrong"
+    "Scott Kelly, about 340 days aboard the ISS",
+    "Yuri Gagarin, about 108 minutes aboard Vostok 1",
+    "Gennady Padalka, about 878 days over five flights"
    ],
    "a": 0,
    "e": "Cosmonaut Valeri Polyakov spent about 437 continuous days aboard Mir from 1994-1995.",
@@ -3951,12 +3951,12 @@
    "u": 7,
    "q": "What is NASA's Artemis program aiming to achieve?",
    "o": [
+    "Establish the first permanent colony on Mars",
+    "Land the first uncrewed lander on Europa to search for life",
     "Return humans to the Moon as a step toward future Mars missions",
-    "Send the first probe to Pluto",
-    "Build the first space station",
-    "Launch the first satellite"
+    "Capture an asteroid and bring it into lunar orbit"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Artemis aims to return astronauts to the lunar surface, including the first woman and first person of color, ahead of future Mars missions."
   },
   {
@@ -3964,9 +3964,9 @@
    "q": "What made Sputnik 1 historically significant?",
    "o": [
     "It was the first artificial satellite to orbit Earth",
-    "It was the first crewed spacecraft",
-    "It landed on the Moon",
-    "It was the first reusable rocket"
+    "It carried the first human into orbit around Earth",
+    "It was the first probe to leave Earth's gravity",
+    "It sent the first photographs of the Moon's far side"
    ],
    "a": 0,
    "e": "Sputnik 1 was the first artificial satellite, launched by the Soviet Union in 1957.",
@@ -4002,12 +4002,12 @@
    "u": 7,
    "q": "What were Neil Armstrong's famous first words on the lunar surface?",
    "o": [
+    "'Houston, Tranquility Base here. The Eagle has landed'",
     "'That's one small step for man, one giant leap for mankind'",
-    "'The Eagle has landed'",
-    "'Houston, we have a problem'",
-    "'One giant step for science'"
+    "'We came in peace for all mankind, and we return in peace'",
+    "'Magnificent desolation, a giant leap for all of humanity'"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Armstrong spoke these words upon stepping onto the lunar surface during Apollo 11.",
    "c": 1
   },
@@ -4029,9 +4029,9 @@
    "q": "What made the Voyager missions' 'Grand Tour' possible?",
    "o": [
     "A rare alignment of the outer planets in the late 1970s",
-    "A newly invented engine",
-    "A direct order from NASA leadership",
-    "The retirement of the Apollo program"
+    "A rare alignment of Earth, Mars, and Jupiter in the 1960s",
+    "A new ion engine that let the probes steer between planets",
+    "A larger Titan rocket that carried enough fuel to reach each planet"
    ],
    "a": 0,
    "e": "A rare planetary alignment allowed the Voyagers to use gravity assists to visit multiple outer planets efficiently.",
@@ -4066,12 +4066,12 @@
    "u": 7,
    "q": "What replaced the Space Shuttle for U.S. crew transport to the ISS after 2011?",
    "o": [
+    "China's Shenzhou spacecraft, later joined by commercial vehicles like Crew Dragon",
     "Russian Soyuz spacecraft, later joined by commercial vehicles like Crew Dragon",
-    "The Saturn V",
-    "The Apollo capsule",
-    "No spacecraft was used until 2020"
+    "The Orion capsule, which has carried U.S. astronauts to the ISS since 2012",
+    "Japan's HTV spacecraft, later joined by Russian Progress capsules and Starliner"
    ],
-   "a": 0,
+   "a": 1,
    "e": "After the Shuttle's 2011 retirement, the U.S. relied on Soyuz until commercial crew vehicles became available.",
    "c": 3
   },
@@ -4079,12 +4079,12 @@
    "u": 7,
    "q": "What was the purpose of Cassini's 'Grand Finale'?",
    "o": [
+    "A final close flyby of Titan to drop a lander onto its surface",
+    "A return of the probe to Earth orbit so its samples could be recovered",
     "A deliberate plunge into Saturn's atmosphere to end the mission safely",
-    "A final flyby of Titan",
-    "A return trip to Earth",
-    "A landing on one of Saturn's rings"
+    "A deliberate landing on Enceladus to test whether its geysers hide life"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Cassini's mission ended with a planned dive into Saturn's atmosphere in 2017 to avoid contaminating its moons.",
    "c": 2
   },
@@ -4116,24 +4116,24 @@
    "u": 7,
    "q": "What was Skylab?",
    "o": [
+    "The first Soviet space station, launched in 1971",
+    "The first Chinese space station, launched in 2011",
     "The first American space station, launched in 1973",
-    "A Soviet space station",
-    "A crewed Mars mission",
-    "A reusable spacecraft"
+    "The first reusable crewed spacecraft, launched in 1981"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Skylab, launched in 1973, was the first American space station."
   },
   {
    "u": 7,
    "q": "What long-term physical effects has research on the ISS revealed about microgravity?",
    "o": [
+    "Faster bone growth, larger muscles, and reduced fluid in the head",
+    "Improved balance, stronger immunity, and faster healing of wounds",
     "Bone density loss, muscle atrophy, and fluid shifts",
-    "Improved eyesight and stronger bones",
-    "No measurable effects on the human body",
-    "Immediate and permanent weight gain"
+    "Skin thickening, increased appetite, and gradual loss of hearing"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Long-duration spaceflight studies show microgravity causes bone density loss, muscle atrophy, and bodily fluid shifts.",
    "c": 4
   },
@@ -4141,12 +4141,12 @@
    "u": 7,
    "q": "What was Artemis I?",
    "o": [
-    "An uncrewed test flight of Orion and the Space Launch System around the Moon in 2022",
-    "The first crewed Moon landing since Apollo",
-    "A robotic Mars rover",
-    "A Space Shuttle mission"
+    "A crewed test flight of Orion on a Falcon Heavy rocket that orbited Earth in 2020",
+    "An uncrewed Orion capsule flight on a Delta IV rocket that circled Earth twice in 2014",
+    "An uncrewed lander test of Starship and the Space Launch System touching down on the Moon in 2022",
+    "An uncrewed test flight of Orion and the Space Launch System around the Moon in 2022"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Artemis I was an uncrewed 2022 test flight validating the Orion spacecraft and SLS rocket ahead of crewed missions.",
    "c": 5
   },
@@ -4219,12 +4219,12 @@
    "u": 7,
    "q": "What distinguishes Apollo 13 as a celebrated mission despite failing to land on the Moon?",
    "o": [
+    "The crew conducted a spacewalk to repair the oxygen tank on the way back",
     "The crew and mission control improvised a safe return after a near-disaster",
-    "It was the fastest mission ever flown",
-    "It carried the most advanced equipment of any Apollo flight",
-    "It successfully landed on the Moon anyway"
+    "A backup crew launched a rescue spacecraft that docked and brought the astronauts home",
+    "The crew replaced the heat shield in orbit, saving themselves from a reentry failure"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Apollo 13's safe return after an oxygen tank explosion became a celebrated example of crisis management.",
    "c": 1
   },
@@ -4232,36 +4232,36 @@
    "u": 8,
    "q": "What does the transit method measure to detect an exoplanet?",
    "o": [
+    "The periodic shift in a star's spectral lines as a planet's gravity tugs it back and forth",
+    "The tiny change in a star's position on the sky as a planet pulls it in a small circle",
     "The periodic dimming of a star's light as a planet passes in front of it",
-    "The star's temperature change over a year",
-    "The star's exact chemical composition",
-    "The planet's magnetic field directly"
+    "The brief brightening of a background star's light as a planet's gravity bends it"
    ],
-   "a": 0,
+   "a": 2,
    "e": "The transit method detects planets via the small, periodic dimming of starlight as the planet crosses in front of its star."
   },
   {
    "u": 8,
    "q": "What does the transit method primarily reveal about a planet?",
    "o": [
+    "Its mass, based on how deeply the star's light dips",
+    "Its distance from Earth, based on how much the star dims",
     "Its size (radius), based on how much light it blocks",
-    "Its exact mass",
-    "Its rotation period",
-    "Its surface temperature directly"
+    "Its surface gravity, based on how long each transit lasts"
    ],
-   "a": 0,
+   "a": 2,
    "e": "The amount of starlight blocked during a transit reveals the planet's size relative to its star."
   },
   {
    "u": 8,
    "q": "What orbital alignment is required for the transit method to work?",
    "o": [
+    "The planet's orbit must lie in the habitable zone of its star",
+    "The planet must be larger than its star to block enough light",
     "The planet's orbit must be nearly edge-on as seen from Earth",
-    "The planet must orbit face-on to Earth",
-    "The star must be very close to Earth",
-    "The planet must be tidally locked"
+    "The planet's orbit must be tilted about 45 degrees from our line of sight"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Only planets whose orbits are aligned edge-on from our viewpoint will transit and be detectable this way."
   },
   {
@@ -4281,24 +4281,24 @@
    "u": 8,
    "q": "What does the radial velocity method detect?",
    "o": [
+    "The periodic dimming of starlight as a planet crosses in front of its star's disk",
+    "The tiny brightening of a background star as a planet's gravity acts as a lens",
     "A star's small back-and-forth wobble caused by an orbiting planet's gravity",
-    "Direct images of planets",
-    "A planet's exact radius",
-    "The color of a planet's atmosphere"
+    "The infrared glow of a planet's warm atmosphere, separate from its star's light"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Radial velocity detects the Doppler shift in a star's spectral lines caused by its gravitational wobble from an orbiting planet."
   },
   {
    "u": 8,
    "q": "What does the radial velocity method primarily reveal about a planet?",
    "o": [
+    "Its exact radius and its orbital inclination",
+    "Its true mass and its atmospheric composition",
     "A lower limit on its mass and its orbital period",
-    "Its exact radius",
-    "Its surface composition",
-    "Its exact temperature"
+    "Its density and the tilt of its rotation axis"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Radial velocity reveals a planet's orbital period and a minimum mass, but not its size directly.",
    "c": 1
   },
@@ -4318,24 +4318,24 @@
    "u": 8,
    "q": "Why did early radial velocity surveys tend to find 'hot Jupiters' first?",
    "o": [
-    "Massive, close-orbiting planets cause a larger, easier-to-detect stellar wobble",
-    "Hot Jupiters are the most common planet type",
-    "Only hot Jupiters can be detected at all",
-    "Radial velocity cannot detect any other planet type"
+    "Hot Jupiters are by far the most common planets, so surveys encountered them first",
+    "Their bright atmospheres shine in infrared, making them easy to spot by direct imaging",
+    "Their strong magnetic fields disturb the star's spectrum, making the star easy to flag",
+    "Massive, close-orbiting planets cause a larger, easier-to-detect stellar wobble"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Radial velocity is most sensitive to massive planets orbiting close to their star, which cause the largest stellar wobble."
   },
   {
    "u": 8,
    "q": "Combining transit and radial velocity data allows astronomers to calculate what?",
    "o": [
+    "A planet's age, indicating whether it formed early or late",
     "A planet's density, indicating whether it's rocky, gaseous, or icy",
-    "A planet's exact age",
-    "A planet's magnetic field strength",
-    "A planet's rotation axis tilt"
+    "A planet's distance from Earth, indicating how bright its star appears",
+    "A planet's rotation period, indicating whether it is tidally locked"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Radius (from transit) combined with mass (from radial velocity) yields density, revealing likely composition.",
    "c": 1
   },
@@ -4356,12 +4356,12 @@
    "u": 8,
    "q": "What is gravitational microlensing able to detect that other methods cannot?",
    "o": [
+    "Planets orbiting very close to hot, bright stars",
+    "Planets that pass in front of their stars every few days",
     "Free-floating 'rogue' planets not orbiting any star",
-    "Only planets larger than Jupiter",
-    "Only planets within our solar system",
-    "Only planets around dead stars"
+    "Planets whose surfaces are covered in liquid oceans"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Microlensing can detect distant or unbound rogue planets since it relies on gravitational light-bending, not starlight from the planet's system.",
    "c": 2
   },
@@ -4369,12 +4369,12 @@
    "u": 8,
    "q": "What is the habitable zone?",
    "o": [
-    "The range of orbital distances where a planet could have liquid water on its surface",
-    "The exact orbit of Earth around the Sun",
-    "Any region containing an asteroid belt",
-    "The region closest to a star where it is always too hot for life"
+    "The range of distances where a planet's gravity is strong enough to hold an atmosphere around it",
+    "The region around a star where a planet's orbit is stable for billions of years without ejection",
+    "The region of a galaxy where heavy elements are abundant enough for rocky planets to form",
+    "The range of orbital distances where a planet could have liquid water on its surface"
    ],
-   "a": 0,
+   "a": 3,
    "e": "The habitable zone is the distance range from a star where surface temperatures could allow liquid water.",
    "c": 3
   },
@@ -4382,12 +4382,12 @@
    "u": 8,
    "q": "Why are Venus and Mars not considered habitable despite being near the Sun's habitable zone?",
    "o": [
+    "They orbit too close to the Sun, so their oceans have evaporated, and both lack any protective magnetic field",
+    "Their atmospheres are unsuitable: Venus is too thin to hold heat, while Mars has runaway greenhouse warming",
     "Their atmospheres are unsuitable: Venus has runaway greenhouse warming, Mars has too thin an atmosphere",
-    "They are both too far from the Sun",
-    "They have no gravity",
-    "They orbit the Sun backward"
+    "Their orbits are too eccentric: both swing so far from the Sun that surface water freezes every year"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Being in the habitable zone alone isn't enough; atmospheric conditions on Venus and Mars prevent stable liquid water.",
    "c": 3
   },
@@ -4408,12 +4408,12 @@
    "u": 8,
    "q": "Why is the coexistence of methane and oxygen considered a particularly strong biosignature?",
    "o": [
+    "Both gases come from volcanoes, so their coexistence suggests ongoing geological activity instead of life",
+    "The two gases are inert toward each other, so their coexistence suggests the planet is very old and stable",
     "The two gases react with each other, so their coexistence suggests active ongoing production",
-    "Methane and oxygen never react",
-    "Neither gas can exist on any planet naturally",
-    "Only humans can produce these gases"
+    "Both gases are easily produced by sunlight splitting water, so their coexistence suggests a wet atmosphere"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Since methane and oxygen react and would otherwise deplete each other, finding both suggests continuous replenishment, often by life.",
    "c": 4
   },
@@ -4434,12 +4434,12 @@
    "u": 8,
    "q": "What is a key challenge in interpreting biosignature gases?",
    "o": [
+    "Their spectral signatures overlap with common gases like nitrogen, making detection nearly impossible with any telescope",
+    "They break down within a few hours in any atmosphere, so they can only be detected on freshly formed planets",
     "Some can also be produced by non-biological (abiotic) processes, creating false positives",
-    "No instrument can ever detect them",
-    "They only exist in our own solar system",
-    "They are always proof of life beyond doubt"
+    "Most are produced by a single species of microbe, so they can only be matched to Earth-like life"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Certain biosignature gases can form through geological or photochemical processes without life, requiring careful interpretation.",
    "c": 4
   },
@@ -4448,9 +4448,9 @@
    "q": "What does the TRAPPIST-1 system consist of?",
    "o": [
     "Seven roughly Earth-sized planets orbiting a small red dwarf star",
-    "A single Jupiter-sized planet orbiting a Sun-like star",
-    "Two Earth-sized planets orbiting a neutron star",
-    "A rogue planet with no host star"
+    "Three Jupiter-sized planets orbiting a pair of white dwarf stars",
+    "A single Neptune-sized planet orbiting a young blue giant star",
+    "Seven gas giants orbiting a Sun-like star every few hundred days"
    ],
    "a": 0,
    "e": "TRAPPIST-1 hosts seven roughly Earth-sized planets, several within the star's habitable zone, orbiting a red dwarf."
@@ -4459,12 +4459,12 @@
    "u": 8,
    "q": "What does the Drake Equation estimate?",
    "o": [
+    "The number of exoplanets orbiting stars in the galaxy",
+    "The number of stars that will become supernovae each century",
     "The number of communicating civilizations in the galaxy",
-    "The exact distance to the nearest star",
-    "The mass of a typical exoplanet",
-    "The age of the universe"
+    "The probability that a planet's atmosphere contains life"
    ],
-   "a": 0,
+   "a": 2,
    "e": "The Drake Equation is a probabilistic framework for estimating the number of communicating civilizations in the Milky Way.",
    "c": 4
   },
@@ -4498,12 +4498,12 @@
    "u": 8,
    "q": "What challenge do tidally locked planets around red dwarf stars face for habitability?",
    "o": [
-    "Extreme temperature differences between their permanent day and night sides",
-    "They cannot have an atmosphere at all",
-    "They orbit too far from their star to ever be observed",
-    "They cannot be detected by any method"
+    "Their orbits are so eccentric that their seasons swing wildly between scorching and freezing each year",
+    "Their rapid rotation produces violent winds that strip the atmosphere away within days",
+    "Their gravity is too weak to retain water, so any oceans escape into space",
+    "Extreme temperature differences between their permanent day and night sides"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Tidally locked planets always show one side to their star, creating extreme temperature contrasts between hemispheres.",
    "c": 3
   },
@@ -4511,12 +4511,12 @@
    "u": 8,
    "q": "What is TESS?",
    "o": [
+    "A European Space Agency mission launched in 2009 that watches a single patch of sky for faint, distant transiting planets",
     "A NASA mission launched in 2018 that surveys bright, nearby stars for transiting exoplanets across the whole sky",
-    "A ground-based radio telescope array",
-    "A Mars rover",
-    "A gravitational wave detector"
+    "A NASA infrared space telescope launched in 2021 that studies the atmospheres of known exoplanets in detail",
+    "A ground-based survey begun in 2012 that measures radial velocity wobbles of nearby stars across the northern sky"
    ],
-   "a": 0,
+   "a": 1,
    "e": "TESS (Transiting Exoplanet Survey Satellite) continues Kepler's transit-detection work across the full sky.",
    "c": 0
   },
@@ -4524,12 +4524,12 @@
    "u": 8,
    "q": "What does astrometry measure to detect exoplanets?",
    "o": [
-    "A star's tiny side-to-side positional wobble on the sky",
-    "The star's exact surface temperature",
-    "The star's total lifetime",
-    "The number of planets orbiting a star, directly"
+    "A star's regular dimming as a planet passes in front of it",
+    "A star's small shift in spectral lines as the planet pulls it",
+    "A star's brief brightening as a planet bends light from behind",
+    "A star's tiny side-to-side positional wobble on the sky"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Astrometry detects the small positional wobble in a star caused by an orbiting planet's gravity, viewed across the sky."
   },
   {
@@ -4550,9 +4550,9 @@
    "q": "What raises concern about the habitability of Proxima Centauri b, despite being in its star's habitable zone?",
    "o": [
     "Its host is an active red dwarf star, raising radiation exposure concerns",
-    "It is too far from any star to receive light",
-    "It has been confirmed to have no atmosphere",
-    "It orbits a black hole instead of a star"
+    "Its host star is about to become a red giant, so the planet will soon be engulfed",
+    "Its host star is dim and quiet, so too little radiation reaches it for liquid water",
+    "Its orbit is extremely eccentric, carrying it out of the habitable zone for most of each year"
    ],
    "a": 0,
    "e": "Proxima Centauri b orbits a flare-active red dwarf, raising questions about radiation exposure despite its habitable-zone location.",
@@ -4562,12 +4562,12 @@
    "u": 8,
    "q": "What factors, beyond distance from a star, are thought to support long-term habitability?",
    "o": [
-    "Plate tectonics, a protective magnetic field, and a stable orbit",
-    "Only the planet's exact size",
-    "Having many moons",
-    "Having rings like Saturn"
+    "A thick hydrogen envelope, a very large mass, and a fast spin",
+    "Frequent giant impacts, intense volcanism, and a highly eccentric orbit",
+    "A tidally locked rotation, a very thin atmosphere, and heavy cratering",
+    "Plate tectonics, a protective magnetic field, and a stable orbit"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Plate tectonics, a magnetic field shielding against stellar wind, and orbital stability are additional supporting factors for habitability.",
    "c": 3
   },
@@ -4575,12 +4575,12 @@
    "u": 8,
    "q": "What is Kepler-452b sometimes called, and why?",
    "o": [
+    "'Earth's twin,' for being an Earth-sized rocky world with an atmosphere confirmed to match Earth's",
+    "A 'hot Jupiter,' for being a Jupiter-sized gas giant orbiting its star in just a few days",
     "'Earth's cousin,' for being a near-Earth-sized planet in a Sun-like star's habitable zone",
-    "'Earth's twin,' because its composition is confirmed identical to Earth's",
-    "A 'hot Jupiter,' for its close, scorching orbit",
-    "A 'rogue planet,' for lacking a host star"
+    "A 'rogue planet,' for being a free-floating world that travels through space without a host star"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Kepler-452b is called 'Earth's cousin' for its near-Earth size and habitable-zone orbit around a Sun-like star, though its composition is unconfirmed."
   },
   {
@@ -4600,24 +4600,24 @@
    "u": 8,
    "q": "What advantage do multiple detection methods used together provide for a single exoplanet system?",
    "o": [
-    "A more complete picture of the planet's mass, radius, density, and orbit",
-    "No advantage over using just one method",
-    "Proof of life on the planet",
-    "Exact surface photographs"
+    "Confirmation that the planet's atmosphere contains oxygen and that life is present",
+    "Photographs of the planet's surface that show clouds, oceans, and continents",
+    "Faster results, since each additional method halves the observing time for a system",
+    "A more complete picture of the planet's mass, radius, density, and orbit"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Combining methods like transit and radial velocity yields more complete data (mass, radius, density, orbit) than either alone."
   },
   {
    "u": 8,
    "q": "What was significant about the discovery of 51 Pegasi b's short orbital period?",
    "o": [
+    "It confirmed that most stars host Jupiter-like planets in wide, circular orbits, just like our solar system",
     "It revealed that giant planets can orbit extremely close to their star ('hot Jupiters'), unlike anything in our solar system",
-    "It proved no other exoplanets exist",
-    "It confirmed the planet was habitable",
-    "It showed all exoplanets orbit slowly, like Jupiter"
+    "It showed that planets orbiting pulsars are common, unlike those found around ordinary Sun-like stars",
+    "It demonstrated that exoplanets can be imaged directly, revealing giant planets in wide orbits around young stars"
    ],
-   "a": 0,
+   "a": 1,
    "e": "51 Pegasi b orbits its star in just over 4 days, revealing the existence of 'hot Jupiters' with no solar system analog.",
    "c": 5
   },
@@ -4625,12 +4625,12 @@
    "u": 8,
    "q": "Why can microlensing events for exoplanet detection not be repeated or predicted?",
    "o": [
-    "Each event depends on a chance, one-time alignment of a foreground and background star",
-    "Microlensing telescopes can only be used once",
-    "The technique has been discontinued",
-    "Only one microlensing event has ever occurred"
+    "Each event depends on a rare supernova near the host star, which can only happen once for any star",
+    "The lens star's planet orbits so quickly that the signal changes before any follow-up observation can be made",
+    "Light from the background star is blocked completely, so astronomers never see the same star again",
+    "Each event depends on a chance, one-time alignment of a foreground and background star"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Microlensing relies on a rare, unrepeatable alignment between a foreground star (with a planet) and a background star.",
    "c": 2
   },
@@ -4638,24 +4638,24 @@
    "u": 8,
    "q": "What did the discovery of exoplanets like hot Jupiters suggest about planet formation?",
    "o": [
+    "Planets form near their stars, then slowly drift outward over time",
+    "Planets form from stellar collisions, so close-in giants are leftover debris",
     "Planets can migrate inward from where they originally formed",
-    "Planets always stay exactly where they formed",
-    "Gas giants can only form very close to their star",
-    "Planetary migration is impossible"
+    "Planets keep their birth orbits, and stars have drifted toward them since"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Hot Jupiters are thought to have formed farther from their star and migrated inward over time."
   },
   {
    "u": 8,
    "q": "What is a limitation of using a single biosignature gas as evidence of life?",
    "o": [
+    "It can only be measured with probes sent to the planet's surface, not telescopes",
+    "It fades from spectra too quickly to be observed, since gases rapidly leave atmospheres",
     "It could result from non-biological chemical or geological processes instead",
-    "It always proves life beyond any doubt",
-    "It can never be detected remotely",
-    "It only applies to gas giant planets"
+    "It cannot be distinguished from starlight, since stars produce the same gases"
    ],
-   "a": 0,
+   "a": 2,
    "e": "A single biosignature gas is not definitive since abiotic (non-biological) processes can sometimes produce similar signals.",
    "c": 4
   },
@@ -4663,12 +4663,12 @@
    "u": 8,
    "q": "What do transmission spectra reveal when starlight passes through a transiting planet's atmosphere?",
    "o": [
+    "The thickness of the planet's solid crust and its internal layers",
     "The chemical composition of gases present in the atmosphere",
-    "The planet's exact rotation speed",
-    "The planet's core temperature",
-    "The planet's magnetic field strength"
+    "The age of the host star and the date of the planet's formation",
+    "The planet's rotation speed and the tilt of its spin axis"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Transmission spectroscopy identifies atmospheric gases by how they absorb specific wavelengths of the star's light.",
    "c": 4
   },
@@ -4689,12 +4689,12 @@
    "u": 8,
    "q": "Roughly how does a 'super-Earth' compare to Earth?",
    "o": [
-    "It is a planet larger than Earth but smaller than Neptune-sized planets",
-    "It is identical to Earth in every way",
-    "It is always a gas giant larger than Jupiter",
-    "It orbits only red dwarf stars"
+    "A planet smaller than Earth but larger than Mars, found only orbiting Sun-like stars",
+    "A planet with Earth's size and mass but a much hotter surface, found near red dwarfs",
+    "A planet larger than Neptune but smaller than Jupiter, with a thick hydrogen envelope",
+    "It is a planet larger than Earth but smaller than Neptune-sized planets"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Super-Earths are a size category between Earth and Neptune, a common type of exoplanet with no solar system counterpart.",
    "c": 5
   },
@@ -4703,9 +4703,9 @@
    "q": "What has JWST specifically enabled in exoplanet atmospheric studies?",
    "o": [
     "Detecting molecules like water vapor and carbon dioxide in distant planetary atmospheres",
-    "Landing a rover on an exoplanet",
-    "Measuring an exoplanet's exact age",
-    "Directly sampling an exoplanet's soil"
+    "Taking direct photographs of exoplanet surfaces, showing continents, oceans, and cloud patterns",
+    "Measuring the rotation periods of exoplanets by tracking surface features across their visible disks",
+    "Discovering the first exoplanets ever found, by watching stars wobble in visible light"
    ],
    "a": 0,
    "e": "JWST's sensitive infrared instruments have enabled detailed detection of atmospheric molecules on distant exoplanets.",
@@ -4715,12 +4715,12 @@
    "u": 8,
    "q": "Why is finding a planet in the habitable zone considered only a first step in the search for life?",
    "o": [
+    "The zone is defined by a planet's size, so it says little about orbital distance or temperature",
     "Habitability also requires a suitable atmosphere and other planetary conditions",
-    "It automatically confirms the presence of life",
-    "The habitable zone guarantees a planet has oceans",
-    "No further data is ever needed"
+    "Planets in the zone are nearly always gas giants, which have no surface where life could exist",
+    "Stars with habitable zones are very rare, so most searches must look in other galaxies"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Orbital distance alone doesn't guarantee habitability; atmosphere, magnetic field, and geology also matter, as shown by Venus and Mars.",
    "c": 3
   },
@@ -4728,12 +4728,12 @@
    "u": 8,
    "q": "What do biosignatures ultimately provide in the search for extraterrestrial life?",
    "o": [
+    "Direct proof, since any detected biosignature gas must come from living organisms",
     "Indirect evidence, not direct proof, of possible past or present life",
-    "Absolute, undeniable proof of life",
-    "Direct images of living organisms",
-    "A guaranteed method for contacting aliens"
+    "Photographs of vegetation and animals on the planet's surface from space telescopes",
+    "A precise count of the number of species living on a distant planet"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Biosignatures are indirect indicators requiring careful, cumulative evidence rather than single definitive proof.",
    "c": 4
   }
@@ -6034,12 +6034,12 @@
    "u": 1,
    "q": "The celestial sphere is:",
    "o": [
-    "A real shell around Earth",
-    "An imaginary sphere on which objects appear to lie",
-    "A planet's atmosphere",
-    "A type of telescope"
+    "A physical dome of crystal that surrounds Earth and holds the stars",
+    "A real layer of gas where meteors burn up above Earth",
+    "A map projection used only to chart Earth's continents",
+    "An imaginary sphere on which objects appear to lie"
    ],
-   "a": 1,
+   "a": 3,
    "e": "It helps astronomers map positions.",
    "c": 0
   },
@@ -6047,12 +6047,12 @@
    "u": 2,
    "q": "The seasons are caused by:",
    "o": [
-    "Distance from the Sun",
     "Earth's axial tilt of about 23.5 degrees",
-    "The Moon",
-    "The Sun's changing brightness"
+    "Earth's changing distance from the Sun in its orbit",
+    "The Moon's gravitational pull on the oceans",
+    "Variations in the Sun's energy output each year"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Tilt changes the angle and duration of sunlight.",
    "c": 0
   },
@@ -6112,22 +6112,22 @@
    "u": 4,
    "q": "Space telescopes are advantageous because they:",
    "o": [
-    "Are cheaper",
-    "Are larger",
-    "Avoid atmospheric distortion and absorption",
-    "Need no power"
+    "Can use larger mirrors than any ground telescope",
+    "Can see through all clouds of gas and dust",
+    "Cost less than telescopes built on Earth",
+    "Avoid atmospheric distortion and absorption"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Earth's atmosphere blocks some wavelengths."
   },
   {
    "u": 5,
    "q": "A main-sequence star produces energy by:",
    "o": [
-    "Burning coal",
-    "Chemical reactions",
+    "Fusing helium into carbon in its core",
+    "Fission of heavy nuclei deep in its core",
     "Fusing hydrogen into helium in its core",
-    "Fission of uranium"
+    "Burning hydrogen with oxygen in its outer shell"
    ],
    "a": 2,
    "e": "Fusion balances gravity."
@@ -6212,12 +6212,12 @@
    "u": 8,
    "q": "The habitable zone is the region around a star where:",
    "o": [
-    "The star is brightest",
-    "There are many planets",
     "Liquid water could exist on a planet's surface",
-    "Gravity is zero"
+    "A planet's surface could be hot enough to melt rock",
+    "A planet would be tidally locked to its star",
+    "The star's light is mostly visible rather than ultraviolet"
    ],
-   "a": 2,
+   "a": 0,
    "e": "Conditions allow for water at suitable temperatures.",
    "c": 3
   }

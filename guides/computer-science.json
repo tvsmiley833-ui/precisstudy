@@ -771,12 +771,12 @@
    "u": 1,
    "q": "What is the primary purpose of an operating system?",
    "o": [
-    "To browse the internet",
-    "To manage hardware resources and run other software",
-    "To store files permanently only",
-    "To design graphics"
+    "To connect computers to the internet and display webpages",
+    "To translate source code into machine code for the processor",
+    "To protect the computer from viruses and unwanted network traffic",
+    "To manage hardware resources and run other software"
    ],
-   "a": 1,
+   "a": 3,
    "e": "The OS manages memory, CPU scheduling, and hardware so other programs can run.",
    "c": 5
   },
@@ -883,10 +883,10 @@
    "u": 1,
    "q": "What is the role of a GPU?",
    "o": [
-    "Managing files",
+    "Coordinating the order of general tasks run by the main processor",
     "Handling parallel computations, especially graphics and AI",
-    "Connecting to Wi-Fi",
-    "Storing the operating system"
+    "Storing frequently used data for quick access by the CPU",
+    "Converting analog signals into digital data for the network"
    ],
    "a": 1,
    "e": "GPUs are optimized for parallel processing tasks like rendering graphics.",
@@ -896,12 +896,12 @@
    "u": 1,
    "q": "Why do computers use binary instead of decimal internally?",
    "o": [
-    "Binary is easier for humans to read",
-    "Transistors are simplest to build as two-state (on/off) switches",
-    "Binary uses less power than decimal",
-    "Decimal cannot represent negative numbers"
+    "Binary arithmetic needs fewer logic steps than decimal arithmetic does",
+    "Early engineers chose it because humans find base 2 easiest to read",
+    "Electrical signals cannot be made to hold more than one voltage",
+    "Transistors are simplest to build as two-state (on/off) switches"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Two-state electrical switches map naturally onto binary's two digits."
   },
   {
@@ -946,9 +946,9 @@
    "q": "Which best distinguishes system software from application software?",
    "o": [
     "System software supports the computer itself; application software helps users do tasks",
-    "Application software is always free",
-    "System software cannot be updated",
-    "There is no real difference"
+    "System software is written in low-level code; application software is written only in high-level languages",
+    "System software must be purchased; application software is distributed freely to users",
+    "System software runs on servers; application software runs only on personal computers"
    ],
    "a": 0,
    "e": "The OS is system software; a browser or game is application software.",
@@ -970,12 +970,12 @@
    "u": 1,
    "q": "What is a 'driver' in the context of an operating system?",
    "o": [
-    "A person who codes the OS",
+    "A program that speeds up the CPU by raising its clock rate",
+    "A utility that compresses files so they use less storage space",
     "A program that lets the OS communicate with specific hardware",
-    "A type of file compression",
-    "A network protocol"
+    "A tool that checks other programs for security vulnerabilities"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Drivers translate between the OS and hardware devices like printers or graphics cards.",
    "c": 5
   },
@@ -1009,12 +1009,12 @@
    "u": 1,
    "q": "What does it mean for storage to be 'non-volatile'?",
    "o": [
-    "It uses no electricity ever",
-    "It retains data even when power is removed",
-    "It can only store text",
-    "It is faster than RAM"
+    "It loses its contents whenever the power is switched off",
+    "It only stores data that was written by the operating system",
+    "It can be read but never overwritten once data is saved",
+    "It retains data even when power is removed"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Non-volatile storage like an SSD keeps data without continuous power.",
    "c": 0
   },
@@ -1035,12 +1035,12 @@
    "u": 1,
    "q": "Which best describes 'Moore's Law'?",
    "o": [
-    "A law requiring software licenses",
+    "An observation that CPU clock speeds double roughly every year",
+    "A principle that the cost of storage halves every ten years",
     "An observation that transistor density roughly doubles every two years",
-    "A rule about internet bandwidth",
-    "A law about data privacy"
+    "A rule stating that internet speeds triple every three years"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Moore's Law is an observed trend in transistor miniaturization and growth, not a physical law."
   },
   {
@@ -1060,12 +1060,12 @@
    "u": 1,
    "q": "Which best describes how images are digitally stored?",
    "o": [
-    "As a single binary number",
+    "As a sequence of vector shapes, with each stored as text",
+    "As a list of letters describing what the picture shows",
     "As a grid of pixels, each with color values",
-    "As ASCII text",
-    "As a hexadecimal string only"
+    "As a single wave of amplitude values sampled over time"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Digital images are grids of pixels, each pixel storing color as binary data (e.g., RGB values).",
    "c": 3
   },
@@ -1073,12 +1073,12 @@
    "u": 1,
    "q": "What is the motherboard's function?",
    "o": [
-    "Cools the CPU",
-    "Physically connects and enables communication between components",
-    "Displays graphics",
-    "Stores the operating system permanently"
+    "Supplies and regulates electricity for the entire computer",
+    "Executes program instructions and performs calculations",
+    "Holds the files and programs that users save long-term",
+    "Physically connects and enables communication between components"
    ],
-   "a": 1,
+   "a": 3,
    "e": "The motherboard is the main circuit board linking CPU, RAM, storage, and other parts.",
    "c": 4
   },
@@ -1098,12 +1098,12 @@
    "u": 1,
    "q": "What best explains why SSDs are generally preferred over traditional hard drives (HDDs)?",
    "o": [
-    "SSDs are cheaper per byte",
-    "SSDs have no storage limit",
-    "SSDs have no moving parts and are faster",
-    "SSDs are volatile like RAM"
+    "SSDs spin faster, which makes them quicker than HDDs",
+    "SSDs cost less than HDDs for the same capacity",
+    "SSDs lose their data when power is removed",
+    "SSDs have no moving parts and are faster"
    ],
-   "a": 2,
+   "a": 3,
    "e": "SSDs use flash memory with no moving parts, making them faster and more durable than spinning HDDs.",
    "c": 4
   },
@@ -1136,22 +1136,22 @@
    "u": 1,
    "q": "What is sampling, in the context of digital audio?",
    "o": [
-    "Compressing an image",
     "Measuring a sound wave's amplitude at regular intervals to store as numbers",
-    "Encoding text as ASCII",
-    "Running a CPU benchmark"
+    "Shrinking an audio file by removing frequencies people cannot hear",
+    "Converting digital audio back into an analog electrical signal",
+    "Adding extra bits to audio data so errors can be detected later"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Digital audio is created by sampling the analog wave repeatedly and storing each measurement as a binary number."
   },
   {
    "u": 1,
    "q": "Why might a text file be smaller than an image file of similar content length?",
    "o": [
-    "Text always compresses better than images by law",
+    "Text is always stored using fewer bits than images, since letters are encrypted",
     "Images generally require far more data per unit of content (many pixels vs. characters)",
-    "Image files use binary, but text files do not",
-    "Text cannot be stored digitally"
+    "Images are stored in binary, while text is stored in plain letters",
+    "Text files are compressed automatically by every operating system"
    ],
    "a": 1,
    "e": "Images typically require storing information for many pixels, resulting in much larger raw data compared to compact character-based text.",
@@ -1161,24 +1161,24 @@
    "u": 1,
    "q": "What best describes the relationship between hardware and software?",
    "o": [
-    "They are the same thing",
     "Hardware is the physical machine; software is the instructions that tell hardware what to do",
-    "Software replaces the need for hardware",
-    "Hardware only exists in the cloud"
+    "Software is the physical equipment; hardware is the programs that run on it",
+    "Hardware and software are two names for the same set of components",
+    "Software is the machine's physical casing; hardware is its stored data"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Hardware is physical components; software consists of programs/instructions that control hardware behavior."
   },
   {
    "u": 2,
    "q": "What is a variable in programming?",
    "o": [
-    "A fixed value that never changes",
+    "A constant value that is fixed once and cannot be reassigned",
+    "A block of code that repeats until a condition becomes false",
     "A named storage location that holds a value which can change",
-    "A type of loop",
-    "A syntax error"
+    "A rule describing the correct spelling of language keywords"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Variables store data that can be updated as the program runs.",
    "c": 0
   },
@@ -1276,12 +1276,12 @@
    "u": 2,
    "q": "What is the purpose of a comment in code?",
    "o": [
-    "To be executed as an instruction",
-    "To explain code to human readers; it is ignored by the computer",
-    "To declare variables",
-    "To cause an error"
+    "To tell the computer which instructions to run first or last",
+    "To store a value that the program reads while it runs",
+    "To mark a section of code that should be skipped on errors",
+    "To explain code to human readers; it is ignored by the computer"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Comments are notes for humans and are not executed by the program.",
    "c": 2
   },
@@ -1290,9 +1290,9 @@
    "q": "Which best describes a compiler?",
    "o": [
     "A tool that translates the entire program into machine code before it runs",
-    "A tool that only checks spelling",
-    "A tool that deletes bugs automatically",
-    "A type of variable"
+    "A tool that runs a program one statement at a time as it is executed",
+    "A tool that finds and corrects logic errors in the source code",
+    "A tool that formats the source code so it is easier to read"
    ],
    "a": 0,
    "e": "Compilers translate the whole source code into machine code ahead of execution.",
@@ -1302,24 +1302,24 @@
    "u": 2,
    "q": "Which best describes an interpreter?",
    "o": [
-    "It compiles code once and never again",
     "It executes code line-by-line, translating as it goes",
-    "It only works with binary files",
-    "It designs user interfaces"
+    "It translates the whole program into machine code before execution starts",
+    "It converts source code into a separate executable file for later use",
+    "It checks the program for errors and then deletes the source code"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Interpreters read and execute code one line/statement at a time."
   },
   {
    "u": 2,
    "q": "In most languages, what is the difference between = and ==?",
    "o": [
-    "There is no difference",
     "= assigns a value; == compares for equality",
-    "== assigns a value; = compares for equality",
-    "Both only work with numbers"
+    "= compares values for equality; == assigns a value to a variable",
+    "= is used with numbers, while == is used only with text",
+    "= checks for inequality; == checks whether a value is zero"
    ],
-   "a": 1,
+   "a": 0,
    "e": "= stores a value into a variable, while == checks whether two values are equal."
   },
   {
@@ -1365,24 +1365,24 @@
    "u": 2,
    "q": "Why might input read from a user need to be converted before doing math with it?",
    "o": [
-    "Input is always already a number",
+    "Input is always read as an integer, which is the wrong type for decimals",
+    "Computers cannot do math until a value is stored in a file first",
     "Input is often read as a string/text, even if it looks like a number",
-    "Conversion is never needed",
-    "Math cannot be performed in programs"
+    "Input is read in binary, so it must be converted back into decimal"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Many languages read user input as text (a string), which must be converted to a numeric type for arithmetic."
   },
   {
    "u": 2,
    "q": "What is the primary purpose of using functions instead of repeating code?",
    "o": [
-    "To make code run slower",
-    "To avoid duplicating logic and make code reusable/organized",
-    "To increase the number of syntax errors",
-    "Functions have no real benefit"
+    "To make the program use more memory so it runs more reliably",
+    "To force every part of the code to execute in a fixed order",
+    "To hide the code so that other programmers cannot read it",
+    "To avoid duplicating logic and make code reusable/organized"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Functions let you reuse the same logic without copy-pasting it repeatedly."
   },
   {
@@ -1390,9 +1390,9 @@
    "q": "What does 'static typing' mean?",
    "o": [
     "Variable types are declared and fixed, checked before running",
-    "Types are decided randomly",
-    "Variables cannot change value",
-    "There is no such concept"
+    "Types are determined while the program runs and may change freely",
+    "Variables are constants whose values are locked after being set",
+    "Types are assigned by the compiler based on how the variable is named"
    ],
    "a": 0,
    "e": "Statically typed languages require explicit types that are checked before the program runs.",
@@ -1402,12 +1402,12 @@
    "u": 2,
    "q": "What does 'dynamic typing' mean, as used in Python?",
    "o": [
+    "Types must be declared explicitly and are checked before the program runs",
     "Variable types are determined automatically at runtime and can change",
-    "Types must be manually declared",
-    "The language has no data types",
-    "Only numbers can be stored"
+    "Variables are limited to one type and cannot be reassigned later",
+    "Types are chosen by the programmer at compile time and never altered"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Dynamically typed languages infer types automatically, and a variable's type can change.",
    "c": 0
   },
@@ -1415,10 +1415,10 @@
    "u": 2,
    "q": "What is version control (e.g., Git) primarily used for?",
    "o": [
-    "Compiling code faster",
+    "Speeding up programs by optimizing the code as it runs",
     "Tracking changes to code over time and enabling collaboration",
-    "Replacing the need for testing",
-    "Encrypting source code"
+    "Checking code for syntax errors before it is executed",
+    "Keeping the code private so that no one else can read it"
    ],
    "a": 1,
    "e": "Version control tracks historical changes and helps multiple people collaborate on code.",
@@ -1428,10 +1428,10 @@
    "u": 2,
    "q": "What does a debugger allow a programmer to do?",
    "o": [
-    "Automatically fix all bugs",
+    "Translate the program into machine code before it is run",
     "Pause execution and inspect variable values step by step",
-    "Skip writing tests",
-    "Compile code into hexadecimal"
+    "Automatically rewrite faulty code so that it passes every test",
+    "Measure how fast the program runs on different processors"
    ],
    "a": 1,
    "e": "A debugger lets you step through code and examine program state to find bugs.",
@@ -1454,12 +1454,12 @@
    "u": 2,
    "q": "What is an 'edge case' in testing?",
    "o": [
-    "The most common, typical input",
     "An unusual or extreme input, like zero or an empty string, that might break code",
-    "A syntax error",
-    "A type of variable"
+    "A very common input that the program handles in normal use",
+    "A mistake in spelling that stops the program from compiling",
+    "A test that runs the same input many times to check speed"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Edge cases test boundary or unusual conditions that often reveal bugs.",
    "c": 4
   },
@@ -1467,12 +1467,12 @@
    "u": 2,
    "q": "What does the order of operations (operator precedence) determine?",
    "o": [
-    "Which variable name is valid",
     "The order in which parts of an expression are evaluated",
-    "How comments are written",
-    "Which language is fastest"
+    "How variable names are chosen and written in a program",
+    "How much memory an expression uses while it is running",
+    "Which statements in a program are executed first or last"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Precedence rules dictate, e.g., that multiplication happens before addition unless parentheses override it.",
    "c": 1
   },
@@ -1493,24 +1493,24 @@
    "u": 2,
    "q": "What does the NOT operator do to a boolean value?",
    "o": [
-    "Doubles it",
-    "Flips true to false and false to true",
-    "Adds one to it",
-    "Converts it to a string"
+    "Multiplies the value by negative one",
+    "Returns true only if both of two values match",
+    "Rounds the value to the nearest whole number",
+    "Flips true to false and false to true"
    ],
-   "a": 1,
+   "a": 3,
    "e": "NOT inverts a boolean's value."
   },
   {
    "u": 2,
    "q": "What is object-oriented programming primarily organized around?",
    "o": [
-    "A strict sequence of unrelated steps",
     "Objects that bundle data and behavior together",
-    "Only mathematical formulas",
-    "Binary numbers"
+    "Functions that run in a fixed order, one after the other",
+    "Mathematical rules that are applied to every input value",
+    "Pages and layouts that are shown to the user on screen"
    ],
-   "a": 1,
+   "a": 0,
    "e": "OOP structures code as objects that combine data (attributes) and behavior (methods).",
    "c": 5
   },
@@ -1519,9 +1519,9 @@
    "q": "What is procedural programming primarily organized around?",
    "o": [
     "Sequences of steps/functions performed in order",
-    "Randomized execution",
-    "Only graphical elements",
-    "Binary trees exclusively"
+    "Objects that combine data and behavior into one unit",
+    "Rules and facts that the program uses to infer answers",
+    "Events that trigger code when users click or type"
    ],
    "a": 0,
    "e": "Procedural programming follows a step-by-step, function-based approach to solving problems.",
@@ -1531,12 +1531,12 @@
    "u": 2,
    "q": "Why use meaningful variable names like 'totalScore' instead of 'x'?",
    "o": [
-    "It makes the program run faster",
     "It makes code more readable and easier to maintain",
-    "It is required by all compilers",
-    "It prevents all errors"
+    "It reduces the memory the program uses while running",
+    "It lets the compiler skip checking for syntax errors",
+    "It stops other programmers from changing the code"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Descriptive names improve readability without affecting program speed or correctness.",
    "c": 4
   },
@@ -1544,12 +1544,12 @@
    "u": 2,
    "q": "What is a library or framework in programming?",
    "o": [
-    "A physical building for storing computers",
     "Pre-written code that provides reusable functionality",
-    "A type of syntax error",
-    "A hardware component"
+    "A set of rules for how data is sent between two computers",
+    "A tool that translates code into machine instructions",
+    "A program that checks code for errors while it is typed"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Libraries and frameworks give programmers reusable, pre-built code for common tasks.",
    "c": 5
   },
@@ -1570,22 +1570,22 @@
    "u": 2,
    "q": "Which best explains why indentation matters in Python specifically?",
    "o": [
-    "It is purely stylistic and has no effect on the program",
     "Python uses indentation to define code blocks/structure",
-    "Indentation only affects comments",
-    "Python ignores all whitespace"
+    "It only affects how code looks, and the interpreter ignores it",
+    "It is required only for comments and documentation strings",
+    "It controls how many spaces appear in printed output"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Unlike many languages that use braces, Python relies on indentation to define blocks of code."
   },
   {
    "u": 2,
    "q": "What happens if you try to divide a number by zero at runtime in many languages?",
    "o": [
-    "It always returns zero",
+    "It quietly produces the result infinity and the program continues",
     "It typically causes a runtime error/exception",
-    "It automatically fixes itself",
-    "It becomes a string"
+    "It produces zero, since nothing can be shared with no groups",
+    "It converts the number to a string and the program continues"
    ],
    "a": 1,
    "e": "Division by zero is undefined and commonly raises a runtime error."
@@ -1607,12 +1607,12 @@
    "u": 2,
    "q": "Which statement about testing with a range of inputs is most accurate?",
    "o": [
-    "Testing only 'normal' inputs is sufficient",
-    "Testing should include typical, boundary, and invalid inputs to catch bugs",
-    "Testing is unnecessary if code compiles",
-    "Only professional programmers need to test code"
+    "Testing a single typical input is enough to prove the code works",
+    "Testing is only needed after the program crashes for users",
+    "Testing should avoid invalid inputs, since they are unrealistic",
+    "Testing should include typical, boundary, and invalid inputs to catch bugs"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Thorough testing covers typical cases plus edge cases and invalid inputs."
   },
   {
@@ -1632,24 +1632,24 @@
    "u": 2,
    "q": "Why might a program with correct syntax still give the wrong answer?",
    "o": [
-    "This is impossible if syntax is correct",
+    "Because the compiler skips the logic checks in valid code",
+    "Because the computer misreads correct syntax at runtime",
     "It may contain a logic error in its reasoning or algorithm",
-    "Compilers always catch all mistakes",
-    "Correct syntax guarantees correct output"
+    "Because the hardware may be too slow to finish the work"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Syntax correctness only means the code will run — it doesn't guarantee the logic behind it is right."
   },
   {
    "u": 2,
    "q": "What does 'readable code' primarily help with?",
    "o": [
-    "Making the CPU run faster",
+    "Making the program run faster by reducing CPU workload",
+    "Shrinking the compiled file so it takes less disk space",
     "Helping humans understand, maintain, and debug the code later",
-    "Reducing file size to zero",
-    "Avoiding the need for an operating system"
+    "Preventing runtime errors by checking each line automatically"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Readable code is easier for the original author or others to understand and maintain over time.",
    "c": 4
   },
@@ -1671,9 +1671,9 @@
    "q": "What does it mean for a program to execute 'top to bottom' by default?",
    "o": [
     "Statements run in the order they are written unless control flow changes that",
-    "Statements run randomly",
-    "The last line always runs first",
-    "Only the first line ever executes"
+    "Statements run from the bottom upward, starting with the last line",
+    "Statements run in alphabetical order by the names they use",
+    "Statements run in whatever order the computer finds fastest"
    ],
    "a": 0,
    "e": "Without loops, conditionals, or function calls redirecting flow, a program executes statements sequentially from top to bottom.",
@@ -1683,12 +1683,12 @@
    "u": 3,
    "q": "What does an if statement do?",
    "o": [
-    "Repeats code a fixed number of times",
+    "Repeats a block of code until a condition becomes false",
+    "Stores a value that can be used later in the program",
     "Runs a block of code only if a condition is true",
-    "Defines a new function",
-    "Declares a variable"
+    "Stops the whole program as soon as an error occurs"
    ],
-   "a": 1,
+   "a": 2,
    "e": "An if statement conditionally executes code based on a boolean condition.",
    "c": 0
   },
@@ -1696,10 +1696,10 @@
    "u": 3,
    "q": "When does the else block execute?",
    "o": [
-    "Always, regardless of the if condition",
+    "Whenever the if block has finished running its own code",
     "Only when the preceding if (and any elif) conditions are false",
-    "Before the if condition is checked",
-    "Only inside loops"
+    "Only when the if condition is true and another condition is too",
+    "Every time the loop reaches the end of its current pass"
    ],
    "a": 1,
    "e": "else runs when none of the preceding conditions in the chain were true.",
@@ -1748,12 +1748,12 @@
    "u": 3,
    "q": "What does the continue statement do inside a loop?",
    "o": [
-    "Ends the loop completely",
+    "Stops the loop and continues with the code after the loop",
+    "Pauses the program until the user enters a new value",
     "Skips the rest of the current iteration and proceeds to the next one",
-    "Declares a new variable",
-    "Calls a function"
+    "Restarts the loop from the very beginning with fresh variables"
    ],
-   "a": 1,
+   "a": 2,
    "e": "continue skips remaining code in the current iteration but keeps the loop running.",
    "c": 1
   },
@@ -1761,22 +1761,22 @@
    "u": 3,
    "q": "What is an infinite loop?",
    "o": [
-    "A loop that runs exactly once",
+    "A loop that runs through a list until its last item is reached",
+    "A loop that repeats exactly as many times as the user chooses",
     "A loop whose condition never becomes false, so it never stops",
-    "A function with no return value",
-    "A syntax error"
+    "A loop whose body is skipped because its condition starts false"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Infinite loops occur when the stopping condition is never met."
   },
   {
    "u": 3,
    "q": "What is a function in programming?",
    "o": [
-    "A single variable",
+    "A named value that stores data which can change during the program",
     "A reusable, named block of code that performs a task",
-    "A type of loop only",
-    "A hardware component"
+    "A repeated block of code that ends when a condition fails",
+    "A rule describing how operators are evaluated in expressions"
    ],
    "a": 1,
    "e": "Functions are reusable blocks of code that can be called by name.",
@@ -1786,12 +1786,12 @@
    "u": 3,
    "q": "What is the difference between a parameter and an argument?",
    "o": [
-    "They are exactly the same thing",
+    "A parameter is the value passed at call time; an argument is the name in the definition",
+    "A parameter is used in functions; an argument is used only in loops",
     "A parameter is the placeholder in a function's definition; an argument is the actual value passed in",
-    "An argument is defined in the function; a parameter is passed at call time",
-    "Parameters only exist in loops"
+    "A parameter is always a number; an argument is always a string"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Parameters are named in the function definition; arguments are the real values supplied when calling.",
    "c": 2
   },
@@ -1799,12 +1799,12 @@
    "u": 3,
    "q": "What does a return statement do?",
    "o": [
-    "Prints a value permanently",
-    "Sends a value back to the caller and ends the function",
-    "Declares a global variable",
-    "Starts an infinite loop"
+    "Displays a value on the screen and then keeps the function going",
+    "Saves a value in a file so other programs can read it later",
+    "Repeats the function body until the caller asks it to stop",
+    "Sends a value back to the caller and ends the function"
    ],
-   "a": 1,
+   "a": 3,
    "e": "return sends a result back to wherever the function was called and exits the function.",
    "c": 2
   },
@@ -1812,12 +1812,12 @@
    "u": 3,
    "q": "What is a local variable?",
    "o": [
-    "A variable accessible from anywhere in the program",
-    "A variable defined inside a function, accessible only within that function",
-    "A variable that never changes",
-    "A type of loop"
+    "A variable defined outside every function, usable throughout the program",
+    "A variable stored on the user's own computer rather than a server",
+    "A variable whose value is fixed when the program first starts",
+    "A variable defined inside a function, accessible only within that function"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Local variables exist only within the function (or block) where they are defined.",
    "c": 3
   },
@@ -1826,9 +1826,9 @@
    "q": "What is a global variable?",
    "o": [
     "A variable defined outside all functions, accessible throughout the program",
-    "A variable only usable inside one function",
-    "A constant that cannot be read",
-    "A syntax error"
+    "A variable defined inside a function, usable only within it",
+    "A variable shared between different programs over a network",
+    "A variable whose value is set by the user from the keyboard"
    ],
    "a": 0,
    "e": "Global variables are declared outside functions and can be accessed from many parts of a program.",
@@ -1838,12 +1838,12 @@
    "u": 3,
    "q": "What is recursion?",
    "o": [
-    "A loop that never ends",
     "A function calling itself to solve a smaller version of the same problem",
-    "An error in syntax",
-    "A type of variable"
+    "A loop that repeats a block of code until its condition is false",
+    "A function that runs after all other functions have finished",
+    "A method of storing a list of values in a single variable"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Recursion involves a function invoking itself, typically breaking a problem into smaller subproblems.",
    "c": 4
   },
@@ -1851,10 +1851,10 @@
    "u": 3,
    "q": "What must every correctly written recursive function have?",
    "o": [
-    "A while loop",
+    "A loop that repeats its steps until the stack is empty",
     "A base case that stops the recursion",
-    "At least two parameters",
-    "A global variable"
+    "A return value that is always a number or a string",
+    "A parameter that tracks how many calls have been made"
    ],
    "a": 1,
    "e": "A base case prevents infinite recursion by giving a stopping condition.",
@@ -1864,10 +1864,10 @@
    "u": 3,
    "q": "What is an off-by-one error?",
    "o": [
-    "A syntax error with punctuation",
+    "A bug where a function returns the wrong data type from a call",
     "A bug where a loop runs one time too many or too few",
-    "An error only in recursive functions",
-    "A hardware malfunction"
+    "A bug where two variables accidentally share the same name",
+    "A bug where a loop never reaches its condition and runs forever"
    ],
    "a": 1,
    "e": "Off-by-one errors often stem from miscounting loop bounds or indices.",
@@ -1890,10 +1890,10 @@
    "u": 3,
    "q": "What happens to a function's local variables after the function finishes running?",
    "o": [
-    "They become global",
+    "They are kept in memory and can be read by later function calls",
     "They are typically destroyed and no longer accessible",
-    "They are saved to disk automatically",
-    "They turn into parameters"
+    "They are copied into the global scope for other functions to use",
+    "They are returned to the caller as a list of values"
    ],
    "a": 1,
    "e": "Local variables generally disappear once their function call ends.",
@@ -1903,12 +1903,12 @@
    "u": 3,
    "q": "What is the 'accumulator pattern' commonly used for?",
    "o": [
-    "Declaring functions",
     "Building up a result (like a sum or count) using a variable updated inside a loop",
-    "Creating infinite loops intentionally",
-    "Comparing two floats"
+    "Splitting a large function into several smaller helper functions",
+    "Stopping a loop early once a certain condition has been met",
+    "Converting user input from one data type into another"
    ],
-   "a": 1,
+   "a": 0,
    "e": "An accumulator variable (e.g., total = 0) updates each loop iteration to build a cumulative result.",
    "c": 5
   },
@@ -1916,12 +1916,12 @@
    "u": 3,
    "q": "Why can comparing floating-point numbers for exact equality be unreliable?",
    "o": [
-    "Floats cannot be compared at all",
+    "Floats are stored as text, so they must be converted before comparing",
+    "Computers round every float up to the nearest whole number",
     "Decimal values may not be stored with perfect precision in binary",
-    "Floats are always integers internally",
-    "This is never actually a problem"
+    "Floats are only compared by their sign and not by their size"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Due to binary representation limits, floats can have tiny rounding errors that break exact equality checks.",
    "c": 5
   },
@@ -1929,12 +1929,12 @@
    "u": 3,
    "q": "What does nesting a conditional inside another conditional allow?",
    "o": [
+    "Repeating a block of code until a condition changes",
+    "Storing several values under one shared variable name",
     "Checking multiple layers of logic/conditions",
-    "Running code faster",
-    "Avoiding the need for functions",
-    "Converting types automatically"
+    "Speeding up decisions by skipping the outer condition"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Nested if statements let a program evaluate additional conditions within an already-true branch.",
    "c": 0
   },
@@ -1967,12 +1967,12 @@
    "u": 3,
    "q": "Which best describes tracing through code?",
    "o": [
-    "Randomly guessing outputs",
-    "Manually stepping through code line by line to verify its logic",
-    "Only running code with a debugger tool",
-    "Deleting unnecessary comments"
+    "Running the program repeatedly to see how long it takes to finish",
+    "Reading the code aloud to check that comments match the logic",
+    "Converting the program into a flowchart before it can be run",
+    "Manually stepping through code line by line to verify its logic"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Tracing involves mentally or manually following execution to understand or verify program behavior.",
    "c": 4
   },
@@ -1993,10 +1993,10 @@
    "u": 3,
    "q": "Why is testing boundary values (like the first or last item) important?",
    "o": [
-    "It's not important",
+    "Boundary values are always handled correctly by modern compilers",
     "Boundary/edge cases often reveal bugs that typical inputs don't",
-    "It guarantees zero bugs exist",
-    "It only matters for recursive functions"
+    "Testing boundaries removes the need for any other kind of test",
+    "Boundary values only matter when the program reads user input"
    ],
    "a": 1,
    "e": "Edge cases frequently expose issues like off-by-one errors that mid-range inputs wouldn't.",
@@ -2006,12 +2006,12 @@
    "u": 3,
    "q": "What best distinguishes a function definition from a function call?",
    "o": [
-    "They are the same action",
-    "Definition creates the function's code; a call executes it with specific arguments",
-    "A call happens before a definition always",
-    "Definitions cannot include parameters"
+    "A definition executes the code; a call only describes the function's name",
+    "A definition is run each time; a call is written once at the top",
+    "A call creates the function; a definition passes values to it",
+    "Definition creates the function's code; a call executes it with specific arguments"
    ],
-   "a": 1,
+   "a": 3,
    "e": "You define a function once, then call (invoke) it as many times as needed with arguments.",
    "c": 2
   },
@@ -2032,12 +2032,12 @@
    "u": 3,
    "q": "What happens if a recursive function is missing a base case?",
    "o": [
-    "It runs once and stops safely",
+    "It stops after a few calls because the language limits recursion depth",
+    "It loops forever without using any additional memory",
     "It will recurse infinitely (or until a stack/memory error occurs)",
-    "It automatically becomes a loop",
-    "Nothing unusual happens"
+    "It returns an empty value and the program carries on normally"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Without a base case, recursive calls never stop, eventually causing a stack overflow or crash.",
    "c": 4
   },
@@ -2045,10 +2045,10 @@
    "u": 3,
    "q": "What is scope, in programming?",
    "o": [
-    "The speed of a program",
+    "How many times a block of code is repeated in a loop",
     "The region of code where a variable can be accessed",
-    "A type of loop",
-    "A hardware setting"
+    "The data type a variable is allowed to store",
+    "How much memory is reserved for a variable at runtime"
    ],
    "a": 1,
    "e": "Scope defines where in the code a variable's name is valid and accessible.",
@@ -2058,12 +2058,12 @@
    "u": 3,
    "q": "Why might overusing global variables make debugging harder?",
    "o": [
-    "Global variables don't actually exist in most languages",
-    "Any function could modify a global variable, making it hard to track where a bug originated",
-    "Global variables always cause syntax errors",
-    "They make programs run faster with fewer bugs"
+    "Global variables take longer to read, so programs become very slow",
+    "Global variables cannot be changed once the program has started",
+    "Global variables are hidden from the debugger by the interpreter",
+    "Any function could modify a global variable, making it hard to track where a bug originated"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Because many parts of a program can alter a global variable, tracing unexpected changes becomes difficult.",
    "c": 3
   },
@@ -2096,12 +2096,12 @@
    "u": 3,
    "q": "Which best describes why functions improve code organization?",
    "o": [
-    "They make code longer and harder to read",
     "They let you name and reuse logic instead of duplicating it everywhere",
-    "They are required by every programming language",
-    "They eliminate the need for variables"
+    "They stop programmers from needing to name or comment any code",
+    "They make the program run faster because the CPU favors them",
+    "They ensure every variable is accessible from the whole program"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Functions package logic into reusable, named units, reducing duplication and improving clarity."
   },
   {
@@ -2121,12 +2121,12 @@
    "u": 3,
    "q": "Which loop structure would best handle 'keep asking the user for input until they enter a valid number'?",
    "o": [
-    "A for loop with a fixed range",
-    "A while loop tied to a validity condition",
-    "An if statement alone",
-    "A function with no loop"
+    "A for loop that counts through numbers from one to ten",
+    "A nested if statement that checks each possible number",
+    "A function that returns the input without checking it",
+    "A while loop tied to a validity condition"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Since the number of attempts is unknown in advance, a while loop tied to input validity fits best.",
    "c": 1
   },
@@ -2159,12 +2159,12 @@
    "u": 3,
    "q": "What does it mean if a while loop's condition is checked before each iteration, including the first?",
    "o": [
+    "The loop body always runs once before the condition is tested",
+    "The loop body runs forever whenever the condition is true",
     "The loop body might execute zero times if the condition starts false",
-    "The loop body always executes at least once",
-    "The loop is guaranteed to be infinite",
-    "The condition is irrelevant"
+    "The condition is only checked after the final iteration ends"
    ],
-   "a": 0,
+   "a": 2,
    "e": "A standard while loop tests its condition before running the body, so it may never execute if false initially.",
    "c": 1
   },
@@ -2172,10 +2172,10 @@
    "u": 3,
    "q": "Which best describes why breaking a large problem into functions helps with debugging?",
    "o": [
-    "It hides all errors",
+    "It lets the compiler skip testing for any logic mistakes",
     "Each function can be tested and reasoned about independently",
-    "It removes the need for return statements",
-    "It guarantees no logic errors"
+    "It makes every function share the same set of variables",
+    "It ensures bugs appear in only one place at the end"
    ],
    "a": 1,
    "e": "Smaller, isolated functions are easier to test and pinpoint bugs in.",
@@ -2185,12 +2185,12 @@
    "u": 3,
    "q": "What is the effect of placing a return statement in the middle of a function?",
    "o": [
-    "It causes a syntax error",
     "It immediately exits the function, skipping any remaining code below it",
-    "It pauses the function until called again",
-    "It only works inside loops"
+    "It pauses the function and resumes from there on the next call",
+    "It skips to the end and then goes back to run the lines below",
+    "It only exits the current loop while the function keeps running"
    ],
-   "a": 1,
+   "a": 0,
    "e": "A return statement ends function execution immediately, wherever it appears.",
    "c": 2
   },
@@ -2315,12 +2315,12 @@
    "u": 4,
    "q": "What makes a set different from a list?",
    "o": [
-    "A set can contain duplicates; a list cannot",
+    "A set preserves insertion order and indexes; a list does not",
+    "A set holds only numbers; a list holds any type of data",
     "A set stores only unique values; a list can contain duplicates",
-    "Sets are always sorted; lists are not",
-    "There is no difference"
+    "A set is stored on disk; a list is stored in memory only"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Sets automatically enforce uniqueness, unlike lists.",
    "c": 3
   },
@@ -2367,12 +2367,12 @@
    "u": 4,
    "q": "What is a binary tree?",
    "o": [
-    "A tree where each node has at most two children",
-    "A tree with only one node",
-    "A tree stored in binary code",
-    "A type of queue"
+    "A tree in which every node has exactly three children",
+    "A tree whose nodes can only hold the values zero and one",
+    "A tree in which each node links back to a single parent only",
+    "A tree where each node has at most two children"
    ],
-   "a": 0,
+   "a": 3,
    "e": "In a binary tree, each node has at most two children, often called left and right.",
    "c": 4
   },
@@ -2380,12 +2380,12 @@
    "u": 4,
    "q": "What is a graph, in data structure terms?",
    "o": [
-    "A chart showing statistics",
     "A structure of nodes (vertices) connected by edges, representing relationships",
-    "A type of dictionary",
-    "A sorted array"
+    "A diagram that plots data on x and y axes for a report",
+    "A list of values that are stored in a fixed order by index",
+    "A tree in which every node has a single parent above it"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Graphs model nodes and the connections (edges) between them, useful for networks.",
    "c": 4
   },
@@ -2393,12 +2393,12 @@
    "u": 4,
    "q": "What is the difference between a directed and undirected graph?",
    "o": [
-    "Directed graphs have no edges",
-    "Directed edges go one way; undirected edges go both ways",
-    "Undirected graphs cannot have cycles",
-    "There is no meaningful difference"
+    "Directed graphs have no cycles; undirected graphs always have cycles",
+    "Directed graphs store numbers; undirected graphs store only text",
+    "Directed graphs have more nodes than undirected graphs do",
+    "Directed edges go one way; undirected edges go both ways"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Directed graph edges have a specific direction; undirected edges can be traversed both ways.",
    "c": 4
   },
@@ -2455,10 +2455,10 @@
    "u": 4,
    "q": "What generally makes dictionary/hash map lookups fast?",
    "o": [
-    "They store data in alphabetical order only",
+    "They keep every key in sorted order so a binary search can be used",
     "A hash function converts the key into an internal index",
-    "They search every entry one at a time",
-    "They use recursion"
+    "They compare the key against each stored value from the start",
+    "They split the table in half repeatedly until the key is found"
    ],
    "a": 1,
    "e": "Hashing computes a direct index from the key, avoiding a full search.",
@@ -2468,12 +2468,12 @@
    "u": 4,
    "q": "What is a 2D array commonly used to represent?",
    "o": [
-    "A single number",
+    "A list of values placed one after another in a single row",
+    "A hierarchy of parent and child nodes with a root",
     "A grid, like a spreadsheet or game board",
-    "A stack only",
-    "A dictionary key"
+    "A set of key-value pairs that are stored by name"
    ],
-   "a": 1,
+   "a": 2,
    "e": "A 2D array (array of arrays) naturally models rows and columns, like a grid."
   },
   {
@@ -2505,12 +2505,12 @@
    "u": 4,
    "q": "What best distinguishes a tree from a general graph?",
    "o": [
-    "Trees cannot have more than one node",
+    "A tree stores values in sorted order; a graph stores them without any order",
+    "A tree has edges that go both ways; a graph has edges that go one way",
     "A tree is a special graph with one root and no cycles",
-    "Graphs cannot be drawn visually",
-    "Trees always have exactly two children per node"
+    "A tree must be binary; a graph can have any number of children"
    ],
-   "a": 1,
+   "a": 2,
    "e": "A tree is a hierarchical graph with a single root, no cycles, and each node connected via exactly one path from the root.",
    "c": 4
   },
@@ -2518,12 +2518,12 @@
    "u": 4,
    "q": "What happens when you add a value to a set that it already contains?",
    "o": [
-    "The set stores two copies",
-    "The set is unaffected since it only stores unique values",
-    "An error always occurs",
-    "The set converts to a list"
+    "The set stores the value again and counts how many times it occurs",
+    "The set replaces its earlier items with the newly added value",
+    "The program raises an error and the set is left empty",
+    "The set is unaffected since it only stores unique values"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Sets ignore duplicate additions since they only hold unique values.",
    "c": 3
   },
@@ -2569,12 +2569,12 @@
    "u": 4,
    "q": "Why are stacks useful for tracking function calls in a program (the 'call stack')?",
    "o": [
-    "Functions must run in random order",
     "The most recently called function needs to finish and return first, matching LIFO behavior",
-    "Function calls never need to be tracked",
-    "Stacks are only used for numbers"
+    "Functions must be completed in the order in which they were first written",
+    "The oldest function call has to finish first, matching FIFO behavior",
+    "Calls are sorted by name so the program can look them up quickly"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Since the most recent function call must complete before returning to the previous one, a stack's LIFO order fits naturally."
   },
   {
@@ -2606,12 +2606,12 @@
    "u": 4,
    "q": "What kind of tree would you use to organize a company's reporting hierarchy?",
    "o": [
-    "A binary tree strictly limited to 2 children",
     "A general tree, since managers may have many direct reports",
-    "A stack",
-    "A set"
+    "A binary search tree, since every manager has exactly two reports",
+    "A queue, since people are added to the end and removed from the front",
+    "A stack, since the most recent hire is the first to be promoted"
    ],
-   "a": 1,
+   "a": 0,
    "e": "A general tree allows any number of children per node, fitting an org chart better than a strict binary tree.",
    "c": 4
   },
@@ -2619,12 +2619,12 @@
    "u": 4,
    "q": "What does it mean that arrays have a 'fixed size' in some languages?",
    "o": [
-    "Arrays cannot store any data",
+    "The array can only hold a single value that never changes",
+    "The array can grow automatically whenever a new item is added",
     "Once created, the array cannot grow or shrink without creating a new one",
-    "Arrays are always exactly 10 elements",
-    "Arrays cannot store numbers"
+    "The array holds values that cannot be changed after creation"
    ],
-   "a": 1,
+   "a": 2,
    "e": "In some languages, arrays are allocated at a fixed size and cannot be resized directly.",
    "c": 0
   },
@@ -2632,12 +2632,12 @@
    "u": 4,
    "q": "Which best explains why Python lists differ slightly from traditional fixed-size arrays?",
    "o": [
-    "Python lists cannot store multiple types",
+    "Python lists hold a single type and must be declared with a fixed length",
+    "Python lists are stored as hash tables and indexed by keys",
     "Python lists can dynamically grow and shrink as elements are added or removed",
-    "Python lists have no indexing",
-    "Python lists are always sorted"
+    "Python lists keep their items in sorted order after each change"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Python's built-in list type is dynamic, automatically resizing as needed.",
    "c": 0
   },
@@ -2645,12 +2645,12 @@
    "u": 4,
    "q": "What is a practical example of using a stack in web browsers?",
    "o": [
-    "The bookmarks list",
-    "The 'back' button history, since the most recently visited page is revisited first",
-    "The address bar",
-    "The search engine index"
+    "The list of open tabs, since the first tab opened is shown first",
+    "The download queue, since the first file requested finishes first",
+    "The cache of images, since the largest file is removed first",
+    "The 'back' button history, since the most recently visited page is revisited first"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Browser back-button history behaves like a stack, returning to the most recently visited page first."
   },
   {
@@ -2682,24 +2682,24 @@
    "u": 4,
    "q": "When would choosing a set over a list be most beneficial?",
    "o": [
-    "When order and duplicates both matter",
     "When you need fast membership checks and don't care about duplicates or order",
-    "When you need to access items by numeric index",
-    "When you need key-value pairs"
+    "When items must stay in the order in which they were added",
+    "When you need to store the same value many times in the data",
+    "When you need to look up each item by its position in the data"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Sets excel at fast 'is this value present?' checks and automatically discarding duplicates."
   },
   {
    "u": 4,
    "q": "What best distinguishes push/pop operations from enqueue/dequeue operations?",
    "o": [
-    "They are identical operations with different names",
     "Push/pop operate on a stack (LIFO); enqueue/dequeue operate on a queue (FIFO)",
-    "Push/pop only work with dictionaries",
-    "Enqueue/dequeue only work with trees"
+    "Push/pop work on queues (FIFO); enqueue/dequeue work on stacks (LIFO)",
+    "Push/pop add items only; enqueue/dequeue only remove items",
+    "Push/pop are used for sorted data; enqueue/dequeue for unsorted data"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Push/pop describe stack operations, while enqueue/dequeue describe queue operations, reflecting their different orderings.",
    "c": 1
   },
@@ -2707,12 +2707,12 @@
    "u": 5,
    "q": "What is an algorithm?",
    "o": [
-    "A programming language",
     "A precise, step-by-step procedure for solving a problem",
-    "A type of hardware",
-    "A syntax error"
+    "A tool that converts source code into machine instructions",
+    "A device that stores programs and data for the processor",
+    "A set of rules for how data is sent across a network"
    ],
-   "a": 1,
+   "a": 0,
    "e": "An algorithm is a clear, ordered sequence of steps to solve a problem.",
    "c": 0
   },
@@ -2733,12 +2733,12 @@
    "u": 5,
    "q": "What is pseudocode?",
    "o": [
-    "A compiled programming language",
-    "An informal, human-readable way to outline an algorithm before coding it",
-    "A type of hardware error",
-    "A binary encoding scheme"
+    "A language that the computer runs directly without translation",
+    "A tool that converts source code into machine instructions",
+    "A debugging method that tracks the values of variables",
+    "An informal, human-readable way to outline an algorithm before coding it"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Pseudocode describes algorithm logic in plain, structured language without strict syntax.",
    "c": 0
   },
@@ -2759,12 +2759,12 @@
    "u": 5,
    "q": "How does binary search find a target value?",
    "o": [
-    "It checks every element in order from the start",
-    "It repeatedly checks the middle element and eliminates half the remaining data",
-    "It randomly guesses positions",
-    "It sorts the data first every time it's called"
+    "It checks each element from the front until the target is found",
+    "It splits the list into groups and sorts each group in turn",
+    "It jumps to a random position and moves left or right by one",
+    "It repeatedly checks the middle element and eliminates half the remaining data"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Binary search compares the middle element and discards the half that can't contain the target.",
    "c": 1
   },
@@ -2772,12 +2772,12 @@
    "u": 5,
    "q": "What is the main limitation of linear search compared to binary search on large datasets?",
    "o": [
-    "Linear search requires sorted data; binary search does not",
+    "Linear search works only on sorted data, but binary search works on any",
+    "Linear search needs more memory, since it copies the whole list",
     "Linear search can be much slower since it may check every element",
-    "Linear search cannot be used on arrays",
-    "Linear search always fails on large datasets"
+    "Linear search can return only one result, never an index"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Linear search's worst case checks every item, making it slower than binary search for large sorted datasets.",
    "c": 1
   },
@@ -2837,12 +2837,12 @@
    "u": 5,
    "q": "How does bubble sort work?",
    "o": [
-    "It divides data in half repeatedly",
-    "It repeatedly compares adjacent elements and swaps them if out of order",
-    "It uses a hash function to sort",
-    "It only works on sorted data"
+    "It splits the list in half and merges the sorted halves",
+    "It picks the smallest value and moves it to the front each pass",
+    "It builds a tree and reads the values back out in order",
+    "It repeatedly compares adjacent elements and swaps them if out of order"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Bubble sort makes multiple passes, swapping adjacent out-of-order elements each time.",
    "c": 2
   },
@@ -2850,10 +2850,10 @@
    "u": 5,
    "q": "What describes the general approach of merge sort?",
    "o": [
-    "Compare all pairs randomly",
+    "Repeatedly compare neighbors and swap them until nothing moves",
     "Divide the data in half repeatedly, sort each half, then merge the sorted halves",
-    "Only swap adjacent elements",
-    "Use a stack exclusively"
+    "Repeatedly find the smallest value and move it to the front",
+    "Pick a pivot value and group items on either side of it"
    ],
    "a": 1,
    "e": "Merge sort is a divide-and-conquer algorithm: split, sort recursively, then merge.",
@@ -2863,12 +2863,12 @@
    "u": 5,
    "q": "Why is Big-O notation useful for comparing algorithms?",
    "o": [
-    "It gives an exact number of seconds on any computer",
-    "It describes how runtime/memory use grows with input size, independent of hardware",
-    "It only applies to sorting algorithms",
-    "It measures how much electricity an algorithm uses"
+    "It gives the exact running time in seconds for a given computer",
+    "It counts the number of lines of code in each algorithm",
+    "It tells how accurate the answer of an algorithm will be",
+    "It describes how runtime/memory use grows with input size, independent of hardware"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Big-O abstracts away hardware specifics to describe growth trends as input size increases.",
    "c": 3
   },
@@ -2876,12 +2876,12 @@
    "u": 5,
    "q": "What is 'decomposition' as a problem-solving strategy?",
    "o": [
-    "Deleting unnecessary code",
     "Breaking a large problem into smaller, more manageable subproblems",
-    "Compressing a file",
-    "Running code faster"
+    "Removing unused code so that the program takes less memory",
+    "Making a program run faster by splitting it across processors",
+    "Ignoring unimportant details so that a problem looks simpler"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Decomposition splits complex problems into simpler pieces that are easier to solve individually.",
    "c": 4
   },
@@ -2889,10 +2889,10 @@
    "u": 5,
    "q": "What is 'abstraction' in problem solving?",
    "o": [
-    "Making a problem more complicated",
+    "Splitting a large problem into several smaller parts to solve",
     "Focusing on important details while ignoring irrelevant complexity",
-    "Writing code without comments",
-    "Avoiding all planning"
+    "Spotting common features shared by problems that were solved before",
+    "Writing out each step of the solution in exact order"
    ],
    "a": 1,
    "e": "Abstraction simplifies a problem by hiding unnecessary detail and focusing on what matters.",
@@ -2902,12 +2902,12 @@
    "u": 5,
    "q": "Why should you test an algorithm with edge cases, like empty input?",
    "o": [
-    "Edge cases never reveal bugs",
-    "Edge cases often expose problems that typical inputs do not",
-    "Testing is unnecessary if the algorithm compiles",
-    "Edge cases only matter for sorting algorithms"
+    "Edge cases are ignored by compilers, so they need no testing",
+    "Edge cases always produce the same result as typical inputs",
+    "Empty input is invalid, so a good algorithm never receives it",
+    "Edge cases often expose problems that typical inputs do not"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Boundary/edge cases frequently reveal issues a typical test case might miss.",
    "c": 4
   },
@@ -2915,10 +2915,10 @@
    "u": 5,
    "q": "What does it generally mean when one algorithm has a 'time versus space trade-off' compared to another?",
    "o": [
-    "It can only run on certain hardware",
+    "It can only run quickly on machines with several processors",
     "It might run faster while using more memory, or vice versa",
-    "It always uses less of both time and memory",
-    "It has no practical impact"
+    "It always finishes sooner but gives less accurate answers",
+    "It is faster in the best case but slower in the worst case"
    ],
    "a": 1,
    "e": "Some algorithms trade increased memory use for faster runtime, or vice versa."
@@ -2927,12 +2927,12 @@
    "u": 5,
    "q": "For a very small input size, why might a simple O(n²) algorithm be acceptable in practice?",
    "o": [
-    "It's never acceptable",
+    "Quadratic algorithms are always faster than linear ones when n is small",
+    "Small inputs fit in memory, so the algorithm needs no loops",
     "The difference in actual runtime may be negligible for small inputs",
-    "O(n²) is always faster than O(n) for any size",
-    "Simple algorithms are always the fastest"
+    "Big-O notation does not apply to inputs of fewer than 100 items"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Growth-rate differences matter most for large inputs; for small inputs the practical time difference can be minimal."
   },
   {
@@ -2952,12 +2952,12 @@
    "u": 5,
    "q": "What happens to the runtime of an O(log n) algorithm as input size grows very large?",
    "o": [
-    "It grows extremely fast",
     "It grows very slowly, since each step cuts the problem in half",
-    "It stays exactly constant",
-    "It becomes unpredictable"
+    "It grows in proportion to the input, doubling when the input doubles",
+    "It grows as the square of the input, quadrupling when n doubles",
+    "It stays the same no matter how large the input becomes"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Logarithmic growth increases very slowly because the problem size is repeatedly halved.",
    "c": 3
   },
@@ -2965,12 +2965,12 @@
    "u": 5,
    "q": "Which best describes selection sort?",
    "o": [
-    "It merges two halves together",
     "It repeatedly finds the smallest remaining element and places it in order",
-    "It only works on linked lists",
-    "It requires a hash map"
+    "It compares neighbors and swaps them until the list is in order",
+    "It splits the list, sorts each half and combines the two results",
+    "It inserts each new item into its place within a sorted section"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Selection sort selects the minimum remaining element each pass and moves it into place.",
    "c": 2
   },
@@ -2978,12 +2978,12 @@
    "u": 5,
    "q": "Why must an algorithm's steps be unambiguous?",
    "o": [
+    "So the algorithm can be run on any hardware at the same speed",
     "So a computer can follow them exactly without needing to guess intent",
-    "To make the algorithm harder to understand",
-    "Ambiguity is required for correctness",
-    "This requirement doesn't actually matter"
+    "So the algorithm always finishes in fewer steps than other methods",
+    "So that the algorithm can use only numbers and never text"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Since computers can't infer intent, each instruction must have one precise, clear meaning.",
    "c": 0
   },
@@ -3027,10 +3027,10 @@
    "u": 5,
    "q": "What does drawing a flowchart before coding typically help with?",
    "o": [
-    "Making the final code run faster automatically",
+    "Translating the logic into machine code for the processor",
     "Visually planning the logic and flow of a solution before implementation",
-    "Replacing the need for testing",
-    "Encrypting the algorithm"
+    "Finding syntax errors before the program is first compiled",
+    "Choosing which programming language is fastest for the task"
    ],
    "a": 1,
    "e": "Flowcharts and diagrams help plan and visualize logic before writing actual code.",
@@ -3040,12 +3040,12 @@
    "u": 5,
    "q": "Which statement about algorithm correctness is most accurate?",
    "o": [
-    "An algorithm is correct if it works on one sample input",
-    "An algorithm should be verified to work for all valid inputs, not just given examples",
-    "Correctness cannot be tested, only assumed",
-    "Big-O notation determines correctness"
+    "An algorithm is correct once it passes the first test written for it",
+    "Correctness depends on how fast the algorithm runs on large inputs",
+    "An algorithm is correct if it compiles without any syntax errors",
+    "An algorithm should be verified to work for all valid inputs, not just given examples"
    ],
-   "a": 1,
+   "a": 3,
    "e": "True correctness requires the algorithm to handle all valid inputs, not just the examples you tried.",
    "c": 0
   },
@@ -3065,12 +3065,12 @@
    "u": 5,
    "q": "What is the benefit of looking for patterns or similar previously-solved problems when problem solving?",
    "o": [
-    "It guarantees an immediate solution with zero effort",
-    "It can save time by reusing known strategies or algorithms that fit the new problem",
-    "Patterns are irrelevant to computer science",
-    "It only works for sorting problems"
+    "It proves a new solution is correct without any testing at all",
+    "It lets the programmer avoid understanding the new problem fully",
+    "It is useful only when the earlier problem used the same language",
+    "It can save time by reusing known strategies or algorithms that fit the new problem"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Recognizing a problem resembles one already solved lets you apply or adapt a known algorithm.",
    "c": 4
   },
@@ -3103,10 +3103,10 @@
    "u": 5,
    "q": "Which best describes the relationship between an algorithm and a specific programming language?",
    "o": [
-    "An algorithm can only be described in one specific programming language",
+    "An algorithm is a set of steps that works only in the language it was first written in",
     "An algorithm is a language-independent set of steps that could be implemented in many programming languages",
-    "Algorithms and programming languages are the same thing",
-    "Pseudocode is a real, executable programming language"
+    "An algorithm is the compiler that turns a language into machine code",
+    "An algorithm is the syntax of a language, such as its keywords and rules"
    ],
    "a": 1,
    "e": "An algorithm describes the logic of a solution abstractly, separate from any one language's syntax."
@@ -3128,12 +3128,12 @@
    "u": 5,
    "q": "What best distinguishes O(n) from O(n²) in practical terms for very large n?",
    "o": [
-    "They perform identically",
     "O(n²) grows much faster than O(n), often becoming impractically slow for large n",
-    "O(n) is always slower than O(n²)",
-    "Neither notation relates to actual performance"
+    "O(n) grows faster than O(n²), so it is slower for large n",
+    "Both grow at the same rate once n passes about one thousand",
+    "O(n²) is faster for large n, since it finishes in fewer steps"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Quadratic growth (O(n²)) scales far worse than linear growth (O(n)) as input size increases.",
    "c": 3
   },
@@ -3142,9 +3142,9 @@
    "q": "What is a key reason binary search is considered more efficient than linear search for large sorted datasets?",
    "o": [
     "It checks fewer elements by eliminating half the remaining data each step",
-    "It doesn't need the data to be in memory",
-    "It always finds the answer in one step",
-    "It works without any comparisons"
+    "It reads the data directly from disk, so it avoids the memory limits",
+    "It skips the comparison step by calculating the position of the target",
+    "It checks the data in random order, so it finds targets sooner"
    ],
    "a": 0,
    "e": "By discarding half the remaining elements each comparison, binary search needs far fewer steps than checking one by one.",
@@ -3206,7 +3206,7 @@
    "u": 5,
    "q": "Which of the following is NOT typically a step in a good problem-solving process?",
    "o": [
-    "Understanding the problem",
+    "Understanding the problem before choosing a method",
     "Planning a solution before coding",
     "Skipping testing once code compiles without errors",
     "Testing with edge cases"
@@ -3218,12 +3218,12 @@
    "u": 6,
    "q": "What is the main difference between the internet and the World Wide Web?",
    "o": [
-    "They are exactly the same thing",
+    "The internet is the set of linked pages; the Web is the physical network under it",
+    "The Web is the hardware network; the internet is one website within it",
     "The internet is the network infrastructure; the Web is a system of linked documents that runs on it",
-    "The Web existed before the internet",
-    "The internet only refers to email"
+    "The internet is a browser program; the Web is the servers that host it"
    ],
-   "a": 1,
+   "a": 2,
    "e": "The internet is the underlying network; the Web is one service/application that uses it.",
    "c": 0
   },
@@ -3231,12 +3231,12 @@
    "u": 6,
    "q": "What does an IP address do?",
    "o": [
-    "Encrypts a webpage",
     "Uniquely identifies a device on a network",
-    "Styles a webpage's appearance",
-    "Stores cookies"
+    "Encrypts the data sent between a browser and a web server",
+    "Translates a website name into an easy-to-read number",
+    "Controls how a page looks on different screen sizes"
    ],
-   "a": 1,
+   "a": 0,
    "e": "An IP address is a numeric label that identifies a device on a network.",
    "c": 1
   },
@@ -3244,12 +3244,12 @@
    "u": 6,
    "q": "What is the purpose of DNS (Domain Name System)?",
    "o": [
-    "To encrypt internet traffic",
     "To translate human-readable domain names into numeric IP addresses",
-    "To style webpages",
-    "To store user passwords"
+    "To assign a unique numeric address to each device on a network",
+    "To encrypt the data sent between a browser and a server",
+    "To block unsafe websites before they load in a browser"
    ],
-   "a": 1,
+   "a": 0,
    "e": "DNS converts names like example.com into the IP addresses computers actually use to connect.",
    "c": 1
   },
@@ -3257,10 +3257,10 @@
    "u": 6,
    "q": "What is HTTP?",
    "o": [
-    "A programming language",
+    "A markup language that defines the structure of a webpage",
     "The protocol browsers and servers use to communicate requests and responses",
-    "A type of hardware",
-    "A file format for images"
+    "A language that gives a webpage its colors and layout",
+    "A protocol that encrypts the traffic between two computers"
    ],
    "a": 1,
    "e": "HTTP defines the rules for how web clients and servers exchange information."

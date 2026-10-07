@@ -340,10 +340,10 @@
    "u": 1,
    "q": "Which is the main benefit of collaboration when developing a program?",
    "o": [
-    "It guarantees there are no bugs",
+    "It guarantees that the finished program will contain no bugs at all",
     "Different perspectives and skills improve the quality of the solution",
-    "It removes the need for testing",
-    "It makes the program shorter"
+    "It removes the need for testing because teammates check every line",
+    "It makes the finished program shorter and faster for every user"
    ],
    "a": 1,
    "e": "Diverse viewpoints help catch problems and generate better ideas.",
@@ -353,12 +353,12 @@
    "u": 1,
    "q": "In pair programming, two programmers:",
    "o": [
+    "Write the same program separately and then compare the two versions",
     "Work together at one computer, one writing code and the other reviewing",
-    "Write the same program separately",
-    "Divide the program so each writes half",
-    "Test each other's computers"
+    "Divide the program so that each programmer writes exactly half of it",
+    "Test each other's computers to find hardware problems before coding"
    ],
-   "a": 0,
+   "a": 1,
    "e": "The reviewer catches mistakes as the other types.",
    "c": 0
   },
@@ -366,9 +366,9 @@
    "u": 1,
    "q": "Which statement best describes the purpose of a program?",
    "o": [
-    "The programming language used",
-    "The number of lines of code",
-    "The speed of the computer",
+    "The programming language and tools used to write the code",
+    "The total number of lines of code in the finished program",
+    "The processing speed of the computer that runs the program",
     "The problem it solves or the interest it satisfies for its users"
    ],
    "a": 3,
@@ -418,9 +418,9 @@
    "u": 1,
    "q": "Which strategy would help a programmer find a logic error?",
    "o": [
-    "Deleting the program",
-    "Running it once",
-    "Changing the font",
+    "Deleting the program and rewriting it from scratch without any testing",
+    "Running the program one time and assuming it works for all input",
+    "Changing the font and colors of the editor to spot mistakes",
     "Hand-tracing the code with sample input and checking each step"
    ],
    "a": 3,
@@ -444,10 +444,10 @@
    "u": 1,
    "q": "Which is the best reason to test a program with a variety of inputs?",
    "o": [
-    "To make it run faster",
+    "To make the program run faster for every possible kind of input",
     "To find errors that appear only for certain values",
-    "To reduce the number of variables",
-    "To avoid writing comments"
+    "To reduce the number of variables the program needs to store",
+    "To avoid having to write comments explaining each procedure"
    ],
    "a": 1,
    "e": "Edge cases and unusual inputs reveal bugs.",
@@ -457,24 +457,24 @@
    "u": 1,
    "q": "Comments in code are useful because they:",
    "o": [
+    "Make the program run faster because the computer reads them first",
+    "Are required by the computer in order for the code to execute",
     "Explain the code's purpose to other programmers and to your future self",
-    "Make the program run faster",
-    "Are required by the computer",
-    "Replace testing"
+    "Replace the need for testing by proving the code is correct"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Comments are ignored by the computer but help people understand."
   },
   {
    "u": 1,
    "q": "A program is considered to have an unintended effect when it:",
    "o": [
-    "Runs as designed",
-    "Is documented",
-    "Has been tested",
-    "Produces a result the creators did not plan, which may be harmful"
+    "Runs exactly as designed and produces only the planned results",
+    "Produces a result the creators did not plan, which may be harmful",
+    "Is fully documented so that every behavior has been described",
+    "Has been tested thoroughly and passes every planned test case"
    ],
-   "a": 3,
+   "a": 1,
    "e": "Innovations can have beneficial and harmful unintended consequences.",
    "c": 1
   },
@@ -482,10 +482,10 @@
    "u": 1,
    "q": "In developing a program, user feedback is most useful for:",
    "o": [
-    "Making the program longer",
-    "Choosing a programming language",
+    "Making the program longer by adding as many features as possible",
+    "Choosing which programming language the program should use",
     "Identifying problems and improving the design",
-    "Compressing data"
+    "Compressing the program's data so that it takes less storage"
    ],
    "a": 2,
    "e": "Real users reveal usability problems designers may not anticipate.",
@@ -495,12 +495,12 @@
    "u": 1,
    "q": "An overflow error occurs when:",
    "o": [
-    "A program runs out of comments",
     "A calculated value is too large to be stored with the available bits",
-    "The user enters text",
-    "A loop never starts"
+    "A program has too few comments to describe all of its procedures",
+    "The user enters text where the program expected a number",
+    "A loop never begins because its condition is false at the start"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Computers store numbers using a fixed number of bits.",
    "c": 2
   },
@@ -509,9 +509,9 @@
    "q": "Incremental development means:",
    "o": [
     "Building and testing a program in small pieces",
-    "Writing all the code before testing",
-    "Testing only at the end",
-    "Using only one function"
+    "Writing all of the code first and then testing it only once",
+    "Testing only at the very end after the program is finished",
+    "Using only one large function for the entire program"
    ],
    "a": 0,
    "e": "Small steps make it easier to find and fix problems."
@@ -609,12 +609,12 @@
    "u": 2,
    "q": "An overflow error in a computer that stores integers with a fixed number of bits occurs when:",
    "o": [
-    "A number is negative",
+    "A number being stored is negative instead of positive",
+    "A bit in the stored value happens to be 0 instead of 1",
     "A result is larger than the maximum value the bits can store",
-    "A bit is 0",
-    "A number is even"
+    "A number being stored happens to be even rather than odd"
    ],
-   "a": 1,
+   "a": 2,
    "e": "The result cannot be represented with the available bits.",
    "c": 0
   },
@@ -622,12 +622,12 @@
    "u": 2,
    "q": "Which of the following best explains why a computer can use bits to represent text, images and sound?",
    "o": [
+    "Bits automatically know which kind of data they represent without any rules",
     "Different kinds of data are encoded using agreed-upon rules for interpreting bits",
-    "Bits automatically know what they represent",
-    "Each type of data uses a different kind of hardware",
-    "Only numbers are stored in bits"
+    "Each type of data is stored using a different kind of hardware",
+    "Only numbers can be stored in bits, so text is converted to math"
    ],
-   "a": 0,
+   "a": 1,
    "e": "The meaning of a bit sequence depends on the encoding used.",
    "c": 1
   },
@@ -635,12 +635,12 @@
    "u": 2,
    "q": "Unicode is an improvement over ASCII because it:",
    "o": [
-    "Uses fewer bits",
-    "Is faster",
-    "Stores images",
-    "Can represent characters from many more languages"
+    "Uses fewer bits for every character so files are smaller",
+    "Can represent characters from many more languages",
+    "Runs faster because computers process it more quickly than ASCII",
+    "Stores images and sounds in addition to text characters"
    ],
-   "a": 3,
+   "a": 1,
    "e": "ASCII has only 128 characters.",
    "c": 1
   },
@@ -673,12 +673,12 @@
    "u": 2,
    "q": "Increasing the sampling rate when digitizing sound will generally:",
    "o": [
-    "Increase the quality and the file size",
-    "Decrease the quality",
-    "Decrease the file size only",
-    "Have no effect"
+    "Decrease the quality while the file size stays the same",
+    "Decrease the file size only, with no change in sound quality",
+    "Have no effect on either the quality or the file size",
+    "Increase the quality and the file size"
    ],
-   "a": 0,
+   "a": 3,
    "e": "More samples per second capture the sound wave more accurately.",
    "c": 1
   },
@@ -686,12 +686,12 @@
    "u": 2,
    "q": "Lossless compression:",
    "o": [
-    "Permanently removes some data",
-    "Always creates smaller files than lossy",
-    "Works only for images",
-    "Allows the original data to be perfectly reconstructed"
+    "Allows the original data to be perfectly reconstructed",
+    "Permanently removes some data so that files become much smaller",
+    "Always creates smaller files than lossy compression does",
+    "Works only for images and cannot be used on text or sound"
    ],
-   "a": 3,
+   "a": 0,
    "e": "No information is lost.",
    "c": 2
   },
@@ -776,12 +776,12 @@
    "u": 3,
    "q": "A study finds that cities with more ice cream shops also have more sunburn cases. Which conclusion is best supported?",
    "o": [
-    "Ice cream causes sunburn",
     "The two variables are correlated, but this alone does not show one causes the other",
-    "Sunburn causes ice cream sales",
-    "The data must be wrong"
+    "Ice cream consumption directly causes people to get sunburned",
+    "Sunburn cases cause people to buy more ice cream in those cities",
+    "The data must be wrong because the two variables are unrelated"
    ],
-   "a": 1,
+   "a": 0,
    "e": "A third factor, such as sunny weather, can influence both.",
    "c": 0
   },
@@ -789,12 +789,12 @@
    "u": 3,
    "q": "Which of the following describes big data?",
    "o": [
+    "Data sets stored in a very large spreadsheet that opens slowly",
+    "Data collected only by computers that have very large screens",
     "Data sets so large that they require special tools such as parallel processing",
-    "A very large spreadsheet",
-    "A computer with a big screen",
-    "Data stored in a single file"
+    "Any data stored in a single file on one computer's hard drive"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Big data is too large or complex for traditional tools.",
    "c": 1
   },
@@ -802,12 +802,12 @@
    "u": 3,
    "q": "A researcher collects data only from people who have a smartphone. The most likely problem is:",
    "o": [
-    "Overflow",
-    "Lossy compression",
-    "Too few bits",
-    "Sampling bias, because the data may not represent everyone"
+    "Overflow, because the number of responses is too large to store",
+    "Lossy compression, because some details of the data were removed",
+    "Sampling bias, because the data may not represent everyone",
+    "Too few bits, because the data cannot be stored accurately"
    ],
-   "a": 3,
+   "a": 2,
    "e": "People without smartphones are left out.",
    "c": 0
   },
@@ -815,10 +815,10 @@
    "u": 3,
    "q": "Cleaning a data set means:",
    "o": [
-    "Compressing the data",
-    "Encrypting the data",
+    "Compressing the data so that it takes up less storage space",
+    "Encrypting the data so that unauthorized people cannot read it",
     "Fixing or removing errors, duplicates and inconsistent values",
-    "Making the data private"
+    "Making the data private by removing names and personal details"
    ],
    "a": 2,
    "e": "Data quality affects the reliability of analysis.",
@@ -828,10 +828,10 @@
    "u": 3,
    "q": "Which of the following is an example of filtering data?",
    "o": [
-    "Sorting names alphabetically",
+    "Sorting the names in the data set into alphabetical order",
     "Selecting only the rows where the age is over 18",
-    "Adding a new column",
-    "Encrypting the file"
+    "Adding a new column that is calculated from existing columns",
+    "Encrypting the file so that only authorized users can open it"
    ],
    "a": 1,
    "e": "Filtering keeps the data that meet a condition.",
@@ -879,12 +879,12 @@
    "u": 3,
    "q": "Why are visualizations such as charts useful in analyzing data?",
    "o": [
-    "They remove the need for data",
+    "They remove the need to collect any data in the first place",
+    "They compress the data so that it takes less storage space",
     "They make patterns and trends easier to see",
-    "They compress the data",
-    "They encrypt the data"
+    "They encrypt the data so that it cannot be read by others"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Humans recognize patterns visually.",
    "c": 0
   },
@@ -893,9 +893,9 @@
    "q": "A program sorts a list of 1,000,000 records. Which statement is true?",
    "o": [
     "The program can process the records much faster than a person can",
-    "The program must be run by hand",
-    "The records cannot be sorted",
-    "Sorting always takes exactly 1,000,000 steps"
+    "The program must be run by hand because computers cannot sort that many",
+    "The records cannot be sorted because the list is far too long",
+    "Sorting always takes exactly 1,000,000 steps no matter the method"
    ],
    "a": 0,
    "e": "Computers process large data sets quickly."
@@ -929,12 +929,12 @@
    "u": 3,
    "q": "Transforming data means:",
    "o": [
-    "Deleting it",
+    "Deleting the data once it has been analyzed and is not needed",
+    "Encrypting the data so that it can be sent over a network",
     "Changing it into another form, such as converting units",
-    "Encrypting it",
-    "Copying it"
+    "Copying the data to a second location as a backup"
    ],
-   "a": 1,
+   "a": 2,
    "e": "For example, converting Celsius to Fahrenheit.",
    "c": 2
   },
@@ -943,9 +943,9 @@
    "q": "Why can a large data set still lead to a wrong conclusion?",
    "o": [
     "It may be biased or may not represent the question being asked",
-    "Large data sets are always correct",
-    "Computers cannot process them",
-    "They have no patterns"
+    "Large data sets are always correct because of the amount of data",
+    "Computers cannot process data sets that contain so many records",
+    "Large data sets never contain any patterns that can be found"
    ],
    "a": 0,
    "e": "Size does not guarantee quality."
@@ -954,12 +954,12 @@
    "u": 3,
    "q": "A health app collects location data. Which is the biggest privacy concern?",
    "o": [
-    "The app uses colors",
-    "The app is free",
-    "The app has many users",
-    "The data could reveal where a person lives and goes"
+    "The app uses bright colors that may distract its users",
+    "The app is free, so it must earn money in other ways",
+    "The data could reveal where a person lives and goes",
+    "The app has many users, which slows down its servers"
    ],
-   "a": 3,
+   "a": 2,
    "e": "Location patterns are highly personal."
   },
   {
@@ -1031,12 +1031,12 @@
    "u": 4,
    "q": "A heuristic is used when:",
    "o": [
-    "The exact answer is easy to compute",
-    "The data is sorted",
+    "An exact answer is easy to compute, so approximation is unnecessary",
     "An exact solution would take too long, so an approximate solution is acceptable",
-    "No computer is available"
+    "The data has already been sorted, so searching is quick",
+    "No computer is available, so the problem must be solved by hand"
    ],
-   "a": 2,
+   "a": 1,
    "e": "Heuristics trade accuracy for speed.",
    "c": 2
   },
@@ -1044,10 +1044,10 @@
    "u": 4,
    "q": "Which of the following is true of a simulation?",
    "o": [
-    "It is always exactly like reality",
+    "It is always exactly like reality and includes every detail",
     "It models a real system and can leave out details",
-    "It cannot include randomness",
-    "It requires no data"
+    "It cannot include any randomness or unpredictable events",
+    "It requires no data because the results are made up"
    ],
    "a": 1,
    "e": "Simplifications help explore scenarios safely and cheaply.",
@@ -1095,12 +1095,12 @@
    "u": 4,
    "q": "Which of the following is a benefit of using pseudocode before writing a program?",
    "o": [
-    "It runs faster",
     "It helps plan the logic independent of a programming language",
-    "It compresses code",
-    "It encrypts data"
+    "It makes the finished program run faster on any computer",
+    "It compresses the code so that the program uses less memory",
+    "It encrypts the program's data so that it stays secure"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Pseudocode lets you focus on the algorithm.",
    "c": 0
   },
@@ -1108,24 +1108,24 @@
    "u": 4,
    "q": "A flowchart is used to:",
    "o": [
+    "Compress files so that they take up less storage space",
     "Show the steps and decisions in an algorithm visually",
-    "Compress files",
-    "Encrypt data",
-    "Store data"
+    "Encrypt data so that others cannot read it while it travels",
+    "Store data in rows and columns so it can be searched later"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Shapes represent actions and decisions."
   },
   {
    "u": 4,
    "q": "Which situation is best modeled with a simulation?",
    "o": [
-    "Adding two numbers",
-    "Sorting a list of names",
-    "Checking spelling",
-    "Testing how a disease might spread through a population"
+    "Testing how a disease might spread through a population",
+    "Adding two numbers that the user has typed into a form",
+    "Sorting a long list of names into alphabetical order",
+    "Checking the spelling of words in a typed document"
    ],
-   "a": 3,
+   "a": 0,
    "e": "Simulations let people explore outcomes without real-world risk.",
    "c": 2
   },
@@ -1133,12 +1133,12 @@
    "u": 4,
    "q": "Using random numbers in a simulation means that:",
    "o": [
-    "Results are always identical",
-    "The program cannot run",
-    "Results may differ each time it runs",
-    "The simulation is wrong"
+    "Results are always identical every time it runs",
+    "The program cannot run because computers cannot be random",
+    "The simulation is wrong and its results should be ignored",
+    "Results may differ each time it runs"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Randomness introduces variation.",
    "c": 2
   },
@@ -1146,12 +1146,12 @@
    "u": 4,
    "q": "Selection in an algorithm means:",
    "o": [
-    "Repeating steps",
-    "Choosing between paths based on a condition",
-    "Running steps in order",
-    "Ending the algorithm"
+    "Repeating a group of steps until a condition is met",
+    "Running the steps one after another in the order written",
+    "Ending the algorithm once all of the data is processed",
+    "Choosing between paths based on a condition"
    ],
-   "a": 1,
+   "a": 3,
    "e": "IF statements implement selection.",
    "c": 0
   },
@@ -1337,9 +1337,9 @@
    "u": 5,
    "q": "Which is the main advantage of procedural abstraction?",
    "o": [
-    "It makes programs run faster",
-    "It removes the need for variables",
-    "It reduces the number of bits",
+    "It makes every program run faster by shortening the code",
+    "It removes the need for variables in a program",
+    "It reduces the number of bits needed to store data",
     "A procedure can be used without knowing the details of how it works"
    ],
    "a": 3,
@@ -1350,24 +1350,24 @@
    "u": 5,
    "q": "Which statement about parameters is true?",
    "o": [
-    "A procedure may have only one parameter",
-    "Parameters are the values the procedure returns",
-    "Parameters let a procedure work with different input values each time it is called",
-    "Parameters must be numbers"
+    "A procedure may have only one parameter, which must be a number",
+    "Parameters are the values that a procedure sends back when it ends",
+    "Parameters must always be numbers and cannot be strings or lists",
+    "Parameters let a procedure work with different input values each time it is called"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Parameters make procedures reusable."
   },
   {
    "u": 5,
    "q": "A programmer uses a library of existing procedures. This most directly:",
    "o": [
-    "Slows the program",
+    "Slows the program down because the library code is not efficient",
+    "Removes the need to test the program since the library works",
     "Saves development time by reusing tested code",
-    "Removes the need to test",
-    "Encrypts the code"
+    "Encrypts the code so that other people cannot copy it"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Libraries and APIs provide ready-made functionality.",
    "c": 2
   },
@@ -1414,12 +1414,12 @@
    "u": 6,
    "q": "On the Internet, a message is typically divided into:",
    "o": [
-    "One continuous stream",
-    "Pixels",
-    "Packets that may take different routes",
-    "Bits that must travel together"
+    "One continuous stream that travels along a single path",
+    "Pixels that are sent separately and combined on screen",
+    "Bits that must travel together along the same route",
+    "Packets that may take different routes"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Packets are reassembled at the destination.",
    "c": 0
   },
@@ -1427,12 +1427,12 @@
    "u": 6,
    "q": "The role of the Domain Name System (DNS) is to:",
    "o": [
-    "Encrypt messages",
+    "Encrypt messages so that only the receiver can read them",
+    "Compress files so that they travel faster across the network",
     "Translate domain names into IP addresses",
-    "Compress files",
-    "Store web pages"
+    "Store web pages so that they load more quickly later"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Computers route using IP addresses, not names.",
    "c": 0
   },
@@ -1452,12 +1452,12 @@
    "u": 6,
    "q": "Open protocols are important to the Internet because they:",
    "o": [
-    "Keep the Internet private",
-    "Reduce the number of users",
-    "Compress data",
-    "Allow different devices and systems to communicate"
+    "Allow different devices and systems to communicate",
+    "Keep the Internet private so only approved users connect",
+    "Reduce the number of users who can join the network",
+    "Compress data so that it travels faster between devices"
    ],
-   "a": 3,
+   "a": 0,
    "e": "Anyone can build a system that follows them.",
    "c": 0
   },
@@ -1465,12 +1465,12 @@
    "u": 6,
    "q": "Bandwidth is the:",
    "o": [
-    "Delay before data starts arriving",
-    "Number of devices on a network",
+    "Delay before the first data begins arriving at the receiver",
     "Maximum amount of data that can be sent in a given time",
-    "Size of a file"
+    "Number of devices that are connected to a network at once",
+    "Size of a file measured in bytes after it is compressed"
    ],
-   "a": 2,
+   "a": 1,
    "e": "Latency is the delay.",
    "c": 0
   },
@@ -1504,12 +1504,12 @@
    "u": 6,
    "q": "Which statement about the Internet and the World Wide Web is correct?",
    "o": [
-    "They are exactly the same",
-    "The Internet runs on the web",
-    "The web is a type of protocol only",
-    "The web is a service that runs on the Internet"
+    "They are exactly the same thing and the terms can be swapped",
+    "The Internet is a service that runs on top of the web",
+    "The web is a service that runs on the Internet",
+    "The web is a type of protocol only and not a service"
    ],
-   "a": 3,
+   "a": 2,
    "e": "The Internet is the network; the web is one use of it."
   },
   {
@@ -1529,10 +1529,10 @@
    "u": 6,
    "q": "Which task is least suited to parallel computing?",
    "o": [
-    "Processing millions of independent records",
+    "One that processes millions of independent records separately",
     "One in which each step depends on the result of the previous step",
-    "Rendering separate frames of a video",
-    "Searching separate sections of data"
+    "One that renders separate frames of a video at the same time",
+    "One that searches separate sections of a data set at once"
    ],
    "a": 1,
    "e": "Dependent steps must run in order.",
@@ -1543,9 +1543,9 @@
    "q": "Distributed computing is the use of:",
    "o": [
     "Multiple devices working together to solve a problem",
-    "One very fast computer",
-    "Only parallel processors in one chip",
-    "A single network cable"
+    "One very fast computer solving the problem all by itself",
+    "Only parallel processors that are located inside one chip",
+    "A single network cable carrying data between two computers"
    ],
    "a": 0,
    "e": "Distributed systems share work across machines.",
@@ -1555,12 +1555,12 @@
    "u": 6,
    "q": "The Internet's design makes it scalable because:",
    "o": [
-    "Only a few devices are allowed",
-    "A central computer controls all traffic",
-    "Each device is limited to one connection",
-    "New devices and networks can join without a central authority"
+    "Only a small, fixed number of devices are allowed to connect",
+    "A central computer controls and approves all of the traffic",
+    "New devices and networks can join without a central authority",
+    "Each device is limited to a single connection at one time"
    ],
-   "a": 3,
+   "a": 2,
    "e": "Shared protocols allow growth.",
    "c": 1
   },
@@ -1568,12 +1568,12 @@
    "u": 6,
    "q": "Packets are numbered so that they can:",
    "o": [
-    "Be encrypted",
-    "Be compressed",
     "Be reassembled in the correct order at the destination",
-    "Avoid all errors"
+    "Be encrypted so that no one can read them in transit",
+    "Be compressed so that they take less time to send",
+    "Avoid every possible error while they travel to the destination"
    ],
-   "a": 2,
+   "a": 0,
    "e": "Packets may arrive out of order.",
    "c": 0
   },
@@ -1594,9 +1594,9 @@
    "q": "Which best describes a router?",
    "o": [
     "A device that forwards packets toward their destination",
-    "A device that stores web pages",
-    "A device that compresses files",
-    "A program that edits images"
+    "A device that stores web pages and sends them to browsers",
+    "A device that compresses files so they are smaller to send",
+    "A program that edits images before they are posted online"
    ],
    "a": 0,
    "e": "Routers decide the next hop for each packet."
@@ -1605,12 +1605,12 @@
    "u": 6,
    "q": "Using redundant routing on the Internet generally:",
    "o": [
-    "Decreases reliability",
-    "Makes the Internet slower for everyone",
-    "Eliminates the need for protocols",
-    "Increases reliability but uses more resources"
+    "Decreases reliability because data is split over many paths",
+    "Makes the Internet slower for everyone who uses it",
+    "Increases reliability but uses more resources",
+    "Eliminates the need for protocols because paths are guaranteed"
    ],
-   "a": 3,
+   "a": 2,
    "e": "Extra paths provide backups.",
    "c": 1
   },
@@ -1631,12 +1631,12 @@
    "u": 7,
    "q": "A DDoS attack is intended to:",
    "o": [
-    "Steal passwords",
-    "Encrypt data",
-    "Overwhelm a service with traffic so legitimate users cannot access it",
-    "Fix bugs"
+    "Steal passwords by tricking users into typing them on a fake site",
+    "Encrypt data on a server until the owner pays a ransom",
+    "Fix bugs in a service by sending it many test requests",
+    "Overwhelm a service with traffic so legitimate users cannot access it"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Many devices send traffic at once.",
    "c": 0
   },
@@ -1644,12 +1644,12 @@
    "u": 7,
    "q": "Which practice most improves the security of an online account?",
    "o": [
-    "Using the same password everywhere",
+    "Using the same easy-to-remember password for every account",
+    "Sharing the password only with close friends and family",
     "Using a unique, strong password with multifactor authentication",
-    "Sharing the password",
-    "Using a short password"
+    "Using a short password that is simple to type quickly"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Layered protection reduces risk.",
    "c": 0
   },
@@ -1657,12 +1657,12 @@
    "u": 7,
    "q": "Malware is:",
    "o": [
+    "A type of compression that makes large files smaller to send",
     "Software intended to damage or gain unauthorized access to a system",
-    "A type of compression",
-    "A programming language",
-    "A kind of network"
+    "A programming language used for writing web pages",
+    "A kind of network that connects computers in one building"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Viruses and ransomware are examples.",
    "c": 0
   },
@@ -1670,12 +1670,12 @@
    "u": 7,
    "q": "In symmetric encryption:",
    "o": [
-    "Two different keys are used",
-    "No key is used",
-    "The key is made public",
-    "The same key is used to encrypt and decrypt"
+    "The same key is used to encrypt and decrypt",
+    "Two different keys are used, one public and one private",
+    "No key is used because the message is only scrambled",
+    "The key is made public so anyone can decrypt the message"
    ],
-   "a": 3,
+   "a": 0,
    "e": "Both parties must share the secret key.",
    "c": 1
   },
@@ -1696,12 +1696,12 @@
    "u": 7,
    "q": "A major advantage of public-key encryption is that it:",
    "o": [
-    "Is faster than symmetric encryption",
+    "Is much faster than symmetric encryption for large amounts of data",
+    "Removes the need for passwords on accounts and devices",
     "Allows secure communication between people who have never shared a secret key",
-    "Removes the need for passwords",
-    "Compresses data"
+    "Compresses data so that it travels more quickly across a network"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Public keys can be shared openly.",
    "c": 1
   },
@@ -1748,24 +1748,24 @@
    "u": 7,
    "q": "Keylogging software is dangerous because it:",
    "o": [
-    "Deletes files",
+    "Deletes files from the computer so that data is lost",
+    "Slows down the computer by using up its processing power",
     "Records what a user types, including passwords",
-    "Slows the computer only",
-    "Compresses data"
+    "Compresses data so that the user loses some of it"
    ],
-   "a": 1,
+   "a": 2,
    "e": "It can capture sensitive information."
   },
   {
    "u": 7,
    "q": "A rogue access point is:",
    "o": [
-    "A fake wireless network that imitates a trusted one to capture data",
-    "A type of router",
-    "A secure network",
-    "A backup connection"
+    "A type of router that is used to extend a home network",
+    "A secure network that encrypts all of the data sent on it",
+    "A backup connection that is used when the main one fails",
+    "A fake wireless network that imitates a trusted one to capture data"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Users may connect without realizing.",
    "c": 0
   },
@@ -1773,24 +1773,24 @@
    "u": 7,
    "q": "Multifactor authentication requires a user to provide:",
    "o": [
-    "Only a password",
-    "A longer password",
-    "A fingerprint only",
-    "Two or more kinds of evidence, such as a password and a code"
+    "Only a password, but one that is long and hard to guess",
+    "Two or more kinds of evidence, such as a password and a code",
+    "A longer password with numbers and special characters added",
+    "A fingerprint scan only, with no other evidence needed"
    ],
-   "a": 3,
+   "a": 1,
    "e": "Multiple factors make theft harder."
   },
   {
    "u": 7,
    "q": "Why is it risky to use public Wi-Fi for sensitive transactions without protection?",
    "o": [
-    "Public Wi-Fi is always slow",
-    "It uses too much power",
+    "Public Wi-Fi is always slow, so transactions often time out",
     "Others on the network might intercept unencrypted data",
-    "It blocks websites"
+    "It uses too much power and drains the battery of the device",
+    "It blocks most websites that handle financial information"
    ],
-   "a": 2,
+   "a": 1,
    "e": "Encryption such as HTTPS or a VPN reduces the risk.",
    "c": 1
   },
@@ -1798,10 +1798,10 @@
    "u": 7,
    "q": "A cookie on a website is:",
    "o": [
-    "A virus",
+    "A virus that spreads from one website to another",
     "A small file that stores information about your visit",
-    "A type of compression",
-    "A password"
+    "A type of compression used to shrink web pages",
+    "A password that the website saves for your next visit"
    ],
    "a": 1,
    "e": "Cookies can track preferences and activity.",
@@ -1811,12 +1811,12 @@
    "u": 7,
    "q": "Combining information from several sources about a person can threaten privacy because:",
    "o": [
+    "It always deletes the original data once it is combined",
+    "It encrypts the data so that no one can read it",
     "It can reveal details no single source would show",
-    "It always deletes the data",
-    "It encrypts the data",
-    "It reduces the number of sources"
+    "It reduces the number of sources that hold information"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Aggregation can re-identify individuals.",
    "c": 2
   },
@@ -1825,9 +1825,9 @@
    "q": "The digital divide refers to the:",
    "o": [
     "Gap between people who have access to computers and the Internet and those who do not",
-    "Difference between binary and decimal",
-    "Separation of data into packets",
-    "Difference in file sizes"
+    "Difference between binary numbers and the decimal numbers people use",
+    "Separation of data into packets that travel across a network",
+    "Difference in file sizes between images, audio and video"
    ],
    "a": 0,
    "e": "It can increase inequality in education and opportunity.",
@@ -1849,10 +1849,10 @@
    "u": 8,
    "q": "Crowdsourcing is:",
    "o": [
-    "Encrypting a message",
-    "Compressing a file",
+    "Encrypting a message so that only a large group can read it",
+    "Compressing a file by removing details most people will not notice",
     "Gathering ideas, data or work from a large group of people, often online",
-    "Sorting a list"
+    "Sorting a long list of items by asking a crowd to compare them"
    ],
    "a": 2,
    "e": "Examples include online map editing and review sites.",
@@ -1862,10 +1862,10 @@
    "u": 8,
    "q": "Citizen science projects use volunteers to:",
    "o": [
-    "Write operating systems",
+    "Write operating systems for computers that scientists use",
     "Collect or analyze data for scientific research",
-    "Encrypt messages",
-    "Replace scientists"
+    "Encrypt messages that are sent between research laboratories",
+    "Replace scientists so that research can be done without them"
    ],
    "a": 1,
    "e": "Many people can contribute observations.",
@@ -1875,12 +1875,12 @@
    "u": 8,
    "q": "A Creative Commons license allows a creator to:",
    "o": [
+    "Remove all copyright so anyone may use the work freely",
     "Specify how others may use and share their work",
-    "Remove all copyright",
-    "Force others to pay",
-    "Hide their work"
+    "Force other people to pay a fee whenever they use the work",
+    "Hide the work so that only approved users can view it"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Different licenses allow different uses.",
    "c": 2
   },
@@ -1888,9 +1888,9 @@
    "u": 8,
    "q": "Open-source software is software that:",
    "o": [
-    "Is always free of bugs",
-    "Cannot be used commercially",
-    "Is stored in the cloud",
+    "Is always free of bugs because many people review it",
+    "Cannot be used commercially by any company or person",
+    "Is stored in the cloud instead of on a local computer",
     "Makes its source code available for others to view and modify"
    ],
    "a": 3,
@@ -1926,12 +1926,12 @@
    "u": 8,
    "q": "Why does computing have an environmental impact?",
    "o": [
+    "Computers make no heat, so they use almost no energy",
     "Data centers and devices consume large amounts of energy",
-    "Computers make no heat",
-    "Programs use no electricity",
-    "Bits are heavy"
+    "Programs use no electricity once they have been installed",
+    "Bits are heavy, so storing more of them requires more material"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Energy use contributes to emissions.",
    "c": 2
   },
@@ -1952,10 +1952,10 @@
    "u": 8,
    "q": "Which is a benefit of open data sets?",
    "o": [
-    "They are always accurate",
-    "They need no cleaning",
+    "They are always accurate because so many people use them",
+    "They need no cleaning because they are checked before release",
     "Many people can analyze them and find new insights",
-    "They eliminate privacy concerns"
+    "They eliminate privacy concerns because the data is public"
    ],
    "a": 2,
    "e": "Openness invites more perspectives.",
@@ -1965,12 +1965,12 @@
    "u": 8,
    "q": "Which action best respects the rights of creators of an image found online?",
    "o": [
-    "Use it without asking",
+    "Use it freely without asking because it is posted online",
+    "Remove the creator's name so that the image looks cleaner",
     "Check the license and give credit as required",
-    "Remove the creator's name",
-    "Claim it as your own"
+    "Claim it as your own after making small changes to it"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Free to view does not mean free to reuse.",
    "c": 2
   },
@@ -1978,12 +1978,12 @@
    "u": 8,
    "q": "Telemedicine, which allows patients to meet with doctors online, is an example of:",
    "o": [
-    "A computing innovation with benefits and potential drawbacks",
-    "A harmful technology only",
-    "A programming language",
-    "A compression method"
+    "A harmful technology only, because it replaces in-person care",
+    "A programming language used to build medical software",
+    "A compression method used to send medical images quickly",
+    "A computing innovation with benefits and potential drawbacks"
    ],
-   "a": 0,
+   "a": 3,
    "e": "It increases access but depends on connectivity.",
    "c": 0
   },
@@ -1991,9 +1991,9 @@
    "u": 8,
    "q": "Which of the following best describes how social media algorithms can affect users?",
    "o": [
-    "They always show random posts",
-    "They never use data",
-    "They show all posts equally",
+    "They always show random posts that have no link to past behavior",
+    "They never use any data about what a user has viewed",
+    "They show all posts to every user in exactly the same way",
     "They may show content that reinforces existing views"
    ],
    "a": 3,
@@ -2004,12 +2004,12 @@
    "u": 8,
    "q": "A person with limited Internet access is least likely to be able to:",
    "o": [
-    "Read a printed book",
-    "Walk to school",
     "Complete online coursework or apply for jobs online",
-    "Use a calculator"
+    "Read a printed book that was borrowed from a library",
+    "Walk to school along a path in the neighborhood",
+    "Use a calculator to complete homework problems"
    ],
-   "a": 2,
+   "a": 0,
    "e": "Access affects opportunities.",
    "c": 0
   },
@@ -2017,10 +2017,10 @@
    "u": 1,
    "q": "Which is an example of an input to a program?",
    "o": [
-    "The color of the screen",
-    "The program's name",
+    "The color of the screen as it is displayed to the user",
+    "The name that the programmer gave to the program",
     "A user typing a number into a text box",
-    "The speed of the processor"
+    "The speed of the processor that runs the program"
    ],
    "a": 2,
    "e": "Input is data the program receives.",
@@ -2044,9 +2044,9 @@
    "q": "Rounding errors occur when:",
    "o": [
     "A real number cannot be stored exactly with the limited bits available",
-    "A number is negative",
-    "A program has no input",
-    "A loop is nested"
+    "A number is negative and must be stored with a sign bit",
+    "A program has no input from the user to process",
+    "A loop is nested inside of another loop in the program"
    ],
    "a": 0,
    "e": "Limited precision causes small differences.",
@@ -2056,9 +2056,9 @@
    "u": 1,
    "q": "Which best describes a prototype?",
    "o": [
-    "The final version",
-    "A comment",
-    "A compression format",
+    "The final version of a program that is released to users",
+    "A comment that explains what a section of code does",
+    "A compression format used to store the program's files",
     "An early model of a program used to test ideas"
    ],
    "a": 3,
@@ -2094,10 +2094,10 @@
    "u": 2,
    "q": "Why does adding one more bit to a representation double the number of values it can represent?",
    "o": [
-    "Bits are twice as large",
+    "Bits become twice as large when another bit is added",
     "Each additional bit can be either 0 or 1, doubling the combinations",
-    "One bit holds two bytes",
-    "It does not"
+    "One bit holds two bytes, so the capacity doubles",
+    "It does not, because each new bit adds only one more value"
    ],
    "a": 1,
    "e": "2^(n+1) is twice 2^n.",
@@ -2157,12 +2157,12 @@
    "u": 4,
    "q": "Which of the following statements about algorithms is true?",
    "o": [
-    "Every problem has exactly one algorithm",
-    "Algorithms only work on numbers",
-    "Different algorithms can solve the same problem at different speeds",
-    "Algorithms must use loops"
+    "Every problem has exactly one algorithm that can solve it",
+    "Algorithms only work on numbers and cannot process text",
+    "Algorithms must always use loops in order to work",
+    "Different algorithms can solve the same problem at different speeds"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Efficiency varies between algorithms."
   },
   {
@@ -2195,12 +2195,12 @@
    "u": 4,
    "q": "The traveling salesperson problem is often solved with a heuristic because:",
    "o": [
-    "It is easy to solve exactly",
-    "It has no solution",
-    "It cannot be simulated",
-    "Finding the exact best route takes unreasonably long for many cities"
+    "Finding the exact best route takes unreasonably long for many cities",
+    "It is easy to solve exactly, but heuristics are simply faster",
+    "It has no solution, so only an approximation can be given",
+    "It cannot be simulated by a computer for large numbers of cities"
    ],
-   "a": 3,
+   "a": 0,
    "e": "The number of routes grows explosively.",
    "c": 2
   },
@@ -2234,12 +2234,12 @@
    "u": 8,
    "q": "An app uses data from users to recommend content. Which concern is most relevant?",
    "o": [
-    "Privacy and how the data is used and shared",
-    "The color of the app",
-    "The speed of the keyboard",
-    "The weight of the device"
+    "The color scheme of the app and how it looks on a screen",
+    "The speed of the keyboard that the user types on",
+    "The weight of the device that the app is running on",
+    "Privacy and how the data is used and shared"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Collected data can reveal personal information."
   },
   {
@@ -2259,10 +2259,10 @@
    "u": 8,
    "q": "Why might a school choose an open-source tool?",
    "o": [
-    "It cannot be changed",
-    "It is always faster",
+    "The code cannot be changed, so it stays the same for everyone",
+    "It is always faster than any other kind of software",
     "The code can be examined and adapted, and it often costs less",
-    "It has no license"
+    "It has no license, so anyone can claim the code as their own"
    ],
    "a": 2,
    "e": "Open-source licenses allow reuse and modification.",
@@ -3631,24 +3631,24 @@
    "u": 1,
    "q": "A program passes all of its tests but still gives wrong results for some real users. Which is the most likely reason?",
    "o": [
-    "Tests cannot find errors",
-    "The program has a syntax error",
+    "Tests cannot find errors, so passing tests proves nothing",
     "The tests did not include the inputs that cause the problem",
-    "The users made a mistake"
+    "The program has a syntax error that the tests did not check",
+    "The users made a mistake when they entered their data"
    ],
-   "a": 2,
+   "a": 1,
    "e": "Passing tests only shows correctness for the cases tested."
   },
   {
    "u": 1,
    "q": "Which is the best reason to document and comment a program during development?",
    "o": [
-    "It makes the program run faster",
     "It helps collaborators and future maintainers understand and modify the code",
-    "It removes the need for testing",
-    "The computer requires it"
+    "It makes the program run faster because the computer reads it",
+    "It removes the need for testing because the code is explained",
+    "The computer requires it before it will run the program"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Maintainability depends on understanding.",
    "c": 0
   },
@@ -3681,21 +3681,21 @@
    "u": 3,
    "q": "A study of a city's bike share program finds that neighborhoods with more bike stations have higher property values. Which statement is best supported?",
    "o": [
+    "Bike stations cause property values to rise in a neighborhood",
     "The two variables are related, but a third factor such as wealth may explain both",
-    "Bike stations cause property values to rise",
-    "Higher property values cause bike stations",
-    "The data prove no relationship"
+    "Higher property values cause the city to build more bike stations",
+    "The data prove that no relationship exists between the variables"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Correlation does not identify cause."
   },
   {
    "u": 3,
    "q": "Which of the following is the main reason that combining data sets can create privacy risks even when each set is anonymized?",
    "o": [
-    "Anonymized data is always public",
-    "Combining data deletes it",
-    "It makes the data smaller",
+    "Anonymized data is always made public after it is shared",
+    "Combining data sets deletes details from each of the sets",
+    "It makes the data smaller so that fewer details are stored",
     "Matching details across the sets can identify individuals"
    ],
    "a": 3,
@@ -3718,12 +3718,12 @@
    "u": 4,
    "q": "Which of the following best explains why the best-known algorithms for some problems are considered unreasonable?",
    "o": [
-    "They use too many variables",
-    "They require parallel computers",
     "The number of steps grows exponentially with the input size",
-    "They are written in pseudocode"
+    "They use too many variables for a computer to store",
+    "They can only be run on parallel computers with many processors",
+    "They are written in pseudocode instead of a real language"
    ],
-   "a": 2,
+   "a": 0,
    "e": "Exponential growth makes large inputs infeasible.",
    "c": 1
   },
@@ -3757,12 +3757,12 @@
    "u": 6,
    "q": "A message is split into packets that arrive out of order. Which statement correctly describes what happens?",
    "o": [
-    "The message is discarded",
+    "The message is discarded because the packets were out of order",
+    "The message arrives scrambled and cannot be read by the receiver",
     "The packets are reassembled in the correct order at the destination",
-    "The message arrives scrambled and unreadable",
-    "The sender must resend the message in order"
+    "The sender must resend the entire message in the correct order"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Packets include information that allows reordering.",
    "c": 0
   },
@@ -3783,24 +3783,24 @@
    "u": 7,
    "q": "Which of the following best explains why a website using HTTPS can still be unsafe for the user?",
    "o": [
+    "HTTPS removes all passwords so no site can steal them",
     "Encryption protects data in transit but the site itself may be malicious",
-    "HTTPS removes all passwords",
-    "HTTPS slows the Internet",
-    "HTTPS is not encryption"
+    "HTTPS slows down the Internet so users avoid unsafe sites",
+    "HTTPS is not encryption, so data can be read in transit"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Encryption does not verify that the site is trustworthy."
   },
   {
    "u": 7,
    "q": "In public-key encryption, Alice wants to prove a message came from her. Which key should she use?",
    "o": [
-    "Her public key only",
-    "Bob's private key",
-    "No key",
-    "Her private key, so others can verify it with her public key"
+    "Her public key only, so that anyone can read the message",
+    "Bob's private key, so that he can confirm it was sent by her",
+    "Her private key, so others can verify it with her public key",
+    "No key at all, because the message is signed by her name"
    ],
-   "a": 3,
+   "a": 2,
    "e": "Digital signatures use the private key to sign and the public key to verify.",
    "c": 1
   },
@@ -3808,24 +3808,24 @@
    "u": 8,
    "q": "A hospital uses an algorithm trained on data that came mostly from one demographic group. Which outcome is most likely?",
    "o": [
-    "The algorithm will be unbiased",
-    "The algorithm will run slower",
-    "The algorithm will become open source",
-    "The algorithm may perform worse for other groups"
+    "The algorithm may perform worse for other groups",
+    "The algorithm will be unbiased because computers cannot be unfair",
+    "The algorithm will run slower on the data from other groups",
+    "The algorithm will become open source because of the data"
    ],
-   "a": 3,
+   "a": 0,
    "e": "Unrepresentative training data leads to uneven accuracy."
   },
   {
    "u": 8,
    "q": "Which of the following would most reduce the digital divide in a community?",
    "o": [
-    "Building a faster server",
-    "Making websites more colorful",
     "Providing affordable Internet access and devices",
-    "Adding more advertisements"
+    "Building a faster server for the community's websites",
+    "Making websites more colorful and attractive to visitors",
+    "Adding more advertisements to pay for online content"
    ],
-   "a": 2,
+   "a": 0,
    "e": "Access is the core issue."
   }
  ]
