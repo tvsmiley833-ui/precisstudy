@@ -279,6 +279,58 @@
       "If the target variable appears more than once (like solving $ax+bx=c$ for $x$), factor it out first: $x(a+b)=c$, then divide by $(a+b)$.",
       "If the target variable is in a denominator, multiply both sides by that denominator first to clear the fraction, then isolate the variable normally."
      ]
+    },
+    {
+     "l": "Factoring completely: the technique checklist",
+     "intro": "\"Factor completely\" means keep factoring until no factor can be broken down further over the integers. Use the same checklist in the same order every time.",
+     "b": [
+      "<b>Step 1 — GCF first.</b> Pull out the greatest common factor of every term (and a negative if the leading term is negative). Example: $6x^3-24x=6x(x^2-4)$.",
+      "<b>Step 2 — count the terms.</b> Two terms: difference of squares $a^2-b^2=(a-b)(a+b)$, sum of cubes $a^3+b^3=(a+b)(a^2-ab+b^2)$, or difference of cubes $a^3-b^3=(a-b)(a^2+ab+b^2)$. Three terms: a perfect-square trinomial or the ac-method. Four terms: grouping.",
+      "<b>Step 3 — look again.</b> After each step, check every new factor. $6x(x^2-4)$ is not finished because $x^2-4=(x-2)(x+2)$, so the complete answer is $6x(x-2)(x+2)$.",
+      "<b>A sum of squares is prime.</b> $x^2+25$ does not factor over the integers. But $x^4-81=(x^2+9)(x-3)(x+3)$: the difference of squares splits twice, and the $x^2+9$ stays.",
+      "<b>Cubes pattern.</b> $x^3+8=(x+2)(x^2-2x+4)$ and $x^3-8=(x-2)(x^2+2x+4)$. The binomial copies the sign of the cube; the middle term of the quadratic has the opposite sign; the last term is always positive. The quadratic factor does not factor further.",
+      "<b>The ac-method.</b> For $10x^2+11x-6$: ac = −60, and the pair 15 and −4 multiplies to −60 and adds to 11. Split $11x=15x-4x$ and group: $5x(2x+3)-2(2x+3)=(5x-2)(2x+3)$.",
+      "<b>Grouping.</b> $x^3+3x^2-4x-12=x^2(x+3)-4(x+3)=(x+3)(x^2-4)=(x+3)(x-2)(x+2)$. If the second pair starts with a minus sign, factor out a negative so the binomials match.",
+      "<b>Check by multiplying.</b> Expand your answer; it must give back the original. Also confirm that no common factor remains in any pair of parentheses, such as $(2x-4)$ or $(6x-9)$.",
+      "<b>Common slips.</b> Forgetting the GCF at the start; stopping at $(x^2-9)$ or $(x^3-8)(x^3+8)$ when more can be done; wrong sign in the cubes quadratic; treating $a^2+b^2$ as factorable."
+     ]
+    },
+    {
+     "l": "Solving higher-degree equations with the Zero Product Property",
+     "intro": "If a product equals zero, at least one factor equals zero. This turns a hard equation into several easy ones, and it works for any number of factors, not just two.",
+     "b": [
+      "<b>The property.</b> If $ab=0$ then $a=0$ or $b=0$. For three factors, $abc=0$ means one of $a,b,c$ is zero. It only works when the product equals <b>zero</b>: $(x-1)(x-2)=6$ does not mean $x-1=6$.",
+      "<b>Steps.</b> (1) Move every term to one side so the other side is 0. (2) Factor completely. (3) Set each factor equal to 0. (4) Solve each small equation. (5) List all roots, with their multiplicity.",
+      "<b>Example, GCF first.</b> $x^3-9x=0$ gives $x(x-3)(x+3)=0$, so $x=0,3,-3$.",
+      "<b>Example, quadratic in $x^2$.</b> $x^4-13x^2+36=0$ gives $(x^2-4)(x^2-9)=0$, so $x=\\pm2$ or $x=\\pm3$ (four roots).",
+      "<b>Example, grouping.</b> $x^3+2x^2-9x-18=0$ gives $x^2(x+2)-9(x+2)=(x+2)(x-3)(x+3)=0$, so $x=-2,3,-3$.",
+      "<b>Never divide by the variable.</b> Dividing $x^3=4x$ by $x$ loses the root $x=0$. Instead write $x^3-4x=0$ and factor: $x(x-2)(x+2)=0$.",
+      "<b>Non-real roots.</b> $x^2+9=0$ gives $x^2=-9$, so $x=\\pm3i$. A sum of squares has no real roots but does have two imaginary ones. So $(x^2+9)(x^2+5)=0$ has four roots, all non-real: $\\pm3i$ and $\\pm i\\sqrt5$.",
+      "<b>Repeated factors.</b> $(x-3)^2(x+1)=0$ has roots 3 (a double root) and $-1$. A degree-$n$ polynomial equation has exactly $n$ roots counting multiplicity and non-real roots.",
+      "<b>Check.</b> Substitute each real root back into the original equation, and make sure the number of roots (with multiplicity) matches the degree."
+     ]
+    },
+    {
+     "l": "Literal equations when the variable appears more than once",
+     "intro": "Earlier literal equations had the target in one term. Here the target shows up in two or more places, or sits in a fraction, so you gather and factor instead of just undoing operations.",
+     "b": [
+      "<b>Gather and factor.</b> If the target is in several terms, put all those terms on one side and everything else on the other, factor the target out, then divide by what is left. $ax+b=cx+d$: $ax-cx=d-b$, $x(a-c)=d-b$, so $x=\\frac{d-b}{a-c}$.",
+      "<b>Factor to isolate.</b> $A=P+Prt$ for $P$: $A=P(1+rt)$, so $P=\\frac{A}{1+rt}$. Do not divide each term separately.",
+      "<b>Target inside a fraction.</b> $y=\\frac{x+2}{x-3}$ for $x$: multiply both sides by $(x-3)$, giving $yx-3y=x+2$. Gather $x$ terms: $yx-x=3y+2$, so $x(y-1)=3y+2$ and $x=\\frac{3y+2}{y-1}$.",
+      "<b>Reciprocal formulas.</b> $\\frac1R=\\frac1a+\\frac1b$: add the fractions first, $\\frac1R=\\frac{a+b}{ab}$, then flip both sides: $R=\\frac{ab}{a+b}$. To solve for $a$ instead: $\\frac1a=\\frac1R-\\frac1b=\\frac{b-R}{Rb}$, so $a=\\frac{Rb}{b-R}$.",
+      "<b>Squares and roots.</b> $F=\\frac{Gm_1m_2}{r^2}$ for $r$: $Fr^2=Gm_1m_2$, $r^2=\\frac{Gm_1m_2}{F}$, so $r=\\sqrt{\\frac{Gm_1m_2}{F}}$ for positive $r$. Undo the square last.",
+      "<b>Check with numbers.</b> Pick simple values for the other letters, solve both ways, and make sure your formula agrees with the original equation."
+     ]
+    },
+    {
+     "l": "Unit 1 test: what to study and bring",
+     "intro": "A checklist for the Unit 1 test: what to bring and where to find practice for each topic.",
+     "b": [
+      "<b>Bring:</b> pencils, an eraser and your graphing calculator.",
+      "<b>Study:</b> your class notes, homework #1–12 and the Albert.io practice assigned for the unit.",
+      "<b>Topics:</b> subsets of the real numbers; linear inequalities; number-line graphs; interval notation; set-builder notation; compound inequalities; multiplying polynomials; the greatest common factor; factoring (all techniques); literal equations; and higher-degree equations solved with the Zero Product Property.",
+      "<b>Fast review plan:</b> redo one problem of every homework type from memory (classify a number, solve a compound inequality in both notations, multiply a trinomial by a binomial, factor completely, solve a literal equation, find all roots), then check against your notes."
+     ]
     }
    ],
    "traps": [
@@ -1734,6 +1786,46 @@
    "u": 2,
    "t": "Vertex form",
    "d": "$y=a(x-h)^2+k$ with vertex $(h,k)$. Completing the square converts $y=ax^2+bx+c$ into this form."
+  },
+  {
+   "u": 1,
+   "t": "Zero Product Property",
+   "d": "If a product equals 0, at least one factor equals 0. Set the equation equal to 0, factor completely, then set each factor to 0."
+  },
+  {
+   "u": 1,
+   "t": "Why not divide by x?",
+   "d": "Dividing both sides by a variable loses the root x = 0. Move everything to one side and factor instead."
+  },
+  {
+   "u": 1,
+   "t": "Roots of x² + 9 = 0",
+   "d": "x² = −9, so x = ±3i: two non-real (imaginary) roots. A sum of squares is prime over the integers."
+  },
+  {
+   "u": 1,
+   "t": "Multiplicity of a root",
+   "d": "How many times a factor repeats: (x − 3)²(x + 1) has root 3 with multiplicity 2. A degree-n equation has n roots counting multiplicity."
+  },
+  {
+   "u": 1,
+   "t": "Factor completely: the order",
+   "d": "1) GCF, 2) count the terms (2: squares/cubes, 3: trinomial, 4: grouping), 3) check every new factor again."
+  },
+  {
+   "u": 1,
+   "t": "Sum / difference of cubes",
+   "d": "a³ + b³ = (a + b)(a² − ab + b²); a³ − b³ = (a − b)(a² + ab + b²). The quadratic factor does not factor further."
+  },
+  {
+   "u": 1,
+   "t": "Literal equation, target in two terms",
+   "d": "Gather the target terms on one side, factor it out, then divide by the remaining factor (A = P + Prt gives P = A/(1 + rt))."
+  },
+  {
+   "u": 1,
+   "t": "Unit 1 test checklist",
+   "d": "Bring pencils, an eraser and a graphing calculator. Study class notes, HW #1–12 and Albert.io."
   }
  ],
  "quiz": [
@@ -8508,6 +8600,422 @@
    ],
    "a": 0,
    "e": "Multiply top and bottom by $\\sqrt{2}$: $\\frac{\\sqrt{5}\\cdot\\sqrt{2}}{\\sqrt{2}\\cdot\\sqrt{2}}=\\frac{\\sqrt{10}}{2}$."
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $4x^3 - 100x$",
+   "o": [
+    "$4x(x^2-25)$",
+    "$4x(x-5)^2$",
+    "$(4x-20)(x^2+5x)$",
+    "$4x(x-5)(x+5)$"
+   ],
+   "a": 3,
+   "e": "Pull out the GCF $4x$ first, leaving $x^2-25$, which is a difference of squares: $(x-5)(x+5)$. Stopping at $4x(x^2-25)$ is not complete.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $3x^2 - 27$",
+   "o": [
+    "$3(x^2-9)$",
+    "$(3x-9)(x+3)$",
+    "$3(x-3)(x+3)$",
+    "$3(x-3)^2$"
+   ],
+   "a": 2,
+   "e": "GCF 3, then difference of squares $x^2-9=(x-3)(x+3)$. $(3x-9)(x+3)$ is still factorable because $3x-9$ has a common factor.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Which statement about $x^2 + 36$ is true over the integers?",
+   "o": [
+    "It is prime: a sum of squares does not factor",
+    "It factors as $(x+6)(x+6)$, since both factors share the same number",
+    "It factors as $(x+6)(x-6)$, the pattern for two perfect squares",
+    "It factors as $(x-6)^2$, the pattern for a perfect-square trinomial"
+   ],
+   "a": 0,
+   "e": "$(x+6)(x-6)=x^2-36$ and $(x\\pm6)^2$ have a middle term, so none gives $x^2+36$. A sum of two squares is prime over the integers.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $2x^3 + 16$",
+   "o": [
+    "$2(x+2)(x^2+2x+4)$",
+    "$2(x+2)(x^2-2x+4)$",
+    "$2(x+2)^3$",
+    "$2(x+4)(x^2-4x+16)$"
+   ],
+   "a": 1,
+   "e": "GCF 2 gives $2(x^3+8)$. Sum of cubes: $a^3+b^3=(a+b)(a^2-ab+b^2)$ with $a=x,b=2$, so $(x+2)(x^2-2x+4)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $27x^3 - 1$",
+   "o": [
+    "$(3x-1)(9x^2-3x+1)$",
+    "$(3x-1)^3$",
+    "$(3x+1)(9x^2-3x+1)$",
+    "$(3x-1)(9x^2+3x+1)$"
+   ],
+   "a": 3,
+   "e": "Difference of cubes: $a^3-b^3=(a-b)(a^2+ab+b^2)$ with $a=3x,b=1$. The quadratic factor keeps a plus sign in front of the middle term.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $6x^2 + 7x - 3$",
+   "o": [
+    "$(3x+1)(2x-3)$",
+    "$(6x-1)(x+3)$",
+    "$(3x-1)(2x+3)$",
+    "$(3x+3)(2x-1)$"
+   ],
+   "a": 2,
+   "e": "ac = −18; the pair 9 and −2 adds to 7. Split $7x=9x-2x$ and group: $3x(2x+3)-1(2x+3)=(3x-1)(2x+3)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $x^3 + 4x^2 - 9x - 36$",
+   "o": [
+    "$(x+4)(x^2-9)$",
+    "$(x-4)(x-3)(x+3)$",
+    "$(x+4)(x-3)(x+3)$",
+    "$(x+4)(x-3)^2$"
+   ],
+   "a": 2,
+   "e": "Group: $x^2(x+4)-9(x+4)=(x+4)(x^2-9)$, then factor the difference of squares. $(x+4)(x^2-9)$ is not complete.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $12x^2 - 36x + 27$",
+   "o": [
+    "$(6x-9)(2x-3)$",
+    "$3(2x+3)^2$",
+    "$3(4x-9)(x-1)$",
+    "$3(2x-3)^2$"
+   ],
+   "a": 3,
+   "e": "GCF 3 gives $3(4x^2-12x+9)$, a perfect-square trinomial $(2x-3)^2$. $(6x-9)(2x-3)$ is equal but not complete: $6x-9=3(2x-3)$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Which of these is factored completely?",
+   "o": [
+    "$2x(x-2)(x+2)$",
+    "$2x(x^2-4)$",
+    "$(2x-4)(x^2+2x)$",
+    "$2(x^3-4x)$"
+   ],
+   "a": 0,
+   "e": "Only $2x(x-2)(x+2)$ has no factor left that can be broken down further. Each of the others still contains a common factor or a difference of squares.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor by grouping: $2ax + 6a - bx - 3b$",
+   "o": [
+    "$(x+3)(2a+b)$",
+    "$(x+3)(2a-b)$",
+    "$(x-3)(2a-b)$",
+    "$(x+6)(a-b)$"
+   ],
+   "a": 1,
+   "e": "Group $2a(x+3)-b(x+3)$, which has the common binomial $(x+3)$: $(x+3)(2a-b)$. Watch the sign when the second group begins with a minus.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $x^4 - 81$",
+   "o": [
+    "$(x^2+9)(x-3)(x+3)$",
+    "$(x^2+9)(x^2-9)$",
+    "$(x-3)^2(x+3)^2$",
+    "$(x^2+9)^2$"
+   ],
+   "a": 0,
+   "e": "Difference of squares twice: $x^4-81=(x^2+9)(x^2-9)$, and $x^2-9=(x-3)(x+3)$. The sum of squares $x^2+9$ stays.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "The difference of cubes $x^3 - y^3$ factors as",
+   "o": [
+    "$(x-y)(x^2-xy+y^2)$",
+    "$(x-y)^3$",
+    "$(x+y)(x^2-xy+y^2)$",
+    "$(x-y)(x^2+xy+y^2)$"
+   ],
+   "a": 3,
+   "e": "Difference of cubes: same sign as the cube in the binomial, then the quadratic with $+xy$. Check: $(x-y)(x^2+xy+y^2)=x^3-y^3$.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Solve $(x-3)(x+5)=0$.",
+   "o": [
+    "$x=3$ or $x=5$",
+    "$x=3$ or $x=-5$",
+    "$x=-3$ or $x=-5$",
+    "$x=-3$ or $x=5$"
+   ],
+   "a": 1,
+   "e": "Set each factor equal to zero: $x-3=0$ gives $x=3$ and $x+5=0$ gives $x=-5$. The sign flips when you move the constant across.",
+   "c": 28
+  },
+  {
+   "u": 1,
+   "q": "Find all roots of $x^3 - 16x = 0$.",
+   "o": [
+    "$x=4,\\ -4$",
+    "$x=0,\\ 4,\\ -4$",
+    "$x=0,\\ 16$",
+    "$x=0,\\ 4$"
+   ],
+   "a": 1,
+   "e": "Factor out $x$ first: $x(x^2-16)=x(x-4)(x+4)$. The factor $x$ gives the root 0, which is lost if you divide by $x$.",
+   "c": 28
+  },
+  {
+   "u": 1,
+   "q": "How many roots, counting multiplicity, does $x^2(x-6)=0$ have, and what are they?",
+   "o": [
+    "Two: $0$ and $6$, each once",
+    "One: $6$ only",
+    "Three: $0$ (twice) and $6$",
+    "Three: $0,\\ 6,\\ -6$"
+   ],
+   "a": 2,
+   "e": "The factor $x^2$ means $x=0$ is a double root; with $x=6$ that makes three roots counting multiplicity, matching the degree.",
+   "c": 28
+  },
+  {
+   "u": 1,
+   "q": "Which list gives all roots of $(x^2+9)(x-2)=0$, including non-real ones?",
+   "o": [
+    "$x=2$ only",
+    "$x=2,\\ 3i,\\ -3i$",
+    "$x=2,\\ 3,\\ -3$",
+    "$x=2,\\ 9,\\ -9$"
+   ],
+   "a": 1,
+   "e": "$x-2=0$ gives 2. $x^2+9=0$ gives $x^2=-9$, so $x=\\pm3i$. A sum of squares has no real roots but does have two imaginary roots.",
+   "c": 28
+  },
+  {
+   "u": 1,
+   "q": "Find all roots of $x^4 - 10x^2 + 9 = 0$.",
+   "o": [
+    "$x=1,\\ 9$",
+    "$x=\\pm1,\\ \\pm9$",
+    "$x=\\pm1,\\ \\pm3$",
+    "$x=\\pm1,\\ \\pm3i$"
+   ],
+   "a": 2,
+   "e": "It factors like a quadratic in $x^2$: $(x^2-1)(x^2-9)=0$. Then $x^2=1$ gives $\\pm1$ and $x^2=9$ gives $\\pm3$.",
+   "c": 28
+  },
+  {
+   "u": 1,
+   "q": "Find all roots of $x^3 + 3x^2 - 4x - 12 = 0$.",
+   "o": [
+    "$x=-3,\\ 2,\\ -2$",
+    "$x=3,\\ 2,\\ -2$",
+    "$x=-3,\\ 4$",
+    "$x=-3,\\ 2$"
+   ],
+   "a": 0,
+   "e": "Group: $x^2(x+3)-4(x+3)=(x+3)(x-2)(x+2)$, so the roots are $-3$, $2$ and $-2$.",
+   "c": 28
+  },
+  {
+   "u": 1,
+   "q": "A student solves $x^2 - 5x = 14$ by writing $x(x-5)=14$ and concluding $x=14$ or $x-5=14$. What is the error?",
+   "o": [
+    "The Zero Product Property needs the product to equal 0, so first move 14 to the left",
+    "Factoring $x^2-5x$ is not allowed here, since the equation is not yet in standard form",
+    "The roots should be written as ordered pairs, because the equation has two variables hidden in it",
+    "The equation has no real solutions, so no choice of factors could work for it at all"
+   ],
+   "a": 0,
+   "e": "Move 14 over: $x^2-5x-14=0$, then $(x-7)(x+2)=0$, so $x=7$ or $x=-2$. A product equal to 14 says nothing about the individual factors.",
+   "c": 28
+  },
+  {
+   "u": 1,
+   "q": "A student solves $x^3 = 9x$ by dividing both sides by $x$ to get $x^2=9$, so $x=\\pm3$. What was missed?",
+   "o": [
+    "The root $x=0$, lost by dividing by $x$",
+    "The root $x=9$, which is hidden when the equation is rewritten with $x^2$",
+    "The roots $\\pm3i$, which appear whenever a variable is divided out of both sides",
+    "Nothing was missed, because the answer $x=\\pm3$ satisfies the original equation as given"
+   ],
+   "a": 0,
+   "e": "Move everything to one side and factor: $x^3-9x=x(x-3)(x+3)=0$, so the roots are $0,3,-3$. Dividing by a variable can throw away a root.",
+   "c": 28
+  },
+  {
+   "u": 1,
+   "q": "How many roots, counting multiplicity and including non-real ones, does $(x-1)^2(x+2)(x^2+1)=0$ have?",
+   "o": [
+    "3",
+    "4",
+    "2",
+    "5"
+   ],
+   "a": 3,
+   "e": "The degree is $2+1+2=5$, so there are five roots: 1 (twice), $-2$, $i$ and $-i$.",
+   "c": 28
+  },
+  {
+   "u": 1,
+   "q": "Find all roots of $25x^2 - 4 = 0$.",
+   "o": [
+    "$x=\\pm\\dfrac{4}{25}$",
+    "$x=\\pm\\dfrac{5}{2}$",
+    "$x=\\pm\\dfrac{2}{5}$",
+    "$x=\\dfrac{2}{5}$ only"
+   ],
+   "a": 2,
+   "e": "Difference of squares: $(5x-2)(5x+2)=0$, so $x=\\frac25$ or $x=-\\frac25$.",
+   "c": 28
+  },
+  {
+   "u": 1,
+   "q": "Find all roots of $6x^3 - 7x^2 - 3x = 0$.",
+   "o": [
+    "$x=0,\\ \\dfrac{1}{3},\\ -\\dfrac{3}{2}$",
+    "$x=0,\\ -\\dfrac{1}{3},\\ \\dfrac{3}{2}$",
+    "$x=0,\\ -\\dfrac{1}{3},\\ -\\dfrac{3}{2}$",
+    "$x=-\\dfrac{1}{3},\\ \\dfrac{3}{2}$"
+   ],
+   "a": 1,
+   "e": "Factor out $x$: $x(6x^2-7x-3)=x(3x+1)(2x-3)$. Then $x=0$, $3x+1=0$ gives $-\\frac13$, and $2x-3=0$ gives $\\frac32$.",
+   "c": 28
+  },
+  {
+   "u": 1,
+   "q": "Which equation can be solved with the Zero Product Property exactly as written?",
+   "o": [
+    "$(x+1)(x-4)=0$",
+    "$(x+1)(x-4)=6$",
+    "$x(x-4)=x+1$",
+    "$(x+1)+(x-4)=0$"
+   ],
+   "a": 0,
+   "e": "The property applies only when a product of factors is set equal to 0. The others need to be rearranged first, or are sums rather than products.",
+   "c": 28
+  },
+  {
+   "u": 1,
+   "q": "Solve $ax + b = cx + d$ for $x$.",
+   "o": [
+    "$x=\\dfrac{d-b}{a+c}$",
+    "$x=\\dfrac{b-d}{a-c}$",
+    "$x=\\dfrac{d-b}{a-c}$",
+    "$x=\\dfrac{d+b}{a-c}$"
+   ],
+   "a": 2,
+   "e": "Collect the $x$ terms on one side: $ax-cx=d-b$. Factor out $x$: $x(a-c)=d-b$. Divide by $(a-c)$.",
+   "c": 29
+  },
+  {
+   "u": 1,
+   "q": "Solve $A = P + Prt$ for $P$.",
+   "o": [
+    "$P=A-rt$",
+    "$P=\\dfrac{A}{rt}$",
+    "$P=\\dfrac{A-1}{rt}$",
+    "$P=\\dfrac{A}{1+rt}$"
+   ],
+   "a": 3,
+   "e": "$P$ is in two terms, so factor it out: $A=P(1+rt)$. Then divide both sides by $(1+rt)$.",
+   "c": 29
+  },
+  {
+   "u": 1,
+   "q": "Solve $\\dfrac{1}{R} = \\dfrac{1}{a} + \\dfrac{1}{b}$ for $R$.",
+   "o": [
+    "$R=a+b$",
+    "$R=\\dfrac{ab}{a+b}$",
+    "$R=\\dfrac{a+b}{ab}$",
+    "$R=\\dfrac{1}{a+b}$"
+   ],
+   "a": 1,
+   "e": "Add the fractions: $\\frac1a+\\frac1b=\\frac{a+b}{ab}$. Then $\\frac1R=\\frac{a+b}{ab}$, so $R$ is the reciprocal.",
+   "c": 29
+  },
+  {
+   "u": 1,
+   "q": "Solve $y = \\dfrac{x+2}{x-3}$ for $x$.",
+   "o": [
+    "$x=\\dfrac{3y+2}{y-1}$",
+    "$x=\\dfrac{y+2}{y-3}$",
+    "$x=\\dfrac{2-3y}{y-1}$",
+    "$x=\\dfrac{3y+2}{1-y}$"
+   ],
+   "a": 0,
+   "e": "Multiply by $(x-3)$: $yx-3y=x+2$. Gather $x$: $yx-x=3y+2$, so $x(y-1)=3y+2$.",
+   "c": 29
+  },
+  {
+   "u": 1,
+   "q": "Solve $S = 2\\pi r^2 + 2\\pi r h$ for $h$.",
+   "o": [
+    "$h=\\dfrac{S-2\\pi r^2}{2\\pi r}$",
+    "$h=\\dfrac{S-2\\pi r^2}{2\\pi}$",
+    "$h=S-2\\pi r^2-2\\pi r$",
+    "$h=\\dfrac{S}{2\\pi r}-2\\pi r^2$"
+   ],
+   "a": 0,
+   "e": "Subtract $2\\pi r^2$ from both sides, then divide by the whole coefficient of $h$, which is $2\\pi r$.",
+   "c": 29
+  },
+  {
+   "u": 1,
+   "q": "Solve $T = m(a-b) + c$ for $m$.",
+   "o": [
+    "$m=\\dfrac{T-c}{a-b}$",
+    "$m=\\dfrac{T-c}{a+b}$",
+    "$m=\\dfrac{T+c}{a-b}$",
+    "$m=T-c-(a-b)$"
+   ],
+   "a": 0,
+   "e": "Subtract $c$ first, then divide by the grouped factor $(a-b)$.",
+   "c": 29
+  },
+  {
+   "u": 1,
+   "q": "Solve $F = \\dfrac{G m_1 m_2}{r^2}$ for $r$ (take $r>0$).",
+   "o": [
+    "$r=\\dfrac{G m_1 m_2}{F}$",
+    "$r=\\sqrt{\\dfrac{G m_1 m_2}{F}}$",
+    "$r=\\sqrt{\\dfrac{F}{G m_1 m_2}}$",
+    "$r=\\dfrac{G m_1 m_2}{F^2}$"
+   ],
+   "a": 1,
+   "e": "Multiply by $r^2$: $Fr^2=Gm_1m_2$. Divide by $F$, then take the square root, the last operation undone.",
+   "c": 29
+  },
+  {
+   "u": 1,
+   "q": "The target variable appears in two different terms of a literal equation. The key step is to",
+   "o": [
+    "Divide only one of the two terms by the variable and leave the other term unchanged",
+    "Take the square root of both sides, which removes the variable from either term at once",
+    "Collect those terms on one side and factor out the variable",
+    "Substitute a number for the variable, since a literal equation cannot be solved in letters"
+   ],
+   "a": 2,
+   "e": "Factoring out the target turns it into a single product, so one division finishes the job.",
+   "c": 29
   }
  ],
  "hardQuiz": [
@@ -10825,6 +11333,84 @@
    ],
    "a": 0,
    "e": "The constant to add is the SQUARE of half of $b$: $(\\frac{-6}{2})^2=9$. Adding 3 does not make a perfect square. Correct: $(x-3)^2=16$, so $x=7$ or $x=-1$."
+  },
+  {
+   "u": 1,
+   "q": "Find all roots (real and non-real) of $x^4 - 5x^2 - 36 = 0$.",
+   "o": [
+    "$x=\\pm3,\\ \\pm2i$",
+    "$x=\\pm3,\\ \\pm2$",
+    "$x=\\pm9,\\ \\pm4$",
+    "$x=\\pm3,\\ \\pm4i$"
+   ],
+   "a": 0,
+   "e": "$(x^2-9)(x^2+4)=0$: $x^2=9$ gives $\\pm3$; $x^2=-4$ gives $\\pm2i$.",
+   "c": 28
+  },
+  {
+   "u": 1,
+   "q": "Find all roots of $x^3 + 8 = 0$.",
+   "o": [
+    "$x=-2$ only",
+    "$x=2,\\ -1\\pm i\\sqrt3$",
+    "$x=-2,\\ 1\\pm i\\sqrt3$",
+    "$x=-2,\\ -1\\pm i\\sqrt3$"
+   ],
+   "a": 2,
+   "e": "$(x+2)(x^2-2x+4)=0$. The quadratic gives $x=\\frac{2\\pm\\sqrt{-12}}{2}=1\\pm i\\sqrt3$.",
+   "c": 28
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $x^6 - 64$",
+   "o": [
+    "$(x^3-8)(x^3+8)$",
+    "$(x-2)^3(x+2)^3$",
+    "$(x-2)(x^2+2x+4)(x+2)(x^2-2x+4)$",
+    "$(x^2-4)(x^4+4x^2+16)$"
+   ],
+   "a": 2,
+   "e": "Treat as a difference of squares $(x^3-8)(x^3+8)$, then factor each cube. $(x^3-8)(x^3+8)$ is not complete.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Factor completely: $3x^3 + 12x^2 - 27x - 108$",
+   "o": [
+    "$3(x+4)(x^2-9)$",
+    "$3(x+4)(x-3)(x+3)$",
+    "$(x+4)(3x-9)(x+3)$",
+    "$3(x-4)(x-3)(x+3)$"
+   ],
+   "a": 1,
+   "e": "GCF 3 gives $3(x^3+4x^2-9x-36)$, which groups to $3(x+4)(x^2-9)$, then $x^2-9$ factors again.",
+   "c": 27
+  },
+  {
+   "u": 1,
+   "q": "Solve $\\dfrac{1}{f} = \\dfrac{1}{p} + \\dfrac{1}{q}$ for $p$.",
+   "o": [
+    "$p=\\dfrac{fq}{q-f}$",
+    "$p=\\dfrac{fq}{f-q}$",
+    "$p=\\dfrac{q-f}{fq}$",
+    "$p=f-q$"
+   ],
+   "a": 0,
+   "e": "$\\frac1p=\\frac1f-\\frac1q=\\frac{q-f}{fq}$, so $p$ is the reciprocal: $\\frac{fq}{q-f}$.",
+   "c": 29
+  },
+  {
+   "u": 1,
+   "q": "A cubic with integer coefficients has roots $2$, $-3$ and $1/2$. Which equation could it be?",
+   "o": [
+    "$(x+2)(x-3)(2x+1)=0$",
+    "$(x-2)(x+3)(2x-1)=0$",
+    "$(x-2)(x+3)(x-2)=0$",
+    "$(x-2)(x+3)(x+\\tfrac12)=0$"
+   ],
+   "a": 1,
+   "e": "A root $r$ comes from the factor $(x-r)$; to keep integer coefficients write $x-\\frac12$ as $2x-1$. The signs of the roots are the opposite of the signs inside the factors.",
+   "c": 28
   }
  ],
  "workedExamples": [
@@ -11225,6 +11811,43 @@
     "Check excluded values: x ≠ −1, 1 — x=3 is valid"
    ],
    "answer": "x = 3"
+  },
+  {
+   "u": 1,
+   "title": "Solving a Higher-Degree Equation by Grouping and the Zero Product Property",
+   "prompt": "Find all roots of x³ + 2x² − 9x − 18 = 0",
+   "steps": [
+    "The equation already equals 0, so factor the left side. No common factor for all four terms, so try grouping.",
+    "Group in pairs: x²(x + 2) − 9(x + 2)",
+    "Factor out the common binomial: (x + 2)(x² − 9)",
+    "Factor the difference of squares: (x + 2)(x − 3)(x + 3) = 0",
+    "Set each factor to 0: x + 2 = 0, x − 3 = 0, x + 3 = 0",
+    "Solve: x = −2, x = 3, x = −3"
+   ],
+   "answer": "x = −2, 3, −3"
+  },
+  {
+   "u": 1,
+   "title": "Factoring Completely with the Checklist",
+   "prompt": "Factor completely: 2x⁴ − 32",
+   "steps": [
+    "GCF first: 2(x⁴ − 16)",
+    "Two terms, difference of squares: 2(x² − 4)(x² + 4)",
+    "Check each factor: x² − 4 is another difference of squares, so 2(x − 2)(x + 2)(x² + 4)",
+    "x² + 4 is a sum of squares, which is prime, so stop"
+   ],
+   "answer": "2(x − 2)(x + 2)(x² + 4)"
+  },
+  {
+   "u": 1,
+   "title": "Solving a Literal Equation with the Variable Twice",
+   "prompt": "Solve A = P + Prt for P",
+   "steps": [
+    "P appears in two terms, so factor it out: A = P(1 + rt)",
+    "Divide both sides by (1 + rt)",
+    "P = A / (1 + rt)"
+   ],
+   "answer": "P = A / (1 + rt)"
   }
  ],
  "examParts": {
