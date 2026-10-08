@@ -1,3 +1,4 @@
+import { negotiate } from "./markdown-negotiation.js";
 import { ageGate, handleAgePost } from "./age-gate.js";
 import { handleHealth, handleConfig, runBackup, runRetention, logMissingSecrets } from "./ops.js";
 import { LASTMOD } from "./lastmod.js";
@@ -400,7 +401,7 @@ export default {
         if (inm) headers.set("If-None-Match", inm); else headers.delete("If-None-Match");
         req = new Request(request, { headers });
       }
-      let res = withRefCookie(withSecurityHeaders(await handleFetch(req, env), pathname), request);
+      let res = withRefCookie(withSecurityHeaders(negotiate(request, await handleFetch(req, env)), pathname), request);
       const etag = page ? res.headers.get("ETag") : null;
       if (etag) { res = new Response(res.body, res); res.headers.set("ETag", pageEtag(etag, deployId)); }
       return res;
