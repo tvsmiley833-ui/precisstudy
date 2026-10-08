@@ -731,12 +731,12 @@
    "u": 1,
    "q": "Which best distinguishes hard news from soft news?",
    "o": [
-    "Hard news covers urgent consequential events; soft news is opinion writing that has been checked for accuracy less often",
-    "Hard news is published in print and broadcast formats; soft news is produced only for websites and social platforms",
-    "Hard news is written by senior reporters; soft news is written by interns and freelancers with looser standards",
-    "Hard news covers timely significant events; soft news covers lifestyle/human interest with less urgency"
+    "Hard news covers urgent consequential events; soft news is opinion writing held to looser accuracy standards",
+    "Hard news covers timely significant events; soft news covers lifestyle/human interest with less urgency",
+    "Hard news is published in print and broadcast formats; soft news is produced for websites and social platforms",
+    "Hard news is written by senior reporters; soft news is written by interns and freelancers with looser standards"
    ],
-   "a": 3,
+   "a": 1,
    "e": "Hard news is urgent and consequential; soft news covers less time-sensitive lifestyle topics.",
    "c": 3
   },
@@ -1114,12 +1114,12 @@
    "u": 1,
    "q": "Which best summarizes the relationship between news values and story selection?",
    "o": [
-    "News values are legal requirements that regulators enforce on every news outlet",
-    "Only a single news value can be applied to any one story at a time",
-    "Editors combine multiple news values to judge which stories deserve coverage and prominence",
-    "News values are used for breaking news only and are ignored for feature stories"
+    "News values are legal standards that regulators apply to news outlets' coverage",
+    "Editors select a single dominant news value for each story and set others aside",
+    "News values guide breaking news decisions but are set aside for feature stories",
+    "Editors combine multiple news values to judge which stories deserve coverage and prominence"
    ],
-   "a": 2,
+   "a": 3,
    "e": "News values work together as an evaluative framework editors apply across all story types."
   },
   {
@@ -1304,12 +1304,12 @@
    "u": 2,
    "q": "Does paraphrased information still require attribution?",
    "o": [
-    "Yes, all factual claims should be attributed to a clear source",
-    "No, only direct quotations need attribution, while paraphrased facts do not",
-    "No, attribution is optional in hard news so long as the reporter is confident",
-    "Yes, but only when the person being paraphrased wishes to remain anonymous"
+    "No, direct quotations need attribution, but paraphrased facts do not",
+    "No, attribution is optional when the reporter is confident of the facts",
+    "Yes, but attribution is required in print and not for broadcast",
+    "Yes, all factual claims should be attributed to a clear source"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Even paraphrased facts must be traceable to a source for credibility.",
    "c": 5
   },
@@ -1354,12 +1354,12 @@
    "u": 2,
    "q": "Which sentence best exemplifies proper attribution placement?",
    "o": [
-    "Attribution should always be saved for the very end of the story, whatever the source's identity",
     "Attribution should come early in a sentence when the source's identity matters to credibility",
-    "Attribution belongs in headlines only, never within the body text",
-    "Attribution can be dropped from any quote that is short enough"
+    "Attribution should come at the end of each sentence so the claim leads, regardless of source",
+    "Attribution belongs in the headline and lede, not within the body paragraphs that follow",
+    "Attribution can be placed anywhere in the paragraph since readers judge credibility by the quote itself"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Placing attribution early helps readers immediately gauge the source's credibility.",
    "c": 5
   },
@@ -1393,12 +1393,12 @@
    "u": 2,
    "q": "Under AP Style, how should a title before a name be capitalized?",
    "o": [
+    "Capitalized in both positions, before the name and after it (Jane Diaz, Mayor)",
+    "Lowercase before the name (mayor Jane Diaz) and capitalized after it (Jane Diaz, Mayor)",
     "Capitalized before the name (e.g., Mayor Jane Diaz), lowercase after (Jane Diaz, mayor)",
-    "Capitalized in all positions, whether it comes before or after the name",
-    "Never capitalized, even when it directly precedes the person's name",
-    "Capitalized only in headlines and lowercase everywhere else in the story"
+    "Capitalized for a head of government, lowercase for any other official in the story"
    ],
-   "a": 0,
+   "a": 2,
    "e": "AP Style capitalizes formal titles directly preceding a name, not when it follows.",
    "c": 4
   },
@@ -1776,11 +1776,11 @@
    "q": "What does 'on deep background' mean?",
    "o": [
     "Information can be used if the source is described by title and agency, like a senior official",
+    "Information can be used and attributed to the named source after they approve the wording",
     "Information can be used but with no attribution at all, not even a vague description",
-    "Information can be used and attributed to a named source only once they approve it",
-    "Information cannot be used at all, but only helps the reporter understand the issue"
+    "Information cannot be published, though it may guide the reporter's questions"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Deep background permits use of the information without any attribution, even indirect.",
    "c": 4
   },
@@ -1940,12 +1940,12 @@
    "u": 3,
    "q": "A hostile source refuses to answer a key question three times. What is the best next step?",
    "o": [
+    "Ask the same question again in identical wording until the source answers",
+    "Tell the source that refusing means the story will describe them as evasive",
     "Rephrase the question and try a different angle rather than repeating it verbatim",
-    "Drop the topic entirely after the first refusal and move on to another subject",
-    "Threaten legal action against the source if they continue to refuse",
-    "Print a guess at the answer and leave it unattributed in the story"
+    "Report the refusal as an admission and quote earlier remarks out of context"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Skilled reframing can sometimes surface an answer that direct repetition can't."
   },
   {
@@ -1968,7 +1968,7 @@
     "On background gives the source's full name; on the record bans any use of the material in print",
     "On background means the quote must be exact; on the record lets the reporter paraphrase freely",
     "On background withholds the source's name from attribution; on the record allows full naming",
-    "On background applies to documents only; on the record applies to spoken, recorded interviews"
+    "On background applies to documents and emails; on the record applies to spoken, recorded interviews"
    ],
    "a": 2,
    "e": "The key distinction is whether the source's identity is directly attributed.",
@@ -2030,10 +2030,10 @@
    "u": 3,
    "q": "A source insists on reviewing quotes before publication. What is the standard journalistic practice?",
    "o": [
-    "Most newsrooms require quote approval from every source, as a standard step to ensure accuracy and fairness",
+    "Most newsrooms require quote approval from sources, as a standard step to ensure accuracy and fairness",
     "Most newsrooms discourage or refuse pre-publication quote approval to preserve editorial independence",
     "Reporters should read the full story aloud to the source and allow them to rewrite any quotes they dislike",
-    "Newsrooms usually allow sources to approve quotes only when the source is a public official or a celebrity"
+    "Newsrooms usually allow sources to approve quotes when the source is a public official or a celebrity"
    ],
    "a": 1,
    "e": "Granting quote approval can compromise editorial control and is generally avoided by most reputable outlets.",
@@ -2146,9 +2146,9 @@
    "q": "What are the four core principles of the SPJ Code of Ethics?",
    "o": [
     "Seek truth and report it; minimize harm; act independently; be accountable and transparent",
-    "Be fast; be first; be loud; and be shareable on social platforms",
-    "Objectivity; profitability; speed; and brevity in every published story",
-    "Truth; balance; entertainment; and loyalty to the newsroom's editors"
+    "Seek truth and report it; maximize audience; act independently; stay profitable",
+    "Seek truth and report it; protect sources; remain neutral; be accountable and transparent",
+    "Seek truth and report it; minimize harm; stay objective; be accountable to editors"
    ],
    "a": 0,
    "e": "These four pillars organize the SPJ Code of Ethics' guidance for journalists.",
@@ -2595,12 +2595,12 @@
    "u": 4,
    "q": "What is the best response if a source later claims they were misquoted?",
    "o": [
-    "Ignore the complaint entirely, since sources often regret their words",
-    "Assume the source is lying without checking the notes or recording",
+    "Remove the quote from the online story without first reviewing the notes",
     "Review the recording or notes and issue a correction if the source is right",
-    "Delete the story at once without reviewing what the source said"
+    "Publish a correction at once, then check the recording to see what was said",
+    "Offer the source a chance to rewrite the quote, then republish the revision"
    ],
-   "a": 2,
+   "a": 1,
    "e": "Investigating the claim against original notes/recording is the responsible, fair approach."
   },
   {
@@ -3100,10 +3100,10 @@
    "u": 5,
    "q": "What differentiates a feature's kicker from its nut graf?",
    "o": [
-    "They are two names for the same paragraph, which appears at the start of a feature",
+    "They are two terms for a paragraph that explains significance near the start of a feature",
     "The kicker closes the story with resonance, while the nut graf explains its significance near the start",
-    "The kicker opens the story with a hook, while the nut graf closes it with a quote",
-    "The nut graf is always the final line, while the kicker explains the story's significance"
+    "The kicker opens the story with a hook, while the nut graf closes it with a memorable final quote",
+    "The nut graf closes the story with a final line, while the kicker explains the story's significance"
    ],
    "a": 1,
    "e": "The nut graf appears early to explain the point of the story; the kicker appears at the end to leave an impression.",
@@ -3113,12 +3113,12 @@
    "u": 5,
    "q": "Which best exemplifies proper use of dialogue in a feature story?",
    "o": [
-    "Quoting a source's exact words as they were spoken during an interview or observed scene",
     "Writing lines of speech that the reporter imagines a subject might plausibly have said",
-    "Paraphrasing every spoken remark into the writer's own polished, more literary wording",
+    "Quoting a source's exact words as they were spoken during an interview or observed scene",
+    "Paraphrasing spoken remarks into the writer's own polished, more literary wording",
     "Leaving out quotation marks around spoken words for a smoother, more stylish narrative"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Feature writing preserves the authenticity of a scene by quoting real, accurately recorded speech."
   },
   {
@@ -3342,12 +3342,12 @@
    "u": 6,
    "q": "Which best distinguishes objectivity from having no viewpoint at all?",
    "o": [
-    "Objectivity means a reporter has no personal opinions, so every viewpoint on a topic must get exactly equal weight",
+    "Objectivity means a reporter has no personal opinions, so each viewpoint on a topic must get equal weight regardless of its merit",
     "Objectivity means the reporter must treat established facts and false claims as equally valid, to avoid appearing biased",
-    "Objectivity means the reporter's opinion should not shape the story, not that no legitimate viewpoints exist on an issue",
-    "Objectivity means a reporter hides their identity and background and avoids all interviews with people who hold strong views"
+    "Objectivity means a reporter conceals their background and avoids interviewing people who hold strong views",
+    "Objectivity means the reporter's opinion should not shape the story, not that no legitimate viewpoints exist on an issue"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Objectivity is a reporting discipline about excluding personal bias from facts, not a claim that issues have no sides.",
    "c": 3
   },
@@ -4240,8 +4240,8 @@
    "o": [
     "Providing continuously updated, chronological coverage of a breaking event",
     "A weekly opinion column in which one writer shares a personal view with readers",
-    "A single archived photo essay that tells a story through a fixed set of images",
-    "A print-only editorial format that runs on the opinion page each Sunday"
+    "A scheduled newsletter summarizing the previous day's top stories",
+    "A long-form investigative series published in installments over several weeks"
    ],
    "a": 0,
    "e": "Live blogs update in real time as an event unfolds, distinct from a single finished article.",
@@ -4597,12 +4597,12 @@
    "u": 8,
    "q": "What is a common newsroom guideline for staff personal social media accounts?",
    "o": [
-    "Avoid publicly stating personal opinions on topics they professionally cover, to protect perceived objectivity",
-    "Post as often as possible about covered topics, since a strong personal brand helps the newsroom's reach",
-    "Avoid social media completely, since any online account is a violation of professional standards",
-    "Share unconfirmed tips right away, since speed on social platforms matters more than checking claims"
+    "Post frequently about covered topics, since a strong personal brand helps the newsroom's reach",
+    "Avoid social media in most cases, since personal accounts are a violation of professional standards",
+    "Share unconfirmed tips with a disclaimer, since speed on social platforms matters more than checking",
+    "Avoid publicly stating personal opinions on topics they professionally cover, to protect perceived objectivity"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Many outlets restrict staff commentary on covered topics to preserve the newsroom's credibility and impartiality.",
    "c": 2
   },
@@ -6160,12 +6160,12 @@
    "u": 7,
    "q": "Under New York Times v. Sullivan, a public official suing for libel must show:",
    "o": [
-    "Only that the published statement was false, regardless of the reporter's state of mind",
-    "That the reporter was merely careless or negligent in checking the facts",
     "Actual malice, meaning knowledge of falsity or reckless disregard for the truth",
-    "Nothing beyond the fact that the person holds a government position"
+    "That the published statement was false, regardless of the reporter's state of mind",
+    "That the reporter was merely careless or negligent in checking the facts",
+    "That the statement caused measurable harm to the official's reputation"
    ],
-   "a": 2,
+   "a": 0,
    "e": "It protects robust debate.",
    "c": 0
   },

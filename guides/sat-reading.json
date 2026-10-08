@@ -601,9 +601,9 @@
    "q": "A restaurant switched to a reservation-only model after years of long walk-in wait times. Since the change, customer complaints about wait times have dropped by half, though a few regulars have complained about the new booking requirement. Which is the most reasonable inference?",
    "o": [
     "The reservation system solved the wait-time problem for most customers but introduced a different frustration for some.",
-    "The reservation system eliminated every complaint the restaurant had received from both new and regular customers.",
-    "The reservation system made wait times worse for most customers but pleased the restaurant's regulars.",
-    "The restaurant's regulars stopped dining there entirely, which explains why complaints about waiting fell by half."
+    "The reservation system reduced wait-time complaints but also caused the restaurant to lose most of its regulars.",
+    "The reservation system shortened waits for regulars but left most other customers with longer waits than before.",
+    "Wait times stayed the same at the restaurant, but the booking requirement changed how customers described their experience."
    ],
    "a": 0,
    "e": "Complaints about wait time dropped (solved for most) while a new complaint (booking) appeared for a subset (regulars) -- a trade-off, not total elimination or an outright ban implied.",
@@ -615,12 +615,12 @@
    "d": "medium",
    "q": "Researchers studying a remote lake found that its water clarity had improved over ten years, coinciding with a local ban on phosphate-based fertilizers upstream. They caution, however, that other factors, such as reduced rainfall, may also have contributed. Which choice best describes the researchers' claim?",
    "o": [
-    "The fertilizer ban may be one of several contributing factors to improved clarity.",
-    "The fertilizer ban was proven to be the only cause of the lake's improved clarity.",
-    "Reduced rainfall, not the fertilizer ban, fully accounts for the lake's improved clarity.",
-    "The researchers found that the lake's clarity declined despite the fertilizer ban upstream."
+    "The fertilizer ban clearly caused the lake's improved clarity, with other factors ruled out.",
+    "Reduced rainfall is a more likely explanation for the improved clarity than the ban.",
+    "The fertilizer ban made no difference to clarity, though other factors may have contributed.",
+    "The fertilizer ban may be one of several contributing factors to improved clarity."
    ],
-   "a": 0,
+   "a": 3,
    "e": "The passage explicitly hedges (\"may also have contributed\"), so the researchers claim a possible, not sole, cause."
   },
   {
@@ -973,11 +973,11 @@
    "q": "A study of hibernating ground squirrels found that their body temperature drops to nearly match the surrounding environment during winter dormancy, yet their brain activity briefly spikes every few weeks in short arousal periods. Which choice best states the main point of the text?",
    "o": [
     "Ground squirrels in hibernation keep a steady body temperature, with brain activity staying low throughout winter dormancy.",
-    "Hibernation in ground squirrels involves nearly matching environmental temperature, punctuated by periodic brief arousals.",
-    "Hibernating ground squirrels lose most of their brain activity permanently, which explains why many fail to survive the winter.",
-    "Ground squirrels hibernate to avoid predators, entering short arousal periods only when winter temperatures begin to rise."
+    "Hibernation in ground squirrels lowers brain activity to near zero, with body temperature rising during arousals.",
+    "Ground squirrels hibernate to conserve energy, with brief arousals occurring when outside temperatures rise.",
+    "Hibernation in ground squirrels involves nearly matching environmental temperature, punctuated by periodic brief arousals."
    ],
-   "a": 1,
+   "a": 3,
    "e": "The text describes two specific features of hibernation: temperature matching AND periodic arousal spikes -- the main point covers both, not survival rates or constant activity.",
    "c": 2
   },
@@ -1002,11 +1002,11 @@
    "q": "A marine biologist notes that coral reefs near a certain island have shown no signs of bleaching despite regional ocean temperatures rising by 1.5C over the past decade -- a temperature increase that has caused significant bleaching elsewhere. The biologist is now studying whether this reef's coral has a unique genetic trait. Based on the text, which is the most reasonable inference?",
    "o": [
     "Coral bleaching has little connection to ocean temperature, since this reef stayed healthy while the surrounding region warmed by 1.5C.",
-    "Every coral reef in the region must carry the same genetic trait, since temperatures there rose by the same amount.",
     "The reef's resistance to bleaching under conditions that harm coral elsewhere suggests some distinguishing factor may be involved.",
+    "Other coral reefs in the region must also carry the same genetic trait, since their temperatures rose by the same amount.",
     "The biologist's study will most likely show that the bleaching seen elsewhere was caused by something other than rising temperatures."
    ],
-   "a": 2,
+   "a": 1,
    "e": "The reef surviving conditions that cause bleaching ELSEWHERE, combined with the biologist actively investigating a genetic explanation, supports that SOME distinguishing factor is likely -- not a universal claim about all reefs."
   },
   {
@@ -1030,11 +1030,11 @@
    "q": "In the years following the introduction of a national postal service, letter-writing between distant relatives increased dramatically, and historians have since used surviving letters as a major source for understanding daily life of the period. Which choice best states the main idea?",
    "o": [
     "The postal service lowered mail costs, which caused historians to rely on letters rather than official records.",
-    "The postal service made distant relatives write more often, but most of their letters were later lost or destroyed.",
     "The new postal service enabled a rise in letter-writing that later became a valuable historical resource.",
-    "Historians first studied letters because the postal service kept detailed records of every piece of mail it carried."
+    "The postal service led relatives to write more often, though historians prefer official records to letters.",
+    "Historians first studied letters because the postal service kept detailed records of the mail it carried."
    ],
-   "a": 2,
+   "a": 1,
    "e": "The text links the postal service to increased letter-writing, and notes those letters later served historians -- the main idea connects both facts."
   },
   {
@@ -1201,12 +1201,12 @@
    "u": 1,
    "q": "A study found that students who took notes by hand recalled more concepts than students who typed notes, but the typing group recorded more words. Which inference is best supported?",
    "o": [
-    "Typing notes leads to worse recall for every student in every setting.",
-    "Recording more words did not by itself lead to better recall.",
-    "Students who took notes by hand wrote more words than the typing group did.",
-    "The typing group recalled more concepts because they captured more of the lecture."
+    "Typing notes reduces recall for most students in most settings.",
+    "Hand note-takers recorded more words than typists did.",
+    "Typists recalled more concepts because they captured more words.",
+    "Recording more words did not by itself lead to better recall."
    ],
-   "a": 1,
+   "a": 3,
    "e": "More words didn't mean more recall; the study doesn't justify broader claims."
   },
   {
@@ -1237,12 +1237,12 @@
    "u": 2,
    "q": "A table shows that a city's bike-share trips rose from 20,000 in 2019 to 55,000 in 2023, while bus trips fell slightly. Which claim does the data best support?",
    "o": [
-    "Bus ridership collapsed completely over the period.",
-    "Bike-share use grew slightly over the period.",
+    "Bus ridership fell sharply over the period.",
     "Bike-share use grew substantially over the period.",
-    "Most city residents switched from buses to bikes over the period."
+    "Bike-share use grew slightly over the period.",
+    "Bike-share growth came mainly from former bus riders."
    ],
-   "a": 2,
+   "a": 1,
    "e": "The data shows growth; it can't establish cause."
   },
   {
@@ -1564,7 +1564,7 @@
     "Has not been confirmed or disproven",
     "Has been confirmed by new evidence",
     "Has been rejected by most scientists",
-    "Has been tested only in a laboratory"
+    "Has been partly tested in the field"
    ],
    "a": 0,
    "e": "Untested means neither confirmed nor refuted."
@@ -1622,12 +1622,12 @@
    "u": 7,
    "q": "Two historians disagree: one says a revolution was caused mainly by economic hardship; the other says mainly by new political ideas. Both would most likely agree that:",
    "o": [
-    "Economic hardship was the only cause of the revolution",
     "The revolution had identifiable causes worth explaining",
+    "Economic hardship was the primary cause of the revolution",
     "Political ideas were more important than economic hardship",
-    "Historians cannot determine why the revolution happened at all"
+    "The causes of the revolution cannot be known with certainty"
    ],
-   "a": 1,
+   "a": 0,
    "e": "They disagree on which cause mattered most, not on whether causes exist.",
    "c": 3
   },
@@ -1635,12 +1635,12 @@
    "u": 7,
    "q": "A social scientist found that neighborhoods with more parks reported higher community satisfaction, even after accounting for income. What does 'accounting for income' most likely accomplish?",
    "o": [
+    "It reduces the chance that income explains the relationship",
     "It proves that parks are the cause of higher satisfaction",
-    "It shows that income has no effect on community satisfaction",
-    "It increases the number of neighborhoods included in the study",
-    "It reduces the chance that income explains the relationship"
+    "It demonstrates that income matters more than parks do",
+    "It ensures the neighborhoods studied have similar numbers of parks"
    ],
-   "a": 3,
+   "a": 0,
    "e": "Controlling for a confounder strengthens, but doesn't prove, the link.",
    "c": 3
   },
@@ -1696,8 +1696,8 @@
    "u": 8,
    "q": "The digital SAT is adaptive, which means:",
    "o": [
-    "The first module's difficulty depends on performance in the second",
-    "Every student's second module has the same difficulty and questions",
+    "Difficulty is set by the student's grade level before the test",
+    "Question difficulty shifts after each individual response",
     "Questions in each module are chosen randomly regardless of performance",
     "The second module's difficulty depends on performance in the first"
    ],
@@ -1710,7 +1710,7 @@
    "q": "For grammar questions, a useful strategy is to:",
    "o": [
     "Choose the sentence that sounds most formal and has the most sophisticated vocabulary",
-    "Read only the underlined portion without checking how it fits the sentence around it",
+    "Read the underlined portion alone without checking how it fits the surrounding sentence",
     "Pick the version with the most punctuation, since punctuation is usually what is tested",
     "Identify the rule being tested (agreement, punctuation, modifier) before choosing"
    ],
@@ -1736,9 +1736,9 @@
    "d": "medium",
    "q": "Botanists long assumed that deep-sea hydrothermal vents were barren of plant-like organisms because no sunlight reaches them. However, a recent survey found photosynthetic bacteria thriving near some vents, using the faint glow emitted by the hot rock. Which choice best states the main idea of the text?",
    "o": [
-    "Hydrothermal vents are too hot to support any photosynthetic organisms.",
-    "Botanists have always expected plant-like life to thrive at deep vents.",
-    "Sunlight from the surface reaches vents and powers their bacteria.",
+    "Photosynthetic bacteria at vents depend on faint sunlight from the surface.",
+    "Botanists correctly predicted that vents would host plant-like organisms.",
+    "Vent bacteria use chemical energy instead of light, as botanists assumed.",
     "Photosynthesis may occur at vents, contradicting an earlier assumption."
    ],
    "a": 3,
@@ -1780,10 +1780,10 @@
    "d": "hard",
    "q": "Early telescopes produced blurry, color-fringed images because lenses bent different colors of light by slightly different amounts. Isaac Newton's reflecting telescope used a curved mirror instead, and its images showed no such fringes. The passage most strongly suggests that:",
    "o": [
-    "Lenses bend every color of light by exactly the same amount.",
+    "Lenses reflect light rather than bending it by color.",
     "Mirrors do not bend light differently by color.",
-    "Mirrors produce blurry images because they split light by color.",
-    "Curved mirrors bend different colors by different amounts too."
+    "Newton's lenses corrected the color fringes directly.",
+    "Mirrors bend red light more than blue light."
    ],
    "a": 1,
    "e": "Because mirrors reflect rather than refract, the color-fringe problem disappeared.",
@@ -1894,12 +1894,12 @@
    "d": "hard",
    "q": "The rare orchid is ______ to a single mountain slope; it grows nowhere else on Earth. Which choice completes the text with the most logical and precise word or phrase?",
    "o": [
-    "native",
-    "foreign",
-    "hostile",
-    "irrelevant"
+    "exotic",
+    "common",
+    "remote",
+    "native"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Native means occurring naturally only there."
   },
   {
@@ -2054,12 +2054,12 @@
    "d": "medium",
    "q": "Physicists once believed light was purely a wave. Then, in 1905, Einstein proposed that light also behaves as discrete packets of energy, a notion that reshaped modern physics. Which choice best describes the function of the second sentence?",
    "o": [
-    "It questions whether the earlier belief was ever widely held.",
-    "It provides an example that confirms the earlier belief.",
-    "It explains why physicists rejected the wave theory entirely.",
-    "It presents a development that revised the earlier belief."
+    "It presents a development that revised the earlier belief.",
+    "It describes a later finding that reinforced the earlier belief.",
+    "It shows how the earlier belief was first proposed and tested.",
+    "It gives a modern application of the earlier belief in physics."
    ],
-   "a": 3,
+   "a": 0,
    "e": "The second sentence shows a change from the earlier belief.",
    "c": 0
   },
@@ -2416,12 +2416,12 @@
    "u": 8,
    "q": "If a question is taking too long on the digital SAT, you should:",
    "o": [
-    "Keep working on it until you are completely certain",
-    "Skip it without answering and do not come back later",
-    "Mark it for review, make your best guess and move on",
-    "Answer it quickly and then recheck every other answer"
+    "Skip it, leave it blank, and revisit it if time remains",
+    "Spend extra time now, since later questions are easier",
+    "Work through it fully, since skipping hurts your pacing",
+    "Mark it for review, make your best guess and move on"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Pacing protects your time for easier questions."
   },
   {
@@ -2440,12 +2440,12 @@
    "u": 1,
    "q": "A town's recycling rate rose from 20 percent to 45 percent after it provided free curbside bins. Which statement is best supported?",
    "o": [
-    "Free bins proved to be the only factor behind the rate increase.",
-    "The rate rose because residents became more concerned about waste.",
-    "The rate rose after bins were provided, suggesting access mattered.",
-    "The rate would have risen even if free bins had not been provided."
+    "The rate rose because bins made residents more environmentally aware.",
+    "Free bins were the main reason the rate more than doubled.",
+    "The rate rose, but the bins likely had little to do with it.",
+    "The rate rose after bins were provided, suggesting access mattered."
    ],
-   "a": 2,
+   "a": 3,
    "e": "The passage shows a change after a program, not proof of sole cause.",
    "c": 4
   },
@@ -3500,12 +3500,12 @@
    "u": 1,
    "q": "Researchers analyzed 500 students' study habits and found that those who reviewed material in short, spaced sessions retained more information. Which statement is best supported?",
    "o": [
-    "Studying for long periods always lowers scores.",
-    "Retention depends only on sleep.",
-    "Spaced review was associated with better retention.",
-    "Students who studied more earned perfect scores."
+    "Spaced review was associated with faster initial learning.",
+    "Longer sessions were associated with better retention.",
+    "Spaced review caused students to score higher on exams.",
+    "Spaced review was associated with better retention."
    ],
-   "a": 2,
+   "a": 3,
    "e": "The study reports an association, not a universal rule."
   },
   {
@@ -3624,12 +3624,12 @@
    "u": 6,
    "q": "A passage says a hypothesis was 'supported but not proven.' This most nearly means:",
    "o": [
-    "The evidence contradicts it but doesn't fully disprove the original explanation",
-    "The hypothesis has been tested thoroughly and confirmed in every possible case",
     "The evidence is consistent with it but doesn't rule out other explanations",
-    "The researchers believe it but have not collected any evidence to support it"
+    "The hypothesis has been confirmed in lab tests but not yet in the field",
+    "The evidence is consistent with it but the hypothesis lacks a logical basis",
+    "Most scientists accept it, though the evidence presented so far is weak"
    ],
-   "a": 2,
+   "a": 0,
    "e": "Science rarely proves a hypothesis conclusively."
   },
   {
@@ -3674,12 +3674,12 @@
    "u": 8,
    "q": "On a long passage with many questions, a good strategy is to:",
    "o": [
-    "Memorize every detail of the passage before answering",
-    "Read the questions in reverse order from last to first",
     "Answer questions with line references first",
-    "Reread the passage once for every question"
+    "Skip the line-reference questions until the end",
+    "Answer in order, ignoring any line references",
+    "Reread the entire passage after each question"
    ],
-   "a": 2,
+   "a": 0,
    "e": "Targeted questions are quicker to answer."
   },
   {

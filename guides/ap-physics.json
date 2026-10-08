@@ -1368,12 +1368,12 @@
    "u": 1,
    "q": "When solving 2D projectile problems, why can horizontal and vertical motions be treated independently?",
    "o": [
-    "Gravity has no horizontal component and there is no horizontal acceleration force",
-    "Time passes at different rates along the horizontal and vertical axes",
-    "Horizontal and vertical velocity components are always equal in size",
-    "Only vertical motion obeys the kinematics equations, so horizontal is ignored"
+    "Air resistance acts equally on both components, so their effects on each other cancel",
+    "Horizontal velocity changes at the same rate as vertical velocity, so they share one equation",
+    "Vertical motion has constant velocity while horizontal motion has constant acceleration",
+    "Gravity has no horizontal component and there is no horizontal acceleration force"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Since gravity acts only vertically, the horizontal and vertical components of motion are independent, connected only through shared time.",
    "c": 3
   },
@@ -1393,12 +1393,12 @@
    "u": 1,
    "q": "An object undergoes constant negative acceleration while moving in the positive direction. Its speed-time graph will show:",
    "o": [
+    "A straight line decreasing to zero and then staying at zero as the object stops",
+    "A straight line decreasing to zero then continuing below the axis as negative speed",
     "A straight line decreasing to zero then increasing (as speed) after reversing",
-    "A straight line increasing the whole time without ever reaching zero",
-    "A horizontal line at the initial speed throughout the motion",
-    "An exponentially decaying curve that approaches zero but never reverses"
+    "An exponentially decaying curve that approaches zero and does not reverse"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Speed decreases to zero as velocity approaches zero, then as the object reverses, speed increases again — giving a V-shaped speed graph even though velocity itself is linear."
   },
   {
@@ -2277,11 +2277,11 @@
    "q": "An astronaut in a stable circular orbit feels 'weightless.' What is the best physical explanation?",
    "o": [
     "The astronaut is beyond the reach of Earth's gravity, so the pull on the astronaut and spacecraft is essentially zero",
-    "The spacecraft's engines produce an upward thrust that exactly cancels the astronaut's weight throughout the whole orbit",
     "The astronaut and spacecraft are both in free fall, accelerating together at the same rate due to gravity",
-    "The astronaut's mass drops sharply in orbit, so the gravitational force on the body falls to nearly nothing at altitude"
+    "The spacecraft's engines produce an upward thrust that exactly cancels the astronaut's weight throughout the whole orbit",
+    "The astronaut's mass drops sharply in orbit, so the gravitational force on the body falls to almost zero at altitude"
    ],
-   "a": 2,
+   "a": 1,
    "e": "In orbit, gravity is the only force acting, providing centripetal acceleration. Since the astronaut and spacecraft accelerate together, there's no relative normal force between them, producing apparent weightlessness — gravity itself has not vanished."
   },
   {
@@ -2703,8 +2703,8 @@
    "q": "When solving equilibrium problems, choosing the pivot point at the location of an unknown force is useful because:",
    "o": [
     "It sets the unknown force equal to the object's weight, so the torque equation simplifies",
-    "It guarantees the net force is zero at that pivot, so only the translational equations are needed",
-    "It doubles the lever arm of the unknown force, so its torque is easier to measure and compare",
+    "It guarantees the net force at that pivot is zero, so the force equations become unnecessary",
+    "It makes the unknown force's torque point opposite the weight's, so the two terms cancel",
     "It eliminates that unknown force from the torque equation since its lever arm is zero"
    ],
    "a": 3,
@@ -2828,12 +2828,12 @@
    "u": 4,
    "q": "Why does a rolling object without slipping lose no mechanical energy to friction, even though static friction acts on it?",
    "o": [
-    "Static friction acts over the whole surface but converts the energy into rotation, so none is lost as heat",
-    "Static friction is always smaller than kinetic friction, so its work is too small to matter in the accounting",
-    "Static friction acts perpendicular to the motion at the contact point, so it removes energy only from the spin",
-    "Static friction acts at the contact point which has zero instantaneous velocity, so it does no work"
+    "Static friction acts over the whole surface but converts the energy into rotation, so no energy is lost as heat",
+    "Static friction is smaller than kinetic friction in magnitude, so its work is too small to matter",
+    "Static friction acts at the contact point which has zero instantaneous velocity, so it does no work",
+    "Static friction acts at the center of mass, which has zero net acceleration, so it does no work"
    ],
-   "a": 3,
+   "a": 2,
    "e": "In rolling without slipping, the contact point is instantaneously at rest relative to the surface, so the static friction force there does zero work (W = F*d*cos(theta), but d = 0 for that point over an instant)."
   },
   {
@@ -2853,10 +2853,10 @@
    "u": 4,
    "q": "A student claims 'if the net force on an object is zero, the net torque must also be zero.' Is this correct?",
    "o": [
-    "Yes, because torque is just force times distance, so zero net force always forces the net torque to be zero as well",
+    "Yes, because torque depends on force times distance, so a zero net force makes the net torque zero as well",
     "Yes, since an object with zero net force is in equilibrium, and equilibrium requires both net force and net torque zero",
     "No, an object can have zero net force but nonzero net torque (e.g., equal and opposite forces applied at different points)",
-    "No, zero net force makes the net torque undefined, so rotation can only be described by the energy of the object instead"
+    "No, zero net force makes the net torque undefined, so rotation must be analyzed with energy instead of torque"
    ],
    "a": 2,
    "e": "A couple (two equal, opposite, non-collinear forces) has zero net force but produces a nonzero net torque, showing the two equilibrium conditions are independent."
@@ -3295,12 +3295,12 @@
    "u": 5,
    "q": "Which best explains why momentum, not kinetic energy, is the quantity always conserved in collisions?",
    "o": [
-    "Momentum conservation follows from conservation of energy, so it only holds when the collision is perfectly elastic",
-    "Momentum conservation follows from Newton's First Law, which only applies if the internal forces are all conservative",
-    "Momentum conservation depends on the colliding objects having equal masses, whatever internal forces act on them",
-    "Momentum conservation follows from Newton's Third Law regardless of the type of internal forces during collision"
+    "Momentum conservation follows from conservation of energy, so it fails in collisions where energy is lost",
+    "Momentum conservation follows from Newton's Third Law regardless of the type of internal forces during collision",
+    "Momentum conservation follows from Newton's Second Law, which holds if the internal forces are conservative",
+    "Momentum conservation depends on the colliding objects having equal masses, whatever internal forces act on them"
    ],
-   "a": 3,
+   "a": 1,
    "e": "Since collision forces are internal action-reaction pairs (Newton's Third Law), they cancel in the total system momentum calculation regardless of how much KE is dissipated."
   },
   {
@@ -3368,12 +3368,12 @@
    "u": 5,
    "q": "Which of these best describes a 'glancing' (2D) collision analysis approach?",
    "o": [
-    "Conserve kinetic energy only along the line of impact, and ignore momentum in the perpendicular direction",
+    "Conserve kinetic energy along the line of impact, and ignore momentum in the perpendicular direction",
     "Treat the collision as one dimensional along the initial velocity, and discard any sideways component",
-    "Add the speeds of the objects before and after the collision and set the two scalar sums equal to each other",
-    "Decompose velocities into x and y components and conserve momentum in each direction independently"
+    "Decompose velocities into x and y components and conserve momentum in each direction independently",
+    "Add the speeds of the objects before and after the collision and set the two scalar sums equal to each other"
    ],
-   "a": 3,
+   "a": 2,
    "e": "2D collisions require resolving all velocities into perpendicular components and applying momentum conservation separately along each axis."
   },
   {
@@ -4304,12 +4304,12 @@
    "u": 7,
    "q": "What does it mean for two points to be on the same equipotential surface?",
    "o": [
-    "The electric field strength is identical at every point on that surface",
-    "A charge placed there feels zero electric force and simply stays at rest",
+    "The electric field is constant in magnitude along that surface",
     "No work is required to move a charge between them along that surface",
-    "The source charges that create the field are located on that surface"
+    "The electric force on a charge placed there is zero, so it remains at rest",
+    "Electric field lines run along that surface, parallel to the equipotentials"
    ],
-   "a": 2,
+   "a": 1,
    "e": "Points on the same equipotential surface have the same electric potential, so moving a charge between them (along the surface) requires zero work, since W=qDeltaV=0.",
    "c": 2
   },
@@ -4433,11 +4433,11 @@
    "q": "Why is charging by induction different from charging by direct contact?",
    "o": [
     "Induction moves electrons from one object to the other by rubbing them, which leaves them with opposite charges",
+    "Induction separates charge on a nearby object without any direct transfer of charge between objects",
     "Induction needs the objects to touch so that charge flows, which leaves the two with the same sign of charge",
-    "Induction works only on insulators, since conductors cannot polarize without touching a second charged object",
-    "Induction separates charge on a nearby object without any direct transfer of charge between objects"
+    "Induction works by sharing charge between touching conductors, which leaves both with an equal amount of charge"
    ],
-   "a": 3,
+   "a": 1,
    "e": "Charging by induction uses the electric field of a nearby charged object to redistribute (polarize) charge on a second object, without any charge actually transferring between them via contact.",
    "c": 0
   },
@@ -4584,8 +4584,8 @@
    "q": "A loop of wire sits in a magnetic field that is increasing in strength over time. According to Lenz's Law, the induced current in the loop will:",
    "o": [
     "Flow in a direction that creates a field reinforcing the increase",
-    "Not flow at all, since the flux through the loop is nonzero",
-    "Flow only if the loop is made of iron or another magnetic metal",
+    "Not flow, because the field is uniform across the loop's area",
+    "Flow in a direction set by the field's polarity, not by how its strength changes",
     "Flow in a direction that creates a magnetic field opposing the increase"
    ],
    "a": 3,
@@ -4659,12 +4659,12 @@
    "u": 8,
    "q": "Which statement about magnetic monopoles is correct based on current experimental evidence?",
    "o": [
-    "Magnetic monopoles are common and easy to isolate from magnets",
-    "Every bar magnet is itself a single magnetic monopole",
-    "Electrons behave as magnetic monopoles in a magnetic field",
-    "No isolated magnetic monopole (single N or S pole) has ever been observed"
+    "Isolated monopoles have been observed in cosmic rays, but not made in a laboratory",
+    "No isolated magnetic monopole (single N or S pole) has ever been observed",
+    "Cutting a bar magnet in half separates its north pole from its south pole",
+    "Monopoles are required by Maxwell's equations and have been seen in accelerators"
    ],
-   "a": 3,
+   "a": 1,
    "e": "Unlike electric charge, which can be isolated as + or −, magnetic poles always occur in N-S pairs; no isolated monopole has been observed.",
    "c": 0
   },
@@ -5156,12 +5156,12 @@
    "u": 9,
    "q": "What best describes 'beats' in sound?",
    "o": [
+    "A periodic rise and fall in loudness caused by interference of two close but different frequencies",
     "A steady increase in pitch caused by a source moving toward a listener at a constant speed through the air",
     "A repeating echo caused by sound reflecting between two walls that are separated by a fixed distance",
-    "A constant loudness produced when two waves of exactly the same frequency add up in phase at every point",
-    "A periodic rise and fall in loudness caused by interference of two close but different frequencies"
+    "A constant loudness produced when two waves of exactly the same frequency add up in phase at each point"
    ],
-   "a": 3,
+   "a": 0,
    "e": "Beats arise from the superposition of two waves with slightly different frequencies, creating a periodic variation in amplitude (loudness) at the beat frequency |f1-f2|.",
    "c": 1
   },
@@ -5471,12 +5471,12 @@
    "u": 11,
    "q": "Why do everyday macroscopic objects (like a thrown ball) not show observable wave behavior?",
    "o": [
-    "They move too slowly for de Broglie's equation to apply to them",
     "Their mass is so large that their de Broglie wavelength is immeasurably small",
-    "Only charged particles have a de Broglie wavelength at all",
-    "Macroscopic objects are exempt from the de Broglie relation"
+    "Their speed is so low that the de Broglie wavelength is too large to detect",
+    "Their charge is so balanced that no de Broglie wavelength can be assigned",
+    "Their wavelength is large, but interactions with air destroy the interference pattern"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Since λ = h/(mv) and h is extremely small, the large mass of everyday objects gives them a de Broglie wavelength far too small to observe.",
    "c": 1
   },

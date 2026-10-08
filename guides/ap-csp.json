@@ -622,12 +622,12 @@
    "u": 2,
    "q": "Which of the following best explains why a computer can use bits to represent text, images and sound?",
    "o": [
-    "Bits automatically know which kind of data they represent without any rules",
-    "Different kinds of data are encoded using agreed-upon rules for interpreting bits",
-    "Each type of data is stored using a different kind of hardware",
-    "Only numbers can be stored in bits, so text is converted to math"
+    "Bits store a special tag identifying each data type, so no rules are needed to read them",
+    "Each type of data is stored in its own dedicated kind of memory hardware",
+    "Text and sound are first turned into images, and images are what bits can store",
+    "Different kinds of data are encoded using agreed-upon rules for interpreting bits"
    ],
-   "a": 1,
+   "a": 3,
    "e": "The meaning of a bit sequence depends on the encoding used.",
    "c": 1
   },
@@ -635,10 +635,10 @@
    "u": 2,
    "q": "Unicode is an improvement over ASCII because it:",
    "o": [
-    "Uses fewer bits for every character so files are smaller",
+    "Uses fewer bits per character, so text files are smaller",
     "Can represent characters from many more languages",
-    "Runs faster because computers process it more quickly than ASCII",
-    "Stores images and sounds in addition to text characters"
+    "Is processed faster by modern hardware than ASCII",
+    "Stores images and sounds in addition to characters"
    ],
    "a": 1,
    "e": "ASCII has only 128 characters.",
@@ -686,12 +686,12 @@
    "u": 2,
    "q": "Lossless compression:",
    "o": [
-    "Allows the original data to be perfectly reconstructed",
-    "Permanently removes some data so that files become much smaller",
-    "Always creates smaller files than lossy compression does",
-    "Works only for images and cannot be used on text or sound"
+    "Removes some data permanently to make files much smaller",
+    "Produces smaller files than lossy compression does",
+    "Works for text but cannot be used on images or sound",
+    "Allows the original data to be perfectly reconstructed"
    ],
-   "a": 0,
+   "a": 3,
    "e": "No information is lost.",
    "c": 2
   },
@@ -892,12 +892,12 @@
    "u": 3,
    "q": "A program sorts a list of 1,000,000 records. Which statement is true?",
    "o": [
-    "The program can process the records much faster than a person can",
-    "The program must be run by hand because computers cannot sort that many",
-    "The records cannot be sorted because the list is far too long",
-    "Sorting always takes exactly 1,000,000 steps no matter the method"
+    "A person could finish sorting these records faster than the program can",
+    "The program needs about as many steps as records for any sorting method",
+    "Records at this scale must be sorted by hand before a program can use them",
+    "The program can process the records much faster than a person can"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Computers process large data sets quickly."
   },
   {
@@ -3795,12 +3795,12 @@
    "u": 7,
    "q": "In public-key encryption, Alice wants to prove a message came from her. Which key should she use?",
    "o": [
-    "Her public key only, so that anyone can read the message",
-    "Bob's private key, so that he can confirm it was sent by her",
+    "Her public key, so that others can verify it with her private key",
     "Her private key, so others can verify it with her public key",
-    "No key at all, because the message is signed by her name"
+    "Bob's private key, so that he can confirm it was sent by her",
+    "A shared secret key, so both parties can verify it with the same key"
    ],
-   "a": 2,
+   "a": 1,
    "e": "Digital signatures use the private key to sign and the public key to verify.",
    "c": 1
   },

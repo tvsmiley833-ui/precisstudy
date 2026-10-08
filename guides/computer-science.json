@@ -1009,9 +1009,9 @@
    "u": 1,
    "q": "What does it mean for storage to be 'non-volatile'?",
    "o": [
-    "It loses its contents whenever the power is switched off",
-    "It only stores data that was written by the operating system",
-    "It can be read but never overwritten once data is saved",
+    "It loses its contents once power is removed",
+    "It holds data for the programs currently running",
+    "It is fast enough to be used directly by the CPU",
     "It retains data even when power is removed"
    ],
    "a": 3,
@@ -1148,12 +1148,12 @@
    "u": 1,
    "q": "Why might a text file be smaller than an image file of similar content length?",
    "o": [
-    "Text is always stored using fewer bits than images, since letters are encrypted",
-    "Images generally require far more data per unit of content (many pixels vs. characters)",
-    "Images are stored in binary, while text is stored in plain letters",
-    "Text files are compressed automatically by every operating system"
+    "Images use lossy compression, while text must be saved with lossless compression",
+    "Text is stored as ASCII codes, while images need extra encryption data for each pixel",
+    "Image files must include fonts and layouts, which take more storage than plain text",
+    "Images generally require far more data per unit of content (many pixels vs. characters)"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Images typically require storing information for many pixels, resulting in much larger raw data compared to compact character-based text.",
    "c": 3
   },
@@ -1327,11 +1327,11 @@
    "q": "What will '2' + '2' likely produce in many programming languages, where both values are strings?",
    "o": [
     "4",
-    "22",
-    "Error only",
-    "0"
+    "44",
+    "24",
+    "22"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Adding two strings typically concatenates them rather than performing math.",
    "c": 0
   },
@@ -2146,12 +2146,12 @@
    "u": 3,
    "q": "Which statement about function calls is correct?",
    "o": [
-    "A function can only be called once in a program",
     "A function can be called multiple times with different arguments",
-    "Arguments must always match parameter names exactly",
-    "Functions cannot accept more than one parameter"
+    "A function runs once per program, with its arguments fixed when defined",
+    "A function returns the same result no matter what arguments are passed",
+    "A function can take arguments but must not return a value to the caller"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Functions are reusable and can be invoked repeatedly with different argument values.",
    "c": 2
   },
@@ -2159,12 +2159,12 @@
    "u": 3,
    "q": "What does it mean if a while loop's condition is checked before each iteration, including the first?",
    "o": [
-    "The loop body always runs once before the condition is tested",
-    "The loop body runs forever whenever the condition is true",
     "The loop body might execute zero times if the condition starts false",
-    "The condition is only checked after the final iteration ends"
+    "The loop body runs at least once before the condition is first checked",
+    "The loop exits mid-iteration the moment its condition becomes false",
+    "The condition is evaluated once at the start, not before later iterations"
    ],
-   "a": 2,
+   "a": 0,
    "e": "A standard while loop tests its condition before running the body, so it may never execute if false initially.",
    "c": 1
   },
@@ -2619,10 +2619,10 @@
    "u": 4,
    "q": "What does it mean that arrays have a 'fixed size' in some languages?",
    "o": [
-    "The array can only hold a single value that never changes",
-    "The array can grow automatically whenever a new item is added",
+    "The array's elements cannot be changed after the array is created",
+    "The array must hold a single data type, and values of other types are rejected",
     "Once created, the array cannot grow or shrink without creating a new one",
-    "The array holds values that cannot be changed after creation"
+    "Its elements are stored in sorted order, which prevents adding new items"
    ],
    "a": 2,
    "e": "In some languages, arrays are allocated at a fixed size and cannot be resized directly.",
@@ -2978,10 +2978,10 @@
    "u": 5,
    "q": "Why must an algorithm's steps be unambiguous?",
    "o": [
-    "So the algorithm can be run on any hardware at the same speed",
+    "So the algorithm runs at the same speed regardless of the language used",
     "So a computer can follow them exactly without needing to guess intent",
-    "So the algorithm always finishes in fewer steps than other methods",
-    "So that the algorithm can use only numbers and never text"
+    "So the steps can be written in fewer lines of code than alternatives",
+    "So the algorithm produces the same output for different inputs each time"
    ],
    "a": 1,
    "e": "Since computers can't infer intent, each instruction must have one precise, clear meaning.",
@@ -2991,12 +2991,12 @@
    "u": 5,
    "q": "Which of these best illustrates a real-world use of binary search?",
    "o": [
-    "Sorting a shuffled deck of cards by repeatedly swapping neighboring cards until all are in order",
     "Looking up a word in a dictionary by flipping to a rough midpoint and narrowing down",
-    "Checking every name on a class roster from first to last to find a specific student's grade",
-    "Reading a book from page one onward until finding a particular sentence, page after page"
+    "Merging two sorted piles of exam papers by comparing the top papers of each pile",
+    "Finding a name in an unsorted list by checking each entry from first to last",
+    "Finding the tallest student in a line by comparing each pair of neighbors in turn"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Flipping to an estimated midpoint and narrowing the range mirrors binary search's halving strategy."
   },
   {
@@ -3103,22 +3103,22 @@
    "u": 5,
    "q": "Which best describes the relationship between an algorithm and a specific programming language?",
    "o": [
-    "An algorithm is the code written in one specific language, and it must be rewritten from scratch to run in another",
-    "An algorithm is the compiler that translates a programming language into the machine code a computer runs",
+    "An algorithm is a program that has been compiled to run on a specific operating system and processor",
     "An algorithm is a language-independent set of steps that could be implemented in many programming languages",
-    "An algorithm is a set of syntax rules that every programming language must follow in order to be valid"
+    "An algorithm is the syntax of a language, so changing languages means rewriting the algorithm from scratch",
+    "An algorithm is a set of steps that needs a high-level language such as Python to be considered valid"
    ],
-   "a": 2,
+   "a": 1,
    "e": "An algorithm describes the logic of a solution abstractly, separate from any one language's syntax."
   },
   {
    "u": 5,
    "q": "Why does testing with 'simple cases first, then edge cases' make sense as a strategy?",
    "o": [
-    "It saves time because simple cases are rarely worth running, so programmers can focus on large inputs",
-    "It guarantees that a program with no bugs on simple tests will also pass every possible edge case later",
+    "It lets programmers skip edge cases, since a program that passes simple tests will handle them too",
+    "It ensures that bugs are found in the order they were introduced, which makes them easier to trace",
     "It verifies basic correctness before checking tricky boundary conditions that often reveal bugs",
-    "It makes the test suite shorter, because edge cases already cover all the simple cases automatically"
+    "It reduces testing time because edge cases are rare and tend to fail on unusual hardware"
    ],
    "a": 2,
    "e": "Confirming the basic logic works first, then probing edge cases, helps isolate where issues arise.",
@@ -3128,12 +3128,12 @@
    "u": 5,
    "q": "What best distinguishes O(n) from O(n²) in practical terms for very large n?",
    "o": [
+    "O(n) and O(n²) differ little, since both grow with n and differ mainly in constant factors",
+    "O(n²) grows faster than O(n), but the gap matters once n exceeds one million",
     "O(n²) grows much faster than O(n), often becoming impractically slow for large n",
-    "O(n) and O(n²) behave the same for large n, and differ only by a small constant factor",
-    "O(n²) grows more slowly than O(n) once n is large, so it scales better as inputs get bigger",
-    "O(n) grows much faster than O(n²), often becoming impractically slow for large values of n"
+    "O(n) grows faster than O(n²) when n is small, so it is slower for large inputs"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Quadratic growth (O(n²)) scales far worse than linear growth (O(n)) as input size increases.",
    "c": 3
   },
@@ -3141,12 +3141,12 @@
    "u": 5,
    "q": "What is a key reason binary search is considered more efficient than linear search for large sorted datasets?",
    "o": [
+    "It sorts the data first at each step, so later searches have less to check",
     "It checks fewer elements by eliminating half the remaining data each step",
-    "It reads the data directly from disk, so it avoids the memory limits",
-    "It skips the comparison step by calculating the position of the target",
-    "It checks the data in random order, so it finds targets sooner"
+    "It checks elements in parallel on multiple processor cores, finishing sooner",
+    "It remembers where the target was last found, so repeated searches are faster"
    ],
-   "a": 0,
+   "a": 1,
    "e": "By discarding half the remaining elements each comparison, binary search needs far fewer steps than checking one by one.",
    "c": 1
   },
@@ -3614,9 +3614,9 @@
    "u": 6,
    "q": "What is the main purpose of a router in a home network?",
    "o": [
-    "To translate domain names into IP addresses and store every website's files",
-    "To encrypt all traffic on the network and block any unauthorized visitors",
-    "To store files for the devices on a network and serve webpages to the world",
+    "To connect a local network to the internet by translating domain names into IP addresses",
+    "To connect devices in a local network and filter the traffic by scanning for malware",
+    "To amplify the Wi-Fi signal so devices farther from the modem can connect to it",
     "To connect devices within a local network and link that network to the wider internet"
    ],
    "a": 3,
@@ -3742,12 +3742,12 @@
    "u": 7,
    "q": "In symmetric encryption, what is used to both encrypt and decrypt data?",
    "o": [
-    "Two different public keys",
+    "A public-private pair",
+    "A one-way hash value",
     "The same single key",
-    "A hash function only",
-    "No key is needed"
+    "Two matching keys"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Symmetric encryption uses one shared key for both encrypting and decrypting, which makes it fast but requires securely distributing that key.",
    "c": 0
   },
@@ -3794,12 +3794,12 @@
    "u": 7,
    "q": "Which of these is a common cause of data breaches?",
    "o": [
-    "Requiring multi-factor login for every employee account",
     "Phishing attacks that steal login credentials",
-    "Storing customer passwords as salted hashes",
-    "Using a firewall configured to block unknown traffic"
+    "Encrypting stored data with strong, rotated keys",
+    "Training staff to report suspicious emails",
+    "Requiring approved updates on all devices"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Phishing tricks users into handing over credentials directly, making it one of the most common breach vectors, alongside unpatched software and weak passwords.",
    "c": 1
   },
@@ -3859,10 +3859,10 @@
    "u": 7,
    "q": "What is the difference between a first-party and third-party cookie?",
    "o": [
-    "First-party cookies are set by advertisers; third-party cookies are set by the site you're visiting",
+    "First-party cookies are stored on the device; third-party cookies are stored on the website's servers",
     "First-party cookies are set by the site you're visiting; third-party cookies are set by other embedded domains",
-    "First-party cookies last only one session; third-party cookies remain stored forever on the device",
-    "First-party cookies are encrypted by the browser; third-party cookies are sent as plain text to servers"
+    "First-party cookies track users across many sites; third-party cookies are limited to a single site",
+    "First-party cookies are set by the site you're visiting; third-party cookies are set by your browser"
    ],
    "a": 1,
    "e": "First-party cookies come from the site you're on (e.g. keeping you logged in); third-party cookies come from other domains embedded on the page, often ad networks.",
@@ -3963,12 +3963,12 @@
    "u": 7,
    "q": "Why do many non-EU websites still show GDPR-style cookie consent banners?",
    "o": [
-    "Browsers refuse to load any website that does not display a cookie banner to its visitors",
-    "The EU owns the domain registry, so every site with a .com address must follow its rules",
-    "Cookie banners are required by the US government for any website that uses third-party ads",
-    "GDPR applies to any company handling EU residents' data, regardless of where the company is based"
+    "GDPR applies to any company handling EU residents' data, regardless of where the company is based",
+    "GDPR applies to websites hosted on EU servers, regardless of where visitors are located",
+    "Browsers require a consent banner on any site that stores cookies, by an agreement among browser makers",
+    "The GDPR gives the EU authority over any website with visitors from countries that signed the treaty"
    ],
-   "a": 3,
+   "a": 0,
    "e": "GDPR's scope covers the personal data of EU residents no matter where the processing company is located, so global sites comply to serve EU visitors.",
    "c": 3
   },
@@ -4206,12 +4206,12 @@
    "u": 7,
    "q": "Which practice best reduces the impact of a future data breach on an individual user?",
    "o": [
-    "Using the same strong password across every account for consistency",
     "Using unique passwords per site plus two-factor authentication",
-    "Disabling all browser cookies permanently",
-    "Avoiding software updates to reduce compatibility issues"
+    "Reusing one strong password with a small change at the end",
+    "Saving all passwords in a plain document on the desktop for easy access",
+    "Using unique passwords but sharing recovery codes with family members"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Unique passwords limit the blast radius of any single breach, and 2FA adds a barrier even if a password is exposed — together they're the most effective personal defense.",
    "c": 1
   },
@@ -4232,12 +4232,12 @@
    "u": 7,
    "q": "What is the practical difference between a virus and a worm?",
    "o": [
-    "A virus spreads across networks on its own; a worm needs a host file and user action to spread",
-    "A virus only damages hardware components; a worm only damages software and files stored on a drive",
-    "A virus is always visible to the user as a pop-up, while a worm stays hidden in system memory",
-    "A virus needs a host file to attach to and spread; a worm can self-replicate across a network independently"
+    "A virus encrypts a victim's files and demands payment; a worm quietly records keystrokes on the device",
+    "A virus needs a host file to attach to and spread; a worm can self-replicate across a network independently",
+    "A virus spreads through removable drives and infected programs; a worm spreads through email attachments alone",
+    "A virus runs on its own once downloaded; a worm needs a user to open an infected file to spread"
    ],
-   "a": 3,
+   "a": 1,
    "e": "Viruses require a carrier file and often user action to spread, while worms can propagate autonomously across networked systems by exploiting vulnerabilities.",
    "c": 4
   },
@@ -4296,12 +4296,12 @@
    "u": 8,
    "q": "Why doesn't removing a sensitive attribute like race from a dataset guarantee a fair model?",
    "o": [
-    "Because the model is retrained from scratch and automatically restores the removed column",
-    "Because removing a column only hides it from users, not from the model's training",
-    "Because fair outcomes depend entirely on the choice of algorithm, not on the data",
-    "Because correlated proxy variables can still encode that same information indirectly"
+    "Because correlated proxy variables can still encode that same information indirectly",
+    "Because the trained model keeps a copy of the deleted attribute in its stored weights",
+    "Because auditors must see that attribute to certify the model, so removing it is not allowed",
+    "Because removing the attribute changes the sample size, which makes the model less accurate"
    ],
-   "a": 3,
+   "a": 0,
    "e": "Other features correlated with the removed attribute (proxies) can still let the model reconstruct and act on that sensitive information.",
    "c": 0
   },
@@ -4309,12 +4309,12 @@
    "u": 8,
    "q": "What is a feedback loop in the context of a biased predictive model?",
    "o": [
-    "A cycle in which a model's training data is cleaned repeatedly until all bias is removed",
-    "A process where users review a model's outputs and correct each error before release",
-    "A situation where a model's biased outputs generate new data that reinforces the original bias over time",
-    "A technique where a model is retrained on its own random outputs to reduce bias over time"
+    "A loop in the code where a model's output is fed back as its input until it produces a stable answer",
+    "A review cycle in which engineers retrain the model on corrected data until bias disappears",
+    "A situation where users give the model feedback that makes it more accurate across all demographic groups",
+    "A situation where a model's biased outputs generate new data that reinforces the original bias over time"
    ],
-   "a": 2,
+   "a": 3,
    "e": "For example, a predictive policing model that over-patrols a neighborhood generates more arrests there, which is then used as 'evidence' to justify even more patrols — amplifying the original bias.",
    "c": 0
   },
@@ -4322,12 +4322,12 @@
    "u": 8,
    "q": "What does 'disparate impact' mean when auditing an algorithm?",
    "o": [
-    "A model whose results differ every time it runs because of random initial settings",
-    "A rule that explicitly uses a protected characteristic to deny a group an opportunity",
-    "A gap between the model's accuracy on training data and its accuracy on new data",
-    "A policy or algorithm that appears neutral but produces significantly worse outcomes for one group"
+    "A rule that openly treats one group differently because of a protected characteristic",
+    "A policy or algorithm that appears neutral but produces significantly worse outcomes for one group",
+    "A difference in model accuracy between training data and test data caused by overfitting",
+    "A model whose predictions change when the same input is submitted at a different time"
    ],
-   "a": 3,
+   "a": 1,
    "e": "Disparate impact analysis checks whether an outwardly neutral system's real-world outcomes are actually unequal across different groups."
   },
   {
@@ -4438,10 +4438,10 @@
    "u": 8,
    "q": "What is the defining feature of a copyleft license like the GPL?",
    "o": [
-    "It lets anyone reuse the code in closed products with only a credit line to the author",
-    "It bans modification of the code and permits unchanged copies to be shared",
+    "It permits reuse in closed-source products if the author's name and license text are kept",
+    "It forbids commercial use of the code while allowing free sharing of modified versions",
     "Any derivative work using the code must also be released under the same open license",
-    "It limits use of the code to non-profit organizations and educational projects"
+    "It requires the code to be placed in the public domain so that no one holds a copyright"
    ],
    "a": 2,
    "e": "Copyleft licenses like the GPL require that anything built using the licensed code be distributed under the same license terms, which is why they're sometimes called 'viral.'",
@@ -6170,12 +6170,12 @@
    "u": 7,
    "q": "Phishing is:",
    "o": [
-    "Infecting files with code that copies itself",
-    "Overloading a website with traffic to knock it offline",
+    "Infecting a device with software that spies on the user",
     "Tricking people into revealing sensitive information",
-    "Scrambling data so that only a key can read it"
+    "Locking a victim's files until a ransom is paid",
+    "Flooding a server with traffic from many infected devices"
    ],
-   "a": 2,
+   "a": 1,
    "e": "Attackers often use fake emails or sites."
   },
   {

@@ -1976,12 +1976,12 @@
    "u": 3,
    "q": "What is the output of: int grade = 72; if (grade >= 90) System.out.print(\"A\"); if (grade >= 60) System.out.print(\"Pass\");",
    "o": [
-    "A",
     "Pass",
-    "APass",
-    "Nothing prints"
+    "Fail",
+    "None",
+    "pass"
    ],
-   "a": 1,
+   "a": 0,
    "e": "These are two independent if statements (not else if), so only the second condition (grade >= 60) is true, printing just \"Pass\".",
    "c": 1
   },
@@ -3251,12 +3251,12 @@
    "u": 6,
    "q": "Why can't you create an ArrayList<int> in Java?",
    "o": [
-    "ArrayList only supports String elements, and primitives such as int must be converted to String before adding",
+    "ArrayList<int> is rejected because int has no default constructor, so generic code cannot create one",
+    "ArrayList<int> compiles, but it stores elements as boxed values and prints a warning about unchecked casts",
     "Generic type parameters must be reference (wrapper) types, not primitives; use ArrayList<Integer> instead",
-    "The int type is too small for generics, so ArrayList<long> or ArrayList<double> would be required instead",
     "ArrayList<int> is legal, but it requires the import java.util.* and a constructor argument giving its capacity"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Java generics require object types, so primitives like int cannot be used directly as type parameters; the wrapper class Integer is used instead."
   },
   {
@@ -4541,12 +4541,12 @@
    "u": 8,
    "q": "What is a potential downside of using recursion instead of iteration for simple repetitive tasks?",
    "o": [
-    "Recursion can use less memory than a loop but always runs slower, because each call must be compiled again at runtime each time",
-    "Recursion makes it impossible to return values from a method, so results must be stored in static variables instead of returned",
-    "Recursion forces every variable in the method to become global, which can cause naming conflicts compared to a straightforward loop",
-    "Recursion can use more memory (call stack space) and may be less efficient due to function call overhead, compared to a straightforward loop"
+    "Recursion can use less memory than a loop but runs slower, because each call must be compiled again at runtime each time",
+    "Recursion makes it harder to return values from a method, so results are often stored in static variables rather than returned by each call",
+    "Recursion can use more memory (call stack space) and may be less efficient due to function call overhead, compared to a straightforward loop",
+    "Recursion forces local variables to be shared among calls, which can cause naming conflicts compared to a straightforward loop"
    ],
-   "a": 3,
+   "a": 2,
    "e": "Each recursive call adds a frame to the call stack, consuming memory and incurring function-call overhead, which can make recursion less efficient than an equivalent loop for simple tasks.",
    "c": 3
   },
