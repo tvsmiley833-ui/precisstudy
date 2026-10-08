@@ -1655,6 +1655,63 @@ function ssOverallProgressUpdate(){
 }
 
 let diagMode=false;
+// Short response (free-response) practice: the student writes an answer, reveals a model response for each lettered part and
+// scores themselves point by point. Full credit counts toward unit mastery like a correct multiple-choice answer.
+function ssSRQ(){return (typeof SRQ!=='undefined'&&Array.isArray(SRQ))?SRQ:[];}
+let srPool=[],srIdx=0,srPoints=0,srTotal=0;
+function ssLoadSR(){
+  const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
+  const cv=document.getElementById('q-concept');if(cv){cv.hidden=true;cv.innerHTML='';}
+  ssConceptRaw='sr';
+  srPool=ssSRQ().slice().sort(()=>Math.random()-.5);srIdx=0;srPoints=0;srTotal=0;
+  ssShowSR();
+}
+function ssShowSR(){
+  const qb=document.getElementById('qbox');
+  document.getElementById('q-prog').textContent=srIdx<srPool.length?`Short response ${srIdx+1}/${srPool.length}`:'Short response';
+  document.getElementById('q-sc').textContent=`Points: ${srPoints}/${srTotal}`;
+  if(!srPool.length){qb.innerHTML='<div class="result"><div class="sub">No short response questions yet.</div></div>';return;}
+  if(srIdx>=srPool.length){
+    qb.innerHTML=`<div class="result"><div class="big">${srPoints}/${srTotal}</div><div class="sub">points you gave yourself on ${srPool.length} short response questions</div><button class="btn" onclick="loadQ()">Try again</button></div>`;
+    return;
+  }
+  const q=srPool[srIdx];
+  qb.innerHTML=`<div class="q-block sr-block"><div class="q-block-hd"><div class="q-text">${ssFixLt(q.q)}</div></div>`+
+    `<label class="sr-label" for="sr-text">Write your response (answer every lettered part):</label>`+
+    `<textarea id="sr-text" class="sr-text" rows="7" placeholder="(A) …&#10;(B) …&#10;(C) …"></textarea>`+
+    `<button type="button" class="btn" id="sr-reveal" onclick="ssRevealSR()">Show model response</button>`+
+    `<div class="sr-model" id="sr-model" aria-live="polite"></div></div>`;
+  ssTypeset(qb);
+}
+function ssRevealSR(){
+  const q=srPool[srIdx];if(!q)return;
+  const box=document.getElementById('sr-model');
+  document.getElementById('sr-reveal').hidden=true;
+  let h='<div class="sr-model-hd"><b>Model response.</b> Check each part against your own answer, then tick the points you earned.</div>';
+  q.parts.forEach((p,i)=>{
+    h+=`<div class="sr-part"><div class="sr-part-body"><b>${ssEscHtml(p.t)}</b> ${ssFixLt(p.m)}</div>`+
+      `<label class="sr-earn"><input type="checkbox" class="sr-pt" data-i="${i}"> I earned ${ssEscHtml(p.t)}</label></div>`;
+  });
+  if(q.tip)h+=`<div class="sr-tip">${ssFixLt(q.tip)}</div>`;
+  h+=`<button type="button" class="btn" id="sr-save" onclick="ssSaveSR()">Save my score</button>`;
+  box.innerHTML=h;ssTypeset(box);
+  try{box.scrollIntoView({block:'nearest',behavior:ssScrollBehavior()});}catch(e){}
+}
+function ssSaveSR(){
+  const q=srPool[srIdx];if(!q)return;
+  const got=document.querySelectorAll('.sr-pt:checked').length,all=q.parts.length;
+  srPoints+=got;srTotal+=all;
+  if(SS_MASTERY)SS_MASTERY.recordAnswer(q.u,got===all);
+  ssOverallProgressUpdate();renderUnitProgress(q.u);
+  document.getElementById('q-sc').textContent=`Points: ${srPoints}/${srTotal}`;
+  const box=document.getElementById('sr-model');
+  box.querySelectorAll('.sr-pt').forEach(function(c){c.disabled=true;});
+  const b=document.getElementById('sr-save');if(b)b.remove();
+  const n=document.createElement('button');n.type='button';n.className='btn';n.textContent=srIdx+1<srPool.length?'Next →':'Finish';
+  n.onclick=function(){ssQuizTouched=true;srIdx++;ssShowSR();};
+  const r=document.createElement('div');r.className='sr-result';r.textContent='You scored '+got+' of '+all+' on this one.';
+  box.appendChild(r);box.appendChild(n);try{n.focus({preventScroll:true});}catch(e){}
+}
 function ssHardQ(){return (typeof HARD_Q!=='undefined'&&Array.isArray(HARD_Q))?HARD_Q:[];}
 // A question's difficulty: its own d field, or 'hard' when it comes from the guide's hard-question bank.
 function ssDiffOf(q){return q.d||(ssHardQ().indexOf(q)>=0?'hard':null);}
@@ -1686,6 +1743,7 @@ function buildQSel(){
   sel.innerHTML='<option value="quick">⚡ Quick 10: mixed, weighted to your weak units</option><option value="0">All Units ('+(QUIZ.length+HQ.length)+' questions)</option>';
   UNITS.forEach(u=>{const n=QUIZ.filter(q=>q.u===u.id).length+HQ.filter(q=>q.u===u.id).length;if(n)sel.innerHTML+=`<option value="${u.id}">Unit ${u.id}: ${u.name} (${n} Qs)</option>`;});
   if(HQ.length)sel.innerHTML+='<option value="hard">Hard Mode Only ('+HQ.length+' Qs)</option>';
+  if(ssSRQ().length)sel.innerHTML+='<option value="sr">Short response, write and self-score ('+ssSRQ().length+')</option>';
   ssInitDifficultyChips();
   ssRefreshBookmarkOption();
   loadQ();
@@ -1717,6 +1775,7 @@ function loadQ(){
   const banner=document.getElementById('diag-banner');if(banner)banner.style.display='none';
   const summary=document.getElementById('diag-summary');if(summary)summary.innerHTML='';
   const raw=document.getElementById('q-sel').value;
+  if(raw==='sr'){ssLoadSR();return;}
   const HQ=ssHardQ();
   let src;
   if(raw==='quick')src=ssQuickTen(QUIZ.concat(HQ));

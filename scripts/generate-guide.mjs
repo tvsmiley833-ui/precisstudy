@@ -347,6 +347,7 @@ export function generateGuide(config) {
           examParts, masteryKey, targetLang, calculator, officialReferenceUrl, officialReferenceLabel, officialReferenceContent } = config;
   const worked = Array.isArray(config.workedExamples) ? config.workedExamples : [];
   const hardQ = Array.isArray(config.hardQuiz) ? config.hardQuiz : [];
+  const shortResp = Array.isArray(config.shortResponse) ? config.shortResponse : [];
 
   for (const w of worked) {
     if (typeof w.u !== "number" || !w.title || !w.prompt || !Array.isArray(w.steps) || !w.steps.length || !w.answer)
@@ -355,6 +356,11 @@ export function generateGuide(config) {
   for (const q of hardQ) {
     if (typeof q.u !== "number" || !q.q || !Array.isArray(q.o) || q.o.length < 2 || q.o.length > 6 || !Number.isInteger(q.a) || q.a < 0 || q.a >= q.o.length)
       throw new Error(`hardQuiz entry malformed: ${JSON.stringify(q).slice(0, 120)}`);
+  }
+
+  for (const r of shortResp) {
+    if (typeof r.u !== "number" || !r.q || !Array.isArray(r.parts) || !r.parts.length || r.parts.some(p => !p || !p.t || !p.m))
+      throw new Error(`shortResponse entry malformed: ${JSON.stringify(r).slice(0, 120)}`);
   }
 
   const metaDescription = buildMetaDescription(config);
@@ -471,6 +477,7 @@ export function generateGuide(config) {
   // them unconditionally.
   html += `const WORKED=${js(worked)};\n`;
   html += `const HARD_Q=${js(hardQ)};\n`;
+  html += `const SRQ=${js(shortResp)};\n`; // short response (free-response) questions, self-scored in the Quiz tab
   // Some source guides have a handful of corrupted exam questions (e.g. an
   // "o" array collapsed to 1 option with the missing values spilled into "a"
   // as a string instead of a numeric index) -- authoring errors, not a

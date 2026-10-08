@@ -789,3 +789,16 @@ html body #anon-quiz-note .ss-status:empty { display: none; }
 .ss-min-btn:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .ss-min-hide{display:none!important}
 .ss-minimized{min-height:0!important;resize:none!important}
+
+/* Short response practice in the Quiz tab */
+.sr-label{display:block;margin:14px 0 6px;font-weight:600}
+.sr-text{width:100%;box-sizing:border-box;min-height:9em;padding:12px 14px;border:1px solid var(--border,rgba(128,128,128,.4));border-radius:10px;background:var(--card-bg,transparent);color:inherit;font:inherit;line-height:1.5;resize:vertical}
+.sr-text:focus-visible{outline:2px solid var(--accent,#1f6e46);outline-offset:2px}
+.sr-model{margin-top:14px}
+.sr-model-hd{margin-bottom:10px}
+.sr-part{padding:10px 12px;margin:8px 0;border-left:3px solid var(--accent,#1f6e46);background:rgba(128,128,128,.08);border-radius:0 8px 8px 0}
+.sr-earn{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:.92em;cursor:pointer}
+.sr-earn input{width:18px;height:18px}
+.sr-tip{margin:10px 0;font-size:.92em;opacity:.85}
+.sr-result{margin:12px 0;font-weight:700}
+.sr-block .q-text{font-size:1.05rem;font-weight:500;line-height:1.55}
