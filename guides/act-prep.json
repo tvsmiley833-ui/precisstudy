@@ -756,12 +756,12 @@
    "u": 6,
    "q": "Does the ACT deduct points for incorrect answers?",
    "o": [
-    "Yes, a quarter point per wrong answer",
+    "Yes, a quarter point per miss",
+    "Yes, Math and Science deduct points",
     "No, there is no guessing penalty",
-    "Yes, but only on Math",
-    "Only on the optional Writing test"
+    "Yes, after a set number of misses"
    ],
-   "a": 1,
+   "a": 2,
    "e": "The ACT has no wrong-answer penalty, so every question should get an answer, even a guess.",
    "c": 3
   },
@@ -795,23 +795,23 @@
    "q": "On Reading and Science, can you choose the order in which you tackle passages?",
    "o": [
     "No, passages must be completed in the printed order",
+    "Yes, but you must finish each passage before switching",
     "Yes, so start with the easiest passage to bank points",
-    "Only on Science, since Reading passages are locked in order",
-    "Only after you have answered every question on the first passage"
+    "Yes, though you should start with the longest passage"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Passages can be answered in any order, so tackling the easiest first secures points early."
   },
   {
    "u": 6,
    "q": "A student spends 5 minutes on one hard English question out of 45 minutes total. What's the main risk?",
    "o": [
+    "Rushing the essay section that follows English",
     "Running out of time for the remaining questions",
-    "No risk, since English has no time limit",
-    "It guarantees a lower Reading score",
-    "It only affects the essay score"
+    "A lower Reading score, since time carries over",
+    "Losing points because hard questions weigh more"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Overspending on one question eats into the time budget for the other 74 questions."
   },
   {
@@ -878,7 +878,7 @@
    "u": 6,
    "q": "Why is a consistent timing plan important across all four ACT sections?",
    "o": [
-    "Only Math and Science have limits while others are untimed",
+    "Math and Science have strict clocks while others are flexible",
     "Each section is scored separately with its own strict clock",
     "Unused time from one section is added to the next one",
     "One total time limit covers the whole test as a single block"
@@ -890,12 +890,12 @@
    "u": 6,
    "q": "A student wants to practice pacing for Reading. What's an effective drill?",
    "o": [
+    "Read passages untimed first, then timed once comfortable",
     "Time a single passage to 8-9 minutes including questions",
-    "Read passages with no time limit at all",
-    "Only read the last paragraph of each passage",
-    "Skip practicing pacing since scores don't depend on it"
+    "Time a single passage to 15 minutes including questions",
+    "Time the reading of each passage, not the questions"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Practicing under the real per-passage time budget builds the pacing skill needed on test day."
   },
   {
@@ -1027,12 +1027,12 @@
    "u": 6,
    "q": "On test day, why is it useful to know your section timings before you sit down?",
    "o": [
+    "So you can ask the proctor to extend time on sections you find hard",
     "So you can set internal pacing goals and reduce surprises under time pressure",
-    "Because timing isn't announced during the real test",
-    "So you can request extra time automatically",
-    "It isn't useful; timing is the same for every test taker regardless of practice"
+    "So you can plan to carry unused minutes from one section to the next",
+    "So you can predict which sections will be shortened on your test form"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Knowing timing in advance lets you set pacing checkpoints instead of discovering limits under pressure."
   },
   {
@@ -1078,12 +1078,12 @@
    "u": 6,
    "q": "Why is consistent full-length timed practice important for building ACT pacing skills?",
    "o": [
-    "It lets you memorize the questions that tend to repeat on actual exams",
-    "It replaces content review because every skill is practiced automatically",
+    "It lets you memorize the questions that tend to repeat on actual ACT exams",
     "It trains stamina and pacing under conditions matching the real test's strict clocks",
+    "It replaces content review because each skill is practiced automatically",
     "It shows your scaled score will rise by a set amount for each test taken"
    ],
-   "a": 2,
+   "a": 1,
    "e": "Realistic timed practice conditions your internal clock to match the real section limits.",
    "c": 4
   },
@@ -1151,10 +1151,10 @@
    "u": 7,
    "q": "On ACT English, about how often is 'NO CHANGE' the correct answer?",
    "o": [
-    "Never",
+    "Roughly half of all questions",
     "Roughly a quarter of the time",
-    "Always",
-    "More than half the time"
+    "Roughly one question in ten",
+    "Roughly two-thirds of the time"
    ],
    "a": 1,
    "e": "NO CHANGE is correct in a meaningful minority of cases — pick it when the original is already correct and concise."
@@ -1200,12 +1200,12 @@
    "u": 7,
    "q": "What can most ACT Science 'Data Representation' questions be answered from?",
    "o": [
-    "Outside science coursework knowledge only",
     "Directly reading the given graph or table",
-    "Guessing based on answer choice length",
-    "Memorized formulas"
+    "Recalling formulas from chemistry coursework",
+    "Applying outside theory from science class",
+    "Reading the written study summary alone"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Data Representation questions are typically answerable straight from the provided figures, no outside knowledge required.",
    "c": 3
   },
@@ -1324,12 +1324,12 @@
    "u": 7,
    "q": "What does 'interpolation' mean in an ACT Science context?",
    "o": [
-    "Estimating a value between two known data points",
     "Estimating a value beyond the plotted data range",
-    "Ignoring the data table entirely",
-    "Combining two unrelated experiments"
+    "Estimating a value between two known data points",
+    "Averaging the values from two separate data tables",
+    "Rounding a measured value to the nearest tick mark"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Interpolation is estimating within the range of already-known data points, as opposed to extrapolating beyond it.",
    "c": 3
   },
@@ -1424,11 +1424,11 @@
    "q": "What is the best way to handle a long, dense sentence during a first read of a Reading passage?",
    "o": [
     "Pause and rewrite the sentence in your own words before moving on to the next",
-    "Get the gist and keep moving, returning only if a question requires precise detail",
     "Underline every word you cannot define and look for its meaning in the choices",
+    "Get the gist and keep moving, returning only if a question requires precise detail",
     "Skip the rest of the paragraph and rely on the question stems to explain it"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Efficient first reads prioritize overall understanding; dense sentences can be revisited only if a specific question demands it."
   },
   {
@@ -1486,9 +1486,9 @@
    "q": "What does a Science question asking you to identify a flaw in an experiment's design usually test?",
    "o": [
     "Whether you can spot a missing control or uncontrolled variable",
-    "Whether you know the exact chemical formulas involved",
-    "Whether you can count the number of trials only",
-    "Whether you memorized the scientists' names"
+    "Whether you can identify the dependent variable being measured",
+    "Whether you can calculate percent error from the trial data",
+    "Whether you can recall the standard units for each variable"
    ],
    "a": 0,
    "e": "Experimental-flaw questions typically hinge on identifying a missing control group or an unaccounted-for variable.",
@@ -1725,12 +1725,12 @@
    "u": 8,
    "q": "How often should full-length practice tests generally be scheduled?",
    "o": [
+    "Roughly every 2-3 days, with a short break between",
     "Roughly every 1-2 weeks, with review time in between",
-    "Roughly every 2-3 days, with only a short break between",
     "Roughly once a month, with no review done in between",
-    "Roughly every weekend until the real test, skipping all review"
+    "Roughly every 3 months, with review done in between"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Spacing practice tests out, with time to review and apply lessons, is more effective than cramming them back-to-back.",
    "c": 0
   },
@@ -1816,9 +1816,9 @@
    "q": "What should a student prioritize if their error log shows most mistakes cluster in one section?",
    "o": [
     "Extra targeted practice specifically in that weak section",
-    "Ignoring that section since it's a lost cause",
+    "Shifting practice toward the strongest section instead",
     "Spending equal time on all sections regardless of the data",
-    "Retaking only full tests with no section-specific drills"
+    "Retaking full tests with no section-specific drills"
    ],
    "a": 0,
    "e": "An error log pointing to a specific weak section calls for focused practice on exactly that area."
@@ -1890,12 +1890,12 @@
    "u": 8,
    "q": "What is a smart way to use a practice test's score report beyond just the composite score?",
    "o": [
-    "Break down performance by section and question category to guide the next study cycle",
-    "Compare your composite score only against the national average to set your next goal",
+    "Compare your composite score against the national average to set your next goal",
     "Rely on the highest section score to choose which subject to study the next cycle",
-    "Check the date and time listed on the report to pick the next practice session"
+    "Break down performance by section and question category to guide the next study cycle",
+    "Check the date and time listed on the report to schedule the next practice session"
    ],
-   "a": 0,
+   "a": 2,
    "e": "A detailed breakdown by section and category gives far more actionable guidance than the composite alone."
   },
   {
@@ -1939,12 +1939,12 @@
    "u": 8,
    "q": "What should a student do if a practice test reveals a section score drop compared to a previous test?",
    "o": [
-    "Treat it as proof that the most recent study methods failed and switch to entirely new ones at once",
-    "Assume it was caused by test difficulty and keep the same plan without any further investigation",
+    "Treat it as proof that the most recent study methods failed and switch to new ones at once",
     "Investigate whether it reflects a content gap, timing issue, or an off day, then adjust the study plan",
+    "Assume it was caused by test difficulty and keep the same plan without any further investigation",
     "Retake the same practice test the next day to restore the score before changing anything else"
    ],
-   "a": 2,
+   "a": 1,
    "e": "A single lower score needs investigation — it could be content, timing, fatigue, or simple variance — before changing the plan."
   },
   {
@@ -1976,9 +1976,9 @@
    "q": "What is a reasonable full practice-test cadence in the final month before the real ACT?",
    "o": [
     "One full test every 1-2 weeks, tapering in the very last week",
-    "Five full tests every single day",
-    "One single full test months in advance and none after",
-    "Full tests only after the real exam has already happened"
+    "One full test every 3-4 days, with no taper at the end",
+    "One full test every month, with none in the final weeks",
+    "One full test every 1-2 weeks, increasing in the last week"
    ],
    "a": 0,
    "e": "A steady, spaced cadence with a final taper balances realistic practice against burnout risk."
@@ -2048,12 +2048,12 @@
    "u": 8,
    "q": "What is a good way to translate error-log findings into a weekly study plan?",
    "o": [
-    "Divide study sessions evenly across categories, no matter how often errors occur",
+    "Divide study sessions evenly across categories, whatever the error count",
+    "Schedule sessions for the categories where you made the fewest mistakes",
     "Allocate specific study sessions to the highest-frequency error categories",
-    "Schedule sessions only for the categories where you made the fewest mistakes",
     "Assign study sessions based on how interesting each category feels to you"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Prioritizing the most frequent error categories makes study time proportional to actual need.",
    "c": 0
   },
@@ -2073,12 +2073,12 @@
    "u": 8,
    "q": "How does a full practice-test workflow support building test-day confidence?",
    "o": [
-    "Familiarity with pacing, format, and question types reduces surprises and anxiety",
-    "Confidence is unrelated to how much practice a student has done",
-    "Only content knowledge affects confidence, not practice format",
-    "Practice tests typically increase anxiety with no benefit"
+    "Confidence depends mostly on content knowledge, not on practice conditions",
+    "Practice tests raise anxiety by exposing weaknesses, with little benefit later",
+    "Knowing the content well matters, but pacing and format familiarity add little",
+    "Familiarity with pacing, format, and question types reduces surprises and anxiety"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Repeated exposure to the real format and pacing builds familiarity that reduces test-day anxiety."
   },
   {
@@ -2361,10 +2361,10 @@
    "o": [
     "She only ate vegetables for dinner.",
     "Only she ate vegetables for dinner.",
-    "She ate only vegetables for dinner.",
-    "She ate vegetables only for dinner."
+    "She ate vegetables only for dinner.",
+    "She ate only vegetables for dinner."
    ],
-   "a": 2,
+   "a": 3,
    "e": "'Only' should sit directly before the word or phrase it limits—here, 'vegetables'."
   },
   {
@@ -2424,11 +2424,11 @@
    "q": "Which sentence corrects a run-on?",
    "o": [
     "I love reading books I read every night.",
-    "I love reading books, I read every night.",
     "I love reading books; I read every night.",
-    "I love reading books because I read every night I love reading."
+    "I love reading books, I read every night.",
+    "I love reading books; and I read every night."
    ],
-   "a": 2,
+   "a": 1,
    "e": "A semicolon correctly joins the two independent clauses without a conjunction."
   },
   {
@@ -2748,10 +2748,10 @@
    "o": [
     "Solving the equation for x using full algebra first",
     "Picking the choice that contains the most variable terms",
-    "Expanding every choice by hand and comparing all coefficients",
-    "Plugging in a smart number for x and testing choices"
+    "Plugging in a smart number for x and testing choices",
+    "Expanding each choice by hand and comparing coefficients"
    ],
-   "a": 3,
+   "a": 2,
    "e": "Plugging in numbers (avoiding 0 and 1) quickly eliminates wrong answer choices for variable expressions."
   },
   {
@@ -2923,12 +2923,12 @@
    "u": 2,
    "q": "Solve: |2x - 4| = 10",
    "o": [
-    "x=7 or x=-3",
     "x=3 or x=-7",
-    "x=7 only",
-    "x=-3 only"
+    "x=-7 or x=-3",
+    "x=7 or x=-3",
+    "x=7 or x=3"
    ],
-   "a": 0,
+   "a": 2,
    "e": "2x-4=10 → x=7, or 2x-4=-10 → x=-3."
   },
   {
@@ -3048,12 +3048,12 @@
    "u": 2,
    "q": "A question gives a table of x and y values and asks for the pattern's rule. What's the best first step?",
    "o": [
-    "Find the constant difference or ratio between consecutive values to identify linear vs. exponential pattern",
     "Add up all the y-values and divide by the number of rows to find the average rate of change",
-    "Compare only the first and last rows to decide whether the pattern is linear or quadratic",
-    "Square each x-value and check whether the y-values match the squares listed in the table"
+    "Find the constant difference or ratio between consecutive values to identify linear vs. exponential pattern",
+    "Compare the first and last rows to decide whether the pattern is linear or quadratic in form",
+    "Square each x-value and check whether the y-values match those squares in the table, row by row"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Checking whether differences (linear) or ratios (exponential/geometric) are constant reveals the underlying rule quickly."
   },
   {
@@ -3099,12 +3099,12 @@
    "u": 2,
    "q": "On the ACT Math test, calculators are:",
    "o": [
-    "Not allowed at all",
-    "Allowed for the entire section",
-    "Allowed only for the last 20 questions",
-    "Allowed only for geometry questions"
+    "Banned for the entire section",
+    "Allowed for the first 30 questions",
+    "Allowed for the last 30 questions",
+    "Allowed for the entire section"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Per current ACT policy, calculators are permitted for the entire Math section."
   },
   {
@@ -3237,12 +3237,12 @@
    "u": 3,
    "q": "Is there a penalty for guessing wrong on the ACT Reading test?",
    "o": [
-    "Yes, a quarter point is deducted",
-    "No, there is no penalty for incorrect answers",
-    "Yes, but only in the last passage",
-    "Only if you guess more than 5 times"
+    "Yes, a quarter point is deducted per wrong answer",
+    "Yes, a point is deducted per blank question",
+    "Yes, after five wrong answers in one section",
+    "No, there is no penalty for incorrect answers"
    ],
-   "a": 1,
+   "a": 3,
    "e": "The ACT has no wrong-answer penalty, so every question should be answered, even a blind guess."
   },
   {
@@ -3385,12 +3385,12 @@
    "u": 3,
    "q": "If you're running out of time on the Reading section, what's the best move?",
    "o": [
-    "Fill in a guess for every remaining question, since there's no penalty",
     "Leave the remaining questions blank, since wrong answers lower your score",
-    "Spend the leftover time rereading the first passage to check your earlier answers",
-    "Guess only on the questions that look easy and leave the harder ones unanswered"
+    "Spend the leftover time rereading the first passage to check answers",
+    "Fill in a guess for every remaining question, since there's no penalty",
+    "Guess on the easier-looking questions and leave the harder ones unanswered"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Because wrong answers aren't penalized, guessing on unanswered questions can only help your score.",
    "c": 1
   },
@@ -3422,9 +3422,9 @@
    "u": 3,
    "q": "What is the ideal order for tackling ACT Reading passages if you find one genre harder?",
    "o": [
-    "Always work strictly in printed order, since the passages get steadily easier toward the end",
-    "Start with the longest passage first, since it carries the most questions and points",
-    "Do the hardest passage type first while you are fresh, saving easy ones for the end",
+    "Work in the printed order from start to finish, since passages get easier toward the end",
+    "Start with the longest passage first, since it carries the most questions and points available",
+    "Do the hardest passage type first while you are fresh, saving the easier ones for the end",
     "Do your strongest/fastest passage types first to bank points, saving harder ones for remaining time"
    ],
    "a": 3,
@@ -3447,12 +3447,12 @@
    "u": 3,
    "q": "Why is rereading the entire passage for every single question an inefficient strategy?",
    "o": [
-    "It wastes limited time; targeted rereading of relevant sections is faster and just as accurate",
     "It lowers your score, since the ACT penalizes rereading sections you have already covered",
     "It is not permitted, since test rules limit how often you may return to the passage",
+    "It wastes limited time; targeted rereading of relevant sections is faster and just as accurate",
     "It causes you to forget the main idea, which hurts accuracy on every later question"
    ],
-   "a": 0,
+   "a": 2,
    "e": "With strict time limits, full rereads for each question would use up more time than the section allows."
   },
   {
@@ -3460,9 +3460,9 @@
    "q": "On paired passages, if a question asks how the author of Passage B would likely respond to a claim in Passage A, you should:",
    "o": [
     "Only consider Passage B's content and tone toward that claim",
-    "Ignore Passage B and just answer based on Passage A",
-    "Use outside knowledge of the topic",
-    "Pick the answer that agrees with Passage A regardless of B's view"
+    "Weigh Passage A's evidence more than Passage B's own stance",
+    "Use your outside knowledge of the topic to fill in B's view",
+    "Pick whichever answer agrees with Passage A's claim as stated"
    ],
    "a": 0,
    "e": "You must reason about Passage B's specific stance to predict how its author would react to Passage A's claim.",
@@ -3472,10 +3472,10 @@
    "u": 3,
    "q": "Which is the most efficient way to handle a long, dense sentence during your first read of a passage?",
    "o": [
-    "Read it slowly several times right away so no detail is missed in the first pass",
-    "Underline each key phrase in the sentence before moving on to the next one",
+    "Read it slowly several times right away so no detail is missed during the first pass",
+    "Underline each key phrase in the sentence and restate it before moving on to the next one",
     "Get the gist and move on—come back only if a question specifically requires that sentence's detail",
-    "Skip the surrounding paragraph and return to it only after finishing all the questions"
+    "Skip the surrounding paragraph and return to it after finishing all of the questions"
    ],
    "a": 2,
    "e": "Getting the general gist and returning only if needed keeps your pace steady across the whole passage."
@@ -3484,10 +3484,10 @@
    "u": 3,
    "q": "A 'least supported' or 'EXCEPT' question asks you to find:",
    "o": [
-    "The one answer choice most strongly supported by the passage, while the other three are not",
+    "The one choice most strongly supported by the passage, while the other three are not",
     "The answer choice that most clearly states the passage's main idea or central claim",
     "The one answer choice NOT supported by the passage, while the other three are",
-    "The one choice that is only partly supported, while the other three are fully contradicted"
+    "The one choice that is partly supported, while the other three are fully contradicted"
    ],
    "a": 2,
    "e": "EXCEPT/LEAST questions invert the usual logic—three choices are supported and one is not (or vice versa, per the question's wording)."
@@ -3496,9 +3496,9 @@
    "u": 3,
    "q": "Which best describes how ACT Reading passages are typically ordered by genre across the test (though order can vary by form)?",
    "o": [
-    "Social Science, Natural Science, Humanities, and Prose Fiction, always in that exact order",
+    "Social Science, Natural Science, Humanities, and Prose Fiction, in that exact order",
     "Prose Fiction, Poetry, Social Science, and Humanities, with one passage from each category",
-    "Natural Science, Social Science, Business, and Humanities, drawn only from nonfiction articles",
+    "Natural Science, Social Science, Business, and Humanities, from nonfiction articles",
     "Prose Fiction/Literary Narrative, Social Science, Humanities, and Natural Science"
    ],
    "a": 3,
@@ -3509,10 +3509,10 @@
    "u": 3,
    "q": "If a question references 'lines 45-52,' what's the smartest approach?",
    "o": [
-    "Read only the cited lines 45-52 and nothing around them, since extra text can mislead you",
+    "Read the cited lines 45-52 alone, since extra text can mislead you",
     "Read lines 45-52 plus a sentence or two before/after for context",
-    "Reread the whole passage from the first line so you understand the overall context",
-    "Read from line 45 to the end of the passage to see how the section is resolved"
+    "Reread the whole passage from line one to get the overall context",
+    "Read from line 45 to the passage's end to see how it resolves"
    ],
    "a": 1,
    "e": "Reading slightly beyond the cited lines often reveals context needed to answer correctly without a full reread."
@@ -3547,19 +3547,19 @@
    "o": [
     "Which author uses the more persuasive style, so you can pick the stronger of the two",
     "Each author's tone and word choice, so you can decide which view the test favors",
-    "Each author's central claim and key supporting reasons, so you can compare them accurately",
-    "Only the points where the authors agree, since questions rarely ask about differences"
+    "The points where the authors agree, since questions rarely ask about differences",
+    "Each author's central claim and key supporting reasons, so you can compare them accurately"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Tracking each author's claim and reasoning is essential for accurately answering comparison questions."
   },
   {
    "u": 3,
    "q": "What's the risk of picking an answer just because it 'sounds smart' with big vocabulary?",
    "o": [
-    "Little risk, since sophisticated wording usually signals the choice the test-makers intended",
-    "It guarantees the choice is correct, since the ACT rewards precise academic vocabulary",
-    "It matters only on passages that discuss science, where technical terms are common",
+    "Little risk, since sophisticated wording often signals the intended answer",
+    "It raises the odds of being right, since the ACT rewards academic vocabulary",
+    "It matters on science passages, where technical terms are very common",
     "It may not be supported by the passage at all—a classic ACT distractor pattern"
    ],
    "a": 3,
@@ -3582,12 +3582,12 @@
    "u": 3,
    "q": "If you finish a Reading passage's questions early, what's a good use of remaining time?",
    "o": [
-    "Rest quietly, since extra review rarely changes answers and may only cause doubt",
-    "Change several answers you felt sure about, since first instincts are usually wrong",
+    "Rest quietly, since extra review rarely changes answers and may cause doubt",
     "Double check any answers you were unsure about, using text evidence to confirm",
+    "Change several answers you felt sure about, since first instincts are usually wrong",
     "Start rereading the other passages in the section to get ahead on later questions"
    ],
-   "a": 2,
+   "a": 1,
    "e": "Reviewing uncertain answers with fresh eyes, grounded in text evidence, is a productive use of extra time."
   },
   {
@@ -3606,12 +3606,12 @@
    "u": 3,
    "q": "Which is the best definition of 'skimming' as an ACT Reading strategy?",
    "o": [
-    "Reading every sentence slowly and carefully so you can memorize the passage's details",
-    "Reading the questions and answer choices first and never looking at the passage itself",
-    "Reading only the first and last sentence of each paragraph and skipping the middle",
-    "Quickly moving through the passage to grasp structure and main ideas, without dwelling on every detail"
+    "Reading every sentence slowly and carefully so you can memorize the passage's key details",
+    "Reading the questions and answer choices first and skipping the passage unless a question requires it",
+    "Quickly moving through the passage to grasp structure and main ideas, without dwelling on every detail",
+    "Reading the first and last sentence of each paragraph and skipping the middle of the passage"
    ],
-   "a": 3,
+   "a": 2,
    "e": "Skimming is a fast initial read for gist and structure, saving detailed rereading for specific questions.",
    "c": 0
   },
@@ -3669,8 +3669,8 @@
    "o": [
     "The y-axis (vertical)",
     "The x-axis (horizontal)",
-    "Neither, it's random",
-    "Both equally"
+    "The right-hand y-axis",
+    "The axis with more ticks"
    ],
    "a": 1,
    "e": "By convention, the independent variable (the one manipulated) is plotted on the x-axis.",
@@ -3728,12 +3728,12 @@
    "u": 4,
    "q": "What is 'interpolation'?",
    "o": [
+    "Estimating a value beyond the data's range by extending the trend",
     "Estimating a value between two known data points on a graph or table",
-    "Estimating a value beyond the highest or lowest data point by extending the trend line",
-    "Calculating the exact average of every value shown in a table or graph",
-    "Identifying the single highest value among the known data points in a table"
+    "Calculating the exact average of the values shown in a table",
+    "Identifying the single highest value among the known data points"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Interpolation estimates within the range of existing data, which is safer than extrapolating beyond it.",
    "c": 1
   },
@@ -3753,7 +3753,7 @@
    "u": 4,
    "q": "In Conflicting Viewpoints, if Scientist 1 and Scientist 2 disagree about a planet's formation, a question asking 'with which statement would Scientist 2 most likely agree' requires:",
    "o": [
-    "Choosing the statement that Scientist 1 would reject, since the two always disagree on everything",
+    "Choosing the statement Scientist 1 would reject, since the two scientists disagree",
     "Finding the statement that best reflects the evidence both scientists accept in common",
     "Understanding Scientist 2's specific claims and reasoning, then matching them to the choice",
     "Picking the statement that is most scientifically accurate based on what you learned in class"
@@ -3779,9 +3779,9 @@
    "q": "A question shows two scientists with opposing views on climate change causes. What type of passage is this most likely?",
    "o": [
     "Data Representation",
-    "Research Summaries",
+    "Research Summary Sets",
     "Conflicting Viewpoints",
-    "None of the ACT Science passage types"
+    "Hypothesis Testing Sets"
    ],
    "a": 2,
    "e": "Opposing viewpoints/hypotheses on the same phenomenon define the Conflicting Viewpoints passage type."
@@ -3790,12 +3790,12 @@
    "u": 4,
    "q": "If a table shows temperature increasing steadily as pressure increases, which relationship is shown?",
    "o": [
-    "Positive correlation",
     "Negative correlation",
-    "No correlation",
-    "Inverse relationship only for gases"
+    "Inverse correlation",
+    "Positive correlation",
+    "Cyclical relationship"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Both variables increasing together indicates a positive correlation."
   },
   {
@@ -3816,10 +3816,10 @@
    "o": [
     "Because outside knowledge is usually incorrect, and the test writers deliberately plant false facts in passages to penalize students who recall classroom material",
     "Because the Science test only covers topics taught in a single course, so anything learned elsewhere is irrelevant and will be counted against your final score",
-    "Because most questions are answerable, and expected to be answered, using only the given data—outside assumptions can lead you astray from what the passage says",
-    "Because the passages are written about invented science that does not exist, so real-world facts you remember can never apply to any question on the test"
+    "Because the passages are written about invented science that does not exist, so real-world facts you remember cannot apply to questions on the test",
+    "Because most questions are answerable, and expected to be answered, using only the given data—outside assumptions can lead you astray from what the passage says"
    ],
-   "a": 2,
+   "a": 3,
    "e": "The Science test primarily assesses data interpretation and reasoning skills, not memorized content, so passage-given information should drive your answer."
   },
   {
@@ -3851,9 +3851,9 @@
    "q": "A question asks for the value of y when x=15, but the table only shows x=10 and x=20. What must you do?",
    "o": [
     "Extrapolate beyond the known data points",
-    "Say the value cannot be found from the table",
+    "Average the y-values listed in the table",
     "Interpolate between the two known values",
-    "Use only the x=10 value as the answer"
+    "Use the x=10 value as the closest known point"
    ],
    "a": 2,
    "e": "Since 15 lies between the two known values (10 and 20), interpolation is appropriate."
@@ -3875,12 +3875,12 @@
    "u": 4,
    "q": "If a question says a hypothesis is 'supported' by data, what must be true?",
    "o": [
-    "The data trend matches what the hypothesis predicted",
     "The data trend contradicts what was predicted",
-    "There is no data relevant to the hypothesis at all",
-    "The hypothesis is proven true in every possible case"
+    "The data trend is unrelated to what was predicted",
+    "The data trend matches what the hypothesis predicted",
+    "The hypothesis is proven beyond any doubt by the data"
    ],
-   "a": 0,
+   "a": 2,
    "e": "'Supported' means the observed data is consistent with the hypothesis's prediction, not proof beyond all doubt."
   },
   {
@@ -3924,9 +3924,9 @@
    "u": 4,
    "q": "A question provides a graph with only 3 data points and asks you to predict the value far past the last point. This is risky because:",
    "o": [
-    "The graph has too few points to show any trend at all, so any prediction is impossible",
+    "The graph has too few points to show any trend at all, so any prediction is not reliable",
     "The trend line would have to be curved, which makes prediction with three points inaccurate",
-    "The ACT treats any prediction beyond the data as a wrong answer regardless of the trend",
+    "The ACT treats any prediction beyond the data as a wrong answer regardless of the trend shown",
     "Extrapolation assumes the trend continues unchanged, which may not hold true outside the observed range"
    ],
    "a": 3,
@@ -3936,12 +3936,12 @@
    "u": 4,
    "q": "How should you approach a question requiring you to combine information from two different figures in the same passage?",
    "o": [
+    "Pick the figure with more data points and apply its values to both parts of the question asked",
     "Identify the specific quantity needed from each figure and connect them using their shared variable/units",
-    "Pick the figure with more data points and apply its values to both parts of the question",
-    "Average the highest values from each figure, since the two should agree closely",
-    "Use the passage's text to estimate both values, then check them only if time remains"
+    "Average the highest values from each figure, since the two figures should agree closely with each other",
+    "Use the passage's text to estimate both values, then check them against the figures if time remains"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Combining data means pulling the relevant value from each figure and linking them through a common variable."
   },
   {
@@ -3986,11 +3986,11 @@
    "q": "What is the best way to handle unfamiliar scientific vocabulary in a Science passage?",
    "o": [
     "Pause and sound out the word's prefixes and suffixes until you can recall its meaning from class",
-    "Skip every question that includes the term, since it can't be answered without it",
-    "Use the passage's context and any given definitions/units to understand its role in the data",
-    "Search the passage for a similar-looking word and assume the two mean the same thing"
+    "Skip the questions that include the term, since they cannot be answered without outside knowledge",
+    "Search the passage for a similar-looking word and assume the two mean the same thing",
+    "Use the passage's context and any given definitions/units to understand its role in the data"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Passages are self-contained; you don't need outside vocabulary knowledge if you use the passage's own context and data."
   },
   {
@@ -4034,24 +4034,24 @@
    "u": 4,
    "q": "How should conflicting data points ('outliers') on a graph be treated when identifying an overall trend?",
    "o": [
-    "Remove them from the data entirely and describe only the remaining points, ignoring any that look unusual",
+    "Remove them from the data set and describe the remaining points, ignoring any that look unusual to you",
+    "Recognize them as departures from the general pattern but still describe the overall trend accurately when asked",
     "Treat each one as the true trend and describe the graph as if the outliers set the overall direction",
-    "Assume they show the experiment failed, so no overall trend can be described when they are present",
-    "Recognize them as departures from the general pattern but still describe the overall trend accurately when asked"
+    "Assume they show the experiment failed, so no overall trend can be described when they are present"
    ],
-   "a": 3,
+   "a": 1,
    "e": "Outliers should be recognized as such, but general trend questions still require describing the pattern of the majority of data."
   },
   {
    "u": 4,
    "q": "If two passages' data support opposite conclusions about the same variable, and a question asks you to reconcile them, what matters most?",
    "o": [
-    "Choosing the passage with the larger data set, since more data always outweighs fewer data",
-    "Splitting the difference between the two conclusions and choosing the answer in the middle",
+    "Choosing the passage with the larger data set, since more data outweighs fewer data points",
     "Carefully comparing each passage's specific experimental conditions/data supporting its own conclusion",
+    "Splitting the difference between the two conclusions and choosing the answer in the middle",
     "Relying on the passage's authors' reputations rather than on how their data were gathered"
    ],
-   "a": 2,
+   "a": 1,
    "e": "Reconciling requires analyzing how each passage's specific setup and data lead to its distinct conclusion."
   },
   {
@@ -4083,11 +4083,11 @@
    "q": "Two graphs use different y-axis scales (one 0-10, one 0-1000). What's the risk of comparing them without noticing?",
    "o": [
     "Values may look equally large on both graphs, hiding a difference of a hundredfold in size",
-    "The graphs may seem to show opposite trends when the data actually move together",
     "Misreading relative magnitude, thinking values are more/less similar than they actually are",
-    "Both graphs will have different titles, which makes the comparison impossible to check"
+    "The graphs may seem to show opposite trends when the data actually move together",
+    "The graphs may use different units, which makes values hard to compare directly"
    ],
-   "a": 2,
+   "a": 1,
    "e": "Ignoring differing scales can lead to badly wrong conclusions about how the data sets relate."
   },
   {
@@ -4132,11 +4132,11 @@
    "q": "Is the ACT Writing test included in the Composite score?",
    "o": [
     "Yes, it counts as one quarter of the Composite",
+    "Yes, if you score above a 24 on the Writing",
     "No, it is optional and reported separately",
-    "Yes, but only if you score above a 24 on it",
     "No, it replaces the English score if you take it"
    ],
-   "a": 1,
+   "a": 2,
    "e": "The Writing test is optional and does not factor into the 1-36 Composite score.",
    "c": 1
   },
@@ -4259,12 +4259,12 @@
    "u": 5,
    "q": "Does essay length alone guarantee a higher score?",
    "o": [
-    "Yes, longer essays always score higher because they show more development and detail",
-    "Yes, as long as the essay is at least four full pages with neat paragraphs",
+    "Yes, longer essays score higher because they show more development and detail",
     "No, a well-organized and well-supported shorter essay can outscore a long, unfocused one",
-    "No, because the graders look only at your thesis and ignore the rest of the essay"
+    "Yes, as long as the essay is at least four full pages long with neat paragraphs",
+    "No, because graders judge the thesis statement and skim the rest of the essay"
    ],
-   "a": 2,
+   "a": 1,
    "e": "Quality of reasoning, support, and organization matters more than raw length.",
    "c": 1
   },
@@ -4284,60 +4284,60 @@
    "u": 5,
    "q": "What is a common weakness in essays that only restate the three given perspectives?",
    "o": [
-    "They repeat each perspective accurately, which earns top marks for Language Use alone",
-    "They spend too much time on grammar, which lowers the Organization domain score",
     "They fail to develop the writer's own distinct argument, hurting Ideas & Analysis and Development scores",
-    "They run out of time before the conclusion, which automatically lowers every domain score"
+    "They repeat each perspective accurately, which earns high marks for the Language Use domain",
+    "They spend too much time polishing grammar, which hurts the Organization domain score most",
+    "They run out of time before writing a conclusion, which lowers the four domain scores equally"
    ],
-   "a": 2,
+   "a": 0,
    "e": "Merely summarizing given perspectives without building your own argument limits depth of analysis."
   },
   {
    "u": 5,
    "q": "What is a strong way to open an ACT essay?",
    "o": [
-    "A broad quotation about the topic that never mentions your actual position on the issue",
-    "A clear statement of your position/thesis relevant to the specific issue given",
-    "A long summary of each of the three perspectives before you say anything of your own",
-    "A question to the reader about the issue, followed by several background facts and no thesis"
+    "A broad quotation about the topic that does not state your position on the issue",
+    "A long summary of each of the three perspectives before you add anything of your own",
+    "A question to the reader, followed by several background facts and no clear thesis",
+    "A clear statement of your position/thesis relevant to the specific issue given"
    ],
-   "a": 1,
+   "a": 3,
    "e": "A clear, relevant thesis early on helps graders quickly see your position and sets up the analysis to follow."
   },
   {
    "u": 5,
    "q": "Which is true about time management on the Writing test?",
    "o": [
-    "A few minutes of planning/outlining before writing usually improves organization and coherence",
     "Planning can wait until the conclusion, when you know what the essay actually argues",
     "Using the full 40 minutes to write yields the most developed essay with the best flow",
-    "Planning matters only for essays you expect to be long, and it can be skipped for short ones"
+    "Planning matters for essays you expect to be long, and it can be skipped for short ones",
+    "A few minutes of planning/outlining before writing usually improves organization and coherence"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Brief planning time helps structure the essay's argument and improves the Organization domain score."
   },
   {
    "u": 5,
    "q": "What does 'analyzing the relationships between perspectives' mean on the ACT essay?",
    "o": [
-    "Discussing how perspectives agree, disagree, or share underlying assumptions, not just describing each one separately",
     "Summarizing each perspective in turn and then restating the author's own opinion without comparing the views",
     "Listing every example the prompt gives for each perspective and checking that the evidence is factually accurate",
-    "Choosing the one perspective you find most convincing and explaining why the other two are completely wrong"
+    "Choosing the one perspective you find most convincing and explaining why the other two do not hold up",
+    "Discussing how perspectives agree, disagree, or share underlying assumptions, not just describing each one separately"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Top-scoring essays often explore how the given perspectives relate to each other, not just describe each in isolation."
   },
   {
    "u": 5,
    "q": "Which type of evidence strengthens the Development & Support domain most?",
    "o": [
-    "General statements about the topic that most readers would readily agree are true",
-    "Quotations from famous authors that are only loosely related to the essay's main claim",
-    "A long list of facts and statistics presented without any reasoning about their meaning",
-    "Specific, relevant examples or reasoning that clearly support your claims"
+    "Specific, relevant examples or reasoning that clearly support your claims",
+    "General statements about the topic that most readers would accept",
+    "Quotations from famous authors that are loosely related to the main claim",
+    "A long list of facts and statistics presented without any reasoning"
    ],
-   "a": 3,
+   "a": 0,
    "e": "Concrete, relevant support (examples, reasoning) demonstrates depth in the Development & Support domain.",
    "c": 1
   },
@@ -4370,12 +4370,12 @@
    "u": 5,
    "q": "Which is a better essay conclusion strategy?",
    "o": [
-    "Restate every point from your essay one by one, in the same order and in the same words",
-    "Close with a new argument that expands your position beyond what the body paragraphs covered",
-    "Briefly synthesize your argument and its significance, tying back to the thesis",
-    "End with a quotation from another source and leave the thesis unmentioned"
+    "Restate each point from your essay one by one, in the same order and wording",
+    "Close with a new argument that extends your position beyond the body paragraphs",
+    "End with a quotation from another source and leave the thesis unmentioned",
+    "Briefly synthesize your argument and its significance, tying back to the thesis"
    ],
-   "a": 2,
+   "a": 3,
    "e": "A strong conclusion reinforces the thesis and shows the argument's significance without introducing unrelated new points.",
    "c": 2
   },
@@ -4409,12 +4409,12 @@
    "u": 5,
    "q": "A student wants to address a potential counterargument to their thesis. Where is this best placed?",
    "o": [
-    "In the conclusion alone, so that the introduction and body stay focused on your own view",
     "Within the body, where it can be acknowledged and responded to, strengthening the overall analysis",
-    "In the introduction only, before you state your thesis and begin the main argument",
-    "In a separate note at the end of the essay, after the conclusion has been written"
+    "In the conclusion alone, so that the introduction and body stay focused on your own view",
+    "In the introduction, before you state your thesis and begin the main argument of the essay",
+    "In a separate note at the end of the essay, after the conclusion has been written and revised"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Addressing counterarguments in the body strengthens the essay's depth of analysis and shows nuanced thinking.",
    "c": 3
   },
@@ -4459,12 +4459,12 @@
    "u": 5,
    "q": "A student's essay presents a clear thesis but never explains why their reasoning supports it. Which domain suffers most?",
    "o": [
+    "Ideas and Analysis",
     "Development & Support",
-    "Language Use only",
-    "None, this doesn't affect scoring",
-    "Ideas & Analysis is unaffected"
+    "Organization of ideas",
+    "Language Use and Tone"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Without explained reasoning behind claims, the Development & Support domain score will be low."
   },
   {
@@ -4484,35 +4484,35 @@
    "q": "Why is it risky to write about a completely unrelated personal topic instead of addressing the prompt's issue?",
    "o": [
     "It shows creativity, which graders reward in the Ideas & Analysis domain above all else",
-    "It is acceptable as long as the essay is well organized and has clear sentences",
-    "It lowers only the Language Use score, because the grammar is judged against the topic",
-    "It fails to engage with the assigned issue and perspectives, hurting Ideas & Analysis and relevance"
+    "It fails to engage with the assigned issue and perspectives, hurting Ideas & Analysis and relevance",
+    "It is acceptable provided the essay is well organized, with clear sentences and strong grammar",
+    "It lowers the Language Use score, because grammar is judged against the assigned topic"
    ],
-   "a": 3,
+   "a": 1,
    "e": "Essays must respond to the specific issue and perspectives given; going off-topic undermines the core requirements."
   },
   {
    "u": 5,
    "q": "What is the benefit of using specific, concrete examples rather than vague generalities in the essay?",
    "o": [
-    "They make the essay longer, which is the main thing the Development & Support domain rewards",
-    "Specific examples make your reasoning more persuasive and demonstrate the Development & Support domain effectively",
-    "They help only with Language Use, since concrete words are more precise than abstract ones",
-    "They matter little, since graders mainly judge a thesis and the quality of the conclusion"
+    "They make the essay longer, which is the main thing that the Development & Support domain rewards",
+    "They help mostly with Language Use, since concrete words are more precise than abstract ones, not with support",
+    "They matter little, since graders mainly judge the thesis statement and the quality of the conclusion paragraph",
+    "Specific examples make your reasoning more persuasive and demonstrate the Development & Support domain effectively"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Concrete detail strengthens the persuasiveness and depth of your supporting reasoning."
   },
   {
    "u": 5,
    "q": "How should transitions be used between paragraphs in the ACT essay?",
    "o": [
-    "Placed only at the start of the essay, so the reader knows the order of the points to come",
-    "Used in every sentence, so that the reader is always told how each idea connects",
-    "Used to clearly connect ideas and show logical relationships between paragraphs",
-    "Replaced with short headings at the start of each paragraph, as in a report"
+    "Placed at the start of the essay, so the reader knows the order of the points to come",
+    "Used at the start of each sentence, so the reader knows how each idea connects",
+    "Replaced with short headings at the start of each paragraph, as in a report",
+    "Used to clearly connect ideas and show logical relationships between paragraphs"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Effective transitions clarify how ideas connect, which supports strong Organization scoring.",
    "c": 1
   },
@@ -4582,24 +4582,24 @@
    "u": 5,
    "q": "Which is true regarding essay handwriting/legibility during the paper-based ACT Writing test?",
    "o": [
-    "Graders need to be able to read your essay to score it, so legibility matters practically even though it isn't a named domain",
-    "Graders ignore handwriting completely, so messy writing never matters, but spelling is a separate scored domain",
+    "Graders disregard handwriting, so messy writing does not matter, but spelling is a separate scored domain on its own scale",
     "Handwriting is a fourth named domain scored on its own 1-6 scale and added to the other three domain scores",
+    "Graders need to be able to read your essay to score it, so legibility matters practically even though it isn't a named domain",
     "Essays are typed up by the testing company before grading, so how neatly you write has no practical effect on your score"
    ],
-   "a": 0,
+   "a": 2,
    "e": "While not a formal domain, illegible handwriting can prevent graders from properly assessing the essay's actual content."
   },
   {
    "u": 5,
    "q": "A student spends the entire 40 minutes writing without ever pausing to organize ideas first. What's a likely consequence?",
    "o": [
-    "A well-developed argument, because writing continuously leaves more time for each idea",
-    "A stronger Language Use score only, since writing without stopping improves fluency",
-    "A lower Ideas & Analysis score only, while organization is not affected by the lack of planning",
-    "A less coherent structure, since no planning occurred before writing began"
+    "A fuller argument, since writing nonstop leaves more time for each idea",
+    "A less coherent structure, since no planning occurred before writing began",
+    "A stronger Language Use score, since writing nonstop improves fluency",
+    "A lower Ideas & Analysis score, though organization is unaffected by planning"
    ],
-   "a": 3,
+   "a": 1,
    "e": "Skipping planning often leads to a less logically structured essay, which affects the Organization domain."
   },
   {
@@ -4618,12 +4618,12 @@
    "u": 5,
    "q": "Which best reflects how the ACT Writing test relates to the English test's skills?",
    "o": [
-    "They are unrelated, since English tests only reading speed and Writing tests only your knowledge of history topics",
-    "Both measure the same skills, so Writing adds nothing and the English score is simply used to score your essay",
-    "Both draw on similar language, grammar, and organizational skills, though Writing also requires original argument development",
-    "English covers original argument development while Writing only checks comma rules and sentence-level grammar"
+    "They are unrelated, since English tests reading speed and Writing tests your knowledge of history topics and dates",
+    "Both measure the same skills, so Writing adds little and the English score is used to grade your essay as well",
+    "English covers original argument development while Writing checks comma rules and sentence-level grammar in short answers",
+    "Both draw on similar language, grammar, and organizational skills, though Writing also requires original argument development"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Language Use and Organization domains overlap with skills tested in ACT English, while Writing additionally requires original essay composition.",
    "c": 1
   }
@@ -5982,24 +5982,24 @@
    "u": 2,
    "q": "On the ACT Math test, a useful strategy is to:",
    "o": [
-    "Work the problems in order and never skip, since later problems are easier",
-    "Spend the most time on the hardest problems, since they are worth more points",
-    "Leave the hardest problems blank, since wrong answers lower your score",
-    "Answer easy questions first and come back to hard ones"
+    "Work in order without skipping, since later ones are easier",
+    "Start with the hardest problems, since they are worth more",
+    "Answer easy questions first and come back to hard ones",
+    "Leave hard ones blank, since wrong answers lower your score"
    ],
-   "a": 3,
+   "a": 2,
    "e": "Every question is worth the same."
   },
   {
    "u": 3,
    "q": "Reading questions about the main idea are best answered by:",
    "o": [
+    "Focusing on the final paragraph",
+    "Focusing on the opening sentence",
     "Focusing on the passage as a whole",
-    "Reading only the last sentence",
-    "Skipping the first paragraph",
-    "Choosing the first answer"
+    "Focusing on the most detailed section"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Details support the main idea.",
    "c": 0
   },
@@ -6116,12 +6116,12 @@
    "u": 8,
    "q": "After a practice test, the best way to improve is to:",
    "o": [
+    "Keep retaking full tests until your score goes up",
     "Review mistakes by type and fix the underlying gaps",
-    "Retake full tests until your score rises, without reviewing individual questions",
-    "Review only the questions you got wrong and memorize each correct answer",
-    "Study only the topics you already do well in to protect your strengths"
+    "Review the wrong answers and memorize each correct one",
+    "Study the topics you already do well in to protect them"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Targeted review leads to gains."
   },
   {

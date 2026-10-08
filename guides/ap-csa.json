@@ -960,12 +960,12 @@
    "u": 1,
    "q": "Which statement best describes the difference between int and double in Java?",
    "o": [
-    "int and double are interchangeable in every context",
     "int stores whole numbers; double stores numbers with a fractional part",
-    "double is a type reserved for true/false boolean logic",
-    "int stores decimal values while double holds only whole numbers"
+    "int stores whole numbers; double stores whole numbers of larger size",
+    "int stores numbers with a fractional part; double stores whole numbers",
+    "int and double both store whole numbers, but double holds more digits"
    ],
-   "a": 1,
+   "a": 0,
    "e": "int is a whole-number (integer) primitive type, while double stores floating-point numbers with decimal precision.",
    "c": 1
   },
@@ -1183,12 +1183,12 @@
    "u": 2,
    "q": "What is the purpose of a constructor in a Java class?",
    "o": [
-    "To destroy an object and free its memory",
     "To initialize a newly created object's instance variables",
-    "To print out information about an existing object",
-    "To define only the static methods of a class"
+    "To return the value of a newly created object's variables",
+    "To set the values of a class's static variables when it loads",
+    "To make an object's instance variables visible to other classes"
    ],
-   "a": 1,
+   "a": 0,
    "e": "A constructor runs when an object is created with 'new' and is used to initialize the object's instance variables."
   },
   {
@@ -1196,11 +1196,11 @@
    "q": "Given: public class Dog { private String name; public Dog(String name) { this.name = name; } } What does 'this.name' refer to?",
    "o": [
     "The parameter name, since it shadows the field in the constructor",
-    "A static variable shared by every Dog object created by the class",
-    "The Dog class itself, so that all dogs receive the same name",
-    "The instance variable name, distinguishing it from the parameter"
+    "The static variable name shared among Dog objects, unlike the parameter",
+    "The instance variable name, distinguishing it from the parameter",
+    "The Dog constructor itself, distinguishing it from the method parameter"
    ],
-   "a": 3,
+   "a": 2,
    "e": "'this.name' explicitly refers to the object's instance variable, which is otherwise shadowed by the parameter also named 'name'."
   },
   {
@@ -1319,11 +1319,11 @@
    "q": "Which of the following is true about instance variables versus local variables?",
    "o": [
     "Instance variables exist only within their method or block; local variables belong to the object and last as long as it does",
-    "Instance variables belong to the object and exist as long as the object does; local variables exist only within their method/block",
-    "Instance variables are shared by all objects of the class and exist once; local variables are created once for each object",
-    "Both are created when the object is built and are given default values automatically; neither one has any limit on its scope"
+    "Instance variables are shared among the objects of a class and exist once; local variables are created for each object",
+    "Both exist only within a method or block, but instance variables receive default values and local variables must be initialized",
+    "Instance variables belong to the object and exist as long as the object does; local variables exist only within their method/block"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Instance variables persist for the lifetime of the object, while local variables are created and destroyed within the method or block where they're declared.",
    "c": 0
   },
@@ -1343,12 +1343,12 @@
    "u": 2,
    "q": "What will happen if a class has no explicitly written constructor?",
    "o": [
-    "The class cannot be instantiated",
-    "Java provides a default no-argument constructor",
-    "A compile-time error occurs",
-    "Java uses the constructor from the superclass only"
+    "Java requires one, so a compile-time error occurs",
+    "Java supplies a constructor taking each field value",
+    "Java reuses the superclass constructor as its own",
+    "Java provides a default no-argument constructor"
    ],
-   "a": 1,
+   "a": 3,
    "e": "If no constructor is written, Java automatically supplies a default no-argument constructor that does nothing extra.",
    "c": 1
   },
@@ -1417,24 +1417,24 @@
    "u": 2,
    "q": "Given int[] nums is passed to a method as a parameter, what is passed: the array itself or a copy?",
    "o": [
-    "A full copy of every element",
     "A reference to the same array in memory",
-    "Nothing; arrays cannot be parameters",
-    "A copy of only the first element"
+    "A new array that is a copy of the original",
+    "A reference to a copy of the array",
+    "A reference to the array's first element"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Java passes object references (like arrays) by value, but that value is a reference to the same underlying array object, so changes inside the method affect the original array."
   },
   {
    "u": 2,
    "q": "What does 'public' access mean for a method or class?",
    "o": [
-    "Only the class itself can call it",
+    "Classes in its package",
+    "Its class and subclasses",
     "Any class can access it",
-    "Only subclasses can access it",
-    "Only classes in the same package can access it"
+    "Classes that import it"
    ],
-   "a": 1,
+   "a": 2,
    "e": "'public' access means the member is visible and callable from any other class, regardless of package."
   },
   {
@@ -1516,9 +1516,9 @@
    "u": 2,
    "q": "What does calling obj.equals(other) typically check for objects, if equals() has not been overridden?",
    "o": [
-    "Whether the two objects have equal values in all their fields",
-    "Whether the two objects belong to the same class only",
-    "It always returns true for any two non-null objects",
+    "Whether the two objects hold equal values in their fields",
+    "Whether the two objects belong to the same class and package",
+    "Whether the two objects return the same value from hashCode()",
     "Whether the two references point to the exact same object in memory"
    ],
    "a": 3,
@@ -1529,11 +1529,11 @@
    "q": "Which statement about static methods is true?",
    "o": [
     "They belong to each individual object and can directly access instance variables without needing a reference",
+    "They can be called through an object reference but not through the class name, and they run per object",
     "They belong to the class rather than any instance and cannot directly access instance variables",
-    "They can only be called after an object of the class has been created with the new keyword",
     "They can be overridden by subclasses to give different behavior depending on the object's actual type"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Static methods belong to the class itself, so they cannot directly reference instance variables without an object reference."
   },
   {
@@ -1564,12 +1564,12 @@
    "u": 2,
    "q": "What happens if a subclass constructor does not explicitly call super(...)? ",
    "o": [
-    "The compiler rejects the subclass because every constructor must call super explicitly",
-    "Java skips the superclass constructor and leaves the inherited fields uninitialized entirely",
-    "Java automatically inserts a call to the superclass's no-argument constructor first",
-    "Java calls the superclass's copy constructor using the subclass object as its argument"
+    "The compiler rejects the code unless the subclass constructor calls super explicitly",
+    "Java inserts a call to the superclass constructor with the most parameters first",
+    "Java calls the superclass's copy constructor using the subclass object as its argument",
+    "Java automatically inserts a call to the superclass's no-argument constructor first"
    ],
-   "a": 2,
+   "a": 3,
    "e": "If super(...) is not written explicitly, Java automatically inserts a call to the no-argument superclass constructor as the first statement."
   },
   {
@@ -1625,24 +1625,24 @@
    "u": 2,
    "q": "If a method parameter has the same name as an instance variable, how do you refer to the instance variable inside that method?",
    "o": [
-    "Just use the variable name directly",
-    "Use this.variableName",
     "Use super.variableName",
-    "It cannot be done"
+    "Use self.variableName",
+    "Use Object.variableName",
+    "Use this.variableName"
    ],
-   "a": 1,
+   "a": 3,
    "e": "The 'this' keyword disambiguates and accesses the instance variable when a parameter shadows it with the same name."
   },
   {
    "u": 2,
    "q": "Which statement about objects being compared with == is TRUE?",
    "o": [
+    "== compares whether the contents of two objects are equal in value",
+    "== compares whether two references have the same declared type",
     "== compares whether two references point to the same object in memory",
-    "== compares whether the contents of two objects are equal",
-    "== always returns true for any two objects of the same class",
-    "== cannot be applied to objects, only to primitives"
+    "== compares the hash codes of two objects to see if they match"
    ],
-   "a": 0,
+   "a": 2,
    "e": "For reference types like objects, == checks whether both variables refer to the identical object in memory, not whether their contents are equal."
   },
   {
@@ -1713,9 +1713,9 @@
    "q": "In a chain of if / else if / else statements, how many branches can execute?",
    "o": [
     "Exactly one branch: the first one whose condition is true, or the else if none match",
-    "Every branch whose condition is true, checked in order from the top to the bottom of the chain",
+    "Each branch whose condition is true runs, checked in order from top to bottom of the chain",
     "Exactly one branch: the last one whose condition is true, or the else if none match",
-    "At least two branches, since the else always runs after the first true condition's block ends"
+    "Exactly two branches: the first true condition's block, followed by the else block"
    ],
    "a": 0,
    "e": "Java evaluates conditions top to bottom and executes only the first branch found true, skipping the rest; else runs if none matched.",
@@ -1764,11 +1764,11 @@
    "q": "What is a common logic error when using if statements with multiple independent conditions instead of else if?",
    "o": [
     "The compiler reports a syntax error because each if must be followed by its own matching else",
-    "Only the first true condition runs, so later independent conditions are silently skipped over",
-    "The conditions are evaluated from the bottom up, so the final if always overrides the earlier ones",
-    "Multiple blocks may execute when only one was intended, since each if is checked independently"
+    "The first true condition runs and the rest are skipped, so later independent conditions are ignored",
+    "Multiple blocks may execute when only one was intended, since each if is checked independently",
+    "The conditions are evaluated from the bottom up, so the last true if replaces the earlier ones"
    ],
-   "a": 3,
+   "a": 2,
    "e": "Separate if statements are each evaluated on their own, so more than one block can run, unlike a single if/else if chain where only one branch executes.",
    "c": 1
   },
@@ -1813,12 +1813,12 @@
    "u": 3,
    "q": "Given nested conditionals, what determines which inner if-else executes?",
    "o": [
+    "The inner if-else executes if its own condition is true, regardless of the outer one",
     "The inner if-else only executes if its enclosing (outer) condition is true",
-    "Only the outer condition matters, so the inner one always runs",
-    "The inner conditions are always evaluated before the outer one",
-    "Nested conditionals are not allowed in Java at all"
+    "The inner if-else executes whenever its enclosing outer condition is false",
+    "The inner conditions are evaluated first, and the outer one afterward"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Control only reaches a nested if-else block if the surrounding (outer) condition that contains it evaluates to true.",
    "c": 1
   },
@@ -2025,12 +2025,12 @@
    "u": 3,
    "q": "Why should floating-point numbers generally not be compared for exact equality using ==?",
    "o": [
-    "Floating-point numbers are stored as exact decimals, but == only works on integer types in Java",
+    "Floating-point numbers are stored as exact decimals, but == works on integer types in Java",
+    "The == operator on doubles compares object references, so two equal values compare as different",
     "Floating-point rounding errors can make mathematically equal values differ slightly in representation",
-    "The == operator on doubles compares object references, so two equal values are always different",
-    "Doubles can only hold whole numbers, so any fractional value is silently truncated before comparison"
+    "Doubles are converted to int before comparison, so the fractional parts are dropped before == runs"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Because of how doubles are stored in binary, small rounding errors can make two 'equal' calculations differ slightly, so ranges or tolerances are used instead of ==.",
    "c": 3
   },
@@ -2089,12 +2089,12 @@
    "u": 3,
    "q": "Which statement about else-if chains is correct regarding readability compared to nested if statements?",
    "o": [
-    "Else-if chains run slower because every condition is checked even after an earlier one has been true",
+    "Else-if chains run slower because each condition is checked even after an earlier one was true",
     "Nested ifs are required for mutually exclusive conditions because else-if cannot be combined with else",
-    "They behave differently, since else-if lets several branches run while nested if runs just one branch",
-    "They function identically but else-if often reads more clearly for mutually exclusive conditions"
+    "They function identically but else-if often reads more clearly for mutually exclusive conditions",
+    "They behave differently, since else-if lets several branches run while a nested if runs one branch"
    ],
-   "a": 3,
+   "a": 2,
    "e": "else-if chains and equivalent nested if-else structures behave the same, but else-if is usually clearer for a sequence of mutually exclusive conditions."
   },
   {
@@ -2200,11 +2200,11 @@
    "q": "What is the key difference between a while loop and a do-while loop?",
    "o": [
     "A while loop always executes its body at least once, checking its condition after the first pass",
+    "A do-while loop always executes its body at least once, checking the condition after the first pass",
     "A do-while loop can only be used with counters, while a while loop can test any boolean expression",
-    "A do-while loop runs exactly one time more than the equivalent while loop does for every possible input",
-    "A do-while loop always executes its body at least once, checking the condition after the first pass"
+    "A do-while loop cannot use a break statement, while a while loop can exit early with one"
    ],
-   "a": 3,
+   "a": 1,
    "e": "A do-while loop checks its condition after executing the loop body, guaranteeing at least one execution, unlike a while loop which checks first.",
    "c": 2
   },
@@ -2225,12 +2225,12 @@
    "u": 4,
    "q": "What causes an infinite loop in: int i = 0; while (i < 5) { System.out.println(i); }",
    "o": [
-    "i is never modified inside the loop, so the condition remains true forever",
-    "The condition i < 5 is false from the start, so it never ends",
-    "The loop body is empty, so there is nothing to repeat",
-    "A while loop is not allowed to use a less-than comparison"
+    "i is modified inside the loop but never reaches 5, so the condition stays true",
+    "i is declared outside the loop, so its value resets to 0 each iteration",
+    "i is incremented after the condition check, so the condition remains true forever",
+    "i is never modified inside the loop, so the condition remains true forever"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Because i is never incremented inside the loop body, i < 5 stays true forever, creating an infinite loop.",
    "c": 0
   },
@@ -2350,12 +2350,12 @@
    "u": 4,
    "q": "What is the output of: int x = 5; do { System.out.print(x + \" \"); x++; } while (x < 3);",
    "o": [
-    "Nothing prints",
-    "5",
-    "5 6",
-    "Infinite loop"
+    "6",
+    "3",
+    "0",
+    "5"
    ],
-   "a": 1,
+   "a": 3,
    "e": "A do-while loop always executes its body at least once, printing 5 before checking that x < 3 is false and stopping.",
    "c": 2
   },
@@ -2463,9 +2463,9 @@
    "q": "What happens if the update statement of a for loop, like i++, is accidentally omitted, e.g. for (int i = 0; i < 5;) { System.out.print(i); }?",
    "o": [
     "The loop runs infinitely because i never changes",
-    "The loop runs exactly 5 times and then stops normally",
-    "A compile error occurs because the update is missing",
-    "The loop body never runs because i is not updated"
+    "The loop runs 5 times because i increments implicitly",
+    "The loop runs once because i is never incremented",
+    "A compile error occurs because the update is missing"
    ],
    "a": 0,
    "e": "Without an update to i, the condition i < 5 never becomes false, so the loop runs forever (assuming i isn't changed inside the body).",
@@ -2575,11 +2575,11 @@
    "q": "In nested loops, if a break statement is executed inside the inner loop, what happens?",
    "o": [
     "Both loops end at once, and execution resumes after the outer loop's closing brace",
-    "Only the inner loop terminates; the outer loop continues to its next iteration",
     "The inner loop ends and the outer loop also ends after finishing its current iteration",
+    "Only the inner loop terminates; the outer loop continues to its next iteration",
     "Only the current inner pass is skipped; the inner loop keeps running with the next value"
    ],
-   "a": 1,
+   "a": 2,
    "e": "A plain break only exits the loop it is directly inside; the outer loop resumes normally on its own next iteration.",
    "c": 3
   },
@@ -2626,11 +2626,11 @@
    "q": "Which statement about the scope of a for loop's control variable (e.g., i in for (int i...)) is correct?",
    "o": [
     "i stays accessible after the loop ends, holding the first value that made the loop condition false",
-    "i is accessible anywhere in the same method, but only after the loop has finished executing completely",
     "i is only accessible within the for loop's own block and cannot be used after the loop ends",
+    "i is accessible anywhere in the same method, but only after the loop has finished executing completely",
     "i is only accessible within the loop header, and cannot be used inside the body's braces"
    ],
-   "a": 2,
+   "a": 1,
    "e": "A variable declared in the for loop's initialization is scoped only to that loop; it cannot be referenced once the loop has ended."
   },
   {
@@ -2784,11 +2784,11 @@
    "q": "What is the result of trying to change an array element using a for-each loop, e.g. for (int x : arr) { x = 0; }?",
    "o": [
     "It sets every element of arr to 0, since the loop visits each position in order",
+    "It has no effect on the original array, since x is a copy of each element's value",
     "It throws a runtime exception, because arrays cannot be changed inside a for-each loop",
-    "It sets only the first element of arr to 0, because x refers to the array's starting position",
-    "It has no effect on the original array, since x is a copy of each element's value"
+    "It sets only the first element of arr to 0, because x refers to the array's starting position"
    ],
-   "a": 3,
+   "a": 1,
    "e": "In a for-each loop, the loop variable is a copy of the primitive value, so modifying it does not change the actual array."
   },
   {
@@ -2820,12 +2820,12 @@
    "u": 5,
    "q": "What is a requirement for using binary search on an array?",
    "o": [
+    "The array must be numeric",
     "The array must be sorted",
-    "The array must contain only positive numbers",
-    "The array must have an even length",
-    "The array must be reversed first"
+    "The array must be primitive",
+    "The array must be nonempty"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Binary search relies on repeatedly halving the search range based on comparisons, which only works correctly if the array is already sorted.",
    "c": 5
   },
@@ -2858,12 +2858,12 @@
    "u": 5,
    "q": "What is the time complexity of binary search on a sorted array of n elements?",
    "o": [
-    "O(n)",
-    "O(log n)",
     "$O(n^2)$",
-    "O(1) always"
+    "$O(n/2)$",
+    "O(log n)",
+    "$O(2^n)$"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Binary search halves the search space each step, leading to a logarithmic O(log n) time complexity.",
    "c": 5
   },
@@ -3069,22 +3069,22 @@
    "o": [
     "It builds a second sorted array alongside the original, using extra memory proportional to the array's length",
     "It runs in constant time regardless of the array's size, because the elements are never examined or moved",
-    "It rearranges elements within the original array using only a small constant amount of extra memory",
-    "It sorts only a part of the array, leaving the remaining elements in the positions where they started"
+    "It sorts only a part of the array, leaving the remaining elements in the positions where they started",
+    "It rearranges elements within the original array using only a small constant amount of extra memory"
    ],
-   "a": 2,
+   "a": 3,
    "e": "In-place algorithms modify the original data structure directly, without needing significant additional storage proportional to input size."
   },
   {
    "u": 5,
    "q": "What happens when linear search is used to find a value that does not exist in an array?",
    "o": [
+    "It examines every element without finding a match, and typically returns a sentinel like -1",
     "It throws an ArrayIndexOutOfBoundsException when the search reaches the end without locating the target",
     "It stops after checking half of the elements and returns 0 to show that nothing was found",
-    "It examines every element without finding a match, and typically returns a sentinel like -1",
     "It loops back to the first element and begins checking again, continuing until the program is stopped"
    ],
-   "a": 2,
+   "a": 0,
    "e": "Linear search checks every element; when the target isn't present, the search completes the whole array and conventionally signals failure with a value like -1."
   },
   {
@@ -3227,11 +3227,11 @@
    "q": "What happens to the indices of elements after list.remove(2) is called on an ArrayList?",
    "o": [
     "All elements before index 2 shift up by one index to make room",
-    "Index 2 is left empty as null, and every other element keeps its index",
-    "All elements after index 2 shift down by one index to fill the gap",
-    "The remaining elements are renumbered starting from 1 after the removal"
+    "The element at index 2 is swapped with the last element, shrinking the list",
+    "All elements after index 2 shift down by two indices to fill the gap",
+    "All elements after index 2 shift down by one index to fill the gap"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Removing an element from an ArrayList shifts all subsequent elements one position earlier to keep the list contiguous.",
    "c": 1
   },
@@ -3324,12 +3324,12 @@
    "u": 6,
    "q": "What is the safest general approach to avoid skipping elements when removing items from an ArrayList during iteration?",
    "o": [
-    "Iterate backward from the end of the list toward the beginning",
     "Iterate forward through the list and increment the index normally",
-    "Never remove elements from an ArrayList while looping",
-    "Use recursion in place of any loop at all"
+    "Iterate backward from the end of the list toward the beginning",
+    "Iterate forward and increment the index twice after each removal",
+    "Use a for-each loop and call remove inside the loop body"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Iterating backward means that removing an element only affects indices already processed, avoiding the skip issue that occurs when iterating forward.",
    "c": 2
   },
@@ -3521,9 +3521,9 @@
    "q": "When a method has a parameter ArrayList<Integer> list and modifies it by calling list.add(5), what happens to the original list passed by the caller?",
    "o": [
     "The original list is unchanged, since Java passes a separate copy of the whole list to the method",
-    "A runtime error occurs, because a method is not allowed to change a list that the caller created",
+    "The original list is modified once the method returns, since the changes are copied back",
     "The original list is also modified, since the reference passed points to the same object",
-    "Only the size of the original list changes, while its existing elements stay as they were before"
+    "The original list is unchanged unless the parameter is reassigned to point at a new list"
    ],
    "a": 2,
    "e": "Because the reference (not a copy of the object) is passed, calling mutating methods like add() on the parameter affects the same object the caller has."
@@ -3532,12 +3532,12 @@
    "u": 6,
    "q": "What is the best way to check if an ArrayList<Integer> list is empty before calling list.get(0)?",
    "o": [
-    "Just call list.get(0) directly without checking anything",
+    "Check if (list.get(0) != null) before calling list.get(0) again",
+    "Wrap the call in try/catch for NullPointerException before accessing elements",
     "Check if (!list.isEmpty()) or (list.size() > 0) before accessing elements",
-    "Always assume that the list has at least one element",
-    "Check whether list.length == 0 before reading the element"
+    "Check whether (list.length() == 0) before reading the first element"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Checking isEmpty() or size() > 0 before accessing an element avoids an IndexOutOfBoundsException on an empty list."
   },
   {
@@ -3792,12 +3792,12 @@
    "u": 7,
    "q": "What is the purpose of the 'protected' access modifier?",
    "o": [
-    "Accessible only within the exact same class that declares it",
-    "Accessible within the same class, subclasses, and the same package",
-    "Accessible from any class located anywhere in the program",
-    "Not accessible from any class, including the declaring class"
+    "Accessible within the same class and the same package, but not subclasses",
+    "Accessible within the same class and its subclasses, but not the package",
+    "Accessible within the same class, subclasses, and any other package",
+    "Accessible within the same class, subclasses, and the same package"
    ],
-   "a": 1,
+   "a": 3,
    "e": "'protected' members are accessible within the declaring class, its subclasses (even in other packages), and other classes in the same package."
   },
   {
@@ -3842,11 +3842,11 @@
    "q": "What does it mean if a subclass 'is-a' type of its superclass, e.g. a Dog is-a Animal?",
    "o": [
     "Every Animal object can also be treated as a Dog object, since the superclass inherits from the subclass and so substitutes for it",
+    "Every Dog object can also be treated as an Animal object due to inheritance, satisfying the substitution principle",
     "A Dog object contains an Animal object as a field, which it uses to forward method calls to the superclass",
-    "Dog and Animal must share the same constructor parameters, so that either one can be created from the other",
-    "Every Dog object can also be treated as an Animal object due to inheritance, satisfying the substitution principle"
+    "Dog and Animal must share the same constructor parameters, so that either one can be created from the other"
    ],
-   "a": 3,
+   "a": 1,
    "e": "The is-a relationship means a subclass object can be used anywhere its superclass type is expected, since it inherits and extends that type's capabilities.",
    "c": 2
   },
@@ -3867,10 +3867,10 @@
    "u": 7,
    "q": "What happens if a class extends another class but does not override any of its methods?",
    "o": [
-    "The subclass cannot be instantiated until it overrides something",
+    "The subclass inherits the methods but must redeclare them with the same signatures",
     "The subclass simply inherits and uses the superclass's implementations as-is",
-    "A compile error occurs since nothing was overridden",
-    "All of the inherited methods become private in the subclass"
+    "The subclass inherits copies of the methods, so later superclass edits do not apply",
+    "The subclass inherits the superclass's fields but not its non-private methods"
    ],
    "a": 1,
    "e": "Without any overrides, calling an inherited method on the subclass object simply runs the superclass's original implementation."
@@ -3892,12 +3892,12 @@
    "u": 7,
    "q": "Which best describes a jagged 2D array in Java?",
    "o": [
+    "A 2D array whose rows must be sorted by length from shortest to longest",
+    "A 2D array stored as a single 1D array of length rows times columns",
     "A 2D array where different rows can have different numbers of columns",
-    "A 2D array in which every row must have the same number of columns",
-    "An array that cannot be traversed by using loops",
-    "An array that holds exactly two elements"
+    "A 2D array that has been partly initialized, with some rows left as null"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Unlike a strictly rectangular 2D array, a jagged array allows each row (sub-array) to have its own independent length.",
    "c": 0
   },
@@ -4106,12 +4106,12 @@
    "u": 7,
    "q": "Which of the following is true when a subclass method has the same name as a superclass method but a different parameter list?",
    "o": [
-    "This is overriding, since the method name is the same",
-    "This causes a compile error because the signatures differ",
     "This is overloading, not overriding, since the parameter lists differ",
-    "This is legal only when the methods are declared static"
+    "This is overriding, since the name and return type of the methods are the same",
+    "This is a compile error, since the signatures of the methods differ",
+    "This is called hiding, and applies when the methods have different return types"
    ],
-   "a": 2,
+   "a": 0,
    "e": "Because overriding requires an identical parameter list, a differing parameter list makes this a new overloaded method rather than an override.",
    "c": 3
   },
@@ -4169,9 +4169,9 @@
    "u": 8,
    "q": "What is the most likely result of a recursive method that has no base case, or whose base case is never reached?",
    "o": [
-    "It returns 0 once the first call ends, because the method never reaches a return",
-    "A compile-time error, because Java detects that the base case cannot be reached",
-    "It loops indefinitely without any error, because Java grows the stack as needed",
+    "It eventually causes an OutOfMemoryError once the heap fills with new objects",
+    "It eventually ends when Java stops the calls and returns the default value",
+    "It is rejected at compile time because the method has no base case",
     "It eventually causes a StackOverflowError due to infinite recursive calls"
    ],
    "a": 3,
@@ -4306,9 +4306,9 @@
    "q": "What is the relationship between recursion and iteration (loops)?",
    "o": [
     "Many problems solvable by loops can also be solved recursively, and vice versa, though one approach may be more natural or efficient for a given problem",
-    "Recursion and iteration solve completely different kinds of problems, so a problem solved by a loop cannot be rewritten recursively, and the reverse is also true",
+    "Recursion and iteration solve different kinds of problems, so a problem solved by a loop cannot be rewritten recursively, and the reverse is also true",
     "Recursion is faster and uses less memory than iteration, so loops should be replaced by recursive methods whenever a problem allows it",
-    "Every recursive method must be rewritten as a loop before it can compile, because Java cannot run methods that call themselves directly"
+    "Each recursive method must be rewritten as a loop before it can compile, because Java cannot run methods that call themselves directly"
    ],
    "a": 0,
    "e": "Recursion and iteration are both mechanisms for repetition, and many problems can be expressed with either approach, though efficiency and clarity may differ.",
@@ -4355,24 +4355,24 @@
    "u": 8,
    "q": "In merge sort, what is the base case for the recursive sorting of a sub-array?",
    "o": [
-    "The sub-array is always of length 10 when it is reached",
-    "A sub-array of length 0 or 1, which is already trivially sorted",
-    "The sub-array must be sorted manually before recursion starts",
-    "There is no base case, so the recursion ends on its own"
+    "A sub-array of length n/2, which is half the size of the original array",
+    "A sub-array containing the middle element, which splits the two halves",
+    "A sub-array that is already in ascending order, found by a check",
+    "A sub-array of length 0 or 1, which is already trivially sorted"
    ],
-   "a": 1,
+   "a": 3,
    "e": "A sub-array with 0 or 1 elements is inherently already sorted, so merge sort's recursion stops there and begins merging results back together."
   },
   {
    "u": 8,
    "q": "What two main steps does merge sort perform after dividing an array into two halves recursively?",
    "o": [
-    "Print each half separately and then discard the originals",
-    "Discard one half and keep sorting only the other half",
+    "Sort one half and merge it with the other half, which stays unsorted",
     "Sort each half and merge the two sorted halves into one sorted array",
-    "Reverse each half and then join the two reversed halves"
+    "Sort each half and swap the two halves to produce one sorted array",
+    "Partition each half around a pivot and join the two partitions"
    ],
-   "a": 2,
+   "a": 1,
    "e": "After recursively sorting each half, merge sort combines (merges) the two sorted halves into a single sorted array by comparing elements in order.",
    "c": 5
   },
@@ -4631,11 +4631,11 @@
    "q": "What would likely happen if the recursive case in a Fibonacci method called fib(n-1) and fib(n+1) instead of fib(n-1) and fib(n-2)?",
    "o": [
     "It would still terminate correctly, since the fib(n-1) branch reaches the base case and the fib(n+1) branch is simply ignored",
-    "It would likely never reach the base case in the fib(n+1) branch, causing infinite recursion and a StackOverflowError",
     "It would compute the same Fibonacci values but return them in reverse order because n+1 is evaluated before the n-1 call",
+    "It would likely never reach the base case in the fib(n+1) branch, causing infinite recursion and a StackOverflowError",
     "It would reach the base case quickly in both branches, causing a compile-time error because n+1 exceeds the declared parameter"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Calling fib(n+1) moves away from the base case rather than toward it, so that branch of recursion would never terminate, leading to a stack overflow."
   },
   {
@@ -6130,11 +6130,11 @@
    "q": "Binary search requires that the array be:",
    "o": [
     "Unique",
-    "Of integers only",
-    "Sorted",
-    "Of even length"
+    "Hashed",
+    "Sparse",
+    "Sorted"
    ],
-   "a": 2,
+   "a": 3,
    "e": "It halves the search range by comparing with the middle element."
   }
  ]

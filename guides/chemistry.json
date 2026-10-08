@@ -2324,11 +2324,11 @@
    "q": "When a mixture of water, sand, and salt is filtered, what passes through the filter paper?",
    "o": [
     "Water and sand only",
-    "Water and salt only",
-    "Water, sand, and salt",
-    "Water only"
+    "Sand and salt only",
+    "Water, salt and sand",
+    "Water and salt only"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Sand is insoluble and is caught by the filter. Salt and water (solution) pass through. Answer: water and dissolved salt."
   },
   {
@@ -2530,12 +2530,12 @@
    "u": 2,
    "q": "Trailing zeros in 1500 (no decimal) are:",
    "o": [
-    "Always significant since they follow a nonzero digit",
-    "Never significant since they only mark place value",
     "Ambiguous — can't tell without more info",
-    "Exactly two of them are significant by convention"
+    "Significant, since they follow a nonzero digit",
+    "Not significant; they act as place holders",
+    "Counted as one significant figure by convention"
    ],
-   "a": 2,
+   "a": 0,
    "e": "Without a decimal, trailing zeros are ambiguous. Scientific notation clarifies: 1.5×10³ (2 s.f.) or 1.500×10³ (4 s.f.)."
   },
   {
@@ -2742,12 +2742,12 @@
    "u": 3,
    "q": "In a bright-line spectrum, each line represents:",
    "o": [
-    "An electron absorbing energy to reach a higher level",
-    "A proton being emitted from the nucleus",
-    "An electron transitioning to a lower energy level",
-    "An electron being removed completely from the atom"
+    "An electron transitioning to a higher energy level",
+    "An electron absorbing a photon of a specific wavelength",
+    "A nucleus transitioning to a lower energy state",
+    "An electron transitioning to a lower energy level"
    ],
-   "a": 2,
+   "a": 3,
    "e": "When an excited electron falls to a lower energy level, it emits a photon of specific wavelength → bright line.",
    "c": 4
   },
@@ -3213,12 +3213,12 @@
    "u": 4,
    "q": "Alkali metals (Group 1) react vigorously with water to form:",
    "o": [
-    "Acids",
-    "Metal oxides only",
-    "No reaction",
-    "Metal hydroxide + H₂ gas"
+    "Metal oxide + hydrogen gas",
+    "Metal hydroxide + H₂ gas",
+    "Metal hydroxide + O₂ gas",
+    "Metal chloride + H₂ gas"
    ],
-   "a": 3,
+   "a": 1,
    "e": "2Na + 2H₂O → 2NaOH + H₂↑. Alkali metals react violently with water.",
    "c": 0
   },
@@ -3388,12 +3388,12 @@
    "u": 5,
    "q": "An ionic solid (e.g., NaCl) conducts electricity:",
    "o": [
-    "Always",
     "Only when dissolved or melted",
-    "Only as a solid",
-    "Never"
+    "Only when solid or dissolved",
+    "Only when melted, not dissolved",
+    "Only when dissolved, not melted"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Ionic solids: ions are locked in lattice → can't conduct. Dissolved or molten: ions are mobile → conduct.",
    "c": 5
   },
@@ -3564,9 +3564,9 @@
    "q": "BF₃ has polar B-F bonds but is a nonpolar molecule. Why?",
    "o": [
     "Trigonal planar geometry → dipoles cancel",
-    "B and F have identical electronegativity values",
-    "It contains only single bonds between atoms",
-    "The central boron atom has one lone pair"
+    "Trigonal pyramidal geometry → dipoles cancel",
+    "Trigonal planar geometry → dipoles add up",
+    "Tetrahedral geometry → dipoles cancel out"
    ],
    "a": 0,
    "e": "BF₃ is trigonal planar (120° symmetric) → 3 equal B-F dipoles cancel → nonpolar overall.",
@@ -3826,12 +3826,12 @@
    "u": 6,
    "q": "The first step in finding empirical formula from percent composition is:",
    "o": [
-    "Convert mole ratios to whole numbers by multiplying",
+    "Convert grams of each element to moles using molar mass",
+    "Divide each mole value by the smallest mole value",
     "Convert percentages to grams (assume 100 g sample)",
-    "Divide every percentage by the smallest percentage",
-    "Calculate the molecular mass of the compound"
+    "Convert mole ratios to whole-number subscripts"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Assume 100 g sample → % becomes grams directly. Then divide each by its molar mass to get moles."
   },
   {
@@ -4567,12 +4567,12 @@
    "u": 8,
    "q": "At what region of the heating curve does PE increase while KE stays constant?",
    "o": [
-    "Sloped sections only",
-    "Throughout the entire curve",
-    "Only when temperature = 0°C",
-    "Flat sections (phase changes) only"
+    "Flat sections (phase changes) only",
+    "Sloped sections (heating) only",
+    "Flat sections, where KE also increases",
+    "Flat sections, where PE stays constant"
    ],
-   "a": 3,
+   "a": 0,
    "e": "At flat sections (phase changes): energy goes into overcoming IMFs (PE ↑), not increasing motion (KE/T constant)."
   },
   {
@@ -4653,12 +4653,12 @@
    "u": 8,
    "q": "The boiling point of a liquid is the temperature where:",
    "o": [
-    "Every molecule has enough kinetic energy to escape",
-    "Intermolecular forces drop to zero in the liquid",
-    "The liquid temperature reaches exactly 100°C",
-    "Vapor pressure equals atmospheric pressure"
+    "Vapor pressure is half the atmospheric pressure",
+    "Vapor pressure equals atmospheric pressure",
+    "Liquid density equals the density of its vapor",
+    "Surface tension equals the atmospheric pressure"
    ],
-   "a": 3,
+   "a": 1,
    "e": "Boiling occurs when vapor pressure = atmospheric pressure. The 'normal' BP is at 101.3 kPa.",
    "c": 5
   },
@@ -5134,12 +5134,12 @@
    "u": 9,
    "q": "Which gas behaves most like an ideal gas, and why?",
    "o": [
-    "H₂ has hydrogen bonding; NH₃ has only weak LDFs",
     "NH₃ has hydrogen bonding; H₂ has only very weak LDFs",
-    "NH₃ is heavier and less polar, so it acts more ideally",
-    "H₂ is polar with strong dipole attractions between molecules"
+    "H₂ has hydrogen bonding; NH₃ has only weak LDFs",
+    "Both have hydrogen bonding, but H₂ is far lighter than NH₃",
+    "NH₃ has only weak LDFs; H₂ has strong dipole forces"
    ],
-   "a": 1,
+   "a": 0,
    "e": "NH₃ has strong H-bonding (H to N) → significant IMFs → large deviation from ideal. H₂ has negligible IMFs.",
    "c": 2
   },
@@ -5159,12 +5159,12 @@
    "u": 9,
    "q": "At 300 K, gas particles collide with a certain force. How does the force of collisions change at 450 K?",
    "o": [
-    "Force increases — particles move faster at higher temperature",
     "Force decreases — particles slow down at higher temperature",
-    "Force stays the same — temperature changes only the collision rate",
-    "Force stays constant — particle speed depends on mass alone"
+    "Force stays the same — temperature changes the collision rate, not speed",
+    "Force decreases — particles spread farther apart at higher temperature",
+    "Force increases — particles move faster at higher temperature"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Higher temperature → higher average KE → particles move faster → collide with greater force."
   },
   {
@@ -5371,12 +5371,12 @@
    "u": 10,
    "q": "Which has a greater effect on boiling point elevation — 1 mol NaCl or 1 mol sugar dissolved in water?",
    "o": [
-    "1 mol sugar — heavier molecule",
-    "Equal effect — colligative depends only on moles",
-    "1 mol NaCl — it's ionic",
-    "1 mol NaCl — dissociates into 2 mol ions"
+    "1 mol sugar — has the larger molar mass",
+    "Equal effect — both add 1 mol of solute",
+    "1 mol NaCl — dissociates into 2 mol ions",
+    "1 mol sugar — forms hydrogen bonds with water"
    ],
-   "a": 3,
+   "a": 2,
    "e": "1 mol NaCl → 2 mol particles (Na⁺ + Cl⁻). Colligative properties depend on particle COUNT → NaCl has greater effect.",
    "c": 5
   },
@@ -5510,12 +5510,12 @@
    "u": 10,
    "q": "A hot saturated KNO₃ solution is slowly cooled. What happens?",
    "o": [
-    "More KNO₃ dissolves",
-    "Nothing changes",
-    "Excess KNO₃ crystallizes out",
-    "The solution becomes unsaturated immediately"
+    "KNO₃ dissolves more readily",
+    "The solution becomes unsaturated",
+    "Excess water evaporates away",
+    "Excess KNO₃ crystallizes out"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Cooling lowers solubility → solution goes above the curve (supersaturated) → excess KNO₃ crystallizes out."
   },
   {
@@ -5663,9 +5663,9 @@
    "q": "ΔH = +85 kJ. This reaction is:",
    "o": [
     "Exothermic",
-    "At equilibrium",
+    "Irreversible",
     "Endothermic",
-    "Spontaneous always"
+    "Isothermal"
    ],
    "a": 2,
    "e": "Positive ΔH = energy absorbed = endothermic."
@@ -6064,8 +6064,8 @@
    "o": [
     "Toward reactants (to use up the remaining product)",
     "Toward products (to replace the removed product)",
-    "No shift because only reactant changes affect equilibrium",
-    "Toward neither side because the equilibrium constant is fixed"
+    "Toward reactants (to replace the removed product)",
+    "Toward neither side, since Keq remains fixed"
    ],
    "a": 1,
    "e": "Removing product = stress on product side → system shifts RIGHT to replace it (toward products).",
@@ -6076,9 +6076,9 @@
    "q": "For the reaction: N₂(g) + 3H₂(g) ⇌ 2NH₃(g), increasing pressure shifts equilibrium:",
    "o": [
     "Left (toward 4 mol gas — more moles)",
-    "No effect (moles of gas are equal on both sides)",
+    "No shift (equal moles of gas on both sides)",
     "Right (toward 2 mol gas — fewer moles)",
-    "Left (toward 2 mol gas — fewer moles)"
+    "Left (toward the side with fewer gas moles)"
    ],
    "a": 2,
    "e": "Higher pressure → shift toward fewer moles of gas. Left side has 4 mol gas, right has 2 → shifts RIGHT.",
@@ -6103,7 +6103,7 @@
     "Only the equilibrium position (more product forms)",
     "Both the rate and the equilibrium constant",
     "Only the reaction rate (more collision sites)",
-    "The Keq value (more surface area shifts it)"
+    "Only the enthalpy change (more bonds are exposed)"
    ],
    "a": 2,
    "e": "Greater surface area = more exposed particles = faster rate. Doesn't change Keq or equilibrium concentrations.",
@@ -6228,9 +6228,9 @@
    "u": 12,
    "q": "At equilibrium, concentrations of reactants and products are:",
    "o": [
-    "Equal",
-    "Both zero",
-    "Always 50/50",
+    "Equal, with no further change",
+    "Slowly changing toward equal values",
+    "Constant (and exactly equal)",
     "Constant (not necessarily equal)"
    ],
    "a": 3,
@@ -6265,9 +6265,9 @@
    "q": "A sealed 100-mL flask contains 50 g of water at 25°C. Which term best describes this system?",
    "o": [
     "Chemical equilibrium only",
-    "Condensation only",
+    "Neither type of equilibrium",
     "Physical equilibrium only",
-    "Evaporation only"
+    "Solution equilibrium only"
    ],
    "a": 2,
    "e": "Sealed flask with liquid water: evaporation rate = condensation rate → liquid-vapor physical equilibrium. No chemical reaction occurs.",
@@ -6519,12 +6519,12 @@
    "u": 13,
    "q": "A weak acid in water:",
    "o": [
+    "Fully dissociates, reaches equilibrium",
+    "Dissociates partially, forms no conjugate base",
     "Partially dissociates, reaches equilibrium",
-    "Fully dissociates, no equilibrium",
-    "Does not dissolve, forms no ions",
-    "Ionizes completely, has a pH below 0"
+    "Dissolves but does not react with water"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Weak acids only partially ionize — an equilibrium is established between the acid and its ions.",
    "c": 1
   },
@@ -7346,12 +7346,12 @@
    "u": 15,
    "q": "Which type of decay does NOT change the mass number?",
    "o": [
-    "Alpha only",
-    "Alpha and beta",
-    "Only gamma",
-    "Beta and positron (and gamma)"
+    "Alpha and beta, but not gamma",
+    "Beta and positron (and gamma)",
+    "Alpha and positron (and gamma)",
+    "Beta and gamma, but not positron"
    ],
-   "a": 3,
+   "a": 1,
    "e": "Beta: mass unchanged, atomic# +1. Positron: mass unchanged, atomic# −1. Gamma: no changes. Alpha: mass −4. So beta, positron, and gamma don't change mass number.",
    "c": 0
   },
@@ -8952,12 +8952,12 @@
    "u": 3,
    "q": "Isotopes of an element differ in the number of:",
    "o": [
-    "Protons",
-    "Electrons only",
     "Neutrons",
-    "Valence electrons"
+    "Protons",
+    "Electrons",
+    "Orbitals"
    ],
-   "a": 2,
+   "a": 0,
    "e": "They share an atomic number but have different mass numbers.",
    "c": 3
   },
@@ -9040,12 +9040,12 @@
    "u": 12,
    "q": "Increasing the temperature of an endothermic equilibrium will:",
    "o": [
-    "Shift it toward the reactants",
-    "Have no effect",
     "Shift it toward the products",
-    "Stop the reaction"
+    "Shift it toward the reactants",
+    "Lower the equilibrium constant",
+    "Raise the rate without a shift"
    ],
-   "a": 2,
+   "a": 0,
    "e": "Heat acts as a reactant in an endothermic process.",
    "c": 5
   },
@@ -9091,11 +9091,11 @@
    "q": "Hydrocarbons that contain at least one carbon-carbon double bond are called:",
    "o": [
     "Alkanes",
-    "Alkynes",
     "Alkenes",
-    "Aromatics only"
+    "Alkynes",
+    "Alkyls"
    ],
-   "a": 2,
+   "a": 1,
    "e": "Alkanes have only single bonds."
   },
   {

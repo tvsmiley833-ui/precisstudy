@@ -327,12 +327,12 @@
    "u": 1,
    "q": "A team builds a program by designing a prototype, testing it with users, and then revising it repeatedly. This is an example of:",
    "o": [
-    "A waterfall process",
-    "Random testing",
-    "An iterative development process",
-    "Sequential execution"
+    "A waterfall development process",
+    "An incremental development process",
+    "A top-down development process",
+    "An iterative development process"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Iterative development repeats the cycle of design, test, feedback and revision.",
    "c": 0
   },
@@ -340,12 +340,12 @@
    "u": 1,
    "q": "Which is the main benefit of collaboration when developing a program?",
    "o": [
-    "It guarantees that the finished program will contain no bugs at all",
-    "Different perspectives and skills improve the quality of the solution",
-    "It removes the need for testing because teammates check every line",
-    "It makes the finished program shorter and faster for every user"
+    "Each member can work in isolation, which speeds up the final testing phase",
+    "Shared code ownership lets the team skip documentation of design decisions",
+    "Dividing the work reduces the total time needed to write the program by half",
+    "Different perspectives and skills improve the quality of the solution"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Diverse viewpoints help catch problems and generate better ideas.",
    "c": 0
   },
@@ -444,12 +444,12 @@
    "u": 1,
    "q": "Which is the best reason to test a program with a variety of inputs?",
    "o": [
-    "To make the program run faster for every possible kind of input",
+    "To measure how fast the program runs on larger values",
+    "To check that the output formatting stays consistent",
     "To find errors that appear only for certain values",
-    "To reduce the number of variables the program needs to store",
-    "To avoid having to write comments explaining each procedure"
+    "To confirm that repeated runs give the same result"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Edge cases and unusual inputs reveal bugs.",
    "c": 2
   },
@@ -469,12 +469,12 @@
    "u": 1,
    "q": "A program is considered to have an unintended effect when it:",
    "o": [
-    "Runs exactly as designed and produces only the planned results",
     "Produces a result the creators did not plan, which may be harmful",
-    "Is fully documented so that every behavior has been described",
-    "Has been tested thoroughly and passes every planned test case"
+    "Produces a result the creators planned, which may be harmful to users",
+    "Produces an error message the creators wrote to alert the user",
+    "Is used by a group the creators intended, which may be beneficial"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Innovations can have beneficial and harmful unintended consequences.",
    "c": 1
   },
@@ -495,12 +495,12 @@
    "u": 1,
    "q": "An overflow error occurs when:",
    "o": [
+    "A calculated value is too small to be stored with the available bits",
+    "A calculated value has more decimal digits than can be stored exactly",
     "A calculated value is too large to be stored with the available bits",
-    "A program has too few comments to describe all of its procedures",
-    "The user enters text where the program expected a number",
-    "A loop never begins because its condition is false at the start"
+    "A calculation divides a value by zero and returns an undefined result"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Computers store numbers using a fixed number of bits.",
    "c": 2
   },
@@ -509,9 +509,9 @@
    "q": "Incremental development means:",
    "o": [
     "Building and testing a program in small pieces",
-    "Writing all of the code first and then testing it only once",
-    "Testing only at the very end after the program is finished",
-    "Using only one large function for the entire program"
+    "Writing the full program, then testing it in pieces",
+    "Building small pieces, testing after the last one",
+    "Testing a finished program with small sets of data"
    ],
    "a": 0,
    "e": "Small steps make it easier to find and fix problems."
@@ -673,12 +673,12 @@
    "u": 2,
    "q": "Increasing the sampling rate when digitizing sound will generally:",
    "o": [
-    "Decrease the quality while the file size stays the same",
-    "Decrease the file size only, with no change in sound quality",
-    "Have no effect on either the quality or the file size",
-    "Increase the quality and the file size"
+    "Increase the quality and the file size",
+    "Increase the quality but not the file size",
+    "Decrease the file size and the quality",
+    "Increase the file size but not the quality"
    ],
-   "a": 3,
+   "a": 0,
    "e": "More samples per second capture the sound wave more accurately.",
    "c": 1
   },
@@ -789,12 +789,12 @@
    "u": 3,
    "q": "Which of the following describes big data?",
    "o": [
-    "Data sets stored in a very large spreadsheet that opens slowly",
-    "Data collected only by computers that have very large screens",
-    "Data sets so large that they require special tools such as parallel processing",
-    "Any data stored in a single file on one computer's hard drive"
+    "Data sets that change so often that they must be stored in the cloud",
+    "Data sets that are too sensitive to share and so require encryption tools",
+    "Data sets containing many rows that can still be sorted in a spreadsheet",
+    "Data sets so large that they require special tools such as parallel processing"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Big data is too large or complex for traditional tools.",
    "c": 1
   },
@@ -828,10 +828,10 @@
    "u": 3,
    "q": "Which of the following is an example of filtering data?",
    "o": [
-    "Sorting the names in the data set into alphabetical order",
+    "Sorting the rows in order from oldest to youngest",
     "Selecting only the rows where the age is over 18",
-    "Adding a new column that is calculated from existing columns",
-    "Encrypting the file so that only authorized users can open it"
+    "Adding a column that gives each person's age group",
+    "Combining two tables by matching on a shared ID column"
    ],
    "a": 1,
    "e": "Filtering keeps the data that meet a condition.",
@@ -917,12 +917,12 @@
    "u": 3,
    "q": "A spreadsheet has a column of dates and a column of sales. Which analysis would show how sales change over time?",
    "o": [
-    "A list of dates alone",
-    "Sorting by the sales column only",
-    "A line graph of sales by date",
-    "Deleting the dates"
+    "A histogram of the sales values",
+    "A sorted list of sales amounts",
+    "A table of the average sales",
+    "A line graph of sales by date"
    ],
-   "a": 2,
+   "a": 3,
    "e": "A time series shows trends."
   },
   {
@@ -942,12 +942,12 @@
    "u": 3,
    "q": "Why can a large data set still lead to a wrong conclusion?",
    "o": [
+    "It may contain too many records for the analysis to be reproducible",
+    "Correlations found in it must show that one variable causes another",
     "It may be biased or may not represent the question being asked",
-    "Large data sets are always correct because of the amount of data",
-    "Computers cannot process data sets that contain so many records",
-    "Large data sets never contain any patterns that can be found"
+    "It may be stored on servers in several countries, which alters the data"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Size does not guarantee quality."
   },
   {
@@ -1018,9 +1018,9 @@
    "u": 4,
    "q": "Which of the following algorithms runs in a reasonable time?",
    "o": [
+    "One whose steps grow as n factorial",
     "One whose steps grow as 2 to the n",
-    "One that tries every possible arrangement of a large input",
-    "One that never ends",
+    "One whose steps grow as 10 to the n",
     "One whose steps grow as n squared"
    ],
    "a": 3,
@@ -1044,12 +1044,12 @@
    "u": 4,
    "q": "Which of the following is true of a simulation?",
    "o": [
-    "It is always exactly like reality and includes every detail",
     "It models a real system and can leave out details",
-    "It cannot include any randomness or unpredictable events",
-    "It requires no data because the results are made up"
+    "It models a real system but must keep all of its details",
+    "It models a real system and removes the need for real data",
+    "It models a real system and gives results identical to reality"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Simplifications help explore scenarios safely and cheaply.",
    "c": 2
   },
@@ -1133,12 +1133,12 @@
    "u": 4,
    "q": "Using random numbers in a simulation means that:",
    "o": [
-    "Results are always identical every time it runs",
-    "The program cannot run because computers cannot be random",
-    "The simulation is wrong and its results should be ignored",
-    "Results may differ each time it runs"
+    "Results will repeat exactly on each run",
+    "Results may differ each time it runs",
+    "The program must be run on a faster computer",
+    "Results cannot be compared to real data"
    ],
-   "a": 3,
+   "a": 1,
    "e": "Randomness introduces variation.",
    "c": 2
   },
@@ -1146,12 +1146,12 @@
    "u": 4,
    "q": "Selection in an algorithm means:",
    "o": [
-    "Repeating a group of steps until a condition is met",
-    "Running the steps one after another in the order written",
-    "Ending the algorithm once all of the data is processed",
-    "Choosing between paths based on a condition"
+    "Repeating steps until a condition becomes true",
+    "Choosing between paths based on a condition",
+    "Executing steps in the order they are written",
+    "Grouping steps into a reusable named procedure"
    ],
-   "a": 3,
+   "a": 1,
    "e": "IF statements implement selection.",
    "c": 0
   },
@@ -1276,8 +1276,8 @@
    "o": [
     "A",
     "B",
-    "AB",
-    "Nothing"
+    "7",
+    "5"
    ],
    "a": 0,
    "e": "The condition 7 > 5 is true.",
@@ -1337,9 +1337,9 @@
    "u": 5,
    "q": "Which is the main advantage of procedural abstraction?",
    "o": [
-    "It makes every program run faster by shortening the code",
-    "It removes the need for variables in a program",
-    "It reduces the number of bits needed to store data",
+    "It lets a procedure run in less time by reusing the same variables",
+    "It ensures a procedure produces correct output for the inputs given",
+    "It lets programmers skip testing when a procedure is reused",
     "A procedure can be used without knowing the details of how it works"
    ],
    "a": 3,
@@ -1350,12 +1350,12 @@
    "u": 5,
    "q": "Which statement about parameters is true?",
    "o": [
-    "A procedure may have only one parameter, which must be a number",
-    "Parameters are the values that a procedure sends back when it ends",
-    "Parameters must always be numbers and cannot be strings or lists",
-    "Parameters let a procedure work with different input values each time it is called"
+    "Parameters hold the values a procedure returns to the part that called it",
+    "Parameters are fixed in a procedure's body and cannot change between calls",
+    "Parameters let a procedure work with different input values each time it is called",
+    "A procedure must have at least one parameter for it to be called properly"
    ],
-   "a": 3,
+   "a": 2,
    "e": "Parameters make procedures reusable."
   },
   {
@@ -1375,12 +1375,12 @@
    "u": 5,
    "q": "What are the possible values of RANDOM(1, 6)?",
    "o": [
+    "Integers from 0 to 6, inclusive",
     "Integers from 1 to 6, inclusive",
-    "Integers from 1 to 5",
-    "Decimals between 1 and 6",
-    "Only 1 and 6"
+    "Integers from 1 to 6, exclusive",
+    "Integers from 1 to 7, inclusive"
    ],
-   "a": 0,
+   "a": 1,
    "e": "The AP RANDOM procedure includes both endpoints.",
    "c": 2
   },
@@ -1427,10 +1427,10 @@
    "u": 6,
    "q": "The role of the Domain Name System (DNS) is to:",
    "o": [
-    "Encrypt messages so that only the receiver can read them",
-    "Compress files so that they travel faster across the network",
+    "Assign IP addresses to devices when they join",
+    "Route packets along the fastest path to a host",
     "Translate domain names into IP addresses",
-    "Store web pages so that they load more quickly later"
+    "Verify that a website's certificate is trusted"
    ],
    "a": 2,
    "e": "Computers route using IP addresses, not names.",
@@ -1452,12 +1452,12 @@
    "u": 6,
    "q": "Open protocols are important to the Internet because they:",
    "o": [
+    "Let a single company control how devices connect",
     "Allow different devices and systems to communicate",
-    "Keep the Internet private so only approved users connect",
-    "Reduce the number of users who can join the network",
-    "Compress data so that it travels faster between devices"
+    "Guarantee that packets arrive without being lost",
+    "Encrypt traffic so that outsiders cannot read it"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Anyone can build a system that follows them.",
    "c": 0
   },
@@ -1504,12 +1504,12 @@
    "u": 6,
    "q": "Which statement about the Internet and the World Wide Web is correct?",
    "o": [
-    "They are exactly the same thing and the terms can be swapped",
-    "The Internet is a service that runs on top of the web",
     "The web is a service that runs on the Internet",
-    "The web is a type of protocol only and not a service"
+    "The Internet is a service that runs on the web",
+    "The web is the network of cables and routers",
+    "The web and the Internet are separate networks"
    ],
-   "a": 2,
+   "a": 0,
    "e": "The Internet is the network; the web is one use of it."
   },
   {
@@ -1542,12 +1542,12 @@
    "u": 6,
    "q": "Distributed computing is the use of:",
    "o": [
+    "One powerful computer completing each step of the problem",
+    "Multiple users sharing one device to solve a problem",
     "Multiple devices working together to solve a problem",
-    "One very fast computer solving the problem all by itself",
-    "Only parallel processors that are located inside one chip",
-    "A single network cable carrying data between two computers"
+    "Duplicate copies of data kept on several devices as backups"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Distributed systems share work across machines.",
    "c": 2
   },
@@ -1555,10 +1555,10 @@
    "u": 6,
    "q": "The Internet's design makes it scalable because:",
    "o": [
-    "Only a small, fixed number of devices are allowed to connect",
-    "A central computer controls and approves all of the traffic",
+    "Network traffic is routed through a central server for efficiency",
+    "Devices must use identical hardware before they can join",
     "New devices and networks can join without a central authority",
-    "Each device is limited to a single connection at one time"
+    "Each new device increases the bandwidth of the whole network"
    ],
    "a": 2,
    "e": "Shared protocols allow growth.",
@@ -1569,9 +1569,9 @@
    "q": "Packets are numbered so that they can:",
    "o": [
     "Be reassembled in the correct order at the destination",
-    "Be encrypted so that no one can read them in transit",
-    "Be compressed so that they take less time to send",
-    "Avoid every possible error while they travel to the destination"
+    "Be routed through the fastest path available in the network",
+    "Be checked for errors by the router before forwarding",
+    "Be encrypted with a unique key for each packet in transit"
    ],
    "a": 0,
    "e": "Packets may arrive out of order.",
@@ -1644,10 +1644,10 @@
    "u": 7,
    "q": "Which practice most improves the security of an online account?",
    "o": [
-    "Using the same easy-to-remember password for every account",
-    "Sharing the password only with close friends and family",
+    "Changing the password regularly, but reusing it on other sites",
+    "Using a long password that is shared across a few accounts",
     "Using a unique, strong password with multifactor authentication",
-    "Using a short password that is simple to type quickly"
+    "Using a unique password and keeping it written next to the device"
    ],
    "a": 2,
    "e": "Layered protection reduces risk.",
@@ -1670,12 +1670,12 @@
    "u": 7,
    "q": "In symmetric encryption:",
    "o": [
-    "The same key is used to encrypt and decrypt",
-    "Two different keys are used, one public and one private",
-    "No key is used because the message is only scrambled",
-    "The key is made public so anyone can decrypt the message"
+    "A public key encrypts and a private key decrypts",
+    "The sender and receiver each use a different key",
+    "The key length grows with each message sent",
+    "The same key is used to encrypt and decrypt"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Both parties must share the secret key.",
    "c": 1
   },
@@ -1683,12 +1683,12 @@
    "u": 7,
    "q": "In public-key encryption, a message encrypted with a person's public key can be decrypted:",
    "o": [
-    "Only with that person's private key",
-    "Only with the sender's public key",
-    "With any public key in the system",
-    "By anyone who knows the shared key"
+    "Only with that person's public key",
+    "Only with the sender's private key",
+    "Only with a key that the sender created",
+    "Only with that person's private key"
    ],
-   "a": 0,
+   "a": 3,
    "e": "The private key must be kept secret.",
    "c": 1
   },
@@ -1760,9 +1760,9 @@
    "u": 7,
    "q": "A rogue access point is:",
    "o": [
-    "A type of router that is used to extend a home network",
-    "A secure network that encrypts all of the data sent on it",
-    "A backup connection that is used when the main one fails",
+    "A device that blocks unauthorized traffic from entering a network",
+    "A setup that lets users connect to a private network from afar",
+    "A router that has been set up with the default password unchanged",
     "A fake wireless network that imitates a trusted one to capture data"
    ],
    "a": 3,
@@ -1773,10 +1773,10 @@
    "u": 7,
    "q": "Multifactor authentication requires a user to provide:",
    "o": [
-    "Only a password, but one that is long and hard to guess",
+    "Two passwords chosen by the user, each at least 12 characters long",
     "Two or more kinds of evidence, such as a password and a code",
-    "A longer password with numbers and special characters added",
-    "A fingerprint scan only, with no other evidence needed"
+    "A password that is changed each time the user logs in",
+    "Evidence from two different devices, such as a phone and a laptop"
    ],
    "a": 1,
    "e": "Multiple factors make theft harder."
@@ -1785,10 +1785,10 @@
    "u": 7,
    "q": "Why is it risky to use public Wi-Fi for sensitive transactions without protection?",
    "o": [
-    "Public Wi-Fi is always slow, so transactions often time out",
+    "The website's encryption is turned off by the Wi-Fi provider",
     "Others on the network might intercept unencrypted data",
-    "It uses too much power and drains the battery of the device",
-    "It blocks most websites that handle financial information"
+    "Public networks store the passwords of people who connect",
+    "Websites refuse to verify the identity of public Wi-Fi users"
    ],
    "a": 1,
    "e": "Encryption such as HTTPS or a VPN reduces the risk.",
@@ -1811,12 +1811,12 @@
    "u": 7,
    "q": "Combining information from several sources about a person can threaten privacy because:",
    "o": [
-    "It always deletes the original data once it is combined",
-    "It encrypts the data so that no one can read it",
+    "It makes the data less accurate than it was originally",
     "It can reveal details no single source would show",
-    "It reduces the number of sources that hold information"
+    "It removes the legal protection of each separate source",
+    "It lowers the number of people who can see each source"
    ],
-   "a": 2,
+   "a": 1,
    "e": "Aggregation can re-identify individuals.",
    "c": 2
   },
@@ -1849,12 +1849,12 @@
    "u": 8,
    "q": "Crowdsourcing is:",
    "o": [
-    "Encrypting a message so that only a large group can read it",
-    "Compressing a file by removing details most people will not notice",
     "Gathering ideas, data or work from a large group of people, often online",
-    "Sorting a long list of items by asking a crowd to compare them"
+    "Distributing computation across many networked computers to process a task",
+    "Paying a large group of people to test a product before its release",
+    "Collecting data from a single sensor at regular intervals over a long time"
    ],
-   "a": 2,
+   "a": 0,
    "e": "Examples include online map editing and review sites.",
    "c": 1
   },
@@ -1875,10 +1875,10 @@
    "u": 8,
    "q": "A Creative Commons license allows a creator to:",
    "o": [
-    "Remove all copyright so anyone may use the work freely",
+    "Register their work so that copyright lasts longer",
     "Specify how others may use and share their work",
-    "Force other people to pay a fee whenever they use the work",
-    "Hide the work so that only approved users can view it"
+    "Prevent others from making any copies of their work",
+    "Require users to get written permission before each use"
    ],
    "a": 1,
    "e": "Different licenses allow different uses.",
@@ -1888,12 +1888,12 @@
    "u": 8,
    "q": "Open-source software is software that:",
    "o": [
-    "Is always free of bugs because many people review it",
-    "Cannot be used commercially by any company or person",
-    "Is stored in the cloud instead of on a local computer",
-    "Makes its source code available for others to view and modify"
+    "Makes its source code available for others to view and modify",
+    "Is free to download but whose code cannot be modified by users",
+    "Is sold under a license that prevents other people from copying it",
+    "Has been tested by a company and then released to the public"
    ],
-   "a": 3,
+   "a": 0,
    "e": "Contributors can improve and share it."
   },
   {
@@ -1952,10 +1952,10 @@
    "u": 8,
    "q": "Which is a benefit of open data sets?",
    "o": [
-    "They are always accurate because so many people use them",
-    "They need no cleaning because they are checked before release",
+    "Their accuracy is verified by whoever releases them",
+    "Researchers do not need to check for missing values",
     "Many people can analyze them and find new insights",
-    "They eliminate privacy concerns because the data is public"
+    "They protect the identity of individuals in the data set"
    ],
    "a": 2,
    "e": "Openness invites more perspectives.",
@@ -1978,12 +1978,12 @@
    "u": 8,
    "q": "Telemedicine, which allows patients to meet with doctors online, is an example of:",
    "o": [
-    "A harmful technology only, because it replaces in-person care",
-    "A programming language used to build medical software",
-    "A compression method used to send medical images quickly",
-    "A computing innovation with benefits and potential drawbacks"
+    "A computing innovation with benefits and potential drawbacks",
+    "A computing innovation used to store medical records securely",
+    "A computing innovation that has replaced in-person doctor visits",
+    "A type of data analysis used to diagnose diseases from records"
    ],
-   "a": 3,
+   "a": 0,
    "e": "It increases access but depends on connectivity.",
    "c": 0
   },
@@ -1991,12 +1991,12 @@
    "u": 8,
    "q": "Which of the following best describes how social media algorithms can affect users?",
    "o": [
-    "They always show random posts that have no link to past behavior",
-    "They never use any data about what a user has viewed",
-    "They show all posts to every user in exactly the same way",
-    "They may show content that reinforces existing views"
+    "They may show posts in the order that they were created",
+    "They may show content that reinforces existing views",
+    "They may randomly rotate content to reduce repeated exposure",
+    "They may block content from users who have not paid a fee"
    ],
-   "a": 3,
+   "a": 1,
    "e": "Recommendations are based on past behavior.",
    "c": 0
   },
@@ -2094,12 +2094,12 @@
    "u": 2,
    "q": "Why does adding one more bit to a representation double the number of values it can represent?",
    "o": [
-    "Bits become twice as large when another bit is added",
+    "Each additional bit increases the number of values by exactly one",
+    "Each additional bit stores a full byte of extra information",
     "Each additional bit can be either 0 or 1, doubling the combinations",
-    "One bit holds two bytes, so the capacity doubles",
-    "It does not, because each new bit adds only one more value"
+    "Each additional bit adds one more digit, multiplying values by ten"
    ],
-   "a": 1,
+   "a": 2,
    "e": "2^(n+1) is twice 2^n.",
    "c": 0
   },
@@ -2157,12 +2157,12 @@
    "u": 4,
    "q": "Which of the following statements about algorithms is true?",
    "o": [
-    "Every problem has exactly one algorithm that can solve it",
-    "Algorithms only work on numbers and cannot process text",
-    "Algorithms must always use loops in order to work",
-    "Different algorithms can solve the same problem at different speeds"
+    "A problem solved by one algorithm cannot be solved by any other",
+    "An algorithm that works on small inputs works as fast on large ones",
+    "Different algorithms can solve the same problem at different speeds",
+    "Algorithms must use sequencing and selection but not iteration"
    ],
-   "a": 3,
+   "a": 2,
    "e": "Efficiency varies between algorithms."
   },
   {
@@ -2196,9 +2196,9 @@
    "q": "The traveling salesperson problem is often solved with a heuristic because:",
    "o": [
     "Finding the exact best route takes unreasonably long for many cities",
-    "It is easy to solve exactly, but heuristics are simply faster",
-    "It has no solution, so only an approximation can be given",
-    "It cannot be simulated by a computer for large numbers of cities"
+    "Finding the exact best route requires information that is unknown",
+    "The exact solution is easy to find but cannot be shown to be best",
+    "Computers cannot represent the distances between cities exactly"
    ],
    "a": 0,
    "e": "The number of routes grows explosively.",
@@ -2221,12 +2221,12 @@
    "u": 6,
    "q": "A parallel solution has a part that must run sequentially. How does that affect the overall speedup?",
    "o": [
-    "It increases the speedup without limit",
-    "It has no effect",
-    "It makes the program fail",
-    "It limits the speedup"
+    "It boosts the speedup",
+    "It limits the speedup",
+    "It changes the results",
+    "It uses more memory"
    ],
-   "a": 3,
+   "a": 1,
    "e": "The sequential part cannot be sped up.",
    "c": 2
   },
@@ -2259,12 +2259,12 @@
    "u": 8,
    "q": "Why might a school choose an open-source tool?",
    "o": [
-    "The code cannot be changed, so it stays the same for everyone",
-    "It is always faster than any other kind of software",
-    "The code can be examined and adapted, and it often costs less",
-    "It has no license, so anyone can claim the code as their own"
+    "The code is protected, and it often provides better support",
+    "The school can sell modified versions without any license terms",
+    "It is reviewed by an outside company, which guarantees security",
+    "The code can be examined and adapted, and it often costs less"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Open-source licenses allow reuse and modification.",
    "c": 2
   },
@@ -2273,11 +2273,11 @@
    "q": "What is displayed?\n\nx ← 3\ny ← 4\nIF (x > y)\n{\n DISPLAY(x)\n}\nELSE\n{\n DISPLAY(y)\n}",
    "o": [
     "3",
-    "7",
     "4",
-    "Nothing"
+    "7",
+    "12"
    ],
-   "a": 2,
+   "a": 1,
    "e": "3 > 4 is false, so the else branch displays y.",
    "c": 1
   },
@@ -3631,10 +3631,10 @@
    "u": 1,
    "q": "A program passes all of its tests but still gives wrong results for some real users. Which is the most likely reason?",
    "o": [
-    "Tests cannot find errors, so passing tests proves nothing",
+    "The test inputs were typed incorrectly by the programmer",
     "The tests did not include the inputs that cause the problem",
-    "The program has a syntax error that the tests did not check",
-    "The users made a mistake when they entered their data"
+    "The program was run on a different computer than the tests",
+    "The tests passed because the program has no syntax errors"
    ],
    "a": 1,
    "e": "Passing tests only shows correctness for the cases tested."
@@ -3693,9 +3693,9 @@
    "u": 3,
    "q": "Which of the following is the main reason that combining data sets can create privacy risks even when each set is anonymized?",
    "o": [
-    "Anonymized data is always made public after it is shared",
-    "Combining data sets deletes details from each of the sets",
-    "It makes the data smaller so that fewer details are stored",
+    "Combining sets reveals group trends rather than individuals",
+    "Combined sets are stored on servers that are easier to hack",
+    "Anonymized data loses its anonymity once it is shared at all",
     "Matching details across the sets can identify individuals"
    ],
    "a": 3,
@@ -3705,12 +3705,12 @@
    "u": 4,
    "q": "A programmer must search a list of 1,000,000 unsorted names once. Which approach is most efficient?",
    "o": [
-    "Binary search without sorting",
-    "Sorting first and then using binary search for a single search",
-    "Searching only the first half",
-    "Linear search"
+    "Binary search",
+    "Insertion sort",
+    "Linear search",
+    "Selection sort"
    ],
-   "a": 3,
+   "a": 2,
    "e": "For a single search, sorting costs more than scanning.",
    "c": 1
   },
@@ -3718,12 +3718,12 @@
    "u": 4,
    "q": "Which of the following best explains why the best-known algorithms for some problems are considered unreasonable?",
    "o": [
+    "The number of steps grows linearly with the input size",
     "The number of steps grows exponentially with the input size",
-    "They use too many variables for a computer to store",
-    "They can only be run on parallel computers with many processors",
-    "They are written in pseudocode instead of a real language"
+    "The algorithm cannot be expressed as a finite set of steps",
+    "The steps must be run in sequence rather than in parallel"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Exponential growth makes large inputs infeasible.",
    "c": 1
   },

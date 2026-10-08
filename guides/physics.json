@@ -2194,12 +2194,12 @@
    "u": 1,
    "q": "A thermometer reads 5°C in an ice-and-water mixture that is really at 0°C. This is what kind of error?",
    "o": [
-    "random",
-    "percent",
-    "significant",
-    "systematic"
+    "systematic",
+    "statistical",
+    "fractional",
+    "estimated"
    ],
-   "a": 3,
+   "a": 0,
    "e": "Every reading is off the same way, which is systematic error; calibrating the thermometer fixes it.",
    "c": 8
   },
@@ -2246,11 +2246,11 @@
    "q": "In a vector diagram, the length of the arrow represents the vector's:",
    "o": [
     "direction",
-    "sign",
-    "unit only",
-    "magnitude"
+    "magnitude",
+    "components",
+    "position"
    ],
-   "a": 3,
+   "a": 1,
    "e": "Arrow length is proportional to magnitude; the arrowhead shows direction."
   },
   {
@@ -2663,24 +2663,24 @@
    "u": 1,
    "q": "Which statement about distance and displacement is always true?",
    "o": [
-    "The magnitude of the displacement is never greater than the distance",
     "The distance traveled is never greater than the magnitude of the displacement",
     "The magnitude of the displacement equals the distance on any round trip",
-    "Distance is a vector quantity that includes the direction of motion"
+    "Distance is a vector quantity that includes the direction of motion",
+    "The magnitude of the displacement is never greater than the distance"
    ],
-   "a": 0,
+   "a": 3,
    "e": "The straight line from start to finish is the shortest path."
   },
   {
    "u": 1,
    "q": "The dot product of two vectors is:",
    "o": [
-    "a scalar",
     "a vector",
-    "always zero",
-    "always negative"
+    "a scalar",
+    "a tensor",
+    "an angle"
    ],
-   "a": 0,
+   "a": 1,
    "e": "A·B = AB cosθ is a single number; the cross product is the vector one.",
    "c": 7
   },
@@ -2738,12 +2738,12 @@
    "u": 1,
    "q": "A student walks four blocks south, five blocks west, and four more blocks south. Compared with the distance she walks, the magnitude of her displacement from home to school is:",
    "o": [
-    "less",
-    "greater",
-    "the same",
-    "impossible to determine"
+    "more",
+    "same",
+    "zero",
+    "less"
    ],
-   "a": 0,
+   "a": 3,
    "e": "She walks 13 blocks, but her displacement is √(8² + 5²) ≈ 9.4 blocks; the straight line is always the shortest path."
   },
   {
@@ -2871,12 +2871,12 @@
    "u": 1,
    "q": "A worker pulls a cart with a rope. The worker's pull can best be described as a force having:",
    "o": [
-    "magnitude only",
-    "both magnitude and direction",
-    "direction only",
-    "neither magnitude nor direction"
+    "magnitude and a time duration",
+    "direction and a fixed position",
+    "magnitude and a rotation angle",
+    "both magnitude and direction"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Force is a vector, so a complete description needs a size and a direction.",
    "c": 3
   },
@@ -3148,12 +3148,12 @@
    "u": 1,
    "q": "A car rounds a curve at a constant 15 m/s. Is it accelerating?",
    "o": [
+    "No, because its speed stays constant at 15 m/s in the turn",
+    "No, because acceleration occurs when the car speeds up",
     "Yes, because the direction of its velocity is changing",
-    "No, because its speed stays constant at 15 m/s throughout the turn",
-    "No, because acceleration only occurs when the car speeds up",
-    "Yes, but only while the driver is pressing the gas pedal"
+    "Yes, but the acceleration is directed forward along its path"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Velocity is a vector. Changing its direction changes the velocity, and any change in velocity is acceleration."
   },
   {
@@ -4176,10 +4176,10 @@
    "u": 2,
    "q": "A projectile is launched horizontally from a cliff. Compared to an object simply dropped from the same height at the same time, the projectile:",
    "o": [
-    "Hits the ground first",
-    "Hits the ground later",
+    "Lands sooner, because it has speed",
+    "Lands later, because it moves farther",
     "Hits the ground at the same time",
-    "Never hits the ground"
+    "Lands at a time set by launch speed"
    ],
    "a": 2,
    "e": "Horizontal and vertical motions are independent; both objects have the same initial vertical velocity (0) and the same vertical acceleration (g), so they fall for the same amount of time."
@@ -4423,9 +4423,9 @@
    "u": 3,
    "q": "Which of these is NOT one of Newton's Laws of Motion?",
    "o": [
-    "An object in motion stays in motion unless acted on by a net force",
+    "Objects at rest tend to stay at rest",
     "Force equals mass times acceleration",
-    "For every action there is an equal and opposite reaction",
+    "Forces come in equal and opposite pairs",
     "Energy cannot be created or destroyed"
    ],
    "a": 3,
@@ -4536,12 +4536,12 @@
    "u": 6,
    "q": "Which type of collision conserves both momentum AND kinetic energy?",
    "o": [
-    "Perfectly inelastic collision",
     "Elastic collision",
-    "Any collision involving a large object",
-    "Explosions only"
+    "Inelastic collision",
+    "Sticky collision",
+    "Explosive release"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Elastic collisions conserve both momentum and total kinetic energy; inelastic collisions conserve only momentum.",
    "c": 5
   },
@@ -4637,12 +4637,12 @@
    "u": 6,
    "q": "In a real roller coaster with friction, the total mechanical energy at the bottom of a hill compared to the top is:",
    "o": [
-    "The same, because energy is conserved even with friction present",
-    "Greater, because gravity adds extra kinetic energy on the way down",
-    "Less, because some energy converts to heat/sound",
-    "Zero, because all of the energy is converted to heat by the bottom"
+    "The same, because total energy is conserved",
+    "Greater, because gravity does work on the way down",
+    "Zero, because the energy is converted to heat",
+    "Less, because some energy converts to heat/sound"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Friction is a non-conservative force that removes mechanical energy from the system, converting it to heat and sound — total energy (including heat) is still conserved, but mechanical energy decreases.",
    "c": 5
   },
@@ -4764,12 +4764,12 @@
    "u": 4,
    "q": "An object moves in a circle at constant speed. Which of the following is constant?",
    "o": [
-    "Velocity",
-    "Centripetal acceleration direction only relative to a fixed axis",
     "Speed",
-    "Position"
+    "Force",
+    "Angle",
+    "Place"
    ],
-   "a": 2,
+   "a": 0,
    "e": "Speed (magnitude of velocity) stays constant in uniform circular motion, but velocity direction and acceleration direction continuously change (though acceleration magnitude is constant, its direction always points to the center, which itself is a changing direction in space).",
    "c": 0
   },
@@ -4804,7 +4804,7 @@
    "q": "Why is there no real outward force acting on a passenger in a car turning a corner (in an inertial frame)?",
    "o": [
     "Because the passenger's inertia makes them tend to continue in a straight line, while the car curves under them",
-    "Because friction between the seat and the passenger cancels every other force acting on them",
+    "Because friction between the seat and the passenger cancels the other forces acting on them in the turn",
     "Because gravity pulls the passenger sideways toward the outside of the curve as the car turns",
     "Because the passenger is pushed outward by a real centrifugal force that the car's motion creates"
    ],
@@ -4828,12 +4828,12 @@
    "u": 4,
    "q": "Kepler's Second Law states that a planet sweeps out equal areas in equal times. This implies the planet moves:",
    "o": [
-    "Fastest when farthest from the Sun",
     "Fastest when closest to the Sun",
-    "At constant speed throughout its orbit",
-    "Only in a perfect circle"
+    "Fastest when farthest from the Sun",
+    "At steady speed along its orbit",
+    "Fastest at its minor-axis points"
    ],
-   "a": 1,
+   "a": 0,
    "e": "To sweep equal areas in equal times while closer to the Sun (a shorter radius arm), the planet must move faster near perihelion."
   },
   {
@@ -4902,12 +4902,12 @@
    "u": 10,
    "q": "Sound is best classified as a:",
    "o": [
-    "Transverse wave",
     "Longitudinal wave",
-    "Electromagnetic wave",
-    "Standing wave only"
+    "Transverse wave",
+    "Surface water wave",
+    "Stationary wave"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Sound is a longitudinal wave — particles vibrate parallel to the direction of wave travel, creating compressions and rarefactions."
   },
   {
@@ -5015,9 +5015,9 @@
    "q": "Which property of a sound wave corresponds to its perceived pitch?",
    "o": [
     "Amplitude",
-    "Wavelength only, independent of frequency",
+    "Waveform",
     "Frequency",
-    "Speed"
+    "Wave speed"
    ],
    "a": 2,
    "e": "Pitch corresponds directly to frequency — higher frequency sounds are perceived as higher pitch."
@@ -5026,12 +5026,12 @@
    "u": 10,
    "q": "Points of maximum displacement in a standing wave are called:",
    "o": [
-    "Nodes",
-    "Antinodes",
-    "Crests only",
-    "Rarefactions only"
+    "Nodal zone",
+    "Harmonics",
+    "Wavefronts",
+    "Antinodes"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Antinodes are points of maximum displacement; nodes are points of zero displacement.",
    "c": 2
   },

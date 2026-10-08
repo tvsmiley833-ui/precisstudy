@@ -1233,9 +1233,9 @@
    "q": "Two cars start at the same point; Car A moves at constant 10 m/s, Car B starts from rest with a=2 m/s². When do they have the same velocity?",
    "o": [
     "t=5 s",
-    "t=10 s",
-    "t=2 s",
-    "They never match"
+    "t=4 s",
+    "t=6 s",
+    "t=3 s"
    ],
    "a": 0,
    "e": "Set 10 = 0+2t → t=5 s."
@@ -1294,12 +1294,12 @@
    "u": 1,
    "q": "A student mistakenly uses Δx = v₀t instead of Δx = v₀t + ½at² for accelerating motion. This error would:",
    "o": [
-    "Underestimate displacement when a>0",
     "Overestimate displacement when a>0",
-    "Have no effect on the result",
-    "Only affect velocity, not displacement"
+    "Underestimate displacement when a<0",
+    "Underestimate velocity when a>0",
+    "Underestimate displacement when a>0"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Ignoring the ½at² term removes the extra distance gained from acceleration, underestimating displacement when a>0."
   },
   {
@@ -1318,12 +1318,12 @@
    "u": 1,
    "q": "Which of the following best describes average speed vs average velocity for a round trip?",
    "o": [
+    "Average speed equals average velocity in general",
     "Average speed > average velocity in general",
-    "They are always equal in magnitude for any trip",
     "Average velocity > average speed in general",
-    "Both are zero because the net displacement is zero"
+    "Average speed is zero since displacement is zero"
    ],
-   "a": 0,
+   "a": 1,
    "e": "For a round trip, displacement (hence average velocity magnitude) is less than or equal to distance (hence average speed), and often strictly less.",
    "c": 0
   },
@@ -1405,8 +1405,8 @@
    "u": 1,
    "q": "Which statement about instantaneous velocity is correct?",
    "o": [
-    "It always equals the average velocity over the whole trip",
-    "It is always positive for any moving object",
+    "It equals the average velocity over the whole trip for any motion",
+    "It equals the slope of the secant line between two points on the graph",
     "It cannot be zero at any instant when acceleration is nonzero",
     "It equals the slope of the tangent line to the x-t curve at that instant"
    ],
@@ -1683,12 +1683,12 @@
    "u": 2,
    "q": "When a rocket expels gas downward to launch upward, this is best explained by:",
    "o": [
-    "Newton's Third Law",
     "Newton's First Law",
-    "Conservation of energy only",
-    "Static friction"
+    "Newton's Third Law",
+    "Bernoulli's effect",
+    "Friction with air"
    ],
-   "a": 0,
+   "a": 1,
    "e": "The rocket exerts force on the exhaust gas; the gas exerts an equal, opposite force back on the rocket, propelling it upward.",
    "c": 2
   },
@@ -1709,12 +1709,12 @@
    "u": 2,
    "q": "Which best describes static equilibrium?",
    "o": [
-    "The net force and net torque on an object are both zero",
     "The object's velocity is zero, whatever forces act on it",
-    "The object's mass is so small that forces have no effect",
-    "The object has only one force acting, which is balanced by inertia"
+    "The net force on the object is zero, though torques may remain",
+    "The net torque on the object is zero, though forces may remain",
+    "The net force and net torque on an object are both zero"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Static equilibrium requires ΣF=0 and Στ=0, meaning no linear or rotational acceleration."
   },
   {
@@ -1784,10 +1784,10 @@
    "u": 2,
    "q": "A 1500 kg car takes a turn while maintaining constant speed on a flat road. Is there a net force acting on it?",
    "o": [
-    "No, because its speed is constant, so nothing accelerates it",
+    "No, constant speed means it has zero acceleration",
     "Yes, directed toward the center of the turn",
     "Yes, directed away from the center of the turn",
-    "No, because Newton's First Law applies to constant speed"
+    "Yes, directed along the car's direction of motion"
    ],
    "a": 1,
    "e": "Even at constant speed, changing direction requires centripetal (net) force directed toward the center of the curve."
@@ -1821,11 +1821,11 @@
    "q": "Why does a heavier object not accelerate faster than a lighter one in free fall, despite experiencing greater gravitational force?",
    "o": [
     "Air resistance cancels the difference in force between the two objects",
+    "Greater weight is exactly offset by greater inertia (mass) in F=ma",
     "Heavier objects feel a weaker gravitational pull from Earth",
-    "This only holds on the Moon, where there is no atmosphere",
-    "Greater weight is exactly offset by greater inertia (mass) in F=ma"
+    "The gravitational force is the same on both objects near Earth's surface"
    ],
-   "a": 3,
+   "a": 1,
    "e": "F=mg and a=F/m=g; the mass cancels out, so acceleration is independent of mass despite larger force on more massive objects."
   },
   {
@@ -2263,12 +2263,12 @@
    "u": 3,
    "q": "Which statement about gravitational force between two masses is correct?",
    "o": [
-    "It acts along the line connecting the centers of the two masses",
-    "It only acts on the more massive object",
+    "It acts on the smaller mass with a larger force than on the larger one",
     "It depends on the surface distance, not center-to-center distance",
-    "It is repulsive for like masses"
+    "It acts along the line connecting the centers of the two masses",
+    "It is zero when the two masses are in contact with each other"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Gravitational force is always attractive and acts along the line joining the centers of mass of the two objects.",
    "c": 3
   },
@@ -2337,24 +2337,24 @@
    "u": 3,
    "q": "A moon orbits a planet in a perfect circle. Which pair of quantities remains constant throughout the orbit (assuming no other forces)?",
    "o": [
-    "Speed and orbital radius",
     "Velocity and acceleration",
-    "Velocity only",
-    "Acceleration only"
+    "Speed and orbital radius",
+    "Velocity and orbital radius",
+    "Velocity and orbital period"
    ],
-   "a": 0,
+   "a": 1,
    "e": "In a stable circular orbit, both speed and the radius stay constant, even though the velocity vector (direction) and acceleration vector directions are constantly changing (though their magnitudes are also constant)."
   },
   {
    "u": 3,
    "q": "Which best explains why astronauts train using apparent weightlessness in a diving aircraft ('vomit comet')?",
    "o": [
+    "The aircraft is in free fall, so passengers and aircraft accelerate together under gravity alone, just like in orbit",
     "The aircraft climbs steeply so that gravity is switched off inside the cabin, matching the absence of gravity in orbit",
     "The cabin is pressurized to a very low pressure, so air resistance cancels gravity for passengers, just like in orbit",
-    "The aircraft flies far above the atmosphere where Earth's pull is nearly zero, so passengers float just like in orbit",
-    "The aircraft is in free fall, so passengers and aircraft accelerate together under gravity alone, just like in orbit"
+    "The aircraft flies far above the atmosphere where Earth's pull is nearly zero, so passengers float just like in orbit"
    ],
-   "a": 3,
+   "a": 0,
    "e": "During the dive, the aircraft's engines are cut so it free-falls under gravity alone, matching the acceleration of the passengers inside — the same effect as being in orbit."
   },
   {
@@ -2678,9 +2678,9 @@
    "q": "What two conditions must both be satisfied for an extended object to be in complete static equilibrium?",
    "o": [
     "Net force = 0 and net torque = 0",
-    "Net force = 0 only",
-    "Net torque = 0 only",
-    "Kinetic energy = 0"
+    "Net force = 0 and kinetic energy = 0",
+    "Net torque = 0 and net power = 0",
+    "Net torque = 0 and total energy = 0"
    ],
    "a": 0,
    "e": "Static equilibrium requires both translational equilibrium (sum F = 0) and rotational equilibrium (sum tau = 0 about any pivot point).",
@@ -3223,10 +3223,10 @@
    "u": 5,
    "q": "In a 2D collision between two pucks on ice, which quantities must be separately conserved?",
    "o": [
-    "Only the x-component of the total momentum, since y changes freely",
+    "The x-component of momentum and the total kinetic energy",
     "The x-component and y-component of total momentum",
-    "Only the total speed of the two pucks, summed over both",
-    "Only the total kinetic energy, since the collision is on ice"
+    "The total speed and total kinetic energy of the pucks",
+    "The magnitude of total momentum and total kinetic energy"
    ],
    "a": 1,
    "e": "In 2D, momentum conservation applies independently to each perpendicular component (x and y)."
@@ -3247,12 +3247,12 @@
    "u": 5,
    "q": "Which of the following is true about a perfectly elastic collision?",
    "o": [
-    "Only total momentum is conserved, while kinetic energy is lost",
-    "Only total kinetic energy is conserved, while momentum is lost",
-    "Neither total momentum nor total kinetic energy is conserved",
-    "Both total momentum and total kinetic energy are conserved"
+    "Both total momentum and total kinetic energy are conserved",
+    "Total momentum is conserved, while kinetic energy is lost",
+    "Total kinetic energy is conserved, while momentum is lost",
+    "Total speed and total kinetic energy are conserved"
    ],
-   "a": 3,
+   "a": 0,
    "e": "By definition, an elastic collision conserves both total momentum and total kinetic energy."
   },
   {
@@ -3556,8 +3556,8 @@
    "o": [
     "Kinetic energy converts entirely into PE",
     "Gravitational PE converts entirely to KE",
-    "Gravitational PE is lost to air as heat",
-    "Elastic PE converts entirely into heat"
+    "Gravitational PE converts entirely to heat",
+    "Elastic PE converts entirely into KE"
    ],
    "a": 1,
    "e": "At the highest point all energy is gravitational PE; at the lowest point (reference height) all of it has converted to KE, conserving total mechanical energy."
@@ -3640,12 +3640,12 @@
    "u": 6,
    "q": "Which statement about power is correct?",
    "o": [
-    "Power is the rate of doing work, P=W/t",
-    "Power is the same as work when time is 1 hour",
-    "Power and energy have the same units",
-    "Power depends only on force, not time"
+    "Power is work done over a distance, P=W·d",
+    "Power is the change in momentum per time, P=Δp/t",
+    "Power is work divided by displacement, P=W/d",
+    "Power is the rate of doing work, P=W/t"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Power measures how quickly work is done or energy transferred: P=W/t=ΔE/t.",
    "c": 4
   },
@@ -3880,12 +3880,12 @@
    "u": 6,
    "q": "A weightlifter holds a barbell stationary above their head for 10 seconds. How much work is done on the barbell during this time?",
    "o": [
-    "Zero, since there is no displacement",
-    "Positive, proportional to time held",
-    "Negative, since gravity acts on it",
-    "Depends on the barbell's mass only"
+    "Positive, since a nonzero force is applied",
+    "Negative, since the force opposes gravity",
+    "Equal to mgh, the barbell's potential energy",
+    "Zero, since there is no displacement"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Work requires displacement; since the barbell doesn't move, W=Fd=0 regardless of the force required to hold it."
   },
   {
@@ -3904,12 +3904,12 @@
    "u": 6,
    "q": "Which best describes the relationship between conservative forces and potential energy?",
    "o": [
-    "Every force has an associated potential energy, including friction",
-    "Potential energy can only be defined for conservative forces",
-    "Potential energy applies to friction just as it applies to gravity",
-    "Conservative forces cannot store energy in any form"
+    "Potential energy is defined for forces whose work depends on the path",
+    "Conservative forces dissipate mechanical energy into thermal energy",
+    "Potential energy can be defined only for forces that do positive work",
+    "Potential energy can only be defined for conservative forces"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Potential energy is defined only for conservative forces (like gravity and springs) because their work is path-independent.",
    "c": 2
   },
@@ -3967,8 +3967,8 @@
    "o": [
     "Repel each other",
     "Attract each other",
-    "Exert no force on each other",
-    "Only interact if they touch"
+    "Cancel each other",
+    "Exert no net force"
    ],
    "a": 0,
    "e": "Like charges (both positive or both negative) repel; opposite charges attract."
@@ -4014,12 +4014,12 @@
    "u": 7,
    "q": "Two electric field lines from different sources can:",
    "o": [
+    "Cross near point charges",
     "Never cross each other",
-    "Cross at exactly one point",
-    "Cross only if charges are equal",
-    "Always run parallel"
+    "Cross in strong fields",
+    "Cross at right angles"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Field lines represent the net field direction at each point; since the field has only one direction at any point, field lines cannot cross.",
    "c": 1
   },
@@ -4279,12 +4279,12 @@
    "u": 7,
    "q": "Charge is best described as:",
    "o": [
-    "A continuous, non-quantized quantity that can take any value",
-    "Found only in conductors and conserved in a closed system",
+    "Quantized in units of e = 1.6x10^-19 C but not conserved in a closed system",
     "Quantized in units of e = 1.6x10^-19 C and conserved in a closed system",
-    "Always positive and conserved in a closed system"
+    "Quantized in units of 9.1x10^-31 C and conserved in a closed system",
+    "Quantized in units of e = 1.6x10^-19 C and created when charges separate"
    ],
-   "a": 2,
+   "a": 1,
    "e": "Electric charge comes in discrete multiples of the elementary charge e = 1.6x10^-19 C, and total charge is conserved in any isolated system.",
    "c": 0
   },
@@ -4292,12 +4292,12 @@
    "u": 7,
    "q": "A conductor differs from an insulator in that a conductor:",
    "o": [
-    "Allows charges to move freely through it",
-    "Cannot hold any net charge, unlike an insulator",
-    "Always has exactly zero resistance to any current",
-    "Repels all electric fields from passing through it"
+    "Carries a net charge, unlike an insulator",
+    "Holds its electrons fixed in the lattice",
+    "Has no bound electrons in its atoms",
+    "Allows charges to move freely through it"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Conductors have free (mobile) charge carriers, typically electrons, that can move easily through the material, unlike insulators where charges are tightly bound."
   },
   {
@@ -4445,12 +4445,12 @@
    "u": 8,
    "q": "A magnetic field line diagram around a bar magnet always shows the lines doing what?",
    "o": [
-    "Forming closed loops from N to S outside the magnet and S to N inside it",
-    "Starting at the north pole and simply ending at the south pole",
-    "Radiating outward from the north pole and never returning",
-    "Only appearing between two magnets, never around a single one"
+    "Forming closed loops from S to N outside the magnet and N to S inside it",
+    "Running from N to S outside the magnet and stopping at the poles",
+    "Forming open curves that start at N and end at S, passing through air",
+    "Forming closed loops from N to S outside the magnet and S to N inside it"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Magnetic field lines never start or stop — they form closed loops, unlike electric field lines which begin/end on charges.",
    "c": 0
   },
@@ -4458,12 +4458,12 @@
    "u": 8,
    "q": "Two bar magnets are placed with their north poles facing each other. What happens?",
    "o": [
-    "They repel",
-    "They attract",
-    "Nothing, since only unlike poles interact",
-    "They align but exert no net force"
+    "They align",
+    "They cancel",
+    "They merge",
+    "They repel"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Like poles (N-N or S-S) repel; unlike poles attract.",
    "c": 0
   },
@@ -4522,12 +4522,12 @@
    "u": 8,
    "q": "A current-carrying wire is oriented parallel to an external magnetic field. What force does the field exert on the wire?",
    "o": [
-    "Zero",
-    "Maximum possible force",
-    "A force perpendicular to the wire only",
-    "A force along the wire's length"
+    "Peak",
+    "Half",
+    "Weak",
+    "Zero"
    ],
-   "a": 0,
+   "a": 3,
    "e": "F = BIL sinθ; when the wire is parallel to B, θ = 0° and sinθ = 0, so the force is zero."
   },
   {
@@ -4570,12 +4570,12 @@
    "u": 8,
    "q": "Adding an iron core inside a current-carrying solenoid does what to the magnetic field inside it?",
    "o": [
+    "Slightly increases it",
+    "Reverses its direction",
     "Greatly increases it",
-    "Greatly decreases it",
-    "Has no effect",
-    "Reverses its direction"
+    "Doubles it, no more"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Ferromagnetic materials like iron become strongly magnetized inside the coil, greatly boosting the field — this is how electromagnets work.",
    "c": 4
   },
@@ -4610,9 +4610,9 @@
    "q": "A wire loop is held stationary in a constant, unchanging magnetic field. What EMF is induced in the loop?",
    "o": [
     "Zero",
-    "A constant nonzero EMF proportional to B",
-    "An EMF that depends only on the loop's area",
-    "An EMF that oscillates over time"
+    "Peak",
+    "Weak",
+    "Some"
    ],
    "a": 0,
    "e": "Faraday's Law depends on the RATE of change of flux; a constant field produces no change in flux, so no EMF is induced.",
@@ -4760,12 +4760,12 @@
    "u": 9,
    "q": "Two speakers emit identical sound waves in phase. At a point where the path difference from the two speakers is exactly 2 wavelengths, what type of interference occurs?",
    "o": [
-    "Constructive interference",
     "Destructive interference",
-    "No sound at all",
-    "Partial cancellation only"
+    "Beat interference pattern",
+    "Partial destructive result",
+    "Constructive interference"
    ],
-   "a": 0,
+   "a": 3,
    "e": "A path difference of a whole number of wavelengths (nλ, here n=2) means the waves arrive in phase, producing constructive interference.",
    "c": 1
   },
@@ -4826,11 +4826,11 @@
    "q": "A pipe closed at one end has length 1.0 m. Which harmonics can it support?",
    "o": [
     "Only even harmonics (2nd, 4th, 6th,...)",
+    "Only odd harmonics (1st, 3rd, 5th,...)",
     "All integer harmonics (1st, 2nd, 3rd,...)",
-    "Only the fundamental, with no higher harmonics at all",
-    "Only odd harmonics (1st, 3rd, 5th,...)"
+    "Only harmonics that are multiples of four"
    ],
-   "a": 3,
+   "a": 1,
    "e": "A pipe closed at one end (open at the other) only supports odd harmonics because a node must exist at the closed end and an antinode at the open end.",
    "c": 2
   },
@@ -5144,12 +5144,12 @@
    "u": 9,
    "q": "A guitarist presses a string to shorten its vibrating length. What happens to the fundamental frequency?",
    "o": [
-    "It increases (shorter length raises frequency)",
     "It decreases (shorter length lowers the frequency)",
-    "It stays the same (length has no effect on frequency)",
-    "It becomes undefined (a shortened string cannot vibrate)"
+    "It increases (shorter length raises frequency)",
+    "It stays the same (tension alone sets the frequency)",
+    "It decreases (a shorter wave has less energy)"
    ],
-   "a": 0,
+   "a": 1,
    "e": "$f_1 = v$/(2L), so decreasing the vibrating length L increases the fundamental frequency, producing a higher-pitched note."
   },
   {
@@ -5280,9 +5280,9 @@
    "q": "When light passes from a less dense medium into a more dense medium, it bends:",
    "o": [
     "Toward the normal",
-    "Away from the normal",
-    "Parallel to the normal",
-    "Not at all, only speed changes"
+    "Away from normal",
+    "Along the normal",
+    "Past the normal"
    ],
    "a": 0,
    "e": "Entering a medium with a higher index of refraction (denser optically), light slows down and bends toward the normal."
@@ -5318,11 +5318,11 @@
    "q": "Total internal reflection can occur when light travels:",
    "o": [
     "From a lower-index medium toward a higher-index medium, above the critical angle",
-    "Between any two media, at any angle of incidence",
-    "Only in a vacuum, where there is no medium to absorb the light",
-    "From a higher-index medium toward a lower-index medium, above the critical angle"
+    "From a higher-index medium toward a lower-index medium, below the critical angle",
+    "From a higher-index medium toward a lower-index medium, above the critical angle",
+    "From a higher-index medium toward a lower-index one, at normal incidence"
    ],
-   "a": 3,
+   "a": 2,
    "e": "Total internal reflection requires going from higher n to lower n and exceeding the critical angle; it cannot occur going into a denser medium.",
    "c": 4
   },
@@ -5331,9 +5331,9 @@
    "q": "Fiber optic cables transmit light over long distances by relying on:",
    "o": [
     "Total internal reflection inside a high-index core",
-    "Refraction escaping the fiber at every bend",
-    "Diffuse reflection along the fiber's surface",
-    "Dispersion of the light into separate colors"
+    "Refraction that bends light through a low-index core",
+    "Total internal reflection inside a low-index core",
+    "Diffraction of light around the fiber's cladding"
    ],
    "a": 0,
    "e": "Fiber optics trap light inside a high-n core using total internal reflection so it repeatedly bounces along the fiber instead of escaping.",
@@ -5408,7 +5408,7 @@
    "o": [
     "The maximum kinetic energy of each photoelectron, but not their number",
     "Both the number of electrons and their maximum kinetic energy equally",
-    "Neither the number nor the energy; intensity has no effect on the effect",
+    "The threshold frequency of the metal, while the electron count is fixed",
     "The number of photoelectrons ejected per second, not their maximum kinetic energy"
    ],
    "a": 3,
@@ -5432,12 +5432,12 @@
    "u": 11,
    "q": "If incoming light has a frequency below a metal's threshold frequency, what happens?",
    "o": [
-    "No electrons are ejected, no matter how intense the light is",
-    "Electrons are ejected but with zero kinetic energy",
+    "Electrons are ejected, but they are quickly reabsorbed",
     "Electrons are ejected slowly over time as light accumulates",
-    "Electrons are ejected only if intensity is very high"
+    "No electrons are ejected, no matter how intense the light is",
+    "Fewer electrons are ejected, each with less kinetic energy"
    ],
-   "a": 0,
+   "a": 2,
    "e": "Below the threshold frequency, each photon has less energy than the work function, so no single photon can eject an electron — intensity (more photons) cannot make up the shortfall, since one photon interacts with one electron.",
    "c": 0
   },
@@ -5446,9 +5446,9 @@
    "q": "What is the de Broglie wavelength associated with a moving particle?",
    "o": [
     "λ = h/p, where p is the particle's momentum",
-    "λ = hf, where f is the particle's frequency of oscillation",
-    "λ = hc/E, valid only for photons",
-    "λ = mc², converting mass directly to wavelength"
+    "λ = h/E, where E is the particle's total energy",
+    "λ = p/h, where p is the particle's momentum",
+    "λ = h/mv², where v is the particle's speed"
    ],
    "a": 0,
    "e": "De Broglie proposed that any particle with momentum p has an associated wavelength λ = h/p = h/(mv).",
@@ -5485,9 +5485,9 @@
    "q": "Each element produces a unique atomic emission/absorption spectrum because:",
    "o": [
     "Its electrons occupy a unique set of quantized energy levels",
-    "All atoms have identical energy levels but different electron speeds",
-    "Only some elements have quantized energy levels",
-    "Emission spectra are random and not element-specific"
+    "Atoms share the same energy levels but differ in nuclear mass",
+    "Its nucleus emits light at frequencies set by its neutron count",
+    "Its electrons orbit at a unique set of continuous distances"
    ],
    "a": 0,
    "e": "Every element has its own distinct set of allowed (quantized) electron energy levels, producing a unique pattern of spectral lines used to identify it.",
@@ -5575,12 +5575,12 @@
    "u": 11,
    "q": "What does E = mc² describe in the context of nuclear fission and fusion?",
    "o": [
-    "The mass 'lost' in the reaction (mass defect) converts into the released energy",
-    "The total mass of an atom equals its charge times the speed of light squared",
-    "Energy is created from nothing during nuclear reactions",
-    "Only fusion reactions obey this equation, not fission"
+    "The mass 'gained' in the reaction (mass excess) converts into released energy",
+    "The kinetic energy of the fragments is converted into the missing mass",
+    "The released energy equals the mass defect multiplied by the speed of light",
+    "The mass 'lost' in the reaction (mass defect) converts into the released energy"
    ],
-   "a": 0,
+   "a": 3,
    "e": "In both fission and fusion, the products have slightly less total mass than the reactants; this mass defect Δm converts into released energy via E = Δmc².",
    "c": 5
   },
@@ -5589,11 +5589,11 @@
    "q": "What is the essential difference between nuclear fission and nuclear fusion?",
    "o": [
     "Fission combines light nuclei into a heavier one; fusion splits a heavy nucleus into lighter ones",
-    "Fission releases energy but fusion absorbs it, and both only work with elements heavier than iron",
-    "Fission splits a heavy nucleus into lighter ones; fusion combines light nuclei into a heavier one",
-    "Fission needs extreme temperatures to occur, while fusion happens at room temperature using neutrons"
+    "Fission releases energy by splitting nuclei lighter than iron; fusion by joining nuclei heavier than iron",
+    "Fission requires temperatures of millions of degrees, while fusion is triggered by neutron absorption",
+    "Fission splits a heavy nucleus into lighter ones; fusion combines light nuclei into a heavier one"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Fission is the splitting of a heavy nucleus (e.g., uranium-235); fusion is the combining of light nuclei (e.g., hydrogen isotopes) — both release energy from a mass defect.",
    "c": 5
   }
@@ -7328,11 +7328,11 @@
    "q": "A converging lens forms a real, inverted image when the object is:",
    "o": [
     "Inside the focal length",
-    "Beyond the focal point",
-    "At the lens",
-    "At infinity only"
+    "Right at the focal point",
+    "At the lens surface",
+    "Beyond the focal point"
    ],
-   "a": 1,
+   "a": 3,
    "e": "An object inside the focal length gives a virtual, upright image."
   },
   {

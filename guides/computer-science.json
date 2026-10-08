@@ -946,9 +946,9 @@
    "q": "Which best distinguishes system software from application software?",
    "o": [
     "System software supports the computer itself; application software helps users do tasks",
-    "System software is written in low-level code; application software is written only in high-level languages",
-    "System software must be purchased; application software is distributed freely to users",
-    "System software runs on servers; application software runs only on personal computers"
+    "System software is installed by the user; application software comes preinstalled with the hardware",
+    "System software runs in the foreground; application software runs in the background",
+    "System software manages user files; application software manages the hardware directly"
    ],
    "a": 0,
    "e": "The OS is system software; a browser or game is application software.",
@@ -958,12 +958,12 @@
    "u": 1,
    "q": "What happens to data stored only in RAM when the computer loses power?",
    "o": [
-    "It is automatically saved to the cloud",
     "It is lost",
-    "It converts to hexadecimal",
-    "Nothing changes"
+    "It is saved",
+    "It persists",
+    "It is kept"
    ],
-   "a": 1,
+   "a": 0,
    "e": "RAM is volatile, so unsaved data in RAM disappears when power is cut."
   },
   {
@@ -996,12 +996,12 @@
    "u": 1,
    "q": "How is color often represented in web design?",
    "o": [
-    "Binary strings only",
+    "Pantone names like Red 032 C",
+    "CMYK values like 0, 100, 100, 0",
     "Hexadecimal codes like #FF0000",
-    "ASCII text",
-    "Decimal percentages only"
+    "Binary codes like 11111111 0 0"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Web colors are commonly written as 6-digit hex codes representing red, green, and blue values.",
    "c": 2
   },
@@ -1035,12 +1035,12 @@
    "u": 1,
    "q": "Which best describes 'Moore's Law'?",
    "o": [
-    "An observation that CPU clock speeds double roughly every year",
-    "A principle that the cost of storage halves every ten years",
+    "An observation that transistor size roughly doubles every two years",
     "An observation that transistor density roughly doubles every two years",
-    "A rule stating that internet speeds triple every three years"
+    "An observation that transistor density roughly doubles every two decades",
+    "A physical law stating that transistor density doubles every two years"
    ],
-   "a": 2,
+   "a": 1,
    "e": "Moore's Law is an observed trend in transistor miniaturization and growth, not a physical law."
   },
   {
@@ -1314,12 +1314,12 @@
    "u": 2,
    "q": "In most languages, what is the difference between = and ==?",
    "o": [
+    "= compares for equality; == assigns a value",
     "= assigns a value; == compares for equality",
-    "= compares values for equality; == assigns a value to a variable",
-    "= is used with numbers, while == is used only with text",
-    "= checks for inequality; == checks whether a value is zero"
+    "= declares a variable; == assigns it a value",
+    "= assigns a value; == tests for inequality"
    ],
-   "a": 0,
+   "a": 1,
    "e": "= stores a value into a variable, while == checks whether two values are equal."
   },
   {
@@ -1365,10 +1365,10 @@
    "u": 2,
    "q": "Why might input read from a user need to be converted before doing math with it?",
    "o": [
-    "Input is always read as an integer, which is the wrong type for decimals",
-    "Computers cannot do math until a value is stored in a file first",
+    "Input is often read as a float, even if it looks like a whole number",
+    "Input is often read in bytes, even when the user types plain digits",
     "Input is often read as a string/text, even if it looks like a number",
-    "Input is read in binary, so it must be converted back into decimal"
+    "Input is stored as an integer, so it cannot hold decimal values"
    ],
    "a": 2,
    "e": "Many languages read user input as text (a string), which must be converted to a numeric type for arithmetic."
@@ -1377,12 +1377,12 @@
    "u": 2,
    "q": "What is the primary purpose of using functions instead of repeating code?",
    "o": [
-    "To make the program use more memory so it runs more reliably",
-    "To force every part of the code to execute in a fixed order",
-    "To hide the code so that other programmers cannot read it",
-    "To avoid duplicating logic and make code reusable/organized"
+    "To avoid duplicating logic and make code reusable/organized",
+    "To make the program run faster by skipping repeated compilation",
+    "To reduce the number of variables so memory use stays small",
+    "To prevent bugs from appearing anywhere in the program"
    ],
-   "a": 3,
+   "a": 0,
    "e": "Functions let you reuse the same logic without copy-pasting it repeatedly."
   },
   {
@@ -1402,12 +1402,12 @@
    "u": 2,
    "q": "What does 'dynamic typing' mean, as used in Python?",
    "o": [
-    "Types must be declared explicitly and are checked before the program runs",
     "Variable types are determined automatically at runtime and can change",
-    "Variables are limited to one type and cannot be reassigned later",
-    "Types are chosen by the programmer at compile time and never altered"
+    "Variable types are fixed at compile time and cannot be changed",
+    "Variable types are determined at runtime but cannot change after assignment",
+    "Variable types are inferred by the compiler and enforced before running"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Dynamically typed languages infer types automatically, and a variable's type can change.",
    "c": 0
   },
@@ -1428,12 +1428,12 @@
    "u": 2,
    "q": "What does a debugger allow a programmer to do?",
    "o": [
-    "Translate the program into machine code before it is run",
-    "Pause execution and inspect variable values step by step",
-    "Automatically rewrite faulty code so that it passes every test",
-    "Measure how fast the program runs on different processors"
+    "Compile source code and report syntax errors line by line",
+    "Optimize the code and shorten the running time step by step",
+    "Check code style and flag formatting problems as you type",
+    "Pause execution and inspect variable values step by step"
    ],
-   "a": 1,
+   "a": 3,
    "e": "A debugger lets you step through code and examine program state to find bugs.",
    "c": 3
   },
@@ -1454,12 +1454,12 @@
    "u": 2,
    "q": "What is an 'edge case' in testing?",
    "o": [
-    "A bug that appears only on older hardware, like a slow processor or a small memory",
-    "A typical input that most users enter, like a common name or a usual number",
-    "An unusual or extreme input, like zero or an empty string, that might break code",
-    "A test written last that checks only the program's colors, fonts, and screen layout"
+    "A typical input in the middle of the valid range, like 50 out of 100 items",
+    "A line of code at the end of a program, such as the final return statement",
+    "A test that runs on the edge of a network, like a phone or sensor device",
+    "An unusual or extreme input, like zero or an empty string, that might break code"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Edge cases test boundary or unusual conditions that often reveal bugs.",
    "c": 4
   },
@@ -1480,12 +1480,12 @@
    "u": 2,
    "q": "Which logical operator returns true only if both conditions are true?",
    "o": [
-    "OR",
-    "NOT",
     "AND",
-    "XOR only"
+    "XOR",
+    "NOR",
+    "NOT"
    ],
-   "a": 2,
+   "a": 0,
    "e": "AND requires both operands to be true for the result to be true.",
    "c": 1
   },
@@ -1493,24 +1493,24 @@
    "u": 2,
    "q": "What does the NOT operator do to a boolean value?",
    "o": [
-    "Multiplies the value by negative one",
-    "Returns true only if both of two values match",
-    "Rounds the value to the nearest whole number",
-    "Flips true to false and false to true"
+    "Flips true to false and false to true",
+    "Returns true when either value is true",
+    "Returns true when exactly one value is true",
+    "Converts true or false into a number"
    ],
-   "a": 3,
+   "a": 0,
    "e": "NOT inverts a boolean's value."
   },
   {
    "u": 2,
    "q": "What is object-oriented programming primarily organized around?",
    "o": [
-    "Objects that bundle data and behavior together",
-    "Functions that run in a fixed order, one after the other",
-    "Mathematical rules that are applied to every input value",
-    "Pages and layouts that are shown to the user on screen"
+    "Procedures that run in order and share global data",
+    "Events that trigger handlers when the user interacts",
+    "Logical rules that the program uses to infer results",
+    "Objects that bundle data and behavior together"
    ],
-   "a": 0,
+   "a": 3,
    "e": "OOP structures code as objects that combine data (attributes) and behavior (methods).",
    "c": 5
   },
@@ -1570,24 +1570,24 @@
    "u": 2,
    "q": "Which best explains why indentation matters in Python specifically?",
    "o": [
+    "Python uses indentation to mark comments and docstrings",
     "Python uses indentation to define code blocks/structure",
-    "It only affects how code looks, and the interpreter ignores it",
-    "It is required only for comments and documentation strings",
-    "It controls how many spaces appear in printed output"
+    "Python uses braces for blocks and indentation for style",
+    "Python uses indentation to set how many spaces print on output"
    ],
-   "a": 0,
+   "a": 1,
    "e": "Unlike many languages that use braces, Python relies on indentation to define blocks of code."
   },
   {
    "u": 2,
    "q": "What happens if you try to divide a number by zero at runtime in many languages?",
    "o": [
-    "It quietly produces the result infinity and the program continues",
-    "It typically causes a runtime error/exception",
-    "It produces zero, since nothing can be shared with no groups",
-    "It converts the number to a string and the program continues"
+    "It typically returns zero and continues running",
+    "It typically returns the number itself unchanged",
+    "It typically returns an empty value and continues",
+    "It typically causes a runtime error/exception"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Division by zero is undefined and commonly raises a runtime error."
   },
   {
@@ -1607,12 +1607,12 @@
    "u": 2,
    "q": "Which statement about testing with a range of inputs is most accurate?",
    "o": [
-    "Testing a single typical input is enough to prove the code works",
-    "Testing is only needed after the program crashes for users",
-    "Testing should avoid invalid inputs, since they are unrealistic",
-    "Testing should include typical, boundary, and invalid inputs to catch bugs"
+    "Testing should include typical and boundary inputs but skip invalid ones",
+    "Testing should include typical, boundary, and invalid inputs to catch bugs",
+    "Testing should include invalid and boundary inputs but skip typical ones",
+    "Testing should wait until the full program is complete and then run once"
    ],
-   "a": 3,
+   "a": 1,
    "e": "Thorough testing covers typical cases plus edge cases and invalid inputs."
   },
   {
@@ -1621,10 +1621,10 @@
    "o": [
     "Storing true/false values",
     "Storing decimal numbers",
-    "Storing text/characters",
-    "Storing only whole numbers"
+    "Storing lists of items",
+    "Storing text/characters"
    ],
-   "a": 2,
+   "a": 3,
    "e": "A string stores sequences of characters, i.e., text.",
    "c": 0
   },
@@ -1696,12 +1696,12 @@
    "u": 3,
    "q": "When does the else block execute?",
    "o": [
-    "Whenever the if block has finished running its own code",
+    "Whenever the if condition is true, after its code has finished",
+    "When the preceding if condition is false, but not when elif is used",
     "Only when the preceding if (and any elif) conditions are false",
-    "Only when the if condition is true and another condition is too",
-    "Every time the loop reaches the end of its current pass"
+    "Only when the preceding if condition is true and any elif is false"
    ],
-   "a": 1,
+   "a": 2,
    "e": "else runs when none of the preceding conditions in the chain were true.",
    "c": 0
   },
@@ -1812,12 +1812,12 @@
    "u": 3,
    "q": "What is a local variable?",
    "o": [
-    "A variable defined outside every function, usable throughout the program",
-    "A variable stored on the user's own computer rather than a server",
-    "A variable whose value is fixed when the program first starts",
-    "A variable defined inside a function, accessible only within that function"
+    "A variable defined inside a function, accessible to any function it calls",
+    "A variable defined inside a class, accessible only within that class",
+    "A variable defined inside a function, accessible only within that function",
+    "A variable defined inside a function and kept between separate calls to it"
    ],
-   "a": 3,
+   "a": 2,
    "e": "Local variables exist only within the function (or block) where they are defined.",
    "c": 3
   },
@@ -1851,12 +1851,12 @@
    "u": 3,
    "q": "What must every correctly written recursive function have?",
    "o": [
-    "A loop that repeats its steps until the stack is empty",
     "A base case that stops the recursion",
-    "A return value that is always a number or a string",
-    "A parameter that tracks how many calls have been made"
+    "A loop that repeats the function's steps",
+    "A global variable that counts the calls",
+    "A second function that calls it back"
    ],
-   "a": 1,
+   "a": 0,
    "e": "A base case prevents infinite recursion by giving a stopping condition.",
    "c": 4
   },
@@ -1877,12 +1877,12 @@
    "u": 3,
    "q": "In a chain of if/elif/else, how many branches execute per run?",
    "o": [
-    "All of them",
     "Exactly one",
-    "At least two",
-    "Zero, always"
+    "Exactly two",
+    "Two or more",
+    "At least two"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Only the first branch whose condition is true (or the else, if none match) executes.",
    "c": 0
   },
@@ -1903,9 +1903,9 @@
    "u": 3,
    "q": "What is the 'accumulator pattern' commonly used for?",
    "o": [
-    "Searching a list for the largest value by comparing every pair of items in turn",
-    "Storing a user's input in a fixed variable that is never changed after the program starts",
-    "Repeating a block of code a fixed number of times without any variable being updated",
+    "Storing a result (like a sum or count) in a constant that is set once before a loop",
+    "Collecting user input from several prompts into one variable before any loop begins",
+    "Running a function on its own output until a stopping condition is reached",
     "Building up a result (like a sum or count) using a variable updated inside a loop"
    ],
    "a": 3,
@@ -1916,12 +1916,12 @@
    "u": 3,
    "q": "Why can comparing floating-point numbers for exact equality be unreliable?",
    "o": [
-    "Floats are stored as text, so they must be converted before comparing",
-    "Computers round every float up to the nearest whole number",
     "Decimal values may not be stored with perfect precision in binary",
-    "Floats are only compared by their sign and not by their size"
+    "Floats are stored with too few digits to represent small values",
+    "Floats are rounded to the nearest integer when they are compared",
+    "Binary arithmetic cannot represent negative decimal values accurately"
    ],
-   "a": 2,
+   "a": 0,
    "e": "Due to binary representation limits, floats can have tiny rounding errors that break exact equality checks.",
    "c": 5
   },
@@ -1993,12 +1993,12 @@
    "u": 3,
    "q": "Why is testing boundary values (like the first or last item) important?",
    "o": [
-    "Boundary values are always handled correctly by modern compilers",
     "Boundary/edge cases often reveal bugs that typical inputs don't",
-    "Testing boundaries removes the need for any other kind of test",
-    "Boundary values only matter when the program reads user input"
+    "Boundary values are handled by the compiler, so bugs there are rare",
+    "Boundary values are the most common inputs users enter in practice",
+    "Boundary values test performance limits, not logic errors in the code"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Edge cases frequently expose issues like off-by-one errors that mid-range inputs wouldn't.",
    "c": 5
   },
@@ -2006,12 +2006,12 @@
    "u": 3,
    "q": "What best distinguishes a function definition from a function call?",
    "o": [
-    "A definition executes the code; a call only describes the function's name",
-    "A definition is run each time; a call is written once at the top",
-    "A call creates the function; a definition passes values to it",
-    "Definition creates the function's code; a call executes it with specific arguments"
+    "Definition executes the function's code; a call creates it with specific arguments",
+    "Definition sets the arguments to use; a call creates the function's code",
+    "Definition creates the function's code; a call executes it with specific arguments",
+    "Definition and call are the same; both run the code with specific arguments"
    ],
-   "a": 3,
+   "a": 2,
    "e": "You define a function once, then call (invoke) it as many times as needed with arguments.",
    "c": 2
   },
@@ -2019,12 +2019,12 @@
    "u": 3,
    "q": "Which is a valid reason to use a while loop instead of a for loop?",
    "o": [
-    "The number of iterations is unknown and depends on a condition, like waiting for valid input",
-    "The number of iterations is fixed and known in advance, like processing exactly ten items",
-    "A while loop is the only type that can read each character of a string one at a time",
-    "A while loop avoids the need to initialize any variable, unlike a for loop that requires one"
+    "The number of iterations is known in advance and based on a collection, like each item in a list",
+    "The program needs a counter that increments automatically, like counting from one to ten",
+    "The number of iterations is unknown, so a for loop would raise an error on the first pass",
+    "The number of iterations is unknown and depends on a condition, like waiting for valid input"
    ],
-   "a": 0,
+   "a": 3,
    "e": "While loops suit situations where the stopping point depends on a runtime condition, not a fixed count.",
    "c": 1
   },
@@ -2083,12 +2083,12 @@
    "u": 3,
    "q": "What is the purpose of combining loops and conditionals together?",
    "o": [
-    "To store a list of items in memory and give each item a name and a fixed location for later use",
-    "To repeat the same fixed action on every item without ever choosing differently based on its value",
     "To make decisions on each iteration of a repeated process, like checking each item in a list",
-    "To make the computer run faster by skipping every conditional check after the first loop iteration"
+    "To repeat a decision once before the loop starts, like choosing which list to scan",
+    "To stop a loop after its first pass, like quitting when any item is checked",
+    "To pick one of several loops to run, like choosing a for loop or a while loop"
    ],
-   "a": 2,
+   "a": 0,
    "e": "Nesting a conditional inside a loop lets a program evaluate each item or step individually.",
    "c": 4
   },
@@ -2096,24 +2096,24 @@
    "u": 3,
    "q": "Which best describes why functions improve code organization?",
    "o": [
-    "They let you name and reuse logic instead of duplicating it everywhere",
-    "They stop programmers from needing to name or comment any code",
-    "They make the program run faster because the CPU favors them",
-    "They ensure every variable is accessible from the whole program"
+    "They let you hide logic from other programmers instead of explaining it",
+    "They let you store data and logic together instead of in separate parts",
+    "They let you reorder logic automatically instead of writing it in sequence",
+    "They let you name and reuse logic instead of duplicating it everywhere"
    ],
-   "a": 0,
+   "a": 3,
    "e": "Functions package logic into reusable, named units, reducing duplication and improving clarity."
   },
   {
    "u": 3,
    "q": "What does it mean when a variable defined inside a function 'shadows' a global variable of the same name?",
    "o": [
+    "The global variable takes precedence inside the function, and the local one is ignored",
     "Inside the function, the local variable takes precedence over the global one with the same name",
-    "The global variable is permanently overwritten, so its value changes everywhere after the function ends",
-    "The program raises an error because two variables in the same program cannot share a single name",
-    "The global variable takes precedence inside the function, and the local one is ignored completely"
+    "The local variable is copied into the global one when the function returns, replacing its value",
+    "The two variables are linked, so changing the local one inside the function changes the global"
    ],
-   "a": 0,
+   "a": 1,
    "e": "A local variable with the same name as a global one takes priority within its own scope, without deleting the global.",
    "c": 3
   },
@@ -2172,12 +2172,12 @@
    "u": 3,
    "q": "Which best describes why breaking a large problem into functions helps with debugging?",
    "o": [
-    "It lets the compiler skip testing for any logic mistakes",
     "Each function can be tested and reasoned about independently",
-    "It makes every function share the same set of variables",
-    "It ensures bugs appear in only one place at the end"
+    "Fewer lines of code overall means fewer places for bugs to hide",
+    "Each function runs in its own memory space so errors cannot spread",
+    "Each function is compiled separately, which removes syntax errors"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Smaller, isolated functions are easier to test and pinpoint bugs in.",
    "c": 4
   },
@@ -2185,12 +2185,12 @@
    "u": 3,
    "q": "What is the effect of placing a return statement in the middle of a function?",
    "o": [
-    "It immediately exits the function, skipping any remaining code below it",
     "It pauses the function and resumes from there on the next call",
+    "It immediately exits the function, skipping any remaining code below it",
     "It skips to the end and then goes back to run the lines below",
-    "It only exits the current loop while the function keeps running"
+    "It exits the innermost loop, and the function keeps running after it"
    ],
-   "a": 0,
+   "a": 1,
    "e": "A return statement ends function execution immediately, wherever it appears.",
    "c": 2
   },
@@ -2289,10 +2289,10 @@
    "u": 4,
    "q": "What is a dictionary (hash map) primarily used for?",
    "o": [
-    "Storing items only by numeric position",
+    "Storing items in order for fast lookup by position",
     "Storing key-value pairs for fast lookup by key",
-    "Storing only unique unordered numbers",
-    "Representing hierarchical trees"
+    "Storing unique values for fast membership tests",
+    "Storing pairs in sorted order for fast range queries"
    ],
    "a": 1,
    "e": "Dictionaries map unique keys to values for fast retrieval.",
@@ -2302,12 +2302,12 @@
    "u": 4,
    "q": "What must be true about keys in a dictionary?",
    "o": [
-    "They can repeat freely",
+    "They must be in order",
+    "They must be text values",
     "They must each be unique",
-    "They must be numbers only",
-    "They must be sorted"
+    "They must share one type"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Each key in a dictionary must be unique, though values can repeat.",
    "c": 2
   },
@@ -2316,11 +2316,11 @@
    "q": "What makes a set different from a list?",
    "o": [
     "A set preserves insertion order and indexes; a list does not",
-    "A set holds only numbers; a list holds any type of data",
     "A set stores only unique values; a list can contain duplicates",
-    "A set is stored on disk; a list is stored in memory only"
+    "A set holds only numbers; a list holds any type of data",
+    "A set allows duplicates but ignores their order; a list removes them"
    ],
-   "a": 2,
+   "a": 1,
    "e": "Sets automatically enforce uniqueness, unlike lists.",
    "c": 3
   },
@@ -2355,11 +2355,11 @@
    "q": "What is a tree's starting node called?",
    "o": [
     "Leaf",
-    "Root",
     "Edge",
-    "Vertex only"
+    "Head",
+    "Root"
    ],
-   "a": 1,
+   "a": 3,
    "e": "The root is the topmost node from which all other nodes descend.",
    "c": 4
   },
@@ -2367,9 +2367,9 @@
    "u": 4,
    "q": "What is a binary tree?",
    "o": [
-    "A tree in which every node has exactly three children",
-    "A tree whose nodes can only hold the values zero and one",
-    "A tree in which each node links back to a single parent only",
+    "A tree where each node has exactly two children",
+    "A tree where each node has at least two children",
+    "A tree where each level has at most two nodes",
     "A tree where each node has at most two children"
    ],
    "a": 3,
@@ -2380,12 +2380,12 @@
    "u": 4,
    "q": "What is a graph, in data structure terms?",
    "o": [
-    "A chart that plots values on x and y axes to show how one quantity changes over time",
-    "A list of items stored in order, where each item can be reached only by its numeric index",
-    "A tree of nodes where every node has one parent and at most two children below it",
-    "A structure of nodes (vertices) connected by edges, representing relationships"
+    "A structure of nodes (vertices) connected by edges, representing relationships",
+    "A structure of nodes connected in a single line, each linking to the next one",
+    "A structure of nodes arranged in levels, each linking to one parent above it",
+    "A structure of key-value pairs connected by a hash function for lookup"
    ],
-   "a": 3,
+   "a": 0,
    "e": "Graphs model nodes and the connections (edges) between them, useful for networks.",
    "c": 4
   },
@@ -2393,12 +2393,12 @@
    "u": 4,
    "q": "What is the difference between a directed and undirected graph?",
    "o": [
-    "Directed graphs have no cycles; undirected graphs always have cycles",
-    "Directed graphs store numbers; undirected graphs store only text",
-    "Directed graphs have more nodes than undirected graphs do",
-    "Directed edges go one way; undirected edges go both ways"
+    "Directed graphs have no cycles; undirected graphs have cycles",
+    "Directed edges carry weights; undirected edges are unweighted",
+    "Directed edges go one way; undirected edges go both ways",
+    "Directed graphs form a hierarchy; undirected graphs have no root"
    ],
-   "a": 3,
+   "a": 2,
    "e": "Directed graph edges have a specific direction; undirected edges can be traversed both ways.",
    "c": 4
   },
@@ -2455,12 +2455,12 @@
    "u": 4,
    "q": "What generally makes dictionary/hash map lookups fast?",
    "o": [
-    "They keep every key in sorted order so a binary search can be used",
+    "Keys are stored in sorted order so a binary search finds them",
+    "The table is scanned from the start until the key matches",
     "A hash function converts the key into an internal index",
-    "They compare the key against each stored value from the start",
-    "They split the table in half repeatedly until the key is found"
+    "A tree search narrows the key down level by level"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Hashing computes a direct index from the key, avoiding a full search.",
    "c": 2
   },
@@ -2544,10 +2544,10 @@
    "u": 4,
    "q": "Which data structure allows accessing elements by both index (position) and does not require unique values?",
    "o": [
-    "Set",
     "Dictionary",
+    "Hash table",
     "Array/list",
-    "Stack only"
+    "Sorted set"
    ],
    "a": 2,
    "e": "Arrays/lists support duplicate values and direct index-based access."
@@ -2606,12 +2606,12 @@
    "u": 4,
    "q": "What kind of tree would you use to organize a company's reporting hierarchy?",
    "o": [
+    "A binary tree, since each manager has at most two reports",
+    "A linked list, since each person reports to one next person",
     "A general tree, since managers may have many direct reports",
-    "A binary search tree, since every manager has exactly two reports",
-    "A queue, since people are added to the end and removed from the front",
-    "A stack, since the most recent hire is the first to be promoted"
+    "A graph with cycles, since managers also report to their reports"
    ],
-   "a": 0,
+   "a": 2,
    "e": "A general tree allows any number of children per node, fitting an org chart better than a strict binary tree.",
    "c": 4
   },
@@ -2657,12 +2657,12 @@
    "u": 4,
    "q": "Which statement about hashing and collisions is most accurate?",
    "o": [
-    "Collisions are impossible if the hash function is good, so hash maps never need a method to resolve them",
-    "Collisions happen only when a hash map is completely full, and then the whole table is erased and rebuilt",
+    "Collisions occur when two values are equal, and hash maps respond by merging those entries",
     "Collisions (two keys mapping to the same index) can occur and hash maps have strategies to handle them",
-    "Hashing encrypts each key so it cannot be recovered, and collisions are used as a security feature"
+    "Collisions are rare enough that hash maps overwrite the earlier entry when one occurs",
+    "Collisions mean the hash function failed, and the entire map must be rebuilt with a new function"
    ],
-   "a": 2,
+   "a": 1,
    "e": "Hash maps use collision-handling strategies (like chaining) because different keys can occasionally map to the same index."
   },
   {
@@ -2695,9 +2695,9 @@
    "q": "What best distinguishes push/pop operations from enqueue/dequeue operations?",
    "o": [
     "Push/pop operate on a stack (LIFO); enqueue/dequeue operate on a queue (FIFO)",
-    "Push/pop work on queues (FIFO); enqueue/dequeue work on stacks (LIFO)",
-    "Push/pop add items only; enqueue/dequeue only remove items",
-    "Push/pop are used for sorted data; enqueue/dequeue for unsorted data"
+    "Push/pop operate on queues (FIFO); enqueue/dequeue work on stacks (LIFO)",
+    "Push/pop operate on a stack (FIFO); enqueue/dequeue operate on a queue (LIFO)",
+    "Push/pop and enqueue/dequeue both operate on a stack, but in different orders"
    ],
    "a": 0,
    "e": "Push/pop describe stack operations, while enqueue/dequeue describe queue operations, reflecting their different orderings.",
@@ -2720,10 +2720,10 @@
    "u": 5,
    "q": "What must an algorithm do, unlike a potentially infinite loop?",
    "o": [
-    "Run forever",
+    "Complete in constant time",
     "Eventually terminate/finish",
-    "Use recursion always",
-    "Avoid all conditionals"
+    "Use a loop or recursion",
+    "Finish in polynomial time"
    ],
    "a": 1,
    "e": "A valid algorithm must eventually reach an end, unlike a runaway infinite loop.",
@@ -2746,10 +2746,10 @@
    "u": 5,
    "q": "What is required before performing a binary search on a collection?",
    "o": [
-    "The collection must be a dictionary",
+    "The data must be a hash table",
     "The collection must be sorted",
-    "The collection must contain only numbers",
-    "The collection must be empty"
+    "The values must have no repeats",
+    "The list must have an even length"
    ],
    "a": 1,
    "e": "Binary search relies on the data being sorted to correctly eliminate halves.",
@@ -2772,12 +2772,12 @@
    "u": 5,
    "q": "What is the main limitation of linear search compared to binary search on large datasets?",
    "o": [
-    "Linear search works only on sorted data, but binary search works on any",
-    "Linear search needs more memory, since it copies the whole list",
+    "Linear search needs the data sorted, which adds extra upfront work",
     "Linear search can be much slower since it may check every element",
-    "Linear search can return only one result, never an index"
+    "Linear search uses far more memory because it stores every element twice",
+    "Linear search cannot be used on lists that contain duplicate values"
    ],
-   "a": 2,
+   "a": 1,
    "e": "Linear search's worst case checks every item, making it slower than binary search for large sorted datasets.",
    "c": 1
   },
@@ -2902,9 +2902,9 @@
    "u": 5,
    "q": "Why should you test an algorithm with edge cases, like empty input?",
    "o": [
-    "Edge cases are ignored by compilers, so they need no testing",
-    "Edge cases always produce the same result as typical inputs",
-    "Empty input is invalid, so a good algorithm never receives it",
+    "Compilers catch edge-case failures before the program runs",
+    "Typical inputs already cover the boundaries that edge cases reach",
+    "Empty input is rare, so testing it adds little real value",
     "Edge cases often expose problems that typical inputs do not"
    ],
    "a": 3,
@@ -2915,24 +2915,24 @@
    "u": 5,
    "q": "What does it generally mean when one algorithm has a 'time versus space trade-off' compared to another?",
    "o": [
-    "It can only run quickly on machines with several processors",
     "It might run faster while using more memory, or vice versa",
-    "It always finishes sooner but gives less accurate answers",
+    "It runs faster on larger inputs but slower on smaller inputs",
+    "It saves memory by giving slightly less accurate answers",
     "It is faster in the best case but slower in the worst case"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Some algorithms trade increased memory use for faster runtime, or vice versa."
   },
   {
    "u": 5,
    "q": "For a very small input size, why might a simple O(n²) algorithm be acceptable in practice?",
    "o": [
-    "Quadratic algorithms are always faster than linear ones when n is small",
-    "Small inputs fit in memory, so the algorithm needs no loops",
-    "The difference in actual runtime may be negligible for small inputs",
-    "Big-O notation does not apply to inputs of fewer than 100 items"
+    "Quadratic algorithms scale better than linear ones on small inputs",
+    "Big-O notation stops applying once the input size gets small enough",
+    "Small inputs make an O(n²) algorithm technically run in linear time",
+    "The difference in actual runtime may be negligible for small inputs"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Growth-rate differences matter most for large inputs; for small inputs the practical time difference can be minimal."
   },
   {
@@ -3003,12 +3003,12 @@
    "u": 5,
    "q": "Why is sorting often a prerequisite for using binary search efficiently?",
    "o": [
-    "Binary search requires every value in the data to be unique, which sorting guarantees by removing repeats",
     "Binary search's halving logic depends on the data being in order to correctly discard halves",
-    "Unsorted data is too large for the computer's memory, while sorted data is compressed to take less space",
-    "Binary search checks the first item and then each next one in order, so sorted data stops it early"
+    "Binary search compares neighboring values, so sorting ensures duplicates sit next to each other",
+    "Sorted data lets binary search start from the first item and stop as soon as it passes the target",
+    "Sorted data lets binary search use a hash function to jump straight to the target's location"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Without a sorted order, you cannot reliably determine which half contains the target."
   },
   {
@@ -3053,21 +3053,21 @@
    "u": 5,
    "q": "Why might merge sort be preferred over bubble sort for large datasets?",
    "o": [
-    "Merge sort uses far less memory than bubble sort and sorts the data in place without any extra arrays",
-    "Bubble sort cannot handle duplicate values, but merge sort keeps equal items together while sorting them",
-    "Merge sort's divide-and-conquer approach scales much better (typically O(n log n)) than bubble sort's O(n²)",
-    "Merge sort needs no comparisons between items, unlike bubble sort, which compares every pair of elements"
+    "Merge sort uses constant extra memory, while bubble sort needs a full second copy of the array",
+    "Merge sort stays stable and bubble sort does not, so bubble sort is slower on large datasets",
+    "Merge sort's recursion lets it run in O(n) time on any input, while bubble sort needs O(n²)",
+    "Merge sort's divide-and-conquer approach scales much better (typically O(n log n)) than bubble sort's O(n²)"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Merge sort's better growth rate makes it far more efficient than bubble sort as data size increases."
   },
   {
    "u": 5,
    "q": "What is the benefit of looking for patterns or similar previously-solved problems when problem solving?",
    "o": [
-    "It proves a new solution is correct without any testing at all",
-    "It lets the programmer avoid understanding the new problem fully",
-    "It is useful only when the earlier problem used the same language",
+    "It guarantees the new solution is correct, so little testing is needed afterward",
+    "It lets the programmer skip understanding the finer details of the new problem",
+    "It matters mainly when the earlier problem was solved in the same language",
     "It can save time by reusing known strategies or algorithms that fit the new problem"
    ],
    "a": 3,
@@ -3091,10 +3091,10 @@
    "u": 5,
    "q": "If an array is unsorted, what must typically happen before an efficient binary search can be used?",
    "o": [
-    "Nothing; binary search works on any data",
+    "The array must first be hashed",
     "The array must first be sorted",
-    "The array must be converted to a dictionary",
-    "The array must be doubled in size"
+    "The array must first be reversed",
+    "Elements must first be paired up"
    ],
    "a": 1,
    "e": "Binary search requires sorted input to correctly narrow down the search range."
@@ -3436,12 +3436,12 @@
    "u": 6,
    "q": "What is a firewall used for?",
    "o": [
-    "Translating domain names into IP addresses so browsers can find sites",
-    "Encrypting stored files so only users holding the key can read them",
-    "Describing a webpage's layout and visual style for the browser to show",
-    "Monitoring and controlling network traffic based on security rules"
+    "Verifying the identity of a website using a digital certificate",
+    "Monitoring and controlling network traffic based on security rules",
+    "Scanning files on a device for known malicious code signatures",
+    "Describing a webpage's layout and visual style for the browser to show"
    ],
-   "a": 3,
+   "a": 1,
    "e": "Firewalls filter network traffic to block unauthorized or harmful connections.",
    "c": 5
   },
@@ -3449,12 +3449,12 @@
    "u": 6,
    "q": "What does encryption do to data?",
    "o": [
-    "Permanently removes it so that nobody can ever read it again",
-    "Shrinks it into a smaller file that anyone can open normally",
-    "Scrambles it so only someone with the correct key can read it",
-    "Copies it to a second server so a backup always exists"
+    "Reduces its size so it uses less storage space and bandwidth",
+    "Converts it into a fixed-length value that cannot be reversed",
+    "Hides its origin by routing it through several relay servers",
+    "Scrambles it so only someone with the correct key can read it"
    ],
-   "a": 2,
+   "a": 3,
    "e": "Encryption transforms readable data into a scrambled form that requires a key to decode.",
    "c": 5
   },
@@ -3564,12 +3564,12 @@
    "u": 6,
    "q": "What is the internet best described as?",
    "o": [
-    "A single huge computer that stores every website in one place",
     "A 'network of networks' connecting devices worldwide",
-    "A collection of websites that are all reached through browsers",
-    "A software program that people install to view webpages"
+    "A collection of websites linked together by hyperlinks",
+    "A global service that stores data in central data centers",
+    "A single worldwide network run by one organization"
    ],
-   "a": 1,
+   "a": 0,
    "e": "The internet is a vast, interconnected system of many individual networks working together.",
    "c": 0
   },
@@ -3690,12 +3690,12 @@
    "u": 6,
    "q": "Why does DNS make the internet easier for humans to use?",
    "o": [
-    "It encrypts the data so that outsiders cannot read the information",
-    "It lets people use memorable names instead of numeric IP addresses",
-    "It stores copies of every website so pages download much faster",
-    "It removes the need for IP addresses so servers can be found by name"
+    "It encrypts website traffic so outsiders cannot read the pages you visit",
+    "It caches copies of popular pages on nearby servers so they load faster",
+    "It assigns each device a private IP address when it joins a network",
+    "It lets people use memorable names instead of numeric IP addresses"
    ],
-   "a": 1,
+   "a": 3,
    "e": "DNS lets users type easy-to-remember domain names instead of numeric IP addresses.",
    "c": 1
   },
@@ -3716,9 +3716,9 @@
    "u": 6,
    "q": "Which best explains why a domain name might point to a different IP address over time?",
    "o": [
-    "Browsers cache IP addresses and slowly alter them, so the domain name drifts toward a new address",
-    "Internet providers randomly reassign domain names to different servers whenever a user's router restarts",
-    "Domain names are encrypted differently every day, so they point to a new IP address automatically",
+    "Browsers rotate through spare IP addresses on each visit to spread traffic across the user's connection",
+    "Certificate authorities reissue the domain periodically, and each reissue assigns it a different IP address",
+    "ISPs reassign domain names to new servers whenever a customer's own device gets a new local IP address",
     "Servers or hosting providers can change, and DNS records are updated to reflect the new IP address"
    ],
    "a": 3,
@@ -3730,11 +3730,11 @@
    "q": "What is the key difference between encryption and hashing?",
    "o": [
     "Encryption is one-way and cannot be undone; hashing can be reversed with a key",
+    "Encryption produces output of fixed length; hashing output length varies with the input",
     "Encryption is reversible with a key; hashing is one-way and cannot be reversed",
-    "Encryption always produces a fixed-length output; hashing output length depends on the input",
     "Encryption is used for stored files; hashing is used for data traveling over a network"
    ],
-   "a": 1,
+   "a": 2,
    "e": "Encryption is designed to be decrypted with the correct key; hashing intentionally produces a one-way transformation used for verification, not recovery.",
    "c": 0
   },
@@ -3781,12 +3781,12 @@
    "u": 7,
    "q": "What does the padlock icon in a browser actually guarantee?",
    "o": [
-    "The website is completely trustworthy and safe",
-    "The connection between browser and server is encrypted",
-    "The website has no tracking cookies",
-    "The website has passed a government security audit"
+    "The website's content is free of malware and scams",
+    "The website does not collect or store personal data",
+    "The site's owner was verified by a government agency",
+    "The connection between browser and server is encrypted"
    ],
-   "a": 1,
+   "a": 3,
    "e": "The padlock only indicates an encrypted (HTTPS/TLS) connection — it says nothing about whether the site's owner or content is trustworthy.",
    "c": 0
   },
@@ -3898,12 +3898,12 @@
    "u": 7,
    "q": "Why have browsers moved to block third-party cookies by default?",
    "o": [
-    "To speed up page loading only",
-    "To limit cross-site tracking of users by advertisers",
-    "Because third-party cookies are illegal everywhere",
-    "To force websites to remove all cookies"
+    "To cut page load times, since cookies slow down browsing",
+    "Because a law requires browsers to block them by default",
+    "To stop websites from remembering logins on their own pages",
+    "To limit cross-site tracking of users by advertisers"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Blocking third-party cookies is primarily a privacy measure aimed at reducing advertisers' ability to track users across unrelated websites.",
    "c": 2
   },
@@ -3925,11 +3925,11 @@
    "q": "Under GDPR, what is the 'right to erasure'?",
    "o": [
     "The right to see a copy of the personal data a company holds",
-    "The right to demand a company delete your personal data",
     "The right to move your data to a competing company's service",
-    "The right to refuse every cookie on every website you visit"
+    "The right to demand a company delete your personal data",
+    "The right to have inaccurate personal data corrected"
    ],
-   "a": 1,
+   "a": 2,
    "e": "The right to erasure, or 'right to be forgotten,' lets individuals request that an organization delete the personal data it holds about them.",
    "c": 3
   },
@@ -3951,9 +3951,9 @@
    "q": "Under GDPR, how quickly must a company report a data breach to regulators?",
    "o": [
     "Within 72 hours",
-    "Within one calendar year",
-    "There is no reporting requirement",
-    "Only if fewer than 10 users are affected"
+    "Within 24 hours",
+    "Within 30 days",
+    "Within 7 days"
    ],
    "a": 0,
    "e": "GDPR requires organizations to notify the relevant regulator of a data breach within 72 hours of becoming aware of it.",
@@ -4014,12 +4014,12 @@
    "u": 7,
    "q": "What is the 'principle of least privilege'?",
    "o": [
-    "Granting every employee broad access up front so work is never delayed",
-    "Requiring a separate password for every file a user opens",
-    "Limiting access for outside visitors while staff keep full control",
-    "Giving users and programs only the access they need to perform their task"
+    "Giving each user the access of their whole department so teams can share easily",
+    "Giving users and programs only the access they need to perform their task",
+    "Giving administrators full access so they can fix problems without delay",
+    "Requiring users to re-enter credentials each time they access sensitive data"
    ],
-   "a": 3,
+   "a": 1,
    "e": "Least privilege limits each account or process to the minimum access required, so a compromised account causes less damage.",
    "c": 4
   },
@@ -4080,11 +4080,11 @@
    "q": "What is the main purpose of requiring 'informed consent' for data collection under privacy law?",
    "o": [
     "To let companies share data with partners as long as the policy mentions it somewhere",
-    "To make sure users clearly understand and agree to what data is collected and why",
     "To ensure companies encrypt all data they collect before storing it on servers",
-    "To make sure companies delete all collected data after every website visit"
+    "To make sure collected data is anonymized before it is used for advertising purposes",
+    "To make sure users clearly understand and agree to what data is collected and why"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Informed consent means users must be clearly told what's collected and why, and must actively agree — pre-checked boxes or buried terms don't satisfy this.",
    "c": 3
   },
@@ -4105,12 +4105,12 @@
    "u": 7,
    "q": "What should a company do first after discovering a data breach?",
    "o": [
-    "Wait until the next audit, then quietly update software and avoid contacting anyone",
-    "Notify the press first and keep the vulnerability open to track the attackers",
+    "Notify regulators and users, then wait for the next scheduled audit to fix the vulnerability",
     "Patch the vulnerability, notify affected users/regulators, and force password resets",
-    "Delete the affected records so there is nothing left for regulators to review"
+    "Patch the vulnerability and quietly reset passwords, then notify regulators if users complain",
+    "Delete the compromised records and notify users, leaving the vulnerability for later review"
    ],
-   "a": 2,
+   "a": 1,
    "e": "Responsible breach response includes closing the security hole, notifying those affected and required regulators, and prompting credential resets to limit damage.",
    "c": 1
   },
@@ -4245,24 +4245,24 @@
    "u": 7,
    "q": "Why do security experts recommend against clicking links in unexpected emails asking you to 'verify your account'?",
    "o": [
-    "Such emails are always sent by search engines",
     "This is a common phishing tactic used to steal login credentials",
-    "Clicking links always installs antivirus software",
-    "It automatically enables two-factor authentication"
+    "The sender's ISP tracks these links and flags your account for review",
+    "Such verification emails are banned by providers, so any link inside is unsafe",
+    "Browsers cannot display the real address of links inside email messages"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Urgent 'verify your account' emails with links are a hallmark phishing tactic designed to lead victims to fake login pages that harvest their credentials."
   },
   {
    "u": 8,
    "q": "What is the most common root cause of algorithmic bias?",
    "o": [
-    "Deliberate programmer intent to discriminate",
-    "Biased or unrepresentative training data",
-    "Random hardware malfunctions",
-    "Excessive use of encryption"
+    "Programmers' deliberate intent to discriminate",
+    "Insufficient computing power during training",
+    "Overly complicated model architecture",
+    "Biased or unrepresentative training data"
    ],
-   "a": 1,
+   "a": 3,
    "e": "Most algorithmic bias emerges unintentionally from training data that reflects historical or societal bias, not from explicit discriminatory intent.",
    "c": 0
   },
@@ -4270,9 +4270,9 @@
    "u": 8,
    "q": "Why might a hiring algorithm trained on a company's past resumes produce biased results?",
    "o": [
-    "It will ignore past hiring outcomes and rank applicants by random chance instead",
-    "It can only learn grammar rules from resumes, so its results never reflect hiring history",
-    "It is programmed by law to weigh every demographic equally, so it cannot absorb past bias",
+    "It weighs resumes using a fixed scoring formula that favors keywords rather than hiring history",
+    "It learns from resume formatting, so demographic information cannot influence its results",
+    "Resumes from past years are outdated, so the model gives results that are stale but not biased",
     "It can learn to favor whatever demographics were historically hired, replicating past bias"
    ],
    "a": 3,
@@ -4283,12 +4283,12 @@
    "u": 8,
    "q": "What is a proxy variable in the context of algorithmic bias?",
    "o": [
-    "A variable the model ignores during training and uses only to test its accuracy afterward",
     "A feature that indirectly encodes a sensitive attribute through correlation, like zip code standing in for race",
+    "A sensitive attribute such as race or gender that is recorded directly in the dataset and used openly",
     "A feature that is deliberately hidden from users so the model's predictions remain confidential",
     "A placeholder value that replaces missing data in a dataset so the model can still train"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Proxy variables let sensitive information leak into a model indirectly — zip code, for instance, can correlate strongly with race even if race itself is excluded.",
    "c": 0
   },
@@ -4334,9 +4334,9 @@
    "u": 8,
    "q": "Why is overall model accuracy alone not enough to prove a system is fair?",
    "o": [
-    "Accuracy is calculated on the training data alone, which makes it unreliable for any evaluation",
-    "High accuracy proves a model is biased, since fair models must make errors evenly",
-    "Accuracy measures only the speed of predictions, so fast models are fairer than slow ones",
+    "Accuracy is measured on training data, so it overstates how well the model works in practice",
+    "Accuracy counts false negatives, so it hides whether a model's mistakes are harmful",
+    "Accuracy cannot be computed separately for each group, so fairness must be judged from the code",
     "A model can have high overall accuracy while performing far worse for specific subgroups"
    ],
    "a": 3,
@@ -4349,8 +4349,8 @@
    "o": [
     "The algorithm itself is treated as responsible and can be penalized for any harm it causes",
     "A person or organization is responsible for harm caused by an AI system, not the algorithm itself",
-    "Users who agree to terms of service accept all responsibility for errors the system makes",
-    "Responsibility is shared equally with every person whose data was used to train the system"
+    "The programmers who wrote the code are responsible, while the organization that deployed it is not",
+    "Responsibility belongs to the regulators who approved the system, rather than its builders or users"
    ],
    "a": 1,
    "e": "Accountability places responsibility for an AI system's real-world impact on the people and organizations who built and deployed it — 'the algorithm did it' isn't a valid excuse.",
@@ -4425,12 +4425,12 @@
    "u": 8,
    "q": "What is the key feature of a permissive open-source license like MIT?",
    "o": [
-    "It forces every product using the code to be released as open source under the same terms",
     "It allows broad reuse, even in closed-source commercial products, typically requiring only attribution",
-    "It allows free reuse for non-commercial projects and requires a fee for company use",
-    "It lets the original author revoke permission at any time and demand removal from products"
+    "It forces every product using the code to be released as open source under the same terms",
+    "It allows reuse in closed-source products but requires paying the author a royalty on each sale",
+    "It allows broad reuse but requires any modifications to be shared back with the original project"
    ],
-   "a": 1,
+   "a": 0,
    "e": "Permissive licenses like MIT or Apache impose minimal restrictions — usually just keeping the original attribution — even when the code is used in proprietary software.",
    "c": 2
   },
@@ -4451,10 +4451,10 @@
    "u": 8,
    "q": "What legal risk can arise from including GPL-licensed code in a closed-source commercial product?",
    "o": [
-    "The company must pay royalties for every copy sold, but the product can stay closed",
+    "It can require the company to pay the original authors a royalty on each copy it ships",
     "It can create real legal liability, since GPL requires derivative works to also be open-sourced",
-    "The original authors can take ownership of the product's entire codebase and its profits",
-    "The product must be rewritten in the same programming language as the original GPL code"
+    "It can transfer ownership of the product's source code to the original GPL authors",
+    "The GPL prohibits commercial use, so the company would have to stop selling the product"
    ],
    "a": 1,
    "e": "Shipping GPL-licensed code inside closed-source software violates the license's copyleft terms and can expose the company to legal liability.",
@@ -6094,12 +6094,12 @@
    "u": 4,
    "q": "A stack follows which order for removing items?",
    "o": [
+    "Last in, first out",
     "First in, first out",
-    "Random",
-    "Sorted",
-    "Last in, first out"
+    "Smallest value first",
+    "Largest value first"
    ],
-   "a": 3,
+   "a": 0,
    "e": "A queue is first in, first out.",
    "c": 1
   },
@@ -6158,12 +6158,12 @@
    "u": 6,
    "q": "HTTPS differs from HTTP in that it:",
    "o": [
+    "Hides your IP address",
     "Encrypts data in transit",
-    "Is slower in all cases",
-    "Uses only text",
-    "Stores passwords"
+    "Compresses pages for speed",
+    "Saves passwords securely"
    ],
-   "a": 0,
+   "a": 1,
    "e": "TLS protects data from eavesdroppers."
   },
   {
@@ -6195,9 +6195,9 @@
    "u": 8,
    "q": "Algorithmic bias can arise when:",
    "o": [
-    "A program runs slowly because the server hardware is outdated",
-    "Computers make random errors that affect users unpredictably",
-    "Code contains too few comments for developers to understand it",
+    "A program crashes because it receives unexpected input from users",
+    "A model fits its training data so closely that it fails on new data",
+    "A website's servers are overloaded and slow down for users in some regions",
     "Training data or design leads to unfair outcomes for some groups"
    ],
    "a": 3,
