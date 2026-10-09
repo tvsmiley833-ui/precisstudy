@@ -805,3 +805,24 @@ html body #anon-quiz-note .ss-status:empty { display: none; }
 
 /* Regents-style question clusters */
 .cl-hd{display:inline-block;margin:0 0 10px;padding:4px 10px;border-radius:999px;background:rgba(128,128,128,.14);font-size:.85rem;font-weight:600}
+
+/* ---- Phone layout: less chrome above the content, roomier unit cards ---- */
+@media (max-width: 640px) {
+  html:root body .hero.hero { padding-top: 12px; padding-bottom: 0; }
+  html:root body .hero.hero .kicker,
+  html:root body .hero.hero .subtitle { display: none; }
+  html:root body .hero.hero h1 { font-size: 28px; line-height: 1.15; margin-bottom: 10px; }
+  html:root body .hero.hero .breadcrumb { margin-bottom: 8px; }
+  /* on the Quiz, Flashcards, Exam and other tabs the guide title is already known: give the room to the content */
+  body:has(.view.active:not(#view-guide)) .hero.hero h1 { display: none; }
+  /* keep the drag handle (it reorders units to a syllabus) but give the title the room */
+  html body #units .unit-hd { grid-template-columns: 18px 1fr auto 16px; column-gap: 8px; padding: 14px 12px !important; }
+  html body #units .unit-title { font-size: 18px !important; }
+  html body #units .unit-progress { min-width: 0; }
+  html body #units .unit-progress-track { display: none; }
+  #q-sel, #q-concept { font-size: 16px; }
+  /* question stems were 25px on a phone: long stems (data, clusters) filled several screens */
+  html body #qbox .q-text { font-size: 18px; line-height: 1.45; }
+  html body #qbox .q-text .cl-hd { font-size: .8rem; }
+  html body #qbox .q-opt { font-size: 16px; }
+}

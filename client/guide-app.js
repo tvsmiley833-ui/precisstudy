@@ -1751,7 +1751,7 @@ function buildQSel(){
   sel.innerHTML='<option value="quick">⚡ Quick 10: mixed, weighted to your weak units</option><option value="0">All Units ('+(QUIZ.length+HQ.length)+' questions)</option>';
   UNITS.forEach(u=>{const n=QUIZ.filter(q=>q.u===u.id).length+HQ.filter(q=>q.u===u.id).length;if(n)sel.innerHTML+=`<option value="${u.id}">Unit ${u.id}: ${u.name} (${n} Qs)</option>`;});
   if(HQ.length)sel.innerHTML+='<option value="hard">Hard Mode Only ('+HQ.length+' Qs)</option>';
-  if(QUIZ.concat(HQ).some(function(q){return q.cl;}))sel.innerHTML+='<option value="cluster">Regents-style clusters: one stimulus, several questions ('+QUIZ.concat(HQ).filter(function(q){return q.cl;}).length+' Qs)</option>';
+  if(QUIZ.concat(HQ).some(function(q){return q.cl;}))sel.innerHTML+='<option value="cluster">Regents-style clusters ('+QUIZ.concat(HQ).filter(function(q){return q.cl;}).length+' Qs)</option>';
   if(ssSRQ().length)sel.innerHTML+='<option value="sr">Short response, write and self-score ('+ssSRQ().length+')</option>';
   ssInitDifficultyChips();
   ssRefreshBookmarkOption();
