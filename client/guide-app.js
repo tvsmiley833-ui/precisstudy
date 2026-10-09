@@ -3543,3 +3543,34 @@ function ssDiagBatchRenderContinue(){
     if(h)h.textContent='Tap to flip · Swipe right = know it · Swipe left = still learning';
   }
 })();
+
+// Enlarge button on every graph or figure: opens a copy of the drawing in a full-size dialog.
+(function(){
+  var SEL='.q-fig,.c-fig';
+  function figSvg(box){return box.querySelector('svg:not(.vec)');}
+  function open(svg){
+    var d=document.createElement('dialog');d.className='fig-dlg';d.setAttribute('aria-label','Enlarged graph');
+    var b=document.createElement('button');b.type='button';b.className='fig-dlg-x';b.textContent='Close';b.addEventListener('click',function(){d.close();});
+    var w=document.createElement('div');w.className='fig-dlg-body';w.innerHTML=svg.outerHTML;
+    var s=w.firstChild;s.removeAttribute('width');s.removeAttribute('height');
+    d.append(b,w);
+    d.addEventListener('click',function(e){if(e.target===d)d.close();});
+    d.addEventListener('close',function(){d.remove();});
+    document.body.appendChild(d);d.showModal();
+  }
+  function decorate(root){
+    if(!root.querySelectorAll)return;
+    var list=root.matches&&root.matches(SEL)?[root]:[];
+    root.querySelectorAll(SEL).forEach(function(n){list.push(n);});
+    list.forEach(function(box){
+      if(box.dataset.enl||box.closest('.q-opt'))return;
+      var svg=figSvg(box);if(!svg)return;
+      box.dataset.enl='1';box.classList.add('has-enlarge');
+      var b=document.createElement('button');b.type='button';b.className='fig-enlarge';b.setAttribute('aria-label','Enlarge graph');b.textContent='⤢ Enlarge';
+      b.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();var s=figSvg(box);if(s)open(s);});
+      box.appendChild(b);
+    });
+  }
+  decorate(document.body);
+  new MutationObserver(function(ms){ms.forEach(function(m){m.addedNodes.forEach(function(n){if(n.nodeType===1)decorate(n);});});}).observe(document.body,{childList:true,subtree:true});
+})();

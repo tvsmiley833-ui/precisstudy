@@ -843,3 +843,13 @@ html body .q-fig svg, html body .c-fig svg {
   background-size: 40px 40px, 40px 40px, 8px 8px, 8px 8px;
   border-radius: 6px;
 }
+
+/* Enlarge button and full-size figure dialog */
+html body .has-enlarge { position: relative; }
+html body .fig-enlarge { position: absolute; top: 6px; right: 6px; z-index: 1; font: 600 12px/1 'Inter', system-ui, sans-serif; padding: 7px 10px; min-height: 32px; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--ink) 35%, transparent); background: color-mix(in srgb, var(--bg-card, #fff) 92%, transparent); color: var(--ink); cursor: pointer; }
+html body .fig-enlarge:hover { border-color: var(--accent, currentColor); }
+html body .fig-enlarge:focus-visible, html body .fig-dlg-x:focus-visible { outline: 2px solid var(--accent, currentColor); outline-offset: 2px; }
+dialog.fig-dlg { width: min(96vw, 1100px); max-height: 94vh; padding: 14px; border: 1px solid var(--border, #8a8f98); border-radius: 14px; background: var(--bg-card, var(--surface, #fff)); color: var(--ink, #111); overflow: auto; }
+dialog.fig-dlg::backdrop { background: rgba(0,0,0,.65); }
+dialog.fig-dlg .fig-dlg-x { display: block; margin: 0 0 10px auto; padding: 8px 14px; min-height: 40px; border-radius: 999px; border: 1px solid currentColor; background: transparent; color: inherit; font: 600 14px 'Inter', system-ui, sans-serif; cursor: pointer; }
+dialog.fig-dlg .fig-dlg-body svg { display: block; width: 100%; height: auto; max-height: 80vh; background-color: color-mix(in srgb, var(--ink, #111) 3%, transparent); background-image: linear-gradient(color-mix(in srgb, var(--ink, #111) 16%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--ink, #111) 16%, transparent) 1px, transparent 1px), linear-gradient(color-mix(in srgb, var(--ink, #111) 7%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--ink, #111) 7%, transparent) 1px, transparent 1px); background-size: 40px 40px, 40px 40px, 8px 8px, 8px 8px; border-radius: 6px; }
