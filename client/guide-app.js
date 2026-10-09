@@ -3608,6 +3608,36 @@ function ssDiagBatchRenderContinue(){
     d.addEventListener('close',function(){d.remove();});
     document.body.appendChild(d);d.showModal();
   }
+  // Graph paper that lines up with the graph: take the spacing and position of the figure's own tick gridlines
+  // and tile the backdrop to match, in percentages of the viewBox so it stays aligned at any size.
+  function paper(svg){
+    if(svg.dataset.paper||svg.classList.contains('vec'))return;
+    var vb=(svg.getAttribute('viewBox')||'').split(/[\s,]+/).map(Number);
+    if(vb.length<4||!(vb[2]>0)||!(vb[3]>0))return;
+    var xs=[],ys=[];
+    svg.querySelectorAll('line').forEach(function(l){
+      var x1=+l.getAttribute('x1'),x2=+l.getAttribute('x2'),y1=+l.getAttribute('y1'),y2=+l.getAttribute('y2');
+      var so=parseFloat(l.getAttribute('stroke-opacity')||'1'),sw=parseFloat(l.getAttribute('stroke-width')||'1');
+      if(!(so<0.5)||sw>1)return;
+      if(x1===x2&&Math.abs(y2-y1)>vb[3]*0.3)xs.push(x1);
+      else if(y1===y2&&Math.abs(x2-x1)>vb[2]*0.3)ys.push(y1);
+    });
+    function tile(a,total){
+      a=a.map(function(v){return Math.round(v*2)/2;}).filter(function(v,i,r){return r.indexOf(v)===i;}).sort(function(m,n){return m-n;});
+      if(a.length<2)return null;
+      var d=Infinity;for(var i=1;i<a.length;i++)d=Math.min(d,a[i]-a[i-1]);
+      if(d<6)return null;
+      for(var j=1;j<a.length;j++){var q=(a[j]-a[0])/d;if(Math.abs(q-Math.round(q))>0.06)return null;}
+      var o=((a[0]-vb[0])%d+d)%d;
+      return {d:d,o:o,total:total};
+    }
+    var tx=tile(xs,vb[2]),ty=tile(ys,vb[3]);
+    if(!tx||!ty)return;
+    function pos(t){return t.total-t.d>0.01?(t.o/(t.total-t.d)*100).toFixed(3)+'%':'0%';}
+    svg.dataset.paper='1';
+    svg.style.backgroundSize=(tx.d/vb[2]*100).toFixed(3)+'% '+(ty.d/vb[3]*100).toFixed(3)+'%';
+    svg.style.backgroundPosition=pos(tx)+' '+pos(ty);
+  }
   function decorate(root){
     if(!root.querySelectorAll)return;
     var list=root.matches&&root.matches(SEL)?[root]:[];
@@ -3624,6 +3654,7 @@ function ssDiagBatchRenderContinue(){
     list.forEach(function(box){
       if(box.dataset.enl||box.closest('.q-opt'))return;
       var svg=figSvg(box);if(!svg)return;
+      paper(svg);
       box.dataset.enl='1';box.classList.add('has-enlarge');
       var b=document.createElement('button');b.type='button';b.className='fig-enlarge';b.setAttribute('aria-label','Enlarge graph');b.textContent='⤢ Enlarge';
       b.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();var s=figSvg(box);if(s)open(s);});
