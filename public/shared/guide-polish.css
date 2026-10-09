@@ -826,3 +826,8 @@ html body #anon-quiz-note .ss-status:empty { display: none; }
   html body #qbox .q-text .cl-hd { font-size: .8rem; }
   html body #qbox .q-opt { font-size: 16px; }
 }
+
+/* Phones and small tablets: the reference sheet window starts flush left and fits the screen */
+@media (max-width: 640px) {
+  html body .reference-panel { left: 8px !important; width: calc(100vw - 16px) !important; max-width: none; }
+}
