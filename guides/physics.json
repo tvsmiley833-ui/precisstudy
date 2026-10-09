@@ -9473,6 +9473,708 @@
    "a": 3,
    "e": "Displacement grows with t², not t, when starting from rest with constant acceleration.",
    "c": 17
+  },
+  {
+   "u": 2,
+   "q": "An object travels 8.00 m north in 4.00 s and then 6.00 m east in 2.00 s. What is its average speed for the whole trip?",
+   "o": [
+    "2.33 m/s",
+    "1.67 m/s",
+    "7.00 m/s",
+    "3.50 m/s"
+   ],
+   "a": 0,
+   "e": "Average speed uses total distance over total time: (8.00 m + 6.00 m) / (4.00 s + 2.00 s) = 2.33 m/s. Using the 10.0 m displacement gives the average velocity's size (1.67 m/s), not the speed.",
+   "c": 2
+  },
+  {
+   "u": 2,
+   "q": "How far does an object travel if it moves at an average speed of 7.5 m/s for 12 s?",
+   "o": [
+    "1.6 m",
+    "90. m",
+    "19.5 m",
+    "4.5 m"
+   ],
+   "a": 1,
+   "e": "d = v̄t = (7.5 m/s)(12 s) = 90. m. Dividing the time by the speed gives 1.6, which is not a distance.",
+   "c": 2
+  },
+  {
+   "u": 2,
+   "q": "A cart starting from rest travels 5.4 m in 2.7 s. What is its average speed?",
+   "o": [
+    "0.50 m/s",
+    "4.0 m/s",
+    "2.0 m/s",
+    "14.6 m/s"
+   ],
+   "a": 2,
+   "e": "v̄ = d/t = 5.4 m / 2.7 s = 2.0 m/s. Starting from rest does not change how average speed is found.",
+   "c": 2
+  },
+  {
+   "u": 2,
+   "q": "A runner travels 35 m west in 5.0 s. Which expression gives the runner's displacement at the end of the 5.0 s?",
+   "o": [
+    "35 m",
+    "7.0 m/s west",
+    "7.0 m west",
+    "35 m west"
+   ],
+   "a": 3,
+   "e": "Displacement is a vector with units of length, so it needs a magnitude, a length unit and a direction: 35 m west. 7.0 m/s west is the velocity.",
+   "c": 0
+  },
+  {
+   "u": 2,
+   "q": "A pitcher throws a fastball at 40. m/s. If the batter is 20. m from the pitcher, about how long does the ball take to reach the batter?",
+   "o": [
+    "0.50 s",
+    "2.0 s",
+    "800 s",
+    "60 s"
+   ],
+   "a": 0,
+   "e": "t = d/v = 20. m / 40. m/s = 0.50 s. Multiplying the numbers gives 800, which has the wrong units.",
+   "c": 2
+  },
+  {
+   "u": 2,
+   "q": "A plane flies at an average speed of 800 km/h. How long does it take to travel 200 km?",
+   "o": [
+    "4.0 h",
+    "0.25 h",
+    "0.40 h",
+    "160 h"
+   ],
+   "a": 1,
+   "e": "t = d/v̄ = 200 km / 800 km/h = 0.25 h. Inverting the ratio gives 4.0 h, which would be the time to fly 3200 km.",
+   "c": 2
+  },
+  {
+   "u": 2,
+   "q": "What is the average velocity of a car that travels 45 km due east in 0.75 h?",
+   "o": [
+    "60. km/h",
+    "34 km/h east",
+    "60. km/h east",
+    "34 km/h"
+   ],
+   "a": 2,
+   "e": "v̄ = Δd/Δt = 45 km / 0.75 h = 60. km/h, and because velocity is a vector the direction (east) must be included.",
+   "c": 1
+  },
+  {
+   "u": 2,
+   "q": "A satellite moves around Earth in a circle at a constant speed. Which quantity must be changing?",
+   "o": [
+    "Its speed",
+    "Its kinetic energy",
+    "Its mass",
+    "Its velocity"
+   ],
+   "a": 3,
+   "e": "Velocity is a vector, so a change in direction is a change in velocity even when the speed is constant. Speed, kinetic energy and mass can all stay constant.",
+   "c": 1
+  },
+  {
+   "u": 2,
+   "q": "Two cars start 600. m apart and drive directly toward each other, one at 35 m/s and the other at 25 m/s. How much time passes before they meet?",
+   "o": [
+    "10. s",
+    "17 s",
+    "24 s",
+    "60. s"
+   ],
+   "a": 0,
+   "e": "The gap closes at 35 + 25 = 60. m/s, so t = 600. m / 60. m/s = 10. s. Using only one car's speed gives 17 s or 24 s.",
+   "c": 2
+  },
+  {
+   "u": 2,
+   "q": "A group of cyclists rides for 4.0 h. They travel 36 km in the first 3.0 h and 20. km in the last hour. What was their average speed for the entire trip?",
+   "o": [
+    "16 km/h",
+    "14 km/h",
+    "56 km/h",
+    "28 km/h"
+   ],
+   "a": 1,
+   "e": "Average speed = total distance / total time = (36 km + 20. km) / 4.0 h = 14 km/h. Averaging the two leg speeds (12 and 20.) gives 16, which ignores the different times.",
+   "c": 2
+  },
+  {
+   "u": 2,
+   "q": "A car travels 120 m due north in 20. s and then 30. m due south in 10. s. What is the magnitude of its average velocity for the 30. s?",
+   "o": [
+    "5.0 m/s",
+    "4.0 m/s",
+    "3.0 m/s",
+    "1.5 m/s"
+   ],
+   "a": 2,
+   "e": "Net displacement is 120 m − 30. m = 90. m north, so v̄ = 90. m / 30. s = 3.0 m/s. Total distance over time (150/30 = 5.0) is the average speed.",
+   "c": 1
+  },
+  {
+   "u": 2,
+   "q": "Car 1 travels 36 m due east in 4.0 s. Car 2 travels 54 m due west in 6.0 s. During their trips the cars definitely had the same",
+   "o": [
+    "average velocity",
+    "total displacement",
+    "change in momentum",
+    "average speed"
+   ],
+   "a": 3,
+   "e": "Both cars moved at 9.0 m/s on average, so their average speeds match. Their velocities and displacements point in opposite directions, and momentum depends on mass, which is not given.",
+   "c": 1
+  },
+  {
+   "u": 2,
+   "q": "In a 3.0-km race a runner needs 4.1 min, 4.3 min and 4.4 min for the three kilometers. What is the average speed for the race?",
+   "o": [
+    "0.23 km/min",
+    "4.3 km/min",
+    "13 km/min",
+    "0.047 km/min"
+   ],
+   "a": 0,
+   "e": "v̄ = 3.0 km / (4.1 + 4.3 + 4.4) min = 3.0 km / 12.8 min = 0.23 km/min. The 4.3 is a time per kilometer, which is the inverse of speed.",
+   "c": 2
+  },
+  {
+   "u": 2,
+   "q": "A car moving at 4.0 m/s enters a highway and accelerates at 3.0 m/s². How fast is it moving after it has traveled 64 m while accelerating?",
+   "o": [
+    "28 m/s",
+    "20. m/s",
+    "400 m/s",
+    "10. m/s"
+   ],
+   "a": 1,
+   "e": "v_f² = v_i² + 2ad = 16 + 2(3.0)(64) = 400, so v_f = 20. m/s. Forgetting the square root gives 400.",
+   "c": 10
+  },
+  {
+   "u": 2,
+   "q": "A jogger accelerates at a constant rate along 8.0 m of straight track from point A to point B. She is moving at 3.0 m/s at A and 5.0 m/s at B. How long does it take her to go from A to B?",
+   "o": [
+    "1.6 s",
+    "2.7 s",
+    "2.0 s",
+    "1.0 s"
+   ],
+   "a": 2,
+   "e": "With constant acceleration the average speed is (3.0 + 5.0)/2 = 4.0 m/s, so t = d/v̄ = 8.0 m / 4.0 m/s = 2.0 s. Using only the final speed gives 1.6 s.",
+   "c": 9
+  },
+  {
+   "u": 2,
+   "q": "A 1000-kg car moving at +30. m/s decelerates uniformly at −5.0 m/s² until it stops. How far does it travel while decelerating?",
+   "o": [
+    "45 m",
+    "180 m",
+    "150 m",
+    "90. m"
+   ],
+   "a": 3,
+   "e": "v_f² = v_i² + 2ad gives 0 = 900 + 2(−5.0)d, so d = 900/10 = 90. m. Mass does not matter in kinematics.",
+   "c": 10
+  },
+  {
+   "u": 2,
+   "q": "A race car traveling at 12 m/s accelerates at 2.0 m/s² over a distance of 500. m. What is its final speed, approximately?",
+   "o": [
+    "46 m/s",
+    "2100 m/s",
+    "32 m/s",
+    "1000 m/s"
+   ],
+   "a": 0,
+   "e": "v_f² = 144 + 2(2.0)(500.) = 2144, so v_f ≈ 46 m/s. 2100 is v_f² before taking the square root.",
+   "c": 9
+  },
+  {
+   "u": 2,
+   "q": "A car accelerates uniformly from rest at 4.0 m/s². What is its speed after it has traveled 50. m?",
+   "o": [
+    "14 m/s",
+    "20. m/s",
+    "200 m/s",
+    "10. m/s"
+   ],
+   "a": 1,
+   "e": "v_f² = 2ad = 2(4.0)(50.) = 400, so v_f = 20. m/s. 200 is the product ad, and 14 comes from using √(ad).",
+   "c": 10
+  },
+  {
+   "u": 2,
+   "q": "A car accelerates uniformly from 12 m/s to 20. m/s over a distance of 64 m. What is the magnitude of its acceleration?",
+   "o": [
+    "0.13 m/s²",
+    "4.0 m/s²",
+    "2.0 m/s²",
+    "8.0 m/s²"
+   ],
+   "a": 2,
+   "e": "a = (v_f² − v_i²)/2d = (400 − 144)/(2·64) = 2.0 m/s². Dropping the 2 in the denominator gives 4.0.",
+   "c": 9
+  },
+  {
+   "u": 2,
+   "q": "A boat traveling at 8.0 m/s accelerates uniformly at 4.0 m/s² for 6.0 s. How far does it travel in this time?",
+   "o": [
+    "72 m",
+    "48 m",
+    "192 m",
+    "120 m"
+   ],
+   "a": 3,
+   "e": "d = v_it + ½at² = (8.0)(6.0) + ½(4.0)(6.0)² = 48 + 72 = 120 m. Either term alone is only part of the distance.",
+   "c": 8
+  },
+  {
+   "u": 2,
+   "q": "A roller coaster moving at 20. m/s decelerates uniformly at −8.0 m/s² to a stop. About how far does it travel while stopping?",
+   "o": [
+    "25 m",
+    "50 m",
+    "2.5 m",
+    "160 m"
+   ],
+   "a": 0,
+   "e": "0 = v_i² + 2ad gives d = 400/16 = 25 m. Forgetting the 2 in 2ad gives 50 m.",
+   "c": 10
+  },
+  {
+   "u": 2,
+   "q": "A rocket at rest lifts off vertically with a constant acceleration of 4.0 × 10¹ m/s². How long does it take to reach an altitude of 8.0 × 10³ m?",
+   "o": [
+    "200 s",
+    "20. s",
+    "14 s",
+    "400 s"
+   ],
+   "a": 1,
+   "e": "d = ½at² gives t = √(2d/a) = √(2·8000/40) = 20. s. 200 s comes from d/a, missing both the 2 and the square root.",
+   "c": 9
+  },
+  {
+   "u": 2,
+   "q": "An object accelerating at 5.0 m/s² goes from rest to 35 m/s. How much time does that take?",
+   "o": [
+    "175 s",
+    "0.14 s",
+    "7.0 s",
+    "40. s"
+   ],
+   "a": 2,
+   "e": "t = Δv/a = 35 m/s / 5.0 m/s² = 7.0 s.",
+   "c": 9
+  },
+  {
+   "u": 2,
+   "q": "An object starting from rest accelerates at 2.5 m/s² for 5.0 s. What is its velocity at the end of this time?",
+   "o": [
+    "0.50 m/s",
+    "2.5 m/s",
+    "6.3 m/s",
+    "12.5 m/s"
+   ],
+   "a": 3,
+   "e": "v_f = v_i + at = 0 + (2.5 m/s²)(5.0 s) = 12.5 m/s.",
+   "c": 8
+  },
+  {
+   "u": 2,
+   "q": "A cart has a constant acceleration of 3.0 m/s². How long does it need to speed up from 6.0 m/s to 30. m/s?",
+   "o": [
+    "8.0 s",
+    "12 s",
+    "72 s",
+    "10. s"
+   ],
+   "a": 0,
+   "e": "t = Δv/a = (30. − 6.0) m/s / 3.0 m/s² = 8.0 s.",
+   "c": 9
+  },
+  {
+   "u": 2,
+   "q": "A child on a bicycle moving at 20. m/s decelerates at 4.0 m/s² for 3.0 s. What is the child's speed at the end of the 3.0 s?",
+   "o": [
+    "32 m/s",
+    "8.0 m/s",
+    "12 m/s",
+    "16 m/s"
+   ],
+   "a": 1,
+   "e": "v_f = v_i + at = 20. + (−4.0)(3.0) = 8.0 m/s. Adding the 12 m/s change instead of subtracting gives 32.",
+   "c": 8
+  },
+  {
+   "u": 2,
+   "q": "A train starts from rest and accelerates at 0.15 m/s² to a speed of 3.0 m/s in 20. s. Which phrase best describes this motion?",
+   "o": [
+    "Increasing acceleration and constant velocity",
+    "Constant acceleration and constant velocity",
+    "Constant acceleration and increasing velocity",
+    "Increasing acceleration and increasing velocity"
+   ],
+   "a": 2,
+   "e": "The acceleration is stated to be constant (0.15 m/s²), and a constant acceleration changes the velocity by the same amount every second, so the velocity increases.",
+   "c": 6
+  },
+  {
+   "u": 2,
+   "q": "A bicyclist accelerates from rest to 6.0 m/s in 12 s. During the same 12 s a car accelerates from 20. m/s to 26 m/s. Compared with the bicyclist's acceleration, the car's acceleration is",
+   "o": [
+    "greater",
+    "less",
+    "impossible to compare",
+    "the same"
+   ],
+   "a": 3,
+   "e": "Both change speed by 6.0 m/s in 12 s, so both accelerations are 0.50 m/s². The car's higher starting speed does not matter.",
+   "c": 6
+  },
+  {
+   "u": 2,
+   "q": "A car with an initial velocity of 20. m/s west slows uniformly to 4.0 m/s west in 4.0 s. What is the car's acceleration?",
+   "o": [
+    "4.0 m/s² east",
+    "4.0 m/s² west",
+    "6.0 m/s² east",
+    "6.0 m/s² west"
+   ],
+   "a": 0,
+   "e": "a = Δv/Δt = (4.0 − 20.) m/s west / 4.0 s = 4.0 m/s² pointing opposite the velocity, which is east.",
+   "c": 6
+  },
+  {
+   "u": 2,
+   "q": "A ball is dropped from rest and falls freely until it hits the ground at 30. m/s. About how long was the ball in free fall?",
+   "o": [
+    "6 s",
+    "3 s",
+    "0.3 s",
+    "30 s"
+   ],
+   "a": 1,
+   "e": "t = Δv/g = 30. m/s / 9.8 m/s² ≈ 3 s. Dividing the other way gives 0.3.",
+   "c": 13
+  },
+  {
+   "u": 2,
+   "q": "Two unequal masses fall freely from the same height above Earth's surface. They experience the same",
+   "o": [
+    "decrease in potential energy",
+    "increase in kinetic energy",
+    "acceleration",
+    "increase in momentum"
+   ],
+   "a": 2,
+   "e": "Every freely falling object has acceleration g regardless of mass. Energy changes and momentum depend on mass, so they differ between the two objects.",
+   "c": 12
+  },
+  {
+   "u": 2,
+   "q": "If the mass of a rock is tripled, its acceleration due to gravity near Earth's surface will be",
+   "o": [
+    "tripled",
+    "one-third as great",
+    "nine times as great",
+    "unchanged"
+   ],
+   "a": 3,
+   "e": "The acceleration in free fall is g = 9.8 m/s² for every mass: the force triples but so does the inertia.",
+   "c": 12
+  },
+  {
+   "u": 2,
+   "q": "As an object falls freely near Earth's surface, its velocity",
+   "o": [
+    "increases",
+    "decreases",
+    "remains the same",
+    "increases then decreases"
+   ],
+   "a": 0,
+   "e": "The constant acceleration g = 9.8 m/s² adds 9.8 m/s of downward velocity every second.",
+   "c": 11
+  },
+  {
+   "u": 2,
+   "q": "As an object falls freely near Earth's surface, its acceleration",
+   "o": [
+    "increases",
+    "remains the same",
+    "decreases",
+    "increases then decreases"
+   ],
+   "a": 1,
+   "e": "Neglecting air resistance, the acceleration is constant at 9.8 m/s² downward all the way down.",
+   "c": 11
+  },
+  {
+   "u": 2,
+   "q": "An object falls freely from rest. How long does it take to reach a speed of 49 m/s?",
+   "o": [
+    "0.20 s",
+    "49 s",
+    "5.0 s",
+    "480 s"
+   ],
+   "a": 2,
+   "e": "t = Δv/g = 49 m/s / 9.8 m/s² = 5.0 s.",
+   "c": 13
+  },
+  {
+   "u": 2,
+   "q": "An astronaut on the Moon releases a hammer and a feather at the same time from the same height. The Moon has no atmosphere. What does the astronaut observe?",
+   "o": [
+    "They land together",
+    "The hammer lands well before the feather",
+    "The feather lands well before the hammer",
+    "Both stay in the air and do not fall"
+   ],
+   "a": 0,
+   "e": "Without air resistance both fall with the same acceleration, so they land together.",
+   "c": 12
+  },
+  {
+   "u": 2,
+   "q": "An object starts from rest and falls freely for 2.00 s. What is its velocity at the end of this time?",
+   "o": [
+    "19.6 m/s",
+    "9.81 m/s",
+    "29.4 m/s",
+    "39.2 m/s"
+   ],
+   "a": 0,
+   "e": "v_f = gt = (9.8 m/s²)(2.00 s) = 19.6 m/s.",
+   "c": 13
+  },
+  {
+   "u": 2,
+   "q": "An object dropped from rest has a velocity of about 20. m/s at the end of",
+   "o": [
+    "1.0 s",
+    "2.0 s",
+    "3.0 s",
+    "4.0 s"
+   ],
+   "a": 1,
+   "e": "t = v/g = 20. / 9.8 ≈ 2.0 s.",
+   "c": 13
+  },
+  {
+   "u": 2,
+   "q": "A 3.0-kg ball and a 6.0-kg ball are dropped from a 100-m building at the same moment. Halfway down, the acceleration is",
+   "o": [
+    "greater for the 3.0-kg ball",
+    "greater for the 6.0-kg ball",
+    "the same for both balls",
+    "zero for the lighter ball"
+   ],
+   "a": 2,
+   "e": "Free-fall acceleration does not depend on mass, so both accelerate at 9.8 m/s² the whole way.",
+   "c": 12
+  },
+  {
+   "u": 2,
+   "q": "Object A has mass m and object B has mass 3m. Both are dropped from rest near Earth's surface. After 3 s object A has speed v and has fallen a distance d. What are the speed and distance of object B after 3 s?",
+   "o": [
+    "Speed = 3v; distance = 3d",
+    "Speed = v/3; distance = d/3",
+    "Speed = v; distance = 3d",
+    "Speed = v; distance = d"
+   ],
+   "a": 3,
+   "e": "Mass does not affect free fall, so object B has the same speed and has fallen the same distance as object A.",
+   "c": 12
+  },
+  {
+   "u": 2,
+   "q": "A 5.0-kg rock and a 1.0-kg stone fall freely from rest from 100 m. After 2.0 s, the ratio of the rock's speed to the stone's speed is",
+   "o": [
+    "1:1",
+    "5:1",
+    "1:5",
+    "25:1"
+   ],
+   "a": 0,
+   "e": "Both have speed gt = 19.6 m/s regardless of mass, so the ratio is 1:1.",
+   "c": 12
+  },
+  {
+   "u": 2,
+   "q": "An object is dropped from rest and falls freely 30. m to the ground. When is its speed 9.8 m/s?",
+   "o": [
+    "At the end of the first second",
+    "During the whole first second of its fall",
+    "Throughout the entire time it is falling",
+    "Once it has fallen a distance of 9.8 m"
+   ],
+   "a": 0,
+   "e": "v = gt = 9.8 m/s only at t = 1.0 s; before that the speed is less and after that it is greater.",
+   "c": 13
+  },
+  {
+   "u": 2,
+   "q": "A softball is thrown straight up and reaches a maximum height of 45 m. Neglecting air resistance, what is its approximate speed when it returns to the ground?",
+   "o": [
+    "15 m/s",
+    "45 m/s",
+    "30. m/s",
+    "60. m/s"
+   ],
+   "a": 2,
+   "e": "Falling 45 m from rest: v = √(2gd) = √(2·9.8·45) ≈ 30. m/s, equal to its launch speed.",
+   "c": 14
+  },
+  {
+   "u": 2,
+   "q": "A rock falls from rest near the surface of a planet where g = 5.0 m/s². What is its speed after it falls 40. m?",
+   "o": [
+    "14 m/s",
+    "200 m/s",
+    "40. m/s",
+    "20. m/s"
+   ],
+   "a": 3,
+   "e": "v² = 2gd = 2(5.0)(40.) = 400, so v = 20. m/s.",
+   "c": 13
+  },
+  {
+   "u": 2,
+   "q": "An object falls freely from rest near Earth's surface. What is its speed after it has fallen 9.80 m?",
+   "o": [
+    "14.0 m/s",
+    "9.80 m/s",
+    "96.1 m/s",
+    "19.6 m/s"
+   ],
+   "a": 0,
+   "e": "v = √(2gd) = √(2·9.80·9.80) = 14.0 m/s. 96.1 is v² before the square root.",
+   "c": 13
+  },
+  {
+   "u": 2,
+   "q": "A rock falls from rest off a cliff. How far has it fallen when its speed is 49 m/s? Neglect friction.",
+   "o": [
+    "245 m",
+    "123 m",
+    "61 m",
+    "5.0 m"
+   ],
+   "a": 1,
+   "e": "d = v²/2g = 49² / (2·9.8) ≈ 123 m. 5.0 is the time, not the distance.",
+   "c": 13
+  },
+  {
+   "u": 2,
+   "q": "On a planet where g = 18 m/s², an object falls freely from rest. How far does it fall during the first second?",
+   "o": [
+    "18 m",
+    "4.9 m",
+    "9.0 m",
+    "36 m"
+   ],
+   "a": 2,
+   "e": "d = ½gt² = ½(18)(1.0)² = 9.0 m.",
+   "c": 13
+  },
+  {
+   "u": 2,
+   "q": "Object A falls freely from rest for 3.0 s and object B falls freely from rest for 6.0 s. Compared with object A, object B falls",
+   "o": [
+    "twice as far",
+    "three times as far",
+    "half as far",
+    "four times as far"
+   ],
+   "a": 3,
+   "e": "d = ½gt² depends on t², so doubling the time gives four times the distance.",
+   "c": 13
+  },
+  {
+   "u": 2,
+   "q": "An object falls freely from rest near a planet's surface and falls 80. m in 4.0 s. What is the acceleration due to gravity on that planet?",
+   "o": [
+    "10. m/s²",
+    "20. m/s²",
+    "5.0 m/s²",
+    "40. m/s²"
+   ],
+   "a": 0,
+   "e": "g = 2d/t² = 2(80.)/(4.0)² = 10. m/s².",
+   "c": 13
+  },
+  {
+   "u": 2,
+   "q": "A stone is dropped from a bridge 80. m above a river. About how long does it take to reach the water?",
+   "o": [
+    "8.2 s",
+    "4.0 s",
+    "16 s",
+    "2.0 s"
+   ],
+   "a": 1,
+   "e": "t = √(2d/g) = √(160/9.8) ≈ 4.0 s.",
+   "c": 13
+  },
+  {
+   "u": 2,
+   "q": "In a reaction-time test, a meter stick dropped from rest falls 0.45 m before a student catches it. What is the student's approximate reaction time?",
+   "o": [
+    "0.15 s",
+    "0.45 s",
+    "0.30 s",
+    "0.60 s"
+   ],
+   "a": 2,
+   "e": "t = √(2d/g) = √(0.90/9.8) ≈ 0.30 s.",
+   "c": 15
+  },
+  {
+   "u": 2,
+   "q": "A ball is thrown straight up at 20. m/s near Earth's surface. What is the maximum height it reaches? Neglect air friction.",
+   "o": [
+    "41 m",
+    "2.0 m",
+    "10. m",
+    "20. m"
+   ],
+   "a": 3,
+   "e": "At the top v_f = 0, so d = v_i²/2g = 400/19.6 ≈ 20. m.",
+   "c": 14
+  },
+  {
+   "u": 2,
+   "q": "A ball is thrown straight up at 14.7 m/s and caught at the same height. About how long is it in the air?",
+   "o": [
+    "3.0 s",
+    "1.5 s",
+    "6.0 s",
+    "14.7 s"
+   ],
+   "a": 0,
+   "e": "It takes 1.5 s to stop rising (14.7/9.8) and 1.5 s to fall back, so 3.0 s in total.",
+   "c": 14
+  },
+  {
+   "u": 2,
+   "q": "At the very top of its path, a ball thrown straight up has",
+   "o": [
+    "zero velocity and zero acceleration",
+    "zero velocity and an acceleration of 9.8 m/s² down",
+    "a velocity of 9.8 m/s up and zero acceleration",
+    "zero velocity and an acceleration of 9.8 m/s² up"
+   ],
+   "a": 1,
+   "e": "The velocity is momentarily zero, but gravity still acts, so the acceleration stays 9.8 m/s² downward.",
+   "c": 14
   }
  ],
  "hardQuiz": [
@@ -14866,6 +15568,82 @@
     {
      "t": "(C)",
      "m": "The energy <b>doubles</b>, because E_photon = hf is directly proportional to frequency."
+    }
+   ],
+   "tip": "<b>Scoring tip:</b> each lettered part is worth 1 point. Show the equation, the substitution with units and the final answer with its unit, the way a constructed-response question is scored."
+  },
+  {
+   "u": 2,
+   "q": "A hiker walks 6.00 km due north and then 8.00 km due east. <b>(A)</b> Determine the magnitude of her resultant displacement. <b>(B)</b> Determine the total distance she traveled. <b>(C)</b> Explain why the two answers are different.",
+   "parts": [
+    {
+     "t": "(A)",
+     "m": "The legs are perpendicular: d = √(6.00² + 8.00²) = <b>10.0 km</b>."
+    },
+    {
+     "t": "(B)",
+     "m": "Distance is the sum of the path lengths: 6.00 km + 8.00 km = <b>14.0 km</b>."
+    },
+    {
+     "t": "(C)",
+     "m": "Distance is the length of the whole path and is a scalar, while displacement is the straight-line change in position from start to finish, so it is shorter whenever the path is not a straight line."
+    }
+   ],
+   "tip": "<b>Scoring tip:</b> each lettered part is worth 1 point. Show the equation, the substitution with units and the final answer with its unit, the way a constructed-response question is scored."
+  },
+  {
+   "u": 2,
+   "q": "A car traveling at 15 m/s accelerates uniformly to 27 m/s in 6.0 s. <b>(A)</b> Calculate the magnitude of the car's acceleration. <b>(B)</b> A truck moving at constant speed covers the same distance as the car in the same 6.0 s. Determine the truck's speed. <b>(C)</b> Explain why the truck's speed equals the car's average speed.",
+   "parts": [
+    {
+     "t": "(A)",
+     "m": "a = Δv/Δt = (27 − 15) m/s / 6.0 s = <b>2.0 m/s²</b>."
+    },
+    {
+     "t": "(B)",
+     "m": "The car's distance is d = v_it + ½at² = (15)(6.0) + ½(2.0)(6.0)² = 126 m, so the truck's speed is 126 m / 6.0 s = <b>21 m/s</b>."
+    },
+    {
+     "t": "(C)",
+     "m": "Equal distances in equal times means equal average speeds, and for uniform acceleration the car's average speed is (15 + 27)/2 = 21 m/s."
+    }
+   ],
+   "tip": "<b>Scoring tip:</b> each lettered part is worth 1 point. Show the equation, the substitution with units and the final answer with its unit, the way a constructed-response question is scored."
+  },
+  {
+   "u": 2,
+   "q": "A car on a straight road starts from rest and accelerates at 1.5 m/s² for 8.0 s, then continues at constant speed for 12 s. <b>(A)</b> Determine the car's speed at the end of the first 8.0 s. <b>(B)</b> Describe how the speed-time graph for the full 20 s should look. <b>(C)</b> Calculate the distance traveled in the first 8.0 s, showing the equation and substitution.",
+   "parts": [
+    {
+     "t": "(A)",
+     "m": "v_f = v_i + at = 0 + (1.5 m/s²)(8.0 s) = <b>12 m/s</b>."
+    },
+    {
+     "t": "(B)",
+     "m": "Time on the horizontal axis and speed on the vertical axis: a straight line rising from 0 at t = 0 to 12 m/s at t = 8.0 s, then a horizontal line at 12 m/s out to t = 20 s, with labeled axes, units and scales."
+    },
+    {
+     "t": "(C)",
+     "m": "d = v_it + ½at² = 0 + ½(1.5 m/s²)(8.0 s)² = <b>48 m</b> (the same as the triangle area ½(8.0 s)(12 m/s))."
+    }
+   ],
+   "tip": "<b>Scoring tip:</b> each lettered part is worth 1 point. Show the equation, the substitution with units and the final answer with its unit, the way a constructed-response question is scored."
+  },
+  {
+   "u": 2,
+   "q": "A physics class will find the acceleration of a student coasting down a gentle incline of constant slope on inline skates, using tape measures, traffic cones and stopwatches. <b>(A)</b> Describe a procedure to obtain the measurements. <b>(B)</b> State the quantities recorded. <b>(C)</b> State the equation used to find the acceleration.",
+   "parts": [
+    {
+     "t": "(A)",
+     "m": "Mark a start line and a finish line a measured distance down the slope with cones. The student starts from rest at the first cone and coasts; a timer starts at release and stops as the student passes the second cone. Repeat several trials and average the times."
+    },
+    {
+     "t": "(B)",
+     "m": "Record the distance between the cones (d) and the average time (t), with the starting speed v_i = 0."
+    },
+    {
+     "t": "(C)",
+     "m": "With v_i = 0, d = ½at², so <b>a = 2d/t²</b>."
     }
    ],
    "tip": "<b>Scoring tip:</b> each lettered part is worth 1 point. Show the equation, the substitution with units and the final answer with its unit, the way a constructed-response question is scored."
