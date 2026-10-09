@@ -1712,6 +1712,14 @@ function ssSaveSR(){
   const r=document.createElement('div');r.className='sr-result';r.textContent='You scored '+got+' of '+all+' on this one.';
   box.appendChild(r);box.appendChild(n);try{n.focus({preventScroll:true});}catch(e){}
 }
+// Regents-style clusters: questions sharing one stimulus carry cl (cluster id) and ci (position). Cluster mode keeps each set together, in order.
+function ssClusterSet(allQ){
+  const groups={};
+  allQ.forEach(function(q){if(q.cl){(groups[q.cl]=groups[q.cl]||[]).push(q);}});
+  const ids=Object.keys(groups).sort(()=>Math.random()-.5);
+  let out=[];ids.forEach(function(id){out=out.concat(groups[id].sort(function(a,b){return (a.ci||0)-(b.ci||0);}));});
+  return out;
+}
 function ssHardQ(){return (typeof HARD_Q!=='undefined'&&Array.isArray(HARD_Q))?HARD_Q:[];}
 // A question's difficulty: its own d field, or 'hard' when it comes from the guide's hard-question bank.
 function ssDiffOf(q){return q.d||(ssHardQ().indexOf(q)>=0?'hard':null);}
@@ -1743,6 +1751,7 @@ function buildQSel(){
   sel.innerHTML='<option value="quick">⚡ Quick 10: mixed, weighted to your weak units</option><option value="0">All Units ('+(QUIZ.length+HQ.length)+' questions)</option>';
   UNITS.forEach(u=>{const n=QUIZ.filter(q=>q.u===u.id).length+HQ.filter(q=>q.u===u.id).length;if(n)sel.innerHTML+=`<option value="${u.id}">Unit ${u.id}: ${u.name} (${n} Qs)</option>`;});
   if(HQ.length)sel.innerHTML+='<option value="hard">Hard Mode Only ('+HQ.length+' Qs)</option>';
+  if(QUIZ.concat(HQ).some(function(q){return q.cl;}))sel.innerHTML+='<option value="cluster">Regents-style clusters: one stimulus, several questions ('+QUIZ.concat(HQ).filter(function(q){return q.cl;}).length+' Qs)</option>';
   if(ssSRQ().length)sel.innerHTML+='<option value="sr">Short response, write and self-score ('+ssSRQ().length+')</option>';
   ssInitDifficultyChips();
   ssRefreshBookmarkOption();
@@ -1780,6 +1789,7 @@ function loadQ(){
   let src;
   if(raw==='quick')src=ssQuickTen(QUIZ.concat(HQ));
   else if(raw==='hard')src=HQ.slice();
+  else if(raw==='cluster')src=ssClusterSet(QUIZ.concat(HQ));
   else if(raw==='bookmarks')src=ssBookmarkedQuestions();
   else if(+raw===0)src=QUIZ.concat(HQ);
   else src=QUIZ.concat(HQ).filter(q=>q.u===+raw);
@@ -1787,7 +1797,7 @@ function loadQ(){
   const cv=document.getElementById('q-concept');
   if(cv&&!cv.hidden&&cv.value!=='all')src=src.filter(q=>q.c===+cv.value);
   if(difficultyFilter!=='all')src=src.filter(q=>ssDiffOf(q)===difficultyFilter);
-  qPool=raw==='quick'?src:src.sort(()=>Math.random()-.5);
+  qPool=(raw==='quick'||raw==='cluster')?src:src.sort(()=>Math.random()-.5);
   qIdx=0;score=0;qStreak=0;qBestStreak=0;qMissedUnits=new Set();requeueCounts=new WeakMap();qSessionStart=null;showQ();
 }
 let qStreak=0,qBestStreak=0,qMissedUnits=new Set();
