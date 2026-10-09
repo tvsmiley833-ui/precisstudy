@@ -831,3 +831,15 @@ html body #anon-quiz-note .ss-status:empty { display: none; }
 @media (max-width: 640px) {
   html body .reference-panel { left: 8px !important; width: calc(100vw - 16px) !important; max-width: none; }
 }
+
+/* Graph-paper backdrop behind every figure */
+html body .q-fig svg, html body .c-fig svg {
+  background-color: color-mix(in srgb, var(--ink) 3%, transparent);
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--ink) 16%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--ink) 16%, transparent) 1px, transparent 1px),
+    linear-gradient(color-mix(in srgb, var(--ink) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--ink) 7%, transparent) 1px, transparent 1px);
+  background-size: 40px 40px, 40px 40px, 8px 8px, 8px 8px;
+  border-radius: 6px;
+}
