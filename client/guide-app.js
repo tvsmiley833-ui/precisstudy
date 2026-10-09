@@ -3672,3 +3672,44 @@ function ssDiagBatchRenderContinue(){
   decorate(document.body);
   new MutationObserver(function(ms){ms.forEach(function(m){m.addedNodes.forEach(function(n){if(n.nodeType===1)decorate(n);});});}).observe(document.body,{childList:true,subtree:true});
 })();
+
+// Subscripts: show v_i, v_f, F_net, a_c and similar as a small raised-down letter next to the symbol, in page text and in SVG labels.
+(function(){
+  var RE=/(KE|PE|mu|[A-Za-z])_(net|max|min|avg|top|[ifxyskcpgonmABC12])/g;
+  var SKIP='pre,code,textarea,input,script,style,mjx-container,.MathJax,[contenteditable="true"]';
+  function convert(node){
+    var t=node.nodeValue;
+    if(t.indexOf('_')<0||t.indexOf('$')>=0||t.indexOf('\\(')>=0)return;
+    var p=node.parentNode;if(!p||(p.closest&&p.closest(SKIP)))return;
+    RE.lastIndex=0;if(!RE.test(t))return;
+    var inSvg=p.namespaceURI==='http://www.w3.org/2000/svg';
+    var ns=inSvg?'http://www.w3.org/2000/svg':null;
+    var frag=document.createDocumentFragment(),last=0,m;
+    RE.lastIndex=0;
+    while((m=RE.exec(t))){
+      var base=document.createTextNode(t.slice(last,m.index)+m[1]);frag.appendChild(base);
+      var sub;
+      if(inSvg){sub=document.createElementNS(ns,'tspan');sub.setAttribute('dy','0.3em');sub.setAttribute('font-size','72%');sub.textContent=m[2];}
+      else{sub=document.createElement('sub');sub.textContent=m[2];}
+      frag.appendChild(sub);
+      if(inSvg){var back=document.createElementNS(ns,'tspan');back.setAttribute('dy','-0.3em');back.setAttribute('font-size','100%');back.textContent='​';frag.appendChild(back);}
+      last=m.index+m[0].length;
+    }
+    frag.appendChild(document.createTextNode(t.slice(last)));
+    p.replaceChild(frag,node);
+  }
+  function scan(root){
+    if(root.nodeType===3){convert(root);return;}
+    if(root.nodeType!==1)return;
+    var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT),n,list=[];
+    while((n=w.nextNode()))if(n.nodeValue.indexOf('_')>=0)list.push(n);
+    list.forEach(convert);
+  }
+  var pending=[],queued=false;
+  function flush(){queued=false;var l=pending;pending=[];l.forEach(scan);}
+  scan(document.body);
+  new MutationObserver(function(ms){
+    ms.forEach(function(m){m.addedNodes.forEach(function(n){pending.push(n);});});
+    if(pending.length&&!queued){queued=true;requestAnimationFrame(flush);}
+  }).observe(document.body,{childList:true,subtree:true});
+})();
