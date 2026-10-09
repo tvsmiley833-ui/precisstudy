@@ -14777,6 +14777,131 @@
     "Set each factor to zero"
    ],
    "answer": "x = 1, 2, −3"
+  },
+  {
+   "u": 4,
+   "title": "Complex fractions practice 1: clear inner fractions",
+   "prompt": "Simplify: (y − 9/y) ÷ (1 + 3/y)",
+   "steps": [
+    "Find the LCD of the small fractions: only y is in a denominator, so the LCD is y.",
+    "Multiply the top and bottom of the big fraction by y: [y·(y − 9/y)] ÷ [y·(1 + 3/y)].",
+    "Distribute: the top is y² − 9 and the bottom is y + 3.",
+    "Factor the top as a difference of squares: (y − 3)(y + 3).",
+    "Cancel the common factor (y + 3): the result is y − 3."
+   ],
+   "answer": "y − 3  (y ≠ 0, −3)"
+  },
+  {
+   "u": 4,
+   "title": "Complex fractions practice 2: negative exponents",
+   "prompt": "Simplify: (c⁻¹ − d⁻¹) ÷ (d − c)",
+   "steps": [
+    "Rewrite negative exponents as fractions: c⁻¹ = 1/c and d⁻¹ = 1/d, so the top is 1/c − 1/d.",
+    "Combine the top over the LCD cd: (d − c)/(cd).",
+    "Now the whole thing is [(d − c)/(cd)] ÷ (d − c). Dividing by (d − c) is multiplying by 1/(d − c).",
+    "Cancel (d − c) from the top and bottom, leaving 1/(cd)."
+   ],
+   "answer": "1/(cd)  (c, d ≠ 0 and c ≠ d)"
+  },
+  {
+   "u": 4,
+   "title": "Complex fractions practice 3: negative exponents with squares",
+   "prompt": "Simplify: (m⁻² − n⁻²) ÷ (m⁻¹ − n⁻¹)",
+   "steps": [
+    "Rewrite as fractions: (1/m² − 1/n²) ÷ (1/m − 1/n).",
+    "The LCD of all the small fractions is m²n². Multiply the top and bottom by m²n².",
+    "Top: n² − m². Bottom: mn² − m²n.",
+    "Factor: top = (n − m)(n + m); bottom = mn(n − m).",
+    "Cancel (n − m): the result is (m + n)/(mn)."
+   ],
+   "answer": "(m + n)/(mn)  (m, n ≠ 0 and m ≠ n)"
+  },
+  {
+   "u": 4,
+   "title": "Complex fractions practice 4: three terms in the bottom",
+   "prompt": "Simplify: (1/r² − 1/s²) ÷ (3/r² − 2/(rs) − 1/s²)",
+   "steps": [
+    "The LCD of all the small fractions is r²s². Multiply the top and bottom by r²s².",
+    "Top: s² − r². Bottom: 3s² − 2rs − r².",
+    "Factor the top as a difference of squares: (s − r)(s + r).",
+    "Factor the bottom as a trinomial: 3s² − 2rs − r² = (3s + r)(s − r).",
+    "Cancel the common factor (s − r): the result is (r + s)/(r + 3s)."
+   ],
+   "answer": "(r + s)/(r + 3s)  (r, s ≠ 0 and r ≠ s)"
+  },
+  {
+   "u": 4,
+   "title": "Complex fractions practice 5: negative exponents and a number",
+   "prompt": "Simplify: (x⁻² − 4) ÷ (x⁻¹ − 2)",
+   "steps": [
+    "Rewrite as fractions: (1/x² − 4) ÷ (1/x − 2).",
+    "Multiply the top and bottom by the LCD x².",
+    "Top: 1 − 4x². Bottom: x − 2x².",
+    "Factor: top = (1 − 2x)(1 + 2x); bottom = x(1 − 2x).",
+    "Cancel (1 − 2x): the result is (1 + 2x)/x."
+   ],
+   "answer": "(1 + 2x)/x  (x ≠ 0, 1/2)"
+  },
+  {
+   "u": 4,
+   "title": "Complex fractions practice 6: a fraction inside a fraction",
+   "prompt": "Simplify: [1 + 1/(t − 2)] ÷ [1 − 1/(t + 2)]",
+   "steps": [
+    "Work on the top first: 1 + 1/(t − 2) = (t − 2 + 1)/(t − 2) = (t − 1)/(t − 2).",
+    "Then the bottom: 1 − 1/(t + 2) = (t + 2 − 1)/(t + 2) = (t + 1)/(t + 2).",
+    "Divide by the bottom by multiplying by its reciprocal: [(t − 1)/(t − 2)] · [(t + 2)/(t + 1)].",
+    "Nothing cancels, so multiply across: (t − 1)(t + 2) / [(t − 2)(t + 1)]."
+   ],
+   "answer": "(t − 1)(t + 2) / [(t − 2)(t + 1)]  (t ≠ 2, −2, −1)"
+  },
+  {
+   "u": 4,
+   "title": "Complex fractions practice 7: sum over difference",
+   "prompt": "Simplify: [1/x + 1/(x + 2)] ÷ [1/x − 1/(x + 2)]",
+   "steps": [
+    "The LCD of all the small fractions is x(x + 2). Multiply the top and bottom by it.",
+    "Top: (x + 2) + x = 2x + 2. Bottom: (x + 2) − x = 2.",
+    "Now the fraction is (2x + 2)/2.",
+    "Divide each term by 2 (or factor 2 out of the top and cancel): x + 1."
+   ],
+   "answer": "x + 1  (x ≠ 0, −2)"
+  },
+  {
+   "u": 4,
+   "title": "Complex fractions practice 8: opposite factors",
+   "prompt": "Simplify: [1/(2 − t) − 1/t] ÷ [1/(2 + t) − 1/t]",
+   "steps": [
+    "Top: LCD t(2 − t). 1/(2 − t) − 1/t = [t − (2 − t)]/[t(2 − t)] = (2t − 2)/[t(2 − t)].",
+    "Bottom: LCD t(2 + t). 1/(2 + t) − 1/t = [t − (2 + t)]/[t(2 + t)] = −2/[t(2 + t)].",
+    "Multiply the top by the reciprocal of the bottom: (2t − 2)/[t(2 − t)] · [t(2 + t)]/(−2). The t's cancel.",
+    "Factor the 2 out of (2t − 2) = 2(t − 1) and cancel it with the 2 in −2, leaving −(t − 1)(2 + t)/(2 − t).",
+    "Use 2 − t = −(t − 2) to remove the minus sign: (t − 1)(t + 2)/(t − 2)."
+   ],
+   "answer": "(t − 1)(t + 2)/(t − 2)  (t ≠ 0, 2, −2)"
+  },
+  {
+   "u": 4,
+   "title": "Complex fractions practice 9: a quantity and its reciprocal",
+   "prompt": "Simplify: [(a + b)/(a − b) + (a − b)/(a + b)] ÷ [(a + b)/(a − b) − (a − b)/(a + b)]",
+   "steps": [
+    "The LCD of the small fractions is (a − b)(a + b). Multiply the top and bottom by it.",
+    "Top: (a + b)² + (a − b)² = (a² + 2ab + b²) + (a² − 2ab + b²) = 2a² + 2b².",
+    "Bottom: (a + b)² − (a − b)² = (a² + 2ab + b²) − (a² − 2ab + b²) = 4ab.",
+    "Divide: (2a² + 2b²)/(4ab); factor 2 from the top and cancel with the 4: (a² + b²)/(2ab)."
+   ],
+   "answer": "(a² + b²)/(2ab)  (a ≠ b, a ≠ −b, ab ≠ 0)"
+  },
+  {
+   "u": 4,
+   "title": "Complex fractions practice 10: sums on top, a shared denominator below",
+   "prompt": "Simplify: [3/(2x) + 1/x²] ÷ [x/(x − 3) − 9/(x − 3)]",
+   "steps": [
+    "Top: LCD 2x². 3/(2x) + 1/x² = 3x/(2x²) + 2/(2x²) = (3x + 2)/(2x²).",
+    "Bottom: the denominators already match, so subtract the numerators: (x − 9)/(x − 3).",
+    "Divide by multiplying by the reciprocal: (3x + 2)/(2x²) · (x − 3)/(x − 9).",
+    "Nothing cancels, so multiply across: (3x + 2)(x − 3) / [2x²(x − 9)]."
+   ],
+   "answer": "(3x + 2)(x − 3) / [2x²(x − 9)]  (x ≠ 0, 3, 9)"
   }
  ],
  "examParts": {
