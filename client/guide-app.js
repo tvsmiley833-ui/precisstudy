@@ -3562,6 +3562,15 @@ function ssDiagBatchRenderContinue(){
     if(!root.querySelectorAll)return;
     var list=root.matches&&root.matches(SEL)?[root]:[];
     root.querySelectorAll(SEL).forEach(function(n){list.push(n);});
+    var opts=root.matches&&root.matches('.q-opt')?[root]:[];
+    root.querySelectorAll('.q-opt').forEach(function(n){opts.push(n);});
+    opts.forEach(function(o){
+      var s=o.querySelector('svg.vec');
+      if(!s||o.dataset.enl)return;
+      o.dataset.enl='1';o.classList.add('has-enlarge');
+      var x=document.createElement('span');x.className='fig-enlarge opt-enlarge';x.setAttribute('role','button');x.tabIndex=0;x.setAttribute('aria-label','Enlarge this answer choice');x.textContent='⤢';
+      o.appendChild(x);
+    });
     list.forEach(function(box){
       if(box.dataset.enl||box.closest('.q-opt'))return;
       var svg=figSvg(box);if(!svg)return;
@@ -3571,6 +3580,14 @@ function ssDiagBatchRenderContinue(){
       box.appendChild(b);
     });
   }
+  function optHit(e){
+    var x=e.target.closest&&e.target.closest('.opt-enlarge');if(!x)return false;
+    if(e.type==='keydown'&&e.key!=='Enter'&&e.key!==' ')return false;
+    e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
+    if(e.type!=='mousedown'){var s=x.closest('.q-opt').querySelector('svg.vec');if(s)open(s);}
+    return true;
+  }
+  ['click','keydown','mousedown','pointerdown'].forEach(function(t){document.addEventListener(t,optHit,true);});
   decorate(document.body);
   new MutationObserver(function(ms){ms.forEach(function(m){m.addedNodes.forEach(function(n){if(n.nodeType===1)decorate(n);});});}).observe(document.body,{childList:true,subtree:true});
 })();
