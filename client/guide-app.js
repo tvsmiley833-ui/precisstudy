@@ -3005,6 +3005,56 @@ function ssMakeDraggable(panel,handleSelector){
   handle.addEventListener('pointercancel',up);
   panel.addEventListener('pointerdown',function(){ssBringToFront(panel);});
   ssAddMinimize(panel,handle);
+  ssAddResize(panel,handle);
+}
+// Resize: a drag handle in the bottom-right corner shrinks or enlarges the window, and a header button toggles a
+// near-full-screen view and back.
+function ssAddResize(panel,handle){
+  function put(p,v){panel.style.setProperty(p,v,'important');}
+  var grip=document.createElement('div');
+  grip.className='ss-resize-grip';grip.setAttribute('aria-hidden','true');grip.style.touchAction='none';
+  panel.appendChild(grip);
+  var on=false,sx=0,sy=0,sw=0,sh=0;
+  grip.addEventListener('pointerdown',function(e){
+    if(e.pointerType==='mouse'&&e.button!==0)return;
+    ssBringToFront(panel);on=true;
+    try{grip.setPointerCapture(e.pointerId);}catch(err){}
+    var r=panel.getBoundingClientRect();sx=e.clientX;sy=e.clientY;sw=r.width;sh=r.height;
+    panel.style.left=r.left+'px';panel.style.top=r.top+'px';panel.style.right='auto';panel.style.bottom='auto';
+    document.body.style.userSelect='none';e.preventDefault();
+  });
+  grip.addEventListener('pointermove',function(e){
+    if(!on)return;
+    var r=panel.getBoundingClientRect();
+    put('width',Math.max(240,Math.min(sw+e.clientX-sx,window.innerWidth-r.left-4))+'px');
+    put('height',Math.max(160,Math.min(sh+e.clientY-sy,window.innerHeight-r.top-4))+'px');
+    put('max-height','none');
+  });
+  function end(){on=false;document.body.style.userSelect='';}
+  grip.addEventListener('pointerup',end);grip.addEventListener('pointercancel',end);
+  var btn=document.createElement('button');btn.type='button';btn.className='ss-min-btn ss-big-btn';
+  var big=false,saved=null;
+  function label(){btn.textContent=big?'⤡':'⤢';btn.setAttribute('aria-label',big?'Restore window size':'Enlarge window');btn.title=big?'Restore size':'Enlarge';}
+  label();
+  btn.addEventListener('click',function(e){
+    e.stopPropagation();
+    if(!big){
+      saved={l:panel.style.left,t:panel.style.top,r:panel.style.right,b:panel.style.bottom,w:panel.style.getPropertyValue('width'),h:panel.style.getPropertyValue('height'),mh:panel.style.getPropertyValue('max-height')};
+      if(panel.classList.contains('ss-minimized')){var m=panel.querySelector('.ss-min-btn:not(.ss-big-btn)');if(m)m.click();}
+      panel.style.left='8px';panel.style.top='8px';panel.style.right='auto';panel.style.bottom='auto';
+      put('width','calc(100vw - 16px)');put('height','calc(100vh - 16px)');put('max-height','none');
+    }else if(saved){
+      panel.style.left=saved.l;panel.style.top=saved.t;panel.style.right=saved.r;panel.style.bottom=saved.b;
+      ['width','height','max-height'].forEach(function(k,i){var v=[saved.w,saved.h,saved.mh][i];if(v)put(k,v);else panel.style.removeProperty(k);});
+    }
+    big=!big;label();ssBringToFront(panel);
+  });
+  var anchor=handle.querySelector('.ss-min-btn'),keep=null;
+  if(anchor)anchor.addEventListener('click',function(){
+    if(panel.classList.contains('ss-minimized')){keep={h:panel.style.getPropertyValue('height'),mh:panel.style.getPropertyValue('max-height')};panel.style.removeProperty('height');panel.style.removeProperty('max-height');panel.style.height='auto';}
+    else if(keep){if(keep.h)put('height',keep.h);if(keep.mh)put('max-height',keep.mh);keep=null;}
+  });
+  if(anchor&&anchor.parentElement===handle)handle.insertBefore(btn,anchor);else handle.appendChild(btn);
 }
 // Minimize / maximize: a button in the window header collapses the panel to just its header bar and restores it.
 function ssAddMinimize(panel,handle){

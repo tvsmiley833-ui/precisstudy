@@ -857,3 +857,24 @@ html body .opt-enlarge { top: 6px; right: 6px; min-width: 32px; padding: 7px; te
 html body .q-opt.has-enlarge { position: relative; }
 dialog.fig-dlg .fig-dlg-body svg.vec { max-width: 640px; margin: 0 auto; }
 dialog.fig-dlg .fig-dlg-body svg.vec polyline, dialog.fig-dlg .fig-dlg-body svg.vec line { vector-effect: non-scaling-stroke; stroke-width: 3px; }
+.ss-big-btn{font-size:17px;line-height:1;margin-left:auto}
+.ss-big-btn + .ss-min-btn{margin-left:0}
+.ss-resize-grip{position:absolute;right:0;bottom:0;width:22px;height:22px;cursor:nwse-resize;z-index:2;touch-action:none;background:linear-gradient(135deg,transparent 50%,color-mix(in srgb,var(--ink) 45%,transparent) 50%,color-mix(in srgb,var(--ink) 45%,transparent) 58%,transparent 58%,transparent 70%,color-mix(in srgb,var(--ink) 45%,transparent) 70%,color-mix(in srgb,var(--ink) 45%,transparent) 78%,transparent 78%);border-bottom-right-radius:inherit}
+.ss-minimized .ss-resize-grip{display:none}
+/* Calmer graph paper: only the 40px squares, faint, so the plotted lines and labels stay readable */
+html body .q-fig svg, html body .c-fig svg {
+  background-color: transparent;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--ink) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--ink) 7%, transparent) 1px, transparent 1px);
+  background-size: 40px 40px, 40px 40px;
+}
+dialog.fig-dlg .fig-dlg-body svg {
+  background-color: transparent;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--ink, #111) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--ink, #111) 7%, transparent) 1px, transparent 1px);
+  background-size: 40px 40px, 40px 40px;
+}
+html body .c-fig .dlabel { padding-right: 104px; }
+html body .q-fig svg, html body .c-fig svg { background-image: linear-gradient(color-mix(in srgb, var(--ink) 10%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--ink) 10%, transparent) 1px, transparent 1px); }
