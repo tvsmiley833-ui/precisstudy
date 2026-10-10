@@ -24,7 +24,7 @@
   --shadow-sm:0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
   --shadow-md:0 8px 24px rgba(0,0,0,.4);
   --shadow-lg:0 22px 54px rgba(0,0,0,.5), 0 6px 16px rgba(0,0,0,.35);
-  --diagram-bg:#1b3d33;
+  --diagram-bg:var(--surface);
 }
 body{transition:background .2s ease,color .2s ease}
 #theme-toggle{background:none;border:1px solid rgba(255,255,255,.32);color:rgba(244,242,234,.9);border-radius:var(--radius-sm);
@@ -171,7 +171,8 @@ h1{font-size:48px;font-weight:700;letter-spacing:-.01em;line-height:1.15;margin-
 .trap::before{content:"Watch out";display:block;font-family:'Space Grotesk';font-size:15.8px;font-weight:700;
   letter-spacing:.08em;text-transform:uppercase;color:var(--amber);margin-bottom:4px}
 .diagram{background:var(--diagram-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-top:16px}
-.diagram svg{display:block;max-width:420px;margin:0 auto}
+.diagram{overflow-x:auto}
+.diagram svg{display:block;width:100%;min-width:340px;max-width:560px;margin:0 auto}
 .dcap{font-family:'Inter';font-size:18px;color:#5c6a63;line-height:1.5;margin-top:10px;text-align:center}
 .dlabel{font-size:16.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#8b968e;margin-bottom:8px}
 .fc-bar,.q-bar{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
@@ -649,3 +650,74 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:21474
 .site-foot{border-top:1px solid var(--border);margin-top:32px;padding:16px;text-align:center}
 .site-foot a{display:inline-block;padding:10px 8px;color:var(--text-muted);font-size:13px;text-decoration:none}
 .site-foot a:hover,.site-foot a:focus-visible{color:var(--text);text-decoration:underline}
+
+/* Diagram theme (diagram-design skill roles): authored hex colors in diagram SVGs map to theme roles so both light and dark stay readable. */
+.diagram svg{--d-ink:#23293a;--d-muted:#5a606f;--d-line:#acb0bc;--d-surf:#e8ebf3;--d-blue:#2f5aa8;--d-red:#c0392b;--d-green:#1c7a4a;--d-orange:#b8541a;--d-amber:#8f6200;--d-violet:#6d4ad6;--d-blueT:#1e3a8a;--d-greenT:#14532d;--d-amberT:#713f12;--d-redT:#991b1b;--d-blueF:#eff6ff;--d-greenF:#f0fdf4;--d-amberF:#fefce8;--d-redF:#fef2f2;--d-grayF:#f3f4f6;}
+[data-theme="dark"] .diagram svg{--d-ink:#eef0f5;--d-muted:#b7bcc9;--d-line:#4a5675;--d-surf:#27324f;--d-blue:#8aa2f2;--d-red:#ff8a7a;--d-green:#7fc98f;--d-orange:#f0a35a;--d-amber:#e6bb55;--d-violet:#b79cff;--d-blueT:#b7c5f9;--d-greenT:#a6e3b4;--d-amberT:#f2d27c;--d-redT:#ffb4aa;--d-blueF:rgba(138,162,242,.16);--d-greenF:rgba(127,201,143,.16);--d-amberF:rgba(230,187,85,.16);--d-redF:rgba(255,138,122,.16);--d-grayF:rgba(183,188,201,.16);}
+.diagram svg [fill="#1a1a1a"]{fill:var(--d-ink)}.diagram svg [stroke="#1a1a1a"]{stroke:var(--d-ink)}
+.diagram svg [fill="#333"]{fill:var(--d-ink)}.diagram svg [stroke="#333"]{stroke:var(--d-ink)}
+.diagram svg [fill="#444"]{fill:var(--d-ink)}.diagram svg [stroke="#444"]{stroke:var(--d-ink)}
+.diagram svg [fill="#555"]{fill:var(--d-ink)}.diagram svg [stroke="#555"]{stroke:var(--d-ink)}
+.diagram svg [fill="#1b2320"]{fill:var(--d-ink)}.diagram svg [stroke="#1b2320"]{stroke:var(--d-ink)}
+.diagram svg [fill="#ece8df"]{fill:var(--d-ink)}.diagram svg [stroke="#ece8df"]{stroke:var(--d-ink)}
+.diagram svg [fill="#000"]{fill:var(--d-ink)}.diagram svg [stroke="#000"]{stroke:var(--d-ink)}
+.diagram svg [fill="#666"]{fill:var(--d-muted)}.diagram svg [stroke="#666"]{stroke:var(--d-muted)}
+.diagram svg [fill="#777"]{fill:var(--d-muted)}.diagram svg [stroke="#777"]{stroke:var(--d-muted)}
+.diagram svg [fill="#888"]{fill:var(--d-muted)}.diagram svg [stroke="#888"]{stroke:var(--d-muted)}
+.diagram svg [fill="#999"]{fill:var(--d-muted)}.diagram svg [stroke="#999"]{stroke:var(--d-muted)}
+.diagram svg [fill="#857f72"]{fill:var(--d-muted)}.diagram svg [stroke="#857f72"]{stroke:var(--d-muted)}
+.diagram svg [fill="#a8a294"]{fill:var(--d-muted)}.diagram svg [stroke="#a8a294"]{stroke:var(--d-muted)}
+.diagram svg [fill="#7f8c8d"]{fill:var(--d-muted)}.diagram svg [stroke="#7f8c8d"]{stroke:var(--d-muted)}
+.diagram svg [fill="#95a5a6"]{fill:var(--d-muted)}.diagram svg [stroke="#95a5a6"]{stroke:var(--d-muted)}
+.diagram svg [fill="#bbb"]{fill:var(--d-line)}.diagram svg [stroke="#bbb"]{stroke:var(--d-line)}
+.diagram svg [fill="#ccc"]{fill:var(--d-line)}.diagram svg [stroke="#ccc"]{stroke:var(--d-line)}
+.diagram svg [fill="#ddd"]{fill:var(--d-line)}.diagram svg [stroke="#ddd"]{stroke:var(--d-line)}
+.diagram svg [fill="#eee"]{fill:var(--d-line)}.diagram svg [stroke="#eee"]{stroke:var(--d-line)}
+.diagram svg [stroke="#211f1c"]{stroke:var(--d-line)}
+.diagram svg [fill="#211f1c"]{fill:var(--d-surf)}
+.diagram svg [fill="#2563a8"]{fill:var(--d-blue)}.diagram svg [stroke="#2563a8"]{stroke:var(--d-blue)}
+.diagram svg [fill="#3498db"]{fill:var(--d-blue)}.diagram svg [stroke="#3498db"]{stroke:var(--d-blue)}
+.diagram svg [fill="#2563eb"]{fill:var(--d-blue)}.diagram svg [stroke="#2563eb"]{stroke:var(--d-blue)}
+.diagram svg [fill="#0ea5e9"]{fill:var(--d-blue)}.diagram svg [stroke="#0ea5e9"]{stroke:var(--d-blue)}
+.diagram svg [fill="#c0392b"]{fill:var(--d-red)}.diagram svg [stroke="#c0392b"]{stroke:var(--d-red)}
+.diagram svg [fill="#e74c3c"]{fill:var(--d-red)}.diagram svg [stroke="#e74c3c"]{stroke:var(--d-red)}
+.diagram svg [fill="#e11d48"]{fill:var(--d-red)}.diagram svg [stroke="#e11d48"]{stroke:var(--d-red)}
+.diagram svg [fill="#27ae60"]{fill:var(--d-green)}.diagram svg [stroke="#27ae60"]{stroke:var(--d-green)}
+.diagram svg [fill="#16a34a"]{fill:var(--d-green)}.diagram svg [stroke="#16a34a"]{stroke:var(--d-green)}
+.diagram svg [fill="#1c7a4a"]{fill:var(--d-green)}.diagram svg [stroke="#1c7a4a"]{stroke:var(--d-green)}
+.diagram svg [fill="#7fc98f"]{fill:var(--d-green)}.diagram svg [stroke="#7fc98f"]{stroke:var(--d-green)}
+.diagram svg [fill="#e07a2f"]{fill:var(--d-orange)}.diagram svg [stroke="#e07a2f"]{stroke:var(--d-orange)}
+.diagram svg [fill="#e67e22"]{fill:var(--d-orange)}.diagram svg [stroke="#e67e22"]{stroke:var(--d-orange)}
+.diagram svg [fill="#b0530f"]{fill:var(--d-orange)}.diagram svg [stroke="#b0530f"]{stroke:var(--d-orange)}
+.diagram svg [fill="#b87333"]{fill:var(--d-orange)}.diagram svg [stroke="#b87333"]{stroke:var(--d-orange)}
+.diagram svg [fill="#e6bb55"]{fill:var(--d-amber)}.diagram svg [stroke="#e6bb55"]{stroke:var(--d-amber)}
+.diagram svg [fill="#f59e0b"]{fill:var(--d-amber)}.diagram svg [stroke="#f59e0b"]{stroke:var(--d-amber)}
+.diagram svg [fill="#f1c40f"]{fill:var(--d-amber)}.diagram svg [stroke="#f1c40f"]{stroke:var(--d-amber)}
+.diagram svg [fill="#b45309"]{fill:var(--d-amber)}.diagram svg [stroke="#b45309"]{stroke:var(--d-amber)}
+.diagram svg [fill="#d4b483"]{fill:var(--d-amber)}.diagram svg [stroke="#d4b483"]{stroke:var(--d-amber)}
+.diagram svg [fill="#8b5cf6"]{fill:var(--d-violet)}.diagram svg [stroke="#8b5cf6"]{stroke:var(--d-violet)}
+.diagram svg [fill="#7c3aed"]{fill:var(--d-violet)}.diagram svg [stroke="#7c3aed"]{stroke:var(--d-violet)}
+.diagram svg [fill="#1e3a8a"]{fill:var(--d-blueT)}.diagram svg [stroke="#1e3a8a"]{stroke:var(--d-blueT)}
+.diagram svg [fill="#14532d"]{fill:var(--d-greenT)}.diagram svg [stroke="#14532d"]{stroke:var(--d-greenT)}
+.diagram svg [fill="#166534"]{fill:var(--d-greenT)}.diagram svg [stroke="#166534"]{stroke:var(--d-greenT)}
+.diagram svg [fill="#713f12"]{fill:var(--d-amberT)}.diagram svg [stroke="#713f12"]{stroke:var(--d-amberT)}
+.diagram svg [fill="#92400e"]{fill:var(--d-amberT)}.diagram svg [stroke="#92400e"]{stroke:var(--d-amberT)}
+.diagram svg [fill="#991b1b"]{fill:var(--d-redT)}.diagram svg [stroke="#991b1b"]{stroke:var(--d-redT)}
+.diagram svg [fill="#eff6ff"]{fill:var(--d-blueF)}.diagram svg [stroke="#eff6ff"]{stroke:var(--d-blueF)}
+.diagram svg [fill="#e3edf7"]{fill:var(--d-blueF)}.diagram svg [stroke="#e3edf7"]{stroke:var(--d-blueF)}
+.diagram svg [fill="#e8f4fd"]{fill:var(--d-blueF)}.diagram svg [stroke="#e8f4fd"]{stroke:var(--d-blueF)}
+.diagram svg [fill="#cfe6f5"]{fill:var(--d-blueF)}.diagram svg [stroke="#cfe6f5"]{stroke:var(--d-blueF)}
+.diagram svg [fill="#e0f2fe"]{fill:var(--d-blueF)}.diagram svg [stroke="#e0f2fe"]{stroke:var(--d-blueF)}
+.diagram svg [fill="#f0fdf4"]{fill:var(--d-greenF)}.diagram svg [stroke="#f0fdf4"]{stroke:var(--d-greenF)}
+.diagram svg [fill="#dcfce7"]{fill:var(--d-greenF)}.diagram svg [stroke="#dcfce7"]{stroke:var(--d-greenF)}
+.diagram svg [fill="#fefce8"]{fill:var(--d-amberF)}.diagram svg [stroke="#fefce8"]{stroke:var(--d-amberF)}
+.diagram svg [fill="#fef9c3"]{fill:var(--d-amberF)}.diagram svg [stroke="#fef9c3"]{stroke:var(--d-amberF)}
+.diagram svg [fill="#fef9ec"]{fill:var(--d-amberF)}.diagram svg [stroke="#fef9ec"]{stroke:var(--d-amberF)}
+.diagram svg [fill="#fffbeb"]{fill:var(--d-amberF)}.diagram svg [stroke="#fffbeb"]{stroke:var(--d-amberF)}
+.diagram svg [fill="#f5dccf"]{fill:var(--d-amberF)}.diagram svg [stroke="#f5dccf"]{stroke:var(--d-amberF)}
+.diagram svg [fill="#fef2f2"]{fill:var(--d-redF)}.diagram svg [stroke="#fef2f2"]{stroke:var(--d-redF)}
+.diagram svg [fill="#f3f4f6"]{fill:var(--d-grayF)}.diagram svg [stroke="#f3f4f6"]{stroke:var(--d-grayF)}
+.diagram svg [fill="#f9f8f5"]{fill:var(--d-grayF)}.diagram svg [stroke="#f9f8f5"]{stroke:var(--d-grayF)}
+.diagram svg [fill="#fefeff"]{fill:var(--d-grayF)}.diagram svg [stroke="#fefeff"]{stroke:var(--d-grayF)}
+.diagram svg text:not([fill]){fill:var(--d-ink)}
+.diagram svg text{paint-order:stroke fill;stroke:var(--diagram-bg);stroke-width:2.5px;stroke-linejoin:round}
